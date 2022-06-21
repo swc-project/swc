@@ -1,9 +1,9 @@
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 // @strictNullChecks: true
-function f(x1) {
+function f(x) {
     return _object_spread({
         y: 123
-    }, x1) // y: string | number
+    }, x) // y: string | number
     ;
 }
 f(undefined);

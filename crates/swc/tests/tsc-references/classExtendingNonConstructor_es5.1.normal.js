@@ -1,13 +1,13 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var x;
 function foo() {
     this.x = 1;
 }
-var C1 = /*#__PURE__*/ function(undefined) {
+var C1 = /*#__PURE__*/ function(undefined1) {
     "use strict";
-    _inherits(C1, undefined);
+    _inherits(C1, undefined1);
     var _super = _create_super(C1);
     function C1() {
         _class_call_check(this, C1);
@@ -55,9 +55,9 @@ var C5 = /*#__PURE__*/ function(_superClass) {
     }
     return C5;
 }("hello");
-var C6 = /*#__PURE__*/ function(x1) {
+var C6 = /*#__PURE__*/ function(x) {
     "use strict";
-    _inherits(C6, x1);
+    _inherits(C6, x);
     var _super = _create_super(C6);
     function C6() {
         _class_call_check(this, C6);
@@ -65,9 +65,9 @@ var C6 = /*#__PURE__*/ function(x1) {
     }
     return C6;
 }(x);
-var C7 = /*#__PURE__*/ function(foo1) {
+var C7 = /*#__PURE__*/ function(foo) {
     "use strict";
-    _inherits(C7, foo1);
+    _inherits(C7, foo);
     var _super = _create_super(C7);
     function C7() {
         _class_call_check(this, C7);

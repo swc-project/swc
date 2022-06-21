@@ -5,7 +5,7 @@ try {
     do {
         a = "FAIL_2";
         (b = function() {
-            throw new Error("PASS");
+            throw Error("PASS");
         }()) && b.c;
     }while (0)
 }

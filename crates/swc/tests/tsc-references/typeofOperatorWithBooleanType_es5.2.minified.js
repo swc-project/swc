@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _type_of from "@swc/helpers/lib/_type_of.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
 function foo() {
     return !0;
 }
@@ -12,9 +12,9 @@ var BOOLEAN, M, A = function() {
         return !1;
     }, A;
 }();
-!function(M1) {
+!function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 }(M || (M = {}));
 var objA = new A();
 void 0 === BOOLEAN || _type_of(BOOLEAN), _type_of(!0), _type_of({

@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var C = /*#__PURE__*/ function(_E) {
     "use strict";
     _inherits(C, _E);
@@ -13,7 +13,7 @@ var C = /*#__PURE__*/ function(_E) {
 } // error
 (N.E);
 var M;
-(function(M1) {
+(function(M) {
     var D = /*#__PURE__*/ function(C) {
         "use strict";
         _inherits(D, C);
@@ -24,10 +24,10 @@ var M;
         }
         return D;
     }(C);
-    M1.D = D;
+    M.D = D;
 })(M || (M = {}));
 var N;
-(function(N1) {
+(function(N) {
     var E = /*#__PURE__*/ function(_D) {
         "use strict";
         _inherits(E, _D);
@@ -38,7 +38,7 @@ var N;
         }
         return E;
     }(M.D);
-    N1.E = E;
+    N.E = E;
 })(N || (N = {}));
 var O;
 (function(O) {
@@ -52,8 +52,8 @@ var O;
         }
         return C2;
     } // error
-    (Q1.E2);
-    var P1;
+    (Q.E2);
+    var P;
     (function(P) {
         var D2 = /*#__PURE__*/ function(C2) {
             "use strict";
@@ -66,8 +66,8 @@ var O;
             return D2;
         }(C2);
         P.D2 = D2;
-    })(P1 || (P1 = {}));
-    var Q1;
+    })(P || (P = {}));
+    var Q;
     (function(Q) {
         var E2 = /*#__PURE__*/ function(_D2) {
             "use strict";
@@ -78,7 +78,7 @@ var O;
                 return _super.apply(this, arguments);
             }
             return E2;
-        }(P1.D2);
+        }(P.D2);
         Q.E2 = E2;
-    })(Q1 || (Q1 = {}));
+    })(Q || (Q = {}));
 })(O || (O = {}));

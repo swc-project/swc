@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _type_of from "@swc/helpers/lib/_type_of.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
 // @allowUnusedLabels: true
 // typeof  operator on boolean type
 var BOOLEAN;
@@ -17,9 +17,9 @@ var A = /*#__PURE__*/ function() {
     return A;
 }();
 var M;
-(function(M1) {
+(function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 })(M || (M = {}));
 var objA = new A();
 // boolean type var

@@ -1,5 +1,5 @@
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
-import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
         "\n    hello\n    ",

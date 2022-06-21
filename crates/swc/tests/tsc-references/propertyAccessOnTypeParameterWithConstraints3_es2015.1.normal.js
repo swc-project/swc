@@ -13,13 +13,13 @@ class C {
     f() {
         var x;
         // BUG 823818
-        var a1 = x['foo'](); // should be string
-        return a1 + x.foo();
+        var a = x['foo'](); // should be string
+        return a + x.foo();
     }
     g(x) {
         // BUG 823818
-        var a2 = x['foo'](); // should be string
-        return a2 + x.foo();
+        var a = x['foo'](); // should be string
+        return a + x.foo();
     }
 }
 var r1a = new C().f();
@@ -36,8 +36,8 @@ var r3d = a(new B())['foo'](); // valid call to an invalid function, U is inferr
 var b = {
     foo: (x)=>{
         // BUG 823818
-        var a3 = x['foo'](); // should be string
-        return a3 + x.foo();
+        var a = x['foo'](); // should be string
+        return a + x.foo();
     }
 };
 var r4 = b.foo(new B()); // valid call to an invalid function

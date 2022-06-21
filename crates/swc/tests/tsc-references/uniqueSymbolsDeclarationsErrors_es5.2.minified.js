@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 export var obj = {
     method1: function(p) {
         return p;
@@ -20,8 +20,8 @@ export var classExpression = function() {
         return p;
     }, _class;
 }();
-export function funcInferredReturnType(obj1) {
-    return obj1;
+export function funcInferredReturnType(obj) {
+    return obj;
 }
 export var ClassWithPrivateNamedProperties = function() {
     "use strict";

@@ -1,7 +1,7 @@
 // Enum with only constant members across 2 declarations with the same root module
 // Enum with initializer in all declarations with constant members with the same root module
 var M1;
-(function(M11) {
+(function(M1) {
     let EImpl1;
     (function(EImpl1) {
         EImpl1[EImpl1["A"] = 0] = "A";
@@ -18,12 +18,12 @@ var M1;
         EConst1[EConst1["A"] = 3] = "A";
         EConst1[EConst1["B"] = 2] = "B";
         EConst1[EConst1["C"] = 1] = "C";
-    })(EConst1 = M11.EConst1 || (M11.EConst1 = {}));
+    })(EConst1 = M1.EConst1 || (M1.EConst1 = {}));
     (function(EConst1) {
         EConst1[EConst1["D"] = 7] = "D";
         EConst1[EConst1["E"] = 9] = "E";
         EConst1[EConst1["F"] = 8] = "F";
-    })(EConst1 = M11.EConst1 || (M11.EConst1 = {}));
+    })(EConst1 = M1.EConst1 || (M1.EConst1 = {}));
     var x = [
         EConst1.A,
         EConst1.B,
@@ -35,18 +35,18 @@ var M1;
 })(M1 || (M1 = {}));
 // Enum with only computed members across 2 declarations with the same root module 
 var M2;
-(function(M21) {
+(function(M2) {
     let EComp2;
     (function(EComp2) {
         EComp2[EComp2["A"] = 'foo'.length] = "A";
         EComp2[EComp2["B"] = 'foo'.length] = "B";
         EComp2[EComp2["C"] = 'foo'.length] = "C";
-    })(EComp2 = M21.EComp2 || (M21.EComp2 = {}));
+    })(EComp2 = M2.EComp2 || (M2.EComp2 = {}));
     (function(EComp2) {
         EComp2[EComp2["D"] = 'foo'.length] = "D";
         EComp2[EComp2["E"] = 'foo'.length] = "E";
         EComp2[EComp2["F"] = 'foo'.length] = "F";
-    })(EComp2 = M21.EComp2 || (M21.EComp2 = {}));
+    })(EComp2 = M2.EComp2 || (M2.EComp2 = {}));
     var x = [
         EComp2.A,
         EComp2.B,
@@ -72,26 +72,26 @@ var M3;
 })(M3 || (M3 = {}));
 // Enums with same name but different root module
 var M4;
-(function(M41) {
+(function(M4) {
     let Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
         Color[Color["Green"] = 1] = "Green";
         Color[Color["Blue"] = 2] = "Blue";
-    })(Color = M41.Color || (M41.Color = {}));
+    })(Color = M4.Color || (M4.Color = {}));
 })(M4 || (M4 = {}));
 var M5;
-(function(M51) {
+(function(M5) {
     let Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
         Color[Color["Green"] = 1] = "Green";
         Color[Color["Blue"] = 2] = "Blue";
-    })(Color = M51.Color || (M51.Color = {}));
+    })(Color = M5.Color || (M5.Color = {}));
 })(M5 || (M5 = {}));
 var M6;
-(function(M61) {
-    let A1;
+(function(M6) {
+    let A;
     (function(A) {
         let Color;
         (function(Color) {
@@ -99,16 +99,16 @@ var M6;
             Color[Color["Green"] = 1] = "Green";
             Color[Color["Blue"] = 2] = "Blue";
         })(Color = A.Color || (A.Color = {}));
-    })(A1 = M61.A || (M61.A = {}));
+    })(A = M6.A || (M6.A = {}));
 })(M6 || (M6 = {}));
-(function(M62) {
-    let A2;
+(function(M6) {
+    let A;
     (function(A) {
         let Color;
         (function(Color) {
             Color[Color["Yellow"] = 1] = "Yellow";
         })(Color = A.Color || (A.Color = {}));
-    })(A2 = M62.A || (M62.A = {}));
-    var t = A2.Color.Yellow;
-    t = A2.Color.Red;
+    })(A = M6.A || (M6.A = {}));
+    var t = A.Color.Yellow;
+    t = A.Color.Red;
 })(M6 || (M6 = {}));

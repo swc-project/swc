@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var b, d1, d2, d3, d4, Base = function() {
     "use strict";
     function Base() {
@@ -12,8 +12,8 @@ var b, d1, d2, d3, d4, Base = function() {
                 _class_call_check(this, A);
             }
             return A.prototype.methoda = function() {
-                var d11, d21, d31, d41;
-                (void 0).x, d11.x, d21.x, d31.x, d41.x;
+                var d1, d2, d3, d4;
+                (void 0).x, d1.x, d2.x, d3.x, d4.x;
             }, A;
         }();
     }, Base;
@@ -30,8 +30,8 @@ var b, d1, d2, d3, d4, Base = function() {
                 _class_call_check(this, B);
             }
             return B.prototype.method1b = function() {
-                var d12, d22, d32, d42;
-                (void 0).x, d12.x, d22.x, d32.x, d42.x;
+                var d1, d2, d3, d4;
+                (void 0).x, d1.x, d2.x, d3.x, d4.x;
             }, B;
         }();
     }, Derived1;
@@ -48,8 +48,8 @@ var b, d1, d2, d3, d4, Base = function() {
                 _class_call_check(this, C);
             }
             return C.prototype.method2c = function() {
-                var d13, d23, d33, d43;
-                (void 0).x, d13.x, d23.x, d33.x, d43.x;
+                var d1, d2, d3, d4;
+                (void 0).x, d1.x, d2.x, d3.x, d4.x;
             }, C;
         }();
     }, Derived2;
@@ -66,8 +66,8 @@ var b, d1, d2, d3, d4, Base = function() {
                 _class_call_check(this, D);
             }
             return D.prototype.method3d = function() {
-                var d14, d24, d34, d44;
-                (void 0).x, d14.x, d24.x, d34.x, d44.x;
+                var d1, d2, d3, d4;
+                (void 0).x, d1.x, d2.x, d3.x, d4.x;
             }, D;
         }();
     }, Derived3;
@@ -84,8 +84,8 @@ var b, d1, d2, d3, d4, Base = function() {
                 _class_call_check(this, E);
             }
             return E.prototype.method4e = function() {
-                var d15, d25, d35, d45;
-                (void 0).x, d15.x, d25.x, d35.x, d45.x;
+                var d1, d2, d3, d4;
+                (void 0).x, d1.x, d2.x, d3.x, d4.x;
             }, E;
         }();
     }, Derived4;

@@ -5,9 +5,9 @@
     {
         2911: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
-            function _assertThisInitialized(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
+            function _assertThisInitialized(self1) {
+                if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
+                return self1;
             }
             __webpack_require__.d(__webpack_exports__, {
                 Z: function() {
@@ -18,7 +18,7 @@
         8436: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             function _classCallCheck(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+                if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
             }
             __webpack_require__.d(__webpack_exports__, {
                 Z: function() {
@@ -61,10 +61,10 @@
         },
         2374: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
-            function _getPrototypeOf(o1) {
+            function _getPrototypeOf(o) {
                 return (_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
                     return o.__proto__ || Object.getPrototypeOf(o);
-                })(o1);
+                })(o);
             }
             __webpack_require__.d(__webpack_exports__, {
                 Z: function() {
@@ -74,13 +74,13 @@
         },
         3001: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
-            function _setPrototypeOf(o2, p1) {
+            function _setPrototypeOf(o, p) {
                 return (_setPrototypeOf = Object.setPrototypeOf || function(o, p) {
                     return o.__proto__ = p, o;
-                })(o2, p1);
+                })(o, p);
             }
             function _inherits(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 subClass.prototype = Object.create(superClass && superClass.prototype, {
                     constructor: {
                         value: subClass,
@@ -97,12 +97,12 @@
         },
         7130: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
-            function _typeof(obj1) {
+            function _typeof(obj) {
                 return (_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
                     return typeof obj;
                 } : function(obj) {
                     return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-                })(obj1);
+                })(obj);
             }
             __webpack_require__.d(__webpack_exports__, {
                 Z: function() {
@@ -110,8 +110,8 @@
                 }
             });
             var assertThisInitialized = __webpack_require__(2911);
-            function _possibleConstructorReturn(self, call) {
-                return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (0, assertThisInitialized.Z)(self);
+            function _possibleConstructorReturn(self1, call) {
+                return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (0, assertThisInitialized.Z)(self1);
             }
         },
         8551: function(__unused_webpack_module, exports, __webpack_require__) {
@@ -174,7 +174,7 @@
         },
         880: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var obj2, _defineProperty = __webpack_require__(566), _classCallCheck = __webpack_require__(4988), _createClass = __webpack_require__(9590);
+            var obj, _defineProperty = __webpack_require__(566), _classCallCheck = __webpack_require__(4988), _createClass = __webpack_require__(9590);
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
                 if (Object.getOwnPropertySymbols) {
@@ -198,14 +198,14 @@
             }
             function _arrayLikeToArray(arr, len) {
                 (null == len || len > arr.length) && (len = arr.length);
-                for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+                for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
             }
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = void 0;
-            var _react = (obj2 = __webpack_require__(2735)) && obj2.__esModule ? obj2 : {
-                default: obj2
+            var _react = (obj = __webpack_require__(2735)) && obj.__esModule ? obj : {
+                default: obj
             }, _useSubscription = __webpack_require__(4234), _loadableContext = __webpack_require__(8183), ALL_INITIALIZERS = [], READY_INITIALIZERS = [], initialized = !1;
             function load(loader) {
                 var promise = loader(), state = {
@@ -219,7 +219,7 @@
                     throw state.loading = !1, state.error = err, err;
                 }), state;
             }
-            var LoadableSubscription1 = function() {
+            var LoadableSubscription = function() {
                 function LoadableSubscription(loadFn, opts) {
                     _classCallCheck(this, LoadableSubscription), this._loadFn = loadFn, this._opts = opts, this._callbacks = new Set(), this._delay = null, this._timeout = null, this.retry();
                 }
@@ -301,7 +301,7 @@
                     }, options), subscription = null;
                     function init() {
                         if (!subscription) {
-                            var sub = new LoadableSubscription1(loadFn, opts);
+                            var sub = new LoadableSubscription(loadFn, opts);
                             subscription = {
                                 getCurrentValue: sub.getCurrentValue.bind(sub),
                                 subscribe: sub.subscribe.bind(sub),
@@ -314,26 +314,26 @@
                     if (!initialized && "function" == typeof opts.webpack) {
                         var moduleIds = opts.webpack();
                         READY_INITIALIZERS.push(function(ids) {
-                            var _step, _iterator = function(o3, allowArrayLike) {
-                                if ("undefined" == typeof Symbol || null == o3[Symbol.iterator]) {
-                                    if (Array.isArray(o3) || (it = function(o, minLen) {
+                            var _step, _iterator = function(o, allowArrayLike) {
+                                if ("undefined" == typeof Symbol || null == o[Symbol.iterator]) {
+                                    if (Array.isArray(o) || (it = function(o, minLen) {
                                         if (o) {
                                             if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
                                             var n = Object.prototype.toString.call(o).slice(8, -1);
                                             if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
                                             if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
                                         }
-                                    }(o3))) {
-                                        it && (o3 = it);
+                                    }(o))) {
+                                        it && (o = it);
                                         var i = 0, F = function() {};
                                         return {
                                             s: F,
                                             n: function() {
-                                                return i >= o3.length ? {
+                                                return i >= o.length ? {
                                                     done: !0
                                                 } : {
                                                     done: !1,
-                                                    value: o3[i++]
+                                                    value: o[i++]
                                                 };
                                             },
                                             e: function(_e) {
@@ -342,12 +342,12 @@
                                             f: F
                                         };
                                     }
-                                    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                                    throw TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
                                 }
                                 var it, err, normalCompletion = !0, didErr = !1;
                                 return {
                                     s: function() {
-                                        it = o3[Symbol.iterator]();
+                                        it = o[Symbol.iterator]();
                                     },
                                     n: function() {
                                         var step = it.next();
@@ -432,10 +432,10 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
                 default: function() {
-                    return Welcome1;
+                    return Welcome;
                 }
             });
-            var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8436), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(8370), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2911), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3001), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7130), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2374), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9178), Welcome1 = function(_React$Component) {
+            var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8436), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(8370), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2911), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3001), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7130), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2374), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9178), Welcome = function(_React$Component) {
                 (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Welcome, _React$Component);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Welcome, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -456,7 +456,7 @@
                 function Welcome() {
                     var _this;
                     (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__.Z)(this, Welcome);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this), "state", {

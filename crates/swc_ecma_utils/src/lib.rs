@@ -282,7 +282,7 @@ impl StmtLike for ModuleItem {
 
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
-        match &*self {
+        match self {
             ModuleItem::Stmt(stmt) => Some(stmt),
             _ => None,
         }
@@ -341,7 +341,7 @@ impl<T: IsEmpty> IsEmpty for Option<T> {
 impl<T: IsEmpty> IsEmpty for Box<T> {
     #[inline]
     fn is_empty(&self) -> bool {
-        <T as IsEmpty>::is_empty(&*self)
+        <T as IsEmpty>::is_empty(self)
     }
 }
 
@@ -592,6 +592,16 @@ pub trait ExprExt {
     fn is_global_ref_to(&self, ctx: &ExprCtx, id: &str) -> bool {
         match self.as_expr() {
             Expr::Ident(i) => i.span.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
+            _ => false,
+        }
+    }
+
+    /// Returns `true` if `id` references a global object.
+    fn is_one_of_global_ref_to(&self, ctx: &ExprCtx, ids: &[&str]) -> bool {
+        match self.as_expr() {
+            Expr::Ident(i) => {
+                i.span.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| &i.sym == *id)
+            }
             _ => false,
         }
     }
@@ -1890,7 +1900,6 @@ pub fn opt_chain_test(
 }
 
 /// inject `branch` after directives
-#[inline(never)]
 pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts
         .iter()
@@ -2255,7 +2264,7 @@ impl ExprCtx {
 }
 
 pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
-    match &*p {
+    match p {
         PropName::Ident(i) => i.sym == *key,
         PropName::Str(s) => s.value == *key,
         PropName::Num(_) => false,

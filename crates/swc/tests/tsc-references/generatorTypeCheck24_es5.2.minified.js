@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
@@ -32,9 +32,9 @@ var _marked = regeneratorRuntime.mark(function() {
 }), Foo = function() {
     "use strict";
     _class_call_check(this, Foo);
-}, Bar = function(Foo1) {
+}, Bar = function(Foo) {
     "use strict";
-    _inherits(Bar, Foo1);
+    _inherits(Bar, Foo);
     var _super = _create_super(Bar);
     function Bar() {
         return _class_call_check(this, Bar), _super.apply(this, arguments);

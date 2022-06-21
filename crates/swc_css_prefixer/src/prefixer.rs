@@ -232,8 +232,8 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                             })),
                         ) => {
                             if let (Some(new_first_direction), Some(new_second_direction)) = (
-                                get_old_direction(&*first_value),
-                                get_old_direction(&*second_value),
+                                get_old_direction(first_value),
+                                get_old_direction(second_value),
                             ) {
                                 let new_value = vec![
                                     ComponentValue::Ident(Ident {
@@ -252,7 +252,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                             }
                         }
                         (Some(ComponentValue::Ident(Ident { value, span, .. })), Some(_)) => {
-                            if let Some(new_direction) = get_old_direction(&*value) {
+                            if let Some(new_direction) = get_old_direction(value) {
                                 let new_value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
                                     value: new_direction.into(),

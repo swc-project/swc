@@ -15,8 +15,8 @@ var // parentheses, the contained expression is reference
 ref2 = (x1);
 (x1) = Math.pow(ref2, value);
 function fn2(x4) {
-    var ref5 = x4;
-    x4 = Math.pow(ref5, value);
+    var ref = x4;
+    x4 = Math.pow(ref, value);
 }
 var ref3 = x3.a;
 x3.a = Math.pow(ref3, value);

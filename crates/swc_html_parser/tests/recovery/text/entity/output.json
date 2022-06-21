@@ -40,7 +40,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -83,7 +84,8 @@
                   "data": "HTML Entity Example"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -115,7 +117,8 @@
                   "data": "®"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -147,7 +150,8 @@
                   "data": "reg"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -179,7 +183,8 @@
                   "data": "&#q;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -211,7 +216,8 @@
                   "data": "&#qq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -243,7 +249,8 @@
                   "data": "&#qqq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -275,7 +282,8 @@
                   "data": "&#xq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -307,7 +315,8 @@
                   "data": "&#xqq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -339,7 +348,8 @@
                   "data": "&#xqqq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -371,7 +381,8 @@
                   "data": "\n    €  0x20AC  EURO SIGN (€)\n    ‚  0x201A  SINGLE LOW-9 QUOTATION MARK (‚)\n    ƒ  0x0192  LATIN SMALL LETTER F WITH HOOK (ƒ)\n    „  0x201E  DOUBLE LOW-9 QUOTATION MARK („)\n    …  0x2026  HORIZONTAL ELLIPSIS (…)\n    †  0x2020  DAGGER (†)\n    ‡  0x2021  DOUBLE DAGGER (‡)\n    ˆ  0x02C6  MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)\n    ‰  0x2030  PER MILLE SIGN (‰)\n    Š  0x0160  LATIN CAPITAL LETTER S WITH CARON (Š)\n    ‹  0x2039  SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)\n    Œ  0x0152  LATIN CAPITAL LIGATURE OE (Œ)\n    Ž  0x017D  LATIN CAPITAL LETTER Z WITH CARON (Ž)\n    ‘  0x2018  LEFT SINGLE QUOTATION MARK (‘)\n    ’  0x2019  RIGHT SINGLE QUOTATION MARK (’)\n    “  0x201C  LEFT DOUBLE QUOTATION MARK (“)\n    ”  0x201D  RIGHT DOUBLE QUOTATION MARK (”)\n    •  0x2022  BULLET (•)\n    –  0x2013  EN DASH (–)\n    —  0x2014  EM DASH (—)\n    ˜  0x02DC  SMALL TILDE (˜)\n    ™  0x2122  TRADE MARK SIGN (™)\n    š  0x0161  LATIN SMALL LETTER S WITH CARON (š)\n    ›  0x203A  SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)\n    œ  0x0153  LATIN SMALL LIGATURE OE (œ)\n    ž  0x017E  LATIN SMALL LETTER Z WITH CARON (ž)\n    Ÿ  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -406,7 +417,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -441,7 +453,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -476,7 +489,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -511,7 +525,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -546,7 +561,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -581,7 +597,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -616,7 +633,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -628,10 +646,12 @@
               "data": "\n\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

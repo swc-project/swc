@@ -1,16 +1,16 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
-import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 import { jsx as _jsx } from "react/jsx-runtime";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import compareObjects from "./compareObjects";
-var ItemsList = /*#__PURE__*/ function(Component1) {
+var ItemsList = /*#__PURE__*/ function(Component) {
     "use strict";
-    _inherits(ItemsList, Component1);
+    _inherits(ItemsList, Component);
     var _super = _create_super(ItemsList);
     function ItemsList() {
         _class_call_check(this, ItemsList);

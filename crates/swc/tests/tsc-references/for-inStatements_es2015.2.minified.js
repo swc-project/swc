@@ -20,9 +20,9 @@ for(var x in c);
 for(var x in d);
 for(var x in d[x]);
 for(var x in c[d]);
-for(var x in (x1)=>x1);
-for(var x in function(x2, y) {
-    return x2 + y;
+for(var x in (x)=>x);
+for(var x in function(x, y) {
+    return x + y;
 });
 for(var x in i[42]);
 for(var x in (M || (M = {})).X = class {

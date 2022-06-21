@@ -1,6 +1,6 @@
 use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
@@ -39,61 +39,22 @@ impl NoEmptyPattern {
             _ => {}
         });
     }
-
-    fn check(&self, pat: &Pat) {
-        match pat {
-            Pat::Object(ObjectPat { span, props, .. }) => {
-                if props.is_empty() {
-                    self.emit_report(*span, "object");
-
-                    return;
-                }
-
-                props.iter().for_each(|obj_pat_prop| {
-                    if let ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) = obj_pat_prop {
-                        self.check(value.as_ref());
-                    }
-                });
-            }
-            Pat::Array(ArrayPat { elems, span, .. }) => {
-                if elems.is_empty() {
-                    self.emit_report(*span, "array");
-
-                    return;
-                }
-
-                elems.iter().for_each(|array_pat_elem| {
-                    if let Some(elem) = array_pat_elem {
-                        self.check(elem);
-                    }
-                });
-            }
-            Pat::Rest(RestPat { arg, .. }) => {
-                self.check(arg.as_ref());
-            }
-            _ => {}
-        }
-    }
 }
 
 impl Visit for NoEmptyPattern {
-    noop_visit_type!();
-
-    fn visit_var_declarator(&mut self, var_declarator: &VarDeclarator) {
-        self.check(&var_declarator.name);
-    }
-
-    fn visit_param(&mut self, param: &Param) {
-        self.check(&param.pat);
-
-        param.visit_children_with(self);
-    }
-
-    fn visit_catch_clause(&mut self, catch_clause: &CatchClause) {
-        if let Some(param) = &catch_clause.param {
-            self.check(param);
+    fn visit_array_pat(&mut self, array_pat: &ArrayPat) {
+        if array_pat.elems.is_empty() {
+            self.emit_report(array_pat.span, "array");
         }
 
-        catch_clause.visit_children_with(self);
+        array_pat.visit_children_with(self);
+    }
+
+    fn visit_object_pat(&mut self, object_pat: &ObjectPat) {
+        if object_pat.props.is_empty() {
+            self.emit_report(object_pat.span, "object");
+        }
+
+        object_pat.visit_children_with(self);
     }
 }

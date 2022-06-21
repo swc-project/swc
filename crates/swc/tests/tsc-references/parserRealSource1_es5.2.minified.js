@@ -1,6 +1,6 @@
 var TypeScript;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-!function(TypeScript1) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(TypeScript) {
     !function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
         function Alert(output) {
@@ -11,7 +11,7 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
         }, CompilerDiagnostics.assert = function(condition, s) {
             debug && !condition && Alert(s);
         };
-    }(TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}));
+    }(TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {}));
     var NullLogger = function() {
         "use strict";
         function NullLogger() {
@@ -30,7 +30,7 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
             return !1;
         }, _proto.log = function(s) {}, NullLogger;
     }();
-    TypeScript1.NullLogger = NullLogger;
+    TypeScript.NullLogger = NullLogger;
     var LoggerAdapter = function() {
         "use strict";
         function LoggerAdapter(logger) {
@@ -51,7 +51,7 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
             this.logger.log(s);
         }, LoggerAdapter;
     }();
-    TypeScript1.LoggerAdapter = LoggerAdapter;
+    TypeScript.LoggerAdapter = LoggerAdapter;
     var BufferedLogger = function() {
         "use strict";
         function BufferedLogger() {
@@ -72,10 +72,10 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
             this.logContents.push(s);
         }, BufferedLogger;
     }();
-    TypeScript1.BufferedLogger = BufferedLogger, TypeScript1.timeFunction = function(logger, funcDescription, func) {
+    TypeScript.BufferedLogger = BufferedLogger, TypeScript.timeFunction = function(logger, funcDescription, func) {
         var start = +new Date(), result = func(), end = +new Date();
         return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
-    }, TypeScript1.stringToLiteral = function(value, length) {
+    }, TypeScript.stringToLiteral = function(value, length) {
         var result = "", addChar = function(index) {
             var ch = value.charCodeAt(index);
             switch(ch){

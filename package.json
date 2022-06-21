@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.2.198",
+    "version": "1.2.204",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -71,16 +71,16 @@
         "*.rs": [
             "rustfmt --"
         ],
-        "*.js": [
+        "!(**/tests/**/*)*.js": [
             "prettier --write"
         ],
-        "*.ts": [
+        "!(**/tests/**/*)*.ts": [
             "prettier --write"
         ],
-        "*.jsx": [
+        "!(**/tests/**/*)*.jsx": [
             "prettier --write"
         ],
-        "*.tsx": [
+        "!(**/tests/**/*)*.tsx": [
             "prettier --write"
         ]
     },
@@ -94,8 +94,8 @@
         "@babel/preset-react": "^7.13.13",
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
-        "@napi-rs/cli": "^2.7.0",
-        "@swc/helpers": "^0.3.8",
+        "@napi-rs/cli": "^2.10.0",
+        "@swc/helpers": "^0.4.2",
         "@taplo/cli": "^0.3.2",
         "@types/jest": "^26.0.23",
         "@types/node": "^14.14.41",

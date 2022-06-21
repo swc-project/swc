@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -13,7 +13,7 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 var M1;
-(function(M11) {
+(function(M1) {
     var M2;
     (function(M2) {
         var C = /*#__PURE__*/ function() {
@@ -27,5 +27,5 @@ var M1;
             };
             return C;
         }();
-    })(M2 = M11.M2 || (M11.M2 = {}));
+    })(M2 = M1.M2 || (M1.M2 = {}));
 })(M1 || (M1 = {}));

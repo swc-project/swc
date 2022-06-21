@@ -6,6 +6,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use crate::{
     analyzer::{analyze, ProgramData, UsageAnalyzer},
     marks::Marks,
+    maybe_par,
     option::CompressOptions,
     util::ModuleItemExt,
 };
@@ -24,7 +25,7 @@ pub(crate) fn precompress_optimizer(options: &CompressOptions, marks: Marks) -> 
 }
 
 #[derive(Debug)]
-struct PrecompressOptimizer<'a> {
+pub(crate) struct PrecompressOptimizer<'a> {
     options: &'a CompressOptions,
     marks: Marks,
 
@@ -50,9 +51,12 @@ impl PrecompressOptimizer<'_> {
         }
 
         if self.data.is_none() {
-            let has_decl = stmts
-                .iter()
-                .any(|stmt| matches!(stmt.as_module_decl(), Ok(..) | Err(Stmt::Decl(..))));
+            let has_decl = maybe_par!(
+                stmts
+                    .iter()
+                    .any(|stmt| matches!(stmt.as_module_decl(), Ok(..) | Err(Stmt::Decl(..)))),
+                *crate::LIGHT_TASK_PARALLELS
+            );
 
             if has_decl {
                 let data = Some(analyze(&*stmts, Some(self.marks)));
@@ -66,8 +70,7 @@ impl PrecompressOptimizer<'_> {
                 });
                 return;
             }
-
-            for stmt in stmts {
+            stmts.iter_mut().for_each(|stmt| {
                 stmt.visit_mut_with(&mut PrecompressOptimizer {
                     options: self.options,
                     marks: self.marks,
@@ -75,7 +78,7 @@ impl PrecompressOptimizer<'_> {
                     fn_decl_count: Default::default(),
                     ctx: self.ctx,
                 })
-            }
+            });
         }
     }
 }

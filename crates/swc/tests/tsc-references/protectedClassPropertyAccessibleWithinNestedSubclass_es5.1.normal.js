@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @target: ES5
 var B = function B() {
     "use strict";
@@ -15,11 +15,11 @@ var C = /*#__PURE__*/ function(B) {
         _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
-    var _proto1 = C.prototype;
-    _proto1.foo = function foo() {
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
         return this.x;
     };
-    _proto1.bar = function bar() {
+    _proto.bar = function bar() {
         var D = /*#__PURE__*/ function() {
             function D() {
                 _class_call_check(this, D);

@@ -1,22 +1,22 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _await_async_generator from "@swc/helpers/lib/_await_async_generator.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_method_get from "@swc/helpers/lib/_class_private_method_get.js";
-import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
-import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
+import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(baz);
 var _bar, _baz, _qux, _class;
 // @target: es2019
 var C = (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), _qux = /*#__PURE__*/ new WeakSet(), _class = /*#__PURE__*/ function() {
     "use strict";
-    function _class1() {
-        _class_call_check(this, _class1);
+    function _class() {
+        _class_call_check(this, _class);
         _class_private_method_init(this, _bar);
         _class_private_method_init(this, _baz);
         _class_private_method_init(this, _qux);
     }
-    var _proto = _class1.prototype;
+    var _proto = _class.prototype;
     _proto.foo = function foo() {
         var _this = this;
         return _async_to_generator(regeneratorRuntime.mark(function _callee() {
@@ -48,7 +48,7 @@ var C = (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(),
             }, _callee);
         }))();
     };
-    return _class1;
+    return _class;
 }(), _class);
 new C().foo().then(console.log);
 function bar() {

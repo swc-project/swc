@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@target: ES6
 var M;
-(function(M1) {
+(function(M) {
     var Symbol;
     var C = /*#__PURE__*/ function() {
         "use strict";
@@ -12,5 +12,5 @@ var M;
         _proto[Symbol.iterator] = function() {};
         return C;
     }();
-    M1.Symbol = Symbol;
+    M.Symbol = Symbol;
 })(M || (M = {}));

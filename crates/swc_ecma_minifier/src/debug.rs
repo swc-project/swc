@@ -41,7 +41,8 @@ where
     N: swc_ecma_codegen::Node + Clone + VisitMutWith<DropSpan> + VisitMutWith<Debugger>,
 {
     if !force {
-        if !cfg!(feature = "debug") {
+        #[cfg(not(feature = "debug"))]
+        {
             return String::new();
         }
     }
@@ -71,7 +72,8 @@ where
 /// If the cargo feature `debug` is disabled or the environment variable
 /// `SWC_RUN` is not `1`, this function is noop.
 pub(crate) fn invoke(module: &Module) {
-    if cfg!(debug_assertions) {
+    #[cfg(debug_assertions)]
+    {
         module.visit_with(&mut AssertValid);
     }
 

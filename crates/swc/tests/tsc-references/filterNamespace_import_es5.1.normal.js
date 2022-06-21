@@ -1,21 +1,21 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @Filename: /ns.ts
 var ns;
-(function(ns1) {
+(function(ns) {
     var Class = function Class() {
         "use strict";
         _class_call_check(this, Class);
     };
-    ns1.Class = Class;
-    var Value = ns1.Value = "";
-    var nested1;
+    ns.Class = Class;
+    var Value = ns.Value = "";
+    var nested;
     (function(nested) {
         var NestedClass = function NestedClass() {
             "use strict";
             _class_call_check(this, NestedClass);
         };
         nested.NestedClass = NestedClass;
-    })(nested1 = ns1.nested || (ns1.nested = {}));
+    })(nested = ns.nested || (ns.nested = {}));
 })(ns || (ns = {}));
 export default ns;
 ns.Class; // Error

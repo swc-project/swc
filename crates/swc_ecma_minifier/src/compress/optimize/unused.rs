@@ -4,11 +4,12 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::contains_ident_ref;
 
 use super::Optimizer;
+#[cfg(feature = "debug")]
+use crate::debug::dump;
 use crate::{
     compress::{
         optimize::util::class_has_side_effect, util::is_global_var_with_pure_property_access,
     },
-    debug::dump,
     mode::Mode,
     option::PureGetterOption,
 };
@@ -55,6 +56,7 @@ where
             }
         }
 
+        #[cfg(debug_assertions)]
         let had_init = var.init.is_some();
 
         match &mut var.init {
@@ -88,7 +90,8 @@ where
             return;
         }
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
                 if had_init && var.init.is_none() {
                     unreachable!("const/let variable without initializer: {:#?}", var);

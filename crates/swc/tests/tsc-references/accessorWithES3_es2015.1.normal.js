@@ -6,7 +6,7 @@ class C {
     }
 }
 class D {
-    set x(v) {}
+    set x(v1) {}
 }
 var x = {
     get a () {

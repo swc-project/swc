@@ -1,12 +1,12 @@
-import _assert_this_initialized from "@swc/helpers/lib/_assert_this_initialized.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _extends from "@swc/helpers/lib/_extends.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _set from "@swc/helpers/lib/_set.js";
-import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _set from "@swc/helpers/src/_set.mjs";
+import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
         ""
@@ -17,9 +17,9 @@ function _templateObject() {
     return data;
 }
 var _ref, _super_a;
-var C = /*#__PURE__*/ function(B) {
+var C = /*#__PURE__*/ function(B1) {
     "use strict";
-    _inherits(C, B);
+    _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);

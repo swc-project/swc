@@ -90,10 +90,13 @@ where
         {
             // If a function has a variable named `arguments`, we abort.
             let data: Vec<Id> = find_pat_ids(&f.body);
-            for id in &data {
+            if data.iter().any(|id| {
                 if id.0 == js_word!("arguments") {
-                    return;
+                    return true;
                 }
+                false
+            }) {
+                return;
             }
         }
 

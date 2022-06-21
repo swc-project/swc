@@ -24,7 +24,7 @@ if (u === aString) {
     let uString = u;
 }
 if (u === aBoolean) {
-    let uString = u;
+    let uString1 = u;
 }
 if (u === aNumber) {
     let uNumber = u;
@@ -161,18 +161,18 @@ function f2(x) {
     }
     return x;
 }
-function notNotEquals(u1) {
-    if (u1 !== NumberEnum) {} else {
-        const o = u1;
+function notNotEquals(u) {
+    if (u !== NumberEnum) {} else {
+        const o = u;
     }
-    if (u1 !== NumberEnum.A) {} else {
-        const a = u1;
+    if (u !== NumberEnum.A) {} else {
+        const a = u;
     }
-    if (u1 !== NumberEnum.A && u1 !== NumberEnum.B && u1 !== StringEnum.A) {} else {
-        const aOrB = u1;
+    if (u !== NumberEnum.A && u !== NumberEnum.B && u !== StringEnum.A) {} else {
+        const aOrB = u;
     }
     // equivalent to
-    if (!(u1 === NumberEnum.A || u1 === NumberEnum.B || u1 === StringEnum.A)) {} else {
-        const aOrB = u1;
+    if (!(u === NumberEnum.A || u === NumberEnum.B || u === StringEnum.A)) {} else {
+        const aOrB1 = u;
     }
 }

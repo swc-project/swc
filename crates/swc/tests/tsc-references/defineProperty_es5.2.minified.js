@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var A = function() {
     "use strict";
     function A(y) {
@@ -10,9 +10,9 @@ var A = function() {
 }(), B = function() {
     "use strict";
     _class_call_check(this, B);
-}, C = function(B1) {
+}, C = function(B) {
     "use strict";
-    _inherits(C, B1);
+    _inherits(C, B);
     var _super = _create_super(C);
     function C(ka) {
         var _this;

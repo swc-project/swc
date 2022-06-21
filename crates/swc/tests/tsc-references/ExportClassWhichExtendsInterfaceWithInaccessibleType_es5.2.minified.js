@@ -1,6 +1,6 @@
 var A;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-!function(A1) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(A) {
     var Point2d = function() {
         "use strict";
         function Point2d(x, y) {
@@ -10,5 +10,5 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
             return 1;
         }, Point2d;
     }();
-    A1.Point2d = Point2d;
+    A.Point2d = Point2d;
 }(A || (A = {}));

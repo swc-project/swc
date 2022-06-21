@@ -164,6 +164,7 @@ impl Pure<'_> {
                     let can_remove = if *op == op!("&&") { rb } else { !rb };
 
                     if can_remove {
+                        #[allow(clippy::if_same_then_else)]
                         if *op == op!("&&") {
                             report_change!("booleans: Compressing `!foo && true` as `!foo`");
                         } else {

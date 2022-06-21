@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 var _class, _Foo;
 var _foo = /*#__PURE__*/ new WeakMap(), _foo2 = /*#__PURE__*/ new WeakMap();
 // @target: es2015
@@ -8,8 +8,8 @@ var B = function B() {
     _class_call_check(this, B);
     _class_private_field_init(this, _foo, {
         writable: true,
-        value: (_class = function _class1() {
-            _class_call_check(this, _class1);
+        value: (_class = function _class() {
+            _class_call_check(this, _class);
             console.log("hello");
         }, _class.test = 123, _class)
     });

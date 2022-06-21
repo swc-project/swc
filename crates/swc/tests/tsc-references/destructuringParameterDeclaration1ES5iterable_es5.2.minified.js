@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function a1(param) {
     var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref1 = _sliced_to_array(ref[0], 1);
     ref1[0];
@@ -20,8 +20,8 @@ function c2(param) {
     param.z;
 }
 function c5(param) {
-    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref2 = _sliced_to_array(ref[0], 1);
-    ref2[0];
+    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref1 = _sliced_to_array(ref[0], 1);
+    ref1[0];
 }
 a1([
     1,
@@ -75,8 +75,8 @@ a1([
                 void 0
             ]
         ]
-    ], 3), ref3 = (_sliced_to_array(ref[0], 1)[0], ref[1], _sliced_to_array(ref[2], 1)), ref4 = _sliced_to_array(ref3[0], 2);
-    ref4[0], ref4[1];
+    ], 3), ref1 = (_sliced_to_array(ref[0], 1)[0], ref[1], _sliced_to_array(ref[2], 1)), ref2 = _sliced_to_array(ref1[0], 2);
+    ref2[0], ref2[1];
 }([
     [
         "string"

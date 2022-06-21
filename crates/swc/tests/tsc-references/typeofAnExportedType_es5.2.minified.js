@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var c2, i2, x = 1;
 export var r1;
 export var y = {
@@ -17,13 +17,13 @@ export var i;
 export var r5;
 export var r5;
 export var M;
-!function(M1) {
-    M1.foo = "";
-    var C1 = function() {
+!function(M) {
+    M.foo = "";
+    var C = function() {
         "use strict";
-        _class_call_check(this, C1);
+        _class_call_check(this, C);
     };
-    M1.C = C1;
+    M.C = C;
 }(M || (M = {}));
 export var r6;
 export var r7;
@@ -38,12 +38,12 @@ export var r10;
 export var r11;
 export var r12;
 export function foo() {}
-!function(foo1) {
-    foo1.y = 1;
-    var C2 = function() {
+!function(foo) {
+    foo.y = 1;
+    var C = function() {
         "use strict";
-        _class_call_check(this, C2);
+        _class_call_check(this, C);
     };
-    foo1.C = C2;
+    foo.C = C;
 }(foo || (foo = {}));
 export var r13;

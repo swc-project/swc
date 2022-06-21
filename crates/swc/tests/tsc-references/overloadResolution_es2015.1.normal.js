@@ -55,5 +55,5 @@ fn4(null, true); // Error
 function fn5() {
     return undefined;
 }
-var n = fn5((n1)=>n1.toFixed());
-var s = fn5((n2)=>n2.substr(0));
+var n = fn5((n)=>n.toFixed());
+var s = fn5((n)=>n.substr(0));

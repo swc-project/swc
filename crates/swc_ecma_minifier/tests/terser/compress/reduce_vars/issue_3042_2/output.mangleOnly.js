@@ -1,6 +1,6 @@
-function c() {
-    this.isFoo = function(a) {
-        return a instanceof c;
+function a() {
+    this.isFoo = function(b) {
+        return b instanceof a;
     };
 }
 function b() {
@@ -8,11 +8,11 @@ function b() {
         1,
         1
     ].map(function() {
-        return new c();
+        return new a();
     });
 }
-var a = new b();
-console.log(a.foos[0].isFoo(a.foos[0]));
-console.log(a.foos[0].isFoo(a.foos[1]));
-console.log(a.foos[1].isFoo(a.foos[0]));
-console.log(a.foos[1].isFoo(a.foos[1]));
+var c = new b();
+console.log(c.foos[0].isFoo(c.foos[0]));
+console.log(c.foos[0].isFoo(c.foos[1]));
+console.log(c.foos[1].isFoo(c.foos[0]));
+console.log(c.foos[1].isFoo(c.foos[1]));

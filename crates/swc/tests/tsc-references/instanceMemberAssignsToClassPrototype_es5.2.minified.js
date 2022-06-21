@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = function() {
     "use strict";
     function C() {
@@ -7,7 +7,7 @@ var C = function() {
     var _proto = C.prototype;
     return _proto.foo = function() {
         C.prototype.foo = function() {};
-    }, _proto.bar = function(x1) {
+    }, _proto.bar = function(x) {
         return C.prototype.bar = function() {}, C.prototype.bar = function(x) {
             return x;
         }, C.prototype.bar = function(x) {

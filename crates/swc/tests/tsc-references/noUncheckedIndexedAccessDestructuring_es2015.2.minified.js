@@ -1,5 +1,5 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 let [s1] = strArray;
 s1.toString();
 let [...s2] = strArray;
@@ -14,14 +14,14 @@ t2.z.toString();
     let { x , y , z  } = numMapPoint;
     x.toFixed(), y.toFixed(), z.toFixed();
 }{
-    let { x  } = numMapPoint, q = _object_without_properties(numMapPoint, [
+    let { x: x1  } = numMapPoint, q = _object_without_properties(numMapPoint, [
         "x"
     ]);
-    x.toFixed(), q.y.toFixed(), q.z.toFixed();
+    x1.toFixed(), q.y.toFixed(), q.z.toFixed();
 }[target_string] = strArray, [target_string_undef] = strArray, [, , , ...target_string_arr] = strArray;
 {
-    let x, y, z;
-    ({ x , y , z  } = numMapPoint);
-    let q;
-    ({ q  } = numMapPoint);
+    let x2, y1, z1;
+    ({ x: x2 , y: y1 , z: z1  } = numMapPoint);
+    let q1;
+    ({ q: q1  } = numMapPoint);
 }

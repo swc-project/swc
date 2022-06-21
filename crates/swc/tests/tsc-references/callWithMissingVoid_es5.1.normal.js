@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @strict: true
 // From #4260
 var X = /*#__PURE__*/ function() {
@@ -47,49 +47,49 @@ new MyPromise(function(resolve) {
     return resolve();
 }); // error, `never` arguments cannot be omitted
 // Multiple parameters
-function a(x, y, z) {}
+function a(x1, y, z) {}
 a(4, "hello"); // ok
 a(4, "hello", void 0); // ok
 a(4); // not ok
-function b(x, y, z, what) {}
+function b(x1, y, z, what) {}
 b(4, "hello", void 0, 2); // ok
 b(4, "hello"); // not ok
 b(4, "hello", void 0); // not ok
 b(4); // not ok
-function c(x, y, z) {}
+function c(x1, y, z) {}
 c(3, void 0, void 0); // ok
 c(3, void 0); // ok
 c(3); // ok
 c(); // ok
-call(function(x, y) {
-    return x + y;
+call(function(x1, y) {
+    return x1 + y;
 }) // error
 ;
-call(function(x, y) {
-    return x + y;
+call(function(x1, y) {
+    return x1 + y;
 }, 4, 2) // ok
 ;
-call(function(x, y) {
-    return x;
+call(function(x1, y) {
+    return x1;
 }, 4, void 0) // ok
 ;
-call(function(x, y) {
-    return x;
+call(function(x1, y) {
+    return x1;
 }, 4) // ok
 ;
-call(function(x, y) {
+call(function(x1, y) {
     return 42;
 }) // ok
 ;
-call(function(x, y) {
+call(function(x1, y) {
     return 42;
 }) // ok
 ;
-call(function(x, y) {
+call(function(x1, y) {
     return 42;
 }, 4) // ok
 ;
-call(function(x, y) {
+call(function(x1, y) {
     return 42;
 }, 4, 2) // ok
 ;

@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var aString;
 for(aString in {}){}
 var anAny;
@@ -27,11 +27,11 @@ for(var x in 42 ? c : d){}
 for(var x in "" ? c : d){}
 for(var x in 42 ? d[x] : c[x]){}
 for(var x in c[d]){}
-for(var x in function(x1) {
-    return x1;
+for(var x in function(x) {
+    return x;
 }){}
-for(var x in function(x2, y) {
-    return x2 + y;
+for(var x in function(x, y) {
+    return x + y;
 }){}
 var A = /*#__PURE__*/ function() {
     "use strict";
@@ -75,12 +75,12 @@ var B = /*#__PURE__*/ function(A) {
 var i;
 for(var x in i[42]){}
 var M;
-(function(M1) {
+(function(M) {
     var X = function X() {
         "use strict";
         _class_call_check(this, X);
     };
-    M1.X = X;
+    M.X = X;
 })(M || (M = {}));
 for(var x in M){}
 for(var x in M.X){}

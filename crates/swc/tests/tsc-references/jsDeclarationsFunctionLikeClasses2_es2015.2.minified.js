@@ -1,9 +1,9 @@
 export function Vec(len) {
-    this.storage = new Array(len);
+    this.storage = Array(len);
 }
 Vec.prototype = {
     dot (other) {
-        if (other.storage.length !== this.storage.length) throw new Error("Dot product only applicable for vectors of equal length");
+        if (other.storage.length !== this.storage.length) throw Error("Dot product only applicable for vectors of equal length");
         let sum = 0;
         for(let i = 0; i < this.storage.length; i++)sum += this.storage[i] * other.storage[i];
         return sum;
@@ -14,9 +14,9 @@ Vec.prototype = {
         return Math.sqrt(sum);
     }
 };
-export function Point2D(x, y) {
-    if (!(this instanceof Point2D)) return new Point2D(x, y);
-    Vec.call(this, 2), this.x = x, this.y = y;
+export function Point2D(x1, y1) {
+    if (!(this instanceof Point2D)) return new Point2D(x1, y1);
+    Vec.call(this, 2), this.x = x1, this.y = y1;
 }
 Point2D.prototype = {
     __proto__: Vec,

@@ -4,7 +4,9 @@ use swc_ecma_utils::{undefined, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{compress::util::is_pure_undefined, debug::dump, mode::Mode, util::ExprOptExt};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
+use crate::{compress::util::is_pure_undefined, mode::Mode, util::ExprOptExt};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
@@ -456,7 +458,11 @@ where
     }
 
     fn can_merge_stmt_as_if_return(&self, s: &Stmt, _is_last: bool) -> bool {
-        let res = match s {
+        // if !res {
+        //     trace!("Cannot merge: {}", dump(s));
+        // }
+
+        match s {
             Stmt::Expr(..) => true,
             Stmt::Return(..) => true,
             Stmt::Block(s) => {
@@ -470,12 +476,7 @@ where
                     )
             }
             _ => false,
-        };
-        // if !res {
-        //     trace!("Cannot merge: {}", dump(s));
-        // }
-
-        res
+        }
     }
 }
 

@@ -75,7 +75,7 @@ impl Visit for NoConsole {
         if let Expr::Ident(ident) = member.obj.as_ref() {
             match &member.prop {
                 MemberProp::Ident(Ident { sym, .. }) => {
-                    self.check(member.span, ident, &*sym);
+                    self.check(member.span, ident, sym);
                 }
                 MemberProp::Computed(ComputedPropName { expr, .. }) => {
                     if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {

@@ -27,7 +27,8 @@
           "data": "<foo>"
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

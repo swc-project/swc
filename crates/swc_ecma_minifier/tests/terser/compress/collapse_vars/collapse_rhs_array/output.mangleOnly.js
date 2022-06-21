@@ -1,8 +1,8 @@
 var a, b;
-function d() {
+function c() {
     a = [];
     b = [];
     return [];
 }
-var c = d();
-console.log(a === b, b === c, c === a);
+var d = c();
+console.log(a === b, b === d, d === a);

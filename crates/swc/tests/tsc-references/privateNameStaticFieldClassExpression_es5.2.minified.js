@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 var _class, _Foo, B = function() {
     "use strict";
     function B() {
@@ -10,9 +10,9 @@ var _class, _Foo, B = function() {
     }, B;
 }(), _foo = {
     writable: !0,
-    value: ((_class = function _class1() {
+    value: ((_class = function _class() {
         "use strict";
-        _class_call_check(this, _class1), this.field = 10, console.log("hello"), new (_class_static_private_field_spec_get(B, B, _foo2))();
+        _class_call_check(this, _class), this.field = 10, console.log("hello"), new (_class_static_private_field_spec_get(B, B, _foo2))();
     }).test = 123, _class)
 }, _foo2 = {
     writable: !0,

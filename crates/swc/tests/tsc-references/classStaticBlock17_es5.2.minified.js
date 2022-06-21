@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 var friendA, _x = new WeakMap(), A = function() {
     "use strict";
     function A(v) {
@@ -22,10 +22,10 @@ friendA = {
         _class_private_field_set(obj, _x, value);
     }
 };
-var B = function(a1) {
+var B = function(a) {
     "use strict";
     _class_call_check(this, B);
-    var x = friendA.getX(a1);
-    friendA.setX(a1, x + 1);
+    var x = friendA.getX(a);
+    friendA.setX(a, x + 1);
 }, a = new A(41);
 new B(a), a.getX();

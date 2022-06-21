@@ -30,7 +30,8 @@
         }
       ],
       "children": [],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     },
     {
       "type": "Text",

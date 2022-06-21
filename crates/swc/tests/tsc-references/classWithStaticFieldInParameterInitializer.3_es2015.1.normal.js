@@ -8,10 +8,10 @@ class C {
 }
 ((b = (_class = class extends C {
 }, _class.x = 1, _class))=>{
-    var C;
+    var C1;
 })();
 const x = "";
 ((b = (_class1 = class extends C {
 }, _class1.x = 1, _class1), d = x)=>{
-    var x;
+    var x1;
 })();

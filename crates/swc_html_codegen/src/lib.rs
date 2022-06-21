@@ -26,6 +26,10 @@ pub struct CodegenConfig {
     pub scripting_enabled: bool,
     /// Should be used only for `DocumentFragment` code generation
     pub context_element: Option<Element>,
+    /// By default `true` when `minify` enabled, otherwise `false`
+    pub tag_omission: Option<bool>,
+    /// By default `false` when `minify` enabled, otherwise `true`
+    pub self_closing_void_elements: Option<bool>,
 }
 
 enum TagOmissionParent<'a> {
@@ -44,6 +48,8 @@ where
     ctx: Ctx,
     // For legacy `<plaintext>`
     is_plaintext: bool,
+    tag_omission: bool,
+    self_closing_void_elements: bool,
 }
 
 impl<W> CodeGenerator<W>
@@ -51,17 +57,22 @@ where
     W: HtmlWriter,
 {
     pub fn new(wr: W, config: CodegenConfig) -> Self {
+        let tag_omission = config.tag_omission.unwrap_or(config.minify);
+        let self_closing_void_elements = config.tag_omission.unwrap_or(!config.minify);
+
         CodeGenerator {
             wr,
             config,
             ctx: Default::default(),
             is_plaintext: false,
+            tag_omission,
+            self_closing_void_elements,
         }
     }
 
     #[emitter]
     fn emit_document(&mut self, n: &Document) -> Result {
-        if self.config.minify {
+        if self.tag_omission {
             self.emit_list_for_tag_omission(TagOmissionParent::Document(n))?;
         } else {
             self.emit_list(&n.children, ListFormat::NotDelimited)?;
@@ -76,7 +87,7 @@ where
             Default::default()
         };
 
-        if self.config.minify {
+        if self.tag_omission {
             self.with_ctx(ctx)
                 .emit_list_for_tag_omission(TagOmissionParent::DocumentFragment(n))?;
         } else {
@@ -174,7 +185,7 @@ where
         }
 
         let has_attributes = !n.attributes.is_empty();
-        let can_omit_start_tag = self.config.minify
+        let can_omit_start_tag = self.tag_omission
             && !has_attributes
             && n.namespace == Namespace::HTML
             && match &*n.tag_name {
@@ -198,7 +209,8 @@ where
                     if n.children.is_empty()
                         || (match n.children.get(0) {
                             Some(Child::Text(text))
-                                if text.data.chars().next().unwrap().is_ascii_whitespace() =>
+                                if text.data.len() > 0
+                                    && text.data.chars().next().unwrap().is_ascii_whitespace() =>
                             {
                                 false
                             }
@@ -288,7 +300,7 @@ where
                 _ => false,
             };
 
-        let no_children = match n.namespace {
+        let is_void_element = match n.namespace {
             Namespace::HTML => matches!(
                 &*n.tag_name,
                 "area"
@@ -310,20 +322,8 @@ where
                     | "track"
                     | "wbr"
             ),
-            Namespace::SVG => {
-                matches!(
-                    &*n.tag_name,
-                    "circle"
-                        | "ellipse"
-                        | "line"
-                        | "path"
-                        | "polygon"
-                        | "polyline"
-                        | "rect"
-                        | "stop"
-                        | "use"
-                ) && n.children.is_empty()
-            }
+            Namespace::SVG => n.children.is_empty(),
+            Namespace::MATHML => n.children.is_empty(),
             _ => false,
         };
 
@@ -337,7 +337,12 @@ where
                 self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
             }
 
-            if no_children && n.namespace == Namespace::SVG {
+            if (matches!(n.namespace, Namespace::SVG | Namespace::MATHML) && is_void_element)
+                || (self.self_closing_void_elements
+                    && n.is_self_closing
+                    && is_void_element
+                    && matches!(n.namespace, Namespace::HTML))
+            {
                 if self.config.minify {
                     let need_space = match n.attributes.last() {
                         Some(Attribute {
@@ -349,9 +354,6 @@ where
                         }),
                         _ => false,
                     };
-
-                    println!("{:?}", n.attributes.last());
-                    println!("{:?}", need_space);
 
                     if need_space {
                         write_raw!(self, " ");
@@ -370,7 +372,7 @@ where
             }
         }
 
-        if no_children {
+        if is_void_element {
             return Ok(());
         }
 
@@ -396,7 +398,7 @@ where
                 }
             }
 
-            if self.config.minify {
+            if self.tag_omission {
                 self.with_ctx(ctx)
                     .emit_list_for_tag_omission(TagOmissionParent::Element(n))?;
             } else {
@@ -406,7 +408,7 @@ where
         }
 
         let can_omit_end_tag = self.is_plaintext
-            || (self.config.minify
+            || (self.tag_omission
                 && n.namespace == Namespace::HTML
                 && match &*n.tag_name {
                     // Tag omission in text/html:
@@ -485,7 +487,19 @@ where
                             }) if is_html_tag_name(*namespace, &**tag_name)
                                 && !matches!(
                                     &**tag_name,
-                                    "a" | "audio" | "del" | "ins" | "map" | "noscript" | "video"
+                                    "a" | "audio"
+                                        | "acronym"
+                                        | "big"
+                                        | "del"
+                                        | "font"
+                                        | "ins"
+                                        | "tt"
+                                        | "strike"
+                                        | "map"
+                                        | "noscript"
+                                        | "video"
+                                        | "kbd"
+                                        | "rbc"
                                 ) =>
                             {
                                 true
@@ -500,15 +514,29 @@ where
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
                     // element.
-                    "li" => match next {
-                        Some(Child::Element(Element {
+                    "li" if match parent {
+                        Some(Element {
                             namespace,
                             tag_name,
                             ..
-                        })) if *namespace == Namespace::HTML && tag_name == "li" => true,
-                        None => true,
+                        }) if *namespace == Namespace::HTML
+                            && matches!(&**tag_name, "ul" | "ol" | "menu") =>
+                        {
+                            true
+                        }
                         _ => false,
-                    },
+                    } =>
+                    {
+                        match next {
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) if *namespace == Namespace::HTML && tag_name == "li" => true,
+                            None => true,
+                            _ => false,
+                        }
+                    }
                     // A dt element's end tag can be omitted if the dt element is immediately
                     // followed by another dt element or a dd element.
                     "dt" => match next {
@@ -1077,6 +1105,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
     matches!(
         tag_name,
         "a" | "abbr"
+            | "acronym"
             | "address"
             | "applet"
             | "area"
@@ -1085,8 +1114,10 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "audio"
             | "b"
             | "base"
+            | "basefont"
             | "bdi"
             | "bdo"
+            | "big"
             | "blockquote"
             | "body"
             | "br"
@@ -1114,8 +1145,11 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "fieldset"
             | "figcaption"
             | "figure"
+            | "font"
             | "footer"
             | "form"
+            | "frame"
+            | "frameset"
             | "h1"
             | "h2"
             | "h3"
@@ -1133,6 +1167,9 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "img"
             | "input"
             | "ins"
+            | "isindex"
+            | "kbd"
+            | "keygen"
             | "label"
             | "legend"
             | "li"
@@ -1143,12 +1180,14 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "mark"
             | "marquee"
             | "menu"
-            | "menuitem"
+            // Removed from spec, but we keep here to track it
+            // | "menuitem"
             | "meta"
             | "meter"
             | "nav"
             | "nobr"
             | "noembed"
+            | "noframes"
             | "noscript"
             | "object"
             | "ol"
@@ -1158,10 +1197,12 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "p"
             | "param"
             | "picture"
+            | "plaintext"
             | "pre"
             | "progress"
             | "q"
             | "rb"
+            | "rbc"
             | "rp"
             | "rt"
             | "rtc"
@@ -1174,6 +1215,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "small"
             | "source"
             | "span"
+            | "strike"
             | "strong"
             | "style"
             | "sub"
@@ -1191,6 +1233,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "title"
             | "tr"
             | "track"
+            | "tt"
             | "u"
             | "ul"
             | "var"

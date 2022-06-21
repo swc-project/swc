@@ -1,14 +1,14 @@
-import a from "@swc/helpers/lib/_async_to_generator.js";
-import b from "@swc/helpers/lib/_sliced_to_array.js";
+import a from "@swc/helpers/src/_async_to_generator.mjs";
+import b from "@swc/helpers/src/_sliced_to_array.mjs";
 import c from "regenerator-runtime";
 import { jsx as d, jsxs as e, Fragment as f } from "react/jsx-runtime";
 import * as g from "react";
 export default function h() {
     var h = b(g.useState({
         hits: []
-    }), 2), k = h[0], l = h[1], i = b(g.useState("react"), 2), j = i[0], m = i[1];
+    }), 2), i = h[0], j = h[1], k = b(g.useState("react"), 2), l = k[0], m = k[1];
     return g.useEffect(function() {
-        "" !== j && function() {
+        "" !== l && function() {
             b.apply(this, arguments);
         }();
         function b() {
@@ -17,11 +17,11 @@ export default function h() {
                 return c.wrap(function(a) {
                     for(;;)switch(a.prev = a.next){
                         case 0:
-                            return a.next = 2, fetch("https://hn.algolia.com/api/v1/search?query=" + j);
+                            return a.next = 2, fetch("https://hn.algolia.com/api/v1/search?query=" + l);
                         case 2:
                             return b = a.sent, a.next = 5, b.json();
                         case 5:
-                            l(d = a.sent);
+                            j(d = a.sent);
                         case 7:
                         case "end":
                             return a.stop();
@@ -30,17 +30,17 @@ export default function h() {
             }))).apply(this, arguments);
         }
     }, [
-        j
+        l
     ]), e(f, {
         children: [
             d("input", {
-                value: j,
+                value: l,
                 onChange: function(a) {
                     return m(a.target.value);
                 }
             }),
             d("ul", {
-                children: k.hits.map(function(a) {
+                children: i.hits.map(function(a) {
                     return d("li", {
                         children: d("a", {
                             href: a.url,

@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @useDefineForClassFields: true
 // @target: esnext
 var C = /*#__PURE__*/ function() {
@@ -60,11 +60,11 @@ var E = function E(foo2) {
     };
     this.foo1 = "";
 };
-var F1 = function F1() {
+var F = function F() {
     "use strict";
-    _class_call_check(this, F1);
-    this.Inner = /*#__PURE__*/ function(F2) {
-        _inherits(_class, F2);
+    _class_call_check(this, F);
+    this.Inner = /*#__PURE__*/ function(F) {
+        _inherits(_class, F);
         var _super = _create_super(_class);
         function _class() {
             _class_call_check(this, _class);
@@ -74,15 +74,15 @@ var F1 = function F1() {
             return _this;
         }
         return _class;
-    }(F1);
+    }(F);
     this.p1 = 0;
 };
-var G1 = function G1(p1) {
+var G = function G(p1) {
     "use strict";
-    _class_call_check(this, G1);
+    _class_call_check(this, G);
     this.p1 = p1;
-    this.Inner = /*#__PURE__*/ function(G2) {
-        _inherits(_class, G2);
+    this.Inner = /*#__PURE__*/ function(G) {
+        _inherits(_class, G);
         var _super = _create_super(_class);
         function _class() {
             _class_call_check(this, _class);
@@ -92,7 +92,7 @@ var G1 = function G1(p1) {
             return _this;
         }
         return _class;
-    }(G1);
+    }(G);
 };
 var H = function H(p1) {
     "use strict";

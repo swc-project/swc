@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var SomeBase = function SomeBase() {
     "use strict";
     _class_call_check(this, SomeBase);
@@ -77,9 +77,9 @@ new fn4(null, null); // Error
 new fn4(true, null); // Error
 new fn4(null, true); // Error
 var fn5;
-var n = new fn5(function(n1) {
-    return n1.toFixed();
+var n = new fn5(function(n) {
+    return n.toFixed();
 });
-var s = new fn5(function(n2) {
-    return n2.substr(0);
+var s = new fn5(function(n) {
+    return n.substr(0);
 });

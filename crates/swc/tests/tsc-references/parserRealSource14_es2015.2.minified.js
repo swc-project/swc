@@ -28,11 +28,11 @@ var TypeScript;
             this.top = this.asts.length, this.asts.push(ast);
         }
         up() {
-            if (this.top <= -1) throw new Error("Invalid call to 'up'");
+            if (this.top <= -1) throw Error("Invalid call to 'up'");
             this.top--;
         }
         down() {
-            if (this.top == this.ast.length - 1) throw new Error("Invalid call to 'down'");
+            if (this.top == this.ast.length - 1) throw Error("Invalid call to 'down'");
             this.top++;
         }
         nodeType() {
@@ -239,12 +239,12 @@ var TypeScript;
         var bestOffset = 0, pre = (cur, parent, walker)=>(TypeScript.isValidAstNode(cur) && (cur.minChar <= position && (bestOffset = max(bestOffset, cur.minChar)), (cur.minChar > position || cur.limChar < bestOffset) && (walker.options.goChildren = !1)), cur);
         return TypeScript.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, TypeScript1.walkAST = function(ast, callback) {
-        var path1 = new AstPath();
+        var path = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, function(cur, parent, walker) {
             var path = walker.state;
             return path.push(cur), callback(path, walker), cur;
         }, function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, null, path1);
+        }, null, path);
     };
 }(TypeScript || (TypeScript = {}));

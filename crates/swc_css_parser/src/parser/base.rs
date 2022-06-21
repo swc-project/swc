@@ -54,13 +54,12 @@ where
                     // If the top-level flag is set, do nothing.
                     if ctx.is_top_level {
                         bump!(self);
-
-                        continue;
                     }
-
                     // Otherwise, reconsume the current input token. Consume a qualified rule. If
                     // anything is returned, append it to the list of rules.
-                    rules.push(Rule::QualifiedRule(self.parse()?));
+                    else {
+                        rules.push(Rule::QualifiedRule(self.parse()?));
+                    }
                 }
                 // <at-keyword-token>
                 // Reconsume the current input token. Consume an at-rule, and append the returned

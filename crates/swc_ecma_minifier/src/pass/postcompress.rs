@@ -1,7 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::option::CompressOptions;
+use crate::{maybe_par, option::CompressOptions};
 
 pub fn postcompress_optimizer(options: &CompressOptions) -> impl '_ + VisitMut {
     PostcompressOptimizer {
@@ -38,9 +38,12 @@ impl VisitMut for PostcompressOptimizer<'_> {
     }
 
     fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {
-        self.ctx.is_module = nodes
-            .iter()
-            .any(|s| matches!(s, ModuleItem::ModuleDecl(..)));
+        self.ctx.is_module = maybe_par!(
+            nodes
+                .iter()
+                .any(|s| matches!(s, ModuleItem::ModuleDecl(..))),
+            *crate::LIGHT_TASK_PARALLELS
+        );
         self.ctx.is_top_level = true;
 
         nodes.visit_mut_children_with(self);

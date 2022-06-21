@@ -1,10 +1,10 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@filename: part1.ts
 var Root;
-(function(Root1) {
-    var A1;
+(function(Root) {
+    var A;
     (function(A) {
-        var Utils1;
+        var Utils;
         (function(Utils) {
             function mirror(p) {
                 return {
@@ -13,19 +13,19 @@ var Root;
                 };
             }
             Utils.mirror = mirror;
-        })(Utils1 = A.Utils || (A.Utils = {}));
-    })(A1 = Root1.A || (Root1.A = {}));
+        })(Utils = A.Utils || (A.Utils = {}));
+    })(A = Root.A || (Root.A = {}));
 })(Root || (Root = {}));
 //@filename: part2.ts
 var otherRoot;
-(function(otherRoot1) {
-    var A2;
+(function(otherRoot) {
+    var A;
     (function(A) {
         var Origin = A.Origin = {
             x: 0,
             y: 0
         };
-        var Utils2;
+        var Utils;
         (function(Utils) {
             var Plane = function Plane(tl, br) {
                 "use strict";
@@ -34,6 +34,6 @@ var otherRoot;
                 this.br = br;
             };
             Utils.Plane = Plane;
-        })(Utils2 = A.Utils || (A.Utils = {}));
-    })(A2 = otherRoot1.A || (otherRoot1.A = {}));
+        })(Utils = A.Utils || (A.Utils = {}));
+    })(A = otherRoot.A || (otherRoot.A = {}));
 })(otherRoot || (otherRoot = {}));

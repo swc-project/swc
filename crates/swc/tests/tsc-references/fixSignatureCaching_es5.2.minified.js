@@ -1,6 +1,6 @@
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
-!function(define, undefined) {
-    define(function() {
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+!function(define1, undefined) {
+    define1(function() {
         "use strict";
         var equalIC = function(a, b) {
             return null != a && null != b && a.toLowerCase() === b.toLowerCase();
@@ -10,7 +10,7 @@ import _instanceof from "@swc/helpers/lib/_instanceof.js";
             for(i = 0, valueLC = value.toLowerCase(); i < len; ++i)if (valueLC === array[i].toLowerCase()) return !0;
             return !1;
         }, convertPropsToRegExp = function(object) {
-            for(var key in object)hasOwnProp.call(object, key) && (object[key] = new RegExp(object[key], "i"));
+            for(var key in object)hasOwnProp.call(object, key) && (object[key] = RegExp(object[key], "i"));
         }, MobileDetect = function(userAgent, maxPhoneWidth) {
             this.ua = userAgent || "", this._cache = {}, this.maxPhoneWidth = maxPhoneWidth || 600;
         }, impl = {};
@@ -301,7 +301,7 @@ import _instanceof from "@swc/helpers/lib/_instanceof.js";
             for(key in mobileDetectRules.props)if (hasOwnProp.call(mobileDetectRules.props, key)) {
                 for(isArray(values = mobileDetectRules.props[key]) || (values = [
                     values
-                ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf("[VER]")) >= 0 && (value = value.substring(0, verPos) + "([\\w._\\+]+)" + value.substring(verPos + 5)), values[i] = new RegExp(value, "i");
+                ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf("[VER]")) >= 0 && (value = value.substring(0, verPos) + "([\\w._\\+]+)" + value.substring(verPos + 5)), values[i] = RegExp(value, "i");
                 mobileDetectRules.props[key] = values;
             }
             convertPropsToRegExp(mobileDetectRules.oss), convertPropsToRegExp(mobileDetectRules.phones), convertPropsToRegExp(mobileDetectRules.tablets), convertPropsToRegExp(mobileDetectRules.uas), convertPropsToRegExp(mobileDetectRules.utils), mobileDetectRules.oss0 = {
@@ -381,7 +381,7 @@ import _instanceof from "@swc/helpers/lib/_instanceof.js";
                 return containsIC(this.userAgents(), key) || equalIC(key, this.os()) || equalIC(key, this.phone()) || equalIC(key, this.tablet()) || containsIC(impl.findMatches(impl.mobileDetectRules.utils, this.ua), key);
             },
             match: function(pattern) {
-                return _instanceof(pattern, RegExp) || (pattern = new RegExp(pattern, "i")), pattern.test(this.ua);
+                return _instanceof(pattern, RegExp) || (pattern = RegExp(pattern, "i")), pattern.test(this.ua);
             },
             isPhoneSized: function(maxPhoneWidth) {
                 return MobileDetect.isPhoneSized(maxPhoneWidth || this.maxPhoneWidth);
@@ -401,5 +401,5 @@ import _instanceof from "@swc/helpers/lib/_instanceof.js";
     if ("undefined" != typeof window) return function(factory) {
         window.MobileDetect = factory();
     };
-    throw new Error("unknown environment");
+    throw Error("unknown environment");
 }());

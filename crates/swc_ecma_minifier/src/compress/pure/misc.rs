@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ExprExt, Type,
+    ExprExt, ExprFactory, Type,
     Value::{self, Known},
 };
 
@@ -230,6 +230,217 @@ impl Pure<'_> {
         }
     }
 
+    /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
+    fn optimize_regex(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        if args.is_empty() || args.len() > 2 {
+            return None;
+        }
+
+        // We aborts the method if arguments are not literals.
+        if args.iter().any(|v| {
+            v.spread.is_some()
+                || match &*v.expr {
+                    Expr::Lit(Lit::Str(s)) => {
+                        if s.value.contains(|c: char| {
+                            // whitelist
+                            !c.is_ascii_alphanumeric()
+                                && !matches!(c, '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+')
+                        }) {
+                            return true;
+                        }
+                        if s.value.contains("\\\0") || s.value.contains('/') {
+                            return true;
+                        }
+
+                        false
+                    }
+                    _ => true,
+                }
+        }) {
+            return None;
+        }
+
+        let pattern = args[0].expr.take();
+
+        let pattern = match *pattern {
+            Expr::Lit(Lit::Str(s)) => s.value,
+            _ => {
+                unreachable!()
+            }
+        };
+
+        if pattern.is_empty() {
+            // For some expressions `RegExp()` and `RegExp("")`
+            // Theoretically we can use `/(?:)/` to achieve shorter code
+            // But some browsers released in 2015 don't support them yet.
+            args[0].expr = pattern.into();
+            return None;
+        }
+
+        let flags = args
+            .get_mut(1)
+            .map(|v| v.expr.take())
+            .map(|v| match *v {
+                Expr::Lit(Lit::Str(s)) => {
+                    assert!(s.value.is_ascii());
+
+                    let s = s.value.to_string();
+                    let mut bytes = s.into_bytes();
+                    bytes.sort_unstable();
+
+                    String::from_utf8(bytes).unwrap().into()
+                }
+                _ => {
+                    unreachable!()
+                }
+            })
+            .unwrap_or(js_word!(""));
+
+        Some(Expr::Lit(Lit::Regex(Regex {
+            span: *span,
+            exp: pattern,
+            flags,
+        })))
+    }
+
+    /// Array() -> []
+    fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        if args.len() == 1 {
+            if let ExprOrSpread { spread: None, expr } = &args[0] {
+                match &**expr {
+                    Expr::Lit(Lit::Num(num)) => {
+                        if num.value <= 5_f64 && num.value >= 0_f64 {
+                            Some(Expr::Array(ArrayLit {
+                                span: *span,
+                                elems: vec![None; num.value as usize],
+                            }))
+                        } else {
+                            None
+                        }
+                    }
+                    Expr::Lit(_) => Some(Expr::Array(ArrayLit {
+                        span: *span,
+                        elems: vec![args.take().into_iter().next()],
+                    })),
+                    _ => None,
+                }
+            } else {
+                None
+            }
+        } else {
+            Some(Expr::Array(ArrayLit {
+                span: *span,
+                elems: args.take().into_iter().map(Some).collect(),
+            }))
+        }
+    }
+
+    /// Object -> {}
+    fn optimize_object(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        if args.is_empty() {
+            Some(Expr::Object(ObjectLit {
+                span: *span,
+                props: Vec::new(),
+            }))
+        } else {
+            None
+        }
+    }
+
+    /// new Array(...) -> Array(...)
+    pub(super) fn optimize_builtin_object(&mut self, e: &mut Expr) {
+        if !self.options.pristine_globals {
+            return;
+        }
+
+        match e {
+            Expr::New(NewExpr {
+                span,
+                callee,
+                args: Some(args),
+                ..
+            })
+            | Expr::Call(CallExpr {
+                span,
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) if callee
+                .is_one_of_global_ref_to(&self.expr_ctx, &["Array", "Object", "RegExp"]) =>
+            {
+                let new_expr = match &**callee {
+                    Expr::Ident(Ident {
+                        sym: js_word!("RegExp"),
+                        ..
+                    }) => self.optimize_regex(args, span),
+                    Expr::Ident(Ident {
+                        sym: js_word!("Array"),
+                        ..
+                    }) => self.optimize_array(args, span),
+                    Expr::Ident(Ident {
+                        sym: js_word!("Object"),
+                        ..
+                    }) => self.optimize_object(args, span),
+                    _ => unreachable!(),
+                };
+
+                if let Some(new_expr) = new_expr {
+                    report_change!(
+                        "Converting Regexp/Array/Object call to native constructor into literal"
+                    );
+                    self.changed = true;
+                    *e = new_expr;
+                    return;
+                }
+            }
+            _ => {}
+        };
+
+        match e {
+            Expr::New(NewExpr {
+                span,
+                callee,
+                args,
+                type_args,
+            }) if callee.is_one_of_global_ref_to(
+                &self.expr_ctx,
+                &[
+                    "Object",
+                    // https://262.ecma-international.org/12.0/#sec-array-constructor
+                    "Array",
+                    // https://262.ecma-international.org/12.0/#sec-function-constructor
+                    "Function",
+                    // https://262.ecma-international.org/12.0/#sec-regexp-constructor
+                    "RegExp",
+                    // https://262.ecma-international.org/12.0/#sec-error-constructor
+                    "Error",
+                    // https://262.ecma-international.org/12.0/#sec-aggregate-error-constructor
+                    "AggregateError",
+                    // https://262.ecma-international.org/12.0/#sec-nativeerror-object-structure
+                    "EvalError",
+                    "RangeError",
+                    "ReferenceError",
+                    "SyntaxError",
+                    "TypeError",
+                    "URIError",
+                ],
+            ) =>
+            {
+                self.changed = true;
+                report_change!(
+                    "new operator: Compressing `new Array/RegExp/..` => `Array()/RegExp()/..`"
+                );
+                *e = Expr::Call(CallExpr {
+                    span: *span,
+                    callee: callee.take().as_callee(),
+                    args: args.take().unwrap_or_default(),
+                    type_args: type_args.take(),
+                })
+            }
+            _ => {}
+        }
+    }
+
     /// Removes last return statement. This should be callled only if the return
     /// value of function is ignored.
     ///
@@ -436,7 +647,6 @@ impl Pure<'_> {
         }))
     }
 
-    #[inline(never)]
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr, opts: DropOpts) {
         self.optimize_expr_in_bool_ctx(e, true);
 
@@ -761,25 +971,37 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
-                Expr::New(NewExpr { callee, args, .. }) => {
-                    if let Expr::Ident(i) = &**callee {
-                        match &*i.sym {
-                            "Map" | "Set" | "Array" | "Object" | "Boolean" | "Number" => {
-                                if i.span.ctxt.outer() == self.marks.unresolved_mark {
-                                    report_change!("Dropping a pure new expression");
+                Expr::New(NewExpr { callee, args, .. })
+                    if callee.is_one_of_global_ref_to(
+                        &self.expr_ctx,
+                        &["Map", "Set", "Array", "Object", "Boolean", "Number"],
+                    ) =>
+                {
+                    report_change!("Dropping a pure new expression");
 
-                                    self.changed = true;
-                                    *e = self
-                                        .make_ignored_expr(
-                                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
-                                        )
-                                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                                    return;
-                                }
-                            }
-                            _ => {}
-                        }
-                    }
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(args.iter_mut().flatten().map(|arg| arg.expr.take()))
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
+                }
+
+                Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    args,
+                    ..
+                }) if callee.is_one_of_global_ref_to(
+                    &self.expr_ctx,
+                    &["Array", "Object", "Boolean", "Number"],
+                ) =>
+                {
+                    report_change!("Dropping a pure call expression");
+
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(args.iter_mut().map(|arg| arg.expr.take()))
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
                 }
 
                 Expr::Object(obj) => {

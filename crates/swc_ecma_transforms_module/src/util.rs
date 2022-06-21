@@ -412,7 +412,7 @@ impl Scope {
                     }
                     ImportSpecifier::Default(i) => {
                         // Helpers are special.
-                        if import.src.value.starts_with("@swc/helpers/lib") {
+                        if import.src.value.starts_with("@swc/helpers/src/") {
                             let ident = i.local.clone();
 
                             self.imports
@@ -935,9 +935,9 @@ pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
         return false;
     }
 
-    if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &*stmts.first().unwrap() {
+    if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first().unwrap() {
         if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
-            return &*value == "use strict";
+            return value == "use strict";
         }
     }
 

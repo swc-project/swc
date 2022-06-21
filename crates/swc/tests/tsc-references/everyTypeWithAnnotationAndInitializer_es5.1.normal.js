@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
@@ -11,7 +11,7 @@ function F(x) {
     return 42;
 }
 var M;
-(function(M1) {
+(function(M) {
     var F2 = function F2(x) {
         return x.toString();
     };
@@ -19,8 +19,8 @@ var M;
         "use strict";
         _class_call_check(this, A);
     };
-    M1.A = A;
-    M1.F2 = F2;
+    M.A = A;
+    M.F2 = F2;
 })(M || (M = {}));
 var aNumber = 9.9;
 var aString = "this is a string";

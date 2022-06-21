@@ -1,14 +1,14 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
-(function(A1) {
+(function(A) {
     var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
         this.x = x;
         this.y = y;
     };
-    A1.Point = Point;
-    var Origin = A1.Origin = new Point(0, 0);
+    A.Point = Point;
+    var Origin = A.Origin = new Point(0, 0);
 })(A || (A = {}));
 // no code gen expected
 var C;
@@ -27,10 +27,10 @@ var D;
     var p = new a.Point(1, 1);
 })(D || (D = {}));
 var E;
-(function(E1) {
+(function(E) {
     var xDist = function xDist(x) {
         return a.Origin.x - x.x;
     };
     var a = A;
-    E1.xDist = xDist;
+    E.xDist = xDist;
 })(E || (E = {}));

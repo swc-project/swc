@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var M, A = function() {
     "use strict";
     function A() {
@@ -8,9 +8,9 @@ var M, A = function() {
         return 1;
     }, A;
 }();
-!function(M1) {
+!function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 }(M || (M = {}));
 var objA = new A();
 objA.a, M.n, A.foo(), objA.a, M.n, objA.a, M.n;

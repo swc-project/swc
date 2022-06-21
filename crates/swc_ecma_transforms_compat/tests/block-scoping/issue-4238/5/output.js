@@ -1,5 +1,5 @@
 var _loop = function(i) {
-    var _loop1 = function(j) {
+    var _loop = function(j) {
         if (i < 2) return "continue|b";
         [
             1
@@ -8,7 +8,7 @@ var _loop = function(i) {
         });
     };
     b: for(var j = 0; j < 4; ++j){
-        var _ret = _loop1(j);
+        var _ret = _loop(j);
         switch(_ret){
             case "continue|b":
                 continue b;

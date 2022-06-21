@@ -5,16 +5,247 @@
 
 
 
+- **(es/lints)** Allow duplicate function in non-top level (#5011) ([4a422a0](https://github.com/swc-project/swc/commit/4a422a09a4a933b7db085d936d16dbf53e518956))
+
+
+- **(es/parser)** Don't panic on an invalid import meta property (#4994) ([53a8cb1](https://github.com/swc-project/swc/commit/53a8cb12094b15aed1667f844abfefea1420d3d2))
+
+
+- **(es/parser)** Allow instantiation expression followed by a line break or a binary operator (#5000) ([a62b2b3](https://github.com/swc-project/swc/commit/a62b2b32446613fca0a6193c93c19f1e0b86c3b0))
+
+
+- **(es/transforms)** Add custom `Sync` + `Send` for the renamer (#5018) ([fd73895](https://github.com/swc-project/swc/commit/fd73895a7be31b24a2795e38c1e7729086656023))
+
+
+- **(es/typescript)** Preserve `export = ` for AMD (#4995) ([d736b31](https://github.com/swc-project/swc/commit/d736b31e08771c3ca243e6875a11bef1a2937c85))
+
+
+- **(html/minifier)** Avoid optional attributes (#5016) ([f1fd83d](https://github.com/swc-project/swc/commit/f1fd83dcc70aff7d27d0bd0d4f0954dc5dc8cbbd))
+
+### Documentation
+
+
+
+- **(readme)** Add a link for discord badge in `README.md` (#5005) ([1f64055](https://github.com/swc-project/swc/commit/1f64055438f1867683fc0fb3b3bef88ca077ff0c))
+
+### Features
+
+
+
+- **(html/minifier)** Compress more svg/mathml attributes (#5001) ([1538649](https://github.com/swc-project/swc/commit/15386492372bd8bf322bd60a71ebdff54a15ebf8))
+
+
+- **(html/minifier)** Add an API to minify document fragments (#5002) ([7745fbf](https://github.com/swc-project/swc/commit/7745fbf604d6c3c8daeb61eced8c01b464e385db))
+
+
+- **(html/minifier)** Minify js (#4999) ([28bc735](https://github.com/swc-project/swc/commit/28bc735d03987dd965fdefe7284b30bee3346a3a))
+
+### Testing
+
+
+
+- **(es/helpers)** Unify code path for testing external helpers (#5010) ([125549b](https://github.com/swc-project/swc/commit/125549b7a96d5a91101e1a96a0bb39214e252800))
+
+
+- **(es/minifier)** Add a test case for the minifier (#5013) ([eedcb11](https://github.com/swc-project/swc/commit/eedcb114a2df09d88995c1b58ea1d1980831a02d))
+
+
+- **(es/parser)** Add a test case for instantiation expr (#5014) ([6bcb925](https://github.com/swc-project/swc/commit/6bcb92598b5c71fee407b4f4be7da85d36a0735d))
+
+## [1.2.204] - 2022-06-18
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Fix `module` field in `package.json` of `@swc/helpers` (#4978) ([5123c20](https://github.com/swc-project/swc/commit/5123c20b5d765db0fa645a1d4ba2820d5eeddc9c))
+
+
+- **(es/helpers)** Use `.mjs` extension in helper imports (#4979) ([9484cf8](https://github.com/swc-project/swc/commit/9484cf81a1cef43059bea98c20a6fa8cef6802d1))
+
+
+- **(es/parser)** Fix binary operator parsed as an instantiation expression (#4992) ([36ef3e4](https://github.com/swc-project/swc/commit/36ef3e4507d949187b83c1bf7ecd6b31eef50a73))
+
+
+- **(es/resolver)** Make catch parameter not disturb resolving (#4976) ([b3f6f20](https://github.com/swc-project/swc/commit/b3f6f20721b90b03a67c1db5d9680147ffe13923))
+
+
+- **(html/codegen)** Handle optional tags (#4986) ([41dc0a7](https://github.com/swc-project/swc/commit/41dc0a7aa9c7c48dd9a47b3ac61422419c3e879e))
+
+
+- **(html/minifier)** Fix removal of comments (#4974) ([8e63b0b](https://github.com/swc-project/swc/commit/8e63b0bbd528b48122a3cef1164a512fbd4952e8))
+
+### Documentation
+
+
+
+- **(*)** Add more badges (#4982) ([cb30ba2](https://github.com/swc-project/swc/commit/cb30ba2ad4df7cd04af49f3e7ff41e2be9649dac))
+
+### Features
+
+
+
+- **(es/config)** Add `isModule` to `.swcrc` (#4993) ([e85c0db](https://github.com/swc-project/swc/commit/e85c0db92689d0eaf656ac869b6cb16ebec43b6f))
+
+
+- **(html/codegen)** Add option for tag omission of self closing void elements (#4971) ([d07ab2c](https://github.com/swc-project/swc/commit/d07ab2cb91a68ef88bd9adbdcc18217818a0c31d))
+
+
+- **(html/minifier)** Compress CSS (#4973) ([3e6c0f5](https://github.com/swc-project/swc/commit/3e6c0f567a50e1b0a8ba097b3f13b866efd6ebfa))
+
+
+- **(html/minifier)** Add `preserve_comments` option (#4959) ([2e52c18](https://github.com/swc-project/swc/commit/2e52c18a6b4ea4d58c219253c159af86a189ce26))
+
+
+- **(html/minifier)** Add an option to set html5 doctype (#4980) ([fb74ace](https://github.com/swc-project/swc/commit/fb74ace19b2aa06f38ef0803bea500a8a5d8f165))
+
+
+- **(html/minifier)** Minify conditional comments (#4975) ([713a256](https://github.com/swc-project/swc/commit/713a256ed7fe9c3301d751575f298f1462434fc0))
+
+### Performance
+
+
+
+- **(es/hygiene)** Make `hygiene` faster (#4952) ([36d960c](https://github.com/swc-project/swc/commit/36d960c7e908f6924ce9b0fd23ce4cd972dbbba0))
+
+### Refactor
+
+
+
+- **(es/minifier)** Use `Program` instead of `Module` (#4969) ([99a474c](https://github.com/swc-project/swc/commit/99a474cb2d18f2741277a64b8524300d3977cc66))
+
+### Testing
+
+
+
+- **(html)** Remove files which are too large too verify (#4983) ([364a34c](https://github.com/swc-project/swc/commit/364a34cd7093a3bc7ca6e7e5cf2cba0844eba9c8))
+
+## [1.2.203] - 2022-06-14
+
+### Bug Fixes
+
+
+
+- **(ci)** Revert malloc changes ([709ad3e](https://github.com/swc-project/swc/commit/709ad3e087e833c5bc69c887ca963e4b7a9a81f7))
+
+
+- **(common)** Don't use `get_unchecked` after setting the length to 0 (#4943) ([f479951](https://github.com/swc-project/swc/commit/f479951ef2f1c9eff8e020c9fc46e78e16855a24))
+
+
+- **(css/parser)** Fix input buffer and improve error recovery (#4948) ([bf74d05](https://github.com/swc-project/swc/commit/bf74d05f3fb6ddb2f29a4808b64860021cbd4f5b))
+
+
+- **(es/helpers)** Allow using external helpers with `type: module` (#4962) ([4a27e6f](https://github.com/swc-project/swc/commit/4a27e6f84a9a4e99d161664fa1441b1278756023))
+
+
+- **(es/parser)** Don't assume the length of char (#4967) ([3e03ebf](https://github.com/swc-project/swc/commit/3e03ebf8bb527d3237b309c3df3a24bc9ebf7314))
+
+### Features
+
+
+
+- **(es/lints)** Add `constructor-super` rule (#4912) ([6daeeb0](https://github.com/swc-project/swc/commit/6daeeb0652513af7435c2197d74734c89965d66e))
+
+
+- **(es/minifier)** Turn `Array`/`Object` calls into literals (#4947) ([47bdc6a](https://github.com/swc-project/swc/commit/47bdc6a6b13c5a4d6b85d4e3a0e729126c7b5f9d))
+
+
+- **(html)** Support self-closing flag (#4950) ([5c2a918](https://github.com/swc-project/swc/commit/5c2a918946105d26d107b8bd869ee5dc76c9c04d))
+
+
+- **(html/minifier)** Compress whitespaces (#4916) ([f2690cc](https://github.com/swc-project/swc/commit/f2690cce08bf2e922b7eb9146288ca78ad0eeed4))
+
+
+- **(html/minifier)** Add `remove_empty_attributes` option (#4958) ([63d630d](https://github.com/swc-project/swc/commit/63d630d47761f1ab9c60a40c5bedf8542366f975))
+
+
+- **(html/minifier)** Add `collapse_boolean_attributes` option (#4960) ([3957bc6](https://github.com/swc-project/swc/commit/3957bc64b7d278cdf737e9da514fa94780044be2))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Test `concurrent` (#4955) ([1a9f935](https://github.com/swc-project/swc/commit/1a9f93546bf1c9192baa562a419648cfe5d199fc))
+
+
+- **(ci)** Use macos for release builds (#4968) ([1bf2b80](https://github.com/swc-project/swc/commit/1bf2b80f97c736cc7aae1a9c04325044839d0a3b))
+
+
+- **(ci)** Fix publish build on Windows (#4970) ([db9f7a5](https://github.com/swc-project/swc/commit/db9f7a5ad4d830b1b1e42e7aa09a2edc935a8ad1))
+
+### Performance
+
+
+
+- **(common)** Add `Atom` type (#4945) ([4ada9c7](https://github.com/swc-project/swc/commit/4ada9c7e05d1d61e061bf6af5830d10580d671eb))
+
+
+- **(css/parser)** Improve performance of lexer (#4921) ([327969d](https://github.com/swc-project/swc/commit/327969d0d96159ed45a45a92e943d9d426de303c))
+
+
+- **(es/minifier)** Make more things parallel and reduce call stacks (#4915) ([3580638](https://github.com/swc-project/swc/commit/35806385eab405a3a03d88172c94dfefb2599240))
+
+
+- **(es/transforms)** Make rename operator parallel (#4951) ([445d585](https://github.com/swc-project/swc/commit/445d58518dc1ea5ab670f4e3d9e8b833108e1cf7))
+
+### Refactor
+
+
+
+- **(es/resolver)** Prepare parallel `resolver` (#4957) ([ea92a6a](https://github.com/swc-project/swc/commit/ea92a6ab8a17a03d6f8d301fe3373d8282d09218))
+
+
+- **(html/parser)** Remove unused code (#4949) ([42a1d7c](https://github.com/swc-project/swc/commit/42a1d7c7a11120b8be8dbd7a29a6401d60062d70))
+
+### Testing
+
+
+
+- **(css/parser)** Improve tests (#4963) ([1b7b4f0](https://github.com/swc-project/swc/commit/1b7b4f0cb4b331d5ad861e3721c2fcd14322b2e4))
+
+## [1.2.199] - 2022-06-11
+
+### Bug Fixes
+
+
+
+- **(ci)** Fix android build issue caused by NDK 21 -> 23 (#4942) ([52e2347](https://github.com/swc-project/swc/commit/52e23470e71e769e980f1e0d291ebf4a984bbfb8))
+
+
+- **(es/decorators)** Fix syntax context of decorated classes (#4905) ([814f72f](https://github.com/swc-project/swc/commit/814f72f22454861db2c84aebd40fb6fba6906ac2))
+
+
 - **(es/fixer)** Preserve parens in optional calls (#4923) ([5bb417e](https://github.com/swc-project/swc/commit/5bb417ef88b545505d24ccf5dad8b72b13a58fcd))
 
 
+- **(es/helpers)** Fix syntax context of helpers (#4900) ([4e3a878](https://github.com/swc-project/swc/commit/4e3a878b48745d90715e8b9f83aa0d7501150e29))
+
+
 - **(es/minifier)** Reserve more symbols on `eval` (#4925) ([be87494](https://github.com/swc-project/swc/commit/be87494495a7708769430362f1852f52f77eb47f))
+
+
+- **(es/modules/amd)** Support `export * as foo from 'foo'` (#4904) ([10f6849](https://github.com/swc-project/swc/commit/10f6849f7aa7a694c582f7150e721ef3b698f0dd))
+
+
+- **(es/parser)** Allow negative bigint literal in types (#4938) ([11db191](https://github.com/swc-project/swc/commit/11db191af5fe41b5b752b8bc77cc61a05372e0bd))
+
+
+- **(es/parser)** Check for line break after async (#4940) ([381d273](https://github.com/swc-project/swc/commit/381d273f11584f25343a54b37a0ff9357192f488))
+
+
+- **(es/resolver)** Hoist namespaces (#4902) ([a9f91dc](https://github.com/swc-project/swc/commit/a9f91dc797cc5d1e96010aa541ba5aa5221b5779))
+
+
+- **(es/transforms)** Fix threshold ([a70c737](https://github.com/swc-project/swc/commit/a70c7375062f828fd47dd2bc0562b18a3c9cdd6f))
 
 
 - **(html/codegen)** Fix quotes in attributes (#4918) ([064e504](https://github.com/swc-project/swc/commit/064e50448fb3a916ce52c537f73cedec2253ed50))
 
 
 - **(html/codegen)** Emit newline in `textarea`/`pre` (#4919) ([4f1e046](https://github.com/swc-project/swc/commit/4f1e04671dcf33fe30dcc0915ea5aa5b0bc19973))
+
+
+- **(html/parser)** Fix spans (#4877) ([70760d2](https://github.com/swc-project/swc/commit/70760d222281774fab655def4703a663fae962ad))
 
 ### Features
 
@@ -23,7 +254,28 @@
 - **(es/lints)** Add `default-case-last` rule (#4913) ([4fb932d](https://github.com/swc-project/swc/commit/4fb932dd0818c76feac01df7ea0c371626b62143))
 
 
+- **(es/lints)** Add `no-await-in-loop` rule (#4936) ([b041f29](https://github.com/swc-project/swc/commit/b041f2911f65b964f0cf1056afcb78e68ace55d9))
+
+
+- **(es/minifier)** Drop `new` token if possible (#4932) ([5940894](https://github.com/swc-project/swc/commit/594089488b8b3498d59fb8e07c518ef2071d83bb))
+
+
+- **(es/modules/amd)** Convert ts import equals to normal AMD import (#4906) ([36a82cc](https://github.com/swc-project/swc/commit/36a82ccfc95ca3b67741c20565f4e7c886711e68))
+
+
+- **(html/codegen)** Support context element (#4887) ([ae1ff1e](https://github.com/swc-project/swc/commit/ae1ff1e55b4be7d9f611ebbbc0fdaac1d5591ac5))
+
+
+- **(html/codegen)** Improve entity compression (#4889) ([da09c1c](https://github.com/swc-project/swc/commit/da09c1ca5bc79e63aaf2b4d03b03b216b88ce049))
+
+
 - **(html/codegen)** Minify svg attributes (#4917) ([f157aae](https://github.com/swc-project/swc/commit/f157aae40cb11d3ecb18f03f5a32cb4423cfab8b))
+
+
+- **(plugin)** Upgrade `wasmer` (#4929) ([b30032d](https://github.com/swc-project/swc/commit/b30032dd46124b476c3e0ebd94a1845120161ff1))
+
+
+- **(preset-env)** Upgrade `browserslist-rs` (#4903) ([f7c89c5](https://github.com/swc-project/swc/commit/f7c89c5b601e2fa71eb2f2c0ce56a717fb469c0b))
 
 ### Miscellaneous Tasks
 
@@ -38,45 +290,7 @@
 - **(es/minifier)** Change default pass limit to 2 (#4924) ([fc0d8e3](https://github.com/swc-project/swc/commit/fc0d8e3f74d61ccbf37d5bb2e2ba6bf85561db97))
 
 
-- **(html/parser)** Add a benchmark for document fragment (#4920) ([d669454](https://github.com/swc-project/swc/commit/d669454157da62f9bec4b078230e4e372efd91e3))
-
-## [1.2.198] - 2022-06-08
-
-### Bug Fixes
-
-
-
-- **(es/decorators)** Fix syntax context of decorated classes (#4905) ([814f72f](https://github.com/swc-project/swc/commit/814f72f22454861db2c84aebd40fb6fba6906ac2))
-
-
-- **(es/helpers)** Fix syntax context of helpers (#4900) ([4e3a878](https://github.com/swc-project/swc/commit/4e3a878b48745d90715e8b9f83aa0d7501150e29))
-
-
-- **(es/modules/amd)** Support `export * as foo from 'foo'` (#4904) ([10f6849](https://github.com/swc-project/swc/commit/10f6849f7aa7a694c582f7150e721ef3b698f0dd))
-
-
-- **(es/resolver)** Hoist namespaces (#4902) ([a9f91dc](https://github.com/swc-project/swc/commit/a9f91dc797cc5d1e96010aa541ba5aa5221b5779))
-
-
-- **(html/parser)** Fix spans (#4877) ([70760d2](https://github.com/swc-project/swc/commit/70760d222281774fab655def4703a663fae962ad))
-
-### Features
-
-
-
-- **(es/modules/amd)** Convert ts import equals to normal AMD import (#4906) ([36a82cc](https://github.com/swc-project/swc/commit/36a82ccfc95ca3b67741c20565f4e7c886711e68))
-
-
-- **(html/codegen)** Support context element (#4887) ([ae1ff1e](https://github.com/swc-project/swc/commit/ae1ff1e55b4be7d9f611ebbbc0fdaac1d5591ac5))
-
-
-- **(html/codegen)** Improve entity compression (#4889) ([da09c1c](https://github.com/swc-project/swc/commit/da09c1ca5bc79e63aaf2b4d03b03b216b88ce049))
-
-
-- **(preset-env)** Upgrade `browserslist-rs` (#4903) ([f7c89c5](https://github.com/swc-project/swc/commit/f7c89c5b601e2fa71eb2f2c0ce56a717fb469c0b))
-
-### Performance
-
+- **(es/transforms)** Make transforms parallel (#4939) ([35c93be](https://github.com/swc-project/swc/commit/35c93be60f645fb71bc67f8c7e4fbe6ad5120615))
 
 
 - **(html/parser)** Improve performance (#4881) ([5abe847](https://github.com/swc-project/swc/commit/5abe847c2358ee9876140772f16d303c388cbbb5))
@@ -87,8 +301,17 @@
 
 - **(html/parser)** Reduce cloning (#4901) ([e365766](https://github.com/swc-project/swc/commit/e3657660701366ca5c5e03876fe032d5a011b92a))
 
+
+- **(html/parser)** Add a benchmark for document fragment (#4920) ([d669454](https://github.com/swc-project/swc/commit/d669454157da62f9bec4b078230e4e372efd91e3))
+
+
+- **(html/parser)** Improve performance (#4934) ([f993a52](https://github.com/swc-project/swc/commit/f993a526797ec3e2119828b129bf9aad3b1c28d8))
+
 ### Refactor
 
+
+
+- **(es/lints)** Simplify `no-empty-pattern` rule (#4928) ([286f265](https://github.com/swc-project/swc/commit/286f265632b1af6a2b6ebdd495a0c9a5e7af6260))
 
 
 - **(html/ast)** Avoid `TokenAndSpan` (#4885) ([b14719c](https://github.com/swc-project/swc/commit/b14719c046584878424f794a86c7a0793f7033be))

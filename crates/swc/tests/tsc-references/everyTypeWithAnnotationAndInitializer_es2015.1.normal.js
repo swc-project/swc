@@ -6,14 +6,14 @@ function F(x) {
     return 42;
 }
 var M;
-(function(M1) {
+(function(M) {
     class A {
     }
-    M1.A = A;
+    M.A = A;
     function F2(x) {
         return x.toString();
     }
-    M1.F2 = F2;
+    M.F2 = F2;
 })(M || (M = {}));
 var aNumber = 9.9;
 var aString = 'this is a string';

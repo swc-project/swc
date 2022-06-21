@@ -1,11 +1,11 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
-(function(A1) {
+(function(A) {
     var Point = function Point() {
         "use strict";
         _class_call_check(this, Point);
     };
-    A1.Point = Point;
+    A.Point = Point;
 })(A || (A = {}));
 (function(A) {
     var Point = /*#__PURE__*/ function() {
@@ -14,10 +14,10 @@ var A;
             _class_call_check(this, Point);
         }
         var _proto = Point.prototype;
-        _proto.fromCarthesian = function fromCarthesian(p1) {
+        _proto.fromCarthesian = function fromCarthesian(p) {
             return {
-                x: p1.x,
-                y: p1.y
+                x: p.x,
+                y: p.y
             };
         };
         return Point;
@@ -27,21 +27,21 @@ var A;
 var p;
 var p;
 var X;
-(function(X1) {
-    var Y1;
+(function(X) {
+    var Y;
     (function(Y) {
-        var Z1;
+        var Z;
         (function(Z) {
             var Line = function Line() {
                 "use strict";
                 _class_call_check(this, Line);
             };
             Z.Line = Line;
-        })(Z1 = Y.Z || (Y.Z = {}));
-    })(Y1 = X1.Y || (X1.Y = {}));
+        })(Z = Y.Z || (Y.Z = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
-(function(X2) {
-    var Y2;
+(function(X) {
+    var Y;
     (function(Y) {
         var Z;
         (function(Z) {
@@ -50,7 +50,7 @@ var X;
                 _class_call_check(this, Line);
             };
         })(Z = Y.Z || (Y.Z = {}));
-    })(Y2 = X2.Y || (X2.Y = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 // ensure merges as expected
 var l;

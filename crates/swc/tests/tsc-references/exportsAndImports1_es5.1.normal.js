@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: t3.ts
 import { I, T } from "./t1";
 // @module: commonjs
@@ -22,9 +22,9 @@ var D;
     D[D["C"] = 2] = "C";
 })(D || (D = {}));
 var M;
-(function(M1) {
+(function(M) {
     var x;
-    M1.x = x;
+    M.x = x;
 })(M || (M = {}));
 var a = M.x;
 export { v, f, C, E, D, M, N, a };

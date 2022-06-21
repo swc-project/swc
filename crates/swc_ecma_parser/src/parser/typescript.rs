@@ -556,10 +556,21 @@ impl<I: Tokens> Parser<I> {
 
         self.try_parse_ts(|p| {
             let type_args = p.parse_ts_type_args()?;
-            if p.is_start_of_expr()? {
+            if is_one_of!(
+                p, '<', // invalid syntax
+                '>', '+', '-', // becomes relational expression
+                /* these should be type arguments in function call or template,
+                 * not instantiation expression */
+                '(', '`'
+            ) {
                 Ok(None)
-            } else {
+            } else if p.input.had_line_break_before_cur()
+                || matches!(cur!(p, false), Ok(Token::BinOp(..)))
+                || !p.is_start_of_expr()?
+            {
                 Ok(Some(type_args))
+            } else {
+                Ok(None)
             }
         })
     }
@@ -2058,8 +2069,8 @@ impl<I: Tokens> Parser<I> {
 
                 bump!(self);
 
-                if !matches!(*cur!(self, true)?, Token::Num { .. }) {
-                    unexpected!(self, "a numeric literal")
+                if !matches!(*cur!(self, true)?, Token::Num { .. } | Token::BigInt { .. }) {
+                    unexpected!(self, "numeric literal or bigint literal")
                 }
 
                 let lit = self.parse_lit()?;
@@ -2077,6 +2088,24 @@ impl<I: Tokens> Parser<I> {
                         };
 
                         TsLit::Number(Number {
+                            span,
+                            value: -value,
+                            raw: Some(new_raw.into()),
+                        })
+                    }
+                    Lit::BigInt(BigInt { span, value, raw }) => {
+                        let mut new_raw = String::from("-");
+
+                        match raw {
+                            Some(raw) => {
+                                new_raw.push_str(&raw);
+                            }
+                            _ => {
+                                write!(new_raw, "{}", value).unwrap();
+                            }
+                        };
+
+                        TsLit::BigInt(BigInt {
                             span,
                             value: -value,
                             raw: Some(new_raw.into()),

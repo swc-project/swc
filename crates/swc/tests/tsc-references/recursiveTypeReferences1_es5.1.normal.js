@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 var a0 = 1;
 var a1 = [
     1,
@@ -233,8 +233,8 @@ function parse(node) {
         ]);
     }));
 }
-function cons(hs1) {
-    return hs1.reduce(function(hss, h) {
+function cons(hs) {
+    return hs.reduce(function(hss, h) {
         var _$hs = hss.pop();
         return _$hs.length === 0 || level(h) > level(_$hs[0]) ? concat(hss, [
             concat(_$hs, [

@@ -1,11 +1,11 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var AbstractBase = function AbstractBase() {
     "use strict";
     _class_call_check(this, AbstractBase);
 };
-function Mixin2(baseClass1) {
+function Mixin2(baseClass) {
     // must be `abstract` because we cannot know *all* of the possible abstract members that need to be
     // implemented for this to be concrete.
     var MixinClass = /*#__PURE__*/ function(baseClass) {
@@ -20,7 +20,7 @@ function Mixin2(baseClass1) {
         _proto.mixinMethod = function mixinMethod() {};
         MixinClass.staticMixinMethod = function staticMixinMethod() {};
         return MixinClass;
-    }(baseClass1);
+    }(baseClass);
     return MixinClass;
 }
 var DerivedFromAbstract2 = /*#__PURE__*/ function(_superClass) {

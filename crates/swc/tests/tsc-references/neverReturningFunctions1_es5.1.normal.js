@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @strict: true
 // @allowUnreachableCode: false
 // @declaration: true
@@ -23,18 +23,18 @@ function f03(x) {
     fail();
     x; // Unreachable
 }
-function f11(x, fail1) {
-    if (x === undefined) fail1("undefined argument");
+function f11(x, fail) {
+    if (x === undefined) fail("undefined argument");
     x.length; // string
 }
-function f12(x, fail2) {
+function f12(x, fail) {
     if (x >= 0) return x;
-    fail2("negative number");
+    fail("negative number");
     x; // Unreachable
 }
-function f13(x, fail3) {
+function f13(x, fail) {
     x; // string
-    fail3();
+    fail();
     x; // Unreachable
 }
 function f21(x) {
@@ -142,13 +142,13 @@ function f42(x) {
     x; // Unreachable
 }
 function f43() {
-    var fail4 = function() {
+    var fail = function() {
         throw new Error();
     };
     var f = [
-        fail4
+        fail
     ];
-    fail4(); // No effect (missing type annotation)
+    fail(); // No effect (missing type annotation)
     f[0](); // No effect (not a dotted name)
     f;
 }

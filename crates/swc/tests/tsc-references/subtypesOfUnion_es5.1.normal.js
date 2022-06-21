@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var E;
 (function(E) {
     E[E["e1"] = 0] = "e1";
@@ -13,8 +13,8 @@ var A2 = function A2() {
     _class_call_check(this, A2);
 };
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var c = function c() {
     "use strict";

@@ -1,15 +1,15 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var enumdule;
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";
     enumdule[enumdule["Blue"] = 1] = "Blue";
 })(enumdule || (enumdule = {}));
 (function(enumdule) {
-    var Point = function Point(x1, y1) {
+    var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
-        this.x = x1;
-        this.y = y1;
+        this.x = x;
+        this.y = y;
     };
     enumdule.Point = Point;
 })(enumdule || (enumdule = {}));

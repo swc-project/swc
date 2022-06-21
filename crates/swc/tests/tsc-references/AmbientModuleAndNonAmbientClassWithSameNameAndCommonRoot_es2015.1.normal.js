@@ -1,13 +1,13 @@
 // @filename: classPoint.ts
 var A;
-(function(A1) {
+(function(A) {
     class Point {
         constructor(x, y){
             this.x = x;
             this.y = y;
         }
     }
-    A1.Point = Point;
+    A.Point = Point;
 })(A || (A = {}));
 // @filename: test.ts
 var p;

@@ -1,16 +1,16 @@
 var Root, otherRoot;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-!function(Root1) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(Root) {
     var A;
-    ((A = Root1.A || (Root1.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
+    ((A = Root.A || (Root.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
         return {
             x: p.y,
             y: p.x
         };
     };
-}(Root || (Root = {})), function(otherRoot1) {
+}(Root || (Root = {})), function(otherRoot) {
     var A, Utils, Plane;
-    (A = otherRoot1.A || (otherRoot1.A = {})).Origin = {
+    (A = otherRoot.A || (otherRoot.A = {})).Origin = {
         x: 0,
         y: 0
     }, Utils = A.Utils || (A.Utils = {}), Plane = function(tl, br) {

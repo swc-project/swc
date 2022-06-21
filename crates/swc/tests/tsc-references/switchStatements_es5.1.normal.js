@@ -1,13 +1,13 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _type_of from "@swc/helpers/lib/_type_of.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var M;
-(function(M1) {
+(function(M) {
     var fn = function fn(x) {
         return "";
     };
-    M1.fn = fn;
+    M.fn = fn;
 })(M || (M = {}));
 var x;
 switch(x){

@@ -5,8 +5,8 @@ var x = function() {
 var x;
 var y;
 var y;
-var y2 = function(x1) {
-    return x1;
+var y2 = function(x) {
+    return x;
 };
 var z;
 var z;

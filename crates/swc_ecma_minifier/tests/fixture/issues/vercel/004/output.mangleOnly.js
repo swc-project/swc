@@ -1,13 +1,13 @@
 function a() {
-    var d;
-    var e, b, f;
+    var b;
+    var c, d, e;
     _classCallCheck(this, a);
-    for(var g = arguments.length, h = Array(g), c = 0; c < g; c++){
-        h[c] = arguments[c];
+    for(var f = arguments.length, g = Array(f), h = 0; h < f; h++){
+        g[h] = arguments[h];
     }
-    return ((f = ((e = ((b = _possibleConstructorReturn(this, (d = a.__proto__ || Object.getPrototypeOf(a)).call.apply(d, [
+    return ((e = ((c = ((d = _possibleConstructorReturn(this, (b = a.__proto__ || Object.getPrototypeOf(a)).call.apply(b, [
         this
-    ].concat(h)))), b)), (b.storeHighlightedItemReference = function(a) {
-        b.props.onHighlightedItemChange(a === null ? null : a.item);
-    }), e)), _possibleConstructorReturn(b, f));
+    ].concat(g)))), d)), (d.storeHighlightedItemReference = function(a) {
+        d.props.onHighlightedItemChange(a === null ? null : a.item);
+    }), c)), _possibleConstructorReturn(d, e));
 }

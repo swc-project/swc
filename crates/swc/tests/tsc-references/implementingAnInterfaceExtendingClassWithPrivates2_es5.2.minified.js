@@ -1,28 +1,28 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var M, M2, Foo = function() {
     "use strict";
     _class_call_check(this, Foo);
-}, Bar = function(Foo1) {
+}, Bar = function(Foo) {
     "use strict";
-    _inherits(Bar, Foo1);
+    _inherits(Bar, Foo);
     var _super = _create_super(Bar);
     function Bar() {
         return _class_call_check(this, Bar), _super.apply(this, arguments);
     }
     return Bar;
-}(Foo), Bar2 = function(Foo2) {
+}(Foo), Bar2 = function(Foo) {
     "use strict";
-    _inherits(Bar2, Foo2);
+    _inherits(Bar2, Foo);
     var _super = _create_super(Bar2);
     function Bar2() {
         return _class_call_check(this, Bar2), _super.apply(this, arguments);
     }
     return Bar2;
-}(Foo), Bar3 = function(Foo3) {
+}(Foo), Bar3 = function(Foo) {
     "use strict";
-    _inherits(Bar3, Foo3);
+    _inherits(Bar3, Foo);
     var _super = _create_super(Bar3);
     function Bar3() {
         return _class_call_check(this, Bar3), _super.apply(this, arguments);
@@ -30,79 +30,79 @@ var M, M2, Foo = function() {
     return Bar3;
 }(Foo);
 !function(M) {
-    var Foo4 = function() {
+    var Foo = function() {
         "use strict";
-        _class_call_check(this, Foo4);
-    }, Baz = function(Foo5) {
+        _class_call_check(this, Foo);
+    }, Baz = function(Foo) {
         "use strict";
-        _inherits(Baz, Foo5);
+        _inherits(Baz, Foo);
         var _super = _create_super(Baz);
         function Baz() {
             return _class_call_check(this, Baz), _super.apply(this, arguments);
         }
         return Baz;
-    }(Foo4), Bar = function(Foo6) {
+    }(Foo), Bar = function(Foo) {
         "use strict";
-        _inherits(Bar, Foo6);
+        _inherits(Bar, Foo);
         var _super = _create_super(Bar);
         function Bar() {
             return _class_call_check(this, Bar), _super.apply(this, arguments);
         }
         return Bar;
-    }(Foo4), Bar2 = function(Foo7) {
+    }(Foo), Bar2 = function(Foo) {
         "use strict";
-        _inherits(Bar2, Foo7);
+        _inherits(Bar2, Foo);
         var _super = _create_super(Bar2);
         function Bar2() {
             return _class_call_check(this, Bar2), _super.apply(this, arguments);
         }
         return Bar2;
-    }(Foo4), Bar3 = function(Foo8) {
+    }(Foo), Bar3 = function(Foo) {
         "use strict";
-        _inherits(Bar3, Foo8);
+        _inherits(Bar3, Foo);
         var _super = _create_super(Bar3);
         function Bar3() {
             return _class_call_check(this, Bar3), _super.apply(this, arguments);
         }
         return Bar3;
-    }(Foo4);
+    }(Foo);
 }(M || (M = {})), function(M2) {
-    var b, Foo9 = function() {
+    var b, Foo = function() {
         "use strict";
-        _class_call_check(this, Foo9);
-    }, Baz = function(Foo10) {
+        _class_call_check(this, Foo);
+    }, Baz = function(Foo) {
         "use strict";
-        _inherits(Baz, Foo10);
+        _inherits(Baz, Foo);
         var _super = _create_super(Baz);
         function Baz() {
             return _class_call_check(this, Baz), _super.apply(this, arguments);
         }
         return Baz;
-    }(Foo9), Bar = function(Foo11) {
+    }(Foo), Bar = function(Foo) {
         "use strict";
-        _inherits(Bar, Foo11);
+        _inherits(Bar, Foo);
         var _super = _create_super(Bar);
         function Bar() {
             return _class_call_check(this, Bar), _super.apply(this, arguments);
         }
         return Bar;
-    }(Foo9);
+    }(Foo);
     b.z, b.x, b.y;
-    var Bar2 = function(Foo12) {
+    var Bar2 = function(Foo) {
         "use strict";
-        _inherits(Bar2, Foo12);
+        _inherits(Bar2, Foo);
         var _super = _create_super(Bar2);
         function Bar2() {
             return _class_call_check(this, Bar2), _super.apply(this, arguments);
         }
         return Bar2;
-    }(Foo9), Bar3 = function(Foo13) {
+    }(Foo), Bar3 = function(Foo) {
         "use strict";
-        _inherits(Bar3, Foo13);
+        _inherits(Bar3, Foo);
         var _super = _create_super(Bar3);
         function Bar3() {
             return _class_call_check(this, Bar3), _super.apply(this, arguments);
         }
         return Bar3;
-    }(Foo9);
+    }(Foo);
 }(M2 || (M2 = {}));

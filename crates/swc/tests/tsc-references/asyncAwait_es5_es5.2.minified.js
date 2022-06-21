@@ -1,5 +1,5 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
@@ -158,7 +158,7 @@ var M, C = function() {
         }))();
     }, C;
 }();
-!function(M1) {
+!function(M) {
     function _f1() {
         return (_f1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
@@ -170,7 +170,7 @@ var M, C = function() {
             }, _callee);
         }))).apply(this, arguments);
     }
-    M1.f1 = function() {
+    M.f1 = function() {
         return _f1.apply(this, arguments);
     };
 }(M || (M = {}));

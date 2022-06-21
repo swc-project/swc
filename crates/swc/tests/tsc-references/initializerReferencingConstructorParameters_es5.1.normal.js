@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Initializer expressions for instance member variables are evaluated in the scope of the class constructor body but are not permitted to reference parameters or local variables of the constructor. 
 var C = function C(x1) {
     "use strict";
@@ -6,22 +6,22 @@ var C = function C(x1) {
     this.a = x // error
     ;
 };
-var D = function D(x2) {
+var D = function D(x1) {
     "use strict";
     _class_call_check(this, D);
-    this.x = x2;
+    this.x = x1;
     this.a = x;
 };
-var E = function E(x) {
+var E = function E(x1) {
     "use strict";
     _class_call_check(this, E);
-    this.x = x;
+    this.x = x1;
     this.a = this.x;
 };
-var F = function F(x3) {
+var F = function F(x1) {
     "use strict";
     _class_call_check(this, F);
-    this.x = x3;
+    this.x = x1;
     this.a = this.x;
     this.b = x;
 };

@@ -1,35 +1,35 @@
-(function c(b, a) {
-    if (typeof exports === "object" && typeof module === "object") module.exports = a();
-    else if (typeof define === "function" && define.amd) define([], a);
-    else if (typeof exports === "object") exports["Quagga"] = a();
-    else b["Quagga"] = a();
+(function a(b, c) {
+    if (typeof exports === "object" && typeof module === "object") module.exports = c();
+    else if (typeof define === "function" && define.amd) define([], c);
+    else if (typeof exports === "object") exports["Quagga"] = c();
+    else b["Quagga"] = c();
 })(window, function() {
-    return (function(b) {
-        var c = {};
-        function a(d) {
-            if (c[d]) {
-                return c[d].exports;
+    return (function(a) {
+        var b = {};
+        function c(d) {
+            if (b[d]) {
+                return b[d].exports;
             }
-            var e = (c[d] = {
+            var e = (b[d] = {
                 i: d,
                 l: false,
                 exports: {}
             });
-            b[d].call(e.exports, e, e.exports, a);
+            a[d].call(e.exports, e, e.exports, c);
             e.l = true;
             return e.exports;
         }
-        a.m = b;
-        a.c = c;
-        a.d = function(b, c, d) {
-            if (!a.o(b, c)) {
-                Object.defineProperty(b, c, {
+        c.m = a;
+        c.c = b;
+        c.d = function(a, b, d) {
+            if (!c.o(a, b)) {
+                Object.defineProperty(a, b, {
                     enumerable: true,
                     get: d
                 });
             }
         };
-        a.r = function(a) {
+        c.r = function(a) {
             if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
                 Object.defineProperty(a, Symbol.toStringTag, {
                     value: "Module"
@@ -39,38 +39,38 @@
                 value: true
             });
         };
-        a.t = function(b, c) {
-            if (c & 1) b = a(b);
-            if (c & 8) return b;
-            if (c & 4 && typeof b === "object" && b && b.__esModule) return b;
+        c.t = function(a, b) {
+            if (b & 1) a = c(a);
+            if (b & 8) return a;
+            if (b & 4 && typeof a === "object" && a && a.__esModule) return a;
             var d = Object.create(null);
-            a.r(d);
+            c.r(d);
             Object.defineProperty(d, "default", {
                 enumerable: true,
-                value: b
+                value: a
             });
-            if (c & 2 && typeof b != "string") for(var e in b)a.d(d, e, function(a) {
-                return b[a];
+            if (b & 2 && typeof a != "string") for(var e in a)c.d(d, e, function(b) {
+                return a[b];
             }.bind(null, e));
             return d;
         };
-        a.n = function(c) {
-            var b = c && c.__esModule ? function a() {
-                return c["default"];
-            } : function a() {
-                return c;
+        c.n = function(a) {
+            var b = a && a.__esModule ? function b() {
+                return a["default"];
+            } : function b() {
+                return a;
             };
-            a.d(b, "a", b);
+            c.d(b, "a", b);
             return b;
         };
-        a.o = function(a, b) {
+        c.o = function(a, b) {
             return Object.prototype.hasOwnProperty.call(a, b);
         };
-        a.p = "/";
-        return a((a.s = 89));
+        c.p = "/";
+        return c((c.s = 89));
     })([
-        function(a, c) {
-            function b(a, b, c) {
+        function(a, b) {
+            function c(a, b, c) {
                 if (b in a) {
                     Object.defineProperty(a, b, {
                         value: c,
@@ -83,243 +83,243 @@
                 }
                 return a;
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b) {
+            function c(a) {
                 if (a === void 0) {
                     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
                 }
                 return a;
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b(c) {
-                a.exports = b = Object.setPrototypeOf ? Object.getPrototypeOf : function b(a) {
-                    return a.__proto__ || Object.getPrototypeOf(a);
+        function(a, b) {
+            function c(b) {
+                a.exports = c = Object.setPrototypeOf ? Object.getPrototypeOf : function a(b) {
+                    return b.__proto__ || Object.getPrototypeOf(b);
                 };
                 (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-                return b(c);
+                return c(b);
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b(a, b) {
+        function(a, b) {
+            function c(a, b) {
                 if (!(a instanceof b)) {
                     throw new TypeError("Cannot call a class as a function");
                 }
             }
-            a.exports = b;
-            (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-        },
-        function(a, c) {
-            function d(d, c) {
-                for(var b = 0; b < c.length; b++){
-                    var a = c[b];
-                    a.enumerable = a.enumerable || false;
-                    a.configurable = true;
-                    if ("value" in a) a.writable = true;
-                    Object.defineProperty(d, a.key, a);
-                }
-            }
-            function b(a, b, c) {
-                if (b) d(a.prototype, b);
-                if (c) d(a, c);
-                return a;
-            }
-            a.exports = b;
-            (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-        },
-        function(a, d, b) {
-            var e = b(19)["default"];
-            var f = b(1);
-            function c(b, a) {
-                if (a && (e(a) === "object" || typeof a === "function")) {
-                    return a;
-                } else if (a !== void 0) {
-                    throw new TypeError("Derived constructors may only return object or undefined");
-                }
-                return f(b);
-            }
             a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, d, b) {
-            var e = b(41);
-            function c(b, a) {
-                if (typeof a !== "function" && a !== null) {
+        function(a, b) {
+            function c(a, b) {
+                for(var c = 0; c < b.length; c++){
+                    var d = b[c];
+                    d.enumerable = d.enumerable || false;
+                    d.configurable = true;
+                    if ("value" in d) d.writable = true;
+                    Object.defineProperty(a, d.key, d);
+                }
+            }
+            function d(a, b, d) {
+                if (b) c(a.prototype, b);
+                if (d) c(a, d);
+                return a;
+            }
+            a.exports = d;
+            (a.exports["default"] = a.exports), (a.exports.__esModule = true);
+        },
+        function(a, b, c) {
+            var d = c(19)["default"];
+            var e = c(1);
+            function f(a, b) {
+                if (b && (d(b) === "object" || typeof b === "function")) {
+                    return b;
+                } else if (b !== void 0) {
+                    throw new TypeError("Derived constructors may only return object or undefined");
+                }
+                return e(a);
+            }
+            a.exports = f;
+            (a.exports["default"] = a.exports), (a.exports.__esModule = true);
+        },
+        function(a, b, c) {
+            var d = c(41);
+            function e(a, b) {
+                if (typeof b !== "function" && b !== null) {
                     throw new TypeError("Super expression must either be null or a function");
                 }
-                b.prototype = Object.create(a && a.prototype, {
+                a.prototype = Object.create(b && b.prototype, {
                     constructor: {
-                        value: b,
+                        value: a,
                         writable: true,
                         configurable: true
                     }
                 });
-                if (a) e(b, a);
+                if (b) d(a, b);
             }
-            a.exports = c;
+            a.exports = e;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(b, c, a) {
-            b.exports = {
-                EPSILON: a(62),
-                create: a(63),
-                clone: a(156),
-                fromValues: a(157),
-                copy: a(158),
-                set: a(159),
-                equals: a(160),
-                exactEquals: a(161),
-                add: a(162),
-                subtract: a(64),
-                sub: a(163),
-                multiply: a(65),
-                mul: a(164),
-                divide: a(66),
-                div: a(165),
-                inverse: a(166),
-                min: a(167),
-                max: a(168),
-                rotate: a(169),
-                floor: a(170),
-                ceil: a(171),
-                round: a(172),
-                scale: a(173),
-                scaleAndAdd: a(174),
-                distance: a(67),
-                dist: a(175),
-                squaredDistance: a(68),
-                sqrDist: a(176),
-                length: a(69),
-                len: a(177),
-                squaredLength: a(70),
-                sqrLen: a(178),
-                negate: a(179),
-                normalize: a(180),
-                dot: a(181),
-                cross: a(182),
-                lerp: a(183),
-                random: a(184),
-                transformMat2: a(185),
-                transformMat2d: a(186),
-                transformMat3: a(187),
-                transformMat4: a(188),
-                forEach: a(189),
-                limit: a(190)
+        function(a, b, c) {
+            a.exports = {
+                EPSILON: c(62),
+                create: c(63),
+                clone: c(156),
+                fromValues: c(157),
+                copy: c(158),
+                set: c(159),
+                equals: c(160),
+                exactEquals: c(161),
+                add: c(162),
+                subtract: c(64),
+                sub: c(163),
+                multiply: c(65),
+                mul: c(164),
+                divide: c(66),
+                div: c(165),
+                inverse: c(166),
+                min: c(167),
+                max: c(168),
+                rotate: c(169),
+                floor: c(170),
+                ceil: c(171),
+                round: c(172),
+                scale: c(173),
+                scaleAndAdd: c(174),
+                distance: c(67),
+                dist: c(175),
+                squaredDistance: c(68),
+                sqrDist: c(176),
+                length: c(69),
+                len: c(177),
+                squaredLength: c(70),
+                sqrLen: c(178),
+                negate: c(179),
+                normalize: c(180),
+                dot: c(181),
+                cross: c(182),
+                lerp: c(183),
+                random: c(184),
+                transformMat2: c(185),
+                transformMat2d: c(186),
+                transformMat3: c(187),
+                transformMat4: c(188),
+                forEach: c(189),
+                limit: c(190)
             };
         },
-        function(e, b, a) {
+        function(a, b, c) {
             "use strict";
-            a.d(b, "h", function() {
+            c.d(b, "h", function() {
                 return k;
             });
-            a.d(b, "i", function() {
+            c.d(b, "i", function() {
                 return r;
             });
-            a.d(b, "b", function() {
+            c.d(b, "b", function() {
                 return t;
             });
-            a.d(b, "j", function() {
+            c.d(b, "j", function() {
                 return C;
             });
-            a.d(b, "e", function() {
+            c.d(b, "e", function() {
                 return F;
             });
-            a.d(b, "c", function() {
+            c.d(b, "c", function() {
                 return G;
             });
-            a.d(b, "f", function() {
+            c.d(b, "f", function() {
                 return I;
             });
-            a.d(b, "g", function() {
+            c.d(b, "g", function() {
                 return J;
             });
-            a.d(b, "a", function() {
+            c.d(b, "a", function() {
                 return M;
             });
-            a.d(b, "d", function() {
+            c.d(b, "d", function() {
                 return P;
             });
-            var c = a(7);
-            var d = a(84);
+            var d = c(7);
+            var e = c(84);
             var f = {
-                clone: c["clone"],
-                dot: c["dot"]
+                clone: d["clone"],
+                dot: d["dot"]
             };
             var g = {
-                create: function b(c, d) {
-                    var e = [];
-                    var g = {
+                create: function a(b, c) {
+                    var d = [];
+                    var e = {
                         rad: 0,
                         vec: f.clone([
                             0,
                             0
                         ])
                     };
-                    var h = {};
-                    function i(a) {
-                        h[a.id] = a;
-                        e.push(a);
+                    var g = {};
+                    function h(a) {
+                        g[a.id] = a;
+                        d.push(a);
                     }
-                    function j() {
+                    function i() {
                         var a;
                         var b = 0;
-                        for(a = 0; a < e.length; a++){
-                            b += e[a].rad;
+                        for(a = 0; a < d.length; a++){
+                            b += d[a].rad;
                         }
-                        g.rad = b / e.length;
-                        g.vec = f.clone([
-                            Math.cos(g.rad),
-                            Math.sin(g.rad), 
+                        e.rad = b / d.length;
+                        e.vec = f.clone([
+                            Math.cos(e.rad),
+                            Math.sin(e.rad), 
                         ]);
                     }
-                    function a() {
-                        i(c);
-                        j();
+                    function j() {
+                        h(b);
+                        i();
                     }
-                    a();
+                    j();
                     return {
-                        add: function b(a) {
-                            if (!h[a.id]) {
-                                i(a);
-                                j();
+                        add: function a(b) {
+                            if (!g[b.id]) {
+                                h(b);
+                                i();
                             }
                         },
-                        fits: function c(a) {
-                            var b = Math.abs(f.dot(a.point.vec, g.vec));
-                            if (b > d) {
+                        fits: function a(b) {
+                            var d = Math.abs(f.dot(b.point.vec, e.vec));
+                            if (d > c) {
                                 return true;
                             }
                             return false;
                         },
                         getPoints: function a() {
-                            return e;
+                            return d;
                         },
                         getCenter: function a() {
-                            return g;
+                            return e;
                         }
                     };
                 },
-                createPoint: function d(a, b, c) {
+                createPoint: function a(b, c, d) {
                     return {
-                        rad: a[c],
-                        point: a,
-                        id: b
+                        rad: b[d],
+                        point: b,
+                        id: c
                     };
                 }
             };
-            var h = a(10);
+            var h = c(10);
             var i = {
-                clone: c["clone"]
+                clone: d["clone"]
             };
             var j = {
-                clone: d["clone"]
+                clone: e["clone"]
             };
             function k(a, b) {
                 var c = {
@@ -346,287 +346,287 @@
                 };
                 return c;
             }
-            function l(h, m) {
-                var i = h.data;
-                var b = h.size.x;
-                var l = h.size.y;
-                var e = m.data;
-                var f = 0;
-                var c = 0;
-                var d = 0;
+            function l(a, b) {
+                var c = a.data;
+                var d = a.size.x;
+                var e = a.size.y;
+                var f = b.data;
+                var g = 0;
+                var h = 0;
+                var i = 0;
                 var j = 0;
                 var k = 0;
-                var g;
-                var a;
-                d = b;
-                f = 0;
-                for(a = 1; a < l; a++){
-                    f += i[c];
-                    e[d] += f;
-                    c += b;
-                    d += b;
+                var l;
+                var m;
+                i = d;
+                g = 0;
+                for(m = 1; m < e; m++){
+                    g += c[h];
+                    f[i] += g;
+                    h += d;
+                    i += d;
                 }
-                c = 0;
-                d = 1;
-                f = 0;
-                for(g = 1; g < b; g++){
-                    f += i[c];
-                    e[d] += f;
-                    c++;
-                    d++;
+                h = 0;
+                i = 1;
+                g = 0;
+                for(l = 1; l < d; l++){
+                    g += c[h];
+                    f[i] += g;
+                    h++;
+                    i++;
                 }
-                for(a = 1; a < l; a++){
-                    c = a * b + 1;
-                    d = (a - 1) * b + 1;
-                    j = a * b;
-                    k = (a - 1) * b;
-                    for(g = 1; g < b; g++){
-                        e[c] += i[c] + e[d] + e[j] - e[k];
-                        c++;
-                        d++;
+                for(m = 1; m < e; m++){
+                    h = m * d + 1;
+                    i = (m - 1) * d + 1;
+                    j = m * d;
+                    k = (m - 1) * d;
+                    for(l = 1; l < d; l++){
+                        f[h] += c[h] + f[i] + f[j] - f[k];
+                        h++;
+                        i++;
                         j++;
                         k++;
                     }
                 }
             }
-            function m(f, i) {
-                var h = f.data;
-                var a = f.size.x;
-                var j = f.size.y;
-                var g = i.data;
-                var b = 0;
-                for(var e = 0; e < a; e++){
-                    b += h[e];
-                    g[e] = b;
+            function m(a, b) {
+                var c = a.data;
+                var d = a.size.x;
+                var e = a.size.y;
+                var f = b.data;
+                var g = 0;
+                for(var h = 0; h < d; h++){
+                    g += c[h];
+                    f[h] = g;
                 }
-                for(var c = 1; c < j; c++){
-                    b = 0;
-                    for(var d = 0; d < a; d++){
-                        b += h[c * a + d];
-                        g[c * a + d] = b + g[(c - 1) * a + d];
+                for(var i = 1; i < e; i++){
+                    g = 0;
+                    for(var j = 0; j < d; j++){
+                        g += c[i * d + j];
+                        f[i * d + j] = g + f[(i - 1) * d + j];
                     }
                 }
             }
-            function n(c, e, a) {
-                if (!a) {
-                    a = c;
+            function n(a, b, c) {
+                if (!c) {
+                    c = a;
                 }
-                var d = c.data;
-                var b = d.length;
-                var f = a.data;
-                while(b--){
-                    f[b] = d[b] < e ? 1 : 0;
+                var d = a.data;
+                var e = d.length;
+                var f = c.data;
+                while(e--){
+                    f[e] = d[e] < b ? 1 : 0;
                 }
             }
-            function o(e, a) {
-                if (!a) {
-                    a = 8;
+            function o(a, b) {
+                if (!b) {
+                    b = 8;
                 }
-                var b = e.data;
-                var c = b.length;
-                var f = 8 - a;
-                var g = 1 << a;
-                var d = new Int32Array(g);
-                while(c--){
-                    d[b[c] >> f]++;
+                var c = a.data;
+                var d = c.length;
+                var e = 8 - b;
+                var f = 1 << b;
+                var g = new Int32Array(f);
+                while(d--){
+                    g[c[d] >> e]++;
                 }
-                return d;
+                return g;
             }
             function p(a) {
                 var b;
-                var f = a.length;
-                var e = a[0];
-                var c = a[1];
-                var d;
-                for(b = 1; b < f - 1; b++){
-                    d = a[b + 1];
-                    a[b - 1] = (c * 2 - e - d) & 255;
-                    e = c;
-                    c = d;
+                var c = a.length;
+                var d = a[0];
+                var e = a[1];
+                var f;
+                for(b = 1; b < c - 1; b++){
+                    f = a[b + 1];
+                    a[b - 1] = (e * 2 - d - f) & 255;
+                    d = e;
+                    e = f;
                 }
                 return a;
             }
-            function q(e) {
-                var a = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 8;
-                var f;
-                var b = 8 - a;
-                function g(c, d) {
-                    var b = 0;
-                    for(var a = c; a <= d; a++){
-                        b += f[a];
+            function q(a) {
+                var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 8;
+                var c;
+                var d = 8 - b;
+                function e(a, b) {
+                    var d = 0;
+                    for(var e = a; e <= b; e++){
+                        d += c[e];
                     }
-                    return b;
+                    return d;
                 }
-                function i(c, d) {
-                    var b = 0;
-                    for(var a = c; a <= d; a++){
-                        b += a * f[a];
+                function f(a, b) {
+                    var d = 0;
+                    for(var e = a; e <= b; e++){
+                        d += e * c[e];
                     }
-                    return b;
+                    return d;
                 }
-                function c() {
-                    var m = [
+                function g() {
+                    var d = [
                         0
                     ];
-                    var d;
+                    var g;
+                    var i;
                     var j;
-                    var c;
-                    var n;
-                    var p;
                     var k;
-                    var l = (1 << a) - 1;
-                    f = o(e, a);
-                    for(var b = 1; b < l; b++){
-                        d = g(0, b);
-                        j = g(b + 1, l);
-                        c = d * j;
-                        if (c === 0) {
-                            c = 1;
+                    var l;
+                    var m;
+                    var n = (1 << b) - 1;
+                    c = o(a, b);
+                    for(var p = 1; p < n; p++){
+                        g = e(0, p);
+                        i = e(p + 1, n);
+                        j = g * i;
+                        if (j === 0) {
+                            j = 1;
                         }
-                        n = i(0, b) * j;
-                        p = i(b + 1, l) * d;
-                        k = n - p;
-                        m[b] = (k * k) / c;
+                        k = f(0, p) * i;
+                        l = f(p + 1, n) * g;
+                        m = k - l;
+                        d[p] = (m * m) / j;
                     }
-                    return h["a"].maxIndex(m);
+                    return h["a"].maxIndex(d);
                 }
-                var d = c();
-                return d << b;
+                var i = g();
+                return i << d;
             }
-            function r(a, c) {
-                var b = q(a);
-                n(a, b, c);
-                return b;
+            function r(a, b) {
+                var c = q(a);
+                n(a, c, b);
+                return c;
             }
-            function s(e, j, h) {
-                m(e, j);
-                if (!h) {
-                    h = e;
+            function s(a, b, c) {
+                m(a, b);
+                if (!c) {
+                    c = a;
                 }
-                var r = e.data;
-                var f = h.data;
-                var d = e.size.x;
-                var i = e.size.y;
-                var g = j.data;
-                var k = 0;
-                var a;
-                var b;
-                var c = 3;
-                var l;
+                var d = a.data;
+                var e = c.data;
+                var f = a.size.x;
+                var g = a.size.y;
+                var h = b.data;
+                var i = 0;
+                var j;
+                var k;
+                var l = 3;
                 var n;
                 var o;
                 var p;
                 var q;
-                var s = (c * 2 + 1) * (c * 2 + 1);
-                for(a = 0; a <= c; a++){
-                    for(b = 0; b < d; b++){
-                        f[a * d + b] = 0;
-                        f[(i - 1 - a) * d + b] = 0;
+                var r;
+                var s = (l * 2 + 1) * (l * 2 + 1);
+                for(j = 0; j <= l; j++){
+                    for(k = 0; k < f; k++){
+                        e[j * f + k] = 0;
+                        e[(g - 1 - j) * f + k] = 0;
                     }
                 }
-                for(a = c; a < i - c; a++){
-                    for(b = 0; b <= c; b++){
-                        f[a * d + b] = 0;
-                        f[a * d + (d - 1 - b)] = 0;
+                for(j = l; j < g - l; j++){
+                    for(k = 0; k <= l; k++){
+                        e[j * f + k] = 0;
+                        e[j * f + (f - 1 - k)] = 0;
                     }
                 }
-                for(a = c + 1; a < i - c - 1; a++){
-                    for(b = c + 1; b < d - c; b++){
-                        l = g[(a - c - 1) * d + (b - c - 1)];
-                        n = g[(a - c - 1) * d + (b + c)];
-                        o = g[(a + c) * d + (b - c - 1)];
-                        p = g[(a + c) * d + (b + c)];
-                        k = p - o - n + l;
-                        q = k / s;
-                        f[a * d + b] = r[a * d + b] > q + 5 ? 0 : 1;
+                for(j = l + 1; j < g - l - 1; j++){
+                    for(k = l + 1; k < f - l; k++){
+                        n = h[(j - l - 1) * f + (k - l - 1)];
+                        o = h[(j - l - 1) * f + (k + l)];
+                        p = h[(j + l) * f + (k - l - 1)];
+                        q = h[(j + l) * f + (k + l)];
+                        i = q - p - o + n;
+                        r = i / s;
+                        e[j * f + k] = d[j * f + k] > r + 5 ? 0 : 1;
                     }
                 }
             }
-            function t(d, f, b) {
-                var a;
-                var i;
-                var j;
-                var c;
-                var e = [];
-                if (!b) {
-                    b = "rad";
+            function t(a, b, c) {
+                var d;
+                var e;
+                var f;
+                var h;
+                var i = [];
+                if (!c) {
+                    c = "rad";
                 }
-                function h(a) {
+                function j(a) {
                     var b = false;
-                    for(i = 0; i < e.length; i++){
-                        j = e[i];
-                        if (j.fits(a)) {
-                            j.add(a);
+                    for(e = 0; e < i.length; e++){
+                        f = i[e];
+                        if (f.fits(a)) {
+                            f.add(a);
                             b = true;
                         }
                     }
                     return b;
                 }
-                for(a = 0; a < d.length; a++){
-                    c = g.createPoint(d[a], a, b);
-                    if (!h(c)) {
-                        e.push(g.create(c, f));
+                for(d = 0; d < a.length; d++){
+                    h = g.createPoint(a[d], d, c);
+                    if (!j(h)) {
+                        i.push(g.create(h, b));
                     }
                 }
-                return e;
+                return i;
             }
             var u = {
-                trace: function e(c, i) {
-                    var f;
-                    var h = 10;
-                    var b = [];
+                trace: function a(b, c) {
+                    var d;
+                    var e = 10;
+                    var f = [];
                     var g = [];
-                    var d = 0;
-                    var a = 0;
-                    function e(e, f) {
-                        var b;
-                        var a;
+                    var h = 0;
+                    var i = 0;
+                    function a(a, d) {
+                        var e;
+                        var f;
                         var g;
-                        var k = 1;
-                        var l = Math.abs(i[1] / 10);
-                        var h = false;
-                        function j(a, b) {
-                            if (a.x > b.x - k && a.x < b.x + k && a.y > b.y - l && a.y < b.y + l) {
+                        var h = 1;
+                        var i = Math.abs(c[1] / 10);
+                        var j = false;
+                        function k(a, b) {
+                            if (a.x > b.x - h && a.x < b.x + h && a.y > b.y - i && a.y < b.y + i) {
                                 return true;
                             }
                             return false;
                         }
-                        var d = c[e];
-                        if (f) {
+                        var l = b[a];
+                        if (d) {
                             g = {
-                                x: d.x + i[0],
-                                y: d.y + i[1]
+                                x: l.x + c[0],
+                                y: l.y + c[1]
                             };
                         } else {
                             g = {
-                                x: d.x - i[0],
-                                y: d.y - i[1]
+                                x: l.x - c[0],
+                                y: l.y - c[1]
                             };
                         }
-                        a = f ? e + 1 : e - 1;
-                        b = c[a];
-                        while(b && (h = j(b, g)) !== true && Math.abs(b.y - d.y) < i[1]){
-                            a = f ? a + 1 : a - 1;
-                            b = c[a];
+                        f = d ? a + 1 : a - 1;
+                        e = b[f];
+                        while(e && (j = k(e, g)) !== true && Math.abs(e.y - l.y) < c[1]){
+                            f = d ? f + 1 : f - 1;
+                            e = b[f];
                         }
-                        return h ? a : null;
+                        return j ? f : null;
                     }
-                    for(f = 0; f < h; f++){
-                        d = Math.floor(Math.random() * c.length);
-                        b = [];
-                        a = d;
-                        b.push(c[a]);
-                        while((a = e(a, true)) !== null){
-                            b.push(c[a]);
+                    for(d = 0; d < e; d++){
+                        h = Math.floor(Math.random() * b.length);
+                        f = [];
+                        i = h;
+                        f.push(b[i]);
+                        while((i = a(i, true)) !== null){
+                            f.push(b[i]);
                         }
-                        if (d > 0) {
-                            a = d;
-                            while((a = e(a, false)) !== null){
-                                b.push(c[a]);
+                        if (h > 0) {
+                            i = h;
+                            while((i = a(i, false)) !== null){
+                                f.push(b[i]);
                             }
                         }
-                        if (b.length > g.length) {
-                            g = b;
+                        if (f.length > g.length) {
+                            g = f;
                         }
                     }
                     return g;
@@ -634,274 +634,274 @@
             };
             var v = 1;
             var w = 2;
-            function x(e, k) {
-                var a;
-                var b;
-                var d = e.data;
-                var l = k.data;
-                var m = e.size.y;
-                var c = e.size.x;
-                var j;
-                var f;
-                var g;
-                var h;
+            function x(a, b) {
+                var c;
+                var d;
+                var e = a.data;
+                var f = b.data;
+                var g = a.size.y;
+                var h = a.size.x;
                 var i;
-                for(a = 1; a < m - 1; a++){
-                    for(b = 1; b < c - 1; b++){
-                        f = a - 1;
-                        g = a + 1;
-                        h = b - 1;
-                        i = b + 1;
-                        j = d[f * c + h] + d[f * c + i] + d[a * c + b] + d[g * c + h] + d[g * c + i];
-                        l[a * c + b] = j > 0 ? 1 : 0;
+                var j;
+                var k;
+                var l;
+                var m;
+                for(c = 1; c < g - 1; c++){
+                    for(d = 1; d < h - 1; d++){
+                        j = c - 1;
+                        k = c + 1;
+                        l = d - 1;
+                        m = d + 1;
+                        i = e[j * h + l] + e[j * h + m] + e[c * h + d] + e[k * h + l] + e[k * h + m];
+                        f[c * h + d] = i > 0 ? 1 : 0;
                     }
                 }
             }
-            function y(e, k) {
-                var a;
-                var b;
-                var d = e.data;
-                var l = k.data;
-                var m = e.size.y;
-                var c = e.size.x;
-                var j;
-                var f;
-                var g;
-                var h;
+            function y(a, b) {
+                var c;
+                var d;
+                var e = a.data;
+                var f = b.data;
+                var g = a.size.y;
+                var h = a.size.x;
                 var i;
-                for(a = 1; a < m - 1; a++){
-                    for(b = 1; b < c - 1; b++){
-                        f = a - 1;
-                        g = a + 1;
-                        h = b - 1;
-                        i = b + 1;
-                        j = d[f * c + h] + d[f * c + i] + d[a * c + b] + d[g * c + h] + d[g * c + i];
-                        l[a * c + b] = j === 5 ? 1 : 0;
+                var j;
+                var k;
+                var l;
+                var m;
+                for(c = 1; c < g - 1; c++){
+                    for(d = 1; d < h - 1; d++){
+                        j = c - 1;
+                        k = c + 1;
+                        l = d - 1;
+                        m = d + 1;
+                        i = e[j * h + l] + e[j * h + m] + e[c * h + d] + e[k * h + l] + e[k * h + m];
+                        f[c * h + d] = i === 5 ? 1 : 0;
                     }
                 }
             }
-            function z(b, d, c) {
+            function z(a, b, c) {
                 if (!c) {
-                    c = b;
+                    c = a;
                 }
-                var a = b.data.length;
-                var e = b.data;
-                var f = d.data;
+                var d = a.data.length;
+                var e = a.data;
+                var f = b.data;
                 var g = c.data;
-                while(a--){
-                    g[a] = e[a] - f[a];
+                while(d--){
+                    g[d] = e[d] - f[d];
                 }
             }
-            function A(b, d, c) {
+            function A(a, b, c) {
                 if (!c) {
-                    c = b;
+                    c = a;
                 }
-                var a = b.data.length;
-                var e = b.data;
-                var f = d.data;
+                var d = a.data.length;
+                var e = a.data;
+                var f = b.data;
                 var g = c.data;
-                while(a--){
-                    g[a] = e[a] || f[a];
+                while(d--){
+                    g[d] = e[d] || f[d];
                 }
             }
             function B(a) {
                 var b = a.data.length;
-                var d = a.data;
-                var c = 0;
-                while(b--){
-                    c += d[b];
-                }
-                return c;
-            }
-            function C(e, h, j) {
-                var a;
-                var i = 0;
+                var c = a.data;
                 var d = 0;
-                var c = [];
-                var f;
-                var g;
-                var b;
-                for(a = 0; a < h; a++){
-                    c[a] = {
+                while(b--){
+                    d += c[b];
+                }
+                return d;
+            }
+            function C(a, b, c) {
+                var d;
+                var e = 0;
+                var f = 0;
+                var g = [];
+                var h;
+                var i;
+                var j;
+                for(d = 0; d < b; d++){
+                    g[d] = {
                         score: 0,
                         item: null
                     };
                 }
-                for(a = 0; a < e.length; a++){
-                    f = j.apply(this, [
-                        e[a]
+                for(d = 0; d < a.length; d++){
+                    h = c.apply(this, [
+                        a[d]
                     ]);
-                    if (f > d) {
-                        g = c[i];
-                        g.score = f;
-                        g.item = e[a];
-                        d = Number.MAX_VALUE;
-                        for(b = 0; b < h; b++){
-                            if (c[b].score < d) {
-                                d = c[b].score;
-                                i = b;
+                    if (h > f) {
+                        i = g[e];
+                        i.score = h;
+                        i.item = a[d];
+                        f = Number.MAX_VALUE;
+                        for(j = 0; j < b; j++){
+                            if (g[j].score < f) {
+                                f = g[j].score;
+                                e = j;
                             }
                         }
                     }
                 }
-                return c;
+                return g;
             }
             function D(a, b, c, d) {
                 c.drawImage(a, b, 0, a.width, a.height);
                 var e = c.getImageData(b, 0, a.width, a.height).data;
                 G(e, d);
             }
-            function E(c, a, b, d) {
-                var e = c.getImageData(b.x, b.y, a.x, a.y).data;
+            function E(a, b, c, d) {
+                var e = a.getImageData(c.x, c.y, b.x, b.y).data;
                 G(e, d);
             }
-            function F(a, d, h) {
-                var c = 0;
-                var b = d.x;
-                var i = Math.floor(a.length / 4);
-                var j = d.x / 2;
-                var f = 0;
-                var g = d.x;
-                var e;
-                while(b < i){
-                    for(e = 0; e < j; e++){
-                        h[f] = (0.299 * a[c * 4 + 0] + 0.587 * a[c * 4 + 1] + 0.114 * a[c * 4 + 2] + (0.299 * a[(c + 1) * 4 + 0] + 0.587 * a[(c + 1) * 4 + 1] + 0.114 * a[(c + 1) * 4 + 2]) + (0.299 * a[b * 4 + 0] + 0.587 * a[b * 4 + 1] + 0.114 * a[b * 4 + 2]) + (0.299 * a[(b + 1) * 4 + 0] + 0.587 * a[(b + 1) * 4 + 1] + 0.114 * a[(b + 1) * 4 + 2])) / 4;
-                        f++;
-                        c += 2;
-                        b += 2;
+            function F(a, b, c) {
+                var d = 0;
+                var e = b.x;
+                var f = Math.floor(a.length / 4);
+                var g = b.x / 2;
+                var h = 0;
+                var i = b.x;
+                var j;
+                while(e < f){
+                    for(j = 0; j < g; j++){
+                        c[h] = (0.299 * a[d * 4 + 0] + 0.587 * a[d * 4 + 1] + 0.114 * a[d * 4 + 2] + (0.299 * a[(d + 1) * 4 + 0] + 0.587 * a[(d + 1) * 4 + 1] + 0.114 * a[(d + 1) * 4 + 2]) + (0.299 * a[e * 4 + 0] + 0.587 * a[e * 4 + 1] + 0.114 * a[e * 4 + 2]) + (0.299 * a[(e + 1) * 4 + 0] + 0.587 * a[(e + 1) * 4 + 1] + 0.114 * a[(e + 1) * 4 + 2])) / 4;
+                        h++;
+                        d += 2;
+                        e += 2;
                     }
-                    c += g;
-                    b += g;
+                    d += i;
+                    e += i;
                 }
             }
-            function G(b, d, e) {
-                var f = (b.length / 4) | 0;
-                var g = e && e.singleChannel === true;
-                if (g) {
-                    for(var c = 0; c < f; c++){
-                        d[c] = b[c * 4 + 0];
+            function G(a, b, c) {
+                var d = (a.length / 4) | 0;
+                var e = c && c.singleChannel === true;
+                if (e) {
+                    for(var f = 0; f < d; f++){
+                        b[f] = a[f * 4 + 0];
                     }
                 } else {
-                    for(var a = 0; a < f; a++){
-                        d[a] = 0.299 * b[a * 4 + 0] + 0.587 * b[a * 4 + 1] + 0.114 * b[a * 4 + 2];
+                    for(var g = 0; g < d; g++){
+                        b[g] = 0.299 * a[g * 4 + 0] + 0.587 * a[g * 4 + 1] + 0.114 * a[g * 4 + 2];
                     }
                 }
             }
-            function H(b, c) {
-                var d = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document && document.createElement("canvas");
-                var a = new Image();
-                a.callback = c;
-                a.onload = function() {
-                    d.width = this.width;
-                    d.height = this.height;
-                    var a = d.getContext("2d");
+            function H(a, b) {
+                var c = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document && document.createElement("canvas");
+                var d = new Image();
+                d.callback = b;
+                d.onload = function() {
+                    c.width = this.width;
+                    c.height = this.height;
+                    var a = c.getContext("2d");
                     a.drawImage(this, 0, 0);
                     var b = new Uint8Array(this.width * this.height);
                     a.drawImage(this, 0, 0);
-                    var c = a.getImageData(0, 0, this.width, this.height), e = c.data;
+                    var d = a.getImageData(0, 0, this.width, this.height), e = d.data;
                     G(e, b);
                     this.callback(b, {
                         x: this.width,
                         y: this.height
                     }, this);
                 };
-                a.src = b;
+                d.src = a;
             }
-            function I(e, h) {
-                var a = e.data;
-                var c = e.size.x;
-                var i = h.data;
-                var d = 0;
-                var b = c;
-                var j = a.length;
-                var k = c / 2;
+            function I(a, b) {
+                var c = a.data;
+                var d = a.size.x;
+                var e = b.data;
                 var f = 0;
-                while(b < j){
-                    for(var g = 0; g < k; g++){
-                        i[f] = Math.floor((a[d] + a[d + 1] + a[b] + a[b + 1]) / 4);
-                        f++;
-                        d += 2;
-                        b += 2;
+                var g = d;
+                var h = c.length;
+                var i = d / 2;
+                var j = 0;
+                while(g < h){
+                    for(var k = 0; k < i; k++){
+                        e[j] = Math.floor((c[f] + c[f + 1] + c[g] + c[g + 1]) / 4);
+                        j++;
+                        f += 2;
+                        g += 2;
                     }
-                    d += c;
-                    b += c;
+                    f += d;
+                    g += d;
                 }
             }
-            function J(h) {
-                var g = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [
+            function J(a) {
+                var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [
                     0,
                     0,
                     0
                 ];
-                var b = h[0];
-                var k = h[1];
-                var j = h[2];
-                var a = j * k;
-                var c = a * (1 - Math.abs(((b / 60) % 2) - 1));
-                var i = j - a;
-                var d = 0;
-                var e = 0;
-                var f = 0;
-                if (b < 60) {
-                    d = a;
-                    e = c;
-                } else if (b < 120) {
-                    d = c;
-                    e = a;
-                } else if (b < 180) {
-                    e = a;
-                    f = c;
-                } else if (b < 240) {
-                    e = c;
-                    f = a;
-                } else if (b < 300) {
-                    d = c;
-                    f = a;
-                } else if (b < 360) {
-                    d = a;
-                    f = c;
+                var c = a[0];
+                var d = a[1];
+                var e = a[2];
+                var f = e * d;
+                var g = f * (1 - Math.abs(((c / 60) % 2) - 1));
+                var h = e - f;
+                var i = 0;
+                var j = 0;
+                var k = 0;
+                if (c < 60) {
+                    i = f;
+                    j = g;
+                } else if (c < 120) {
+                    i = g;
+                    j = f;
+                } else if (c < 180) {
+                    j = f;
+                    k = g;
+                } else if (c < 240) {
+                    j = g;
+                    k = f;
+                } else if (c < 300) {
+                    i = g;
+                    k = f;
+                } else if (c < 360) {
+                    i = f;
+                    k = g;
                 }
-                g[0] = ((d + i) * 255) | 0;
-                g[1] = ((e + i) * 255) | 0;
-                g[2] = ((f + i) * 255) | 0;
-                return g;
+                b[0] = ((i + h) * 255) | 0;
+                b[1] = ((j + h) * 255) | 0;
+                b[2] = ((k + h) * 255) | 0;
+                return b;
             }
-            function K(b) {
+            function K(a) {
+                var b = [];
                 var c = [];
-                var d = [];
-                for(var a = 1; a < Math.sqrt(b) + 1; a++){
-                    if (b % a === 0) {
-                        d.push(a);
-                        if (a !== b / a) {
-                            c.unshift(Math.floor(b / a));
+                for(var d = 1; d < Math.sqrt(a) + 1; d++){
+                    if (a % d === 0) {
+                        c.push(d);
+                        if (d !== a / d) {
+                            b.unshift(Math.floor(a / d));
                         }
                     }
                 }
-                return d.concat(c);
+                return c.concat(b);
             }
-            function L(c, d) {
-                var a = 0;
-                var b = 0;
+            function L(a, b) {
+                var c = 0;
+                var d = 0;
                 var e = [];
-                while(a < c.length && b < d.length){
-                    if (c[a] === d[b]) {
-                        e.push(c[a]);
-                        a++;
-                        b++;
-                    } else if (c[a] > d[b]) {
-                        b++;
+                while(c < a.length && d < b.length){
+                    if (a[c] === b[d]) {
+                        e.push(a[c]);
+                        c++;
+                        d++;
+                    } else if (a[c] > b[d]) {
+                        d++;
                     } else {
-                        a++;
+                        c++;
                     }
                 }
                 return e;
             }
-            function M(g, b) {
-                var h = K(b.x);
-                var i = K(b.y);
-                var d = Math.max(b.x, b.y);
-                var j = L(h, i);
-                var k = [
+            function M(a, b) {
+                var c = K(b.x);
+                var d = K(b.y);
+                var e = Math.max(b.x, b.y);
+                var f = L(c, d);
+                var g = [
                     8,
                     10,
                     15,
@@ -910,31 +910,31 @@
                     60,
                     80
                 ];
-                var e = {
+                var h = {
                     "x-small": 5,
                     small: 4,
                     medium: 3,
                     large: 2,
                     "x-large": 1
                 };
-                var l = e[g] || e.medium;
-                var f = k[l];
-                var m = Math.floor(d / f);
-                var a;
-                function c(a) {
+                var i = h[a] || h.medium;
+                var j = g[i];
+                var k = Math.floor(e / j);
+                var l;
+                function m(a) {
                     var b = 0;
                     var c = a[Math.floor(a.length / 2)];
-                    while(b < a.length - 1 && a[b] < m){
+                    while(b < a.length - 1 && a[b] < k){
                         b++;
                     }
                     if (b > 0) {
-                        if (Math.abs(a[b] - m) > Math.abs(a[b - 1] - m)) {
+                        if (Math.abs(a[b] - k) > Math.abs(a[b - 1] - k)) {
                             c = a[b - 1];
                         } else {
                             c = a[b];
                         }
                     }
-                    if (m / c < k[l + 1] / k[l] && m / c > k[l - 1] / k[l]) {
+                    if (k / c < g[i + 1] / g[i] && k / c > g[i - 1] / g[i]) {
                         return {
                             x: c,
                             y: c
@@ -942,14 +942,14 @@
                     }
                     return null;
                 }
-                a = c(j);
-                if (!a) {
-                    a = c(K(d));
-                    if (!a) {
-                        a = c(K(m * f));
+                l = m(f);
+                if (!l) {
+                    l = m(K(e));
+                    if (!l) {
+                        l = m(K(k * j));
                     }
                 }
-                return a;
+                return l;
             }
             function N(a) {
                 var b = {
@@ -959,133 +959,133 @@
                 return b;
             }
             var O = {
-                top: function c(a, b) {
-                    return a.unit === "%" ? Math.floor(b.height * (a.value / 100)) : null;
+                top: function a(b, c) {
+                    return b.unit === "%" ? Math.floor(c.height * (b.value / 100)) : null;
                 },
-                right: function c(a, b) {
-                    return a.unit === "%" ? Math.floor(b.width - b.width * (a.value / 100)) : null;
+                right: function a(b, c) {
+                    return b.unit === "%" ? Math.floor(c.width - c.width * (b.value / 100)) : null;
                 },
-                bottom: function c(a, b) {
-                    return a.unit === "%" ? Math.floor(b.height - b.height * (a.value / 100)) : null;
+                bottom: function a(b, c) {
+                    return b.unit === "%" ? Math.floor(c.height - c.height * (b.value / 100)) : null;
                 },
-                left: function c(a, b) {
-                    return a.unit === "%" ? Math.floor(b.width * (a.value / 100)) : null;
+                left: function a(b, c) {
+                    return b.unit === "%" ? Math.floor(c.width * (b.value / 100)) : null;
                 }
             };
-            function P(b, c, d) {
-                var e = {
-                    width: b,
-                    height: c
+            function P(a, b, c) {
+                var d = {
+                    width: a,
+                    height: b
                 };
-                var a = Object.keys(d).reduce(function(b, a) {
-                    var c = d[a];
-                    var f = N(c);
-                    var g = O[a](f, e);
-                    b[a] = g;
-                    return b;
+                var e = Object.keys(c).reduce(function(a, b) {
+                    var e = c[b];
+                    var f = N(e);
+                    var g = O[b](f, d);
+                    a[b] = g;
+                    return a;
                 }, {});
                 return {
-                    sx: a.left,
-                    sy: a.top,
-                    sw: a.right - a.left,
-                    sh: a.bottom - a.top
+                    sx: e.left,
+                    sy: e.top,
+                    sw: e.right - e.left,
+                    sh: e.bottom - e.top
                 };
             }
         },
-        function(b, a, c) {
+        function(a, b, c) {
             "use strict";
-            a["a"] = {
-                drawRect: function e(c, d, a, b) {
-                    a.strokeStyle = b.color;
-                    a.fillStyle = b.color;
-                    a.lineWidth = b.lineWidth || 1;
-                    a.beginPath();
-                    a.strokeRect(c.x, c.y, d.x, d.y);
+            b["a"] = {
+                drawRect: function a(b, c, d, e) {
+                    d.strokeStyle = e.color;
+                    d.fillStyle = e.color;
+                    d.lineWidth = e.lineWidth || 1;
+                    d.beginPath();
+                    d.strokeRect(b.x, b.y, c.x, c.y);
                 },
-                drawPath: function f(b, c, a, e) {
-                    a.strokeStyle = e.color;
-                    a.fillStyle = e.color;
-                    a.lineWidth = e.lineWidth;
-                    a.beginPath();
-                    a.moveTo(b[0][c.x], b[0][c.y]);
-                    for(var d = 1; d < b.length; d++){
-                        a.lineTo(b[d][c.x], b[d][c.y]);
+                drawPath: function a(b, c, d, e) {
+                    d.strokeStyle = e.color;
+                    d.fillStyle = e.color;
+                    d.lineWidth = e.lineWidth;
+                    d.beginPath();
+                    d.moveTo(b[0][c.x], b[0][c.y]);
+                    for(var f = 1; f < b.length; f++){
+                        d.lineTo(b[f][c.x], b[f][c.y]);
                     }
-                    a.closePath();
-                    a.stroke();
+                    d.closePath();
+                    d.stroke();
                 },
-                drawImage: function i(e, f, g) {
-                    var h = g.getImageData(0, 0, f.x, f.y);
-                    var a = h.data;
-                    var b = a.length;
-                    var c = e.length;
-                    if (b / c !== 4) {
+                drawImage: function a(b, c, d) {
+                    var e = d.getImageData(0, 0, c.x, c.y);
+                    var f = e.data;
+                    var g = f.length;
+                    var h = b.length;
+                    if (g / h !== 4) {
                         return false;
                     }
-                    while(c--){
-                        var d = e[c];
-                        a[--b] = 255;
-                        a[--b] = d;
-                        a[--b] = d;
-                        a[--b] = d;
+                    while(h--){
+                        var i = b[h];
+                        f[--g] = 255;
+                        f[--g] = i;
+                        f[--g] = i;
+                        f[--g] = i;
                     }
-                    g.putImageData(h, 0, 0);
+                    d.putImageData(e, 0, 0);
                     return true;
                 }
             };
         },
-        function(b, a, c) {
+        function(a, b, c) {
             "use strict";
-            a["a"] = {
-                init: function d(a, c) {
-                    var b = a.length;
-                    while(b--){
-                        a[b] = c;
+            b["a"] = {
+                init: function a(b, c) {
+                    var d = b.length;
+                    while(d--){
+                        b[d] = c;
                     }
                 },
-                shuffle: function e(a) {
-                    var b = a.length - 1;
-                    for(b; b >= 0; b--){
-                        var c = Math.floor(Math.random() * b);
-                        var d = a[b];
-                        a[b] = a[c];
-                        a[c] = d;
+                shuffle: function a(b) {
+                    var c = b.length - 1;
+                    for(c; c >= 0; c--){
+                        var d = Math.floor(Math.random() * c);
+                        var e = b[c];
+                        b[c] = b[d];
+                        b[d] = e;
                     }
-                    return a;
+                    return b;
                 },
-                toPointList: function c(a) {
-                    var b = a.reduce(function(a, b) {
+                toPointList: function a(b) {
+                    var c = b.reduce(function(a, b) {
                         var c = "[".concat(b.join(","), "]");
                         a.push(c);
                         return a;
                     }, []);
-                    return "[".concat(b.join(",\r\n"), "]");
+                    return "[".concat(c.join(",\r\n"), "]");
                 },
-                threshold: function c(a, d, e) {
-                    var b = a.reduce(function(b, c) {
-                        if (e.apply(a, [
-                            c
-                        ]) >= d) {
-                            b.push(c);
+                threshold: function a(b, c, d) {
+                    var e = b.reduce(function(a, e) {
+                        if (d.apply(b, [
+                            e
+                        ]) >= c) {
+                            a.push(e);
                         }
-                        return b;
+                        return a;
                     }, []);
-                    return b;
+                    return e;
                 },
-                maxIndex: function d(b) {
+                maxIndex: function a(b) {
                     var c = 0;
-                    for(var a = 0; a < b.length; a++){
-                        if (b[a] > b[c]) {
-                            c = a;
+                    for(var d = 0; d < b.length; d++){
+                        if (b[d] > b[c]) {
+                            c = d;
                         }
                     }
                     return c;
                 },
-                max: function a(c) {
+                max: function a(b) {
                     var a = 0;
-                    for(var b = 0; b < c.length; b++){
-                        if (c[b] > a) {
-                            a = c[b];
+                    for(var c = 0; c < b.length; c++){
+                        if (b[c] > a) {
+                            a = b[c];
                         }
                     }
                     return a;
@@ -1100,112 +1100,112 @@
                 }
             };
         },
-        function(i, c, a) {
+        function(a, b, c) {
             "use strict";
-            var d = a(83);
-            var j = a.n(d);
-            var e = a(3);
-            var k = a.n(e);
-            var f = a(4);
-            var l = a.n(f);
-            var g = a(0);
-            var m = a.n(g);
-            var b = a(7);
-            var n = a.n(b);
-            var o = a(8);
-            var p = a(10);
-            var q = {
-                clone: b["clone"]
+            var d = c(83);
+            var e = c.n(d);
+            var f = c(3);
+            var g = c.n(f);
+            var h = c(4);
+            var i = c.n(h);
+            var j = c(0);
+            var k = c.n(j);
+            var l = c(7);
+            var m = c.n(l);
+            var n = c(8);
+            var o = c(10);
+            var p = {
+                clone: l["clone"]
             };
-            function r(a) {
+            function q(a) {
                 if (a < 0) {
                     throw new Error("expected positive number, received ".concat(a));
                 }
             }
-            var h = (function() {
+            var r = (function() {
                 function a(b, c) {
                     var d = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Uint8Array;
                     var e = arguments.length > 3 ? arguments[3] : undefined;
-                    k()(this, a);
-                    m()(this, "data", void 0);
-                    m()(this, "size", void 0);
-                    m()(this, "indexMapping", void 0);
+                    g()(this, a);
+                    k()(this, "data", void 0);
+                    k()(this, "size", void 0);
+                    k()(this, "indexMapping", void 0);
                     if (!c) {
                         this.data = new d(b.x * b.y);
                         if (e) {
-                            p["a"].init(this.data, 0);
+                            o["a"].init(this.data, 0);
                         }
                     } else {
                         this.data = c;
                     }
                     this.size = b;
                 }
-                l()(a, [
+                i()(a, [
                     {
                         key: "inImageWithBorder",
-                        value: function c(a) {
-                            var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-                            r(b);
-                            return (a.x >= 0 && a.y >= 0 && a.x < this.size.x + b * 2 && a.y < this.size.y + b * 2);
+                        value: function a(b) {
+                            var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+                            q(c);
+                            return (b.x >= 0 && b.y >= 0 && b.x < this.size.x + c * 2 && b.y < this.size.y + c * 2);
                         }
                     },
                     {
                         key: "subImageAsCopy",
-                        value: function h(d, a) {
-                            r(a.x);
-                            r(a.y);
-                            var e = d.size, f = e.x, g = e.y;
-                            for(var b = 0; b < f; b++){
-                                for(var c = 0; c < g; c++){
-                                    d.data[c * f + b] = this.data[(a.y + c) * this.size.x + a.x + b];
+                        value: function a(b, c) {
+                            q(c.x);
+                            q(c.y);
+                            var d = b.size, e = d.x, f = d.y;
+                            for(var g = 0; g < e; g++){
+                                for(var h = 0; h < f; h++){
+                                    b.data[h * e + g] = this.data[(c.y + h) * this.size.x + c.x + g];
                                 }
                             }
-                            return d;
+                            return b;
                         }
                     },
                     {
                         key: "get",
-                        value: function c(a, b) {
-                            return this.data[b * this.size.x + a];
+                        value: function a(b, c) {
+                            return this.data[c * this.size.x + b];
                         }
                     },
                     {
                         key: "getSafe",
-                        value: function e(c, d) {
+                        value: function a(b, c) {
                             if (!this.indexMapping) {
                                 this.indexMapping = {
                                     x: [],
                                     y: []
                                 };
-                                for(var a = 0; a < this.size.x; a++){
-                                    this.indexMapping.x[a] = a;
-                                    this.indexMapping.x[a + this.size.x] = a;
+                                for(var d = 0; d < this.size.x; d++){
+                                    this.indexMapping.x[d] = d;
+                                    this.indexMapping.x[d + this.size.x] = d;
                                 }
-                                for(var b = 0; b < this.size.y; b++){
-                                    this.indexMapping.y[b] = b;
-                                    this.indexMapping.y[b + this.size.y] = b;
+                                for(var e = 0; e < this.size.y; e++){
+                                    this.indexMapping.y[e] = e;
+                                    this.indexMapping.y[e + this.size.y] = e;
                                 }
                             }
-                            return this.data[this.indexMapping.y[d + this.size.y] * this.size.x + this.indexMapping.x[c + this.size.x]];
+                            return this.data[this.indexMapping.y[c + this.size.y] * this.size.x + this.indexMapping.x[b + this.size.x]];
                         }
                     },
                     {
                         key: "set",
-                        value: function d(a, b, c) {
-                            this.data[b * this.size.x + a] = c;
+                        value: function a(b, c, d) {
+                            this.data[c * this.size.x + b] = d;
                             delete this.indexMapping;
                             return this;
                         }
                     },
                     {
                         key: "zeroBorder",
-                        value: function f() {
-                            var d = this.size, a = d.x, e = d.y;
-                            for(var b = 0; b < a; b++){
-                                this.data[b] = this.data[(e - 1) * a + b] = 0;
+                        value: function a() {
+                            var b = this.size, c = b.x, d = b.y;
+                            for(var e = 0; e < c; e++){
+                                this.data[e] = this.data[(d - 1) * c + e] = 0;
                             }
-                            for(var c = 1; c < e - 1; c++){
-                                this.data[c * a] = this.data[c * a + (a - 1)] = 0;
+                            for(var f = 1; f < d - 1; f++){
+                                this.data[f * c] = this.data[f * c + (c - 1)] = 0;
                             }
                             delete this.indexMapping;
                             return this;
@@ -1213,31 +1213,31 @@
                     },
                     {
                         key: "moments",
-                        value: function v(i) {
-                            var t = this.data;
-                            var c;
+                        value: function a(b) {
+                            var c = this.data;
                             var d;
-                            var u = this.size.y;
-                            var n = this.size.x;
-                            var j;
-                            var o;
-                            var k = [];
                             var e;
-                            var a;
-                            var l;
-                            var p;
-                            var r;
-                            var g;
+                            var f = this.size.y;
+                            var g = this.size.x;
                             var h;
-                            var b;
-                            var m = [];
-                            var f = Math.PI;
-                            var s = f / 4;
-                            if (i <= 0) {
-                                return m;
+                            var i;
+                            var j = [];
+                            var k;
+                            var l;
+                            var m;
+                            var n;
+                            var o;
+                            var q;
+                            var r;
+                            var s;
+                            var t = [];
+                            var u = Math.PI;
+                            var v = u / 4;
+                            if (b <= 0) {
+                                return t;
                             }
-                            for(e = 0; e < i; e++){
-                                k[e] = {
+                            for(k = 0; k < b; k++){
+                                j[k] = {
                                     m00: 0,
                                     m01: 0,
                                     m10: 0,
@@ -1248,242 +1248,242 @@
                                     rad: 0
                                 };
                             }
-                            for(d = 0; d < u; d++){
-                                o = d * d;
-                                for(c = 0; c < n; c++){
-                                    j = t[d * n + c];
-                                    if (j > 0) {
-                                        a = k[j - 1];
-                                        a.m00 += 1;
-                                        a.m01 += d;
-                                        a.m10 += c;
-                                        a.m11 += c * d;
-                                        a.m02 += o;
-                                        a.m20 += c * c;
+                            for(e = 0; e < f; e++){
+                                i = e * e;
+                                for(d = 0; d < g; d++){
+                                    h = c[e * g + d];
+                                    if (h > 0) {
+                                        l = j[h - 1];
+                                        l.m00 += 1;
+                                        l.m01 += e;
+                                        l.m10 += d;
+                                        l.m11 += d * e;
+                                        l.m02 += i;
+                                        l.m20 += d * d;
                                     }
                                 }
                             }
-                            for(e = 0; e < i; e++){
-                                a = k[e];
-                                if (!isNaN(a.m00) && a.m00 !== 0) {
-                                    g = a.m10 / a.m00;
-                                    h = a.m01 / a.m00;
-                                    l = a.m11 / a.m00 - g * h;
-                                    p = a.m02 / a.m00 - h * h;
-                                    r = a.m20 / a.m00 - g * g;
-                                    b = (p - r) / (2 * l);
-                                    b = 0.5 * Math.atan(b) + (l >= 0 ? s : -s) + f;
-                                    a.theta = (((b * 180) / f + 90) % 180) - 90;
-                                    if (a.theta < 0) {
-                                        a.theta += 180;
+                            for(k = 0; k < b; k++){
+                                l = j[k];
+                                if (!isNaN(l.m00) && l.m00 !== 0) {
+                                    q = l.m10 / l.m00;
+                                    r = l.m01 / l.m00;
+                                    m = l.m11 / l.m00 - q * r;
+                                    n = l.m02 / l.m00 - r * r;
+                                    o = l.m20 / l.m00 - q * q;
+                                    s = (n - o) / (2 * m);
+                                    s = 0.5 * Math.atan(s) + (m >= 0 ? v : -v) + u;
+                                    l.theta = (((s * 180) / u + 90) % 180) - 90;
+                                    if (l.theta < 0) {
+                                        l.theta += 180;
                                     }
-                                    a.rad = b > f ? b - f : b;
-                                    a.vec = q.clone([
-                                        Math.cos(b),
-                                        Math.sin(b), 
+                                    l.rad = s > u ? s - u : s;
+                                    l.vec = p.clone([
+                                        Math.cos(s),
+                                        Math.sin(s), 
                                     ]);
-                                    m.push(a);
+                                    t.push(l);
                                 }
                             }
-                            return m;
+                            return t;
                         }
                     },
                     {
                         key: "getAsRGBA",
-                        value: function g() {
-                            var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1.0;
-                            var a = new Uint8ClampedArray(4 * this.size.x * this.size.y);
-                            for(var b = 0; b < this.size.y; b++){
-                                for(var c = 0; c < this.size.x; c++){
-                                    var d = b * this.size.x + c;
-                                    var e = this.get(c, b) * f;
-                                    a[d * 4 + 0] = e;
-                                    a[d * 4 + 1] = e;
-                                    a[d * 4 + 2] = e;
-                                    a[d * 4 + 3] = 255;
+                        value: function a() {
+                            var b = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1.0;
+                            var c = new Uint8ClampedArray(4 * this.size.x * this.size.y);
+                            for(var d = 0; d < this.size.y; d++){
+                                for(var e = 0; e < this.size.x; e++){
+                                    var f = d * this.size.x + e;
+                                    var g = this.get(e, d) * b;
+                                    c[f * 4 + 0] = g;
+                                    c[f * 4 + 1] = g;
+                                    c[f * 4 + 2] = g;
+                                    c[f * 4 + 3] = 255;
                                 }
                             }
-                            return a;
+                            return c;
                         }
                     },
                     {
                         key: "show",
-                        value: function g(a) {
-                            var d = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.0;
-                            var b = a.getContext("2d");
-                            if (!b) {
+                        value: function a(b) {
+                            var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.0;
+                            var d = b.getContext("2d");
+                            if (!d) {
                                 throw new Error("Unable to get canvas context");
                             }
-                            var c = b.getImageData(0, 0, a.width, a.height);
-                            var e = this.getAsRGBA(d);
-                            a.width = this.size.x;
-                            a.height = this.size.y;
-                            var f = new ImageData(e, c.width, c.height);
-                            b.putImageData(f, 0, 0);
+                            var e = d.getImageData(0, 0, b.width, b.height);
+                            var f = this.getAsRGBA(c);
+                            b.width = this.size.x;
+                            b.height = this.size.y;
+                            var g = new ImageData(f, e.width, e.height);
+                            d.putImageData(g, 0, 0);
                         }
                     },
                     {
                         key: "overlay",
-                        value: function s(l, e, a) {
-                            var m = e < 0 || e > 360 ? 360 : e;
-                            var b = [
+                        value: function a(b, c, d) {
+                            var f = c < 0 || c > 360 ? 360 : c;
+                            var g = [
                                 0,
                                 1,
                                 1
                             ];
-                            var n = [
+                            var h = [
                                 0,
                                 0,
                                 0
                             ];
-                            var p = [
+                            var i = [
                                 255,
                                 255,
                                 255
                             ];
-                            var q = [
+                            var j = [
                                 0,
                                 0,
                                 0
                             ];
-                            var i = [];
-                            var f = l.getContext("2d");
-                            if (!f) {
+                            var k = [];
+                            var l = b.getContext("2d");
+                            if (!l) {
                                 throw new Error("Unable to get canvas context");
                             }
-                            var k = f.getImageData(a.x, a.y, this.size.x, this.size.y);
-                            var c = k.data;
-                            var g = this.data.length;
-                            while(g--){
-                                b[0] = this.data[g] * m;
-                                i = b[0] <= 0 ? p : b[0] >= 360 ? q : Object(o["g"])(b, n);
-                                var d = g * 4;
-                                var r = i;
-                                var h = j()(r, 3);
-                                c[d] = h[0];
-                                c[d + 1] = h[1];
-                                c[d + 2] = h[2];
-                                c[d + 3] = 255;
+                            var m = l.getImageData(d.x, d.y, this.size.x, this.size.y);
+                            var o = m.data;
+                            var p = this.data.length;
+                            while(p--){
+                                g[0] = this.data[p] * f;
+                                k = g[0] <= 0 ? i : g[0] >= 360 ? j : Object(n["g"])(g, h);
+                                var q = p * 4;
+                                var r = k;
+                                var s = e()(r, 3);
+                                o[q] = s[0];
+                                o[q + 1] = s[1];
+                                o[q + 2] = s[2];
+                                o[q + 3] = 255;
                             }
-                            f.putImageData(k, a.x, a.y);
+                            l.putImageData(m, d.x, d.y);
                         }
                     }, 
                 ]);
                 return a;
             })();
-            c["a"] = h;
+            b["a"] = r;
         },
-        function(a, c, b) {
-            a.exports = b(228);
+        function(a, b, c) {
+            a.exports = c(228);
         },
-        function(a, d, b) {
-            var e = b(227);
-            function c(b, d, f) {
+        function(a, b, c) {
+            var d = c(227);
+            function e(b, c, f) {
                 if (typeof Reflect !== "undefined" && Reflect.get) {
-                    a.exports = c = Reflect.get;
+                    a.exports = e = Reflect.get;
                     (a.exports["default"] = a.exports), (a.exports.__esModule = true);
                 } else {
-                    a.exports = c = function g(d, b, f) {
-                        var c = e(d, b);
-                        if (!c) return;
-                        var a = Object.getOwnPropertyDescriptor(c, b);
-                        if (a.get) {
-                            return a.get.call(f);
+                    a.exports = e = function a(b, c, e) {
+                        var f = d(b, c);
+                        if (!f) return;
+                        var g = Object.getOwnPropertyDescriptor(f, c);
+                        if (g.get) {
+                            return g.get.call(e);
                         }
-                        return a.value;
+                        return g.value;
                     };
                     (a.exports["default"] = a.exports), (a.exports.__esModule = true);
                 }
-                return c(b, d, f || b);
+                return e(b, c, f || b);
+            }
+            a.exports = e;
+            (a.exports["default"] = a.exports), (a.exports.__esModule = true);
+        },
+        function(a, b) {
+            function c(a) {
+                var b = typeof a;
+                return (a != null && (b == "object" || b == "function"));
+            }
+            a.exports = c;
+        },
+        function(a, b) {
+            var c = Array.isArray;
+            a.exports = c;
+        },
+        function(a, b, c) {
+            var d = c(90), e = c(145);
+            var f = e(function(a, b, c) {
+                d(a, b, c);
+            });
+            a.exports = f;
+        },
+        function(a, b, c) {
+            var d = c(45);
+            var e = typeof self == "object" && self && self.Object === Object && self;
+            var f = d || e || Function("return this")();
+            a.exports = f;
+        },
+        function(a, b) {
+            function c(a) {
+                return a != null && typeof a == "object";
+            }
+            a.exports = c;
+        },
+        function(a, b) {
+            function c(b) {
+                "@babel/helpers - typeof";
+                if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+                    a.exports = c = function a(b) {
+                        return typeof b;
+                    };
+                    (a.exports["default"] = a.exports), (a.exports.__esModule = true);
+                } else {
+                    a.exports = c = function a(b) {
+                        return b && typeof Symbol === "function" && b.constructor === Symbol && b !== Symbol.prototype ? "symbol" : typeof b;
+                    };
+                    (a.exports["default"] = a.exports), (a.exports.__esModule = true);
+                }
+                return c(b);
             }
             a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b(a) {
-                var b = typeof a;
-                return (a != null && (b == "object" || b == "function"));
-            }
-            a.exports = b;
-        },
-        function(a, c) {
-            var b = Array.isArray;
-            a.exports = b;
-        },
-        function(b, e, a) {
-            var f = a(90), c = a(145);
-            var d = c(function(a, b, c) {
-                f(a, b, c);
-            });
-            b.exports = d;
-        },
-        function(a, f, b) {
-            var c = b(45);
-            var d = typeof self == "object" && self && self.Object === Object && self;
-            var e = c || d || Function("return this")();
-            a.exports = e;
-        },
-        function(a, c) {
-            function b(a) {
-                return a != null && typeof a == "object";
-            }
-            a.exports = b;
-        },
-        function(a, c) {
-            function b(c) {
-                "@babel/helpers - typeof";
-                if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-                    a.exports = b = function b(a) {
-                        return typeof a;
-                    };
-                    (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-                } else {
-                    a.exports = b = function b(a) {
-                        return a && typeof Symbol === "function" && a.constructor === Symbol && a !== Symbol.prototype ? "symbol" : typeof a;
-                    };
-                    (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-                }
-                return b(c);
-            }
-            a.exports = b;
-            (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-        },
-        function(a, c) {
-            function d(c, d, e, f, g, h, i) {
+        function(a, b) {
+            function c(a, b, c, d, e, f, g) {
                 try {
-                    var a = c[h](i);
-                    var b = a.value;
+                    var h = a[f](g);
+                    var i = h.value;
                 } catch (j) {
-                    e(j);
+                    c(j);
                     return;
                 }
-                if (a.done) {
-                    d(b);
+                if (h.done) {
+                    b(i);
                 } else {
-                    Promise.resolve(b).then(f, g);
+                    Promise.resolve(i).then(d, e);
                 }
             }
-            function b(a) {
+            function d(a) {
                 return function() {
-                    var b = this, c = arguments;
-                    return new Promise(function(f, g) {
-                        var h = a.apply(b, c);
-                        function e(a) {
-                            d(h, f, g, e, i, "next", a);
+                    var b = this, d = arguments;
+                    return new Promise(function(e, f) {
+                        var g = a.apply(b, d);
+                        function h(a) {
+                            c(g, e, f, h, i, "next", a);
                         }
                         function i(a) {
-                            d(h, f, g, e, i, "throw", a);
+                            c(g, e, f, h, i, "throw", a);
                         }
-                        e(undefined);
+                        h(undefined);
                     });
                 };
             }
-            a.exports = b;
+            a.exports = d;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(c, a, d) {
+        function(a, b, c) {
             "use strict";
-            var b = {
+            var d = {
                 searchDirections: [
                     [
                         0,
@@ -1518,28 +1518,28 @@
                         1
                     ], 
                 ],
-                create: function c(a, b) {
-                    var d = a.data;
-                    var e = b.data;
+                create: function a(b, c) {
+                    var d = b.data;
+                    var e = c.data;
                     var f = this.searchDirections;
-                    var g = a.size.x;
+                    var g = b.size.x;
                     var h;
-                    function i(a, k, j, l) {
-                        var b;
-                        var c;
-                        var i;
-                        for(b = 0; b < 7; b++){
-                            c = a.cy + f[a.dir][0];
-                            i = a.cx + f[a.dir][1];
-                            h = c * g + i;
-                            if (d[h] === k && (e[h] === 0 || e[h] === j)) {
-                                e[h] = j;
-                                a.cy = c;
-                                a.cx = i;
+                    function i(a, b, c, i) {
+                        var j;
+                        var k;
+                        var l;
+                        for(j = 0; j < 7; j++){
+                            k = a.cy + f[a.dir][0];
+                            l = a.cx + f[a.dir][1];
+                            h = k * g + l;
+                            if (d[h] === b && (e[h] === 0 || e[h] === c)) {
+                                e[h] = c;
+                                a.cy = k;
+                                a.cx = l;
                                 return true;
                             }
                             if (e[h] === 0) {
-                                e[h] = l;
+                                e[h] = i;
                             }
                             a.dir = (a.dir + 1) % 8;
                         }
@@ -1554,85 +1554,85 @@
                             prev: null
                         };
                     }
-                    function k(f, g, h, k, l) {
-                        var d = null;
-                        var b;
-                        var c;
-                        var e;
-                        var a = {
-                            cx: g,
-                            cy: f,
+                    function k(a, b, c, d, e) {
+                        var f = null;
+                        var g;
+                        var h;
+                        var k;
+                        var l = {
+                            cx: b,
+                            cy: a,
                             dir: 0
                         };
-                        if (i(a, k, h, l)) {
-                            d = j(g, f, a.dir);
-                            b = d;
-                            e = a.dir;
-                            c = j(a.cx, a.cy, 0);
-                            c.prev = b;
-                            b.next = c;
-                            c.next = null;
-                            b = c;
+                        if (i(l, d, c, e)) {
+                            f = j(b, a, l.dir);
+                            g = f;
+                            k = l.dir;
+                            h = j(l.cx, l.cy, 0);
+                            h.prev = g;
+                            g.next = h;
+                            h.next = null;
+                            g = h;
                             do {
-                                a.dir = (a.dir + 6) % 8;
-                                i(a, k, h, l);
-                                if (e !== a.dir) {
-                                    b.dir = a.dir;
-                                    c = j(a.cx, a.cy, 0);
-                                    c.prev = b;
-                                    b.next = c;
-                                    c.next = null;
-                                    b = c;
+                                l.dir = (l.dir + 6) % 8;
+                                i(l, d, c, e);
+                                if (k !== l.dir) {
+                                    g.dir = l.dir;
+                                    h = j(l.cx, l.cy, 0);
+                                    h.prev = g;
+                                    g.next = h;
+                                    h.next = null;
+                                    g = h;
                                 } else {
-                                    b.dir = e;
-                                    b.x = a.cx;
-                                    b.y = a.cy;
+                                    g.dir = k;
+                                    g.x = l.cx;
+                                    g.y = l.cy;
                                 }
-                                e = a.dir;
-                            }while (a.cx !== g || a.cy !== f)
-                            d.prev = b.prev;
-                            b.prev.next = d;
+                                k = l.dir;
+                            }while (l.cx !== b || l.cy !== a)
+                            f.prev = g.prev;
+                            g.prev.next = f;
                         }
-                        return d;
+                        return f;
                     }
                     return {
-                        trace: function e(a, b, c, d) {
-                            return i(a, b, c, d);
+                        trace: function a(b, c, d, e) {
+                            return i(b, c, d, e);
                         },
-                        contourTracing: function f(a, b, c, d, e) {
-                            return k(a, b, c, d, e);
+                        contourTracing: function a(b, c, d, e, f) {
+                            return k(b, c, d, e, f);
                         }
                     };
                 }
             };
-            a["a"] = b;
+            b["a"] = d;
         },
-        function(c, e, a) {
-            var b = a(27), f = a(103), g = a(104);
-            var h = "[object Null]", i = "[object Undefined]";
-            var j = b ? b.toStringTag : undefined;
-            function d(a) {
+        function(a, b, c) {
+            var d = c(27), e = c(103), f = c(104);
+            var g = "[object Null]", h = "[object Undefined]";
+            var i = d ? d.toStringTag : undefined;
+            function j(a) {
                 if (a == null) {
-                    return a === undefined ? i : h;
+                    return a === undefined ? h : g;
                 }
-                return j && j in Object(a) ? f(a) : g(a);
+                return i && i in Object(a) ? e(a) : f(a);
             }
-            c.exports = d;
+            a.exports = j;
         },
-        function(b, c, a) {
+        function(a, b, c) {
             "use strict";
-            (function(e) {
-                var b = a(7);
-                var f = a.n(b);
-                var d = a(34);
-                var g = a.n(d);
-                var h = a(11);
-                var i = a(8);
-                var j = a(10);
-                var k = a(9);
-                var l = a(87);
-                var m = a(21);
-                var n = a(88);
+            (function(a) {
+                var d = c(7);
+                var e = c.n(d);
+                var f = c(34);
+                var g = c.n(f);
+                var h = c(11);
+                var i = c(8);
+                var j = c(10);
+                var k = c(9);
+                var l = c(87);
+                var m = c(21);
+                var n = c(88);
                 var o;
                 var p;
                 var q;
@@ -1671,12 +1671,12 @@
                     z.y = (p.size.y / x.y) | 0;
                     w = new h["a"](p.size, undefined, Uint8Array, false);
                     s = new h["a"](x, undefined, Array, true);
-                    var a = new ArrayBuffer(64 * 1024);
-                    r = new h["a"](x, new Uint8Array(a, 0, x.x * x.y));
-                    q = new h["a"](x, new Uint8Array(a, x.x * x.y * 3, x.x * x.y), undefined, true);
-                    B = Object(n["a"])(typeof window !== "undefined" ? window : typeof self !== "undefined" ? self : e, {
+                    var b = new ArrayBuffer(64 * 1024);
+                    r = new h["a"](x, new Uint8Array(b, 0, x.x * x.y));
+                    q = new h["a"](x, new Uint8Array(b, x.x * x.y * 3, x.x * x.y), undefined, true);
+                    B = Object(n["a"])(typeof window !== "undefined" ? window : typeof self !== "undefined" ? self : a, {
                         size: x.x
-                    }, a);
+                    }, b);
                     v = new h["a"]({
                         x: (p.size.x / r.size.x) | 0,
                         y: (p.size.y / r.size.y) | 0
@@ -1697,47 +1697,47 @@
                     y.dom.binary.width = w.size.x;
                     y.dom.binary.height = w.size.y;
                 }
-                function E(h) {
-                    var e;
-                    var f;
-                    var a;
+                function E(a) {
+                    var b;
                     var c;
-                    var i;
-                    var j = w.size.x;
-                    var l = w.size.y;
-                    var m = -w.size.x;
-                    var n = -w.size.y;
+                    var e;
                     var g;
+                    var h;
+                    var i = w.size.x;
+                    var j = w.size.y;
+                    var l = -w.size.x;
+                    var m = -w.size.y;
+                    var n;
                     var p;
-                    e = 0;
-                    for(f = 0; f < h.length; f++){
-                        c = h[f];
-                        e += c.rad;
+                    b = 0;
+                    for(c = 0; c < a.length; c++){
+                        g = a[c];
+                        b += g.rad;
                         if (true && o.debug.showPatches) {
-                            k["a"].drawRect(c.pos, r.size, y.ctx.binary, {
+                            k["a"].drawRect(g.pos, r.size, y.ctx.binary, {
                                 color: "red"
                             });
                         }
                     }
-                    e /= h.length;
-                    e = (((e * 180) / Math.PI + 90) % 180) - 90;
-                    if (e < 0) {
-                        e += 180;
+                    b /= a.length;
+                    b = (((b * 180) / Math.PI + 90) % 180) - 90;
+                    if (b < 0) {
+                        b += 180;
                     }
-                    e = ((180 - e) * Math.PI) / 180;
-                    i = d["copy"](d["create"](), [
-                        Math.cos(e),
-                        Math.sin(e),
-                        -Math.sin(e),
-                        Math.cos(e), 
+                    b = ((180 - b) * Math.PI) / 180;
+                    h = f["copy"](f["create"](), [
+                        Math.cos(b),
+                        Math.sin(b),
+                        -Math.sin(b),
+                        Math.cos(b), 
                     ]);
-                    for(f = 0; f < h.length; f++){
-                        c = h[f];
-                        for(a = 0; a < 4; a++){
-                            b["transformMat2"](c.box[a], c.box[a], i);
+                    for(c = 0; c < a.length; c++){
+                        g = a[c];
+                        for(e = 0; e < 4; e++){
+                            d["transformMat2"](g.box[e], g.box[e], h);
                         }
                         if (true && o.debug.boxFromPatches.showTransformed) {
-                            k["a"].drawPath(c.box, {
+                            k["a"].drawPath(g.box, {
                                 x: 0,
                                 y: 1
                             }, y.ctx.binary, {
@@ -1746,43 +1746,43 @@
                             });
                         }
                     }
-                    for(f = 0; f < h.length; f++){
-                        c = h[f];
-                        for(a = 0; a < 4; a++){
-                            if (c.box[a][0] < j) {
-                                j = c.box[a][0];
+                    for(c = 0; c < a.length; c++){
+                        g = a[c];
+                        for(e = 0; e < 4; e++){
+                            if (g.box[e][0] < i) {
+                                i = g.box[e][0];
                             }
-                            if (c.box[a][0] > m) {
-                                m = c.box[a][0];
+                            if (g.box[e][0] > l) {
+                                l = g.box[e][0];
                             }
-                            if (c.box[a][1] < l) {
-                                l = c.box[a][1];
+                            if (g.box[e][1] < j) {
+                                j = g.box[e][1];
                             }
-                            if (c.box[a][1] > n) {
-                                n = c.box[a][1];
+                            if (g.box[e][1] > m) {
+                                m = g.box[e][1];
                             }
                         }
                     }
-                    g = [
+                    n = [
                         [
-                            j,
-                            l
+                            i,
+                            j
                         ],
                         [
-                            m,
-                            l
+                            l,
+                            j
                         ],
                         [
-                            m,
-                            n
+                            l,
+                            m
                         ],
                         [
-                            j,
-                            n
+                            i,
+                            m
                         ], 
                     ];
                     if (true && o.debug.boxFromPatches.showTransformedBox) {
-                        k["a"].drawPath(g, {
+                        k["a"].drawPath(n, {
                             x: 0,
                             y: 1
                         }, y.ctx.binary, {
@@ -1791,12 +1791,12 @@
                         });
                     }
                     p = o.halfSample ? 2 : 1;
-                    i = d["invert"](i, i);
-                    for(a = 0; a < 4; a++){
-                        b["transformMat2"](g[a], g[a], i);
+                    h = f["invert"](h, h);
+                    for(e = 0; e < 4; e++){
+                        d["transformMat2"](n[e], n[e], h);
                     }
                     if (true && o.debug.boxFromPatches.showBB) {
-                        k["a"].drawPath(g, {
+                        k["a"].drawPath(n, {
                             x: 0,
                             y: 1
                         }, y.ctx.binary, {
@@ -1804,10 +1804,10 @@
                             lineWidth: 2
                         });
                     }
-                    for(a = 0; a < 4; a++){
-                        b["scale"](g[a], g[a], p);
+                    for(e = 0; e < 4; e++){
+                        d["scale"](n[e], n[e], p);
                     }
-                    return g;
+                    return n;
                 }
                 function F() {
                     Object(i["i"])(p, w);
@@ -1819,83 +1819,207 @@
                 function G() {
                     var a;
                     var b;
+                    var c;
                     var d;
                     var e;
+                    var f = [];
                     var g;
-                    var c = [];
                     var h;
-                    var f;
                     var i;
                     for(a = 0; a < z.x; a++){
                         for(b = 0; b < z.y; b++){
-                            d = r.size.x * a;
-                            e = r.size.y * b;
-                            K(d, e);
+                            c = r.size.x * a;
+                            d = r.size.y * b;
+                            K(c, d);
                             q.zeroBorder();
                             j["a"].init(s.data, 0);
-                            h = l["a"].create(q, s);
-                            f = h.rasterize(0);
+                            g = l["a"].create(q, s);
+                            h = g.rasterize(0);
                             if (true && o.debug.showLabels) {
-                                s.overlay(y.dom.binary, Math.floor(360 / f.count), {
-                                    x: d,
-                                    y: e
+                                s.overlay(y.dom.binary, Math.floor(360 / h.count), {
+                                    x: c,
+                                    y: d
                                 });
                             }
-                            g = s.moments(f.count);
-                            c = c.concat(L(g, [
+                            e = s.moments(h.count);
+                            f = f.concat(L(e, [
                                 a,
                                 b
-                            ], d, e));
+                            ], c, d));
                         }
                     }
                     if (true && o.debug.showFoundPatches) {
-                        for(a = 0; a < c.length; a++){
-                            i = c[a];
+                        for(a = 0; a < f.length; a++){
+                            i = f[a];
                             k["a"].drawRect(i.pos, r.size, y.ctx.binary, {
                                 color: "#99ff00",
                                 lineWidth: 2
                             });
                         }
                     }
-                    return c;
+                    return f;
                 }
-                function H(e) {
-                    var c;
+                function H(a) {
                     var b;
-                    var a = [];
+                    var c;
                     var d = [];
-                    for(c = 0; c < e; c++){
-                        a.push(0);
+                    var e = [];
+                    for(b = 0; b < a; b++){
+                        d.push(0);
                     }
-                    b = u.data.length;
-                    while(b--){
-                        if (u.data[b] > 0) {
-                            a[u.data[b] - 1]++;
+                    c = u.data.length;
+                    while(c--){
+                        if (u.data[c] > 0) {
+                            d[u.data[c] - 1]++;
                         }
                     }
-                    a = a.map(function(a, b) {
+                    d = d.map(function(a, b) {
                         return {
                             val: a,
                             label: b + 1
                         };
                     });
-                    a.sort(function(a, b) {
+                    d.sort(function(a, b) {
                         return b.val - a.val;
                     });
-                    d = a.filter(function(a) {
+                    e = d.filter(function(a) {
                         return a.val >= 5;
                     });
-                    return d;
+                    return e;
                 }
-                function I(f, m) {
-                    var a;
+                function I(a, b) {
                     var c;
                     var d;
-                    var b = [];
                     var e;
+                    var f = [];
+                    var g;
+                    var h;
+                    var j = [];
+                    var l = [
+                        0,
+                        1,
+                        1
+                    ];
+                    var m = [
+                        0,
+                        0,
+                        0
+                    ];
+                    for(c = 0; c < a.length; c++){
+                        e = u.data.length;
+                        f.length = 0;
+                        while(e--){
+                            if (u.data[e] === a[c].label) {
+                                g = v.data[e];
+                                f.push(g);
+                            }
+                        }
+                        h = E(f);
+                        if (h) {
+                            j.push(h);
+                            if (true && o.debug.showRemainingPatchLabels) {
+                                for(d = 0; d < f.length; d++){
+                                    g = f[d];
+                                    l[0] = (a[c].label / (b + 1)) * 360;
+                                    Object(i["g"])(l, m);
+                                    k["a"].drawRect(g.pos, r.size, y.ctx.binary, {
+                                        color: "rgb(".concat(m.join(","), ")"),
+                                        lineWidth: 2
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    return j;
+                }
+                function J(a) {
+                    var b = Object(i["b"])(a, 0.9);
+                    var c = Object(i["j"])(b, 1, function(a) {
+                        return a.getPoints().length;
+                    });
+                    var d = [];
+                    var e = [];
+                    if (c.length === 1) {
+                        d = c[0].item.getPoints();
+                        for(var f = 0; f < d.length; f++){
+                            e.push(d[f].point);
+                        }
+                    }
+                    return e;
+                }
+                function K(a, b) {
+                    w.subImageAsCopy(r, Object(i["h"])(a, b));
+                    B.skeletonize();
+                    if (true && o.debug.showSkeleton) {
+                        q.overlay(y.dom.binary, 360, Object(i["h"])(a, b));
+                    }
+                }
+                function L(a, b, c, e) {
+                    var f;
                     var g;
                     var h = [];
-                    var j = [
+                    var i;
+                    var j;
+                    var k = [];
+                    var l = Math.ceil(x.x / 3);
+                    if (a.length >= 2) {
+                        for(f = 0; f < a.length; f++){
+                            if (a[f].m00 > l) {
+                                h.push(a[f]);
+                            }
+                        }
+                        if (h.length >= 2) {
+                            i = J(h);
+                            g = 0;
+                            for(f = 0; f < i.length; f++){
+                                g += i[f].rad;
+                            }
+                            if (i.length > 1 && i.length >= (h.length / 4) * 3 && i.length > a.length / 4) {
+                                g /= i.length;
+                                j = {
+                                    index: b[1] * z.x + b[0],
+                                    pos: {
+                                        x: c,
+                                        y: e
+                                    },
+                                    box: [
+                                        d["clone"]([
+                                            c,
+                                            e
+                                        ]),
+                                        d["clone"]([
+                                            c + r.size.x,
+                                            e
+                                        ]),
+                                        d["clone"]([
+                                            c + r.size.x,
+                                            e + r.size.y, 
+                                        ]),
+                                        d["clone"]([
+                                            c,
+                                            e + r.size.y
+                                        ]), 
+                                    ],
+                                    moments: i,
+                                    rad: g,
+                                    vec: d["clone"]([
+                                        Math.cos(g),
+                                        Math.sin(g)
+                                    ])
+                                };
+                                k.push(j);
+                            }
+                        }
+                    }
+                    return k;
+                }
+                function M(a) {
+                    var b = 0;
+                    var c = 0.95;
+                    var e = 0;
+                    var f;
+                    var g;
+                    var h = [
                         0,
                         1,
                         1
@@ -1905,131 +2029,7 @@
                         0,
                         0
                     ];
-                    for(a = 0; a < f.length; a++){
-                        d = u.data.length;
-                        b.length = 0;
-                        while(d--){
-                            if (u.data[d] === f[a].label) {
-                                e = v.data[d];
-                                b.push(e);
-                            }
-                        }
-                        g = E(b);
-                        if (g) {
-                            h.push(g);
-                            if (true && o.debug.showRemainingPatchLabels) {
-                                for(c = 0; c < b.length; c++){
-                                    e = b[c];
-                                    j[0] = (f[a].label / (m + 1)) * 360;
-                                    Object(i["g"])(j, l);
-                                    k["a"].drawRect(e.pos, r.size, y.ctx.binary, {
-                                        color: "rgb(".concat(l.join(","), ")"),
-                                        lineWidth: 2
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    return h;
-                }
-                function J(e) {
-                    var f = Object(i["b"])(e, 0.9);
-                    var c = Object(i["j"])(f, 1, function(a) {
-                        return a.getPoints().length;
-                    });
-                    var a = [];
-                    var d = [];
-                    if (c.length === 1) {
-                        a = c[0].item.getPoints();
-                        for(var b = 0; b < a.length; b++){
-                            d.push(a[b].point);
-                        }
-                    }
-                    return d;
-                }
-                function K(a, b) {
-                    w.subImageAsCopy(r, Object(i["h"])(a, b));
-                    B.skeletonize();
-                    if (true && o.debug.showSkeleton) {
-                        q.overlay(y.dom.binary, 360, Object(i["h"])(a, b));
-                    }
-                }
-                function L(e, i, f, g) {
-                    var a;
-                    var d;
-                    var h = [];
-                    var c;
-                    var j;
-                    var k = [];
-                    var l = Math.ceil(x.x / 3);
-                    if (e.length >= 2) {
-                        for(a = 0; a < e.length; a++){
-                            if (e[a].m00 > l) {
-                                h.push(e[a]);
-                            }
-                        }
-                        if (h.length >= 2) {
-                            c = J(h);
-                            d = 0;
-                            for(a = 0; a < c.length; a++){
-                                d += c[a].rad;
-                            }
-                            if (c.length > 1 && c.length >= (h.length / 4) * 3 && c.length > e.length / 4) {
-                                d /= c.length;
-                                j = {
-                                    index: i[1] * z.x + i[0],
-                                    pos: {
-                                        x: f,
-                                        y: g
-                                    },
-                                    box: [
-                                        b["clone"]([
-                                            f,
-                                            g
-                                        ]),
-                                        b["clone"]([
-                                            f + r.size.x,
-                                            g
-                                        ]),
-                                        b["clone"]([
-                                            f + r.size.x,
-                                            g + r.size.y, 
-                                        ]),
-                                        b["clone"]([
-                                            f,
-                                            g + r.size.y
-                                        ]), 
-                                    ],
-                                    moments: c,
-                                    rad: d,
-                                    vec: b["clone"]([
-                                        Math.cos(d),
-                                        Math.sin(d)
-                                    ])
-                                };
-                                k.push(j);
-                            }
-                        }
-                    }
-                    return k;
-                }
-                function M(e) {
-                    var d = 0;
-                    var p = 0.95;
-                    var f = 0;
-                    var a;
-                    var c;
-                    var g = [
-                        0,
-                        1,
-                        1
-                    ];
-                    var h = [
-                        0,
-                        0,
-                        0
-                    ];
-                    function l() {
+                    function n() {
                         var a;
                         for(a = 0; a < u.data.length; a++){
                             if (u.data[a] === 0 && t.data[a] === 1) {
@@ -2038,32 +2038,32 @@
                         }
                         return u.length;
                     }
-                    function n(c) {
+                    function p(a) {
+                        var e;
                         var f;
                         var g;
                         var h;
-                        var a;
-                        var e;
-                        var i = {
-                            x: c % u.size.x,
-                            y: (c / u.size.x) | 0
+                        var i;
+                        var j = {
+                            x: a % u.size.x,
+                            y: (a / u.size.x) | 0
                         };
-                        var j;
-                        if (c < u.data.length) {
-                            h = v.data[c];
-                            u.data[c] = d;
-                            for(e = 0; e < m["a"].searchDirections.length; e++){
-                                g = i.y + m["a"].searchDirections[e][0];
-                                f = i.x + m["a"].searchDirections[e][1];
-                                a = g * u.size.x + f;
-                                if (t.data[a] === 0) {
-                                    u.data[a] = Number.MAX_VALUE;
+                        var k;
+                        if (a < u.data.length) {
+                            g = v.data[a];
+                            u.data[a] = b;
+                            for(i = 0; i < m["a"].searchDirections.length; i++){
+                                f = j.y + m["a"].searchDirections[i][0];
+                                e = j.x + m["a"].searchDirections[i][1];
+                                h = f * u.size.x + e;
+                                if (t.data[h] === 0) {
+                                    u.data[h] = Number.MAX_VALUE;
                                     continue;
                                 }
-                                if (u.data[a] === 0) {
-                                    j = Math.abs(b["dot"](v.data[a].vec, h.vec));
-                                    if (j > p) {
-                                        n(a);
+                                if (u.data[h] === 0) {
+                                    k = Math.abs(d["dot"](v.data[h].vec, g.vec));
+                                    if (k > c) {
+                                        p(h);
                                     }
                                 }
                             }
@@ -2072,39 +2072,39 @@
                     j["a"].init(t.data, 0);
                     j["a"].init(u.data, 0);
                     j["a"].init(v.data, null);
-                    for(a = 0; a < e.length; a++){
-                        c = e[a];
-                        v.data[c.index] = c;
-                        t.data[c.index] = 1;
+                    for(f = 0; f < a.length; f++){
+                        g = a[f];
+                        v.data[g.index] = g;
+                        t.data[g.index] = 1;
                     }
                     t.zeroBorder();
-                    while((f = l()) < u.data.length){
-                        d++;
-                        n(f);
+                    while((e = n()) < u.data.length){
+                        b++;
+                        p(e);
                     }
                     if (true && o.debug.showPatchLabels) {
-                        for(a = 0; a < u.data.length; a++){
-                            if (u.data[a] > 0 && u.data[a] <= d) {
-                                c = v.data[a];
-                                g[0] = (u.data[a] / (d + 1)) * 360;
-                                Object(i["g"])(g, h);
-                                k["a"].drawRect(c.pos, r.size, y.ctx.binary, {
-                                    color: "rgb(".concat(h.join(","), ")"),
+                        for(f = 0; f < u.data.length; f++){
+                            if (u.data[f] > 0 && u.data[f] <= b) {
+                                g = v.data[f];
+                                h[0] = (u.data[f] / (b + 1)) * 360;
+                                Object(i["g"])(h, l);
+                                k["a"].drawRect(g.pos, r.size, y.ctx.binary, {
+                                    color: "rgb(".concat(l.join(","), ")"),
                                     lineWidth: 2
                                 });
                             }
                         }
                     }
-                    return d;
+                    return b;
                 }
-                c["a"] = {
-                    init: function c(a, b) {
-                        o = b;
-                        A = a;
+                b["a"] = {
+                    init: function a(b, c) {
+                        o = c;
+                        A = b;
                         C();
                         D();
                     },
-                    locate: function e() {
+                    locate: function a() {
                         if (o.halfSample) {
                             Object(i["f"])(A, p);
                         }
@@ -2113,204 +2113,204 @@
                         if (b.length < z.x * z.y * 0.05) {
                             return null;
                         }
-                        var a = M(b);
-                        if (a < 1) {
+                        var c = M(b);
+                        if (c < 1) {
                             return null;
                         }
-                        var c = H(a);
-                        if (c.length === 0) {
+                        var d = H(c);
+                        if (d.length === 0) {
                             return null;
                         }
-                        var d = I(c, a);
-                        return d;
+                        var e = I(d, c);
+                        return e;
                     },
-                    checkImageConstraints: function j(a, h) {
-                        var b;
-                        var c = a.getWidth();
-                        var d = a.getHeight();
-                        var f = h.halfSample ? 0.5 : 1;
-                        var e;
-                        if (a.getConfig().area) {
-                            e = Object(i["d"])(c, d, a.getConfig().area);
-                            a.setTopRight({
-                                x: e.sx,
-                                y: e.sy
+                    checkImageConstraints: function a(b, c) {
+                        var d;
+                        var e = b.getWidth();
+                        var f = b.getHeight();
+                        var g = c.halfSample ? 0.5 : 1;
+                        var h;
+                        if (b.getConfig().area) {
+                            h = Object(i["d"])(e, f, b.getConfig().area);
+                            b.setTopRight({
+                                x: h.sx,
+                                y: h.sy
                             });
-                            a.setCanvasSize({
-                                x: c,
-                                y: d
+                            b.setCanvasSize({
+                                x: e,
+                                y: f
                             });
-                            c = e.sw;
-                            d = e.sh;
+                            e = h.sw;
+                            f = h.sh;
                         }
-                        var g = {
-                            x: Math.floor(c * f),
-                            y: Math.floor(d * f)
+                        var j = {
+                            x: Math.floor(e * g),
+                            y: Math.floor(f * g)
                         };
-                        b = Object(i["a"])(h.patchSize, g);
+                        d = Object(i["a"])(c.patchSize, j);
                         if (true) {
-                            console.log("Patch-Size: ".concat(JSON.stringify(b)));
+                            console.log("Patch-Size: ".concat(JSON.stringify(d)));
                         }
-                        a.setWidth(Math.floor(Math.floor(g.x / b.x) * (1 / f) * b.x));
-                        a.setHeight(Math.floor(Math.floor(g.y / b.y) * (1 / f) * b.y));
-                        if (a.getWidth() % b.x === 0 && a.getHeight() % b.y === 0) {
+                        b.setWidth(Math.floor(Math.floor(j.x / d.x) * (1 / g) * d.x));
+                        b.setHeight(Math.floor(Math.floor(j.y / d.y) * (1 / g) * d.y));
+                        if (b.getWidth() % d.x === 0 && b.getHeight() % d.y === 0) {
                             return true;
                         }
-                        throw new Error("Image dimensions do not comply with the current settings: Width (".concat(c, " )and height (").concat(d, ") must a multiple of ").concat(b.x));
+                        throw new Error("Image dimensions do not comply with the current settings: Width (".concat(e, " )and height (").concat(f, ") must a multiple of ").concat(d.x));
                     }
                 };
-            }.call(this, a(46)));
+            }.call(this, c(46)));
         },
-        function(c, i, b) {
-            var d = b(92), e = b(93), f = b(94), g = b(95), h = b(96);
-            function a(a) {
-                var b = -1, d = a == null ? 0 : a.length;
+        function(a, b, c) {
+            var d = c(92), e = c(93), f = c(94), g = c(95), h = c(96);
+            function i(a) {
+                var b = -1, c = a == null ? 0 : a.length;
                 this.clear();
-                while(++b < d){
-                    var c = a[b];
-                    this.set(c[0], c[1]);
+                while(++b < c){
+                    var d = a[b];
+                    this.set(d[0], d[1]);
                 }
             }
-            a.prototype.clear = d;
-            a.prototype["delete"] = e;
-            a.prototype.get = f;
-            a.prototype.has = g;
-            a.prototype.set = h;
-            c.exports = a;
+            i.prototype.clear = d;
+            i.prototype["delete"] = e;
+            i.prototype.get = f;
+            i.prototype.has = g;
+            i.prototype.set = h;
+            a.exports = i;
         },
-        function(a, d, b) {
-            var e = b(26);
-            function c(b, c) {
-                var a = b.length;
-                while(a--){
-                    if (e(b[a][0], c)) {
-                        return a;
+        function(a, b, c) {
+            var d = c(26);
+            function e(a, b) {
+                var c = a.length;
+                while(c--){
+                    if (d(a[c][0], b)) {
+                        return c;
                     }
                 }
                 return -1;
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, c) {
-            function b(a, b) {
+        function(a, b) {
+            function c(a, b) {
                 return (a === b || (a !== a && b !== b));
             }
-            a.exports = b;
-        },
-        function(a, e, b) {
-            var c = b(17);
-            var d = c.Symbol;
-            a.exports = d;
-        },
-        function(a, e, b) {
-            var c = b(35);
-            var d = c(Object, "create");
-            a.exports = d;
-        },
-        function(a, d, b) {
-            var e = b(117);
-            function c(c, a) {
-                var b = c.__data__;
-                return e(a) ? b[typeof a == "string" ? "string" : "hash"] : b.map;
-            }
             a.exports = c;
         },
-        function(d, f, a) {
-            var b = a(132), g = a(18);
-            var c = Object.prototype;
-            var h = c.hasOwnProperty;
-            var i = c.propertyIsEnumerable;
-            var e = b((function() {
-                return arguments;
-            })()) ? b : function(a) {
-                return (g(a) && h.call(a, "callee") && !i.call(a, "callee"));
-            };
-            d.exports = e;
+        function(a, b, c) {
+            var d = c(17);
+            var e = d.Symbol;
+            a.exports = e;
         },
-        function(a, c) {
-            var d = 9007199254740991;
-            var e = /^(?:0|[1-9]\d*)$/;
-            function b(a, b) {
-                var c = typeof a;
-                b = b == null ? d : b;
-                return (!!b && (c == "number" || (c != "symbol" && e.test(a))) && a > -1 && a % 1 == 0 && a < b);
+        function(a, b, c) {
+            var d = c(35);
+            var e = d(Object, "create");
+            a.exports = e;
+        },
+        function(a, b, c) {
+            var d = c(117);
+            function e(a, b) {
+                var c = a.__data__;
+                return d(b) ? c[typeof b == "string" ? "string" : "hash"] : c.map;
             }
-            a.exports = b;
+            a.exports = e;
         },
-        function(b, d, a) {
-            var e = a(15), f = a(232), g = a(233), h = a(236);
-            function c(a, b) {
-                if (e(a)) {
+        function(a, b, c) {
+            var d = c(132), e = c(18);
+            var f = Object.prototype;
+            var g = f.hasOwnProperty;
+            var h = f.propertyIsEnumerable;
+            var i = d((function() {
+                return arguments;
+            })()) ? d : function(a) {
+                return (e(a) && g.call(a, "callee") && !h.call(a, "callee"));
+            };
+            a.exports = i;
+        },
+        function(a, b) {
+            var c = 9007199254740991;
+            var d = /^(?:0|[1-9]\d*)$/;
+            function e(a, b) {
+                var e = typeof a;
+                b = b == null ? c : b;
+                return (!!b && (e == "number" || (e != "symbol" && d.test(a))) && a > -1 && a % 1 == 0 && a < b);
+            }
+            a.exports = e;
+        },
+        function(a, b, c) {
+            var d = c(15), e = c(232), f = c(233), g = c(236);
+            function h(a, b) {
+                if (d(a)) {
                     return a;
                 }
-                return f(a, b) ? [
+                return e(a, b) ? [
                     a
-                ] : g(h(a));
+                ] : f(g(a));
             }
-            b.exports = c;
+            a.exports = h;
         },
-        function(a, d, b) {
-            var e = b(224);
-            var f = b(225);
-            var g = b(60);
-            var h = b(226);
-            function c(a) {
-                return (e(a) || f(a) || g(a) || h());
+        function(a, b, c) {
+            var d = c(224);
+            var e = c(225);
+            var f = c(60);
+            var g = c(226);
+            function h(a) {
+                return (d(a) || e(a) || f(a) || g());
             }
-            a.exports = c;
+            a.exports = h;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(b, c, a) {
-            b.exports = {
-                determinant: a(251),
-                transpose: a(252),
-                multiply: a(253),
-                identity: a(254),
-                adjoint: a(255),
-                rotate: a(256),
-                invert: a(257),
-                create: a(258),
-                scale: a(259),
-                copy: a(260),
-                frob: a(261),
-                ldu: a(262)
+        function(a, b, c) {
+            a.exports = {
+                determinant: c(251),
+                transpose: c(252),
+                multiply: c(253),
+                identity: c(254),
+                adjoint: c(255),
+                rotate: c(256),
+                invert: c(257),
+                create: c(258),
+                scale: c(259),
+                copy: c(260),
+                frob: c(261),
+                ldu: c(262)
             };
         },
-        function(b, d, a) {
-            var e = a(102), f = a(108);
-            function c(b, c) {
-                var a = f(b, c);
-                return e(a) ? a : undefined;
+        function(a, b, c) {
+            var d = c(102), e = c(108);
+            function f(a, b) {
+                var c = e(a, b);
+                return d(c) ? c : undefined;
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(b, d, a) {
-            var e = a(22), f = a(14);
-            var g = "[object AsyncFunction]", h = "[object Function]", i = "[object GeneratorFunction]", j = "[object Proxy]";
-            function c(b) {
-                if (!f(b)) {
+        function(a, b, c) {
+            var d = c(22), e = c(14);
+            var f = "[object AsyncFunction]", g = "[object Function]", h = "[object GeneratorFunction]", i = "[object Proxy]";
+            function j(a) {
+                if (!e(a)) {
                     return false;
                 }
-                var a = e(b);
-                return (a == h || a == i || a == g || a == j);
+                var b = d(a);
+                return (b == g || b == h || b == f || b == i);
             }
-            b.exports = c;
+            a.exports = j;
         },
-        function(a, d, b) {
-            var e = b(49);
-            function c(b, a, c) {
-                if (a == "__proto__" && e) {
-                    e(b, a, {
+        function(a, b, c) {
+            var d = c(49);
+            function e(a, b, c) {
+                if (b == "__proto__" && d) {
+                    d(a, b, {
                         configurable: true,
                         enumerable: true,
                         value: c,
                         writable: true
                     });
                 } else {
-                    b[a] = c;
+                    a[b] = c;
                 }
             }
-            a.exports = c;
+            a.exports = e;
         },
         function(a, b) {
             a.exports = function(a) {
@@ -2335,228 +2335,228 @@
                 return a;
             };
         },
-        function(b, d, a) {
-            var e = a(36), f = a(40);
-            function c(a) {
-                return (a != null && f(a.length) && !e(a));
+        function(a, b, c) {
+            var d = c(36), e = c(40);
+            function f(a) {
+                return (a != null && e(a.length) && !d(a));
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(a, c) {
-            var d = 9007199254740991;
-            function b(a) {
-                return (typeof a == "number" && a > -1 && a % 1 == 0 && a <= d);
+        function(a, b) {
+            var c = 9007199254740991;
+            function d(a) {
+                return (typeof a == "number" && a > -1 && a % 1 == 0 && a <= c);
             }
-            a.exports = b;
+            a.exports = d;
         },
-        function(a, c) {
-            function b(c, d) {
-                a.exports = b = Object.setPrototypeOf || function c(a, b) {
-                    a.__proto__ = b;
-                    return a;
+        function(a, b) {
+            function c(b, d) {
+                a.exports = c = Object.setPrototypeOf || function a(b, c) {
+                    b.__proto__ = c;
+                    return b;
                 };
                 (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-                return b(c, d);
+                return c(b, d);
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(b, d, a) {
-            var e = a(22), f = a(18);
-            var g = "[object Symbol]";
-            function c(a) {
-                return (typeof a == "symbol" || (f(a) && e(a) == g));
+        function(a, b, c) {
+            var d = c(22), e = c(18);
+            var f = "[object Symbol]";
+            function g(a) {
+                return (typeof a == "symbol" || (e(a) && d(a) == f));
             }
-            b.exports = c;
+            a.exports = g;
         },
-        function(a, d, b) {
-            var e = b(42);
-            var f = 1 / 0;
-            function c(a) {
-                if (typeof a == "string" || e(a)) {
+        function(a, b, c) {
+            var d = c(42);
+            var e = 1 / 0;
+            function f(a) {
+                if (typeof a == "string" || d(a)) {
                     return a;
                 }
                 var b = a + "";
-                return b == "0" && 1 / a == -f ? "-0" : b;
+                return b == "0" && 1 / a == -e ? "-0" : b;
             }
-            a.exports = c;
+            a.exports = f;
         },
-        function(b, f, a) {
-            var c = a(35), d = a(17);
-            var e = c(d, "Map");
-            b.exports = e;
+        function(a, b, c) {
+            var d = c(35), e = c(17);
+            var f = d(e, "Map");
+            a.exports = f;
         },
-        function(b, c, a) {
-            (function(a) {
-                var c = typeof a == "object" && a && a.Object === Object && a;
-                b.exports = c;
-            }.call(this, a(46)));
+        function(a, b, c) {
+            (function(b) {
+                var c = typeof b == "object" && b && b.Object === Object && b;
+                a.exports = c;
+            }.call(this, c(46)));
         },
-        function(b, c) {
-            var a;
-            a = (function() {
+        function(a, b) {
+            var c;
+            c = (function() {
                 return this;
             })();
             try {
-                a = a || new Function("return this")();
+                c = c || new Function("return this")();
             } catch (d) {
-                if (typeof window === "object") a = window;
+                if (typeof window === "object") c = window;
             }
-            b.exports = a;
+            a.exports = c;
         },
-        function(c, i, b) {
-            var d = b(109), e = b(116), f = b(118), g = b(119), h = b(120);
-            function a(a) {
-                var b = -1, d = a == null ? 0 : a.length;
+        function(a, b, c) {
+            var d = c(109), e = c(116), f = c(118), g = c(119), h = c(120);
+            function i(a) {
+                var b = -1, c = a == null ? 0 : a.length;
                 this.clear();
-                while(++b < d){
-                    var c = a[b];
-                    this.set(c[0], c[1]);
+                while(++b < c){
+                    var d = a[b];
+                    this.set(d[0], d[1]);
                 }
             }
-            a.prototype.clear = d;
-            a.prototype["delete"] = e;
-            a.prototype.get = f;
-            a.prototype.has = g;
-            a.prototype.set = h;
-            c.exports = a;
+            i.prototype.clear = d;
+            i.prototype["delete"] = e;
+            i.prototype.get = f;
+            i.prototype.has = g;
+            i.prototype.set = h;
+            a.exports = i;
         },
-        function(b, d, a) {
-            var e = a(37), f = a(26);
-            function c(b, c, a) {
-                if ((a !== undefined && !f(b[c], a)) || (a === undefined && !(c in b))) {
-                    e(b, c, a);
+        function(a, b, c) {
+            var d = c(37), e = c(26);
+            function f(a, b, c) {
+                if ((c !== undefined && !e(a[b], c)) || (c === undefined && !(b in a))) {
+                    d(a, b, c);
                 }
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(a, d, b) {
-            var e = b(35);
-            var c = (function() {
+        function(a, b, c) {
+            var d = c(35);
+            var e = (function() {
                 try {
-                    var a = e(Object, "defineProperty");
+                    var a = d(Object, "defineProperty");
                     a({}, "", {});
                     return a;
                 } catch (b) {}
             })();
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, e, b) {
-            var c = b(131);
-            var d = c(Object.getPrototypeOf, Object);
+        function(a, b, c) {
+            var d = c(131);
+            var e = d(Object.getPrototypeOf, Object);
+            a.exports = e;
+        },
+        function(a, b) {
+            var c = Object.prototype;
+            function d(a) {
+                var b = a && a.constructor, d = (typeof b == "function" && b.prototype) || c;
+                return a === d;
+            }
             a.exports = d;
         },
-        function(a, c) {
-            var d = Object.prototype;
-            function b(a) {
-                var b = a && a.constructor, c = (typeof b == "function" && b.prototype) || d;
-                return a === c;
-            }
-            a.exports = b;
-        },
-        function(a, c, b) {
+        function(a, b, c) {
             (function(a) {
-                var g = b(17), h = b(134);
-                var d = true && c && !c.nodeType && c;
-                var e = d && typeof a == "object" && a && !a.nodeType && a;
-                var i = e && e.exports === d;
-                var f = i ? g.Buffer : undefined;
-                var j = f ? f.isBuffer : undefined;
-                var k = j || h;
+                var d = c(17), e = c(134);
+                var f = true && b && !b.nodeType && b;
+                var g = f && typeof a == "object" && a && !a.nodeType && a;
+                var h = g && g.exports === f;
+                var i = h ? d.Buffer : undefined;
+                var j = i ? i.isBuffer : undefined;
+                var k = j || e;
                 a.exports = k;
-            }.call(this, b(38)(a)));
+            }.call(this, c(38)(a)));
         },
-        function(d, h, a) {
-            var e = a(136), f = a(137), b = a(138);
-            var c = b && b.isTypedArray;
-            var g = c ? f(c) : e;
-            d.exports = g;
+        function(a, b, c) {
+            var d = c(136), e = c(137), f = c(138);
+            var g = f && f.isTypedArray;
+            var h = g ? e(g) : d;
+            a.exports = h;
         },
-        function(a, c) {
-            function b(b, a) {
-                if (a === "constructor" && typeof b[a] === "function") {
+        function(a, b) {
+            function c(a, b) {
+                if (b === "constructor" && typeof a[b] === "function") {
                     return;
                 }
-                if (a == "__proto__") {
+                if (b == "__proto__") {
                     return;
                 }
-                return b[a];
+                return a[b];
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(b, e, a) {
-            var f = a(37), g = a(26);
-            var c = Object.prototype;
-            var h = c.hasOwnProperty;
-            function d(a, b, c) {
-                var d = a[b];
-                if (!(h.call(a, b) && g(d, c)) || (c === undefined && !(b in a))) {
-                    f(a, b, c);
+        function(a, b, c) {
+            var d = c(37), e = c(26);
+            var f = Object.prototype;
+            var g = f.hasOwnProperty;
+            function h(a, b, c) {
+                var f = a[b];
+                if (!(g.call(a, b) && e(f, c)) || (c === undefined && !(b in a))) {
+                    d(a, b, c);
                 }
             }
-            b.exports = d;
+            a.exports = h;
         },
-        function(b, d, a) {
-            var e = a(141), f = a(143), g = a(39);
+        function(a, b, c) {
+            var d = c(141), e = c(143), f = c(39);
+            function g(a) {
+                return f(a) ? d(a, true) : e(a);
+            }
+            a.exports = g;
+        },
+        function(a, b) {
             function c(a) {
-                return g(a) ? e(a, true) : f(a);
-            }
-            b.exports = c;
-        },
-        function(a, c) {
-            function b(a) {
                 return a;
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(a, d, b) {
-            var e = b(147);
-            var f = Math.max;
-            function c(b, a, c) {
-                a = f(a === undefined ? b.length - 1 : a, 0);
+        function(a, b, c) {
+            var d = c(147);
+            var e = Math.max;
+            function f(a, b, c) {
+                b = e(b === undefined ? a.length - 1 : b, 0);
                 return function() {
-                    var g = arguments, d = -1, i = f(g.length - a, 0), j = Array(i);
-                    while(++d < i){
-                        j[d] = g[a + d];
+                    var f = arguments, g = -1, h = e(f.length - b, 0), i = Array(h);
+                    while(++g < h){
+                        i[g] = f[b + g];
                     }
-                    d = -1;
-                    var h = Array(a + 1);
-                    while(++d < a){
-                        h[d] = g[d];
+                    g = -1;
+                    var j = Array(b + 1);
+                    while(++g < b){
+                        j[g] = f[g];
                     }
-                    h[a] = c(j);
-                    return e(b, this, h);
+                    j[b] = c(i);
+                    return d(a, this, j);
                 };
             }
-            a.exports = c;
+            a.exports = f;
         },
-        function(b, f, a) {
-            var c = a(148), d = a(150);
-            var e = d(c);
-            b.exports = e;
+        function(a, b, c) {
+            var d = c(148), e = c(150);
+            var f = e(d);
+            a.exports = f;
         },
-        function(a, d, b) {
-            var e = b(61);
-            function c(a, c) {
+        function(a, b, c) {
+            var d = c(61);
+            function e(a, b) {
                 if (!a) return;
-                if (typeof a === "string") return e(a, c);
-                var b = Object.prototype.toString.call(a).slice(8, -1);
-                if (b === "Object" && a.constructor) b = a.constructor.name;
-                if (b === "Map" || b === "Set") return Array.from(a);
-                if (b === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(b)) return e(a, c);
+                if (typeof a === "string") return d(a, b);
+                var c = Object.prototype.toString.call(a).slice(8, -1);
+                if (c === "Object" && a.constructor) c = a.constructor.name;
+                if (c === "Map" || c === "Set") return Array.from(a);
+                if (c === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(c)) return d(a, b);
             }
-            a.exports = c;
+            a.exports = e;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b(c, a) {
-                if (a == null || a > c.length) a = c.length;
-                for(var b = 0, d = new Array(a); b < a; b++){
-                    d[b] = c[b];
+        function(a, b) {
+            function c(a, b) {
+                if (b == null || b > a.length) b = a.length;
+                for(var c = 0, d = new Array(b); c < b; c++){
+                    d[c] = a[c];
                 }
                 return d;
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
         function(a, b) {
@@ -2638,26 +2638,26 @@
         },
         function(a, b) {
             a.exports = c;
-            function c(b, c, d) {
-                var a = new Float32Array(3);
-                a[0] = b;
-                a[1] = c;
-                a[2] = d;
-                return a;
+            function c(a, b, c) {
+                var d = new Float32Array(3);
+                d[0] = a;
+                d[1] = b;
+                d[2] = c;
+                return d;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(c, a) {
-                var d = a[0], e = a[1], f = a[2];
-                var b = d * d + e * e + f * f;
-                if (b > 0) {
-                    b = 1 / Math.sqrt(b);
-                    c[0] = a[0] * b;
-                    c[1] = a[1] * b;
-                    c[2] = a[2] * b;
+            function c(a, b) {
+                var c = b[0], d = b[1], e = b[2];
+                var f = c * c + d * d + e * e;
+                if (f > 0) {
+                    f = 1 / Math.sqrt(f);
+                    a[0] = b[0] * f;
+                    a[1] = b[1] * f;
+                    a[2] = b[2] * f;
                 }
-                return c;
+                return a;
             }
         },
         function(a, b) {
@@ -2721,112 +2721,112 @@
                 return b * b + c * c + d * d;
             }
         },
-        function(a, d, b) {
-            var e = b(153);
-            var f = b(154);
-            var g = b(60);
-            var h = b(155);
-            function c(a, b) {
-                return (e(a) || f(a, b) || g(a, b) || h());
+        function(a, b, c) {
+            var d = c(153);
+            var e = c(154);
+            var f = c(60);
+            var g = c(155);
+            function h(a, b) {
+                return (d(a) || e(a, b) || f(a, b) || g());
             }
-            a.exports = c;
+            a.exports = h;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(b, c, a) {
-            b.exports = {
-                EPSILON: a(71),
-                create: a(72),
-                clone: a(191),
-                angle: a(192),
-                fromValues: a(73),
-                copy: a(193),
-                set: a(194),
-                equals: a(195),
-                exactEquals: a(196),
-                add: a(197),
-                subtract: a(76),
-                sub: a(198),
-                multiply: a(77),
-                mul: a(199),
-                divide: a(78),
-                div: a(200),
-                min: a(201),
-                max: a(202),
-                floor: a(203),
-                ceil: a(204),
-                round: a(205),
-                scale: a(206),
-                scaleAndAdd: a(207),
-                distance: a(79),
-                dist: a(208),
-                squaredDistance: a(80),
-                sqrDist: a(209),
-                length: a(81),
-                len: a(210),
-                squaredLength: a(82),
-                sqrLen: a(211),
-                negate: a(212),
-                inverse: a(213),
-                normalize: a(74),
-                dot: a(75),
-                cross: a(214),
-                lerp: a(215),
-                random: a(216),
-                transformMat4: a(217),
-                transformMat3: a(218),
-                transformQuat: a(219),
-                rotateX: a(220),
-                rotateY: a(221),
-                rotateZ: a(222),
-                forEach: a(223)
+        function(a, b, c) {
+            a.exports = {
+                EPSILON: c(71),
+                create: c(72),
+                clone: c(191),
+                angle: c(192),
+                fromValues: c(73),
+                copy: c(193),
+                set: c(194),
+                equals: c(195),
+                exactEquals: c(196),
+                add: c(197),
+                subtract: c(76),
+                sub: c(198),
+                multiply: c(77),
+                mul: c(199),
+                divide: c(78),
+                div: c(200),
+                min: c(201),
+                max: c(202),
+                floor: c(203),
+                ceil: c(204),
+                round: c(205),
+                scale: c(206),
+                scaleAndAdd: c(207),
+                distance: c(79),
+                dist: c(208),
+                squaredDistance: c(80),
+                sqrDist: c(209),
+                length: c(81),
+                len: c(210),
+                squaredLength: c(82),
+                sqrLen: c(211),
+                negate: c(212),
+                inverse: c(213),
+                normalize: c(74),
+                dot: c(75),
+                cross: c(214),
+                lerp: c(215),
+                random: c(216),
+                transformMat4: c(217),
+                transformMat3: c(218),
+                transformQuat: c(219),
+                rotateX: c(220),
+                rotateY: c(221),
+                rotateZ: c(222),
+                forEach: c(223)
             };
         },
-        function(b, e, a) {
-            var f = a(229), c = a(243);
-            var d = c(function(a, b) {
-                return a == null ? {} : f(a, b);
+        function(a, b, c) {
+            var d = c(229), e = c(243);
+            var f = e(function(a, b) {
+                return a == null ? {} : d(a, b);
             });
-            b.exports = d;
+            a.exports = f;
         },
-        function(a, d, b) {
-            var e = b(2);
-            var f = b(41);
-            var g = b(248);
-            var h = b(249);
-            function c(b) {
-                var d = typeof Map === "function" ? new Map() : undefined;
-                a.exports = c = function c(a) {
-                    if (a === null || !g(a)) return a;
-                    if (typeof a !== "function") {
+        function(a, b, c) {
+            var d = c(2);
+            var e = c(41);
+            var f = c(248);
+            var g = c(249);
+            function h(b) {
+                var c = typeof Map === "function" ? new Map() : undefined;
+                a.exports = h = function a(b) {
+                    if (b === null || !f(b)) return b;
+                    if (typeof b !== "function") {
                         throw new TypeError("Super expression must either be null or a function");
                     }
-                    if (typeof d !== "undefined") {
-                        if (d.has(a)) return d.get(a);
-                        d.set(a, b);
+                    if (typeof c !== "undefined") {
+                        if (c.has(b)) return c.get(b);
+                        c.set(b, h);
                     }
-                    function b() {
-                        return h(a, arguments, e(this).constructor);
+                    function h() {
+                        return g(b, arguments, d(this).constructor);
                     }
-                    b.prototype = Object.create(a.prototype, {
+                    h.prototype = Object.create(b.prototype, {
                         constructor: {
-                            value: b,
+                            value: h,
                             enumerable: false,
                             writable: true,
                             configurable: true
                         }
                     });
-                    return f(b, a);
+                    return e(h, b);
                 };
                 (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-                return c(b);
+                return h(b);
             }
-            a.exports = c;
+            a.exports = h;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(d, a, b) {
+        function(a, b, c) {
             "use strict";
-            var e = b(21);
-            var c = {
+            var d = c(21);
+            var e = {
                 createContour2D: function a() {
                     return {
                         dir: null,
@@ -2846,543 +2846,543 @@
                     OUTSIDE_EDGE: -32767,
                     INSIDE_EDGE: -32766
                 },
-                create: function d(a, b) {
-                    var f = a.data;
-                    var g = b.data;
-                    var h = a.size.x;
-                    var i = a.size.y;
-                    var j = e["a"].create(a, b);
+                create: function a(b, c) {
+                    var f = b.data;
+                    var g = c.data;
+                    var h = b.size.x;
+                    var i = b.size.y;
+                    var j = d["a"].create(b, c);
                     return {
-                        rasterize: function v(t) {
+                        rasterize: function a(b) {
+                            var c;
+                            var d;
+                            var k;
                             var l;
                             var m;
-                            var r;
-                            var d;
                             var n;
-                            var o;
-                            var p = [];
+                            var o = [];
+                            var p;
                             var q;
-                            var a;
-                            var k;
-                            var b;
-                            var e;
-                            var u = 0;
+                            var r;
                             var s;
-                            for(s = 0; s < 400; s++){
-                                p[s] = 0;
+                            var t;
+                            var u = 0;
+                            var v;
+                            for(v = 0; v < 400; v++){
+                                o[v] = 0;
                             }
-                            p[0] = f[0];
-                            k = null;
-                            for(o = 1; o < i - 1; o++){
-                                d = 0;
-                                m = p[0];
-                                for(n = 1; n < h - 1; n++){
-                                    e = o * h + n;
-                                    if (g[e] === 0) {
-                                        l = f[e];
-                                        if (l !== m) {
-                                            if (d === 0) {
-                                                r = u + 1;
-                                                p[r] = l;
-                                                m = l;
-                                                q = j.contourTracing(o, n, r, l, c.DIR.OUTSIDE_EDGE);
-                                                if (q !== null) {
+                            o[0] = f[0];
+                            r = null;
+                            for(n = 1; n < i - 1; n++){
+                                l = 0;
+                                d = o[0];
+                                for(m = 1; m < h - 1; m++){
+                                    t = n * h + m;
+                                    if (g[t] === 0) {
+                                        c = f[t];
+                                        if (c !== d) {
+                                            if (l === 0) {
+                                                k = u + 1;
+                                                o[k] = c;
+                                                d = c;
+                                                p = j.contourTracing(n, m, k, c, e.DIR.OUTSIDE_EDGE);
+                                                if (p !== null) {
                                                     u++;
-                                                    d = r;
-                                                    a = c.createContour2D();
-                                                    a.dir = c.CONTOUR_DIR.CW_DIR;
-                                                    a.index = d;
-                                                    a.firstVertex = q;
-                                                    a.nextpeer = k;
-                                                    a.insideContours = null;
-                                                    if (k !== null) {
-                                                        k.prevpeer = a;
+                                                    l = k;
+                                                    q = e.createContour2D();
+                                                    q.dir = e.CONTOUR_DIR.CW_DIR;
+                                                    q.index = l;
+                                                    q.firstVertex = p;
+                                                    q.nextpeer = r;
+                                                    q.insideContours = null;
+                                                    if (r !== null) {
+                                                        r.prevpeer = q;
                                                     }
-                                                    k = a;
+                                                    r = q;
                                                 }
                                             } else {
-                                                q = j.contourTracing(o, n, c.DIR.INSIDE_EDGE, l, d);
-                                                if (q !== null) {
-                                                    a = c.createContour2D();
-                                                    a.firstVertex = q;
-                                                    a.insideContours = null;
-                                                    if (t === 0) {
-                                                        a.dir = c.CONTOUR_DIR.CCW_DIR;
+                                                p = j.contourTracing(n, m, e.DIR.INSIDE_EDGE, c, l);
+                                                if (p !== null) {
+                                                    q = e.createContour2D();
+                                                    q.firstVertex = p;
+                                                    q.insideContours = null;
+                                                    if (b === 0) {
+                                                        q.dir = e.CONTOUR_DIR.CCW_DIR;
                                                     } else {
-                                                        a.dir = c.CONTOUR_DIR.CW_DIR;
+                                                        q.dir = e.CONTOUR_DIR.CW_DIR;
                                                     }
-                                                    a.index = t;
-                                                    b = k;
-                                                    while(b !== null && b.index !== d){
-                                                        b = b.nextpeer;
+                                                    q.index = b;
+                                                    s = r;
+                                                    while(s !== null && s.index !== l){
+                                                        s = s.nextpeer;
                                                     }
-                                                    if (b !== null) {
-                                                        a.nextpeer = b.insideContours;
-                                                        if (b.insideContours !== null) {
-                                                            b.insideContours.prevpeer = a;
+                                                    if (s !== null) {
+                                                        q.nextpeer = s.insideContours;
+                                                        if (s.insideContours !== null) {
+                                                            s.insideContours.prevpeer = q;
                                                         }
-                                                        b.insideContours = a;
+                                                        s.insideContours = q;
                                                     }
                                                 }
                                             }
                                         } else {
-                                            g[e] = d;
+                                            g[t] = l;
                                         }
-                                    } else if (g[e] === c.DIR.OUTSIDE_EDGE || g[e] === c.DIR.INSIDE_EDGE) {
-                                        d = 0;
-                                        if (g[e] === c.DIR.INSIDE_EDGE) {
-                                            m = f[e];
+                                    } else if (g[t] === e.DIR.OUTSIDE_EDGE || g[t] === e.DIR.INSIDE_EDGE) {
+                                        l = 0;
+                                        if (g[t] === e.DIR.INSIDE_EDGE) {
+                                            d = f[t];
                                         } else {
-                                            m = p[0];
+                                            d = o[0];
                                         }
                                     } else {
-                                        d = g[e];
-                                        m = p[d];
+                                        l = g[t];
+                                        d = o[l];
                                     }
                                 }
                             }
-                            b = k;
-                            while(b !== null){
-                                b.index = t;
-                                b = b.nextpeer;
+                            s = r;
+                            while(s !== null){
+                                s.index = b;
+                                s = s.nextpeer;
                             }
                             return {
-                                cc: k,
+                                cc: r,
                                 count: u
                             };
                         },
                         debug: {
-                            drawContour: function i(g, h) {
-                                var a = g.getContext("2d");
-                                var b = h;
-                                var d;
-                                var f;
-                                var e;
-                                a.strokeStyle = "red";
-                                a.fillStyle = "red";
-                                a.lineWidth = 1;
-                                if (b !== null) {
-                                    d = b.insideContours;
+                            drawContour: function a(b, c) {
+                                var d = b.getContext("2d");
+                                var f = c;
+                                var g;
+                                var h;
+                                var i;
+                                d.strokeStyle = "red";
+                                d.fillStyle = "red";
+                                d.lineWidth = 1;
+                                if (f !== null) {
+                                    g = f.insideContours;
                                 } else {
-                                    d = null;
+                                    g = null;
                                 }
-                                while(b !== null){
-                                    if (d !== null) {
-                                        f = d;
-                                        d = d.nextpeer;
+                                while(f !== null){
+                                    if (g !== null) {
+                                        h = g;
+                                        g = g.nextpeer;
                                     } else {
-                                        f = b;
-                                        b = b.nextpeer;
-                                        if (b !== null) {
-                                            d = b.insideContours;
+                                        h = f;
+                                        f = f.nextpeer;
+                                        if (f !== null) {
+                                            g = f.insideContours;
                                         } else {
-                                            d = null;
+                                            g = null;
                                         }
                                     }
-                                    switch(f.dir){
-                                        case c.CONTOUR_DIR.CW_DIR:
-                                            a.strokeStyle = "red";
+                                    switch(h.dir){
+                                        case e.CONTOUR_DIR.CW_DIR:
+                                            d.strokeStyle = "red";
                                             break;
-                                        case c.CONTOUR_DIR.CCW_DIR:
-                                            a.strokeStyle = "blue";
+                                        case e.CONTOUR_DIR.CCW_DIR:
+                                            d.strokeStyle = "blue";
                                             break;
-                                        case c.CONTOUR_DIR.UNKNOWN_DIR:
-                                            a.strokeStyle = "green";
+                                        case e.CONTOUR_DIR.UNKNOWN_DIR:
+                                            d.strokeStyle = "green";
                                             break;
                                     }
-                                    e = f.firstVertex;
-                                    a.beginPath();
-                                    a.moveTo(e.x, e.y);
+                                    i = h.firstVertex;
+                                    d.beginPath();
+                                    d.moveTo(i.x, i.y);
                                     do {
-                                        e = e.next;
-                                        a.lineTo(e.x, e.y);
-                                    }while (e !== f.firstVertex)
-                                    a.stroke();
+                                        i = i.next;
+                                        d.lineTo(i.x, i.y);
+                                    }while (i !== h.firstVertex)
+                                    d.stroke();
                                 }
                             }
                         }
                     };
                 }
             };
-            a["a"] = c;
+            b["a"] = e;
         },
-        function(c, a, d) {
+        function(a, b, c) {
             "use strict";
-            function b(a, b, c) {
+            function d(a, b, c) {
                 "use asm";
-                var e = new a.Uint8Array(c);
-                var f = b.size | 0;
-                var g = a.Math.imul;
-                function h(c, g) {
-                    c |= 0;
-                    g |= 0;
-                    var d = 0;
-                    var a = 0;
-                    var l = 0;
+                var d = new a.Uint8Array(c);
+                var e = b.size | 0;
+                var f = a.Math.imul;
+                function g(a, b) {
+                    a |= 0;
+                    b |= 0;
+                    var c = 0;
+                    var f = 0;
+                    var g = 0;
                     var h = 0;
                     var i = 0;
                     var j = 0;
                     var k = 0;
-                    var b = 0;
-                    for(d = 1; (d | 0) < ((f - 1) | 0); d = (d + 1) | 0){
-                        b = (b + f) | 0;
-                        for(a = 1; (a | 0) < ((f - 1) | 0); a = (a + 1) | 0){
-                            h = (b - f) | 0;
-                            i = (b + f) | 0;
-                            j = (a - 1) | 0;
-                            k = (a + 1) | 0;
-                            l = ((e[(c + h + j) | 0] | 0) + (e[(c + h + k) | 0] | 0) + (e[(c + b + a) | 0] | 0) + (e[(c + i + j) | 0] | 0) + (e[(c + i + k) | 0] | 0)) | 0;
-                            if ((l | 0) == (5 | 0)) {
-                                e[(g + b + a) | 0] = 1;
+                    var l = 0;
+                    for(c = 1; (c | 0) < ((e - 1) | 0); c = (c + 1) | 0){
+                        l = (l + e) | 0;
+                        for(f = 1; (f | 0) < ((e - 1) | 0); f = (f + 1) | 0){
+                            h = (l - e) | 0;
+                            i = (l + e) | 0;
+                            j = (f - 1) | 0;
+                            k = (f + 1) | 0;
+                            g = ((d[(a + h + j) | 0] | 0) + (d[(a + h + k) | 0] | 0) + (d[(a + l + f) | 0] | 0) + (d[(a + i + j) | 0] | 0) + (d[(a + i + k) | 0] | 0)) | 0;
+                            if ((g | 0) == (5 | 0)) {
+                                d[(b + l + f) | 0] = 1;
                             } else {
-                                e[(g + b + a) | 0] = 0;
+                                d[(b + l + f) | 0] = 0;
                             }
                         }
                     }
                 }
-                function i(b, c, d) {
+                function h(a, b, c) {
+                    a |= 0;
                     b |= 0;
                     c |= 0;
-                    d |= 0;
-                    var a = 0;
-                    a = g(f, f) | 0;
-                    while((a | 0) > 0){
-                        a = (a - 1) | 0;
-                        e[(d + a) | 0] = ((e[(b + a) | 0] | 0) - (e[(c + a) | 0] | 0)) | 0;
+                    var g = 0;
+                    g = f(e, e) | 0;
+                    while((g | 0) > 0){
+                        g = (g - 1) | 0;
+                        d[(c + g) | 0] = ((d[(a + g) | 0] | 0) - (d[(b + g) | 0] | 0)) | 0;
                     }
                 }
-                function j(b, c, d) {
+                function i(a, b, c) {
+                    a |= 0;
                     b |= 0;
                     c |= 0;
-                    d |= 0;
-                    var a = 0;
-                    a = g(f, f) | 0;
-                    while((a | 0) > 0){
-                        a = (a - 1) | 0;
-                        e[(d + a) | 0] = e[(b + a) | 0] | 0 | (e[(c + a) | 0] | 0) | 0;
+                    var g = 0;
+                    g = f(e, e) | 0;
+                    while((g | 0) > 0){
+                        g = (g - 1) | 0;
+                        d[(c + g) | 0] = d[(a + g) | 0] | 0 | (d[(b + g) | 0] | 0) | 0;
                     }
                 }
-                function k(c) {
-                    c |= 0;
+                function j(a) {
+                    a |= 0;
                     var b = 0;
-                    var a = 0;
-                    a = g(f, f) | 0;
-                    while((a | 0) > 0){
-                        a = (a - 1) | 0;
-                        b = ((b | 0) + (e[(c + a) | 0] | 0)) | 0;
+                    var c = 0;
+                    c = f(e, e) | 0;
+                    while((c | 0) > 0){
+                        c = (c - 1) | 0;
+                        b = ((b | 0) + (d[(a + c) | 0] | 0)) | 0;
                     }
                     return b | 0;
                 }
-                function l(b, c) {
+                function k(a, b) {
+                    a |= 0;
                     b |= 0;
-                    c |= 0;
-                    var a = 0;
-                    a = g(f, f) | 0;
-                    while((a | 0) > 0){
-                        a = (a - 1) | 0;
-                        e[(b + a) | 0] = c;
+                    var c = 0;
+                    c = f(e, e) | 0;
+                    while((c | 0) > 0){
+                        c = (c - 1) | 0;
+                        d[(a + c) | 0] = b;
                     }
                 }
-                function m(c, g) {
-                    c |= 0;
-                    g |= 0;
-                    var d = 0;
-                    var a = 0;
-                    var l = 0;
+                function l(a, b) {
+                    a |= 0;
+                    b |= 0;
+                    var c = 0;
+                    var f = 0;
+                    var g = 0;
                     var h = 0;
                     var i = 0;
                     var j = 0;
                     var k = 0;
-                    var b = 0;
-                    for(d = 1; (d | 0) < ((f - 1) | 0); d = (d + 1) | 0){
-                        b = (b + f) | 0;
-                        for(a = 1; (a | 0) < ((f - 1) | 0); a = (a + 1) | 0){
-                            h = (b - f) | 0;
-                            i = (b + f) | 0;
-                            j = (a - 1) | 0;
-                            k = (a + 1) | 0;
-                            l = ((e[(c + h + j) | 0] | 0) + (e[(c + h + k) | 0] | 0) + (e[(c + b + a) | 0] | 0) + (e[(c + i + j) | 0] | 0) + (e[(c + i + k) | 0] | 0)) | 0;
-                            if ((l | 0) > (0 | 0)) {
-                                e[(g + b + a) | 0] = 1;
+                    var l = 0;
+                    for(c = 1; (c | 0) < ((e - 1) | 0); c = (c + 1) | 0){
+                        l = (l + e) | 0;
+                        for(f = 1; (f | 0) < ((e - 1) | 0); f = (f + 1) | 0){
+                            h = (l - e) | 0;
+                            i = (l + e) | 0;
+                            j = (f - 1) | 0;
+                            k = (f + 1) | 0;
+                            g = ((d[(a + h + j) | 0] | 0) + (d[(a + h + k) | 0] | 0) + (d[(a + l + f) | 0] | 0) + (d[(a + i + j) | 0] | 0) + (d[(a + i + k) | 0] | 0)) | 0;
+                            if ((g | 0) > (0 | 0)) {
+                                d[(b + l + f) | 0] = 1;
                             } else {
-                                e[(g + b + a) | 0] = 0;
+                                d[(b + l + f) | 0] = 0;
                             }
                         }
                     }
                 }
-                function n(b, c) {
+                function m(a, b) {
+                    a |= 0;
                     b |= 0;
-                    c |= 0;
-                    var a = 0;
-                    a = g(f, f) | 0;
-                    while((a | 0) > 0){
-                        a = (a - 1) | 0;
-                        e[(c + a) | 0] = e[(b + a) | 0] | 0;
-                    }
-                }
-                function o(c) {
-                    c |= 0;
-                    var a = 0;
-                    var b = 0;
-                    for(a = 0; (a | 0) < ((f - 1) | 0); a = (a + 1) | 0){
-                        e[(c + a) | 0] = 0;
-                        e[(c + b) | 0] = 0;
-                        b = (b + f - 1) | 0;
-                        e[(c + b) | 0] = 0;
-                        b = (b + 1) | 0;
-                    }
-                    for(a = 0; (a | 0) < (f | 0); a = (a + 1) | 0){
-                        e[(c + b) | 0] = 0;
-                        b = (b + 1) | 0;
-                    }
-                }
-                function d() {
                     var c = 0;
+                    c = f(e, e) | 0;
+                    while((c | 0) > 0){
+                        c = (c - 1) | 0;
+                        d[(b + c) | 0] = d[(a + c) | 0] | 0;
+                    }
+                }
+                function n(a) {
+                    a |= 0;
+                    var b = 0;
+                    var c = 0;
+                    for(b = 0; (b | 0) < ((e - 1) | 0); b = (b + 1) | 0){
+                        d[(a + b) | 0] = 0;
+                        d[(a + c) | 0] = 0;
+                        c = (c + e - 1) | 0;
+                        d[(a + c) | 0] = 0;
+                        c = (c + 1) | 0;
+                    }
+                    for(b = 0; (b | 0) < (e | 0); b = (b + 1) | 0){
+                        d[(a + c) | 0] = 0;
+                        c = (c + 1) | 0;
+                    }
+                }
+                function o() {
                     var a = 0;
                     var b = 0;
+                    var c = 0;
                     var d = 0;
-                    var e = 0;
+                    var o = 0;
                     var p = 0;
-                    a = g(f, f) | 0;
-                    b = (a + a) | 0;
-                    d = (b + a) | 0;
-                    l(d, 0);
-                    o(c);
+                    b = f(e, e) | 0;
+                    c = (b + b) | 0;
+                    d = (c + b) | 0;
+                    k(d, 0);
+                    n(a);
                     do {
-                        h(c, a);
-                        m(a, b);
-                        i(c, b, b);
-                        j(d, b, d);
-                        n(a, c);
-                        e = k(c) | 0;
-                        p = ((e | 0) == 0) | 0;
+                        g(a, b);
+                        l(b, c);
+                        h(a, c, c);
+                        i(d, c, d);
+                        m(b, a);
+                        o = j(a) | 0;
+                        p = ((o | 0) == 0) | 0;
                     }while (!p)
                 }
                 return {
-                    skeletonize: d
+                    skeletonize: o
                 };
             }
-            a["a"] = b;
+            b["a"] = d;
         },
-        function(a, c, b) {
-            a.exports = b(263);
+        function(a, b, c) {
+            a.exports = c(263);
         },
-        function(b, d, a) {
-            var e = a(91), f = a(48), g = a(121), h = a(123), i = a(14), j = a(56), k = a(54);
-            function c(b, a, d, l, m) {
-                if (b === a) {
+        function(a, b, c) {
+            var d = c(91), e = c(48), f = c(121), g = c(123), h = c(14), i = c(56), j = c(54);
+            function k(a, b, c, l, m) {
+                if (a === b) {
                     return;
                 }
-                g(a, function(j, g) {
-                    m || (m = new e());
-                    if (i(j)) {
-                        h(b, a, g, d, c, l, m);
+                f(b, function(f, i) {
+                    m || (m = new d());
+                    if (h(f)) {
+                        g(a, b, i, c, k, l, m);
                     } else {
-                        var n = l ? l(k(b, g), j, g + "", b, a, m) : undefined;
+                        var n = l ? l(j(a, i), f, i + "", a, b, m) : undefined;
                         if (n === undefined) {
-                            n = j;
+                            n = f;
                         }
-                        f(b, g, n);
+                        e(a, i, n);
                     }
-                }, j);
+                }, i);
             }
-            b.exports = c;
+            a.exports = k;
         },
-        function(c, i, a) {
-            var j = a(24), d = a(97), e = a(98), f = a(99), g = a(100), h = a(101);
-            function b(a) {
-                var b = (this.__data__ = new j(a));
+        function(a, b, c) {
+            var d = c(24), e = c(97), f = c(98), g = c(99), h = c(100), i = c(101);
+            function j(a) {
+                var b = (this.__data__ = new d(a));
                 this.size = b.size;
             }
-            b.prototype.clear = d;
-            b.prototype["delete"] = e;
-            b.prototype.get = f;
-            b.prototype.has = g;
-            b.prototype.set = h;
-            c.exports = b;
+            j.prototype.clear = e;
+            j.prototype["delete"] = f;
+            j.prototype.get = g;
+            j.prototype.has = h;
+            j.prototype.set = i;
+            a.exports = j;
         },
-        function(a, c) {
-            function b() {
+        function(a, b) {
+            function c() {
                 this.__data__ = [];
                 this.size = 0;
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(a, e, b) {
-            var f = b(25);
-            var c = Array.prototype;
-            var g = c.splice;
-            function d(c) {
-                var a = this.__data__, b = f(a, c);
-                if (b < 0) {
+        function(a, b, c) {
+            var d = c(25);
+            var e = Array.prototype;
+            var f = e.splice;
+            function g(a) {
+                var b = this.__data__, c = d(b, a);
+                if (c < 0) {
                     return false;
                 }
-                var d = a.length - 1;
-                if (b == d) {
-                    a.pop();
+                var e = b.length - 1;
+                if (c == e) {
+                    b.pop();
                 } else {
-                    g.call(a, b, 1);
+                    f.call(b, c, 1);
                 }
                 --this.size;
                 return true;
             }
-            a.exports = d;
+            a.exports = g;
         },
-        function(a, d, b) {
-            var e = b(25);
-            function c(c) {
-                var a = this.__data__, b = e(a, c);
-                return b < 0 ? undefined : a[b][1];
+        function(a, b, c) {
+            var d = c(25);
+            function e(a) {
+                var b = this.__data__, c = d(b, a);
+                return c < 0 ? undefined : b[c][1];
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, d, b) {
-            var e = b(25);
-            function c(a) {
-                return e(this.__data__, a) > -1;
+        function(a, b, c) {
+            var d = c(25);
+            function e(a) {
+                return d(this.__data__, a) > -1;
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, d, b) {
-            var e = b(25);
-            function c(b, c) {
-                var a = this.__data__, d = e(a, b);
-                if (d < 0) {
+        function(a, b, c) {
+            var d = c(25);
+            function e(a, b) {
+                var c = this.__data__, e = d(c, a);
+                if (e < 0) {
                     ++this.size;
-                    a.push([
-                        b,
-                        c
+                    c.push([
+                        a,
+                        b
                     ]);
                 } else {
-                    a[d][1] = c;
+                    c[e][1] = b;
                 }
                 return this;
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, d, b) {
-            var e = b(24);
-            function c() {
-                this.__data__ = new e();
+        function(a, b, c) {
+            var d = c(24);
+            function e() {
+                this.__data__ = new d();
                 this.size = 0;
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, c) {
-            function b(b) {
-                var a = this.__data__, c = a["delete"](b);
-                this.size = a.size;
+        function(a, b) {
+            function c(a) {
+                var b = this.__data__, c = b["delete"](a);
+                this.size = b.size;
                 return c;
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b) {
+            function c(a) {
                 return this.__data__.get(a);
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b) {
+            function c(a) {
                 return this.__data__.has(a);
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(b, d, a) {
-            var e = a(24), f = a(44), g = a(47);
-            var h = 200;
-            function c(c, d) {
-                var a = this.__data__;
-                if (a instanceof e) {
-                    var b = a.__data__;
-                    if (!f || b.length < h - 1) {
-                        b.push([
-                            c,
-                            d
+        function(a, b, c) {
+            var d = c(24), e = c(44), f = c(47);
+            var g = 200;
+            function h(a, b) {
+                var c = this.__data__;
+                if (c instanceof d) {
+                    var h = c.__data__;
+                    if (!e || h.length < g - 1) {
+                        h.push([
+                            a,
+                            b
                         ]);
-                        this.size = ++a.size;
+                        this.size = ++c.size;
                         return this;
                     }
-                    a = this.__data__ = new g(b);
+                    c = this.__data__ = new f(h);
                 }
-                a.set(c, d);
-                this.size = a.size;
+                c.set(a, b);
+                this.size = c.size;
                 return this;
             }
-            b.exports = c;
+            a.exports = h;
         },
-        function(b, i, a) {
-            var j = a(36), k = a(105), l = a(14), m = a(107);
-            var c = /[\\^$.*+?()[\]{}|]/g;
-            var n = /^\[object .+?Constructor\]$/;
-            var d = Function.prototype, e = Object.prototype;
-            var f = d.toString;
-            var g = e.hasOwnProperty;
-            var o = RegExp("^" + f.call(g).replace(c, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$");
-            function h(a) {
-                if (!l(a) || k(a)) {
+        function(a, b, c) {
+            var d = c(36), e = c(105), f = c(14), g = c(107);
+            var h = /[\\^$.*+?()[\]{}|]/g;
+            var i = /^\[object .+?Constructor\]$/;
+            var j = Function.prototype, k = Object.prototype;
+            var l = j.toString;
+            var m = k.hasOwnProperty;
+            var n = RegExp("^" + l.call(m).replace(h, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$");
+            function o(a) {
+                if (!f(a) || e(a)) {
                     return false;
                 }
-                var b = j(a) ? o : n;
-                return b.test(m(a));
+                var b = d(a) ? n : i;
+                return b.test(g(a));
             }
-            b.exports = h;
+            a.exports = o;
         },
-        function(c, f, d) {
-            var a = d(27);
-            var b = Object.prototype;
-            var g = b.hasOwnProperty;
-            var h = b.toString;
-            var i = a ? a.toStringTag : undefined;
-            function e(a) {
-                var b = g.call(a, i), c = a[i];
+        function(a, b, c) {
+            var d = c(27);
+            var e = Object.prototype;
+            var f = e.hasOwnProperty;
+            var g = e.toString;
+            var h = d ? d.toStringTag : undefined;
+            function i(a) {
+                var b = f.call(a, h), c = a[h];
                 try {
-                    a[i] = undefined;
+                    a[h] = undefined;
                     var d = true;
-                } catch (f) {}
-                var e = h.call(a);
+                } catch (e) {}
+                var i = g.call(a);
                 if (d) {
                     if (b) {
-                        a[i] = c;
+                        a[h] = c;
                     } else {
-                        delete a[i];
+                        delete a[h];
                     }
                 }
-                return e;
+                return i;
             }
-            c.exports = e;
+            a.exports = i;
         },
-        function(a, d) {
-            var b = Object.prototype;
-            var e = b.toString;
-            function c(a) {
-                return e.call(a);
+        function(a, b) {
+            var c = Object.prototype;
+            var d = c.toString;
+            function e(a) {
+                return d.call(a);
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, d, b) {
-            var e = b(106);
-            var f = (function() {
-                var a = /[^.]+$/.exec((e && e.keys && e.keys.IE_PROTO) || "");
+        function(a, b, c) {
+            var d = c(106);
+            var e = (function() {
+                var a = /[^.]+$/.exec((d && d.keys && d.keys.IE_PROTO) || "");
                 return a ? "Symbol(src)_1." + a : "";
             })();
-            function c(a) {
-                return !!f && f in a;
+            function f(a) {
+                return !!e && e in a;
             }
-            a.exports = c;
+            a.exports = f;
         },
-        function(a, e, b) {
-            var c = b(17);
-            var d = c["__core-js_shared__"];
-            a.exports = d;
+        function(a, b, c) {
+            var d = c(17);
+            var e = d["__core-js_shared__"];
+            a.exports = e;
         },
-        function(a, d) {
-            var b = Function.prototype;
-            var e = b.toString;
-            function c(a) {
+        function(a, b) {
+            var c = Function.prototype;
+            var d = c.toString;
+            function e(a) {
                 if (a != null) {
                     try {
-                        return e.call(a);
+                        return d.call(a);
                     } catch (b) {}
                     try {
                         return a + "";
@@ -3390,271 +3390,271 @@
                 }
                 return "";
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, c) {
-            function b(a, b) {
+        function(a, b) {
+            function c(a, b) {
                 return a == null ? undefined : a[b];
             }
-            a.exports = b;
-        },
-        function(b, d, a) {
-            var e = a(110), f = a(24), g = a(44);
-            function c() {
-                this.size = 0;
-                this.__data__ = {
-                    hash: new e(),
-                    map: new (g || f)(),
-                    string: new e()
-                };
-            }
-            b.exports = c;
-        },
-        function(c, i, b) {
-            var d = b(111), e = b(112), f = b(113), g = b(114), h = b(115);
-            function a(a) {
-                var b = -1, d = a == null ? 0 : a.length;
-                this.clear();
-                while(++b < d){
-                    var c = a[b];
-                    this.set(c[0], c[1]);
-                }
-            }
-            a.prototype.clear = d;
-            a.prototype["delete"] = e;
-            a.prototype.get = f;
-            a.prototype.has = g;
-            a.prototype.set = h;
-            c.exports = a;
-        },
-        function(a, d, b) {
-            var e = b(28);
-            function c() {
-                this.__data__ = e ? e(null) : {};
-                this.size = 0;
-            }
             a.exports = c;
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b, c) {
+            var d = c(110), e = c(24), f = c(44);
+            function g() {
+                this.size = 0;
+                this.__data__ = {
+                    hash: new d(),
+                    map: new (f || e)(),
+                    string: new d()
+                };
+            }
+            a.exports = g;
+        },
+        function(a, b, c) {
+            var d = c(111), e = c(112), f = c(113), g = c(114), h = c(115);
+            function i(a) {
+                var b = -1, c = a == null ? 0 : a.length;
+                this.clear();
+                while(++b < c){
+                    var d = a[b];
+                    this.set(d[0], d[1]);
+                }
+            }
+            i.prototype.clear = d;
+            i.prototype["delete"] = e;
+            i.prototype.get = f;
+            i.prototype.has = g;
+            i.prototype.set = h;
+            a.exports = i;
+        },
+        function(a, b, c) {
+            var d = c(28);
+            function e() {
+                this.__data__ = d ? d(null) : {};
+                this.size = 0;
+            }
+            a.exports = e;
+        },
+        function(a, b) {
+            function c(a) {
                 var b = this.has(a) && delete this.__data__[a];
                 this.size -= b ? 1 : 0;
                 return b;
             }
-            a.exports = b;
-        },
-        function(a, e, b) {
-            var f = b(28);
-            var g = "__lodash_hash_undefined__";
-            var c = Object.prototype;
-            var h = c.hasOwnProperty;
-            function d(a) {
-                var b = this.__data__;
-                if (f) {
-                    var c = b[a];
-                    return c === g ? undefined : c;
-                }
-                return h.call(b, a) ? b[a] : undefined;
-            }
-            a.exports = d;
-        },
-        function(a, e, b) {
-            var f = b(28);
-            var c = Object.prototype;
-            var g = c.hasOwnProperty;
-            function d(a) {
-                var b = this.__data__;
-                return f ? b[a] !== undefined : g.call(b, a);
-            }
-            a.exports = d;
-        },
-        function(a, d, b) {
-            var e = b(28);
-            var f = "__lodash_hash_undefined__";
-            function c(a, b) {
-                var c = this.__data__;
-                this.size += this.has(a) ? 0 : 1;
-                c[a] = e && b === undefined ? f : b;
-                return this;
-            }
             a.exports = c;
         },
-        function(a, d, b) {
-            var e = b(29);
-            function c(a) {
-                var b = e(this, a)["delete"](a);
+        function(a, b, c) {
+            var d = c(28);
+            var e = "__lodash_hash_undefined__";
+            var f = Object.prototype;
+            var g = f.hasOwnProperty;
+            function h(a) {
+                var b = this.__data__;
+                if (d) {
+                    var c = b[a];
+                    return c === e ? undefined : c;
+                }
+                return g.call(b, a) ? b[a] : undefined;
+            }
+            a.exports = h;
+        },
+        function(a, b, c) {
+            var d = c(28);
+            var e = Object.prototype;
+            var f = e.hasOwnProperty;
+            function g(a) {
+                var b = this.__data__;
+                return d ? b[a] !== undefined : f.call(b, a);
+            }
+            a.exports = g;
+        },
+        function(a, b, c) {
+            var d = c(28);
+            var e = "__lodash_hash_undefined__";
+            function f(a, b) {
+                var c = this.__data__;
+                this.size += this.has(a) ? 0 : 1;
+                c[a] = d && b === undefined ? e : b;
+                return this;
+            }
+            a.exports = f;
+        },
+        function(a, b, c) {
+            var d = c(29);
+            function e(a) {
+                var b = d(this, a)["delete"](a);
                 this.size -= b ? 1 : 0;
                 return b;
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, c) {
-            function b(b) {
-                var a = typeof b;
-                return a == "string" || a == "number" || a == "symbol" || a == "boolean" ? b !== "__proto__" : b === null;
-            }
-            a.exports = b;
-        },
-        function(a, d, b) {
-            var e = b(29);
+        function(a, b) {
             function c(a) {
-                return e(this, a).get(a);
+                var b = typeof a;
+                return b == "string" || b == "number" || b == "symbol" || b == "boolean" ? a !== "__proto__" : a === null;
             }
             a.exports = c;
         },
-        function(a, d, b) {
-            var e = b(29);
-            function c(a) {
-                return e(this, a).has(a);
+        function(a, b, c) {
+            var d = c(29);
+            function e(a) {
+                return d(this, a).get(a);
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, d, b) {
-            var e = b(29);
-            function c(b, c) {
-                var a = e(this, b), d = a.size;
-                a.set(b, c);
-                this.size += a.size == d ? 0 : 1;
+        function(a, b, c) {
+            var d = c(29);
+            function e(a) {
+                return d(this, a).has(a);
+            }
+            a.exports = e;
+        },
+        function(a, b, c) {
+            var d = c(29);
+            function e(a, b) {
+                var c = d(this, a), e = c.size;
+                c.set(a, b);
+                this.size += c.size == e ? 0 : 1;
                 return this;
             }
-            a.exports = c;
+            a.exports = e;
         },
-        function(a, e, b) {
-            var c = b(122);
-            var d = c();
-            a.exports = d;
+        function(a, b, c) {
+            var d = c(122);
+            var e = d();
+            a.exports = e;
         },
-        function(a, c) {
-            function b(a) {
-                return function(b, g, h) {
-                    var i = -1, c = Object(b), d = h(b), e = d.length;
-                    while(e--){
-                        var f = d[a ? e : ++i];
-                        if (g(c[f], f, c) === false) {
+        function(a, b) {
+            function c(a) {
+                return function(b, c, d) {
+                    var e = -1, f = Object(b), g = d(b), h = g.length;
+                    while(h--){
+                        var i = g[a ? h : ++e];
+                        if (c(f[i], i, f) === false) {
                             break;
                         }
                     }
                     return b;
                 };
             }
-            a.exports = b;
-        },
-        function(b, d, a) {
-            var e = a(48), f = a(124), g = a(125), h = a(128), i = a(129), j = a(30), k = a(15), l = a(133), m = a(52), n = a(36), o = a(14), p = a(135), q = a(53), r = a(54), s = a(139);
-            function c(v, z, d, C, D, w, t) {
-                var c = r(v, d), a = r(z, d), A = t.get(a);
-                if (A) {
-                    e(v, d, A);
-                    return;
-                }
-                var b = w ? w(c, a, d + "", v, z, t) : undefined;
-                var u = b === undefined;
-                if (u) {
-                    var x = k(a), y = !x && m(a), B = !x && !y && q(a);
-                    b = a;
-                    if (x || y || B) {
-                        if (k(c)) {
-                            b = c;
-                        } else if (l(c)) {
-                            b = h(c);
-                        } else if (y) {
-                            u = false;
-                            b = f(a, true);
-                        } else if (B) {
-                            u = false;
-                            b = g(a, true);
-                        } else {
-                            b = [];
-                        }
-                    } else if (p(a) || j(a)) {
-                        b = c;
-                        if (j(c)) {
-                            b = s(c);
-                        } else if (!o(c) || n(c)) {
-                            b = i(a);
-                        }
-                    } else {
-                        u = false;
-                    }
-                }
-                if (u) {
-                    t.set(a, b);
-                    D(b, a, C, w, t);
-                    t["delete"](a);
-                }
-                e(v, d, b);
-            }
-            b.exports = c;
-        },
-        function(a, c, b) {
-            (function(a) {
-                var g = b(17);
-                var d = true && c && !c.nodeType && c;
-                var e = d && typeof a == "object" && a && !a.nodeType && a;
-                var h = e && e.exports === d;
-                var f = h ? g.Buffer : undefined, j = f ? f.allocUnsafe : undefined;
-                function i(a, d) {
-                    if (d) {
-                        return a.slice();
-                    }
-                    var b = a.length, c = j ? j(b) : new a.constructor(b);
-                    a.copy(c);
-                    return c;
-                }
-                a.exports = i;
-            }.call(this, b(38)(a)));
-        },
-        function(a, d, b) {
-            var e = b(126);
-            function c(a, b) {
-                var c = b ? e(a.buffer) : a.buffer;
-                return new a.constructor(c, a.byteOffset, a.length);
-            }
             a.exports = c;
         },
-        function(a, d, b) {
-            var e = b(127);
-            function c(a) {
+        function(a, b, c) {
+            var d = c(48), e = c(124), f = c(125), g = c(128), h = c(129), i = c(30), j = c(15), k = c(133), l = c(52), m = c(36), n = c(14), o = c(135), p = c(53), q = c(54), r = c(139);
+            function s(a, b, c, s, t, u, v) {
+                var w = q(a, c), x = q(b, c), y = v.get(x);
+                if (y) {
+                    d(a, c, y);
+                    return;
+                }
+                var z = u ? u(w, x, c + "", a, b, v) : undefined;
+                var A = z === undefined;
+                if (A) {
+                    var B = j(x), C = !B && l(x), D = !B && !C && p(x);
+                    z = x;
+                    if (B || C || D) {
+                        if (j(w)) {
+                            z = w;
+                        } else if (k(w)) {
+                            z = g(w);
+                        } else if (C) {
+                            A = false;
+                            z = e(x, true);
+                        } else if (D) {
+                            A = false;
+                            z = f(x, true);
+                        } else {
+                            z = [];
+                        }
+                    } else if (o(x) || i(x)) {
+                        z = w;
+                        if (i(w)) {
+                            z = r(w);
+                        } else if (!n(w) || m(w)) {
+                            z = h(x);
+                        }
+                    } else {
+                        A = false;
+                    }
+                }
+                if (A) {
+                    v.set(x, z);
+                    t(z, x, s, u, v);
+                    v["delete"](x);
+                }
+                d(a, c, z);
+            }
+            a.exports = s;
+        },
+        function(a, b, c) {
+            (function(a) {
+                var d = c(17);
+                var e = true && b && !b.nodeType && b;
+                var f = e && typeof a == "object" && a && !a.nodeType && a;
+                var g = f && f.exports === e;
+                var h = g ? d.Buffer : undefined, i = h ? h.allocUnsafe : undefined;
+                function j(a, b) {
+                    if (b) {
+                        return a.slice();
+                    }
+                    var c = a.length, d = i ? i(c) : new a.constructor(c);
+                    a.copy(d);
+                    return d;
+                }
+                a.exports = j;
+            }.call(this, c(38)(a)));
+        },
+        function(a, b, c) {
+            var d = c(126);
+            function e(a, b) {
+                var c = b ? d(a.buffer) : a.buffer;
+                return new a.constructor(c, a.byteOffset, a.length);
+            }
+            a.exports = e;
+        },
+        function(a, b, c) {
+            var d = c(127);
+            function e(a) {
                 var b = new a.constructor(a.byteLength);
-                new e(b).set(new e(a));
+                new d(b).set(new d(a));
+                return b;
+            }
+            a.exports = e;
+        },
+        function(a, b, c) {
+            var d = c(17);
+            var e = d.Uint8Array;
+            a.exports = e;
+        },
+        function(a, b) {
+            function c(a, b) {
+                var c = -1, d = a.length;
+                b || (b = Array(d));
+                while(++c < d){
+                    b[c] = a[c];
+                }
                 return b;
             }
             a.exports = c;
         },
-        function(a, e, b) {
-            var c = b(17);
-            var d = c.Uint8Array;
-            a.exports = d;
-        },
-        function(a, c) {
-            function b(c, a) {
-                var b = -1, d = c.length;
-                a || (a = Array(d));
-                while(++b < d){
-                    a[b] = c[b];
-                }
-                return a;
+        function(a, b, c) {
+            var d = c(130), e = c(50), f = c(51);
+            function g(a) {
+                return typeof a.constructor == "function" && !f(a) ? d(e(a)) : {};
             }
-            a.exports = b;
+            a.exports = g;
         },
-        function(b, d, a) {
-            var e = a(130), f = a(50), g = a(51);
-            function c(a) {
-                return typeof a.constructor == "function" && !g(a) ? e(f(a)) : {};
-            }
-            b.exports = c;
-        },
-        function(a, d, b) {
-            var e = b(14);
-            var f = Object.create;
-            var c = (function() {
+        function(a, b, c) {
+            var d = c(14);
+            var e = Object.create;
+            var f = (function() {
                 function a() {}
                 return function(b) {
-                    if (!e(b)) {
+                    if (!d(b)) {
                         return {};
                     }
-                    if (f) {
-                        return f(b);
+                    if (e) {
+                        return e(b);
                     }
                     a.prototype = b;
                     var c = new a();
@@ -3662,170 +3662,170 @@
                     return c;
                 };
             })();
-            a.exports = c;
+            a.exports = f;
         },
-        function(a, c) {
-            function b(a, b) {
+        function(a, b) {
+            function c(a, b) {
                 return function(c) {
                     return a(b(c));
                 };
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(b, d, a) {
-            var e = a(22), f = a(18);
-            var g = "[object Arguments]";
-            function c(a) {
-                return f(a) && e(a) == g;
+        function(a, b, c) {
+            var d = c(22), e = c(18);
+            var f = "[object Arguments]";
+            function g(a) {
+                return e(a) && d(a) == f;
             }
-            b.exports = c;
+            a.exports = g;
         },
-        function(b, d, a) {
-            var e = a(39), f = a(18);
-            function c(a) {
-                return f(a) && e(a);
+        function(a, b, c) {
+            var d = c(39), e = c(18);
+            function f(a) {
+                return e(a) && d(a);
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(a, c) {
-            function b() {
+        function(a, b) {
+            function c() {
                 return false;
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(b, g, a) {
-            var h = a(22), i = a(50), j = a(18);
-            var k = "[object Object]";
-            var c = Function.prototype, d = Object.prototype;
-            var e = c.toString;
-            var l = d.hasOwnProperty;
-            var m = e.call(Object);
-            function f(b) {
-                if (!j(b) || h(b) != k) {
+        function(a, b, c) {
+            var d = c(22), e = c(50), f = c(18);
+            var g = "[object Object]";
+            var h = Function.prototype, i = Object.prototype;
+            var j = h.toString;
+            var k = i.hasOwnProperty;
+            var l = j.call(Object);
+            function m(a) {
+                if (!f(a) || d(a) != g) {
                     return false;
                 }
-                var c = i(b);
-                if (c === null) {
+                var b = e(a);
+                if (b === null) {
                     return true;
                 }
-                var a = l.call(c, "constructor") && c.constructor;
-                return (typeof a == "function" && a instanceof a && e.call(a) == m);
+                var c = k.call(b, "constructor") && b.constructor;
+                return (typeof c == "function" && c instanceof c && j.call(c) == l);
             }
-            b.exports = f;
+            a.exports = m;
         },
-        function(c, C, b) {
-            var D = b(22), E = b(40), F = b(18);
-            var d = "[object Arguments]", e = "[object Array]", f = "[object Boolean]", g = "[object Date]", h = "[object Error]", i = "[object Function]", j = "[object Map]", k = "[object Number]", l = "[object Object]", m = "[object RegExp]", n = "[object Set]", o = "[object String]", p = "[object WeakMap]";
-            var q = "[object ArrayBuffer]", r = "[object DataView]", s = "[object Float32Array]", t = "[object Float64Array]", u = "[object Int8Array]", v = "[object Int16Array]", w = "[object Int32Array]", x = "[object Uint8Array]", y = "[object Uint8ClampedArray]", z = "[object Uint16Array]", A = "[object Uint32Array]";
-            var a = {};
-            a[s] = a[t] = a[u] = a[v] = a[w] = a[x] = a[y] = a[z] = a[A] = true;
-            a[d] = a[e] = a[q] = a[f] = a[r] = a[g] = a[h] = a[i] = a[j] = a[k] = a[l] = a[m] = a[n] = a[o] = a[p] = false;
-            function B(b) {
-                return (F(b) && E(b.length) && !!a[D(b)]);
+        function(a, b, c) {
+            var d = c(22), e = c(40), f = c(18);
+            var g = "[object Arguments]", h = "[object Array]", i = "[object Boolean]", j = "[object Date]", k = "[object Error]", l = "[object Function]", m = "[object Map]", n = "[object Number]", o = "[object Object]", p = "[object RegExp]", q = "[object Set]", r = "[object String]", s = "[object WeakMap]";
+            var t = "[object ArrayBuffer]", u = "[object DataView]", v = "[object Float32Array]", w = "[object Float64Array]", x = "[object Int8Array]", y = "[object Int16Array]", z = "[object Int32Array]", A = "[object Uint8Array]", B = "[object Uint8ClampedArray]", C = "[object Uint16Array]", D = "[object Uint32Array]";
+            var E = {};
+            E[v] = E[w] = E[x] = E[y] = E[z] = E[A] = E[B] = E[C] = E[D] = true;
+            E[g] = E[h] = E[t] = E[i] = E[u] = E[j] = E[k] = E[l] = E[m] = E[n] = E[o] = E[p] = E[q] = E[r] = E[s] = false;
+            function F(a) {
+                return (f(a) && e(a.length) && !!E[d(a)]);
             }
-            c.exports = B;
+            a.exports = F;
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b) {
+            function c(a) {
                 return function(b) {
                     return a(b);
                 };
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(a, c, b) {
+        function(a, b, c) {
             (function(a) {
-                var f = b(45);
-                var d = true && c && !c.nodeType && c;
-                var e = d && typeof a == "object" && a && !a.nodeType && a;
-                var g = e && e.exports === d;
-                var i = g && f.process;
-                var h = (function() {
+                var d = c(45);
+                var e = true && b && !b.nodeType && b;
+                var f = e && typeof a == "object" && a && !a.nodeType && a;
+                var g = f && f.exports === e;
+                var h = g && d.process;
+                var i = (function() {
                     try {
-                        var a = e && e.require && e.require("util").types;
+                        var a = f && f.require && f.require("util").types;
                         if (a) {
                             return a;
                         }
-                        return (i && i.binding && i.binding("util"));
+                        return (h && h.binding && h.binding("util"));
                     } catch (b) {}
                 })();
-                a.exports = h;
-            }.call(this, b(38)(a)));
+                a.exports = i;
+            }.call(this, c(38)(a)));
         },
-        function(b, d, a) {
-            var e = a(140), f = a(56);
-            function c(a) {
-                return e(a, f(a));
+        function(a, b, c) {
+            var d = c(140), e = c(56);
+            function f(a) {
+                return d(a, e(a));
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(b, d, a) {
-            var e = a(55), f = a(37);
-            function c(d, g, a, h) {
-                var j = !a;
-                a || (a = {});
-                var i = -1, k = g.length;
-                while(++i < k){
-                    var b = g[i];
-                    var c = h ? h(a[b], d[b], b, a, d) : undefined;
-                    if (c === undefined) {
-                        c = d[b];
+        function(a, b, c) {
+            var d = c(55), e = c(37);
+            function f(a, b, c, f) {
+                var g = !c;
+                c || (c = {});
+                var h = -1, i = b.length;
+                while(++h < i){
+                    var j = b[h];
+                    var k = f ? f(c[j], a[j], j, c, a) : undefined;
+                    if (k === undefined) {
+                        k = a[j];
                     }
-                    if (j) {
-                        f(a, b, c);
+                    if (g) {
+                        e(c, j, k);
                     } else {
-                        e(a, b, c);
-                    }
-                }
-                return a;
-            }
-            b.exports = c;
-        },
-        function(b, e, a) {
-            var f = a(142), g = a(30), h = a(15), i = a(52), j = a(31), k = a(53);
-            var c = Object.prototype;
-            var l = c.hasOwnProperty;
-            function d(b, p) {
-                var c = h(b), d = !c && g(b), e = !c && !d && i(b), n = !c && !d && !e && k(b), o = c || d || e || n, m = o ? f(b.length, String) : [], q = m.length;
-                for(var a in b){
-                    if ((p || l.call(b, a)) && !(o && (a == "length" || (e && (a == "offset" || a == "parent")) || (n && (a == "buffer" || a == "byteLength" || a == "byteOffset")) || j(a, q)))) {
-                        m.push(a);
-                    }
-                }
-                return m;
-            }
-            b.exports = d;
-        },
-        function(a, c) {
-            function b(b, d) {
-                var a = -1, c = Array(b);
-                while(++a < b){
-                    c[a] = d(a);
-                }
-                return c;
-            }
-            a.exports = b;
-        },
-        function(b, e, a) {
-            var f = a(14), g = a(51), h = a(144);
-            var c = Object.prototype;
-            var i = c.hasOwnProperty;
-            function d(a) {
-                if (!f(a)) {
-                    return h(a);
-                }
-                var d = g(a), c = [];
-                for(var b in a){
-                    if (!(b == "constructor" && (d || !i.call(a, b)))) {
-                        c.push(b);
+                        d(c, j, k);
                     }
                 }
                 return c;
             }
-            b.exports = d;
+            a.exports = f;
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b, c) {
+            var d = c(142), e = c(30), f = c(15), g = c(52), h = c(31), i = c(53);
+            var j = Object.prototype;
+            var k = j.hasOwnProperty;
+            function l(a, b) {
+                var c = f(a), j = !c && e(a), l = !c && !j && g(a), m = !c && !j && !l && i(a), n = c || j || l || m, o = n ? d(a.length, String) : [], p = o.length;
+                for(var q in a){
+                    if ((b || k.call(a, q)) && !(n && (q == "length" || (l && (q == "offset" || q == "parent")) || (m && (q == "buffer" || q == "byteLength" || q == "byteOffset")) || h(q, p)))) {
+                        o.push(q);
+                    }
+                }
+                return o;
+            }
+            a.exports = l;
+        },
+        function(a, b) {
+            function c(a, b) {
+                var c = -1, d = Array(a);
+                while(++c < a){
+                    d[c] = b(c);
+                }
+                return d;
+            }
+            a.exports = c;
+        },
+        function(a, b, c) {
+            var d = c(14), e = c(51), f = c(144);
+            var g = Object.prototype;
+            var h = g.hasOwnProperty;
+            function i(a) {
+                if (!d(a)) {
+                    return f(a);
+                }
+                var b = e(a), c = [];
+                for(var g in a){
+                    if (!(g == "constructor" && (b || !h.call(a, g)))) {
+                        c.push(g);
+                    }
+                }
+                return c;
+            }
+            a.exports = i;
+        },
+        function(a, b) {
+            function c(a) {
                 var b = [];
                 if (a != null) {
                     for(var c in Object(a)){
@@ -3834,83 +3834,83 @@
                 }
                 return b;
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(b, d, a) {
-            var e = a(146), f = a(151);
-            function c(a) {
-                return e(function(e, c) {
-                    var g = -1, b = c.length, d = b > 1 ? c[b - 1] : undefined, h = b > 2 ? c[2] : undefined;
-                    d = a.length > 3 && typeof d == "function" ? (b--, d) : undefined;
-                    if (h && f(c[0], c[1], h)) {
-                        d = b < 3 ? undefined : d;
-                        b = 1;
+        function(a, b, c) {
+            var d = c(146), e = c(151);
+            function f(a) {
+                return d(function(b, c) {
+                    var d = -1, f = c.length, g = f > 1 ? c[f - 1] : undefined, h = f > 2 ? c[2] : undefined;
+                    g = a.length > 3 && typeof g == "function" ? (f--, g) : undefined;
+                    if (h && e(c[0], c[1], h)) {
+                        g = f < 3 ? undefined : g;
+                        f = 1;
                     }
-                    e = Object(e);
-                    while(++g < b){
-                        var i = c[g];
+                    b = Object(b);
+                    while(++d < f){
+                        var i = c[d];
                         if (i) {
-                            a(e, i, g, d);
+                            a(b, i, d, g);
                         }
                     }
-                    return e;
+                    return b;
                 });
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(b, d, a) {
-            var e = a(57), f = a(58), g = a(59);
-            function c(a, b) {
-                return g(f(a, b, e), a + "");
+        function(a, b, c) {
+            var d = c(57), e = c(58), f = c(59);
+            function g(a, b) {
+                return f(e(a, b, d), a + "");
             }
-            b.exports = c;
+            a.exports = g;
         },
-        function(a, c) {
-            function b(b, c, a) {
-                switch(a.length){
+        function(a, b) {
+            function c(a, b, c) {
+                switch(c.length){
                     case 0:
-                        return b.call(c);
+                        return a.call(b);
                     case 1:
-                        return b.call(c, a[0]);
+                        return a.call(b, c[0]);
                     case 2:
-                        return b.call(c, a[0], a[1]);
+                        return a.call(b, c[0], c[1]);
                     case 3:
-                        return b.call(c, a[0], a[1], a[2]);
+                        return a.call(b, c[0], c[1], c[2]);
                 }
-                return b.apply(c, a);
+                return a.apply(b, c);
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(b, f, a) {
-            var g = a(149), c = a(49), d = a(57);
-            var e = !c ? d : function(a, b) {
-                return c(a, "toString", {
+        function(a, b, c) {
+            var d = c(149), e = c(49), f = c(57);
+            var g = !e ? f : function(a, b) {
+                return e(a, "toString", {
                     configurable: true,
                     enumerable: false,
-                    value: g(b),
+                    value: d(b),
                     writable: true
                 });
             };
-            b.exports = e;
+            a.exports = g;
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b) {
+            function c(a) {
                 return function() {
                     return a;
                 };
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(a, c) {
-            var d = 800, e = 16;
-            var f = Date.now;
-            function b(a) {
-                var b = 0, c = 0;
+        function(a, b) {
+            var c = 800, d = 16;
+            var e = Date.now;
+            function f(a) {
+                var b = 0, f = 0;
                 return function() {
-                    var g = f(), h = e - (g - c);
-                    c = g;
+                    var g = e(), h = d - (g - f);
+                    f = g;
                     if (h > 0) {
-                        if (++b >= d) {
+                        if (++b >= c) {
                             return arguments[0];
                         }
                     } else {
@@ -3919,21 +3919,21 @@
                     return a.apply(undefined, arguments);
                 };
             }
-            a.exports = b;
+            a.exports = f;
         },
-        function(b, d, a) {
-            var e = a(26), f = a(39), g = a(31), h = a(14);
-            function c(d, b, a) {
-                if (!h(a)) {
+        function(a, b, c) {
+            var d = c(26), e = c(39), f = c(31), g = c(14);
+            function h(a, b, c) {
+                if (!g(c)) {
                     return false;
                 }
-                var c = typeof b;
-                if (c == "number" ? f(a) && g(b, a.length) : c == "string" && b in a) {
-                    return e(a[b], d);
+                var h = typeof b;
+                if (h == "number" ? e(c) && f(b, c.length) : h == "string" && b in c) {
+                    return d(c[b], a);
                 }
                 return false;
             }
-            b.exports = c;
+            a.exports = h;
         },
         function(a, b) {
             if (typeof window !== "undefined") {
@@ -3947,92 +3947,92 @@
             }
             if (typeof Math.imul !== "function") {
                 Math.imul = function(a, b) {
-                    var e = (a >>> 16) & 0xffff;
-                    var c = a & 0xffff;
-                    var f = (b >>> 16) & 0xffff;
-                    var d = b & 0xffff;
-                    return ((c * d + (((e * d + c * f) << 16) >>> 0)) | 0);
+                    var c = (a >>> 16) & 0xffff;
+                    var d = a & 0xffff;
+                    var e = (b >>> 16) & 0xffff;
+                    var f = b & 0xffff;
+                    return ((d * f + (((c * f + d * e) << 16) >>> 0)) | 0);
                 };
             }
             if (typeof Object.assign !== "function") {
-                Object.assign = function(d) {
+                Object.assign = function(a) {
                     "use strict";
-                    if (d === null) {
+                    if (a === null) {
                         throw new TypeError("Cannot convert undefined or null to object");
                     }
-                    var e = Object(d);
-                    for(var b = 1; b < arguments.length; b++){
-                        var a = arguments[b];
-                        if (a !== null) {
-                            for(var c in a){
-                                if (Object.prototype.hasOwnProperty.call(a, c)) {
-                                    e[c] = a[c];
+                    var b = Object(a);
+                    for(var c = 1; c < arguments.length; c++){
+                        var d = arguments[c];
+                        if (d !== null) {
+                            for(var e in d){
+                                if (Object.prototype.hasOwnProperty.call(d, e)) {
+                                    b[e] = d[e];
                                 }
                             }
                         }
                     }
-                    return e;
+                    return b;
                 };
             }
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b) {
+            function c(a) {
                 if (Array.isArray(a)) return a;
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b(b, e) {
-                var a = b == null ? null : (typeof Symbol !== "undefined" && b[Symbol.iterator]) || b["@@iterator"];
-                if (a == null) return;
-                var c = [];
-                var d = true;
+        function(a, b) {
+            function c(a, b) {
+                var c = a == null ? null : (typeof Symbol !== "undefined" && a[Symbol.iterator]) || a["@@iterator"];
+                if (c == null) return;
+                var d = [];
+                var e = true;
                 var f = false;
                 var g, h;
                 try {
-                    for(a = a.call(b); !(d = (g = a.next()).done); d = true){
-                        c.push(g.value);
-                        if (e && c.length === e) break;
+                    for(c = c.call(a); !(e = (g = c.next()).done); e = true){
+                        d.push(g.value);
+                        if (b && d.length === b) break;
                     }
                 } catch (i) {
                     f = true;
                     h = i;
                 } finally{
                     try {
-                        if (!d && a["return"] != null) a["return"]();
+                        if (!e && c["return"] != null) c["return"]();
                     } finally{
                         if (f) throw h;
                     }
                 }
-                return c;
+                return d;
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b() {
+        function(a, b) {
+            function c() {
                 throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
         function(a, b) {
             a.exports = c;
-            function c(b) {
-                var a = new Float32Array(2);
-                a[0] = b[0];
-                a[1] = b[1];
-                return a;
+            function c(a) {
+                var b = new Float32Array(2);
+                b[0] = a[0];
+                b[1] = a[1];
+                return b;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b, c) {
-                var a = new Float32Array(2);
-                a[0] = b;
-                a[1] = c;
-                return a;
+            function c(a, b) {
+                var c = new Float32Array(2);
+                c[0] = a;
+                c[1] = b;
+                return c;
             }
         },
         function(a, b) {
@@ -4051,9 +4051,9 @@
                 return a;
             }
         },
-        function(a, c, b) {
+        function(a, b, c) {
             a.exports = e;
-            var d = b(62);
+            var d = c(62);
             function e(a, b) {
                 var c = a[0];
                 var e = a[1];
@@ -4076,14 +4076,14 @@
                 return a;
             }
         },
-        function(a, c, b) {
-            a.exports = b(64);
+        function(a, b, c) {
+            a.exports = c(64);
         },
-        function(a, c, b) {
-            a.exports = b(65);
+        function(a, b, c) {
+            a.exports = c(65);
         },
-        function(a, c, b) {
-            a.exports = b(66);
+        function(a, b, c) {
+            a.exports = c(66);
         },
         function(a, b) {
             a.exports = c;
@@ -4159,17 +4159,17 @@
                 return a;
             }
         },
-        function(a, c, b) {
-            a.exports = b(67);
+        function(a, b, c) {
+            a.exports = c(67);
         },
-        function(a, c, b) {
-            a.exports = b(68);
+        function(a, b, c) {
+            a.exports = c(68);
         },
-        function(a, c, b) {
-            a.exports = b(69);
+        function(a, b, c) {
+            a.exports = c(69);
         },
-        function(a, c, b) {
-            a.exports = b(70);
+        function(a, b, c) {
+            a.exports = c(70);
         },
         function(a, b) {
             a.exports = c;
@@ -4181,15 +4181,15 @@
         },
         function(a, b) {
             a.exports = c;
-            function c(c, b) {
-                var d = b[0], e = b[1];
-                var a = d * d + e * e;
-                if (a > 0) {
-                    a = 1 / Math.sqrt(a);
-                    c[0] = b[0] * a;
-                    c[1] = b[1] * a;
+            function c(a, b) {
+                var c = b[0], d = b[1];
+                var e = c * c + d * d;
+                if (e > 0) {
+                    e = 1 / Math.sqrt(e);
+                    a[0] = b[0] * e;
+                    a[1] = b[1] * e;
                 }
-                return c;
+                return a;
             }
         },
         function(a, b) {
@@ -4218,106 +4218,106 @@
         },
         function(a, b) {
             a.exports = c;
-            function c(b, a) {
-                a = a || 1.0;
+            function c(a, b) {
+                b = b || 1.0;
                 var c = Math.random() * 2.0 * Math.PI;
-                b[0] = Math.cos(c) * a;
-                b[1] = Math.sin(c) * a;
-                return b;
+                a[0] = Math.cos(c) * b;
+                a[1] = Math.sin(c) * b;
+                return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b, c, a) {
-                var d = c[0], e = c[1];
-                b[0] = a[0] * d + a[2] * e;
-                b[1] = a[1] * d + a[3] * e;
-                return b;
+            function c(a, b, c) {
+                var d = b[0], e = b[1];
+                a[0] = c[0] * d + c[2] * e;
+                a[1] = c[1] * d + c[3] * e;
+                return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b, c, a) {
-                var d = c[0], e = c[1];
-                b[0] = a[0] * d + a[2] * e + a[4];
-                b[1] = a[1] * d + a[3] * e + a[5];
-                return b;
+            function c(a, b, c) {
+                var d = b[0], e = b[1];
+                a[0] = c[0] * d + c[2] * e + c[4];
+                a[1] = c[1] * d + c[3] * e + c[5];
+                return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b, c, a) {
-                var d = c[0], e = c[1];
-                b[0] = a[0] * d + a[3] * e + a[6];
-                b[1] = a[1] * d + a[4] * e + a[7];
-                return b;
+            function c(a, b, c) {
+                var d = b[0], e = b[1];
+                a[0] = c[0] * d + c[3] * e + c[6];
+                a[1] = c[1] * d + c[4] * e + c[7];
+                return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b, c, a) {
-                var d = c[0], e = c[1];
-                b[0] = a[0] * d + a[4] * e + a[12];
-                b[1] = a[1] * d + a[5] * e + a[13];
-                return b;
+            function c(a, b, c) {
+                var d = b[0], e = b[1];
+                a[0] = c[0] * d + c[4] * e + c[12];
+                a[1] = c[1] * d + c[5] * e + c[13];
+                return a;
             }
         },
-        function(a, c, b) {
+        function(a, b, c) {
             a.exports = e;
-            var d = b(63)();
-            function e(a, c, e, g, h, i) {
-                var b, f;
+            var d = c(63)();
+            function e(a, b, c, e, f, g) {
+                var h, i;
+                if (!b) {
+                    b = 2;
+                }
                 if (!c) {
-                    c = 2;
+                    c = 0;
                 }
-                if (!e) {
-                    e = 0;
-                }
-                if (g) {
-                    f = Math.min(g * c + e, a.length);
+                if (e) {
+                    i = Math.min(e * b + c, a.length);
                 } else {
-                    f = a.length;
+                    i = a.length;
                 }
-                for(b = e; b < f; b += c){
-                    d[0] = a[b];
-                    d[1] = a[b + 1];
-                    h(d, d, i);
-                    a[b] = d[0];
-                    a[b + 1] = d[1];
+                for(h = c; h < i; h += b){
+                    d[0] = a[h];
+                    d[1] = a[h + 1];
+                    f(d, d, g);
+                    a[h] = d[0];
+                    a[h + 1] = d[1];
                 }
                 return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b, a, c) {
-                var d = a[0] * a[0] + a[1] * a[1];
+            function c(a, b, c) {
+                var d = b[0] * b[0] + b[1] * b[1];
                 if (d > c * c) {
                     var e = Math.sqrt(d);
-                    b[0] = (a[0] / e) * c;
-                    b[1] = (a[1] / e) * c;
+                    a[0] = (b[0] / e) * c;
+                    a[1] = (b[1] / e) * c;
                 } else {
-                    b[0] = a[0];
-                    b[1] = a[1];
+                    a[0] = b[0];
+                    a[1] = b[1];
                 }
-                return b;
+                return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b) {
-                var a = new Float32Array(3);
-                a[0] = b[0];
-                a[1] = b[1];
-                a[2] = b[2];
-                return a;
+            function c(a) {
+                var b = new Float32Array(3);
+                b[0] = a[0];
+                b[1] = a[1];
+                b[2] = a[2];
+                return b;
             }
         },
-        function(b, c, a) {
-            b.exports = g;
-            var d = a(73);
-            var e = a(74);
-            var f = a(75);
+        function(a, b, c) {
+            a.exports = g;
+            var d = c(73);
+            var e = c(74);
+            var f = c(75);
             function g(a, b) {
                 var c = d(a[0], a[1], a[2]);
                 var g = d(b[0], b[1], b[2]);
@@ -4349,9 +4349,9 @@
                 return a;
             }
         },
-        function(a, c, b) {
+        function(a, b, c) {
             a.exports = e;
-            var d = b(71);
+            var d = c(71);
             function e(a, b) {
                 var c = a[0];
                 var e = a[1];
@@ -4377,14 +4377,14 @@
                 return a;
             }
         },
-        function(a, c, b) {
-            a.exports = b(76);
+        function(a, b, c) {
+            a.exports = c(76);
         },
-        function(a, c, b) {
-            a.exports = b(77);
+        function(a, b, c) {
+            a.exports = c(77);
         },
-        function(a, c, b) {
-            a.exports = b(78);
+        function(a, b, c) {
+            a.exports = c(78);
         },
         function(a, b) {
             a.exports = c;
@@ -4449,17 +4449,17 @@
                 return a;
             }
         },
-        function(a, c, b) {
-            a.exports = b(79);
+        function(a, b, c) {
+            a.exports = c(79);
         },
-        function(a, c, b) {
-            a.exports = b(80);
+        function(a, b, c) {
+            a.exports = c(80);
         },
-        function(a, c, b) {
-            a.exports = b(81);
+        function(a, b, c) {
+            a.exports = c(81);
         },
-        function(a, c, b) {
-            a.exports = b(82);
+        function(a, b, c) {
+            a.exports = c(82);
         },
         function(a, b) {
             a.exports = c;
@@ -4503,44 +4503,44 @@
             a.exports = c;
             function c(a, b) {
                 b = b || 1.0;
-                var d = Math.random() * 2.0 * Math.PI;
-                var c = Math.random() * 2.0 - 1.0;
-                var e = Math.sqrt(1.0 - c * c) * b;
-                a[0] = Math.cos(d) * e;
-                a[1] = Math.sin(d) * e;
-                a[2] = c * b;
+                var c = Math.random() * 2.0 * Math.PI;
+                var d = Math.random() * 2.0 - 1.0;
+                var e = Math.sqrt(1.0 - d * d) * b;
+                a[0] = Math.cos(c) * e;
+                a[1] = Math.sin(c) * e;
+                a[2] = d * b;
                 return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(c, g, a) {
-                var d = g[0], e = g[1], f = g[2], b = a[3] * d + a[7] * e + a[11] * f + a[15];
-                b = b || 1.0;
-                c[0] = (a[0] * d + a[4] * e + a[8] * f + a[12]) / b;
-                c[1] = (a[1] * d + a[5] * e + a[9] * f + a[13]) / b;
-                c[2] = (a[2] * d + a[6] * e + a[10] * f + a[14]) / b;
-                return c;
+            function c(a, b, c) {
+                var d = b[0], e = b[1], f = b[2], g = c[3] * d + c[7] * e + c[11] * f + c[15];
+                g = g || 1.0;
+                a[0] = (c[0] * d + c[4] * e + c[8] * f + c[12]) / g;
+                a[1] = (c[1] * d + c[5] * e + c[9] * f + c[13]) / g;
+                a[2] = (c[2] * d + c[6] * e + c[10] * f + c[14]) / g;
+                return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b, c, a) {
-                var d = c[0], e = c[1], f = c[2];
-                b[0] = d * a[0] + e * a[3] + f * a[6];
-                b[1] = d * a[1] + e * a[4] + f * a[7];
-                b[2] = d * a[2] + e * a[5] + f * a[8];
-                return b;
+            function c(a, b, c) {
+                var d = b[0], e = b[1], f = b[2];
+                a[0] = d * c[0] + e * c[3] + f * c[6];
+                a[1] = d * c[1] + e * c[4] + f * c[7];
+                a[2] = d * c[2] + e * c[5] + f * c[8];
+                return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(e, j, f) {
-                var g = j[0], h = j[1], i = j[2], a = f[0], b = f[1], c = f[2], d = f[3], k = d * g + b * i - c * h, l = d * h + c * g - a * i, m = d * i + a * h - b * g, n = -a * g - b * h - c * i;
-                e[0] = k * d + n * -a + l * -c - m * -b;
-                e[1] = l * d + n * -b + m * -a - k * -c;
-                e[2] = m * d + n * -c + k * -b - l * -a;
-                return e;
+            function c(a, b, c) {
+                var d = b[0], e = b[1], f = b[2], g = c[0], h = c[1], i = c[2], j = c[3], k = j * d + h * f - i * e, l = j * e + i * d - g * f, m = j * f + g * e - h * d, n = -g * d - h * e - i * f;
+                a[0] = k * j + n * -g + l * -i - m * -h;
+                a[1] = l * j + n * -h + m * -g - k * -i;
+                a[2] = m * j + n * -i + k * -h - l * -g;
+                return a;
             }
         },
         function(a, b) {
@@ -4588,87 +4588,87 @@
                 return a;
             }
         },
-        function(a, c, b) {
+        function(a, b, c) {
             a.exports = e;
-            var d = b(72)();
-            function e(a, c, e, g, h, i) {
-                var b, f;
+            var d = c(72)();
+            function e(a, b, c, e, f, g) {
+                var h, i;
+                if (!b) {
+                    b = 3;
+                }
                 if (!c) {
-                    c = 3;
+                    c = 0;
                 }
-                if (!e) {
-                    e = 0;
-                }
-                if (g) {
-                    f = Math.min(g * c + e, a.length);
+                if (e) {
+                    i = Math.min(e * b + c, a.length);
                 } else {
-                    f = a.length;
+                    i = a.length;
                 }
-                for(b = e; b < f; b += c){
-                    d[0] = a[b];
-                    d[1] = a[b + 1];
-                    d[2] = a[b + 2];
-                    h(d, d, i);
-                    a[b] = d[0];
-                    a[b + 1] = d[1];
-                    a[b + 2] = d[2];
+                for(h = c; h < i; h += b){
+                    d[0] = a[h];
+                    d[1] = a[h + 1];
+                    d[2] = a[h + 2];
+                    f(d, d, g);
+                    a[h] = d[0];
+                    a[h + 1] = d[1];
+                    a[h + 2] = d[2];
                 }
                 return a;
             }
         },
-        function(a, d, b) {
-            var e = b(61);
+        function(a, b, c) {
+            var d = c(61);
+            function e(a) {
+                if (Array.isArray(a)) return d(a);
+            }
+            a.exports = e;
+            (a.exports["default"] = a.exports), (a.exports.__esModule = true);
+        },
+        function(a, b) {
             function c(a) {
-                if (Array.isArray(a)) return e(a);
+                if ((typeof Symbol !== "undefined" && a[Symbol.iterator] != null) || a["@@iterator"] != null) return Array.from(a);
             }
             a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b(a) {
-                if ((typeof Symbol !== "undefined" && a[Symbol.iterator] != null) || a["@@iterator"] != null) return Array.from(a);
-            }
-            a.exports = b;
-            (a.exports["default"] = a.exports), (a.exports.__esModule = true);
-        },
-        function(a, c) {
-            function b() {
+        function(a, b) {
+            function c() {
                 throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, d, b) {
-            var e = b(2);
-            function c(a, b) {
+        function(a, b, c) {
+            var d = c(2);
+            function e(a, b) {
                 while(!Object.prototype.hasOwnProperty.call(a, b)){
-                    a = e(a);
+                    a = d(a);
                     if (a === null) break;
                 }
                 return a;
             }
-            a.exports = c;
+            a.exports = e;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(b, c, d) {
-            var a = (function(a) {
+        function(a, b, c) {
+            var d = (function(a) {
                 "use strict";
-                var k = Object.prototype;
-                var o = k.hasOwnProperty;
-                var t;
+                var b = Object.prototype;
+                var c = b.hasOwnProperty;
+                var d;
                 var e = typeof Symbol === "function" ? Symbol : {};
                 var f = e.iterator || "@@iterator";
-                var p = e.asyncIterator || "@@asyncIterator";
-                var l = e.toStringTag || "@@toStringTag";
-                function q(c, a, d, e) {
-                    var f = a && a.prototype instanceof r ? a : r;
-                    var b = Object.create(f.prototype);
-                    var g = new n(e || []);
-                    b._invoke = A(c, d, g);
-                    return b;
+                var g = e.asyncIterator || "@@asyncIterator";
+                var h = e.toStringTag || "@@toStringTag";
+                function i(a, b, c, d) {
+                    var e = b && b.prototype instanceof p ? b : p;
+                    var f = Object.create(e.prototype);
+                    var g = new C(d || []);
+                    f._invoke = y(a, c, g);
+                    return f;
                 }
-                a.wrap = q;
-                function u(a, b, c) {
+                a.wrap = i;
+                function j(a, b, c) {
                     try {
                         return {
                             type: "normal",
@@ -4681,28 +4681,28 @@
                         };
                     }
                 }
-                var v = "suspendedStart";
-                var w = "suspendedYield";
-                var x = "executing";
-                var y = "completed";
-                var z = {};
+                var k = "suspendedStart";
+                var l = "suspendedYield";
+                var m = "executing";
+                var n = "completed";
+                var o = {};
+                function p() {}
+                function q() {}
                 function r() {}
-                function g() {}
-                function c() {}
-                var h = {};
-                h[f] = function() {
+                var s = {};
+                s[f] = function() {
                     return this;
                 };
-                var i = Object.getPrototypeOf;
-                var d = i && i(i(s([])));
-                if (d && d !== k && o.call(d, f)) {
-                    h = d;
+                var t = Object.getPrototypeOf;
+                var u = t && t(t(D([])));
+                if (u && u !== b && c.call(u, f)) {
+                    s = u;
                 }
-                var b = (c.prototype = r.prototype = Object.create(h));
-                g.prototype = b.constructor = c;
-                c.constructor = g;
-                c[l] = g.displayName = "GeneratorFunction";
-                function m(a) {
+                var v = (r.prototype = p.prototype = Object.create(s));
+                q.prototype = v.constructor = r;
+                r.constructor = q;
+                r[h] = q.displayName = "GeneratorFunction";
+                function w(a) {
                     [
                         "next",
                         "throw",
@@ -4713,20 +4713,20 @@
                         };
                     });
                 }
-                a.isGeneratorFunction = function(b) {
-                    var a = typeof b === "function" && b.constructor;
-                    return a ? a === g || (a.displayName || a.name) === "GeneratorFunction" : false;
+                a.isGeneratorFunction = function(a) {
+                    var b = typeof a === "function" && a.constructor;
+                    return b ? b === q || (b.displayName || b.name) === "GeneratorFunction" : false;
                 };
                 a.mark = function(a) {
                     if (Object.setPrototypeOf) {
-                        Object.setPrototypeOf(a, c);
+                        Object.setPrototypeOf(a, r);
                     } else {
-                        a.__proto__ = c;
-                        if (!(l in a)) {
-                            a[l] = "GeneratorFunction";
+                        a.__proto__ = r;
+                        if (!(h in a)) {
+                            a[h] = "GeneratorFunction";
                         }
                     }
-                    a.prototype = Object.create(b);
+                    a.prototype = Object.create(v);
                     return a;
                 };
                 a.awrap = function(a) {
@@ -4734,159 +4734,159 @@
                         __await: a
                     };
                 };
-                function j(b, c) {
-                    function d(f, g, j, h) {
-                        var e = u(b[f], b, g);
-                        if (e.type === "throw") {
-                            h(e.arg);
+                function x(a, b) {
+                    function d(e, f, g, h) {
+                        var i = j(a[e], a, f);
+                        if (i.type === "throw") {
+                            h(i.arg);
                         } else {
-                            var i = e.arg;
-                            var a = i.value;
-                            if (a && typeof a === "object" && o.call(a, "__await")) {
-                                return c.resolve(a.__await).then(function(a) {
-                                    d("next", a, j, h);
+                            var k = i.arg;
+                            var l = k.value;
+                            if (l && typeof l === "object" && c.call(l, "__await")) {
+                                return b.resolve(l.__await).then(function(a) {
+                                    d("next", a, g, h);
                                 }, function(a) {
-                                    d("throw", a, j, h);
+                                    d("throw", a, g, h);
                                 });
                             }
-                            return c.resolve(a).then(function(a) {
-                                i.value = a;
-                                j(i);
+                            return b.resolve(l).then(function(a) {
+                                k.value = a;
+                                g(k);
                             }, function(a) {
-                                return d("throw", a, j, h);
+                                return d("throw", a, g, h);
                             });
                         }
                     }
                     var e;
-                    function a(b, f) {
-                        function a() {
-                            return new c(function(a, c) {
-                                d(b, f, a, c);
+                    function f(a, c) {
+                        function f() {
+                            return new b(function(b, e) {
+                                d(a, c, b, e);
                             });
                         }
-                        return (e = e ? e.then(a, a) : a());
+                        return (e = e ? e.then(f, f) : f());
                     }
-                    this._invoke = a;
+                    this._invoke = f;
                 }
-                m(j.prototype);
-                j.prototype[p] = function() {
+                w(x.prototype);
+                x.prototype[g] = function() {
                     return this;
                 };
-                a.AsyncIterator = j;
-                a.async = function(e, c, f, g, b) {
-                    if (b === void 0) b = Promise;
-                    var d = new j(q(e, c, f, g), b);
-                    return a.isGeneratorFunction(c) ? d : d.next().then(function(a) {
-                        return a.done ? a.value : d.next();
+                a.AsyncIterator = x;
+                a.async = function(b, c, d, e, f) {
+                    if (f === void 0) f = Promise;
+                    var g = new x(i(b, c, d, e), f);
+                    return a.isGeneratorFunction(c) ? g : g.next().then(function(a) {
+                        return a.done ? a.value : g.next();
                     });
                 };
-                function A(a, b, c) {
-                    var d = v;
-                    return function j(g, h) {
-                        if (d === x) {
+                function y(a, b, c) {
+                    var d = k;
+                    return function e(f, g) {
+                        if (d === m) {
                             throw new Error("Generator is already running");
                         }
-                        if (d === y) {
-                            if (g === "throw") {
-                                throw h;
+                        if (d === n) {
+                            if (f === "throw") {
+                                throw g;
                             }
                             return E();
                         }
-                        c.method = g;
-                        c.arg = h;
+                        c.method = f;
+                        c.arg = g;
                         while(true){
-                            var i = c.delegate;
-                            if (i) {
-                                var f = B(i, c);
-                                if (f) {
-                                    if (f === z) continue;
-                                    return f;
+                            var h = c.delegate;
+                            if (h) {
+                                var i = z(h, c);
+                                if (i) {
+                                    if (i === o) continue;
+                                    return i;
                                 }
                             }
                             if (c.method === "next") {
                                 c.sent = c._sent = c.arg;
                             } else if (c.method === "throw") {
-                                if (d === v) {
-                                    d = y;
+                                if (d === k) {
+                                    d = n;
                                     throw c.arg;
                                 }
                                 c.dispatchException(c.arg);
                             } else if (c.method === "return") {
                                 c.abrupt("return", c.arg);
                             }
-                            d = x;
-                            var e = u(a, b, c);
-                            if (e.type === "normal") {
-                                d = c.done ? y : w;
-                                if (e.arg === z) {
+                            d = m;
+                            var p = j(a, b, c);
+                            if (p.type === "normal") {
+                                d = c.done ? n : l;
+                                if (p.arg === o) {
                                     continue;
                                 }
                                 return {
-                                    value: e.arg,
+                                    value: p.arg,
                                     done: c.done
                                 };
-                            } else if (e.type === "throw") {
-                                d = y;
+                            } else if (p.type === "throw") {
+                                d = n;
                                 c.method = "throw";
-                                c.arg = e.arg;
+                                c.arg = p.arg;
                             }
                         }
                     };
                 }
-                function B(b, a) {
-                    var e = b.iterator[a.method];
-                    if (e === t) {
-                        a.delegate = null;
-                        if (a.method === "throw") {
-                            if (b.iterator["return"]) {
-                                a.method = "return";
-                                a.arg = t;
-                                B(b, a);
-                                if (a.method === "throw") {
-                                    return z;
+                function z(a, b) {
+                    var c = a.iterator[b.method];
+                    if (c === d) {
+                        b.delegate = null;
+                        if (b.method === "throw") {
+                            if (a.iterator["return"]) {
+                                b.method = "return";
+                                b.arg = d;
+                                z(a, b);
+                                if (b.method === "throw") {
+                                    return o;
                                 }
                             }
-                            a.method = "throw";
-                            a.arg = new TypeError("The iterator does not provide a 'throw' method");
+                            b.method = "throw";
+                            b.arg = new TypeError("The iterator does not provide a 'throw' method");
                         }
-                        return z;
+                        return o;
                     }
-                    var d = u(e, b.iterator, a.arg);
-                    if (d.type === "throw") {
-                        a.method = "throw";
-                        a.arg = d.arg;
-                        a.delegate = null;
-                        return z;
+                    var e = j(c, a.iterator, b.arg);
+                    if (e.type === "throw") {
+                        b.method = "throw";
+                        b.arg = e.arg;
+                        b.delegate = null;
+                        return o;
                     }
-                    var c = d.arg;
-                    if (!c) {
-                        a.method = "throw";
-                        a.arg = new TypeError("iterator result is not an object");
-                        a.delegate = null;
-                        return z;
+                    var f = e.arg;
+                    if (!f) {
+                        b.method = "throw";
+                        b.arg = new TypeError("iterator result is not an object");
+                        b.delegate = null;
+                        return o;
                     }
-                    if (c.done) {
-                        a[b.resultName] = c.value;
-                        a.next = b.nextLoc;
-                        if (a.method !== "return") {
-                            a.method = "next";
-                            a.arg = t;
+                    if (f.done) {
+                        b[a.resultName] = f.value;
+                        b.next = a.nextLoc;
+                        if (b.method !== "return") {
+                            b.method = "next";
+                            b.arg = d;
                         }
                     } else {
-                        return c;
+                        return f;
                     }
-                    a.delegate = null;
-                    return z;
+                    b.delegate = null;
+                    return o;
                 }
-                m(b);
-                b[l] = "Generator";
-                b[f] = function() {
+                w(v);
+                v[h] = "Generator";
+                v[f] = function() {
                     return this;
                 };
-                b.toString = function() {
+                v.toString = function() {
                     return "[object Generator]";
                 };
-                function C(a) {
+                function A(a) {
                     var b = {
                         tryLoc: a[0]
                     };
@@ -4899,31 +4899,31 @@
                     }
                     this.tryEntries.push(b);
                 }
-                function D(b) {
-                    var a = b.completion || {};
-                    a.type = "normal";
-                    delete a.arg;
-                    b.completion = a;
+                function B(a) {
+                    var b = a.completion || {};
+                    b.type = "normal";
+                    delete b.arg;
+                    a.completion = b;
                 }
-                function n(a) {
+                function C(a) {
                     this.tryEntries = [
                         {
                             tryLoc: "root"
                         }, 
                     ];
-                    a.forEach(C, this);
+                    a.forEach(A, this);
                     this.reset(true);
                 }
-                a.keys = function(b) {
-                    var a = [];
-                    for(var c in b){
-                        a.push(c);
+                a.keys = function(a) {
+                    var b = [];
+                    for(var c in a){
+                        b.push(c);
                     }
-                    a.reverse();
+                    b.reverse();
                     return function c() {
-                        while(a.length){
-                            var d = a.pop();
-                            if (d in b) {
+                        while(b.length){
+                            var d = b.pop();
+                            if (d in a) {
                                 c.value = d;
                                 c.done = false;
                                 return c;
@@ -4933,7 +4933,7 @@
                         return c;
                     };
                 };
-                function s(a) {
+                function D(a) {
                     if (a) {
                         var b = a[f];
                         if (b) {
@@ -4943,97 +4943,97 @@
                             return a;
                         }
                         if (!isNaN(a.length)) {
-                            var d = -1, c = function b() {
-                                while(++d < a.length){
-                                    if (o.call(a, d)) {
-                                        b.value = a[d];
+                            var e = -1, g = function b() {
+                                while(++e < a.length){
+                                    if (c.call(a, e)) {
+                                        b.value = a[e];
                                         b.done = false;
                                         return b;
                                     }
                                 }
-                                b.value = t;
+                                b.value = d;
                                 b.done = true;
                                 return b;
                             };
-                            return (c.next = c);
+                            return (g.next = g);
                         }
                     }
                     return {
                         next: E
                     };
                 }
-                a.values = s;
+                a.values = D;
                 function E() {
                     return {
-                        value: t,
+                        value: d,
                         done: true
                     };
                 }
-                n.prototype = {
-                    constructor: n,
-                    reset: function(b) {
+                C.prototype = {
+                    constructor: C,
+                    reset: function(a) {
                         this.prev = 0;
                         this.next = 0;
-                        this.sent = this._sent = t;
+                        this.sent = this._sent = d;
                         this.done = false;
                         this.delegate = null;
                         this.method = "next";
-                        this.arg = t;
-                        this.tryEntries.forEach(D);
-                        if (!b) {
-                            for(var a in this){
-                                if (a.charAt(0) === "t" && o.call(this, a) && !isNaN(+a.slice(1))) {
-                                    this[a] = t;
+                        this.arg = d;
+                        this.tryEntries.forEach(B);
+                        if (!a) {
+                            for(var b in this){
+                                if (b.charAt(0) === "t" && c.call(this, b) && !isNaN(+b.slice(1))) {
+                                    this[b] = d;
                                 }
                             }
                         }
                     },
                     stop: function() {
                         this.done = true;
-                        var b = this.tryEntries[0];
-                        var a = b.completion;
-                        if (a.type === "throw") {
-                            throw a.arg;
+                        var a = this.tryEntries[0];
+                        var b = a.completion;
+                        if (b.type === "throw") {
+                            throw b.arg;
                         }
                         return this.rval;
                     },
-                    dispatchException: function(f) {
+                    dispatchException: function(a) {
                         if (this.done) {
-                            throw f;
+                            throw a;
                         }
-                        var g = this;
-                        function b(b, a) {
+                        var b = this;
+                        function e(c, e) {
                             h.type = "throw";
-                            h.arg = f;
-                            g.next = b;
-                            if (a) {
-                                g.method = "next";
-                                g.arg = t;
+                            h.arg = a;
+                            b.next = c;
+                            if (e) {
+                                b.method = "next";
+                                b.arg = d;
                             }
-                            return !!a;
+                            return !!e;
                         }
-                        for(var c = this.tryEntries.length - 1; c >= 0; --c){
-                            var a = this.tryEntries[c];
-                            var h = a.completion;
-                            if (a.tryLoc === "root") {
-                                return b("end");
+                        for(var f = this.tryEntries.length - 1; f >= 0; --f){
+                            var g = this.tryEntries[f];
+                            var h = g.completion;
+                            if (g.tryLoc === "root") {
+                                return e("end");
                             }
-                            if (a.tryLoc <= this.prev) {
-                                var d = o.call(a, "catchLoc");
-                                var e = o.call(a, "finallyLoc");
-                                if (d && e) {
-                                    if (this.prev < a.catchLoc) {
-                                        return b(a.catchLoc, true);
-                                    } else if (this.prev < a.finallyLoc) {
-                                        return b(a.finallyLoc);
+                            if (g.tryLoc <= this.prev) {
+                                var i = c.call(g, "catchLoc");
+                                var j = c.call(g, "finallyLoc");
+                                if (i && j) {
+                                    if (this.prev < g.catchLoc) {
+                                        return e(g.catchLoc, true);
+                                    } else if (this.prev < g.finallyLoc) {
+                                        return e(g.finallyLoc);
                                     }
-                                } else if (d) {
-                                    if (this.prev < a.catchLoc) {
-                                        return b(a.catchLoc, true);
+                                } else if (i) {
+                                    if (this.prev < g.catchLoc) {
+                                        return e(g.catchLoc, true);
                                     }
-                                } else if (e) {
-                                    if (this.prev < a.finallyLoc) {
-                                        return b(a.finallyLoc);
+                                } else if (j) {
+                                    if (this.prev < g.finallyLoc) {
+                                        return e(g.finallyLoc);
                                     }
                                 } else {
                                     throw new Error("try statement without catch or finally");
@@ -5041,26 +5041,26 @@
                             }
                         }
                     },
-                    abrupt: function(c, d) {
-                        for(var e = this.tryEntries.length - 1; e >= 0; --e){
-                            var b = this.tryEntries[e];
-                            if (b.tryLoc <= this.prev && o.call(b, "finallyLoc") && this.prev < b.finallyLoc) {
-                                var a = b;
+                    abrupt: function(a, b) {
+                        for(var d = this.tryEntries.length - 1; d >= 0; --d){
+                            var e = this.tryEntries[d];
+                            if (e.tryLoc <= this.prev && c.call(e, "finallyLoc") && this.prev < e.finallyLoc) {
+                                var f = e;
                                 break;
                             }
                         }
-                        if (a && (c === "break" || c === "continue") && a.tryLoc <= d && d <= a.finallyLoc) {
-                            a = null;
+                        if (f && (a === "break" || a === "continue") && f.tryLoc <= b && b <= f.finallyLoc) {
+                            f = null;
                         }
-                        var f = a ? a.completion : {};
-                        f.type = c;
-                        f.arg = d;
-                        if (a) {
+                        var g = f ? f.completion : {};
+                        g.type = a;
+                        g.arg = b;
+                        if (f) {
                             this.method = "next";
-                            this.next = a.finallyLoc;
-                            return z;
+                            this.next = f.finallyLoc;
+                            return o;
                         }
-                        return this.complete(f);
+                        return this.complete(g);
                     },
                     complete: function(a, b) {
                         if (a.type === "throw") {
@@ -5075,26 +5075,26 @@
                         } else if (a.type === "normal" && b) {
                             this.next = b;
                         }
-                        return z;
+                        return o;
                     },
-                    finish: function(c) {
+                    finish: function(a) {
                         for(var b = this.tryEntries.length - 1; b >= 0; --b){
-                            var a = this.tryEntries[b];
-                            if (a.finallyLoc === c) {
-                                this.complete(a.completion, a.afterLoc);
-                                D(a);
-                                return z;
+                            var c = this.tryEntries[b];
+                            if (c.finallyLoc === a) {
+                                this.complete(c.completion, c.afterLoc);
+                                B(c);
+                                return o;
                             }
                         }
                     },
-                    catch: function(d) {
-                        for(var a = this.tryEntries.length - 1; a >= 0; --a){
-                            var b = this.tryEntries[a];
-                            if (b.tryLoc === d) {
-                                var c = b.completion;
-                                if (c.type === "throw") {
-                                    var e = c.arg;
-                                    D(b);
+                    catch: function(a) {
+                        for(var b = this.tryEntries.length - 1; b >= 0; --b){
+                            var c = this.tryEntries[b];
+                            if (c.tryLoc === a) {
+                                var d = c.completion;
+                                if (d.type === "throw") {
+                                    var e = d.arg;
+                                    B(c);
                                 }
                                 return e;
                             }
@@ -5103,312 +5103,312 @@
                     },
                     delegateYield: function(a, b, c) {
                         this.delegate = {
-                            iterator: s(a),
+                            iterator: D(a),
                             resultName: b,
                             nextLoc: c
                         };
                         if (this.method === "next") {
-                            this.arg = t;
+                            this.arg = d;
                         }
-                        return z;
+                        return o;
                     }
                 };
                 return a;
-            })(true ? b.exports : undefined);
+            })(true ? a.exports : undefined);
             try {
-                regeneratorRuntime = a;
+                regeneratorRuntime = d;
             } catch (e) {
-                Function("r", "regeneratorRuntime = r")(a);
+                Function("r", "regeneratorRuntime = r")(d);
             }
         },
-        function(b, d, a) {
-            var e = a(230), f = a(240);
-            function c(a, b) {
-                return e(a, b, function(c, b) {
-                    return f(a, b);
+        function(a, b, c) {
+            var d = c(230), e = c(240);
+            function f(a, b) {
+                return d(a, b, function(b, c) {
+                    return e(a, c);
                 });
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(b, d, a) {
-            var e = a(231), f = a(239), g = a(32);
-            function c(b, c, j) {
-                var d = -1, k = c.length, h = {};
-                while(++d < k){
-                    var a = c[d], i = e(b, a);
-                    if (j(i, a)) {
-                        f(h, g(a, b), i);
+        function(a, b, c) {
+            var d = c(231), e = c(239), f = c(32);
+            function g(a, b, c) {
+                var g = -1, h = b.length, i = {};
+                while(++g < h){
+                    var j = b[g], k = d(a, j);
+                    if (c(k, j)) {
+                        e(i, f(j, a), k);
                     }
                 }
-                return h;
+                return i;
             }
-            b.exports = c;
+            a.exports = g;
         },
-        function(b, d, a) {
-            var e = a(32), f = a(43);
-            function c(a, b) {
-                b = e(b, a);
-                var c = 0, d = b.length;
-                while(a != null && c < d){
-                    a = a[f(b[c++])];
+        function(a, b, c) {
+            var d = c(32), e = c(43);
+            function f(a, b) {
+                b = d(b, a);
+                var c = 0, f = b.length;
+                while(a != null && c < f){
+                    a = a[e(b[c++])];
                 }
-                return c && c == d ? a : undefined;
+                return c && c == f ? a : undefined;
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(b, d, a) {
-            var e = a(15), f = a(42);
-            var g = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, h = /^\w*$/;
-            function c(a, c) {
-                if (e(a)) {
+        function(a, b, c) {
+            var d = c(15), e = c(42);
+            var f = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, g = /^\w*$/;
+            function h(a, b) {
+                if (d(a)) {
                     return false;
                 }
-                var b = typeof a;
-                if (b == "number" || b == "symbol" || b == "boolean" || a == null || f(a)) {
+                var c = typeof a;
+                if (c == "number" || c == "symbol" || c == "boolean" || a == null || e(a)) {
                     return true;
                 }
-                return (h.test(a) || !g.test(a) || (c != null && a in Object(c)));
+                return (g.test(a) || !f.test(a) || (b != null && a in Object(b)));
             }
-            b.exports = c;
+            a.exports = h;
         },
-        function(a, e, b) {
-            var c = b(234);
-            var f = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
-            var g = /\\(\\)?/g;
-            var d = c(function(a) {
+        function(a, b, c) {
+            var d = c(234);
+            var e = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+            var f = /\\(\\)?/g;
+            var g = d(function(a) {
                 var b = [];
                 if (a.charCodeAt(0) === 46) {
                     b.push("");
                 }
-                a.replace(f, function(a, c, d, e) {
-                    b.push(d ? e.replace(g, "$1") : c || a);
+                a.replace(e, function(a, c, d, e) {
+                    b.push(d ? e.replace(f, "$1") : c || a);
                 });
                 return b;
             });
-            a.exports = d;
+            a.exports = g;
         },
-        function(a, d, b) {
-            var e = b(235);
-            var f = 500;
-            function c(b) {
-                var a = e(b, function(a) {
-                    if (c.size === f) {
+        function(a, b, c) {
+            var d = c(235);
+            var e = 500;
+            function f(a) {
+                var b = d(a, function(a) {
+                    if (c.size === e) {
                         c.clear();
                     }
                     return a;
                 });
-                var c = a.cache;
-                return a;
+                var c = b.cache;
+                return b;
             }
-            a.exports = c;
+            a.exports = f;
         },
-        function(b, e, c) {
+        function(a, b, c) {
             var d = c(47);
-            var f = "Expected a function";
-            function a(e, b) {
-                if (typeof e != "function" || (b != null && typeof b != "function")) {
-                    throw new TypeError(f);
+            var e = "Expected a function";
+            function f(a, b) {
+                if (typeof a != "function" || (b != null && typeof b != "function")) {
+                    throw new TypeError(e);
                 }
                 var c = function() {
-                    var d = arguments, f = b ? b.apply(this, d) : d[0], a = c.cache;
-                    if (a.has(f)) {
-                        return a.get(f);
+                    var d = arguments, e = b ? b.apply(this, d) : d[0], f = c.cache;
+                    if (f.has(e)) {
+                        return f.get(e);
                     }
-                    var g = e.apply(this, d);
-                    c.cache = a.set(f, g) || a;
+                    var g = a.apply(this, d);
+                    c.cache = f.set(e, g) || f;
                     return g;
                 };
-                c.cache = new (a.Cache || d)();
+                c.cache = new (f.Cache || d)();
                 return c;
             }
-            a.Cache = d;
-            b.exports = a;
+            f.Cache = d;
+            a.exports = f;
         },
-        function(a, d, b) {
-            var e = b(237);
-            function c(a) {
-                return a == null ? "" : e(a);
-            }
-            a.exports = c;
-        },
-        function(d, f, a) {
-            var b = a(27), g = a(238), h = a(15), i = a(42);
-            var j = 1 / 0;
-            var c = b ? b.prototype : undefined, k = c ? c.toString : undefined;
+        function(a, b, c) {
+            var d = c(237);
             function e(a) {
+                return a == null ? "" : d(a);
+            }
+            a.exports = e;
+        },
+        function(a, b, c) {
+            var d = c(27), e = c(238), f = c(15), g = c(42);
+            var h = 1 / 0;
+            var i = d ? d.prototype : undefined, j = i ? i.toString : undefined;
+            function k(a) {
                 if (typeof a == "string") {
                     return a;
                 }
-                if (h(a)) {
-                    return g(a, e) + "";
+                if (f(a)) {
+                    return e(a, k) + "";
                 }
-                if (i(a)) {
-                    return k ? k.call(a) : "";
+                if (g(a)) {
+                    return j ? j.call(a) : "";
                 }
                 var b = a + "";
-                return b == "0" && 1 / a == -j ? "-0" : b;
+                return b == "0" && 1 / a == -h ? "-0" : b;
             }
-            d.exports = e;
+            a.exports = k;
         },
-        function(a, c) {
-            function b(a, e) {
-                var b = -1, c = a == null ? 0 : a.length, d = Array(c);
-                while(++b < c){
-                    d[b] = e(a[b], b, a);
-                }
-                return d;
-            }
-            a.exports = b;
-        },
-        function(b, d, a) {
-            var e = a(55), f = a(32), g = a(31), h = a(14), i = a(43);
-            function c(b, d, o, m) {
-                if (!h(b)) {
-                    return b;
-                }
-                d = f(d, b);
-                var j = -1, n = d.length, p = n - 1, c = b;
-                while(c != null && ++j < n){
-                    var a = i(d[j]), k = o;
-                    if (a === "__proto__" || a === "constructor" || a === "prototype") {
-                        return b;
-                    }
-                    if (j != p) {
-                        var l = c[a];
-                        k = m ? m(l, a, c) : undefined;
-                        if (k === undefined) {
-                            k = h(l) ? l : g(d[j + 1]) ? [] : {};
-                        }
-                    }
-                    e(c, a, k);
-                    c = c[a];
-                }
-                return b;
-            }
-            b.exports = c;
-        },
-        function(b, d, a) {
-            var e = a(241), f = a(242);
+        function(a, b) {
             function c(a, b) {
-                return a != null && f(a, b, e);
-            }
-            b.exports = c;
-        },
-        function(a, c) {
-            function b(a, b) {
-                return a != null && b in Object(a);
-            }
-            a.exports = b;
-        },
-        function(b, d, a) {
-            var e = a(32), f = a(30), g = a(15), h = a(31), i = a(40), j = a(43);
-            function c(a, c, m) {
-                c = e(c, a);
-                var d = -1, b = c.length, k = false;
-                while(++d < b){
-                    var l = j(c[d]);
-                    if (!(k = a != null && m(a, l))) {
-                        break;
-                    }
-                    a = a[l];
+                var c = -1, d = a == null ? 0 : a.length, e = Array(d);
+                while(++c < d){
+                    e[c] = b(a[c], c, a);
                 }
-                if (k || ++d != b) {
-                    return k;
-                }
-                b = a == null ? 0 : a.length;
-                return (!!b && i(b) && h(l, b) && (g(a) || f(a)));
-            }
-            b.exports = c;
-        },
-        function(b, d, a) {
-            var e = a(244), f = a(58), g = a(59);
-            function c(a) {
-                return g(f(a, undefined, e), a + "");
-            }
-            b.exports = c;
-        },
-        function(a, d, b) {
-            var e = b(245);
-            function c(a) {
-                var b = a == null ? 0 : a.length;
-                return b ? e(a, 1) : [];
+                return e;
             }
             a.exports = c;
         },
-        function(b, d, a) {
-            var e = a(246), f = a(247);
-            function c(h, g, b, i, a) {
-                var j = -1, k = h.length;
-                b || (b = f);
-                a || (a = []);
-                while(++j < k){
-                    var d = h[j];
-                    if (g > 0 && b(d)) {
-                        if (g > 1) {
-                            c(d, g - 1, b, i, a);
-                        } else {
-                            e(a, d);
+        function(a, b, c) {
+            var d = c(55), e = c(32), f = c(31), g = c(14), h = c(43);
+            function i(a, b, c, i) {
+                if (!g(a)) {
+                    return a;
+                }
+                b = e(b, a);
+                var j = -1, k = b.length, l = k - 1, m = a;
+                while(m != null && ++j < k){
+                    var n = h(b[j]), o = c;
+                    if (n === "__proto__" || n === "constructor" || n === "prototype") {
+                        return a;
+                    }
+                    if (j != l) {
+                        var p = m[n];
+                        o = i ? i(p, n, m) : undefined;
+                        if (o === undefined) {
+                            o = g(p) ? p : f(b[j + 1]) ? [] : {};
                         }
-                    } else if (!i) {
-                        a[a.length] = d;
+                    }
+                    d(m, n, o);
+                    m = m[n];
+                }
+                return a;
+            }
+            a.exports = i;
+        },
+        function(a, b, c) {
+            var d = c(241), e = c(242);
+            function f(a, b) {
+                return a != null && e(a, b, d);
+            }
+            a.exports = f;
+        },
+        function(a, b) {
+            function c(a, b) {
+                return a != null && b in Object(a);
+            }
+            a.exports = c;
+        },
+        function(a, b, c) {
+            var d = c(32), e = c(30), f = c(15), g = c(31), h = c(40), i = c(43);
+            function j(a, b, c) {
+                b = d(b, a);
+                var j = -1, k = b.length, l = false;
+                while(++j < k){
+                    var m = i(b[j]);
+                    if (!(l = a != null && c(a, m))) {
+                        break;
+                    }
+                    a = a[m];
+                }
+                if (l || ++j != k) {
+                    return l;
+                }
+                k = a == null ? 0 : a.length;
+                return (!!k && h(k) && g(m, k) && (f(a) || e(a)));
+            }
+            a.exports = j;
+        },
+        function(a, b, c) {
+            var d = c(244), e = c(58), f = c(59);
+            function g(a) {
+                return f(e(a, undefined, d), a + "");
+            }
+            a.exports = g;
+        },
+        function(a, b, c) {
+            var d = c(245);
+            function e(a) {
+                var b = a == null ? 0 : a.length;
+                return b ? d(a, 1) : [];
+            }
+            a.exports = e;
+        },
+        function(a, b, c) {
+            var d = c(246), e = c(247);
+            function f(a, b, c, g, h) {
+                var i = -1, j = a.length;
+                c || (c = e);
+                h || (h = []);
+                while(++i < j){
+                    var k = a[i];
+                    if (b > 0 && c(k)) {
+                        if (b > 1) {
+                            f(k, b - 1, c, g, h);
+                        } else {
+                            d(h, k);
+                        }
+                    } else if (!g) {
+                        h[h.length] = k;
                     }
                 }
-                return a;
+                return h;
             }
-            b.exports = c;
+            a.exports = f;
         },
-        function(a, c) {
-            function b(a, c) {
-                var b = -1, d = c.length, e = a.length;
-                while(++b < d){
-                    a[e + b] = c[b];
+        function(a, b) {
+            function c(a, b) {
+                var c = -1, d = b.length, e = a.length;
+                while(++c < d){
+                    a[e + c] = b[c];
                 }
                 return a;
             }
-            a.exports = b;
+            a.exports = c;
         },
-        function(c, e, a) {
-            var b = a(27), f = a(30), g = a(15);
-            var h = b ? b.isConcatSpreadable : undefined;
-            function d(a) {
-                return (g(a) || f(a) || !!(h && a && a[h]));
+        function(a, b, c) {
+            var d = c(27), e = c(30), f = c(15);
+            var g = d ? d.isConcatSpreadable : undefined;
+            function h(a) {
+                return (f(a) || e(a) || !!(g && a && a[g]));
             }
-            c.exports = d;
+            a.exports = h;
         },
-        function(a, c) {
-            function b(a) {
+        function(a, b) {
+            function c(a) {
                 return (Function.toString.call(a).indexOf("[native code]") !== -1);
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, d, b) {
-            var e = b(41);
-            var f = b(250);
-            function c(b, d, g) {
-                if (f()) {
-                    a.exports = c = Reflect.construct;
+        function(a, b, c) {
+            var d = c(41);
+            var e = c(250);
+            function f(b, c, g) {
+                if (e()) {
+                    a.exports = f = Reflect.construct;
                     (a.exports["default"] = a.exports), (a.exports.__esModule = true);
                 } else {
-                    a.exports = c = function h(d, f, b) {
-                        var a = [
+                    a.exports = f = function a(b, c, e) {
+                        var f = [
                             null
                         ];
-                        a.push.apply(a, f);
-                        var g = Function.bind.apply(d, a);
-                        var c = new g();
-                        if (b) e(c, b.prototype);
-                        return c;
+                        f.push.apply(f, c);
+                        var g = Function.bind.apply(b, f);
+                        var h = new g();
+                        if (e) d(h, e.prototype);
+                        return h;
                     };
                     (a.exports["default"] = a.exports), (a.exports.__esModule = true);
                 }
-                return c.apply(null, arguments);
+                return f.apply(null, arguments);
             }
-            a.exports = c;
+            a.exports = f;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
-        function(a, c) {
-            function b() {
+        function(a, b) {
+            function c() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -5419,7 +5419,7 @@
                     return false;
                 }
             }
-            a.exports = b;
+            a.exports = c;
             (a.exports["default"] = a.exports), (a.exports.__esModule = true);
         },
         function(a, b) {
@@ -5479,32 +5479,32 @@
         },
         function(a, b) {
             a.exports = c;
-            function c(a, b, e) {
-                var f = b[0], g = b[1], h = b[2], i = b[3];
-                var c = Math.sin(e);
-                var d = Math.cos(e);
-                a[0] = f * d + h * c;
-                a[1] = g * d + i * c;
-                a[2] = f * -c + h * d;
-                a[3] = g * -c + i * d;
+            function c(a, b, c) {
+                var d = b[0], e = b[1], f = b[2], g = b[3];
+                var h = Math.sin(c);
+                var i = Math.cos(c);
+                a[0] = d * i + f * h;
+                a[1] = e * i + g * h;
+                a[2] = d * -h + f * i;
+                a[3] = e * -h + g * i;
                 return a;
             }
         },
         function(a, b) {
             a.exports = c;
-            function c(b, c) {
-                var d = c[0];
-                var e = c[1];
-                var f = c[2];
-                var g = c[3];
-                var a = d * g - f * e;
-                if (!a) return null;
-                a = 1.0 / a;
-                b[0] = g * a;
-                b[1] = -e * a;
-                b[2] = -f * a;
-                b[3] = d * a;
-                return b;
+            function c(a, b) {
+                var c = b[0];
+                var d = b[1];
+                var e = b[2];
+                var f = b[3];
+                var g = c * f - e * d;
+                if (!g) return null;
+                g = 1.0 / g;
+                a[0] = f * g;
+                a[1] = -d * g;
+                a[2] = -e * g;
+                a[3] = c * g;
+                return a;
             }
         },
         function(a, b) {
@@ -5521,12 +5521,12 @@
         function(a, b) {
             a.exports = c;
             function c(a, b, c) {
-                var f = b[0], g = b[1], h = b[2], i = b[3];
-                var d = c[0], e = c[1];
-                a[0] = f * d;
-                a[1] = g * d;
-                a[2] = h * e;
-                a[3] = i * e;
+                var d = b[0], e = b[1], f = b[2], g = b[3];
+                var h = c[0], i = c[1];
+                a[0] = d * h;
+                a[1] = e * h;
+                a[2] = f * i;
+                a[3] = g * i;
                 return a;
             }
         },
@@ -5548,379 +5548,379 @@
         },
         function(a, b) {
             a.exports = c;
-            function c(c, d, a, b) {
-                c[2] = b[2] / b[0];
-                a[0] = b[0];
-                a[1] = b[1];
-                a[3] = b[3] - c[2] * a[1];
+            function c(a, b, c, d) {
+                a[2] = d[2] / d[0];
+                c[0] = d[0];
+                c[1] = d[1];
+                c[3] = d[3] - a[2] * c[1];
                 return [
-                    c,
-                    d,
-                    a
+                    a,
+                    b,
+                    c
                 ];
             }
         },
-        function(ax, e, a) {
+        function(a, b, c) {
             "use strict";
-            a.r(e);
-            a.d(e, "BarcodeDecoder", function() {
-                return bL;
+            c.r(b);
+            c.d(b, "BarcodeDecoder", function() {
+                return bo;
             });
-            a.d(e, "Readers", function() {
+            c.d(b, "Readers", function() {
                 return d;
             });
-            a.d(e, "CameraAccess", function() {
-                return al;
+            c.d(b, "CameraAccess", function() {
+                return bO;
             });
-            a.d(e, "ImageDebug", function() {
-                return r["a"];
+            c.d(b, "ImageDebug", function() {
+                return n["a"];
             });
-            a.d(e, "ImageWrapper", function() {
-                return q["a"];
+            c.d(b, "ImageWrapper", function() {
+                return j["a"];
             });
-            a.d(e, "ResultCollector", function() {
-                return am;
+            c.d(b, "ResultCollector", function() {
+                return bR;
             });
             var d = {};
-            a.r(d);
-            a.d(d, "BarcodeReader", function() {
-                return f;
+            c.r(d);
+            c.d(d, "BarcodeReader", function() {
+                return F;
             });
-            a.d(d, "TwoOfFiveReader", function() {
-                return Z;
+            c.d(d, "TwoOfFiveReader", function() {
+                return a8;
             });
-            a.d(d, "NewCodabarReader", function() {
-                return K;
+            c.d(d, "NewCodabarReader", function() {
+                return av;
             });
-            a.d(d, "Code128Reader", function() {
-                return B;
+            c.d(d, "Code128Reader", function() {
+                return J;
             });
-            a.d(d, "Code32Reader", function() {
-                return ac;
+            c.d(d, "Code32Reader", function() {
+                return bm;
             });
-            a.d(d, "Code39Reader", function() {
-                return i;
+            c.d(d, "Code39Reader", function() {
+                return ae;
             });
-            a.d(d, "Code39VINReader", function() {
-                return I;
+            c.d(d, "Code39VINReader", function() {
+                return al;
             });
-            a.d(d, "Code93Reader", function() {
-                return aa;
+            c.d(d, "Code93Reader", function() {
+                return bg;
             });
-            a.d(d, "EAN2Reader", function() {
-                return Q;
+            c.d(d, "EAN2Reader", function() {
+                return aH;
             });
-            a.d(d, "EAN5Reader", function() {
-                return S;
+            c.d(d, "EAN5Reader", function() {
+                return aO;
             });
-            a.d(d, "EAN8Reader", function() {
-                return O;
+            c.d(d, "EAN8Reader", function() {
+                return aD;
             });
-            a.d(d, "EANReader", function() {
-                return g;
-            });
-            a.d(d, "I2of5Reader", function() {
+            c.d(d, "EANReader", function() {
                 return W;
             });
-            a.d(d, "UPCEReader", function() {
-                return U;
+            c.d(d, "I2of5Reader", function() {
+                return a$;
             });
-            a.d(d, "UPCReader", function() {
-                return M;
+            c.d(d, "UPCEReader", function() {
+                return aU;
             });
-            var o = a(19);
-            var ay = a.n(o);
-            var p = a(16);
-            var az = a.n(p);
-            var aA = a(152);
-            var q = a(11);
-            var h = {};
-            var aB = {
+            c.d(d, "UPCReader", function() {
+                return az;
+            });
+            var e = c(19);
+            var f = c.n(e);
+            var g = c(16);
+            var h = c.n(g);
+            var i = c(152);
+            var j = c(11);
+            var k = {};
+            var l = {
                 DIR: {
                     UP: 1,
                     DOWN: -1
                 }
             };
-            h.getBarcodeLine = function(i, j, k) {
-                var a = j.x | 0;
-                var b = j.y | 0;
-                var c = k.x | 0;
-                var e = k.y | 0;
-                var l = Math.abs(e - b) > Math.abs(c - a);
-                var g;
-                var h;
-                var d;
-                var f;
-                var o = [];
-                var t = i.data;
-                var u = i.size.x;
-                var v;
-                var p = 255;
-                var q = 0;
-                function m(a, b) {
-                    v = t[b * u + a];
-                    p = v < p ? v : p;
-                    q = v > q ? v : q;
-                    o.push(v);
-                }
-                if (l) {
-                    d = a;
-                    a = b;
-                    b = d;
-                    d = c;
-                    c = e;
-                    e = d;
-                }
-                if (a > c) {
-                    d = a;
-                    a = c;
-                    c = d;
-                    d = b;
-                    b = e;
-                    e = d;
-                }
-                var n = c - a;
-                var r = Math.abs(e - b);
-                g = (n / 2) | 0;
-                h = b;
-                var s = b < e ? 1 : -1;
-                for(f = a; f < c; f++){
-                    if (l) {
-                        m(h, f);
-                    } else {
-                        m(f, h);
-                    }
-                    g -= r;
-                    if (g < 0) {
-                        h += s;
-                        g += n;
-                    }
-                }
-                return {
-                    line: o,
-                    min: p,
-                    max: q
-                };
-            };
-            h.toBinaryLine = function(i) {
-                var j = i.min;
-                var m = i.max;
-                var b = i.line;
+            k.getBarcodeLine = function(a, b, c) {
+                var d = b.x | 0;
+                var e = b.y | 0;
+                var f = c.x | 0;
+                var g = c.y | 0;
+                var h = Math.abs(g - e) > Math.abs(f - d);
+                var i;
+                var j;
                 var k;
                 var l;
-                var g = j + (m - j) / 2;
-                var c = [];
-                var h;
-                var f;
-                var e = (m - j) / 12;
-                var n = -e;
-                var a;
-                var d;
-                h = b[0] > g ? aB.DIR.UP : aB.DIR.DOWN;
-                c.push({
-                    pos: 0,
-                    val: b[0]
-                });
-                for(a = 0; a < b.length - 2; a++){
-                    k = b[a + 1] - b[a];
-                    l = b[a + 2] - b[a + 1];
-                    if (k + l < n && b[a + 1] < g * 1.5) {
-                        f = aB.DIR.DOWN;
-                    } else if (k + l > e && b[a + 1] > g * 0.5) {
-                        f = aB.DIR.UP;
-                    } else {
-                        f = h;
-                    }
-                    if (h !== f) {
-                        c.push({
-                            pos: a,
-                            val: b[a]
-                        });
-                        h = f;
-                    }
+                var m = [];
+                var n = a.data;
+                var o = a.size.x;
+                var p;
+                var q = 255;
+                var r = 0;
+                function s(a, b) {
+                    p = n[b * o + a];
+                    q = p < q ? p : q;
+                    r = p > r ? p : r;
+                    m.push(p);
                 }
-                c.push({
-                    pos: b.length,
-                    val: b[b.length - 1]
-                });
-                for(d = c[0].pos; d < c[1].pos; d++){
-                    b[d] = b[d] > g ? 0 : 1;
+                if (h) {
+                    k = d;
+                    d = e;
+                    e = k;
+                    k = f;
+                    f = g;
+                    g = k;
                 }
-                for(a = 1; a < c.length - 1; a++){
-                    if (c[a + 1].val > c[a].val) {
-                        e = (c[a].val + ((c[a + 1].val - c[a].val) / 3) * 2) | 0;
+                if (d > f) {
+                    k = d;
+                    d = f;
+                    f = k;
+                    k = e;
+                    e = g;
+                    g = k;
+                }
+                var t = f - d;
+                var u = Math.abs(g - e);
+                i = (t / 2) | 0;
+                j = e;
+                var v = e < g ? 1 : -1;
+                for(l = d; l < f; l++){
+                    if (h) {
+                        s(j, l);
                     } else {
-                        e = (c[a + 1].val + (c[a].val - c[a + 1].val) / 3) | 0;
+                        s(l, j);
                     }
-                    for(d = c[a].pos; d < c[a + 1].pos; d++){
-                        b[d] = b[d] > e ? 0 : 1;
+                    i -= u;
+                    if (i < 0) {
+                        j += v;
+                        i += t;
                     }
                 }
                 return {
-                    line: b,
-                    threshold: e
+                    line: m,
+                    min: q,
+                    max: r
                 };
             };
-            h.debug = {
-                printFrequency: function e(c, d) {
-                    var a;
-                    var b = d.getContext("2d");
-                    d.width = c.length;
-                    d.height = 256;
-                    b.beginPath();
-                    b.strokeStyle = "blue";
-                    for(a = 0; a < c.length; a++){
-                        b.moveTo(a, 255);
-                        b.lineTo(a, 255 - c[a]);
+            k.toBinaryLine = function(a) {
+                var b = a.min;
+                var c = a.max;
+                var d = a.line;
+                var e;
+                var f;
+                var g = b + (c - b) / 2;
+                var h = [];
+                var i;
+                var j;
+                var k = (c - b) / 12;
+                var m = -k;
+                var n;
+                var o;
+                i = d[0] > g ? l.DIR.UP : l.DIR.DOWN;
+                h.push({
+                    pos: 0,
+                    val: d[0]
+                });
+                for(n = 0; n < d.length - 2; n++){
+                    e = d[n + 1] - d[n];
+                    f = d[n + 2] - d[n + 1];
+                    if (e + f < m && d[n + 1] < g * 1.5) {
+                        j = l.DIR.DOWN;
+                    } else if (e + f > k && d[n + 1] > g * 0.5) {
+                        j = l.DIR.UP;
+                    } else {
+                        j = i;
                     }
-                    b.stroke();
-                    b.closePath();
+                    if (i !== j) {
+                        h.push({
+                            pos: n,
+                            val: d[n]
+                        });
+                        i = j;
+                    }
+                }
+                h.push({
+                    pos: d.length,
+                    val: d[d.length - 1]
+                });
+                for(o = h[0].pos; o < h[1].pos; o++){
+                    d[o] = d[o] > g ? 0 : 1;
+                }
+                for(n = 1; n < h.length - 1; n++){
+                    if (h[n + 1].val > h[n].val) {
+                        k = (h[n].val + ((h[n + 1].val - h[n].val) / 3) * 2) | 0;
+                    } else {
+                        k = (h[n + 1].val + (h[n].val - h[n + 1].val) / 3) | 0;
+                    }
+                    for(o = h[n].pos; o < h[n + 1].pos; o++){
+                        d[o] = d[o] > k ? 0 : 1;
+                    }
+                }
+                return {
+                    line: d,
+                    threshold: k
+                };
+            };
+            k.debug = {
+                printFrequency: function a(b, c) {
+                    var d;
+                    var e = c.getContext("2d");
+                    c.width = b.length;
+                    c.height = 256;
+                    e.beginPath();
+                    e.strokeStyle = "blue";
+                    for(d = 0; d < b.length; d++){
+                        e.moveTo(d, 255);
+                        e.lineTo(d, 255 - b[d]);
+                    }
+                    e.stroke();
+                    e.closePath();
                 },
-                printPattern: function e(b, c) {
+                printPattern: function a(b, c) {
                     var d = c.getContext("2d");
-                    var a;
+                    var e;
                     c.width = b.length;
                     d.fillColor = "black";
-                    for(a = 0; a < b.length; a++){
-                        if (b[a] === 1) {
-                            d.fillRect(a, 0, 1, 100);
+                    for(e = 0; e < b.length; e++){
+                        if (b[e] === 1) {
+                            d.fillRect(e, 0, 1, 100);
                         }
                     }
                 }
             };
-            var aC = h;
-            var r = a(9);
-            var s = a(3);
-            var aD = a.n(s);
-            var t = a(4);
-            var aE = a.n(t);
-            var u = a(1);
-            var aF = a.n(u);
-            var v = a(6);
-            var aG = a.n(v);
-            var w = a(5);
-            var aH = a.n(w);
-            var x = a(2);
-            var aI = a.n(x);
-            var y = a(0);
-            var aJ = a.n(y);
-            var aK = a(10);
-            var j;
+            var m = k;
+            var n = c(9);
+            var o = c(3);
+            var p = c.n(o);
+            var q = c(4);
+            var r = c.n(q);
+            var s = c(1);
+            var t = c.n(s);
+            var u = c(6);
+            var v = c.n(u);
+            var w = c(5);
+            var x = c.n(w);
+            var y = c(2);
+            var z = c.n(y);
+            var A = c(0);
+            var B = c.n(A);
+            var C = c(10);
+            var D;
             (function(a) {
                 a[(a["Forward"] = 1)] = "Forward";
                 a[(a["Reverse"] = -1)] = "Reverse";
-            })(j || (j = {}));
-            var z = (function() {
-                function a(c, b) {
-                    aD()(this, a);
-                    aJ()(this, "_row", []);
-                    aJ()(this, "config", {});
-                    aJ()(this, "supplements", []);
-                    aJ()(this, "SINGLE_CODE_ERROR", 0);
-                    aJ()(this, "FORMAT", "unknown");
-                    aJ()(this, "CONFIG_KEYS", {});
+            })(D || (D = {}));
+            var E = (function() {
+                function a(b, c) {
+                    p()(this, a);
+                    B()(this, "_row", []);
+                    B()(this, "config", {});
+                    B()(this, "supplements", []);
+                    B()(this, "SINGLE_CODE_ERROR", 0);
+                    B()(this, "FORMAT", "unknown");
+                    B()(this, "CONFIG_KEYS", {});
                     this._row = [];
-                    this.config = c || {};
-                    if (b) {
-                        this.supplements = b;
+                    this.config = b || {};
+                    if (c) {
+                        this.supplements = c;
                     }
                     return this;
                 }
-                aE()(a, [
+                r()(a, [
                     {
                         key: "_nextUnset",
-                        value: function d(b) {
+                        value: function a(b) {
                             var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-                            for(var a = c; a < b.length; a++){
-                                if (!b[a]) return a;
+                            for(var d = c; d < b.length; d++){
+                                if (!b[d]) return d;
                             }
                             return b.length;
                         }
                     },
                     {
                         key: "_matchPattern",
-                        value: function m(a, j, b) {
-                            var k = 0;
+                        value: function a(b, c, d) {
+                            var e = 0;
                             var f = 0;
                             var g = 0;
-                            var c = 0;
                             var h = 0;
-                            var l = 0;
                             var i = 0;
-                            b = b || this.SINGLE_CODE_ERROR || 1;
-                            for(var d = 0; d < a.length; d++){
-                                g += a[d];
-                                c += j[d];
+                            var j = 0;
+                            var k = 0;
+                            d = d || this.SINGLE_CODE_ERROR || 1;
+                            for(var l = 0; l < b.length; l++){
+                                g += b[l];
+                                h += c[l];
                             }
-                            if (g < c) {
+                            if (g < h) {
                                 return Number.MAX_VALUE;
                             }
-                            h = g / c;
-                            b *= h;
-                            for(var e = 0; e < a.length; e++){
-                                l = a[e];
-                                i = j[e] * h;
-                                f = Math.abs(l - i) / i;
-                                if (f > b) {
+                            i = g / h;
+                            d *= i;
+                            for(var m = 0; m < b.length; m++){
+                                j = b[m];
+                                k = c[m] * i;
+                                f = Math.abs(j - k) / k;
+                                if (f > d) {
                                     return Number.MAX_VALUE;
                                 }
-                                k += f;
+                                e += f;
                             }
-                            return k / c;
+                            return e / h;
                         }
                     },
                     {
                         key: "_nextSet",
-                        value: function d(b) {
+                        value: function a(b) {
                             var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-                            for(var a = c; a < b.length; a++){
-                                if (b[a]) return a;
+                            for(var d = c; d < b.length; d++){
+                                if (b[d]) return d;
                             }
                             return b.length;
                         }
                     },
                     {
                         key: "_correctBars",
-                        value: function f(d, e, a) {
-                            var b = a.length;
-                            var c = 0;
-                            while(b--){
-                                c = d[a[b]] * (1 - (1 - e) / 2);
-                                if (c > 1) {
-                                    d[a[b]] = c;
+                        value: function a(b, c, d) {
+                            var e = d.length;
+                            var f = 0;
+                            while(e--){
+                                f = b[d[e]] * (1 - (1 - c) / 2);
+                                if (f > 1) {
+                                    b[d[e]] = f;
                                 }
                             }
                         }
                     },
                     {
                         key: "decodePattern",
-                        value: function c(b) {
+                        value: function a(b) {
                             this._row = b;
-                            var a = this.decode();
-                            if (a === null) {
+                            var c = this.decode();
+                            if (c === null) {
                                 this._row.reverse();
-                                a = this.decode();
-                                if (a) {
-                                    a.direction = j.Reverse;
-                                    a.start = this._row.length - a.start;
-                                    a.end = this._row.length - a.end;
+                                c = this.decode();
+                                if (c) {
+                                    c.direction = D.Reverse;
+                                    c.start = this._row.length - c.start;
+                                    c.end = this._row.length - c.end;
                                 }
                             } else {
-                                a.direction = j.Forward;
+                                c.direction = D.Forward;
                             }
-                            if (a) {
-                                a.format = this.FORMAT;
+                            if (c) {
+                                c.format = this.FORMAT;
                             }
-                            return a;
+                            return c;
                         }
                     },
                     {
                         key: "_matchRange",
-                        value: function e(a, c, d) {
-                            var b;
-                            a = a < 0 ? 0 : a;
-                            for(b = a; b < c; b++){
-                                if (this._row[b] !== d) {
+                        value: function a(b, c, d) {
+                            var e;
+                            b = b < 0 ? 0 : b;
+                            for(e = b; e < c; e++){
+                                if (this._row[e] !== d) {
                                     return false;
                                 }
                             }
@@ -5929,47 +5929,47 @@
                     },
                     {
                         key: "_fillCounters",
-                        value: function g() {
-                            var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._nextUnset(this._row);
-                            var f = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this._row.length;
-                            var c = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-                            var a = [];
-                            var b = 0;
-                            a[b] = 0;
-                            for(var d = e; d < f; d++){
-                                if (this._row[d] ^ (c ? 1 : 0)) {
-                                    a[b]++;
+                        value: function a() {
+                            var b = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._nextUnset(this._row);
+                            var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this._row.length;
+                            var d = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+                            var e = [];
+                            var f = 0;
+                            e[f] = 0;
+                            for(var g = b; g < c; g++){
+                                if (this._row[g] ^ (d ? 1 : 0)) {
+                                    e[f]++;
                                 } else {
-                                    b++;
-                                    a[b] = 1;
-                                    c = !c;
+                                    f++;
+                                    e[f] = 1;
+                                    d = !d;
                                 }
                             }
-                            return a;
+                            return e;
                         }
                     },
                     {
                         key: "_toCounters",
-                        value: function h(e, a) {
-                            var f = a.length;
-                            var g = this._row.length;
-                            var c = !this._row[e];
-                            var b = 0;
-                            aK["a"].init(a, 0);
-                            for(var d = e; d < g; d++){
-                                if (this._row[d] ^ (c ? 1 : 0)) {
-                                    a[b]++;
+                        value: function a(b, c) {
+                            var d = c.length;
+                            var e = this._row.length;
+                            var f = !this._row[b];
+                            var g = 0;
+                            C["a"].init(c, 0);
+                            for(var h = b; h < e; h++){
+                                if (this._row[h] ^ (f ? 1 : 0)) {
+                                    c[g]++;
                                 } else {
-                                    b++;
-                                    if (b === f) {
+                                    g++;
+                                    if (g === d) {
                                         break;
                                     } else {
-                                        a[b] = 1;
-                                        c = !c;
+                                        c[g] = 1;
+                                        f = !f;
                                     }
                                 }
                             }
-                            return a;
+                            return c;
                         }
                     }, 
                 ], [
@@ -5986,21 +5986,21 @@
                 ]);
                 return a;
             })();
-            var f = z;
-            function aL(a) {
-                var b = aM();
-                return function f() {
-                    var d = aI()(a), c;
+            var F = E;
+            function G(a) {
+                var b = H();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function aM() {
+            function H() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -6011,27 +6011,27 @@
                     return false;
                 }
             }
-            var A = (function(b) {
-                aG()(a, b);
-                var c = aL(a);
-                function a() {
-                    var b;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), d = 0; d < e; d++){
-                        f[d] = arguments[d];
+            var I = (function(a) {
+                v()(c, a);
+                var b = G(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    b = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(b), "CODE_SHIFT", 98);
-                    aJ()(aF()(b), "CODE_C", 99);
-                    aJ()(aF()(b), "CODE_B", 100);
-                    aJ()(aF()(b), "CODE_A", 101);
-                    aJ()(aF()(b), "START_CODE_A", 103);
-                    aJ()(aF()(b), "START_CODE_B", 104);
-                    aJ()(aF()(b), "START_CODE_C", 105);
-                    aJ()(aF()(b), "STOP_CODE", 106);
-                    aJ()(aF()(b), "CODE_PATTERN", [
+                    ].concat(e));
+                    B()(t()(a), "CODE_SHIFT", 98);
+                    B()(t()(a), "CODE_C", 99);
+                    B()(t()(a), "CODE_B", 100);
+                    B()(t()(a), "CODE_A", 101);
+                    B()(t()(a), "START_CODE_A", 103);
+                    B()(t()(a), "START_CODE_B", 104);
+                    B()(t()(a), "START_CODE_C", 105);
+                    B()(t()(a), "STOP_CODE", 106);
+                    B()(t()(a), "CODE_PATTERN", [
                         [
                             2,
                             1,
@@ -6890,10 +6890,10 @@
                             2
                         ], 
                     ]);
-                    aJ()(aF()(b), "SINGLE_CODE_ERROR", 0.64);
-                    aJ()(aF()(b), "AVG_CODE_ERROR", 0.3);
-                    aJ()(aF()(b), "FORMAT", "code_128");
-                    aJ()(aF()(b), "MODULE_INDICES", {
+                    B()(t()(a), "SINGLE_CODE_ERROR", 0.64);
+                    B()(t()(a), "AVG_CODE_ERROR", 0.3);
+                    B()(t()(a), "FORMAT", "code_128");
+                    B()(t()(a), "MODULE_INDICES", {
                         bar: [
                             0,
                             2,
@@ -6905,23 +6905,23 @@
                             5
                         ]
                     });
-                    return b;
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_decodeCode",
-                        value: function k(f, h) {
-                            var a = {
+                        value: function a(b, c) {
+                            var d = {
                                 error: Number.MAX_VALUE,
                                 code: -1,
-                                start: f,
-                                end: f,
+                                start: b,
+                                end: b,
                                 correction: {
                                     bar: 1,
                                     space: 1
                                 }
                             };
-                            var b = [
+                            var e = [
                                 0,
                                 0,
                                 0,
@@ -6929,37 +6929,37 @@
                                 0,
                                 0
                             ];
-                            var i = f;
-                            var g = !this._row[i];
-                            var c = 0;
-                            for(var d = i; d < this._row.length; d++){
-                                if (this._row[d] ^ (g ? 1 : 0)) {
-                                    b[c]++;
+                            var f = b;
+                            var g = !this._row[f];
+                            var h = 0;
+                            for(var i = f; i < this._row.length; i++){
+                                if (this._row[i] ^ (g ? 1 : 0)) {
+                                    e[h]++;
                                 } else {
-                                    if (c === b.length - 1) {
-                                        if (h) {
-                                            this._correct(b, h);
+                                    if (h === e.length - 1) {
+                                        if (c) {
+                                            this._correct(e, c);
                                         }
-                                        for(var e = 0; e < this.CODE_PATTERN.length; e++){
-                                            var j = this._matchPattern(b, this.CODE_PATTERN[e]);
-                                            if (j < a.error) {
-                                                a.code = e;
-                                                a.error = j;
+                                        for(var j = 0; j < this.CODE_PATTERN.length; j++){
+                                            var k = this._matchPattern(e, this.CODE_PATTERN[j]);
+                                            if (k < d.error) {
+                                                d.code = j;
+                                                d.error = k;
                                             }
                                         }
-                                        a.end = d;
-                                        if (a.code === -1 || a.error > this.AVG_CODE_ERROR) {
+                                        d.end = i;
+                                        if (d.code === -1 || d.error > this.AVG_CODE_ERROR) {
                                             return null;
                                         }
-                                        if (this.CODE_PATTERN[a.code]) {
-                                            a.correction.bar = this.calculateCorrection(this.CODE_PATTERN[a.code], b, this.MODULE_INDICES.bar);
-                                            a.correction.space = this.calculateCorrection(this.CODE_PATTERN[a.code], b, this.MODULE_INDICES.space);
+                                        if (this.CODE_PATTERN[d.code]) {
+                                            d.correction.bar = this.calculateCorrection(this.CODE_PATTERN[d.code], e, this.MODULE_INDICES.bar);
+                                            d.correction.space = this.calculateCorrection(this.CODE_PATTERN[d.code], e, this.MODULE_INDICES.space);
                                         }
-                                        return a;
+                                        return d;
                                     } else {
-                                        c++;
+                                        h++;
                                     }
-                                    b[c] = 1;
+                                    e[h] = 1;
                                     g = !g;
                                 }
                             }
@@ -6968,15 +6968,15 @@
                     },
                     {
                         key: "_correct",
-                        value: function c(a, b) {
-                            this._correctBars(a, b.bar, this.MODULE_INDICES.bar);
-                            this._correctBars(a, b.space, this.MODULE_INDICES.space);
+                        value: function a(b, c) {
+                            this._correctBars(b, c.bar, this.MODULE_INDICES.bar);
+                            this._correctBars(b, c.space, this.MODULE_INDICES.space);
                         }
                     },
                     {
                         key: "_findStart",
-                        value: function k() {
-                            var a = [
+                        value: function a() {
+                            var b = [
                                 0,
                                 0,
                                 0,
@@ -6984,8 +6984,8 @@
                                 0,
                                 0
                             ];
-                            var i = this._nextSet(this._row);
-                            var b = {
+                            var c = this._nextSet(this._row);
+                            var d = {
                                 error: Number.MAX_VALUE,
                                 code: -1,
                                 start: 0,
@@ -6995,41 +6995,41 @@
                                     space: 1
                                 }
                             };
-                            var g = false;
-                            var c = 0;
-                            for(var d = i; d < this._row.length; d++){
-                                if (this._row[d] ^ (g ? 1 : 0)) {
-                                    a[c]++;
+                            var e = false;
+                            var f = 0;
+                            for(var g = c; g < this._row.length; g++){
+                                if (this._row[g] ^ (e ? 1 : 0)) {
+                                    b[f]++;
                                 } else {
-                                    if (c === a.length - 1) {
-                                        var j = a.reduce(function(a, b) {
+                                    if (f === b.length - 1) {
+                                        var h = b.reduce(function(a, b) {
                                             return a + b;
                                         }, 0);
-                                        for(var e = this.START_CODE_A; e <= this.START_CODE_C; e++){
-                                            var h = this._matchPattern(a, this.CODE_PATTERN[e]);
-                                            if (h < b.error) {
-                                                b.code = e;
-                                                b.error = h;
+                                        for(var i = this.START_CODE_A; i <= this.START_CODE_C; i++){
+                                            var j = this._matchPattern(b, this.CODE_PATTERN[i]);
+                                            if (j < d.error) {
+                                                d.code = i;
+                                                d.error = j;
                                             }
                                         }
-                                        if (b.error < this.AVG_CODE_ERROR) {
-                                            b.start = d - j;
-                                            b.end = d;
-                                            b.correction.bar = this.calculateCorrection(this.CODE_PATTERN[b.code], a, this.MODULE_INDICES.bar);
-                                            b.correction.space = this.calculateCorrection(this.CODE_PATTERN[b.code], a, this.MODULE_INDICES.space);
-                                            return b;
+                                        if (d.error < this.AVG_CODE_ERROR) {
+                                            d.start = g - h;
+                                            d.end = g;
+                                            d.correction.bar = this.calculateCorrection(this.CODE_PATTERN[d.code], b, this.MODULE_INDICES.bar);
+                                            d.correction.space = this.calculateCorrection(this.CODE_PATTERN[d.code], b, this.MODULE_INDICES.space);
+                                            return d;
                                         }
-                                        for(var f = 0; f < 4; f++){
-                                            a[f] = a[f + 2];
+                                        for(var k = 0; k < 4; k++){
+                                            b[k] = b[k + 2];
                                         }
-                                        a[4] = 0;
-                                        a[5] = 0;
-                                        c--;
+                                        b[4] = 0;
+                                        b[5] = 0;
+                                        f--;
                                     } else {
-                                        c++;
+                                        f++;
                                     }
-                                    a[c] = 1;
-                                    g = !g;
+                                    b[f] = 1;
+                                    e = !e;
                                 }
                             }
                             return null;
@@ -7037,173 +7037,173 @@
                     },
                     {
                         key: "decode",
-                        value: function m(n, o) {
-                            var p = this;
-                            var c = this._findStart();
-                            if (c === null) {
+                        value: function a(b, c) {
+                            var d = this;
+                            var e = this._findStart();
+                            if (e === null) {
                                 return null;
                             }
-                            var a = {
-                                code: c.code,
-                                start: c.start,
-                                end: c.end,
+                            var f = {
+                                code: e.code,
+                                start: e.start,
+                                end: e.end,
                                 correction: {
-                                    bar: c.correction.bar,
-                                    space: c.correction.space
+                                    bar: e.correction.bar,
+                                    space: e.correction.space
                                 }
                             };
-                            var i = [];
-                            i.push(a);
-                            var j = a.code;
-                            var b = (function(a) {
+                            var g = [];
+                            g.push(f);
+                            var h = f.code;
+                            var i = (function(a) {
                                 switch(a){
-                                    case p.START_CODE_A:
-                                        return p.CODE_A;
-                                    case p.START_CODE_B:
-                                        return p.CODE_B;
-                                    case p.START_CODE_C:
-                                        return p.CODE_C;
+                                    case d.START_CODE_A:
+                                        return d.CODE_A;
+                                    case d.START_CODE_B:
+                                        return d.CODE_B;
+                                    case d.START_CODE_C:
+                                        return d.CODE_C;
                                     default:
                                         return null;
                                 }
-                            })(a.code);
-                            var e = false;
-                            var f = false;
-                            var l = f;
-                            var g = true;
-                            var k = 0;
-                            var h = [];
-                            var d = [];
-                            while(!e){
-                                l = f;
-                                f = false;
-                                a = this._decodeCode(a.end, a.correction);
-                                if (a !== null) {
-                                    if (a.code !== this.STOP_CODE) {
-                                        g = true;
+                            })(f.code);
+                            var j = false;
+                            var k = false;
+                            var l = k;
+                            var m = true;
+                            var n = 0;
+                            var o = [];
+                            var p = [];
+                            while(!j){
+                                l = k;
+                                k = false;
+                                f = this._decodeCode(f.end, f.correction);
+                                if (f !== null) {
+                                    if (f.code !== this.STOP_CODE) {
+                                        m = true;
                                     }
-                                    if (a.code !== this.STOP_CODE) {
-                                        h.push(a.code);
-                                        k++;
-                                        j += k * a.code;
+                                    if (f.code !== this.STOP_CODE) {
+                                        o.push(f.code);
+                                        n++;
+                                        h += n * f.code;
                                     }
-                                    i.push(a);
-                                    switch(b){
+                                    g.push(f);
+                                    switch(i){
                                         case this.CODE_A:
-                                            if (a.code < 64) {
-                                                d.push(String.fromCharCode(32 + a.code));
-                                            } else if (a.code < 96) {
-                                                d.push(String.fromCharCode(a.code - 64));
+                                            if (f.code < 64) {
+                                                p.push(String.fromCharCode(32 + f.code));
+                                            } else if (f.code < 96) {
+                                                p.push(String.fromCharCode(f.code - 64));
                                             } else {
-                                                if (a.code !== this.STOP_CODE) {
-                                                    g = false;
+                                                if (f.code !== this.STOP_CODE) {
+                                                    m = false;
                                                 }
-                                                switch(a.code){
+                                                switch(f.code){
                                                     case this.CODE_SHIFT:
-                                                        f = true;
-                                                        b = this.CODE_B;
+                                                        k = true;
+                                                        i = this.CODE_B;
                                                         break;
                                                     case this.CODE_B:
-                                                        b = this.CODE_B;
+                                                        i = this.CODE_B;
                                                         break;
                                                     case this.CODE_C:
-                                                        b = this.CODE_C;
+                                                        i = this.CODE_C;
                                                         break;
                                                     case this.STOP_CODE:
-                                                        e = true;
+                                                        j = true;
                                                         break;
                                                 }
                                             }
                                             break;
                                         case this.CODE_B:
-                                            if (a.code < 96) {
-                                                d.push(String.fromCharCode(32 + a.code));
+                                            if (f.code < 96) {
+                                                p.push(String.fromCharCode(32 + f.code));
                                             } else {
-                                                if (a.code !== this.STOP_CODE) {
-                                                    g = false;
+                                                if (f.code !== this.STOP_CODE) {
+                                                    m = false;
                                                 }
-                                                switch(a.code){
+                                                switch(f.code){
                                                     case this.CODE_SHIFT:
-                                                        f = true;
-                                                        b = this.CODE_A;
+                                                        k = true;
+                                                        i = this.CODE_A;
                                                         break;
                                                     case this.CODE_A:
-                                                        b = this.CODE_A;
+                                                        i = this.CODE_A;
                                                         break;
                                                     case this.CODE_C:
-                                                        b = this.CODE_C;
+                                                        i = this.CODE_C;
                                                         break;
                                                     case this.STOP_CODE:
-                                                        e = true;
+                                                        j = true;
                                                         break;
                                                 }
                                             }
                                             break;
                                         case this.CODE_C:
-                                            if (a.code < 100) {
-                                                d.push(a.code < 10 ? "0" + a.code : a.code);
+                                            if (f.code < 100) {
+                                                p.push(f.code < 10 ? "0" + f.code : f.code);
                                             } else {
-                                                if (a.code !== this.STOP_CODE) {
-                                                    g = false;
+                                                if (f.code !== this.STOP_CODE) {
+                                                    m = false;
                                                 }
-                                                switch(a.code){
+                                                switch(f.code){
                                                     case this.CODE_A:
-                                                        b = this.CODE_A;
+                                                        i = this.CODE_A;
                                                         break;
                                                     case this.CODE_B:
-                                                        b = this.CODE_B;
+                                                        i = this.CODE_B;
                                                         break;
                                                     case this.STOP_CODE:
-                                                        e = true;
+                                                        j = true;
                                                         break;
                                                 }
                                             }
                                             break;
                                     }
                                 } else {
-                                    e = true;
+                                    j = true;
                                 }
                                 if (l) {
-                                    b = b === this.CODE_A ? this.CODE_B : this.CODE_A;
+                                    i = i === this.CODE_A ? this.CODE_B : this.CODE_A;
                                 }
                             }
-                            if (a === null) {
+                            if (f === null) {
                                 return null;
                             }
-                            a.end = this._nextUnset(this._row, a.end);
-                            if (!this._verifyTrailingWhitespace(a)) {
+                            f.end = this._nextUnset(this._row, f.end);
+                            if (!this._verifyTrailingWhitespace(f)) {
                                 return null;
                             }
-                            j -= k * h[h.length - 1];
-                            if (j % 103 !== h[h.length - 1]) {
+                            h -= n * o[o.length - 1];
+                            if (h % 103 !== o[o.length - 1]) {
                                 return null;
                             }
-                            if (!d.length) {
+                            if (!p.length) {
                                 return null;
                             }
-                            if (g) {
-                                d.splice(d.length - 1, 1);
+                            if (m) {
+                                p.splice(p.length - 1, 1);
                             }
                             return {
-                                code: d.join(""),
-                                start: c.start,
-                                end: a.end,
-                                codeset: b,
-                                startInfo: c,
-                                decodedCodes: i,
-                                endInfo: a,
+                                code: p.join(""),
+                                start: e.start,
+                                end: f.end,
+                                codeset: i,
+                                startInfo: e,
+                                decodedCodes: g,
+                                endInfo: f,
                                 format: this.FORMAT
                             };
                         }
                     },
                     {
                         key: "_verifyTrailingWhitespace",
-                        value: function d(a) {
-                            var c = this, b;
-                            b = a.end + (a.end - a.start) / 2;
-                            if (b < c._row.length) {
-                                if (c._matchRange(a.end, b, 0)) {
-                                    return a;
+                        value: function a(b) {
+                            var c = this, d;
+                            d = b.end + (b.end - b.start) / 2;
+                            if (d < c._row.length) {
+                                if (c._matchRange(b.end, d, 0)) {
+                                    return b;
                                 }
                             }
                             return null;
@@ -7211,63 +7211,63 @@
                     },
                     {
                         key: "calculateCorrection",
-                        value: function g(e, f, a) {
-                            var b = a.length, c = 0, d = 0;
-                            while(b--){
-                                d += e[a[b]];
-                                c += f[a[b]];
+                        value: function a(b, c, d) {
+                            var e = d.length, f = 0, g = 0;
+                            while(e--){
+                                g += b[d[e]];
+                                f += c[d[e]];
                             }
-                            return d / c;
+                            return g / f;
                         }
                     }, 
                 ]);
-                return a;
-            })(f);
-            var B = A;
-            function aN(c, d) {
-                var a = Object.keys(c);
+                return c;
+            })(F);
+            var J = I;
+            function K(a, b) {
+                var c = Object.keys(a);
                 if (Object.getOwnPropertySymbols) {
-                    var b = Object.getOwnPropertySymbols(c);
-                    if (d) {
-                        b = b.filter(function(a) {
-                            return Object.getOwnPropertyDescriptor(c, a).enumerable;
+                    var d = Object.getOwnPropertySymbols(a);
+                    if (b) {
+                        d = d.filter(function(b) {
+                            return Object.getOwnPropertyDescriptor(a, b).enumerable;
                         });
                     }
-                    a.push.apply(a, b);
-                }
-                return a;
-            }
-            function aO(c) {
-                for(var a = 1; a < arguments.length; a++){
-                    var b = arguments[a] != null ? arguments[a] : {};
-                    if (a % 2) {
-                        aN(Object(b), true).forEach(function(a) {
-                            aJ()(c, a, b[a]);
-                        });
-                    } else if (Object.getOwnPropertyDescriptors) {
-                        Object.defineProperties(c, Object.getOwnPropertyDescriptors(b));
-                    } else {
-                        aN(Object(b)).forEach(function(a) {
-                            Object.defineProperty(c, a, Object.getOwnPropertyDescriptor(b, a));
-                        });
-                    }
+                    c.push.apply(c, d);
                 }
                 return c;
             }
-            function aP(a) {
-                var b = aQ();
-                return function f() {
-                    var d = aI()(a), c;
-                    if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+            function L(a) {
+                for(var b = 1; b < arguments.length; b++){
+                    var c = arguments[b] != null ? arguments[b] : {};
+                    if (b % 2) {
+                        K(Object(c), true).forEach(function(b) {
+                            B()(a, b, c[b]);
+                        });
+                    } else if (Object.getOwnPropertyDescriptors) {
+                        Object.defineProperties(a, Object.getOwnPropertyDescriptors(c));
                     } else {
-                        c = d.apply(this, arguments);
+                        K(Object(c)).forEach(function(b) {
+                            Object.defineProperty(a, b, Object.getOwnPropertyDescriptor(c, b));
+                        });
                     }
-                    return aH()(this, c);
+                }
+                return a;
+            }
+            function M(a) {
+                var b = N();
+                return function c() {
+                    var d = z()(a), e;
+                    if (b) {
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
+                    } else {
+                        e = d.apply(this, arguments);
+                    }
+                    return x()(this, e);
                 };
             }
-            function aQ() {
+            function N() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -7278,25 +7278,25 @@
                     return false;
                 }
             }
-            var aR = 10;
-            var aS = [
+            var O = 10;
+            var P = [
                 1,
                 1,
                 1
             ];
-            var aT = [
+            var Q = [
                 1,
                 1,
                 1,
                 1,
                 1
             ];
-            var aU = [
+            var R = [
                 1,
                 1,
                 2
             ];
-            var aV = [
+            var S = [
                 [
                     3,
                     2,
@@ -7418,7 +7418,7 @@
                     3
                 ], 
             ];
-            var aW = [
+            var T = [
                 0,
                 11,
                 13,
@@ -7430,153 +7430,153 @@
                 22,
                 26
             ];
-            var aX = 0.48;
-            var C = (function(b) {
-                aG()(a, b);
-                var c = aP(a);
-                function a(d, e) {
-                    var b;
-                    aD()(this, a);
-                    b = c.call(this, az()({
+            var U = 0.48;
+            var V = (function(a) {
+                v()(c, a);
+                var b = M(c);
+                function c(a, d) {
+                    var e;
+                    p()(this, c);
+                    e = b.call(this, h()({
                         supplements: []
-                    }, d), e);
-                    aJ()(aF()(b), "FORMAT", "ean_13");
-                    aJ()(aF()(b), "SINGLE_CODE_ERROR", 0.7);
-                    aJ()(aF()(b), "STOP_PATTERN", [
+                    }, a), d);
+                    B()(t()(e), "FORMAT", "ean_13");
+                    B()(t()(e), "SINGLE_CODE_ERROR", 0.7);
+                    B()(t()(e), "STOP_PATTERN", [
                         1,
                         1,
                         1
                     ]);
-                    return b;
+                    return e;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_findPattern",
-                        value: function m(j, f, g, k) {
-                            var a = new Array(j.length).fill(0);
-                            var b = {
+                        value: function a(b, c, d, e) {
+                            var f = new Array(b.length).fill(0);
+                            var g = {
                                 error: Number.MAX_VALUE,
                                 start: 0,
                                 end: 0
                             };
-                            var l = aX;
-                            var c = 0;
-                            if (!f) {
-                                f = this._nextSet(this._row);
+                            var h = U;
+                            var i = 0;
+                            if (!c) {
+                                c = this._nextSet(this._row);
                             }
-                            var h = false;
-                            for(var d = f; d < this._row.length; d++){
-                                if (this._row[d] ^ (g ? 1 : 0)) {
-                                    a[c] += 1;
+                            var j = false;
+                            for(var k = c; k < this._row.length; k++){
+                                if (this._row[k] ^ (d ? 1 : 0)) {
+                                    f[i] += 1;
                                 } else {
-                                    if (c === a.length - 1) {
-                                        var i = this._matchPattern(a, j);
-                                        if (i < l && b.error && i < b.error) {
-                                            h = true;
-                                            b.error = i;
-                                            b.start = d - a.reduce(function(a, b) {
+                                    if (i === f.length - 1) {
+                                        var l = this._matchPattern(f, b);
+                                        if (l < h && g.error && l < g.error) {
+                                            j = true;
+                                            g.error = l;
+                                            g.start = k - f.reduce(function(a, b) {
                                                 return a + b;
                                             }, 0);
-                                            b.end = d;
-                                            return b;
+                                            g.end = k;
+                                            return g;
                                         }
-                                        if (k) {
-                                            for(var e = 0; e < a.length - 2; e++){
-                                                a[e] = a[e + 2];
+                                        if (e) {
+                                            for(var m = 0; m < f.length - 2; m++){
+                                                f[m] = f[m + 2];
                                             }
-                                            a[a.length - 2] = 0;
-                                            a[a.length - 1] = 0;
-                                            c--;
+                                            f[f.length - 2] = 0;
+                                            f[f.length - 1] = 0;
+                                            i--;
                                         }
                                     } else {
-                                        c++;
+                                        i++;
                                     }
-                                    a[c] = 1;
-                                    g = !g;
+                                    f[i] = 1;
+                                    d = !d;
                                 }
                             }
-                            if (h) {} else {}
-                            return h ? b : null;
+                            if (j) {} else {}
+                            return j ? g : null;
                         }
                     },
                     {
                         key: "_decodeCode",
-                        value: function m(f, g) {
-                            var b = [
+                        value: function a(b, c) {
+                            var d = [
                                 0,
                                 0,
                                 0,
                                 0
                             ];
-                            var i = f;
-                            var a = {
+                            var e = b;
+                            var f = {
                                 error: Number.MAX_VALUE,
                                 code: -1,
-                                start: f,
-                                end: f
+                                start: b,
+                                end: b
                             };
-                            var k = aX;
-                            var h = !this._row[i];
-                            var c = 0;
-                            if (!g) {
-                                g = aV.length;
+                            var g = U;
+                            var h = !this._row[e];
+                            var i = 0;
+                            if (!c) {
+                                c = S.length;
                             }
-                            var l = false;
-                            for(var d = i; d < this._row.length; d++){
-                                if (this._row[d] ^ (h ? 1 : 0)) {
-                                    b[c]++;
+                            var j = false;
+                            for(var k = e; k < this._row.length; k++){
+                                if (this._row[k] ^ (h ? 1 : 0)) {
+                                    d[i]++;
                                 } else {
-                                    if (c === b.length - 1) {
-                                        for(var e = 0; e < g; e++){
-                                            var j = this._matchPattern(b, aV[e]);
-                                            a.end = d;
-                                            if (j < a.error) {
-                                                a.code = e;
-                                                a.error = j;
+                                    if (i === d.length - 1) {
+                                        for(var l = 0; l < c; l++){
+                                            var m = this._matchPattern(d, S[l]);
+                                            f.end = k;
+                                            if (m < f.error) {
+                                                f.code = l;
+                                                f.error = m;
                                             }
                                         }
-                                        if (a.error > k) {
+                                        if (f.error > g) {
                                             return null;
                                         }
-                                        return a;
+                                        return f;
                                     } else {
-                                        c++;
+                                        i++;
                                     }
-                                    b[c] = 1;
+                                    d[i] = 1;
                                     h = !h;
                                 }
                             }
-                            return l ? a : null;
+                            return j ? f : null;
                         }
                     },
                     {
                         key: "_findStart",
-                        value: function d() {
+                        value: function a() {
                             var b = this._nextSet(this._row);
-                            var a = null;
-                            while(!a){
-                                a = this._findPattern(aS, b, false, true);
-                                if (!a) {
+                            var c = null;
+                            while(!c){
+                                c = this._findPattern(P, b, false, true);
+                                if (!c) {
                                     return null;
                                 }
-                                var c = a.start - (a.end - a.start);
-                                if (c >= 0) {
-                                    if (this._matchRange(c, a.start, 0)) {
-                                        return a;
+                                var d = c.start - (c.end - c.start);
+                                if (d >= 0) {
+                                    if (this._matchRange(d, c.start, 0)) {
+                                        return c;
                                     }
                                 }
-                                b = a.end;
-                                a = null;
+                                b = c.end;
+                                c = null;
                             }
                             return null;
                         }
                     },
                     {
                         key: "_calculateFirstDigit",
-                        value: function c(b) {
-                            for(var a = 0; a < aW.length; a++){
-                                if (b === aW[a]) {
-                                    return a;
+                        value: function a(b) {
+                            for(var c = 0; c < T.length; c++){
+                                if (b === T[c]) {
+                                    return c;
                                 }
                             }
                             return null;
@@ -7584,51 +7584,51 @@
                     },
                     {
                         key: "_decodePayload",
-                        value: function j(i, d, e) {
-                            var b = aO({}, i);
+                        value: function a(b, c, d) {
+                            var e = L({}, b);
                             var f = 0x0;
-                            for(var c = 0; c < 6; c++){
-                                b = this._decodeCode(b.end);
-                                if (!b) {
+                            for(var g = 0; g < 6; g++){
+                                e = this._decodeCode(e.end);
+                                if (!e) {
                                     return null;
                                 }
-                                if (b.code >= aR) {
-                                    b.code -= aR;
-                                    f |= 1 << (5 - c);
+                                if (e.code >= O) {
+                                    e.code -= O;
+                                    f |= 1 << (5 - g);
                                 } else {
-                                    f |= 0 << (5 - c);
+                                    f |= 0 << (5 - g);
                                 }
-                                d.push(b.code);
-                                e.push(b);
+                                c.push(e.code);
+                                d.push(e);
                             }
-                            var g = this._calculateFirstDigit(f);
-                            if (g === null) {
+                            var h = this._calculateFirstDigit(f);
+                            if (h === null) {
                                 return null;
                             }
-                            d.unshift(g);
-                            var a = this._findPattern(aT, b.end, true, false);
-                            if (a === null || !a.end) {
+                            c.unshift(h);
+                            var i = this._findPattern(Q, e.end, true, false);
+                            if (i === null || !i.end) {
                                 return null;
                             }
-                            e.push(a);
-                            for(var h = 0; h < 6; h++){
-                                a = this._decodeCode(a.end, aR);
-                                if (!a) {
+                            d.push(i);
+                            for(var j = 0; j < 6; j++){
+                                i = this._decodeCode(i.end, O);
+                                if (!i) {
                                     return null;
                                 }
-                                e.push(a);
-                                d.push(a.code);
+                                d.push(i);
+                                c.push(i.code);
                             }
-                            return a;
+                            return i;
                         }
                     },
                     {
                         key: "_verifyTrailingWhitespace",
-                        value: function c(a) {
-                            var b = a.end + (a.end - a.start);
-                            if (b < this._row.length) {
-                                if (this._matchRange(a.end, b, 0)) {
-                                    return a;
+                        value: function a(b) {
+                            var c = b.end + (b.end - b.start);
+                            if (c < this._row.length) {
+                                if (this._matchRange(b.end, c, 0)) {
+                                    return b;
                                 }
                             }
                             return null;
@@ -7636,48 +7636,48 @@
                     },
                     {
                         key: "_findEnd",
-                        value: function d(b, c) {
-                            var a = this._findPattern(this.STOP_PATTERN, b, c, false);
-                            return a !== null ? this._verifyTrailingWhitespace(a) : null;
+                        value: function a(b, c) {
+                            var d = this._findPattern(this.STOP_PATTERN, b, c, false);
+                            return d !== null ? this._verifyTrailingWhitespace(d) : null;
                         }
                     },
                     {
                         key: "_checksum",
-                        value: function e(a) {
-                            var b = 0;
-                            for(var c = a.length - 2; c >= 0; c -= 2){
-                                b += a[c];
+                        value: function a(b) {
+                            var c = 0;
+                            for(var d = b.length - 2; d >= 0; d -= 2){
+                                c += b[d];
                             }
-                            b *= 3;
-                            for(var d = a.length - 1; d >= 0; d -= 2){
-                                b += a[d];
+                            c *= 3;
+                            for(var e = b.length - 1; e >= 0; e -= 2){
+                                c += b[e];
                             }
-                            return b % 10 === 0;
+                            return c % 10 === 0;
                         }
                     },
                     {
                         key: "_decodeExtensions",
-                        value: function g(e) {
-                            var d = this._nextSet(this._row, e);
-                            var c = this._findPattern(aU, d, false, false);
-                            if (c === null) {
+                        value: function a(b) {
+                            var c = this._nextSet(this._row, b);
+                            var d = this._findPattern(R, c, false, false);
+                            if (d === null) {
                                 return null;
                             }
-                            for(var a = 0; a < this.supplements.length; a++){
+                            for(var e = 0; e < this.supplements.length; e++){
                                 try {
-                                    var b = this.supplements[a].decode(this._row, c.end);
-                                    if (b !== null) {
+                                    var f = this.supplements[e].decode(this._row, d.end);
+                                    if (f !== null) {
                                         return {
-                                            code: b.code,
-                                            start: d,
-                                            startInfo: c,
-                                            end: b.end,
-                                            decodedCodes: b.decodedCodes,
-                                            format: this.supplements[a].FORMAT
+                                            code: f.code,
+                                            start: c,
+                                            startInfo: d,
+                                            end: f.end,
+                                            decodedCodes: f.decodedCodes,
+                                            format: this.supplements[e].FORMAT
                                         };
                                     }
-                                } catch (f) {
-                                    console.error("* decodeExtensions error in ", this.supplements[a], ": ", f);
+                                } catch (g) {
+                                    console.error("* decodeExtensions error in ", this.supplements[e], ": ", g);
                                 }
                             }
                             return null;
@@ -7685,83 +7685,83 @@
                     },
                     {
                         key: "decode",
-                        value: function i(j, k) {
+                        value: function a(b, c) {
                             var d = new Array();
                             var e = new Array();
-                            var g = {};
-                            var c = this._findStart();
-                            if (!c) {
+                            var f = {};
+                            var g = this._findStart();
+                            if (!g) {
                                 return null;
                             }
-                            var a = {
-                                start: c.start,
-                                end: c.end
+                            var h = {
+                                start: g.start,
+                                end: g.end
                             };
-                            e.push(a);
-                            a = this._decodePayload(a, d, e);
-                            if (!a) {
+                            e.push(h);
+                            h = this._decodePayload(h, d, e);
+                            if (!h) {
                                 return null;
                             }
-                            a = this._findEnd(a.end, false);
-                            if (!a) {
+                            h = this._findEnd(h.end, false);
+                            if (!h) {
                                 return null;
                             }
-                            e.push(a);
+                            e.push(h);
                             if (!this._checksum(d)) {
                                 return null;
                             }
                             if (this.supplements.length > 0) {
-                                var b = this._decodeExtensions(a.end);
-                                if (!b) {
+                                var i = this._decodeExtensions(h.end);
+                                if (!i) {
                                     return null;
                                 }
-                                if (!b.decodedCodes) {
+                                if (!i.decodedCodes) {
                                     return null;
                                 }
-                                var f = b.decodedCodes[b.decodedCodes.length - 1];
-                                var h = {
-                                    start: f.start + (((f.end - f.start) / 2) | 0),
-                                    end: f.end
+                                var j = i.decodedCodes[i.decodedCodes.length - 1];
+                                var k = {
+                                    start: j.start + (((j.end - j.start) / 2) | 0),
+                                    end: j.end
                                 };
-                                if (!this._verifyTrailingWhitespace(h)) {
+                                if (!this._verifyTrailingWhitespace(k)) {
                                     return null;
                                 }
-                                g = {
-                                    supplement: b,
-                                    code: d.join("") + b.code
+                                f = {
+                                    supplement: i,
+                                    code: d.join("") + i.code
                                 };
                             }
-                            return aO(aO({
+                            return L(L({
                                 code: d.join(""),
-                                start: c.start,
-                                end: a.end,
-                                startInfo: c,
+                                start: g.start,
+                                end: h.end,
+                                startInfo: g,
                                 decodedCodes: e
-                            }, g), {}, {
+                            }, f), {}, {
                                 format: this.FORMAT
                             });
                         }
                     }, 
                 ]);
-                return a;
-            })(f);
-            var g = C;
-            var D = a(33);
-            var k = a.n(D);
-            function aY(a) {
-                var b = aZ();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(F);
+            var W = V;
+            var X = c(33);
+            var Y = c.n(X);
+            function Z(a) {
+                var b = $();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function aZ() {
+            function $() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -7772,11 +7772,11 @@
                     return false;
                 }
             }
-            var E = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%";
-            var a$ = new Uint16Array(k()(E).map(function(a) {
+            var _ = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%";
+            var aa = new Uint16Array(Y()(_).map(function(a) {
                 return a.charCodeAt(0);
             }));
-            var a_ = new Uint16Array([
+            var ab = new Uint16Array([
                 0x034,
                 0x121,
                 0x061,
@@ -7822,29 +7822,29 @@
                 0x08a,
                 0x02a, 
             ]);
-            var a0 = 0x094;
-            var F = (function(b) {
-                aG()(a, b);
-                var c = aY(a);
-                function a() {
-                    var d;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-                        f[b] = arguments[b];
+            var ac = 0x094;
+            var ad = (function(a) {
+                v()(c, a);
+                var b = Z(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    d = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(d), "FORMAT", "code_39");
-                    return d;
+                    ].concat(e));
+                    B()(t()(a), "FORMAT", "code_39");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_findStart",
-                        value: function i() {
-                            var g = this._nextSet(this._row);
-                            var b = g;
-                            var a = new Uint16Array([
+                        value: function a() {
+                            var b = this._nextSet(this._row);
+                            var c = b;
+                            var d = new Uint16Array([
                                 0,
                                 0,
                                 0,
@@ -7855,33 +7855,33 @@
                                 0,
                                 0, 
                             ]);
-                            var c = 0;
+                            var e = 0;
                             var f = false;
-                            for(var d = g; d < this._row.length; d++){
-                                if (this._row[d] ^ (f ? 1 : 0)) {
-                                    a[c]++;
+                            for(var g = b; g < this._row.length; g++){
+                                if (this._row[g] ^ (f ? 1 : 0)) {
+                                    d[e]++;
                                 } else {
-                                    if (c === a.length - 1) {
-                                        if (this._toPattern(a) === a0) {
-                                            var h = Math.floor(Math.max(0, b - (d - b) / 4));
-                                            if (this._matchRange(h, b, 0)) {
+                                    if (e === d.length - 1) {
+                                        if (this._toPattern(d) === ac) {
+                                            var h = Math.floor(Math.max(0, c - (g - c) / 4));
+                                            if (this._matchRange(h, c, 0)) {
                                                 return {
-                                                    start: b,
-                                                    end: d
+                                                    start: c,
+                                                    end: g
                                                 };
                                             }
                                         }
-                                        b += a[0] + a[1];
-                                        for(var e = 0; e < 7; e++){
-                                            a[e] = a[e + 2];
+                                        c += d[0] + d[1];
+                                        for(var i = 0; i < 7; i++){
+                                            d[i] = d[i + 2];
                                         }
-                                        a[7] = 0;
-                                        a[8] = 0;
-                                        c--;
+                                        d[7] = 0;
+                                        d[8] = 0;
+                                        e--;
                                     } else {
-                                        c++;
+                                        e++;
                                     }
-                                    a[c] = 1;
+                                    d[e] = 1;
                                     f = !f;
                                 }
                             }
@@ -7890,32 +7890,32 @@
                     },
                     {
                         key: "_toPattern",
-                        value: function i(a) {
-                            var d = a.length;
-                            var e = 0;
-                            var b = d;
-                            var g = 0;
-                            while(b > 3){
-                                e = this._findNextWidth(a, e);
-                                b = 0;
-                                var h = 0;
-                                for(var c = 0; c < d; c++){
-                                    if (a[c] > e) {
-                                        h |= 1 << (d - 1 - c);
-                                        b++;
-                                        g += a[c];
+                        value: function a(b) {
+                            var c = b.length;
+                            var d = 0;
+                            var e = c;
+                            var f = 0;
+                            while(e > 3){
+                                d = this._findNextWidth(b, d);
+                                e = 0;
+                                var g = 0;
+                                for(var h = 0; h < c; h++){
+                                    if (b[h] > d) {
+                                        g |= 1 << (c - 1 - h);
+                                        e++;
+                                        f += b[h];
                                     }
                                 }
-                                if (b === 3) {
-                                    for(var f = 0; f < d && b > 0; f++){
-                                        if (a[f] > e) {
-                                            b--;
-                                            if (a[f] * 2 >= g) {
+                                if (e === 3) {
+                                    for(var i = 0; i < c && e > 0; i++){
+                                        if (b[i] > d) {
+                                            e--;
+                                            if (b[i] * 2 >= f) {
                                                 return -1;
                                             }
                                         }
                                     }
-                                    return h;
+                                    return g;
                                 }
                             }
                             return -1;
@@ -7923,22 +7923,22 @@
                     },
                     {
                         key: "_findNextWidth",
-                        value: function e(b, d) {
-                            var c = Number.MAX_VALUE;
-                            for(var a = 0; a < b.length; a++){
-                                if (b[a] < c && b[a] > d) {
-                                    c = b[a];
+                        value: function a(b, c) {
+                            var d = Number.MAX_VALUE;
+                            for(var e = 0; e < b.length; e++){
+                                if (b[e] < d && b[e] > c) {
+                                    d = b[e];
                                 }
                             }
-                            return c;
+                            return d;
                         }
                     },
                     {
                         key: "_patternToChar",
-                        value: function c(b) {
-                            for(var a = 0; a < a_.length; a++){
-                                if (a_[a] === b) {
-                                    return String.fromCharCode(a$[a]);
+                        value: function a(b) {
+                            for(var c = 0; c < ab.length; c++){
+                                if (ab[c] === b) {
+                                    return String.fromCharCode(aa[c]);
                                 }
                             }
                             return null;
@@ -7946,10 +7946,10 @@
                     },
                     {
                         key: "_verifyTrailingWhitespace",
-                        value: function f(b, c, d) {
-                            var a = aK["a"].sum(d);
-                            var e = c - b - a;
-                            if (e * 3 >= a) {
+                        value: function a(b, c, d) {
+                            var e = C["a"].sum(d);
+                            var f = c - b - e;
+                            if (f * 3 >= e) {
                                 return true;
                             }
                             return false;
@@ -7957,8 +7957,8 @@
                     },
                     {
                         key: "decode",
-                        value: function h(i, b) {
-                            var c = new Uint16Array([
+                        value: function a(b, c) {
+                            var d = new Uint16Array([
                                 0,
                                 0,
                                 0,
@@ -7969,66 +7969,66 @@
                                 0,
                                 0, 
                             ]);
-                            var d = [];
-                            b = this._findStart();
-                            if (!b) {
+                            var e = [];
+                            c = this._findStart();
+                            if (!c) {
                                 return null;
                             }
-                            var a = this._nextSet(this._row, b.end);
-                            var e;
-                            var f;
+                            var f = this._nextSet(this._row, c.end);
+                            var g;
+                            var h;
                             do {
-                                c = this._toCounters(a, c);
-                                var g = this._toPattern(c);
-                                if (g < 0) {
+                                d = this._toCounters(f, d);
+                                var i = this._toPattern(d);
+                                if (i < 0) {
                                     return null;
                                 }
-                                e = this._patternToChar(g);
-                                if (e === null) {
+                                g = this._patternToChar(i);
+                                if (g === null) {
                                     return null;
                                 }
-                                d.push(e);
-                                f = a;
-                                a += aK["a"].sum(c);
-                                a = this._nextSet(this._row, a);
-                            }while (e !== "*")
-                            d.pop();
-                            if (!d.length) {
+                                e.push(g);
+                                h = f;
+                                f += C["a"].sum(d);
+                                f = this._nextSet(this._row, f);
+                            }while (g !== "*")
+                            e.pop();
+                            if (!e.length) {
                                 return null;
                             }
-                            if (!this._verifyTrailingWhitespace(f, a, c)) {
+                            if (!this._verifyTrailingWhitespace(h, f, d)) {
                                 return null;
                             }
                             return {
-                                code: d.join(""),
-                                start: b.start,
-                                end: a,
-                                startInfo: b,
-                                decodedCodes: d,
+                                code: e.join(""),
+                                start: c.start,
+                                end: f,
+                                startInfo: c,
+                                decodedCodes: e,
                                 format: this.FORMAT
                             };
                         }
                     }, 
                 ]);
-                return a;
-            })(f);
-            var i = F;
-            var G = a(13);
-            var a1 = a.n(G);
-            function a2(a) {
-                var b = a3();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(F);
+            var ae = ad;
+            var af = c(13);
+            var ag = c.n(af);
+            function ah(a) {
+                var b = ai();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function a3() {
+            function ai() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -8039,75 +8039,75 @@
                     return false;
                 }
             }
-            var a4 = {
+            var aj = {
                 IOQ: /[IOQ]/g,
                 AZ09: /[A-Z0-9]{17}/
             };
-            var H = (function(b) {
-                aG()(a, b);
-                var c = a2(a);
-                function a() {
-                    var d;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-                        f[b] = arguments[b];
+            var ak = (function(a) {
+                v()(c, a);
+                var b = ah(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    d = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(d), "FORMAT", "code_39_vin");
-                    return d;
+                    ].concat(e));
+                    B()(t()(a), "FORMAT", "code_39_vin");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_checkChecksum",
-                        value: function b(a) {
-                            return !!a;
+                        value: function a(b) {
+                            return !!b;
                         }
                     },
                     {
                         key: "decode",
-                        value: function f(d, e) {
-                            var c = a1()(aI()(a.prototype), "decode", this).call(this, d, e);
-                            if (!c) {
+                        value: function a(b, d) {
+                            var e = ag()(z()(c.prototype), "decode", this).call(this, b, d);
+                            if (!e) {
                                 return null;
                             }
-                            var b = c.code;
-                            if (!b) {
+                            var f = e.code;
+                            if (!f) {
                                 return null;
                             }
-                            b = b.replace(a4.IOQ, "");
-                            if (!b.match(a4.AZ09)) {
+                            f = f.replace(aj.IOQ, "");
+                            if (!f.match(aj.AZ09)) {
                                 if (true) {
-                                    console.log("Failed AZ09 pattern code:", b);
+                                    console.log("Failed AZ09 pattern code:", f);
                                 }
                                 return null;
                             }
-                            if (!this._checkChecksum(b)) {
+                            if (!this._checkChecksum(f)) {
                                 return null;
                             }
-                            c.code = b;
-                            return c;
+                            e.code = f;
+                            return e;
                         }
                     }, 
                 ]);
-                return a;
-            })(i);
-            var I = H;
-            function a5(a) {
-                var b = a6();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(ae);
+            var al = ak;
+            function am(a) {
+                var b = an();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function a6() {
+            function an() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -8118,7 +8118,7 @@
                     return false;
                 }
             }
-            var a7 = [
+            var ao = [
                 48,
                 49,
                 50,
@@ -8140,7 +8140,7 @@
                 67,
                 68, 
             ];
-            var a8 = [
+            var ap = [
                 0x003,
                 0x006,
                 0x009,
@@ -8162,78 +8162,78 @@
                 0x00b,
                 0x00e, 
             ];
-            var a9 = [
+            var aq = [
                 0x01a,
                 0x029,
                 0x00b,
                 0x00e
             ];
-            var ba = 4;
-            var bb = 2.0;
-            var bc = 1.5;
-            var J = (function(b) {
-                aG()(a, b);
-                var c = a5(a);
-                function a() {
-                    var b;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), d = 0; d < e; d++){
-                        f[d] = arguments[d];
+            var ar = 4;
+            var as = 2.0;
+            var at = 1.5;
+            var au = (function(a) {
+                v()(c, a);
+                var b = am(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    b = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(b), "_counters", []);
-                    aJ()(aF()(b), "FORMAT", "codabar");
-                    return b;
+                    ].concat(e));
+                    B()(t()(a), "_counters", []);
+                    B()(t()(a), "FORMAT", "codabar");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_computeAlternatingThreshold",
-                        value: function g(e, f) {
-                            var b = Number.MAX_VALUE;
-                            var c = 0;
-                            var a = 0;
-                            for(var d = e; d < f; d += 2){
-                                a = this._counters[d];
-                                if (a > c) {
-                                    c = a;
+                        value: function a(b, c) {
+                            var d = Number.MAX_VALUE;
+                            var e = 0;
+                            var f = 0;
+                            for(var g = b; g < c; g += 2){
+                                f = this._counters[g];
+                                if (f > e) {
+                                    e = f;
                                 }
-                                if (a < b) {
-                                    b = a;
+                                if (f < d) {
+                                    d = f;
                                 }
                             }
-                            return ((b + c) / 2.0) | 0;
+                            return ((d + e) / 2.0) | 0;
                         }
                     },
                     {
                         key: "_toPattern",
-                        value: function j(a) {
+                        value: function a(b) {
                             var c = 7;
-                            var d = a + c;
+                            var d = b + c;
                             if (d > this._counters.length) {
                                 return -1;
                             }
-                            var h = this._computeAlternatingThreshold(a, d);
-                            var i = this._computeAlternatingThreshold(a + 1, d);
-                            var e = 1 << (c - 1);
-                            var f = 0;
-                            var g = 0;
-                            for(var b = 0; b < c; b++){
-                                f = (b & 1) === 0 ? h : i;
-                                if (this._counters[a + b] > f) {
-                                    g |= e;
+                            var e = this._computeAlternatingThreshold(b, d);
+                            var f = this._computeAlternatingThreshold(b + 1, d);
+                            var g = 1 << (c - 1);
+                            var h = 0;
+                            var i = 0;
+                            for(var j = 0; j < c; j++){
+                                h = (j & 1) === 0 ? e : f;
+                                if (this._counters[b + j] > h) {
+                                    i |= g;
                                 }
-                                e >>= 1;
+                                g >>= 1;
                             }
-                            return g;
+                            return i;
                         }
                     },
                     {
                         key: "_isStartEnd",
-                        value: function c(b) {
-                            for(var a = 0; a < a9.length; a++){
-                                if (a9[a] === b) {
+                        value: function a(b) {
+                            for(var c = 0; c < aq.length; c++){
+                                if (aq[c] === b) {
                                     return true;
                                 }
                             }
@@ -8242,29 +8242,29 @@
                     },
                     {
                         key: "_sumCounters",
-                        value: function e(c, d) {
-                            var b = 0;
-                            for(var a = c; a < d; a++){
-                                b += this._counters[a];
+                        value: function a(b, c) {
+                            var d = 0;
+                            for(var e = b; e < c; e++){
+                                d += this._counters[e];
                             }
-                            return b;
+                            return d;
                         }
                     },
                     {
                         key: "_findStart",
-                        value: function e() {
+                        value: function a() {
                             var b = this._nextUnset(this._row);
                             var c = b;
-                            for(var a = 1; a < this._counters.length; a++){
-                                var d = this._toPattern(a);
-                                if (d !== -1 && this._isStartEnd(d)) {
-                                    b += this._sumCounters(0, a);
-                                    c = b + this._sumCounters(a, a + 8);
+                            for(var d = 1; d < this._counters.length; d++){
+                                var e = this._toPattern(d);
+                                if (e !== -1 && this._isStartEnd(e)) {
+                                    b += this._sumCounters(0, d);
+                                    c = b + this._sumCounters(d, d + 8);
                                     return {
                                         start: b,
                                         end: c,
-                                        startCounter: a,
-                                        endCounter: a + 8
+                                        startCounter: d,
+                                        endCounter: d + 8
                                     };
                                 }
                             }
@@ -8273,10 +8273,10 @@
                     },
                     {
                         key: "_patternToChar",
-                        value: function c(b) {
-                            for(var a = 0; a < a8.length; a++){
-                                if (a8[a] === b) {
-                                    return String.fromCharCode(a7[a]);
+                        value: function a(b) {
+                            for(var c = 0; c < ap.length; c++){
+                                if (ap[c] === b) {
+                                    return String.fromCharCode(ao[c]);
                                 }
                             }
                             return null;
@@ -8284,19 +8284,19 @@
                     },
                     {
                         key: "_calculatePatternLength",
-                        value: function d(b) {
+                        value: function a(b) {
                             var c = 0;
-                            for(var a = b; a < b + 7; a++){
-                                c += this._counters[a];
+                            for(var d = b; d < b + 7; d++){
+                                c += this._counters[d];
                             }
                             return c;
                         }
                     },
                     {
                         key: "_verifyWhitespace",
-                        value: function c(a, b) {
-                            if (a - 1 <= 0 || this._counters[a - 1] >= this._calculatePatternLength(a) / 2.0) {
-                                if (b + 8 >= this._counters.length || this._counters[b + 7] >= this._calculatePatternLength(b) / 2.0) {
+                        value: function a(b, c) {
+                            if (b - 1 <= 0 || this._counters[b - 1] >= this._calculatePatternLength(b) / 2.0) {
+                                if (c + 8 >= this._counters.length || this._counters[c + 7] >= this._calculatePatternLength(c) / 2.0) {
                                     return true;
                                 }
                             }
@@ -8305,11 +8305,11 @@
                     },
                     {
                         key: "_charToPattern",
-                        value: function d(b) {
+                        value: function a(b) {
                             var c = b.charCodeAt(0);
-                            for(var a = 0; a < a7.length; a++){
-                                if (a7[a] === c) {
-                                    return a8[a];
+                            for(var d = 0; d < ao.length; d++){
+                                if (ao[d] === c) {
+                                    return ap[d];
                                 }
                             }
                             return 0x0;
@@ -8317,8 +8317,8 @@
                     },
                     {
                         key: "_thresholdResultPattern",
-                        value: function j(e, i) {
-                            var b = {
+                        value: function a(b, c) {
+                            var d = {
                                 space: {
                                     narrow: {
                                         size: 0,
@@ -8348,118 +8348,118 @@
                                     }
                                 }
                             };
-                            var f = i;
-                            var c;
-                            for(var d = 0; d < e.length; d++){
-                                c = this._charToPattern(e[d]);
-                                for(var a = 6; a >= 0; a--){
-                                    var g = (a & 1) === 2 ? b.bar : b.space;
-                                    var h = (c & 1) === 1 ? g.wide : g.narrow;
-                                    h.size += this._counters[f + a];
-                                    h.counts++;
-                                    c >>= 1;
+                            var e = c;
+                            var f;
+                            for(var g = 0; g < b.length; g++){
+                                f = this._charToPattern(b[g]);
+                                for(var h = 6; h >= 0; h--){
+                                    var i = (h & 1) === 2 ? d.bar : d.space;
+                                    var j = (f & 1) === 1 ? i.wide : i.narrow;
+                                    j.size += this._counters[e + h];
+                                    j.counts++;
+                                    f >>= 1;
                                 }
-                                f += 8;
+                                e += 8;
                             }
                             [
                                 "space",
                                 "bar"
-                            ].forEach(function(c) {
-                                var a = b[c];
-                                a.wide.min = Math.floor((a.narrow.size / a.narrow.counts + a.wide.size / a.wide.counts) / 2);
-                                a.narrow.max = Math.ceil(a.wide.min);
-                                a.wide.max = Math.ceil((a.wide.size * bb + bc) / a.wide.counts);
+                            ].forEach(function(a) {
+                                var b = d[a];
+                                b.wide.min = Math.floor((b.narrow.size / b.narrow.counts + b.wide.size / b.wide.counts) / 2);
+                                b.narrow.max = Math.ceil(b.wide.min);
+                                b.wide.max = Math.ceil((b.wide.size * as + at) / b.wide.counts);
                             });
-                            return b;
+                            return d;
                         }
                     },
                     {
                         key: "_validateResult",
-                        value: function k(b, e) {
-                            var f = this._thresholdResultPattern(b, e);
-                            var g = e;
-                            var c;
-                            for(var d = 0; d < b.length; d++){
-                                c = this._charToPattern(b[d]);
-                                for(var a = 6; a >= 0; a--){
-                                    var h = (a & 1) === 0 ? f.bar : f.space;
-                                    var i = (c & 1) === 1 ? h.wide : h.narrow;
-                                    var j = this._counters[g + a];
-                                    if (j < i.min || j > i.max) {
+                        value: function a(b, c) {
+                            var d = this._thresholdResultPattern(b, c);
+                            var e = c;
+                            var f;
+                            for(var g = 0; g < b.length; g++){
+                                f = this._charToPattern(b[g]);
+                                for(var h = 6; h >= 0; h--){
+                                    var i = (h & 1) === 0 ? d.bar : d.space;
+                                    var j = (f & 1) === 1 ? i.wide : i.narrow;
+                                    var k = this._counters[e + h];
+                                    if (k < j.min || k > j.max) {
                                         return false;
                                     }
-                                    c >>= 1;
+                                    f >>= 1;
                                 }
-                                g += 8;
+                                e += 8;
                             }
                             return true;
                         }
                     },
                     {
                         key: "decode",
-                        value: function g(h, a) {
+                        value: function a(b, c) {
                             this._counters = this._fillCounters();
-                            a = this._findStart();
-                            if (!a) {
+                            c = this._findStart();
+                            if (!c) {
                                 return null;
                             }
-                            var b = a.startCounter;
-                            var c = [];
-                            var d;
+                            var d = c.startCounter;
+                            var e = [];
+                            var f;
                             do {
-                                d = this._toPattern(b);
-                                if (d < 0) {
+                                f = this._toPattern(d);
+                                if (f < 0) {
                                     return null;
                                 }
-                                var e = this._patternToChar(d);
-                                if (e === null) {
+                                var g = this._patternToChar(f);
+                                if (g === null) {
                                     return null;
                                 }
-                                c.push(e);
-                                b += 8;
-                                if (c.length > 1 && this._isStartEnd(d)) {
+                                e.push(g);
+                                d += 8;
+                                if (e.length > 1 && this._isStartEnd(f)) {
                                     break;
                                 }
-                            }while (b < this._counters.length)
-                            if (c.length - 2 < ba || !this._isStartEnd(d)) {
+                            }while (d < this._counters.length)
+                            if (e.length - 2 < ar || !this._isStartEnd(f)) {
                                 return null;
                             }
-                            if (!this._verifyWhitespace(a.startCounter, b - 8)) {
+                            if (!this._verifyWhitespace(c.startCounter, d - 8)) {
                                 return null;
                             }
-                            if (!this._validateResult(c, a.startCounter)) {
+                            if (!this._validateResult(e, c.startCounter)) {
                                 return null;
                             }
-                            b = b > this._counters.length ? this._counters.length : b;
-                            var f = a.start + this._sumCounters(a.startCounter, b - 8);
+                            d = d > this._counters.length ? this._counters.length : d;
+                            var h = c.start + this._sumCounters(c.startCounter, d - 8);
                             return {
-                                code: c.join(""),
-                                start: a.start,
-                                end: f,
-                                startInfo: a,
-                                decodedCodes: c,
+                                code: e.join(""),
+                                start: c.start,
+                                end: h,
+                                startInfo: c,
+                                decodedCodes: e,
                                 format: this.FORMAT
                             };
                         }
                     }, 
                 ]);
-                return a;
-            })(f);
-            var K = J;
-            function bd(a) {
-                var b = be();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(F);
+            var av = au;
+            function aw(a) {
+                var b = ax();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function be() {
+            function ax() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -8470,51 +8470,51 @@
                     return false;
                 }
             }
-            var L = (function(b) {
-                aG()(a, b);
-                var c = bd(a);
-                function a() {
-                    var d;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-                        f[b] = arguments[b];
+            var ay = (function(a) {
+                v()(c, a);
+                var b = aw(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    d = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(d), "FORMAT", "upc_a");
-                    return d;
+                    ].concat(e));
+                    B()(t()(a), "FORMAT", "upc_a");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "decode",
-                        value: function b(c, d) {
-                            var a = g.prototype.decode.call(this);
-                            if (a && a.code && a.code.length === 13 && a.code.charAt(0) === "0") {
-                                a.code = a.code.substring(1);
-                                return a;
+                        value: function a(b, c) {
+                            var d = W.prototype.decode.call(this);
+                            if (d && d.code && d.code.length === 13 && d.code.charAt(0) === "0") {
+                                d.code = d.code.substring(1);
+                                return d;
                             }
                             return null;
                         }
                     }, 
                 ]);
-                return a;
-            })(g);
-            var M = L;
-            function bf(a) {
-                var b = bg();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(W);
+            var az = ay;
+            function aA(a) {
+                var b = aB();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function bg() {
+            function aB() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -8525,68 +8525,68 @@
                     return false;
                 }
             }
-            var N = (function(b) {
-                aG()(a, b);
-                var c = bf(a);
-                function a() {
-                    var d;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-                        f[b] = arguments[b];
+            var aC = (function(a) {
+                v()(c, a);
+                var b = aA(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    d = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(d), "FORMAT", "ean_8");
-                    return d;
+                    ].concat(e));
+                    B()(t()(a), "FORMAT", "ean_8");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_decodePayload",
-                        value: function g(f, c, b) {
-                            var a = f;
-                            for(var d = 0; d < 4; d++){
-                                a = this._decodeCode(a.end, aR);
-                                if (!a) {
+                        value: function a(b, c, d) {
+                            var e = b;
+                            for(var f = 0; f < 4; f++){
+                                e = this._decodeCode(e.end, O);
+                                if (!e) {
                                     return null;
                                 }
-                                c.push(a.code);
-                                b.push(a);
+                                c.push(e.code);
+                                d.push(e);
                             }
-                            a = this._findPattern(aT, a.end, true, false);
-                            if (a === null) {
+                            e = this._findPattern(Q, e.end, true, false);
+                            if (e === null) {
                                 return null;
                             }
-                            b.push(a);
-                            for(var e = 0; e < 4; e++){
-                                a = this._decodeCode(a.end, aR);
-                                if (!a) {
+                            d.push(e);
+                            for(var g = 0; g < 4; g++){
+                                e = this._decodeCode(e.end, O);
+                                if (!e) {
                                     return null;
                                 }
-                                b.push(a);
-                                c.push(a.code);
+                                d.push(e);
+                                c.push(e.code);
                             }
-                            return a;
+                            return e;
                         }
                     }, 
                 ]);
-                return a;
-            })(g);
-            var O = N;
-            function bh(a) {
-                var b = bi();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(W);
+            var aD = aC;
+            function aE(a) {
+                var b = aF();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function bi() {
+            function aF() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -8597,84 +8597,84 @@
                     return false;
                 }
             }
-            var P = (function(b) {
-                aG()(a, b);
-                var c = bh(a);
-                function a() {
-                    var d;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-                        f[b] = arguments[b];
+            var aG = (function(a) {
+                v()(c, a);
+                var b = aE(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    d = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(d), "FORMAT", "ean_2");
-                    return d;
+                    ].concat(e));
+                    B()(t()(a), "FORMAT", "ean_2");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "decode",
-                        value: function k(e, i) {
-                            if (e) {
-                                this._row = e;
+                        value: function a(b, c) {
+                            if (b) {
+                                this._row = b;
                             }
-                            var f = 0;
-                            var b = i;
-                            var j = this._row.length;
-                            var c = [];
+                            var d = 0;
+                            var e = c;
+                            var f = this._row.length;
                             var g = [];
-                            var a = null;
-                            if (b === undefined) {
+                            var h = [];
+                            var i = null;
+                            if (e === undefined) {
                                 return null;
                             }
-                            for(var d = 0; d < 2 && b < j; d++){
-                                a = this._decodeCode(b);
-                                if (!a) {
+                            for(var j = 0; j < 2 && e < f; j++){
+                                i = this._decodeCode(e);
+                                if (!i) {
                                     return null;
                                 }
-                                g.push(a);
-                                c.push(a.code % 10);
-                                if (a.code >= aR) {
-                                    f |= 1 << (1 - d);
+                                h.push(i);
+                                g.push(i.code % 10);
+                                if (i.code >= O) {
+                                    d |= 1 << (1 - j);
                                 }
-                                if (d !== 1) {
-                                    b = this._nextSet(this._row, a.end);
-                                    b = this._nextUnset(this._row, b);
+                                if (j !== 1) {
+                                    e = this._nextSet(this._row, i.end);
+                                    e = this._nextUnset(this._row, e);
                                 }
                             }
-                            if (c.length !== 2 || parseInt(c.join("")) % 4 !== f) {
+                            if (g.length !== 2 || parseInt(g.join("")) % 4 !== d) {
                                 return null;
                             }
-                            var h = this._findStart();
+                            var k = this._findStart();
                             return {
-                                code: c.join(""),
-                                decodedCodes: g,
-                                end: a.end,
+                                code: g.join(""),
+                                decodedCodes: h,
+                                end: i.end,
                                 format: this.FORMAT,
-                                startInfo: h,
-                                start: h.start
+                                startInfo: k,
+                                start: k.start
                             };
                         }
                     }, 
                 ]);
-                return a;
-            })(g);
-            var Q = P;
-            function bj(a) {
-                var b = bk();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(W);
+            var aH = aG;
+            function aI(a) {
+                var b = aJ();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function bk() {
+            function aJ() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -8685,7 +8685,7 @@
                     return false;
                 }
             }
-            var bl = [
+            var aK = [
                 24,
                 20,
                 18,
@@ -8697,138 +8697,138 @@
                 9,
                 5, 
             ];
-            function bm(b) {
-                for(var a = 0; a < 10; a++){
-                    if (b === bl[a]) {
-                        return a;
+            function aL(a) {
+                for(var b = 0; b < 10; b++){
+                    if (a === aK[b]) {
+                        return b;
                     }
                 }
                 return null;
             }
-            function bn(b) {
-                var e = b.length;
-                var a = 0;
-                for(var c = e - 2; c >= 0; c -= 2){
-                    a += b[c];
+            function aM(a) {
+                var b = a.length;
+                var c = 0;
+                for(var d = b - 2; d >= 0; d -= 2){
+                    c += a[d];
                 }
-                a *= 3;
-                for(var d = e - 1; d >= 0; d -= 2){
-                    a += b[d];
+                c *= 3;
+                for(var e = b - 1; e >= 0; e -= 2){
+                    c += a[e];
                 }
-                a *= 3;
-                return a % 10;
+                c *= 3;
+                return c % 10;
             }
-            var R = (function(b) {
-                aG()(a, b);
-                var c = bj(a);
-                function a() {
-                    var d;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-                        f[b] = arguments[b];
+            var aN = (function(a) {
+                v()(c, a);
+                var b = aI(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    d = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(d), "FORMAT", "ean_5");
-                    return d;
+                    ].concat(e));
+                    B()(t()(a), "FORMAT", "ean_5");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "decode",
-                        value: function k(e, f) {
-                            if (f === undefined) {
+                        value: function a(b, c) {
+                            if (c === undefined) {
                                 return null;
                             }
-                            if (e) {
-                                this._row = e;
+                            if (b) {
+                                this._row = b;
                             }
-                            var g = 0;
-                            var b = f;
-                            var j = this._row.length;
-                            var a = null;
-                            var c = [];
+                            var d = 0;
+                            var e = c;
+                            var f = this._row.length;
+                            var g = null;
                             var h = [];
-                            for(var d = 0; d < 5 && b < j; d++){
-                                a = this._decodeCode(b);
-                                if (!a) {
+                            var i = [];
+                            for(var j = 0; j < 5 && e < f; j++){
+                                g = this._decodeCode(e);
+                                if (!g) {
                                     return null;
                                 }
-                                h.push(a);
-                                c.push(a.code % 10);
-                                if (a.code >= aR) {
-                                    g |= 1 << (4 - d);
+                                i.push(g);
+                                h.push(g.code % 10);
+                                if (g.code >= O) {
+                                    d |= 1 << (4 - j);
                                 }
-                                if (d !== 4) {
-                                    b = this._nextSet(this._row, a.end);
-                                    b = this._nextUnset(this._row, b);
+                                if (j !== 4) {
+                                    e = this._nextSet(this._row, g.end);
+                                    e = this._nextUnset(this._row, e);
                                 }
                             }
-                            if (c.length !== 5) {
+                            if (h.length !== 5) {
                                 return null;
                             }
-                            if (bn(c) !== bm(g)) {
+                            if (aM(h) !== aL(d)) {
                                 return null;
                             }
-                            var i = this._findStart();
+                            var k = this._findStart();
                             return {
-                                code: c.join(""),
-                                decodedCodes: h,
-                                end: a.end,
+                                code: h.join(""),
+                                decodedCodes: i,
+                                end: g.end,
                                 format: this.FORMAT,
-                                startInfo: i,
-                                start: i.start
+                                startInfo: k,
+                                start: k.start
                             };
                         }
                     }, 
                 ]);
-                return a;
-            })(g);
-            var S = R;
-            function bo(c, d) {
-                var a = Object.keys(c);
+                return c;
+            })(W);
+            var aO = aN;
+            function aP(a, b) {
+                var c = Object.keys(a);
                 if (Object.getOwnPropertySymbols) {
-                    var b = Object.getOwnPropertySymbols(c);
-                    if (d) {
-                        b = b.filter(function(a) {
-                            return Object.getOwnPropertyDescriptor(c, a).enumerable;
+                    var d = Object.getOwnPropertySymbols(a);
+                    if (b) {
+                        d = d.filter(function(b) {
+                            return Object.getOwnPropertyDescriptor(a, b).enumerable;
                         });
                     }
-                    a.push.apply(a, b);
-                }
-                return a;
-            }
-            function bp(c) {
-                for(var a = 1; a < arguments.length; a++){
-                    var b = arguments[a] != null ? arguments[a] : {};
-                    if (a % 2) {
-                        bo(Object(b), true).forEach(function(a) {
-                            aJ()(c, a, b[a]);
-                        });
-                    } else if (Object.getOwnPropertyDescriptors) {
-                        Object.defineProperties(c, Object.getOwnPropertyDescriptors(b));
-                    } else {
-                        bo(Object(b)).forEach(function(a) {
-                            Object.defineProperty(c, a, Object.getOwnPropertyDescriptor(b, a));
-                        });
-                    }
+                    c.push.apply(c, d);
                 }
                 return c;
             }
-            function bq(a) {
-                var b = br();
-                return function f() {
-                    var d = aI()(a), c;
-                    if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+            function aQ(a) {
+                for(var b = 1; b < arguments.length; b++){
+                    var c = arguments[b] != null ? arguments[b] : {};
+                    if (b % 2) {
+                        aP(Object(c), true).forEach(function(b) {
+                            B()(a, b, c[b]);
+                        });
+                    } else if (Object.getOwnPropertyDescriptors) {
+                        Object.defineProperties(a, Object.getOwnPropertyDescriptors(c));
                     } else {
-                        c = d.apply(this, arguments);
+                        aP(Object(c)).forEach(function(b) {
+                            Object.defineProperty(a, b, Object.getOwnPropertyDescriptor(c, b));
+                        });
                     }
-                    return aH()(this, c);
+                }
+                return a;
+            }
+            function aR(a) {
+                var b = aS();
+                return function c() {
+                    var d = z()(a), e;
+                    if (b) {
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
+                    } else {
+                        e = d.apply(this, arguments);
+                    }
+                    return x()(this, e);
                 };
             }
-            function br() {
+            function aS() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -8839,19 +8839,19 @@
                     return false;
                 }
             }
-            var T = (function(b) {
-                aG()(a, b);
-                var c = bq(a);
-                function a() {
-                    var b;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), d = 0; d < e; d++){
-                        f[d] = arguments[d];
+            var aT = (function(a) {
+                v()(c, a);
+                var b = aR(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    b = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(b), "CODE_FREQUENCY", [
+                    ].concat(e));
+                    B()(t()(a), "CODE_FREQUENCY", [
                         [
                             56,
                             52,
@@ -8877,7 +8877,7 @@
                             26
                         ], 
                     ]);
-                    aJ()(aF()(b), "STOP_PATTERN", [
+                    B()(t()(a), "STOP_PATTERN", [
                         (1 / 6) * 7,
                         (1 / 6) * 7,
                         (1 / 6) * 7,
@@ -8885,41 +8885,41 @@
                         (1 / 6) * 7,
                         (1 / 6) * 7, 
                     ]);
-                    aJ()(aF()(b), "FORMAT", "upc_e");
-                    return b;
+                    B()(t()(a), "FORMAT", "upc_e");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_decodePayload",
-                        value: function g(e, c, f) {
-                            var a = bp({}, e);
-                            var d = 0x0;
-                            for(var b = 0; b < 6; b++){
-                                a = this._decodeCode(a.end);
-                                if (!a) {
+                        value: function a(b, c, d) {
+                            var e = aQ({}, b);
+                            var f = 0x0;
+                            for(var g = 0; g < 6; g++){
+                                e = this._decodeCode(e.end);
+                                if (!e) {
                                     return null;
                                 }
-                                if (a.code >= aR) {
-                                    a.code = a.code - aR;
-                                    d |= 1 << (5 - b);
+                                if (e.code >= O) {
+                                    e.code = e.code - O;
+                                    f |= 1 << (5 - g);
                                 }
-                                c.push(a.code);
-                                f.push(a);
+                                c.push(e.code);
+                                d.push(e);
                             }
-                            if (!this._determineParity(d, c)) {
+                            if (!this._determineParity(f, c)) {
                                 return null;
                             }
-                            return a;
+                            return e;
                         }
                     },
                     {
                         key: "_determineParity",
-                        value: function e(d, c) {
-                            for(var a = 0; a < this.CODE_FREQUENCY.length; a++){
-                                for(var b = 0; b < this.CODE_FREQUENCY[a].length; b++){
-                                    if (d === this.CODE_FREQUENCY[a][b]) {
-                                        c.unshift(a);
-                                        c.push(b);
+                        value: function a(b, c) {
+                            for(var d = 0; d < this.CODE_FREQUENCY.length; d++){
+                                for(var e = 0; e < this.CODE_FREQUENCY[d].length; e++){
+                                    if (b === this.CODE_FREQUENCY[d][e]) {
+                                        c.unshift(d);
+                                        c.push(e);
                                         return true;
                                     }
                                 }
@@ -8929,91 +8929,91 @@
                     },
                     {
                         key: "_convertToUPCA",
-                        value: function d(a) {
-                            var b = [
-                                a[0]
+                        value: function a(b) {
+                            var c = [
+                                b[0]
                             ];
-                            var c = a[a.length - 2];
-                            if (c <= 2) {
-                                b = b.concat(a.slice(1, 3)).concat([
-                                    c,
+                            var d = b[b.length - 2];
+                            if (d <= 2) {
+                                c = c.concat(b.slice(1, 3)).concat([
+                                    d,
                                     0,
                                     0,
                                     0,
                                     0
-                                ]).concat(a.slice(3, 6));
-                            } else if (c === 3) {
-                                b = b.concat(a.slice(1, 4)).concat([
+                                ]).concat(b.slice(3, 6));
+                            } else if (d === 3) {
+                                c = c.concat(b.slice(1, 4)).concat([
                                     0,
                                     0,
                                     0,
                                     0,
                                     0
-                                ]).concat(a.slice(4, 6));
-                            } else if (c === 4) {
-                                b = b.concat(a.slice(1, 5)).concat([
+                                ]).concat(b.slice(4, 6));
+                            } else if (d === 4) {
+                                c = c.concat(b.slice(1, 5)).concat([
                                     0,
                                     0,
                                     0,
                                     0,
                                     0,
-                                    a[5]
+                                    b[5]
                                 ]);
                             } else {
-                                b = b.concat(a.slice(1, 6)).concat([
+                                c = c.concat(b.slice(1, 6)).concat([
                                     0,
                                     0,
                                     0,
                                     0,
-                                    c
+                                    d
                                 ]);
                             }
-                            b.push(a[a.length - 1]);
-                            return b;
+                            c.push(b[b.length - 1]);
+                            return c;
                         }
                     },
                     {
                         key: "_checksum",
-                        value: function c(b) {
-                            return a1()(aI()(a.prototype), "_checksum", this).call(this, this._convertToUPCA(b));
+                        value: function a(b) {
+                            return ag()(z()(c.prototype), "_checksum", this).call(this, this._convertToUPCA(b));
                         }
                     },
                     {
                         key: "_findEnd",
-                        value: function c(b, d) {
-                            return a1()(aI()(a.prototype), "_findEnd", this).call(this, b, true);
+                        value: function a(b, d) {
+                            return ag()(z()(c.prototype), "_findEnd", this).call(this, b, true);
                         }
                     },
                     {
                         key: "_verifyTrailingWhitespace",
-                        value: function c(a) {
-                            var b = a.end + (a.end - a.start) / 2;
-                            if (b < this._row.length) {
-                                if (this._matchRange(a.end, b, 0)) {
-                                    return a;
+                        value: function a(b) {
+                            var c = b.end + (b.end - b.start) / 2;
+                            if (c < this._row.length) {
+                                if (this._matchRange(b.end, c, 0)) {
+                                    return b;
                                 }
                             }
                             return null;
                         }
                     }, 
                 ]);
-                return a;
-            })(g);
-            var U = T;
-            function bs(a) {
-                var b = bt();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(W);
+            var aU = aT;
+            function aV(a) {
+                var b = aW();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function bt() {
+            function aW() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -9024,120 +9024,124 @@
                     return false;
                 }
             }
-            var bu = 1;
-            var bv = 3;
-            var V = (function(b) {
-                aG()(a, b);
-                var c = bs(a);
-                function a(d) {
-                    var b;
-                    aD()(this, a);
-                    b = c.call(this, az()({
+            var aX = 1;
+            var aY = 3;
+            var aZ = (function(a) {
+                v()(c, a);
+                var b = aV(c);
+                function c(a) {
+                    var d;
+                    p()(this, c);
+                    d = b.call(this, h()({
                         normalizeBarSpaceWidth: false
-                    }, d));
-                    aJ()(aF()(b), "barSpaceRatio", [
+                    }, a));
+                    B()(t()(d), "barSpaceRatio", [
                         1,
                         1
                     ]);
-                    aJ()(aF()(b), "SINGLE_CODE_ERROR", 0.78);
-                    aJ()(aF()(b), "AVG_CODE_ERROR", 0.38);
-                    aJ()(aF()(b), "START_PATTERN", [
-                        bu,
-                        bu,
-                        bu,
-                        bu
+                    B()(t()(d), "SINGLE_CODE_ERROR", 0.78);
+                    B()(t()(d), "AVG_CODE_ERROR", 0.38);
+                    B()(t()(d), "START_PATTERN", [
+                        aX,
+                        aX,
+                        aX,
+                        aX
                     ]);
-                    aJ()(aF()(b), "STOP_PATTERN", [
-                        bu,
-                        bu,
-                        bv
+                    B()(t()(d), "STOP_PATTERN", [
+                        aX,
+                        aX,
+                        aY
                     ]);
-                    aJ()(aF()(b), "CODE_PATTERN", [
+                    B()(t()(d), "CODE_PATTERN", [
                         [
-                            bu,
-                            bu,
-                            bv,
-                            bv,
-                            bu
+                            aX,
+                            aX,
+                            aY,
+                            aY,
+                            aX
                         ],
                         [
-                            bv,
-                            bu,
-                            bu,
-                            bu,
-                            bv
+                            aY,
+                            aX,
+                            aX,
+                            aX,
+                            aY
                         ],
                         [
-                            bu,
-                            bv,
-                            bu,
-                            bu,
-                            bv
+                            aX,
+                            aY,
+                            aX,
+                            aX,
+                            aY
                         ],
                         [
-                            bv,
-                            bv,
-                            bu,
-                            bu,
-                            bu
+                            aY,
+                            aY,
+                            aX,
+                            aX,
+                            aX
                         ],
                         [
-                            bu,
-                            bu,
-                            bv,
-                            bu,
-                            bv
+                            aX,
+                            aX,
+                            aY,
+                            aX,
+                            aY
                         ],
                         [
-                            bv,
-                            bu,
-                            bv,
-                            bu,
-                            bu
+                            aY,
+                            aX,
+                            aY,
+                            aX,
+                            aX
                         ],
                         [
-                            bu,
-                            bv,
-                            bv,
-                            bu,
-                            bu
+                            aX,
+                            aY,
+                            aY,
+                            aX,
+                            aX
                         ],
                         [
-                            bu,
-                            bu,
-                            bu,
-                            bv,
-                            bv
+                            aX,
+                            aX,
+                            aX,
+                            aY,
+                            aY
                         ],
                         [
-                            bv,
-                            bu,
-                            bu,
-                            bv,
-                            bu
+                            aY,
+                            aX,
+                            aX,
+                            aY,
+                            aX
                         ],
                         [
-                            bu,
-                            bv,
-                            bu,
-                            bv,
-                            bu
+                            aX,
+                            aY,
+                            aX,
+                            aY,
+                            aX
                         ], 
                     ]);
-                    aJ()(aF()(b), "MAX_CORRECTION_FACTOR", 5);
-                    aJ()(aF()(b), "FORMAT", "i2of5");
-                    if (d.normalizeBarSpaceWidth) {
-                        b.SINGLE_CODE_ERROR = 0.38;
-                        b.AVG_CODE_ERROR = 0.09;
+                    B()(t()(d), "MAX_CORRECTION_FACTOR", 5);
+                    B()(t()(d), "FORMAT", "i2of5");
+                    if (a.normalizeBarSpaceWidth) {
+                        d.SINGLE_CODE_ERROR = 0.38;
+                        d.AVG_CODE_ERROR = 0.09;
                     }
-                    b.config = d;
-                    return aH()(b, aF()(b));
+                    d.config = a;
+                    return x()(d, t()(d));
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_matchPattern",
-                        value: function k(d, i) {
+                        value: function a(b, d) {
                             if (this.config.normalizeBarSpaceWidth) {
+                                var e = [
+                                    0,
+                                    0
+                                ];
                                 var f = [
                                     0,
                                     0
@@ -9146,76 +9150,72 @@
                                     0,
                                     0
                                 ];
-                                var b = [
-                                    0,
-                                    0
-                                ];
                                 var h = this.MAX_CORRECTION_FACTOR;
-                                var j = 1 / h;
-                                for(var c = 0; c < d.length; c++){
-                                    f[c % 2] += d[c];
-                                    g[c % 2] += i[c];
+                                var i = 1 / h;
+                                for(var j = 0; j < b.length; j++){
+                                    e[j % 2] += b[j];
+                                    f[j % 2] += d[j];
                                 }
-                                b[0] = g[0] / f[0];
-                                b[1] = g[1] / f[1];
-                                b[0] = Math.max(Math.min(b[0], h), j);
-                                b[1] = Math.max(Math.min(b[1], h), j);
-                                this.barSpaceRatio = b;
-                                for(var e = 0; e < d.length; e++){
-                                    d[e] *= this.barSpaceRatio[e % 2];
+                                g[0] = f[0] / e[0];
+                                g[1] = f[1] / e[1];
+                                g[0] = Math.max(Math.min(g[0], h), i);
+                                g[1] = Math.max(Math.min(g[1], h), i);
+                                this.barSpaceRatio = g;
+                                for(var k = 0; k < b.length; k++){
+                                    b[k] *= this.barSpaceRatio[k % 2];
                                 }
                             }
-                            return a1()(aI()(a.prototype), "_matchPattern", this).call(this, d, i);
+                            return ag()(z()(c.prototype), "_matchPattern", this).call(this, b, d);
                         }
                     },
                     {
                         key: "_findPattern",
-                        value: function m(i, g) {
-                            var b = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-                            var h = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-                            var a = new Array(i.length).fill(0);
-                            var c = 0;
-                            var e = {
+                        value: function a(b, c) {
+                            var d = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                            var e = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+                            var f = new Array(b.length).fill(0);
+                            var g = 0;
+                            var h = {
                                 error: Number.MAX_VALUE,
                                 start: 0,
                                 end: 0
                             };
-                            var k = this.AVG_CODE_ERROR;
-                            b = b || false;
-                            h = h || false;
-                            if (!g) {
-                                g = this._nextSet(this._row);
+                            var i = this.AVG_CODE_ERROR;
+                            d = d || false;
+                            e = e || false;
+                            if (!c) {
+                                c = this._nextSet(this._row);
                             }
-                            for(var d = g; d < this._row.length; d++){
-                                if (this._row[d] ^ (b ? 1 : 0)) {
-                                    a[c]++;
+                            for(var j = c; j < this._row.length; j++){
+                                if (this._row[j] ^ (d ? 1 : 0)) {
+                                    f[g]++;
                                 } else {
-                                    if (c === a.length - 1) {
-                                        var l = a.reduce(function(a, b) {
+                                    if (g === f.length - 1) {
+                                        var k = f.reduce(function(a, b) {
                                             return a + b;
                                         }, 0);
-                                        var j = this._matchPattern(a, i);
-                                        if (j < k) {
-                                            e.error = j;
-                                            e.start = d - l;
-                                            e.end = d;
-                                            return e;
+                                        var l = this._matchPattern(f, b);
+                                        if (l < i) {
+                                            h.error = l;
+                                            h.start = j - k;
+                                            h.end = j;
+                                            return h;
                                         }
-                                        if (h) {
-                                            for(var f = 0; f < a.length - 2; f++){
-                                                a[f] = a[f + 2];
+                                        if (e) {
+                                            for(var m = 0; m < f.length - 2; m++){
+                                                f[m] = f[m + 2];
                                             }
-                                            a[a.length - 2] = 0;
-                                            a[a.length - 1] = 0;
-                                            c--;
+                                            f[f.length - 2] = 0;
+                                            f[f.length - 1] = 0;
+                                            g--;
                                         } else {
                                             return null;
                                         }
                                     } else {
-                                        c++;
+                                        g++;
                                     }
-                                    a[c] = 1;
-                                    b = !b;
+                                    f[g] = 1;
+                                    d = !d;
                                 }
                             }
                             return null;
@@ -9223,36 +9223,36 @@
                     },
                     {
                         key: "_findStart",
-                        value: function e() {
+                        value: function a() {
                             var b = 0;
                             var c = this._nextSet(this._row);
-                            var a = null;
-                            var d = 1;
-                            while(!a){
-                                a = this._findPattern(this.START_PATTERN, c, false, true);
-                                if (!a) {
+                            var d = null;
+                            var e = 1;
+                            while(!d){
+                                d = this._findPattern(this.START_PATTERN, c, false, true);
+                                if (!d) {
                                     return null;
                                 }
-                                d = Math.floor((a.end - a.start) / 4);
-                                b = a.start - d * 10;
+                                e = Math.floor((d.end - d.start) / 4);
+                                b = d.start - e * 10;
                                 if (b >= 0) {
-                                    if (this._matchRange(b, a.start, 0)) {
-                                        return a;
+                                    if (this._matchRange(b, d.start, 0)) {
+                                        return d;
                                     }
                                 }
-                                c = a.end;
-                                a = null;
+                                c = d.end;
+                                d = null;
                             }
                             return null;
                         }
                     },
                     {
                         key: "_verifyTrailingWhitespace",
-                        value: function c(a) {
-                            var b = a.end + (a.end - a.start) / 2;
-                            if (b < this._row.length) {
-                                if (this._matchRange(a.end, b, 0)) {
-                                    return a;
+                        value: function a(b) {
+                            var c = b.end + (b.end - b.start) / 2;
+                            if (c < this._row.length) {
+                                if (this._matchRange(b.end, c, 0)) {
+                                    return b;
                                 }
                             }
                             return null;
@@ -9260,62 +9260,62 @@
                     },
                     {
                         key: "_findEnd",
-                        value: function c() {
+                        value: function a() {
                             this._row.reverse();
-                            var a = this._findPattern(this.STOP_PATTERN);
+                            var b = this._findPattern(this.STOP_PATTERN);
                             this._row.reverse();
-                            if (a === null) {
+                            if (b === null) {
                                 return null;
                             }
-                            var b = a.start;
-                            a.start = this._row.length - a.end;
-                            a.end = this._row.length - b;
-                            return a !== null ? this._verifyTrailingWhitespace(a) : null;
+                            var c = b.start;
+                            b.start = this._row.length - b.end;
+                            b.end = this._row.length - c;
+                            return b !== null ? this._verifyTrailingWhitespace(b) : null;
                         }
                     },
                     {
                         key: "_decodePair",
-                        value: function e(b) {
+                        value: function a(b) {
                             var c = [];
-                            for(var a = 0; a < b.length; a++){
-                                var d = this._decodeCode(b[a]);
-                                if (!d) {
+                            for(var d = 0; d < b.length; d++){
+                                var e = this._decodeCode(b[d]);
+                                if (!e) {
                                     return null;
                                 }
-                                c.push(d);
+                                c.push(e);
                             }
                             return c;
                         }
                     },
                     {
                         key: "_decodeCode",
-                        value: function f(d) {
-                            var e = this.AVG_CODE_ERROR;
-                            var a = {
+                        value: function a(b) {
+                            var c = this.AVG_CODE_ERROR;
+                            var d = {
                                 error: Number.MAX_VALUE,
                                 code: -1,
                                 start: 0,
                                 end: 0
                             };
-                            for(var b = 0; b < this.CODE_PATTERN.length; b++){
-                                var c = this._matchPattern(d, this.CODE_PATTERN[b]);
-                                if (c < a.error) {
-                                    a.code = b;
-                                    a.error = c;
+                            for(var e = 0; e < this.CODE_PATTERN.length; e++){
+                                var f = this._matchPattern(b, this.CODE_PATTERN[e]);
+                                if (f < d.error) {
+                                    d.code = e;
+                                    d.error = f;
                                 }
                             }
-                            if (a.error < e) {
-                                return a;
+                            if (d.error < c) {
+                                return d;
                             }
                             return null;
                         }
                     },
                     {
                         key: "_decodePayload",
-                        value: function j(e, g, h) {
-                            var b = 0;
-                            var i = e.length;
-                            var f = [
+                        value: function a(b, c, d) {
+                            var e = 0;
+                            var f = b.length;
+                            var g = [
                                 [
                                     0,
                                     0,
@@ -9331,85 +9331,85 @@
                                     0
                                 ], 
                             ];
-                            var a = null;
-                            while(b < i){
-                                for(var c = 0; c < 5; c++){
-                                    f[0][c] = e[b] * this.barSpaceRatio[0];
-                                    f[1][c] = e[b + 1] * this.barSpaceRatio[1];
-                                    b += 2;
+                            var h = null;
+                            while(e < f){
+                                for(var i = 0; i < 5; i++){
+                                    g[0][i] = b[e] * this.barSpaceRatio[0];
+                                    g[1][i] = b[e + 1] * this.barSpaceRatio[1];
+                                    e += 2;
                                 }
-                                a = this._decodePair(f);
-                                if (!a) {
+                                h = this._decodePair(g);
+                                if (!h) {
                                     return null;
                                 }
-                                for(var d = 0; d < a.length; d++){
-                                    g.push(a[d].code + "");
-                                    h.push(a[d]);
+                                for(var j = 0; j < h.length; j++){
+                                    c.push(h[j].code + "");
+                                    d.push(h[j]);
                                 }
                             }
-                            return a;
+                            return h;
                         }
                     },
                     {
                         key: "_verifyCounterLength",
-                        value: function b(a) {
-                            return a.length % 10 === 0;
+                        value: function a(b) {
+                            return b.length % 10 === 0;
                         }
                     },
                     {
                         key: "decode",
-                        value: function g(h, i) {
-                            var b = new Array();
-                            var c = new Array();
-                            var a = this._findStart();
-                            if (!a) {
-                                return null;
-                            }
-                            c.push(a);
-                            var d = this._findEnd();
-                            if (!d) {
-                                return null;
-                            }
-                            var e = this._fillCounters(a.end, d.start, false);
-                            if (!this._verifyCounterLength(e)) {
-                                return null;
-                            }
-                            var f = this._decodePayload(e, b, c);
+                        value: function a(b, c) {
+                            var d = new Array();
+                            var e = new Array();
+                            var f = this._findStart();
                             if (!f) {
                                 return null;
                             }
-                            if (b.length % 2 !== 0 || b.length < 6) {
+                            e.push(f);
+                            var g = this._findEnd();
+                            if (!g) {
                                 return null;
                             }
-                            c.push(d);
+                            var h = this._fillCounters(f.end, g.start, false);
+                            if (!this._verifyCounterLength(h)) {
+                                return null;
+                            }
+                            var i = this._decodePayload(h, d, e);
+                            if (!i) {
+                                return null;
+                            }
+                            if (d.length % 2 !== 0 || d.length < 6) {
+                                return null;
+                            }
+                            e.push(g);
                             return {
-                                code: b.join(""),
-                                start: a.start,
-                                end: d.end,
-                                startInfo: a,
-                                decodedCodes: c,
+                                code: d.join(""),
+                                start: f.start,
+                                end: g.end,
+                                startInfo: f,
+                                decodedCodes: e,
                                 format: this.FORMAT
                             };
                         }
                     }, 
                 ]);
-                return a;
-            })(f);
-            var W = V;
-            function bw(a) {
-                var b = bx();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(F);
+            var a$ = aZ;
+            function a_(a) {
+                var b = a0();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function bx() {
+            function a0() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -9420,173 +9420,173 @@
                     return false;
                 }
             }
-            var b = 1;
-            var c = 3;
-            var X = [
-                c,
-                b,
-                c,
-                b,
-                b,
-                b, 
+            var a1 = 1;
+            var a2 = 3;
+            var a3 = [
+                a2,
+                a1,
+                a2,
+                a1,
+                a1,
+                a1, 
             ];
-            var by = [
-                c,
-                b,
-                b,
-                b,
-                c, 
+            var a4 = [
+                a2,
+                a1,
+                a1,
+                a1,
+                a2, 
             ];
-            var bz = [
+            var a5 = [
                 [
-                    b,
-                    b,
-                    c,
-                    c,
-                    b, 
+                    a1,
+                    a1,
+                    a2,
+                    a2,
+                    a1, 
                 ],
                 [
-                    c,
-                    b,
-                    b,
-                    b,
-                    c, 
+                    a2,
+                    a1,
+                    a1,
+                    a1,
+                    a2, 
                 ],
                 [
-                    b,
-                    c,
-                    b,
-                    b,
-                    c, 
+                    a1,
+                    a2,
+                    a1,
+                    a1,
+                    a2, 
                 ],
                 [
-                    c,
-                    c,
-                    b,
-                    b,
-                    b, 
+                    a2,
+                    a2,
+                    a1,
+                    a1,
+                    a1, 
                 ],
                 [
-                    b,
-                    b,
-                    c,
-                    b,
-                    c, 
+                    a1,
+                    a1,
+                    a2,
+                    a1,
+                    a2, 
                 ],
                 [
-                    c,
-                    b,
-                    c,
-                    b,
-                    b, 
+                    a2,
+                    a1,
+                    a2,
+                    a1,
+                    a1, 
                 ],
                 [
-                    b,
-                    c,
-                    c,
-                    b,
-                    b, 
+                    a1,
+                    a2,
+                    a2,
+                    a1,
+                    a1, 
                 ],
                 [
-                    b,
-                    b,
-                    b,
-                    c,
-                    c, 
+                    a1,
+                    a1,
+                    a1,
+                    a2,
+                    a2, 
                 ],
                 [
-                    c,
-                    b,
-                    b,
-                    c,
-                    b, 
+                    a2,
+                    a1,
+                    a1,
+                    a2,
+                    a1, 
                 ],
                 [
-                    b,
-                    c,
-                    b,
-                    c,
-                    b, 
+                    a1,
+                    a2,
+                    a1,
+                    a2,
+                    a1, 
                 ], 
             ];
-            var bA = X.reduce(function(a, b) {
+            var a6 = a3.reduce(function(a, b) {
                 return a + b;
             }, 0);
-            var Y = (function(b) {
-                aG()(a, b);
-                var c = bw(a);
-                function a() {
-                    var b;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), d = 0; d < e; d++){
-                        f[d] = arguments[d];
+            var a7 = (function(a) {
+                v()(c, a);
+                var b = a_(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    b = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(b), "barSpaceRatio", [
+                    ].concat(e));
+                    B()(t()(a), "barSpaceRatio", [
                         1,
                         1
                     ]);
-                    aJ()(aF()(b), "FORMAT", "2of5");
-                    aJ()(aF()(b), "SINGLE_CODE_ERROR", 0.78);
-                    aJ()(aF()(b), "AVG_CODE_ERROR", 0.3);
-                    return b;
+                    B()(t()(a), "FORMAT", "2of5");
+                    B()(t()(a), "SINGLE_CODE_ERROR", 0.78);
+                    B()(t()(a), "AVG_CODE_ERROR", 0.3);
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_findPattern",
-                        value: function o(l, f) {
-                            var g = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-                            var m = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-                            var a = [];
-                            var b = 0;
-                            var d = {
+                        value: function a(b, c) {
+                            var d = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                            var e = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+                            var f = [];
+                            var g = 0;
+                            var h = {
                                 error: Number.MAX_VALUE,
                                 code: -1,
                                 start: 0,
                                 end: 0
                             };
-                            var h = 0;
                             var i = 0;
-                            var n = this.AVG_CODE_ERROR;
-                            if (!f) {
-                                f = this._nextSet(this._row);
+                            var j = 0;
+                            var k = this.AVG_CODE_ERROR;
+                            if (!c) {
+                                c = this._nextSet(this._row);
                             }
-                            for(var j = 0; j < l.length; j++){
-                                a[j] = 0;
+                            for(var l = 0; l < b.length; l++){
+                                f[l] = 0;
                             }
-                            for(var c = f; c < this._row.length; c++){
-                                if (this._row[c] ^ (g ? 1 : 0)) {
-                                    a[b]++;
+                            for(var m = c; m < this._row.length; m++){
+                                if (this._row[m] ^ (d ? 1 : 0)) {
+                                    f[g]++;
                                 } else {
-                                    if (b === a.length - 1) {
-                                        h = 0;
-                                        for(var k = 0; k < a.length; k++){
-                                            h += a[k];
+                                    if (g === f.length - 1) {
+                                        i = 0;
+                                        for(var n = 0; n < f.length; n++){
+                                            i += f[n];
                                         }
-                                        i = this._matchPattern(a, l);
-                                        if (i < n) {
-                                            d.error = i;
-                                            d.start = c - h;
-                                            d.end = c;
-                                            return d;
+                                        j = this._matchPattern(f, b);
+                                        if (j < k) {
+                                            h.error = j;
+                                            h.start = m - i;
+                                            h.end = m;
+                                            return h;
                                         }
-                                        if (m) {
-                                            for(var e = 0; e < a.length - 2; e++){
-                                                a[e] = a[e + 2];
+                                        if (e) {
+                                            for(var o = 0; o < f.length - 2; o++){
+                                                f[o] = f[o + 2];
                                             }
-                                            a[a.length - 2] = 0;
-                                            a[a.length - 1] = 0;
-                                            b--;
+                                            f[f.length - 2] = 0;
+                                            f[f.length - 1] = 0;
+                                            g--;
                                         } else {
                                             return null;
                                         }
                                     } else {
-                                        b++;
+                                        g++;
                                     }
-                                    a[b] = 1;
-                                    g = !g;
+                                    f[g] = 1;
+                                    d = !d;
                                 }
                             }
                             return null;
@@ -9594,36 +9594,36 @@
                     },
                     {
                         key: "_findStart",
-                        value: function e() {
-                            var a = null;
+                        value: function a() {
+                            var b = null;
                             var c = this._nextSet(this._row);
                             var d = 1;
-                            var b = 0;
-                            while(!a){
-                                a = this._findPattern(X, c, false, true);
-                                if (!a) {
+                            var e = 0;
+                            while(!b){
+                                b = this._findPattern(a3, c, false, true);
+                                if (!b) {
                                     return null;
                                 }
-                                d = Math.floor((a.end - a.start) / bA);
-                                b = a.start - d * 5;
-                                if (b >= 0) {
-                                    if (this._matchRange(b, a.start, 0)) {
-                                        return a;
+                                d = Math.floor((b.end - b.start) / a6);
+                                e = b.start - d * 5;
+                                if (e >= 0) {
+                                    if (this._matchRange(e, b.start, 0)) {
+                                        return b;
                                     }
                                 }
-                                c = a.end;
-                                a = null;
+                                c = b.end;
+                                b = null;
                             }
-                            return a;
+                            return b;
                         }
                     },
                     {
                         key: "_verifyTrailingWhitespace",
-                        value: function c(a) {
-                            var b = a.end + (a.end - a.start) / 2;
-                            if (b < this._row.length) {
-                                if (this._matchRange(a.end, b, 0)) {
-                                    return a;
+                        value: function a(b) {
+                            var c = b.end + (b.end - b.start) / 2;
+                            if (c < this._row.length) {
+                                if (this._matchRange(b.end, c, 0)) {
+                                    return b;
                                 }
                             }
                             return null;
@@ -9631,131 +9631,131 @@
                     },
                     {
                         key: "_findEnd",
-                        value: function d() {
+                        value: function a() {
                             this._row.reverse();
                             var b = this._nextSet(this._row);
-                            var a = this._findPattern(by, b, false, true);
+                            var c = this._findPattern(a4, b, false, true);
                             this._row.reverse();
-                            if (a === null) {
+                            if (c === null) {
                                 return null;
                             }
-                            var c = a.start;
-                            a.start = this._row.length - a.end;
-                            a.end = this._row.length - c;
-                            return a !== null ? this._verifyTrailingWhitespace(a) : null;
+                            var d = c.start;
+                            c.start = this._row.length - c.end;
+                            c.end = this._row.length - d;
+                            return c !== null ? this._verifyTrailingWhitespace(c) : null;
                         }
                     },
                     {
                         key: "_verifyCounterLength",
-                        value: function b(a) {
-                            return a.length % 10 === 0;
+                        value: function a(b) {
+                            return b.length % 10 === 0;
                         }
                     },
                     {
                         key: "_decodeCode",
-                        value: function f(d) {
-                            var e = this.AVG_CODE_ERROR;
-                            var a = {
+                        value: function a(b) {
+                            var c = this.AVG_CODE_ERROR;
+                            var d = {
                                 error: Number.MAX_VALUE,
                                 code: -1,
                                 start: 0,
                                 end: 0
                             };
-                            for(var b = 0; b < bz.length; b++){
-                                var c = this._matchPattern(d, bz[b]);
-                                if (c < a.error) {
-                                    a.code = b;
-                                    a.error = c;
+                            for(var e = 0; e < a5.length; e++){
+                                var f = this._matchPattern(b, a5[e]);
+                                if (f < d.error) {
+                                    d.code = e;
+                                    d.error = f;
                                 }
                             }
-                            if (a.error < e) {
-                                return a;
+                            if (d.error < c) {
+                                return d;
                             }
                             return null;
                         }
                     },
                     {
                         key: "_decodePayload",
-                        value: function i(d, f, g) {
-                            var b = 0;
-                            var h = d.length;
-                            var e = [
+                        value: function a(b, c, d) {
+                            var e = 0;
+                            var f = b.length;
+                            var g = [
                                 0,
                                 0,
                                 0,
                                 0,
                                 0
                             ];
-                            var a = null;
-                            while(b < h){
-                                for(var c = 0; c < 5; c++){
-                                    e[c] = d[b] * this.barSpaceRatio[0];
-                                    b += 2;
+                            var h = null;
+                            while(e < f){
+                                for(var i = 0; i < 5; i++){
+                                    g[i] = b[e] * this.barSpaceRatio[0];
+                                    e += 2;
                                 }
-                                a = this._decodeCode(e);
-                                if (!a) {
+                                h = this._decodeCode(g);
+                                if (!h) {
                                     return null;
                                 }
-                                f.push("".concat(a.code));
-                                g.push(a);
+                                c.push("".concat(h.code));
+                                d.push(h);
                             }
-                            return a;
+                            return h;
                         }
                     },
                     {
                         key: "decode",
-                        value: function g(h, i) {
-                            var a = this._findStart();
-                            if (!a) {
+                        value: function a(b, c) {
+                            var d = this._findStart();
+                            if (!d) {
                                 return null;
                             }
-                            var b = this._findEnd();
-                            if (!b) {
+                            var e = this._findEnd();
+                            if (!e) {
                                 return null;
                             }
-                            var e = this._fillCounters(a.end, b.start, false);
-                            if (!this._verifyCounterLength(e)) {
+                            var f = this._fillCounters(d.end, e.start, false);
+                            if (!this._verifyCounterLength(f)) {
                                 return null;
                             }
-                            var c = [];
-                            c.push(a);
-                            var d = [];
-                            var f = this._decodePayload(e, d, c);
-                            if (!f) {
+                            var g = [];
+                            g.push(d);
+                            var h = [];
+                            var i = this._decodePayload(f, h, g);
+                            if (!i) {
                                 return null;
                             }
-                            if (d.length < 5) {
+                            if (h.length < 5) {
                                 return null;
                             }
-                            c.push(b);
+                            g.push(e);
                             return {
-                                code: d.join(""),
-                                start: a.start,
-                                end: b.end,
-                                startInfo: a,
-                                decodedCodes: c,
+                                code: h.join(""),
+                                start: d.start,
+                                end: e.end,
+                                startInfo: d,
+                                decodedCodes: g,
                                 format: this.FORMAT
                             };
                         }
                     }, 
                 ]);
-                return a;
-            })(f);
-            var Z = Y;
-            function bB(a) {
-                var b = bC();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(F);
+            var a8 = a7;
+            function a9(a) {
+                var b = ba();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function bC() {
+            function ba() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -9766,11 +9766,11 @@
                     return false;
                 }
             }
-            var $ = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*";
-            var bD = new Uint16Array(k()($).map(function(a) {
+            var bb = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*";
+            var bc = new Uint16Array(Y()(bb).map(function(a) {
                 return a.charCodeAt(0);
             }));
-            var bE = new Uint16Array([
+            var bd = new Uint16Array([
                 0x114,
                 0x148,
                 0x144,
@@ -9820,29 +9820,29 @@
                 0x132,
                 0x15e, 
             ]);
-            var bF = 0x15e;
-            var _ = (function(b) {
-                aG()(a, b);
-                var c = bB(a);
-                function a() {
-                    var d;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-                        f[b] = arguments[b];
+            var be = 0x15e;
+            var bf = (function(a) {
+                v()(c, a);
+                var b = a9(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    d = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(d), "FORMAT", "code_93");
-                    return d;
+                    ].concat(e));
+                    B()(t()(a), "FORMAT", "code_93");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_patternToChar",
-                        value: function c(b) {
-                            for(var a = 0; a < bE.length; a++){
-                                if (bE[a] === b) {
-                                    return String.fromCharCode(bD[a]);
+                        value: function a(b) {
+                            for(var c = 0; c < bd.length; c++){
+                                if (bd[c] === b) {
+                                    return String.fromCharCode(bc[c]);
                                 }
                             }
                             return null;
@@ -9850,34 +9850,34 @@
                     },
                     {
                         key: "_toPattern",
-                        value: function h(d) {
-                            var f = d.length;
-                            var g = d.reduce(function(a, b) {
+                        value: function a(b) {
+                            var c = b.length;
+                            var d = b.reduce(function(a, b) {
                                 return a + b;
                             }, 0);
-                            var a = 0;
-                            for(var b = 0; b < f; b++){
-                                var c = Math.round((d[b] * 9) / g);
-                                if (c < 1 || c > 4) {
+                            var e = 0;
+                            for(var f = 0; f < c; f++){
+                                var g = Math.round((b[f] * 9) / d);
+                                if (g < 1 || g > 4) {
                                     return -1;
                                 }
-                                if ((b & 1) === 0) {
-                                    for(var e = 0; e < c; e++){
-                                        a = (a << 1) | 1;
+                                if ((f & 1) === 0) {
+                                    for(var h = 0; h < g; h++){
+                                        e = (e << 1) | 1;
                                     }
                                 } else {
-                                    a <<= c;
+                                    e <<= g;
                                 }
                             }
-                            return a;
+                            return e;
                         }
                     },
                     {
                         key: "_findStart",
-                        value: function i() {
-                            var g = this._nextSet(this._row);
-                            var b = g;
-                            var a = new Uint16Array([
+                        value: function a() {
+                            var b = this._nextSet(this._row);
+                            var c = b;
+                            var d = new Uint16Array([
                                 0,
                                 0,
                                 0,
@@ -9885,33 +9885,33 @@
                                 0,
                                 0, 
                             ]);
-                            var c = 0;
+                            var e = 0;
                             var f = false;
-                            for(var d = g; d < this._row.length; d++){
-                                if (this._row[d] ^ (f ? 1 : 0)) {
-                                    a[c]++;
+                            for(var g = b; g < this._row.length; g++){
+                                if (this._row[g] ^ (f ? 1 : 0)) {
+                                    d[e]++;
                                 } else {
-                                    if (c === a.length - 1) {
-                                        if (this._toPattern(a) === bF) {
-                                            var h = Math.floor(Math.max(0, b - (d - b) / 4));
-                                            if (this._matchRange(h, b, 0)) {
+                                    if (e === d.length - 1) {
+                                        if (this._toPattern(d) === be) {
+                                            var h = Math.floor(Math.max(0, c - (g - c) / 4));
+                                            if (this._matchRange(h, c, 0)) {
                                                 return {
-                                                    start: b,
-                                                    end: d
+                                                    start: c,
+                                                    end: g
                                                 };
                                             }
                                         }
-                                        b += a[0] + a[1];
-                                        for(var e = 0; e < 4; e++){
-                                            a[e] = a[e + 2];
+                                        c += d[0] + d[1];
+                                        for(var i = 0; i < 4; i++){
+                                            d[i] = d[i + 2];
                                         }
-                                        a[4] = 0;
-                                        a[5] = 0;
-                                        c--;
+                                        d[4] = 0;
+                                        d[5] = 0;
+                                        e--;
                                     } else {
-                                        c++;
+                                        e++;
                                     }
-                                    a[c] = 1;
+                                    d[e] = 1;
                                     f = !f;
                                 }
                             }
@@ -9920,8 +9920,8 @@
                     },
                     {
                         key: "_verifyEnd",
-                        value: function c(b, a) {
-                            if (b === a || !this._row[a]) {
+                        value: function a(b, c) {
+                            if (b === c || !this._row[c]) {
                                 return false;
                             }
                             return true;
@@ -9929,92 +9929,92 @@
                     },
                     {
                         key: "_decodeExtended",
-                        value: function i(f) {
-                            var h = f.length;
-                            var g = [];
-                            for(var d = 0; d < h; d++){
-                                var e = f[d];
-                                if (e >= "a" && e <= "d") {
-                                    if (d > h - 2) {
+                        value: function a(b) {
+                            var c = b.length;
+                            var d = [];
+                            for(var e = 0; e < c; e++){
+                                var f = b[e];
+                                if (f >= "a" && f <= "d") {
+                                    if (e > c - 2) {
                                         return null;
                                     }
-                                    var a = f[++d];
-                                    var c = a.charCodeAt(0);
-                                    var b = void 0;
-                                    switch(e){
+                                    var g = b[++e];
+                                    var h = g.charCodeAt(0);
+                                    var i = void 0;
+                                    switch(f){
                                         case "a":
-                                            if (a >= "A" && a <= "Z") {
-                                                b = String.fromCharCode(c - 64);
+                                            if (g >= "A" && g <= "Z") {
+                                                i = String.fromCharCode(h - 64);
                                             } else {
                                                 return null;
                                             }
                                             break;
                                         case "b":
-                                            if (a >= "A" && a <= "E") {
-                                                b = String.fromCharCode(c - 38);
-                                            } else if (a >= "F" && a <= "J") {
-                                                b = String.fromCharCode(c - 11);
-                                            } else if (a >= "K" && a <= "O") {
-                                                b = String.fromCharCode(c + 16);
-                                            } else if (a >= "P" && a <= "S") {
-                                                b = String.fromCharCode(c + 43);
-                                            } else if (a >= "T" && a <= "Z") {
-                                                b = String.fromCharCode(127);
+                                            if (g >= "A" && g <= "E") {
+                                                i = String.fromCharCode(h - 38);
+                                            } else if (g >= "F" && g <= "J") {
+                                                i = String.fromCharCode(h - 11);
+                                            } else if (g >= "K" && g <= "O") {
+                                                i = String.fromCharCode(h + 16);
+                                            } else if (g >= "P" && g <= "S") {
+                                                i = String.fromCharCode(h + 43);
+                                            } else if (g >= "T" && g <= "Z") {
+                                                i = String.fromCharCode(127);
                                             } else {
                                                 return null;
                                             }
                                             break;
                                         case "c":
-                                            if (a >= "A" && a <= "O") {
-                                                b = String.fromCharCode(c - 32);
-                                            } else if (a === "Z") {
-                                                b = ":";
+                                            if (g >= "A" && g <= "O") {
+                                                i = String.fromCharCode(h - 32);
+                                            } else if (g === "Z") {
+                                                i = ":";
                                             } else {
                                                 return null;
                                             }
                                             break;
                                         case "d":
-                                            if (a >= "A" && a <= "Z") {
-                                                b = String.fromCharCode(c + 32);
+                                            if (g >= "A" && g <= "Z") {
+                                                i = String.fromCharCode(h + 32);
                                             } else {
                                                 return null;
                                             }
                                             break;
                                         default:
-                                            console.warn("* code_93_reader _decodeExtended hit default case, this may be an error", b);
+                                            console.warn("* code_93_reader _decodeExtended hit default case, this may be an error", i);
                                             return null;
                                     }
-                                    g.push(b);
+                                    d.push(i);
                                 } else {
-                                    g.push(e);
+                                    d.push(f);
                                 }
                             }
-                            return g;
+                            return d;
                         }
                     },
                     {
                         key: "_matchCheckChar",
-                        value: function f(a, b, g) {
-                            var c = a.slice(0, b);
-                            var h = c.length;
-                            var d = c.reduce(function(a, b, c) {
-                                var d = ((c * -1 + (h - 1)) % g) + 1;
-                                var e = bD.indexOf(b.charCodeAt(0));
-                                return a + d * e;
+                        value: function a(b, c, d) {
+                            var e = b.slice(0, c);
+                            var f = e.length;
+                            var g = e.reduce(function(a, b, c) {
+                                var e = ((c * -1 + (f - 1)) % d) + 1;
+                                var g = bc.indexOf(b.charCodeAt(0));
+                                return a + e * g;
                             }, 0);
-                            var e = bD[d % 47];
-                            return (e === a[b].charCodeAt(0));
+                            var h = bc[g % 47];
+                            return (h === b[c].charCodeAt(0));
                         }
                     },
                     {
                         key: "_verifyChecksums",
-                        value: function b(a) {
-                            return (this._matchCheckChar(a, a.length - 2, 20) && this._matchCheckChar(a, a.length - 1, 15));
+                        value: function a(b) {
+                            return (this._matchCheckChar(b, b.length - 2, 20) && this._matchCheckChar(b, b.length - 1, 15));
                         }
                     },
                     {
                         key: "decode",
-                        value: function h(i, c) {
+                        value: function a(b, c) {
                             c = this._findStart();
                             if (!c) {
                                 return null;
@@ -10027,67 +10027,67 @@
                                 0,
                                 0, 
                             ]);
-                            var a = [];
-                            var b = this._nextSet(this._row, c.end);
-                            var f;
-                            var e;
+                            var e = [];
+                            var f = this._nextSet(this._row, c.end);
+                            var g;
+                            var h;
                             do {
-                                d = this._toCounters(b, d);
-                                var g = this._toPattern(d);
-                                if (g < 0) {
+                                d = this._toCounters(f, d);
+                                var i = this._toPattern(d);
+                                if (i < 0) {
                                     return null;
                                 }
-                                e = this._patternToChar(g);
-                                if (e === null) {
+                                h = this._patternToChar(i);
+                                if (h === null) {
                                     return null;
                                 }
-                                a.push(e);
-                                f = b;
-                                b += aK["a"].sum(d);
-                                b = this._nextSet(this._row, b);
-                            }while (e !== "*")
-                            a.pop();
-                            if (!a.length) {
+                                e.push(h);
+                                g = f;
+                                f += C["a"].sum(d);
+                                f = this._nextSet(this._row, f);
+                            }while (h !== "*")
+                            e.pop();
+                            if (!e.length) {
                                 return null;
                             }
-                            if (!this._verifyEnd(f, b)) {
+                            if (!this._verifyEnd(g, f)) {
                                 return null;
                             }
-                            if (!this._verifyChecksums(a)) {
+                            if (!this._verifyChecksums(e)) {
                                 return null;
                             }
-                            a = a.slice(0, a.length - 2);
-                            if ((a = this._decodeExtended(a)) === null) {
+                            e = e.slice(0, e.length - 2);
+                            if ((e = this._decodeExtended(e)) === null) {
                                 return null;
                             }
                             return {
-                                code: a.join(""),
+                                code: e.join(""),
                                 start: c.start,
-                                end: b,
+                                end: f,
                                 startInfo: c,
-                                decodedCodes: a,
+                                decodedCodes: e,
                                 format: this.FORMAT
                             };
                         }
                     }, 
                 ]);
-                return a;
-            })(f);
-            var aa = _;
-            function bG(a) {
-                var b = bH();
-                return function f() {
-                    var d = aI()(a), c;
+                return c;
+            })(F);
+            var bg = bf;
+            function bh(a) {
+                var b = bi();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function bH() {
+            function bi() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -10098,96 +10098,96 @@
                     return false;
                 }
             }
-            var bI = {
+            var bj = {
                 AEIO: /[AEIO]/g,
                 AZ09: /[A-Z0-9]/
             };
-            var bJ = "0123456789BCDFGHJKLMNPQRSTUVWXYZ";
-            var ab = (function(b) {
-                aG()(a, b);
-                var c = bG(a);
-                function a() {
-                    var d;
-                    aD()(this, a);
-                    for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-                        f[b] = arguments[b];
+            var bk = "0123456789BCDFGHJKLMNPQRSTUVWXYZ";
+            var bl = (function(a) {
+                v()(c, a);
+                var b = bh(c);
+                function c() {
+                    var a;
+                    p()(this, c);
+                    for(var d = arguments.length, e = new Array(d), f = 0; f < d; f++){
+                        e[f] = arguments[f];
                     }
-                    d = c.call.apply(c, [
+                    a = b.call.apply(b, [
                         this
-                    ].concat(f));
-                    aJ()(aF()(d), "FORMAT", "code_32_reader");
-                    return d;
+                    ].concat(e));
+                    B()(t()(a), "FORMAT", "code_32_reader");
+                    return a;
                 }
-                aE()(a, [
+                r()(c, [
                     {
                         key: "_decodeCode32",
-                        value: function e(b) {
+                        value: function a(b) {
                             if (/[^0-9BCDFGHJKLMNPQRSTUVWXYZ]/.test(b)) {
                                 return null;
                             }
                             var c = 0;
                             for(var d = 0; d < b.length; d++){
-                                c = c * 32 + bJ.indexOf(b[d]);
+                                c = c * 32 + bk.indexOf(b[d]);
                             }
-                            var a = "" + c;
-                            if (a.length < 9) {
-                                a = ("000000000" + a).slice(-9);
+                            var e = "" + c;
+                            if (e.length < 9) {
+                                e = ("000000000" + e).slice(-9);
                             }
-                            return "A" + a;
+                            return "A" + e;
                         }
                     },
                     {
                         key: "_checkChecksum",
-                        value: function b(a) {
-                            return !!a;
+                        value: function a(b) {
+                            return !!b;
                         }
                     },
                     {
                         key: "decode",
-                        value: function g(e, f) {
-                            var c = a1()(aI()(a.prototype), "decode", this).call(this, e, f);
-                            if (!c) {
+                        value: function a(b, d) {
+                            var e = ag()(z()(c.prototype), "decode", this).call(this, b, d);
+                            if (!e) {
                                 return null;
                             }
-                            var b = c.code;
-                            if (!b) {
+                            var f = e.code;
+                            if (!f) {
                                 return null;
                             }
-                            b = b.replace(bI.AEIO, "");
-                            if (!this._checkChecksum(b)) {
+                            f = f.replace(bj.AEIO, "");
+                            if (!this._checkChecksum(f)) {
                                 return null;
                             }
-                            var d = this._decodeCode32(b);
-                            if (!d) {
+                            var g = this._decodeCode32(f);
+                            if (!g) {
                                 return null;
                             }
-                            c.code = d;
-                            return c;
+                            e.code = g;
+                            return e;
                         }
                     }, 
                 ]);
-                return a;
-            })(i);
-            var ac = ab;
-            var bK = {
-                code_128_reader: B,
-                ean_reader: g,
-                ean_5_reader: S,
-                ean_2_reader: Q,
-                ean_8_reader: O,
-                code_39_reader: i,
-                code_39_vin_reader: I,
-                codabar_reader: K,
-                upc_reader: M,
-                upc_e_reader: U,
-                i2of5_reader: W,
-                "2of5_reader": Z,
-                code_93_reader: aa,
-                code_32_reader: ac
+                return c;
+            })(ae);
+            var bm = bl;
+            var bn = {
+                code_128_reader: J,
+                ean_reader: W,
+                ean_5_reader: aO,
+                ean_2_reader: aH,
+                ean_8_reader: aD,
+                code_39_reader: ae,
+                code_39_vin_reader: al,
+                codabar_reader: av,
+                upc_reader: az,
+                upc_e_reader: aU,
+                i2of5_reader: a$,
+                "2of5_reader": a8,
+                code_93_reader: bg,
+                code_32_reader: bm
             };
-            var bL = {
-                registerReader: function c(a, b) {
-                    bK[a] = b;
+            var bo = {
+                registerReader: function a(b, c) {
+                    bn[b] = c;
                 },
                 create: function a(b, c) {
                     var d = {
@@ -10203,10 +10203,10 @@
                         }
                     };
                     var e = [];
-                    f();
                     g();
                     h();
-                    function f() {
+                    i();
+                    function g() {
                         if (true && typeof document !== "undefined") {
                             var a = document.querySelector("#debug.detection");
                             d.dom.frequency = document.querySelector("canvas.frequency");
@@ -10233,12 +10233,12 @@
                             }
                         }
                     }
-                    function g() {
+                    function h() {
                         b.readers.forEach(function(a) {
                             var b;
                             var c = {};
                             var d = [];
-                            if (ay()(a) === "object") {
+                            if (f()(a) === "object") {
                                 b = a.format;
                                 c = a.config;
                             } else if (typeof a === "string") {
@@ -10249,15 +10249,15 @@
                             }
                             if (c.supplements) {
                                 d = c.supplements.map(function(a) {
-                                    return new bK[a]();
+                                    return new bn[a]();
                                 });
                             }
                             try {
-                                var g = new bK[b](c, d);
+                                var g = new bn[b](c, d);
                                 e.push(g);
-                            } catch (f) {
-                                console.error("* Error constructing reader ", b, f);
-                                throw f;
+                            } catch (h) {
+                                console.error("* Error constructing reader ", b, h);
+                                throw h;
                             }
                         });
                         if (true) {
@@ -10269,7 +10269,7 @@
                             }).join(", ")));
                         }
                     }
-                    function h() {
+                    function i() {
                         if (true && typeof document !== "undefined") {
                             var a;
                             var c = [
@@ -10291,25 +10291,25 @@
                             }
                         }
                     }
-                    function i(b, e, a) {
-                        function d(c) {
-                            var a = {
-                                y: c * Math.sin(e),
-                                x: c * Math.cos(e)
+                    function j(a, b, d) {
+                        function e(c) {
+                            var d = {
+                                y: c * Math.sin(b),
+                                x: c * Math.cos(b)
                             };
-                            b[0].y -= a.y;
-                            b[0].x -= a.x;
-                            b[1].y += a.y;
-                            b[1].x += a.x;
+                            a[0].y -= d.y;
+                            a[0].x -= d.x;
+                            a[1].y += d.y;
+                            a[1].x += d.x;
                         }
-                        d(a);
-                        while(a > 1 && (!c.inImageWithBorder(b[0]) || !c.inImageWithBorder(b[1]))){
-                            a -= Math.ceil(a / 2);
-                            d(-a);
+                        e(d);
+                        while(d > 1 && (!c.inImageWithBorder(a[0]) || !c.inImageWithBorder(a[1]))){
+                            d -= Math.ceil(d / 2);
+                            e(-d);
                         }
-                        return b;
+                        return a;
                     }
-                    function j(a) {
+                    function k(a) {
                         return [
                             {
                                 x: (a[1][0] - a[0][0]) / 2 + a[0][0],
@@ -10321,75 +10321,75 @@
                             }, 
                         ];
                     }
-                    function k(h) {
+                    function l(a) {
                         var f = null;
                         var g;
-                        var a = aC.getBarcodeLine(c, h[0], h[1]);
+                        var h = m.getBarcodeLine(c, a[0], a[1]);
                         if (true && b.debug.showFrequency) {
-                            r["a"].drawPath(h, {
+                            n["a"].drawPath(a, {
                                 x: "x",
                                 y: "y"
                             }, d.ctx.overlay, {
                                 color: "red",
                                 lineWidth: 3
                             });
-                            aC.debug.printFrequency(a.line, d.dom.frequency);
+                            m.debug.printFrequency(h.line, d.dom.frequency);
                         }
-                        aC.toBinaryLine(a);
+                        m.toBinaryLine(h);
                         if (true && b.debug.showPattern) {
-                            aC.debug.printPattern(a.line, d.dom.pattern);
+                            m.debug.printPattern(h.line, d.dom.pattern);
                         }
                         for(g = 0; g < e.length && f === null; g++){
-                            f = e[g].decodePattern(a.line);
+                            f = e[g].decodePattern(h.line);
                         }
                         if (f === null) {
                             return null;
                         }
                         return {
                             codeResult: f,
-                            barcodeLine: a
+                            barcodeLine: h
                         };
                     }
-                    function l(d, a, g) {
-                        var i = Math.sqrt(Math.pow(d[1][0] - d[0][0], 2) + Math.pow(d[1][1] - d[0][1], 2));
-                        var b;
-                        var h = 16;
-                        var e = null;
-                        var f;
-                        var c;
-                        var j = Math.sin(g);
-                        var l = Math.cos(g);
-                        for(b = 1; b < h && e === null; b++){
-                            f = (i / h) * b * (b % 2 === 0 ? -1 : 1);
-                            c = {
-                                y: f * j,
-                                x: f * l
+                    function o(a, b, c) {
+                        var d = Math.sqrt(Math.pow(a[1][0] - a[0][0], 2) + Math.pow(a[1][1] - a[0][1], 2));
+                        var e;
+                        var f = 16;
+                        var g = null;
+                        var h;
+                        var i;
+                        var j = Math.sin(c);
+                        var k = Math.cos(c);
+                        for(e = 1; e < f && g === null; e++){
+                            h = (d / f) * e * (e % 2 === 0 ? -1 : 1);
+                            i = {
+                                y: h * j,
+                                x: h * k
                             };
-                            a[0].y += c.x;
-                            a[0].x -= c.y;
-                            a[1].y += c.x;
-                            a[1].x -= c.y;
-                            e = k(a);
+                            b[0].y += i.x;
+                            b[0].x -= i.y;
+                            b[1].y += i.x;
+                            b[1].x -= i.y;
+                            g = l(b);
                         }
-                        return e;
+                        return g;
                     }
-                    function m(a) {
+                    function p(a) {
                         return Math.sqrt(Math.pow(Math.abs(a[1].y - a[0].y), 2) + Math.pow(Math.abs(a[1].x - a[0].x), 2));
                     }
-                    function n(c) {
+                    function q(a) {
                         var b = null;
-                        for(var a = 0; a < e.length && b === null; a++){
-                            b = e[a].decodeImage ? e[a].decodeImage(c) : null;
+                        for(var c = 0; c < e.length && b === null; c++){
+                            b = e[c].decodeImage ? e[c].decodeImage(a) : null;
                         }
                         return b;
                     }
-                    function o(f) {
-                        var a;
-                        var e = d.ctx.overlay;
+                    function r(a) {
                         var c;
+                        var e = d.ctx.overlay;
+                        var f;
                         if (true) {
                             if (b.debug.drawBoundingBox && e) {
-                                r["a"].drawPath(f, {
+                                n["a"].drawPath(a, {
                                     x: 0,
                                     y: 1
                                 }, e, {
@@ -10398,22 +10398,22 @@
                                 });
                             }
                         }
-                        a = j(f);
-                        var h = m(a);
-                        var g = Math.atan2(a[1].y - a[0].y, a[1].x - a[0].x);
-                        a = i(a, g, Math.floor(h * 0.1));
-                        if (a === null) {
-                            return null;
-                        }
                         c = k(a);
-                        if (c === null) {
-                            c = l(f, a, g);
-                        }
+                        var g = p(c);
+                        var h = Math.atan2(c[1].y - c[0].y, c[1].x - c[0].x);
+                        c = j(c, h, Math.floor(g * 0.1));
                         if (c === null) {
                             return null;
                         }
-                        if (true && c && b.debug.drawScanline && e) {
-                            r["a"].drawPath(a, {
+                        f = l(c);
+                        if (f === null) {
+                            f = o(a, c, h);
+                        }
+                        if (f === null) {
+                            return null;
+                        }
+                        if (true && f && b.debug.drawScanline && e) {
+                            n["a"].drawPath(c, {
                                 x: "x",
                                 y: "y"
                             }, e, {
@@ -10422,57 +10422,57 @@
                             });
                         }
                         return {
-                            codeResult: c.codeResult,
-                            line: a,
-                            angle: g,
-                            pattern: c.barcodeLine.line,
-                            threshold: c.barcodeLine.threshold
+                            codeResult: f.codeResult,
+                            line: c,
+                            angle: h,
+                            pattern: f.barcodeLine.line,
+                            threshold: f.barcodeLine.threshold
                         };
                     }
                     return {
-                        decodeFromBoundingBox: function b(a) {
-                            return o(a);
+                        decodeFromBoundingBox: function a(b) {
+                            return r(b);
                         },
-                        decodeFromBoundingBoxes: function h(d) {
-                            var c;
-                            var a;
-                            var e = [];
-                            var f = b.multiple;
-                            for(c = 0; c < d.length; c++){
-                                var g = d[c];
-                                a = o(g) || {};
-                                a.box = g;
-                                if (f) {
-                                    e.push(a);
-                                } else if (a.codeResult) {
-                                    return a;
+                        decodeFromBoundingBoxes: function a(c) {
+                            var d;
+                            var e;
+                            var f = [];
+                            var g = b.multiple;
+                            for(d = 0; d < c.length; d++){
+                                var h = c[d];
+                                e = r(h) || {};
+                                e.box = h;
+                                if (g) {
+                                    f.push(e);
+                                } else if (e.codeResult) {
+                                    return e;
                                 }
                             }
-                            if (f) {
+                            if (g) {
                                 return {
-                                    barcodes: e
+                                    barcodes: f
                                 };
                             }
                         },
-                        decodeFromImage: function c(a) {
-                            var b = n(a);
-                            return b;
+                        decodeFromImage: function a(b) {
+                            var c = q(b);
+                            return c;
                         },
-                        registerReader: function c(a, b) {
-                            if (bK[a]) {
-                                throw new Error("cannot register existing reader", a);
+                        registerReader: function a(b, c) {
+                            if (bn[b]) {
+                                throw new Error("cannot register existing reader", b);
                             }
-                            bK[a] = b;
+                            bn[b] = c;
                         },
-                        setReaders: function c(a) {
-                            b.readers = a;
+                        setReaders: function a(c) {
+                            b.readers = c;
                             e.length = 0;
-                            g();
+                            h();
                         }
                     };
                 }
             };
-            var bM = (function a() {
+            var bp = (function a() {
                 var b = {};
                 function c(a) {
                     if (!b[a]) {
@@ -10494,57 +10494,57 @@
                         a.callback(b);
                     }
                 }
-                function f(d, b, e) {
-                    var a;
+                function f(a, b, d) {
+                    var e;
                     if (typeof b === "function") {
-                        a = {
+                        e = {
                             callback: b,
-                            async: e
+                            async: d
                         };
                     } else {
-                        a = b;
-                        if (!a.callback) {
+                        e = b;
+                        if (!e.callback) {
                             throw new Error("Callback was not specified on options");
                         }
                     }
-                    c(d).subscribers.push(a);
+                    c(a).subscribers.push(e);
                 }
                 return {
-                    subscribe: function d(a, b, c) {
-                        return f(a, b, c);
+                    subscribe: function a(b, c, d) {
+                        return f(b, c, d);
                     },
-                    publish: function f(d, g) {
-                        var a = c(d);
-                        var b = a.subscribers;
-                        b.filter(function(a) {
+                    publish: function a(b, d) {
+                        var f = c(b);
+                        var g = f.subscribers;
+                        g.filter(function(a) {
                             return !!a.once;
                         }).forEach(function(a) {
-                            e(a, g);
+                            e(a, d);
                         });
-                        a.subscribers = b.filter(function(a) {
+                        f.subscribers = g.filter(function(a) {
                             return !a.once;
                         });
-                        a.subscribers.forEach(function(a) {
-                            e(a, g);
+                        f.subscribers.forEach(function(a) {
+                            e(a, d);
                         });
                     },
-                    once: function d(a, b) {
-                        var c = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-                        f(a, {
-                            callback: b,
-                            async: c,
+                    once: function a(b, c) {
+                        var d = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                        f(b, {
+                            callback: c,
+                            async: d,
                             once: true
                         });
                     },
-                    unsubscribe: function f(b, e) {
+                    unsubscribe: function a(b, e) {
                         if (b) {
-                            var a = c(b);
-                            if (a && e) {
-                                a.subscribers = a.subscribers.filter(function(a) {
+                            var f = c(b);
+                            if (f && e) {
+                                f.subscribers = f.subscribers.filter(function(a) {
                                     return (a.callback !== e);
                                 });
                             } else {
-                                a.subscribers = [];
+                                f.subscribers = [];
                             }
                         } else {
                             d();
@@ -10552,28 +10552,28 @@
                     }
                 };
             })();
-            var ad = a(20);
-            var bN = a.n(ad);
-            var ae = a(12);
-            var bO = a.n(ae);
-            var af = a(85);
-            var bP = a.n(af);
-            var ag = a(86);
-            var ah = a.n(ag);
-            function bQ(a) {
-                var b = bR();
-                return function f() {
-                    var d = aI()(a), c;
+            var bq = c(20);
+            var br = c.n(bq);
+            var bs = c(12);
+            var bt = c.n(bs);
+            var bu = c(85);
+            var bv = c.n(bu);
+            var bw = c(86);
+            var bx = c.n(bw);
+            function by(a) {
+                var b = bz();
+                return function c() {
+                    var d = z()(a), e;
                     if (b) {
-                        var e = aI()(this).constructor;
-                        c = Reflect.construct(d, arguments, e);
+                        var f = z()(this).constructor;
+                        e = Reflect.construct(d, arguments, f);
                     } else {
-                        c = d.apply(this, arguments);
+                        e = d.apply(this, arguments);
                     }
-                    return aH()(this, c);
+                    return x()(this, e);
                 };
             }
-            function bR() {
+            function bz() {
                 if (typeof Reflect === "undefined" || !Reflect.construct) return false;
                 if (Reflect.construct.sham) return false;
                 if (typeof Proxy === "function") return true;
@@ -10584,76 +10584,76 @@
                     return false;
                 }
             }
-            var bS = (function(a) {
-                aG()(b, a);
-                var c = bQ(b);
-                function b(d, e) {
-                    var a;
-                    aD()(this, b);
-                    a = c.call(this, d);
-                    aJ()(aF()(a), "code", void 0);
-                    a.code = e;
-                    Object.setPrototypeOf(aF()(a), b.prototype);
-                    return a;
+            var bA = (function(a) {
+                v()(c, a);
+                var b = by(c);
+                function c(a, d) {
+                    var e;
+                    p()(this, c);
+                    e = b.call(this, a);
+                    B()(t()(e), "code", void 0);
+                    e.code = d;
+                    Object.setPrototypeOf(t()(e), c.prototype);
+                    return e;
                 }
-                return b;
-            })(ah()(Error));
-            var bT = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
-            function bU() {
+                return c;
+            })(bx()(Error));
+            var bB = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
+            function bC() {
                 try {
                     return navigator.mediaDevices.enumerateDevices();
-                } catch (b) {
-                    var a = new bS("enumerateDevices is not defined. ".concat(bT), -1);
-                    return Promise.reject(a);
-                }
-            }
-            function bV(a) {
-                try {
-                    return navigator.mediaDevices.getUserMedia(a);
-                } catch (c) {
-                    var b = new bS("getUserMedia is not defined. ".concat(bT), -1);
+                } catch (a) {
+                    var b = new bA("enumerateDevices is not defined. ".concat(bB), -1);
                     return Promise.reject(b);
                 }
             }
-            var bW;
-            function bX(a) {
-                return new Promise(function(c, d) {
-                    var e = 10;
-                    function b() {
-                        if (e > 0) {
+            function bD(a) {
+                try {
+                    return navigator.mediaDevices.getUserMedia(a);
+                } catch (b) {
+                    var c = new bA("getUserMedia is not defined. ".concat(bB), -1);
+                    return Promise.reject(c);
+                }
+            }
+            var bE;
+            function bF(a) {
+                return new Promise(function(b, c) {
+                    var d = 10;
+                    function e() {
+                        if (d > 0) {
                             if (a.videoWidth > 10 && a.videoHeight > 10) {
                                 if (true) {
                                     console.log("* dev: checkVideo found ".concat(a.videoWidth, "px x ").concat(a.videoHeight, "px"));
                                 }
-                                c();
+                                b();
                             } else {
-                                window.setTimeout(b, 500);
+                                window.setTimeout(e, 500);
                             }
                         } else {
-                            d(new bS("Unable to play video stream. Is webcam working?", -1));
+                            c(new bA("Unable to play video stream. Is webcam working?", -1));
                         }
-                        e--;
+                        d--;
                     }
-                    b();
+                    e();
                 });
             }
-            function bY(a, b) {
-                return bZ.apply(this, arguments);
+            function bG(a, b) {
+                return bH.apply(this, arguments);
             }
-            function bZ() {
-                bZ = bN()(bO.a.mark(function a(b, c) {
+            function bH() {
+                bH = br()(bt.a.mark(function a(b, c) {
                     var d;
-                    return bO.a.wrap(function e(a) {
+                    return bt.a.wrap(function a(e) {
                         while(1){
-                            switch((a.prev = a.next)){
+                            switch((e.prev = e.next)){
                                 case 0:
-                                    a.next = 2;
-                                    return bV(c);
+                                    e.next = 2;
+                                    return bD(c);
                                 case 2:
-                                    d = a.sent;
-                                    bW = d;
+                                    d = e.sent;
+                                    bE = d;
                                     if (!b) {
-                                        a.next = 11;
+                                        e.next = 11;
                                         break;
                                     }
                                     b.setAttribute("autoplay", "true");
@@ -10663,20 +10663,20 @@
                                     b.addEventListener("loadedmetadata", function() {
                                         b.play();
                                     });
-                                    return a.abrupt("return", bX(b));
+                                    return e.abrupt("return", bF(b));
                                 case 11:
-                                    return a.abrupt("return", Promise.resolve());
+                                    return e.abrupt("return", Promise.resolve());
                                 case 12:
                                 case "end":
-                                    return a.stop();
+                                    return e.stop();
                             }
                         }
                     }, a);
                 }));
-                return bZ.apply(this, arguments);
+                return bH.apply(this, arguments);
             }
-            function b$(a) {
-                var b = bP()(a, [
+            function bI(a) {
+                var b = bv()(a, [
                     "width",
                     "height",
                     "facingMode",
@@ -10693,132 +10693,132 @@
                 }
                 return b;
             }
-            function b_() {
-                var b = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-                var a = b$(b);
-                if (a && a.deviceId && a.facingMode) {
-                    delete a.facingMode;
+            function bJ() {
+                var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                var b = bI(a);
+                if (b && b.deviceId && b.facingMode) {
+                    delete b.facingMode;
                 }
                 return Promise.resolve({
                     audio: false,
-                    video: a
+                    video: b
                 });
             }
-            function ai() {
-                return b0.apply(this, arguments);
+            function bK() {
+                return bL.apply(this, arguments);
             }
-            function b0() {
-                b0 = bN()(bO.a.mark(function a() {
+            function bL() {
+                bL = br()(bt.a.mark(function a() {
                     var b;
-                    return bO.a.wrap(function c(a) {
+                    return bt.a.wrap(function a(c) {
                         while(1){
-                            switch((a.prev = a.next)){
+                            switch((c.prev = c.next)){
                                 case 0:
-                                    a.next = 2;
-                                    return bU();
+                                    c.next = 2;
+                                    return bC();
                                 case 2:
-                                    b = a.sent;
-                                    return a.abrupt("return", b.filter(function(a) {
+                                    b = c.sent;
+                                    return c.abrupt("return", b.filter(function(a) {
                                         return (a.kind === "videoinput");
                                     }));
                                 case 4:
                                 case "end":
-                                    return a.stop();
+                                    return c.stop();
                             }
                         }
                     }, a);
                 }));
-                return b0.apply(this, arguments);
+                return bL.apply(this, arguments);
             }
-            function aj() {
-                if (!bW) {
+            function bM() {
+                if (!bE) {
                     return null;
                 }
-                var a = bW.getVideoTracks();
+                var a = bE.getVideoTracks();
                 return a && a !== null && a !== void 0 && a.length ? a[0] : null;
             }
-            var ak = {
+            var bN = {
                 requestedVideoElement: null,
                 request: function a(b, c) {
-                    return bN()(bO.a.mark(function a() {
+                    return br()(bt.a.mark(function a() {
                         var d;
-                        return bO.a.wrap(function e(a) {
+                        return bt.a.wrap(function a(e) {
                             while(1){
-                                switch((a.prev = a.next)){
+                                switch((e.prev = e.next)){
                                     case 0:
-                                        ak.requestedVideoElement = b;
-                                        a.next = 3;
-                                        return b_(c);
+                                        bN.requestedVideoElement = b;
+                                        e.next = 3;
+                                        return bJ(c);
                                     case 3:
-                                        d = a.sent;
-                                        return a.abrupt("return", bY(b, d));
+                                        d = e.sent;
+                                        return e.abrupt("return", bG(b, d));
                                     case 5:
                                     case "end":
-                                        return a.stop();
+                                        return e.stop();
                                 }
                             }
                         }, a);
                     }))();
                 },
                 release: function a() {
-                    var b = bW && bW.getVideoTracks();
-                    if (ak.requestedVideoElement !== null) {
-                        ak.requestedVideoElement.pause();
+                    var b = bE && bE.getVideoTracks();
+                    if (bN.requestedVideoElement !== null) {
+                        bN.requestedVideoElement.pause();
                     }
                     return new Promise(function(a) {
                         setTimeout(function() {
                             if (b && b.length) {
                                 b[0].stop();
                             }
-                            bW = null;
-                            ak.requestedVideoElement = null;
+                            bE = null;
+                            bN.requestedVideoElement = null;
                             a();
                         }, 0);
                     });
                 },
-                enumerateVideoDevices: ai,
-                getActiveStreamLabel: function b() {
-                    var a = aj();
-                    return a ? a.label : "";
+                enumerateVideoDevices: bK,
+                getActiveStreamLabel: function a() {
+                    var b = bM();
+                    return b ? b.label : "";
                 },
-                getActiveTrack: aj
+                getActiveTrack: bM
             };
-            var al = ak;
-            function b1(b, a) {
-                return (a && a.some(function(a) {
-                    var c = Object.keys(a);
+            var bO = bN;
+            function bP(a, b) {
+                return (b && b.some(function(b) {
+                    var c = Object.keys(b);
                     return c.every(function(c) {
-                        return a[c] === b[c];
+                        return b[c] === a[c];
                     });
                 }));
             }
-            function b2(b, a) {
-                return typeof a === "function" ? a(b) : true;
+            function bQ(a, b) {
+                return typeof b === "function" ? b(a) : true;
             }
-            var am = {
-                create: function d(b) {
-                    var a;
-                    var c = document.createElement("canvas");
-                    var e = c.getContext("2d");
+            var bR = {
+                create: function a(b) {
+                    var c;
+                    var d = document.createElement("canvas");
+                    var e = d.getContext("2d");
                     var f = [];
-                    var g = (a = b.capacity) !== null && a !== void 0 ? a : 20;
+                    var g = (c = b.capacity) !== null && c !== void 0 ? c : 20;
                     var h = b.capture === true;
                     function i(a) {
-                        return (!!g && a && !b1(a, b.blacklist) && b2(a, b.filter));
+                        return (!!g && a && !bP(a, b.blacklist) && bQ(a, b.filter));
                     }
                     return {
-                        addResult: function k(j, a, d) {
-                            var b = {};
-                            if (i(d)) {
+                        addResult: function a(b, c, j) {
+                            var k = {};
+                            if (i(j)) {
                                 g--;
-                                b.codeResult = d;
+                                k.codeResult = j;
                                 if (h) {
-                                    c.width = a.x;
-                                    c.height = a.y;
-                                    r["a"].drawImage(j, a, e);
-                                    b.frame = c.toDataURL();
+                                    d.width = c.x;
+                                    d.height = c.y;
+                                    n["a"].drawImage(b, c, e);
+                                    k.frame = d.toDataURL();
                                 }
-                                f.push(b);
+                                f.push(k);
                             }
                         },
                         getResults: function a() {
@@ -10827,7 +10827,7 @@
                     };
                 }
             };
-            var an = {
+            var bS = {
                 inputStream: {
                     name: "Live",
                     type: "LiveStream",
@@ -10876,8 +10876,8 @@
                     }
                 }
             };
-            var ao = an;
-            var ap = {
+            var bT = bS;
+            var bU = {
                 inputStream: {
                     type: "ImageStream",
                     sequence: false,
@@ -10902,8 +10902,8 @@
                     patchSize: "medium"
                 }
             };
-            var b3 = ap;
-            var aq = {
+            var bV = bU;
+            var bW = {
                 inputStream: {
                     name: "Live",
                     type: "LiveStream",
@@ -10932,71 +10932,71 @@
                     patchSize: "medium"
                 }
             };
-            var b4 = aq;
-            var ar = true ? ao : undefined;
-            var b5 = ar;
-            var b6 = a(7);
-            var b7 = function a() {
-                aD()(this, a);
-                aJ()(this, "config", void 0);
-                aJ()(this, "inputStream", void 0);
-                aJ()(this, "framegrabber", void 0);
-                aJ()(this, "inputImageWrapper", void 0);
-                aJ()(this, "stopped", false);
-                aJ()(this, "boxSize", void 0);
-                aJ()(this, "resultCollector", void 0);
-                aJ()(this, "decoder", void 0);
-                aJ()(this, "workerPool", []);
-                aJ()(this, "onUIThread", true);
-                aJ()(this, "canvasContainer", new b9());
+            var bX = bW;
+            var bY = true ? bT : undefined;
+            var bZ = bY;
+            var b$ = c(7);
+            var b_ = function a() {
+                p()(this, a);
+                B()(this, "config", void 0);
+                B()(this, "inputStream", void 0);
+                B()(this, "framegrabber", void 0);
+                B()(this, "inputImageWrapper", void 0);
+                B()(this, "stopped", false);
+                B()(this, "boxSize", void 0);
+                B()(this, "resultCollector", void 0);
+                B()(this, "decoder", void 0);
+                B()(this, "workerPool", []);
+                B()(this, "onUIThread", true);
+                B()(this, "canvasContainer", new b1());
             };
-            var b8 = function a() {
-                aD()(this, a);
-                aJ()(this, "image", void 0);
-                aJ()(this, "overlay", void 0);
+            var b0 = function a() {
+                p()(this, a);
+                B()(this, "image", void 0);
+                B()(this, "overlay", void 0);
             };
-            var b9 = function a() {
-                aD()(this, a);
-                aJ()(this, "ctx", void 0);
-                aJ()(this, "dom", void 0);
-                this.ctx = new b8();
-                this.dom = new b8();
+            var b1 = function a() {
+                p()(this, a);
+                B()(this, "ctx", void 0);
+                B()(this, "dom", void 0);
+                this.ctx = new b0();
+                this.dom = new b0();
             };
-            var ca = a(23);
-            function cb(b, c, d) {
-                var a = c || new q["a"]({
-                    x: b.getWidth(),
-                    y: b.getHeight(),
+            var b2 = c(23);
+            function b3(a, b, c) {
+                var d = b || new j["a"]({
+                    x: a.getWidth(),
+                    y: a.getHeight(),
                     type: "XYSize"
                 });
                 if (true) {
-                    console.log("image wrapper size ".concat(a.size));
+                    console.log("image wrapper size ".concat(d.size));
                 }
                 var e = [
-                    Object(b6["clone"])([
+                    Object(b$["clone"])([
                         0,
                         0
                     ]),
-                    Object(b6["clone"])([
+                    Object(b$["clone"])([
                         0,
-                        a.size.y
+                        d.size.y
                     ]),
-                    Object(b6["clone"])([
-                        a.size.x,
-                        a.size.y, 
+                    Object(b$["clone"])([
+                        d.size.x,
+                        d.size.y, 
                     ]),
-                    Object(b6["clone"])([
-                        a.size.x,
+                    Object(b$["clone"])([
+                        d.size.x,
                         0
                     ]), 
                 ];
-                ca["a"].init(a, d);
+                b2["a"].init(d, c);
                 return {
-                    inputImageWrapper: a,
+                    inputImageWrapper: d,
                     boxSize: e
                 };
             }
-            function cc(a) {
+            function b4(a) {
                 if (typeof document === "undefined") {
                     return null;
                 }
@@ -11006,47 +11006,47 @@
                 var b = typeof a === "string" ? a : "#interactive.viewport";
                 return document.querySelector(b);
             }
-            function cd(b, c) {
-                var a = document.querySelector(b);
-                if (!a) {
-                    a = document.createElement("canvas");
-                    a.className = c;
+            function b5(a, b) {
+                var c = document.querySelector(a);
+                if (!c) {
+                    c = document.createElement("canvas");
+                    c.className = b;
                 }
-                return a;
+                return c;
             }
-            function ce(b, c) {
-                var a = cd(b, c);
-                var d = a.getContext("2d");
+            function b6(a, b) {
+                var c = b5(a, b);
+                var d = c.getContext("2d");
                 return {
-                    canvas: a,
+                    canvas: c,
                     context: d
                 };
             }
-            function cf(c) {
+            function b7(a) {
                 if (typeof document !== "undefined") {
-                    var a = ce("canvas.imgBuffer", "imgBuffer");
-                    var b = ce("canvas.drawingBuffer", "drawingBuffer");
-                    a.canvas.width = b.canvas.width = c.x;
-                    a.canvas.height = b.canvas.height = c.y;
+                    var b = b6("canvas.imgBuffer", "imgBuffer");
+                    var c = b6("canvas.drawingBuffer", "drawingBuffer");
+                    b.canvas.width = c.canvas.width = a.x;
+                    b.canvas.height = c.canvas.height = a.y;
                     return {
                         dom: {
-                            image: a.canvas,
-                            overlay: b.canvas
+                            image: b.canvas,
+                            overlay: c.canvas
                         },
                         ctx: {
-                            image: a.context,
-                            overlay: b.context
+                            image: b.context,
+                            overlay: c.context
                         }
                     };
                 }
                 return null;
             }
-            function cg(a) {
-                var d, e, f, g;
-                var b = cc(a === null || a === void 0 ? void 0 : (d = a.config) === null || d === void 0 ? void 0 : (e = d.inputStream) === null || e === void 0 ? void 0 : e.target);
-                var i = a === null || a === void 0 ? void 0 : (f = a.config) === null || f === void 0 ? void 0 : (g = f.inputStream) === null || g === void 0 ? void 0 : g.type;
-                if (!i) return null;
-                var h = cf(a.inputStream.getCanvasSize());
+            function b8(a) {
+                var b, c, d, e;
+                var f = b4(a === null || a === void 0 ? void 0 : (b = a.config) === null || b === void 0 ? void 0 : (c = b.inputStream) === null || c === void 0 ? void 0 : c.target);
+                var g = a === null || a === void 0 ? void 0 : (d = a.config) === null || d === void 0 ? void 0 : (e = d.inputStream) === null || e === void 0 ? void 0 : e.type;
+                if (!g) return null;
+                var h = b7(a.inputStream.getCanvasSize());
                 if (!h) return {
                     dom: {
                         image: null,
@@ -11057,180 +11057,180 @@
                         overlay: null
                     }
                 };
-                var c = h.dom;
+                var i = h.dom;
                 if (typeof document !== "undefined") {
-                    if (b) {
-                        if (i === "ImageStream" && !b.contains(c.image)) {
-                            b.appendChild(c.image);
+                    if (f) {
+                        if (g === "ImageStream" && !f.contains(i.image)) {
+                            f.appendChild(i.image);
                         }
-                        if (!b.contains(c.overlay)) {
-                            b.appendChild(c.overlay);
+                        if (!f.contains(i.overlay)) {
+                            f.appendChild(i.overlay);
                         }
                     }
                 }
                 return h;
             }
-            var as = {
+            var b9 = {
                 0x0112: "orientation"
             };
-            var ch = Object.keys(as).map(function(a) {
-                return as[a];
+            var ca = Object.keys(b9).map(function(a) {
+                return b9[a];
             });
-            function ci(a) {
-                var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ch;
+            function cb(a) {
+                var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ca;
                 if (/^blob:/i.test(a)) {
-                    return cl(a).then(ck).then(function(a) {
-                        return cm(a, b);
+                    return ce(a).then(cd).then(function(a) {
+                        return cf(a, b);
                     });
                 }
                 return Promise.resolve(null);
             }
-            function cj(e) {
-                var f = e.replace(/^data:([^;]+);base64,/gim, "");
-                var b = atob(f);
-                var c = b.length;
-                var d = new ArrayBuffer(c);
-                var g = new Uint8Array(d);
-                for(var a = 0; a < c; a++){
-                    g[a] = b.charCodeAt(a);
-                }
-                return d;
-            }
-            function ck(a) {
-                return new Promise(function(c) {
-                    var b = new FileReader();
-                    b.onload = function(a) {
-                        return c(a.target.result);
-                    };
-                    b.readAsArrayBuffer(a);
-                });
-            }
-            function cl(a) {
-                return new Promise(function(d, c) {
-                    var b = new XMLHttpRequest();
-                    b.open("GET", a, true);
-                    b.responseType = "blob";
-                    b.onreadystatechange = function() {
-                        if (b.readyState === XMLHttpRequest.DONE && (b.status === 200 || b.status === 0)) {
-                            d(this.response);
-                        }
-                    };
-                    b.onerror = c;
-                    b.send();
-                });
-            }
-            function cm(c) {
-                var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ch;
-                var a = new DataView(c);
-                var f = c.byteLength;
-                var g = e.reduce(function(a, c) {
-                    var b = Object.keys(as).filter(function(a) {
-                        return as[a] === c;
-                    })[0];
-                    if (b) {
-                        a[b] = c;
-                    }
-                    return a;
-                }, {});
-                var b = 2;
-                var d;
-                if (a.getUint8(0) !== 0xff || a.getUint8(1) !== 0xd8) {
-                    return false;
-                }
-                while(b < f){
-                    if (a.getUint8(b) !== 0xff) {
-                        return false;
-                    }
-                    d = a.getUint8(b + 1);
-                    if (d === 0xe1) {
-                        return cn(a, b + 4, g);
-                    }
-                    b += 2 + a.getUint16(b + 2);
-                }
-                return false;
-            }
-            function cn(a, d, f) {
-                if (cq(a, d, 4) !== "Exif") {
-                    return false;
-                }
-                var b = d + 6;
-                var c;
-                if (a.getUint16(b) === 0x4949) {
-                    c = false;
-                } else if (a.getUint16(b) === 0x4d4d) {
-                    c = true;
-                } else {
-                    return false;
-                }
-                if (a.getUint16(b + 2, !c) !== 0x002a) {
-                    return false;
-                }
-                var e = a.getUint32(b + 4, !c);
-                if (e < 0x00000008) {
-                    return false;
-                }
-                var g = co(a, b, b + e, f, c);
-                return g;
-            }
-            function co(a, h, b, i, c) {
-                var j = a.getUint16(b, !c);
-                var e = {};
-                for(var d = 0; d < j; d++){
-                    var f = b + d * 12 + 2;
-                    var g = i[a.getUint16(f, !c)];
-                    if (g) {
-                        e[g] = cp(a, f, h, b, c);
-                    }
+            function cc(a) {
+                var b = a.replace(/^data:([^;]+);base64,/gim, "");
+                var c = atob(b);
+                var d = c.length;
+                var e = new ArrayBuffer(d);
+                var f = new Uint8Array(e);
+                for(var g = 0; g < d; g++){
+                    f[g] = c.charCodeAt(g);
                 }
                 return e;
             }
-            function cp(a, b, f, g, c) {
-                var d = a.getUint16(b + 2, !c);
-                var e = a.getUint32(b + 4, !c);
-                switch(d){
+            function cd(a) {
+                return new Promise(function(b) {
+                    var c = new FileReader();
+                    c.onload = function(a) {
+                        return b(a.target.result);
+                    };
+                    c.readAsArrayBuffer(a);
+                });
+            }
+            function ce(a) {
+                return new Promise(function(b, c) {
+                    var d = new XMLHttpRequest();
+                    d.open("GET", a, true);
+                    d.responseType = "blob";
+                    d.onreadystatechange = function() {
+                        if (d.readyState === XMLHttpRequest.DONE && (d.status === 200 || d.status === 0)) {
+                            b(this.response);
+                        }
+                    };
+                    d.onerror = c;
+                    d.send();
+                });
+            }
+            function cf(a) {
+                var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ca;
+                var c = new DataView(a);
+                var d = a.byteLength;
+                var e = b.reduce(function(a, b) {
+                    var c = Object.keys(b9).filter(function(a) {
+                        return b9[a] === b;
+                    })[0];
+                    if (c) {
+                        a[c] = b;
+                    }
+                    return a;
+                }, {});
+                var f = 2;
+                var g;
+                if (c.getUint8(0) !== 0xff || c.getUint8(1) !== 0xd8) {
+                    return false;
+                }
+                while(f < d){
+                    if (c.getUint8(f) !== 0xff) {
+                        return false;
+                    }
+                    g = c.getUint8(f + 1);
+                    if (g === 0xe1) {
+                        return cg(c, f + 4, e);
+                    }
+                    f += 2 + c.getUint16(f + 2);
+                }
+                return false;
+            }
+            function cg(a, b, c) {
+                if (cj(a, b, 4) !== "Exif") {
+                    return false;
+                }
+                var d = b + 6;
+                var e;
+                if (a.getUint16(d) === 0x4949) {
+                    e = false;
+                } else if (a.getUint16(d) === 0x4d4d) {
+                    e = true;
+                } else {
+                    return false;
+                }
+                if (a.getUint16(d + 2, !e) !== 0x002a) {
+                    return false;
+                }
+                var f = a.getUint32(d + 4, !e);
+                if (f < 0x00000008) {
+                    return false;
+                }
+                var g = ch(a, d, d + f, c, e);
+                return g;
+            }
+            function ch(a, b, c, d, e) {
+                var f = a.getUint16(c, !e);
+                var g = {};
+                for(var h = 0; h < f; h++){
+                    var i = c + h * 12 + 2;
+                    var j = d[a.getUint16(i, !e)];
+                    if (j) {
+                        g[j] = ci(a, i, b, c, e);
+                    }
+                }
+                return g;
+            }
+            function ci(a, b, c, d, e) {
+                var f = a.getUint16(b + 2, !e);
+                var g = a.getUint32(b + 4, !e);
+                switch(f){
                     case 3:
-                        if (e === 1) {
-                            return a.getUint16(b + 8, !c);
+                        if (g === 1) {
+                            return a.getUint16(b + 8, !e);
                         }
                 }
                 return null;
             }
-            function cq(d, b, e) {
-                var c = "";
-                for(var a = b; a < b + e; a++){
-                    c += String.fromCharCode(d.getUint8(a));
+            function cj(a, b, c) {
+                var d = "";
+                for(var e = b; e < b + c; e++){
+                    d += String.fromCharCode(a.getUint8(e));
                 }
-                return c;
+                return d;
             }
-            var l = {};
-            l.load = function(e, j, g, h, i) {
-                var b = new Array(h);
-                var c = new Array(b.length);
-                var a;
-                var d;
-                var f;
-                if (i === false) {
-                    b[0] = e;
+            var ck = {};
+            ck.load = function(a, b, c, d, e) {
+                var f = new Array(d);
+                var g = new Array(f.length);
+                var h;
+                var i;
+                var j;
+                if (e === false) {
+                    f[0] = a;
                 } else {
-                    for(a = 0; a < b.length; a++){
-                        f = g + a;
-                        b[a] = "".concat(e, "image-").concat("00".concat(f).slice(-3), ".jpg");
+                    for(h = 0; h < f.length; h++){
+                        j = c + h;
+                        f[h] = "".concat(a, "image-").concat("00".concat(j).slice(-3), ".jpg");
                     }
                 }
-                c.notLoaded = [];
-                c.addImage = function(a) {
-                    c.notLoaded.push(a);
+                g.notLoaded = [];
+                g.addImage = function(a) {
+                    g.notLoaded.push(a);
                 };
-                c.loaded = function(g) {
-                    var d = c.notLoaded;
-                    for(var f = 0; f < d.length; f++){
-                        if (d[f] === g) {
-                            d.splice(f, 1);
-                            for(var a = 0; a < b.length; a++){
-                                var h = b[a].substr(b[a].lastIndexOf("/"));
-                                if (g.src.lastIndexOf(h) !== -1) {
-                                    c[a] = {
-                                        img: g
+                g.loaded = function(c) {
+                    var d = g.notLoaded;
+                    for(var h = 0; h < d.length; h++){
+                        if (d[h] === c) {
+                            d.splice(h, 1);
+                            for(var i = 0; i < f.length; i++){
+                                var j = f[i].substr(f[i].lastIndexOf("/"));
+                                if (c.src.lastIndexOf(j) !== -1) {
+                                    g[i] = {
+                                        img: c
                                     };
                                     break;
                                 }
@@ -11242,342 +11242,342 @@
                         if (true) {
                             console.log("Images loaded");
                         }
-                        if (i === false) {
-                            ci(e, [
+                        if (e === false) {
+                            cb(a, [
                                 "orientation"
                             ]).then(function(a) {
-                                c[0].tags = a;
-                                j(c);
+                                g[0].tags = a;
+                                b(g);
                             })["catch"](function(a) {
                                 console.log(a);
-                                j(c);
+                                b(g);
                             });
                         } else {
-                            j(c);
+                            b(g);
                         }
                     }
                 };
-                for(a = 0; a < b.length; a++){
-                    d = new Image();
-                    c.addImage(d);
-                    cr(d, c);
-                    d.src = b[a];
+                for(h = 0; h < f.length; h++){
+                    i = new Image();
+                    g.addImage(i);
+                    cl(i, g);
+                    i.src = f[h];
                 }
             };
-            function cr(a, b) {
+            function cl(a, b) {
                 a.onload = function() {
                     b.loaded(this);
                 };
             }
-            var cs = l;
-            var at = {
-                createVideoStream: function b(c) {
-                    var d = null;
-                    var e = [
+            var cm = ck;
+            var cn = {
+                createVideoStream: function a(b) {
+                    var c = null;
+                    var d = [
                         "canrecord",
                         "ended"
                     ];
-                    var f = {};
+                    var e = {};
+                    var f;
                     var g;
-                    var h;
-                    var i = {
+                    var h = {
                         x: 0,
                         y: 0,
                         type: "Point"
                     };
-                    var j = {
+                    var i = {
                         x: 0,
                         y: 0,
                         type: "XYSize"
                     };
-                    function k() {
-                        var e, f;
-                        var a = c.videoWidth;
-                        var b = c.videoHeight;
-                        g = (e = d) !== null && e !== void 0 && e.size ? a / b > 1 ? d.size : Math.floor((a / b) * d.size) : a;
-                        h = (f = d) !== null && f !== void 0 && f.size ? a / b > 1 ? Math.floor((b / a) * d.size) : d.size : b;
-                        j.x = g;
-                        j.y = h;
+                    function j() {
+                        var a, d;
+                        var e = b.videoWidth;
+                        var h = b.videoHeight;
+                        f = (a = c) !== null && a !== void 0 && a.size ? e / h > 1 ? c.size : Math.floor((e / h) * c.size) : e;
+                        g = (d = c) !== null && d !== void 0 && d.size ? e / h > 1 ? Math.floor((h / e) * c.size) : c.size : h;
+                        i.x = f;
+                        i.y = g;
                     }
-                    var a = {
+                    var k = {
                         getRealWidth: function a() {
-                            return c.videoWidth;
+                            return b.videoWidth;
                         },
                         getRealHeight: function a() {
-                            return c.videoHeight;
+                            return b.videoHeight;
                         },
                         getWidth: function a() {
-                            return g;
+                            return f;
                         },
                         getHeight: function a() {
-                            return h;
+                            return g;
                         },
-                        setWidth: function b(a) {
-                            g = a;
+                        setWidth: function a(b) {
+                            f = b;
                         },
-                        setHeight: function b(a) {
-                            h = a;
+                        setHeight: function a(b) {
+                            g = b;
                         },
-                        setInputStream: function b(a) {
-                            d = a;
-                            this.setAttribute("src", typeof a.src !== "undefined" ? a.src : "");
+                        setInputStream: function a(b) {
+                            c = b;
+                            this.setAttribute("src", typeof b.src !== "undefined" ? b.src : "");
                         },
                         ended: function a() {
-                            return c.ended;
+                            return b.ended;
                         },
                         getConfig: function a() {
-                            return d;
+                            return c;
                         },
-                        setAttribute: function d(a, b) {
-                            if (c) {
-                                c.setAttribute(a, b);
+                        setAttribute: function a(c, d) {
+                            if (b) {
+                                b.setAttribute(c, d);
                             }
                         },
                         pause: function a() {
-                            c.pause();
+                            b.pause();
                         },
                         play: function a() {
-                            c.play();
+                            b.play();
                         },
-                        setCurrentTime: function c(b) {
-                            var a;
-                            if (((a = d) === null || a === void 0 ? void 0 : a.type) !== "LiveStream") {
+                        setCurrentTime: function a(b) {
+                            var d;
+                            if (((d = c) === null || d === void 0 ? void 0 : d.type) !== "LiveStream") {
                                 this.setAttribute("currentTime", b.toString());
                             }
                         },
-                        addEventListener: function g(a, b, d) {
-                            if (e.indexOf(a) !== -1) {
-                                if (!f[a]) {
-                                    f[a] = [];
+                        addEventListener: function a(c, f, g) {
+                            if (d.indexOf(c) !== -1) {
+                                if (!e[c]) {
+                                    e[c] = [];
                                 }
-                                f[a].push(b);
+                                e[c].push(f);
                             } else {
-                                c.addEventListener(a, b, d);
+                                b.addEventListener(c, f, g);
                             }
                         },
                         clearEventHandlers: function a() {
-                            e.forEach(function(b) {
-                                var a = f[b];
-                                if (a && a.length > 0) {
-                                    a.forEach(function(a) {
-                                        c.removeEventListener(b, a);
+                            d.forEach(function(a) {
+                                var c = e[a];
+                                if (c && c.length > 0) {
+                                    c.forEach(function(c) {
+                                        b.removeEventListener(a, c);
                                     });
                                 }
                             });
                         },
-                        trigger: function g(d, e) {
-                            var b;
-                            var c = f[d];
-                            if (d === "canrecord") {
-                                k();
+                        trigger: function a(b, c) {
+                            var d;
+                            var f = e[b];
+                            if (b === "canrecord") {
+                                j();
                             }
-                            if (c && c.length > 0) {
-                                for(b = 0; b < c.length; b++){
-                                    c[b].apply(a, e);
+                            if (f && f.length > 0) {
+                                for(d = 0; d < f.length; d++){
+                                    f[d].apply(k, c);
                                 }
                             }
                         },
-                        setTopRight: function b(a) {
-                            i.x = a.x;
-                            i.y = a.y;
+                        setTopRight: function a(b) {
+                            h.x = b.x;
+                            h.y = b.y;
                         },
                         getTopRight: function a() {
-                            return i;
+                            return h;
                         },
-                        setCanvasSize: function b(a) {
-                            j.x = a.x;
-                            j.y = a.y;
+                        setCanvasSize: function a(b) {
+                            i.x = b.x;
+                            i.y = b.y;
                         },
                         getCanvasSize: function a() {
-                            return j;
+                            return i;
                         },
                         getFrame: function a() {
-                            return c;
+                            return b;
                         }
                     };
-                    return a;
+                    return k;
                 },
-                createLiveStream: function c(a) {
-                    if (a) {
-                        a.setAttribute("autoplay", "true");
+                createLiveStream: function a(b) {
+                    if (b) {
+                        b.setAttribute("autoplay", "true");
                     }
-                    var b = at.createVideoStream(a);
-                    b.ended = function a() {
+                    var c = cn.createVideoStream(b);
+                    c.ended = function a() {
                         return false;
                     };
-                    return b;
+                    return c;
                 },
-                createImageStream: function c() {
-                    var d = null;
+                createImageStream: function a() {
+                    var b = null;
+                    var c = 0;
+                    var d = 0;
                     var e = 0;
-                    var f = 0;
-                    var g = 0;
-                    var h = true;
-                    var i = false;
-                    var j = null;
-                    var k = 0;
-                    var l = 1;
-                    var m = null;
-                    var n = false;
-                    var o;
-                    var p;
-                    var q = [
+                    var f = true;
+                    var g = false;
+                    var h = null;
+                    var i = 0;
+                    var j = 1;
+                    var k = null;
+                    var l = false;
+                    var m;
+                    var n;
+                    var o = [
                         "canrecord",
                         "ended"
                     ];
-                    var r = {};
-                    var s = {
+                    var p = {};
+                    var q = {
                         x: 0,
                         y: 0,
                         type: "Point"
                     };
-                    var t = {
+                    var r = {
                         x: 0,
                         y: 0,
                         type: "XYSize"
                     };
-                    function u() {
-                        var b;
-                        i = false;
-                        cs.load(m, function(b) {
-                            var c, h;
-                            j = b;
-                            if (b[0].tags && b[0].tags.orientation) {
-                                switch(b[0].tags.orientation){
+                    function s() {
+                        var a;
+                        g = false;
+                        cm.load(k, function(a) {
+                            var f, i;
+                            h = a;
+                            if (a[0].tags && a[0].tags.orientation) {
+                                switch(a[0].tags.orientation){
                                     case 6:
                                     case 8:
-                                        e = b[0].img.height;
-                                        f = b[0].img.width;
+                                        c = a[0].img.height;
+                                        d = a[0].img.width;
                                         break;
                                     default:
-                                        e = b[0].img.width;
-                                        f = b[0].img.height;
+                                        c = a[0].img.width;
+                                        d = a[0].img.height;
                                 }
                             } else {
-                                e = b[0].img.width;
-                                f = b[0].img.height;
+                                c = a[0].img.width;
+                                d = a[0].img.height;
                             }
-                            o = (c = d) !== null && c !== void 0 && c.size ? e / f > 1 ? d.size : Math.floor((e / f) * d.size) : e;
-                            p = (h = d) !== null && h !== void 0 && h.size ? e / f > 1 ? Math.floor((f / e) * d.size) : d.size : f;
-                            t.x = o;
-                            t.y = p;
-                            i = true;
-                            g = 0;
+                            m = (f = b) !== null && f !== void 0 && f.size ? c / d > 1 ? b.size : Math.floor((c / d) * b.size) : c;
+                            n = (i = b) !== null && i !== void 0 && i.size ? c / d > 1 ? Math.floor((d / c) * b.size) : b.size : d;
+                            r.x = m;
+                            r.y = n;
+                            g = true;
+                            e = 0;
                             setTimeout(function() {
-                                a("canrecord", []);
+                                t("canrecord", []);
                             }, 0);
-                        }, l, k, (b = d) === null || b === void 0 ? void 0 : b.sequence);
+                        }, j, i, (a = b) === null || a === void 0 ? void 0 : a.sequence);
                     }
-                    function a(d, e) {
-                        var a;
-                        var c = r[d];
-                        if (c && c.length > 0) {
-                            for(a = 0; a < c.length; a++){
-                                c[a].apply(b, e);
+                    function t(a, b) {
+                        var c;
+                        var d = p[a];
+                        if (d && d.length > 0) {
+                            for(c = 0; c < d.length; c++){
+                                d[c].apply(u, b);
                             }
                         }
                     }
-                    var b = {
-                        trigger: a,
+                    var u = {
+                        trigger: t,
                         getWidth: function a() {
-                            return o;
+                            return m;
                         },
                         getHeight: function a() {
-                            return p;
+                            return n;
                         },
-                        setWidth: function b(a) {
-                            o = a;
+                        setWidth: function a(b) {
+                            m = b;
                         },
-                        setHeight: function b(a) {
-                            p = a;
+                        setHeight: function a(b) {
+                            n = b;
                         },
                         getRealWidth: function a() {
-                            return e;
+                            return c;
                         },
                         getRealHeight: function a() {
-                            return f;
+                            return d;
                         },
-                        setInputStream: function b(a) {
-                            d = a;
-                            if (a.sequence === false) {
-                                m = a.src;
-                                k = 1;
+                        setInputStream: function a(c) {
+                            b = c;
+                            if (c.sequence === false) {
+                                k = c.src;
+                                i = 1;
                             } else {
-                                m = a.src;
-                                k = a.length;
+                                k = c.src;
+                                i = c.length;
                             }
-                            u();
+                            s();
                         },
                         ended: function a() {
-                            return n;
+                            return l;
                         },
                         setAttribute: function a() {},
                         getConfig: function a() {
-                            return d;
+                            return b;
                         },
                         pause: function a() {
-                            h = true;
+                            f = true;
                         },
                         play: function a() {
-                            h = false;
+                            f = false;
                         },
-                        setCurrentTime: function b(a) {
-                            g = a;
+                        setCurrentTime: function a(b) {
+                            e = b;
                         },
-                        addEventListener: function c(a, b) {
-                            if (q.indexOf(a) !== -1) {
-                                if (!r[a]) {
-                                    r[a] = [];
+                        addEventListener: function a(b, c) {
+                            if (o.indexOf(b) !== -1) {
+                                if (!p[b]) {
+                                    p[b] = [];
                                 }
-                                r[a].push(b);
+                                p[b].push(c);
                             }
                         },
                         clearEventHandlers: function a() {
-                            Object.keys(r).forEach(function(a) {
-                                return delete r[a];
+                            Object.keys(p).forEach(function(a) {
+                                return delete p[a];
                             });
                         },
-                        setTopRight: function b(a) {
-                            s.x = a.x;
-                            s.y = a.y;
+                        setTopRight: function a(b) {
+                            q.x = b.x;
+                            q.y = b.y;
                         },
                         getTopRight: function a() {
-                            return s;
+                            return q;
                         },
-                        setCanvasSize: function b(a) {
-                            t.x = a.x;
-                            t.y = a.y;
+                        setCanvasSize: function a(b) {
+                            r.x = b.x;
+                            r.y = b.y;
                         },
                         getCanvasSize: function a() {
-                            return t;
+                            return r;
                         },
-                        getFrame: function d() {
-                            var c;
-                            if (!i) {
+                        getFrame: function a() {
+                            var b;
+                            if (!g) {
                                 return null;
                             }
-                            if (!h) {
-                                var b;
-                                c = (b = j) === null || b === void 0 ? void 0 : b[g];
-                                if (g < k - 1) {
-                                    g++;
+                            if (!f) {
+                                var c;
+                                b = (c = h) === null || c === void 0 ? void 0 : c[e];
+                                if (e < i - 1) {
+                                    e++;
                                 } else {
                                     setTimeout(function() {
-                                        n = true;
-                                        a("ended", []);
+                                        l = true;
+                                        t("ended", []);
                                     }, 0);
                                 }
                             }
-                            return c;
+                            return b;
                         }
                     };
-                    return b;
+                    return u;
                 }
             };
-            var ct = at;
-            var cu = a(8);
-            var cv = Math.PI / 180;
-            function cw(a, b) {
+            var co = cn;
+            var cp = c(8);
+            var cq = Math.PI / 180;
+            function cr(a, b) {
                 if (a.width !== b.x) {
                     if (true) {
                         console.log("WARNING: canvas-size needs to be adjusted");
@@ -11591,130 +11591,130 @@
                     a.height = b.y;
                 }
             }
-            var m = {};
-            m.create = function(a, g) {
-                var b = {};
-                var k = a.getConfig();
-                var h = Object(cu["h"])(a.getRealWidth(), a.getRealHeight());
-                var d = a.getCanvasSize();
-                var e = Object(cu["h"])(a.getWidth(), a.getHeight());
-                var f = a.getTopRight();
-                var l = f.x;
-                var m = f.y;
-                var c;
-                var i = null;
-                var j = null;
-                c = g || document.createElement("canvas");
-                c.width = d.x;
-                c.height = d.y;
-                i = c.getContext("2d");
-                j = new Uint8Array(e.x * e.y);
+            var cs = {};
+            cs.create = function(a, b) {
+                var c = {};
+                var d = a.getConfig();
+                var e = Object(cp["h"])(a.getRealWidth(), a.getRealHeight());
+                var f = a.getCanvasSize();
+                var g = Object(cp["h"])(a.getWidth(), a.getHeight());
+                var h = a.getTopRight();
+                var i = h.x;
+                var j = h.y;
+                var k;
+                var l = null;
+                var m = null;
+                k = b || document.createElement("canvas");
+                k.width = f.x;
+                k.height = f.y;
+                l = k.getContext("2d");
+                m = new Uint8Array(g.x * g.y);
                 if (true) {
                     console.log("FrameGrabber", JSON.stringify({
-                        size: e,
-                        topRight: f,
-                        videoSize: h,
-                        canvasSize: d
+                        size: g,
+                        topRight: h,
+                        videoSize: e,
+                        canvasSize: f
                     }));
                 }
-                b.attachData = function(a) {
-                    j = a;
+                c.attachData = function(a) {
+                    m = a;
                 };
-                b.getData = function() {
-                    return j;
+                c.getData = function() {
+                    return m;
                 };
-                b.grab = function() {
-                    var n = k.halfSample;
-                    var b = a.getFrame();
-                    var g = b;
-                    var f = 0;
-                    var h;
-                    if (g) {
-                        cw(c, d);
-                        if (k.type === "ImageStream") {
-                            g = b.img;
-                            if (b.tags && b.tags.orientation) {
-                                switch(b.tags.orientation){
+                c.grab = function() {
+                    var b = d.halfSample;
+                    var c = a.getFrame();
+                    var e = c;
+                    var h = 0;
+                    var n;
+                    if (e) {
+                        cr(k, f);
+                        if (d.type === "ImageStream") {
+                            e = c.img;
+                            if (c.tags && c.tags.orientation) {
+                                switch(c.tags.orientation){
                                     case 6:
-                                        f = 90 * cv;
+                                        h = 90 * cq;
                                         break;
                                     case 8:
-                                        f = -90 * cv;
+                                        h = -90 * cq;
                                         break;
                                 }
                             }
                         }
-                        if (f !== 0) {
-                            i.translate(d.x / 2, d.y / 2);
-                            i.rotate(f);
-                            i.drawImage(g, -d.y / 2, -d.x / 2, d.y, d.x);
-                            i.rotate(-f);
-                            i.translate(-d.x / 2, -d.y / 2);
+                        if (h !== 0) {
+                            l.translate(f.x / 2, f.y / 2);
+                            l.rotate(h);
+                            l.drawImage(e, -f.y / 2, -f.x / 2, f.y, f.x);
+                            l.rotate(-h);
+                            l.translate(-f.x / 2, -f.y / 2);
                         } else {
-                            i.drawImage(g, 0, 0, d.x, d.y);
+                            l.drawImage(e, 0, 0, f.x, f.y);
                         }
-                        h = i.getImageData(l, m, e.x, e.y).data;
-                        if (n) {
-                            Object(cu["e"])(h, e, j);
+                        n = l.getImageData(i, j, g.x, g.y).data;
+                        if (b) {
+                            Object(cp["e"])(n, g, m);
                         } else {
-                            Object(cu["c"])(h, j, k);
+                            Object(cp["c"])(n, m, d);
                         }
                         return true;
                     }
                     return false;
                 };
-                b.getSize = function() {
-                    return e;
+                c.getSize = function() {
+                    return g;
                 };
-                return b;
+                return c;
             };
-            var cx = m;
-            function cy(c, d) {
-                var a = Object.keys(c);
+            var ct = cs;
+            function cu(a, b) {
+                var c = Object.keys(a);
                 if (Object.getOwnPropertySymbols) {
-                    var b = Object.getOwnPropertySymbols(c);
-                    if (d) {
-                        b = b.filter(function(a) {
-                            return Object.getOwnPropertyDescriptor(c, a).enumerable;
+                    var d = Object.getOwnPropertySymbols(a);
+                    if (b) {
+                        d = d.filter(function(b) {
+                            return Object.getOwnPropertyDescriptor(a, b).enumerable;
                         });
                     }
-                    a.push.apply(a, b);
-                }
-                return a;
-            }
-            function cz(c) {
-                for(var a = 1; a < arguments.length; a++){
-                    var b = arguments[a] != null ? arguments[a] : {};
-                    if (a % 2) {
-                        cy(Object(b), true).forEach(function(a) {
-                            aJ()(c, a, b[a]);
-                        });
-                    } else if (Object.getOwnPropertyDescriptors) {
-                        Object.defineProperties(c, Object.getOwnPropertyDescriptors(b));
-                    } else {
-                        cy(Object(b)).forEach(function(a) {
-                            Object.defineProperty(c, a, Object.getOwnPropertyDescriptor(b, a));
-                        });
-                    }
+                    c.push.apply(c, d);
                 }
                 return c;
             }
-            var cA = [];
-            function cB(b) {
-                var a;
-                if (cA.length) {
-                    a = cA.filter(function(a) {
+            function cv(a) {
+                for(var b = 1; b < arguments.length; b++){
+                    var c = arguments[b] != null ? arguments[b] : {};
+                    if (b % 2) {
+                        cu(Object(c), true).forEach(function(b) {
+                            B()(a, b, c[b]);
+                        });
+                    } else if (Object.getOwnPropertyDescriptors) {
+                        Object.defineProperties(a, Object.getOwnPropertyDescriptors(c));
+                    } else {
+                        cu(Object(c)).forEach(function(b) {
+                            Object.defineProperty(a, b, Object.getOwnPropertyDescriptor(c, b));
+                        });
+                    }
+                }
+                return a;
+            }
+            var cw = [];
+            function cx(a) {
+                var b;
+                if (cw.length) {
+                    b = cw.filter(function(a) {
                         return !a.busy;
                     })[0];
-                    if (a) {
-                        b.attachData(a.imageData);
-                        if (b.grab()) {
-                            a.busy = true;
-                            a.worker.postMessage({
+                    if (b) {
+                        a.attachData(b.imageData);
+                        if (a.grab()) {
+                            b.busy = true;
+                            b.worker.postMessage({
                                 cmd: "process",
-                                imageData: a.imageData
+                                imageData: b.imageData
                             }, [
-                                a.imageData.buffer
+                                b.imageData.buffer
                             ]);
                         }
                         return true;
@@ -11724,14 +11724,14 @@
                 }
                 return null;
             }
-            function cC(a) {
-                return cz(cz({}, a), {}, {
-                    inputStream: cz(cz({}, a.inputStream), {}, {
+            function cy(a) {
+                return cv(cv({}, a), {}, {
+                    inputStream: cv(cv({}, a.inputStream), {}, {
                         target: null
                     })
                 });
             }
-            function cD(a) {
+            function cz(a) {
                 if (a) {
                     var b = a()["default"];
                     if (!b) {
@@ -11780,96 +11780,96 @@
                     }
                 };
             }
-            function cE() {
+            function cA() {
                 var a, b;
                 if (typeof __factorySource__ !== "undefined") {
                     b = __factorySource__;
                 }
                 a = new Blob([
-                    "(" + cD.toString() + ")(" + b + ");", 
+                    "(" + cz.toString() + ")(" + b + ");", 
                 ], {
                     type: "text/javascript"
                 });
                 return window.URL.createObjectURL(a);
             }
-            function cF(c, a, f) {
-                var d = cE();
+            function cB(a, b, c) {
+                var d = cA();
                 var e = new Worker(d);
-                var b = {
+                var f = {
                     worker: e,
-                    imageData: new Uint8Array(a.getWidth() * a.getHeight()),
+                    imageData: new Uint8Array(b.getWidth() * b.getHeight()),
                     busy: true
                 };
-                b.worker.onmessage = function(a) {
+                f.worker.onmessage = function(a) {
                     if (a.data.event === "initialized") {
                         URL.revokeObjectURL(d);
-                        b.busy = false;
-                        b.imageData = new Uint8Array(a.data.imageData);
+                        f.busy = false;
+                        f.imageData = new Uint8Array(a.data.imageData);
                         if (true) {
                             console.log("Worker initialized");
                         }
-                        f(b);
+                        c(f);
                     } else if (a.data.event === "processed") {
-                        b.imageData = new Uint8Array(a.data.imageData);
-                        b.busy = false;
+                        f.imageData = new Uint8Array(a.data.imageData);
+                        f.busy = false;
                     } else if (a.data.event === "error") {
                         if (true) {
                             console.log("Worker error: " + a.data.message);
                         }
                     }
                 };
-                b.worker.postMessage({
+                f.worker.postMessage({
                     cmd: "init",
                     size: {
-                        x: a.getWidth(),
-                        y: a.getHeight()
+                        x: b.getWidth(),
+                        y: b.getHeight()
                     },
-                    imageData: b.imageData,
-                    config: cC(c)
+                    imageData: f.imageData,
+                    config: cy(a)
                 }, [
-                    b.imageData.buffer
+                    f.imageData.buffer
                 ]);
             }
-            function cG(e, c, f, b) {
-                var a = e - cA.length;
-                if (a === 0 && b) {
-                    b();
-                } else if (a < 0) {
-                    var g = cA.slice(a);
-                    g.forEach(function(a) {
+            function cC(a, b, c, d) {
+                var e = a - cw.length;
+                if (e === 0 && d) {
+                    d();
+                } else if (e < 0) {
+                    var f = cw.slice(e);
+                    f.forEach(function(a) {
                         a.worker.terminate();
                         if (true) {
                             console.log("Worker terminated!");
                         }
                     });
-                    cA = cA.slice(0, a);
-                    if (b) {
-                        b();
+                    cw = cw.slice(0, e);
+                    if (d) {
+                        d();
                     }
                 } else {
-                    var h = function c(a) {
-                        cA.push(a);
-                        if (cA.length >= e && b) {
-                            b();
+                    var g = function b(c) {
+                        cw.push(c);
+                        if (cw.length >= a && d) {
+                            d();
                         }
                     };
-                    if (c) {
-                        for(var d = 0; d < a; d++){
-                            cF(c, f, h);
+                    if (b) {
+                        for(var h = 0; h < e; h++){
+                            cB(b, c, g);
                         }
                     }
                 }
             }
-            function cH(a) {
-                cA.forEach(function(b) {
+            function cD(a) {
+                cw.forEach(function(b) {
                     return b.worker.postMessage({
                         cmd: "setReaders",
                         readers: a
                     });
                 });
             }
-            function cI(a, b) {
-                cA.forEach(function(c) {
+            function cE(a, b) {
+                cw.forEach(function(c) {
                     return c.worker.postMessage({
                         cmd: "registerReader",
                         name: a,
@@ -11877,17 +11877,17 @@
                     });
                 });
             }
-            function cJ() {
-                var d = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "LiveStream";
+            function cF() {
+                var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "LiveStream";
                 var b = arguments.length > 1 ? arguments[1] : undefined;
                 var c = arguments.length > 2 ? arguments[2] : undefined;
-                switch(d){
+                switch(a){
                     case "VideoStream":
                         {
-                            var e = document.createElement("video");
+                            var d = document.createElement("video");
                             return {
-                                video: e,
-                                inputStream: c.createVideoStream(e)
+                                video: d,
+                                inputStream: c.createVideoStream(d)
                             };
                         }
                     case "ImageStream":
@@ -11896,257 +11896,257 @@
                         };
                     case "LiveStream":
                         {
-                            var a = null;
+                            var e = null;
                             if (b) {
-                                a = b.querySelector("video");
-                                if (!a) {
-                                    a = document.createElement("video");
-                                    b.appendChild(a);
+                                e = b.querySelector("video");
+                                if (!e) {
+                                    e = document.createElement("video");
+                                    b.appendChild(e);
                                 }
                             }
                             return {
-                                video: a,
-                                inputStream: c.createLiveStream(a)
+                                video: e,
+                                inputStream: c.createLiveStream(e)
                             };
                         }
                     default:
-                        console.error("* setupInputStream invalid type ".concat(d));
+                        console.error("* setupInputStream invalid type ".concat(a));
                         return {
                             video: null,
                             inputStream: null
                         };
                 }
             }
-            function cK(a, c, d) {
-                var b = a.length;
-                while(b--){
-                    a[b][0] += c;
-                    a[b][1] += d;
+            function cG(a, b, c) {
+                var d = a.length;
+                while(d--){
+                    a[d][0] += b;
+                    a[d][1] += c;
                 }
             }
-            function cL(a, b, c) {
+            function cH(a, b, c) {
                 a[0].x += b;
                 a[0].y += c;
                 a[1].x += b;
                 a[1].y += c;
             }
-            var au = (function() {
+            var cI = (function() {
                 function a() {
                     var b = this;
-                    aD()(this, a);
-                    aJ()(this, "context", new b7());
-                    aJ()(this, "canRecord", function(c) {
-                        var a;
+                    p()(this, a);
+                    B()(this, "context", new b_());
+                    B()(this, "canRecord", function(a) {
+                        var c;
                         if (!b.context.config) {
                             return;
                         }
-                        ca["a"].checkImageConstraints(b.context.inputStream, (a = b.context.config) === null || a === void 0 ? void 0 : a.locator);
+                        b2["a"].checkImageConstraints(b.context.inputStream, (c = b.context.config) === null || c === void 0 ? void 0 : c.locator);
                         b.initCanvas();
-                        b.context.framegrabber = cx.create(b.context.inputStream, b.context.canvasContainer.dom.image);
+                        b.context.framegrabber = ct.create(b.context.inputStream, b.context.canvasContainer.dom.image);
                         if (b.context.config.numOfWorkers === undefined) {
                             b.context.config.numOfWorkers = 0;
                         }
-                        cG(b.context.config.numOfWorkers, b.context.config, b.context.inputStream, function() {
-                            var a;
-                            if (((a = b.context.config) === null || a === void 0 ? void 0 : a.numOfWorkers) === 0) {
+                        cC(b.context.config.numOfWorkers, b.context.config, b.context.inputStream, function() {
+                            var c;
+                            if (((c = b.context.config) === null || c === void 0 ? void 0 : c.numOfWorkers) === 0) {
                                 b.initializeData();
                             }
-                            b.ready(c);
+                            b.ready(a);
                         });
                     });
-                    aJ()(this, "update", function() {
+                    B()(this, "update", function() {
                         if (b.context.onUIThread) {
-                            var d = cB(b.context.framegrabber);
-                            if (!d) {
-                                var a;
-                                b.context.framegrabber.attachData((a = b.context.inputImageWrapper) === null || a === void 0 ? void 0 : a.data);
+                            var a = cx(b.context.framegrabber);
+                            if (!a) {
+                                var c;
+                                b.context.framegrabber.attachData((c = b.context.inputImageWrapper) === null || c === void 0 ? void 0 : c.data);
                                 if (b.context.framegrabber.grab()) {
-                                    if (!d) {
+                                    if (!a) {
                                         b.locateAndDecode();
                                     }
                                 }
                             }
                         } else {
-                            var c;
-                            b.context.framegrabber.attachData((c = b.context.inputImageWrapper) === null || c === void 0 ? void 0 : c.data);
+                            var d;
+                            b.context.framegrabber.attachData((d = b.context.inputImageWrapper) === null || d === void 0 ? void 0 : d.data);
                             b.context.framegrabber.grab();
                             b.locateAndDecode();
                         }
                     });
                 }
-                aE()(a, [
+                r()(a, [
                     {
                         key: "initBuffers",
-                        value: function e(b) {
+                        value: function a(b) {
                             if (!this.context.config) {
                                 return;
                             }
-                            var a = cb(this.context.inputStream, b, this.context.config.locator), c = a.inputImageWrapper, d = a.boxSize;
-                            this.context.inputImageWrapper = c;
-                            this.context.boxSize = d;
+                            var c = b3(this.context.inputStream, b, this.context.config.locator), d = c.inputImageWrapper, e = c.boxSize;
+                            this.context.inputImageWrapper = d;
+                            this.context.boxSize = e;
                         }
                     },
                     {
                         key: "initializeData",
-                        value: function b(a) {
+                        value: function a(b) {
                             if (!this.context.config) {
                                 return;
                             }
-                            this.initBuffers(a);
-                            this.context.decoder = bL.create(this.context.config.decoder, this.context.inputImageWrapper);
+                            this.initBuffers(b);
+                            this.context.decoder = bo.create(this.context.config.decoder, this.context.inputImageWrapper);
                         }
                     },
                     {
                         key: "getViewPort",
-                        value: function b() {
+                        value: function a() {
                             if (!this.context.config || !this.context.config.inputStream) {
                                 return null;
                             }
-                            var a = this.context.config.inputStream.target;
-                            return cc(a);
+                            var b = this.context.config.inputStream.target;
+                            return b4(b);
                         }
                     },
                     {
                         key: "ready",
-                        value: function b(a) {
+                        value: function a(b) {
                             this.context.inputStream.play();
-                            a();
+                            b();
                         }
                     },
                     {
                         key: "initCanvas",
-                        value: function d() {
-                            var a = cg(this.context);
-                            if (!a) {
+                        value: function a() {
+                            var b = b8(this.context);
+                            if (!b) {
                                 return;
                             }
-                            var b = a.ctx, c = a.dom;
-                            this.context.canvasContainer.dom.image = c.image;
-                            this.context.canvasContainer.dom.overlay = c.overlay;
-                            this.context.canvasContainer.ctx.image = b.image;
-                            this.context.canvasContainer.ctx.overlay = b.overlay;
+                            var c = b.ctx, d = b.dom;
+                            this.context.canvasContainer.dom.image = d.image;
+                            this.context.canvasContainer.dom.overlay = d.overlay;
+                            this.context.canvasContainer.ctx.image = c.image;
+                            this.context.canvasContainer.ctx.overlay = c.overlay;
                         }
                     },
                     {
                         key: "initInputStream",
-                        value: function h(f) {
+                        value: function a(b) {
                             if (!this.context.config || !this.context.config.inputStream) {
                                 return;
                             }
-                            var b = this.context.config.inputStream, c = b.type, g = b.constraints;
-                            var d = cJ(c, this.getViewPort(), ct), e = d.video, a = d.inputStream;
-                            if (c === "LiveStream" && e) {
-                                al.request(e, g).then(function() {
-                                    return a.trigger("canrecord");
+                            var c = this.context.config.inputStream, d = c.type, e = c.constraints;
+                            var f = cF(d, this.getViewPort(), co), g = f.video, h = f.inputStream;
+                            if (d === "LiveStream" && g) {
+                                bO.request(g, e).then(function() {
+                                    return h.trigger("canrecord");
                                 })["catch"](function(a) {
-                                    return f(a);
+                                    return b(a);
                                 });
                             }
-                            a.setAttribute("preload", "auto");
-                            a.setInputStream(this.context.config.inputStream);
-                            a.addEventListener("canrecord", this.canRecord.bind(undefined, f));
-                            this.context.inputStream = a;
+                            h.setAttribute("preload", "auto");
+                            h.setInputStream(this.context.config.inputStream);
+                            h.addEventListener("canrecord", this.canRecord.bind(undefined, b));
+                            this.context.inputStream = h;
                         }
                     },
                     {
                         key: "getBoundingBoxes",
-                        value: function b() {
-                            var a;
-                            return (a = this.context.config) !== null && a !== void 0 && a.locate ? ca["a"].locate() : [
+                        value: function a() {
+                            var b;
+                            return (b = this.context.config) !== null && b !== void 0 && b.locate ? b2["a"].locate() : [
                                 [
-                                    Object(b6["clone"])(this.context.boxSize[0]),
-                                    Object(b6["clone"])(this.context.boxSize[1]),
-                                    Object(b6["clone"])(this.context.boxSize[2]),
-                                    Object(b6["clone"])(this.context.boxSize[3]), 
+                                    Object(b$["clone"])(this.context.boxSize[0]),
+                                    Object(b$["clone"])(this.context.boxSize[1]),
+                                    Object(b$["clone"])(this.context.boxSize[2]),
+                                    Object(b$["clone"])(this.context.boxSize[3]), 
                                 ], 
                             ];
                         }
                     },
                     {
                         key: "transformResult",
-                        value: function f(a) {
-                            var g = this;
-                            var e = this.context.inputStream.getTopRight();
-                            var b = e.x;
-                            var c = e.y;
-                            if (b === 0 && c === 0) {
+                        value: function a(b) {
+                            var c = this;
+                            var d = this.context.inputStream.getTopRight();
+                            var e = d.x;
+                            var f = d.y;
+                            if (e === 0 && f === 0) {
                                 return;
                             }
-                            if (a.barcodes) {
-                                a.barcodes.forEach(function(a) {
-                                    return g.transformResult(a);
+                            if (b.barcodes) {
+                                b.barcodes.forEach(function(a) {
+                                    return c.transformResult(a);
                                 });
                             }
-                            if (a.line && a.line.length === 2) {
-                                cL(a.line, b, c);
+                            if (b.line && b.line.length === 2) {
+                                cH(b.line, e, f);
                             }
-                            if (a.box) {
-                                cK(a.box, b, c);
+                            if (b.box) {
+                                cG(b.box, e, f);
                             }
-                            if (a.boxes && a.boxes.length > 0) {
-                                for(var d = 0; d < a.boxes.length; d++){
-                                    cK(a.boxes[d], b, c);
+                            if (b.boxes && b.boxes.length > 0) {
+                                for(var g = 0; g < b.boxes.length; g++){
+                                    cG(b.boxes[g], e, f);
                                 }
                             }
                         }
                     },
                     {
                         key: "addResult",
-                        value: function c(a, b) {
+                        value: function a(b, c) {
                             var d = this;
-                            if (!b || !this.context.resultCollector) {
+                            if (!c || !this.context.resultCollector) {
                                 return;
                             }
-                            if (a.barcodes) {
-                                a.barcodes.filter(function(a) {
+                            if (b.barcodes) {
+                                b.barcodes.filter(function(a) {
                                     return a.codeResult;
                                 }).forEach(function(a) {
-                                    return d.addResult(a, b);
+                                    return d.addResult(a, c);
                                 });
-                            } else if (a.codeResult) {
-                                this.context.resultCollector.addResult(b, this.context.inputStream.getCanvasSize(), a.codeResult);
+                            } else if (b.codeResult) {
+                                this.context.resultCollector.addResult(c, this.context.inputStream.getCanvasSize(), b.codeResult);
                             }
                         }
                     },
                     {
                         key: "hasCodeResult",
-                        value: function b(a) {
-                            return !!(a && (a.barcodes ? a.barcodes.some(function(a) {
+                        value: function a(b) {
+                            return !!(b && (b.barcodes ? b.barcodes.some(function(a) {
                                 return a.codeResult;
-                            }) : a.codeResult));
+                            }) : b.codeResult));
                         }
                     },
                     {
                         key: "publishResult",
-                        value: function d() {
-                            var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+                        value: function a() {
+                            var b = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
                             var c = arguments.length > 1 ? arguments[1] : undefined;
-                            var b = a;
-                            if (a && this.context.onUIThread) {
-                                this.transformResult(a);
-                                this.addResult(a, c);
-                                b = a.barcodes || a;
+                            var d = b;
+                            if (b && this.context.onUIThread) {
+                                this.transformResult(b);
+                                this.addResult(b, c);
+                                d = b.barcodes || b;
                             }
-                            bM.publish("processed", b);
-                            if (this.hasCodeResult(a)) {
-                                bM.publish("detected", b);
+                            bp.publish("processed", d);
+                            if (this.hasCodeResult(b)) {
+                                bp.publish("detected", d);
                             }
                         }
                     },
                     {
                         key: "locateAndDecode",
-                        value: function f() {
-                            var a = this.getBoundingBoxes();
-                            if (a) {
-                                var b;
-                                var d = this.context.decoder.decodeFromBoundingBoxes(a) || {};
-                                d.boxes = a;
-                                this.publishResult(d, (b = this.context.inputImageWrapper) === null || b === void 0 ? void 0 : b.data);
+                        value: function a() {
+                            var b = this.getBoundingBoxes();
+                            if (b) {
+                                var c;
+                                var d = this.context.decoder.decodeFromBoundingBoxes(b) || {};
+                                d.boxes = b;
+                                this.publishResult(d, (c = this.context.inputImageWrapper) === null || c === void 0 ? void 0 : c.data);
                             } else {
                                 var e = this.context.decoder.decodeFromImage(this.context.inputImageWrapper);
                                 if (e) {
-                                    var c;
-                                    this.publishResult(e, (c = this.context.inputImageWrapper) === null || c === void 0 ? void 0 : c.data);
+                                    var f;
+                                    this.publishResult(e, (f = this.context.inputImageWrapper) === null || f === void 0 ? void 0 : f.data);
                                 } else {
                                     this.publishResult();
                                 }
@@ -12155,30 +12155,30 @@
                     },
                     {
                         key: "startContinuousUpdate",
-                        value: function c() {
-                            var a, d = this;
-                            var e = null;
-                            var f = 1000 / (((a = this.context.config) === null || a === void 0 ? void 0 : a.frequency) || 60);
+                        value: function a() {
+                            var b, c = this;
+                            var d = null;
+                            var e = 1000 / (((b = this.context.config) === null || b === void 0 ? void 0 : b.frequency) || 60);
                             this.context.stopped = false;
-                            var g = this.context;
-                            var b = function b(a) {
-                                e = e || a;
-                                if (!g.stopped) {
-                                    if (a >= e) {
-                                        e += f;
-                                        d.update();
+                            var f = this.context;
+                            var g = function a(b) {
+                                d = d || b;
+                                if (!f.stopped) {
+                                    if (b >= d) {
+                                        d += e;
+                                        c.update();
                                     }
-                                    window.requestAnimationFrame(b);
+                                    window.requestAnimationFrame(a);
                                 }
                             };
-                            b(performance.now());
+                            g(performance.now());
                         }
                     },
                     {
                         key: "start",
-                        value: function c() {
-                            var a, b;
-                            if (this.context.onUIThread && ((a = this.context.config) === null || a === void 0 ? void 0 : (b = a.inputStream) === null || b === void 0 ? void 0 : b.type) === "LiveStream") {
+                        value: function a() {
+                            var b, c;
+                            if (this.context.onUIThread && ((b = this.context.config) === null || b === void 0 ? void 0 : (c = b.inputStream) === null || c === void 0 ? void 0 : c.type) === "LiveStream") {
                                 this.startContinuousUpdate();
                             } else {
                                 this.update();
@@ -12188,189 +12188,189 @@
                     {
                         key: "stop",
                         value: (function() {
-                            var b = bN()(bO.a.mark(function a() {
+                            var a = br()(bt.a.mark(function a() {
                                 var b;
-                                return bO.a.wrap(function c(a) {
+                                return bt.a.wrap(function a(c) {
                                     while(1){
-                                        switch((a.prev = a.next)){
+                                        switch((c.prev = c.next)){
                                             case 0:
                                                 this.context.stopped = true;
-                                                cG(0);
+                                                cC(0);
                                                 if (!((b = this.context.config) !== null && b !== void 0 && b.inputStream && this.context.config.inputStream.type === "LiveStream")) {
-                                                    a.next = 6;
+                                                    c.next = 6;
                                                     break;
                                                 }
-                                                a.next = 5;
-                                                return al.release();
+                                                c.next = 5;
+                                                return bO.release();
                                             case 5:
                                                 this.context.inputStream.clearEventHandlers();
                                             case 6:
                                             case "end":
-                                                return a.stop();
+                                                return c.stop();
                                         }
                                     }
                                 }, a, this);
                             }));
-                            function a() {
-                                return b.apply(this, arguments);
+                            function b() {
+                                return a.apply(this, arguments);
                             }
-                            return a;
+                            return b;
                         })()
                     },
                     {
                         key: "setReaders",
-                        value: function b(a) {
+                        value: function a(b) {
                             if (this.context.decoder) {
-                                this.context.decoder.setReaders(a);
+                                this.context.decoder.setReaders(b);
                             }
-                            cH(a);
+                            cD(b);
                         }
                     },
                     {
                         key: "registerReader",
-                        value: function c(a, b) {
-                            bL.registerReader(a, b);
+                        value: function a(b, c) {
+                            bo.registerReader(b, c);
                             if (this.context.decoder) {
-                                this.context.decoder.registerReader(a, b);
+                                this.context.decoder.registerReader(b, c);
                             }
-                            cI(a, b);
+                            cE(b, c);
                         }
                     }, 
                 ]);
                 return a;
             })();
-            var av = new au();
-            var aw = av.context;
-            var n = {
-                init: function f(e, b, c) {
-                    var a = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : av;
-                    var d;
-                    if (!b) {
-                        d = new Promise(function(a, c) {
-                            b = function d(b) {
-                                b ? c(b) : a();
+            var cJ = new cI();
+            var cK = cJ.context;
+            var cL = {
+                init: function a(b, c, d) {
+                    var e = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : cJ;
+                    var f;
+                    if (!c) {
+                        f = new Promise(function(a, b) {
+                            c = function c(d) {
+                                d ? b(d) : a();
                             };
                         });
                     }
-                    a.context.config = az()({}, b5, e);
-                    if (a.context.config.numOfWorkers > 0) {
-                        a.context.config.numOfWorkers = 0;
+                    e.context.config = h()({}, bZ, b);
+                    if (e.context.config.numOfWorkers > 0) {
+                        e.context.config.numOfWorkers = 0;
                     }
-                    if (c) {
-                        a.context.onUIThread = false;
-                        a.initializeData(c);
-                        if (b) {
-                            b();
+                    if (d) {
+                        e.context.onUIThread = false;
+                        e.initializeData(d);
+                        if (c) {
+                            c();
                         }
                     } else {
-                        a.initInputStream(b);
+                        e.initInputStream(c);
                     }
-                    return d;
+                    return f;
                 },
                 start: function a() {
-                    return av.start();
+                    return cJ.start();
                 },
                 stop: function a() {
-                    return av.stop();
+                    return cJ.stop();
                 },
                 pause: function a() {
-                    aw.stopped = true;
+                    cK.stopped = true;
                 },
-                onDetected: function b(a) {
-                    if (!a || (typeof a !== "function" && (ay()(a) !== "object" || !a.callback))) {
+                onDetected: function a(b) {
+                    if (!b || (typeof b !== "function" && (f()(b) !== "object" || !b.callback))) {
                         console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
                         return;
                     }
-                    bM.subscribe("detected", a);
+                    bp.subscribe("detected", b);
                 },
-                offDetected: function b(a) {
-                    bM.unsubscribe("detected", a);
+                offDetected: function a(b) {
+                    bp.unsubscribe("detected", b);
                 },
-                onProcessed: function b(a) {
-                    if (!a || (typeof a !== "function" && (ay()(a) !== "object" || !a.callback))) {
+                onProcessed: function a(b) {
+                    if (!b || (typeof b !== "function" && (f()(b) !== "object" || !b.callback))) {
                         console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
                         return;
                     }
-                    bM.subscribe("processed", a);
+                    bp.subscribe("processed", b);
                 },
-                offProcessed: function b(a) {
-                    bM.unsubscribe("processed", a);
+                offProcessed: function a(b) {
+                    bp.unsubscribe("processed", b);
                 },
-                setReaders: function b(a) {
-                    if (!a) {
+                setReaders: function a(b) {
+                    if (!b) {
                         console.trace("* warning: Quagga.setReaders called with no readers, ignoring");
                         return;
                     }
-                    av.setReaders(a);
+                    cJ.setReaders(b);
                 },
-                registerReader: function c(a, b) {
-                    if (!a) {
+                registerReader: function a(b, c) {
+                    if (!b) {
                         console.trace("* warning: Quagga.registerReader called with no name, ignoring");
                         return;
                     }
-                    if (!b) {
+                    if (!c) {
                         console.trace("* warning: Quagga.registerReader called with no reader, ignoring");
                         return;
                     }
-                    av.registerReader(a, b);
+                    cJ.registerReader(b, c);
                 },
-                registerResultCollector: function b(a) {
-                    if (a && typeof a.addResult === "function") {
-                        aw.resultCollector = a;
+                registerResultCollector: function a(b) {
+                    if (b && typeof b.addResult === "function") {
+                        cK.resultCollector = b;
                     }
                 },
                 get canvas () {
-                    return aw.canvasContainer;
+                    return cK.canvasContainer;
                 },
-                decodeSingle: function b(a, c) {
+                decodeSingle: function a(b, c) {
                     var d = this;
-                    var e = new au();
-                    a = az()({
+                    var e = new cI();
+                    b = h()({
                         inputStream: {
                             type: "ImageStream",
                             sequence: false,
                             size: 800,
-                            src: a.src
+                            src: b.src
                         },
-                        numOfWorkers: true && a.debug ? 0 : 1,
+                        numOfWorkers: true && b.debug ? 0 : 1,
                         locator: {
                             halfSample: false
                         }
-                    }, a);
-                    if (a.numOfWorkers > 0) {
-                        a.numOfWorkers = 0;
+                    }, b);
+                    if (b.numOfWorkers > 0) {
+                        b.numOfWorkers = 0;
                     }
-                    if (a.numOfWorkers > 0 && (typeof Blob === "undefined" || typeof Worker === "undefined")) {
+                    if (b.numOfWorkers > 0 && (typeof Blob === "undefined" || typeof Worker === "undefined")) {
                         console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0");
-                        a.numOfWorkers = 0;
+                        b.numOfWorkers = 0;
                     }
-                    return new Promise(function(g, b) {
+                    return new Promise(function(a, f) {
                         try {
-                            d.init(a, function() {
-                                bM.once("processed", function(a) {
+                            d.init(b, function() {
+                                bp.once("processed", function(b) {
                                     e.stop();
                                     if (c) {
-                                        c.call(null, a);
+                                        c.call(null, b);
                                     }
-                                    g(a);
+                                    a(b);
                                 }, true);
                                 e.start();
                             }, null, e);
-                        } catch (f) {
-                            b(f);
+                        } catch (g) {
+                            f(g);
                         }
                     });
                 },
                 get default () {
-                    return n;
+                    return cL;
                 },
                 Readers: d,
-                CameraAccess: al,
-                ImageDebug: r["a"],
-                ImageWrapper: q["a"],
-                ResultCollector: am
+                CameraAccess: bO,
+                ImageDebug: n["a"],
+                ImageWrapper: j["a"],
+                ResultCollector: bR
             };
-            var cM = (e["default"] = n);
+            var cM = (b["default"] = cL);
         }
     ])["default"];
 });

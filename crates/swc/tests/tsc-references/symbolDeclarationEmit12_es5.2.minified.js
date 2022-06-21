@@ -1,7 +1,7 @@
 var M;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
-!function(M1) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+!function(M) {
     var C = function() {
         "use strict";
         function C() {
@@ -19,5 +19,5 @@ import _create_class from "@swc/helpers/lib/_create_class.js";
             }
         ]), C;
     }();
-    M1.C = C;
+    M.C = C;
 }(M || (M = {}));

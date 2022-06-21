@@ -631,9 +631,8 @@ where
                                 block_contents_grammar: BlockContentsGrammar::NoGrammar,
                                 ..self.ctx
                             };
-                            let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                            block
+                            self.with_ctx(ctx).parse_as::<SimpleBlock>()?
                         }
                     };
 

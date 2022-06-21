@@ -14,6 +14,7 @@ use swc_ecma_utils::{
     Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+#[cfg(feature = "debug")]
 use tracing::{debug, span, Level};
 use Value::Known;
 
@@ -22,11 +23,14 @@ use self::{
     util::{MultiReplacer, MultiReplacerMode},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
-    debug::{dump, AssertValid},
+    debug::AssertValid,
     marks::Marks,
+    maybe_par,
     mode::Mode,
     option::CompressOptions,
     util::{
@@ -224,6 +228,7 @@ struct Optimizer<'a, M> {
 
     mode: &'a M,
 
+    #[allow(unused)]
     debug_infinite_loop: bool,
 
     functions: FxHashMap<Id, FnMetadata>,
@@ -351,10 +356,12 @@ where
                     // Don't set in_strict for directive itself.
                     stmt.visit_mut_with(self);
                 } else {
-                    stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
+                    let child_optimizer = &mut *self.with_ctx(child_ctx);
+                    stmt.visit_mut_with(child_optimizer);
                 }
 
-                if cfg!(debug_assertions) {
+                #[cfg(debug_assertions)]
+                {
                     stmt.visit_with(&mut AssertValid);
                 }
 
@@ -379,43 +386,50 @@ where
 
         self.ctx.in_asm |= use_asm;
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.reorder_stmts(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.merge_sequences_in_stmts(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.merge_similar_ifs(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.make_sequences(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.drop_else_token(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.break_assignments_in_seqs(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
@@ -978,6 +992,7 @@ where
                 span,
                 left,
                 right,
+                #[cfg(feature = "debug")]
                 op,
                 ..
             }) => {
@@ -1101,99 +1116,6 @@ where
         Some(e.take())
     }
 
-    /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
-    fn compress_regexp(&mut self, e: &mut Expr) {
-        let (span, args) = match e {
-            Expr::New(NewExpr {
-                span, callee, args, ..
-            }) => match &**callee {
-                Expr::Ident(Ident {
-                    sym: js_word!("RegExp"),
-                    ..
-                }) => (*span, args),
-                _ => return,
-            },
-            _ => return,
-        };
-
-        let args = match args {
-            Some(v) => v,
-            None => return,
-        };
-        if args.is_empty() || args.len() > 2 {
-            return;
-        }
-
-        // We aborts the method if arguments are not literals.
-        if args.iter().any(|v| {
-            v.spread.is_some()
-                || match &*v.expr {
-                    Expr::Lit(Lit::Str(s)) => {
-                        if s.value.contains(|c: char| {
-                            // whitelist
-                            !c.is_ascii_alphanumeric()
-                                && !matches!(c, '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+')
-                        }) {
-                            return true;
-                        }
-                        if s.value.contains("\\\0") || s.value.contains('/') {
-                            return true;
-                        }
-
-                        false
-                    }
-                    _ => true,
-                }
-        }) {
-            return;
-        }
-
-        //
-        let pattern = args[0].expr.take();
-
-        let pattern = match *pattern {
-            Expr::Lit(Lit::Str(s)) => s.value,
-            _ => {
-                unreachable!()
-            }
-        };
-
-        if pattern.is_empty() {
-            // For some expressions `RegExp()` and `RegExp("")`
-            // Theoretically we can use `/(?:)/` to achieve shorter code
-            // But some browsers released in 2015 don't support them yet.
-            args[0].expr = pattern.into();
-            return;
-        }
-
-        let flags = args
-            .get_mut(1)
-            .map(|v| v.expr.take())
-            .map(|v| match *v {
-                Expr::Lit(Lit::Str(s)) => {
-                    assert!(s.value.is_ascii());
-
-                    let s = s.value.to_string();
-                    let mut bytes = s.into_bytes();
-                    bytes.sort_unstable();
-
-                    String::from_utf8(bytes).unwrap().into()
-                }
-                _ => {
-                    unreachable!()
-                }
-            })
-            .unwrap_or(js_word!(""));
-
-        report_change!("Converting call to RegExp into a regexp literal");
-        self.changed = true;
-        *e = Expr::Lit(Lit::Regex(Regex {
-            span,
-            exp: pattern,
-            flags,
-        }))
-    }
-
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.join_vars && !self.options.hoist_vars {
             return;
@@ -1287,11 +1209,11 @@ where
                     }
 
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
-                        if block
-                            .stmts
-                            .iter()
-                            .all(|stmt| !matches!(stmt, Stmt::Decl(..)))
-                        {
+                        let stmts = &block.stmts;
+                        if maybe_par!(
+                            stmts.iter().all(|stmt| !matches!(stmt, Stmt::Decl(..))),
+                            *crate::LIGHT_TASK_PARALLELS
+                        ) {
                             report_change!("optimizer: Removing nested block");
                             self.changed = true;
                             bs.stmts = block.stmts.take();
@@ -1633,7 +1555,12 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
-        decl.visit_mut_children_with(self);
+        match decl {
+            Decl::Class(class_decl) => self.visit_mut_class(&mut class_decl.class),
+            Decl::Fn(fn_decl) => self.visit_mut_fn_decl(fn_decl),
+            Decl::Var(var_decl) => self.visit_mut_var_decl(var_decl),
+            _ => decl.visit_mut_children_with(self),
+        };
 
         self.drop_unused_decl(decl);
         self.store_typeofs(decl);
@@ -1734,8 +1661,6 @@ where
 
         self.drop_unused_assignments(e);
 
-        self.compress_regexp(e);
-
         self.compress_lits(e);
 
         self.compress_typeofs(e);
@@ -1777,7 +1702,7 @@ where
         }
 
         #[cfg(feature = "trace-ast")]
-        debug!("Output: {}", dump(e, true));
+        tracing::debug!("Output: {}", dump(e, true));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -1865,7 +1790,8 @@ where
             }
         }
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             n.visit_with(&mut AssertValid);
         }
     }
@@ -1998,7 +1924,8 @@ where
             if let Some(body) = n.body.as_mut() {
                 // Bypass block scope handler.
                 body.visit_mut_children_with(optimizer);
-                if cfg!(debug_assertions) {
+                #[cfg(debug_assertions)]
+                {
                     body.visit_with(&mut AssertValid);
                 }
             }
@@ -2020,7 +1947,8 @@ where
             drop_invalid_stmts(&mut body.stmts);
         }
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             n.visit_with(&mut AssertValid);
         }
     }
@@ -2202,7 +2130,8 @@ where
             }
         }
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             n.visit_with(&mut AssertValid);
         }
     }
@@ -2284,7 +2213,8 @@ where
         let old_prepend = self.prepend_stmts.take();
         let old_append = self.append_stmts.take();
 
-        let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
+        #[cfg(feature = "debug")]
+        let _tracing = if self.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -2323,7 +2253,8 @@ where
                 _ => {}
             }
 
-            if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
+            {
                 s.visit_with(&mut AssertValid);
             }
         }
@@ -2369,7 +2300,8 @@ where
                     .collect(),
             });
 
-            if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
+            {
                 s.visit_with(&mut AssertValid);
             }
         }
@@ -2379,7 +2311,8 @@ where
 
         let len = self.prepend_stmts.len();
 
-        if cfg!(feature = "debug") && self.debug_infinite_loop {
+        #[cfg(feature = "debug")]
+        if self.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -2438,7 +2371,8 @@ where
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             s.visit_with(&mut AssertValid);
         }
 
@@ -2464,7 +2398,8 @@ where
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
 
-        if cfg!(feature = "debug") && self.debug_infinite_loop {
+        #[cfg(feature = "debug")]
+        if self.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -2474,7 +2409,8 @@ where
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             s.visit_with(&mut AssertValid);
         }
 
@@ -2483,15 +2419,18 @@ where
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         // Skip if `use asm` exists.
-        if stmts.iter().any(|stmt| match stmt.as_stmt() {
-            Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                Expr::Lit(Lit::Str(Str { raw, .. })) => {
-                    matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
-                }
+        if maybe_par!(
+            stmts.iter().any(|stmt| match stmt.as_stmt() {
+                Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                    Expr::Lit(Lit::Str(Str { raw, .. })) => {
+                        matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
+                    }
+                    _ => false,
+                },
                 _ => false,
-            },
-            _ => false,
-        }) {
+            }),
+            *crate::LIGHT_TASK_PARALLELS
+        ) {
             return;
         }
 
@@ -2515,7 +2454,8 @@ where
             }
         }
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
     }
@@ -2846,7 +2786,7 @@ where
 
 /// If true, `0` in `(0, foo.bar)()` is preserved.
 fn is_callee_this_aware(callee: &Expr) -> bool {
-    match &*callee {
+    match callee {
         Expr::Arrow(..) => return false,
         Expr::Seq(..) => return true,
         Expr::Member(MemberExpr { obj, .. }) => {

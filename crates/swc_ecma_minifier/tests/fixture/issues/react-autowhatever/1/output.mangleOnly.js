@@ -1,34 +1,34 @@
-import { jsx as d } from "react/jsx-runtime";
-import e, { Component as c } from "react";
-import a from "prop-types";
-import f from "./Item";
-import g from "./compareObjects";
-function h(a) {
+import { jsx as a } from "react/jsx-runtime";
+import b, { Component as c } from "react";
+import d from "prop-types";
+import e from "./Item";
+import f from "./compareObjects";
+function g(a) {
     if (a === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
     return a;
 }
-function i(a, b) {
+function h(a, b) {
     if (!(a instanceof b)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function j(d, c) {
-    for(var b = 0; b < c.length; b++){
-        var a = c[b];
-        a.enumerable = a.enumerable || false;
-        a.configurable = true;
-        if ("value" in a) a.writable = true;
-        Object.defineProperty(d, a.key, a);
+function i(a, b) {
+    for(var c = 0; c < b.length; c++){
+        var d = b[c];
+        d.enumerable = d.enumerable || false;
+        d.configurable = true;
+        if ("value" in d) d.writable = true;
+        Object.defineProperty(a, d.key, d);
     }
 }
-function k(a, b, c) {
-    if (b) j(a.prototype, b);
-    if (c) j(a, c);
+function j(a, b, c) {
+    if (b) i(a.prototype, b);
+    if (c) i(a, c);
     return a;
 }
-function l(a, b, c) {
+function k(a, b, c) {
     if (b in a) {
         Object.defineProperty(a, b, {
             value: c,
@@ -41,133 +41,133 @@ function l(a, b, c) {
     }
     return a;
 }
-function m(a) {
-    m = Object.setPrototypeOf ? Object.getPrototypeOf : function b(a) {
-        return a.__proto__ || Object.getPrototypeOf(a);
+function l(a) {
+    l = Object.setPrototypeOf ? Object.getPrototypeOf : function a(b) {
+        return b.__proto__ || Object.getPrototypeOf(b);
     };
-    return m(a);
+    return l(a);
 }
-function n(b, a) {
-    if (typeof a !== "function" && a !== null) {
+function m(a, b) {
+    if (typeof b !== "function" && b !== null) {
         throw new TypeError("Super expression must either be null or a function");
     }
-    b.prototype = Object.create(a && a.prototype, {
+    a.prototype = Object.create(b && b.prototype, {
         constructor: {
-            value: b,
+            value: a,
             writable: true,
             configurable: true
         }
     });
-    if (a) q(b, a);
+    if (b) p(a, b);
 }
-function o(d) {
-    for(var a = 1; a < arguments.length; a++){
-        var c = arguments[a] != null ? arguments[a] : {};
-        var b = Object.keys(c);
+function n(a) {
+    for(var b = 1; b < arguments.length; b++){
+        var c = arguments[b] != null ? arguments[b] : {};
+        var d = Object.keys(c);
         if (typeof Object.getOwnPropertySymbols === "function") {
-            b = b.concat(Object.getOwnPropertySymbols(c).filter(function(a) {
+            d = d.concat(Object.getOwnPropertySymbols(c).filter(function(a) {
                 return Object.getOwnPropertyDescriptor(c, a).enumerable;
             }));
         }
-        b.forEach(function(a) {
-            l(d, a, c[a]);
+        d.forEach(function(b) {
+            k(a, b, c[b]);
         });
     }
-    return d;
+    return a;
 }
-function p(b, a) {
-    if (a && (r(a) === "object" || typeof a === "function")) {
-        return a;
-    }
-    return h(b);
-}
-function q(a, b) {
-    q = Object.setPrototypeOf || function c(a, b) {
-        a.__proto__ = b;
-        return a;
-    };
-    return q(a, b);
-}
-var r = function(a) {
-    return a && typeof Symbol !== "undefined" && a.constructor === Symbol ? "symbol" : typeof a;
-};
-var b = (function(b) {
-    "use strict";
-    n(a, b);
-    function a() {
-        i(this, a);
-        var b;
-        b = p(this, m(a).apply(this, arguments));
-        b.storeHighlightedItemReference = function(a) {
-            b.props.onHighlightedItemChange(a === null ? null : a.item);
-        };
+function o(a, b) {
+    if (b && (q(b) === "object" || typeof b === "function")) {
         return b;
     }
-    k(a, [
+    return g(a);
+}
+function p(a, b) {
+    p = Object.setPrototypeOf || function a(b, c) {
+        b.__proto__ = c;
+        return b;
+    };
+    return p(a, b);
+}
+var q = function(a) {
+    return a && typeof Symbol !== "undefined" && a.constructor === Symbol ? "symbol" : typeof a;
+};
+var r = (function(b) {
+    "use strict";
+    m(c, b);
+    function c() {
+        h(this, c);
+        var a;
+        a = o(this, l(c).apply(this, arguments));
+        a.storeHighlightedItemReference = function(b) {
+            a.props.onHighlightedItemChange(b === null ? null : b.item);
+        };
+        return a;
+    }
+    j(c, [
         {
             key: "shouldComponentUpdate",
-            value: function b(a) {
-                return g(a, this.props, [
+            value: function a(b) {
+                return f(b, this.props, [
                     "itemProps"
                 ]);
             }
         },
         {
             key: "render",
-            value: function j() {
-                var k = this;
-                var a = this.props, e = a.items, g = a.itemProps, l = a.renderItem, m = a.renderItemData, b = a.sectionIndex, n = a.highlightedItemIndex, p = a.getItemId, h = a.theme, c = a.keyPrefix;
-                var i = b === null ? c : "".concat(c, "section-").concat(b, "-");
+            value: function b() {
+                var c = this;
+                var d = this.props, f = d.items, g = d.itemProps, h = d.renderItem, i = d.renderItemData, j = d.sectionIndex, k = d.highlightedItemIndex, l = d.getItemId, m = d.theme, o = d.keyPrefix;
+                var p = j === null ? o : "".concat(o, "section-").concat(j, "-");
                 var q = typeof g === "function";
-                return d("ul", o({
+                return a("ul", n({
                     role: "listbox"
-                }, h("".concat(i, "items-list"), "itemsList"), {
-                    children: e.map(function(j, a) {
-                        var r = a === 0;
-                        var c = a === n;
-                        var s = "".concat(i, "item-").concat(a);
-                        var t = q ? g({
-                            sectionIndex: b,
-                            itemIndex: a
+                }, m("".concat(p, "items-list"), "itemsList"), {
+                    children: f.map(function(b, d) {
+                        var f = d === 0;
+                        var o = d === k;
+                        var r = "".concat(p, "item-").concat(d);
+                        var s = q ? g({
+                            sectionIndex: j,
+                            itemIndex: d
                         }) : g;
-                        var e = o({
-                            id: p(b, a),
-                            "aria-selected": c
-                        }, h(s, "item", r && "itemFirst", c && "itemHighlighted"), t);
-                        if (c) {
-                            e.ref = k.storeHighlightedItemReference;
+                        var t = n({
+                            id: l(j, d),
+                            "aria-selected": o
+                        }, m(r, "item", f && "itemFirst", o && "itemHighlighted"), s);
+                        if (o) {
+                            t.ref = c.storeHighlightedItemReference;
                         }
-                        return d(f, o({}, e, {
-                            sectionIndex: b,
-                            isHighlighted: c,
-                            itemIndex: a,
-                            item: j,
-                            renderItem: l,
-                            renderItemData: m
+                        return a(e, n({}, t, {
+                            sectionIndex: j,
+                            isHighlighted: o,
+                            itemIndex: d,
+                            item: b,
+                            renderItem: h,
+                            renderItemData: i
                         }));
                     })
                 }));
             }
         }, 
     ]);
-    return a;
+    return c;
 })(c);
-b.propTypes = {
-    items: a.array.isRequired,
-    itemProps: a.oneOfType([
-        a.object,
-        a.func
+r.propTypes = {
+    items: d.array.isRequired,
+    itemProps: d.oneOfType([
+        d.object,
+        d.func
     ]),
-    renderItem: a.func.isRequired,
-    renderItemData: a.object.isRequired,
-    sectionIndex: a.number,
-    highlightedItemIndex: a.number,
-    onHighlightedItemChange: a.func.isRequired,
-    getItemId: a.func.isRequired,
-    theme: a.func.isRequired,
-    keyPrefix: a.string.isRequired
+    renderItem: d.func.isRequired,
+    renderItemData: d.object.isRequired,
+    sectionIndex: d.number,
+    highlightedItemIndex: d.number,
+    onHighlightedItemChange: d.func.isRequired,
+    getItemId: d.func.isRequired,
+    theme: d.func.isRequired,
+    keyPrefix: d.string.isRequired
 };
-b.defaultProps = {
+r.defaultProps = {
     sectionIndex: null
 };
-export { b as default };
+export { r as default };

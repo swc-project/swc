@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @noImplicitThis: true
 // @strict: true
 var Test = function Test() {
@@ -42,14 +42,14 @@ var Test5 = function Test5() {
     };
 };
 var Test6;
-(function(Test61) {
-    var f = Test61.f = function() {
+(function(Test6) {
+    var f = Test6.f = function() {
         var x = 1;
     };
 })(Test6 || (Test6 = {}));
 var Test7;
-(function(Test71) {
-    var f = Test71.f = function() {
+(function(Test7) {
+    var f = Test7.f = function() {
         var x = 1;
     };
 })(Test7 || (Test7 = {}));

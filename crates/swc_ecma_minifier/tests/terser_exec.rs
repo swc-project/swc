@@ -201,7 +201,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 
     let optimization_start = Instant::now();
     let mut output = optimize(
-        program,
+        program.into(),
         cm,
         Some(&comments),
         None,
@@ -214,7 +214,8 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
             unresolved_mark,
             top_level_mark,
         },
-    );
+    )
+    .expect_module();
     let end = Instant::now();
     tracing::info!(
         "optimize({}) took {:?}",

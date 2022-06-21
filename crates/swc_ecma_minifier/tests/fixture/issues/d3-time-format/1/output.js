@@ -25,7 +25,7 @@ function newDate(y, m, d) {
     };
 }
 export default function formatLocale(locale) {
-    var locale_dateTime = locale.dateTime, locale_date = locale.date, locale_time = locale.time, locale_periods = locale.periods, locale_weekdays = locale.days, locale_shortWeekdays = locale.shortDays, locale_months = locale.months, locale_shortMonths = locale.shortMonths, periodRe = formatRe(locale_periods), periodLookup = formatLookup(locale_periods), weekdayRe = formatRe(locale_weekdays), weekdayLookup = formatLookup(locale_weekdays), shortWeekdayRe = formatRe(locale_shortWeekdays), shortWeekdayLookup = formatLookup(locale_shortWeekdays), monthRe = formatRe(locale_months), monthLookup = formatLookup(locale_months), shortMonthRe = formatRe(locale_shortMonths), shortMonthLookup = formatLookup(locale_shortMonths), formats1 = {
+    var locale_dateTime = locale.dateTime, locale_date = locale.date, locale_time = locale.time, locale_periods = locale.periods, locale_weekdays = locale.days, locale_shortWeekdays = locale.shortDays, locale_months = locale.months, locale_shortMonths = locale.shortMonths, periodRe = formatRe(locale_periods), periodLookup = formatLookup(locale_periods), weekdayRe = formatRe(locale_weekdays), weekdayLookup = formatLookup(locale_weekdays), shortWeekdayRe = formatRe(locale_shortWeekdays), shortWeekdayLookup = formatLookup(locale_shortWeekdays), monthRe = formatRe(locale_months), monthLookup = formatLookup(locale_months), shortMonthRe = formatRe(locale_shortMonths), shortMonthLookup = formatLookup(locale_shortMonths), formats = {
         a: function(d) {
             return locale_shortWeekdays[d.getDay()];
         },
@@ -172,8 +172,8 @@ export default function formatLocale(locale) {
     };
     function newFormat(specifier, formats) {
         return function(date) {
-            var c, pad1, format, string = [], i = -1, j = 0, n = specifier.length;
-            for(date instanceof Date || (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad1 = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad1 = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad1)), string.push(c), j = i + 1);
+            var c, pad, format, string = [], i = -1, j = 0, n = specifier.length;
+            for(date instanceof Date || (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad)), string.push(c), j = i + 1);
             return string.push(specifier.slice(j, i)), string.join("");
         };
     }
@@ -199,9 +199,9 @@ export default function formatLocale(locale) {
         }
         return j;
     }
-    return formats1.x = newFormat(locale_date, formats1), formats1.X = newFormat(locale_time, formats1), formats1.c = newFormat(locale_dateTime, formats1), utcFormats.x = newFormat(locale_date, utcFormats), utcFormats.X = newFormat(locale_time, utcFormats), utcFormats.c = newFormat(locale_dateTime, utcFormats), {
+    return formats.x = newFormat(locale_date, formats), formats.X = newFormat(locale_time, formats), formats.c = newFormat(locale_dateTime, formats), utcFormats.x = newFormat(locale_date, utcFormats), utcFormats.X = newFormat(locale_time, utcFormats), utcFormats.c = newFormat(locale_dateTime, utcFormats), {
         format: function(specifier) {
-            var f = newFormat(specifier += "", formats1);
+            var f = newFormat(specifier += "", formats);
             return f.toString = function() {
                 return specifier;
             }, f;
@@ -233,13 +233,13 @@ var pads = {
 }, numberRe = /^\s*\d+/, percentRe = /^%/, requoteRe = /[\\^$*+?|[\]().{}]/g;
 function pad(value, fill, width) {
     var sign = value < 0 ? "-" : "", string = (sign ? -value : value) + "", length = string.length;
-    return sign + (length < width ? new Array(width - length + 1).join(fill) + string : string);
+    return sign + (length < width ? Array(width - length + 1).join(fill) + string : string);
 }
 function requote(s) {
     return s.replace(requoteRe, "\\$&");
 }
 function formatRe(names) {
-    return new RegExp("^(?:" + names.map(requote).join("|") + ")", "i");
+    return RegExp("^(?:" + names.map(requote).join("|") + ")", "i");
 }
 function formatLookup(names) {
     return new Map(names.map((name, i)=>[

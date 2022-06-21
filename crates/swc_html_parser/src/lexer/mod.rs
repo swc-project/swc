@@ -1,4 +1,4 @@
-use std::{char::REPLACEMENT_CHARACTER, mem::take};
+use std::{char::REPLACEMENT_CHARACTER, collections::VecDeque, mem::take};
 
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
@@ -119,7 +119,7 @@ struct Tag {
     kind: TagKind,
     tag_name: String,
     raw_tag_name: Option<String>,
-    self_closing: bool,
+    is_self_closing: bool,
     attributes: Vec<Attribute>,
 }
 
@@ -136,7 +136,6 @@ pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
 // TODO improve `raw` for all tokens (linting + better codegen)
 
-#[derive(Clone)]
 pub struct Lexer<I>
 where
     I: Input,
@@ -150,7 +149,7 @@ where
     return_state: State,
     errors: Vec<Error>,
     last_start_tag_name: Option<JsWord>,
-    pending_tokens: Vec<TokenAndSpan>,
+    pending_tokens: VecDeque<TokenAndSpan>,
     current_doctype_token: Option<Doctype>,
     current_comment_token: Option<String>,
     current_tag_token: Option<Tag>,
@@ -178,7 +177,7 @@ where
             return_state: State::Data,
             errors: vec![],
             last_start_tag_name: None,
-            pending_tokens: Vec::with_capacity(32),
+            pending_tokens: VecDeque::new(),
             current_doctype_token: None,
             current_comment_token: None,
             current_tag_token: None,
@@ -327,7 +326,7 @@ where
         );
 
         self.last_token_pos = self.input.cur_pos();
-        self.pending_tokens.push(TokenAndSpan { span, token });
+        self.pending_tokens.push_back(TokenAndSpan { span, token });
     }
 
     #[inline(always)]
@@ -353,7 +352,7 @@ where
                 ..
             }) = &self.current_tag_token
             {
-                return &*last_start_tag_name == tag_name;
+                return last_start_tag_name == tag_name;
             }
         }
 
@@ -547,7 +546,7 @@ where
             // Maximum known html tags are `blockquote` and `figcaption`
             tag_name: String::with_capacity(10),
             raw_tag_name: Some(String::with_capacity(10)),
-            self_closing: false,
+            is_self_closing: false,
             attributes: Vec::with_capacity(255),
         });
     }
@@ -558,7 +557,7 @@ where
             // Maximum known html tags are `blockquote` and `figcaption`
             tag_name: String::with_capacity(10),
             raw_tag_name: Some(String::with_capacity(10)),
-            self_closing: false,
+            is_self_closing: false,
             attributes: Vec::with_capacity(255),
         });
     }
@@ -672,7 +671,7 @@ where
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
-                        self_closing: current_tag_token.self_closing,
+                        is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token
                             .attributes
                             .drain(..)
@@ -704,7 +703,7 @@ where
                         self.emit_error(ErrorKind::EndTagWithAttributes);
                     }
 
-                    if current_tag_token.self_closing {
+                    if current_tag_token.is_self_closing {
                         self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
                     }
 
@@ -713,7 +712,7 @@ where
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
-                        self_closing: current_tag_token.self_closing,
+                        is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token
                             .attributes
                             .drain(..)
@@ -802,20 +801,20 @@ where
 
         self.emit_token(Token::Character {
             value: normalized_c,
-            raw: Some(raw.into()),
+            raw: None,
         });
     }
 
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
         if self.finished {
             return Err(ErrorKind::Eof);
+        } else {
+            while self.pending_tokens.is_empty() {
+                self.run()?;
+            }
         }
 
-        while self.pending_tokens.is_empty() && !self.finished {
-            self.run()?;
-        }
-
-        let token_and_span = self.pending_tokens.remove(0);
+        let token_and_span = self.pending_tokens.pop_front().unwrap();
 
         match token_and_span.token {
             Token::Eof => {
@@ -2469,7 +2468,7 @@ where
                     // state. Emit the current tag token.
                     Some('>') => {
                         if let Some(current_tag_token) = &mut self.current_tag_token {
-                            current_tag_token.self_closing = true;
+                            current_tag_token.is_self_closing = true;
                         }
 
                         self.state = State::Data;

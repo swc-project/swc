@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    var bom, defaults, events, isEmpty, processItem, processors1, sax, setImmediate, bind = function(fn, me) {
+    var bom, defaults, events, isEmpty, processItem, processors, sax, setImmediate, bind = function(fn, me) {
         return function() {
             return fn.apply(me, arguments);
         };
@@ -11,7 +11,7 @@
         }
         return ctor.prototype = parent.prototype, child.prototype = new ctor(), child.__super__ = parent.prototype, child;
     }, hasProp = {}.hasOwnProperty;
-    sax = require("sax"), events = require("events"), bom = require("./bom"), processors1 = require("./processors"), setImmediate = require("timers").setImmediate, defaults = require("./defaults").defaults, isEmpty = function(thing) {
+    sax = require("sax"), events = require("events"), bom = require("./bom"), processors = require("./processors"), setImmediate = require("timers").setImmediate, defaults = require("./defaults").defaults, isEmpty = function(thing) {
         return "object" == typeof thing && null != thing && 0 === Object.keys(thing).length;
     }, processItem = function(processors, item, key) {
         var i, len;
@@ -23,7 +23,7 @@
             if (this.parseStringPromise = bind(this.parseStringPromise, this), this.parseString = bind(this.parseString, this), this.reset = bind(this.reset, this), this.assignOrPush = bind(this.assignOrPush, this), this.processAsync = bind(this.processAsync, this), !(this instanceof exports.Parser)) return new exports.Parser(opts);
             for(key in this.options = {}, ref = defaults["0.2"])hasProp.call(ref, key) && (value = ref[key], this.options[key] = value);
             for(key in opts)hasProp.call(opts, key) && (value = opts[key], this.options[key] = value);
-            this.options.xmlns && (this.options.xmlnskey = this.options.attrkey + "ns"), this.options.normalizeTags && (this.options.tagNameProcessors || (this.options.tagNameProcessors = []), this.options.tagNameProcessors.unshift(processors1.normalize)), this.reset();
+            this.options.xmlns && (this.options.xmlnskey = this.options.attrkey + "ns"), this.options.normalizeTags && (this.options.tagNameProcessors || (this.options.tagNameProcessors = []), this.options.tagNameProcessors.unshift(processors.normalize)), this.reset();
         }
         return extend(Parser, superClass), Parser.prototype.processAsync = function() {
             var chunk, err;
@@ -88,7 +88,7 @@
                 if (s = ontext(text)) return s.cdata = !0;
             };
         }, Parser.prototype.parseString = function(str, cb) {
-            var err1;
+            var err;
             null != cb && "function" == typeof cb && (this.on("end", function(result) {
                 return this.reset(), cb(null, result);
             }), this.on("error", function(err) {
@@ -99,8 +99,8 @@
                 if (str = bom.stripBOM(str), this.options.async) return this.remaining = str, setImmediate(this.processAsync), this.saxParser;
                 return this.saxParser.write(str).close();
             } catch (error1) {
-                if (err1 = error1, !(this.saxParser.errThrown || this.saxParser.ended)) return this.emit("error", err1), this.saxParser.errThrown = !0;
-                if (this.saxParser.ended) throw err1;
+                if (err = error1, !(this.saxParser.errThrown || this.saxParser.ended)) return this.emit("error", err), this.saxParser.errThrown = !0;
+                if (this.saxParser.ended) throw err;
             }
         }, Parser.prototype.parseStringPromise = function(str) {
             var _this;

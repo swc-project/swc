@@ -1,11 +1,11 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(x) {
         _class_call_check(this, C);
     }
     var _proto = C.prototype;
-    _proto.foo = function foo(x1) {
+    _proto.foo = function foo(x) {
         var bar = function bar(x) {
             return x;
         };

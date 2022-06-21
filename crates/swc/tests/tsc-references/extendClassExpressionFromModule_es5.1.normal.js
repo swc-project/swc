@@ -1,19 +1,18 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @module: commonjs
 // @Filename: foo1.ts
 var x = function x() {
     "use strict";
     _class_call_check(this, x);
 };
-module.exports = x;
 // @Filename: foo2.ts
 var foo1 = require("./foo1");
 var x = foo1;
-var y = /*#__PURE__*/ function(x1) {
+var y = /*#__PURE__*/ function(x) {
     "use strict";
-    _inherits(y, x1);
+    _inherits(y, x);
     var _super = _create_super(y);
     function y() {
         _class_call_check(this, y);
@@ -21,4 +20,5 @@ var y = /*#__PURE__*/ function(x1) {
     }
     return y;
 }(x);
+module.exports = x;
 export { };

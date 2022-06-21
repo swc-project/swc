@@ -1,5 +1,5 @@
 var Shapes;
-!function(Shapes1) {
+!function(Shapes) {
     class Point {
         getDist() {
             return Math.sqrt(this.x * this.x + this.y * this.y);
@@ -8,5 +8,5 @@ var Shapes;
             this.x = x, this.y = y;
         }
     }
-    Point.origin = new Point(0, 0), Shapes1.Point = Point;
+    Point.origin = new Point(0, 0), Shapes.Point = Point;
 }(Shapes || (Shapes = {})), new Shapes.Point(3, 4).getDist();

@@ -1,4 +1,4 @@
-import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
+import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
         "",
@@ -92,8 +92,8 @@ function _templateObject7() {
     };
     return data;
 }
-function tempFun(tempStrs, g1, x) {
-    return g1(x);
+function tempFun(tempStrs, g, x) {
+    return g(x);
 }
 var a = tempFun(_templateObject(), function(x) {
     return x;

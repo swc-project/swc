@@ -1,4 +1,4 @@
-import _throw from "@swc/helpers/lib/_throw.js";
+import _throw from "@swc/helpers/src/_throw.mjs";
 // Missing properties
 function f1() {
     var ref = {}, x = ref.x, y = ref.y;
@@ -11,12 +11,12 @@ function f2() {
     var x, y;
     var ref;
     ref = {}, x = ref.x, y = ref.y, ref;
-    var ref4, ref5;
-    ref4 = {}, ref5 = ref4.x, x = ref5 === void 0 ? 1 : ref5, y = ref4.y, ref4;
-    var ref6, ref7;
-    ref6 = {}, x = ref6.x, ref7 = ref6.y, y = ref7 === void 0 ? 1 : ref7, ref6;
-    var ref8, ref9, ref10;
-    ref8 = {}, ref9 = ref8.x, x = ref9 === void 0 ? 1 : ref9, ref10 = ref8.y, y = ref10 === void 0 ? 1 : ref10, ref8;
+    var ref1, ref2;
+    ref1 = {}, ref2 = ref1.x, x = ref2 === void 0 ? 1 : ref2, y = ref1.y, ref1;
+    var ref3, ref4;
+    ref3 = {}, x = ref3.x, ref4 = ref3.y, y = ref4 === void 0 ? 1 : ref4, ref3;
+    var ref5, ref6, ref7;
+    ref5 = {}, ref6 = ref5.x, x = ref6 === void 0 ? 1 : ref6, ref7 = ref5.y, y = ref7 === void 0 ? 1 : ref7, ref5;
 }
 // Excess properties
 function f3() {
@@ -32,10 +32,10 @@ function f3() {
         x: 0,
         y: 0
     }.y;
-    var ref11 = {
+    var ref1 = {
         x: 0,
         y: 0
-    }, x = ref11.x, y = ref11.y;
+    }, x = ref1.x, y = ref1.y;
 }
 // Excess properties
 function f4() {
@@ -53,9 +53,9 @@ function f4() {
         x: 0,
         y: 0
     }).y;
-    var ref12;
-    ref12 = {
+    var ref1;
+    ref1 = {
         x: 0,
         y: 0
-    }, x = ref12.x, y = ref12.y, ref12;
+    }, x = ref1.x, y = ref1.y, ref1;
 }

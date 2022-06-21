@@ -1,4 +1,4 @@
-import _class_static_private_method_get from "@swc/helpers/lib/_class_static_private_method_get.js";
+import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 // @strict: true
 // @target: es6
 class A1 {

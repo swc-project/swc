@@ -5,22 +5,22 @@
         var installedModules = {};
         function __webpack_require__(moduleId) {
             if (installedModules[moduleId]) return installedModules[moduleId].exports;
-            var module = installedModules[moduleId] = {
+            var module1 = installedModules[moduleId] = {
                 i: moduleId,
                 l: !1,
                 exports: {}
             };
-            return modules[moduleId].call(module.exports, module, module.exports, __webpack_require__), module.l = !0, module.exports;
+            return modules[moduleId].call(module1.exports, module1, module1.exports, __webpack_require__), module1.l = !0, module1.exports;
         }
-        return __webpack_require__.m = modules, __webpack_require__.c = installedModules, __webpack_require__.d = function(exports, name, getter) {
-            __webpack_require__.o(exports, name) || Object.defineProperty(exports, name, {
+        return __webpack_require__.m = modules, __webpack_require__.c = installedModules, __webpack_require__.d = function(exports1, name, getter) {
+            __webpack_require__.o(exports1, name) || Object.defineProperty(exports1, name, {
                 enumerable: !0,
                 get: getter
             });
-        }, __webpack_require__.r = function(exports) {
-            "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(exports, Symbol.toStringTag, {
+        }, __webpack_require__.r = function(exports1) {
+            "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(exports1, Symbol.toStringTag, {
                 value: "Module"
-            }), Object.defineProperty(exports, "__esModule", {
+            }), Object.defineProperty(exports1, "__esModule", {
                 value: !0
             });
         }, __webpack_require__.t = function(value, mode) {
@@ -29,73 +29,73 @@
             if (__webpack_require__.r(ns), Object.defineProperty(ns, "default", {
                 enumerable: !0,
                 value: value
-            }), 2 & mode && "string" != typeof value) for(var key1 in value)__webpack_require__.d(ns, key1, (function(key) {
+            }), 2 & mode && "string" != typeof value) for(var key in value)__webpack_require__.d(ns, key, (function(key) {
                 return value[key];
-            }).bind(null, key1));
+            }).bind(null, key));
             return ns;
-        }, __webpack_require__.n = function(module) {
-            var getter = module && module.__esModule ? function() {
-                return module.default;
+        }, __webpack_require__.n = function(module1) {
+            var getter = module1 && module1.__esModule ? function() {
+                return module1.default;
             } : function() {
-                return module;
+                return module1;
             };
             return __webpack_require__.d(getter, "a", getter), getter;
         }, __webpack_require__.o = function(object, property) {
             return Object.prototype.hasOwnProperty.call(object, property);
         }, __webpack_require__.p = "/", __webpack_require__(__webpack_require__.s = 89);
     }([
-        function(module, exports) {
-            module.exports = function(obj, key, value) {
+        function(module1, exports1) {
+            module1.exports = function(obj, key, value) {
                 return key in obj ? Object.defineProperty(obj, key, {
                     value: value,
                     enumerable: !0,
                     configurable: !0,
                     writable: !0
                 }) : obj[key] = value, obj;
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+        function(module1, exports1) {
+            module1.exports = function(self1) {
+                if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
+                return self1;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            function _getPrototypeOf(o1) {
-                return module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
+        function(module1, exports1) {
+            function _getPrototypeOf(o) {
+                return module1.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
                     return o.__proto__ || Object.getPrototypeOf(o);
-                }, module.exports.default = module.exports, module.exports.__esModule = !0, _getPrototypeOf(o1);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _getPrototypeOf(o);
             }
-            module.exports = _getPrototypeOf, module.exports.default = module.exports, module.exports.__esModule = !0;
+            module1.exports = _getPrototypeOf, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+        function(module1, exports1) {
+            module1.exports = function(instance, Constructor) {
+                if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
+        function(module1, exports1) {
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            module.exports = function(Constructor, protoProps, staticProps) {
+            module1.exports = function(Constructor, protoProps, staticProps) {
                 return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var _typeof = __webpack_require__(19).default, assertThisInitialized = __webpack_require__(1);
-            module.exports = function(self, call) {
+            module1.exports = function(self1, call) {
                 if (call && ("object" === _typeof(call) || "function" == typeof call)) return call;
-                if (void 0 !== call) throw new TypeError("Derived constructors may only return object or undefined");
-                return assertThisInitialized(self);
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+                if (void 0 !== call) throw TypeError("Derived constructors may only return object or undefined");
+                return assertThisInitialized(self1);
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41);
-            module.exports = function(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+            module1.exports = function(subClass, superClass) {
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 subClass.prototype = Object.create(superClass && superClass.prototype, {
                     constructor: {
                         value: subClass,
@@ -103,10 +103,10 @@
                         configurable: !0
                     }
                 }), superClass && setPrototypeOf(subClass, superClass);
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = {
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = {
                 EPSILON: __webpack_require__(62),
                 create: __webpack_require__(63),
                 clone: __webpack_require__(156),
@@ -153,7 +153,7 @@
                 limit: __webpack_require__(190)
             };
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.d(__webpack_exports__, "h", function() {
                 return imageRef;
@@ -248,34 +248,34 @@
                     }
                 };
             }
-            function otsuThreshold(imageWrapper1, targetWrapper1) {
-                var threshold1 = function(imageWrapper2) {
-                    var hist1, bitsPerPixel1 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 8;
+            function otsuThreshold(imageWrapper, targetWrapper) {
+                var threshold = function(imageWrapper) {
+                    var hist, bitsPerPixel = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 8;
                     function px(init, end) {
-                        for(var sum = 0, i = init; i <= end; i++)sum += hist1[i];
+                        for(var sum = 0, i = init; i <= end; i++)sum += hist[i];
                         return sum;
                     }
                     function mx(init, end) {
-                        for(var sum = 0, i = init; i <= end; i++)sum += i * hist1[i];
+                        for(var sum = 0, i = init; i <= end; i++)sum += i * hist[i];
                         return sum;
                     }
                     return function() {
                         var p1, p2, p12, m1, m2, m12, vet = [
                             0
-                        ], max = (1 << bitsPerPixel1) - 1;
-                        hist1 = function(imageWrapper, bitsPerPixel) {
+                        ], max = (1 << bitsPerPixel) - 1;
+                        hist = function(imageWrapper, bitsPerPixel) {
                             bitsPerPixel || (bitsPerPixel = 8);
                             for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, bucketCnt = 1 << bitsPerPixel, hist = new Int32Array(bucketCnt); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
-                        }(imageWrapper2, bitsPerPixel1);
+                        }(imageWrapper, bitsPerPixel);
                         for(var k = 1; k < max; k++)p1 = px(0, k), p2 = px(k + 1, max), p12 = p1 * p2, 0 === p12 && (p12 = 1), m1 = mx(0, k) * p2, m2 = mx(k + 1, max) * p1, m12 = m1 - m2, vet[k] = m12 * m12 / p12;
                         return array_helper.a.maxIndex(vet);
-                    }() << 8 - bitsPerPixel1;
-                }(imageWrapper1);
+                    }() << 8 - bitsPerPixel;
+                }(imageWrapper);
                 return !function(imageWrapper, threshold, targetWrapper) {
                     targetWrapper || (targetWrapper = imageWrapper);
                     for(var imageData = imageWrapper.data, length = imageData.length, targetData = targetWrapper.data; length--;)targetData[length] = imageData[length] < threshold ? 1 : 0;
-                }(imageWrapper1, threshold1, targetWrapper1), threshold1;
+                }(imageWrapper, threshold, targetWrapper), threshold;
             }
             function cv_utils_cluster(points, threshold, property) {
                 var i, k, thisCluster, point, clusters = [];
@@ -388,7 +388,7 @@
                 };
             }
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_exports__.a = {
                 drawRect: function(pos, size, ctx, style) {
@@ -410,7 +410,7 @@
                 }
             };
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_exports__.a = {
                 init: function(arr, val) {
@@ -451,15 +451,15 @@
                 }
             };
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(83), _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__), gl_vec2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7), _cv_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8), _array_helper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10), vec2 = {
                 clone: gl_vec2__WEBPACK_IMPORTED_MODULE_4__.clone
             };
             function assertNumberPositive(val) {
-                if (val < 0) throw new Error("expected positive number, received ".concat(val));
+                if (val < 0) throw Error("expected positive number, received ".concat(val));
             }
-            var ImageWrapper1 = function() {
+            var ImageWrapper = function() {
                 function ImageWrapper(size, data) {
                     var ArrayType = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : Uint8Array, initialize = arguments.length > 3 ? arguments[3] : void 0;
                     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, ImageWrapper), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "data", void 0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "size", void 0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "indexMapping", void 0), data ? this.data = data : (this.data = new ArrayType(size.x * size.y), initialize && _array_helper__WEBPACK_IMPORTED_MODULE_6__.a.init(this.data, 0)), this.size = size;
@@ -551,7 +551,7 @@
                         key: "show",
                         value: function(canvas) {
                             var scale = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1.0, ctx = canvas.getContext("2d");
-                            if (!ctx) throw new Error("Unable to get canvas context");
+                            if (!ctx) throw Error("Unable to get canvas context");
                             var frame = ctx.getImageData(0, 0, canvas.width, canvas.height), data = this.getAsRGBA(scale);
                             canvas.width = this.size.x, canvas.height = this.size.y;
                             var newFrame = new ImageData(data, frame.width, frame.height);
@@ -578,7 +578,7 @@
                                 0,
                                 0
                             ], result = [], ctx = canvas.getContext("2d");
-                            if (!ctx) throw new Error("Unable to get canvas context");
+                            if (!ctx) throw Error("Unable to get canvas context");
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
                                 hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
                                 var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
@@ -589,60 +589,60 @@
                     }, 
                 ]), ImageWrapper;
             }();
-            __webpack_exports__.a = ImageWrapper1;
+            __webpack_exports__.a = ImageWrapper;
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(228);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(228);
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var superPropBase = __webpack_require__(227);
-            function _get(target1, property1, receiver1) {
-                return "undefined" != typeof Reflect && Reflect.get ? (module.exports = _get = Reflect.get, module.exports.default = module.exports, module.exports.__esModule = !0) : (module.exports = _get = function(target, property, receiver) {
+            function _get(target, property, receiver) {
+                return "undefined" != typeof Reflect && Reflect.get ? (module1.exports = _get = Reflect.get, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _get = function(target, property, receiver) {
                     var base = superPropBase(target, property);
                     if (base) {
                         var desc = Object.getOwnPropertyDescriptor(base, property);
                         return desc.get ? desc.get.call(receiver) : desc.value;
                     }
-                }, module.exports.default = module.exports, module.exports.__esModule = !0), _get(target1, property1, receiver1 || target1);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _get(target, property, receiver || target);
             }
-            module.exports = _get, module.exports.default = module.exports, module.exports.__esModule = !0;
+            module1.exports = _get, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function(value) {
+        function(module1, exports1) {
+            module1.exports = function(value) {
                 var type = typeof value;
                 return null != value && ("object" == type || "function" == type);
             };
         },
-        function(module, exports) {
+        function(module1, exports1) {
             var isArray = Array.isArray;
-            module.exports = isArray;
+            module1.exports = isArray;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseMerge = __webpack_require__(90), merge = __webpack_require__(145)(function(object, source, srcIndex) {
                 baseMerge(object, source, srcIndex);
             });
-            module.exports = merge;
+            module1.exports = merge;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var freeGlobal = __webpack_require__(45), freeSelf = "object" == typeof self && self && self.Object === Object && self, root = freeGlobal || freeSelf || Function("return this")();
-            module.exports = root;
+            module1.exports = root;
         },
-        function(module, exports) {
-            module.exports = function(value) {
+        function(module1, exports1) {
+            module1.exports = function(value) {
                 return null != value && "object" == typeof value;
             };
         },
-        function(module, exports) {
-            function _typeof(obj1) {
-                return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? (module.exports = _typeof = function(obj) {
+        function(module1, exports1) {
+            function _typeof(obj) {
+                return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? (module1.exports = _typeof = function(obj) {
                     return typeof obj;
-                }, module.exports.default = module.exports, module.exports.__esModule = !0) : (module.exports = _typeof = function(obj) {
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _typeof = function(obj) {
                     return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-                }, module.exports.default = module.exports, module.exports.__esModule = !0), _typeof(obj1);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _typeof(obj);
             }
-            module.exports = _typeof, module.exports.default = module.exports, module.exports.__esModule = !0;
+            module1.exports = _typeof, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
+        function(module1, exports1) {
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
                 try {
                     var info = gen[key](arg), value = info.value;
@@ -652,11 +652,11 @@
                 }
                 info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
             }
-            module.exports = function(fn) {
+            module1.exports = function(fn) {
                 return function() {
-                    var self = this, args = arguments;
+                    var self1 = this, args = arguments;
                     return new Promise(function(resolve, reject) {
-                        var gen = fn.apply(self, args);
+                        var gen = fn.apply(self1, args);
                         function _next(value) {
                             asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
                         }
@@ -666,9 +666,9 @@
                         _next(void 0);
                     });
                 };
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_exports__.a = {
                 searchDirections: [
@@ -728,7 +728,7 @@
                         trace: function(current, color, label, edgelabel) {
                             return _trace(current, color, label, edgelabel);
                         },
-                        contourTracing: function(sy1, sx1, label1, color1, edgelabel1) {
+                        contourTracing: function(sy, sx, label, color, edgelabel) {
                             return function(sy, sx, label, color, edgelabel) {
                                 var Cv, P, ldir, Fv = null, current = {
                                     cx: sx,
@@ -742,19 +742,19 @@
                                     Fv.prev = Cv.prev, Cv.prev.next = Fv;
                                 }
                                 return Fv;
-                            }(sy1, sx1, label1, color1, edgelabel1);
+                            }(sy, sx, label, color, edgelabel);
                         }
                     };
                 }
             };
         },
-        function(module, exports, __webpack_require__) {
-            var Symbol = __webpack_require__(27), getRawTag = __webpack_require__(103), objectToString = __webpack_require__(104), symToStringTag = Symbol ? Symbol.toStringTag : void 0;
-            module.exports = function(value) {
+        function(module1, exports1, __webpack_require__) {
+            var Symbol1 = __webpack_require__(27), getRawTag = __webpack_require__(103), objectToString = __webpack_require__(104), symToStringTag = Symbol1 ? Symbol1.toStringTag : void 0;
+            module1.exports = function(value) {
                 return null == value ? void 0 === value ? "[object Undefined]" : "[object Null]" : symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
             };
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             (function(global) {
                 var _config, _currentImageWrapper, _skelImageWrapper, _subImageWrapper, _labelImageWrapper, _patchGrid, _patchLabelGrid, _imageToPatchGrid, _binaryImageWrapper, _patchSize, _inputImageWrapper, _skeletonizer, gl_vec2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7), gl_mat2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34), _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11), _common_cv_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9), _rasterizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(87), _tracer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(21), _skeletonizer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(88), _canvasContainer = {
@@ -825,10 +825,10 @@
                 function skeletonize(x, y) {
                     _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y));
                 }
-                function describePatch(moments1, patchPos, x, y) {
+                function describePatch(moments, patchPos, x, y) {
                     var k, avg, matchingMoments, patch, eligibleMoments = [], patchesFound = [], minComponentWeight = Math.ceil(_patchSize.x / 3);
-                    if (moments1.length >= 2) {
-                        for(k = 0; k < moments1.length; k++)moments1[k].m00 > minComponentWeight && eligibleMoments.push(moments1[k]);
+                    if (moments.length >= 2) {
+                        for(k = 0; k < moments.length; k++)moments[k].m00 > minComponentWeight && eligibleMoments.push(moments[k]);
                         if (eligibleMoments.length >= 2) {
                             for(k = 0, matchingMoments = function(moments) {
                                 var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
@@ -840,7 +840,7 @@
                                 }
                                 return result;
                             }(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
-                            matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments1.length / 4 && (avg /= matchingMoments.length, patch = {
+                            matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments.length / 4 && (avg /= matchingMoments.length, patch = {
                                 index: patchPos[1] * _numPatches.x + patchPos[0],
                                 pos: {
                                     x: x,
@@ -890,7 +890,7 @@
                     },
                     locate: function() {
                         _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
-                        var patchesFound1 = function() {
+                        var patchesFound = function() {
                             var i, j, x, y, moments, rasterizer, rasterResult, patch, patchesFound = [];
                             for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = _subImageWrapper.size.x * i, y = _subImageWrapper.size.y * j, skeletonize(x, y), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterizer = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper), rasterResult = rasterizer.rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
                                 x: x,
@@ -905,8 +905,8 @@
                             });
                             return patchesFound;
                         }();
-                        if (patchesFound1.length < _numPatches.x * _numPatches.y * 0.05) return null;
-                        var maxLabel1 = function(patchesFound) {
+                        if (patchesFound.length < _numPatches.x * _numPatches.y * 0.05) return null;
+                        var maxLabel = function(patchesFound) {
                             var j, patch, label = 0, currIdx = 0, hsv = [
                                 0,
                                 1,
@@ -941,9 +941,9 @@
                                 lineWidth: 2
                             }));
                             return label;
-                        }(patchesFound1);
-                        if (maxLabel1 < 1) return null;
-                        var topLabels1 = function(maxLabel) {
+                        }(patchesFound);
+                        if (maxLabel < 1) return null;
+                        var topLabels = function(maxLabel) {
                             var i, sum, labelHist = [];
                             for(i = 0; i < maxLabel; i++)labelHist.push(0);
                             for(sum = _patchLabelGrid.data.length; sum--;)_patchLabelGrid.data[sum] > 0 && labelHist[_patchLabelGrid.data[sum] - 1]++;
@@ -957,8 +957,8 @@
                             }), labelHist.filter(function(el) {
                                 return el.val >= 5;
                             });
-                        }(maxLabel1);
-                        return 0 === topLabels1.length ? null : function(topLabels, maxLabel) {
+                        }(maxLabel);
+                        return 0 === topLabels.length ? null : function(topLabels, maxLabel) {
                             var i, j, sum, patch, box, patches = [], boxes = [], hsv = [
                                 0,
                                 1,
@@ -976,7 +976,7 @@
                                 });
                             }
                             return boxes;
-                        }(topLabels1, maxLabel1);
+                        }(topLabels, maxLabel);
                     },
                     checkImageConstraints: function(inputStream, config) {
                         var patchSize, area, width = inputStream.getWidth(), height = inputStream.getHeight(), thisHalfSample = config.halfSample ? 0.5 : 1;
@@ -992,12 +992,12 @@
                             y: Math.floor(height * thisHalfSample)
                         };
                         if (patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.a)(config.patchSize, size), console.log("Patch-Size: ".concat(JSON.stringify(patchSize))), inputStream.setWidth(Math.floor(Math.floor(size.x / patchSize.x) * (1 / thisHalfSample) * patchSize.x)), inputStream.setHeight(Math.floor(Math.floor(size.y / patchSize.y) * (1 / thisHalfSample) * patchSize.y)), inputStream.getWidth() % patchSize.x == 0 && inputStream.getHeight() % patchSize.y == 0) return !0;
-                        throw new Error("Image dimensions do not comply with the current settings: Width (".concat(width, " )and height (").concat(height, ") must a multiple of ").concat(patchSize.x));
+                        throw Error("Image dimensions do not comply with the current settings: Width (".concat(width, " )and height (").concat(height, ") must a multiple of ").concat(patchSize.x));
                     }
                 };
             }).call(this, __webpack_require__(46));
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var listCacheClear = __webpack_require__(92), listCacheDelete = __webpack_require__(93), listCacheGet = __webpack_require__(94), listCacheHas = __webpack_require__(95), listCacheSet = __webpack_require__(96);
             function ListCache(entries) {
                 var index = -1, length = null == entries ? 0 : entries.length;
@@ -1006,66 +1006,66 @@
                     this.set(entry[0], entry[1]);
                 }
             }
-            ListCache.prototype.clear = listCacheClear, ListCache.prototype.delete = listCacheDelete, ListCache.prototype.get = listCacheGet, ListCache.prototype.has = listCacheHas, ListCache.prototype.set = listCacheSet, module.exports = ListCache;
+            ListCache.prototype.clear = listCacheClear, ListCache.prototype.delete = listCacheDelete, ListCache.prototype.get = listCacheGet, ListCache.prototype.has = listCacheHas, ListCache.prototype.set = listCacheSet, module1.exports = ListCache;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var eq = __webpack_require__(26);
-            module.exports = function(array, key) {
+            module1.exports = function(array, key) {
                 for(var length = array.length; length--;)if (eq(array[length][0], key)) return length;
                 return -1;
             };
         },
-        function(module, exports) {
-            module.exports = function(value, other) {
+        function(module1, exports1) {
+            module1.exports = function(value, other) {
                 return value === other || value != value && other != other;
             };
         },
-        function(module, exports, __webpack_require__) {
-            var Symbol = __webpack_require__(17).Symbol;
-            module.exports = Symbol;
+        function(module1, exports1, __webpack_require__) {
+            var Symbol1 = __webpack_require__(17).Symbol;
+            module1.exports = Symbol1;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var nativeCreate = __webpack_require__(35)(Object, "create");
-            module.exports = nativeCreate;
+            module1.exports = nativeCreate;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isKeyable = __webpack_require__(117);
-            module.exports = function(map, key) {
+            module1.exports = function(map, key) {
                 var data = map.__data__;
                 return isKeyable(key) ? data["string" == typeof key ? "string" : "hash"] : data.map;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseIsArguments = __webpack_require__(132), isObjectLike = __webpack_require__(18), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, propertyIsEnumerable = objectProto.propertyIsEnumerable, isArguments = baseIsArguments(function() {
                 return arguments;
             }()) ? baseIsArguments : function(value) {
                 return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
             };
-            module.exports = isArguments;
+            module1.exports = isArguments;
         },
-        function(module, exports) {
+        function(module1, exports1) {
             var reIsUint = /^(?:0|[1-9]\d*)$/;
-            module.exports = function(value, length) {
+            module1.exports = function(value, length) {
                 var type = typeof value;
                 return !!(length = null == length ? 9007199254740991 : length) && ("number" == type || "symbol" != type && reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isArray = __webpack_require__(15), isKey = __webpack_require__(232), stringToPath = __webpack_require__(233), toString = __webpack_require__(236);
-            module.exports = function(value, object) {
+            module1.exports = function(value, object) {
                 return isArray(value) ? value : isKey(value, object) ? [
                     value
                 ] : stringToPath(toString(value));
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var arrayWithoutHoles = __webpack_require__(224), iterableToArray = __webpack_require__(225), unsupportedIterableToArray = __webpack_require__(60), nonIterableSpread = __webpack_require__(226);
-            module.exports = function(arr) {
+            module1.exports = function(arr) {
                 return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = {
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = {
                 determinant: __webpack_require__(251),
                 transpose: __webpack_require__(252),
                 multiply: __webpack_require__(253),
@@ -1080,24 +1080,24 @@
                 ldu: __webpack_require__(262)
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseIsNative = __webpack_require__(102), getValue = __webpack_require__(108);
-            module.exports = function(object, key) {
+            module1.exports = function(object, key) {
                 var value = getValue(object, key);
                 return baseIsNative(value) ? value : void 0;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isObject = __webpack_require__(14);
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 if (!isObject(value)) return !1;
                 var tag = baseGetTag(value);
                 return "[object Function]" == tag || "[object GeneratorFunction]" == tag || "[object AsyncFunction]" == tag || "[object Proxy]" == tag;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var defineProperty = __webpack_require__(49);
-            module.exports = function(object, key, value) {
+            module1.exports = function(object, key, value) {
                 "__proto__" == key && defineProperty ? defineProperty(object, key, {
                     configurable: !0,
                     enumerable: !0,
@@ -1106,77 +1106,77 @@
                 }) : object[key] = value;
             };
         },
-        function(module1, exports) {
-            module1.exports = function(module) {
-                return module.webpackPolyfill || (module.deprecate = function() {}, module.paths = [], module.children || (module.children = []), Object.defineProperty(module, "loaded", {
+        function(module1, exports1) {
+            module1.exports = function(module1) {
+                return module1.webpackPolyfill || (module1.deprecate = function() {}, module1.paths = [], module1.children || (module1.children = []), Object.defineProperty(module1, "loaded", {
                     enumerable: !0,
                     get: function() {
-                        return module.l;
+                        return module1.l;
                     }
-                }), Object.defineProperty(module, "id", {
+                }), Object.defineProperty(module1, "id", {
                     enumerable: !0,
                     get: function() {
-                        return module.i;
+                        return module1.i;
                     }
-                }), module.webpackPolyfill = 1), module;
+                }), module1.webpackPolyfill = 1), module1;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isFunction = __webpack_require__(36), isLength = __webpack_require__(40);
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 return null != value && isLength(value.length) && !isFunction(value);
             };
         },
-        function(module, exports) {
-            module.exports = function(value) {
+        function(module1, exports1) {
+            module1.exports = function(value) {
                 return "number" == typeof value && value > -1 && value % 1 == 0 && value <= 9007199254740991;
             };
         },
-        function(module, exports) {
-            function _setPrototypeOf(o2, p3) {
-                return module.exports = _setPrototypeOf = Object.setPrototypeOf || function(o, p) {
+        function(module1, exports1) {
+            function _setPrototypeOf(o, p) {
+                return module1.exports = _setPrototypeOf = Object.setPrototypeOf || function(o, p) {
                     return o.__proto__ = p, o;
-                }, module.exports.default = module.exports, module.exports.__esModule = !0, _setPrototypeOf(o2, p3);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _setPrototypeOf(o, p);
             }
-            module.exports = _setPrototypeOf, module.exports.default = module.exports, module.exports.__esModule = !0;
+            module1.exports = _setPrototypeOf, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isObjectLike = __webpack_require__(18);
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 return "symbol" == typeof value || isObjectLike(value) && "[object Symbol]" == baseGetTag(value);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isSymbol = __webpack_require__(42), INFINITY = 1 / 0;
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 if ("string" == typeof value || isSymbol(value)) return value;
                 var result = value + "";
                 return "0" == result && 1 / value == -INFINITY ? "-0" : result;
             };
         },
-        function(module, exports, __webpack_require__) {
-            var getNative = __webpack_require__(35), root = __webpack_require__(17), Map = getNative(root, "Map");
-            module.exports = Map;
+        function(module1, exports1, __webpack_require__) {
+            var getNative = __webpack_require__(35), root = __webpack_require__(17), Map1 = getNative(root, "Map");
+            module1.exports = Map1;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             (function(global) {
                 var freeGlobal = "object" == typeof global && global && global.Object === Object && global;
-                module.exports = freeGlobal;
+                module1.exports = freeGlobal;
             }).call(this, __webpack_require__(46));
         },
-        function(module, exports) {
+        function(module1, exports1) {
             var g;
             g = function() {
                 return this;
             }();
             try {
-                g = g || new Function("return this")();
+                g = g || Function("return this")();
             } catch (e) {
                 "object" == typeof window && (g = window);
             }
-            module.exports = g;
+            module1.exports = g;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var mapCacheClear = __webpack_require__(109), mapCacheDelete = __webpack_require__(116), mapCacheGet = __webpack_require__(118), mapCacheHas = __webpack_require__(119), mapCacheSet = __webpack_require__(120);
             function MapCache(entries) {
                 var index = -1, length = null == entries ? 0 : entries.length;
@@ -1185,71 +1185,71 @@
                     this.set(entry[0], entry[1]);
                 }
             }
-            MapCache.prototype.clear = mapCacheClear, MapCache.prototype.delete = mapCacheDelete, MapCache.prototype.get = mapCacheGet, MapCache.prototype.has = mapCacheHas, MapCache.prototype.set = mapCacheSet, module.exports = MapCache;
+            MapCache.prototype.clear = mapCacheClear, MapCache.prototype.delete = mapCacheDelete, MapCache.prototype.get = mapCacheGet, MapCache.prototype.has = mapCacheHas, MapCache.prototype.set = mapCacheSet, module1.exports = MapCache;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseAssignValue = __webpack_require__(37), eq = __webpack_require__(26);
-            module.exports = function(object, key, value) {
+            module1.exports = function(object, key, value) {
                 (void 0 === value || eq(object[key], value)) && (void 0 !== value || key in object) || baseAssignValue(object, key, value);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var getNative = __webpack_require__(35), defineProperty = function() {
                 try {
                     var func = getNative(Object, "defineProperty");
                     return func({}, "", {}), func;
                 } catch (e) {}
             }();
-            module.exports = defineProperty;
+            module1.exports = defineProperty;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var getPrototype = __webpack_require__(131)(Object.getPrototypeOf, Object);
-            module.exports = getPrototype;
+            module1.exports = getPrototype;
         },
-        function(module, exports) {
+        function(module1, exports1) {
             var objectProto = Object.prototype;
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 var Ctor = value && value.constructor, proto = "function" == typeof Ctor && Ctor.prototype || objectProto;
                 return value === proto;
             };
         },
-        function(module2, exports, __webpack_require__) {
-            (function(module) {
-                var root = __webpack_require__(17), stubFalse = __webpack_require__(134), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && "object" == typeof module && module && !module.nodeType && module, moduleExports = freeModule && freeModule.exports === freeExports, Buffer = moduleExports ? root.Buffer : void 0, nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
-                module.exports = nativeIsBuffer || stubFalse;
-            }).call(this, __webpack_require__(38)(module2));
+        function(module1, exports1, __webpack_require__) {
+            (function(module1) {
+                var root = __webpack_require__(17), stubFalse = __webpack_require__(134), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, moduleExports = freeModule && freeModule.exports === freeExports, Buffer = moduleExports ? root.Buffer : void 0, nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
+                module1.exports = nativeIsBuffer || stubFalse;
+            }).call(this, __webpack_require__(38)(module1));
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseIsTypedArray = __webpack_require__(136), baseUnary = __webpack_require__(137), nodeUtil = __webpack_require__(138), nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray, isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
-            module.exports = isTypedArray;
+            module1.exports = isTypedArray;
         },
-        function(module, exports) {
-            module.exports = function(object, key) {
+        function(module1, exports1) {
+            module1.exports = function(object, key) {
                 if (("constructor" !== key || "function" != typeof object[key]) && "__proto__" != key) return object[key];
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseAssignValue = __webpack_require__(37), eq = __webpack_require__(26), hasOwnProperty = Object.prototype.hasOwnProperty;
-            module.exports = function(object, key, value) {
+            module1.exports = function(object, key, value) {
                 var objValue = object[key];
                 hasOwnProperty.call(object, key) && eq(objValue, value) && (void 0 !== value || key in object) || baseAssignValue(object, key, value);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var arrayLikeKeys = __webpack_require__(141), baseKeysIn = __webpack_require__(143), isArrayLike = __webpack_require__(39);
-            module.exports = function(object) {
+            module1.exports = function(object) {
                 return isArrayLike(object) ? arrayLikeKeys(object, !0) : baseKeysIn(object);
             };
         },
-        function(module, exports) {
+        function(module1, exports1) {
             function identity(value) {
                 return value;
             }
-            module.exports = identity;
+            module1.exports = identity;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var apply = __webpack_require__(147), nativeMax = Math.max;
-            module.exports = function(func, start, transform) {
+            module1.exports = function(func, start, transform) {
                 return start = nativeMax(void 0 === start ? func.length - 1 : start, 0), function() {
                     for(var args = arguments, index = -1, length = nativeMax(args.length - start, 0), array = Array(length); ++index < length;)array[index] = args[start + index];
                     index = -1;
@@ -1258,149 +1258,149 @@
                 };
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseSetToString = __webpack_require__(148), shortOut = __webpack_require__(150), setToString = shortOut(baseSetToString);
-            module.exports = setToString;
+            module1.exports = setToString;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var arrayLikeToArray = __webpack_require__(61);
-            module.exports = function(o, minLen) {
+            module1.exports = function(o, minLen) {
                 if (o) {
                     if ("string" == typeof o) return arrayLikeToArray(o, minLen);
                     var n = Object.prototype.toString.call(o).slice(8, -1);
                     if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
                     if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
                 }
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function(arr, len) {
+        function(module1, exports1) {
+            module1.exports = function(arr, len) {
                 (null == len || len > arr.length) && (len = arr.length);
-                for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+                for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = 0.000001;
+        function(module1, exports1) {
+            module1.exports = 0.000001;
         },
-        function(module, exports) {
-            module.exports = function() {
+        function(module1, exports1) {
+            module1.exports = function() {
                 var out = new Float32Array(2);
                 return out[0] = 0, out[1] = 0, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] - b[0], out[1] = a[1] - b[1], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] * b[0], out[1] = a[1] * b[1], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] / b[0], out[1] = a[1] / b[1], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(a, b) {
+        function(module1, exports1) {
+            module1.exports = function(a, b) {
                 var x = b[0] - a[0], y = b[1] - a[1];
                 return Math.sqrt(x * x + y * y);
             };
         },
-        function(module, exports) {
-            module.exports = function(a, b) {
+        function(module1, exports1) {
+            module1.exports = function(a, b) {
                 var x = b[0] - a[0], y = b[1] - a[1];
                 return x * x + y * y;
             };
         },
-        function(module, exports) {
-            module.exports = function(a) {
+        function(module1, exports1) {
+            module1.exports = function(a) {
                 var x = a[0], y = a[1];
                 return Math.sqrt(x * x + y * y);
             };
         },
-        function(module, exports) {
-            module.exports = function(a) {
+        function(module1, exports1) {
+            module1.exports = function(a) {
                 var x = a[0], y = a[1];
                 return x * x + y * y;
             };
         },
-        function(module, exports) {
-            module.exports = 0.000001;
+        function(module1, exports1) {
+            module1.exports = 0.000001;
         },
-        function(module, exports) {
-            module.exports = function() {
+        function(module1, exports1) {
+            module1.exports = function() {
                 var out = new Float32Array(3);
                 return out[0] = 0, out[1] = 0, out[2] = 0, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(x, y, z) {
+        function(module1, exports1) {
+            module1.exports = function(x, y, z) {
                 var out = new Float32Array(3);
                 return out[0] = x, out[1] = y, out[2] = z, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 var x = a[0], y = a[1], z = a[2], len = x * x + y * y + z * z;
                 return len > 0 && (len = 1 / Math.sqrt(len), out[0] = a[0] * len, out[1] = a[1] * len, out[2] = a[2] * len), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(a, b) {
+        function(module1, exports1) {
+            module1.exports = function(a, b) {
                 return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] - b[0], out[1] = a[1] - b[1], out[2] = a[2] - b[2], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] * b[0], out[1] = a[1] * b[1], out[2] = a[2] * b[2], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] / b[0], out[1] = a[1] / b[1], out[2] = a[2] / b[2], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(a, b) {
+        function(module1, exports1) {
+            module1.exports = function(a, b) {
                 var x = b[0] - a[0], y = b[1] - a[1], z = b[2] - a[2];
                 return Math.sqrt(x * x + y * y + z * z);
             };
         },
-        function(module, exports) {
-            module.exports = function(a, b) {
+        function(module1, exports1) {
+            module1.exports = function(a, b) {
                 var x = b[0] - a[0], y = b[1] - a[1], z = b[2] - a[2];
                 return x * x + y * y + z * z;
             };
         },
-        function(module, exports) {
-            module.exports = function(a) {
+        function(module1, exports1) {
+            module1.exports = function(a) {
                 var x = a[0], y = a[1], z = a[2];
                 return Math.sqrt(x * x + y * y + z * z);
             };
         },
-        function(module, exports) {
-            module.exports = function(a) {
+        function(module1, exports1) {
+            module1.exports = function(a) {
                 var x = a[0], y = a[1], z = a[2];
                 return x * x + y * y + z * z;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var arrayWithHoles = __webpack_require__(153), iterableToArrayLimit = __webpack_require__(154), unsupportedIterableToArray = __webpack_require__(60), nonIterableRest = __webpack_require__(155);
-            module.exports = function(arr, i) {
+            module1.exports = function(arr, i) {
                 return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = {
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = {
                 EPSILON: __webpack_require__(71),
                 create: __webpack_require__(72),
                 clone: __webpack_require__(191),
@@ -1448,19 +1448,19 @@
                 forEach: __webpack_require__(223)
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var basePick = __webpack_require__(229), pick = __webpack_require__(243)(function(object, paths) {
                 return null == object ? {} : basePick(object, paths);
             });
-            module.exports = pick;
+            module1.exports = pick;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var getPrototypeOf = __webpack_require__(2), setPrototypeOf = __webpack_require__(41), isNativeFunction = __webpack_require__(248), construct = __webpack_require__(249);
-            function _wrapNativeSuper(Class1) {
+            function _wrapNativeSuper(Class) {
                 var _cache = "function" == typeof Map ? new Map() : void 0;
-                return module.exports = _wrapNativeSuper = function(Class) {
+                return module1.exports = _wrapNativeSuper = function(Class) {
                     if (null === Class || !isNativeFunction(Class)) return Class;
-                    if ("function" != typeof Class) throw new TypeError("Super expression must either be null or a function");
+                    if ("function" != typeof Class) throw TypeError("Super expression must either be null or a function");
                     if (void 0 !== _cache) {
                         if (_cache.has(Class)) return _cache.get(Class);
                         _cache.set(Class, Wrapper);
@@ -1476,11 +1476,11 @@
                             configurable: !0
                         }
                     }), setPrototypeOf(Wrapper, Class);
-                }, module.exports.default = module.exports, module.exports.__esModule = !0, _wrapNativeSuper(Class1);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _wrapNativeSuper(Class);
             }
-            module.exports = _wrapNativeSuper, module.exports.default = module.exports, module.exports.__esModule = !0;
+            module1.exports = _wrapNativeSuper, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             var _tracer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21), Rasterizer = {
                 createContour2D: function() {
@@ -1549,7 +1549,7 @@
             };
             __webpack_exports__.a = Rasterizer;
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_exports__.a = function(stdlib, foreign, buffer) {
                 "use asm";
@@ -1700,10 +1700,10 @@
                 };
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(263);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(263);
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var Stack = __webpack_require__(91), assignMergeValue = __webpack_require__(48), baseFor = __webpack_require__(121), baseMergeDeep = __webpack_require__(123), isObject = __webpack_require__(14), keysIn = __webpack_require__(56), safeGet = __webpack_require__(54);
             function baseMerge(object, source, srcIndex, customizer, stack) {
                 object !== source && baseFor(source, function(srcValue, key) {
@@ -1714,44 +1714,44 @@
                     }
                 }, keysIn);
             }
-            module.exports = baseMerge;
+            module1.exports = baseMerge;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var ListCache = __webpack_require__(24), stackClear = __webpack_require__(97), stackDelete = __webpack_require__(98), stackGet = __webpack_require__(99), stackHas = __webpack_require__(100), stackSet = __webpack_require__(101);
             function Stack(entries) {
                 var data = this.__data__ = new ListCache(entries);
                 this.size = data.size;
             }
-            Stack.prototype.clear = stackClear, Stack.prototype.delete = stackDelete, Stack.prototype.get = stackGet, Stack.prototype.has = stackHas, Stack.prototype.set = stackSet, module.exports = Stack;
+            Stack.prototype.clear = stackClear, Stack.prototype.delete = stackDelete, Stack.prototype.get = stackGet, Stack.prototype.has = stackHas, Stack.prototype.set = stackSet, module1.exports = Stack;
         },
-        function(module, exports) {
-            module.exports = function() {
+        function(module1, exports1) {
+            module1.exports = function() {
                 this.__data__ = [], this.size = 0;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var assocIndexOf = __webpack_require__(25), splice = Array.prototype.splice;
-            module.exports = function(key) {
+            module1.exports = function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
                 return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var assocIndexOf = __webpack_require__(25);
-            module.exports = function(key) {
+            module1.exports = function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
                 return index < 0 ? void 0 : data[index][1];
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var assocIndexOf = __webpack_require__(25);
-            module.exports = function(key) {
+            module1.exports = function(key) {
                 return assocIndexOf(this.__data__, key) > -1;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var assocIndexOf = __webpack_require__(25);
-            module.exports = function(key, value) {
+            module1.exports = function(key, value) {
                 var data = this.__data__, index = assocIndexOf(data, key);
                 return index < 0 ? (++this.size, data.push([
                     key,
@@ -1759,35 +1759,35 @@
                 ])) : data[index][1] = value, this;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var ListCache = __webpack_require__(24);
-            module.exports = function() {
+            module1.exports = function() {
                 this.__data__ = new ListCache(), this.size = 0;
             };
         },
-        function(module, exports) {
-            module.exports = function(key) {
+        function(module1, exports1) {
+            module1.exports = function(key) {
                 var data = this.__data__, result = data.delete(key);
                 return this.size = data.size, result;
             };
         },
-        function(module, exports) {
-            module.exports = function(key) {
+        function(module1, exports1) {
+            module1.exports = function(key) {
                 return this.__data__.get(key);
             };
         },
-        function(module, exports) {
-            module.exports = function(key) {
+        function(module1, exports1) {
+            module1.exports = function(key) {
                 return this.__data__.has(key);
             };
         },
-        function(module, exports, __webpack_require__) {
-            var ListCache = __webpack_require__(24), Map = __webpack_require__(44), MapCache = __webpack_require__(47);
-            module.exports = function(key, value) {
+        function(module1, exports1, __webpack_require__) {
+            var ListCache = __webpack_require__(24), Map1 = __webpack_require__(44), MapCache = __webpack_require__(47);
+            module1.exports = function(key, value) {
                 var data = this.__data__;
                 if (data instanceof ListCache) {
                     var pairs = data.__data__;
-                    if (!Map || pairs.length < 199) return pairs.push([
+                    if (!Map1 || pairs.length < 199) return pairs.push([
                         key,
                         value
                     ]), this.size = ++data.size, this;
@@ -1796,15 +1796,15 @@
                 return data.set(key, value), this.size = data.size, this;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isFunction = __webpack_require__(36), isMasked = __webpack_require__(105), isObject = __webpack_require__(14), toSource = __webpack_require__(107), reIsHostCtor = /^\[object .+?Constructor\]$/, funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, reIsNative = RegExp("^" + funcToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$");
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 return !(!isObject(value) || isMasked(value)) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
             };
         },
-        function(module, exports, __webpack_require__) {
-            var Symbol = __webpack_require__(27), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, nativeObjectToString = objectProto.toString, symToStringTag = Symbol ? Symbol.toStringTag : void 0;
-            module.exports = function(value) {
+        function(module1, exports1, __webpack_require__) {
+            var Symbol1 = __webpack_require__(27), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, nativeObjectToString = objectProto.toString, symToStringTag = Symbol1 ? Symbol1.toStringTag : void 0;
+            module1.exports = function(value) {
                 var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
                 try {
                     value[symToStringTag] = void 0;
@@ -1814,25 +1814,25 @@
                 return unmasked && (isOwn ? value[symToStringTag] = tag : delete value[symToStringTag]), result;
             };
         },
-        function(module, exports) {
+        function(module1, exports1) {
             var nativeObjectToString = Object.prototype.toString;
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 return nativeObjectToString.call(value);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var uid, coreJsData = __webpack_require__(106), maskSrcKey = (uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "")) ? "Symbol(src)_1." + uid : "";
-            module.exports = function(func) {
+            module1.exports = function(func) {
                 return !!maskSrcKey && maskSrcKey in func;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var coreJsData = __webpack_require__(17)["__core-js_shared__"];
-            module.exports = coreJsData;
+            module1.exports = coreJsData;
         },
-        function(module, exports) {
+        function(module1, exports1) {
             var funcToString = Function.prototype.toString;
-            module.exports = function(func) {
+            module1.exports = function(func) {
                 if (null != func) {
                     try {
                         return funcToString.call(func);
@@ -1844,22 +1844,22 @@
                 return "";
             };
         },
-        function(module, exports) {
-            module.exports = function(object, key) {
+        function(module1, exports1) {
+            module1.exports = function(object, key) {
                 return null == object ? void 0 : object[key];
             };
         },
-        function(module, exports, __webpack_require__) {
-            var Hash = __webpack_require__(110), ListCache = __webpack_require__(24), Map = __webpack_require__(44);
-            module.exports = function() {
+        function(module1, exports1, __webpack_require__) {
+            var Hash = __webpack_require__(110), ListCache = __webpack_require__(24), Map1 = __webpack_require__(44);
+            module1.exports = function() {
                 this.size = 0, this.__data__ = {
                     hash: new Hash(),
-                    map: new (Map || ListCache)(),
+                    map: new (Map1 || ListCache)(),
                     string: new Hash()
                 };
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var hashClear = __webpack_require__(111), hashDelete = __webpack_require__(112), hashGet = __webpack_require__(113), hashHas = __webpack_require__(114), hashSet = __webpack_require__(115);
             function Hash(entries) {
                 var index = -1, length = null == entries ? 0 : entries.length;
@@ -1868,23 +1868,23 @@
                     this.set(entry[0], entry[1]);
                 }
             }
-            Hash.prototype.clear = hashClear, Hash.prototype.delete = hashDelete, Hash.prototype.get = hashGet, Hash.prototype.has = hashHas, Hash.prototype.set = hashSet, module.exports = Hash;
+            Hash.prototype.clear = hashClear, Hash.prototype.delete = hashDelete, Hash.prototype.get = hashGet, Hash.prototype.has = hashHas, Hash.prototype.set = hashSet, module1.exports = Hash;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var nativeCreate = __webpack_require__(28);
-            module.exports = function() {
+            module1.exports = function() {
                 this.__data__ = nativeCreate ? nativeCreate(null) : {}, this.size = 0;
             };
         },
-        function(module, exports) {
-            module.exports = function(key) {
+        function(module1, exports1) {
+            module1.exports = function(key) {
                 var result = this.has(key) && delete this.__data__[key];
                 return this.size -= result ? 1 : 0, result;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var nativeCreate = __webpack_require__(28), hasOwnProperty = Object.prototype.hasOwnProperty;
-            module.exports = function(key) {
+            module1.exports = function(key) {
                 var data = this.__data__;
                 if (nativeCreate) {
                     var result = data[key];
@@ -1893,58 +1893,58 @@
                 return hasOwnProperty.call(data, key) ? data[key] : void 0;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var nativeCreate = __webpack_require__(28), hasOwnProperty = Object.prototype.hasOwnProperty;
-            module.exports = function(key) {
+            module1.exports = function(key) {
                 var data = this.__data__;
                 return nativeCreate ? void 0 !== data[key] : hasOwnProperty.call(data, key);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var nativeCreate = __webpack_require__(28);
-            module.exports = function(key, value) {
+            module1.exports = function(key, value) {
                 var data = this.__data__;
                 return this.size += this.has(key) ? 0 : 1, data[key] = nativeCreate && void 0 === value ? "__lodash_hash_undefined__" : value, this;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var getMapData = __webpack_require__(29);
-            module.exports = function(key) {
+            module1.exports = function(key) {
                 var result = getMapData(this, key).delete(key);
                 return this.size -= result ? 1 : 0, result;
             };
         },
-        function(module, exports) {
-            module.exports = function(value) {
+        function(module1, exports1) {
+            module1.exports = function(value) {
                 var type = typeof value;
                 return "string" == type || "number" == type || "symbol" == type || "boolean" == type ? "__proto__" !== value : null === value;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var getMapData = __webpack_require__(29);
-            module.exports = function(key) {
+            module1.exports = function(key) {
                 return getMapData(this, key).get(key);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var getMapData = __webpack_require__(29);
-            module.exports = function(key) {
+            module1.exports = function(key) {
                 return getMapData(this, key).has(key);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var getMapData = __webpack_require__(29);
-            module.exports = function(key, value) {
+            module1.exports = function(key, value) {
                 var data = getMapData(this, key), size = data.size;
                 return data.set(key, value), this.size += data.size == size ? 0 : 1, this;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseFor = __webpack_require__(122)();
-            module.exports = baseFor;
+            module1.exports = baseFor;
         },
-        function(module, exports) {
-            module.exports = function(fromRight) {
+        function(module1, exports1) {
+            module1.exports = function(fromRight) {
                 return function(object, iteratee, keysFunc) {
                     for(var index = -1, iterable = Object(object), props = keysFunc(object), length = props.length; length--;){
                         var key = props[fromRight ? length : ++index];
@@ -1954,9 +1954,9 @@
                 };
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var assignMergeValue = __webpack_require__(48), cloneBuffer = __webpack_require__(124), cloneTypedArray = __webpack_require__(125), copyArray = __webpack_require__(128), initCloneObject = __webpack_require__(129), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), isArrayLikeObject = __webpack_require__(133), isBuffer = __webpack_require__(52), isFunction = __webpack_require__(36), isObject = __webpack_require__(14), isPlainObject = __webpack_require__(135), isTypedArray = __webpack_require__(53), safeGet = __webpack_require__(54), toPlainObject = __webpack_require__(139);
-            module.exports = function(object, source, key, srcIndex, mergeFunc, customizer, stack) {
+            module1.exports = function(object, source, key, srcIndex, mergeFunc, customizer, stack) {
                 var objValue = safeGet(object, key), srcValue = safeGet(source, key), stacked = stack.get(srcValue);
                 if (stacked) {
                     assignMergeValue(object, key, stacked);
@@ -1970,48 +1970,48 @@
                 isCommon && (stack.set(srcValue, newValue), mergeFunc(newValue, srcValue, srcIndex, customizer, stack), stack.delete(srcValue)), assignMergeValue(object, key, newValue);
             };
         },
-        function(module3, exports, __webpack_require__) {
-            (function(module) {
-                var root = __webpack_require__(17), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && "object" == typeof module && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, allocUnsafe = Buffer ? Buffer.allocUnsafe : void 0;
-                module.exports = function(buffer, isDeep) {
+        function(module1, exports1, __webpack_require__) {
+            (function(module1) {
+                var root = __webpack_require__(17), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, allocUnsafe = Buffer ? Buffer.allocUnsafe : void 0;
+                module1.exports = function(buffer, isDeep) {
                     if (isDeep) return buffer.slice();
                     var length = buffer.length, result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
                     return buffer.copy(result), result;
                 };
-            }).call(this, __webpack_require__(38)(module3));
+            }).call(this, __webpack_require__(38)(module1));
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var cloneArrayBuffer = __webpack_require__(126);
-            module.exports = function(typedArray, isDeep) {
+            module1.exports = function(typedArray, isDeep) {
                 var buffer = isDeep ? cloneArrayBuffer(typedArray.buffer) : typedArray.buffer;
                 return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
             };
         },
-        function(module, exports, __webpack_require__) {
-            var Uint8Array = __webpack_require__(127);
-            module.exports = function(arrayBuffer) {
+        function(module1, exports1, __webpack_require__) {
+            var Uint8Array1 = __webpack_require__(127);
+            module1.exports = function(arrayBuffer) {
                 var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
-                return new Uint8Array(result).set(new Uint8Array(arrayBuffer)), result;
+                return new Uint8Array1(result).set(new Uint8Array1(arrayBuffer)), result;
             };
         },
-        function(module, exports, __webpack_require__) {
-            var Uint8Array = __webpack_require__(17).Uint8Array;
-            module.exports = Uint8Array;
+        function(module1, exports1, __webpack_require__) {
+            var Uint8Array1 = __webpack_require__(17).Uint8Array;
+            module1.exports = Uint8Array1;
         },
-        function(module, exports) {
-            module.exports = function(source, array) {
+        function(module1, exports1) {
+            module1.exports = function(source, array) {
                 var index = -1, length = source.length;
                 for(array || (array = Array(length)); ++index < length;)array[index] = source[index];
                 return array;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseCreate = __webpack_require__(130), getPrototype = __webpack_require__(50), isPrototype = __webpack_require__(51);
-            module.exports = function(object) {
+            module1.exports = function(object) {
                 return "function" != typeof object.constructor || isPrototype(object) ? {} : baseCreate(getPrototype(object));
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isObject = __webpack_require__(14), objectCreate = Object.create, baseCreate = function() {
                 function object() {}
                 return function(proto) {
@@ -2022,36 +2022,36 @@
                     return object.prototype = void 0, result;
                 };
             }();
-            module.exports = baseCreate;
+            module1.exports = baseCreate;
         },
-        function(module, exports) {
-            module.exports = function(func, transform) {
+        function(module1, exports1) {
+            module1.exports = function(func, transform) {
                 return function(arg) {
                     return func(transform(arg));
                 };
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isObjectLike = __webpack_require__(18);
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 return isObjectLike(value) && "[object Arguments]" == baseGetTag(value);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isArrayLike = __webpack_require__(39), isObjectLike = __webpack_require__(18);
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 return isObjectLike(value) && isArrayLike(value);
             };
         },
-        function(module, exports) {
+        function(module1, exports1) {
             function stubFalse() {
                 return !1;
             }
-            module.exports = stubFalse;
+            module1.exports = stubFalse;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), getPrototype = __webpack_require__(50), isObjectLike = __webpack_require__(18), funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, objectCtorString = funcToString.call(Object);
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 if (!isObjectLike(value) || "[object Object]" != baseGetTag(value)) return !1;
                 var proto = getPrototype(value);
                 if (null === proto) return !0;
@@ -2059,40 +2059,40 @@
                 return "function" == typeof Ctor && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isLength = __webpack_require__(40), isObjectLike = __webpack_require__(18), typedArrayTags = {};
-            typedArrayTags["[object Float32Array]"] = typedArrayTags["[object Float64Array]"] = typedArrayTags["[object Int8Array]"] = typedArrayTags["[object Int16Array]"] = typedArrayTags["[object Int32Array]"] = typedArrayTags["[object Uint8Array]"] = typedArrayTags["[object Uint8ClampedArray]"] = typedArrayTags["[object Uint16Array]"] = typedArrayTags["[object Uint32Array]"] = !0, typedArrayTags["[object Arguments]"] = typedArrayTags["[object Array]"] = typedArrayTags["[object ArrayBuffer]"] = typedArrayTags["[object Boolean]"] = typedArrayTags["[object DataView]"] = typedArrayTags["[object Date]"] = typedArrayTags["[object Error]"] = typedArrayTags["[object Function]"] = typedArrayTags["[object Map]"] = typedArrayTags["[object Number]"] = typedArrayTags["[object Object]"] = typedArrayTags["[object RegExp]"] = typedArrayTags["[object Set]"] = typedArrayTags["[object String]"] = typedArrayTags["[object WeakMap]"] = !1, module.exports = function(value) {
+            typedArrayTags["[object Float32Array]"] = typedArrayTags["[object Float64Array]"] = typedArrayTags["[object Int8Array]"] = typedArrayTags["[object Int16Array]"] = typedArrayTags["[object Int32Array]"] = typedArrayTags["[object Uint8Array]"] = typedArrayTags["[object Uint8ClampedArray]"] = typedArrayTags["[object Uint16Array]"] = typedArrayTags["[object Uint32Array]"] = !0, typedArrayTags["[object Arguments]"] = typedArrayTags["[object Array]"] = typedArrayTags["[object ArrayBuffer]"] = typedArrayTags["[object Boolean]"] = typedArrayTags["[object DataView]"] = typedArrayTags["[object Date]"] = typedArrayTags["[object Error]"] = typedArrayTags["[object Function]"] = typedArrayTags["[object Map]"] = typedArrayTags["[object Number]"] = typedArrayTags["[object Object]"] = typedArrayTags["[object RegExp]"] = typedArrayTags["[object Set]"] = typedArrayTags["[object String]"] = typedArrayTags["[object WeakMap]"] = !1, module1.exports = function(value) {
                 return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
             };
         },
-        function(module, exports) {
-            module.exports = function(func) {
+        function(module1, exports1) {
+            module1.exports = function(func) {
                 return function(value) {
                     return func(value);
                 };
             };
         },
-        function(module4, exports, __webpack_require__) {
-            (function(module) {
-                var freeGlobal = __webpack_require__(45), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && "object" == typeof module && module && !module.nodeType && module, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
+        function(module1, exports1, __webpack_require__) {
+            (function(module1) {
+                var freeGlobal = __webpack_require__(45), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
                     try {
                         var types = freeModule && freeModule.require && freeModule.require("util").types;
                         if (types) return types;
                         return freeProcess && freeProcess.binding && freeProcess.binding("util");
                     } catch (e) {}
                 }();
-                module.exports = nodeUtil;
-            }).call(this, __webpack_require__(38)(module4));
+                module1.exports = nodeUtil;
+            }).call(this, __webpack_require__(38)(module1));
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var copyObject = __webpack_require__(140), keysIn = __webpack_require__(56);
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 return copyObject(value, keysIn(value));
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var assignValue = __webpack_require__(55), baseAssignValue = __webpack_require__(37);
-            module.exports = function(source, props, object, customizer) {
+            module1.exports = function(source, props, object, customizer) {
                 var isNew = !object;
                 object || (object = {});
                 for(var index = -1, length = props.length; ++index < length;){
@@ -2102,39 +2102,39 @@
                 return object;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseTimes = __webpack_require__(142), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), isBuffer = __webpack_require__(52), isIndex = __webpack_require__(31), isTypedArray = __webpack_require__(53), hasOwnProperty = Object.prototype.hasOwnProperty;
-            module.exports = function(value, inherited) {
+            module1.exports = function(value, inherited) {
                 var isArr = isArray(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
                 for(var key in value)(inherited || hasOwnProperty.call(value, key)) && !(skipIndexes && ("length" == key || isBuff && ("offset" == key || "parent" == key) || isType && ("buffer" == key || "byteLength" == key || "byteOffset" == key) || isIndex(key, length))) && result.push(key);
                 return result;
             };
         },
-        function(module, exports) {
-            module.exports = function(n, iteratee) {
+        function(module1, exports1) {
+            module1.exports = function(n, iteratee) {
                 for(var index = -1, result = Array(n); ++index < n;)result[index] = iteratee(index);
                 return result;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isObject = __webpack_require__(14), isPrototype = __webpack_require__(51), nativeKeysIn = __webpack_require__(144), hasOwnProperty = Object.prototype.hasOwnProperty;
-            module.exports = function(object) {
+            module1.exports = function(object) {
                 if (!isObject(object)) return nativeKeysIn(object);
                 var isProto = isPrototype(object), result = [];
                 for(var key in object)"constructor" == key && (isProto || !hasOwnProperty.call(object, key)) || result.push(key);
                 return result;
             };
         },
-        function(module, exports) {
-            module.exports = function(object) {
+        function(module1, exports1) {
+            module1.exports = function(object) {
                 var result = [];
                 if (null != object) for(var key in Object(object))result.push(key);
                 return result;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseRest = __webpack_require__(146), isIterateeCall = __webpack_require__(151);
-            module.exports = function(assigner) {
+            module1.exports = function(assigner) {
                 return baseRest(function(object, sources) {
                     var index = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : void 0, guard = length > 2 ? sources[2] : void 0;
                     for(customizer = assigner.length > 3 && "function" == typeof customizer ? (length--, customizer) : void 0, guard && isIterateeCall(sources[0], sources[1], guard) && (customizer = length < 3 ? void 0 : customizer, length = 1), object = Object(object); ++index < length;){
@@ -2145,14 +2145,14 @@
                 });
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var identity = __webpack_require__(57), overRest = __webpack_require__(58), setToString = __webpack_require__(59);
-            module.exports = function(func, start) {
+            module1.exports = function(func, start) {
                 return setToString(overRest(func, start, identity), func + "");
             };
         },
-        function(module, exports) {
-            module.exports = function(func, thisArg, args) {
+        function(module1, exports1) {
+            module1.exports = function(func, thisArg, args) {
                 switch(args.length){
                     case 0:
                         return func.call(thisArg);
@@ -2166,9 +2166,9 @@
                 return func.apply(thisArg, args);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var constant = __webpack_require__(149), defineProperty = __webpack_require__(49), identity = __webpack_require__(57);
-            module.exports = defineProperty ? function(func, string) {
+            module1.exports = defineProperty ? function(func, string) {
                 return defineProperty(func, "toString", {
                     configurable: !0,
                     enumerable: !1,
@@ -2177,16 +2177,16 @@
                 });
             } : identity;
         },
-        function(module, exports) {
-            module.exports = function(value) {
+        function(module1, exports1) {
+            module1.exports = function(value) {
                 return function() {
                     return value;
                 };
             };
         },
-        function(module, exports) {
+        function(module1, exports1) {
             var HOT_SPAN = 16, nativeNow = Date.now;
-            module.exports = function(func) {
+            module1.exports = function(func) {
                 var count = 0, lastCalled = 0;
                 return function() {
                     var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
@@ -2197,15 +2197,15 @@
                 };
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var eq = __webpack_require__(26), isArrayLike = __webpack_require__(39), isIndex = __webpack_require__(31), isObject = __webpack_require__(14);
-            module.exports = function(value, index, object) {
+            module1.exports = function(value, index, object) {
                 if (!isObject(object)) return !1;
                 var type = typeof index;
                 return ("number" == type ? !!(isArrayLike(object) && isIndex(index, object.length)) : "string" == type && index in object) && eq(object[index], value);
             };
         },
-        function(module, exports) {
+        function(module1, exports1) {
             "undefined" == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
                 window.setTimeout(callback, 1000 / 60);
             }), "function" != typeof Math.imul && (Math.imul = function(a, b) {
@@ -2213,7 +2213,7 @@
                 return al * bl + ((a >>> 16 & 0xffff) * bl + al * (b >>> 16 & 0xffff) << 16 >>> 0) | 0;
             }), "function" != typeof Object.assign && (Object.assign = function(target) {
                 "use strict";
-                if (null === target) throw new TypeError("Cannot convert undefined or null to object");
+                if (null === target) throw TypeError("Cannot convert undefined or null to object");
                 for(var to = Object(target), index = 1; index < arguments.length; index++){
                     var nextSource = arguments[index];
                     if (null !== nextSource) for(var nextKey in nextSource)Object.prototype.hasOwnProperty.call(nextSource, nextKey) && (to[nextKey] = nextSource[nextKey]);
@@ -2221,13 +2221,13 @@
                 return to;
             });
         },
-        function(module, exports) {
-            module.exports = function(arr) {
+        function(module1, exports1) {
+            module1.exports = function(arr) {
                 if (Array.isArray(arr)) return arr;
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function(arr, i) {
+        function(module1, exports1) {
+            module1.exports = function(arr, i) {
                 var _s, _e, _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
                 if (null != _i) {
                     var _arr = [], _n = !0, _d = !1;
@@ -2244,188 +2244,188 @@
                     }
                     return _arr;
                 }
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function() {
-                throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+        function(module1, exports1) {
+            module1.exports = function() {
+                throw TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function(a) {
+        function(module1, exports1) {
+            module1.exports = function(a) {
                 var out = new Float32Array(2);
                 return out[0] = a[0], out[1] = a[1], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(x, y) {
+        function(module1, exports1) {
+            module1.exports = function(x, y) {
                 var out = new Float32Array(2);
                 return out[0] = x, out[1] = y, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = a[0], out[1] = a[1], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, x, y) {
+        function(module1, exports1) {
+            module1.exports = function(out, x, y) {
                 return out[0] = x, out[1] = y, out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = function(a, b) {
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = function(a, b) {
                 var a0 = a[0], a1 = a[1], b0 = b[0], b1 = b[1];
                 return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1));
             };
             var EPSILON = __webpack_require__(62);
         },
-        function(module, exports) {
-            module.exports = function(a, b) {
+        function(module1, exports1) {
+            module1.exports = function(a, b) {
                 return a[0] === b[0] && a[1] === b[1];
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] + b[0], out[1] = a[1] + b[1], out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(64);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(64);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(65);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(65);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(66);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(66);
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = 1.0 / a[0], out[1] = 1.0 / a[1], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = Math.min(a[0], b[0]), out[1] = Math.min(a[1], b[1]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = Math.max(a[0], b[0]), out[1] = Math.max(a[1], b[1]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, angle) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, angle) {
                 var c = Math.cos(angle), s = Math.sin(angle), x = a[0], y = a[1];
                 return out[0] = x * c - y * s, out[1] = x * s + y * c, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = Math.floor(a[0]), out[1] = Math.floor(a[1]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = Math.ceil(a[0]), out[1] = Math.ceil(a[1]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = Math.round(a[0]), out[1] = Math.round(a[1]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] * b, out[1] = a[1] * b, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b, scale) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b, scale) {
                 return out[0] = a[0] + b[0] * scale, out[1] = a[1] + b[1] * scale, out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(67);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(67);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(68);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(68);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(69);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(69);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(70);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(70);
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = -a[0], out[1] = -a[1], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 var x = a[0], y = a[1], len = x * x + y * y;
                 return len > 0 && (len = 1 / Math.sqrt(len), out[0] = a[0] * len, out[1] = a[1] * len), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(a, b) {
+        function(module1, exports1) {
+            module1.exports = function(a, b) {
                 return a[0] * b[0] + a[1] * b[1];
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 var z = a[0] * b[1] - a[1] * b[0];
                 return out[0] = out[1] = 0, out[2] = z, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b, t) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b, t) {
                 var ax = a[0], ay = a[1];
                 return out[0] = ax + t * (b[0] - ax), out[1] = ay + t * (b[1] - ay), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, scale) {
+        function(module1, exports1) {
+            module1.exports = function(out, scale) {
                 scale = scale || 1.0;
                 var r = 2.0 * Math.random() * Math.PI;
                 return out[0] = Math.cos(r) * scale, out[1] = Math.sin(r) * scale, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, m) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, m) {
                 var x = a[0], y = a[1];
                 return out[0] = m[0] * x + m[2] * y, out[1] = m[1] * x + m[3] * y, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, m) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, m) {
                 var x = a[0], y = a[1];
                 return out[0] = m[0] * x + m[2] * y + m[4], out[1] = m[1] * x + m[3] * y + m[5], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, m) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, m) {
                 var x = a[0], y = a[1];
                 return out[0] = m[0] * x + m[3] * y + m[6], out[1] = m[1] * x + m[4] * y + m[7], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, m) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, m) {
                 var x = a[0], y = a[1];
                 return out[0] = m[0] * x + m[4] * y + m[12], out[1] = m[1] * x + m[5] * y + m[13], out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = function(a, stride, offset, count, fn, arg) {
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = function(a, stride, offset, count, fn, arg) {
                 var i, l;
                 for(stride || (stride = 2), offset || (offset = 0), l = count ? Math.min(count * stride + offset, a.length) : a.length, i = offset; i < l; i += stride)vec[0] = a[i], vec[1] = a[i + 1], fn(vec, vec, arg), a[i] = vec[0], a[i + 1] = vec[1];
                 return a;
             };
             var vec = __webpack_require__(63)();
         },
-        function(module, exports) {
-            module.exports = function(out, a, max) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, max) {
                 var mSq = a[0] * a[0] + a[1] * a[1];
                 if (mSq > max * max) {
                     var n = Math.sqrt(mSq);
@@ -2434,14 +2434,14 @@
                 return out;
             };
         },
-        function(module, exports) {
-            module.exports = function(a) {
+        function(module1, exports1) {
+            module1.exports = function(a) {
                 var out = new Float32Array(3);
                 return out[0] = a[0], out[1] = a[1], out[2] = a[2], out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = function(a, b) {
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = function(a, b) {
                 var tempA = fromValues(a[0], a[1], a[2]), tempB = fromValues(b[0], b[1], b[2]);
                 normalize(tempA, tempA), normalize(tempB, tempB);
                 var cosine = dot(tempA, tempB);
@@ -2449,191 +2449,191 @@
             };
             var fromValues = __webpack_require__(73), normalize = __webpack_require__(74), dot = __webpack_require__(75);
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = a[0], out[1] = a[1], out[2] = a[2], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, x, y, z) {
+        function(module1, exports1) {
+            module1.exports = function(out, x, y, z) {
                 return out[0] = x, out[1] = y, out[2] = z, out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = function(a, b) {
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = function(a, b) {
                 var a0 = a[0], a1 = a[1], a2 = a[2], b0 = b[0], b1 = b[1], b2 = b[2];
                 return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2));
             };
             var EPSILON = __webpack_require__(71);
         },
-        function(module, exports) {
-            module.exports = function(a, b) {
+        function(module1, exports1) {
+            module1.exports = function(a, b) {
                 return a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] + b[0], out[1] = a[1] + b[1], out[2] = a[2] + b[2], out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(76);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(76);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(77);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(77);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(78);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(78);
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = Math.min(a[0], b[0]), out[1] = Math.min(a[1], b[1]), out[2] = Math.min(a[2], b[2]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = Math.max(a[0], b[0]), out[1] = Math.max(a[1], b[1]), out[2] = Math.max(a[2], b[2]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = Math.floor(a[0]), out[1] = Math.floor(a[1]), out[2] = Math.floor(a[2]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = Math.ceil(a[0]), out[1] = Math.ceil(a[1]), out[2] = Math.ceil(a[2]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = Math.round(a[0]), out[1] = Math.round(a[1]), out[2] = Math.round(a[2]), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 return out[0] = a[0] * b, out[1] = a[1] * b, out[2] = a[2] * b, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b, scale) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b, scale) {
                 return out[0] = a[0] + b[0] * scale, out[1] = a[1] + b[1] * scale, out[2] = a[2] + b[2] * scale, out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(79);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(79);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(80);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(80);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(81);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(81);
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(82);
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = __webpack_require__(82);
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = -a[0], out[1] = -a[1], out[2] = -a[2], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = 1.0 / a[0], out[1] = 1.0 / a[1], out[2] = 1.0 / a[2], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 var ax = a[0], ay = a[1], az = a[2], bx = b[0], by = b[1], bz = b[2];
                 return out[0] = ay * bz - az * by, out[1] = az * bx - ax * bz, out[2] = ax * by - ay * bx, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b, t) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b, t) {
                 var ax = a[0], ay = a[1], az = a[2];
                 return out[0] = ax + t * (b[0] - ax), out[1] = ay + t * (b[1] - ay), out[2] = az + t * (b[2] - az), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, scale) {
+        function(module1, exports1) {
+            module1.exports = function(out, scale) {
                 var r = 2.0 * Math.random() * Math.PI, z = 2.0 * Math.random() - 1.0, zScale = Math.sqrt(1.0 - z * z) * (scale = scale || 1.0);
                 return out[0] = Math.cos(r) * zScale, out[1] = Math.sin(r) * zScale, out[2] = z * scale, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, m) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, m) {
                 var x = a[0], y = a[1], z = a[2], w = m[3] * x + m[7] * y + m[11] * z + m[15];
                 return w = w || 1.0, out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w, out[1] = (m[1] * x + m[5] * y + m[9] * z + m[13]) / w, out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, m) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, m) {
                 var x = a[0], y = a[1], z = a[2];
                 return out[0] = x * m[0] + y * m[3] + z * m[6], out[1] = x * m[1] + y * m[4] + z * m[7], out[2] = x * m[2] + y * m[5] + z * m[8], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, q) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, q) {
                 var x = a[0], y = a[1], z = a[2], qx = q[0], qy = q[1], qz = q[2], qw = q[3], ix = qw * x + qy * z - qz * y, iy = qw * y + qz * x - qx * z, iz = qw * z + qx * y - qy * x, iw = -qx * x - qy * y - qz * z;
                 return out[0] = ix * qw + -(iw * qx) + -(iy * qz) - -(iz * qy), out[1] = iy * qw + -(iw * qy) + -(iz * qx) - -(ix * qz), out[2] = iz * qw + -(iw * qz) + -(ix * qy) - -(iy * qx), out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b, c) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b, c) {
                 var by = b[1], bz = b[2], py = a[1] - by, pz = a[2] - bz, sc = Math.sin(c), cc = Math.cos(c);
                 return out[0] = a[0], out[1] = by + py * cc - pz * sc, out[2] = bz + py * sc + pz * cc, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b, c) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b, c) {
                 var bx = b[0], bz = b[2], px = a[0] - bx, pz = a[2] - bz, sc = Math.sin(c), cc = Math.cos(c);
                 return out[0] = bx + pz * sc + px * cc, out[1] = a[1], out[2] = bz + pz * cc - px * sc, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b, c) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b, c) {
                 var bx = b[0], by = b[1], px = a[0] - bx, py = a[1] - by, sc = Math.sin(c), cc = Math.cos(c);
                 return out[0] = bx + px * cc - py * sc, out[1] = by + px * sc + py * cc, out[2] = a[2], out;
             };
         },
-        function(module, exports, __webpack_require__) {
-            module.exports = function(a, stride, offset, count, fn, arg) {
+        function(module1, exports1, __webpack_require__) {
+            module1.exports = function(a, stride, offset, count, fn, arg) {
                 var i, l;
                 for(stride || (stride = 3), offset || (offset = 0), l = count ? Math.min(count * stride + offset, a.length) : a.length, i = offset; i < l; i += stride)vec[0] = a[i], vec[1] = a[i + 1], vec[2] = a[i + 2], fn(vec, vec, arg), a[i] = vec[0], a[i + 1] = vec[1], a[i + 2] = vec[2];
                 return a;
             };
             var vec = __webpack_require__(72)();
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var arrayLikeToArray = __webpack_require__(61);
-            module.exports = function(arr) {
+            module1.exports = function(arr) {
                 if (Array.isArray(arr)) return arrayLikeToArray(arr);
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function(iter) {
+        function(module1, exports1) {
+            module1.exports = function(iter) {
                 if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function() {
-                throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+        function(module1, exports1) {
+            module1.exports = function() {
+                throw TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var getPrototypeOf = __webpack_require__(2);
-            module.exports = function(object, property) {
+            module1.exports = function(object, property) {
                 for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = getPrototypeOf(object)););
                 return object;
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports1, __webpack_require__) {
-            var runtime = function(exports) {
+        function(module1, exports1, __webpack_require__) {
+            var runtime = function(exports1) {
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-                function wrap(innerFn, outerFn, self, tryLocsList) {
+                function wrap(innerFn, outerFn, self1, tryLocsList) {
                     var generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
-                    return generator._invoke = makeInvokeMethod(innerFn, self, context), generator;
+                    return generator._invoke = makeInvokeMethod(innerFn, self1, context), generator;
                 }
                 function tryCatch(fn, obj, arg) {
                     try {
@@ -2648,7 +2648,7 @@
                         };
                     }
                 }
-                exports.wrap = wrap;
+                exports1.wrap = wrap;
                 var GenStateSuspendedStart = "suspendedStart", GenStateExecuting = "executing", GenStateCompleted = "completed", ContinueSentinel = {};
                 function Generator() {}
                 function GeneratorFunction() {}
@@ -2677,12 +2677,12 @@
                         var record = tryCatch(generator[method], generator, arg);
                         if ("throw" === record.type) reject(record.arg);
                         else {
-                            var result = record.arg, value1 = result.value;
-                            return value1 && "object" == typeof value1 && hasOwn.call(value1, "__await") ? PromiseImpl.resolve(value1.__await).then(function(value) {
+                            var result = record.arg, value = result.value;
+                            return value && "object" == typeof value && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function(value) {
                                 invoke("next", value, resolve, reject);
                             }, function(err) {
                                 invoke("throw", err, resolve, reject);
-                            }) : PromiseImpl.resolve(value1).then(function(unwrapped) {
+                            }) : PromiseImpl.resolve(value).then(function(unwrapped) {
                                 result.value = unwrapped, resolve(result);
                             }, function(error) {
                                 return invoke("throw", error, resolve, reject);
@@ -2698,10 +2698,10 @@
                         return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
                     };
                 }
-                function makeInvokeMethod(innerFn, self, context) {
+                function makeInvokeMethod(innerFn, self1, context) {
                     var state = GenStateSuspendedStart;
                     return function(method, arg) {
-                        if (state === GenStateExecuting) throw new Error("Generator is already running");
+                        if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
                             return doneResult();
@@ -2721,7 +2721,7 @@
                                 context.dispatchException(context.arg);
                             } else "return" === context.method && context.abrupt("return", context.arg);
                             state = GenStateExecuting;
-                            var record = tryCatch(innerFn, self, context);
+                            var record = tryCatch(innerFn, self1, context);
                             if ("normal" === record.type) {
                                 if (state = context.done ? GenStateCompleted : "suspendedYield", record.arg === ContinueSentinel) continue;
                                 return {
@@ -2738,14 +2738,14 @@
                     if (method === undefined) {
                         if (context.delegate = null, "throw" === context.method) {
                             if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-                            context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
+                            context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
                         }
                         return ContinueSentinel;
                     }
                     var record = tryCatch(method, delegate.iterator, context.arg);
                     if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
                     var info = record.arg;
-                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
                 }
                 function pushTryEntry(locs) {
                     var entry = {
@@ -2770,11 +2770,11 @@
                         if (iteratorMethod) return iteratorMethod.call(iterable);
                         if ("function" == typeof iterable.next) return iterable;
                         if (!isNaN(iterable.length)) {
-                            var i = -1, next1 = function next() {
+                            var i = -1, next = function next() {
                                 for(; ++i < iterable.length;)if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
                                 return next.value = undefined, next.done = !0, next;
                             };
-                            return next1.next = next1;
+                            return next.next = next;
                         }
                     }
                     return {
@@ -2787,30 +2787,30 @@
                         done: !0
                     };
                 }
-                return GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype, GeneratorFunctionPrototype.constructor = GeneratorFunction, GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = "GeneratorFunction", exports.isGeneratorFunction = function(genFun) {
+                return GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype, GeneratorFunctionPrototype.constructor = GeneratorFunction, GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = "GeneratorFunction", exports1.isGeneratorFunction = function(genFun) {
                     var ctor = "function" == typeof genFun && genFun.constructor;
                     return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
-                }, exports.mark = function(genFun) {
+                }, exports1.mark = function(genFun) {
                     return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, toStringTagSymbol in genFun || (genFun[toStringTagSymbol] = "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
-                }, exports.awrap = function(arg) {
+                }, exports1.awrap = function(arg) {
                     return {
                         __await: arg
                     };
                 }, defineIteratorMethods(AsyncIterator.prototype), AsyncIterator.prototype[asyncIteratorSymbol] = function() {
                     return this;
-                }, exports.AsyncIterator = AsyncIterator, exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+                }, exports1.AsyncIterator = AsyncIterator, exports1.async = function(innerFn, outerFn, self1, tryLocsList, PromiseImpl) {
                     void 0 === PromiseImpl && (PromiseImpl = Promise);
-                    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-                    return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
+                    var iter = new AsyncIterator(wrap(innerFn, outerFn, self1, tryLocsList), PromiseImpl);
+                    return exports1.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
                         return result.done ? result.value : iter.next();
                     });
                 }, defineIteratorMethods(Gp), Gp[toStringTagSymbol] = "Generator", Gp[iteratorSymbol] = function() {
                     return this;
                 }, Gp.toString = function() {
                     return "[object Generator]";
-                }, exports.keys = function(object) {
+                }, exports1.keys = function(object) {
                     var keys = [];
-                    for(var key2 in object)keys.push(key2);
+                    for(var key in object)keys.push(key);
                     return keys.reverse(), function next() {
                         for(; keys.length;){
                             var key = keys.pop();
@@ -2818,7 +2818,7 @@
                         }
                         return next.done = !0, next;
                     };
-                }, exports.values = values, Context.prototype = {
+                }, exports1.values = values, Context.prototype = {
                     constructor: Context,
                     reset: function(skipTempReset) {
                         if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for(var name in this)"t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
@@ -2847,7 +2847,7 @@
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                                 } else if (hasFinally) {
                                     if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                                } else throw new Error("try statement without catch or finally");
+                                } else throw Error("try statement without catch or finally");
                             }
                         }
                     },
@@ -2885,7 +2885,7 @@
                                 return thrown;
                             }
                         }
-                        throw new Error("illegal catch attempt");
+                        throw Error("illegal catch attempt");
                     },
                     delegateYield: function(iterable, resultName, nextLoc) {
                         return this.delegate = {
@@ -2894,25 +2894,25 @@
                             nextLoc: nextLoc
                         }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
                     }
-                }, exports;
-            }(module.exports);
+                }, exports1;
+            }(module1.exports);
             try {
                 regeneratorRuntime = runtime;
             } catch (accidentalStrictMode) {
                 Function("r", "regeneratorRuntime = r")(runtime);
             }
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var basePickBy = __webpack_require__(230), hasIn = __webpack_require__(240);
-            module.exports = function(object, paths) {
+            module1.exports = function(object, paths) {
                 return basePickBy(object, paths, function(value, path) {
                     return hasIn(object, path);
                 });
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseGet = __webpack_require__(231), baseSet = __webpack_require__(239), castPath = __webpack_require__(32);
-            module.exports = function(object, paths, predicate) {
+            module1.exports = function(object, paths, predicate) {
                 for(var index = -1, length = paths.length, result = {}; ++index < length;){
                     var path = paths[index], value = baseGet(object, path);
                     predicate(value, path) && baseSet(result, castPath(path, object), value);
@@ -2920,44 +2920,44 @@
                 return result;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var castPath = __webpack_require__(32), toKey = __webpack_require__(43);
-            module.exports = function(object, path) {
+            module1.exports = function(object, path) {
                 path = castPath(path, object);
                 for(var index = 0, length = path.length; null != object && index < length;)object = object[toKey(path[index++])];
                 return index && index == length ? object : void 0;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, reIsPlainProp = /^\w*$/;
-            module.exports = function(value, object) {
+            module1.exports = function(value, object) {
                 if (isArray(value)) return !1;
                 var type = typeof value;
                 return !!("number" == type || "symbol" == type || "boolean" == type || null == value || isSymbol(value)) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) || null != object && value in Object(object);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var memoizeCapped = __webpack_require__(234), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = memoizeCapped(function(string) {
                 var result = [];
                 return 46 === string.charCodeAt(0) && result.push(""), string.replace(rePropName, function(match, number, quote, subString) {
                     result.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
                 }), result;
             });
-            module.exports = stringToPath;
+            module1.exports = stringToPath;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var memoize = __webpack_require__(235);
-            module.exports = function(func) {
+            module1.exports = function(func) {
                 var result = memoize(func, function(key) {
                     return 500 === cache.size && cache.clear(), key;
                 }), cache = result.cache;
                 return result;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var MapCache = __webpack_require__(47);
             function memoize(func, resolver) {
-                if ("function" != typeof func || null != resolver && "function" != typeof resolver) throw new TypeError("Expected a function");
+                if ("function" != typeof func || null != resolver && "function" != typeof resolver) throw TypeError("Expected a function");
                 var memoized = function() {
                     var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
                     if (cache.has(key)) return cache.get(key);
@@ -2966,16 +2966,16 @@
                 };
                 return memoized.cache = new (memoize.Cache || MapCache)(), memoized;
             }
-            memoize.Cache = MapCache, module.exports = memoize;
+            memoize.Cache = MapCache, module1.exports = memoize;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseToString = __webpack_require__(237);
-            module.exports = function(value) {
+            module1.exports = function(value) {
                 return null == value ? "" : baseToString(value);
             };
         },
-        function(module, exports, __webpack_require__) {
-            var Symbol = __webpack_require__(27), arrayMap = __webpack_require__(238), isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), INFINITY = 1 / 0, symbolProto = Symbol ? Symbol.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
+        function(module1, exports1, __webpack_require__) {
+            var Symbol1 = __webpack_require__(27), arrayMap = __webpack_require__(238), isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), INFINITY = 1 / 0, symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
             function baseToString(value) {
                 if ("string" == typeof value) return value;
                 if (isArray(value)) return arrayMap(value, baseToString) + "";
@@ -2983,17 +2983,17 @@
                 var result = value + "";
                 return "0" == result && 1 / value == -INFINITY ? "-0" : result;
             }
-            module.exports = baseToString;
+            module1.exports = baseToString;
         },
-        function(module, exports) {
-            module.exports = function(array, iteratee) {
+        function(module1, exports1) {
+            module1.exports = function(array, iteratee) {
                 for(var index = -1, length = null == array ? 0 : array.length, result = Array(length); ++index < length;)result[index] = iteratee(array[index], index, array);
                 return result;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var assignValue = __webpack_require__(55), castPath = __webpack_require__(32), isIndex = __webpack_require__(31), isObject = __webpack_require__(14), toKey = __webpack_require__(43);
-            module.exports = function(object, path, value, customizer) {
+            module1.exports = function(object, path, value, customizer) {
                 if (!isObject(object)) return object;
                 path = castPath(path, object);
                 for(var index = -1, length = path.length, lastIndex = length - 1, nested = object; null != nested && ++index < length;){
@@ -3008,20 +3008,20 @@
                 return object;
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseHasIn = __webpack_require__(241), hasPath = __webpack_require__(242);
-            module.exports = function(object, path) {
+            module1.exports = function(object, path) {
                 return null != object && hasPath(object, path, baseHasIn);
             };
         },
-        function(module, exports) {
-            module.exports = function(object, key) {
+        function(module1, exports1) {
+            module1.exports = function(object, key) {
                 return null != object && key in Object(object);
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var castPath = __webpack_require__(32), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), isIndex = __webpack_require__(31), isLength = __webpack_require__(40), toKey = __webpack_require__(43);
-            module.exports = function(object, path, hasFunc) {
+            module1.exports = function(object, path, hasFunc) {
                 path = castPath(path, object);
                 for(var index = -1, length = path.length, result = !1; ++index < length;){
                     var key = toKey(path[index]);
@@ -3031,19 +3031,19 @@
                 return result || ++index != length ? result : !!(length = null == object ? 0 : object.length) && isLength(length) && isIndex(key, length) && (isArray(object) || isArguments(object));
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var flatten = __webpack_require__(244), overRest = __webpack_require__(58), setToString = __webpack_require__(59);
-            module.exports = function(func) {
+            module1.exports = function(func) {
                 return setToString(overRest(func, void 0, flatten), func + "");
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var baseFlatten = __webpack_require__(245);
-            module.exports = function(array) {
+            module1.exports = function(array) {
                 return (null == array ? 0 : array.length) ? baseFlatten(array, 1) : [];
             };
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var arrayPush = __webpack_require__(246), isFlattenable = __webpack_require__(247);
             function baseFlatten(array, depth, predicate, isStrict, result) {
                 var index = -1, length = array.length;
@@ -3053,41 +3053,41 @@
                 }
                 return result;
             }
-            module.exports = baseFlatten;
+            module1.exports = baseFlatten;
         },
-        function(module, exports) {
-            module.exports = function(array, values) {
+        function(module1, exports1) {
+            module1.exports = function(array, values) {
                 for(var index = -1, length = values.length, offset = array.length; ++index < length;)array[offset + index] = values[index];
                 return array;
             };
         },
-        function(module, exports, __webpack_require__) {
-            var Symbol = __webpack_require__(27), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : void 0;
-            module.exports = function(value) {
+        function(module1, exports1, __webpack_require__) {
+            var Symbol1 = __webpack_require__(27), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), spreadableSymbol = Symbol1 ? Symbol1.isConcatSpreadable : void 0;
+            module1.exports = function(value) {
                 return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
             };
         },
-        function(module, exports) {
-            module.exports = function(fn) {
+        function(module1, exports1) {
+            module1.exports = function(fn) {
                 return -1 !== Function.toString.call(fn).indexOf("[native code]");
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports, __webpack_require__) {
+        function(module1, exports1, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41), isNativeReflectConstruct = __webpack_require__(250);
-            function _construct(Parent1, args1, Class2) {
-                return isNativeReflectConstruct() ? (module.exports = _construct = Reflect.construct, module.exports.default = module.exports, module.exports.__esModule = !0) : (module.exports = _construct = function(Parent, args, Class) {
+            function _construct(Parent, args, Class) {
+                return isNativeReflectConstruct() ? (module1.exports = _construct = Reflect.construct, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _construct = function(Parent, args, Class) {
                     var a = [
                         null
                     ];
                     a.push.apply(a, args);
                     var instance = new (Function.bind.apply(Parent, a))();
                     return Class && setPrototypeOf(instance, Class.prototype), instance;
-                }, module.exports.default = module.exports, module.exports.__esModule = !0), _construct.apply(null, arguments);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _construct.apply(null, arguments);
             }
-            module.exports = _construct, module.exports.default = module.exports, module.exports.__esModule = !0;
+            module1.exports = _construct, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function() {
+        function(module1, exports1) {
+            module1.exports = function() {
                 if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                 if ("function" == typeof Proxy) return !0;
                 try {
@@ -3095,15 +3095,15 @@
                 } catch (e) {
                     return !1;
                 }
-            }, module.exports.default = module.exports, module.exports.__esModule = !0;
+            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
-        function(module, exports) {
-            module.exports = function(a) {
+        function(module1, exports1) {
+            module1.exports = function(a) {
                 return a[0] * a[3] - a[2] * a[1];
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 if (out === a) {
                     var a1 = a[1];
                     out[1] = a[2], out[2] = a1;
@@ -3111,59 +3111,59 @@
                 return out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, b) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, b) {
                 var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
                 return out[0] = a0 * b0 + a2 * b1, out[1] = a1 * b0 + a3 * b1, out[2] = a0 * b2 + a2 * b3, out[3] = a1 * b2 + a3 * b3, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out) {
+        function(module1, exports1) {
+            module1.exports = function(out) {
                 return out[0] = 1, out[1] = 0, out[2] = 0, out[3] = 1, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 var a0 = a[0];
                 return out[0] = a[3], out[1] = -a[1], out[2] = -a[2], out[3] = a0, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, rad) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, rad) {
                 var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], s = Math.sin(rad), c = Math.cos(rad);
                 return out[0] = a0 * c + a2 * s, out[1] = a1 * c + a3 * s, out[2] = -(a0 * s) + a2 * c, out[3] = -(a1 * s) + a3 * c, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], det = a0 * a3 - a2 * a1;
                 return det ? (det = 1.0 / det, out[0] = a3 * det, out[1] = -a1 * det, out[2] = -a2 * det, out[3] = a0 * det, out) : null;
             };
         },
-        function(module, exports) {
-            module.exports = function() {
+        function(module1, exports1) {
+            module1.exports = function() {
                 var out = new Float32Array(4);
                 return out[0] = 1, out[1] = 0, out[2] = 0, out[3] = 1, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a, v) {
+        function(module1, exports1) {
+            module1.exports = function(out, a, v) {
                 var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], v0 = v[0], v1 = v[1];
                 return out[0] = a0 * v0, out[1] = a1 * v0, out[2] = a2 * v1, out[3] = a3 * v1, out;
             };
         },
-        function(module, exports) {
-            module.exports = function(out, a) {
+        function(module1, exports1) {
+            module1.exports = function(out, a) {
                 return out[0] = a[0], out[1] = a[1], out[2] = a[2], out[3] = a[3], out;
             };
         },
-        function(module, exports) {
-            module.exports = function(a) {
+        function(module1, exports1) {
+            module1.exports = function(a) {
                 return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2));
             };
         },
-        function(module, exports) {
-            module.exports = function(L, D, U, a) {
+        function(module1, exports1) {
+            module1.exports = function(L, D, U, a) {
                 return L[2] = a[2] / a[0], U[0] = a[0], U[1] = a[1], U[3] = a[3] - L[2] * U[1], [
                     L,
                     D,
@@ -3171,7 +3171,7 @@
                 ];
             };
         },
-        function(module, __webpack_exports__, __webpack_require__) {
+        function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "BarcodeDecoder", function() {
                 return barcode_decoder;
@@ -3383,7 +3383,7 @@
                 function Code128Reader() {
                     var _this;
                     classCallCheck_default()(this, Code128Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_SHIFT", 98), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_C", 99), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_B", 100), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_A", 101), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_A", 103), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_B", 104), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_C", 105), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_CODE", 106), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_PATTERN", [
@@ -4640,7 +4640,7 @@
                     {
                         key: "_findPattern",
                         value: function(pattern, offset, isWhite, tryHarder) {
-                            var counter = new Array(pattern.length).fill(0), bestMatch = {
+                            var counter = Array(pattern.length).fill(0), bestMatch = {
                                 error: Number.MAX_VALUE,
                                 start: 0,
                                 end: 0
@@ -4778,7 +4778,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = new Array(), decodedCodes = new Array(), resultInfo = {}, startInfo = this._findStart();
+                            var result = [], decodedCodes = [], resultInfo = {}, startInfo = this._findStart();
                             if (!startInfo) return null;
                             var code = {
                                 start: startInfo.start,
@@ -4878,7 +4878,7 @@
                 function Code39Reader() {
                     var _this;
                     classCallCheck_default()(this, Code39Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39"), _this;
@@ -5008,7 +5008,7 @@
                 function Code39VINReader() {
                     var _this;
                     classCallCheck_default()(this, Code39VINReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39_vin"), _this;
@@ -5098,7 +5098,7 @@
                 function NewCodabarReader() {
                     var _this;
                     classCallCheck_default()(this, NewCodabarReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "_counters", []), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "codabar"), _this;
@@ -5286,7 +5286,7 @@
                 function UPCReader() {
                     var _this;
                     classCallCheck_default()(this, UPCReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "upc_a"), _this;
@@ -5321,7 +5321,7 @@
                 function EAN8Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN8Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_8"), _this;
@@ -5365,7 +5365,7 @@
                 function EAN2Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN2Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_2"), _this;
@@ -5426,7 +5426,7 @@
                 function EAN5Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN5Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_5"), _this;
@@ -5437,22 +5437,22 @@
                         value: function(row, start) {
                             if (void 0 === start) return null;
                             row && (this._row = row);
-                            for(var codeFrequency1 = 0, offset = start, end = this._row.length, code = null, result1 = [], decodedCodes = [], i1 = 0; i1 < 5 && offset < end; i1++){
+                            for(var codeFrequency = 0, offset = start, end = this._row.length, code = null, result = [], decodedCodes = [], i = 0; i < 5 && offset < end; i++){
                                 if (!(code = this._decodeCode(offset))) return null;
-                                decodedCodes.push(code), result1.push(code.code % 10), code.code >= 10 && (codeFrequency1 |= 1 << 4 - i1), 4 !== i1 && (offset = this._nextSet(this._row, code.end), offset = this._nextUnset(this._row, offset));
+                                decodedCodes.push(code), result.push(code.code % 10), code.code >= 10 && (codeFrequency |= 1 << 4 - i), 4 !== i && (offset = this._nextSet(this._row, code.end), offset = this._nextUnset(this._row, offset));
                             }
-                            if (5 !== result1.length || function(result) {
+                            if (5 !== result.length || function(result) {
                                 for(var length = result.length, sum = 0, i = length - 2; i >= 0; i -= 2)sum += result[i];
                                 sum *= 3;
                                 for(var _i = length - 1; _i >= 0; _i -= 2)sum += result[_i];
                                 return (sum *= 3) % 10;
-                            }(result1) !== function(codeFrequency) {
+                            }(result) !== function(codeFrequency) {
                                 for(var i = 0; i < 10; i++)if (codeFrequency === CHECK_DIGIT_ENCODINGS[i]) return i;
                                 return null;
-                            }(codeFrequency1)) return null;
+                            }(codeFrequency)) return null;
                             var startInfo = this._findStart();
                             return {
-                                code: result1.join(""),
+                                code: result.join(""),
                                 decodedCodes: decodedCodes,
                                 end: code.end,
                                 format: this.FORMAT,
@@ -5494,7 +5494,7 @@
                 function UPCEReader() {
                     var _this;
                     classCallCheck_default()(this, UPCEReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_FREQUENCY", [
@@ -5545,9 +5545,9 @@
                                     });
                                 }
                                 return target;
-                            }({}, inCode), codeFrequency = 0x0, i2 = 0; i2 < 6; i2++){
+                            }({}, inCode), codeFrequency = 0x0, i = 0; i < 6; i++){
                                 if (!(outCode = this._decodeCode(outCode.end))) return null;
-                                outCode.code >= 10 && (outCode.code = outCode.code - 10, codeFrequency |= 1 << 5 - i2), result.push(outCode.code), decodedCodes.push(outCode);
+                                outCode.code >= 10 && (outCode.code = outCode.code - 10, codeFrequency |= 1 << 5 - i), result.push(outCode.code), decodedCodes.push(outCode);
                             }
                             return this._determineParity(codeFrequency, result) ? outCode : null;
                         }
@@ -5744,7 +5744,7 @@
                     {
                         key: "_findPattern",
                         value: function(pattern, offset) {
-                            var isWhite = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], tryHarder = arguments.length > 3 && void 0 !== arguments[3] && arguments[3], counter = new Array(pattern.length).fill(0), counterPos = 0, bestMatch = {
+                            var isWhite = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], tryHarder = arguments.length > 3 && void 0 !== arguments[3] && arguments[3], counter = Array(pattern.length).fill(0), counterPos = 0, bestMatch = {
                                 error: Number.MAX_VALUE,
                                 start: 0,
                                 end: 0
@@ -5854,7 +5854,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = new Array(), decodedCodes = new Array(), startInfo = this._findStart();
+                            var result = [], decodedCodes = [], startInfo = this._findStart();
                             if (!startInfo) return null;
                             decodedCodes.push(startInfo);
                             var endInfo = this._findEnd();
@@ -5978,7 +5978,7 @@
                 function TwoOfFiveReader() {
                     var _this;
                     classCallCheck_default()(this, TwoOfFiveReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
@@ -6174,7 +6174,7 @@
                 function Code93Reader() {
                     var _this;
                     classCallCheck_default()(this, Code93Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_93"), _this;
@@ -6347,7 +6347,7 @@
                 function Code32Reader() {
                     var _this;
                     classCallCheck_default()(this, Code32Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_32_reader"), _this;
@@ -6399,7 +6399,7 @@
                 registerReader: function(name, reader) {
                     READERS[name] = reader;
                 },
-                create: function(config, inputImageWrapper1) {
+                create: function(config, inputImageWrapper) {
                     var _canvas = {
                         ctx: {
                             frequency: null,
@@ -6432,7 +6432,7 @@
                         }).join(", ")));
                     }
                     function tryDecode(line) {
-                        var i, result = null, barcodeLine = bresenham.getBarcodeLine(inputImageWrapper1, line[0], line[1]);
+                        var i, result = null, barcodeLine = bresenham.getBarcodeLine(inputImageWrapper, line[0], line[1]);
                         for(config.debug.showFrequency && (image_debug.a.drawPath(line, {
                             x: "x",
                             y: "y"
@@ -6445,26 +6445,26 @@
                             barcodeLine: barcodeLine
                         };
                     }
-                    function _decodeFromBoundingBox(box2) {
-                        var line2, result2, box1, line1, ctx = _canvas.ctx.overlay;
-                        config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box2, {
+                    function _decodeFromBoundingBox(box) {
+                        var line, result, box1, line1, ctx = _canvas.ctx.overlay;
+                        config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box, {
                             x: 0,
                             y: 1
                         }, ctx, {
                             color: "blue",
                             lineWidth: 2
                         });
-                        var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line2 = [
+                        var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line = [
                             {
-                                x: ((box1 = box2)[1][0] - box1[0][0]) / 2 + box1[0][0],
+                                x: ((box1 = box)[1][0] - box1[0][0]) / 2 + box1[0][0],
                                 y: (box1[1][1] - box1[0][1]) / 2 + box1[0][1]
                             },
                             {
                                 x: (box1[3][0] - box1[2][0]) / 2 + box1[2][0],
                                 y: (box1[3][1] - box1[2][1]) / 2 + box1[2][1]
                             }, 
-                        ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle1 = Math.atan2(line2[1].y - line2[0].y, line2[1].x - line2[0].x);
-                        return null === (line2 = function(line, angle, ext) {
+                        ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle = Math.atan2(line[1].y - line[0].y, line[1].x - line[0].x);
+                        return null === (line = function(line, angle, ext) {
                             function extendLine(amount) {
                                 var extension = {
                                     y: amount * Math.sin(angle),
@@ -6472,27 +6472,27 @@
                                 };
                                 line[0].y -= extension.y, line[0].x -= extension.x, line[1].y += extension.y, line[1].x += extension.x;
                             }
-                            for(extendLine(ext); ext > 1 && (!inputImageWrapper1.inImageWithBorder(line[0]) || !inputImageWrapper1.inImageWithBorder(line[1]));)extendLine(-(ext -= Math.ceil(ext / 2)));
+                            for(extendLine(ext); ext > 1 && (!inputImageWrapper.inImageWithBorder(line[0]) || !inputImageWrapper.inImageWithBorder(line[1]));)extendLine(-(ext -= Math.ceil(ext / 2)));
                             return line;
-                        }(line2, lineAngle1, Math.floor(0.1 * lineLength))) ? null : (null === (result2 = tryDecode(line2)) && (result2 = function(box, line, lineAngle) {
+                        }(line, lineAngle, Math.floor(0.1 * lineLength))) ? null : (null === (result = tryDecode(line)) && (result = function(box, line, lineAngle) {
                             var i, dir, extension, sideLength = Math.sqrt(Math.pow(box[1][0] - box[0][0], 2) + Math.pow(box[1][1] - box[0][1], 2)), result = null, xdir = Math.sin(lineAngle), ydir = Math.cos(lineAngle);
                             for(i = 1; i < 16 && null === result; i++)extension = {
                                 y: (dir = sideLength / 16 * i * (i % 2 == 0 ? -1 : 1)) * xdir,
                                 x: dir * ydir
                             }, line[0].y += extension.x, line[0].x -= extension.y, line[1].y += extension.x, line[1].x -= extension.y, result = tryDecode(line);
                             return result;
-                        }(box2, line2, lineAngle1)), null === result2) ? null : (result2 && config.debug.drawScanline && ctx && image_debug.a.drawPath(line2, {
+                        }(box, line, lineAngle)), null === result) ? null : (result && config.debug.drawScanline && ctx && image_debug.a.drawPath(line, {
                             x: "x",
                             y: "y"
                         }, ctx, {
                             color: "red",
                             lineWidth: 3
                         }), {
-                            codeResult: result2.codeResult,
-                            line: line2,
-                            angle: lineAngle1,
-                            pattern: result2.barcodeLine.line,
-                            threshold: result2.barcodeLine.threshold
+                            codeResult: result.codeResult,
+                            line: line,
+                            angle: lineAngle,
+                            pattern: result.barcodeLine.line,
+                            threshold: result.barcodeLine.threshold
                         });
                     }
                     return function() {
@@ -6536,7 +6536,7 @@
                             }(inputImageWrapper);
                         },
                         registerReader: function(name, reader) {
-                            if (READERS[name]) throw new Error("cannot register existing reader", name);
+                            if (READERS[name]) throw Error("cannot register existing reader", name);
                             READERS[name] = reader;
                         },
                         setReaders: function(readers) {
@@ -6544,7 +6544,7 @@
                         }
                     };
                 }
-            }, events1 = function() {
+            }, events = function() {
                 var events = {};
                 function getEvent(eventName) {
                     return events[eventName] || (events[eventName] = {
@@ -6562,7 +6562,7 @@
                         callback: callback,
                         async: async
                     };
-                    else if (!(subscription = callback).callback) throw new Error("Callback was not specified on options");
+                    else if (!(subscription = callback).callback) throw Error("Callback was not specified on options");
                     getEvent(event).subscribers.push(subscription);
                 }
                 return {
@@ -6870,10 +6870,10 @@
                     htmlImagesArray.loaded(this);
                 };
             }
-            ImageLoader.load = function(directory, callback, offset1, size, sequence) {
-                var i, img, num, htmlImagesSrcArray = new Array(size), htmlImagesArray = new Array(htmlImagesSrcArray.length);
+            ImageLoader.load = function(directory, callback, offset, size, sequence) {
+                var i, img, num, htmlImagesSrcArray = Array(size), htmlImagesArray = Array(htmlImagesSrcArray.length);
                 if (!1 === sequence) htmlImagesSrcArray[0] = directory;
-                else for(i = 0; i < htmlImagesSrcArray.length; i++)num = offset1 + i, htmlImagesSrcArray[i] = "".concat(directory, "image-").concat("00".concat(num).slice(-3), ".jpg");
+                else for(i = 0; i < htmlImagesSrcArray.length; i++)num = offset + i, htmlImagesSrcArray[i] = "".concat(directory, "image-").concat("00".concat(num).slice(-3), ".jpg");
                 for(i = 0, htmlImagesArray.notLoaded = [], htmlImagesArray.addImage = function(image) {
                     htmlImagesArray.notLoaded.push(image);
                 }, htmlImagesArray.loaded = function(loadedImg) {
@@ -7117,9 +7117,9 @@
                     return inputStream;
                 }
             }, input_stream_browser = inputStreamFactory, cv_utils = __webpack_require__(8), TO_RADIANS = Math.PI / 180, FrameGrabber = {};
-            FrameGrabber.create = function(inputStream, canvas2) {
+            FrameGrabber.create = function(inputStream, canvas) {
                 var _canvas, _that = {}, _streamConfig = inputStream.getConfig(), _videoSize = Object(cv_utils.h)(inputStream.getRealWidth(), inputStream.getRealHeight()), _canvasSize = inputStream.getCanvasSize(), _size = Object(cv_utils.h)(inputStream.getWidth(), inputStream.getHeight()), topRight = inputStream.getTopRight(), _sx = topRight.x, _sy = topRight.y, _ctx = null, _data = null;
-                return (_canvas = canvas2 || document.createElement("canvas")).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
+                return (_canvas = canvas || document.createElement("canvas")).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
                     size: _size,
                     topRight: topRight,
                     videoSize: _videoSize,
@@ -7279,7 +7279,7 @@
                         key: "initBuffers",
                         value: function(imageWrapper) {
                             if (this.context.config) {
-                                var inputStream, imageWrapper3, locator, inputImageWrapper, boxSize, _initBuffers2 = (inputStream = this.context.inputStream, imageWrapper3 = imageWrapper, locator = this.context.config.locator, inputImageWrapper = imageWrapper3 || new image_wrapper.a({
+                                var inputStream, imageWrapper1, locator, inputImageWrapper, boxSize, _initBuffers2 = (inputStream = this.context.inputStream, imageWrapper1 = imageWrapper, locator = this.context.config.locator, inputImageWrapper = imageWrapper1 || new image_wrapper.a({
                                     x: inputStream.getWidth(),
                                     y: inputStream.getHeight(),
                                     type: "XYSize"
@@ -7303,8 +7303,8 @@
                                 ], barcode_locator.a.init(inputImageWrapper, locator), {
                                     inputImageWrapper: inputImageWrapper,
                                     boxSize: boxSize
-                                }), inputImageWrapper2 = _initBuffers2.inputImageWrapper, boxSize1 = _initBuffers2.boxSize;
-                                this.context.inputImageWrapper = inputImageWrapper2, this.context.boxSize = boxSize1;
+                                }), inputImageWrapper1 = _initBuffers2.inputImageWrapper, boxSize1 = _initBuffers2.boxSize;
+                                this.context.inputImageWrapper = inputImageWrapper1, this.context.boxSize = boxSize1;
                             }
                         }
                     },
@@ -7329,7 +7329,7 @@
                     {
                         key: "initCanvas",
                         value: function() {
-                            var container1 = function(context) {
+                            var container = function(context) {
                                 var _context$config, _context$config$input, _context$config2, _context$config2$inpu, viewport = getViewPort_getViewPort(null == context ? void 0 : null === (_context$config = context.config) || void 0 === _context$config ? void 0 : null === (_context$config$input = _context$config.inputStream) || void 0 === _context$config$input ? void 0 : _context$config$input.target), type = null == context ? void 0 : null === (_context$config2 = context.config) || void 0 === _context$config2 ? void 0 : null === (_context$config2$inpu = _context$config2.inputStream) || void 0 === _context$config2$inpu ? void 0 : _context$config2$inpu.type;
                                 if (!type) return null;
                                 var container = function(canvasSize) {
@@ -7361,9 +7361,9 @@
                                 var dom = container.dom;
                                 return "undefined" != typeof document && viewport && ("ImageStream" !== type || viewport.contains(dom.image) || viewport.appendChild(dom.image), viewport.contains(dom.overlay) || viewport.appendChild(dom.overlay)), container;
                             }(this.context);
-                            if (container1) {
-                                var ctx = container1.ctx, dom1 = container1.dom;
-                                this.context.canvasContainer.dom.image = dom1.image, this.context.canvasContainer.dom.overlay = dom1.overlay, this.context.canvasContainer.ctx.image = ctx.image, this.context.canvasContainer.ctx.overlay = ctx.overlay;
+                            if (container) {
+                                var ctx = container.ctx, dom = container.dom;
+                                this.context.canvasContainer.dom.image = dom.image, this.context.canvasContainer.dom.overlay = dom.overlay, this.context.canvasContainer.ctx.image = ctx.image, this.context.canvasContainer.ctx.overlay = ctx.overlay;
                             }
                         }
                     },
@@ -7396,8 +7396,8 @@
                                                 inputStream: null
                                             };
                                     }
-                                }(inputType, this.getViewPort(), input_stream_browser), video1 = _setupInputStream.video, inputStream = _setupInputStream.inputStream;
-                                "LiveStream" === inputType && video1 && camera_access.request(video1, constraints).then(function() {
+                                }(inputType, this.getViewPort(), input_stream_browser), video = _setupInputStream.video, inputStream = _setupInputStream.inputStream;
+                                "LiveStream" === inputType && video && camera_access.request(video, constraints).then(function() {
                                     return inputStream.trigger("canrecord");
                                 }).catch(function(err) {
                                     return callback(err);
@@ -7451,7 +7451,7 @@
                         key: "publishResult",
                         value: function() {
                             var result = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null, imageData = arguments.length > 1 ? arguments[1] : void 0, resultToPublish = result;
-                            result && this.context.onUIThread && (this.transformResult(result), this.addResult(result, imageData), resultToPublish = result.barcodes || result), events1.publish("processed", resultToPublish), this.hasCodeResult(result) && events1.publish("detected", resultToPublish);
+                            result && this.context.onUIThread && (this.transformResult(result), this.addResult(result, imageData), resultToPublish = result.barcodes || result), events.publish("processed", resultToPublish), this.hasCodeResult(result) && events.publish("detected", resultToPublish);
                         }
                     },
                     {
@@ -7557,20 +7557,20 @@
                         console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
                         return;
                     }
-                    events1.subscribe("detected", callback);
+                    events.subscribe("detected", callback);
                 },
                 offDetected: function(callback) {
-                    events1.unsubscribe("detected", callback);
+                    events.unsubscribe("detected", callback);
                 },
                 onProcessed: function(callback) {
                     if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) {
                         console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
                         return;
                     }
-                    events1.subscribe("processed", callback);
+                    events.subscribe("processed", callback);
                 },
                 offProcessed: function(callback) {
-                    events1.unsubscribe("processed", callback);
+                    events.unsubscribe("processed", callback);
                 },
                 setReaders: function(readers) {
                     if (!readers) {
@@ -7612,7 +7612,7 @@
                     }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
                         try {
                             _this.init(config, function() {
-                                events1.once("processed", function(result) {
+                                events.once("processed", function(result) {
                                     quaggaInstance.stop(), resultCallback && resultCallback.call(null, result), resolve(result);
                                 }, !0), quaggaInstance.start();
                             }, null, quaggaInstance);

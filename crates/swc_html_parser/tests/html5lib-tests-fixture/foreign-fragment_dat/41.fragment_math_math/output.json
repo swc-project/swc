@@ -17,7 +17,8 @@
       "namespace": "http://www.w3.org/1998/Math/MathML",
       "attributes": [],
       "children": [],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

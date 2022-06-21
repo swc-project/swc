@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: es5
 // @module: es2015
 export var C = function C() {
@@ -22,10 +22,10 @@ export var E;
     var z = E.z = 1;
 })(E || (E = {}));
 export var N;
-(function(N1) {
-    var x = N1.x = 1;
+(function(N) {
+    var x = N.x = 1;
 })(N || (N = {}));
 export function F() {}
-(function(F1) {
-    var x = F1.x = 1;
+(function(F) {
+    var x = F.x = 1;
 })(F || (F = {}));

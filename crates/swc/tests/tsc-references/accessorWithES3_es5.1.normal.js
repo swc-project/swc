@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 // @target: ES3
 // error to use accessors in ES3 mode
 var C = /*#__PURE__*/ function() {
@@ -25,7 +25,7 @@ var D = /*#__PURE__*/ function() {
     _create_class(D, [
         {
             key: "x",
-            set: function set(v) {}
+            set: function set(v1) {}
         }
     ]);
     return D;

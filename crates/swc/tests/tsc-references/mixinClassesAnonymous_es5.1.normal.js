@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Base = function Base(x, y) {
     "use strict";
     _class_call_check(this, Base);
@@ -21,7 +21,7 @@ var Derived = /*#__PURE__*/ function(Base) {
     }
     return Derived;
 }(Base);
-var Printable = function(superClass1) {
+var Printable = function(superClass) {
     var _class = /*#__PURE__*/ function(superClass) {
         "use strict";
         _inherits(_class, superClass);
@@ -35,11 +35,11 @@ var Printable = function(superClass1) {
             var output = this.x + "," + this.y;
         };
         return _class;
-    }(superClass1);
+    }(superClass);
     _class.message = "hello";
     return _class;
 };
-function Tagged(superClass2) {
+function Tagged(superClass) {
     var C = /*#__PURE__*/ function(superClass) {
         "use strict";
         _inherits(C, superClass);
@@ -57,7 +57,7 @@ function Tagged(superClass2) {
             return _this;
         }
         return C;
-    }(superClass2);
+    }(superClass);
     return C;
 }
 var Thing1 = Tagged(Derived);
@@ -74,9 +74,9 @@ function f2() {
     thing._tag;
     thing.print();
 }
-var Thing3 = /*#__PURE__*/ function(Thing21) {
+var Thing3 = /*#__PURE__*/ function(Thing2) {
     "use strict";
-    _inherits(Thing3, Thing21);
+    _inherits(Thing3, Thing2);
     var _super = _create_super(Thing3);
     function Thing3(tag) {
         _class_call_check(this, Thing3);
@@ -92,7 +92,7 @@ var Thing3 = /*#__PURE__*/ function(Thing21) {
     return Thing3;
 }(Thing2);
 // Repro from #13805
-var Timestamped = function(Base1) {
+var Timestamped = function(Base) {
     return /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(_class, Base);
@@ -105,5 +105,5 @@ var Timestamped = function(Base1) {
             return _this;
         }
         return _class;
-    }(Base1);
+    }(Base);
 };

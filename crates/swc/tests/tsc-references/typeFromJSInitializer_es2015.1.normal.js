@@ -25,21 +25,21 @@ a.empty.push({});
 a.empty.push('hi');
 /** @type {number | undefined} */ var n;
 // should get any on parameter initialisers
-function f(a1 = null, b = n, l1 = []) {
+function f(a = null, b = n, l = []) {
     // a should be null in strict mode
-    a1 = undefined;
-    a1 = null;
-    a1 = 1;
-    a1 = true;
-    a1 = {};
-    a1 = 'ok';
+    a = undefined;
+    a = null;
+    a = 1;
+    a = true;
+    a = {};
+    a = 'ok';
     // b should be number | undefined, not any
     b = 1;
     b = undefined;
     b = 'error';
     // l should be any[]
-    l1.push(1);
-    l1.push('ok');
+    l.push(1);
+    l.push('ok');
 }
 // should get any on variable initialisers
 var u = undefined;

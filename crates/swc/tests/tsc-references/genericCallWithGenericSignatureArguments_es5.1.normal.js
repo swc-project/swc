@@ -38,27 +38,27 @@ var r5 = foo(function(x) {
     return a;
 }); // typeof b => typeof b
 function other(x) {
-    var r6 = foo(function(a1) {
-        return a1;
-    }, function(b1) {
-        return b1;
+    var r6 = foo(function(a) {
+        return a;
+    }, function(b) {
+        return b;
     }); // T => T
-    var r6b = foo(function(a2) {
-        return a2;
-    }, function(b2) {
-        return b2;
+    var r6b = foo(function(a) {
+        return a;
+    }, function(b) {
+        return b;
     }); // {} => {}
 }
 function other2(x) {
-    var r7 = foo(function(a3) {
-        return a3;
-    }, function(b3) {
-        return b3;
+    var r7 = foo(function(a) {
+        return a;
+    }, function(b) {
+        return b;
     }); // T => T
-    var r7b = foo(function(a4) {
-        return a4;
-    }, function(b4) {
-        return b4;
+    var r7b = foo(function(a) {
+        return a;
+    }, function(b) {
+        return b;
     }); // {} => {}
     var r8 = r7(null);
 // BUG 835518
@@ -69,9 +69,9 @@ function foo2(a, b) {
     return r;
 }
 function other3(x) {
-    var r8 = foo2(function(a5) {
-        return a5;
-    }, function(b5) {
-        return b5;
+    var r8 = foo2(function(a) {
+        return a;
+    }, function(b) {
+        return b;
     }); // Date => Date
 }

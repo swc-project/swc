@@ -2,7 +2,7 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
+(function(TypeScript) {
     var NodeType;
     (function(NodeType) {
         NodeType[NodeType["None"] = 0] = "None";
@@ -114,5 +114,5 @@ var TypeScript;
         NodeType[NodeType["Debugger"] = 106] = "Debugger";
         NodeType[NodeType["GeneralNode"] = 71] = "GeneralNode";
         NodeType[NodeType["LastAsg"] = 41] = "LastAsg";
-    })(NodeType = TypeScript1.NodeType || (TypeScript1.NodeType = {}));
+    })(NodeType = TypeScript.NodeType || (TypeScript.NodeType = {}));
 })(TypeScript || (TypeScript = {}));

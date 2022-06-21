@@ -1,6 +1,6 @@
-var b = "FAIL", a = 1;
-var a = (function(a) {
-    var c = (a = b);
-    var d = --a + (c && (b = "PASS"));
+var a = "FAIL", b = 1;
+var b = (function(b) {
+    var c = (b = a);
+    var d = --b + (c && (a = "PASS"));
 })();
-console.log(b, typeof a);
+console.log(a, typeof b);

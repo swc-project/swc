@@ -1,16 +1,15 @@
 var Test;
-(function(Test1) {
+(function(Test) {
     function abc() {
         return 10;
     }
-    Test1.abc = abc;
-    var foo = Test1.foo = function() {
+    Test.abc = abc;
+    var foo = Test.foo = function() {
         return 20;
     };
     function xyz() {
         return abc() * foo();
     }
-    Test1.xyz = xyz;
-})(Test || (Test = {
-}));
+    Test.xyz = xyz;
+})(Test || (Test = {}));
 Test.xyz();

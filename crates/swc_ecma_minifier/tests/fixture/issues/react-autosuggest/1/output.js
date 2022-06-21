@@ -28,12 +28,12 @@ function _getRequireWildcardCache() {
         return cache;
     }, cache;
 }
-function _typeof(obj1) {
+function _typeof(obj) {
     return (_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
         return typeof obj;
     } : function(obj) {
         return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    })(obj1);
+    })(obj);
 }
 function _extends() {
     return (_extends = Object.assign || function(target) {
@@ -61,18 +61,18 @@ function _defineProperties(target, props) {
     }
 }
 function _assertThisInitialized(self) {
-    if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
     return self;
 }
-function _getPrototypeOf(o1) {
+function _getPrototypeOf(o) {
     return (_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
-    })(o1);
+    })(o);
 }
-function _setPrototypeOf(o2, p1) {
+function _setPrototypeOf(o, p) {
     return (_setPrototypeOf = Object.setPrototypeOf || function(o, p) {
         return o.__proto__ = p, o;
-    })(o2, p1);
+    })(o, p);
 }
 function _defineProperty(obj, key, value) {
     return key in obj ? Object.defineProperty(obj, key, {
@@ -84,7 +84,7 @@ function _defineProperty(obj, key, value) {
 }
 var ItemsList = function(_Component) {
     !function(subClass, superClass) {
-        if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
         subClass.prototype = Object.create(superClass && superClass.prototype, {
             constructor: {
                 value: subClass,
@@ -92,8 +92,8 @@ var ItemsList = function(_Component) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList1, _Component);
-    var Derived, Constructor1, protoProps, staticProps, _super = (Derived = ItemsList1, function() {
+    }(ItemsList, _Component);
+    var Derived, Constructor, protoProps, staticProps, _super = (Derived = ItemsList, function() {
         var self, call, result, Super = _getPrototypeOf(Derived);
         if (function() {
             if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -109,19 +109,19 @@ var ItemsList = function(_Component) {
         } else result = Super.apply(this, arguments);
         return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
     });
-    function ItemsList1() {
+    function ItemsList() {
         var _this;
         !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, ItemsList1);
-        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
+        }(this, ItemsList);
+        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
         return _this = _super.call.apply(_super, [
             this
         ].concat(args)), _defineProperty(_assertThisInitialized(_this), "storeHighlightedItemReference", function(highlightedItem) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }), _this;
     }
-    return Constructor1 = ItemsList1, protoProps = [
+    return Constructor = ItemsList, protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -165,7 +165,7 @@ var ItemsList = function(_Component) {
                 }));
             }
         }, 
-    ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList1;
+    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ItemsList;
 }(_react.Component);
 exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,

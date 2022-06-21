@@ -72,6 +72,13 @@ macro_rules! cur {
             None => {
                 let last_pos = $parser.input.last_pos()?;
                 let span = swc_common::Span::new(last_pos, last_pos, Default::default());
+
+                for error in $parser.input.take_errors() {
+                    let (span, kind) = *error.into_inner();
+
+                    $parser.errors.push(Error::new(span, kind));
+                }
+
                 return Err(crate::error::Error::new(span, crate::error::ErrorKind::Eof));
             }
         }
@@ -116,7 +123,17 @@ macro_rules! is_one_of_case_insensitive_ident {
 
 macro_rules! is {
     ($parser:expr, EOF) => {{
-        $parser.input.cur()?.is_none()
+        let is_eof = $parser.input.cur()?.is_none();
+
+        if is_eof {
+            for error in $parser.input.take_errors() {
+                let (span, kind) = *error.into_inner();
+
+                $parser.errors.push(Error::new(span, kind));
+            }
+        }
+
+        is_eof
     }};
 
     ($parser:expr, $tt:tt) => {{

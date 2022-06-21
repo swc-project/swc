@@ -1,6 +1,6 @@
 function a(a) {
-    const { a: c , b: b  } = a;
-    console.log(b);
+    const { a: b , b: c  } = a;
+    console.log(c);
 }
 a({
     a: 1,

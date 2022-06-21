@@ -27,7 +27,8 @@
           "data": "setting head's innerHTML"
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

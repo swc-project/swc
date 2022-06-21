@@ -12,14 +12,8 @@ console.log(a, b);
 let a, b;
 console.log(a, b);
 let a = A, b;
-console.log(a, b), console.log(1, 1), console.log(1, 1);
-class H {
-}
-module.exports = H;
-let H = require('./h');
-console.log({});
-let H = require('./h');
-!function(K) {
+console.log(a, b), console.log(1, 1), console.log(1, 1), require('./h'), console.log({}), require('./h'), function(K) {
     K[K.One = 0] = "One", K[K.Two = 1] = "Two";
-}(K || (K = {})), module.exports = K;
+}(K || (K = {}));
 let K = require('./k');
+module.exports = K;

@@ -1,5 +1,5 @@
-import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 let getX;
 var _x = new WeakMap();
 let tmp = (getX = (a)=>_class_private_field_get(a, _x), "_");

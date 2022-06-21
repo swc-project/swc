@@ -1,0 +1,212 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       unicode-range: U+1Z1ee1-FFFFFF;
+ 3 | |       unicode-range: U+1e1ee1-FFZFFF;
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       unicode-range: U+1Z1ee1-FFFFFF;
+ 3 | |       unicode-range: U+1e1ee1-FFZFFF;
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       unicode-range: U+1Z1ee1-FFFFFF;
+ 3 | |       unicode-range: U+1e1ee1-FFZFFF;
+ 4 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | .class {
+   :  ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       unicode-range: U+1Z1ee1-FFFFFF;
+ 3 | |       unicode-range: U+1e1ee1-FFZFFF;
+ 4 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   :                ^
+   `----
+
+  x Ident { value: Atom('U' type=inline), raw: Atom('U' type=inline) }
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   :                 ^^^^^^^^^^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   :                 ^^^^^^^^^^^^^^
+   `----
+
+  x UnknownDimension
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   :                 ^^^^^^^^^^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   :                 ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
+ 2 | unicode-range: U+1Z1ee1-FFFFFF;
+   :                   ^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   :                ^
+   `----
+
+  x Ident { value: Atom('U' type=inline), raw: Atom('U' type=inline) }
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   :                 ^^^^^^^^^^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   :                 ^^^^^^^^^^^^^^
+   `----
+
+  x UnknownDimension
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   :                 ^^^^^^^^^^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   :                 ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:5]
+ 3 | unicode-range: U+1e1ee1-FFZFFF;
+   :                     ^^^^^^^^^^
+   `----

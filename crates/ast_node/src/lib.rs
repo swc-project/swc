@@ -199,6 +199,7 @@ pub fn ast_node(
             };
 
             item.quote_with(smart_quote!(Vars { input, clone }, {
+                #[allow(clippy::derive_partial_eq_without_eq)]
                 #[derive(
                     ::swc_common::FromVariant,
                     ::swc_common::Spanned,
@@ -257,6 +258,7 @@ pub fn ast_node(
 
             let mut quote =
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
+                    #[allow(clippy::derive_partial_eq_without_eq)]
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
                     #[derive(::serde::Serialize, ::serde::Deserialize)]
                     #[cfg_attr(

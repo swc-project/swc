@@ -42,12 +42,12 @@ p.a = 1;
 p.b = 2;
 p.tag = "test";
 function f() {
-    var x1;
-    return x1;
+    var x;
+    return x;
 }
 function g() {
-    var x2;
-    return x2;
+    var x;
+    return x;
 }
 // Deeply instantiated generics
 var a = f();

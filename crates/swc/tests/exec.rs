@@ -1,10 +1,13 @@
 use std::{
+    env,
     fs::{create_dir_all, rename},
     path::{Component, Path, PathBuf},
+    process::Command,
     sync::Arc,
 };
 
 use anyhow::{bail, Context, Error};
+use once_cell::sync::Lazy;
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     try_with_handler, BoolOrDataConfig, Compiler, HandlerOpts,
@@ -13,7 +16,7 @@ use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
-use testing::assert_eq;
+use testing::{assert_eq, find_executable};
 use tracing::{span, Level};
 
 trait IterExt<T>: Sized + IntoIterator<Item = T>
@@ -40,6 +43,70 @@ where
     I: IntoIterator<Item = T>,
     T: Clone,
 {
+}
+
+fn init_helpers() -> Arc<PathBuf> {
+    static BUILD_HELPERS: Lazy<Arc<PathBuf>> = Lazy::new(|| {
+        let project_root = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .to_path_buf();
+
+        let helper_dir = project_root.join("packages").join("swc-helpers");
+
+        let yarn = find_executable("yarn").expect("failed to find yarn");
+        let npm = find_executable("npm").expect("failed to find yarn");
+        {
+            let mut cmd = if cfg!(target_os = "windows") {
+                let mut c = Command::new("cmd");
+                c.arg("/C").arg(&yarn);
+                c
+            } else {
+                Command::new(&yarn)
+            };
+            cmd.current_dir(&helper_dir);
+            let status = cmd.status().expect("failed to update swc core");
+            assert!(status.success());
+        }
+
+        {
+            let mut cmd = if cfg!(target_os = "windows") {
+                let mut c = Command::new("cmd");
+                c.arg("/C").arg(&yarn);
+                c
+            } else {
+                Command::new(&yarn)
+            };
+            cmd.current_dir(&helper_dir).arg("build");
+            let status = cmd.status().expect("failed to compile helper package");
+            assert!(status.success());
+        }
+
+        {
+            let mut cmd = if cfg!(target_os = "windows") {
+                let mut c = Command::new("cmd");
+                c.arg("/C").arg(&npm);
+                c
+            } else {
+                Command::new(&npm)
+            };
+            cmd.current_dir(&project_root)
+                .arg("install")
+                .arg("--no-save")
+                .arg("--no-package-lock")
+                .arg("./packages/swc-helpers");
+            let status = cmd
+                .status()
+                .expect("failed to install helper package from root");
+            assert!(status.success());
+        }
+
+        Arc::new(helper_dir)
+    });
+
+    BUILD_HELPERS.clone()
 }
 
 fn create_matrix(entry: &Path) -> Vec<Options> {
@@ -74,49 +141,52 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
     })
     .matrix_bool()
     .matrix_bool()
+    .matrix_bool()
     .into_iter()
-    .map(|(((target, syntax), minify), source_map)| {
-        // Actual
-        Options {
-            config: Config {
-                jsc: JscConfig {
-                    syntax: Some(syntax),
-                    transform: None.into(),
-                    external_helpers: false.into(),
-                    target: Some(target),
-                    minify: if minify {
-                        Some(JsMinifyOptions {
-                            compress: BoolOrDataConfig::from_bool(true),
-                            mangle: BoolOrDataConfig::from_bool(true),
-                            format: Default::default(),
-                            ecma: Default::default(),
-                            keep_classnames: Default::default(),
-                            keep_fnames: Default::default(),
-                            module: Default::default(),
-                            safari10: Default::default(),
-                            toplevel: Default::default(),
-                            source_map: Default::default(),
-                            output_path: Default::default(),
-                            inline_sources_content: Default::default(),
-                            emit_source_map_columns: Default::default(),
-                        })
-                    } else {
-                        None
+    .map(
+        |((((target, syntax), minify), external_helpers), source_map)| {
+            // Actual
+            Options {
+                config: Config {
+                    jsc: JscConfig {
+                        syntax: Some(syntax),
+                        transform: None.into(),
+                        external_helpers: external_helpers.into(),
+                        target: Some(target),
+                        minify: if minify {
+                            Some(JsMinifyOptions {
+                                compress: BoolOrDataConfig::from_bool(true),
+                                mangle: BoolOrDataConfig::from_bool(true),
+                                format: Default::default(),
+                                ecma: Default::default(),
+                                keep_classnames: Default::default(),
+                                keep_fnames: Default::default(),
+                                module: Default::default(),
+                                safari10: Default::default(),
+                                toplevel: Default::default(),
+                                source_map: Default::default(),
+                                output_path: Default::default(),
+                                inline_sources_content: Default::default(),
+                                emit_source_map_columns: Default::default(),
+                            })
+                        } else {
+                            None
+                        },
+                        ..Default::default()
                     },
+                    module: Some(ModuleConfig::CommonJs(Default::default())),
+                    minify: minify.into(),
                     ..Default::default()
                 },
-                module: Some(ModuleConfig::CommonJs(Default::default())),
-                minify: minify.into(),
+                source_maps: if source_map {
+                    Some(SourceMapsConfig::Str("inline".into()))
+                } else {
+                    None
+                },
                 ..Default::default()
-            },
-            source_maps: if source_map {
-                Some(SourceMapsConfig::Str("inline".into()))
-            } else {
-                None
-            },
-            ..Default::default()
-        }
-    })
+            }
+        },
+    )
     .collect::<Vec<_>>()
 }
 
@@ -124,6 +194,8 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 #[testing::fixture("tests/exec/**/exec.mjs")]
 #[testing::fixture("tests/exec/**/exec.ts")]
 fn run_fixture_test(entry: PathBuf) {
+    let _ = init_helpers();
+
     let _guard = testing::init();
 
     let matrix = create_matrix(&entry);

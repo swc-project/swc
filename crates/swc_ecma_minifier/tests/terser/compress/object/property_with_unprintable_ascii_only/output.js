@@ -14,8 +14,8 @@ class bar {
     get "\0\x01"() {
         return "bar";
     }
-    set "\0\x01"(foo) {
-        save(foo);
+    set "\0\x01"(foo1) {
+        save(foo1);
     }
     *"\0\x01"() {
         return "foobar";

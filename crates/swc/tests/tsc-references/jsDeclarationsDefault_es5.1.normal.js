@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @filename: index4.js
 import Fab from "./index3";
 // @allowJs: true
@@ -25,9 +25,9 @@ var Foo = function Foo() {
 export { Foo as default };
 export var X = Foo;
 export { Foo as Bar };
-var Bar = /*#__PURE__*/ function(Fab1) {
+var Bar = /*#__PURE__*/ function(Fab) {
     "use strict";
-    _inherits(Bar, Fab1);
+    _inherits(Bar, Fab);
     var _super = _create_super(Bar);
     function Bar() {
         _class_call_check(this, Bar);

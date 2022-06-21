@@ -6,7 +6,7 @@ license = "Apache-2.0"
 name = "binding_core_wasm"
 publish = false
 repository = "https://github.com/swc-project/swc.git"
-version = "1.2.198"
+version = "1.2.204"
 
 [lib]
 bench = false
@@ -45,8 +45,8 @@ swc_ecmascript = { path = "../swc_ecmascript" }
 swc_plugin_runner = { path = "../swc_plugin_runner", default-features = false, optional = true }
 tracing = { version = "0.1.32", features = ["release_max_level_off"] }
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
-wasmer = { version = "2.2.1", optional = true, default-features = false }
-wasmer-wasi = { version = "2.2.1", optional = true, default-features = false }
+wasmer = { version = "2.3.0", optional = true, default-features = false }
+wasmer-wasi = { version = "2.3.0", optional = true, default-features = false }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

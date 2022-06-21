@@ -1,11 +1,11 @@
-function d(a, b, c) {
+function a(a, b, c) {
     return a < b ? a * b + c : a * c - b;
 }
-function c(a, b, c) {
-    return d(a, b, c);
+function b(b, c, d) {
+    return a(b, c, d);
 }
-var b = 0;
-for(var a = 0; a < 100; ++a){
-    b += c(a, a + 1, 3 * a);
+var c = 0;
+for(var d = 0; d < 100; ++d){
+    c += b(d, d + 1, 3 * d);
 }
-console.log(b);
+console.log(c);

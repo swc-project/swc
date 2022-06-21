@@ -1,4 +1,4 @@
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // @target:es6
 // ElementList:  ( Modified )
 //      Elisionopt   AssignmentExpression
@@ -21,11 +21,13 @@ var a1 = [
 var a2 = [
     ,
     ,
+    , 
 ].concat(_to_consumable_array(a0), [
     "hello"
 ]);
 var a3 = [
     ,
+    , 
 ].concat(_to_consumable_array(a0));
 var a4 = [
     function() {

@@ -18,6 +18,7 @@ env:
   DIFF: 0
   # https://github.com/swc-project/swc/pull/3742
   RUST_MIN_STACK: 4194304
+  CI: 1
 
 jobs:
   check-license:
@@ -398,6 +399,18 @@ jobs:
         if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }} --all-features
+
+      - name: Run cargo test (concurrent)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          ./scripts/ci/test-concurrent.sh ${{ matrix.settings.crate }}
+
+      - name: Run cargo test (swc, concurrent)
+        shell: bash
+        if: matrix.settings.crate == 'swc' && runner.os == 'Linux'
+        run: |
+          cargo test --color always -p swc --features concurrent
 
       - name: Install cargo-hack
         uses: baptiste0928/cargo-install@v1.1.0

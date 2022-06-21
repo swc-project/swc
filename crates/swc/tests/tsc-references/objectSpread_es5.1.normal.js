@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _define_property from "@swc/helpers/lib/_define_property.js";
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
-import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 // @strictNullChecks: true
 // @target: es5
 var o = {
@@ -68,43 +68,43 @@ function from16326(header, authToken) {
 }
 // boolean && T results in Partial<T>
 function conditionalSpreadBoolean(b) {
-    var o1 = {
+    var o = {
         x: 12,
         y: 13
     };
-    o1 = _object_spread({}, o1, b && {
+    o = _object_spread({}, o, b && {
         x: 14
     });
     var o2 = _object_spread({}, b && {
         x: 21
     });
-    return o1;
+    return o;
 }
 function conditionalSpreadNumber(nt) {
-    var o3 = {
+    var o = {
         x: 15,
         y: 16
     };
-    o3 = _object_spread({}, o3, nt && {
+    o = _object_spread({}, o, nt && {
         x: nt
     });
     var o2 = _object_spread({}, nt && {
         x: nt
     });
-    return o3;
+    return o;
 }
 function conditionalSpreadString(st) {
-    var o4 = {
+    var o = {
         x: "hi",
         y: 17
     };
-    o4 = _object_spread({}, o4, st && {
+    o = _object_spread({}, o, st && {
         x: st
     });
     var o2 = _object_spread({}, st && {
         x: st
     });
-    return o4;
+    return o;
 }
 // any results in any
 var anything;

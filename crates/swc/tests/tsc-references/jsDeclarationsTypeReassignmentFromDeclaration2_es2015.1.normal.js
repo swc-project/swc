@@ -1,7 +1,7 @@
-module.exports = getItems;
 // @filename: index.js
 const items = require("./some-mod")();
 module.exports = items;
+module.exports = getItems;
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out

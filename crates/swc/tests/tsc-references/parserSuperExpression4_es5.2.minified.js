@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
-import _set from "@swc/helpers/lib/_set.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _set from "@swc/helpers/src/_set.mjs";
 var M1, C = function() {
     "use strict";
     function C() {
@@ -10,9 +10,9 @@ var M1, C = function() {
         _set(_get_prototype_of(C.prototype), "foo", 1, this, !0);
     }, C;
 }();
-!function(M11) {
+!function(M1) {
     var C;
-    M11.M2 || (M11.M2 = {}), C = function() {
+    M1.M2 || (M1.M2 = {}), C = function() {
         "use strict";
         function C() {
             _class_call_check(this, C);

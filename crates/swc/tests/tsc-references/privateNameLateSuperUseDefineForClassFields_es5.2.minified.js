@@ -1,14 +1,14 @@
-import _assert_this_initialized from "@swc/helpers/lib/_assert_this_initialized.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var B = function() {
     "use strict";
     _class_call_check(this, B);
-}, _x = new WeakMap(), A = function(B1) {
+}, _x = new WeakMap(), A = function(B) {
     "use strict";
-    _inherits(A, B1);
+    _inherits(A, B);
     var _super = _create_super(A);
     function A() {
         var _this;

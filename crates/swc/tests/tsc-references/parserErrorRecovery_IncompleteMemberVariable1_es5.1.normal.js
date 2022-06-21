@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Module
 var Shapes;
-(function(Shapes1) {
+(function(Shapes) {
     var Point = /*#__PURE__*/ function() {
         "use strict";
         function Point(x, y) {
@@ -18,7 +18,7 @@ var Shapes;
     }();
     // Static member
     Point.origin = new Point(0, 0);
-    Shapes1.Point = Point;
+    Shapes.Point = Point;
 })(Shapes || (Shapes = {}));
 // Local variables
 var p = new Shapes.Point(3, 4);

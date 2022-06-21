@@ -8,11 +8,11 @@ class A {
 class A2 {
 }
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 class c {
 }
-(function(c1) {
-    var bar = c1.bar = 1;
+(function(c) {
+    var bar = c.bar = 1;
 })(c || (c = {}));

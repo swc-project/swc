@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var N1, C1 = function() {
     "use strict";
     _class_call_check(this, C1);
@@ -9,9 +9,9 @@ var N1, C1 = function() {
     }
     return C2.foo = function(x) {}, C2;
 }();
-C2.y = void 0, function(N11) {
+C2.y = void 0, function(N1) {
     var x;
-    N11.y = this, N11.x = x;
+    N1.y = this, N1.x = x;
 }(N1 || (N1 = {}));
 var C3 = function() {
     "use strict";

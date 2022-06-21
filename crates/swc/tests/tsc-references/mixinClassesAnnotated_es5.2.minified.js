@@ -1,13 +1,13 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var _class, Base = function(x, y) {
     "use strict";
     _class_call_check(this, Base), this.x = x, this.y = y;
-}, Derived = function(Base1) {
+}, Derived = function(Base) {
     "use strict";
-    _inherits(Derived, Base1);
+    _inherits(Derived, Base);
     var _super = _create_super(Derived);
     function Derived(x, y, z) {
         var _this;
@@ -15,7 +15,7 @@ var _class, Base = function(x, y) {
     }
     return Derived;
 }(Base);
-function Tagged(superClass1) {
+function Tagged(superClass) {
     var C = function(superClass) {
         "use strict";
         _inherits(C, superClass);
@@ -27,7 +27,7 @@ function Tagged(superClass1) {
             ].concat(_to_consumable_array(args))))._tag = "hello", _this;
         }
         return C;
-    }(superClass1);
+    }(superClass);
     return C;
 }
 Tagged(Derived);
@@ -43,9 +43,9 @@ var Thing2 = Tagged(((_class = function(superClass) {
     }, _class;
 }(Derived)).message = "hello", _class));
 Thing2.message;
-var Thing3 = function(Thing21) {
+var Thing3 = function(Thing2) {
     "use strict";
-    _inherits(Thing3, Thing21);
+    _inherits(Thing3, Thing2);
     var _super = _create_super(Thing3);
     function Thing3(tag) {
         var _this;

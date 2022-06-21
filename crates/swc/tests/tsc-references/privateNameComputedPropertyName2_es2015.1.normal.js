@@ -1,5 +1,5 @@
-import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 // @target: esnext, es2022, es2015
 let getX;
 var _x = /*#__PURE__*/ new WeakMap();

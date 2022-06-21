@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function ExpandoDecl(n) {
     return n.toString();
 }
@@ -28,9 +28,9 @@ ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
         return n + m;
     };
     return nested.total = n + 1000000, nested;
-}).also = -1, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), function(Ns1) {
+}).also = -1, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), function(Ns) {
     var ExpandoNamespace = function() {};
-    ExpandoNamespace.p6 = 42, Ns1.foo = function() {
+    ExpandoNamespace.p6 = 42, Ns.foo = function() {
         return ExpandoNamespace;
     };
 }(Ns || (Ns = {}));

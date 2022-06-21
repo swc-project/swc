@@ -12,10 +12,6 @@
 //! If you enable this cargo feature and set the environment variable named
 //! `SWC_RUN` to `1`, the minifier will validate the code using node before each
 //! step.
-//!
-//! Note: Passes should be visited only with [Module] and it's an error to feed
-//! them something other. Don't call methods like `visit_mut_script` nor
-//! `visit_mut_module_items`.
 #![deny(clippy::all)]
 #![deny(unused)]
 #![allow(clippy::blocks_in_if_conditions)]
@@ -28,9 +24,10 @@
 
 use compress::{pure_optimizer, PureOptimizerConfig};
 use mode::Mode;
+use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
-use swc_ecma_ast::Module;
-use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_ecma_ast::Program;
+use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 use timing::Timings;
 
@@ -67,15 +64,18 @@ mod util;
 const DISABLE_BUGGY_PASSES: bool = true;
 const MAX_PAR_DEPTH: u8 = 3;
 
-#[inline]
+pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
+pub(crate) static HEAVY_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 8);
+pub(crate) static LIGHT_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 100);
+
 pub fn optimize(
-    mut m: Module,
+    mut m: Program,
     _cm: Lrc<SourceMap>,
     comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
     extra: &ExtraOptions,
-) -> Module {
+) -> Program {
     let _timer = timer!("minify");
 
     let mut marks = Marks::new();
@@ -146,8 +146,8 @@ pub fn optimize(
         {
             let _timer = timer!("compress ast");
 
-            m = GLOBALS.with(|globals| {
-                m.fold_with(&mut compressor(globals, marks, options, &Minification))
+            GLOBALS.with(|globals| {
+                m.visit_mut_with(&mut compressor(globals, marks, options, &Minification))
             });
         }
 
@@ -163,6 +163,7 @@ pub fn optimize(
             PureOptimizerConfig {
                 force_str_for_tpl: Minification::force_str_for_tpl(),
                 enable_join_vars: true,
+                #[cfg(feature = "debug")]
                 debug_infinite_loop: false,
             },
         )));
@@ -183,7 +184,7 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        m.visit_mut_with(&mut name_mangler(mangle.clone(), marks));
+        m.visit_mut_with(&mut name_mangler(mangle.clone()));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
@@ -194,9 +195,6 @@ pub fn optimize(
 
     if let Some(ref mut t) = timings {
         t.section("hygiene");
-    }
-
-    if let Some(ref mut t) = timings {
         t.end_section();
     }
 

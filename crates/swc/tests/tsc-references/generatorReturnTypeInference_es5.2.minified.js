@@ -1,10 +1,10 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
-    return regeneratorRuntime.wrap(function(_ctx1) {
-        for(;;)switch(_ctx1.prev = _ctx1.next){
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx1.delegateYield(regeneratorRuntime.mark(function _callee() {
+                return _ctx.delegateYield(regeneratorRuntime.mark(function _callee() {
                     var y;
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
@@ -21,7 +21,7 @@ var _marked = regeneratorRuntime.mark(function() {
                 })(), "t0", 1);
             case 1:
             case "end":
-                return _ctx1.stop();
+                return _ctx.stop();
         }
     }, _marked);
 }), _marked1 = regeneratorRuntime.mark(function() {

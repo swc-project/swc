@@ -89,10 +89,10 @@ function foo(...a) {
 }"#,
     r#"var a = 'bar';
 function foo() {
-    for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
-        a1[_key] = arguments[_key];
+    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
+        a[_key] = arguments[_key];
     }
-    return a1;
+    return a;
 }"#
 );
 
@@ -194,10 +194,10 @@ test!(
   }
 }
 Ref.nextID = 0"#,
-    r#"var Ref = function Ref1() {
+    r#"var Ref = function Ref() {
         "use strict";
-        var id = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : ++Ref1.nextID;
-        _classCallCheck(this, Ref1);
+        var id = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : ++Ref.nextID;
+        _classCallCheck(this, Ref);
         this.id = id;
     };
 Ref.nextID = 0;"#
@@ -238,16 +238,16 @@ class X {
     this.x = x
   }
 }"#,
-    r#"var Ref = function Ref1() {
+    r#"var Ref = function Ref() {
       "use strict";
-      var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Ref1;
-      _classCallCheck(this, Ref1);
+      var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Ref;
+      _classCallCheck(this, Ref);
       this.ref = ref;
   }
-var X = function X1() {
+var X = function X() {
       "use strict";
       var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
-      _classCallCheck(this, X1);
+      _classCallCheck(this, X);
         this.x = x;
     };
 "#
@@ -495,10 +495,10 @@ function foo(...args) {
 }"#,
     r#"var args = 'bar';
 function foo() {
-    for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
-        args1[_key] = arguments[_key];
+    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+        args[_key] = arguments[_key];
     }
-    return args1;
+    return args;
 }
 "#
 );
@@ -1270,9 +1270,9 @@ test!(
         foo[_key - 1] = arguments[_key];
     }
     if (true) {
-        let Foo = function(Bar) {
+        let Foo = function(Bar1) {
             "use strict";
-            _inherits(Foo, Bar);
+            _inherits(Foo, Bar1);
             var _super = _createSuper(Foo);
             function Foo() {
                 _classCallCheck(this, Foo);
@@ -1785,9 +1785,8 @@ test!(
     "
     var _this = this;
     const arrow = function() {
-        for(var _len1 = arguments.length, args = new Array(_len1), _key1 = 0; _key1 < _len1; \
-     _key1++){
-            args[_key1] = arguments[_key1];
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
         }
         return _this, ()=>{
             var _this1 = _this;
@@ -1892,14 +1891,14 @@ class A {
     return a;
   };
   b = (() => {
-    var _this1 = this;
+    var _this = this;
 
     return function () {
       for (var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++) {
         b[_key] = arguments[_key];
       }
 
-      return b + _this1;
+      return b + _this;
     };
   })();
   static c = function () {

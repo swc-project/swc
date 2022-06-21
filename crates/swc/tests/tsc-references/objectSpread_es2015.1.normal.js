@@ -1,5 +1,5 @@
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
-import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 // @strictNullChecks: true
 // @target: es5
 let o = {
@@ -66,43 +66,43 @@ function from16326(header, authToken) {
 }
 // boolean && T results in Partial<T>
 function conditionalSpreadBoolean(b) {
-    let o1 = {
+    let o = {
         x: 12,
         y: 13
     };
-    o1 = _object_spread({}, o1, b && {
+    o = _object_spread({}, o, b && {
         x: 14
     });
     let o2 = _object_spread({}, b && {
         x: 21
     });
-    return o1;
+    return o;
 }
 function conditionalSpreadNumber(nt) {
-    let o3 = {
+    let o = {
         x: 15,
         y: 16
     };
-    o3 = _object_spread({}, o3, nt && {
+    o = _object_spread({}, o, nt && {
         x: nt
     });
     let o2 = _object_spread({}, nt && {
         x: nt
     });
-    return o3;
+    return o;
 }
 function conditionalSpreadString(st) {
-    let o4 = {
+    let o = {
         x: 'hi',
         y: 17
     };
-    o4 = _object_spread({}, o4, st && {
+    o = _object_spread({}, o, st && {
         x: st
     });
     let o2 = _object_spread({}, st && {
         x: st
     });
-    return o4;
+    return o;
 }
 // any results in any
 let anything;

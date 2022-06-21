@@ -29,7 +29,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -82,7 +83,8 @@
                         "data": "Foo"
                       }
                     ],
-                    "content": null
+                    "content": null,
+                    "isSelfClosing": false
                   },
                   {
                     "type": "Element",
@@ -103,16 +105,20 @@
                         "ctxt": 0
                       },
                       "children": []
-                    }
+                    },
+                    "isSelfClosing": false
                   }
                 ]
-              }
+              },
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

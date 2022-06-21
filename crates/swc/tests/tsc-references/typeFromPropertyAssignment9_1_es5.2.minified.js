@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var _predicate, _sort, _min, _nest, _other, _property, my = null != my ? my : {};
 my.method = function(n) {
     return n + 1;
