@@ -24,7 +24,6 @@ plugin = [
 
 [dependencies]
 anyhow = "1.0.53"
-atty = "0.2.14"
 clap = { version = "3.1.0", features = ["derive", "wrap_help"] }
 glob = "0.3.0"
 rayon = "1"
@@ -35,6 +34,7 @@ swc = { version = "0.190.0", path = "../swc" }
 swc_common = { version = "0.18.0", path = "../swc_common" }
 swc_plugin_runner = { version = "0.56.0", path = "../swc_plugin_runner", default-features = false, optional = true }
 swc_trace_macro = { version = "0.1.0", path = "../swc_trace_macro" }
+thiserror = "1.0.31"
 tracing = "0.1.32"
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
@@ -46,3 +46,15 @@ wasmer-wasi = { version = "2.3.0", optional = true }
 [dependencies.path-absolutize]
 features = ["once_cell_cache"]
 version = "3.0.11"
+
+[target.'cfg(unix)'.dependencies]
+mio = { version = "0.8.4", features = ["os-ext"] }
+
+[target.'cfg(windows)'.dependencies.windows]
+features = [
+  "Win32_Foundation",
+  "Win32_Storage_FileSystem",
+  "Win32_System_Console",
+  "Win32_System_Threading",
+]
+version = "0.37.0"

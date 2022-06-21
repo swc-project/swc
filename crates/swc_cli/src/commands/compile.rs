@@ -1,8 +1,9 @@
 use std::{
     fs::{self, File},
-    io::{self, BufRead, Write},
+    io::Write,
     path::{Path, PathBuf},
     sync::Arc,
+    time::Duration,
 };
 
 use anyhow::Context;
@@ -21,7 +22,7 @@ use swc_common::{
 use swc_trace_macro::swc_trace;
 use walkdir::WalkDir;
 
-use crate::util::trace::init_trace;
+use crate::{util, util::trace::init_trace};
 
 /// Configuration option for transform files.
 #[derive(Parser)]
@@ -238,21 +239,6 @@ fn emit_output(
     Ok(())
 }
 
-fn collect_stdin_input() -> Option<String> {
-    if atty::is(atty::Stream::Stdin) {
-        return None;
-    }
-
-    Some(
-        io::stdin()
-            .lock()
-            .lines()
-            .map(|line| line.expect("Not able to read stdin"))
-            .collect::<Vec<String>>()
-            .join("\n"),
-    )
-}
-
 struct InputContext {
     options: Options,
     fm: Arc<SourceFile>,
@@ -296,34 +282,7 @@ impl CompileOptions {
     fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
         let compiler = COMPILER.clone();
 
-        let stdin_input = collect_stdin_input();
-        if stdin_input.is_some() && !self.files.is_empty() {
-            anyhow::bail!("Cannot specify inputs from stdin and files at the same time");
-        }
-
-        if let Some(stdin_input) = stdin_input {
-            let options = self.build_transform_options(&self.filename.as_deref())?;
-
-            let fm = compiler.cm.new_source_file(
-                if options.filename.is_empty() {
-                    FileName::Anon
-                } else {
-                    FileName::Real(options.filename.clone().into())
-                },
-                stdin_input,
-            );
-
-            return Ok(vec![InputContext {
-                options,
-                fm,
-                compiler,
-                file_path: self
-                    .filename
-                    .clone()
-                    .unwrap_or_else(|| PathBuf::from("unknown")),
-                file_extension: self.out_file_extension.clone().into(),
-            }]);
-        } else if !self.files.is_empty() {
+        if !self.files.is_empty() {
             let included_extensions = if let Some(extensions) = &self.extensions {
                 extensions.clone()
             } else {
@@ -353,10 +312,42 @@ impl CompileOptions {
                         })
                     })
             })
-            .collect::<anyhow::Result<Vec<InputContext>>>();
+            .collect();
         }
 
-        anyhow::bail!("Input is empty");
+        let stdin = {
+            let mut buf = Vec::new();
+            util::io::read_from_stdin_with_timeout(
+                &mut buf,
+                Duration::from_millis(100), // poll_duration
+                Duration::from_secs(5),     // timeout
+            )?;
+            let stdin =
+                String::from_utf8(buf).context("Input from stdin may not contain invalid utf-8")?;
+            if stdin.is_empty() {
+                anyhow::bail!("Input is empty");
+            }
+            stdin
+        };
+        let options = self.build_transform_options(&self.filename.as_deref())?;
+        let fm = compiler.cm.new_source_file(
+            if options.filename.is_empty() {
+                FileName::Anon
+            } else {
+                FileName::Real(options.filename.clone().into())
+            },
+            stdin,
+        );
+        Ok(vec![InputContext {
+            options,
+            fm,
+            compiler,
+            file_path: self
+                .filename
+                .clone()
+                .unwrap_or_else(|| PathBuf::from("unknown")),
+            file_extension: self.out_file_extension.clone().into(),
+        }])
     }
 
     fn execute_inner(&self) -> anyhow::Result<()> {
