@@ -16,7 +16,7 @@ use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
-use testing::assert_eq;
+use testing::{assert_eq, find_executable};
 use tracing::{span, Level};
 
 trait IterExt<T>: Sized + IntoIterator<Item = T>
@@ -57,21 +57,22 @@ fn init_helpers() -> Arc<PathBuf> {
         let helper_dir = project_root.join("packages").join("swc-helpers");
 
         {
-            let mut cmd = Command::new("npm");
+            dbg!(find_executable("npm"));
+            let mut cmd = Command::new(find_executable("npm").expect("failed to find npm"));
             cmd.current_dir(&helper_dir).arg("ci");
             let status = cmd.status().expect("failed to update swc core");
             assert!(status.success());
         }
 
         {
-            let mut cmd = Command::new("npm");
+            let mut cmd = Command::new(find_executable("npm").expect("failed to find npm"));
             cmd.current_dir(&helper_dir).arg("run").arg("build");
             let status = cmd.status().expect("failed to compile helper package");
             assert!(status.success());
         }
 
         {
-            let mut cmd = Command::new("npm");
+            let mut cmd = Command::new(find_executable("npm").expect("failed to find npm"));
             cmd.current_dir(&project_root)
                 .arg("install")
                 .arg("--no-save")
