@@ -38,6 +38,9 @@
 
 
 
+- **(es/helpers)** Unify code path for testing external helpers (#5010) ([125549b](https://github.com/swc-project/swc/commit/125549b7a96d5a91101e1a96a0bb39214e252800))
+
+
 - **(es/minifier)** Add a test case for the minifier (#5013) ([eedcb11](https://github.com/swc-project/swc/commit/eedcb114a2df09d88995c1b58ea1d1980831a02d))
 
 ## [1.2.204] - 2022-06-18
