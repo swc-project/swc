@@ -340,7 +340,17 @@ impl Minifier {
                 attribute_name,
                 attribute_value.to_ascii_lowercase().trim()
             ),
-            (Namespace::HTML, "iframe", "height", "150")
+            (
+                Namespace::HTML,
+                "html",
+                "xmlns",
+                "http://www.w3.org/1999/xhtml"
+            ) | (
+                Namespace::HTML,
+                "html",
+                "xmlns:xlink",
+                "http://www.w3.org/1999/xlink"
+            ) | (Namespace::HTML, "iframe", "height", "150")
                 | (Namespace::HTML, "iframe", "width", "300")
                 | (Namespace::HTML, "iframe", "frameborder", "1")
                 | (Namespace::HTML, "iframe", "loading", "eager")
