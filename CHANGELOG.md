@@ -34,8 +34,14 @@
 
 - **(html/minifier)** Add an API to minify document fragments (#5002) ([7745fbf](https://github.com/swc-project/swc/commit/7745fbf604d6c3c8daeb61eced8c01b464e385db))
 
+
+- **(html/minifier)** Minify js (#4999) ([28bc735](https://github.com/swc-project/swc/commit/28bc735d03987dd965fdefe7284b30bee3346a3a))
+
 ### Testing
 
+
+
+- **(es/helpers)** Unify code path for testing external helpers (#5010) ([125549b](https://github.com/swc-project/swc/commit/125549b7a96d5a91101e1a96a0bb39214e252800))
 
 
 - **(es/minifier)** Add a test case for the minifier (#5013) ([eedcb11](https://github.com/swc-project/swc/commit/eedcb114a2df09d88995c1b58ea1d1980831a02d))
