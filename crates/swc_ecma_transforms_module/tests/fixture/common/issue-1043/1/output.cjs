@@ -7,4 +7,4 @@ Object.defineProperty(exports, "Scope", {
     enumerable: true
 });
 _reExport(exports, require("./http"));
-var _interfaces = require("./interfaces");
+const _interfaces = require("./interfaces");

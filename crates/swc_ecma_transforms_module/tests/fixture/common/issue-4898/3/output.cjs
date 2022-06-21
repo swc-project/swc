@@ -1,5 +1,5 @@
 "use strict";
-var _assert = require("assert");
+const _assert = require("assert");
 _assert(true);
 var Foo;
 (function(Foo) {

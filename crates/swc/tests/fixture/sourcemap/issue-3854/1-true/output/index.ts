@@ -19,14 +19,14 @@ __export(exports, {
     stage: ()=>stage,
     trustBox: ()=>trustBox
 });
-var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
-var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
-var _classPrivateFieldSetMjs = require("@swc/helpers/lib/_class_private_field_set.js").default;
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _abstractBuilders = require("./AbstractBuilders");
-var _builderUtils = require("./Builder.utils");
-var _elementBuilder = require("./ElementBuilder");
-var _bodyNodesBuilder = _interopRequireWildcardMjs(_re_export(exports, require("./BodyNodesBuilder")));
+const _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
+const _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
+const _classPrivateFieldSetMjs = require("@swc/helpers/lib/_class_private_field_set.js").default;
+const _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _abstractBuilders = require("./AbstractBuilders");
+const _builderUtils = require("./Builder.utils");
+const _elementBuilder = require("./ElementBuilder");
+const _bodyNodesBuilder = _interopRequireWildcardMjs(_re_export(exports, require("./BodyNodesBuilder")));
 const create = ()=>new BodyBuilder();
 const trustBox = ()=>new TrustBoxBuilder();
 const opener = ()=>new OpenerBuilder();

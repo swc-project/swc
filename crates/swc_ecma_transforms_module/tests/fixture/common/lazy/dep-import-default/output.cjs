@@ -1,6 +1,6 @@
 "use strict";
 function _foo() {
-    var data = _interopRequireDefault(require("foo"));
+    const data = _interopRequireDefault(require("foo"));
     _foo = function() {
         return data;
     };

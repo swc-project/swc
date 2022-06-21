@@ -1,3 +1,3 @@
 "use strict";
-var _mongodb = require("mongodb");
+const _mongodb = require("mongodb");
 require("foo");

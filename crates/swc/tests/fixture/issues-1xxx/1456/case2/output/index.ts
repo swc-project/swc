@@ -1,7 +1,7 @@
 "use strict";
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
-var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
-var _tsParamMjs = require("@swc/helpers/lib/_ts_param.js").default;
+const _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
+const _tsParamMjs = require("@swc/helpers/lib/_ts_param.js").default;
 // work
 class MyClass1 {
     constructor(param1){}

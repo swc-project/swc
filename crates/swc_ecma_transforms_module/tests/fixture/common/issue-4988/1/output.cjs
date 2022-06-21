@@ -12,5 +12,5 @@ __export(exports, {
     "$": ()=>_jquery,
     jquery: ()=>_jquery
 });
-var _jquery = require("jquery");
+const _jquery = require("jquery");
 _jquery(".hello");

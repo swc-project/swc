@@ -6,8 +6,8 @@ Object.defineProperty(exports, "getPackage", {
     get: ()=>getPackage,
     enumerable: true
 });
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _path = require("path");
+const _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _path = require("path");
 async function getPackage() {
     const pkg = await Promise.resolve((0, _path.join)(process.cwd(), "package.json")).then((p)=>_interopRequireWildcardMjs(require(p)));
     return pkg.default || pkg;

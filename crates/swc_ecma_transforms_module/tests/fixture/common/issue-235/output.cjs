@@ -6,5 +6,5 @@ Object.defineProperty(exports, "fn", {
     get: ()=>fn,
     enumerable: true
 });
-var _something = require("something");
+const _something = require("something");
 const fn = ({ a =new _something.Foo()  })=>a;

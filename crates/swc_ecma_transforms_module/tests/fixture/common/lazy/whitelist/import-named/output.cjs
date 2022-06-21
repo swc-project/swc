@@ -1,12 +1,12 @@
 "use strict";
 function _white() {
-    var data = require("white");
+    const data = require("white");
     _white = function() {
         return data;
     };
     return data;
 }
-var _black = require("black");
+const _black = require("black");
 function use1() {
     console.log(_white().foo1);
 }

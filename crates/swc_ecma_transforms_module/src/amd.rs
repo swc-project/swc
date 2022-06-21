@@ -49,6 +49,11 @@ pub fn amd(
 
         support_arrow: caniuse!(available_features.ArrowFunctions),
         support_shorthand: caniuse!(available_features.ShorthandProperties),
+        const_var_kind: if caniuse!(available_features.BlockScoping) {
+            VarDeclKind::Const
+        } else {
+            VarDeclKind::Var
+        },
 
         dep_list: Default::default(),
         require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
@@ -76,6 +81,11 @@ pub fn amd_with_resolver(
 
         support_arrow: caniuse!(available_features.ArrowFunctions),
         support_shorthand: caniuse!(available_features.ShorthandProperties),
+        const_var_kind: if caniuse!(available_features.BlockScoping) {
+            VarDeclKind::Const
+        } else {
+            VarDeclKind::Var
+        },
 
         dep_list: Default::default(),
         require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
@@ -93,6 +103,7 @@ pub struct Amd {
 
     support_arrow: bool,
     support_shorthand: bool,
+    const_var_kind: VarDeclKind,
 
     dep_list: Vec<(Ident, JsWord, Span)>,
     require: Ident,
@@ -370,7 +381,7 @@ impl Amd {
                     let stmt = if need_new_var {
                         let var_decl = VarDecl {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
+                            kind: self.const_var_kind,
                             declare: false,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,

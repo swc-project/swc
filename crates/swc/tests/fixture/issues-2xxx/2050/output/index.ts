@@ -6,4 +6,6 @@ var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_defau
 var _a = (0, _interopRequireDefaultMjs.default)(require("./subfolder/A"));
 var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
 var _a = _interopRequireDefaultMjs(require("./subfolder/A"));
+const _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
+const _a = _interopRequireDefaultMjs(require("./subfolder/A"));
 console.log(_a.default);

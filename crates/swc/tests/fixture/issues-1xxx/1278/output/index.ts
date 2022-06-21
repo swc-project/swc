@@ -1,6 +1,6 @@
 "use strict";
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
-var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
+const _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
 function MyDecorator(klass) {
     return ()=>{
         // do something

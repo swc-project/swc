@@ -6,4 +6,4 @@ Object.defineProperty(exports, "default", {
     get: ()=>_foo.foo,
     enumerable: true
 });
-var _foo = require("foo");
+const _foo = require("foo");

@@ -6,13 +6,13 @@ Object.defineProperty(exports, "RequestHandler", {
     get: ()=>RequestHandler,
     enumerable: true
 });
-var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
-var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _nodeFetch = _interopRequireDefaultMjs(require("node-fetch"));
-var _abortSignal = require("./misc/AbortSignal");
-var _errors = require("../../errors");
-var _utils = require("../../utils");
+const _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
+const _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
+const _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
+const _nodeFetch = _interopRequireDefaultMjs(require("node-fetch"));
+const _abortSignal = require("./misc/AbortSignal");
+const _errors = require("../../errors");
+const _utils = require("../../utils");
 const headers = [
     "x-ratelimit-limit",
     "x-ratelimit-remaining",

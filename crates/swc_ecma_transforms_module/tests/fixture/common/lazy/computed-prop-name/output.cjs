@@ -1,13 +1,13 @@
 "use strict";
 function _libx() {
-    var data = require("libx");
+    const data = require("libx");
     _libx = function() {
         return data;
     };
     return data;
 }
 function _liby() {
-    var data = require("liby");
+    const data = require("liby");
     _liby = function() {
         return data;
     };

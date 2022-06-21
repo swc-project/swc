@@ -7,7 +7,7 @@ Object.defineProperty(exports, "default", {
     enumerable: true
 });
 function _foo() {
-    var data = _interopRequireDefault(require("foo"));
+    const data = _interopRequireDefault(require("foo"));
     _foo = function() {
         return data;
     };

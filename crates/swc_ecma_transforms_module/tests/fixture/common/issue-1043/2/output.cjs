@@ -8,5 +8,5 @@ Object.defineProperty(exports, "id", {
 });
 require("reflect-metadata");
 _reExport(exports, require("./http"));
-var _interfaces = require("./interfaces");
+const _interfaces = require("./interfaces");
 _reExport(exports, require("./pipes"));

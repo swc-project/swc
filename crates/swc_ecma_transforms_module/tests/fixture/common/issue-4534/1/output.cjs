@@ -12,4 +12,4 @@ __export(exports, {
     A: ()=>_a,
     B: ()=>_a
 });
-var _a = _interopRequireWildcard(require("./A"));
+const _a = _interopRequireWildcard(require("./A"));

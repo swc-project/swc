@@ -7,7 +7,7 @@ Object.defineProperty(exports, "named", {
     enumerable: true
 });
 function _foo() {
-    var data = require("foo");
+    const data = require("foo");
     _foo = function() {
         return data;
     };

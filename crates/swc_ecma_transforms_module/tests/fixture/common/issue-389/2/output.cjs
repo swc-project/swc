@@ -1,3 +1,3 @@
 "use strict";
-var _foo = _interopRequireDefault(require("foo"));
+const _foo = _interopRequireDefault(require("foo"));
 _foo.default.bar = true;

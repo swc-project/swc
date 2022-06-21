@@ -16,9 +16,9 @@ __export(exports, {
     keyframes: ()=>_css.keyframes
 });
 require(".");
-var _styled = _interopRequireDefault(require("@emotion/styled"));
-var _breakpoints = require("@eduzz/houston-tokens/variables/breakpoints");
-var _css = require("@emotion/css");
+const _styled = _interopRequireDefault(require("@emotion/styled"));
+const _breakpoints = require("@eduzz/houston-tokens/variables/breakpoints");
+const _css = require("@emotion/css");
 const breakpoints = _breakpoints.breakpoinstUtils;
 const styled = _styled.default;
 var _default = styled;

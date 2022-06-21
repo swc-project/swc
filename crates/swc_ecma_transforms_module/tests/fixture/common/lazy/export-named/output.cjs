@@ -7,7 +7,7 @@ Object.defineProperty(exports, "named1", {
     enumerable: true
 });
 function _external() {
-    var data = require("external");
+    const data = require("external");
     _external = function() {
         return data;
     };

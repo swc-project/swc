@@ -1,4 +1,4 @@
-var _necessary = require("necessary");
+const _necessary = require("necessary");
 "use strict";
 const { second  } = _necessary.arrayUtilities;
 const elements = [

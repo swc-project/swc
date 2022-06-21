@@ -1,5 +1,5 @@
 "use strict";
-var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
 const SampleData = typedModel("SampleVideo", VideosSchema, undefined, undefined, {
     byPlatform: function() {
         var _ref = _asyncToGeneratorMjs(function*(platform) {

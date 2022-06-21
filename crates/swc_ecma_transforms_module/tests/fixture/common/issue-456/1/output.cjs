@@ -6,7 +6,7 @@ Object.defineProperty(exports, "foo", {
     get: ()=>foo,
     enumerable: true
 });
-var _path = require("path");
+const _path = require("path");
 const foo = function() {
     function e(t) {}
     return A(e, {}), e;

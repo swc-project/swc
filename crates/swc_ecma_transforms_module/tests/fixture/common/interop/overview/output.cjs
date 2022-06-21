@@ -15,10 +15,10 @@ __export(exports, {
 require("foo");
 require("foo-bar");
 require("./directory/foo-bar");
-var _foo2 = _interopRequireDefault(require("foo2"));
-var _foo3 = _interopRequireWildcard(require("foo3"));
-var _foo4 = require("foo4");
-var _foo5 = require("foo5");
+const _foo2 = _interopRequireDefault(require("foo2"));
+const _foo3 = _interopRequireWildcard(require("foo3"));
+const _foo4 = require("foo4");
+const _foo5 = require("foo5");
 var test;
 var test2 = 5;
 _foo4.bar;

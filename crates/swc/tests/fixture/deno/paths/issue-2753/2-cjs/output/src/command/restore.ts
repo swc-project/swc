@@ -1,2 +1,2 @@
 "use strict";
-var _config = require("../config");
+const _config = require("../config");

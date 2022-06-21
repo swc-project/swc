@@ -6,5 +6,5 @@ Object.defineProperty(exports, "render", {
     get: ()=>_customRender.customRender,
     enumerable: true
 });
-var _customRender = require("./customRender");
+const _customRender = require("./customRender");
 _reExport(exports, require("@testing-library/react"));

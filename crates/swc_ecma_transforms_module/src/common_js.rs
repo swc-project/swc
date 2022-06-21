@@ -33,6 +33,11 @@ pub fn common_js(
 
         support_arrow: caniuse!(available_features.ArrowFunctions),
         support_shorthand: caniuse!(available_features.ShorthandProperties),
+        const_var_kind: if caniuse!(available_features.BlockScoping) {
+            VarDeclKind::Const
+        } else {
+            VarDeclKind::Var
+        },
 
         exports: None,
     })
@@ -53,6 +58,11 @@ pub fn common_js_with_resolver(
 
         support_arrow: caniuse!(available_features.ArrowFunctions),
         support_shorthand: caniuse!(available_features.ShorthandProperties),
+        const_var_kind: if caniuse!(available_features.BlockScoping) {
+            VarDeclKind::Const
+        } else {
+            VarDeclKind::Var
+        },
 
         exports: None,
     })
@@ -64,6 +74,7 @@ pub struct Cjs {
     unresolved_mark: Mark,
     support_arrow: bool,
     support_shorthand: bool,
+    const_var_kind: VarDeclKind,
 
     exports: Option<Ident>,
 }
@@ -257,10 +268,14 @@ impl Cjs {
                 let import_assign = raw_mod_ident.map(|raw_mod_ident| {
                     let import_expr = import_expr.clone();
                     if is_lazy {
-                        Stmt::Decl(Decl::Fn(lazy_require(import_expr, raw_mod_ident)))
+                        Stmt::Decl(Decl::Fn(lazy_require(
+                            import_expr,
+                            raw_mod_ident,
+                            self.const_var_kind,
+                        )))
                     } else {
                         Stmt::Decl(Decl::Var(
-                            import_expr.into_var_decl(VarDeclKind::Var, raw_mod_ident.into()),
+                            import_expr.into_var_decl(self.const_var_kind, raw_mod_ident.into()),
                         ))
                     }
                 });
@@ -297,11 +312,15 @@ impl Cjs {
 
                 if decl_mod_ident {
                     let stmt = if is_lazy {
-                        Stmt::Decl(Decl::Fn(lazy_require(import_expr, mod_ident)))
+                        Stmt::Decl(Decl::Fn(lazy_require(
+                            import_expr,
+                            mod_ident,
+                            self.const_var_kind,
+                        )))
                     } else {
                         Stmt::Decl(
                             import_expr
-                                .into_var_decl(VarDeclKind::Var, mod_ident.into())
+                                .into_var_decl(self.const_var_kind, mod_ident.into())
                                 .into(),
                         )
                     };
@@ -441,9 +460,9 @@ fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Exp
 ///   return data;
 /// }
 /// ```
-pub fn lazy_require(expr: Expr, mod_ident: Ident) -> FnDecl {
+pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDecl {
     let data = private_ident!("data");
-    let data_decl = expr.into_var_decl(VarDeclKind::Var, data.clone().into());
+    let data_decl = expr.into_var_decl(var_kind, data.clone().into());
     let data_stmt = Stmt::Decl(Decl::Var(data_decl));
     let overwrite_stmt = data
         .clone()

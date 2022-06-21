@@ -6,9 +6,9 @@ Object.defineProperty(exports, "default", {
     get: ()=>Foo,
     enumerable: true
 });
-var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _react = _interopRequireDefaultMjs(require("react"));
+const _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
+const _react = _interopRequireDefaultMjs(require("react"));
 function Foo() {
     return /*#__PURE__*/ _react.default.createElement("div", {
         onClick: function() {

@@ -6,5 +6,5 @@ Object.defineProperty(exports, "flakySuite", {
     get: ()=>flakySuite,
     enumerable: true
 });
-var _testUtils = _interopRequireWildcard(require("vs/base/test/common/testUtils"));
+const _testUtils = _interopRequireWildcard(require("vs/base/test/common/testUtils"));
 var flakySuite = _testUtils.flakySuite;

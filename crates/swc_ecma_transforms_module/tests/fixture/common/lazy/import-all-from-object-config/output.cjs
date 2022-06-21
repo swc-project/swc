@@ -1,13 +1,13 @@
 "use strict";
 function _local() {
-    var data = require("./local");
+    const data = require("./local");
     _local = function() {
         return data;
     };
     return data;
 }
 function _external() {
-    var data = require("external");
+    const data = require("external");
     _external = function() {
         return data;
     };

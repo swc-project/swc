@@ -7,7 +7,7 @@ Object.defineProperty(exports, "namespace", {
     enumerable: true
 });
 function _foo() {
-    var data = _interopRequireWildcard(require("foo"));
+    const data = _interopRequireWildcard(require("foo"));
     _foo = function() {
         return data;
     };

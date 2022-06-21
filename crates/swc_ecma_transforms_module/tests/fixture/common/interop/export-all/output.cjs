@@ -6,5 +6,5 @@ Object.defineProperty(exports, "default", {
     get: ()=>_default,
     enumerable: true
 });
-var _react = _interopRequireDefault(_reExport(exports, require("react")));
+const _react = _interopRequireDefault(_reExport(exports, require("react")));
 var _default = _react.default;

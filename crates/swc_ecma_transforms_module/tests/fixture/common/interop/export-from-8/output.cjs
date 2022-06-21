@@ -111,4 +111,4 @@ __export(exports, {
     foo98: ()=>_foo.foo98,
     foo99: ()=>_foo.foo99
 });
-var _foo = require("foo");
+const _foo = require("foo");

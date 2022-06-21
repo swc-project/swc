@@ -6,12 +6,12 @@ Object.defineProperty(exports, "AppController", {
     get: ()=>AppController,
     enumerable: true
 });
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
-var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
-var _tsParamMjs = require("@swc/helpers/lib/_ts_param.js").default;
-var _common = require("@nestjs/common");
-var _appService = require("./app.service");
-var _createUserDto = require("./dtos/CreateUserDto");
+const _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
+const _tsParamMjs = require("@swc/helpers/lib/_ts_param.js").default;
+const _common = require("@nestjs/common");
+const _appService = require("./app.service");
+const _createUserDto = require("./dtos/CreateUserDto");
 let AppController = class AppController {
     async getHello() {
         const result = await this.appService.getHello();

@@ -1,3 +1,3 @@
 "use strict";
-var _foo = _interopRequireWildcard(require("./foo"));
+const _foo = _interopRequireWildcard(require("./foo"));
 console.log(_foo);

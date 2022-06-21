@@ -6,6 +6,6 @@ Object.defineProperty(exports, "utilFn", {
     get: ()=>utilFn,
     enumerable: true
 });
-var _utilFile = require("../core/utils/utilFile");
+const _utilFile = require("../core/utils/utilFile");
 (0, _utilFile.test)();
 function utilFn() {}

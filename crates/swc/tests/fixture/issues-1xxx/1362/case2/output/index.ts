@@ -1,3 +1,3 @@
 "use strict";
-var _supertest = require("supertest");
+const _supertest = require("supertest");
 console.log(_supertest());

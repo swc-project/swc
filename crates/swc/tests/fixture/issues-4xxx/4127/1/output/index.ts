@@ -6,7 +6,7 @@ Object.defineProperty(exports, "default", {
     get: ()=>_class,
     enumerable: true
 });
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
 function test(constructor) {
     console.log(constructor);
 }

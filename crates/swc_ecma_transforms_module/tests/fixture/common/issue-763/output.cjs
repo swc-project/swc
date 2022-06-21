@@ -1,5 +1,5 @@
 "use strict";
-var _consts = require("../../../../consts");
+const _consts = require("../../../../consts");
 const resources = [
     {
         value: _consts.RESOURCE_WEBSITE,

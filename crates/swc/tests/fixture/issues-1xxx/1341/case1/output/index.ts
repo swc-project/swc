@@ -1,5 +1,5 @@
 "use strict";
-var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
 class A {
     foo() {
         var _this = this;

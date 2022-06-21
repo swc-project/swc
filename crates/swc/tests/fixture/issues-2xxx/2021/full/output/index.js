@@ -1,5 +1,5 @@
 "use strict";
-var _definePropertyMjs = require("@swc/helpers/lib/_define_property.js").default;
+const _definePropertyMjs = require("@swc/helpers/lib/_define_property.js").default;
 class Item extends Component {
     constructor(props){
         super(props);

@@ -12,4 +12,4 @@ __export(exports, {
     bar: ()=>_foo.bar,
     default: ()=>_foo.foo
 });
-var _foo = require("foo");
+const _foo = require("foo");

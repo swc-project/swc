@@ -6,15 +6,15 @@ Object.defineProperty(exports, "Shard", {
     get: ()=>Shard,
     enumerable: true
 });
-var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
-var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
-var _classPrivateFieldSetMjs = require("@swc/helpers/lib/_class_private_field_set.js").default;
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _ws = _interopRequireDefaultMjs(require("ws"));
-var _utils = require("../../utils");
-var _connection = require("./connection");
-var _serialization = require("./serialization");
-var _compression = require("./compression");
+const _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
+const _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
+const _classPrivateFieldSetMjs = require("@swc/helpers/lib/_class_private_field_set.js").default;
+const _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
+const _ws = _interopRequireDefaultMjs(require("ws"));
+const _utils = require("../../utils");
+const _connection = require("./connection");
+const _serialization = require("./serialization");
+const _compression = require("./compression");
 const connectionStates = Object.keys(_ws.default);
 var /**
      * The serialization handler.

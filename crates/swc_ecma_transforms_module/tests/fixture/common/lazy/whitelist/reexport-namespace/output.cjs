@@ -13,10 +13,10 @@ __export(exports, {
     namespace2: ()=>_black
 });
 function _white() {
-    var data = _interopRequireWildcard(require("white"));
+    const data = _interopRequireWildcard(require("white"));
     _white = function() {
         return data;
     };
     return data;
 }
-var _black = _interopRequireWildcard(require("black"));
+const _black = _interopRequireWildcard(require("black"));

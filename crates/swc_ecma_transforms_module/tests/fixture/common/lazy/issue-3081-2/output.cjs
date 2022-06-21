@@ -1,6 +1,6 @@
 "use strict";
 function _lib() {
-    var data = require("lib");
+    const data = require("lib");
     _lib = function() {
         return data;
     };

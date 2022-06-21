@@ -1,5 +1,5 @@
 "use strict";
-var _ = require("./");
+const _ = require("./");
 describe("example test that should fail due to compilation", ()=>{
     test.each([
         [

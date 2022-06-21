@@ -1,5 +1,5 @@
 "use strict";
-var _props = _interopRequireDefault(require("props"));
+const _props = _interopRequireDefault(require("props"));
 console.log(_props.default);
 (function() {
     const { ...props } = this.props;

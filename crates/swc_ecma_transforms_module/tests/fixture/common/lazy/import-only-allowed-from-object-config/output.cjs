@@ -1,8 +1,8 @@
 "use strict";
-var _local = require("./local");
-var _externalTest = require("external_test");
+const _local = require("./local");
+const _externalTest = require("external_test");
 function _test() {
-    var data = require("test");
+    const data = require("test");
     _test = function() {
         return data;
     };

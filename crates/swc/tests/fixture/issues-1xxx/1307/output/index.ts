@@ -6,5 +6,5 @@ Object.defineProperty(exports, "foo", {
     get: ()=>_foo,
     enumerable: true
 });
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _foo = _interopRequireWildcardMjs(require("./foo"));
+const _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _foo = _interopRequireWildcardMjs(require("./foo"));

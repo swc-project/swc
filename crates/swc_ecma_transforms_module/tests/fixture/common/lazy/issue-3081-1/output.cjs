@@ -1,6 +1,6 @@
 "use strict";
 function _childProcess() {
-    var data = require("child_process");
+    const data = require("child_process");
     _childProcess = function() {
         return data;
     };

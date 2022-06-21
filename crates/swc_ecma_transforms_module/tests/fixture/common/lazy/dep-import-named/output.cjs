@@ -1,6 +1,6 @@
 "use strict";
 function _foo() {
-    var data = require("foo");
+    const data = require("foo");
     _foo = function() {
         return data;
     };

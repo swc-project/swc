@@ -7,7 +7,7 @@ Object.defineProperty(exports, "default", {
     enumerable: true
 });
 function _white() {
-    var data = _interopRequireDefault(require("white"));
+    const data = _interopRequireDefault(require("white"));
     _white = function() {
         return data;
     };
