@@ -2,6 +2,13 @@
 <html>
     <head>
         <title>Party Coffee Cake</title>
+        <!--[if lte IE 8]><script>
+
+
+        alert("ie8!" + "test")
+
+
+        </script><![endif]-->
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org/",
@@ -83,6 +90,51 @@
                 "foo" : "bar"
             }
         </script>
+        <script>
+            broken    broken
+        </script>
+        <script type="application/ecmascript">
+            var a = 1 + 2;
+        </script>
+        <script type="application/ecmascript">
+            var a = 3 + 6;
+        </script>
+        <script type="module">
+            import foo from "foo.js";
+
+            const test = 140 * 420;
+            const test1 = "test" + "test";
+        </script>
+        <script>
+            let d = new Date();
+            alert("Today's date is " + d);
+        </script>
+        <script src="javascript.js">
+
+
+
+        </script>
+
+        <script src="javascript.js">
+
+        var   q    =   "WRONG"   ;
+
+        </script>
+        <script>
+            <!-- test -->
+            const foo = "test" + "test";
+        </script>
+        <script>alert('<!--')</script>
+        <script>alert('<!-- foo -->')</script>
+        <script>alert('-->')</script>
+        <script><!-- alert(1) --></script>
+        <script type="text/javascript">
+            // <![CDATA[
+            alert("test" + "test");
+            // ]]>
+        </script>
+        <script>function test(){ var foo = 1; var bar = 2; alert(foo + " " + bar); }</script>
+        <script>"test" + "test"</script>
     </head>
 <body>
     <h2>Party coffee cake recipe</h2>
@@ -101,5 +153,33 @@
     </script>
     <script type="application/javascript;version=1.8">alert(1)</script>
 </svg>
+    <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+        <script>
+            // <![CDATA[
+            window.addEventListener('DOMContentLoaded', () => {
+                function getColor () {
+                    const R = Math.round(Math.random() * 255).toString(16).padStart(2,'0')
+                    const G = Math.round(Math.random() * 255).toString(16).padStart(2,'0')
+                    const B = Math.round(Math.random() * 255).toString(16).padStart(2,'0')
+                    return `#${R}${G}${B}`
+                }
+
+                document.querySelector('circle').addEventListener('click', (e) => {
+                    e.target.style.fill = getColor()
+                })
+            })
+            // ]]>
+        </script>
+
+        <circle cx="5" cy="5" r="4" />
+    </svg>
+    <math>
+        <script>
+            // This is not script
+
+
+            alert('test')
+        </script>
+    </math>
 </body>
 </html>

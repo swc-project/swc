@@ -20,6 +20,10 @@ pub struct MinifyOptions {
     #[serde(default = "true_by_default")]
     pub collapse_boolean_attributes: bool,
     #[serde(default = "true_by_default")]
+    pub minify_js: bool,
+    #[serde(default = "true_by_default")]
+    pub minify_json: bool,
+    #[serde(default = "true_by_default")]
     pub minify_css: bool,
     #[serde(default = "default_preserve_comments")]
     pub preserve_comments: Option<Vec<CachedRegex>>,
