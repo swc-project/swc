@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{cell::RefCell, path::PathBuf, rc::Rc};
 
 use swc_cached::regex::CachedRegex;
 use swc_common::{chain, Mark};
@@ -13,7 +13,9 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_module::{
     common_js::common_js,
-    util::{Config, Lazy, LazyObjectConfig},
+    hoist::module_hoister,
+    import_analysis::import_analyzer,
+    util::{Config, Lazy, LazyObjectConfig, Scope},
 };
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
@@ -35,7 +37,8 @@ fn tr(config: Config) -> impl Fold {
 
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        common_js(unresolved_mark, config)
+        module_hoister(),
+        common_js(unresolved_mark, config, None)
     )
 }
 
@@ -75,7 +78,7 @@ function _default({ name , input: inp  }) {
 
 test!(
     syntax(),
-    |_| common_js(Mark::fresh(Mark::root()), Default::default()),
+    |_| common_js(Mark::fresh(Mark::root()), Default::default(), None),
     issue_389_1,
     "
 import Foo from 'foo';
@@ -94,10 +97,12 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
+        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             // Optional::new(typescript::strip(mark), syntax.typescript()),
-            common_js(unresolved_mark, Default::default()),
+            import_analyzer(Rc::clone(&scope)),
+            common_js(unresolved_mark, Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
         )
@@ -4132,7 +4137,7 @@ test!(
             resolver(unresolved_mark, top_level_mark, false),
             block_scoped_functions(),
             block_scoping(),
-            common_js(unresolved_mark, Default::default()),
+            common_js(unresolved_mark, Default::default(), None),
         )
     },
     issue_396_2,
@@ -4546,7 +4551,7 @@ test!(
             block_scoping(),
             classes(Some(t.comments.clone()), Default::default()),
             destructuring(Default::default()),
-            common_js(unresolved_mark, Default::default())
+            common_js(unresolved_mark, Default::default(), None)
         )
     },
     issue_578_2,
@@ -4609,7 +4614,7 @@ test!(
     syntax(),
     |_| chain!(
         for_of(for_of::Config { assume_array: true }),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     for_of_as_array_for_of_import_commonjs,
     r#"
@@ -4644,7 +4649,7 @@ test!(
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
             destructuring(destructuring::Config { loose: false }),
-            common_js(unresolved_mark, Default::default()),
+            common_js(unresolved_mark, Default::default(), None),
         )
     },
     regression_t7178,
@@ -4683,7 +4688,7 @@ test!(
         parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
-        common_js(Mark::fresh(Mark::root()), Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),
     regression_4209,
     r#"
@@ -4737,7 +4742,7 @@ test!(
         spread(spread::Config {
             ..Default::default()
         }),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     regression_6647,
     r#"
@@ -4763,7 +4768,7 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             regenerator(Default::default(), Mark::fresh(Mark::root())),
-            common_js(unresolved_mark, Default::default())
+            common_js(unresolved_mark, Default::default(), None)
         )
     },
     regression_6733,
@@ -4808,7 +4813,7 @@ test!(
 
         chain!(
             regenerator(Default::default(), unresolved_mark),
-            common_js(unresolved_mark, Default::default()),
+            common_js(unresolved_mark, Default::default(), None),
         )
     },
     issue_831_2,
@@ -5161,8 +5166,10 @@ test!(
 test!(
     syntax(),
     |_| {
+        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
-            common_js(Mark::fresh(Mark::root()), Default::default()),
+            import_analyzer(Rc::clone(&scope)),
+            common_js(Mark::fresh(Mark::root()), Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
         )

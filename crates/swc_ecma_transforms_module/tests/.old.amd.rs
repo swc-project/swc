@@ -1,9 +1,10 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{arrow, for_of, function_name, shorthand};
 use swc_ecma_transforms_module::{
     amd::{amd, Config},
+    hoist::module_hoister,
     util,
 };
 use swc_ecma_transforms_testing::test;
@@ -16,14 +17,10 @@ fn syntax() -> Syntax {
 }
 
 fn tr(config: Config) -> impl Fold {
-    let unresolved_mark = Mark::new();
-    let top_level_mark = Mark::new();
-
     chain!(
-        resolver(unresolved_mark, top_level_mark, false),
-        amd(unresolved_mark, config),
-        hygiene(),
-        fixer(None)
+        resolver(Mark::new(), Mark::new(), false),
+        module_hoister(),
+        amd(config)
     )
 }
 
@@ -1279,7 +1276,7 @@ test!(
     syntax(),
     |_| chain!(
         for_of(for_of::Config { assume_array: true }),
-        tr(Default::default())
+        amd(Default::default())
     ),
     for_of_as_array_for_of_import_amd,
     r#"
@@ -1311,7 +1308,7 @@ test!(
         function_name(),
         shorthand(),
         arrow(),
-        tr(Default::default())
+        amd(Default::default())
     ),
     function_name_export_default_arrow_renaming_module_amd,
     r#"
