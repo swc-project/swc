@@ -11,8 +11,8 @@ function __export(target, all) {
 __export(exports, {
     default: ()=>NotOK
 });
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js");
-var _foo = (0, _interopRequireDefaultMjs.default)(require("foo"));
+var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _foo = _interopRequireDefaultMjs(require("foo"));
 class OK {
     constructor(){
         console.log(_foo.default);

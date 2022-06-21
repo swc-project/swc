@@ -1,6 +1,6 @@
 "use strict";
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js");
+var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 (async ()=>{
-    const example = await Promise.resolve("./example").then((p)=>(0, _interopRequireWildcardMjs.default)(require(p)));
+    const example = await Promise.resolve("./example").then((p)=>_interopRequireWildcardMjs(require(p)));
     console.log(example.foo);
 })();

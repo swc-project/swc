@@ -11,13 +11,13 @@ Object.defineProperty(exports, "__esModule", {
         return i;
     }
 });
-var a = require("@swc/helpers/lib/_class_call_check.js"), b = require("@swc/helpers/lib/_inherits.js"), c = require("@swc/helpers/lib/_interop_require_wildcard.js"), d = require("@swc/helpers/lib/_object_spread.js"), e = require("@swc/helpers/lib/_object_spread_props.js"), f = require("@swc/helpers/lib/_create_super.js"), g = require("react/jsx-runtime"), h = (0, c.default)(require("react")), i = function(c) {
+var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@swc/helpers/lib/_inherits.js").default, c = require("@swc/helpers/lib/_interop_require_wildcard.js").default, d = require("@swc/helpers/lib/_object_spread.js").default, e = require("@swc/helpers/lib/_object_spread_props.js").default, f = require("@swc/helpers/lib/_create_super.js").default, g = require("react/jsx-runtime"), h = c(require("react")), i = function(c) {
     "use strict";
-    (0, b.default)(i, c);
-    var h = (0, f.default)(i);
+    b(i, c);
+    var h = f(i);
     function i() {
         var b;
-        return (0, a.default)(this, i), b = h.apply(this, arguments), b.storeHighlightedItemReference = function(a) {
+        return a(this, i), b = h.apply(this, arguments), b.storeHighlightedItemReference = function(a) {
             b.props.onHighlightedItemChange(null === a ? null : a.item);
         }, b;
     }
@@ -28,18 +28,18 @@ var a = require("@swc/helpers/lib/_class_call_check.js"), b = require("@swc/help
         ]);
     }, j.render = function() {
         var a = this, b = this.props, c = b.items, f = b.itemProps, h = b.renderItem, i = b.renderItemData, j = b.sectionIndex, k = b.highlightedItemIndex, l = b.getItemId, m = b.theme, n = b.keyPrefix, o = null === j ? n : "".concat(n, "section-").concat(j, "-"), p = "function" == typeof f;
-        return (0, g.jsx)("ul", (0, e.default)((0, d.default)({
+        return (0, g.jsx)("ul", e(d({
             role: "listbox"
         }, m("".concat(o, "items-list"), "itemsList")), {
             children: c.map(function(b, c) {
                 var n = c === k, q = "".concat(o, "item-").concat(c), r = p ? f({
                     sectionIndex: j,
                     itemIndex: c
-                }) : f, s = (0, d.default)({
+                }) : f, s = d({
                     id: l(j, c),
                     "aria-selected": n
                 }, m(q, "item", 0 === c && "itemFirst", n && "itemHighlighted"), r);
-                return n && (s.ref = a.storeHighlightedItemReference), (0, g.jsx)(Item, (0, e.default)((0, d.default)({}, s), {
+                return n && (s.ref = a.storeHighlightedItemReference), (0, g.jsx)(Item, e(d({}, s), {
                     sectionIndex: j,
                     isHighlighted: n,
                     itemIndex: c,

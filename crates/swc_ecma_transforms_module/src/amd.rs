@@ -293,9 +293,10 @@ impl Amd {
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                let is_swc_helper = src.starts_with("@swc/helpers/src/");
+                let is_swc_detault_helper =
+                    !link_flag.has_named() && src.starts_with("@swc/helpers/");
 
-                if self.config.no_interop || is_swc_helper {
+                if self.config.no_interop || is_swc_detault_helper {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -318,7 +319,18 @@ impl Amd {
                     &new_var_ident,
                     &Some(mod_ident.clone()),
                     &mut false,
+                    is_swc_detault_helper,
                 );
+
+                if is_swc_detault_helper {
+                    stmts.push(
+                        mod_ident
+                            .clone()
+                            .make_member(quote_ident!("default"))
+                            .make_assign_to(op!("="), mod_ident.clone().as_pat_or_expr())
+                            .into_stmt(),
+                    )
+                }
 
                 if need_re_export || need_interop {
                     // _reExport(exports, mod);

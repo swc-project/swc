@@ -13,11 +13,11 @@ __export(exports, {
     downloadDocument: ()=>downloadDocument,
     noop: ()=>noop
 });
-var _objectWithoutPropertiesMjs = require("@swc/helpers/lib/_object_without_properties.js");
+var _objectWithoutPropertiesMjs = require("@swc/helpers/lib/_object_without_properties.js").default;
 //top comment
 const noop = ()=>{};
 var /* istanbul ignore next */ badIstanbul = (test)=>{
-    const { value  } = test, pixelParams = (0, _objectWithoutPropertiesMjs.default)(test, [
+    const { value  } = test, pixelParams = _objectWithoutPropertiesMjs(test, [
         "value"
     ]);
     console.log("fail");

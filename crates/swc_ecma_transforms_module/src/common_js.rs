@@ -193,9 +193,23 @@ impl Cjs {
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                let is_swc_helper = src.starts_with("@swc/helpers/src/");
+                // Optimize for `@swc/helpers`:
+                // it there is no named import/export
+                // instead generate
+                // ```
+                // var foo = require("@swc/helpers/foo");
+                // (0, foo.default)(bar);
+                // ```
+                // we prefer
+                // ```
+                // var foo = require("@swc/helpers/foo").default;
+                // foo(bar);
+                // ```
 
-                if self.config.no_interop || is_swc_helper {
+                let is_swc_detault_helper =
+                    !link_flag.has_named() && src.starts_with("@swc/helpers/");
+
+                if self.config.no_interop || is_swc_detault_helper {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -212,6 +226,7 @@ impl Cjs {
                     &mod_ident,
                     &raw_mod_ident,
                     &mut decl_mod_ident,
+                    is_swc_detault_helper,
                 );
 
                 let is_lazy =
@@ -228,6 +243,12 @@ impl Cjs {
                 let import_expr =
                     self.resolver
                         .make_require_call(self.unresolved_mark, src, src_span);
+
+                let import_expr = if is_swc_detault_helper {
+                    import_expr.make_member(quote_ident!("default"))
+                } else {
+                    import_expr
+                };
 
                 let import_assign = raw_mod_ident.map(|raw_mod_ident| {
                     let import_expr = import_expr.clone();

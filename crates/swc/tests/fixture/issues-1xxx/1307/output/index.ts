@@ -11,5 +11,5 @@ function __export(target, all) {
 __export(exports, {
     foo: ()=>_foo
 });
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js");
-var _foo = (0, _interopRequireWildcardMjs.default)(require("./foo"));
+var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _foo = _interopRequireWildcardMjs(require("./foo"));

@@ -11,10 +11,10 @@ function __export(target, all) {
 __export(exports, {
     RequestHandler: ()=>RequestHandler
 });
-var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js");
-var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js");
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js");
-var _nodeFetch = (0, _interopRequireDefaultMjs.default)(require("node-fetch"));
+var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
+var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
+var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _nodeFetch = _interopRequireDefaultMjs(require("node-fetch"));
 var _abortSignal = require("./misc/AbortSignal");
 var _errors = require("../../errors");
 var _utils = require("../../utils");
@@ -34,7 +34,7 @@ class RequestHandler {
      * Whether this handler is inactive or not.
      * @return {boolean}
      */ get inactive() {
-        return !(0, _classPrivateFieldGetMjs.default)(this, _queue).remaining && !this._limited;
+        return !_classPrivateFieldGetMjs(this, _queue).remaining && !this._limited;
     }
     /**
      * Whether the rate-limit bucket is currently limited.
@@ -91,7 +91,7 @@ class RequestHandler {
      *
      * @return {Promise<*>}
      */ async push(url, request) {
-        await (0, _classPrivateFieldGetMjs.default)(this, _queue).wait();
+        await _classPrivateFieldGetMjs(this, _queue).wait();
         try {
             await this.rest.globalTimeout;
             if (this._limited) {
@@ -113,7 +113,7 @@ class RequestHandler {
             }
             return this._make(url, request);
         } finally{
-            (0, _classPrivateFieldGetMjs.default)(this, _queue).next();
+            _classPrivateFieldGetMjs(this, _queue).next();
         }
     }
     /**
@@ -180,7 +180,7 @@ class RequestHandler {
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
      */ constructor(rest, id){
-        (0, _classPrivateFieldInitMjs.default)(this, _queue, {
+        _classPrivateFieldInitMjs(this, _queue, {
             writable: true,
             value: new _utils.AsyncQueue()
         });

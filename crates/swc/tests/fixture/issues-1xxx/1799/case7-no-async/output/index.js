@@ -13,8 +13,8 @@ __export(exports, {
         return Foo;
     }
 });
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js");
-var _react = (0, _interopRequireDefaultMjs.default)(require("react"));
+var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _react = _interopRequireDefaultMjs(require("react"));
 function Foo() {
     return call(function(e) {
         doSomething();

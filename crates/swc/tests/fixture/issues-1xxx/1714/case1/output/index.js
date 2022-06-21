@@ -13,6 +13,6 @@ __export(exports, {
         return _customRender.customRender;
     }
 });
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js");
+var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 var _customRender = require("./customRender");
 _re_export(exports, require("@testing-library/react"));

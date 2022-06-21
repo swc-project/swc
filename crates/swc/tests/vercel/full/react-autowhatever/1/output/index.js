@@ -11,13 +11,13 @@ Object.defineProperty(exports, "__esModule", {
         return k;
     }
 });
-var a = require("@swc/helpers/lib/_class_call_check.js"), b = require("@swc/helpers/lib/_inherits.js"), c = require("@swc/helpers/lib/_interop_require_default.js"), d = require("@swc/helpers/lib/_interop_require_wildcard.js"), e = require("@swc/helpers/lib/_object_spread.js"), f = require("@swc/helpers/lib/_object_spread_props.js"), g = require("@swc/helpers/lib/_create_super.js"), h = require("react/jsx-runtime"), i = (0, d.default)(require("react")), j = (0, c.default)(require("prop-types")), k = function(c) {
+var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@swc/helpers/lib/_inherits.js").default, c = require("@swc/helpers/lib/_interop_require_default.js").default, d = require("@swc/helpers/lib/_interop_require_wildcard.js").default, e = require("@swc/helpers/lib/_object_spread.js").default, f = require("@swc/helpers/lib/_object_spread_props.js").default, g = require("@swc/helpers/lib/_create_super.js").default, h = require("react/jsx-runtime"), i = d(require("react")), j = c(require("prop-types")), k = function(c) {
     "use strict";
-    (0, b.default)(k, c);
-    var d = (0, g.default)(k);
+    b(k, c);
+    var d = g(k);
     function k() {
         var b;
-        return (0, a.default)(this, k), b = d.apply(this, arguments), b.storeHighlightedItemReference = function(a) {
+        return a(this, k), b = d.apply(this, arguments), b.storeHighlightedItemReference = function(a) {
             b.props.onHighlightedItemChange(null === a ? null : a.item);
         }, b;
     }
@@ -26,18 +26,18 @@ var a = require("@swc/helpers/lib/_class_call_check.js"), b = require("@swc/help
         return !0;
     }, i.render = function() {
         var a = this, b = this.props, c = b.items, d = b.itemProps, g = b.renderItem, i = b.renderItemData, j = b.sectionIndex, k = b.highlightedItemIndex, l = b.getItemId, m = b.theme, n = b.keyPrefix, o = null === j ? n : "".concat(n, "section-").concat(j, "-"), p = "function" == typeof d;
-        return (0, h.jsx)("ul", (0, f.default)((0, e.default)({
+        return (0, h.jsx)("ul", f(e({
             role: "listbox"
         }, m("".concat(o, "items-list"), "itemsList")), {
             children: c.map(function(b, c) {
                 var n = c === k, q = "".concat(o, "item-").concat(c), r = p ? d({
                     sectionIndex: j,
                     itemIndex: c
-                }) : d, s = (0, e.default)({
+                }) : d, s = e({
                     id: l(j, c),
                     "aria-selected": n
                 }, m(q, "item", 0 === c && "itemFirst", n && "itemHighlighted"), r);
-                return n && (s.ref = a.storeHighlightedItemReference), (0, h.jsx)(Item, (0, f.default)((0, e.default)({}, s), {
+                return n && (s.ref = a.storeHighlightedItemReference), (0, h.jsx)(Item, f(e({}, s), {
                     sectionIndex: j,
                     isHighlighted: n,
                     itemIndex: c,

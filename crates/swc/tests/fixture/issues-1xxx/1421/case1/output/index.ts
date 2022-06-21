@@ -1,7 +1,7 @@
 "use strict";
-var _classCallCheckMjs = require("@swc/helpers/lib/_class_call_check.js");
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
-var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js");
+var _classCallCheckMjs = require("@swc/helpers/lib/_class_call_check.js").default;
+var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
+var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
 require("reflect-metadata");
 var COL_KEY = Symbol("col");
 var column = function() {
@@ -11,9 +11,9 @@ var column = function() {
 };
 var User = function User() {
     "use strict";
-    (0, _classCallCheckMjs.default)(this, User);
+    _classCallCheckMjs(this, User);
 };
-(0, _tsDecorateMjs.default)([
+_tsDecorateMjs([
     column(),
-    (0, _tsMetadataMjs.default)("design:type", String)
+    _tsMetadataMjs("design:type", String)
 ], User.prototype, "currency", void 0);

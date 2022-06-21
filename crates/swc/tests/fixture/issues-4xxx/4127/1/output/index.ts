@@ -11,12 +11,12 @@ function __export(target, all) {
 __export(exports, {
     default: ()=>_class
 });
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
+var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
 function test(constructor) {
     console.log(constructor);
 }
 let _class = class _class {
 };
-_class = (0, _tsDecorateMjs.default)([
+_class = _tsDecorateMjs([
     test
 ], _class);

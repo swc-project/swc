@@ -1,10 +1,10 @@
 "use strict";
-var _asyncIteratorMjs = require("@swc/helpers/lib/_async_iterator.js");
-var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js");
-var _definePropertyMjs = require("@swc/helpers/lib/_define_property.js");
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js");
-var _regeneratorRuntime = (0, _interopRequireDefaultMjs.default)(require("regenerator-runtime"));
-(0, _asyncToGeneratorMjs.default)(_regeneratorRuntime.default.mark(function _callee() {
+var _asyncIteratorMjs = require("@swc/helpers/lib/_async_iterator.js").default;
+var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
+var _definePropertyMjs = require("@swc/helpers/lib/_define_property.js").default;
+var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _regeneratorRuntime = _interopRequireDefaultMjs(require("regenerator-runtime"));
+_asyncToGeneratorMjs(_regeneratorRuntime.default.mark(function _callee() {
     var counter, resolve, promise, iterable, res, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, v, oldresolve;
     return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
@@ -14,21 +14,21 @@ var _regeneratorRuntime = (0, _interopRequireDefaultMjs.default)(require("regene
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                iterable = (0, _definePropertyMjs.default)({}, Symbol.asyncIterator, function() {
+                iterable = _definePropertyMjs({}, Symbol.asyncIterator, function() {
                     return {
                         next: function next() {
                             return promise;
                         }
                     };
                 });
-                res = (0, _asyncToGeneratorMjs.default)(_regeneratorRuntime.default.mark(function _callee() {
+                res = _asyncToGeneratorMjs(_regeneratorRuntime.default.mark(function _callee() {
                     var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value;
                     return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
                                 _iteratorAbruptCompletion = false, _didIteratorError = false;
                                 _ctx.prev = 1;
-                                _iterator = (0, _asyncIteratorMjs.default)(iterable);
+                                _iterator = _asyncIteratorMjs(iterable);
                             case 3:
                                 _ctx.next = 5;
                                 return _iterator.next();

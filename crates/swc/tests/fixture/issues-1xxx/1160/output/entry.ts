@@ -1,6 +1,6 @@
 "use strict";
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
-var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js");
+var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
+var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
 var MyEnum;
 (function(MyEnum) {
     MyEnum["x"] = "xxx";
@@ -8,9 +8,9 @@ var MyEnum;
 })(MyEnum || (MyEnum = {}));
 class Xpto {
 }
-(0, _tsDecorateMjs.default)([
+_tsDecorateMjs([
     Decorator(),
-    (0, _tsMetadataMjs.default)("design:type", String)
+    _tsMetadataMjs("design:type", String)
 ], Xpto.prototype, "value", void 0);
 function Decorator() {
     return function(...args) {};

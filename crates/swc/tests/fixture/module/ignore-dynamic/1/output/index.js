@@ -1,5 +1,5 @@
 "use strict";
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js");
+var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 var _foo = _interop_require_default(require("foo"));
 async function foo() {
     await import("foo");

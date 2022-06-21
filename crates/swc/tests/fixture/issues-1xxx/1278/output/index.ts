@@ -1,6 +1,6 @@
 "use strict";
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
-var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js");
+var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
+var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
 function MyDecorator(klass) {
     return ()=>{
         // do something
@@ -9,8 +9,8 @@ function MyDecorator(klass) {
 }
 class MyClass {
 }
-(0, _tsDecorateMjs.default)([
+_tsDecorateMjs([
     MyDecorator(MyClass),
-    (0, _tsMetadataMjs.default)("design:type", String)
+    _tsMetadataMjs("design:type", String)
 ], MyClass.prototype, "prop", void 0);
 console.log(new MyClass());

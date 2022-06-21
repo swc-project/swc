@@ -11,7 +11,7 @@ function __export(target, all) {
 __export(exports, {
     ServiceError: ()=>ServiceError
 });
-var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
+var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
 const CD = ()=>{};
 const PD = ()=>{};
 let ServiceError = class ServiceError extends Error {
@@ -21,10 +21,10 @@ let ServiceError = class ServiceError extends Error {
     }
     name = "ServiceError.BadResponse";
 };
-(0, _tsDecorateMjs.default)([
+_tsDecorateMjs([
     PD
 ], ServiceError.prototype, "code", void 0);
-ServiceError = (0, _tsDecorateMjs.default)([
+ServiceError = _tsDecorateMjs([
     CD
 ], ServiceError);
 (function(ServiceError1) {
