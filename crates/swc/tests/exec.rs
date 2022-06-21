@@ -58,14 +58,14 @@ fn init_helpers() -> Arc<PathBuf> {
 
         {
             dbg!(find_executable("yarn"));
-            let mut cmd = Command::new(find_executable("yarn").expect("failed to find npm"));
+            let mut cmd = Command::new(find_executable("yarn").expect("failed to find yarn"));
             cmd.current_dir(&helper_dir);
             let status = cmd.status().expect("failed to update swc core");
             assert!(status.success());
         }
 
         {
-            let mut cmd = Command::new(find_executable("yarn").expect("failed to find npm"));
+            let mut cmd = Command::new(find_executable("yarn").expect("failed to find yarn"));
             cmd.current_dir(&helper_dir).arg("build");
             let status = cmd.status().expect("failed to compile helper package");
             assert!(status.success());
