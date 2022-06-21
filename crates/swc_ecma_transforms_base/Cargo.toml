@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/**/*.js"]
 license = "Apache-2.0"
 name = "swc_ecma_transforms_base"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.89.5"
+version = "0.89.6"
 
 [lib]
 bench = false

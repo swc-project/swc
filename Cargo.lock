@@ -3354,7 +3354,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.44.1"
+version = "0.44.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3558,7 +3558,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.89.5"
+version = "0.89.6"
 dependencies = [
  "better_scoped_tls",
  "criterion",
