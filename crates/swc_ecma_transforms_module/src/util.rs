@@ -1081,20 +1081,18 @@ macro_rules! mark_as_nested {
     };
 }
 
-pub(crate) fn esm_export_one(target: ExprOrSpread, prop_name: ExprOrSpread, value: Expr) -> Expr {
+pub(crate) fn esm_export_one(
+    target: ExprOrSpread,
+    prop_name: ExprOrSpread,
+    prop: PropOrSpread,
+) -> Expr {
     object_define_property(
         target,
         prop_name,
         ObjectLit {
             span: DUMMY_SP,
             props: vec![
-                PropOrSpread::Prop(Box::new(
-                    KeyValueProp {
-                        key: quote_ident!("get").into(),
-                        value: Box::new(value),
-                    }
-                    .into(),
-                )),
+                prop,
                 PropOrSpread::Prop(Box::new(
                     KeyValueProp {
                         key: quote_ident!("enumerable").into(),
@@ -1118,10 +1116,15 @@ pub(crate) fn esm_export() -> Function {
     let all = private_ident!("all");
     let name = private_ident!("name");
 
+    let getter = KeyValueProp {
+        key: quote_ident!("get").into(),
+        value: Box::new(all.clone().computed_member(Expr::from(name.clone()))),
+    };
+
     let body = esm_export_one(
         target.clone().as_arg(),
         name.clone().as_arg(),
-        all.clone().computed_member(Expr::from(name.clone())),
+        PropOrSpread::Prop(Box::new(Prop::KeyValue(getter))),
     )
     .into_stmt();
 

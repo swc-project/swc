@@ -348,18 +348,10 @@ impl Cjs {
             0 | 1 => prop_list
                 .pop()
                 .map(|(prop_name, span, expr)| {
-                    let expr: Expr = if self.support_arrow {
-                        expr.into_lazy_arrow(Default::default()).into()
-                    } else {
-                        expr.into_lazy_fn(Default::default())
-                            .into_fn_expr(None)
-                            .into()
-                    };
-
                     esm_export_one(
                         self.exports().as_arg(),
                         quote_str!(span, prop_name).as_arg(),
-                        expr,
+                        prop_auto((js_word!("get"), DUMMY_SP, expr)),
                     )
                     .into_stmt()
                 })

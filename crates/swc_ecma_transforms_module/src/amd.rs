@@ -412,7 +412,7 @@ impl Amd {
         })
     }
 
-    fn export_stmts(&mut self, mut export_obj_prop_list: ExportObjPropList) -> Vec<Stmt> {
+    fn export_stmts(&mut self, mut prop_list: ExportObjPropList) -> Vec<Stmt> {
         let prop_auto = if self.support_arrow {
             prop_arrow
         } else if self.support_shorthand {
@@ -421,30 +421,22 @@ impl Amd {
             prop_function
         };
 
-        match export_obj_prop_list.len() {
-            0 | 1 => export_obj_prop_list
+        match prop_list.len() {
+            0 | 1 => prop_list
                 .pop()
                 .map(|(prop_name, span, expr)| {
-                    let expr: Expr = if self.support_arrow {
-                        expr.into_lazy_arrow(Default::default()).into()
-                    } else {
-                        expr.into_lazy_fn(Default::default())
-                            .into_fn_expr(None)
-                            .into()
-                    };
-
                     esm_export_one(
                         self.exports().as_arg(),
                         quote_str!(span, prop_name).as_arg(),
-                        expr,
+                        prop_auto((js_word!("get"), DUMMY_SP, expr)),
                     )
                     .into_stmt()
                 })
                 .into_iter()
                 .collect(),
             _ => {
-                export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
-                let props = export_obj_prop_list.into_iter().map(prop_auto).collect();
+                prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+                let props = prop_list.into_iter().map(prop_auto).collect();
                 let obj_lit = ObjectLit {
                     span: DUMMY_SP,
                     props,
