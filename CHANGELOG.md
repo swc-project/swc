@@ -5,6 +5,9 @@
 
 
 
+- **(es/lints)** Allow duplicate function in non-top level (#5011) ([4a422a0](https://github.com/swc-project/swc/commit/4a422a09a4a933b7db085d936d16dbf53e518956))
+
+
 - **(es/parser)** Don't panic on an invalid import meta property (#4994) ([53a8cb1](https://github.com/swc-project/swc/commit/53a8cb12094b15aed1667f844abfefea1420d3d2))
 
 
