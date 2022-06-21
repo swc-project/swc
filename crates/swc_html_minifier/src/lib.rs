@@ -859,15 +859,19 @@ impl Minifier {
                                 }
                             }
                             None => {
-                                if let Some(Child::Text(Text { data, .. })) = &self.latest_element {
-                                    let parent_display = self.get_display(namespace, &**tag_name);
+                                let parent_display = self.get_display(namespace, &**tag_name);
 
-                                    match parent_display {
-                                        Display::Block | Display::InlineBlock => true,
-                                        _ => data.ends_with(is_whitespace),
+                                match parent_display {
+                                    Display::Block | Display::InlineBlock => true,
+                                    _ => {
+                                        if let Some(Child::Text(Text { data, .. })) =
+                                            &self.latest_element
+                                        {
+                                            data.ends_with(is_whitespace)
+                                        } else {
+                                            false
+                                        }
                                     }
-                                } else {
-                                    true
                                 }
                             }
                         };
@@ -889,10 +893,7 @@ impl Minifier {
                             None => {
                                 let parent_display = self.get_display(namespace, &**tag_name);
 
-                                match parent_display {
-                                    Display::Block | Display::InlineBlock => true,
-                                    _ => false,
-                                }
+                                matches!(parent_display, Display::Block | Display::InlineBlock)
                             }
                         };
                     }
