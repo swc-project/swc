@@ -104,7 +104,7 @@ Object.defineProperty(exports, \\"default\\", {
     get: ()=>foo,
     enumerable: true
 });
-var _jsxRuntime = require(\\"react/jsx-runtime\\");
+const _jsxRuntime = require(\\"react/jsx-runtime\\");
 function foo() {
     return /*#__PURE__*/ (0, _jsxRuntime.jsx)(\\"div\\", {
         children: \\"Hello\\"
