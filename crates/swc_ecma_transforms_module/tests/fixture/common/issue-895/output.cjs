@@ -2,14 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    setup: ()=>setup
+Object.defineProperty(exports, "setup", {
+    get: ()=>setup,
+    enumerable: true
 });
 var _url = require("./url");
 function setup(url, obj) {

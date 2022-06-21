@@ -2,14 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    AppController: ()=>AppController
+Object.defineProperty(exports, "AppController", {
+    get: ()=>AppController,
+    enumerable: true
 });
 var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
 var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;

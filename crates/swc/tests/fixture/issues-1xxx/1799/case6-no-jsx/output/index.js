@@ -2,16 +2,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    default: function() {
+Object.defineProperty(exports, "default", {
+    get: function() {
         return Foo;
-    }
+    },
+    enumerable: true
 });
 var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
 var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;

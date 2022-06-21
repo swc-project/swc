@@ -2,14 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    A: ()=>A
+Object.defineProperty(exports, "A", {
+    get: ()=>A,
+    enumerable: true
 });
 var _b = require("./B");
 console.log(_b.B);

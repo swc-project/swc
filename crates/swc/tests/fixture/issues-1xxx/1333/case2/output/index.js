@@ -2,14 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    Shard: ()=>Shard
+Object.defineProperty(exports, "Shard", {
+    get: ()=>Shard,
+    enumerable: true
 });
 var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
 var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;

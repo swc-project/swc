@@ -2,13 +2,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    Foo: ()=>_foo.Foo
+Object.defineProperty(exports, "Foo", {
+    get: ()=>_foo.Foo,
+    enumerable: true
 });
 var _foo = _interopRequireWildcard(require("foo"));

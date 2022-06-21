@@ -6,14 +6,9 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    function __export(target, all) {
-        for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
-        });
-    }
-    __export(exports, {
-        default: ()=>_default
+    Object.defineProperty(exports, "default", {
+        get: ()=>_default,
+        enumerable: true
     });
     var _default = function() {
         return "foo";

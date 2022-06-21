@@ -2,13 +2,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    namespace: ()=>_foo
+Object.defineProperty(exports, "namespace", {
+    get: ()=>_foo,
+    enumerable: true
 });
 var _foo = _interopRequireWildcard(require("./foo"));

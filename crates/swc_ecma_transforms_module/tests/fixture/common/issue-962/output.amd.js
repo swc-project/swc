@@ -8,14 +8,9 @@ define([
     Object.defineProperty(exports1, "__esModule", {
         value: true
     });
-    function __export(target, all) {
-        for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
-        });
-    }
-    __export(exports1, {
-        default: ()=>_default
+    Object.defineProperty(exports1, "default", {
+        get: ()=>_default,
+        enumerable: true
     });
     _rootJs = _interopRequireDefault(_rootJs);
     _stubFalseJs = _interopRequireDefault(_stubFalseJs);

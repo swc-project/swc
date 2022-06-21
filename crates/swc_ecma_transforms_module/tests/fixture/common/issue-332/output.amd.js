@@ -7,14 +7,9 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    function __export(target, all) {
-        for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
-        });
-    }
-    __export(exports, {
-        bar: ()=>bar
+    Object.defineProperty(exports, "bar", {
+        get: ()=>bar,
+        enumerable: true
     });
     _foo = _interopRequireDefault(_foo);
     const bar = {

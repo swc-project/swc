@@ -2,14 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    id: ()=>_interfaces.id
+Object.defineProperty(exports, "id", {
+    get: ()=>_interfaces.id,
+    enumerable: true
 });
 require("reflect-metadata");
 _reExport(exports, require("./http"));

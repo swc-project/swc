@@ -2,16 +2,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    App: function() {
+Object.defineProperty(exports, "App", {
+    get: function() {
         return App;
-    }
+    },
+    enumerable: true
 });
 var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
 var _slicedToArrayMjs = require("@swc/helpers/lib/_sliced_to_array.js").default;

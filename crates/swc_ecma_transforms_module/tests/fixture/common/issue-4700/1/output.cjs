@@ -2,14 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    whatever: ()=>whatever
+Object.defineProperty(exports, "whatever", {
+    get: ()=>whatever,
+    enumerable: true
 });
 _reExport(exports, require("another-module"));
 function whatever(notExportName) {

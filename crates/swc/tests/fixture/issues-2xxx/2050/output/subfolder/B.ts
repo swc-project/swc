@@ -2,13 +2,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    B: ()=>B
+Object.defineProperty(exports, "B", {
+    get: ()=>B,
+    enumerable: true
 });
 const B = 500;

@@ -96,25 +96,20 @@ it("module config should merged correctly", async () => {
     });
     // It should transpile react jsx with automatic runtime
     expect(code).toMatchInlineSnapshot(`
-        "\\"use strict\\";
-        Object.defineProperty(exports, \\"__esModule\\", {
-            value: true
-        });
-        function __export(target, all) {
-            for(var name in all)Object.defineProperty(target, name, {
-                get: all[name],
-                enumerable: true
-            });
-        }
-        __export(exports, {
-            default: ()=>foo
-        });
-        var _jsxRuntime = require(\\"react/jsx-runtime\\");
-        function foo() {
-            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(\\"div\\", {
-                children: \\"Hello\\"
-            });
-        }
-        "
-    `);
+"\\"use strict\\";
+Object.defineProperty(exports, \\"__esModule\\", {
+    value: true
+});
+Object.defineProperty(exports, \\"default\\", {
+    get: ()=>foo,
+    enumerable: true
+});
+var _jsxRuntime = require(\\"react/jsx-runtime\\");
+function foo() {
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(\\"div\\", {
+        children: \\"Hello\\"
+    });
+}
+"
+`);
 });

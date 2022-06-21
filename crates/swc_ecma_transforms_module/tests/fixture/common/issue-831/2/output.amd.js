@@ -6,14 +6,9 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    function __export(target, all) {
-        for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
-        });
-    }
-    __export(exports, {
-        myGenerator: ()=>myGenerator
+    Object.defineProperty(exports, "myGenerator", {
+        get: ()=>myGenerator,
+        enumerable: true
     });
     function* myGenerator() {
         yield* [

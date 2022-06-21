@@ -2,14 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
-    });
-}
-__export(exports, {
-    getPackage: ()=>getPackage
+Object.defineProperty(exports, "getPackage", {
+    get: ()=>getPackage,
+    enumerable: true
 });
 var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 var _path = require("path");
