@@ -1,5 +1,11 @@
 "use strict";
-var _foo = require("foo");
+function _foo() {
+    var data = require("foo");
+    _foo = function() {
+        return data;
+    };
+    return data;
+}
 function use() {
-    console.log(_foo.foo);
+    console.log(_foo().foo);
 }

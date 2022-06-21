@@ -1,12 +1,10 @@
-use std::path::PathBuf;
+use std::{fs::File, path::PathBuf};
 
 use swc_common::{chain, Mark};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::{
     feature::{enable_available_feature_from_es_version, FeatureSet},
-    fixer::fixer,
-    hygiene::hygiene,
     resolver,
 };
 use swc_ecma_transforms_module::common_js::{self, common_js};
@@ -32,8 +30,6 @@ fn tr(config: common_js::Config) -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         common_js(unresolved_mark, config, Default::default(), avalible_set),
-        hygiene(),
-        fixer(None)
     )
 }
 
@@ -54,8 +50,6 @@ fn ts_tr(config: common_js::Config) -> impl Fold {
             top_level_mark
         ),
         common_js(unresolved_mark, config, Default::default(), avalible_set),
-        hygiene(),
-        fixer(None)
     )
 }
 
@@ -65,7 +59,13 @@ fn esm_to_cjs(input: PathBuf) {
 
     let output = dir.join("output.cjs");
 
-    test_fixture(syntax(), &|_| tr(Default::default()), &input, &output);
+    let config_path = dir.join("module.json");
+    let config: common_js::Config = match File::open(config_path) {
+        Ok(file) => serde_json::from_reader(file).unwrap(),
+        Err(..) => Default::default(),
+    };
+
+    test_fixture(syntax(), &|_| tr(config.clone()), &input, &output);
 }
 
 "#
@@ -4179,5 +4179,11 @@ fn ts_to_cjs(input: PathBuf) {
 
     let output = dir.join("output.cjs");
 
-    test_fixture(ts_syntax(), &|_| ts_tr(Default::default()), &input, &output);
+    let config_path = dir.join("module.json");
+    let config: common_js::Config = match File::open(config_path) {
+        Ok(file) => serde_json::from_reader(file).unwrap(),
+        Err(..) => Default::default(),
+    };
+
+    test_fixture(ts_syntax(), &|_| ts_tr(config.clone()), &input, &output);
 }

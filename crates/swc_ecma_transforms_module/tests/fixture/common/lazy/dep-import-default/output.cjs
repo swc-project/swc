@@ -1,5 +1,11 @@
 "use strict";
-var _foo = _interopRequireDefault(require("foo"));
+function _foo() {
+    var data = _interopRequireDefault(require("foo"));
+    _foo = function() {
+        return data;
+    };
+    return data;
+}
 function use() {
-    console.log(_foo.default);
+    console.log(_foo().default);
 }

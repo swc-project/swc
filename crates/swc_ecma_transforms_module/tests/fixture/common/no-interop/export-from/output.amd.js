@@ -11,5 +11,4 @@ define([
         get: ()=>_foo.default,
         enumerable: true
     });
-    _foo = _interopRequireDefault(_foo);
 });

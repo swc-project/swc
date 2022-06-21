@@ -3,7 +3,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "namespace", {
-    get: ()=>_foo,
+    get: ()=>_foo(),
     enumerable: true
 });
-var _foo = _interopRequireWildcard(require("foo"));
+function _foo() {
+    var data = _interopRequireWildcard(require("foo"));
+    _foo = function() {
+        return data;
+    };
+    return data;
+}

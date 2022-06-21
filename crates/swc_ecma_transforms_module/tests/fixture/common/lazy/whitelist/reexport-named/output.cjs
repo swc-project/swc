@@ -9,8 +9,14 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    named1: ()=>_white.named1,
+    named1: ()=>_white().named1,
     named2: ()=>_black.named2
 });
-var _white = require("white");
+function _white() {
+    var data = require("white");
+    _white = function() {
+        return data;
+    };
+    return data;
+}
 var _black = require("black");

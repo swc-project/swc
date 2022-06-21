@@ -1,2 +1,8 @@
 "use strict";
-var _ora = _interopRequireWildcard(require("ora"));
+function _ora() {
+    var data = _interopRequireWildcard(require("ora"));
+    _ora = function() {
+        return data;
+    };
+    return data;
+}

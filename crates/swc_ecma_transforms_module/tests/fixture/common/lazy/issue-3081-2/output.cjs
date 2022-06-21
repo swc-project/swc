@@ -1,7 +1,13 @@
 "use strict";
-var _lib = require("lib");
-function myFn() {
-    (0, _lib.fn)();
+function _lib() {
+    var data = require("lib");
+    _lib = function() {
+        return data;
+    };
+    return data;
 }
-class MyClass extends _lib.Klass {
+function myFn() {
+    (0, _lib().fn)();
+}
+class MyClass extends _lib().Klass {
 }

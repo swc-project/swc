@@ -6,4 +6,10 @@ Object.defineProperty(exports, "named1", {
     get: ()=>_external.named1,
     enumerable: true
 });
-var _external = require("external");
+function _external() {
+    var data = require("external");
+    _external = function() {
+        return data;
+    };
+    return data;
+}

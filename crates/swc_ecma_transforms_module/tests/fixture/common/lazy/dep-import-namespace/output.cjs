@@ -1,5 +1,11 @@
 "use strict";
-var _foo = _interopRequireWildcard(require("foo"));
+function _foo() {
+    var data = _interopRequireWildcard(require("foo"));
+    _foo = function() {
+        return data;
+    };
+    return data;
+}
 function use() {
-    console.log(_foo);
+    console.log(_foo());
 }
