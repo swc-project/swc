@@ -124,7 +124,7 @@ fn test_minify_document_fragment(input: PathBuf) {
                 context_element_tag_name = tag_name;
             }
         } else {
-            context_element_tag_name = &context_element;
+            context_element_tag_name = context_element;
         }
 
         let context_element = Element {
