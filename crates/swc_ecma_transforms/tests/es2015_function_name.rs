@@ -312,16 +312,12 @@ export default class Login extends React.Component {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-function __export(target, all) {
-  for(var name in all)Object.defineProperty(target, name, {
-      get: all[name],
-      enumerable: true
-  });
-}
-__export(exports, {
-  default: function() {
+
+Object.defineProperty(exports, "default", {
+  get: function() {
       return Login;
-  }
+  },
+  enumerable: true
 });
 
 var _store = require("./store");
