@@ -848,7 +848,7 @@ impl Minifier {
                         };
 
                         is_smart_left_trim = match prev_display {
-                            Some(Display::Block) => true,
+                            Some(Display::Block | Display::Table) => true,
                             Some(_) => {
                                 let deep = self.get_deep_text_element_last(prev.as_mut().unwrap());
 
