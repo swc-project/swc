@@ -266,12 +266,12 @@ impl Scope {
                     }))
                 })
                 .chain(iter::once(
-                    define_property(vec![
+                    object_define_property(
                         exports.as_arg(),
                         key_ident.clone().as_arg(),
                         make_descriptor(Box::new(imported.clone().computed_member(key_ident)))
                             .as_arg(),
-                    ])
+                    )
                     .into_stmt(),
                 ))
                 .collect(),
@@ -888,14 +888,21 @@ pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
     format!("_{}", src.split('/').last().unwrap().to_camel_case()).into()
 }
 
-pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
-    Expr::Call(CallExpr {
-        span: DUMMY_SP,
-        callee: member_expr!(DUMMY_SP, Object.defineProperty).as_callee(),
-        args,
-
-        type_args: Default::default(),
-    })
+/// Creates
+///
+///```js
+/// 
+///  Object.defineProperty(target, prop_name, {
+///      ...props
+///  });
+/// ```
+pub(super) fn object_define_property(
+    target: ExprOrSpread,
+    prop_name: ExprOrSpread,
+    descriptor: ExprOrSpread,
+) -> Expr {
+    member_expr!(DUMMY_SP, Object.defineProperty)
+        .as_call(DUMMY_SP, vec![target, prop_name, descriptor])
 }
 
 /// Creates
@@ -907,9 +914,9 @@ pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
 ///  });
 /// ```
 pub(super) fn define_es_module(exports: Ident) -> Stmt {
-    define_property(vec![
+    object_define_property(
         exports.as_arg(),
-        Lit::Str(quote_str!("__esModule")).as_arg(),
+        quote_str!("__esModule").as_arg(),
         ObjectLit {
             span: DUMMY_SP,
             props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
@@ -918,7 +925,7 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
             })))],
         }
         .as_arg(),
-    ])
+    )
     .into_stmt()
 }
 
@@ -1073,6 +1080,34 @@ macro_rules! mark_as_nested {
         }
     };
 }
+
+pub(crate) fn esm_export_one(target: ExprOrSpread, prop_name: ExprOrSpread, value: Expr) -> Expr {
+    object_define_property(
+        target,
+        prop_name,
+        ObjectLit {
+            span: DUMMY_SP,
+            props: vec![
+                PropOrSpread::Prop(Box::new(
+                    KeyValueProp {
+                        key: quote_ident!("get").into(),
+                        value: Box::new(value),
+                    }
+                    .into(),
+                )),
+                PropOrSpread::Prop(Box::new(
+                    KeyValueProp {
+                        key: quote_ident!("enumerable").into(),
+                        value: Box::new(true.into()),
+                    }
+                    .into(),
+                )),
+            ],
+        }
+        .as_arg(),
+    )
+}
+
 /// ```javascript
 /// function _esmExport(target, all) {
 ///    for (var name in all)Object.defineProperty(target, name, { get: all[name], enumerable: true });
@@ -1083,37 +1118,12 @@ pub(crate) fn esm_export() -> Function {
     let all = private_ident!("all");
     let name = private_ident!("name");
 
-    let body = member_expr!(DUMMY_SP, Object.defineProperty)
-        .as_call(
-            DUMMY_SP,
-            vec![
-                target.clone().as_arg(),
-                name.clone().as_arg(),
-                ObjectLit {
-                    span: DUMMY_SP,
-                    props: vec![
-                        PropOrSpread::Prop(Box::new(
-                            KeyValueProp {
-                                key: quote_ident!("get").into(),
-                                value: Box::new(
-                                    all.clone().computed_member(Expr::from(name.clone())),
-                                ),
-                            }
-                            .into(),
-                        )),
-                        PropOrSpread::Prop(Box::new(
-                            KeyValueProp {
-                                key: quote_ident!("enumerable").into(),
-                                value: Box::new(true.into()),
-                            }
-                            .into(),
-                        )),
-                    ],
-                }
-                .as_arg(),
-            ],
-        )
-        .into_stmt();
+    let body = esm_export_one(
+        target.clone().as_arg(),
+        name.clone().as_arg(),
+        all.clone().computed_member(Expr::from(name.clone())),
+    )
+    .into_stmt();
 
     let for_in_stmt: Stmt = ForInStmt {
         span: DUMMY_SP,

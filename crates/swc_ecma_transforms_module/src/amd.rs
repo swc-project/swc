@@ -22,12 +22,14 @@ pub struct Config {
 }
 
 use crate::{
-    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
+    module_decl_strip::{
+        Export, ExportObjPropList, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
+    },
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        define_es_module, esm_export, has_use_strict, local_name_for_src, prop_arrow,
-        prop_function, prop_method, use_strict,
+        define_es_module, esm_export, esm_export_one, has_use_strict, local_name_for_src,
+        prop_arrow, prop_function, prop_method, use_strict,
     },
 };
 
@@ -392,43 +394,13 @@ impl Amd {
             },
         );
 
-        let esm_export_ident = private_ident!("__export");
-
-        let should_export = !export_obj_prop_list.is_empty();
-
-        let export_define = should_export
-            .then(|| esm_export().into_fn_decl(esm_export_ident.clone()).into())
-            .map(Stmt::Decl);
-
-        let prop_auto = if self.support_arrow {
-            prop_arrow
-        } else if self.support_shorthand {
-            prop_method
-        } else {
-            prop_function
-        };
-
-        let export_call = should_export.then(|| {
-            export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
-
-            let props = export_obj_prop_list.into_iter().map(prop_auto).collect();
-
-            let obj_lit = ObjectLit {
-                span: DUMMY_SP,
-                props,
-            };
-
-            esm_export_ident
-                .as_call(DUMMY_SP, vec![self.exports().as_arg(), obj_lit.as_arg()])
-                .into_stmt()
-        });
+        let export_stmts = self.export_stmts(export_obj_prop_list);
 
         self.exports
             .clone()
             .map(define_es_module)
             .into_iter()
-            .chain(export_define)
-            .chain(export_call)
+            .chain(export_stmts)
             .chain(stmts)
     }
 
@@ -438,6 +410,58 @@ impl Amd {
             self.exports = Some(new_ident.clone());
             new_ident
         })
+    }
+
+    fn export_stmts(&mut self, mut export_obj_prop_list: ExportObjPropList) -> Vec<Stmt> {
+        let prop_auto = if self.support_arrow {
+            prop_arrow
+        } else if self.support_shorthand {
+            prop_method
+        } else {
+            prop_function
+        };
+
+        match export_obj_prop_list.len() {
+            0 | 1 => export_obj_prop_list
+                .pop()
+                .map(|(prop_name, span, expr)| {
+                    let expr: Expr = if self.support_arrow {
+                        expr.into_lazy_arrow(Default::default()).into()
+                    } else {
+                        expr.into_lazy_fn(Default::default())
+                            .into_fn_expr(None)
+                            .into()
+                    };
+
+                    esm_export_one(
+                        self.exports().as_arg(),
+                        quote_str!(span, prop_name).as_arg(),
+                        expr,
+                    )
+                    .into_stmt()
+                })
+                .into_iter()
+                .collect(),
+            _ => {
+                export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+                let props = export_obj_prop_list.into_iter().map(prop_auto).collect();
+                let obj_lit = ObjectLit {
+                    span: DUMMY_SP,
+                    props,
+                };
+
+                let esm_export_ident = private_ident!("__export");
+
+                vec![
+                    Stmt::Decl(Decl::Fn(
+                        esm_export().into_fn_decl(esm_export_ident.clone()),
+                    )),
+                    esm_export_ident
+                        .as_call(DUMMY_SP, vec![self.exports().as_arg(), obj_lit.as_arg()])
+                        .into_stmt(),
+                ]
+            }
+        }
     }
 
     fn module(&mut self) -> Ident {

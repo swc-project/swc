@@ -501,6 +501,7 @@ impl LinkItem {
     }
 }
 
+/// (exported_name, exported_span, expr)
 pub type ExportObjPropList = Vec<(JsWord, Span, Expr)>;
 
 /// Reduce self to generate ImportMap and ExportObjPropList

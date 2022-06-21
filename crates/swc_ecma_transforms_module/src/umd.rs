@@ -14,10 +14,13 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 use self::config::BuiltConfig;
 pub use self::config::Config;
 use super::util::{
-    self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
-    local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
+    self, define_es_module, has_use_strict, initialize_to_undefined, local_name_for_src,
+    make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, Resolver};
+use crate::{
+    path::{ImportResolver, Resolver},
+    util::object_define_property,
+};
 
 mod config;
 
@@ -426,7 +429,7 @@ impl Fold for Umd {
                                     );
                                 } else {
                                     stmts.push(
-                                        define_property(vec![
+                                        object_define_property(
                                             exports_ident.clone().as_arg(),
                                             {
                                                 // export { foo }
@@ -438,7 +441,7 @@ impl Fold for Umd {
                                                 quote_str!(i.span, i.sym).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),
-                                        ])
+                                        )
                                         .into_stmt(),
                                     );
                                 }
