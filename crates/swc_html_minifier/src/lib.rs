@@ -5,7 +5,6 @@ use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, Mark, SourceMap};
-use swc_css_ast::Ident;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
@@ -919,7 +918,7 @@ impl Minifier {
                         span: Default::default(),
                         rules: vec![swc_css_ast::Rule::AtRule(swc_css_ast::AtRule {
                             span: Default::default(),
-                            name: swc_css_ast::AtRuleName::Ident(Ident {
+                            name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                 span: Default::default(),
                                 value: "media".into(),
                                 raw: "media".into(),
@@ -930,7 +929,7 @@ impl Minifier {
                             block: Some(swc_css_ast::SimpleBlock {
                                 span: Default::default(),
                                 name: '{',
-                                // TODO make options `compress-empty` for CSS minifier and disable
+                                // TODO make the `compress_empty` option for CSS minifier and remove
                                 // it
                                 value: vec![swc_css_ast::ComponentValue::Str(swc_css_ast::Str {
                                     span: Default::default(),
