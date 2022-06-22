@@ -18,6 +18,8 @@ pub struct MinifyOptions {
     #[serde(default = "true_by_default")]
     pub remove_empty_attributes: bool,
     #[serde(default = "true_by_default")]
+    pub remove_redundant_attributes: bool,
+    #[serde(default = "true_by_default")]
     pub collapse_boolean_attributes: bool,
     #[serde(default = "true_by_default")]
     pub minify_js: bool,
