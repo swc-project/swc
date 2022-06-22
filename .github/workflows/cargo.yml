@@ -314,8 +314,6 @@ jobs:
             os: ubuntu-latest
           - crate: swc_visit_macros
             os: ubuntu-latest
-          - crate: swc_webpack_ast
-            os: ubuntu-latest
           - crate: testing
             os: ubuntu-latest
           - crate: testing_macros
