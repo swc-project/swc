@@ -215,6 +215,8 @@ static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "media"),
 ];
 
+static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[("style", "media")];
+
 static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
     "class",
     "part",
@@ -378,6 +380,20 @@ impl Minifier {
                 && attribute_value
                     .contains(&&*attribute.value.as_ref().unwrap().to_ascii_lowercase())
         })
+    fn is_html_comma_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
+        COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
+    }
+
+    fn is_svg_comma_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
+        COMMA_SEPARATED_SVG_ATTRIBUTES.contains(&(tag_name, attribute_name))
+    }
+
+    fn is_global_space_separated_attribute(&self, name: &str) -> bool {
+        SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_html_space_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
+        SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
     }
 
     fn is_default_attribute_value(
@@ -1192,6 +1208,33 @@ impl VisitMut for Minifier {
 
             value = values.join(" ");
         } else if self.is_comma_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
+        } else if self.is_global_comma_separated_attribute(&n.name)
+            || (is_element_html_namespace
+                && ((&n.name == "content"
+                    && self
+                        .current_element
+                        .as_ref()
+                        .unwrap()
+                        .attributes
+                        .iter()
+                        .any(|attribute| match &*attribute.name.to_ascii_lowercase() {
+                            "name"
+                                if attribute.value.is_some()
+                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
+                                        == "viewport" =>
+                            {
+                                true
+                            }
+                            _ => false,
+                        }))
+                    || self.is_html_comma_separated_attribute(
+                        &*self.current_element.as_ref().unwrap().tag_name,
+                        &n.name,
+                    ))
+                || self.is_svg_comma_separated_attribute(
+                    &*self.current_element.as_ref().unwrap().tag_name,
+                    &n.name,
+                ))
         {
             let values = value.trim().split(',');
 
