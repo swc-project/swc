@@ -279,6 +279,7 @@ struct Minifier {
     collapse_whitespaces: Option<CollapseWhitespaces>,
 
     remove_empty_attributes: bool,
+    remove_redundant_attributes: bool,
     collapse_boolean_attributes: bool,
     minify_json: bool,
     minify_js: bool,
@@ -857,6 +858,7 @@ impl Minifier {
                 force_set_html5_doctype: self.force_set_html5_doctype,
                 collapse_whitespaces: self.collapse_whitespaces.clone(),
                 remove_empty_attributes: self.remove_empty_attributes,
+                remove_redundant_attributes: self.remove_empty_attributes,
                 collapse_boolean_attributes: self.collapse_boolean_attributes,
                 minify_js: self.minify_js,
                 minify_json: self.minify_json,
@@ -953,23 +955,25 @@ impl VisitMut for Minifier {
                 return true;
             }
 
-            if self.is_default_attribute_value(
-                n.namespace,
-                &n.tag_name,
-                &attribute.name,
-                match &*n.tag_name {
-                    "script" if matches!(n.namespace, Namespace::HTML | Namespace::SVG) => {
-                        let original_value = attribute.value.as_ref().unwrap();
+            if self.remove_redundant_attributes
+                && self.is_default_attribute_value(
+                    n.namespace,
+                    &n.tag_name,
+                    &attribute.name,
+                    match &*n.tag_name {
+                        "script" if matches!(n.namespace, Namespace::HTML | Namespace::SVG) => {
+                            let original_value = attribute.value.as_ref().unwrap();
 
-                        if let Some(next) = original_value.split(';').next() {
-                            next
-                        } else {
-                            original_value
+                            if let Some(next) = original_value.split(';').next() {
+                                next
+                            } else {
+                                original_value
+                            }
                         }
-                    }
-                    _ => attribute.value.as_ref().unwrap(),
-                },
-            ) {
+                        _ => attribute.value.as_ref().unwrap(),
+                    },
+                )
+            {
                 return false;
             }
 
@@ -1311,6 +1315,7 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         collapse_whitespaces: options.collapse_whitespaces.clone(),
 
         remove_empty_attributes: options.remove_empty_attributes,
+        remove_redundant_attributes: options.remove_redundant_attributes,
         collapse_boolean_attributes: options.collapse_boolean_attributes,
 
         minify_js: options.minify_js,
