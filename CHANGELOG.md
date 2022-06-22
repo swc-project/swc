@@ -22,6 +22,9 @@
 
 - **(html/minifier)** Avoid optional attributes (#5016) ([f1fd83d](https://github.com/swc-project/swc/commit/f1fd83dcc70aff7d27d0bd0d4f0954dc5dc8cbbd))
 
+
+- **(html/minifier)** Compress more complex attributes (#5024) ([c61babd](https://github.com/swc-project/swc/commit/c61babd9af822491d2af4295638df0483748d2e0))
+
 ### Documentation
 
 
