@@ -309,7 +309,7 @@ where
         c
     }
 
-    #[inline(always)]
+    #[cold]
     fn emit_error(&mut self, kind: ErrorKind) {
         self.errors.push(Error::new(
             Span::new(self.cur_pos, self.input.cur_pos(), Default::default()),
