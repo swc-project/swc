@@ -4187,30 +4187,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_webpack_ast"
-version = "0.108.0"
-dependencies = [
- "anyhow",
- "rayon",
- "serde",
- "serde_json",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_parser",
- "swc_ecma_transforms_base",
- "swc_ecma_transforms_testing",
- "swc_ecma_utils",
- "swc_ecma_visit",
- "swc_estree_ast",
- "swc_estree_compat",
- "swc_node_base",
- "swc_timer",
- "testing",
- "tracing",
-]
-
-[[package]]
 name = "syn"
 version = "1.0.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
