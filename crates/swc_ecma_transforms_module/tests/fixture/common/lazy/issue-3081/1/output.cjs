@@ -11,6 +11,6 @@ function log() {
 }
 const other = ()=>{
     const nestedClosure = ()=>{
-        (0, _childProcess().spawn)("ls");
+        _childProcess().spawn("ls");
     };
 };
