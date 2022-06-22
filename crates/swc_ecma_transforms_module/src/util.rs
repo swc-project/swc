@@ -1081,7 +1081,7 @@ macro_rules! mark_as_nested {
     };
 }
 
-pub(crate) fn esm_export_one(
+pub(crate) fn object_define_enumerable(
     target: ExprOrSpread,
     prop_name: ExprOrSpread,
     prop: PropOrSpread,
@@ -1121,7 +1121,7 @@ pub(crate) fn esm_export() -> Function {
         value: Box::new(all.clone().computed_member(Expr::from(name.clone()))),
     };
 
-    let body = esm_export_one(
+    let body = object_define_enumerable(
         target.clone().as_arg(),
         name.clone().as_arg(),
         PropOrSpread::Prop(Box::new(Prop::KeyValue(getter))),
@@ -1155,6 +1155,93 @@ pub(crate) fn esm_export() -> Function {
             span: DUMMY_SP,
             stmts: vec![for_in_stmt],
         }),
+        is_generator: false,
+        is_async: false,
+        type_params: None,
+        return_type: None,
+    }
+}
+
+/// function _exportStar(from, to) {
+///   Object.keys(from).forEach(function (k) {
+///     if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k))
+///         Object.defineProperty(to, k, {
+///             enumerable: true,
+///             get: function () { return from[k]; }
+///         });
+///   });
+///   return from;
+/// }
+pub(crate) fn esm_export_star() -> Function {
+    let from = private_ident!("from");
+    let to = private_ident!("to");
+    let key = private_ident!("k");
+
+    let test = key
+        .clone()
+        .make_bin(op!("!=="), quote_str!("default"))
+        .make_bin(
+            op!("&&"),
+            member_expr!(DUMMY_SP, Object.prototype.hasOwnProperty.call)
+                .as_call(DUMMY_SP, vec![to.clone().as_arg(), key.clone().as_arg()])
+                .prepend_unary::<Expr>(op!("!")),
+        );
+
+    let define = object_define_enumerable(
+        to.clone().as_arg(),
+        key.clone().as_arg(),
+        prop_function((
+            js_word!("get"),
+            DUMMY_SP,
+            from.clone().computed_member(key.clone()),
+        ))
+        .into(),
+    );
+
+    let if_stmt = IfStmt {
+        span: DUMMY_SP,
+        test: Box::new(test),
+        cons: Box::new(define.into_stmt()),
+        alt: None,
+    };
+
+    let for_each_loop = member_expr!(DUMMY_SP, Object.keys)
+        .as_call(DUMMY_SP, vec![from.clone().as_arg()])
+        .make_member(quote_ident!("forEach"))
+        .as_call(
+            DUMMY_SP,
+            vec![Expr::Fn(FnExpr {
+                ident: None,
+                function: Function {
+                    params: vec![key.into()],
+                    decorators: Default::default(),
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![if_stmt.into()],
+                    }),
+                    is_generator: false,
+                    is_async: false,
+                    type_params: None,
+                    return_type: None,
+                },
+            })
+            .as_arg()],
+        );
+
+    let body = BlockStmt {
+        span: DUMMY_SP,
+        stmts: vec![
+            for_each_loop.into_stmt(),
+            from.clone().into_return_stmt().into(),
+        ],
+    };
+
+    Function {
+        params: vec![from.into(), to.into()],
+        decorators: Default::default(),
+        span: DUMMY_SP,
+        body: Some(body),
         is_generator: false,
         is_async: false,
         type_params: None,
@@ -1201,16 +1288,14 @@ impl From<IdentOrStr> for MemberProp {
 ///     key: () => expr,
 /// }
 /// ```
-pub(crate) fn prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+pub(crate) fn prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> Prop {
     let key = prop_name(&key, span).into();
 
-    PropOrSpread::Prop(Box::new(
-        KeyValueProp {
-            key,
-            value: Box::new(expr.into_lazy_arrow(Default::default()).into()),
-        }
-        .into(),
-    ))
+    KeyValueProp {
+        key,
+        value: Box::new(expr.into_lazy_arrow(Default::default()).into()),
+    }
+    .into()
 }
 
 /// ```javascript
@@ -1220,14 +1305,12 @@ pub(crate) fn prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSprea
 ///     },
 /// }
 /// ```
-pub(crate) fn prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+pub(crate) fn prop_method((key, span, expr): (JsWord, Span, Expr)) -> Prop {
     let key = prop_name(&key, span).into();
 
-    PropOrSpread::Prop(Box::new(
-        expr.into_lazy_fn(Default::default())
-            .into_method_prop(key)
-            .into(),
-    ))
+    expr.into_lazy_fn(Default::default())
+        .into_method_prop(key)
+        .into()
 }
 
 /// ```javascript
@@ -1237,20 +1320,18 @@ pub(crate) fn prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpre
 ///     },
 /// }
 /// ```
-pub(crate) fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+pub(crate) fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> Prop {
     let key = prop_name(&key, span).into();
 
-    PropOrSpread::Prop(Box::new(
-        KeyValueProp {
-            key,
-            value: Box::new(
-                expr.into_lazy_fn(Default::default())
-                    .into_fn_expr(None)
-                    .into(),
-            ),
-        }
-        .into(),
-    ))
+    KeyValueProp {
+        key,
+        value: Box::new(
+            expr.into_lazy_fn(Default::default())
+                .into_fn_expr(None)
+                .into(),
+        ),
+    }
+    .into()
 }
 
 #[macro_export]

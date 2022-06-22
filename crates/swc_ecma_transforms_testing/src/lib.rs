@@ -160,7 +160,12 @@ impl<'a> Tester<'a> {
             .new_source_file(FileName::Real(name.into()), src.into());
 
         let module = {
-            let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
+            let mut p = Parser::new_from(Lexer::new(
+                syntax,
+                EsVersion::latest(),
+                StringInput::from(&*fm),
+                Some(&self.comments),
+            ));
             let res = p
                 .parse_module()
                 .map_err(|e| e.into_diagnostic(self.handler).emit());

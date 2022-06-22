@@ -327,7 +327,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 self.unresolved_mark,
                 module,
                 self.target,
-                feature_set.clone()
+                feature_set
             ),
             as_folder(MinifierPass {
                 options: self.minify,

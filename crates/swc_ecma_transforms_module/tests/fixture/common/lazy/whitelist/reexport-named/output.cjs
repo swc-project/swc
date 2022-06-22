@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function __export(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         get: all[name],
         enumerable: true
     });
 }
-__export(exports, {
+_export(exports, {
     named1: ()=>_white().named1,
     named2: ()=>_black.named2
 });

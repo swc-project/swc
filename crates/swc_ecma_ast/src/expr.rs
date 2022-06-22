@@ -301,6 +301,12 @@ pub enum PropOrSpread {
     Prop(Box<Prop>),
 }
 
+impl From<Prop> for PropOrSpread {
+    fn from(p: Prop) -> Self {
+        Self::Prop(Box::new(p))
+    }
+}
+
 #[ast_node("SpreadElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

@@ -6,7 +6,18 @@ Object.defineProperty(exports, "whatever", {
     get: ()=>whatever,
     enumerable: true
 });
-_reExport(exports, require("another-module"));
+function _exportStar(from, to) {
+    Object.keys(from).forEach(function(k) {
+        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) Object.defineProperty(to, k, {
+            get: function() {
+                return from[k];
+            },
+            enumerable: true
+        });
+    });
+    return from;
+}
+_exportStar(require("another-module"), exports);
 function whatever(notExportName) {
     const shouldNotBeExportNameAsWell = 123;
     return shouldNotBeExportNameAsWell + notExportName;

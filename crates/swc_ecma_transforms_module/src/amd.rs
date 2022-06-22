@@ -28,8 +28,8 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        define_es_module, esm_export, esm_export_one, has_use_strict, local_name_for_src,
-        prop_arrow, prop_function, prop_method, use_strict,
+        define_es_module, esm_export, esm_export_star, has_use_strict, local_name_for_src,
+        object_define_enumerable, prop_arrow, prop_function, prop_method, use_strict,
     },
 };
 
@@ -304,6 +304,9 @@ impl Amd {
             .map(|((key, span), ident)| (key, span, ident.into()))
             .collect();
 
+        let esm_export_star_ident = private_ident!("_exportStar");
+        let mut has_export_star = false;
+
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
                 let is_swc_detault_helper =
@@ -346,15 +349,13 @@ impl Amd {
                 }
 
                 if need_re_export || need_interop {
-                    // _reExport(exports, mod);
+                    // _exportStar(mod, exports);
                     let import_expr: Expr = if need_re_export {
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: helper!(re_export, "reExport"),
-                            args: vec![self.exports().as_arg(), mod_ident.clone().as_arg()],
-                            type_args: Default::default(),
-                        }
-                        .into()
+                        has_export_star = true;
+                        esm_export_star_ident.clone().as_call(
+                            DUMMY_SP,
+                            vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
+                        )
                     } else {
                         mod_ident.clone().into()
                     };
@@ -405,7 +406,13 @@ impl Amd {
             },
         );
 
-        let export_stmts = self.export_stmts(export_obj_prop_list);
+        let mut export_stmts = self.export_stmts(export_obj_prop_list);
+
+        if has_export_star {
+            export_stmts.push(Stmt::Decl(Decl::Fn(
+                esm_export_star().into_fn_decl(esm_export_star_ident),
+            )));
+        }
 
         self.exports
             .clone()
@@ -436,10 +443,10 @@ impl Amd {
             0 | 1 => prop_list
                 .pop()
                 .map(|(prop_name, span, expr)| {
-                    esm_export_one(
+                    object_define_enumerable(
                         self.exports().as_arg(),
                         quote_str!(span, prop_name).as_arg(),
-                        prop_auto((js_word!("get"), DUMMY_SP, expr)),
+                        prop_auto((js_word!("get"), DUMMY_SP, expr)).into(),
                     )
                     .into_stmt()
                 })
@@ -447,13 +454,17 @@ impl Amd {
                 .collect(),
             _ => {
                 prop_list.sort_by(|a, b| a.0.cmp(&b.0));
-                let props = prop_list.into_iter().map(prop_auto).collect();
+                let props = prop_list
+                    .into_iter()
+                    .map(prop_auto)
+                    .map(Into::into)
+                    .collect();
                 let obj_lit = ObjectLit {
                     span: DUMMY_SP,
                     props,
                 };
 
-                let esm_export_ident = private_ident!("__export");
+                let esm_export_ident = private_ident!("_export");
 
                 vec![
                     Stmt::Decl(Decl::Fn(

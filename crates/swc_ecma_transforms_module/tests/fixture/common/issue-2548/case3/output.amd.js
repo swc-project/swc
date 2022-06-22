@@ -7,16 +7,27 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    function __export(target, all) {
+    function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             get: all[name],
             enumerable: true
         });
     }
-    __export(exports, {
+    _export(exports, {
         X: ()=>_z.default,
         X2: ()=>_z.X2,
         Y: ()=>_z.Y
     });
-    _z = _interopRequireWildcard(_reExport(exports, _z));
+    function _exportStar(from, to) {
+        Object.keys(from).forEach(function(k) {
+            if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) Object.defineProperty(to, k, {
+                get: function() {
+                    return from[k];
+                },
+                enumerable: true
+            });
+        });
+        return from;
+    }
+    _z = _interopRequireWildcard(_exportStar(_z, exports));
 });

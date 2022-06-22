@@ -8,6 +8,17 @@ Object.defineProperty(exports, "render", {
     },
     enumerable: true
 });
+function _exportStar(from, to) {
+    Object.keys(from).forEach(function(k) {
+        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) Object.defineProperty(to, k, {
+            get: function() {
+                return from[k];
+            },
+            enumerable: true
+        });
+    });
+    return from;
+}
 var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 var _customRender = require("./customRender");
-_re_export(exports, require("@testing-library/react"));
+_exportStar(require("@testing-library/react"), exports);

@@ -14,6 +14,17 @@ define([
         get: ()=>_interfaces.id,
         enumerable: true
     });
-    _reExport(exports, _http);
-    _reExport(exports, _pipes);
+    function _exportStar(from, to) {
+        Object.keys(from).forEach(function(k) {
+            if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) Object.defineProperty(to, k, {
+                get: function() {
+                    return from[k];
+                },
+                enumerable: true
+            });
+        });
+        return from;
+    }
+    _exportStar(_http, exports);
+    _exportStar(_pipes, exports);
 });

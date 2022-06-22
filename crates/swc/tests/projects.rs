@@ -412,7 +412,7 @@ fn issue_605() {
     let f = file("tests/projects/issue-605/input.js").unwrap();
     println!("{}", f);
 
-    assert!(f.contains("_reExport(exports"));
+    assert!(f.contains(r#"_exportStar(require("c"), exports);"#));
 }
 
 #[test]

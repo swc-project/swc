@@ -221,6 +221,21 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
+    /// Creates a unary expr `$op $self`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn prepend_unary<T>(self, op: UnaryOp) -> Expr
+    where
+        T: Into<Expr>,
+    {
+        let arg = Box::new(self.into());
+
+        Expr::Unary(UnaryExpr {
+            span: DUMMY_SP,
+            op,
+            arg,
+        })
+    }
+
     /// Creates a assign expr `$lhs $op $self`
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_assign_to(self, op: AssignOp, left: PatOrExpr) -> Expr {

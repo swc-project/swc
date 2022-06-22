@@ -288,7 +288,6 @@ define_helpers!(Helpers {
     object_without_properties_loose: (),
     possible_constructor_return: (type_of, assert_this_initialized),
     read_only_error: (),
-    re_export: (),
     set: (super_prop_base, define_property),
     set_prototype_of: (),
     skip_first_generator_next: (),

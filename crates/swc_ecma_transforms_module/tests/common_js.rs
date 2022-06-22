@@ -25,7 +25,7 @@ fn tr(config: common_js::Config) -> impl Fold {
     let top_level_mark = Mark::new();
 
     let avalible_set: FeatureSet = Default::default();
-    enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::Es2022);
+    enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::latest());
 
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
@@ -38,7 +38,7 @@ fn ts_tr(config: common_js::Config) -> impl Fold {
     let top_level_mark = Mark::new();
 
     let avalible_set: FeatureSet = Default::default();
-    enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::Es2022);
+    enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::latest());
 
     chain!(
         resolver(unresolved_mark, top_level_mark, true),
