@@ -363,6 +363,25 @@ pub enum LinkSpecifier {
 impl From<ImportSpecifier> for LinkSpecifier {
     fn from(i: ImportSpecifier) -> Self {
         match i {
+            ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
+                Self::ImportStarAs(local.to_id())
+            }
+
+            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
+            | ImportSpecifier::Named(ImportNamedSpecifier {
+                local,
+                imported:
+                    Some(ModuleExportName::Ident(Ident {
+                        sym: js_word!("default"),
+                        ..
+                    }))
+                    | Some(ModuleExportName::Str(Str {
+                        value: js_word!("default"),
+                        ..
+                    })),
+                ..
+            }) => Self::ImportDefault(local.to_id()),
+
             ImportSpecifier::Named(ImportNamedSpecifier {
                 local, imported, ..
             }) => {
@@ -371,20 +390,10 @@ impl From<ImportSpecifier> for LinkSpecifier {
                     ModuleExportName::Str(Str { value, .. }) => value,
                 });
 
-                if imported == Some(js_word!("default")) {
-                    Self::ImportDefault(local.to_id())
-                } else {
-                    Self::ImportNamed {
-                        local: local.to_id(),
-                        imported,
-                    }
+                Self::ImportNamed {
+                    local: local.to_id(),
+                    imported,
                 }
-            }
-            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => {
-                Self::ImportDefault(local.to_id())
-            }
-            ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
-                Self::ImportStarAs(local.to_id())
             }
         }
     }
@@ -393,32 +402,42 @@ impl From<ImportSpecifier> for LinkSpecifier {
 impl From<ExportSpecifier> for LinkSpecifier {
     fn from(e: ExportSpecifier) -> Self {
         match e {
-            ExportSpecifier::Namespace(ExportNamespaceSpecifier { name, .. }) => match name {
-                ModuleExportName::Ident(Ident { span, sym, .. }) => Self::ExportStarAs(sym, span),
-                ModuleExportName::Str(Str { span, value, .. }) => Self::ExportStarAs(value, span),
-            },
+            ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                name:
+                    ModuleExportName::Ident(Ident { span, sym, .. })
+                    | ModuleExportName::Str(Str {
+                        span, value: sym, ..
+                    }),
+                ..
+            }) => Self::ExportStarAs(sym, span),
+
             ExportSpecifier::Default(_) => {
                 // https://github.com/tc39/proposal-export-default-from
                 unreachable!("`export default` does not support re-export");
             }
+
             ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
                 let orig = match orig {
-                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
-                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
+                    ModuleExportName::Ident(Ident { span, sym, .. })
+                    | ModuleExportName::Str(Str {
+                        span, value: sym, ..
+                    }) => (sym, span),
                 };
 
                 let exported = exported.map(|exported| match exported {
-                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
-                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
+                    ModuleExportName::Ident(Ident { span, sym, .. })
+                    | ModuleExportName::Str(Str {
+                        span, value: sym, ..
+                    }) => (sym, span),
                 });
 
-                let (ref orig_name, orig_span) = orig;
+                match orig {
+                    (js_word!("default"), default_span) => {
+                        let (sym, span) = exported.unwrap_or(orig);
 
-                if orig_name == &js_word!("default") {
-                    let (exported_name, exported_span) = exported.unwrap_or(orig);
-                    Self::ExportDefaultAs(orig_span, exported_name, exported_span)
-                } else {
-                    Self::ExportNamed { orig, exported }
+                        Self::ExportDefaultAs(default_span, sym, span)
+                    }
+                    _ => Self::ExportNamed { orig, exported },
                 }
             }
         }
@@ -436,7 +455,7 @@ bitflags! {
         const NAMED = 1 << 0;
         const DEFAULT = 1 << 1;
         const NAMESPACE = Self::NAMED.bits | Self::DEFAULT.bits;
-        const RE_EXPORT = 1 << 2;
+        const EXPORT_STAR = 1 << 2;
         const IMPORT_EQUAL = 1 << 3;
     }
 }
@@ -459,21 +478,74 @@ impl LinkFlag {
     }
 
     pub fn re_export(&self) -> bool {
-        self.intersects(Self::RE_EXPORT)
+        self.intersects(Self::EXPORT_STAR)
     }
 }
 
 impl From<&LinkSpecifier> for LinkFlag {
     fn from(s: &LinkSpecifier) -> Self {
         match s {
-            LinkSpecifier::ImportNamed { .. } => Self::NAMED,
-            LinkSpecifier::ImportDefault(..) => Self::DEFAULT,
             LinkSpecifier::ImportStarAs(..) => Self::NAMESPACE,
-            LinkSpecifier::ExportNamed { .. } => Self::NAMED,
-            LinkSpecifier::ExportDefaultAs(..) => Self::DEFAULT,
+            LinkSpecifier::ImportDefault(..) => Self::DEFAULT,
+            LinkSpecifier::ImportNamed { .. } => Self::NAMED,
+
             LinkSpecifier::ExportStarAs(..) => Self::NAMESPACE,
-            LinkSpecifier::ExportStar => Self::RE_EXPORT,
+            LinkSpecifier::ExportDefaultAs(..) => Self::DEFAULT,
+            LinkSpecifier::ExportNamed { .. } => Self::NAMED,
+
             LinkSpecifier::ImportEqual(..) => Self::IMPORT_EQUAL,
+            LinkSpecifier::ExportStar => Self::EXPORT_STAR,
+        }
+    }
+}
+
+impl From<&ImportSpecifier> for LinkFlag {
+    fn from(i: &ImportSpecifier) -> Self {
+        match i {
+            ImportSpecifier::Namespace(..) => Self::NAMESPACE,
+
+            ImportSpecifier::Default(ImportDefaultSpecifier { .. })
+            | ImportSpecifier::Named(ImportNamedSpecifier {
+                imported:
+                    Some(ModuleExportName::Ident(Ident {
+                        sym: js_word!("default"),
+                        ..
+                    }))
+                    | Some(ModuleExportName::Str(Str {
+                        value: js_word!("default"),
+                        ..
+                    })),
+                ..
+            }) => Self::DEFAULT,
+
+            ImportSpecifier::Named(..) => Self::NAMED,
+        }
+    }
+}
+
+impl From<&ExportSpecifier> for LinkFlag {
+    fn from(e: &ExportSpecifier) -> Self {
+        match e {
+            ExportSpecifier::Namespace(..) => Self::NAMESPACE,
+
+            ExportSpecifier::Default(_) => {
+                // https://github.com/tc39/proposal-export-default-from
+                unreachable!("`export default` does not support re-export");
+            }
+
+            ExportSpecifier::Named(ExportNamedSpecifier {
+                orig:
+                    ModuleExportName::Ident(Ident {
+                        sym: js_word!("default"),
+                        ..
+                    })
+                    | ModuleExportName::Str(Str {
+                        value: js_word!("default"),
+                        ..
+                    }),
+                ..
+            }) => Self::DEFAULT,
+            ExportSpecifier::Named(..) => Self::NAMED,
         }
     }
 }
