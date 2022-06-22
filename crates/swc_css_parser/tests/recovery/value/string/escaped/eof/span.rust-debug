@@ -2,19 +2,25 @@
   x Stylesheet
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | ,-> a {
- 2 | `->     color: \
+ 2 | |       color: \
+ 3 | |       ;
+ 4 | `-> }
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | ,-> a {
- 2 | `->     color: \
+ 2 | |       color: \
+ 3 | |       ;
+ 4 | `-> }
    `----
 
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | ,-> a {
- 2 | `->     color: \
+ 2 | |       color: \
+ 3 | |       ;
+ 4 | `-> }
    `----
 
   x SelectorList
@@ -62,7 +68,9 @@
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | ,-> a {
- 2 | `->     color: \
+ 2 | |       color: \
+ 3 | |       ;
+ 4 | `-> }
    `----
 
   x ComponentValue

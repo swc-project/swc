@@ -5,6 +5,12 @@
    :       ^
    `----
 
+  x Newline in string
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:5]
+ 2 | prop: "
+   :        ^
+   `----
+
   x Unexpected end of file
    ,-[$DIR/tests/recovery/value/string/newline/input.css:2:13]
  2 |  

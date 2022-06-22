@@ -30,10 +30,17 @@ impl Error {
     pub fn message(&self) -> Cow<'static, str> {
         match &self.inner.1 {
             ErrorKind::Eof => "Unexpected end of file".into(),
+
+            // Lexer
+            ErrorKind::InvalidEscape => "An invalid escape".into(),
+            ErrorKind::UnterminatedString => "Unterminated string".into(),
+            ErrorKind::NewlineInString => "Newline in string".into(),
+            ErrorKind::UnterminatedUrl => "Unterminated url".into(),
+            ErrorKind::UnexpectedCharInUrl => "Unexpected character in url".into(),
+
+            // Parser
             ErrorKind::Ignore => "Not an error".into(),
             ErrorKind::UnexpectedChar(c) => format!("Unexpected character `{:?}`", c).into(),
-            ErrorKind::UnterminatedUrl => "Unterminated url literal".into(),
-            ErrorKind::InvalidEscape => "Invalid escape".into(),
             ErrorKind::Expected(s) => format!("Expected {}", s).into(),
             ErrorKind::ExpectedButGot(s) => format!("Expected {}", s).into(),
             ErrorKind::ExpectedSelectorText => "Expected a text for selector".into(),
@@ -72,13 +79,17 @@ impl Error {
 #[non_exhaustive]
 pub enum ErrorKind {
     Eof,
-    Ignore,
-    /// Lexing error.
-    UnexpectedChar(char),
-    /// Lexing error.
-    UnterminatedUrl,
-    /// Lexing error
+
+    // Lexing errors
     InvalidEscape,
+    UnterminatedString,
+    NewlineInString,
+    UnterminatedUrl,
+    UnexpectedCharInUrl,
+
+    // Parser errors
+    Ignore,
+    UnexpectedChar(char),
     Expected(&'static str),
     ExpectedButGot(&'static str),
     ExpectedSelectorText,

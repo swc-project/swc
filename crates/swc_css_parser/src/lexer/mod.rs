@@ -111,7 +111,7 @@ impl<I: Input> Iterator for Lexer<I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let token = self.read_token();
+        let token = self.consume_token();
 
         match token {
             Ok(token) => {
@@ -198,7 +198,15 @@ where
         self.input.reset_to(self.cur_pos);
     }
 
-    fn read_token(&mut self) -> LexResult<Token> {
+    #[inline(always)]
+    fn emit_error(&mut self, kind: ErrorKind) {
+        self.errors.push(Error::new(
+            Span::new(self.cur_pos, self.input.cur_pos(), Default::default()),
+            kind,
+        ));
+    }
+
+    fn consume_token(&mut self) -> LexResult<Token> {
         self.read_comments()?;
         self.start_pos = self.input.cur_pos();
         self.consume();
@@ -418,6 +426,8 @@ where
 
                 // Otherwise, this is a parse error. Return a <delim-token> with its value set
                 // to the current input code point.
+                self.emit_error(ErrorKind::InvalidEscape);
+
                 Ok(Token::Delim { value: '\\' })
             }
             // U+005D RIGHT SQUARE BRACKET (])
@@ -687,16 +697,19 @@ where
                     // EOF
                     // This is a parse error. Return the <string-token>.
                     None => {
+                        l.emit_error(ErrorKind::UnterminatedString);
+
                         return Ok(Token::String {
                             value: (&**buf).into(),
                             raw: (&**raw).into(),
-                        })
+                        });
                     }
 
                     // Newline
                     // This is a parse error. Reconsume the current input code point, create a
                     // <bad-string-token>, and return it.
                     Some(c) if is_newline(c) => {
+                        l.emit_error(ErrorKind::NewlineInString);
                         l.reconsume();
 
                         return Ok(Token::BadString {
@@ -785,6 +798,8 @@ where
                     // EOF
                     // This is a parse error. Return the <url-token>.
                     None => {
+                        l.emit_error(ErrorKind::UnterminatedUrl);
+
                         return Ok(Token::Url {
                             name: name.0,
                             raw_name: name.1,
@@ -831,6 +846,8 @@ where
                                 });
                             }
                             None => {
+                                l.emit_error(ErrorKind::UnterminatedUrl);
+
                                 return Ok(Token::Url {
                                     name: name.0,
                                     raw_name: name.1,
@@ -868,6 +885,8 @@ where
                     // This is a parse error. Consume the remnants of a bad url, create a
                     // <bad-url-token>, and return it.
                     Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
+                        l.emit_error(ErrorKind::UnexpectedCharInUrl);
+
                         let remnants = l.read_bad_url_remnants()?;
 
                         out.push(c);
@@ -898,6 +917,8 @@ where
                         // Otherwise, this is a parse error. Consume the remnants of a bad url,
                         // create a <bad-url-token>, and return it.
                         else {
+                            l.emit_error(ErrorKind::InvalidEscape);
+
                             let remnants = l.read_bad_url_remnants()?;
 
                             out.push(c);
@@ -987,6 +1008,8 @@ where
                 // EOF
                 // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
                 None => {
+                    l.emit_error(ErrorKind::InvalidEscape);
+
                     let value = REPLACEMENT_CHARACTER;
 
                     buf.push(value);

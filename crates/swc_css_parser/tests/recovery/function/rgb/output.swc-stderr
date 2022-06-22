@@ -1,4 +1,16 @@
 
+  x Expected comma token
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                            ^
+   `----
+
+  x Expected percentage, function (math functions) or number token
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                           ^^^^^^
+   `----
+
   x Expected percentage, number, function (math functions) or ident (with 'none' value) token
    ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
  2 | color: rgb("test");
@@ -15,12 +27,6 @@
    ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
  4 | color: rgb("test", 100, 100);
    :                  ^
-   `----
-
-  x Expected comma token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
- 4 | color: rgb("test", 100, 100);
-   :                            ^
    `----
 
   x Expected percentage, number, function (math functions) or ident (with 'none' value) token
@@ -75,12 +81,6 @@
    ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
  6 | color: rgb(100, 100, "test");
    :                    ^
-   `----
-
-  x Expected percentage, function (math functions) or number token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
- 7 | color: rgb(100, 100, 100, "test");
-   :                           ^^^^^^
    `----
 
   x Expected percentage, number, function (math functions) or ident (with 'none' value) token
