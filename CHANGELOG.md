@@ -22,6 +22,9 @@
 
 - **(html/minifier)** Avoid optional attributes (#5016) ([f1fd83d](https://github.com/swc-project/swc/commit/f1fd83dcc70aff7d27d0bd0d4f0954dc5dc8cbbd))
 
+
+- **(html/minifier)** Compress more complex attributes (#5024) ([c61babd](https://github.com/swc-project/swc/commit/c61babd9af822491d2af4295638df0483748d2e0))
+
 ### Documentation
 
 
@@ -39,6 +42,12 @@
 
 
 - **(html/minifier)** Minify js (#4999) ([28bc735](https://github.com/swc-project/swc/commit/28bc735d03987dd965fdefe7284b30bee3346a3a))
+
+### Refactor
+
+
+
+- **(webpack-ast)** Remove (#5026) ([17c51fa](https://github.com/swc-project/swc/commit/17c51fa53ca605aea6c3286e1994ab5dbc5f1b74))
 
 ### Testing
 

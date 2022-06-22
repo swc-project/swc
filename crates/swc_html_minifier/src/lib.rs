@@ -204,8 +204,6 @@ static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("object", "usemap"),
 ];
 
-static COMMA_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &["class"];
-
 static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("img", "srcset"),
     ("source", "srcset"),
@@ -218,6 +216,7 @@ static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
 
 static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
     "class",
+    "part",
     "itemtype",
     "itemref",
     "itemprop",
@@ -297,28 +296,81 @@ impl Minifier {
         HTML_BOOLEAN_ATTRIBUTES.contains(&name)
     }
 
-    fn is_global_trimable_attribute(&self, name: &str) -> bool {
-        ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&name)
+    fn is_trimable_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&attribute_name) {
+            return true;
+        }
+
+        match element.namespace {
+            Namespace::HTML => {
+                ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            _ => false,
+        }
     }
 
-    fn is_html_trimable_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
-        ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
+    fn is_comma_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        match element.namespace {
+            Namespace::HTML => match attribute_name {
+                "content"
+                    if &*element.tag_name == "meta"
+                        && (self.element_has_attribute_with_value(
+                            element,
+                            "name",
+                            &["viewport", "keywords"],
+                        )) =>
+                {
+                    true
+                }
+                "imagesrcset"
+                    if &*element.tag_name == "link"
+                        && self.element_has_attribute_with_value(element, "rel", &["preload"]) =>
+                {
+                    true
+                }
+                "imagesizes"
+                    if &*element.tag_name == "link"
+                        && self.element_has_attribute_with_value(element, "rel", &["preload"]) =>
+                {
+                    true
+                }
+                "accept"
+                    if &*element.tag_name == "input"
+                        && self.element_has_attribute_with_value(element, "type", &["file"]) =>
+                {
+                    true
+                }
+                _ => COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name)),
+            },
+            _ => false,
+        }
     }
 
-    fn is_global_comma_separated_attribute(&self, name: &str) -> bool {
-        COMMA_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
+    fn is_space_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&attribute_name) {
+            return true;
+        }
+
+        match element.namespace {
+            Namespace::HTML => {
+                SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            _ => false,
+        }
     }
 
-    fn is_html_comma_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
-        COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
-    }
-
-    fn is_global_space_separated_attribute(&self, name: &str) -> bool {
-        SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
-    }
-
-    fn is_html_space_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
-        SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
+    fn element_has_attribute_with_value(
+        &self,
+        element: &Element,
+        attribute_name: &str,
+        attribute_value: &[&str],
+    ) -> bool {
+        element.attributes.iter().any(|attribute| {
+            &*attribute.name == attribute_name
+                && attribute.value.is_some()
+                && attribute_value
+                    .contains(&&*attribute.value.as_ref().unwrap().to_ascii_lowercase())
+        })
     }
 
     fn is_default_attribute_value(
@@ -1016,12 +1068,7 @@ impl VisitMut for Minifier {
             n.value = None;
 
             return;
-        } else if self.is_global_space_separated_attribute(&n.name)
-            || (is_element_html_namespace
-                && self.is_html_space_separated_attribute(
-                    &*self.current_element.as_ref().unwrap().tag_name,
-                    &n.name,
-                ))
+        } else if self.is_space_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
         {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
 
@@ -1030,29 +1077,7 @@ impl VisitMut for Minifier {
             }
 
             value = values.join(" ");
-        } else if self.is_global_comma_separated_attribute(&n.name)
-            || (is_element_html_namespace
-                && ((&n.name == "content"
-                    && self
-                        .current_element
-                        .as_ref()
-                        .unwrap()
-                        .attributes
-                        .iter()
-                        .any(|attribute| match &*attribute.name.to_ascii_lowercase() {
-                            "name"
-                                if attribute.value.is_some()
-                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                        == "viewport" =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        }))
-                    || self.is_html_comma_separated_attribute(
-                        &*self.current_element.as_ref().unwrap().tag_name,
-                        &n.name,
-                    )))
+        } else if self.is_comma_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
         {
             let values = value.trim().split(',');
 
@@ -1063,12 +1088,8 @@ impl VisitMut for Minifier {
             }
 
             value = new_values.join(",");
-        } else if self.is_global_trimable_attribute(&n.name)
-            || (is_element_html_namespace
-                && self.is_html_trimable_attribute(
-                    &*self.current_element.as_ref().unwrap().tag_name,
-                    &n.name,
-                ))
+        } else if self
+            .is_trimable_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
         {
             value = value.trim().to_string();
         } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
@@ -1076,22 +1097,11 @@ impl VisitMut for Minifier {
 
             return;
         } else if &n.name == "content"
-            && self
-                .current_element
-                .as_ref()
-                .unwrap()
-                .attributes
-                .iter()
-                .any(|attribute| match &*attribute.name.to_ascii_lowercase() {
-                    "http-equiv"
-                        if attribute.value.is_some()
-                            && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                == "content-security-policy" =>
-                    {
-                        true
-                    }
-                    _ => false,
-                })
+            && self.element_has_attribute_with_value(
+                self.current_element.as_ref().unwrap(),
+                "http-equiv",
+                &["content-security-policy"],
+            )
         {
             let values = value.trim().split(';');
 
