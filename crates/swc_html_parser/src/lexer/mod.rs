@@ -319,10 +319,11 @@ where
 
     #[inline(always)]
     fn emit_token(&mut self, token: Token) {
-        self.last_token_pos = self.input.cur_pos();
+        let cur_pos = self.input.cur_pos();
 
-        let span = Span::new(self.last_token_pos, self.last_token_pos, Default::default());
+        let span = Span::new(self.last_token_pos, cur_pos, Default::default());
 
+        self.last_token_pos = cur_pos;
         self.pending_tokens.push_back(TokenAndSpan { span, token });
     }
 
@@ -775,30 +776,28 @@ where
 
     fn handle_raw_and_emit_character_token(&mut self, c: char) {
         let is_cr = c == '\r';
-        let mut raw = if is_cr {
-            String::with_capacity(2)
-        } else {
-            String::with_capacity(1)
-        };
-
-        raw.push(c);
-
-        let mut normalized_c = c;
 
         if is_cr {
-            normalized_c = '\n';
+            let mut raw = String::with_capacity(2);
+
+            raw.push(c);
 
             if self.input.cur() == Some('\n') {
                 self.input.bump();
 
                 raw.push('\n');
             }
-        }
 
-        self.emit_token(Token::Character {
-            value: normalized_c,
-            raw: None,
-        });
+            self.emit_token(Token::Character {
+                value: '\n',
+                raw: None,
+            });
+        } else {
+            self.emit_token(Token::Character {
+                value: c,
+                raw: None,
+            });
+        };
     }
 
     #[inline(always)]
@@ -868,7 +867,7 @@ where
                     // Emit the current input character as a character token.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.emit_character_token((c, Some(c)));
+                        self.handle_raw_and_emit_character_token(c);
                     }
                 }
             }
