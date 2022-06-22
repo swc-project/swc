@@ -5,6 +5,7 @@ use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, Mark, SourceMap};
+use swc_css_ast::Ident;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
@@ -249,6 +250,12 @@ enum TextChildrenType {
     Css,
     Script,
     Module,
+}
+
+enum CssMinificationMode {
+    Stylesheet,
+    ListOfDeclarations,
+    MediaQueryList,
 }
 
 #[inline(always)]
@@ -837,50 +844,88 @@ impl Minifier {
         Some(minified)
     }
 
-    fn minify_css(&self, data: String, is_attribute: bool) -> Option<String> {
+    fn minify_css(&self, data: String, mode: CssMinificationMode) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
 
-        let mut stylesheet = if is_attribute {
-            match swc_css_parser::parse_file::<Vec<swc_css_ast::DeclarationOrAtRule>>(
-                &fm,
-                Default::default(),
-                &mut errors,
-            ) {
-                Ok(list_of_declarations) => {
-                    let declaration_list: Vec<swc_css_ast::ComponentValue> = list_of_declarations
-                        .into_iter()
-                        .map(swc_css_ast::ComponentValue::DeclarationOrAtRule)
-                        .collect();
-
-                    swc_css_ast::Stylesheet {
-                        span: Default::default(),
-                        rules: vec![swc_css_ast::Rule::QualifiedRule(
-                            swc_css_ast::QualifiedRule {
-                                span: Default::default(),
-                                prelude: swc_css_ast::QualifiedRulePrelude::SelectorList(
-                                    swc_css_ast::SelectorList {
-                                        span: Default::default(),
-                                        children: vec![],
-                                    },
-                                ),
-                                block: swc_css_ast::SimpleBlock {
-                                    span: Default::default(),
-                                    name: '{',
-                                    value: declaration_list,
-                                },
-                            },
-                        )],
-                    }
+        let mut stylesheet = match mode {
+            CssMinificationMode::Stylesheet => {
+                match swc_css_parser::parse_file(&fm, Default::default(), &mut errors) {
+                    Ok(stylesheet) => stylesheet,
+                    _ => return None,
                 }
-                _ => return None,
             }
-        } else {
-            match swc_css_parser::parse_file(&fm, Default::default(), &mut errors) {
-                Ok(stylesheet) => stylesheet,
-                _ => return None,
+            CssMinificationMode::ListOfDeclarations => {
+                match swc_css_parser::parse_file::<Vec<swc_css_ast::DeclarationOrAtRule>>(
+                    &fm,
+                    Default::default(),
+                    &mut errors,
+                ) {
+                    Ok(list_of_declarations) => {
+                        let declaration_list: Vec<swc_css_ast::ComponentValue> =
+                            list_of_declarations
+                                .into_iter()
+                                .map(swc_css_ast::ComponentValue::DeclarationOrAtRule)
+                                .collect();
+
+                        swc_css_ast::Stylesheet {
+                            span: Default::default(),
+                            rules: vec![swc_css_ast::Rule::QualifiedRule(
+                                swc_css_ast::QualifiedRule {
+                                    span: Default::default(),
+                                    prelude: swc_css_ast::QualifiedRulePrelude::SelectorList(
+                                        swc_css_ast::SelectorList {
+                                            span: Default::default(),
+                                            children: vec![],
+                                        },
+                                    ),
+                                    block: swc_css_ast::SimpleBlock {
+                                        span: Default::default(),
+                                        name: '{',
+                                        value: declaration_list,
+                                    },
+                                },
+                            )],
+                        }
+                    }
+                    _ => return None,
+                }
+            }
+            CssMinificationMode::MediaQueryList => {
+                match swc_css_parser::parse_file::<swc_css_ast::MediaQueryList>(
+                    &fm,
+                    Default::default(),
+                    &mut errors,
+                ) {
+                    Ok(media_query_list) => swc_css_ast::Stylesheet {
+                        span: Default::default(),
+                        rules: vec![swc_css_ast::Rule::AtRule(swc_css_ast::AtRule {
+                            span: Default::default(),
+                            name: swc_css_ast::AtRuleName::Ident(Ident {
+                                span: Default::default(),
+                                value: "media".into(),
+                                raw: "media".into(),
+                            }),
+                            prelude: Some(swc_css_ast::AtRulePrelude::MediaPrelude(
+                                media_query_list,
+                            )),
+                            block: Some(swc_css_ast::SimpleBlock {
+                                span: Default::default(),
+                                name: '{',
+                                // TODO make options `compress-empty` for CSS minifier and disable
+                                // it
+                                value: vec![swc_css_ast::ComponentValue::Str(swc_css_ast::Str {
+                                    span: Default::default(),
+                                    value: "placeholder".into(),
+                                    raw: "placeholder".into(),
+                                })],
+                            }),
+                        })],
+                    },
+                    _ => return None,
+                }
             }
         };
 
@@ -902,23 +947,40 @@ impl Minifier {
             swc_css_codegen::CodegenConfig { minify: true },
         );
 
-        if is_attribute {
-            let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
-
-            // Because CSS is grammar free, protect for fails
-            if let Some(swc_css_ast::Rule::QualifiedRule(swc_css_ast::QualifiedRule {
-                block,
-                ..
-            })) = rules.get(0)
-            {
-                swc_css_codegen::Emit::emit(&mut gen, &block).unwrap();
-
-                minified = minified[1..minified.len() - 1].to_string();
-            } else {
-                return None;
+        match mode {
+            CssMinificationMode::Stylesheet => {
+                swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
             }
-        } else {
-            swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
+            CssMinificationMode::ListOfDeclarations => {
+                let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
+
+                // Because CSS is grammar free, protect for fails
+                if let Some(swc_css_ast::Rule::QualifiedRule(swc_css_ast::QualifiedRule {
+                    block,
+                    ..
+                })) = rules.get(0)
+                {
+                    swc_css_codegen::Emit::emit(&mut gen, &block).unwrap();
+
+                    minified = minified[1..minified.len() - 1].to_string();
+                } else {
+                    return None;
+                }
+            }
+            CssMinificationMode::MediaQueryList => {
+                let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
+
+                // Because CSS is grammar free, protect for fails
+                if let Some(swc_css_ast::Rule::AtRule(swc_css_ast::AtRule { prelude, .. })) =
+                    rules.get(0)
+                {
+                    swc_css_codegen::Emit::emit(&mut gen, &prelude).unwrap();
+
+                    minified = minified.trim().to_string();
+                } else {
+                    return None;
+                }
+            }
         }
 
         Some(minified)
@@ -1142,11 +1204,27 @@ impl VisitMut for Minifier {
             value = new_values.join(",");
         } else if self
             .is_trimable_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
+
+            if self.minify_css && &*n.name == "media" && !value.is_empty() {
+                if let Some(minified) =
+                    self.minify_css(value.clone(), CssMinificationMode::MediaQueryList)
+                {
+                    value = minified;
+                }
+            }
+        } else if self.is_global_trimable_attribute(&n.name)
+            || (is_element_html_namespace
+                && self.is_html_trimable_attribute(
+                    &*self.current_element.as_ref().unwrap().tag_name,
+                    &n.name,
+                ))
         {
             value = value.trim().to_string();
 
             if self.minify_css && &*n.name == "style" && !value.is_empty() {
-                if let Some(minified) = self.minify_css(value.clone(), true) {
+                if let Some(minified) =
+                    self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
+                {
                     value = minified;
                 }
             }
@@ -1311,10 +1389,11 @@ impl VisitMut for Minifier {
                 n.data = minified.into();
             }
             Some(TextChildrenType::Css) => {
-                let minified = match self.minify_css(n.data.to_string(), false) {
-                    Some(minified) => minified,
-                    None => return,
-                };
+                let minified =
+                    match self.minify_css(n.data.to_string(), CssMinificationMode::Stylesheet) {
+                        Some(minified) => minified,
+                        None => return,
+                    };
 
                 n.data = minified.into();
             }
