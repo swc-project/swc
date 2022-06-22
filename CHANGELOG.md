@@ -40,6 +40,12 @@
 
 - **(html/minifier)** Minify js (#4999) ([28bc735](https://github.com/swc-project/swc/commit/28bc735d03987dd965fdefe7284b30bee3346a3a))
 
+### Refactor
+
+
+
+- **(webpack-ast)** Remove (#5026) ([17c51fa](https://github.com/swc-project/swc/commit/17c51fa53ca605aea6c3286e1994ab5dbc5f1b74))
+
 ### Testing
 
 

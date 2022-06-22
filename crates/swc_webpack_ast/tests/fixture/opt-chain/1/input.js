@@ -1,1 +1,0 @@
-const a = obj?.foo;
