@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Improve lexer errors (#5025) ([c345524](https://github.com/swc-project/swc/commit/c345524e368078a59cdf5376999a5b443f2918e7))
+
+
 - **(es/lints)** Allow duplicate function in non-top level (#5011) ([4a422a0](https://github.com/swc-project/swc/commit/4a422a09a4a933b7db085d936d16dbf53e518956))
 
 
