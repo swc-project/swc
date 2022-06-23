@@ -909,7 +909,25 @@ impl Minifier {
                         };
 
                         is_smart_right_trim = match next_display {
-                            Some(Display::Block | Display::Table) => true,
+                            // Block-level containers:
+                            //
+                            // `Display::Block`    - `display: block flow`
+                            // `Display::ListItem` - `display: block flow list-item`
+                            // `Display::Table`    - `display: block table`
+                            // + internal table display (only whitespace characters allowed there)
+                            Some(
+                                Display::Block
+                                | Display::ListItem
+                                | Display::Table
+                                | Display::TableColumnGroup
+                                | Display::TableCaption
+                                | Display::TableColumn
+                                | Display::TableRow
+                                | Display::TableCell
+                                | Display::TableHeaderGroup
+                                | Display::TableRowGroup
+                                | Display::TableFooterGroup,
+                            ) => true,
                             Some(_) => matches!(next_display, Some(Display::Block)),
                             None => {
                                 let parent_display = self.get_display(namespace, &**tag_name);
