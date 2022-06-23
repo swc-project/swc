@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="//msiter.ru/theme.css">
+    <link rel="stylesheet" type="text/css" href="//msiter.ru/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="//msiter.ru/theme.css" media="(prefers-color-scheme: dark)">
+
+    <link rel="preload" as="image"
+          imagesrcset="dog-cropped-1x.jpg, dog-cropped-2x.jpg 2x"
+          media="(max-width: 800px)">
+    <link rel="preload" as="image"
+          imagesrcset="dog-wide-1x.jpg, dog-wide-2x.jpg 2x"
+          media="(min-width: 801px)">
+    <style media="screen and (min-width: 900px)">
+        .class {
+            color: red;
+        }
+    </style>
+    <style media="(min-width: 900px) and (min-width: 800px)">
+        .class {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<picture>
+    <source srcset="dog-cropped-1x.jpg, dog-cropped-2x.jpg 2x"
+            media="(max-width: 800px)">
+    <img src="dog-wide-1x.jpg" srcset="dog-wide-2x.jpg 2x"
+         alt="An awesome dog">
+</picture>
+<style media="screen and (min-width: 30em) and (orientation: landscape)">
+    .class {
+        color: red;
+    }
+</style>
+<style media="(min-width: 1em) and (max-width: 500em)">
+    .class {
+        color: red;
+    }
+</style>
+<style media="(30em <= width <= 50em )">
+    .class {
+        color: red;
+    }
+</style>
+<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+    <style media="(min-width: 1000px)">
+        circle {
+            fill: gold;
+            stroke: maroon;
+            stroke-width: 2px;
+        }
+    </style>
+
+    <circle cx="5" cy="5" r="4" />
+</svg>
+</body>
+</html>

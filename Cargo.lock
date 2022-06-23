@@ -3968,6 +3968,7 @@ dependencies = [
  "swc_atoms",
  "swc_cached",
  "swc_common",
+ "swc_css_ast",
  "swc_css_codegen",
  "swc_css_minifier",
  "swc_css_parser",
