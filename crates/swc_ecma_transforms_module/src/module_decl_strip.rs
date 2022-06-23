@@ -400,9 +400,9 @@ impl From<ExportSpecifier> for LinkSpecifier {
                 ..
             }) => Self::ExportStarAs(sym, span),
 
-            ExportSpecifier::Default(_) => {
+            ExportSpecifier::Default(ExportDefaultSpecifier { exported }) => {
                 // https://github.com/tc39/proposal-export-default-from
-                unreachable!("`export default` does not support re-export");
+                Self::ExportDefaultAs(exported.span, exported.sym, exported.span)
             }
 
             ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
