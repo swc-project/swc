@@ -928,7 +928,7 @@ impl Minifier {
                                 | Display::TableRowGroup
                                 | Display::TableFooterGroup,
                             ) => true,
-                            Some(_) => matches!(next_display, Some(Display::Block)),
+                            Some(_) => false,
                             None => {
                                 let parent_display = self.get_display(namespace, &**tag_name);
 
