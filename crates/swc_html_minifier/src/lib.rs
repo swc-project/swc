@@ -849,8 +849,7 @@ impl Minifier {
 
                         is_smart_left_trim = match prev_display {
                             Some(Display::Block | Display::Table) => true,
-                            Some(Display::InlineBlock | Display::Ruby) => false,
-                            Some(_) => {
+                            Some(Display::Inline) => {
                                 let deep = self.get_deep_text_element_last(prev.as_mut().unwrap());
 
                                 if let Some(deep) = deep {
@@ -859,11 +858,15 @@ impl Minifier {
                                     false
                                 }
                             }
+                            Some(_) => false,
                             None => {
                                 let parent_display = self.get_display(namespace, &**tag_name);
 
                                 match parent_display {
-                                    Display::Block | Display::InlineBlock | Display::Ruby => true,
+                                    Display::Block
+                                    | Display::InlineBlock
+                                    | Display::Ruby
+                                    | Display::ListItem => true,
                                     _ => {
                                         if let Some(Child::Text(Text { data, .. })) =
                                             &self.latest_element
@@ -896,7 +899,10 @@ impl Minifier {
 
                                 matches!(
                                     parent_display,
-                                    Display::Block | Display::InlineBlock | Display::Ruby
+                                    Display::Block
+                                        | Display::InlineBlock
+                                        | Display::Ruby
+                                        | Display::ListItem
                                 )
                             }
                         };
