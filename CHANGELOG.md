@@ -46,6 +46,9 @@
 
 - **(html/minifier)** Add `remove_redundant_attributes` (#5023) ([03d8a3a](https://github.com/swc-project/swc/commit/03d8a3a0ddb843ded43134265973557dd48e14a7))
 
+
+- **(html/minifier)** Compress `style` and `media` attributes (#5022) ([47d34a3](https://github.com/swc-project/swc/commit/47d34a33d43a6e28a4318ea826513edf380dc13a))
+
 ### Performance
 
 
