@@ -190,6 +190,36 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
+    fn as_fn_decl(self) -> Option<FnDecl> {
+        match self.into() {
+            Expr::Fn(FnExpr {
+                ident: Some(ident),
+                function,
+            }) => Some(FnDecl {
+                ident,
+                declare: false,
+                function,
+            }),
+            _ => None,
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn as_class_decl(self) -> Option<ClassDecl> {
+        match self.into() {
+            Expr::Class(ClassExpr {
+                ident: Some(ident),
+                class,
+            }) => Some(ClassDecl {
+                ident,
+                declare: false,
+                class,
+            }),
+            _ => None,
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn wrap_with_paren(self) -> Expr {
         let expr = Box::new(self.into());
         let span = expr.span();

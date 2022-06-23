@@ -1,25 +1,28 @@
-use std::{cell::RefCell, rc::Rc};
-
-use swc_atoms::{js_word, JsWord};
-use swc_common::collections::AHashSet;
+use swc_atoms::JsWord;
+use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitWith,
 };
 
-use super::util::Scope;
+use crate::module_decl_strip::LinkFlag;
 
-pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> impl Fold + VisitMut {
+pub fn import_analyzer(no_interop: bool, ignore_dynamic: bool) -> impl Fold + VisitMut {
     as_folder(ImportAnalyzer {
-        scope,
-        import_srcs: Default::default(),
+        no_interop,
+        ignore_dynamic,
+        flag_record: Default::default(),
+        dynamic_import_found: false,
     })
 }
 
 pub struct ImportAnalyzer {
-    scope: Rc<RefCell<Scope>>,
-    import_srcs: AHashSet<JsWord>,
+    no_interop: bool,
+    ignore_dynamic: bool,
+
+    flag_record: AHashMap<JsWord, LinkFlag>,
+    dynamic_import_found: bool,
 }
 
 /// Inject required helpers methods **for** module transform passes.
@@ -28,160 +31,74 @@ impl VisitMut for ImportAnalyzer {
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.visit_module(&*module);
-
-        for (_, ty) in self.scope.borrow().import_types.iter() {
-            if *ty {
-                enable_helper!(interop_require_wildcard);
-            } else {
-                enable_helper!(interop_require_default);
-            }
-        }
-
-        let (need_wildcard, need_default) = self.scope.borrow().unknown_imports;
-
-        if need_wildcard {
-            enable_helper!(interop_require_wildcard);
-        }
-
-        if need_default {
-            enable_helper!(interop_require_default);
-        }
     }
 }
 
 impl Visit for ImportAnalyzer {
     noop_visit_type!();
 
-    fn visit_call_expr(&mut self, n: &CallExpr) {
-        n.visit_children_with(self);
-        let mut scope = self.scope.borrow_mut();
-        if let Callee::Import(..) = &n.callee {
-            if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
-                match &**expr {
-                    Expr::Lit(Lit::Str(src)) => {
-                        *scope.import_types.entry(src.value.clone()).or_default() = true;
-                    }
-                    _ => {
-                        scope.unknown_imports.0 = true;
-                    }
-                }
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        for item in n.iter() {
+            if item.is_module_decl() {
+                item.visit_with(self);
             }
         }
-    }
 
-    fn visit_export_all(&mut self, export: &ExportAll) {
-        *self
-            .scope
-            .borrow_mut()
-            .import_types
-            .entry(export.src.value.clone())
-            .or_default() = true
-    }
+        let flag_record = &self.flag_record;
 
-    fn visit_import_decl(&mut self, import: &ImportDecl) {
-        let mut scope = self.scope.borrow_mut();
-        if import.specifiers.is_empty() {
-            // import 'foo';
-            //   -> require('foo');
-        } else if import.specifiers.len() == 1
-            && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
-        {
-            scope.import_types.insert(import.src.value.clone(), true);
-        } else {
-            let mut has_non_default = false;
-
-            for s in &import.specifiers {
-                match *s {
-                    ImportSpecifier::Namespace(ref _ns) => {
-                        scope.import_types.insert(import.src.value.clone(), true);
-                    }
-                    ImportSpecifier::Default(_) => {
-                        if !import.src.value.starts_with("@swc/helpers") {
-                            let src = import.src.value.clone();
-                            let src_already_exist = self.import_srcs.contains(&src);
-
-                            scope.import_types.entry(src).or_insert(src_already_exist);
-                        }
-                    }
-                    ImportSpecifier::Named(ref i) => {
-                        let ImportNamedSpecifier {
-                            ref local,
-                            ref imported,
-                            ..
-                        } = *i;
-                        let imported = match imported {
-                            Some(ModuleExportName::Ident(ident)) => Some(ident),
-                            Some(ModuleExportName::Str(..)) => {
-                                unimplemented!("module string names unimplemented")
-                            }
-                            _ => None,
-                        };
-                        let name = imported
-                            .as_ref()
-                            .map(|i| i.sym.clone())
-                            .unwrap_or_else(|| local.sym.clone());
-                        let is_default = name == js_word!("default");
-
-                        // in case of default import comes after named import, it needs to know
-                        // if there's prior import to same src to determine interopDefault or
-                        // interopWildcard.
-                        self.import_srcs.insert(import.src.value.clone());
-
-                        if is_default {
-                            scope
-                                .import_types
-                                .entry(import.src.value.clone())
-                                .or_insert(has_non_default);
-                        } else {
-                            has_non_default = true;
-                            scope
-                                .import_types
-                                .entry(import.src.value.clone())
-                                .and_modify(|v| *v = true);
-                        }
-                    }
-                }
-            }
+        if flag_record.values().any(|flag| flag.export_star()) {
+            enable_helper!(export_star);
         }
-    }
 
-    fn visit_named_export(&mut self, export: &NamedExport) {
-        if export
-            .specifiers
-            .iter()
-            .any(|v| matches!(v, ExportSpecifier::Namespace(..)))
-        {
-            let mut scope = self.scope.borrow_mut();
-
-            if let Some(ref src) = export.src {
-                *scope.import_types.entry(src.value.clone()).or_default() = true;
-            }
+        if self.no_interop {
             return;
         }
 
-        let mut scope = self.scope.borrow_mut();
-        for &ExportNamedSpecifier { ref orig, .. } in
-            export.specifiers.iter().filter_map(|e| match *e {
-                ExportSpecifier::Named(ref e) => Some(e),
-                _ => None,
-            })
+        if flag_record
+            .values()
+            .any(|flag| flag.interop() && !flag.has_named())
         {
-            let orig = match orig {
-                ModuleExportName::Ident(ident) => ident,
-                _ => unimplemented!("module string names unimplemented"),
-            };
-            let is_import_default = orig.sym == js_word!("default");
+            enable_helper!(interop_require_default);
+        }
 
-            if let Some(ref src) = export.src {
-                if is_import_default {
-                    scope.import_types.entry(src.value.clone()).or_insert(false);
-                } else {
-                    scope
-                        .import_types
-                        .entry(src.value.clone())
-                        .and_modify(|v| *v = true);
+        if flag_record.values().any(|flag| flag.namespace()) {
+            enable_helper!(interop_require_wildcard);
+        } else if !self.ignore_dynamic {
+            // `import/export * as foo from "foo"` not found
+            // but it may be used with dynamic import
+            for item in n.iter() {
+                if item.is_stmt() {
+                    item.visit_with(self);
+                }
+                if self.dynamic_import_found {
+                    enable_helper!(interop_require_wildcard);
+                    break;
                 }
             }
         }
+    }
+
+    fn visit_import_decl(&mut self, n: &ImportDecl) {
+        let flag = self.flag_record.entry(n.src.value.clone()).or_default();
+        for s in &n.specifiers {
+            *flag |= s.into();
+        }
+    }
+
+    fn visit_named_export(&mut self, n: &NamedExport) {
+        if let Some(src) = n.src.clone() {
+            let flag = self.flag_record.entry(src.value).or_default();
+            for s in &n.specifiers {
+                *flag |= s.into();
+            }
+        }
+    }
+
+    fn visit_export_all(&mut self, n: &ExportAll) {
+        *self.flag_record.entry(n.src.value.clone()).or_default() |= LinkFlag::EXPORT_STAR;
+    }
+
+    fn visit_import(&mut self, _: &Import) {
+        self.dynamic_import_found = true;
     }
 }

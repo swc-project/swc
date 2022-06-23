@@ -24,15 +24,8 @@ pub struct ModuleDeclStrip {
     /// `export = ` detected
     pub export_assign: Option<Box<Expr>>,
 
-    stmt: Option<Stmt>,
-}
-
-impl ModuleDeclStrip {
-    fn set_stmt(&mut self, stmt: impl Into<Stmt>) {
-        debug_assert_eq!(self.stmt, None);
-
-        self.stmt = Some(stmt.into());
-    }
+    /// `export default expr`
+    export_default: Option<Stmt>,
 }
 
 impl VisitMut for ModuleDeclStrip {
@@ -41,25 +34,50 @@ impl VisitMut for ModuleDeclStrip {
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut list = Vec::with_capacity(n.len());
 
-        for mut item in n.drain(..) {
-            if item.is_module_decl() {
-                item.visit_mut_with(self);
-            }
+        for item in n.drain(..) {
+            match item {
+                ModuleItem::Stmt(stmt) => list.push(stmt.into()),
 
-            if item.is_stmt() {
-                list.push(item)
-            }
+                ModuleItem::ModuleDecl(mut module_decl) => {
+                    // collect link meta
+                    module_decl.visit_mut_with(self);
+
+                    // emit stmt
+                    match module_decl {
+                        ModuleDecl::Import(..) => continue,
+                        ModuleDecl::ExportDecl(ExportDecl { decl, .. }) => {
+                            list.push(Stmt::Decl(decl).into());
+                        }
+                        ModuleDecl::ExportNamed(..) => continue,
+                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { decl, .. }) => match decl
+                        {
+                            DefaultDecl::Class(class_expr) => list.extend(
+                                class_expr
+                                    .as_class_decl()
+                                    .map(|decl| Stmt::Decl(Decl::Class(decl)))
+                                    .map(Into::into),
+                            ),
+                            DefaultDecl::Fn(fn_expr) => list.extend(
+                                fn_expr
+                                    .as_fn_decl()
+                                    .map(|decl| Stmt::Decl(Decl::Fn(decl)))
+                                    .map(Into::into),
+                            ),
+                            DefaultDecl::TsInterfaceDecl(_) => continue,
+                        },
+                        ModuleDecl::ExportDefaultExpr(..) => {
+                            list.extend(self.export_default.take().map(Into::into))
+                        }
+                        ModuleDecl::ExportAll(..) => continue,
+                        ModuleDecl::TsImportEquals(..) => continue,
+                        ModuleDecl::TsExportAssignment(..) => continue,
+                        ModuleDecl::TsNamespaceExport(..) => continue,
+                    };
+                }
+            };
         }
 
         *n = list;
-    }
-
-    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
-        n.visit_mut_children_with(self);
-
-        if let Some(stmt) = self.stmt.take() {
-            *n = stmt.into();
-        }
     }
 
     // collect all static import
@@ -103,10 +121,8 @@ impl VisitMut for ModuleDeclStrip {
                         ((id.sym, id.span), ident)
                     }));
             }
-            _ => unreachable!(),
+            _ => {}
         };
-
-        self.set_stmt(n.decl.take());
     }
 
     /// ```javascript
@@ -159,53 +175,36 @@ impl VisitMut for ModuleDeclStrip {
     /// ```javascript
     /// export default class foo {};
     /// export default class {};
+    /// export default function bar () {};
+    /// export default function () {};
     /// ```
     /// ->
     /// ```javascript
     /// class foo {};
     /// class _default {};
-    /// ```
-    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-        let ClassExpr { ident, class } = n.take();
-        let ident = ident.unwrap_or_else(|| private_ident!("_default"));
-
-        self.export
-            .insert((js_word!("default"), DUMMY_SP), ident.clone());
-
-        self.set_stmt(Stmt::Decl(
-            ClassDecl {
-                ident,
-                class,
-                declare: false,
-            }
-            .into(),
-        ));
-    }
-
-    /// ```javascript
-    /// export default function foo () {};
-    /// export default function () {};
-    /// ```
-    /// ->
-    /// ```javascript
-    /// function foo () {};
+    /// function bar () {};
     /// function _default () {};
     /// ```
-    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        let FnExpr { ident, function } = n.take();
-        let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        match &mut n.decl {
+            DefaultDecl::Class(class_expr) => {
+                let ident = class_expr
+                    .ident
+                    .get_or_insert_with(|| private_ident!("_default"))
+                    .clone();
 
-        self.export
-            .insert((js_word!("default"), DUMMY_SP), ident.clone());
-
-        self.set_stmt(Stmt::Decl(
-            FnDecl {
-                ident,
-                function,
-                declare: false,
+                self.export.insert((js_word!("default"), DUMMY_SP), ident);
             }
-            .into(),
-        ));
+            DefaultDecl::Fn(fn_expr) => {
+                let ident = fn_expr
+                    .ident
+                    .get_or_insert_with(|| private_ident!("_default"))
+                    .clone();
+
+                self.export.insert((js_word!("default"), DUMMY_SP), ident);
+            }
+            DefaultDecl::TsInterfaceDecl(_) => {}
+        }
     }
 
     /// ```javascript
@@ -223,21 +222,12 @@ impl VisitMut for ModuleDeclStrip {
         self.export
             .insert((js_word!("default"), DUMMY_SP), ident.clone());
 
-        let var_declarator = VarDeclarator {
-            span: DUMMY_SP,
-            name: ident.into(),
-            init: Some(n.expr.take()),
-            definite: false,
-        };
-
-        let var_decl = VarDecl {
-            decls: vec![var_declarator],
-            kind: VarDeclKind::Var,
-            span: DUMMY_SP,
-            declare: false,
-        };
-
-        self.set_stmt(Stmt::Decl(var_decl.into()));
+        self.export_default = Some(Stmt::Decl(
+            n.expr
+                .take()
+                .into_var_decl(VarDeclKind::Var, ident.into())
+                .into(),
+        ));
     }
 
     /// ```javascript
@@ -271,9 +261,8 @@ impl VisitMut for ModuleDeclStrip {
             ..
         } = n;
 
-        if *declare || *is_type_only {
-            return;
-        }
+        debug_assert!(!*declare);
+        debug_assert!(!*is_type_only);
 
         if let TsModuleRef::TsExternalModuleRef(TsExternalModuleRef {
             expr:
@@ -477,7 +466,7 @@ impl LinkFlag {
         self.interop() && self.intersects(Self::IMPORT_EQUAL)
     }
 
-    pub fn re_export(&self) -> bool {
+    pub fn export_star(&self) -> bool {
         self.intersects(Self::EXPORT_STAR)
     }
 }

@@ -19,25 +19,15 @@ _export(exports, {
     stage: ()=>stage,
     trustBox: ()=>trustBox
 });
-function _exportStar(from, to) {
-    Object.keys(from).forEach(function(k) {
-        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) Object.defineProperty(to, k, {
-            get: function() {
-                return from[k];
-            },
-            enumerable: true
-        });
-    });
-    return from;
-}
 const _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
 const _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
 const _classPrivateFieldSetMjs = require("@swc/helpers/lib/_class_private_field_set.js").default;
+const _exportStarMjs = require("@swc/helpers/lib/_export_star.js").default;
 const _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 const _abstractBuilders = require("./AbstractBuilders");
 const _builderUtils = require("./Builder.utils");
 const _elementBuilder = require("./ElementBuilder");
-const _bodyNodesBuilder = _interopRequireWildcardMjs(_exportStar(require("./BodyNodesBuilder"), exports));
+const _bodyNodesBuilder = _interopRequireWildcardMjs(_exportStarMjs(require("./BodyNodesBuilder"), exports));
 const create = ()=>new BodyBuilder();
 const trustBox = ()=>new TrustBoxBuilder();
 const opener = ()=>new OpenerBuilder();

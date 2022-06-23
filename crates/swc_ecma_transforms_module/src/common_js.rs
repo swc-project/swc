@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureSet, helper};
+use swc_ecma_transforms_base::{feature::FeatureSet, helper, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory,
 };
@@ -15,8 +15,8 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        define_es_module, esm_export, esm_export_star, has_use_strict, local_name_for_src,
-        object_define_enumerable, prop_arrow, prop_function, prop_method, use_strict,
+        define_es_module, esm_export, has_use_strict, local_name_for_src, object_define_enumerable,
+        prop_arrow, prop_function, prop_method, use_strict,
     },
 };
 
@@ -206,9 +206,6 @@ impl Cjs {
             .map(|((key, span), ident)| (key, span, ident.into()))
             .collect();
 
-        let esm_export_star_ident = private_ident!("_exportStar");
-        let mut has_export_star = false;
-
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
                 // Optimize for `@swc/helpers`:
@@ -248,7 +245,7 @@ impl Cjs {
                 );
 
                 let is_lazy =
-                    decl_mod_ident && !link_flag.re_export() && self.config.lazy.is_lazy(&src);
+                    decl_mod_ident && !link_flag.export_star() && self.config.lazy.is_lazy(&src);
 
                 if is_lazy {
                     lazy_record.insert(mod_ident.to_id());
@@ -284,10 +281,8 @@ impl Cjs {
                 });
 
                 // _exportStar(require("mod"), exports);
-                let import_expr = if link_flag.re_export() {
-                    has_export_star = true;
-
-                    esm_export_star_ident.clone().as_call(
+                let import_expr = if link_flag.export_star() {
+                    helper_expr!(export_star, "exportStar").as_call(
                         DUMMY_SP,
                         vec![import_expr.as_arg(), self.exports().as_arg()],
                     )
@@ -338,13 +333,7 @@ impl Cjs {
             },
         );
 
-        let mut export_stmts = self.export_stmts(export_obj_prop_list);
-
-        if has_export_star {
-            export_stmts.push(Stmt::Decl(Decl::Fn(
-                esm_export_star().into_fn_decl(esm_export_star_ident),
-            )));
-        }
+        let export_stmts = self.export_stmts(export_obj_prop_list);
 
         self.exports
             .clone()
@@ -355,11 +344,11 @@ impl Cjs {
     }
 
     fn exports(&mut self) -> Ident {
-        self.exports.clone().unwrap_or_else(|| {
-            let new_ident = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports");
-            self.exports = Some(new_ident.clone());
-            new_ident
-        })
+        self.exports
+            .get_or_insert_with(|| {
+                quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports")
+            })
+            .clone()
     }
 
     fn export_stmts(&mut self, mut prop_list: ExportObjPropList) -> Vec<Stmt> {
@@ -428,13 +417,8 @@ pub(crate) fn cjs_dynamic_import(
         let require = require.as_call(DUMMY_SP, vec![path.clone().as_arg()]);
 
         if es_module_interop {
-            CallExpr {
-                span: DUMMY_SP,
-                callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
-                args: vec![require.as_arg()],
-                type_args: None,
-            }
-            .into()
+            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                .as_call(DUMMY_SP, vec![require.as_arg()])
         } else {
             require
         }

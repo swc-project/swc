@@ -32,15 +32,15 @@ it("should work", async () => {
         },
     });
     expect(code).toMatchInlineSnapshot(`
-"\\"use strict\\";
-const _interopRequireWildcardMjs = require(\\"@swc/helpers/lib/_interop_require_wildcard.js\\").default;
-const _b = require(\\"../packages/b/src/index\\");
-async function display() {
-    const displayA = await Promise.resolve(\\"../packages/a/src/index\\").then((p)=>_interopRequireWildcardMjs(require(p))).then((c)=>c.displayA);
-    console.log(displayA());
-    console.log((0, _b.displayB)());
-}
-display();
-"
-`);
+        "\\"use strict\\";
+        const _interopRequireWildcardMjs = require(\\"../../../../packages/swc-helpers/src/_interop_require_wildcard.mjs\\").default;
+        const _b = require(\\"../packages/b/src/index\\");
+        async function display() {
+            const displayA = await Promise.resolve(\\"../packages/a/src/index\\").then((p)=>_interopRequireWildcardMjs(require(p))).then((c)=>c.displayA);
+            console.log(displayA());
+            console.log((0, _b.displayB)());
+        }
+        display();
+        "
+    `);
 });

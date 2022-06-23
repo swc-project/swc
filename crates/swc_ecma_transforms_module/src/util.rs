@@ -130,7 +130,6 @@ pub struct Scope {
     /// This fields tracks if a helper should be injected.
     ///
     /// `(need_wildcard, need_default)`
-    pub(crate) unknown_imports: (bool, bool),
 
     /// Map from imported ident to (source file, property name).
     ///
@@ -1155,93 +1154,6 @@ pub(crate) fn esm_export() -> Function {
             span: DUMMY_SP,
             stmts: vec![for_in_stmt],
         }),
-        is_generator: false,
-        is_async: false,
-        type_params: None,
-        return_type: None,
-    }
-}
-
-/// function _exportStar(from, to) {
-///   Object.keys(from).forEach(function (k) {
-///     if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k))
-///         Object.defineProperty(to, k, {
-///             enumerable: true,
-///             get: function () { return from[k]; }
-///         });
-///   });
-///   return from;
-/// }
-pub(crate) fn esm_export_star() -> Function {
-    let from = private_ident!("from");
-    let to = private_ident!("to");
-    let key = private_ident!("k");
-
-    let test = key
-        .clone()
-        .make_bin(op!("!=="), quote_str!("default"))
-        .make_bin(
-            op!("&&"),
-            member_expr!(DUMMY_SP, Object.prototype.hasOwnProperty.call)
-                .as_call(DUMMY_SP, vec![to.clone().as_arg(), key.clone().as_arg()])
-                .prepend_unary::<Expr>(op!("!")),
-        );
-
-    let define = object_define_enumerable(
-        to.clone().as_arg(),
-        key.clone().as_arg(),
-        prop_function((
-            js_word!("get"),
-            DUMMY_SP,
-            from.clone().computed_member(key.clone()),
-        ))
-        .into(),
-    );
-
-    let if_stmt = IfStmt {
-        span: DUMMY_SP,
-        test: Box::new(test),
-        cons: Box::new(define.into_stmt()),
-        alt: None,
-    };
-
-    let for_each_loop = member_expr!(DUMMY_SP, Object.keys)
-        .as_call(DUMMY_SP, vec![from.clone().as_arg()])
-        .make_member(quote_ident!("forEach"))
-        .as_call(
-            DUMMY_SP,
-            vec![Expr::Fn(FnExpr {
-                ident: None,
-                function: Function {
-                    params: vec![key.into()],
-                    decorators: Default::default(),
-                    span: DUMMY_SP,
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![if_stmt.into()],
-                    }),
-                    is_generator: false,
-                    is_async: false,
-                    type_params: None,
-                    return_type: None,
-                },
-            })
-            .as_arg()],
-        );
-
-    let body = BlockStmt {
-        span: DUMMY_SP,
-        stmts: vec![
-            for_each_loop.into_stmt(),
-            from.clone().into_return_stmt().into(),
-        ],
-    };
-
-    Function {
-        params: vec![from.into(), to.into()],
-        decorators: Default::default(),
-        span: DUMMY_SP,
-        body: Some(body),
         is_generator: false,
         is_async: false,
         type_params: None,
