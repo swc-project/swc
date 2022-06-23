@@ -19,7 +19,6 @@ members = [
   "crates/swc_plugin_testing",
   "crates/swc_plugin_proxy",
   "crates/swc_timer",
-  "crates/swc_webpack_ast",
 ]
 
 [profile.release]

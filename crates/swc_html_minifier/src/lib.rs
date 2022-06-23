@@ -204,8 +204,6 @@ static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("object", "usemap"),
 ];
 
-static COMMA_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &["class"];
-
 static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("img", "srcset"),
     ("source", "srcset"),
@@ -216,8 +214,11 @@ static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "media"),
 ];
 
+static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[("style", "media")];
+
 static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
     "class",
+    "part",
     "itemtype",
     "itemref",
     "itemprop",
@@ -252,6 +253,12 @@ enum TextChildrenType {
     Module,
 }
 
+enum CssMinificationMode {
+    Stylesheet,
+    ListOfDeclarations,
+    MediaQueryList,
+}
+
 #[inline(always)]
 fn is_whitespace(c: char) -> bool {
     matches!(c, '\x09' | '\x0a' | '\x0c' | '\x0d' | '\x20')
@@ -279,6 +286,7 @@ struct Minifier {
     collapse_whitespaces: Option<CollapseWhitespaces>,
 
     remove_empty_attributes: bool,
+    remove_redundant_attributes: bool,
     collapse_boolean_attributes: bool,
     minify_json: bool,
     minify_js: bool,
@@ -296,28 +304,84 @@ impl Minifier {
         HTML_BOOLEAN_ATTRIBUTES.contains(&name)
     }
 
-    fn is_global_trimable_attribute(&self, name: &str) -> bool {
-        ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&name)
+    fn is_trimable_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&attribute_name) {
+            return true;
+        }
+
+        match element.namespace {
+            Namespace::HTML => {
+                ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            _ => false,
+        }
     }
 
-    fn is_html_trimable_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
-        ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
+    fn is_comma_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        match element.namespace {
+            Namespace::HTML => match attribute_name {
+                "content"
+                    if &*element.tag_name == "meta"
+                        && (self.element_has_attribute_with_value(
+                            element,
+                            "name",
+                            &["viewport", "keywords"],
+                        )) =>
+                {
+                    true
+                }
+                "imagesrcset"
+                    if &*element.tag_name == "link"
+                        && self.element_has_attribute_with_value(element, "rel", &["preload"]) =>
+                {
+                    true
+                }
+                "imagesizes"
+                    if &*element.tag_name == "link"
+                        && self.element_has_attribute_with_value(element, "rel", &["preload"]) =>
+                {
+                    true
+                }
+                "accept"
+                    if &*element.tag_name == "input"
+                        && self.element_has_attribute_with_value(element, "type", &["file"]) =>
+                {
+                    true
+                }
+                _ => COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name)),
+            },
+            Namespace::SVG => {
+                COMMA_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            _ => false,
+        }
     }
 
-    fn is_global_comma_separated_attribute(&self, name: &str) -> bool {
-        COMMA_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
+    fn is_space_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&attribute_name) {
+            return true;
+        }
+
+        match element.namespace {
+            Namespace::HTML => {
+                SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            _ => false,
+        }
     }
 
-    fn is_html_comma_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
-        COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
-    }
-
-    fn is_global_space_separated_attribute(&self, name: &str) -> bool {
-        SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
-    }
-
-    fn is_html_space_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
-        SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
+    fn element_has_attribute_with_value(
+        &self,
+        element: &Element,
+        attribute_name: &str,
+        attribute_value: &[&str],
+    ) -> bool {
+        element.attributes.iter().any(|attribute| {
+            &*attribute.name == attribute_name
+                && attribute.value.is_some()
+                && attribute_value
+                    .contains(&&*attribute.value.as_ref().unwrap().to_ascii_lowercase())
+        })
     }
 
     fn is_default_attribute_value(
@@ -784,16 +848,115 @@ impl Minifier {
         Some(minified)
     }
 
-    fn minify_css(&self, data: String) -> Option<String> {
+    fn minify_sizes(&self, value: &str) -> Option<String> {
+        let values = value
+            .rsplitn(2, |c| matches!(c, '\t' | '\n' | '\x0C' | '\r' | ' '))
+            .collect::<Vec<&str>>();
+
+        if values.len() != 2 {
+            return None;
+        }
+
+        let media_condition =
+            // It should be `MediaCondition`, but `<media-query> = <media-condition>` and other values is just invalid size
+            match self.minify_css(values[1].to_string(), CssMinificationMode::MediaQueryList) {
+                Some(minified) => minified,
+                _ => return None,
+            };
+
+        let source_size_value = values[0];
+        let mut minified = String::with_capacity(media_condition.len() + source_size_value.len());
+
+        minified.push_str(&media_condition);
+        minified.push(' ');
+        minified.push_str(source_size_value);
+
+        Some(minified)
+    }
+
+    fn minify_css(&self, data: String, mode: CssMinificationMode) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
 
-        let mut stylesheet = match swc_css_parser::parse_file(&fm, Default::default(), &mut errors)
-        {
-            Ok(stylesheet) => stylesheet,
-            _ => return None,
+        let mut stylesheet = match mode {
+            CssMinificationMode::Stylesheet => {
+                match swc_css_parser::parse_file(&fm, Default::default(), &mut errors) {
+                    Ok(stylesheet) => stylesheet,
+                    _ => return None,
+                }
+            }
+            CssMinificationMode::ListOfDeclarations => {
+                match swc_css_parser::parse_file::<Vec<swc_css_ast::DeclarationOrAtRule>>(
+                    &fm,
+                    Default::default(),
+                    &mut errors,
+                ) {
+                    Ok(list_of_declarations) => {
+                        let declaration_list: Vec<swc_css_ast::ComponentValue> =
+                            list_of_declarations
+                                .into_iter()
+                                .map(swc_css_ast::ComponentValue::DeclarationOrAtRule)
+                                .collect();
+
+                        swc_css_ast::Stylesheet {
+                            span: Default::default(),
+                            rules: vec![swc_css_ast::Rule::QualifiedRule(
+                                swc_css_ast::QualifiedRule {
+                                    span: Default::default(),
+                                    prelude: swc_css_ast::QualifiedRulePrelude::SelectorList(
+                                        swc_css_ast::SelectorList {
+                                            span: Default::default(),
+                                            children: vec![],
+                                        },
+                                    ),
+                                    block: swc_css_ast::SimpleBlock {
+                                        span: Default::default(),
+                                        name: '{',
+                                        value: declaration_list,
+                                    },
+                                },
+                            )],
+                        }
+                    }
+                    _ => return None,
+                }
+            }
+            CssMinificationMode::MediaQueryList => {
+                match swc_css_parser::parse_file::<swc_css_ast::MediaQueryList>(
+                    &fm,
+                    Default::default(),
+                    &mut errors,
+                ) {
+                    Ok(media_query_list) => swc_css_ast::Stylesheet {
+                        span: Default::default(),
+                        rules: vec![swc_css_ast::Rule::AtRule(swc_css_ast::AtRule {
+                            span: Default::default(),
+                            name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
+                                span: Default::default(),
+                                value: "media".into(),
+                                raw: "media".into(),
+                            }),
+                            prelude: Some(swc_css_ast::AtRulePrelude::MediaPrelude(
+                                media_query_list,
+                            )),
+                            block: Some(swc_css_ast::SimpleBlock {
+                                span: Default::default(),
+                                name: '{',
+                                // TODO make the `compress_empty` option for CSS minifier and remove
+                                // it
+                                value: vec![swc_css_ast::ComponentValue::Str(swc_css_ast::Str {
+                                    span: Default::default(),
+                                    value: "placeholder".into(),
+                                    raw: "placeholder".into(),
+                                })],
+                            }),
+                        })],
+                    },
+                    _ => return None,
+                }
+            }
         };
 
         // Avoid compress potential invalid CSS
@@ -814,7 +977,41 @@ impl Minifier {
             swc_css_codegen::CodegenConfig { minify: true },
         );
 
-        swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
+        match mode {
+            CssMinificationMode::Stylesheet => {
+                swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
+            }
+            CssMinificationMode::ListOfDeclarations => {
+                let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
+
+                // Because CSS is grammar free, protect for fails
+                if let Some(swc_css_ast::Rule::QualifiedRule(swc_css_ast::QualifiedRule {
+                    block,
+                    ..
+                })) = rules.get(0)
+                {
+                    swc_css_codegen::Emit::emit(&mut gen, &block).unwrap();
+
+                    minified = minified[1..minified.len() - 1].to_string();
+                } else {
+                    return None;
+                }
+            }
+            CssMinificationMode::MediaQueryList => {
+                let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
+
+                // Because CSS is grammar free, protect for fails
+                if let Some(swc_css_ast::Rule::AtRule(swc_css_ast::AtRule { prelude, .. })) =
+                    rules.get(0)
+                {
+                    swc_css_codegen::Emit::emit(&mut gen, &prelude).unwrap();
+
+                    minified = minified.trim().to_string();
+                } else {
+                    return None;
+                }
+            }
+        }
 
         Some(minified)
     }
@@ -857,6 +1054,7 @@ impl Minifier {
                 force_set_html5_doctype: self.force_set_html5_doctype,
                 collapse_whitespaces: self.collapse_whitespaces.clone(),
                 remove_empty_attributes: self.remove_empty_attributes,
+                remove_redundant_attributes: self.remove_empty_attributes,
                 collapse_boolean_attributes: self.collapse_boolean_attributes,
                 minify_js: self.minify_js,
                 minify_json: self.minify_json,
@@ -953,23 +1151,25 @@ impl VisitMut for Minifier {
                 return true;
             }
 
-            if self.is_default_attribute_value(
-                n.namespace,
-                &n.tag_name,
-                &attribute.name,
-                match &*n.tag_name {
-                    "script" if matches!(n.namespace, Namespace::HTML | Namespace::SVG) => {
-                        let original_value = attribute.value.as_ref().unwrap();
+            if self.remove_redundant_attributes
+                && self.is_default_attribute_value(
+                    n.namespace,
+                    &n.tag_name,
+                    &attribute.name,
+                    match &*n.tag_name {
+                        "script" if matches!(n.namespace, Namespace::HTML | Namespace::SVG) => {
+                            let original_value = attribute.value.as_ref().unwrap();
 
-                        if let Some(next) = original_value.split(';').next() {
-                            next
-                        } else {
-                            original_value
+                            if let Some(next) = original_value.split(';').next() {
+                                next
+                            } else {
+                                original_value
+                            }
                         }
-                    }
-                    _ => attribute.value.as_ref().unwrap(),
-                },
-            ) {
+                        _ => attribute.value.as_ref().unwrap(),
+                    },
+                )
+            {
                 return false;
             }
 
@@ -1012,12 +1212,7 @@ impl VisitMut for Minifier {
             n.value = None;
 
             return;
-        } else if self.is_global_space_separated_attribute(&n.name)
-            || (is_element_html_namespace
-                && self.is_html_space_separated_attribute(
-                    &*self.current_element.as_ref().unwrap().tag_name,
-                    &n.name,
-                ))
+        } else if self.is_space_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
         {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
 
@@ -1026,68 +1221,60 @@ impl VisitMut for Minifier {
             }
 
             value = values.join(" ");
-        } else if self.is_global_comma_separated_attribute(&n.name)
-            || (is_element_html_namespace
-                && ((&n.name == "content"
-                    && self
-                        .current_element
-                        .as_ref()
-                        .unwrap()
-                        .attributes
-                        .iter()
-                        .any(|attribute| match &*attribute.name.to_ascii_lowercase() {
-                            "name"
-                                if attribute.value.is_some()
-                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                        == "viewport" =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        }))
-                    || self.is_html_comma_separated_attribute(
-                        &*self.current_element.as_ref().unwrap().tag_name,
-                        &n.name,
-                    )))
+        } else if self.is_comma_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
         {
-            let values = value.trim().split(',');
+            let is_sizes = matches!(&*n.name, "sizes" | "imagesizes");
 
             let mut new_values = vec![];
 
-            for value in values {
-                new_values.push(value.trim());
+            for value in value.trim().split(',') {
+                if is_sizes {
+                    let trimmed = value.trim();
+
+                    match self.minify_sizes(trimmed) {
+                        Some(minified) => {
+                            new_values.push(minified);
+                        }
+                        _ => {
+                            new_values.push(trimmed.to_string());
+                        }
+                    };
+                } else {
+                    new_values.push(value.trim().to_string());
+                }
             }
 
             value = new_values.join(",");
-        } else if self.is_global_trimable_attribute(&n.name)
-            || (is_element_html_namespace
-                && self.is_html_trimable_attribute(
-                    &*self.current_element.as_ref().unwrap().tag_name,
-                    &n.name,
-                ))
+
+            if self.minify_css && &*n.name == "media" && !value.is_empty() {
+                if let Some(minified) =
+                    self.minify_css(value.clone(), CssMinificationMode::MediaQueryList)
+                {
+                    value = minified;
+                }
+            }
+        } else if self
+            .is_trimable_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
         {
             value = value.trim().to_string();
+
+            if self.minify_css && &*n.name == "style" && !value.is_empty() {
+                if let Some(minified) =
+                    self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
+                {
+                    value = minified;
+                }
+            }
         } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
             n.value = Some(js_word!(""));
 
             return;
         } else if &n.name == "content"
-            && self
-                .current_element
-                .as_ref()
-                .unwrap()
-                .attributes
-                .iter()
-                .any(|attribute| match &*attribute.name.to_ascii_lowercase() {
-                    "http-equiv"
-                        if attribute.value.is_some()
-                            && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                == "content-security-policy" =>
-                    {
-                        true
-                    }
-                    _ => false,
-                })
+            && self.element_has_attribute_with_value(
+                self.current_element.as_ref().unwrap(),
+                "http-equiv",
+                &["content-security-policy"],
+            )
         {
             let values = value.trim().split(';');
 
@@ -1239,10 +1426,11 @@ impl VisitMut for Minifier {
                 n.data = minified.into();
             }
             Some(TextChildrenType::Css) => {
-                let minified = match self.minify_css(n.data.to_string()) {
-                    Some(minified) => minified,
-                    None => return,
-                };
+                let minified =
+                    match self.minify_css(n.data.to_string(), CssMinificationMode::Stylesheet) {
+                        Some(minified) => minified,
+                        None => return,
+                    };
 
                 n.data = minified.into();
             }
@@ -1311,6 +1499,7 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         collapse_whitespaces: options.collapse_whitespaces.clone(),
 
         remove_empty_attributes: options.remove_empty_attributes,
+        remove_redundant_attributes: options.remove_redundant_attributes,
         collapse_boolean_attributes: options.collapse_boolean_attributes,
 
         minify_js: options.minify_js,
