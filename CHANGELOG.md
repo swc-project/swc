@@ -46,6 +46,12 @@
 
 - **(html/minifier)** Add `remove_redundant_attributes` (#5023) ([03d8a3a](https://github.com/swc-project/swc/commit/03d8a3a0ddb843ded43134265973557dd48e14a7))
 
+### Performance
+
+
+
+- **(html/parser)** Improve performance (#5028) ([a057183](https://github.com/swc-project/swc/commit/a057183230303cc874a6f7c236cf0ea11fe24f2f))
+
 ### Refactor
 
 
