@@ -1,12 +1,12 @@
 
-  x Expected Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
- 7 | prop: !!;
-   :        ^
-   `----
-
   x Expected ":"
     ,-[$DIR/tests/recovery/declaration/basic/input.css:12:5]
  12 | test;
     :     ^
     `----
+
+  x Expected Ident
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
+ 7 | prop: !!;
+   :        ^
+   `----

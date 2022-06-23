@@ -4,3 +4,9 @@
  2 | prop: "test\\
    :              ^
    `----
+
+  x Unterminated string
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:5]
+ 2 | prop: "test\\
+   :              ^
+   `----

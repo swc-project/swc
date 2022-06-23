@@ -1,32 +1,14 @@
 
-  x The CSS-wide keywords are not valid custom ident, found 'initial'
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
- 1 | @keyframes initial {}
-   :            ^^^^^^^
-   `----
-
   x Expected ident or string
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
    :                    ^
    `----
 
-  x The CSS-wide keywords are not valid custom ident, found 'inherit'
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
- 2 | @keyframes inherit {}
-   :            ^^^^^^^
-   `----
-
   x Expected ident or string
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
  2 | @keyframes inherit {}
    :                    ^
-   `----
-
-  x The CSS-wide keywords are not valid custom ident, found 'unset'
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]
- 3 | @keyframes unset {}
-   :            ^^^^^
    `----
 
   x Expected ident or string
@@ -35,16 +17,16 @@
    :                  ^
    `----
 
-  x The CSS-wide keywords are not valid custom ident, found 'none'
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:4:1]
- 4 | @keyframes none {}
-   :            ^^^^
-   `----
-
   x Expected ident or string
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:4:1]
  4 | @keyframes none {}
    :                 ^
+   `----
+
+  x Expected ident or string
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:5:1]
+ 5 | @keyframes iNiTiAl {}
+   :                    ^
    `----
 
   x The CSS-wide keywords are not valid custom ident, found 'iNiTiAl'
@@ -53,8 +35,26 @@
    :            ^^^^^^^
    `----
 
-  x Expected ident or string
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:5:1]
- 5 | @keyframes iNiTiAl {}
-   :                    ^
+  x The CSS-wide keywords are not valid custom ident, found 'inherit'
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
+ 2 | @keyframes inherit {}
+   :            ^^^^^^^
+   `----
+
+  x The CSS-wide keywords are not valid custom ident, found 'initial'
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
+ 1 | @keyframes initial {}
+   :            ^^^^^^^
+   `----
+
+  x The CSS-wide keywords are not valid custom ident, found 'none'
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:4:1]
+ 4 | @keyframes none {}
+   :            ^^^^
+   `----
+
+  x The CSS-wide keywords are not valid custom ident, found 'unset'
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]
+ 3 | @keyframes unset {}
+   :            ^^^^^
    `----
