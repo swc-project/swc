@@ -6,7 +6,7 @@
 #![allow(clippy::wrong_self_convention)]
 
 use swc_common::{input::StringInput, SourceFile};
-use swc_html_ast::{Document, DocumentFragment, Element};
+use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element};
 
 use crate::{
     error::Error,
@@ -45,12 +45,13 @@ pub fn parse_file_as_document(
 pub fn parse_file_as_document_fragment(
     fm: &SourceFile,
     context_element: Element,
+    mode: DocumentMode,
     config: ParserConfig,
     errors: &mut Vec<Error>,
 ) -> PResult<DocumentFragment> {
     let lexer = Lexer::new(StringInput::from(fm));
     let mut parser = Parser::new(lexer, config);
-    let result = parser.parse_document_fragment(context_element);
+    let result = parser.parse_document_fragment(context_element, mode);
 
     errors.extend(parser.take_errors());
 

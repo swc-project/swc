@@ -138,7 +138,7 @@ where
     pub fn parse_document(&mut self) -> PResult<Document> {
         let start = self.input.cur_span()?;
 
-        self.document = Some(self.create_document());
+        self.document = Some(self.create_document(None));
 
         self.run()?;
 
@@ -264,12 +264,11 @@ where
     pub fn parse_document_fragment(
         &mut self,
         context_element: Element,
+        mode: DocumentMode,
     ) -> PResult<DocumentFragment> {
         // 1.
-        self.document = Some(self.create_document());
-
         // 2.
-        // TODO add ability to set document mode
+        self.document = Some(self.create_document(Some(mode)));
 
         // 3.
         // Parser already created
@@ -360,10 +359,10 @@ where
         })
     }
 
-    fn create_document(&self) -> RcNode {
+    fn create_document(&self, mode: Option<DocumentMode>) -> RcNode {
         Node::new(
             Data::Document {
-                mode: RefCell::new(DocumentMode::NoQuirks),
+                mode: RefCell::new(mode.unwrap_or_else(|| DocumentMode::NoQuirks)),
             },
             DUMMY_SP,
         )
