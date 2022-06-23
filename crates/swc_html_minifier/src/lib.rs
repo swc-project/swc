@@ -848,6 +848,32 @@ impl Minifier {
         Some(minified)
     }
 
+    fn minify_sizes(&self, value: &str) -> Option<String> {
+        let values = value
+            .rsplitn(2, |c| matches!(c, '\t' | '\n' | '\x0C' | '\r' | ' '))
+            .collect::<Vec<&str>>();
+
+        if values.len() != 2 {
+            return None;
+        }
+
+        let media_condition =
+            // It should be `MediaCondition`, but `<media-query> = <media-condition>` and other values is just invalid size
+            match self.minify_css(values[1].to_string(), CssMinificationMode::MediaQueryList) {
+                Some(minified) => minified,
+                _ => return None,
+            };
+
+        let source_size_value = values[0];
+        let mut minified = String::with_capacity(media_condition.len() + source_size_value.len());
+
+        minified.push_str(&media_condition);
+        minified.push(' ');
+        minified.push_str(source_size_value);
+
+        Some(minified)
+    }
+
     fn minify_css(&self, data: String, mode: CssMinificationMode) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
@@ -1197,12 +1223,25 @@ impl VisitMut for Minifier {
             value = values.join(" ");
         } else if self.is_comma_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
         {
-            let values = value.trim().split(',');
+            let is_sizes = matches!(&*n.name, "sizes" | "imagesizes");
 
             let mut new_values = vec![];
 
-            for value in values {
-                new_values.push(value.trim());
+            for value in value.trim().split(',') {
+                if is_sizes {
+                    let trimmed = value.trim();
+
+                    match self.minify_sizes(trimmed) {
+                        Some(minified) => {
+                            new_values.push(minified);
+                        }
+                        _ => {
+                            new_values.push(trimmed.to_string());
+                        }
+                    };
+                } else {
+                    new_values.push(value.trim().to_string());
+                }
             }
 
             value = new_values.join(",");
