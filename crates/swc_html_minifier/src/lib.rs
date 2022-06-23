@@ -863,11 +863,7 @@ impl Minifier {
                                 let parent_display = self.get_display(namespace, &**tag_name);
 
                                 match parent_display {
-                                    Display::Block
-                                    | Display::InlineBlock
-                                    | Display::Ruby
-                                    | Display::ListItem => true,
-                                    _ => {
+                                    Display::Inline => {
                                         if let Some(Child::Text(Text { data, .. })) =
                                             &self.latest_element
                                         {
@@ -876,6 +872,7 @@ impl Minifier {
                                             false
                                         }
                                     }
+                                    _ => true,
                                 }
                             }
                         };
