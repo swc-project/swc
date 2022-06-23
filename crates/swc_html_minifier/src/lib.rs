@@ -665,7 +665,7 @@ impl Minifier {
         }
     }
 
-    fn get_deep_text_element_first<'a>(&self, node: &'a mut Child) -> Option<&'a mut Text> {
+    fn get_deep_first_text_element<'a>(&self, node: &'a mut Child) -> Option<&'a mut Text> {
         match node {
             Child::Text(text) => Some(text),
             Child::Element(Element {
@@ -675,7 +675,7 @@ impl Minifier {
                 ..
             }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
                 if let Some(last) = children.first_mut() {
-                    self.get_deep_text_element_first(last)
+                    self.get_deep_first_text_element(last)
                 } else {
                     None
                 }
@@ -684,7 +684,7 @@ impl Minifier {
         }
     }
 
-    fn get_deep_text_element_last<'a>(&self, node: &'a mut Child) -> Option<&'a mut Text> {
+    fn get_deep_last_text_element<'a>(&self, node: &'a mut Child) -> Option<&'a mut Text> {
         match node {
             Child::Text(text) => Some(text),
             Child::Element(Element {
@@ -694,7 +694,7 @@ impl Minifier {
                 ..
             }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
                 if let Some(last) = children.last_mut() {
-                    self.get_deep_text_element_last(last)
+                    self.get_deep_last_text_element(last)
                 } else {
                     None
                 }
@@ -794,13 +794,13 @@ impl Minifier {
 
         if namespace == Namespace::HTML && &**tag_name == "body" {
             if let Some(first) = children.first_mut() {
-                if let Some(text) = self.get_deep_text_element_first(first) {
+                if let Some(text) = self.get_deep_first_text_element(first) {
                     text.data = text.data.trim_start_matches(is_whitespace).into();
                 }
             }
 
             if let Some(last) = children.last_mut() {
-                if let Some(text) = self.get_deep_text_element_last(last) {
+                if let Some(text) = self.get_deep_last_text_element(last) {
                     text.data = text.data.trim_end_matches(is_whitespace).into();
                 }
             }
@@ -869,7 +869,7 @@ impl Minifier {
                             ) => true,
                             // Inline box
                             Some(Display::Inline) => {
-                                let deep = self.get_deep_text_element_last(prev.as_mut().unwrap());
+                                let deep = self.get_deep_last_text_element(prev.as_mut().unwrap());
 
                                 if let Some(deep) = deep {
                                     deep.data.ends_with(is_whitespace)
