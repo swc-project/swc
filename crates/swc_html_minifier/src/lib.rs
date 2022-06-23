@@ -850,10 +850,23 @@ impl Minifier {
                         is_smart_left_trim = match prev_display {
                             // Block-level containers:
                             //
-                            // `Display::Block`     - `display: block flow`
-                            // `Display::Table`     - `display: block table`
-                            // `Display::ListItem`` - `display: block flow list-item`
-                            Some(Display::Block | Display::Table | Display::ListItem) => true,
+                            // `Display::Block`    - `display: block flow`
+                            // `Display::ListItem` - `display: block flow list-item`
+                            // `Display::Table`    - `display: block table`
+                            // + internal table display (only whitespace characters allowed there)
+                            Some(
+                                Display::Block
+                                | Display::ListItem
+                                | Display::Table
+                                | Display::TableColumnGroup
+                                | Display::TableCaption
+                                | Display::TableColumn
+                                | Display::TableRow
+                                | Display::TableCell
+                                | Display::TableHeaderGroup
+                                | Display::TableRowGroup
+                                | Display::TableFooterGroup,
+                            ) => true,
                             // Inline box
                             Some(Display::Inline) => {
                                 let deep = self.get_deep_text_element_last(prev.as_mut().unwrap());
@@ -864,7 +877,7 @@ impl Minifier {
                                     false
                                 }
                             }
-                            // Inline level containers
+                            // Inline level containers and etc
                             Some(_) => false,
                             None => {
                                 let parent_display = self.get_display(namespace, &**tag_name);
