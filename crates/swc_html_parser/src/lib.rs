@@ -46,12 +46,13 @@ pub fn parse_file_as_document_fragment(
     fm: &SourceFile,
     context_element: Element,
     mode: DocumentMode,
+    form_element: Option<Element>,
     config: ParserConfig,
     errors: &mut Vec<Error>,
 ) -> PResult<DocumentFragment> {
     let lexer = Lexer::new(StringInput::from(fm));
     let mut parser = Parser::new(lexer, config);
-    let result = parser.parse_document_fragment(context_element, mode);
+    let result = parser.parse_document_fragment(context_element, mode, form_element);
 
     errors.extend(parser.take_errors());
 

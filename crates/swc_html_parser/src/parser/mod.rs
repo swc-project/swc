@@ -265,6 +265,7 @@ where
         &mut self,
         context_element: Element,
         mode: DocumentMode,
+        form_element: Option<Element>,
     ) -> PResult<DocumentFragment> {
         // 1.
         // 2.
@@ -331,9 +332,18 @@ where
         self.reset_insertion_mode();
 
         // 11.
-        // TODO how we can get parent here?
         if is_html_element!(context_node, "form") {
             self.form_element_pointer = Some(context_node);
+        } else if let Some(form_element) = form_element {
+            self.form_element_pointer = Some(Node::new(
+                Data::Element {
+                    namespace: form_element.namespace,
+                    tag_name: form_element.tag_name,
+                    attributes: RefCell::new(form_element.attributes),
+                    is_self_closing: form_element.is_self_closing,
+                },
+                DUMMY_SP,
+            ));
         }
 
         // 12.
