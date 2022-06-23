@@ -665,9 +665,11 @@ impl Minifier {
         }
     }
 
-    fn get_deep_first_text_element<'a>(&self, node: &'a mut Child) -> Option<&'a mut Text> {
+    fn remove_whitespace_from_first_text_element(&self, node: &mut Child) {
         match node {
-            Child::Text(text) => Some(text),
+            Child::Text(text) => {
+                text.data = text.data.trim_start_matches(is_whitespace).into();
+            }
             Child::Element(Element {
                 namespace,
                 tag_name,
@@ -675,12 +677,29 @@ impl Minifier {
                 ..
             }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
                 if let Some(last) = children.first_mut() {
-                    self.get_deep_first_text_element(last)
-                } else {
-                    None
+                    self.remove_whitespace_from_first_text_element(last)
                 }
             }
-            _ => None,
+            _ => {}
+        }
+    }
+
+    fn remove_whitespace_from_last_text_element(&self, node: &mut Child) {
+        match node {
+            Child::Text(text) => {
+                text.data = text.data.trim_end_matches(is_whitespace).into();
+            }
+            Child::Element(Element {
+                namespace,
+                tag_name,
+                children,
+                ..
+            }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
+                if let Some(last) = children.last_mut() {
+                    self.remove_whitespace_from_last_text_element(last)
+                }
+            }
+            _ => {}
         }
     }
 
@@ -794,15 +813,11 @@ impl Minifier {
 
         if namespace == Namespace::HTML && &**tag_name == "body" {
             if let Some(first) = children.first_mut() {
-                if let Some(text) = self.get_deep_first_text_element(first) {
-                    text.data = text.data.trim_start_matches(is_whitespace).into();
-                }
+                self.remove_whitespace_from_first_text_element(first);
             }
 
             if let Some(last) = children.last_mut() {
-                if let Some(text) = self.get_deep_last_text_element(last) {
-                    text.data = text.data.trim_end_matches(is_whitespace).into();
-                }
+                self.remove_whitespace_from_last_text_element(last)
             }
         }
 
