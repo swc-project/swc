@@ -2,7 +2,9 @@ use swc_atoms::js_word;
 use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureSet, helper, helper_expr};
-use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory};
+use swc_ecma_utils::{
+    member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory, IsDirective,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
@@ -10,7 +12,9 @@ use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
-    util::{define_es_module, emit_export_stmts, has_use_strict, local_name_for_src, use_strict},
+    util::{
+        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, use_strict,
+    },
 };
 
 pub fn common_js(
@@ -78,8 +82,8 @@ impl VisitMut for Cjs {
         let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 4);
 
         // "use strict";
-        if self.config.strict_mode && !has_use_strict(n) {
-            stmts.push(use_strict().into());
+        if self.config.strict_mode {
+            stmts.push(clone_first_use_strict(n).unwrap_or_else(use_strict).into());
         }
 
         let ModuleDeclStrip {
@@ -107,7 +111,10 @@ impl VisitMut for Cjs {
             .map(Into::into),
         );
 
-        stmts.extend(n.take());
+        stmts.extend(n.take().into_iter().filter(|item| match item {
+            ModuleItem::Stmt(stmt) => !stmt.is_use_strict(),
+            _ => false,
+        }));
 
         // `export = expr;` -> `module.exports = expr;`
         if let Some(export_assign) = export_assign {

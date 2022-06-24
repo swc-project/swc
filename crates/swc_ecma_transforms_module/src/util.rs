@@ -130,18 +130,20 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
     .into_stmt()
 }
 
-pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
+pub(super) fn clone_first_use_strict(stmts: &[ModuleItem]) -> Option<Stmt> {
     if stmts.is_empty() {
-        return false;
+        return None;
     }
 
-    if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first().unwrap() {
-        if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
-            return value == "use strict";
-        }
-    }
-
-    false
+    stmts.iter().find_map(|item| match item {
+        ModuleItem::Stmt(stmt @ Stmt::Expr(ExprStmt { expr, .. })) => match **expr {
+            Expr::Lit(Lit::Str(Str { ref value, .. })) if value == "use strict" => {
+                Some(stmt.clone())
+            }
+            _ => None,
+        },
+        _ => None,
+    })
 }
 
 pub(super) fn use_strict() -> Stmt {

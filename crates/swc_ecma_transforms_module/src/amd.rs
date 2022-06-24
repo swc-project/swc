@@ -5,7 +5,7 @@ use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureSet, helper, helper_expr};
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory,
+    member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -14,7 +14,9 @@ use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
-    util::{define_es_module, emit_export_stmts, has_use_strict, local_name_for_src, use_strict},
+    util::{
+        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, use_strict,
+    },
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -112,8 +114,8 @@ impl VisitMut for Amd {
         let mut stmts: Vec<Stmt> = Vec::with_capacity(n.len() + 4);
 
         // "use strict";
-        if self.config.strict_mode && !has_use_strict(n) {
-            stmts.push(use_strict());
+        if self.config.strict_mode {
+            stmts.push(clone_first_use_strict(n).unwrap_or_else(use_strict));
         }
 
         let ModuleDeclStrip {
@@ -132,11 +134,9 @@ impl VisitMut for Amd {
                 .map(Into::into),
         );
 
-        stmts.extend(n.take().into_iter().map(|i| match i {
-            ModuleItem::ModuleDecl(_) => {
-                unreachable!("All ModuleDecl should be removed by ModuleDeclStrip")
-            }
-            ModuleItem::Stmt(stmt) => stmt,
+        stmts.extend(n.take().into_iter().filter_map(|item| match item {
+            ModuleItem::Stmt(stmt) if !stmt.is_use_strict() => Some(stmt),
+            _ => None,
         }));
 
         if let Some(export_assign) = export_assign {

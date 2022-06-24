@@ -1,5 +1,5 @@
-const _necessary = require("necessary");
 "use strict";
+const _necessary = require("necessary");
 const { second  } = _necessary.arrayUtilities;
 const elements = [
     1,
