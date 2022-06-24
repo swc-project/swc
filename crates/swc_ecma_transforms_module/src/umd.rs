@@ -138,6 +138,10 @@ impl VisitMut for Umd {
             top_level: true,
         });
 
+        // ====================
+        //  Emit
+        // ====================
+
         let (adapter_fn_expr, factory_params) = self.adapter(exported_name, is_export_assign);
 
         let factory_fn_expr = FnExpr {
@@ -167,15 +171,6 @@ impl VisitMut for Umd {
             )
             .into_stmt()
             .into()]
-
-        // ====================
-        //  Emit
-        // ====================
-
-        // *module_items = vec![quote_ident!("define")
-        //     .as_call(DUMMY_SP, amd_call_args)
-        //     .into_stmt()
-        //     .into()];
     }
 }
 
