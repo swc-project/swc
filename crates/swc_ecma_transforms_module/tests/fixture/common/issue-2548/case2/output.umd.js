@@ -5,7 +5,7 @@
         "./Z"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.z);
-})(this, function(_z) {
+})(this, function(exports, _z) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

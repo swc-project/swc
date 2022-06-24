@@ -5,7 +5,7 @@
         "c"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.c);
-})(this, function(_c) {
+})(this, function(exports, _c) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

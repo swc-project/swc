@@ -5,8 +5,11 @@
         "lib"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.lib);
-})(this, function(_lib) {
+})(this, function(exports, _lib) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     function myFn() {
         (0, _lib.fn)();
     }

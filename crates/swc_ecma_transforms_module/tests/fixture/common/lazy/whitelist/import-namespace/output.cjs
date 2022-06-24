@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function _white() {
     const data = _interopRequireWildcard(require("white"));
     _white = function() {

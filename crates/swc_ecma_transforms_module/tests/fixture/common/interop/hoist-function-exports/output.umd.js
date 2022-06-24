@@ -5,7 +5,7 @@
         "./evens"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.evens);
-})(this, function(_evens) {
+})(this, function(exports, _evens) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

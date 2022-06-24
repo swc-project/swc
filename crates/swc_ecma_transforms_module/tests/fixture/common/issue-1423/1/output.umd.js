@@ -5,8 +5,11 @@
         "necessary"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.necessary);
-})(this, function(_necessary) {
+})(this, function(exports, _necessary) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     const { second  } = _necessary.arrayUtilities;
     const elements = [
         1,

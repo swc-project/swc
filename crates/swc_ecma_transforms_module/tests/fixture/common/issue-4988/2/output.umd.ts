@@ -5,7 +5,10 @@
         "vs/base/test/common/testUtils"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.testUtils);
-})(this, function(_testUtils) {
+})(this, function(exports, _testUtils) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     _testUtils = _interopRequireWildcard(_testUtils);
 });

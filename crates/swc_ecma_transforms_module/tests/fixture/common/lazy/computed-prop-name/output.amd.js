@@ -1,8 +1,12 @@
 define([
+    "exports",
     "libx",
     "liby"
-], function(_libx, _liby) {
+], function(exports, _libx, _liby) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     class F {
         get [_libx.x]() {}
         get y() {

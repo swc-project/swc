@@ -8,7 +8,7 @@
         "@emotion/css"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global[""], global.styled, global.breakpoints, global.css);
-})(this, function(_, _styled, _breakpoints, _css) {
+})(this, function(exports, _, _styled, _breakpoints, _css) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

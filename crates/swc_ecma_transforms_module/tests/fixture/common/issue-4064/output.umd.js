@@ -6,7 +6,7 @@
         "./File2"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.file1, global.file2);
-})(this, function(_file1, _file2) {
+})(this, function(exports, _file1, _file2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

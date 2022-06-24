@@ -6,7 +6,7 @@
         "./interfaces"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.http, global.interfaces);
-})(this, function(_http, _interfaces) {
+})(this, function(exports, _http, _interfaces) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

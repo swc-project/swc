@@ -1,7 +1,11 @@
 define([
+    "exports",
     "child_process"
-], function(_childProcess) {
+], function(exports, _childProcess) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     function log() {
         console.log(_childProcess.spawn);
     }

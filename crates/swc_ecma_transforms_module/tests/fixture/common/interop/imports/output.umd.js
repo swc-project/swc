@@ -7,6 +7,9 @@
         "./directory/foo-bar"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.foo, global.fooBar, global.fooBar);
-})(this, function(_foo, _fooBar, _fooBar1) {
+})(this, function(exports, _foo, _fooBar, _fooBar1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
 });

@@ -11,7 +11,7 @@
         "foo5"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.foo, global.fooBar, global.fooBar, global.foo2, global.foo3, global.foo4, global.foo5);
-})(this, function(_foo, _fooBar, _fooBar1, _foo2, _foo3, _foo4, _foo5) {
+})(this, function(exports, _foo, _fooBar, _fooBar1, _foo2, _foo3, _foo4, _foo5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

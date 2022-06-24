@@ -1,7 +1,11 @@
 define([
+    "exports",
     "props"
-], function(_props) {
+], function(exports, _props) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     _props = _interopRequireDefault(_props);
     console.log(_props.default);
     (function() {

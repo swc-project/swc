@@ -6,7 +6,7 @@
         "black"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.white, global.black);
-})(this, function(_white, _black) {
+})(this, function(exports, _white, _black) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

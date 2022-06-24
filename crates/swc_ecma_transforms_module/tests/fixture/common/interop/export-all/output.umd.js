@@ -5,7 +5,7 @@
         "react"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.react);
-})(this, function(_react) {
+})(this, function(exports, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

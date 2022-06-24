@@ -5,7 +5,7 @@
         "./get"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.get);
-})(this, function(_get) {
+})(this, function(exports, _get) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

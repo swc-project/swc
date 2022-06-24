@@ -5,7 +5,7 @@
         "./files_with_swcrc/simple"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.simple);
-})(this, function(_simple) {
+})(this, function(exports, _simple) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

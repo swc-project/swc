@@ -1,7 +1,11 @@
 define([
+    "exports",
     "../../../../consts"
-], function(_consts) {
+], function(exports, _consts) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     const resources = [
         {
             value: _consts.RESOURCE_WEBSITE,

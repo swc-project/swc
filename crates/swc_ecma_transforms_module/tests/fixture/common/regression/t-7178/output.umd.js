@@ -5,8 +5,11 @@
         "props"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.props);
-})(this, function(_props) {
+})(this, function(exports, _props) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     _props = _interopRequireDefault(_props);
     console.log(_props.default);
     (function() {

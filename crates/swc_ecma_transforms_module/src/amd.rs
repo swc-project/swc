@@ -122,15 +122,24 @@ impl VisitMut for Amd {
             link,
             export,
             export_assign,
+            has_module_decl,
             ..
         } = strip;
 
+        let has_export_assign = export_assign.is_some();
+        let is_esm = has_module_decl && !has_export_assign;
+
+        // ```javascript
+        // Object.defineProperty(exports, '__esModule', { value: true });
+        // ```
+        if is_esm {
+            stmts.push(define_es_module(self.exports()));
+        }
+
         let mut import_map = Default::default();
 
-        let is_export_assign = export_assign.is_some();
-
         stmts.extend(
-            self.handle_import_export(&mut import_map, link, export, is_export_assign)
+            self.handle_import_export(&mut import_map, link, export, has_export_assign)
                 .map(Into::into),
         );
 
@@ -289,7 +298,7 @@ impl Amd {
         import_map: &mut ImportMap,
         link: Link,
         export: Export,
-        is_export_assign: bool,
+        has_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
@@ -385,19 +394,14 @@ impl Amd {
 
         let mut export_stmts = Default::default();
 
-        if !export_obj_prop_list.is_empty() && !is_export_assign {
+        if !export_obj_prop_list.is_empty() && !has_export_assign {
             let features = self.available_features.clone();
             let exports = self.exports();
 
             export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
         }
 
-        self.exports
-            .clone()
-            .map(define_es_module)
-            .into_iter()
-            .chain(export_stmts)
-            .chain(stmts)
+        export_stmts.into_iter().chain(stmts)
     }
 
     fn module(&mut self) -> Ident {

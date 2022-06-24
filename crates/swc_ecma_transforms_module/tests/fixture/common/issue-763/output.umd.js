@@ -5,8 +5,11 @@
         "../../../../consts"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.consts);
-})(this, function(_consts) {
+})(this, function(exports, _consts) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     const resources = [
         {
             value: _consts.RESOURCE_WEBSITE,

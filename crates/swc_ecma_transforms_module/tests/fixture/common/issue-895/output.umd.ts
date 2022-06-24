@@ -5,7 +5,7 @@
         "./url"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.url);
-})(this, function(_url) {
+})(this, function(exports, _url) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

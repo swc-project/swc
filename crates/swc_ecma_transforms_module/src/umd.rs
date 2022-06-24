@@ -106,15 +106,24 @@ impl VisitMut for Umd {
             link,
             export,
             export_assign,
+            has_module_decl,
             ..
         } = strip;
 
+        let has_export_assign = export_assign.is_some();
+        let is_esm = has_module_decl && !has_export_assign;
+
+        // ```javascript
+        // Object.defineProperty(exports, '__esModule', { value: true });
+        // ```
+        if is_esm {
+            stmts.push(define_es_module(self.exports()));
+        }
+
         let mut import_map = Default::default();
 
-        let is_export_assign = export_assign.is_some();
-
         stmts.extend(
-            self.handle_import_export(&mut import_map, link, export, is_export_assign)
+            self.handle_import_export(&mut import_map, link, export, has_export_assign)
                 .map(Into::into),
         );
 
@@ -142,7 +151,8 @@ impl VisitMut for Umd {
         //  Emit
         // ====================
 
-        let (adapter_fn_expr, factory_params) = self.adapter(exported_name, is_export_assign);
+        let (adapter_fn_expr, factory_params) =
+            self.adapter(exported_name, has_export_assign, has_module_decl);
 
         let factory_fn_expr = FnExpr {
             ident: None,
@@ -180,7 +190,7 @@ impl Umd {
         import_map: &mut ImportMap,
         link: Link,
         export: Export,
-        is_export_assign: bool,
+        has_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
@@ -276,19 +286,14 @@ impl Umd {
 
         let mut export_stmts = Default::default();
 
-        if !export_obj_prop_list.is_empty() && !is_export_assign {
+        if !export_obj_prop_list.is_empty() && !has_export_assign {
             let features = self.available_features.clone();
             let exports = self.exports();
 
             export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
         }
 
-        self.exports
-            .clone()
-            .map(define_es_module)
-            .into_iter()
-            .chain(export_stmts)
-            .chain(stmts)
+        export_stmts.into_iter().chain(stmts)
     }
 
     fn exports(&mut self) -> Ident {
@@ -326,7 +331,12 @@ impl Umd {
     /// });
     /// ```
     /// Return: adapter expr and factory params
-    fn adapter(&mut self, exported_name: Ident, is_export_assign: bool) -> (FnExpr, Vec<Param>) {
+    fn adapter(
+        &mut self,
+        exported_name: Ident,
+        has_export_assign: bool,
+        has_module_decl: bool,
+    ) -> (FnExpr, Vec<Param>) {
         macro_rules! js_typeof {
             ($test:expr =>! $type:expr) => {
                 Expr::Unary(UnaryExpr {
@@ -349,7 +359,7 @@ impl Umd {
 
         // define unresolved ref
         let module = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "module");
-        let exports = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports");
+
         let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
         let define = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "define");
         let global_this = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "globalThis");
@@ -359,7 +369,7 @@ impl Umd {
         let global = private_ident!("global");
         let factory = private_ident!("factory");
 
-        let module_exports = module.clone().make_member(exports);
+        let module_exports = module.clone().make_member(quote_ident!("exports"));
         let global_lib = global.clone().make_member(exported_name);
         let define_amd = define.clone().make_member(quote_ident!("amd"));
 
@@ -369,7 +379,9 @@ impl Umd {
 
         let mut factory_params = vec![];
 
-        if !is_export_assign && !self.dep_list.is_empty() {
+        let is_esm = has_module_decl && !has_export_assign;
+
+        if is_esm || self.exports.is_some() {
             cjs_args.push(quote_ident!("exports").as_arg());
             amd_dep_list.push(Some(quote_str!("exports").as_arg()));
             browser_args.push(
@@ -379,7 +391,8 @@ impl Umd {
                 })
                 .make_assign_to(op!("="), global_lib.as_pat_or_expr())
                 .as_arg(),
-            )
+            );
+            factory_params.push(self.exports().into());
         }
 
         self.dep_list
@@ -421,7 +434,7 @@ impl Umd {
         let cjs_if_test = js_typeof!(module => "object")
             .make_bin(op!("&&"), js_typeof!(module_exports.clone() => "object"));
         let mut cjs_if_body = factory.clone().as_call(DUMMY_SP, cjs_args);
-        if is_export_assign {
+        if has_export_assign {
             cjs_if_body =
                 cjs_if_body.make_assign_to(op!("="), module_exports.clone().as_pat_or_expr());
         }
@@ -448,7 +461,7 @@ impl Umd {
         .make_assign_to(op!("="), global.clone().as_pat_or_expr());
 
         let mut browser_if_body = factory.clone().as_call(DUMMY_SP, browser_args);
-        if is_export_assign {
+        if has_export_assign {
             browser_if_body =
                 browser_if_body.make_assign_to(op!("="), module_exports.as_pat_or_expr());
         }

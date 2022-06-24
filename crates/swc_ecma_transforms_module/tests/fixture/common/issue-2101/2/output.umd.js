@@ -6,7 +6,7 @@
         "@testing-library/react"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.customRender, global.react);
-})(this, function(_customRender, _react) {
+})(this, function(exports, _customRender, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

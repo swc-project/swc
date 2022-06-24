@@ -8,7 +8,7 @@
         "./pipes"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.reflectMetadata, global.http, global.interfaces, global.pipes);
-})(this, function(_reflectMetadata, _http, _interfaces, _pipes) {
+})(this, function(exports, _reflectMetadata, _http, _interfaces, _pipes) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

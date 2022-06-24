@@ -1,7 +1,11 @@
 define([
+    "exports",
     "bar"
-], function(_bar) {
+], function(exports, _bar) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     new Promise((resolve, reject)=>require([
             _bar.foo
         ], (m)=>resolve(_interopRequireWildcard(m)), reject));

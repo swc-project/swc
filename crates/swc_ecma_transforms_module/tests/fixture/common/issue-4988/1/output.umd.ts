@@ -5,7 +5,7 @@
         "jquery"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.jquery);
-})(this, function(_jquery) {
+})(this, function(exports, _jquery) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

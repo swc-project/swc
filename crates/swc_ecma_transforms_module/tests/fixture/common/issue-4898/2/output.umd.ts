@@ -5,8 +5,11 @@
         "assert"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.assert);
-})(this, function(_assert) {
+})(this, function(exports, _assert) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     const _assert1 = _interopRequireDefault(_assert);
     _assert(true);
     (0, _assert1.default)(true);

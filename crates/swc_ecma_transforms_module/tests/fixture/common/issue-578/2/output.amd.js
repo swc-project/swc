@@ -1,7 +1,11 @@
 define([
+    "exports",
     "./dep.js"
-], function(_depJs) {
+], function(exports, _depJs) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     class SomeClass {
         constructor(properties){
             this.props = properties;

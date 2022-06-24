@@ -1,9 +1,13 @@
 define([
+    "exports",
     "foo",
     "bar",
     "baz"
-], function(_foo, _bar, _baz) {
+], function(exports, _foo, _bar, _baz) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     _foo = _interopRequireDefault(_foo);
     _bar = _interopRequireWildcard(_bar);
     Foo = 42;

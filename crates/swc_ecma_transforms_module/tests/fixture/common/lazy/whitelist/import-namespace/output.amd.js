@@ -1,8 +1,12 @@
 define([
+    "exports",
     "white",
     "black"
-], function(_white, _black) {
+], function(exports, _white, _black) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     _white = _interopRequireWildcard(_white);
     _black = _interopRequireWildcard(_black);
     function use1() {

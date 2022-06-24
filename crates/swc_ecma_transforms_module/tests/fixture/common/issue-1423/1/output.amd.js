@@ -1,7 +1,11 @@
 define([
+    "exports",
     "necessary"
-], function(_necessary) {
+], function(exports, _necessary) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     const { second  } = _necessary.arrayUtilities;
     const elements = [
         1,

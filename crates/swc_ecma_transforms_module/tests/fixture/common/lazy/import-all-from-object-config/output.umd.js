@@ -6,8 +6,11 @@
         "external"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.local, global.external);
-})(this, function(_local, _external) {
+})(this, function(exports, _local, _external) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     function use() {
         (0, _local.local)(_external.external);
     }
