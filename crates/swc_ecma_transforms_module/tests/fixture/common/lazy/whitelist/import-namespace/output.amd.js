@@ -1,8 +1,7 @@
 define([
-    "require",
     "white",
     "black"
-], function(require, _white, _black) {
+], function(_white, _black) {
     "use strict";
     _white = _interopRequireWildcard(_white);
     _black = _interopRequireWildcard(_black);

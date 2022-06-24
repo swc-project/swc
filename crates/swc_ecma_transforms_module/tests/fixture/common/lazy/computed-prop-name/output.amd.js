@@ -1,8 +1,7 @@
 define([
-    "require",
     "libx",
     "liby"
-], function(require, _libx, _liby) {
+], function(_libx, _liby) {
     "use strict";
     class F {
         get [_libx.x]() {}

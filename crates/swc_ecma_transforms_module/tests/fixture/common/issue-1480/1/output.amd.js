@@ -1,6 +1,4 @@
-define([
-    "require"
-], function(require) {
+define([], function() {
     "use strict";
     const { default: ora  } = await new Promise((resolve, reject)=>require([
             "ora"

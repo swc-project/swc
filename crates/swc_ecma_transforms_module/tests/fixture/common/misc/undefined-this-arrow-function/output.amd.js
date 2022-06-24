@@ -1,6 +1,4 @@
-define([
-    "require"
-], function(require) {
+define([], function() {
     "use strict";
     var foo = ()=>void 0;
 });

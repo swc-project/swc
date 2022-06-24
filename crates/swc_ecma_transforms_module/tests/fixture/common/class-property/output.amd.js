@@ -1,8 +1,7 @@
 define([
-    "require",
     "exports",
     "./files_with_swcrc/simple"
-], function(require, exports, _simple) {
+], function(exports, _simple) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

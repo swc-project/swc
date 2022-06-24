@@ -9,7 +9,6 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_transforms_module::common_js::{self, common_js};
 use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_transforms_typescript::strip::{self, strip_with_config};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -20,7 +19,7 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsConfig::default())
 }
 
-fn tr(config: common_js::Config) -> impl Fold {
+fn tr(config: common_js::Config, typescript: bool) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -28,36 +27,18 @@ fn tr(config: common_js::Config) -> impl Fold {
     enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::latest());
 
     chain!(
-        resolver(unresolved_mark, top_level_mark, false),
-        common_js(unresolved_mark, config, Default::default(), avalible_set),
-    )
-}
-
-fn ts_tr(config: common_js::Config) -> impl Fold {
-    let unresolved_mark = Mark::new();
-    let top_level_mark = Mark::new();
-
-    let avalible_set: FeatureSet = Default::default();
-    enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::latest());
-
-    chain!(
-        resolver(unresolved_mark, top_level_mark, true),
-        strip_with_config(
-            strip::Config {
-                preserve_import_export_assign: true,
-                ..Default::default()
-            },
-            top_level_mark
-        ),
-        common_js(unresolved_mark, config, Default::default(), avalible_set),
+        resolver(unresolved_mark, top_level_mark, typescript),
+        common_js(unresolved_mark, config, avalible_set),
     )
 }
 
 #[testing::fixture("tests/fixture/common/**/input.js")]
+#[testing::fixture("tests/fixture/common/**/input.ts")]
 fn esm_to_cjs(input: PathBuf) {
-    let dir = input.parent().unwrap().to_path_buf();
-
-    let output = dir.join("output.cjs");
+    let is_ts = input
+        .file_name()
+        .map(|x| x.to_string_lossy().ends_with(".ts"))
+        .unwrap_or_default();
 
     let config_path = dir.join("module.json");
     let config: common_js::Config = match File::open(config_path) {
@@ -4177,7 +4158,9 @@ fn fixture(input: PathBuf) {
 fn ts_to_cjs(input: PathBuf) {
     let dir = input.parent().unwrap().to_path_buf();
 
-    let output = dir.join("output.cjs");
+    let output = dir
+        .join("output.js")
+        .with_extension(if is_ts { "cts" } else { "cjs" });
 
     let config_path = dir.join("module.json");
     let config: common_js::Config = match File::open(config_path) {
@@ -4185,5 +4168,10 @@ fn ts_to_cjs(input: PathBuf) {
         Err(..) => Default::default(),
     };
 
-    test_fixture(ts_syntax(), &|_| ts_tr(config.clone()), &input, &output);
+    test_fixture(
+        if is_ts { ts_syntax() } else { syntax() },
+        &|_| tr(config.clone(), is_ts),
+        &input,
+        &output,
+    );
 }

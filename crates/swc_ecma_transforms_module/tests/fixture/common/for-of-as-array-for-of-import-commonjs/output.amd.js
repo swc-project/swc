@@ -1,7 +1,6 @@
 define([
-    "require",
     "foo"
-], function(require, _foo) {
+], function(_foo) {
     "use strict";
     for (const elm of _foo.array){
         console.log(elm);

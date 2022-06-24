@@ -3875,7 +3875,6 @@ test!(
                 no_interop: true,
                 ..Default::default()
             },
-            Default::default(),
             Default::default()
         ),
     ),
@@ -3922,7 +3921,6 @@ test!(
                 ..Default::default()
             },
             Default::default(),
-            Default::default()
         ),
     ),
     issue_395_2,
@@ -4291,7 +4289,6 @@ test!(
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),
-                Default::default()
             ),
         )
     },

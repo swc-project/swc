@@ -1,7 +1,6 @@
 define([
-    "require",
     "./dep.js"
-], function(require, _depJs) {
+], function(_depJs) {
     "use strict";
     class SomeClass {
         constructor(properties){

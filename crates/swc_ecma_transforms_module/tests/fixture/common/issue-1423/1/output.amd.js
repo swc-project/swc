@@ -1,7 +1,6 @@
 define([
-    "require",
     "necessary"
-], function(require, _necessary) {
+], function(_necessary) {
     "use strict";
     const { second  } = _necessary.arrayUtilities;
     const elements = [

@@ -1,7 +1,6 @@
 define([
-    "require",
     "../../../../consts"
-], function(require, _consts) {
+], function(_consts) {
     "use strict";
     const resources = [
         {

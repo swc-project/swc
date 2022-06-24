@@ -1,8 +1,7 @@
 define([
-    "require",
     "white",
     "black"
-], function(require, _white, _black) {
+], function(_white, _black) {
     "use strict";
     function use1() {
         console.log(_white.foo1);

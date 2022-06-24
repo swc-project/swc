@@ -1,7 +1,6 @@
 define([
-    "require",
     "lib"
-], function(require, _lib) {
+], function(_lib) {
     "use strict";
     function myFn() {
         (0, _lib.fn)();

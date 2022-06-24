@@ -1,7 +1,6 @@
 define([
-    "require",
     "props"
-], function(require, _props) {
+], function(_props) {
     "use strict";
     _props = _interopRequireDefault(_props);
     console.log(_props.default);

@@ -1,7 +1,6 @@
 define([
-    "require",
     "ora"
-], function(require, _ora) {
+], function(_ora) {
     "use strict";
     _ora = _interopRequireWildcard(_ora);
 });

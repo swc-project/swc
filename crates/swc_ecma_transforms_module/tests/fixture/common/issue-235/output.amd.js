@@ -1,8 +1,7 @@
 define([
-    "require",
     "exports",
     "something"
-], function(require, exports, _something) {
+], function(exports, _something) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

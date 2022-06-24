@@ -1,6 +1,5 @@
 define([
-    "require",
     "./a"
-], function(require, _a) {
+], function(_a) {
     "use strict";
 });

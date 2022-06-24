@@ -1,7 +1,6 @@
 define([
-    "require",
     "./copyPaste"
-], function(require, _copyPaste) {
+], function(_copyPaste) {
     "use strict";
     class Thing {
         handleCopySomething() {

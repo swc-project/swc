@@ -1,6 +1,4 @@
-define([
-    "require"
-], function(require) {
+define([], function() {
     "use strict";
     var self = void 0;
 });

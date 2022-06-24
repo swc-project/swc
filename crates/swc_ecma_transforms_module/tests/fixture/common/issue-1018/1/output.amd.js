@@ -1,6 +1,4 @@
-define([
-    "require"
-], function(require) {
+define([], function() {
     "use strict";
     async function foo() {
         await new Promise((resolve, reject)=>require([

@@ -1,7 +1,6 @@
 define([
-    "require",
     "foo"
-], function(require, _foo) {
+], function(_foo) {
     "use strict";
     (0, _foo.default)();
 });

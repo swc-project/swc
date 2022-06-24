@@ -36,7 +36,6 @@ use crate::{
 pub fn amd(
     unresolved_mark: Mark,
     config: Config,
-    _target: EsVersion,
     available_features: FeatureSet,
 ) -> impl Fold + VisitMut {
     let Config { module_id, config } = config;
@@ -68,7 +67,6 @@ pub fn amd_with_resolver(
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
-    _target: EsVersion,
     available_features: FeatureSet,
 ) -> impl Fold + VisitMut {
     let Config { module_id, config } = config;
@@ -170,9 +168,8 @@ impl VisitMut for Amd {
         //  Emit
         // ====================
 
-        let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
-        let mut elems = vec![Some(quote_str!("require").as_arg())];
-        let mut params = vec![require.into()];
+        let mut elems = vec![];
+        let mut params = vec![];
 
         if let Some(exports) = self.exports.take() {
             elems.push(Some(quote_str!("exports").as_arg()));
@@ -230,10 +227,12 @@ impl VisitMut for Amd {
             .as_arg(),
         );
 
-        *n = vec![quote_ident!("define")
-            .as_call(DUMMY_SP, amd_call_args)
-            .into_stmt()
-            .into()];
+        *n = vec![
+            quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "define")
+                .as_call(DUMMY_SP, amd_call_args)
+                .into_stmt()
+                .into(),
+        ];
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -345,64 +344,56 @@ impl Amd {
                     )
                 }
 
-                if need_re_export || need_interop {
-                    // _exportStar(mod, exports);
-                    let import_expr: Expr = if need_re_export {
-                        helper_expr!(export_star, "exportStar").as_call(
-                            DUMMY_SP,
-                            vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
-                        )
-                    } else {
-                        mod_ident.clone().into()
-                    };
+                // _exportStar(mod, exports);
+                let mut import_expr: Expr = if need_re_export {
+                    helper_expr!(export_star, "exportStar").as_call(
+                        DUMMY_SP,
+                        vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
+                    )
+                } else {
+                    mod_ident.clone().into()
+                };
 
-                    // _introp(mod);
-                    let import_expr = if !need_interop {
-                        import_expr
-                    } else {
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: if link_flag.namespace() {
-                                helper!(interop_require_wildcard, "interopRequireWildcard")
-                            } else {
-                                helper!(interop_require_default, "interopRequireDefault")
-                            },
-                            args: vec![import_expr.as_arg()],
-                            type_args: Default::default(),
-                        }
-                        .into()
-                    };
+                // _introp(mod);
+                if need_interop {
+                    import_expr = CallExpr {
+                        span: DUMMY_SP,
+                        callee: if link_flag.namespace() {
+                            helper!(interop_require_wildcard, "interopRequireWildcard")
+                        } else {
+                            helper!(interop_require_default, "interopRequireDefault")
+                        },
+                        args: vec![import_expr.as_arg()],
+                        type_args: Default::default(),
+                    }
+                    .into()
+                };
 
-                    // mod = _introp(mod);
-                    // var mod1 = _introp(mod);
-                    let stmt = if need_new_var {
-                        let var_decl = VarDecl {
-                            span: DUMMY_SP,
-                            kind: self.const_var_kind,
-                            declare: false,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: new_var_ident.into(),
-                                init: Some(Box::new(import_expr)),
-                                definite: false,
-                            }],
-                        };
-
-                        Decl::Var(var_decl).into()
-                    } else if need_interop {
-                        import_expr
-                            .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
-                            .into_stmt()
-                    } else {
-                        import_expr.into_stmt()
-                    };
+                // mod = _introp(mod);
+                // var mod1 = _introp(mod);
+                if need_new_var {
+                    let stmt: Stmt = Stmt::Decl(Decl::Var(
+                        import_expr.into_var_decl(self.const_var_kind, new_var_ident.into()),
+                    ));
 
                     stmts.push(stmt)
-                }
+                } else if need_interop {
+                    let stmt = import_expr
+                        .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
+                        .into_stmt();
+                    stmts.push(stmt);
+                } else if need_re_export {
+                    stmts.push(import_expr.into_stmt());
+                };
             },
         );
 
-        let export_stmts = self.export_stmts(export_obj_prop_list);
+        let mut export_stmts = Default::default();
+
+        if !export_obj_prop_list.is_empty() {
+            let exports = self.exports();
+            export_stmts = self.export_stmts(exports, export_obj_prop_list);
+        }
 
         self.exports
             .clone()
@@ -424,7 +415,7 @@ impl Amd {
             .clone()
     }
 
-    fn export_stmts(&mut self, mut prop_list: ExportObjPropList) -> Vec<Stmt> {
+    fn export_stmts(&mut self, exports: Ident, mut prop_list: ExportObjPropList) -> Vec<Stmt> {
         let prop_auto = if self.support_arrow {
             prop_arrow
         } else if self.support_shorthand {
@@ -438,7 +429,7 @@ impl Amd {
                 .pop()
                 .map(|(prop_name, span, expr)| {
                     object_define_enumerable(
-                        self.exports().as_arg(),
+                        exports.as_arg(),
                         quote_str!(span, prop_name).as_arg(),
                         prop_auto((js_word!("get"), DUMMY_SP, expr)).into(),
                     )
@@ -465,7 +456,7 @@ impl Amd {
                         esm_export().into_fn_decl(esm_export_ident.clone()),
                     )),
                     esm_export_ident
-                        .as_call(DUMMY_SP, vec![self.exports().as_arg(), obj_lit.as_arg()])
+                        .as_call(DUMMY_SP, vec![exports.as_arg(), obj_lit.as_arg()])
                         .into_stmt(),
                 ]
             }

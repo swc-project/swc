@@ -23,7 +23,6 @@ use crate::{
 pub fn common_js(
     unresolved_mark: Mark,
     config: Config,
-    _target: EsVersion,
     available_features: FeatureSet,
 ) -> impl Fold + VisitMut {
     as_folder(Cjs {
@@ -48,7 +47,6 @@ pub fn common_js_with_resolver(
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
-    _target: EsVersion,
     available_features: FeatureSet,
 ) -> impl Fold + VisitMut {
     as_folder(Cjs {

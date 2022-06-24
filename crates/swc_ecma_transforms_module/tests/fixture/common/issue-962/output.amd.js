@@ -1,9 +1,8 @@
 define([
-    "require",
     "exports",
     "./_root.js",
     "./stubFalse.js"
-], function(require, exports1, _rootJs, _stubFalseJs) {
+], function(exports1, _rootJs, _stubFalseJs) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: true

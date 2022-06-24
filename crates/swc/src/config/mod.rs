@@ -1270,7 +1270,6 @@ impl ModuleConfig {
         base: &FileName,
         unresolved_mark: Mark,
         config: Option<ModuleConfig>,
-        target: EsVersion,
         available_features: FeatureSet,
     ) -> Box<dyn swc_ecma_visit::Fold> {
         let base = match base {
@@ -1295,7 +1294,6 @@ impl ModuleConfig {
                     Box::new(modules::common_js::common_js(
                         unresolved_mark,
                         config,
-                        target,
                         available_features,
                     ))
                 } else {
@@ -1305,7 +1303,6 @@ impl ModuleConfig {
                         base,
                         unresolved_mark,
                         config,
-                        target,
                         available_features,
                     ))
                 }
@@ -1316,7 +1313,7 @@ impl ModuleConfig {
                 if paths.is_empty() {
                     Box::new(chain!(
                         base_pass,
-                        modules::umd::umd(cm, unresolved_mark, config)
+                        modules::umd::umd(cm, unresolved_mark, config, available_features)
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1324,11 +1321,12 @@ impl ModuleConfig {
                     Box::new(chain!(
                         base_pass,
                         modules::umd::umd_with_resolver(
+                            cm,
                             resolver,
                             base,
-                            cm,
                             unresolved_mark,
                             config,
+                            available_features
                         )
                     ))
                 }
@@ -1338,7 +1336,6 @@ impl ModuleConfig {
                     Box::new(modules::amd::amd(
                         unresolved_mark,
                         config,
-                        target,
                         available_features,
                     ))
                 } else {
@@ -1349,7 +1346,6 @@ impl ModuleConfig {
                         base,
                         unresolved_mark,
                         config,
-                        target,
                         available_features,
                     ))
                 }

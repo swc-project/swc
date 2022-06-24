@@ -1,7 +1,6 @@
 define([
-    "require",
     "foo"
-], function(require, _foo) {
+], function(_foo) {
     "use strict";
     _foo = _interopRequireWildcard(_foo);
 });

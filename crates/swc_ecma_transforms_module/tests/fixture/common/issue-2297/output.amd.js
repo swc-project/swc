@@ -1,7 +1,6 @@
 define([
-    "require",
     "./Bar"
-], function(require, _bar) {
+], function(_bar) {
     "use strict";
     const makeX = (props)=>{
         const _bar1 = props.bar;

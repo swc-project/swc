@@ -1,7 +1,6 @@
 define([
-    "require",
     "child_process"
-], function(require, _childProcess) {
+], function(_childProcess) {
     "use strict";
     function log() {
         console.log(_childProcess.spawn);
