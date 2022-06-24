@@ -221,10 +221,10 @@ static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[("style", "media")];
 
 static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
     "class",
-    "part",
-    "itemtype",
-    "itemref",
     "itemprop",
+    "itemref",
+    "itemtype",
+    "part",
     "accesskey",
     "aria-describedby",
     "aria-labelledby",
@@ -238,15 +238,16 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("area", "ping"),
     ("link", "rel"),
     ("link", "sizes"),
-    ("input", "autocomplete"),
-    ("form", "autocomplete"),
+    ("link", "blocking"),
     ("iframe", "sandbox"),
     ("td", "headers"),
     ("th", "headers"),
     ("output", "for"),
-    ("link", "blocking"),
     ("script", "blocking"),
     ("style", "blocking"),
+    ("input", "autocomplete"),
+    ("form", "rel"),
+    ("form", "autocomplete"),
 ];
 
 enum CssMinificationMode {
@@ -434,7 +435,7 @@ impl Minifier {
     fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &str) -> bool {
         if matches!(
             attribute_name,
-            "class" | "itemprop" | "itemref" | "itemtype"
+            "class" | "part" | "itemprop" | "itemref" | "itemtype"
         ) {
             return true;
         }
