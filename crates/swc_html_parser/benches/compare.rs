@@ -2,7 +2,7 @@ extern crate swc_node_base;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{input::StringInput, FileName, Span, SyntaxContext, DUMMY_SP};
-use swc_html_ast::{Document, DocumentFragment, Element, Namespace};
+use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
 use swc_html_parser::{lexer::Lexer, parser::Parser};
 use swc_html_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
 
@@ -40,15 +40,19 @@ where
         let lexer = Lexer::new(StringInput::from(&*fm));
         let mut parser = Parser::new(lexer, Default::default());
         let document_fragment: DocumentFragment = parser
-            .parse_document_fragment(Element {
-                span: Default::default(),
-                tag_name: "template".into(),
-                namespace: Namespace::HTML,
-                attributes: vec![],
-                is_self_closing: false,
-                children: vec![],
-                content: None,
-            })
+            .parse_document_fragment(
+                Element {
+                    span: Default::default(),
+                    tag_name: "template".into(),
+                    namespace: Namespace::HTML,
+                    attributes: vec![],
+                    is_self_closing: false,
+                    children: vec![],
+                    content: None,
+                },
+                DocumentMode::NoQuirks,
+                None,
+            )
             .unwrap();
 
         b.iter(|| {
