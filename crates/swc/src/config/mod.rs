@@ -470,7 +470,9 @@ impl Options {
 
         let preserve_import_export_assign = matches!(
             &cfg.module,
-            Some(ModuleConfig::CommonJs(..)) | Some(ModuleConfig::Amd(..))
+            Some(ModuleConfig::CommonJs(..))
+                | Some(ModuleConfig::Amd(..))
+                | Some(ModuleConfig::Umd(..))
         );
 
         let pass = PassBuilder::new(
