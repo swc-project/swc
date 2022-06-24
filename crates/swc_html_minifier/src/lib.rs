@@ -1097,10 +1097,8 @@ impl VisitMut for Minifier {
     fn visit_mut_document(&mut self, n: &mut Document) {
         n.visit_mut_children_with(self);
 
-        n.children.retain(|child| match child {
-            Child::Comment(_) if self.remove_comments => false,
-            _ => true,
-        });
+        n.children
+            .retain(|child| !matches!(child, Child::Comment(_) if self.remove_comments));
     }
 
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
