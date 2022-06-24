@@ -70,6 +70,7 @@ pub struct MinifyOptions {
     pub preserve_comments: Option<Vec<CachedRegex>>,
     #[serde(default = "true_by_default")]
     pub minify_conditional_comments: bool,
+    /// Sorting the values of `class`, `rel`, etc. of attributes
     #[serde(default = "true_by_default")]
     pub sort_unordered_attribute_values: bool,
 }

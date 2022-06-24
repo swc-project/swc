@@ -454,8 +454,11 @@ impl Minifier {
                 "link" if attribute_name == "rel" => true,
                 "iframe" if attribute_name == "sandbox" => true,
                 "link"
-                    if self.element_has_attribute_with_value(element, "rel", &["icon"])
-                        && attribute_name == "sizes" =>
+                    if self.element_has_attribute_with_value(
+                        element,
+                        "rel",
+                        &["icon", "apple-touch-icon", "apple-touch-icon-precomposed"],
+                    ) && attribute_name == "sizes" =>
                 {
                     true
                 }
