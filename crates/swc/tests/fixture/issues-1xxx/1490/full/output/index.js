@@ -1,3 +1,4 @@
+"use strict";
 var _classCallCheckMjs = require("@swc/helpers/lib/_class_call_check.js").default;
 var _createClassMjs = require("@swc/helpers/lib/_create_class.js").default;
 var _getMjs = require("@swc/helpers/lib/_get.js").default;
@@ -5,7 +6,6 @@ var _getPrototypeOfMjs = require("@swc/helpers/lib/_get_prototype_of.js").defaul
 var _inheritsMjs = require("@swc/helpers/lib/_inherits.js").default;
 var _wrapNativeSuperMjs = require("@swc/helpers/lib/_wrap_native_super.js").default;
 var _createSuperMjs = require("@swc/helpers/lib/_create_super.js").default;
-"use strict";
 var Element = /*#__PURE__*/ function() {
     function Element() {
         _classCallCheckMjs(this, Element);
