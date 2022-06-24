@@ -341,6 +341,9 @@ fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
         },
         _ => WhiteSpace::Normal,
     }
+    preserve_comments: Option<Vec<CachedRegex>>,
+    minify_conditional_comments: bool,
+    sort_unordered_attribute_values: bool,
 }
 
 impl Minifier {
@@ -428,6 +431,37 @@ impl Minifier {
         }
 
         None
+    fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &str) -> bool {
+        if matches!(
+            attribute_name,
+            "class" | "itemprop" | "itemref" | "itemtype"
+        ) {
+            return true;
+        }
+
+        match element.namespace {
+            Namespace::HTML => match &*element.tag_name {
+                "link" if attribute_name == "blocking" => true,
+                "script" if attribute_name == "blocking" => true,
+                "style" if attribute_name == "blocking" => true,
+                "output" if attribute_name == "for" => true,
+                "td" if attribute_name == "headers" => true,
+                "th" if attribute_name == "headers" => true,
+                "form" if attribute_name == "rel" => true,
+                "a" if attribute_name == "rel" => true,
+                "area" if attribute_name == "rel" => true,
+                "link" if attribute_name == "rel" => true,
+                "iframe" if attribute_name == "sandbox" => true,
+                "link"
+                    if self.element_has_attribute_with_value(element, "rel", &["icon"])
+                        && attribute_name == "sizes" =>
+                {
+                    true
+                }
+                _ => false,
+            },
+            _ => false,
+        }
     }
 
     fn element_has_attribute_with_value(
@@ -1473,6 +1507,25 @@ impl Minifier {
             minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
             minify_additional_attributes: self.minify_additional_attributes.clone(),
         };
+        let mut minifier = create_minifier(
+            Some(&context_element),
+            &MinifyOptions {
+                force_set_html5_doctype: self.force_set_html5_doctype,
+                remove_comments: self.remove_comments,
+                preserve_comments: self.preserve_comments.clone(),
+                minify_conditional_comments: self.minify_conditional_comments,
+                collapse_whitespaces: self.collapse_whitespaces.clone(),
+                remove_empty_attributes: self.remove_empty_attributes,
+                remove_redundant_attributes: self.remove_empty_attributes,
+                collapse_boolean_attributes: self.collapse_boolean_attributes,
+                minify_js: self.minify_js,
+                minify_json: self.minify_json,
+                minify_css: self.minify_css,
+                preserve_comments: self.preserve_comments.clone(),
+                minify_conditional_comments: self.minify_conditional_comments,
+                sort_unordered_attribute_values: self.sort_unordered_attribute_values,
+            },
+        );
 
         match document_or_document_fragment {
             HtmlRoot::Document(ref mut document) => {
@@ -1738,7 +1791,12 @@ impl VisitMut for Minifier {
         if &*n.name == "class" {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
 
-            if &*n.name == "class" {
+            if self.sort_unordered_attribute_values
+                && self.is_attribute_value_unordered_set(
+                    self.current_element.as_ref().unwrap(),
+                    &n.name,
+                )
+            {
                 values.sort_unstable();
             }
 
@@ -2025,6 +2083,9 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_css: options.minify_css,
         minify_additional_attributes: options.minify_additional_attributes.clone(),
         minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
+        preserve_comments: options.preserve_comments.clone(),
+        minify_conditional_comments: options.minify_conditional_comments,
+        sort_unordered_attribute_values: options.sort_unordered_attribute_values,
     }
 }
 
