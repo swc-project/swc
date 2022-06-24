@@ -260,7 +260,6 @@ where
     // just inserted into the input stream.
     //
     // 14. Return the child nodes of root, in tree order.
-    // TODO extract code for building tree from parser in TreeBuilder module
     pub fn parse_document_fragment(
         &mut self,
         context_element: Element,
@@ -372,7 +371,7 @@ where
     fn create_document(&self, mode: Option<DocumentMode>) -> RcNode {
         Node::new(
             Data::Document {
-                mode: RefCell::new(mode.unwrap_or_else(|| DocumentMode::NoQuirks)),
+                mode: RefCell::new(mode.unwrap_or(DocumentMode::NoQuirks)),
             },
             DUMMY_SP,
         )
