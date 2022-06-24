@@ -1,31 +1,31 @@
 "use strict";
-const _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
-const _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js").default;
-const _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js").default;
-const _tsParamMjs = require("@swc/helpers/lib/_ts_param.js").default;
+const _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;
+const _tsParam = require("@swc/helpers/lib/_ts_param.js").default;
 class Foo {
     fnName1(argName) {
-        return _asyncToGeneratorMjs(function*() {})();
+        return _asyncToGenerator(function*() {})();
     }
     fnName2(argName = false) {
-        return _asyncToGeneratorMjs(function*() {})();
+        return _asyncToGenerator(function*() {})();
     }
 }
-_tsDecorateMjs([
-    _tsParamMjs(0, Arg("GraphQLArgName", {
+_tsDecorate([
+    _tsParam(0, Arg("GraphQLArgName", {
         nullable: true
     })),
-    _tsMetadataMjs("design:type", Function),
-    _tsMetadataMjs("design:paramtypes", [
+    _tsMetadata("design:type", Function),
+    _tsMetadata("design:paramtypes", [
         Boolean
     ])
 ], Foo.prototype, "fnName1", null);
-_tsDecorateMjs([
-    _tsParamMjs(0, Arg("GraphQLArgName", {
+_tsDecorate([
+    _tsParam(0, Arg("GraphQLArgName", {
         nullable: true
     })),
-    _tsMetadataMjs("design:type", Function),
-    _tsMetadataMjs("design:paramtypes", [
+    _tsMetadata("design:type", Function),
+    _tsMetadata("design:paramtypes", [
         Boolean
     ])
 ], Foo.prototype, "fnName2", null);

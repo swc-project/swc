@@ -19,5 +19,5 @@ _export(exports, {
         return _module.Z;
     }
 });
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _module = _interopRequireWildcardMjs(require("./module"));
+var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _module = _interopRequireWildcard(require("./module"));

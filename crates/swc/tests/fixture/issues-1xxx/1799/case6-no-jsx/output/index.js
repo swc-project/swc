@@ -8,12 +8,12 @@ Object.defineProperty(exports, "default", {
     },
     enumerable: true
 });
-var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _regeneratorRuntime = _interopRequireDefaultMjs(require("regenerator-runtime"));
-var _react = _interopRequireDefaultMjs(require("react"));
+var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
+var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
+var _react = _interopRequireDefault(require("react"));
 function Foo() {
-    return call(_asyncToGeneratorMjs(_regeneratorRuntime.default.mark(function _callee(e) {
+    return call(_asyncToGenerator(_regeneratorRuntime.default.mark(function _callee(e) {
         return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

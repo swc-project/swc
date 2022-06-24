@@ -8,8 +8,8 @@ Object.defineProperty(exports, "default", {
     },
     enumerable: true
 });
-var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _react = _interopRequireDefaultMjs(require("react"));
+var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _react = _interopRequireDefault(require("react"));
 function Foo() {
     return call(function(e) {
         doSomething();

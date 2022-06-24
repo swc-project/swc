@@ -19,15 +19,15 @@ _export(exports, {
     stage: ()=>stage,
     trustBox: ()=>trustBox
 });
-const _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js").default;
-const _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js").default;
-const _classPrivateFieldSetMjs = require("@swc/helpers/lib/_class_private_field_set.js").default;
-const _exportStarMjs = require("@swc/helpers/lib/_export_star.js").default;
-const _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _classPrivateFieldGet = require("@swc/helpers/lib/_class_private_field_get.js").default;
+const _classPrivateFieldInit = require("@swc/helpers/lib/_class_private_field_init.js").default;
+const _classPrivateFieldSet = require("@swc/helpers/lib/_class_private_field_set.js").default;
+const _exportStar = require("@swc/helpers/lib/_export_star.js").default;
+const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 const _abstractBuilders = require("./AbstractBuilders");
 const _builderUtils = require("./Builder.utils");
 const _elementBuilder = require("./ElementBuilder");
-const _bodyNodesBuilder = _interopRequireWildcardMjs(_exportStarMjs(require("./BodyNodesBuilder"), exports));
+const _bodyNodesBuilder = _interopRequireWildcard(_exportStar(require("./BodyNodesBuilder"), exports));
 const create = ()=>new BodyBuilder();
 const trustBox = ()=>new TrustBoxBuilder();
 const opener = ()=>new OpenerBuilder();
@@ -42,44 +42,44 @@ const seq = {
 var _stages = /*#__PURE__*/ new WeakMap(), _trustBox = /*#__PURE__*/ new WeakMap(), _disclaimer = /*#__PURE__*/ new WeakMap(), _articleSources = /*#__PURE__*/ new WeakMap();
 class BodyBuilder extends _abstractBuilders.AbstractBuilder {
     stages(...stages) {
-        _classPrivateFieldSetMjs(this, _stages, stages.map(_builderUtils.mapBuildArg));
+        _classPrivateFieldSet(this, _stages, stages.map(_builderUtils.mapBuildArg));
         return this;
     }
     trustBox(trustBox) {
-        _classPrivateFieldSetMjs(this, _trustBox, (0, _builderUtils.mapBuildArg)(trustBox));
+        _classPrivateFieldSet(this, _trustBox, (0, _builderUtils.mapBuildArg)(trustBox));
         return this;
     }
     disclaimer(disclaimer) {
-        _classPrivateFieldSetMjs(this, _disclaimer, disclaimer?.map(_builderUtils.mapBuildArg));
+        _classPrivateFieldSet(this, _disclaimer, disclaimer?.map(_builderUtils.mapBuildArg));
         return this;
     }
     articleSources(articleSources) {
-        _classPrivateFieldSetMjs(this, _articleSources, (0, _builderUtils.mapBuildArg)(articleSources));
+        _classPrivateFieldSet(this, _articleSources, (0, _builderUtils.mapBuildArg)(articleSources));
         return this;
     }
     build() {
         return {
-            stages: _classPrivateFieldGetMjs(this, _stages),
-            trustBox: _classPrivateFieldGetMjs(this, _trustBox),
-            disclaimer: _classPrivateFieldGetMjs(this, _disclaimer),
-            articleSources: _classPrivateFieldGetMjs(this, _articleSources)
+            stages: _classPrivateFieldGet(this, _stages),
+            trustBox: _classPrivateFieldGet(this, _trustBox),
+            disclaimer: _classPrivateFieldGet(this, _disclaimer),
+            articleSources: _classPrivateFieldGet(this, _articleSources)
         };
     }
     constructor(...args){
         super(...args);
-        _classPrivateFieldInitMjs(this, _stages, {
+        _classPrivateFieldInit(this, _stages, {
             writable: true,
             value: []
         });
-        _classPrivateFieldInitMjs(this, _trustBox, {
+        _classPrivateFieldInit(this, _trustBox, {
             writable: true,
             value: undefined
         });
-        _classPrivateFieldInitMjs(this, _disclaimer, {
+        _classPrivateFieldInit(this, _disclaimer, {
             writable: true,
             value: undefined
         });
-        _classPrivateFieldInitMjs(this, _articleSources, {
+        _classPrivateFieldInit(this, _articleSources, {
             writable: true,
             value: undefined
         });
@@ -88,26 +88,26 @@ class BodyBuilder extends _abstractBuilders.AbstractBuilder {
 var _nodes = /*#__PURE__*/ new WeakMap(), _hidden = /*#__PURE__*/ new WeakMap();
 class TrustBoxBuilder extends _abstractBuilders.AbstractBuilder {
     nodes(nodes) {
-        _classPrivateFieldSetMjs(this, _nodes, nodes.map(_builderUtils.mapBuildArg));
+        _classPrivateFieldSet(this, _nodes, nodes.map(_builderUtils.mapBuildArg));
         return this;
     }
     hidden(hidden) {
-        _classPrivateFieldSetMjs(this, _hidden, hidden.map(_builderUtils.mapBuildArg));
+        _classPrivateFieldSet(this, _hidden, hidden.map(_builderUtils.mapBuildArg));
         return this;
     }
     build() {
         return {
-            nodes: _classPrivateFieldGetMjs(this, _nodes),
-            hidden: _classPrivateFieldGetMjs(this, _hidden)
+            nodes: _classPrivateFieldGet(this, _nodes),
+            hidden: _classPrivateFieldGet(this, _hidden)
         };
     }
     constructor(...args){
         super(...args);
-        _classPrivateFieldInitMjs(this, _nodes, {
+        _classPrivateFieldInit(this, _nodes, {
             writable: true,
             value: []
         });
-        _classPrivateFieldInitMjs(this, _hidden, {
+        _classPrivateFieldInit(this, _hidden, {
             writable: true,
             value: []
         });
@@ -116,17 +116,17 @@ class TrustBoxBuilder extends _abstractBuilders.AbstractBuilder {
 var _element = /*#__PURE__*/ new WeakMap();
 class OpenerBuilder extends _abstractBuilders.AbstractBuilder {
     element(element) {
-        _classPrivateFieldSetMjs(this, _element, (0, _builderUtils.mapBuildArg)(element));
+        _classPrivateFieldSet(this, _element, (0, _builderUtils.mapBuildArg)(element));
         return this;
     }
     build() {
         return {
-            element: _classPrivateFieldGetMjs(this, _element)
+            element: _classPrivateFieldGet(this, _element)
         };
     }
     constructor(...args){
         super(...args);
-        _classPrivateFieldInitMjs(this, _element, {
+        _classPrivateFieldInit(this, _element, {
             writable: true,
             value: (0, _elementBuilder.image)().build()
         });
@@ -135,45 +135,45 @@ class OpenerBuilder extends _abstractBuilders.AbstractBuilder {
 var _nodes1 = /*#__PURE__*/ new WeakMap(), _header = /*#__PURE__*/ new WeakMap(), _companions = /*#__PURE__*/ new WeakMap(), _commercialsEndOfStage = /*#__PURE__*/ new WeakMap();
 class BodyStageSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
     nodes(nodes) {
-        _classPrivateFieldSetMjs(this, _nodes1, nodes.map(_builderUtils.mapBuildArgs));
+        _classPrivateFieldSet(this, _nodes1, nodes.map(_builderUtils.mapBuildArgs));
         return this;
     }
     header(header) {
-        _classPrivateFieldSetMjs(this, _header, (0, _builderUtils.mapBuildArgs)(header ?? []));
+        _classPrivateFieldSet(this, _header, (0, _builderUtils.mapBuildArgs)(header ?? []));
         return this;
     }
     companions(companions) {
-        _classPrivateFieldSetMjs(this, _companions, companions.map(_builderUtils.mapBuildArgs));
+        _classPrivateFieldSet(this, _companions, companions.map(_builderUtils.mapBuildArgs));
         return this;
     }
     commercialsEndOfStage(commercialsEndOfStage) {
-        _classPrivateFieldSetMjs(this, _commercialsEndOfStage, commercialsEndOfStage.map(_builderUtils.mapBuildArgs));
+        _classPrivateFieldSet(this, _commercialsEndOfStage, commercialsEndOfStage.map(_builderUtils.mapBuildArgs));
         return this;
     }
     buildListItem(seqNextElement) {
         return {
-            id: (0, _builderUtils.hash)("bodyStage", _classPrivateFieldGetMjs(this, _nodes1), _classPrivateFieldGetMjs(this, _companions), _classPrivateFieldGetMjs(this, _commercialsEndOfStage), _classPrivateFieldGetMjs(this, _header)),
-            nodes: seqNextElement.array(_classPrivateFieldGetMjs(this, _nodes1)),
-            header: seqNextElement.maybe(_classPrivateFieldGetMjs(this, _header)),
-            companions: seqNextElement.array(_classPrivateFieldGetMjs(this, _companions)),
-            commercialsEndOfStage: seqNextElement.array(_classPrivateFieldGetMjs(this, _commercialsEndOfStage))
+            id: (0, _builderUtils.hash)("bodyStage", _classPrivateFieldGet(this, _nodes1), _classPrivateFieldGet(this, _companions), _classPrivateFieldGet(this, _commercialsEndOfStage), _classPrivateFieldGet(this, _header)),
+            nodes: seqNextElement.array(_classPrivateFieldGet(this, _nodes1)),
+            header: seqNextElement.maybe(_classPrivateFieldGet(this, _header)),
+            companions: seqNextElement.array(_classPrivateFieldGet(this, _companions)),
+            commercialsEndOfStage: seqNextElement.array(_classPrivateFieldGet(this, _commercialsEndOfStage))
         };
     }
     constructor(...args){
         super(...args);
-        _classPrivateFieldInitMjs(this, _nodes1, {
+        _classPrivateFieldInit(this, _nodes1, {
             writable: true,
             value: []
         });
-        _classPrivateFieldInitMjs(this, _header, {
+        _classPrivateFieldInit(this, _header, {
             writable: true,
             value: undefined
         });
-        _classPrivateFieldInitMjs(this, _companions, {
+        _classPrivateFieldInit(this, _companions, {
             writable: true,
             value: []
         });
-        _classPrivateFieldInitMjs(this, _commercialsEndOfStage, {
+        _classPrivateFieldInit(this, _commercialsEndOfStage, {
             writable: true,
             value: []
         });
@@ -182,37 +182,37 @@ class BodyStageSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
 var _seqBuilder = /*#__PURE__*/ new WeakMap();
 class BodyStageBuilder extends _abstractBuilders.AbstractBuilder {
     nodes(nodes) {
-        _classPrivateFieldGetMjs(this, _seqBuilder).nodes([
+        _classPrivateFieldGet(this, _seqBuilder).nodes([
             nodes
         ]);
         return this;
     }
     header(header) {
         if (header) {
-            _classPrivateFieldGetMjs(this, _seqBuilder).header([
+            _classPrivateFieldGet(this, _seqBuilder).header([
                 header
             ]);
         }
         return this;
     }
     companions(companions) {
-        _classPrivateFieldGetMjs(this, _seqBuilder).companions([
+        _classPrivateFieldGet(this, _seqBuilder).companions([
             companions
         ]);
         return this;
     }
     commercialsEndOfStage(commercialsEndOfStage) {
-        _classPrivateFieldGetMjs(this, _seqBuilder).commercialsEndOfStage([
+        _classPrivateFieldGet(this, _seqBuilder).commercialsEndOfStage([
             commercialsEndOfStage
         ]);
         return this;
     }
     build() {
-        return _classPrivateFieldGetMjs(this, _seqBuilder).build();
+        return _classPrivateFieldGet(this, _seqBuilder).build();
     }
     constructor(...args){
         super(...args);
-        _classPrivateFieldInitMjs(this, _seqBuilder, {
+        _classPrivateFieldInit(this, _seqBuilder, {
             writable: true,
             value: new BodyStageSeqBuilder()
         });
@@ -221,26 +221,26 @@ class BodyStageBuilder extends _abstractBuilders.AbstractBuilder {
 var _variant = /*#__PURE__*/ new WeakMap(), _opener = /*#__PURE__*/ new WeakMap();
 class BodyHeaderBuilder extends _abstractBuilders.AbstractBuilder {
     variant(variant) {
-        _classPrivateFieldSetMjs(this, _variant, variant);
+        _classPrivateFieldSet(this, _variant, variant);
         return this;
     }
     opener(opener) {
-        _classPrivateFieldSetMjs(this, _opener, (0, _builderUtils.mapBuildArg)(opener));
+        _classPrivateFieldSet(this, _opener, (0, _builderUtils.mapBuildArg)(opener));
         return this;
     }
     build() {
         return {
-            variant: _classPrivateFieldGetMjs(this, _variant),
-            opener: _classPrivateFieldGetMjs(this, _opener)
+            variant: _classPrivateFieldGet(this, _variant),
+            opener: _classPrivateFieldGet(this, _opener)
         };
     }
     constructor(...args){
         super(...args);
-        _classPrivateFieldInitMjs(this, _variant, {
+        _classPrivateFieldInit(this, _variant, {
             writable: true,
             value: "full"
         });
-        _classPrivateFieldInitMjs(this, _opener, {
+        _classPrivateFieldInit(this, _opener, {
             writable: true,
             value: undefined
         });
@@ -249,19 +249,19 @@ class BodyHeaderBuilder extends _abstractBuilders.AbstractBuilder {
 var _nodes2 = /*#__PURE__*/ new WeakMap();
 class ArticleSourceSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
     nodes(nodes) {
-        _classPrivateFieldSetMjs(this, _nodes2, nodes.map(_builderUtils.mapBuildArgs));
+        _classPrivateFieldSet(this, _nodes2, nodes.map(_builderUtils.mapBuildArgs));
         return this;
     }
     buildListItem(seqNextElement) {
-        const id = (0, _builderUtils.hash)("article-source", _classPrivateFieldGetMjs(this, _nodes2));
+        const id = (0, _builderUtils.hash)("article-source", _classPrivateFieldGet(this, _nodes2));
         return {
             id,
-            nodes: seqNextElement.array(_classPrivateFieldGetMjs(this, _nodes2))
+            nodes: seqNextElement.array(_classPrivateFieldGet(this, _nodes2))
         };
     }
     constructor(...args){
         super(...args);
-        _classPrivateFieldInitMjs(this, _nodes2, {
+        _classPrivateFieldInit(this, _nodes2, {
             writable: true,
             value: []
         });
@@ -270,17 +270,17 @@ class ArticleSourceSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
 var _seqBuilder1 = /*#__PURE__*/ new WeakMap();
 class ArticleSourceBuilder extends _abstractBuilders.AbstractBuilder {
     nodes(...nodes) {
-        _classPrivateFieldGetMjs(this, _seqBuilder1).nodes([
+        _classPrivateFieldGet(this, _seqBuilder1).nodes([
             nodes
         ]);
         return this;
     }
     build() {
-        return _classPrivateFieldGetMjs(this, _seqBuilder1).build();
+        return _classPrivateFieldGet(this, _seqBuilder1).build();
     }
     constructor(...nodes){
         super();
-        _classPrivateFieldInitMjs(this, _seqBuilder1, {
+        _classPrivateFieldInit(this, _seqBuilder1, {
             writable: true,
             value: new ArticleSourceSeqBuilder()
         });
@@ -290,26 +290,26 @@ class ArticleSourceBuilder extends _abstractBuilders.AbstractBuilder {
 var _nodes3 = /*#__PURE__*/ new WeakMap(), _hidden1 = /*#__PURE__*/ new WeakMap();
 class ArticleSourcesBuilder extends _abstractBuilders.AbstractBuilder {
     nodes(...nodes) {
-        _classPrivateFieldSetMjs(this, _nodes3, nodes.map(_builderUtils.mapBuildArg));
+        _classPrivateFieldSet(this, _nodes3, nodes.map(_builderUtils.mapBuildArg));
         return this;
     }
     hidden(...hidden) {
-        _classPrivateFieldSetMjs(this, _hidden1, hidden.map(_builderUtils.mapBuildArg));
+        _classPrivateFieldSet(this, _hidden1, hidden.map(_builderUtils.mapBuildArg));
         return this;
     }
     build() {
         return {
-            nodes: _classPrivateFieldGetMjs(this, _nodes3),
-            hidden: _classPrivateFieldGetMjs(this, _hidden1)
+            nodes: _classPrivateFieldGet(this, _nodes3),
+            hidden: _classPrivateFieldGet(this, _hidden1)
         };
     }
     constructor(...args){
         super(...args);
-        _classPrivateFieldInitMjs(this, _nodes3, {
+        _classPrivateFieldInit(this, _nodes3, {
             writable: true,
             value: []
         });
-        _classPrivateFieldInitMjs(this, _hidden1, {
+        _classPrivateFieldInit(this, _hidden1, {
             writable: true,
             value: []
         });

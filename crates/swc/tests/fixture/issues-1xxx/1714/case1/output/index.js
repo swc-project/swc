@@ -8,6 +8,6 @@ Object.defineProperty(exports, "render", {
     },
     enumerable: true
 });
-var _exportStarMjs = require("@swc/helpers/lib/_export_star.js").default;
+var _exportStar = require("@swc/helpers/lib/_export_star.js").default;
 var _customRender = require("./customRender");
-_exportStarMjs(require("@testing-library/react"), exports);
+_exportStar(require("@testing-library/react"), exports);

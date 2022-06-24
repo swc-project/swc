@@ -1,16 +1,16 @@
 "use strict";
-var _classCallCheckMjs = require("@swc/helpers/lib/_class_call_check.js").default;
-var _createClassMjs = require("@swc/helpers/lib/_create_class.js").default;
-var _getMjs = require("@swc/helpers/lib/_get.js").default;
-var _getPrototypeOfMjs = require("@swc/helpers/lib/_get_prototype_of.js").default;
-var _inheritsMjs = require("@swc/helpers/lib/_inherits.js").default;
-var _wrapNativeSuperMjs = require("@swc/helpers/lib/_wrap_native_super.js").default;
-var _createSuperMjs = require("@swc/helpers/lib/_create_super.js").default;
+var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _createClass = require("@swc/helpers/lib/_create_class.js").default;
+var _get = require("@swc/helpers/lib/_get.js").default;
+var _getPrototypeOf = require("@swc/helpers/lib/_get_prototype_of.js").default;
+var _inherits = require("@swc/helpers/lib/_inherits.js").default;
+var _wrapNativeSuper = require("@swc/helpers/lib/_wrap_native_super.js").default;
+var _createSuper = require("@swc/helpers/lib/_create_super.js").default;
 var Element = /*#__PURE__*/ function() {
     function Element() {
-        _classCallCheckMjs(this, Element);
+        _classCallCheck(this, Element);
     }
-    _createClassMjs(Element, [
+    _createClass(Element, [
         {
             key: "getChildElements",
             value: function getChildElements() {
@@ -21,13 +21,13 @@ var Element = /*#__PURE__*/ function() {
     return Element;
 }();
 var CanvasElement = /*#__PURE__*/ function(Element) {
-    _inheritsMjs(CanvasElement, Element);
-    var _super = _createSuperMjs(CanvasElement);
+    _inherits(CanvasElement, Element);
+    var _super = _createSuper(CanvasElement);
     function CanvasElement() {
-        _classCallCheckMjs(this, CanvasElement);
+        _classCallCheck(this, CanvasElement);
         return _super.apply(this, arguments);
     }
-    _createClassMjs(CanvasElement, [
+    _createClass(CanvasElement, [
         {
             key: "createFacets",
             value: function createFacets(hidden) {
@@ -37,19 +37,19 @@ var CanvasElement = /*#__PURE__*/ function(Element) {
         }
     ]);
     return CanvasElement;
-}(_wrapNativeSuperMjs(Element));
+}(_wrapNativeSuper(Element));
 var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
-    _inheritsMjs(ColouredCanvasElement, CanvasElement);
-    var _super = _createSuperMjs(ColouredCanvasElement);
+    _inherits(ColouredCanvasElement, CanvasElement);
+    var _super = _createSuper(ColouredCanvasElement);
     function ColouredCanvasElement() {
-        _classCallCheckMjs(this, ColouredCanvasElement);
+        _classCallCheck(this, ColouredCanvasElement);
         return _super.apply(this, arguments);
     }
-    _createClassMjs(ColouredCanvasElement, [
+    _createClass(ColouredCanvasElement, [
         {
             key: "createFacets",
             value: function createFacets(hidden) {
-                hidden = _getMjs(_getPrototypeOfMjs(ColouredCanvasElement.prototype), "createFacets", this).call(this, hidden); ///
+                hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), "createFacets", this).call(this, hidden); ///
             ///
             }
         }
@@ -57,10 +57,10 @@ var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
     return ColouredCanvasElement;
 }(CanvasElement);
 var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement) {
-    _inheritsMjs(ColouredSquare, ColouredCanvasElement);
-    var _super = _createSuperMjs(ColouredSquare);
+    _inherits(ColouredSquare, ColouredCanvasElement);
+    var _super = _createSuper(ColouredSquare);
     function ColouredSquare() {
-        _classCallCheckMjs(this, ColouredSquare);
+        _classCallCheck(this, ColouredSquare);
         return _super.apply(this, arguments);
     }
     return ColouredSquare;

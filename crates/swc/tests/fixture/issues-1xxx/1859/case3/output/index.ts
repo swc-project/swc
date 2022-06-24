@@ -1,4 +1,4 @@
 "use strict";
-var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _lib = _interopRequireWildcardMjs(require("./lib"));
+var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _lib = _interopRequireWildcard(require("./lib"));
 console.log(_lib);

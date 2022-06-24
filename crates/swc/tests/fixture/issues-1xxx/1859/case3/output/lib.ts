@@ -2,6 +2,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _exportStarMjs = require("@swc/helpers/lib/_export_star.js").default;
-_exportStarMjs(require("./foo"), exports);
-_exportStarMjs(require("./bar"), exports);
+var _exportStar = require("@swc/helpers/lib/_export_star.js").default;
+_exportStar(require("./foo"), exports);
+_exportStar(require("./bar"), exports);

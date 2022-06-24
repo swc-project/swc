@@ -86,6 +86,12 @@ pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
         return format!("_{}", src.to_camel_case()).into();
     }
 
+    let src = src
+        .starts_with("@swc/helpers/")
+        .then(|| src.strip_suffix(".mjs"))
+        .flatten()
+        .unwrap_or(src);
+
     format!("_{}", src.split('/').last().unwrap().to_camel_case()).into()
 }
 
