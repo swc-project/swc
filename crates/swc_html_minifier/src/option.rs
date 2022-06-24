@@ -16,6 +16,12 @@ pub struct MinifyOptions {
     /// case strings will be different, which can break the work of
     /// libraries
     #[serde(default = "true_by_default")]
+    pub remove_comments: bool,
+    #[serde(default = "default_preserve_comments")]
+    pub preserve_comments: Option<Vec<CachedRegex>>,
+    #[serde(default = "true_by_default")]
+    pub minify_conditional_comments: bool,
+    #[serde(default = "true_by_default")]
     pub remove_empty_attributes: bool,
     #[serde(default = "true_by_default")]
     pub remove_redundant_attributes: bool,
@@ -27,10 +33,6 @@ pub struct MinifyOptions {
     pub minify_json: bool,
     #[serde(default = "true_by_default")]
     pub minify_css: bool,
-    #[serde(default = "default_preserve_comments")]
-    pub preserve_comments: Option<Vec<CachedRegex>>,
-    #[serde(default = "true_by_default")]
-    pub minify_conditional_comments: bool,
 }
 
 /// Implement default using serde.
