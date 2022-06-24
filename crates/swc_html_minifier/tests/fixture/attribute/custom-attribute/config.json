@@ -1,0 +1,6 @@
+{
+  "additionalJsAttributes": ["^data-click", "^ng-"],
+  "additionalJsonAttributes": ["^data-json"],
+  "additionalCssAttributes": ["^data-style"],
+  "additionalHtmlAttributes": ["^data-html"]
+}

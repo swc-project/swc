@@ -6,6 +6,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, Mark, SourceMap};
 use swc_html_ast::*;
+use swc_html_parser::parser::ParserConfig;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{CollapseWhitespaces, MinifyOptions};
@@ -259,6 +260,16 @@ enum CssMinificationMode {
     MediaQueryList,
 }
 
+enum HtmlMinificationMode {
+    ConditionalComments,
+    DocumentIframeSrcdoc,
+}
+
+enum HtmlRoot {
+    Document(Document),
+    DocumentFragment(DocumentFragment),
+}
+
 #[inline(always)]
 fn is_whitespace(c: char) -> bool {
     matches!(c, '\x09' | '\x0a' | '\x0c' | '\x0d' | '\x20')
@@ -320,8 +331,14 @@ struct Minifier {
     remove_redundant_attributes: bool,
     collapse_boolean_attributes: bool,
     minify_json: bool,
+    additional_json_attributes: Option<Vec<CachedRegex>>,
     minify_js: bool,
+    additional_js_attributes: Option<Vec<CachedRegex>>,
     minify_css: bool,
+    additional_css_attributes: Option<Vec<CachedRegex>>,
+    additional_html_attributes: Option<Vec<CachedRegex>>,
+    preserve_comments: Option<Vec<CachedRegex>>,
+    minify_conditional_comments: bool,
 }
 
 fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
@@ -407,6 +424,46 @@ impl Minifier {
             }
             _ => false,
         }
+    }
+
+    fn is_additional_js_attribute(&self, name: &str) -> bool {
+        if let Some(additional_js_attributes) = &self.additional_js_attributes {
+            return additional_js_attributes
+                .iter()
+                .any(|regex| regex.is_match(name));
+        }
+
+        false
+    }
+
+    fn is_additional_json_attribute(&self, name: &str) -> bool {
+        if let Some(additional_json_attributes) = &self.additional_json_attributes {
+            return additional_json_attributes
+                .iter()
+                .any(|regex| regex.is_match(name));
+        }
+
+        false
+    }
+
+    fn is_additional_css_attribute(&self, name: &str) -> bool {
+        if let Some(additional_css_attributes) = &self.additional_css_attributes {
+            return additional_css_attributes
+                .iter()
+                .any(|regex| regex.is_match(name));
+        }
+
+        false
+    }
+
+    fn is_additional_html_attribute(&self, name: &str) -> bool {
+        if let Some(additional_html_attributes) = &self.additional_html_attributes {
+            return additional_html_attributes
+                .iter()
+                .any(|regex| regex.is_match(name));
+        }
+
+        false
     }
 
     fn element_has_attribute_with_value(
@@ -1285,7 +1342,7 @@ impl Minifier {
         Some(minified)
     }
 
-    fn minify_html(&self, data: String) -> Option<String> {
+    fn minify_html(&self, data: String, mode: HtmlMinificationMode) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
@@ -1312,6 +1369,45 @@ impl Minifier {
         ) {
             Ok(document_fragment) => document_fragment,
             _ => return None,
+        let mut context_element = None;
+
+        let mut document_or_document_fragment = match mode {
+            HtmlMinificationMode::ConditionalComments => {
+                // Emulate content inside conditional comments like content inside the
+                // `template` element
+                context_element = Some(Element {
+                    span: Default::default(),
+                    tag_name: "template".into(),
+                    namespace: Namespace::HTML,
+                    attributes: vec![],
+                    children: vec![],
+                    content: None,
+                    is_self_closing: false,
+                });
+
+                match swc_html_parser::parse_file_as_document_fragment(
+                    &fm,
+                    context_element.clone().unwrap(),
+                    Default::default(),
+                    &mut errors,
+                ) {
+                    Ok(document_fragment) => HtmlRoot::DocumentFragment(document_fragment),
+                    _ => return None,
+                }
+            }
+            HtmlMinificationMode::DocumentIframeSrcdoc => {
+                match swc_html_parser::parse_file_as_document(
+                    &fm,
+                    ParserConfig {
+                        iframe_srcdoc: true,
+                        ..Default::default()
+                    },
+                    &mut errors,
+                ) {
+                    Ok(document) => HtmlRoot::Document(document),
+                    _ => return None,
+                }
+            }
         };
 
         // Avoid compress potential invalid CSS
@@ -1335,8 +1431,33 @@ impl Minifier {
                 minify_css: self.minify_css,
             },
         );
+        let minify_options = MinifyOptions {
+            force_set_html5_doctype: self.force_set_html5_doctype,
+            collapse_whitespaces: self.collapse_whitespaces.clone(),
+            remove_empty_attributes: self.remove_empty_attributes,
+            remove_redundant_attributes: self.remove_empty_attributes,
+            collapse_boolean_attributes: self.collapse_boolean_attributes,
+            minify_js: self.minify_js,
+            additional_js_attributes: self.additional_js_attributes.clone(),
+            minify_json: self.minify_json,
+            additional_json_attributes: self.additional_json_attributes.clone(),
+            minify_css: self.minify_css,
+            additional_css_attributes: self.additional_css_attributes.clone(),
+            additional_html_attributes: self.additional_css_attributes.clone(),
+            preserve_comments: self.preserve_comments.clone(),
+            minify_conditional_comments: self.minify_conditional_comments,
+        };
 
-        document_fragment.visit_mut_with(&mut minifier);
+        match document_or_document_fragment {
+            HtmlRoot::Document(ref mut document) => {
+                minify_document(document, &minify_options);
+            }
+            HtmlRoot::DocumentFragment(ref mut document_fragment) => minify_document_fragment(
+                document_fragment,
+                context_element.as_ref().unwrap().clone(),
+                &minify_options,
+            ),
+        }
 
         let mut minified = String::new();
         let wr = swc_html_codegen::writer::basic::BasicHtmlWriter::new(
@@ -1350,12 +1471,20 @@ impl Minifier {
                 minify: true,
                 scripting_enabled: false,
                 context_element: Some(&context_element),
+                context_element,
                 tag_omission: None,
                 self_closing_void_elements: None,
             },
         );
 
-        swc_html_codegen::Emit::emit(&mut gen, &document_fragment).unwrap();
+        match document_or_document_fragment {
+            HtmlRoot::Document(document) => {
+                swc_html_codegen::Emit::emit(&mut gen, &document).unwrap();
+            }
+            HtmlRoot::DocumentFragment(document_fragment) => {
+                swc_html_codegen::Emit::emit(&mut gen, &document_fragment).unwrap();
+            }
+        }
 
         Some(minified)
     }
@@ -1487,18 +1616,16 @@ impl VisitMut for Minifier {
             }
         };
 
-        let is_element_html_namespace =
-            self.current_element.as_ref().unwrap().namespace == Namespace::HTML;
+        let current_element = self.current_element.as_ref().unwrap();
 
         if self.collapse_boolean_attributes
-            && is_element_html_namespace
+            && current_element.namespace == Namespace::HTML
             && self.is_boolean_attribute(&n.name)
         {
             n.value = None;
 
             return;
-        } else if self.is_space_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
-        {
+        } else if self.is_space_separated_attribute(current_element, &n.name) {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
 
             if &*n.name == "class" {
@@ -1506,8 +1633,7 @@ impl VisitMut for Minifier {
             }
 
             value = values.join(" ");
-        } else if self.is_comma_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
-        {
+        } else if self.is_comma_separated_attribute(current_element, &n.name) {
             let is_sizes = matches!(&*n.name, "sizes" | "imagesizes");
 
             let mut new_values = vec![];
@@ -1538,9 +1664,7 @@ impl VisitMut for Minifier {
                     value = minified;
                 }
             }
-        } else if self
-            .is_trimable_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
-        {
+        } else if self.is_trimable_separated_attribute(current_element, &n.name) {
             value = value.trim().to_string();
 
             if self.minify_css && &*n.name == "style" && !value.is_empty() {
@@ -1550,13 +1674,16 @@ impl VisitMut for Minifier {
                     value = minified;
                 }
             }
-        } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
+        } else if current_element.namespace == Namespace::HTML
+            && &n.name == "contenteditable"
+            && value == "true"
+        {
             n.value = Some(js_word!(""));
 
             return;
         } else if &n.name == "content"
             && self.element_has_attribute_with_value(
-                self.current_element.as_ref().unwrap(),
+                current_element,
                 "http-equiv",
                 &["content-security-policy"],
             )
@@ -1587,11 +1714,38 @@ impl VisitMut for Minifier {
             if value.trim().to_lowercase().starts_with("javascript:") {
                 value = value.chars().skip(11).collect();
             }
+        }
 
+        let is_iframe_srcdoc = current_element.namespace == Namespace::HTML
+            && &*current_element.tag_name == "iframe"
+            && &n.name == "srcdoc";
+
+        if self.minify_js && self.is_additional_js_attribute(&n.name)
+            || self.is_event_handler_attribute(&n.name)
+        {
             value = match self.minify_js(value.clone(), false) {
                 Some(minified) => minified,
                 _ => value,
             };
+        }
+        if self.minify_json && self.is_additional_json_attribute(&n.name) {
+            value = match self.minify_json(value.clone()) {
+                Some(minified) => minified,
+                _ => value,
+            };
+        }
+        if self.minify_css && self.is_additional_css_attribute(&n.name) {
+            value = match self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations) {
+                Some(minified) => minified,
+                _ => value,
+            };
+        }
+        if self.is_additional_html_attribute(&n.name) || is_iframe_srcdoc {
+            value =
+                match self.minify_html(value.clone(), HtmlMinificationMode::DocumentIframeSrcdoc) {
+                    Some(minified) => minified,
+                    _ => value,
+                };
         }
 
         n.value = Some(value.into());
@@ -1747,7 +1901,7 @@ impl VisitMut for Minifier {
                 .take(end_pos - start_pos)
                 .collect();
 
-            let minified = match self.minify_html(html) {
+            let minified = match self.minify_html(html, HtmlMinificationMode::ConditionalComments) {
                 Some(minified) => minified,
                 _ => return,
             };
@@ -1794,6 +1948,13 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_js: options.minify_js,
         minify_json: options.minify_json,
         minify_css: options.minify_css,
+
+        preserve_comments: options.preserve_comments.clone(),
+        minify_conditional_comments: options.minify_conditional_comments,
+        additional_js_attributes: options.additional_js_attributes.clone(),
+        additional_json_attributes: options.additional_json_attributes.clone(),
+        additional_css_attributes: options.additional_css_attributes.clone(),
+        additional_html_attributes: options.additional_html_attributes.clone(),
     }
 }
 

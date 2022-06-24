@@ -29,10 +29,30 @@ pub struct MinifyOptions {
     pub collapse_boolean_attributes: bool,
     #[serde(default = "true_by_default")]
     pub minify_js: bool,
+    // Allow to compress custom ECMAScript attributes, i.e. `<div data-click="myFunction(100 * 2,
+    // "value");"></div>`
+    #[serde(default)]
+    pub additional_js_attributes: Option<Vec<CachedRegex>>,
     #[serde(default = "true_by_default")]
     pub minify_json: bool,
+    // Allow to compress custom JSON attributes,
+    // i.e. `<div data-json="{ "foo": "bar }"></div>`
+    #[serde(default)]
+    pub additional_json_attributes: Option<Vec<CachedRegex>>,
     #[serde(default = "true_by_default")]
     pub minify_css: bool,
+    // Allow to compress custom CSS attributes,
+    // i.e. `<div data-style="color: red; background-color: red"></div>`
+    #[serde(default)]
+    pub additional_css_attributes: Option<Vec<CachedRegex>>,
+    // Allow to compress custom ECMAScript attributes,
+    // i.e. `<div data-html="<html> <body> <p>test.</p>" src="nosrcdoc.html"></div>`
+    #[serde(default)]
+    pub additional_html_attributes: Option<Vec<CachedRegex>>,
+    #[serde(default = "default_preserve_comments")]
+    pub preserve_comments: Option<Vec<CachedRegex>>,
+    #[serde(default = "true_by_default")]
+    pub minify_conditional_comments: bool,
 }
 
 /// Implement default using serde.
