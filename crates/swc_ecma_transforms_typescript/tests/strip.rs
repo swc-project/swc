@@ -83,14 +83,22 @@ macro_rules! test_with_config {
 
 test!(
     Syntax::Typescript(Default::default()),
-    |_| chain!(
-        tr(),
-        parameters(parameters::Config {
-            ignore_function_length: true
-        }),
-        destructuring(destructuring::Config { loose: false }),
-        block_scoping(),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            tr(),
+            parameters(
+                parameters::Config {
+                    ignore_function_length: true
+                },
+                unresolved_mark
+            ),
+            destructuring(destructuring::Config { loose: false }),
+            block_scoping(),
+        )
+    },
     fn_len_default_assignment_with_types,
     "export function transformFileSync(
       filename: string,

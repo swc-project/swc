@@ -39,10 +39,14 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
+        resolver(unresolved_mark, top_level_mark, false),
         ParenRemover,
         arrow(),
-        parameters(Default::default()),
+        parameters(Default::default(), unresolved_mark),
         destructuring(destructuring::Config { loose: false }),
         function_name(),
         async_to_generator(Default::default()),
@@ -1429,11 +1433,17 @@ function foo() {
 // regression_4943
 test!(
     syntax(),
-    |_| chain!(
-        async_to_generator(Default::default()),
-        parameters(Default::default()),
-        destructuring(destructuring::Config { loose: false }),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            async_to_generator(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(destructuring::Config { loose: false }),
+        )
+    },
     regression_4943,
     r#"
 "use strict";

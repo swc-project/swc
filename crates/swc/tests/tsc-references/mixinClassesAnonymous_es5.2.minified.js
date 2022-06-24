@@ -21,7 +21,7 @@ function Tagged(superClass) {
         _inherits(C, superClass);
         var _super = _create_super(C);
         function C() {
-            for(var _this, _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+            for(var _this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
             return _class_call_check(this, C), (_this = _super.call.apply(_super, [
                 this
             ].concat(_to_consumable_array(args))))._tag = "hello", _this;

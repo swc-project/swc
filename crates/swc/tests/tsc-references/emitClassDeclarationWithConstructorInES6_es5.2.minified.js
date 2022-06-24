@@ -9,7 +9,7 @@ var A = function() {
     "use strict";
     function B(x) {
         arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
-        for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)args[_key - 2] = arguments[_key];
+        for(var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)args[_key - 2] = arguments[_key];
         _class_call_check(this, B), this.x = "hello", this.y = 10;
     }
     return B.prototype.baz = function(z, v) {
