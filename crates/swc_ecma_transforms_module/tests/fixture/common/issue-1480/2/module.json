@@ -1,3 +1,6 @@
 {
-    "lazy": true
+    "noInterop": false,
+    "strict": true,
+    "strictMode": true,
+    "lazy": false
 }

@@ -49,8 +49,10 @@ fn esm_to_amd(input: PathBuf) {
         .join("output.amd.js")
         .with_extension(if is_ts { "ts" } else { "js" });
 
+    let amd_config_path = dir.join("module.amd.json");
     let config_path = dir.join("module.json");
-    let config: amd::Config = match File::open(config_path) {
+    let config: amd::Config = match File::open(amd_config_path).or_else(|_| File::open(config_path))
+    {
         Ok(file) => serde_json::from_reader(file).unwrap(),
         Err(..) => Default::default(),
     };

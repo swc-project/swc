@@ -48,7 +48,7 @@ fn esm_to_umd(input: PathBuf) {
         .join("output.umd.js")
         .with_extension(if is_ts { "ts" } else { "js" });
 
-    let umd_config_path = dir.join("umd.module.json");
+    let umd_config_path = dir.join("module.umd.json");
     let config_path = dir.join("module.json");
     let config: Config = match File::open(umd_config_path).or_else(|_| File::open(config_path)) {
         Ok(file) => serde_json::from_reader(file).unwrap(),
