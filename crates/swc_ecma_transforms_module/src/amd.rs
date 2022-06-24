@@ -171,8 +171,8 @@ impl VisitMut for Amd {
         //  Emit
         // ====================
 
-        let mut elems = vec![];
-        let mut params = vec![];
+        let mut elems = vec![Some(quote_str!("require").as_arg())];
+        let mut params = vec![self.require.clone().into()];
 
         if let Some(exports) = self.exports.take() {
             elems.push(Some(quote_str!("exports").as_arg()));

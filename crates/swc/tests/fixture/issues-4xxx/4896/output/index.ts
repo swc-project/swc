@@ -1,7 +1,8 @@
 define([
+    "require",
     "exports",
     "vs/workbench/contrib/welcomeGettingStarted/browser/gettingStartedIcons"
-], function(exports, _gettingStartedIcons) {
+], function(require, exports, _gettingStartedIcons) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

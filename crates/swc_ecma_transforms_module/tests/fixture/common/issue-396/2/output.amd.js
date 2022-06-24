@@ -1,4 +1,6 @@
-define([], function() {
+define([
+    "require"
+], function(require) {
     "use strict";
     function foo() {
         bar;

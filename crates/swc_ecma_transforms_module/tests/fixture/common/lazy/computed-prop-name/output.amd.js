@@ -1,8 +1,9 @@
 define([
+    "require",
     "exports",
     "libx",
     "liby"
-], function(exports, _libx, _liby) {
+], function(require, exports, _libx, _liby) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
 const _foo = _interopRequireDefault(require("foo"));
 async function foo() {

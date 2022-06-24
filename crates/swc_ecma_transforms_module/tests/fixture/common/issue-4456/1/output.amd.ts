@@ -1,10 +1,11 @@
 define([
+    "require",
     "exports",
     ".",
     "@emotion/styled",
     "@eduzz/houston-tokens/variables/breakpoints",
     "@emotion/css"
-], function(exports, _, _styled, _breakpoints, _css) {
+], function(require, exports, _, _styled, _breakpoints, _css) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

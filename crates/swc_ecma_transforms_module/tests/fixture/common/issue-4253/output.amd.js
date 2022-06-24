@@ -1,4 +1,6 @@
-define([], function() {
+define([
+    "require"
+], function(require) {
     "use strict";
     let pipeline = await new Promise((resolve1, reject)=>require([
             await resolve(file)

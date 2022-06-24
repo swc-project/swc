@@ -1,7 +1,8 @@
 define([
+    "require",
     "exports",
     "ora"
-], function(exports, _ora) {
+], function(require, exports, _ora) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

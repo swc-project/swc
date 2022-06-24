@@ -1,7 +1,8 @@
 define([
+    "require",
     "exports",
     "./copyPaste"
-], function(exports, _copyPaste) {
+], function(require, exports, _copyPaste) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

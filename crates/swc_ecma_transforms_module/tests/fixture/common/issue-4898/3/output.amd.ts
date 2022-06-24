@@ -1,4 +1,6 @@
-define([], function() {
+define([
+    "require"
+], function(require) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -6,9 +8,10 @@ define([], function() {
     _assert(true);
     module Foo {
         define([
+            "require",
             "exports",
             "assert"
-        ], function(exports, _assert) {
+        ], function(require, exports, _assert) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true

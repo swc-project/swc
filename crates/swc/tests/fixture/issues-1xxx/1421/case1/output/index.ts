@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
 var _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
 var _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;

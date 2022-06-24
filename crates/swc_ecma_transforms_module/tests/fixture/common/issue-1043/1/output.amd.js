@@ -1,8 +1,9 @@
 define([
+    "require",
     "exports",
     "./http",
     "./interfaces"
-], function(exports, _http, _interfaces) {
+], function(require, exports, _http, _interfaces) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

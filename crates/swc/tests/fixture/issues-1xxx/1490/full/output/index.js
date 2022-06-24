@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
 var _createClass = require("@swc/helpers/lib/_create_class.js").default;
 var _get = require("@swc/helpers/lib/_get.js").default;
