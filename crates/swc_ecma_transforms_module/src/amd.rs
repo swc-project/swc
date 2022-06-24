@@ -10,6 +10,12 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config as InnerConfig;
+use crate::{
+    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
+    module_ref_rewriter::{ImportMap, ModuleRefRewriter},
+    path::{ImportResolver, Resolver},
+    util::{define_es_module, emit_export_stmts, has_use_strict, local_name_for_src, use_strict},
+};
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -20,18 +26,6 @@ pub struct Config {
     #[serde(flatten, default)]
     pub config: InnerConfig,
 }
-
-use crate::{
-    module_decl_strip::{
-        Export, ExportObjPropList, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
-    },
-    module_ref_rewriter::{ImportMap, ModuleRefRewriter},
-    path::{ImportResolver, Resolver},
-    util::{
-        define_es_module, esm_export, has_use_strict, local_name_for_src, object_define_enumerable,
-        prop_arrow, prop_function, prop_method, use_strict,
-    },
-};
 
 pub fn amd(
     unresolved_mark: Mark,
@@ -45,9 +39,8 @@ pub fn amd(
         config,
         unresolved_mark,
         resolver: Resolver::Default,
-
+        available_features: available_features.clone(),
         support_arrow: caniuse!(available_features.ArrowFunctions),
-        support_shorthand: caniuse!(available_features.ShorthandProperties),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -76,9 +69,8 @@ pub fn amd_with_resolver(
         config,
         unresolved_mark,
         resolver: Resolver::Real { base, resolver },
-
+        available_features: available_features.clone(),
         support_arrow: caniuse!(available_features.ArrowFunctions),
-        support_shorthand: caniuse!(available_features.ShorthandProperties),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -99,8 +91,8 @@ pub struct Amd {
     unresolved_mark: Mark,
     resolver: Resolver,
 
+    available_features: FeatureSet,
     support_arrow: bool,
-    support_shorthand: bool,
     const_var_kind: VarDeclKind,
 
     dep_list: Vec<(Ident, JsWord, Span)>,
@@ -133,8 +125,10 @@ impl VisitMut for Amd {
 
         let mut import_map = Default::default();
 
+        let is_export_assign = export_assign.is_some();
+
         stmts.extend(
-            self.handle_import_export(&mut import_map, link, export)
+            self.handle_import_export(&mut import_map, link, export, is_export_assign)
                 .map(Into::into),
         );
 
@@ -295,6 +289,7 @@ impl Amd {
         import_map: &mut ImportMap,
         link: Link,
         export: Export,
+        is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
@@ -390,9 +385,11 @@ impl Amd {
 
         let mut export_stmts = Default::default();
 
-        if !export_obj_prop_list.is_empty() {
+        if !export_obj_prop_list.is_empty() && !is_export_assign {
+            let features = self.available_features.clone();
             let exports = self.exports();
-            export_stmts = self.export_stmts(exports, export_obj_prop_list);
+
+            export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
         }
 
         self.exports
@@ -413,54 +410,6 @@ impl Amd {
         self.exports
             .get_or_insert_with(|| private_ident!("exports"))
             .clone()
-    }
-
-    fn export_stmts(&mut self, exports: Ident, mut prop_list: ExportObjPropList) -> Vec<Stmt> {
-        let prop_auto = if self.support_arrow {
-            prop_arrow
-        } else if self.support_shorthand {
-            prop_method
-        } else {
-            prop_function
-        };
-
-        match prop_list.len() {
-            0 | 1 => prop_list
-                .pop()
-                .map(|(prop_name, span, expr)| {
-                    object_define_enumerable(
-                        exports.as_arg(),
-                        quote_str!(span, prop_name).as_arg(),
-                        prop_auto((js_word!("get"), DUMMY_SP, expr)).into(),
-                    )
-                    .into_stmt()
-                })
-                .into_iter()
-                .collect(),
-            _ => {
-                prop_list.sort_by(|a, b| a.0.cmp(&b.0));
-                let props = prop_list
-                    .into_iter()
-                    .map(prop_auto)
-                    .map(Into::into)
-                    .collect();
-                let obj_lit = ObjectLit {
-                    span: DUMMY_SP,
-                    props,
-                };
-
-                let esm_export_ident = private_ident!("_export");
-
-                vec![
-                    Stmt::Decl(Decl::Fn(
-                        esm_export().into_fn_decl(esm_export_ident.clone()),
-                    )),
-                    esm_export_ident
-                        .as_call(DUMMY_SP, vec![exports.as_arg(), obj_lit.as_arg()])
-                        .into_stmt(),
-                ]
-            }
-        }
     }
 }
 

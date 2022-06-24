@@ -1,9 +1,10 @@
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::feature::FeatureSet;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
     FunctionFactory,
@@ -181,6 +182,15 @@ pub(crate) fn object_define_enumerable(
     )
 }
 
+#[macro_export]
+macro_rules! caniuse {
+    ($feature_set:ident . $feature:ident) => {
+        $feature_set
+            .borrow()
+            .contains(&swc_ecma_transforms_base::feature::Feature::$feature)
+    };
+}
+
 /// ```javascript
 /// function _esmExport(target, all) {
 ///    for (var name in all)Object.defineProperty(target, name, { get: all[name], enumerable: true });
@@ -234,6 +244,62 @@ pub(crate) fn esm_export() -> Function {
         is_async: false,
         type_params: None,
         return_type: None,
+    }
+}
+
+pub(crate) fn emit_export_stmts(
+    features: FeatureSet,
+    exports: Ident,
+    mut prop_list: crate::module_decl_strip::ExportObjPropList,
+) -> Vec<Stmt> {
+    let features = &features;
+    let support_arrow = caniuse!(features.ArrowFunctions);
+    let support_shorthand = caniuse!(features.ShorthandProperties);
+
+    let prop_auto = if support_arrow {
+        prop_arrow
+    } else if support_shorthand {
+        prop_method
+    } else {
+        prop_function
+    };
+
+    match prop_list.len() {
+        0 | 1 => prop_list
+            .pop()
+            .map(|(prop_name, span, expr)| {
+                object_define_enumerable(
+                    exports.as_arg(),
+                    quote_str!(span, prop_name).as_arg(),
+                    prop_auto((js_word!("get"), DUMMY_SP, expr)).into(),
+                )
+                .into_stmt()
+            })
+            .into_iter()
+            .collect(),
+        _ => {
+            prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+            let props = prop_list
+                .into_iter()
+                .map(prop_auto)
+                .map(Into::into)
+                .collect();
+            let obj_lit = ObjectLit {
+                span: DUMMY_SP,
+                props,
+            };
+
+            let esm_export_ident = private_ident!("_export");
+
+            vec![
+                Stmt::Decl(Decl::Fn(
+                    esm_export().into_fn_decl(esm_export_ident.clone()),
+                )),
+                esm_export_ident
+                    .as_call(DUMMY_SP, vec![exports.as_arg(), obj_lit.as_arg()])
+                    .into_stmt(),
+            ]
+        }
     }
 }
 
@@ -320,13 +386,4 @@ pub(crate) fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> Prop {
         ),
     }
     .into()
-}
-
-#[macro_export]
-macro_rules! caniuse {
-    ($feature_set:ident . $feature:ident) => {
-        $feature_set
-            .borrow()
-            .contains(&swc_ecma_transforms_base::feature::Feature::$feature)
-    };
 }

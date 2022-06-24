@@ -2,22 +2,15 @@ use swc_atoms::js_word;
 use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureSet, helper, helper_expr};
-use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory,
-};
+use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
 use crate::{
-    module_decl_strip::{
-        Export, ExportObjPropList, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
-    },
+    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
-    util::{
-        define_es_module, esm_export, has_use_strict, local_name_for_src, object_define_enumerable,
-        prop_arrow, prop_function, prop_method, use_strict,
-    },
+    util::{define_es_module, emit_export_stmts, has_use_strict, local_name_for_src, use_strict},
 };
 
 pub fn common_js(
@@ -29,9 +22,8 @@ pub fn common_js(
         config,
         resolver: Resolver::Default,
         unresolved_mark,
-
+        available_features: available_features.clone(),
         support_arrow: caniuse!(available_features.ArrowFunctions),
-        support_shorthand: caniuse!(available_features.ShorthandProperties),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -53,9 +45,8 @@ pub fn common_js_with_resolver(
         config,
         resolver: Resolver::Real { base, resolver },
         unresolved_mark,
-
+        available_features: available_features.clone(),
         support_arrow: caniuse!(available_features.ArrowFunctions),
-        support_shorthand: caniuse!(available_features.ShorthandProperties),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -70,8 +61,8 @@ pub struct Cjs {
     config: Config,
     resolver: Resolver,
     unresolved_mark: Mark,
+    available_features: FeatureSet,
     support_arrow: bool,
-    support_shorthand: bool,
     const_var_kind: VarDeclKind,
 
     exports: Option<Ident>,
@@ -101,11 +92,19 @@ impl VisitMut for Cjs {
         let mut import_map = Default::default();
         let mut lazy_record = Default::default();
 
+        let is_export_assign = export_assign.is_some();
+
         // `import` -> `require`
         // `export` -> `_export(exports, {});`
         stmts.extend(
-            self.handle_import_export(&mut import_map, &mut lazy_record, link, export)
-                .map(Into::into),
+            self.handle_import_export(
+                &mut import_map,
+                &mut lazy_record,
+                link,
+                export,
+                is_export_assign,
+            )
+            .map(Into::into),
         );
 
         stmts.extend(n.take());
@@ -196,6 +195,7 @@ impl Cjs {
         lazy_record: &mut AHashSet<Id>,
         link: Link,
         export: Export,
+        is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
@@ -331,7 +331,14 @@ impl Cjs {
             },
         );
 
-        let export_stmts = self.export_stmts(export_obj_prop_list);
+        let mut export_stmts = Default::default();
+
+        if !export_obj_prop_list.is_empty() && !is_export_assign {
+            let features = self.available_features.clone();
+            let exports = self.exports();
+
+            export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
+        }
 
         self.exports
             .clone()
@@ -347,52 +354,6 @@ impl Cjs {
                 quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports")
             })
             .clone()
-    }
-
-    fn export_stmts(&mut self, mut prop_list: ExportObjPropList) -> Vec<Stmt> {
-        let prop_auto = if self.support_arrow {
-            prop_arrow
-        } else if self.support_shorthand {
-            prop_method
-        } else {
-            prop_function
-        };
-
-        match prop_list.len() {
-            0 | 1 => prop_list
-                .pop()
-                .map(|(prop_name, span, expr)| {
-                    object_define_enumerable(
-                        self.exports().as_arg(),
-                        quote_str!(span, prop_name).as_arg(),
-                        prop_auto((js_word!("get"), DUMMY_SP, expr)).into(),
-                    )
-                    .into_stmt()
-                })
-                .into_iter()
-                .collect(),
-            _ => {
-                prop_list.sort_by(|a, b| a.0.cmp(&b.0));
-                let props = prop_list
-                    .into_iter()
-                    .map(prop_auto)
-                    .map(Into::into)
-                    .collect();
-                let obj_lit = ObjectLit {
-                    span: DUMMY_SP,
-                    props,
-                };
-
-                let esm_export_ident = private_ident!("_export");
-
-                vec![
-                    Stmt::Decl(esm_export().into_fn_decl(esm_export_ident.clone()).into()),
-                    esm_export_ident
-                        .as_call(DUMMY_SP, vec![self.exports().as_arg(), obj_lit.as_arg()])
-                        .into_stmt(),
-                ]
-            }
-        }
     }
 }
 

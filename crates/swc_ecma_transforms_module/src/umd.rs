@@ -1,25 +1,18 @@
 use anyhow::Context;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureSet, helper, helper_expr};
-use swc_ecma_utils::{
-    is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory,
-};
+use swc_ecma_utils::{is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use self::config::BuiltConfig;
 pub use self::config::Config;
 use crate::{
-    module_decl_strip::{
-        Export, ExportObjPropList, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
-    },
+    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
-    util::{
-        define_es_module, esm_export, has_use_strict, local_name_for_src, object_define_enumerable,
-        prop_arrow, prop_function, prop_method, use_strict,
-    },
+    util::{define_es_module, emit_export_stmts, has_use_strict, local_name_for_src, use_strict},
 };
 
 mod config;
@@ -35,9 +28,7 @@ pub fn umd(
         unresolved_mark,
         cm,
         resolver: Resolver::Default,
-
-        support_arrow: caniuse!(available_features.ArrowFunctions),
-        support_shorthand: caniuse!(available_features.ShorthandProperties),
+        available_features: available_features.clone(),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -63,9 +54,7 @@ pub fn umd_with_resolver(
         unresolved_mark,
         cm,
         resolver: Resolver::Real { base, resolver },
-
-        support_arrow: caniuse!(available_features.ArrowFunctions),
-        support_shorthand: caniuse!(available_features.ShorthandProperties),
+        available_features: available_features.clone(),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -82,9 +71,7 @@ pub struct Umd {
     unresolved_mark: Mark,
     config: BuiltConfig,
     resolver: Resolver,
-
-    support_arrow: bool,
-    support_shorthand: bool,
+    available_features: FeatureSet,
     const_var_kind: VarDeclKind,
 
     dep_list: Vec<(Ident, JsWord, Span)>,
@@ -291,8 +278,10 @@ impl Umd {
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
+            let features = self.available_features.clone();
             let exports = self.exports();
-            export_stmts = self.export_stmts(exports, export_obj_prop_list);
+
+            export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
         }
 
         self.exports
@@ -307,54 +296,6 @@ impl Umd {
         self.exports
             .get_or_insert_with(|| private_ident!("exports"))
             .clone()
-    }
-
-    fn export_stmts(&mut self, exports: Ident, mut prop_list: ExportObjPropList) -> Vec<Stmt> {
-        let prop_auto = if self.support_arrow {
-            prop_arrow
-        } else if self.support_shorthand {
-            prop_method
-        } else {
-            prop_function
-        };
-
-        match prop_list.len() {
-            0 | 1 => prop_list
-                .pop()
-                .map(|(prop_name, span, expr)| {
-                    object_define_enumerable(
-                        exports.clone().as_arg(),
-                        quote_str!(span, prop_name).as_arg(),
-                        prop_auto((js_word!("get"), DUMMY_SP, expr)).into(),
-                    )
-                    .into_stmt()
-                })
-                .into_iter()
-                .collect(),
-            _ => {
-                prop_list.sort_by(|a, b| a.0.cmp(&b.0));
-                let props = prop_list
-                    .into_iter()
-                    .map(prop_auto)
-                    .map(Into::into)
-                    .collect();
-                let obj_lit = ObjectLit {
-                    span: DUMMY_SP,
-                    props,
-                };
-
-                let esm_export_ident = private_ident!("_export");
-
-                vec![
-                    Stmt::Decl(Decl::Fn(
-                        esm_export().into_fn_decl(esm_export_ident.clone()),
-                    )),
-                    esm_export_ident
-                        .as_call(DUMMY_SP, vec![exports.as_arg(), obj_lit.as_arg()])
-                        .into_stmt(),
-                ]
-            }
-        }
     }
 
     /// - Without `export =`
