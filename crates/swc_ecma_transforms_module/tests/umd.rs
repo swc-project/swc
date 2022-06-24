@@ -34,10 +34,12 @@ fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Fold {
 
 #[testing::fixture("tests/fixture/common/**/input.js")]
 #[testing::fixture("tests/fixture/common/**/input.ts")]
+#[testing::fixture("tests/fixture/common/**/input.cts")]
 fn esm_to_umd(input: PathBuf) {
     let is_ts = input
         .file_name()
-        .map(|x| x.to_string_lossy().ends_with(".ts"))
+        .map(|x| x.to_string_lossy())
+        .map(|x| x.ends_with(".ts") || x.ends_with(".mts") || x.ends_with(".cts"))
         .unwrap_or_default();
 
     let dir = input.parent().unwrap().to_path_buf();

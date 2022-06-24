@@ -7,7 +7,7 @@
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.foo);
 })(this, function(_foo) {
     "use strict";
-    for (const elm of _foo.array){
-        console.log(elm);
-    }
+    const _foo1 = _interopRequireDefault(_foo);
+    (0, _foo1.default)();
+    _foo();
 });

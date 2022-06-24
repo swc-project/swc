@@ -7,8 +7,9 @@ use swc_ecma_transforms_base::{
     feature::{enable_available_feature_from_es_version, FeatureSet},
     resolver,
 };
+use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_module::common_js::{self, common_js};
-use swc_ecma_transforms_testing::test_fixture;
+use swc_ecma_transforms_testing::{test, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -34,10 +35,12 @@ fn tr(config: common_js::Config, typescript: bool) -> impl Fold {
 
 #[testing::fixture("tests/fixture/common/**/input.js")]
 #[testing::fixture("tests/fixture/common/**/input.ts")]
+#[testing::fixture("tests/fixture/common/**/input.cts")]
 fn esm_to_cjs(input: PathBuf) {
     let is_ts = input
         .file_name()
-        .map(|x| x.to_string_lossy().ends_with(".ts"))
+        .map(|x| x.to_string_lossy())
+        .map(|x| x.ends_with(".ts") || x.ends_with(".mts") || x.ends_with(".cts"))
         .unwrap_or_default();
 
     let config_path = dir.join("module.json");
@@ -4175,3 +4178,27 @@ fn ts_to_cjs(input: PathBuf) {
         &output,
     );
 }
+
+test!(
+    syntax(),
+    |_| chain!(
+        for_of(for_of::Config { assume_array: true }),
+        tr(Default::default(), false)
+    ),
+    for_of_as_array_for_of_import_commonjs,
+    r#"
+    import { array } from "foo";
+
+    for (const elm of array) {
+        console.log(elm);
+    }
+"#,
+    r#"
+    "use strict";
+    const _foo = require("foo");
+    for(let _i = 0; _i < _foo.array.length; _i++){
+        const elm = _foo.array[_i];
+        console.log(elm);
+    }
+"#
+);
