@@ -9,7 +9,6 @@ pub use self::{amd::amd, common_js::common_js, system_js::system_js, umd::umd};
 pub mod util;
 pub mod amd;
 pub mod common_js;
-pub mod hoist;
 pub mod import_analysis;
 pub(crate) mod module_decl_strip;
 pub(crate) mod module_ref_rewriter;

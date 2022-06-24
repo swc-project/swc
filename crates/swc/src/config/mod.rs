@@ -50,7 +50,7 @@ use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
     feature::FeatureSet,
     hygiene, modules,
-    modules::{hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter},
+    modules::{path::NodeImportResolver, rewriter::import_rewriter},
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
@@ -1308,26 +1308,23 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::Umd(config)) => {
-                let base_pass = module_hoister();
-
                 if paths.is_empty() {
-                    Box::new(chain!(
-                        base_pass,
-                        modules::umd::umd(cm, unresolved_mark, config, available_features)
+                    Box::new(modules::umd::umd(
+                        cm,
+                        unresolved_mark,
+                        config,
+                        available_features,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(chain!(
-                        base_pass,
-                        modules::umd::umd_with_resolver(
-                            cm,
-                            resolver,
-                            base,
-                            unresolved_mark,
-                            config,
-                            available_features
-                        )
+                    Box::new(modules::umd::umd_with_resolver(
+                        cm,
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
+                        available_features,
                     ))
                 }
             }
