@@ -12,7 +12,7 @@ var E, C = function() {
     }, _proto.charCodeAt = function(index) {
         return null;
     }, _proto.concat = function() {
-        for(var _len = arguments.length, strings = new Array(_len), _key = 0; _key < _len; _key++)strings[_key] = arguments[_key];
+        for(var _len = arguments.length, strings = Array(_len), _key = 0; _key < _len; _key++)strings[_key] = arguments[_key];
         return null;
     }, _proto.indexOf = function(searchString, position) {
         return null;

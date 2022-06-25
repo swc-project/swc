@@ -20,7 +20,7 @@ fn tr(c: Config) -> impl Fold {
 
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        parameters(c),
+        parameters(c, unresolved_mark),
         destructuring(destructuring::Config { loose: false }),
         block_scoping(),
     )
@@ -1556,11 +1556,16 @@ test!(
     // See https://github.com/swc-project/swc/issues/490
     ignore,
     syntax(),
-    |_| chain!(
-        async_to_generator(Default::default()),
-        arrow(),
-        parameters(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            async_to_generator(Default::default()),
+            arrow(),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     parameters_rest_async_arrow_functions_1,
     r#"
 var concat = async (...arrs) => {
@@ -1587,11 +1592,16 @@ test!(
     // See https://github.com/swc-project/swc/issues/490
     ignore,
     syntax(),
-    |_| chain!(
-        async_to_generator(Default::default()),
-        arrow(),
-        parameters(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            async_to_generator(Default::default()),
+            arrow(),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     parameters_rest_async_arrow_functions_2,
     r#"
 var x = async (...rest) => {
@@ -1623,7 +1633,14 @@ var x = function () {
 // regression_6057_simple
 test!(
     syntax(),
-    |_| parameters(Default::default()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     regression_6057_simple,
     r#"
 const a = 'bar';
@@ -1650,7 +1667,15 @@ function foo() {
 // parameters_regression_4333
 test!(
     syntax(),
-    |_| chain!(parameters(Default::default()), block_scoping(),),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+            block_scoping()
+        )
+    },
     parameters_regression_4333,
     r#"
 const args = 'bar';
@@ -1675,10 +1700,15 @@ function foo() {
 
 test!(
     syntax(),
-    |_| chain!(
-        parameters(Default::default()),
-        destructuring(Default::default())
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default())
+        )
+    },
     issue_760,
     "const initialState = 'foo'
 export default function reducer(state = initialState, action = {}) {
@@ -1692,7 +1722,14 @@ export default function reducer(state = initialState, action = {}) {
 
 test!(
     syntax(),
-    |_| parameters(Default::default()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     rest_in_top_level_arrow_1,
     "
     const arrow = (...args) => {
@@ -1711,7 +1748,14 @@ test!(
 
 test!(
     syntax(),
-    |_| parameters(Default::default()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     rest_in_top_level_arrow_2,
     "
     const arrow = () => (...args) => {
@@ -1730,7 +1774,14 @@ test!(
 
 test!(
     syntax(),
-    |_| parameters(Default::default()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     rest_in_top_level_arrow_3,
     "
     const arrow = () => (...args) => {
@@ -1753,7 +1804,14 @@ test!(
 
 test!(
     syntax(),
-    |_| parameters(Default::default()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     rest_in_top_level_arrow_4,
     "
     const arrow = () => (this, (...args) => {
@@ -1775,7 +1833,14 @@ test!(
 
 test!(
     syntax(),
-    |_| parameters(Default::default()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     rest_in_top_level_arrow_nested_1,
     "
     const arrow = (...args) => (this, () => (...args) => {
@@ -1870,7 +1935,14 @@ constructor() {
 
 test!(
     syntax(),
-    |_| parameters(Default::default()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     issue_3471,
     "
 class A {
@@ -1911,7 +1983,14 @@ class A {
 
 test!(
     syntax(),
-    |_| parameters(Default::default()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+        )
+    },
     issue_3569,
     "
 export class TableView extends React.Component {
@@ -2196,4 +2275,25 @@ test_exec!(
     }
 
     expect(t()).toBe(3);"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ignore_function_length: true
+    }),
+    issue_5030,
+    r#"
+    let v0 = (Array, Int8Array, ...Int32Array) => (NaN + Infinity) * Int32Array.length;
+    console.log(v0(1, 2, 'hello', true, 7));
+  "#,
+    r#"
+    var v0 = function(Array1, Int8Array) {
+      for(var _len = arguments.length, Int32Array = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+          Int32Array[_key - 2] = arguments[_key];
+      }
+      return (NaN + Infinity) * Int32Array.length;
+    };
+    console.log(v0(1, 2, 'hello', true, 7));
+"#
 );
