@@ -13,6 +13,9 @@
 
 - **(html/codegen)** Improve API (#5031) ([8bf924a](https://github.com/swc-project/swc/commit/8bf924ae5f7305d1db65cf5a9b09f76cb7903e2b))
 
+
+- **(html/minifier)** Add `remove_comments` option (#5037) ([e6c78d0](https://github.com/swc-project/swc/commit/e6c78d0b1d863c61882c941f62fccd04a501530b))
+
 ## [1.2.205] - 2022-06-24
 
 ### Bug Fixes
