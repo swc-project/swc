@@ -3891,9 +3891,6 @@ class Demo {
 ",
     "
 \"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-  value: true
-});
 var _moduleAJs = require(\"./moduleA.js\");
 let Demo = _decorate([(0, _moduleAJs.default)('0.0.1')], function(_initialize) {
   class Demo{
@@ -3938,9 +3935,6 @@ export default Test
 ",
     "
 \"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-  value: true
-});
 Object.defineProperty(exports, \"default\", {
   get: function() {
       return _default;
@@ -4310,11 +4304,6 @@ console.log(new Template().events());
 "#,
     r#"
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _events = _interopRequireDefault(require("events"));
 
 let Template =

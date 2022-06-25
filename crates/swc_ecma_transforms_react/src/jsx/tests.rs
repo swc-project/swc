@@ -1243,9 +1243,6 @@ test!(
 
 <div />;",
     "\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-  value: true
-});
 var _react = _interopRequireDefault(require(\"react\"));
 _react.default.createElement(\"div\", null);"
 );
@@ -1296,9 +1293,6 @@ test!(
     "import React from 'react';
 <div style='white-space: pre'>Hello World</div>;",
     "\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-    value: true
-});
 var _react = _interopRequireDefault(require(\"react\"));
 _react.default.createElement(\"div\", {
     style: \"white-space: pre\"
