@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 function _libx() {
     const data = require("libx");
     _libx = function() {

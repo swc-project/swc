@@ -1,8 +1,12 @@
 define([
     "require",
+    "exports",
     "@swc/helpers/src/_ts_decorate.mjs"
-], function(require, _tsDecorate) {
+], function(require, exports, _tsDecorate) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     _tsDecorate = _tsDecorate.default;
     function es5ClassCompat(target) {
         function _() {

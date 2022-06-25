@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 function _childProcess() {
     const data = require("child_process");
     _childProcess = function() {

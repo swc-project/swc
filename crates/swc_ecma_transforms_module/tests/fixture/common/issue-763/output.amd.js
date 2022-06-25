@@ -1,12 +1,8 @@
 define([
     "require",
-    "exports",
     "../../../../consts"
-], function(require, exports, _consts) {
+], function(require, _consts) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     const resources = [
         {
             value: _consts.RESOURCE_WEBSITE,

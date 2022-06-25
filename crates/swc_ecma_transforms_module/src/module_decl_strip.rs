@@ -24,8 +24,6 @@ pub struct ModuleDeclStrip {
     /// `export = ` detected
     pub export_assign: Option<Box<Expr>>,
 
-    pub has_module_decl: bool,
-
     /// `export default expr`
     export_default: Option<Stmt>,
 }
@@ -41,8 +39,6 @@ impl VisitMut for ModuleDeclStrip {
                 ModuleItem::Stmt(stmt) => list.push(stmt.into()),
 
                 ModuleItem::ModuleDecl(mut module_decl) => {
-                    self.has_module_decl = true;
-
                     // collect link meta
                     module_decl.visit_mut_with(self);
 

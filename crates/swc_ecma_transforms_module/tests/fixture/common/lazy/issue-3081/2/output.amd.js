@@ -1,12 +1,8 @@
 define([
     "require",
-    "exports",
     "lib"
-], function(require, exports, _lib) {
+], function(require, _lib) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     function myFn() {
         (0, _lib.fn)();
     }

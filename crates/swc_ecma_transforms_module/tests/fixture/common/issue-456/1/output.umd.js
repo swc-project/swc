@@ -7,9 +7,6 @@
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.path);
 })(this, function(exports, _path) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     Object.defineProperty(exports, "foo", {
         get: ()=>foo,
         enumerable: true

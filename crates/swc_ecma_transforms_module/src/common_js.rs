@@ -90,22 +90,13 @@ impl VisitMut for Cjs {
             link,
             export,
             export_assign,
-            has_module_decl,
             ..
         } = strip;
 
-        let has_export_assign = export_assign.is_some();
-        let is_esm = !self.config.no_interop && has_module_decl && !has_export_assign;
-
-        // ```javascript
-        // Object.defineProperty(exports, '__esModule', { value: true });
-        // ```
-        if is_esm {
-            stmts.push(define_es_module(self.exports()).into());
-        }
-
         let mut import_map = Default::default();
         let mut lazy_record = Default::default();
+
+        let is_export_assign = export_assign.is_some();
 
         // `import` -> `require`
         // `export` -> `_export(exports, {});`
@@ -115,7 +106,7 @@ impl VisitMut for Cjs {
                 &mut lazy_record,
                 link,
                 export,
-                has_export_assign,
+                is_export_assign,
             )
             .map(Into::into),
         );
@@ -211,7 +202,7 @@ impl Cjs {
         lazy_record: &mut AHashSet<Id>,
         link: Link,
         export: Export,
-        has_export_assign: bool,
+        is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
@@ -349,14 +340,21 @@ impl Cjs {
 
         let mut export_stmts = Default::default();
 
-        if !export_obj_prop_list.is_empty() && !has_export_assign {
+        if !export_obj_prop_list.is_empty() && !is_export_assign {
             let features = self.available_features.clone();
             let exports = self.exports();
 
             export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
         }
 
-        export_stmts.into_iter().chain(stmts)
+        if self.config.no_interop {
+            None
+        } else {
+            self.exports.clone().map(define_es_module)
+        }
+        .into_iter()
+        .chain(export_stmts)
+        .chain(stmts)
     }
 
     fn exports(&mut self) -> Ident {
