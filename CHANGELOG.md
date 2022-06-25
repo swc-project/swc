@@ -5,6 +5,14 @@
 
 
 
+- **(es/compat)** Fix name conflict of `Array` (#5034) ([04fc1cb](https://github.com/swc-project/swc/commit/04fc1cb429b274e72bb2a939f4aaa102c158121a))
+
+## [1.2.205] - 2022-06-24
+
+### Bug Fixes
+
+
+
 - **(css/parser)** Improve lexer errors (#5025) ([c345524](https://github.com/swc-project/swc/commit/c345524e368078a59cdf5376999a5b443f2918e7))
 
 
