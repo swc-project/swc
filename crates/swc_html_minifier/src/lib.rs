@@ -1038,7 +1038,9 @@ impl Minifier {
         };
         let mut document_fragment = match swc_html_parser::parse_file_as_document_fragment(
             &fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             Default::default(),
             &mut errors,
         ) {
@@ -1081,7 +1083,7 @@ impl Minifier {
             swc_html_codegen::CodegenConfig {
                 minify: true,
                 scripting_enabled: false,
-                context_element: Some(context_element),
+                context_element: Some(&context_element),
                 tag_omission: None,
                 self_closing_void_elements: None,
             },
@@ -1523,10 +1525,10 @@ pub fn minify_document(document: &mut Document, options: &MinifyOptions) {
 
 pub fn minify_document_fragment(
     document: &mut DocumentFragment,
-    context_element: Element,
+    context_element: &Element,
     options: &MinifyOptions,
 ) {
-    let mut minifier = create_minifier(Some(&context_element), options);
+    let mut minifier = create_minifier(Some(context_element), options);
 
     document.visit_mut_with(&mut minifier);
 }

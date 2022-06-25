@@ -16,9 +16,10 @@ use swc_trace_macro::swc_trace;
 use tracing::trace;
 
 #[tracing::instrument(level = "info", skip_all)]
-pub fn parameters(c: Config) -> impl 'static + Fold {
+pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Fold {
     as_folder(Params {
         c,
+        unresolved_mark,
         ..Default::default()
     })
 }
@@ -28,6 +29,7 @@ struct Params {
     /// Used to store `this, in case if `arguments` is used and we should
     /// transform an arrow expression to a function expression.
     hoister: FnEnvHoister,
+    unresolved_mark: Mark,
     in_subclass: bool,
     in_prop: bool,
     c: Config,
@@ -298,7 +300,13 @@ impl Params {
                                     name: arg.clone().into(),
                                     init: Some(Box::new(Expr::New(NewExpr {
                                         span,
-                                        callee: Box::new(quote_ident!("Array").into()),
+                                        callee: Box::new(
+                                            quote_ident!(
+                                                DUMMY_SP.apply_mark(self.unresolved_mark),
+                                                "Array"
+                                            )
+                                            .into(),
+                                        ),
                                         args: Some(vec![{
                                             // `len` or  `len - $i`
                                             make_minus_i(&len_ident, true).as_arg()

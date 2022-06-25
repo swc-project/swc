@@ -21,11 +21,11 @@ mod list;
 pub mod writer;
 
 #[derive(Debug, Clone, Default)]
-pub struct CodegenConfig {
+pub struct CodegenConfig<'a> {
     pub minify: bool,
     pub scripting_enabled: bool,
     /// Should be used only for `DocumentFragment` code generation
-    pub context_element: Option<Element>,
+    pub context_element: Option<&'a Element>,
     /// By default `true` when `minify` enabled, otherwise `false`
     pub tag_omission: Option<bool>,
     /// By default `false` when `minify` enabled, otherwise `true`
@@ -39,12 +39,12 @@ enum TagOmissionParent<'a> {
 }
 
 #[derive(Debug)]
-pub struct CodeGenerator<W>
+pub struct CodeGenerator<'a, W>
 where
     W: HtmlWriter,
 {
     wr: W,
-    config: CodegenConfig,
+    config: CodegenConfig<'a>,
     ctx: Ctx,
     // For legacy `<plaintext>`
     is_plaintext: bool,
@@ -52,11 +52,11 @@ where
     self_closing_void_elements: bool,
 }
 
-impl<W> CodeGenerator<W>
+impl<'a, W> CodeGenerator<'a, W>
 where
     W: HtmlWriter,
 {
-    pub fn new(wr: W, config: CodegenConfig) -> Self {
+    pub fn new(wr: W, config: CodegenConfig<'a>) -> Self {
         let tag_omission = config.tag_omission.unwrap_or(config.minify);
         let self_closing_void_elements = config.tag_omission.unwrap_or(!config.minify);
 

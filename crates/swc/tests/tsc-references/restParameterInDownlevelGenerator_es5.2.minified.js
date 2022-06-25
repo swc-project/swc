@@ -4,7 +4,7 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                for(_len = _args.length, strings = new Array(_len), _key = 0; _key < _len; _key++)strings[_key] = _args[_key];
+                for(strings = Array(_len = _args.length), _key = 0; _key < _len; _key++)strings[_key] = _args[_key];
                 for(_iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0, _ctx.prev = 2, _iterator = strings[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)str = _step.value;
                 _ctx.next = 10;
                 break;
