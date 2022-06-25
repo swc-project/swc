@@ -104,6 +104,8 @@ fn add_test<F: FnOnce() + Send + 'static>(
 #[cfg(feature = "verify")]
 fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     const IGNORED_ERROR_TESTS: &[&str] = &[
+        // pass in script. error in module.
+        "e3fbcf63d7e43ead.js",
         // Old (wrong) tests
         "569a2c1bad3beeb2.js",
         "3b6f737a4ac948a8.js",
