@@ -285,14 +285,15 @@ struct Minifier {
     descendant_of_pre: bool,
     collapse_whitespaces: Option<CollapseWhitespaces>,
 
+    remove_comments: bool,
+    preserve_comments: Option<Vec<CachedRegex>>,
+    minify_conditional_comments: bool,
     remove_empty_attributes: bool,
     remove_redundant_attributes: bool,
     collapse_boolean_attributes: bool,
     minify_json: bool,
     minify_js: bool,
     minify_css: bool,
-    preserve_comments: Option<Vec<CachedRegex>>,
-    minify_conditional_comments: bool,
 }
 
 impl Minifier {
@@ -675,7 +676,9 @@ impl Minifier {
             index += 1;
 
             match child {
-                Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
+                Child::Comment(comment) if self.remove_comments => {
+                    self.is_preserved_comment(&comment.data)
+                }
                 // Always remove whitespaces from html and head elements (except nested elements),
                 // it should be safe
                 Child::Text(_)
@@ -1054,6 +1057,9 @@ impl Minifier {
             Some(&context_element),
             &MinifyOptions {
                 force_set_html5_doctype: self.force_set_html5_doctype,
+                remove_comments: self.remove_comments,
+                preserve_comments: self.preserve_comments.clone(),
+                minify_conditional_comments: self.minify_conditional_comments,
                 collapse_whitespaces: self.collapse_whitespaces.clone(),
                 remove_empty_attributes: self.remove_empty_attributes,
                 remove_redundant_attributes: self.remove_empty_attributes,
@@ -1061,8 +1067,6 @@ impl Minifier {
                 minify_js: self.minify_js,
                 minify_json: self.minify_json,
                 minify_css: self.minify_css,
-                preserve_comments: self.preserve_comments.clone(),
-                minify_conditional_comments: self.minify_conditional_comments,
             },
         );
 
@@ -1096,7 +1100,7 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         n.children
-            .retain(|child| !matches!(child, Child::Comment(_)));
+            .retain(|child| !matches!(child, Child::Comment(_) if self.remove_comments));
     }
 
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
@@ -1497,6 +1501,9 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         descendant_of_pre: is_pre,
 
         force_set_html5_doctype: options.force_set_html5_doctype,
+        remove_comments: options.remove_comments,
+        preserve_comments: options.preserve_comments.clone(),
+        minify_conditional_comments: options.minify_conditional_comments,
 
         collapse_whitespaces: options.collapse_whitespaces.clone(),
 
@@ -1507,9 +1514,6 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_js: options.minify_js,
         minify_json: options.minify_json,
         minify_css: options.minify_css,
-
-        preserve_comments: options.preserve_comments.clone(),
-        minify_conditional_comments: options.minify_conditional_comments,
     }
 }
 
