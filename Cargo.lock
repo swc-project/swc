@@ -3911,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.18.0"
+version = "0.19.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3933,7 +3933,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.14.1"
+version = "0.15.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3949,7 +3949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen_macros"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -3960,7 +3960,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "once_cell",
  "serde",
