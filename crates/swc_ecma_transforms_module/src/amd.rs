@@ -127,7 +127,7 @@ impl VisitMut for Amd {
         } = strip;
 
         let has_export_assign = export_assign.is_some();
-        let is_esm = has_module_decl && !has_export_assign;
+        let is_esm = !self.config.no_interop && has_module_decl && !has_export_assign;
 
         // ```javascript
         // Object.defineProperty(exports, '__esModule', { value: true });

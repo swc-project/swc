@@ -111,7 +111,7 @@ impl VisitMut for Umd {
         } = strip;
 
         let has_export_assign = export_assign.is_some();
-        let is_esm = has_module_decl && !has_export_assign;
+        let is_esm = !self.config.config.no_interop && has_module_decl && !has_export_assign;
 
         // ```javascript
         // Object.defineProperty(exports, '__esModule', { value: true });
@@ -152,7 +152,7 @@ impl VisitMut for Umd {
         // ====================
 
         let (adapter_fn_expr, factory_params) =
-            self.adapter(exported_name, has_export_assign, has_module_decl);
+            self.adapter(exported_name, has_export_assign, is_esm);
 
         let factory_fn_expr = FnExpr {
             ident: None,
@@ -335,7 +335,7 @@ impl Umd {
         &mut self,
         exported_name: Ident,
         has_export_assign: bool,
-        has_module_decl: bool,
+        is_esm: bool,
     ) -> (FnExpr, Vec<Param>) {
         macro_rules! js_typeof {
             ($test:expr =>! $type:expr) => {
@@ -378,8 +378,6 @@ impl Umd {
         let mut browser_args = vec![];
 
         let mut factory_params = vec![];
-
-        let is_esm = has_module_decl && !has_export_assign;
 
         if is_esm || self.exports.is_some() {
             cjs_args.push(quote_ident!("exports").as_arg());
