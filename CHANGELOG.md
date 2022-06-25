@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix name conflict of `Array` (#5034) ([04fc1cb](https://github.com/swc-project/swc/commit/04fc1cb429b274e72bb2a939f4aaa102c158121a))
 
+
+- **(es/parser)** Allow initializer of the var of for-in loop in non-strict mode (#5038) ([f238093](https://github.com/swc-project/swc/commit/f238093c3b54e5a6e9d46239c28ab936de7d68e9))
+
 ### Features
 
 
