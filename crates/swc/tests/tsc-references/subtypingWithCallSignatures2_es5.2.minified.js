@@ -58,7 +58,7 @@ foo1(function(x) {
         return null;
     };
 }), foo10(function() {
-    for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
+    for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
     return x[0];
 }), foo11(function(x, y) {
     return x;

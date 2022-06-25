@@ -5,7 +5,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_html_ast::{Document, DocumentFragment, Element, Namespace};
+use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
 use swc_html_codegen::{
     writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
@@ -140,7 +140,9 @@ fn test_minify_document_fragment(input: PathBuf) {
         let mut errors = vec![];
         let result: Result<DocumentFragment, _> = parse_file_as_document_fragment(
             &fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             Default::default(),
             &mut errors,
         );
@@ -160,7 +162,7 @@ fn test_minify_document_fragment(input: PathBuf) {
         };
 
         // Apply transforms
-        minify_document_fragment(&mut document_fragment, context_element, &config);
+        minify_document_fragment(&mut document_fragment, &context_element, &config);
 
         let mut html_str = String::new();
         {

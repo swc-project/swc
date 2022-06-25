@@ -127,7 +127,9 @@ fn print_document_fragment(
         let mut errors = vec![];
         let mut document_fragment = parse_file_as_document_fragment(
             &fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             parser_config,
             &mut errors,
         )
@@ -152,7 +154,9 @@ fn print_document_fragment(
         let mut errors = vec![];
         let mut document_fragment_parsed_again = parse_file_as_document_fragment(
             &fm_output,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             parser_config,
             &mut errors,
         )
@@ -259,7 +263,7 @@ fn verify_document_fragment(
         _ => CodegenConfig::default(),
     };
 
-    codegen_config.context_element = Some(context_element.clone());
+    codegen_config.context_element = Some(&context_element);
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
@@ -267,7 +271,9 @@ fn verify_document_fragment(
 
         let mut document_fragment = parse_file_as_document_fragment(
             &fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             parser_config,
             &mut errors,
         )
@@ -291,7 +297,9 @@ fn verify_document_fragment(
         let mut parsed_errors = vec![];
         let mut document_fragment_parsed_again = parse_file_as_document_fragment(
             &new_fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             parser_config,
             &mut parsed_errors,
         )

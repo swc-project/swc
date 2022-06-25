@@ -221,9 +221,12 @@ where
     let pass = add!(
         pass,
         Parameters,
-        es2015::parameters(es2015::parameters::Config {
-            ignore_function_length: loose || assumptions.ignore_function_length
-        })
+        es2015::parameters(
+            es2015::parameters::Config {
+                ignore_function_length: loose || assumptions.ignore_function_length
+            },
+            global_mark
+        )
     );
     let pass = add!(
         pass,

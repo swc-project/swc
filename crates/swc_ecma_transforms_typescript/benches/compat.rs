@@ -250,7 +250,7 @@ fn es2015_duplicate_keys(b: &mut Bencher) {
 
 fn es2015_parameters(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2015::parameters(Default::default())
+        swc_ecma_transforms_compat::es2015::parameters(Default::default(), Default::default())
     });
 }
 

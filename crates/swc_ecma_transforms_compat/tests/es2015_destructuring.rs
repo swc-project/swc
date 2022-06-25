@@ -114,13 +114,19 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     issue_1948,
     "
     const fn2 = (arg1, {opt1, opt2}, arg2, {opt3, opt4}, ...arg3) => {
@@ -970,7 +976,6 @@ test!(
     syntax(),
     |_| chain!(
         spread(Default::default()),
-        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1002,13 +1007,19 @@ for (ref of test.expectation.registers){
 // destructuring_object_basic
 test!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_object_basic,
     r#"
 var coords = [1, 2];
@@ -1026,13 +1037,19 @@ var x = coords.x,
 // destructuring_assignment_arrow_function_block
 test!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_assignment_arrow_function_block,
     r#"
 () => { [a, b] = [1, 2] }
@@ -1049,13 +1066,19 @@ test!(
 // destructuring_non_iterable
 test_exec!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_non_iterable_exec,
     r#"
 expect(
@@ -1074,13 +1097,19 @@ expect(
 // destructuring_empty_object_pattern
 test_exec!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_empty_object_pattern_exec,
     r#"
 expect(function () {
@@ -1093,13 +1122,19 @@ expect(function () {
 // destructuring_chained
 test_exec!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_chained_exec,
     r#"
 var a, b, c, d;
@@ -1115,13 +1150,19 @@ expect(d).toBe(4);
 // destructuring_object_rest_impure_computed_keys
 test_exec!(
     syntax(),
-    |_| chain!(
-        object_rest_spread(Default::default()),
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            object_rest_spread(Default::default()),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+        )
+    },
     destructuring_object_rest_impure_computed_keys_exec,
     r#"
 var key, x, y, z;
@@ -1165,13 +1206,19 @@ expect(order).toEqual(["right", "left"]);
 // destructuring_issue_5090
 test_exec!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_issue_5090_exec,
     r#"
 const assign = function([...arr], index, value) {
@@ -1190,13 +1237,19 @@ expect(arr).toEqual([1, 2, 3]);
 // destructuring_default_precedence
 test_exec!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_default_precedence_exec,
     r#"
 var f0 = function (a, b = a, c = b) {
@@ -1273,13 +1326,19 @@ expect(f2({a: 1})).toEqual([1, 1, 1]);
 // destructuring_parameters
 test!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_parameters,
     r#"
 function somethingAdvanced({topLeft: {x: x1, y: y1} = {}, bottomRight: {x: x2, y: y2} = {}}, p2, p3){
@@ -1338,13 +1397,19 @@ console.log(unpackArray(["hello", ", ", "world"], [1, 2, 3]));
 // destructuring_array_unpack_optimisation
 test!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_array_unpack_optimisation,
     r#"
     var [a, b] = [1, 2];
@@ -1417,13 +1482,19 @@ test!(
     // We will use constant propagation instead of optimizing in each pass
     ignore,
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_known_array,
     r#"
 var z = [];
@@ -1441,14 +1512,20 @@ var x = z[0],
 // destructuring_es7_object_rest
 test!(
     syntax(),
-    |_| chain!(
-        object_rest_spread(Default::default()),
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            object_rest_spread(Default::default()),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_es7_object_rest,
     r#"
 var z = {};
@@ -1500,13 +1577,19 @@ expect(oldCourses).toEqual([]);
 // destructuring_assignment_expression_pattern
 test!(
     syntax(),
-    |_| chain!(
-        object_rest_spread(Default::default()),
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            object_rest_spread(Default::default()),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+        )
+    },
     destructuring_assignment_expression_pattern,
     r#"
 var z = {};
@@ -1522,13 +1605,19 @@ var tmp = z.x, y = (tmp === void 0 ? {} : tmp).y;
 // destructuring_object_advanced
 test!(
     syntax(),
-    |_| chain!(
-        object_rest_spread(Default::default()),
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            object_rest_spread(Default::default()),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+        )
+    },
     destructuring_object_advanced,
     r#"
 var rect = {};
@@ -1554,13 +1643,19 @@ var ref = [0, 1, 2, 3, 4, 5, 6],
 // destructuring_spread
 test!(
     syntax(),
-    |_| chain!(
-        object_rest_spread(Default::default()),
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            object_rest_spread(Default::default()),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+        )
+    },
     destructuring_spread,
     r#"
 function isSorted([x, y, ...wow]) {
@@ -1588,13 +1683,19 @@ function isSorted(param) {
 // destructuring_mixed
 test!(
     syntax(),
-    |_| chain!(
-        object_rest_spread(Default::default()),
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            object_rest_spread(Default::default()),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+        )
+    },
     destructuring_mixed,
     r#"
 var rect = {};
@@ -1657,13 +1758,19 @@ ref = f(), a = ref[0], b = ref[1], ref;
 // destructuring_array
 test!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_array,
     r#"
 var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];
@@ -1689,13 +1796,19 @@ var ref1, ref2;
 // destructuring_assignment_arrow_function_no_block
 test!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_assignment_arrow_function_no_block,
     r#"
 () => [a, b] = [1, 2]
@@ -1710,14 +1823,20 @@ var ref;
 // destructuring_issue_9834
 test!(
     syntax(),
-    |_| chain!(
-        object_rest_spread(Default::default()),
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            object_rest_spread(Default::default()),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_issue_9834,
     r#"
 const input = {};
@@ -1776,7 +1895,6 @@ test!(
     syntax(),
     |_| chain!(
         spread(Default::default()),
-        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1811,7 +1929,6 @@ test!(
         spread(spread::Config {
             ..Default::default()
         }),
-        parameters(Default::default()),
         destructuring(Config { loose: true }),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1842,13 +1959,19 @@ for(ref in obj){
 // destructuring_issue_5744
 test!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_issue_5744,
     r#"
 if (true) [a, b] = [b, a];
@@ -1864,13 +1987,19 @@ if (true) ref = [b, a], a = ref[0], b = ref[1], ref;
 // destructuring_spread_generator
 test_exec!(
     syntax(),
-    |_| chain!(
-        spread(Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            spread(Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_spread_generator_exec,
     r#"
 function* f() {

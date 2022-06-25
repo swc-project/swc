@@ -1200,9 +1200,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 content: None,
             };
 
-            DocumentOrDocumentFragment::DocumentFragment(
-                parser.parse_document_fragment(context_element),
-            )
+            DocumentOrDocumentFragment::DocumentFragment(parser.parse_document_fragment(
+                context_element,
+                DocumentMode::NoQuirks,
+                None,
+            ))
         } else {
             DocumentOrDocumentFragment::Document(parser.parse_document())
         };

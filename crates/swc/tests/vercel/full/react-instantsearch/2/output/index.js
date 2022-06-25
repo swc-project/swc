@@ -203,12 +203,12 @@ export default function r(i) {
                 a._cacheHydrated = !0;
                 var f = a.search;
                 a.search = function(d) {
-                    for(var g = arguments.length, h = new Array(g > 1 ? g - 1 : 0), i = 1; i < g; i++)h[i - 1] = arguments[i];
+                    for(var g = arguments.length, h = Array(g > 1 ? g - 1 : 0), i = 1; i < g; i++)h[i - 1] = arguments[i];
                     var j = d.map(function(a) {
                         var d, e;
                         return c(b({}, a), {
                             params: (d = a.params, e = function(a) {
-                                for(var b = arguments.length, c = new Array(b > 1 ? b - 1 : 0), d = 1; d < b; d++)c[d - 1] = arguments[d];
+                                for(var b = arguments.length, c = Array(b > 1 ? b - 1 : 0), d = 1; d < b; d++)c[d - 1] = arguments[d];
                                 var e = 0;
                                 return a.replace(/%s/g, function() {
                                     return encodeURIComponent(c[e++]);
