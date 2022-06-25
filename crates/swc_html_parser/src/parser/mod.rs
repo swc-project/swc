@@ -138,7 +138,7 @@ where
     pub fn parse_document(&mut self) -> PResult<Document> {
         let start = self.input.cur_span()?;
 
-        self.document = Some(self.create_document());
+        self.document = Some(self.create_document(None));
 
         self.run()?;
 
@@ -260,16 +260,15 @@ where
     // just inserted into the input stream.
     //
     // 14. Return the child nodes of root, in tree order.
-    // TODO extract code for building tree from parser in TreeBuilder module
     pub fn parse_document_fragment(
         &mut self,
         context_element: Element,
+        mode: DocumentMode,
+        form_element: Option<Element>,
     ) -> PResult<DocumentFragment> {
         // 1.
-        self.document = Some(self.create_document());
-
         // 2.
-        // TODO add ability to set document mode
+        self.document = Some(self.create_document(Some(mode)));
 
         // 3.
         // Parser already created
@@ -332,9 +331,18 @@ where
         self.reset_insertion_mode();
 
         // 11.
-        // TODO how we can get parent here?
         if is_html_element!(context_node, "form") {
             self.form_element_pointer = Some(context_node);
+        } else if let Some(form_element) = form_element {
+            self.form_element_pointer = Some(Node::new(
+                Data::Element {
+                    namespace: form_element.namespace,
+                    tag_name: form_element.tag_name,
+                    attributes: RefCell::new(form_element.attributes),
+                    is_self_closing: form_element.is_self_closing,
+                },
+                DUMMY_SP,
+            ));
         }
 
         // 12.
@@ -360,10 +368,10 @@ where
         })
     }
 
-    fn create_document(&self) -> RcNode {
+    fn create_document(&self, mode: Option<DocumentMode>) -> RcNode {
         Node::new(
             Data::Document {
-                mode: RefCell::new(DocumentMode::NoQuirks),
+                mode: RefCell::new(mode.unwrap_or(DocumentMode::NoQuirks)),
             },
             DUMMY_SP,
         )

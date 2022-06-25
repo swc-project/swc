@@ -2,7 +2,7 @@ extern crate swc_node_base;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{input::StringInput, FileName};
-use swc_html_ast::{Element, Namespace};
+use swc_html_ast::{DocumentMode, Element, Namespace};
 use swc_html_parser::{lexer::Lexer, parser::Parser};
 
 fn bench_document(b: &mut Bencher, src: &'static str) {
@@ -31,15 +31,19 @@ fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
                 let lexer = Lexer::new(StringInput::from(&*fm));
                 let mut parser = Parser::new(lexer, Default::default());
 
-                parser.parse_document_fragment(Element {
-                    span: Default::default(),
-                    tag_name: "template".into(),
-                    namespace: Namespace::HTML,
-                    attributes: vec![],
-                    is_self_closing: false,
-                    children: vec![],
-                    content: None,
-                })
+                parser.parse_document_fragment(
+                    Element {
+                        span: Default::default(),
+                        tag_name: "template".into(),
+                        namespace: Namespace::HTML,
+                        attributes: vec![],
+                        is_self_closing: false,
+                        children: vec![],
+                        content: None,
+                    },
+                    DocumentMode::NoQuirks,
+                    None,
+                )
             });
         });
 
