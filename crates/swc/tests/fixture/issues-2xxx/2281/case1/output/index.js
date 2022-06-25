@@ -1,6 +1,3 @@
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 const _func = require("./src/func");
 console.log(_func.func1);
 function something({ func =0  }) {

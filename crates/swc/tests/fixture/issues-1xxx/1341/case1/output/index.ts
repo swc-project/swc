@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 const _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
 class A {
     foo() {

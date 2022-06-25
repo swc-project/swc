@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
 const _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;
 var MyEnum;

@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 const _objectWithoutProperties = require("@swc/helpers/lib/_object_without_properties.js").default;
 // single line comment
 const x = (_param)=>/*todo: refactor any type*/ {

@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
 var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));

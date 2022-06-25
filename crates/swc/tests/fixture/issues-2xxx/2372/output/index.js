@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 const _ = require("./");
 describe("example test that should fail due to compilation", ()=>{
     test.each([
