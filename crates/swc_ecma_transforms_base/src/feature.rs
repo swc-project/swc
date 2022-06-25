@@ -3,6 +3,7 @@ use bitflags::bitflags;
 use swc_ecma_ast::EsVersion::{self, *};
 
 bitflags! {
+    #[derive(Default)]
     pub struct FeatureFlag: u64 {
         /// `transform-template-literals`
         const TemplateLiterals = 1 << 1;
@@ -157,10 +158,6 @@ bitflags! {
 }
 
 pub fn enable_available_feature_from_es_version(version: EsVersion) -> FeatureFlag {
-    if version == EsVersion::latest() {
-        return FeatureFlag::all();
-    }
-
     let mut feature = FeatureFlag::empty();
 
     if version < Es5 {
