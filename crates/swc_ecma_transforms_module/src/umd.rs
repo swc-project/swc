@@ -2,7 +2,7 @@ use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureSet, helper, helper_expr};
+use swc_ecma_transforms_base::{feature::FeatureFlag, helper, helper_expr};
 use swc_ecma_utils::{
     is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
 };
@@ -25,7 +25,7 @@ pub fn umd(
     cm: Lrc<SourceMap>,
     unresolved_mark: Mark,
     config: Config,
-    available_features: FeatureSet,
+    available_features: FeatureFlag,
 ) -> impl Fold + VisitMut {
     as_folder(Umd {
         config: config.build(cm.clone()),
@@ -51,7 +51,7 @@ pub fn umd_with_resolver(
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
-    available_features: FeatureSet,
+    available_features: FeatureFlag,
 ) -> impl Fold + VisitMut {
     as_folder(Umd {
         config: config.build(cm.clone()),
@@ -75,7 +75,7 @@ pub struct Umd {
     unresolved_mark: Mark,
     config: BuiltConfig,
     resolver: Resolver,
-    available_features: FeatureSet,
+    available_features: FeatureFlag,
     const_var_kind: VarDeclKind,
 
     dep_list: Vec<(Ident, JsWord, Span)>,

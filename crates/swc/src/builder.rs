@@ -16,11 +16,16 @@ use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat, compat::es2022::private_in_object, feature::enable_available_feature_from_es_version,
-    fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, optimization::const_modules,
-    pass::Optional, Assumptions,
+    compat,
+    compat::es2022::private_in_object,
+    feature::{enable_available_feature_from_es_version, FeatureFlag},
+    fixer, helpers, hygiene,
+    hygiene::hygiene_with_config,
+    modules,
+    optimization::const_modules,
+    pass::Optional,
+    Assumptions,
 };
-use swc_ecma_transforms_base::feature::FeatureSet;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig};
@@ -184,7 +189,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Some(ModuleConfig::SystemJs(_)) | Some(ModuleConfig::Es6) | None => (false, true, true),
         };
 
-        let feature_set: FeatureSet = Default::default();
+        let mut feature_flag = FeatureFlag::empty();
 
         // compat
         let compat_pass = if let Some(env) = self.env {
@@ -193,12 +198,12 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 comments,
                 env,
                 self.assumptions,
-                feature_set.clone(),
+                &mut feature_flag,
             ))
         } else {
             let assumptions = self.assumptions;
 
-            enable_available_feature_from_es_version(feature_set.clone(), self.target);
+            feature_flag = enable_available_feature_from_es_version(self.target);
 
             Either::Right(chain!(
                 Optional::new(
@@ -324,7 +329,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 base,
                 self.unresolved_mark,
                 module,
-                feature_set
+                feature_flag
             ),
             as_folder(MinifierPass {
                 options: self.minify,

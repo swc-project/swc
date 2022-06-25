@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureSet, helper, helper_expr};
+use swc_ecma_transforms_base::{feature::FeatureFlag, helper, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
@@ -32,7 +32,7 @@ pub struct Config {
 pub fn amd(
     unresolved_mark: Mark,
     config: Config,
-    available_features: FeatureSet,
+    available_features: FeatureFlag,
 ) -> impl Fold + VisitMut {
     let Config { module_id, config } = config;
 
@@ -62,7 +62,7 @@ pub fn amd_with_resolver(
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
-    available_features: FeatureSet,
+    available_features: FeatureFlag,
 ) -> impl Fold + VisitMut {
     let Config { module_id, config } = config;
 
@@ -93,7 +93,7 @@ pub struct Amd {
     unresolved_mark: Mark,
     resolver: Resolver,
 
-    available_features: FeatureSet,
+    available_features: FeatureFlag,
     support_arrow: bool,
     const_var_kind: VarDeclKind,
 

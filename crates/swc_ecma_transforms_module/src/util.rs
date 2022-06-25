@@ -4,7 +4,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::feature::FeatureSet;
+use swc_ecma_transforms_base::feature::FeatureFlag;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
     FunctionFactory,
@@ -193,9 +193,7 @@ pub(crate) fn object_define_enumerable(
 #[macro_export]
 macro_rules! caniuse {
     ($feature_set:ident . $feature:ident) => {
-        $feature_set
-            .borrow()
-            .contains(&swc_ecma_transforms_base::feature::Feature::$feature)
+        $feature_set.intersects(swc_ecma_transforms_base::feature::FeatureFlag::$feature)
     };
 }
 
@@ -256,7 +254,7 @@ pub(crate) fn esm_export() -> Function {
 }
 
 pub(crate) fn emit_export_stmts(
-    features: FeatureSet,
+    features: FeatureFlag,
     exports: Ident,
     mut prop_list: crate::module_decl_strip::ExportObjPropList,
 ) -> Vec<Stmt> {

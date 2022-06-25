@@ -3,10 +3,7 @@ use std::{fs::File, path::PathBuf};
 use swc_common::{chain, Mark};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::{
-    feature::{enable_available_feature_from_es_version, FeatureSet},
-    resolver,
-};
+use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_module::umd::{umd, Config};
 use swc_ecma_transforms_testing::{test_fixture, Tester};
 use swc_ecma_visit::Fold;
@@ -23,8 +20,7 @@ fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let avalible_set: FeatureSet = Default::default();
-    enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::latest());
+    let avalible_set = FeatureFlag::all();
 
     chain!(
         resolver(unresolved_mark, top_level_mark, typescript),

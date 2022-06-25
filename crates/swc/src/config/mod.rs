@@ -48,7 +48,7 @@ use swc_ecma_minifier::option::{
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
-    feature::FeatureSet,
+    feature::FeatureFlag,
     hygiene, modules,
     modules::{path::NodeImportResolver, rewriter::import_rewriter},
     optimization::{const_modules, json_parse, simplifier},
@@ -1272,7 +1272,7 @@ impl ModuleConfig {
         base: &FileName,
         unresolved_mark: Mark,
         config: Option<ModuleConfig>,
-        available_features: FeatureSet,
+        available_features: FeatureFlag,
     ) -> Box<dyn swc_ecma_visit::Fold> {
         let base = match base {
             FileName::Real(v) if !paths.is_empty() => {

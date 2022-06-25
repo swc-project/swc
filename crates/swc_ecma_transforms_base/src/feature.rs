@@ -1,253 +1,249 @@
-use std::{cell::RefCell, rc::Rc};
-
-use swc_common::collections::AHashSet;
+#![allow(non_upper_case_globals)]
+use bitflags::bitflags;
 use swc_ecma_ast::EsVersion::{self, *};
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
-pub enum Feature {
-    /// `transform-template-literals`
-    TemplateLiterals,
+bitflags! {
+    pub struct FeatureFlag: u64 {
+        /// `transform-template-literals`
+        const TemplateLiterals = 1 << 1;
 
-    /// `transform-literals`
-    Literals,
+        /// `transform-literals`
+        const Literals = 1 << 2;
 
-    /// `transform-function-name`
-    FunctionName,
+        /// `transform-function-name`
+        const FunctionName = 1 << 3;
 
-    /// `transform-arrow-functions`
-    ArrowFunctions,
+        /// `transform-arrow-functions`
+        const ArrowFunctions = 1 << 4;
 
-    /// `transform-block-scoped-functions`
-    BlockScopedFunctions,
+        /// `transform-block-scoped-functions`
+        const BlockScopedFunctions = 1 << 5;
 
-    /// `transform-classes`
-    Classes,
+        /// `transform-classes`
+        const Classes = 1 << 6;
 
-    /// `transform-object-super`
-    ObjectSuper,
+        /// `transform-object-super`
+        const ObjectSuper = 1 << 7;
 
-    /// `transform-shorthand-properties`
-    ShorthandProperties,
+        /// `transform-shorthand-properties`
+        const ShorthandProperties = 1 << 8;
 
-    /// `transform-duplicate-keys`
-    DuplicateKeys,
+        /// `transform-duplicate-keys`
+        const DuplicateKeys = 1 << 9;
 
-    /// `transform-computed-properties`
-    ComputedProperties,
+        /// `transform-computed-properties`
+        const ComputedProperties = 1 << 10;
 
-    /// `transform-for-of`
-    ForOf,
+        /// `transform-for-of`
+        const ForOf = 1 << 11;
 
-    /// `transform-sticky-regex`
-    StickyRegex,
+        /// `transform-sticky-regex`
+        const StickyRegex = 1 << 12;
 
-    /// `transform-dotall-regex`
-    DotAllRegex,
+        /// `transform-dotall-regex`
+        const DotAllRegex = 1 << 13;
 
-    /// `transform-unicode-regex`
-    UnicodeRegex,
+        /// `transform-unicode-regex`
+        const UnicodeRegex = 1 << 14;
 
-    /// `transform-spread`
-    Spread,
+        /// `transform-spread`
+        const Spread = 1 << 15;
 
-    /// `transform-parameters`
-    Parameters,
+        /// `transform-parameters`
+        const Parameters = 1 << 16;
 
-    /// `transform-destructuring`
-    Destructuring,
+        /// `transform-destructuring`
+        const Destructuring = 1 << 17;
 
-    /// `transform-block-scoping`
-    BlockScoping,
+        /// `transform-block-scoping`
+        const BlockScoping = 1 << 18;
 
-    /// `transform-typeof-symbol`
-    TypeOfSymbol,
+        /// `transform-typeof-symbol`
+        const TypeOfSymbol = 1 << 19;
 
-    /// `transform-new-target`
-    NewTarget,
+        /// `transform-new-target`
+        const NewTarget = 1 << 20;
 
-    /// `transform-regenerator`
-    Regenerator,
+        /// `transform-regenerator`
+        const Regenerator = 1 << 21;
 
-    /// `transform-exponentiation-operator`
-    ExponentiationOperator,
+        /// `transform-exponentiation-operator`
+        const ExponentiationOperator = 1 << 22;
 
-    /// `transform-async-to-generator`
-    AsyncToGenerator,
+        /// `transform-async-to-generator`
+        const AsyncToGenerator = 1 << 23;
 
-    /// `proposal-async-generator-functions`
-    AsyncGeneratorFunctions,
+        /// `proposal-async-generator-functions`
+        const AsyncGeneratorFunctions = 1 << 24;
 
-    /// `proposal-object-rest-spread`
-    ObjectRestSpread,
+        /// `proposal-object-rest-spread`
+        const ObjectRestSpread = 1 << 25;
 
-    /// `proposal-unicode-property-regex`
-    UnicodePropertyRegex,
+        /// `proposal-unicode-property-regex`
+        const UnicodePropertyRegex = 1 << 26;
 
-    /// `proposal-json-strings`
-    JsonStrings,
+        /// `proposal-json-strings`
+        const JsonStrings = 1 << 27;
 
-    /// `proposal-optional-catch-binding`
-    OptionalCatchBinding,
+        /// `proposal-optional-catch-binding`
+        const OptionalCatchBinding = 1 << 28;
 
-    /// `transform-named-capturing-groups-regex`
-    NamedCapturingGroupsRegex,
+        /// `transform-named-capturing-groups-regex`
+        const NamedCapturingGroupsRegex = 1 << 29;
 
-    /// `transform-member-expression-literals`
-    MemberExpressionLiterals,
+        /// `transform-member-expression-literals`
+        const MemberExpressionLiterals = 1 << 30;
 
-    /// `transform-property-literals`
-    PropertyLiterals,
+        /// `transform-property-literals`
+        const PropertyLiterals = 1 << 31;
 
-    /// `transform-reserved-words`
-    ReservedWords,
+        /// `transform-reserved-words`
+        const ReservedWords = 1 << 32;
 
-    /// `proposal-export-namespace-from`
-    ExportNamespaceFrom,
+        /// `proposal-export-namespace-from`
+        const ExportNamespaceFrom = 1 << 33;
 
-    /// `proposal-nullish-coalescing-operator`
-    NullishCoalescing,
+        /// `proposal-nullish-coalescing-operator`
+        const NullishCoalescing = 1 << 34;
 
-    /// `proposal-logical-assignment-operators`
-    LogicalAssignmentOperators,
+        /// `proposal-logical-assignment-operators`
+        const LogicalAssignmentOperators = 1 << 35;
 
-    /// `proposal-optional-chaining`
-    OptionalChaining,
+        /// `proposal-optional-chaining`
+        const OptionalChaining = 1 << 36;
 
-    /// `proposal-class-properties`
-    ClassProperties,
+        /// `proposal-class-properties`
+        const ClassProperties = 1 << 37;
 
-    /// `proposal-numeric-separator`
-    NumericSeparator,
+        /// `proposal-numeric-separator`
+        const NumericSeparator = 1 << 38;
 
-    /// `proposal-private-methods`
-    PrivateMethods,
+        /// `proposal-private-methods`
+        const PrivateMethods = 1 << 39;
 
-    /// `proposal-class-static-block`
-    ClassStaticBlock,
+        /// `proposal-class-static-block`
+        const ClassStaticBlock = 1 << 40;
 
-    /// `proposal-private-property-in-object`
-    PrivatePropertyInObject,
+        /// `proposal-private-property-in-object`
+        const PrivatePropertyInObject = 1 << 41;
 
-    /// `transform-unicode-escapes`
-    UnicodeEscapes,
+        /// `transform-unicode-escapes`
+        const UnicodeEscapes = 1 << 42;
 
-    /// `bugfix/transform-async-arrows-in-class`
-    BugfixAsyncArrowsInClass,
+        /// `bugfix/transform-async-arrows-in-class`
+        const BugfixAsyncArrowsInClass = 1 << 43;
 
-    /// `bugfix/transform-edge-default-parameters`
-    BugfixEdgeDefaultParam,
+        /// `bugfix/transform-edge-default-parameters`
+        const BugfixEdgeDefaultParam = 1 << 44;
 
-    /// `bugfix/transform-tagged-template-caching`
-    BugfixTaggedTemplateCaching,
+        /// `bugfix/transform-tagged-template-caching`
+        const BugfixTaggedTemplateCaching = 1 << 45;
 
-    /// `bugfix/transform-safari-id-destructuring-collision-in-function-expression`
-    BugfixSafariIdDestructuringCollisionInFunctionExpression,
+        /// `bugfix/transform-safari-id-destructuring-collision-in-function-expression`
+        const BugfixSafariIdDestructuringCollisionInFunctionExpression = 1 << 46;
 
-    /// `bugfix/transform-edge-function-name`
-    BugfixTransformEdgeFunctionName, // TODO
+        /// `bugfix/transform-edge-function-name`
+        const BugfixTransformEdgeFunctionName = 1 << 47; // TODO
 
-    /// `bugfix/transform-safari-block-shadowing`
-    BugfixTransformSafariBlockShadowing, // TODO
+        /// `bugfix/transform-safari-block-shadowing`
+        const BugfixTransformSafariBlockShadowing = 1 << 48; // TODO
 
-    /// `bugfix/transform-safari-for-shadowing`
-    BugfixTransformSafariForShadowing, // TODO
+        /// `bugfix/transform-safari-for-shadowing`
+        const BugfixTransformSafariForShadowing = 1 << 49; // TODO
 
-    /// `bugfix/transform-v8-spread-parameters-in-optional-chaining`
-    BugfixTransformV8SpreadParametersInOptionalChaining, // TODO
+        /// `bugfix/transform-v8-spread-parameters-in-optional-chaining`
+        const BugfixTransformV8SpreadParametersInOptionalChaining = 1 << 50; // TODO
+    }
 }
 
-pub type FeatureSet = Rc<RefCell<AHashSet<Feature>>>;
-
-pub fn enable_available_feature_from_es_version(set: FeatureSet, version: EsVersion) {
-    if version < Es5 {
-        return;
+pub fn enable_available_feature_from_es_version(version: EsVersion) -> FeatureFlag {
+    if version == EsVersion::latest() {
+        return FeatureFlag::all();
     }
 
-    set.borrow_mut().extend(vec![
-        Feature::PropertyLiterals,
-        Feature::MemberExpressionLiterals,
-        Feature::ReservedWords,
-    ]);
+    let mut feature = FeatureFlag::empty();
+
+    if version < Es5 {
+        return feature;
+    }
+
+    feature |= FeatureFlag::PropertyLiterals
+        | FeatureFlag::MemberExpressionLiterals
+        | FeatureFlag::ReservedWords;
 
     if version < Es2015 {
-        return;
+        return feature;
     }
 
-    set.borrow_mut().extend(vec![
-        Feature::ArrowFunctions,
-        Feature::BlockScopedFunctions,
-        Feature::BlockScoping,
-        Feature::Classes,
-        Feature::ComputedProperties,
-        Feature::Destructuring,
-        Feature::DuplicateKeys,
-        Feature::ForOf,
-        Feature::FunctionName,
-        Feature::NewTarget,
-        Feature::ObjectSuper,
-        Feature::Parameters,
-        Feature::Regenerator,
-        Feature::ShorthandProperties,
-        Feature::Spread,
-        Feature::StickyRegex,
-        Feature::TemplateLiterals,
-        Feature::TypeOfSymbol,
-        Feature::UnicodeRegex,
-    ]);
+    feature |= FeatureFlag::ArrowFunctions
+        | FeatureFlag::BlockScopedFunctions
+        | FeatureFlag::BlockScoping
+        | FeatureFlag::Classes
+        | FeatureFlag::ComputedProperties
+        | FeatureFlag::Destructuring
+        | FeatureFlag::DuplicateKeys
+        | FeatureFlag::ForOf
+        | FeatureFlag::FunctionName
+        | FeatureFlag::NewTarget
+        | FeatureFlag::ObjectSuper
+        | FeatureFlag::Parameters
+        | FeatureFlag::Regenerator
+        | FeatureFlag::ShorthandProperties
+        | FeatureFlag::Spread
+        | FeatureFlag::StickyRegex
+        | FeatureFlag::TemplateLiterals
+        | FeatureFlag::TypeOfSymbol
+        | FeatureFlag::UnicodeRegex;
 
     if version < Es2016 {
-        return;
+        return feature;
     }
 
-    set.borrow_mut().insert(Feature::ExponentiationOperator);
+    feature |= FeatureFlag::ExponentiationOperator;
 
     if version < Es2017 {
-        return;
+        return feature;
     }
 
     // support `async`
-    set.borrow_mut().insert(Feature::AsyncToGenerator);
+    feature |= FeatureFlag::AsyncToGenerator;
 
     if version < Es2018 {
-        return;
+        return feature;
     }
 
-    set.borrow_mut().extend(vec![
-        Feature::ObjectRestSpread,
-        Feature::DotAllRegex,
-        Feature::NamedCapturingGroupsRegex,
-        Feature::UnicodePropertyRegex,
-    ]);
+    feature |= FeatureFlag::ObjectRestSpread
+        | FeatureFlag::DotAllRegex
+        | FeatureFlag::NamedCapturingGroupsRegex
+        | FeatureFlag::UnicodePropertyRegex;
 
     if version < Es2019 {
-        return;
+        return feature;
     }
 
-    set.borrow_mut().insert(Feature::OptionalCatchBinding);
+    feature |= FeatureFlag::OptionalCatchBinding;
 
     if version < Es2020 {
-        return;
+        return feature;
     }
 
-    set.borrow_mut().extend(vec![
-        Feature::ExportNamespaceFrom,
-        Feature::NullishCoalescing,
-        Feature::OptionalChaining,
-    ]);
+    feature |= FeatureFlag::ExportNamespaceFrom
+        | FeatureFlag::NullishCoalescing
+        | FeatureFlag::OptionalChaining;
 
     if version < Es2021 {
-        return;
+        return feature;
     }
 
-    set.borrow_mut().insert(Feature::LogicalAssignmentOperators);
+    feature |= FeatureFlag::LogicalAssignmentOperators;
 
     if version < Es2022 {
-        return;
+        return feature;
     }
 
-    set.borrow_mut().extend(vec![
-        Feature::ClassProperties,
-        Feature::ClassStaticBlock,
-        Feature::PrivatePropertyInObject,
-    ]);
+    feature |= FeatureFlag::ClassProperties
+        | FeatureFlag::ClassStaticBlock
+        | FeatureFlag::PrivatePropertyInObject;
+
+    feature
 }
