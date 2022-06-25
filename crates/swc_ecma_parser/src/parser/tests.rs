@@ -353,3 +353,8 @@ fn illegal_language_mode_directive2() {
         },
     );
 }
+
+#[test]
+fn parse_non_strict_for_loop() {
+    script("for (var v1 = 1 in v3) {}");
+}

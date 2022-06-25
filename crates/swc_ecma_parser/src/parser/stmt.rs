@@ -1130,7 +1130,7 @@ impl<'a, I: Tokens> Parser<I> {
                         self.emit_err(d.name.span(), SyntaxError::TooManyVarInForInHead);
                     }
                 } else {
-                    if decl.decls[0].init.is_some() {
+                    if (self.ctx().strict || is!(self, "of")) && decl.decls[0].init.is_some() {
                         self.emit_err(
                             decl.decls[0].name.span(),
                             SyntaxError::VarInitializerInForInHead,
