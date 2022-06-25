@@ -32,7 +32,7 @@ pub fn umd(
         unresolved_mark,
         cm,
         resolver: Resolver::Default,
-        available_features: available_features.clone(),
+        available_features,
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -58,7 +58,7 @@ pub fn umd_with_resolver(
         unresolved_mark,
         cm,
         resolver: Resolver::Real { base, resolver },
-        available_features: available_features.clone(),
+        available_features,
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -277,7 +277,7 @@ impl Umd {
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            let features = self.available_features.clone();
+            let features = self.available_features;
             let exports = self.exports();
 
             export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);

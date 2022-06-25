@@ -26,7 +26,7 @@ pub fn common_js(
         config,
         resolver: Resolver::Default,
         unresolved_mark,
-        available_features: available_features.clone(),
+        available_features,
         support_arrow: caniuse!(available_features.ArrowFunctions),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -49,7 +49,7 @@ pub fn common_js_with_resolver(
         config,
         resolver: Resolver::Real { base, resolver },
         unresolved_mark,
-        available_features: available_features.clone(),
+        available_features,
         support_arrow: caniuse!(available_features.ArrowFunctions),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -341,7 +341,7 @@ impl Cjs {
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            let features = self.available_features.clone();
+            let features = self.available_features;
             let exports = self.exports();
 
             export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);

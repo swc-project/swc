@@ -1,12 +1,8 @@
 use std::{fs::File, path::PathBuf};
 
 use swc_common::{chain, Mark};
-use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::{
-    feature::{enable_available_feature_from_es_version, FeatureFlag},
-    resolver,
-};
+use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_module::common_js::{self, common_js};
 use swc_ecma_transforms_testing::{test, test_fixture};
