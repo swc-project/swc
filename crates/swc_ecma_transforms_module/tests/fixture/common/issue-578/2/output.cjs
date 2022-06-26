@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 const _depJs = require("./dep.js");
 class SomeClass {
     constructor(properties){

@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function _foo() {
     const data = require("foo");
     _foo = function() {

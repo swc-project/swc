@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function _tsDecorate() {
     const data = require("@swc/helpers/lib/_ts_decorate.js").default;
     _tsDecorate = function() {

@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 const _local = require("./local");
 const _externalTest = require("external_test");
 function _test() {

@@ -109,9 +109,13 @@ impl VisitMut for Umd {
             ..
         } = strip;
 
-        let mut import_map = Default::default();
-
         let is_export_assign = export_assign.is_some();
+
+        if !self.config.config.no_interop && !is_export_assign {
+            stmts.push(define_es_module(self.exports()))
+        }
+
+        let mut import_map = Default::default();
 
         stmts.extend(
             self.handle_import_export(&mut import_map, link, export, is_export_assign)
@@ -283,14 +287,7 @@ impl Umd {
             export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
         }
 
-        if self.config.config.no_interop {
-            None
-        } else {
-            self.exports.clone().map(define_es_module)
-        }
-        .into_iter()
-        .chain(export_stmts)
-        .chain(stmts)
+        export_stmts.into_iter().chain(stmts)
     }
 
     fn exports(&mut self) -> Ident {

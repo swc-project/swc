@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 describe("multiline comments", ()=>{
     it("test1", ()=>{
         expect(false).toBe(true);

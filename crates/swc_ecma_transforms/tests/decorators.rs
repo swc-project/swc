@@ -4304,6 +4304,9 @@ console.log(new Template().events());
 "#,
     r#"
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var _events = _interopRequireDefault(require("events"));
 
 let Template =

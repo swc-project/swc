@@ -1,8 +1,12 @@
 define([
     "require",
+    "exports",
     "foo",
     "foo-bar",
     "./directory/foo-bar"
-], function(require, _foo, _fooBar, _fooBar1) {
+], function(require, exports, _foo, _fooBar, _fooBar1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
 });
