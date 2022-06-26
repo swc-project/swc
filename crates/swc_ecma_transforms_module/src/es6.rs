@@ -3,7 +3,7 @@ use std::{cell::RefCell, rc::Rc as RustRc};
 use serde::{Deserialize, Serialize};
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::cross_transform_scope;
+use swc_ecma_transforms_base::shared_transform_scope;
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold};
 
@@ -12,19 +12,19 @@ use super::util::{self};
 pub fn es6(
     config: Config,
     unresolved_mark: Mark,
-    cross_transform_scope: RustRc<RefCell<cross_transform_scope::Scope>>,
+    shared_transform_scope: RustRc<RefCell<shared_transform_scope::Scope>>,
 ) -> impl Fold {
     Es6 {
         config,
         unresolved_mark,
-        cross_transform_scope,
+        shared_transform_scope,
     }
 }
 
 struct Es6 {
     config: Config,
     unresolved_mark: Mark,
-    cross_transform_scope: RustRc<RefCell<cross_transform_scope::Scope>>,
+    shared_transform_scope: RustRc<RefCell<shared_transform_scope::Scope>>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -41,8 +41,7 @@ impl Fold for Es6 {
     noop_fold_type!();
 
     fn fold_module_items(&mut self, mut items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        println!("folding in es6 pass");
-        if !self.config.create_require || !self.cross_transform_scope.borrow_mut().has_require_call
+        if !self.config.create_require || !self.shared_transform_scope.borrow_mut().has_require_call
         {
             return items;
         }

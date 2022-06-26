@@ -23,7 +23,7 @@ fn main() {
         },
         |handler| {
             let fm = cm
-                .load_file(Path::new("examples/transform-input.js"))
+                .load_file(Path::new("examples/input.js"))
                 .expect("failed to load file");
 
             c.process_js_file(
@@ -57,7 +57,7 @@ fn main() {
     .unwrap();
 
     // println!("{}", output.code);
-    fs::write("examples/transform-output-1.js", output.code).unwrap();
+    fs::write("examples/output-es6-createrequire-actual.js", output.code).unwrap();
 
     let output = try_with_handler(
         cm.clone(),
@@ -66,7 +66,7 @@ fn main() {
         },
         |handler| {
             let fm = cm
-                .load_file(Path::new("examples/transform-input.js"))
+                .load_file(Path::new("examples/input.js"))
                 .expect("failed to load file");
 
             c.process_js_file(
@@ -100,7 +100,7 @@ fn main() {
     .unwrap();
 
     // println!("{}", output.code);
-    fs::write("examples/transform-output-2.js", output.code).unwrap();
+    fs::write("examples/output-es6-actual.js", output.code).unwrap();
 
     let output = try_with_handler(
         cm.clone(),
@@ -109,7 +109,7 @@ fn main() {
         },
         |handler| {
             let fm = cm
-                .load_file(Path::new("examples/transform-input.js"))
+                .load_file(Path::new("examples/input.js"))
                 .expect("failed to load file");
 
             c.process_js_file(
@@ -139,5 +139,5 @@ fn main() {
     .unwrap();
 
     // println!("{}", output.code);
-    fs::write("examples/transform-output-3.js", output.code).unwrap();
+    fs::write("examples/output-commonjs-actual.js", output.code).unwrap();
 }

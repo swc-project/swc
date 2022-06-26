@@ -62,7 +62,7 @@ use swc_ecma_transforms::{
     typescript::{self, TSEnumConfig},
     Assumptions,
 };
-use swc_ecma_transforms_base::cross_transform_scope;
+use swc_ecma_transforms_base::shared_transform_scope;
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
@@ -340,8 +340,8 @@ impl Options {
         let unresolved_mark = Mark::new();
         let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
 
-        let cross_transform_scope =
-            RustRc::new(RefCell::new(cross_transform_scope::Scope::default()));
+        let shared_transform_scope =
+            RustRc::new(RefCell::new(shared_transform_scope::Scope::default()));
 
         let es_version = target.unwrap_or_default();
 
@@ -485,7 +485,7 @@ impl Options {
             top_level_mark,
             unresolved_mark,
             pass,
-            RustRc::clone(&cross_transform_scope),
+            RustRc::clone(&shared_transform_scope),
         )
         .target(es_version)
         .skip_helper_injection(self.skip_helper_injection)
@@ -622,7 +622,7 @@ impl Options {
                     },
                     comments,
                     top_level_mark,
-                    RustRc::clone(&cross_transform_scope),
+                    RustRc::clone(&shared_transform_scope),
                 ),
                 syntax.typescript()
             ),
@@ -1277,7 +1277,7 @@ impl ModuleConfig {
         unresolved_mark: Mark,
         config: Option<ModuleConfig>,
         scope: RustRc<RefCell<Scope>>,
-        cross_transform_scope: RustRc<RefCell<cross_transform_scope::Scope>>,
+        shared_transform_scope: RustRc<RefCell<shared_transform_scope::Scope>>,
     ) -> Box<dyn swc_ecma_visit::Fold> {
         let base = match base {
             FileName::Real(v) if !paths.is_empty() => {
@@ -1301,7 +1301,7 @@ impl ModuleConfig {
                 if paths.is_empty() {
                     Box::new(chain!(
                         base_pass,
-                        modules::es6::es6(config, unresolved_mark, cross_transform_scope)
+                        modules::es6::es6(config, unresolved_mark, shared_transform_scope)
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1309,7 +1309,7 @@ impl ModuleConfig {
                     Box::new(chain!(
                         base_pass,
                         import_rewriter(base, resolver),
-                        modules::es6::es6(config, unresolved_mark, cross_transform_scope)
+                        modules::es6::es6(config, unresolved_mark, shared_transform_scope)
                     ))
                 }
             }

@@ -11,7 +11,7 @@ use swc_common::{
     Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::cross_transform_scope;
+use swc_ecma_transforms_base::shared_transform_scope;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, is_literal, member_expr, prepend_stmt,
@@ -118,7 +118,7 @@ impl TSEnumConfig {
 pub fn strip_with_config(
     config: Config,
     top_level_mark: Mark,
-    cross_transform_scope: RustRc<RefCell<cross_transform_scope::Scope>>,
+    shared_transform_scope: RustRc<RefCell<shared_transform_scope::Scope>>,
 ) -> impl Fold + VisitMut {
     let ts_enum_lit = TSEnumLit::default();
 
@@ -133,7 +133,7 @@ pub fn strip_with_config(
             ts_enum_lit: ts_enum_lit.clone(),
             non_top_level: Default::default(),
             scope: Default::default(),
-            cross_transform_scope,
+            shared_transform_scope,
             is_side_effect_import: Default::default(),
             is_type_only_export: Default::default(),
             uninitialized_vars: Default::default(),
@@ -151,9 +151,9 @@ pub fn strip_with_config(
 /// typescript file to a javascript file.
 pub fn strip(
     top_level_mark: Mark,
-    cross_transform_scope: RustRc<RefCell<cross_transform_scope::Scope>>,
+    shared_transform_scope: RustRc<RefCell<shared_transform_scope::Scope>>,
 ) -> impl Fold + VisitMut {
-    strip_with_config(Default::default(), top_level_mark, cross_transform_scope)
+    strip_with_config(Default::default(), top_level_mark, shared_transform_scope)
 }
 
 /// [strip], but aware of jsx.
@@ -164,7 +164,7 @@ pub fn strip_with_jsx<C>(
     config: Config,
     comments: C,
     top_level_mark: Mark,
-    cross_transform_scope: RustRc<RefCell<cross_transform_scope::Scope>>,
+    shared_transform_scope: RustRc<RefCell<shared_transform_scope::Scope>>,
 ) -> impl Fold + VisitMut
 where
     C: Comments,
@@ -209,7 +209,7 @@ where
             ts_enum_lit: ts_enum_lit.clone(),
             non_top_level: Default::default(),
             scope: Default::default(),
-            cross_transform_scope,
+            shared_transform_scope,
             is_side_effect_import: Default::default(),
             is_type_only_export: Default::default(),
             uninitialized_vars: Default::default(),
@@ -254,7 +254,7 @@ where
     non_top_level: bool,
     top_level_ctxt: SyntaxContext,
     scope: Scope,
-    cross_transform_scope: RustRc<RefCell<cross_transform_scope::Scope>>,
+    shared_transform_scope: RustRc<RefCell<shared_transform_scope::Scope>>,
 
     is_side_effect_import: bool,
     is_type_only_export: bool,
@@ -1093,9 +1093,8 @@ where
                     id,
                     module_ref:
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
-                })) => {
-                    self.cross_transform_scope.borrow_mut().has_require_call = true;
                 })) if !self.config.preserve_import_export_assign => {
+                    self.shared_transform_scope.borrow_mut().has_require_call = true;
                     let default = VarDeclarator {
                         span: DUMMY_SP,
                         name: id.into(),
@@ -2227,9 +2226,8 @@ where
                     id,
                     module_ref:
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
-                })) => {
-                    self.cross_transform_scope.borrow_mut().has_require_call = true;
                 })) if !self.config.preserve_import_export_assign => {
+                    self.shared_transform_scope.borrow_mut().has_require_call = true;
                     let default = VarDeclarator {
                         span: DUMMY_SP,
                         name: id.into(),
