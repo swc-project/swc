@@ -807,7 +807,13 @@ impl Minifier {
             .map(|mode| self.get_whitespace_minification_for_tag(mode, namespace, tag_name));
 
         let mut index = 0;
-        let cloned = children.clone();
+
+        let mut cloned_children = None;
+
+        if mode.is_some() {
+            cloned_children = Some(children.clone());
+        }
+
         let mut prev = None;
         let mut next = None;
 
@@ -824,16 +830,16 @@ impl Minifier {
         children.retain_mut(|child| {
             index += 1;
 
-            match child {
-                Child::Comment(comment) if self.remove_comments => {
-                    self.is_preserved_comment(&comment.data)
-                }
             if mode.is_some() {
-                next = cloned.get(index);
+                if let Some(cloned_children) = &cloned_children {
+                    next = cloned_children.get(index);
+                }
             }
 
             let result = match child {
-                Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
+                Child::Comment(comment) if self.remove_comments => {
+                    self.is_preserved_comment(&comment.data)
+                }
                 // Always remove whitespaces from html and head elements (except nested elements),
                 // it should be safe
                 Child::Text(text)
