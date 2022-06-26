@@ -1,6 +1,9 @@
 {
-  "additionalJsAttributes": ["^data-click", "^ng-"],
-  "additionalJsonAttributes": ["^data-json"],
-  "additionalCssAttributes": ["^data-style"],
-  "additionalHtmlAttributes": ["^data-html"]
+  "minifyAdditionalAttributes": [
+    ["^data-click", "js"],
+    ["^ng-", "js"],
+    ["^data-json", "json"],
+    ["^data-style", "css"],
+    ["^data-html", "html"]
+  ]
 }

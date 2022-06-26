@@ -9,7 +9,7 @@ use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
-use crate::option::{CollapseWhitespaces, MinifyOptions};
+use crate::option::{CollapseWhitespaces, MinifierType, MinifyOptions};
 pub mod option;
 
 static HTML_BOOLEAN_ATTRIBUTES: &[&str] = &[
@@ -331,12 +331,9 @@ struct Minifier {
     remove_redundant_attributes: bool,
     collapse_boolean_attributes: bool,
     minify_json: bool,
-    additional_json_attributes: Option<Vec<CachedRegex>>,
     minify_js: bool,
-    additional_js_attributes: Option<Vec<CachedRegex>>,
     minify_css: bool,
-    additional_css_attributes: Option<Vec<CachedRegex>>,
-    additional_html_attributes: Option<Vec<CachedRegex>>,
+    minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
 }
 
 fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
@@ -424,44 +421,16 @@ impl Minifier {
         }
     }
 
-    fn is_additional_js_attribute(&self, name: &str) -> bool {
-        if let Some(additional_js_attributes) = &self.additional_js_attributes {
-            return additional_js_attributes
-                .iter()
-                .any(|regex| regex.is_match(name));
+    fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
+        if let Some(minify_additional_attributes) = &self.minify_additional_attributes {
+            for item in minify_additional_attributes {
+                if item.0.is_match(name) {
+                    return Some(item.1.clone());
+                }
+            }
         }
 
-        false
-    }
-
-    fn is_additional_json_attribute(&self, name: &str) -> bool {
-        if let Some(additional_json_attributes) = &self.additional_json_attributes {
-            return additional_json_attributes
-                .iter()
-                .any(|regex| regex.is_match(name));
-        }
-
-        false
-    }
-
-    fn is_additional_css_attribute(&self, name: &str) -> bool {
-        if let Some(additional_css_attributes) = &self.additional_css_attributes {
-            return additional_css_attributes
-                .iter()
-                .any(|regex| regex.is_match(name));
-        }
-
-        false
-    }
-
-    fn is_additional_html_attribute(&self, name: &str) -> bool {
-        if let Some(additional_html_attributes) = &self.additional_html_attributes {
-            return additional_html_attributes
-                .iter()
-                .any(|regex| regex.is_match(name));
-        }
-
-        false
+        None
     }
 
     fn element_has_attribute_with_value(
@@ -1406,12 +1375,9 @@ impl Minifier {
             remove_redundant_attributes: self.remove_empty_attributes,
             collapse_boolean_attributes: self.collapse_boolean_attributes,
             minify_js: self.minify_js,
-            additional_js_attributes: self.additional_js_attributes.clone(),
             minify_json: self.minify_json,
-            additional_json_attributes: self.additional_json_attributes.clone(),
             minify_css: self.minify_css,
-            additional_css_attributes: self.additional_css_attributes.clone(),
-            additional_html_attributes: self.additional_css_attributes.clone(),
+            minify_additional_attributes: self.minify_additional_attributes.clone(),
         };
 
         match document_or_document_fragment {
@@ -1679,38 +1645,56 @@ impl VisitMut for Minifier {
             if value.trim().to_lowercase().starts_with("javascript:") {
                 value = value.chars().skip(11).collect();
             }
-        }
 
-        let is_iframe_srcdoc = current_element.namespace == Namespace::HTML
-            && &*current_element.tag_name == "iframe"
-            && &n.name == "srcdoc";
-
-        if self.minify_js && self.is_additional_js_attribute(&n.name)
-            || self.is_event_handler_attribute(&n.name)
-        {
             value = match self.minify_js(value.clone(), false) {
                 Some(minified) => minified,
                 _ => value,
             };
-        }
-        if self.minify_json && self.is_additional_json_attribute(&n.name) {
-            value = match self.minify_json(value.clone()) {
-                Some(minified) => minified,
-                _ => value,
-            };
-        }
-        if self.minify_css && self.is_additional_css_attribute(&n.name) {
-            value = match self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations) {
-                Some(minified) => minified,
-                _ => value,
-            };
-        }
-        if self.is_additional_html_attribute(&n.name) || is_iframe_srcdoc {
+        } else if current_element.namespace == Namespace::HTML
+            && &*current_element.tag_name == "iframe"
+            && &n.name == "srcdoc"
+        {
             value =
                 match self.minify_html(value.clone(), HtmlMinificationMode::DocumentIframeSrcdoc) {
                     Some(minified) => minified,
                     _ => value,
                 };
+        }
+
+        if self.minify_additional_attributes.is_some() {
+            let minifier_type = self.is_additional_minifier_attribute(&n.name);
+
+            match minifier_type {
+                Some(MinifierType::Js) if self.minify_js => {
+                    value = match self.minify_js(value.clone(), false) {
+                        Some(minified) => minified,
+                        _ => value,
+                    };
+                }
+                Some(MinifierType::Json) if self.minify_json => {
+                    value = match self.minify_json(value.clone()) {
+                        Some(minified) => minified,
+                        _ => value,
+                    };
+                }
+                Some(MinifierType::Css) if self.minify_css => {
+                    value = match self
+                        .minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
+                    {
+                        Some(minified) => minified,
+                        _ => value,
+                    };
+                }
+                Some(MinifierType::Html) => {
+                    value = match self
+                        .minify_html(value.clone(), HtmlMinificationMode::DocumentIframeSrcdoc)
+                    {
+                        Some(minified) => minified,
+                        _ => value,
+                    };
+                }
+                _ => {}
+            }
         }
 
         n.value = Some(value.into());
@@ -1914,10 +1898,7 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_json: options.minify_json,
         minify_css: options.minify_css,
 
-        additional_js_attributes: options.additional_js_attributes.clone(),
-        additional_json_attributes: options.additional_json_attributes.clone(),
-        additional_css_attributes: options.additional_css_attributes.clone(),
-        additional_html_attributes: options.additional_html_attributes.clone(),
+        minify_additional_attributes: options.minify_additional_attributes.clone(),
     }
 }
 

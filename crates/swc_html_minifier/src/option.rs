@@ -1,6 +1,16 @@
 use serde::{Deserialize, Serialize};
 use swc_cached::regex::CachedRegex;
 
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "lowercase")]
+#[serde(deny_unknown_fields)]
+pub enum MinifierType {
+    Js,
+    Json,
+    Css,
+    Html,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
@@ -29,26 +39,18 @@ pub struct MinifyOptions {
     pub collapse_boolean_attributes: bool,
     #[serde(default = "true_by_default")]
     pub minify_js: bool,
-    // Allow to compress custom ECMAScript attributes, i.e. `<div data-click="myFunction(100 * 2,
-    // "value");"></div>`
-    #[serde(default)]
-    pub additional_js_attributes: Option<Vec<CachedRegex>>,
     #[serde(default = "true_by_default")]
     pub minify_json: bool,
-    // Allow to compress custom JSON attributes,
-    // i.e. `<div data-json="{ "foo": "bar }"></div>`
-    #[serde(default)]
-    pub additional_json_attributes: Option<Vec<CachedRegex>>,
     #[serde(default = "true_by_default")]
     pub minify_css: bool,
-    // Allow to compress custom CSS attributes,
-    // i.e. `<div data-style="color: red; background-color: red"></div>`
+    // Allow to compress value of custom attributes,
+    // i.e. `<div data-js="myFunction(100 * 2, 'foo' + 'bar')"></div>`
+    //
+    // The first item is tag_name
+    // The second is attribute name
+    // The third is type of minifier
     #[serde(default)]
-    pub additional_css_attributes: Option<Vec<CachedRegex>>,
-    // Allow to compress custom ECMAScript attributes,
-    // i.e. `<div data-html="<html> <body> <p>test.</p>" src="nosrcdoc.html"></div>`
-    #[serde(default)]
-    pub additional_html_attributes: Option<Vec<CachedRegex>>,
+    pub minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
 }
 
 /// Implement default using serde.
