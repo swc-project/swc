@@ -337,8 +337,6 @@ struct Minifier {
     minify_css: bool,
     additional_css_attributes: Option<Vec<CachedRegex>>,
     additional_html_attributes: Option<Vec<CachedRegex>>,
-    preserve_comments: Option<Vec<CachedRegex>>,
-    minify_conditional_comments: bool,
 }
 
 fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
@@ -1350,25 +1348,6 @@ impl Minifier {
 
         // Emulate content inside conditional comments like content inside the
         // `template` element
-        let context_element = Element {
-            span: Default::default(),
-            tag_name: "template".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-            children: vec![],
-            content: None,
-            is_self_closing: false,
-        };
-        let mut document_fragment = match swc_html_parser::parse_file_as_document_fragment(
-            &fm,
-            &context_element,
-            DocumentMode::NoQuirks,
-            None,
-            Default::default(),
-            &mut errors,
-        ) {
-            Ok(document_fragment) => document_fragment,
-            _ => return None,
         let mut context_element = None;
 
         let mut document_or_document_fragment = match mode {
@@ -1387,7 +1366,9 @@ impl Minifier {
 
                 match swc_html_parser::parse_file_as_document_fragment(
                     &fm,
-                    context_element.clone().unwrap(),
+                    context_element.as_ref().unwrap(),
+                    DocumentMode::NoQuirks,
+                    None,
                     Default::default(),
                     &mut errors,
                 ) {
@@ -1415,25 +1396,12 @@ impl Minifier {
             return None;
         }
 
-        let mut minifier = create_minifier(
-            Some(&context_element),
-            &MinifyOptions {
-                force_set_html5_doctype: self.force_set_html5_doctype,
-                remove_comments: self.remove_comments,
-                preserve_comments: self.preserve_comments.clone(),
-                minify_conditional_comments: self.minify_conditional_comments,
-                collapse_whitespaces: self.collapse_whitespaces.clone(),
-                remove_empty_attributes: self.remove_empty_attributes,
-                remove_redundant_attributes: self.remove_empty_attributes,
-                collapse_boolean_attributes: self.collapse_boolean_attributes,
-                minify_js: self.minify_js,
-                minify_json: self.minify_json,
-                minify_css: self.minify_css,
-            },
-        );
         let minify_options = MinifyOptions {
             force_set_html5_doctype: self.force_set_html5_doctype,
             collapse_whitespaces: self.collapse_whitespaces.clone(),
+            remove_comments: self.remove_comments,
+            preserve_comments: self.preserve_comments.clone(),
+            minify_conditional_comments: self.minify_conditional_comments,
             remove_empty_attributes: self.remove_empty_attributes,
             remove_redundant_attributes: self.remove_empty_attributes,
             collapse_boolean_attributes: self.collapse_boolean_attributes,
@@ -1444,8 +1412,6 @@ impl Minifier {
             minify_css: self.minify_css,
             additional_css_attributes: self.additional_css_attributes.clone(),
             additional_html_attributes: self.additional_css_attributes.clone(),
-            preserve_comments: self.preserve_comments.clone(),
-            minify_conditional_comments: self.minify_conditional_comments,
         };
 
         match document_or_document_fragment {
@@ -1454,7 +1420,7 @@ impl Minifier {
             }
             HtmlRoot::DocumentFragment(ref mut document_fragment) => minify_document_fragment(
                 document_fragment,
-                context_element.as_ref().unwrap().clone(),
+                context_element.as_ref().unwrap(),
                 &minify_options,
             ),
         }
@@ -1470,8 +1436,7 @@ impl Minifier {
             swc_html_codegen::CodegenConfig {
                 minify: true,
                 scripting_enabled: false,
-                context_element: Some(&context_element),
-                context_element,
+                context_element: context_element.as_ref(),
                 tag_omission: None,
                 self_closing_void_elements: None,
             },
@@ -1949,8 +1914,6 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_json: options.minify_json,
         minify_css: options.minify_css,
 
-        preserve_comments: options.preserve_comments.clone(),
-        minify_conditional_comments: options.minify_conditional_comments,
         additional_js_attributes: options.additional_js_attributes.clone(),
         additional_json_attributes: options.additional_json_attributes.clone(),
         additional_css_attributes: options.additional_css_attributes.clone(),

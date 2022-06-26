@@ -49,10 +49,6 @@ pub struct MinifyOptions {
     // i.e. `<div data-html="<html> <body> <p>test.</p>" src="nosrcdoc.html"></div>`
     #[serde(default)]
     pub additional_html_attributes: Option<Vec<CachedRegex>>,
-    #[serde(default = "default_preserve_comments")]
-    pub preserve_comments: Option<Vec<CachedRegex>>,
-    #[serde(default = "true_by_default")]
-    pub minify_conditional_comments: bool,
 }
 
 /// Implement default using serde.
