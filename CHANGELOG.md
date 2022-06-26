@@ -19,6 +19,9 @@
 
 - **(html/minifier)** Add `remove_comments` option (#5037) ([e6c78d0](https://github.com/swc-project/swc/commit/e6c78d0b1d863c61882c941f62fccd04a501530b))
 
+
+- **(html/minifier)** Improve smart mode (#5004) ([9202ff9](https://github.com/swc-project/swc/commit/9202ff9700cbea5714a65746d7375fa41f8bb140))
+
 ## [1.2.205] - 2022-06-24
 
 ### Bug Fixes
