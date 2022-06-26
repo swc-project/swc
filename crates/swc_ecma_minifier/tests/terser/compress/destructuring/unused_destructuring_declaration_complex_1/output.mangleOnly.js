@@ -1,4 +1,4 @@
-const [, c, , a, { y: d , z: b  }] = [
+const [, a, , b, { y: c , z: d  }] = [
     1,
     2,
     3,
@@ -7,4 +7,4 @@ const [, c, , a, { y: d , z: b  }] = [
         z: 5
     }
 ];
-console.log(a, b);
+console.log(b, d);

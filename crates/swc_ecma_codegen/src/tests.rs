@@ -21,7 +21,7 @@ struct Builder {
 impl Builder {
     pub fn with<'a, F, Ret>(self, src: &str, s: &'a mut Vec<u8>, op: F) -> Ret
     where
-        F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>>) -> Ret,
+        F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>, SourceMap>) -> Ret,
         Ret: 'static,
     {
         let writer = text_writer::JsWriter::new(self.cm.clone(), "\n", s, None);
@@ -45,7 +45,7 @@ impl Builder {
 
     pub fn text<F>(self, src: &str, op: F) -> String
     where
-        F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>>),
+        F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>, SourceMap>),
     {
         let mut buf = vec![];
 

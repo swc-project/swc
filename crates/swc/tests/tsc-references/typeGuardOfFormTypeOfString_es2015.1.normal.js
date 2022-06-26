@@ -64,7 +64,7 @@ if (typeof strOrC !== "string") {
     str = strOrC; // string
 }
 if (typeof numOrBool !== "string") {
-    let x1 = numOrBool; // number | boolean
+    let x11 = numOrBool; // number | boolean
 } else {
-    let x2 = numOrBool; // {}
+    let x21 = numOrBool; // {}
 }

@@ -115,5 +115,12 @@
     "
 |     "
 
+    "
+|     <template>
+|       content
+|         <div>
+|           "test"
+|     "
+
 
 "

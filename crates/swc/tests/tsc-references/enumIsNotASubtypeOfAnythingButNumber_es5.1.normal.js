@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var // enums are only subtypes of number, any and no other types
 E;
 (function(E) {
@@ -17,8 +17,8 @@ var E2;
     E2[E2["A"] = 0] = "A";
 })(E2 || (E2 = {}));
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var c = function c() {
     "use strict";

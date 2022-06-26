@@ -1,12 +1,12 @@
 var a = "FAIL";
 (function() {
-    function b(c) {
-        function b(a) {
+    function b(b) {
+        function c(a) {
             a && a();
         }
-        b();
+        c();
         (function() {
-            c && (a = "PASS");
+            b && (a = "PASS");
         })();
     }
     b("foo");

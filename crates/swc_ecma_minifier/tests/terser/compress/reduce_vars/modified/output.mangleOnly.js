@@ -1,42 +1,42 @@
 function a() {
-    var b = 1, a = 2;
-    a++;
-    console.log(b + 1);
+    var a = 1, b = 2;
+    b++;
     console.log(a + 1);
+    console.log(b + 1);
 }
 function b() {
-    var b = 1, a = 2;
-    --a;
-    console.log(b + 1);
+    var a = 1, b = 2;
+    --b;
     console.log(a + 1);
+    console.log(b + 1);
 }
 function c() {
-    var c = 1, a = 2, b = 3;
-    a = b;
-    console.log(c + a);
+    var a = 1, b = 2, c = 3;
+    b = c;
     console.log(a + b);
-    console.log(c + b);
-    console.log(c + a + b);
+    console.log(b + c);
+    console.log(a + c);
+    console.log(a + b + c);
 }
 function d() {
-    var c = 1, a = 2, b = 3;
-    a *= b;
-    console.log(c + a);
+    var a = 1, b = 2, c = 3;
+    b *= c;
     console.log(a + b);
-    console.log(c + b);
-    console.log(c + a + b);
+    console.log(b + c);
+    console.log(a + c);
+    console.log(a + b + c);
 }
 function e() {
-    var c = 1, a = 2, b = 3;
-    if (c) {
-        a = b;
+    var a = 1, b = 2, c = 3;
+    if (a) {
+        b = c;
     } else {
-        b = a;
+        c = b;
     }
-    console.log(c + a);
     console.log(a + b);
-    console.log(c + b);
-    console.log(c + a + b);
+    console.log(b + c);
+    console.log(a + c);
+    console.log(a + b + c);
 }
 function f(a) {
     B = a;

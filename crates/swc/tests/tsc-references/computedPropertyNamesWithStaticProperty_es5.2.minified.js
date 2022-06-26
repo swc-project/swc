@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_name_tdz_error from "@swc/helpers/lib/_class_name_tdz_error.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_name_tdz_error from "@swc/helpers/src/_class_name_tdz_error.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 var _staticProp = (_class_name_tdz_error("C"), C).staticProp, _staticProp1 = (_class_name_tdz_error("C"), C).staticProp, _staticProp2 = (_class_name_tdz_error("C"), C).staticProp, C = function() {
     "use strict";
     function C() {

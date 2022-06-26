@@ -6,8 +6,10 @@ use swc_html_ast::{Token, TokenAndSpan};
 use super::PResult;
 use crate::{error::Error, lexer::State};
 
-pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
+pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     fn start_pos(&mut self) -> BytePos;
+
+    fn last_pos(&mut self) -> BytePos;
 
     fn take_errors(&mut self) -> Vec<Error>;
 
@@ -24,28 +26,25 @@ where
     I: ParserInput,
 {
     cur: Option<TokenAndSpan>,
-    peeked: Option<TokenAndSpan>,
     input: I,
-    last_pos: BytePos,
 }
 
 impl<I> Buffer<I>
 where
     I: ParserInput,
 {
-    pub fn new(mut input: I) -> Self {
-        let last_pos = input.start_pos();
-
-        Buffer {
-            cur: None,
-            peeked: None,
-            input,
-            last_pos,
-        }
+    pub fn new(input: I) -> Self {
+        Buffer { cur: None, input }
     }
 
+    /// Last start position
+    pub fn start_pos(&mut self) -> PResult<BytePos> {
+        Ok(self.input.start_pos())
+    }
+
+    /// Last end position
     pub fn last_pos(&mut self) -> PResult<BytePos> {
-        Ok(self.last_pos)
+        Ok(self.input.last_pos())
     }
 
     pub fn cur_span(&mut self) -> PResult<Span> {
@@ -71,25 +70,13 @@ where
             "bump() is called without checking current token"
         );
 
-        if let Some(cur) = &self.cur {
-            self.last_pos = cur.span.hi;
-        }
-
         let token = self.cur.take();
 
         Ok(token)
     }
 
     fn bump_inner(&mut self) -> PResult<()> {
-        if let Some(cur) = &self.cur {
-            self.last_pos = cur.span.hi;
-        }
-
         self.cur = None;
-
-        if let Some(next) = self.peeked.take() {
-            self.cur = Some(next);
-        }
 
         if self.cur.is_none() {
             let result = self.input.next();

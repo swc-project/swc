@@ -36,10 +36,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
  2 | Text
    : ^^^^^
@@ -56,13 +52,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
  3 | <div>Text</div>
-   : ^^^^^^^^^
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
  3 | <div>Text</div>
-   : ^^^^^^^^^
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -94,15 +90,15 @@
   x Child
    ,-[$DIR/tests/fixture/text/basic/input.html:4:1]
  4 | ,-> <div>
- 5 | `->     Text
- 6 |     </div>
+ 5 | |       Text
+ 6 | `-> </div>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/basic/input.html:4:1]
  4 | ,-> <div>
- 5 | `->     Text
- 6 |     </div>
+ 5 | |       Text
+ 6 | `-> </div>
    `----
 
   x Child
@@ -139,8 +135,8 @@
   8 | |   Text
   9 | |   
  10 | |   
- 11 | `-> Text
- 12 |     </div>
+ 11 | |   Text
+ 12 | `-> </div>
     `----
 
   x Element
@@ -149,8 +145,8 @@
   8 | |   Text
   9 | |   
  10 | |   
- 11 | `-> Text
- 12 |     </div>
+ 11 | |   Text
+ 12 | `-> </div>
     `----
 
   x Child

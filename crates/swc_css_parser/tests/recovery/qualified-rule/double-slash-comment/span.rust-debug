@@ -1,0 +1,123 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | ,-> // test
+ 2 | |   a {
+ 3 | |       color: red;
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | ,-> // test
+ 2 | |   a {
+ 3 | |       color: red;
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | ,-> // test
+ 2 | |   a {
+ 3 | |       color: red;
+ 4 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | ,-> // test
+ 2 | `-> a {
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   : ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   :   ^
+   `----
+
+  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   :    ^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   :        ^
+ 2 | a {
+   `----
+
+  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
+ 2 | a {
+   :  ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
+ 2 | ,-> a {
+ 3 | |       color: red;
+ 4 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:3:5]
+ 3 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:3:5]
+ 3 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:3:5]
+ 3 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:3:5]
+ 3 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:3:5]
+ 3 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:3:5]
+ 3 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:3:5]
+ 3 | color: red;
+   :        ^^^
+   `----

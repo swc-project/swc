@@ -1,48 +1,48 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
-(function(A1) {
-    var B1;
+(function(A) {
+    var B;
     (function(B) {
-        var x1;
-        B.x = x1;
-    })(B1 = A1.B || (A1.B = {}));
+        var x;
+        B.x = x;
+    })(B = A.B || (A.B = {}));
 })(A || (A = {}));
 (function(A) {
-    var B2;
+    var B;
     (function(B) {
-        var x2;
-        B.x = x2;
-    })(B2 || (B2 = {}));
+        var x;
+        B.x = x;
+    })(B || (B = {}));
 })(A || (A = {}));
 // ensure the right var decl is exported
 var x;
 var x = A.B.x;
 var X;
-(function(X1) {
-    var Y1;
-    (function(Y) {
-        var Z1;
-        (function(Z) {
-            var Line = function Line() {
-                "use strict";
-                _class_call_check(this, Line);
-            };
-            Z.Line = Line;
-        })(Z1 = Y.Z || (Y.Z = {}));
-    })(Y1 = X1.Y || (X1.Y = {}));
-})(X || (X = {}));
-(function(X2) {
+(function(X) {
     var Y;
     (function(Y) {
-        var Z2;
+        var Z;
         (function(Z) {
             var Line = function Line() {
                 "use strict";
                 _class_call_check(this, Line);
             };
             Z.Line = Line;
-        })(Z2 || (Z2 = {}));
-    })(Y = X2.Y || (X2.Y = {}));
+        })(Z = Y.Z || (Y.Z = {}));
+    })(Y = X.Y || (X.Y = {}));
+})(X || (X = {}));
+(function(X) {
+    var Y;
+    (function(Y) {
+        var Z;
+        (function(Z) {
+            var Line = function Line() {
+                "use strict";
+                _class_call_check(this, Line);
+            };
+            Z.Line = Line;
+        })(Z || (Z = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 // make sure merging works as expected
 var l;

@@ -57,6 +57,7 @@ define!({
         pub attributes: Vec<Attribute>,
         pub children: Vec<Child>,
         pub content: Option<DocumentFragment>,
+        pub is_self_closing: bool,
     }
 
     pub struct Attribute {
@@ -69,17 +70,12 @@ define!({
 
     pub struct Text {
         pub span: Span,
-        pub value: JsWord,
+        pub data: JsWord,
     }
 
     pub struct Comment {
         pub span: Span,
         pub data: JsWord,
-    }
-
-    pub struct TokenAndSpan {
-        pub span: Span,
-        pub token: Token,
     }
 });
 

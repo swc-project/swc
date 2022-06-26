@@ -311,11 +311,11 @@ class OtherPerson {
     }
 }
 function path(obj, ...keys) {
-    let result1 = obj;
+    let result = obj;
     for (let k of keys){
-        result1 = result1[k];
+        result = result[k];
     }
-    return result1;
+    return result;
 }
 function f1(thing) {
     let x1 = path(thing, 'a'); // { x: number, y: string }

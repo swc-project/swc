@@ -1,16 +1,16 @@
 var A;
-!function(A1) {
+!function(A) {
     class Point {
     }
-    A1.Origin = {
+    A.Origin = {
         x: 0,
         y: 0
-    }, A1.Point3d = class extends Point {
-    }, A1.Origin3d = {
+    }, A.Point3d = class extends Point {
+    }, A.Origin3d = {
         x: 0,
         y: 0,
         z: 0
-    }, A1.Line = class {
+    }, A.Line = class {
         static fromorigin2d(p) {
             return null;
         }

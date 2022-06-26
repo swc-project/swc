@@ -1,11 +1,11 @@
-function b(a) {
+function a(a) {
     console.log(a);
 }
+function b(b) {
+    return a(b);
+}
 function c(a) {
-    return b(a);
+    b(a);
 }
-function a(a) {
-    c(a);
-}
-a(42);
-a("PASS");
+c(42);
+c("PASS");

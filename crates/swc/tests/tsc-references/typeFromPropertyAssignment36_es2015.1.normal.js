@@ -1,29 +1,29 @@
 // @strict: true
 function f(b) {
-    function d1() {}
-    d1.e = 12;
-    d1.e;
+    function d() {}
+    d.e = 12;
+    d.e;
     if (b) {
-        d1.q = false;
+        d.q = false;
     }
     // error d.q might not be assigned
-    d1.q;
+    d.q;
     if (b) {
-        d1.q = false;
+        d.q = false;
     } else {
-        d1.q = true;
+        d.q = true;
     }
-    d1.q;
+    d.q;
     if (b) {
-        d1.r = 1;
+        d.r = 1;
     } else {
-        d1.r = 2;
+        d.r = 2;
     }
-    d1.r;
+    d.r;
     if (b) {
-        d1.s = 'hi';
+        d.s = 'hi';
     }
-    return d1;
+    return d;
 }
 // OK to access possibly-unassigned properties outside the initialising scope
 var test = f(true).s;

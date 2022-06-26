@@ -1,13 +1,13 @@
-function b(b, c, a) {
-    a.a = b;
-    a.f = c;
-    return a;
+function a(a, b, c) {
+    c.a = a;
+    c.f = b;
+    return c;
 }
-function a(a) {
-    return b(1, a, function(b) {
-        return a(b);
+function b(b) {
+    return a(1, b, function(a) {
+        return b(a);
     });
 }
-var c = a(function(a) {
+var c = b(function(a) {
     return a;
 });

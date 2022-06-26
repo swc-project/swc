@@ -1,0 +1,128 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | ,-> @top-left {
+ 2 | |       content: "foo";
+ 3 | |       color: blue;
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | ,-> @top-left {
+ 2 | |       content: "foo";
+ 3 | |       color: blue;
+ 4 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | ,-> @top-left {
+ 2 | |       content: "foo";
+ 3 | |       color: blue;
+ 4 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | @top-left {
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | @top-left {
+   :  ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | @top-left {
+   :          ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | @top-left {
+   :          ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | ,-> @top-left {
+ 2 | |       content: "foo";
+ 3 | |       color: blue;
+ 4 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   : ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   : ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :          ^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :          ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   : ^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   : ^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :        ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :        ^^^^
+   `----

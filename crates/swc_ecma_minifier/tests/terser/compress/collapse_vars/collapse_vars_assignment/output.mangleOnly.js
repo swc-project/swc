@@ -1,9 +1,9 @@
 function a(a) {
     return console.log(a), a;
 }
-function b(b) {
-    var a = 3 / b;
-    return (a = a);
+function b(a) {
+    var b = 3 / a;
+    return (b = b);
 }
 function c(a) {
     const b = 3 / a;

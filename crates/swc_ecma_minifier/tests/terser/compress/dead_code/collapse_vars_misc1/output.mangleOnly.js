@@ -1,8 +1,8 @@
-function a(c) {
-    var a = 5, b = 3;
-    return (a += b);
+function a(a) {
+    var b = 5, c = 3;
+    return (b += c);
 }
-function b(c) {
-    var a = 5, b = 3;
-    return (a += --b);
+function b(a) {
+    var b = 5, c = 3;
+    return (b += --c);
 }

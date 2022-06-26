@@ -10,16 +10,18 @@ use swc_ecma_utils::{
     StmtLike,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+#[cfg(feature = "debug")]
 use tracing::{span, Level};
 
 use super::{is_pure_undefined, Optimizer};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
 use crate::{
     alias::{collect_infects_from, AliasConfig},
     compress::{
         optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
         util::{is_directive, is_ident_used_by, replace_expr},
     },
-    debug::dump,
     mode::Mode,
     option::CompressOptions,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
@@ -641,7 +643,8 @@ where
 
         exprs.push(buf);
 
-        let _tracing = if cfg!(feature = "debug") {
+        #[cfg(feature = "debug")]
+        let _tracing = {
             let buf_len = exprs.iter().map(|v| v.len()).collect::<Vec<_>>();
             Some(
                 tracing::span!(
@@ -651,8 +654,6 @@ where
                 )
                 .entered(),
             )
-        } else {
-            None
         };
 
         for mut exprs in exprs {
@@ -711,7 +712,8 @@ where
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
 
-        let _tracing = if cfg!(feature = "debug") {
+        #[cfg(feature = "debug")]
+        let _tracing = {
             let e_str = dump(&*e, false);
 
             Some(
@@ -722,8 +724,6 @@ where
                 )
                 .entered(),
             )
-        } else {
-            None
         };
 
         if !self.options.sequences() && !e.span.has_mark(self.marks.synthesized_seq) {
@@ -752,13 +752,12 @@ where
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) -> Result<(), ()> {
-        let _tracing = if cfg!(feature = "debug") {
+        #[cfg(feature = "debug")]
+        let _tracing = {
             Some(
                 tracing::span!(Level::TRACE, "merge_sequences_in_exprs", len = exprs.len())
                     .entered(),
             )
-        } else {
-            None
         };
 
         for idx in 0..exprs.len() {
@@ -1207,7 +1206,8 @@ where
     ///
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
-        let _tracing = if cfg!(feature = "debug") {
+        #[cfg(feature = "debug")]
+        let _tracing = {
             let b_str = dump(&*b, false);
             let a_id = a.id();
 
@@ -1220,8 +1220,6 @@ where
                 )
                 .entered(),
             )
-        } else {
-            None
         };
 
         match a {
@@ -1578,6 +1576,7 @@ where
             _ => {}
         }
 
+        #[cfg(feature = "debug")]
         match a {
             Mergable::Var(a) => {
                 trace_op!(
@@ -1635,7 +1634,7 @@ where
                         let mut v = UsageCounter {
                             expr_usage: Default::default(),
                             pat_usage: Default::default(),
-                            target: &*a_id,
+                            target: a_id,
                             in_lhs: false,
                         };
                         b.visit_with(&mut v);
@@ -1707,7 +1706,7 @@ where
                         let mut v = UsageCounter {
                             expr_usage: Default::default(),
                             pat_usage: Default::default(),
-                            target: &*a_id,
+                            target: a_id,
                             in_lhs: false,
                         };
                         b.visit_with(&mut v);

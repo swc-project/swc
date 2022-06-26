@@ -1,0 +1,22 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat/0/input.html:1:1]
+ 1 | <menuitem>
+   : ^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat/0/input.html:1:1]
+ 1 | <menuitem>
+   : ^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat/0/input.html:1:1]
+ 1 | <menuitem>
+   : ^^^^^^^^^^
+   `----

@@ -1,6 +1,6 @@
-import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
-import _class_static_private_field_spec_set from "@swc/helpers/lib/_class_static_private_field_spec_set.js";
-import _class_static_private_field_update from "@swc/helpers/lib/_class_static_private_field_update.js";
+import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
+import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
+import _class_static_private_field_update from "@swc/helpers/src/_class_static_private_field_update.mjs";
 // @target: es2015
 class C {
     test() {

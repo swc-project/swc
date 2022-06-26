@@ -79,6 +79,37 @@ macro_rules! array {
     };
 }
 
+impl Fixer<'_> {
+    fn visit_call<T: VisitMutWith<Self>>(
+        &mut self,
+        args: &mut Vec<ExprOrSpread>,
+        callee: &mut T,
+    ) -> Context {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        args.visit_mut_with(self);
+        self.ctx = old;
+
+        let old = self.ctx;
+        self.ctx = Context::Callee { is_new: false };
+        callee.visit_mut_with(self);
+
+        old
+    }
+
+    fn wrap_callee(&mut self, e: &mut Expr) {
+        if match e {
+            Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
+            Expr::Cond(..) | Expr::Bin(..) | Expr::Lit(..) | Expr::Unary(..) | Expr::Object(..) => {
+                true
+            }
+            _ => false,
+        } {
+            self.wrap(e)
+        }
+    }
+}
+
 impl VisitMut for Fixer<'_> {
     noop_visit_mut_type!();
 
@@ -328,30 +359,18 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr;
-        node.args.visit_mut_with(self);
-        self.ctx = old;
-
-        let old = self.ctx;
-        self.ctx = Context::Callee { is_new: false };
-        node.callee.visit_mut_with(self);
-        match &mut node.callee {
-            Callee::Expr(e)
-                if match &**e {
-                    Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
-                    Expr::Cond(..)
-                    | Expr::Bin(..)
-                    | Expr::Lit(..)
-                    | Expr::Unary(..)
-                    | Expr::Object(..) => true,
-                    _ => false,
-                } =>
-            {
-                self.wrap(&mut **e);
-            }
-            _ => {}
+        let old = self.visit_call(&mut node.args, &mut node.callee);
+        if let Callee::Expr(e) = &mut node.callee {
+            self.wrap_callee(&mut **e)
         }
+
+        self.ctx = old;
+    }
+
+    fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
+        let old = self.visit_call(&mut node.args, &mut node.callee);
+
+        self.wrap_callee(&mut *node.callee);
 
         self.ctx = old;
     }
@@ -1587,4 +1606,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_2550_2, "({ isNewPrefsActive } && { a: 1 })");
 
     identical!(issue_4761, "x = { ...(0, foo) }");
+
+    identical!(issue_4914, "(a ?? b)?.()");
 }

@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 297,
+        "end": 0,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,20 +33,21 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 18,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 297,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "body",
@@ -60,13 +61,13 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "value": "Text\n"
+              "data": "Text\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 22,
-                "end": 31,
+                "end": 37,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -80,10 +81,11 @@
                     "end": 31,
                     "ctxt": 0
                   },
-                  "value": "Text"
+                  "data": "Text"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -92,13 +94,13 @@
                 "end": 38,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 38,
-                "end": 53,
+                "end": 59,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -112,10 +114,11 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "value": "\n    Text\n"
+                  "data": "\n    Text\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -124,13 +127,13 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 60,
-                "end": 86,
+                "end": 92,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -144,10 +147,11 @@
                     "end": 86,
                     "ctxt": 0
                   },
-                  "value": "\n    Text\n\n\n    Text\n"
+                  "data": "\n    Text\n\n\n    Text\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -156,13 +160,13 @@
                 "end": 93,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 93,
-                "end": 113,
+                "end": 119,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -176,10 +180,11 @@
                     "end": 113,
                     "ctxt": 0
                   },
-                  "value": "Text\n\n\n    Text"
+                  "data": "Text\n\n\n    Text"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -188,13 +193,13 @@
                 "end": 120,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 120,
-                "end": 140,
+                "end": 147,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -221,10 +226,11 @@
                     "end": 140,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -233,13 +239,13 @@
                 "end": 148,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 148,
-                "end": 172,
+                "end": 179,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -266,10 +272,11 @@
                     "end": 172,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -278,13 +285,13 @@
                 "end": 180,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 180,
-                "end": 204,
+                "end": 211,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -311,10 +318,11 @@
                     "end": 204,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -323,13 +331,13 @@
                 "end": 212,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 212,
-                "end": 234,
+                "end": 241,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -356,10 +364,11 @@
                     "end": 234,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -368,13 +377,13 @@
                 "end": 242,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 242,
-                "end": 297,
+                "end": 305,
                 "ctxt": 0
               },
               "tagName": "style",
@@ -388,16 +397,19 @@
                     "end": 297,
                     "ctxt": 0
                   },
-                  "value": "\n\n.color {\n    color: red;\n    <!-- Test -->\n}\n\n"
+                  "data": "\n\n.color {\n    color: red;\n    <!-- Test -->\n}\n\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

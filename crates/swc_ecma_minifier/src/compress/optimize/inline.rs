@@ -6,7 +6,6 @@ use swc_ecma_utils::{find_pat_ids, ExprExt, IdentUsageFinder};
 use super::Optimizer;
 use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
-    debug::dump,
     mode::Mode,
     util::{idents_captured_by, idents_used_by, idents_used_by_ignoring_nested},
 };
@@ -32,7 +31,7 @@ where
 
         trace_op!(
             "inline: store_var_for_inlining({}, should_preserve = {:?})",
-            dump(&var.name, false),
+            crate::debug::dump(&var.name, false),
             should_preserve
         );
 
@@ -66,7 +65,7 @@ where
                 if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
                     log_abort!(
                         "inline: [x] Preserving non-const variable `{}` because it's top-level",
-                        dump(&var.name, false)
+                        crate::debug::dump(&var.name, false)
                     );
                     return;
                 }
@@ -606,6 +605,7 @@ where
                 }
 
                 self.changed = true;
+                #[cfg(feature = "debug")]
                 match &decl {
                     Decl::Class(c) => {
                         report_change!(
@@ -711,7 +711,7 @@ where
 
                 *e = *value;
 
-                log_abort!("inline: [Change] {}", dump(&*e, false))
+                log_abort!("inline: [Change] {}", crate::debug::dump(&*e, false))
             }
         }
     }

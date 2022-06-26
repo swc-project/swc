@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export function a() {}
 export function b() {}
 b.cat = "cat";
@@ -13,15 +13,15 @@ export function d() {
 export function e() {
     return null;
 }
-export function f(a1) {
-    return a1;
+export function f(a) {
+    return a;
 }
-function g(a2, b1) {
-    return a2.x && b1.y();
+function g(a, b) {
+    return a.x && b.y();
 }
 f.self = f;
-function hh(a3, b2) {
-    return a3.x && b2.y();
+function hh(a, b) {
+    return a.x && b.y();
 }
 export function i() {}
 export function j() {}

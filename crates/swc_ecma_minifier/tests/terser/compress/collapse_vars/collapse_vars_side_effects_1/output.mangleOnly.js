@@ -1,35 +1,35 @@
 function a() {
-    var c = 7;
-    var a = "abcdef";
-    var b = 2;
+    var a = 7;
+    var b = "abcdef";
+    var c = 2;
     var d = console.log.bind(console);
-    var e = a.charAt(b++);
-    var f = a.charAt(b++);
-    var g = a.charAt(b++);
-    d(e, f, g, c);
+    var e = b.charAt(c++);
+    var f = b.charAt(c++);
+    var g = b.charAt(c++);
+    d(e, f, g, a);
 }
 function b() {
-    var c = 7;
-    var d = console.log.bind(console);
-    var b = "abcdef";
-    var a = 2;
-    var e = b.charAt(a++);
-    var f = b.charAt(a++);
-    var g = b.charAt(a++);
-    d(e, a, f, g, c);
+    var a = 7;
+    var b = console.log.bind(console);
+    var c = "abcdef";
+    var d = 2;
+    var e = c.charAt(d++);
+    var f = c.charAt(d++);
+    var g = c.charAt(d++);
+    b(e, d, f, g, a);
 }
 function c() {
-    var c = 7;
-    var a = "abcdef";
-    var b = 2;
+    var a = 7;
+    var b = "abcdef";
+    var c = 2;
     var d = console.log.bind(console);
-    var e = a.charAt(b++);
-    var f = a.charAt(b++);
-    var g = a.charAt(b++);
-    d(e, g, f, c);
+    var e = b.charAt(c++);
+    var f = b.charAt(c++);
+    var g = b.charAt(c++);
+    d(e, g, f, a);
 }
 function d() {
-    var b = console.log.bind(console), a = 10, c = (a += 2), d = (a += 3), e = (a += 4);
-    b(c, e, d, a);
+    var a = console.log.bind(console), b = 10, c = (b += 2), d = (b += 3), e = (b += 4);
+    a(c, e, d, b);
 }
 a(), b(), c(), d();

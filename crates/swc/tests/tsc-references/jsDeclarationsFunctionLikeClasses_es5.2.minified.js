@@ -1,4 +1,4 @@
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 export function Point(x, y) {
     if (!_instanceof(this, Point)) return new Point(x, y);
     this.x = x, this.y = y;

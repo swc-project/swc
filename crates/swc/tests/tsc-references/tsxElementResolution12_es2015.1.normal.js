@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 var Obj1;
 /*#__PURE__*/ React.createElement(Obj1, {
     x: 10

@@ -17,10 +17,10 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-function _getPrototypeOf(o1) {
+function _getPrototypeOf(o) {
     return (_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
-    })(o1);
+    })(o);
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
@@ -33,27 +33,27 @@ function _objectSpread(target) {
     }
     return target;
 }
-function _setPrototypeOf(o2, p1) {
+function _setPrototypeOf(o, p) {
     return (_setPrototypeOf = Object.setPrototypeOf || function(o, p) {
         return o.__proto__ = p, o;
-    })(o2, p1);
+    })(o, p);
 }
-var ItemsList = function(Component1) {
+var ItemsList = function(Component) {
     "use strict";
-    var Constructor1, protoProps, staticProps;
-    function ItemsList1() {
-        var _this, self1, call, obj;
+    var Constructor, protoProps, staticProps;
+    function ItemsList() {
+        var _this, self, call, obj;
         return !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, ItemsList1), _this = (self1 = this, call = _getPrototypeOf(ItemsList1).apply(this, arguments), call && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : function(self) {
-            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
+        }(this, ItemsList), _this = (self = this, call = _getPrototypeOf(ItemsList).apply(this, arguments), call && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : function(self) {
+            if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
             return self;
-        }(self1)), _this.storeHighlightedItemReference = function(highlightedItem) {
+        }(self)), _this.storeHighlightedItemReference = function(highlightedItem) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }, _this;
     }
     return !function(subClass, superClass) {
-        if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
         subClass.prototype = Object.create(superClass && superClass.prototype, {
             constructor: {
                 value: subClass,
@@ -61,7 +61,7 @@ var ItemsList = function(Component1) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList1, Component1), Constructor1 = ItemsList1, protoProps = [
+    }(ItemsList, Component), Constructor = ItemsList, protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -97,7 +97,7 @@ var ItemsList = function(Component1) {
                 }));
             }
         }, 
-    ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList1;
+    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ItemsList;
 }(Component);
 ItemsList.propTypes = {
     items: PropTypes.array.isRequired,

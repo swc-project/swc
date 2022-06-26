@@ -207,7 +207,7 @@ pub struct ContinueStatement {
     pub label: Option<Identifier>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct DebuggerStatement {
     #[serde(flatten)]
@@ -223,7 +223,7 @@ pub struct DoWhileStatement {
     pub body: Box<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct EmptyStatement {
     #[serde(flatten)]

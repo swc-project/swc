@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 297,
+        "end": 304,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,10 +80,11 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -92,10 +93,11 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -104,7 +106,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,13 +126,13 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 247,
+                "end": 288,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -154,7 +156,7 @@
                   "type": "Element",
                   "span": {
                     "start": 105,
-                    "end": 247,
+                    "end": 282,
                     "ctxt": 0
                   },
                   "tagName": "template",
@@ -178,7 +180,7 @@
                     "type": "DocumentFragment",
                     "span": {
                       "start": 105,
-                      "end": 247,
+                      "end": 282,
                       "ctxt": 0
                     },
                     "children": [
@@ -186,7 +188,7 @@
                         "type": "Element",
                         "span": {
                           "start": 126,
-                          "end": 247,
+                          "end": 271,
                           "ctxt": 0
                         },
                         "tagName": "div",
@@ -210,7 +212,7 @@
                             "type": "Element",
                             "span": {
                               "start": 189,
-                              "end": 227,
+                              "end": 233,
                               "ctxt": 0
                             },
                             "tagName": "div",
@@ -237,16 +239,17 @@
                                   "end": 227,
                                   "ctxt": 0
                                 },
-                                "value": "Orphan div content"
+                                "data": "Orphan div content"
                               }
                             ],
-                            "content": null
+                            "content": null,
+                            "isSelfClosing": false
                           },
                           {
                             "type": "Element",
                             "span": {
                               "start": 149,
-                              "end": 247,
+                              "end": 265,
                               "ctxt": 0
                             },
                             "tagName": "table",
@@ -270,7 +273,7 @@
                                 "type": "Element",
                                 "span": {
                                   "start": 0,
-                                  "end": 247,
+                                  "end": 0,
                                   "ctxt": 0
                                 },
                                 "tagName": "tbody",
@@ -281,7 +284,7 @@
                                     "type": "Element",
                                     "span": {
                                       "start": 165,
-                                      "end": 179,
+                                      "end": 189,
                                       "ctxt": 0
                                     },
                                     "tagName": "tr",
@@ -292,7 +295,7 @@
                                         "type": "Element",
                                         "span": {
                                           "start": 169,
-                                          "end": 179,
+                                          "end": 184,
                                           "ctxt": 0
                                         },
                                         "tagName": "td",
@@ -306,19 +309,21 @@
                                               "end": 179,
                                               "ctxt": 0
                                             },
-                                            "value": "Cell 1"
+                                            "data": "Cell 1"
                                           }
                                         ],
-                                        "content": null
+                                        "content": null,
+                                        "isSelfClosing": false
                                       }
                                     ],
-                                    "content": null
+                                    "content": null,
+                                    "isSelfClosing": false
                                   },
                                   {
                                     "type": "Element",
                                     "span": {
                                       "start": 233,
-                                      "end": 247,
+                                      "end": 257,
                                       "ctxt": 0
                                     },
                                     "tagName": "tr",
@@ -329,7 +334,7 @@
                                         "type": "Element",
                                         "span": {
                                           "start": 237,
-                                          "end": 247,
+                                          "end": 252,
                                           "ctxt": 0
                                         },
                                         "tagName": "td",
@@ -343,28 +348,35 @@
                                               "end": 247,
                                               "ctxt": 0
                                             },
-                                            "value": "Cell 2"
+                                            "data": "Cell 2"
                                           }
                                         ],
-                                        "content": null
+                                        "content": null,
+                                        "isSelfClosing": false
                                       }
                                     ],
-                                    "content": null
+                                    "content": null,
+                                    "isSelfClosing": false
                                   }
                                 ],
-                                "content": null
+                                "content": null,
+                                "isSelfClosing": false
                               }
                             ],
-                            "content": null
+                            "content": null,
+                            "isSelfClosing": false
                           }
                         ],
-                        "content": null
+                        "content": null,
+                        "isSelfClosing": false
                       }
                     ]
-                  }
+                  },
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -373,13 +385,15 @@
                 "end": 297,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

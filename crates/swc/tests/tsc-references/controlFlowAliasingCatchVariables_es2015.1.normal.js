@@ -9,9 +9,9 @@ try {} catch (e) {
     }
 }
 try {} catch (e1) {
-    const isString = typeof e1 === 'string';
+    const isString1 = typeof e1 === 'string';
     e1 = 1;
-    if (isString) {
+    if (isString1) {
         e1.toUpperCase(); // e any/unknown
     }
     if (typeof e1 === 'string') {

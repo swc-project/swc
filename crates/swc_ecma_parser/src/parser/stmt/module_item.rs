@@ -142,7 +142,8 @@ impl<I: Tokens> Parser<I> {
         let src = {
             expect!(self, "from");
             let str_start = cur_pos!(self);
-            let src = match *cur!(self, true)? {
+
+            match *cur!(self, true)? {
                 Token::Str { .. } => match bump!(self) {
                     Token::Str { value, raw, .. } => Str {
                         span: span!(self, str_start),
@@ -152,8 +153,7 @@ impl<I: Tokens> Parser<I> {
                     _ => unreachable!(),
                 },
                 _ => unexpected!(self, "a string literal"),
-            };
-            src
+            }
         };
 
         let _ = cur!(self, false);

@@ -33,39 +33,39 @@ var A;
     };
 })(A || (A = {}));
 var Y;
-(function(Y1) {
-    class A2 {
+(function(Y) {
+    class A {
     }
-    Y1.A = A2;
+    Y.A = A;
     class AA {
     }
-    Y1.AA = AA;
+    Y.AA = AA;
     class B extends AA {
     }
-    Y1.B = B;
-    class BB extends A2 {
+    Y.B = B;
+    class BB extends A {
     }
-    Y1.BB = BB;
+    Y.BB = BB;
     let Module;
     (function(Module) {
         class A {
         }
-    })(Module = Y1.Module || (Y1.Module = {}));
+    })(Module = Y.Module || (Y.Module = {}));
     let Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color = Y1.Color || (Y1.Color = {}));
-    var x = Y1.x = 12;
+    })(Color = Y.Color || (Y.Color = {}));
+    var x = Y.x = 12;
     function F(s) {
         return 2;
     }
-    Y1.F = F;
-    var array = Y1.array = null;
-    var fn = Y1.fn = (s)=>{
+    Y.F = F;
+    var array = Y.array = null;
+    var fn = Y.fn = (s)=>{
         return 'hello ' + s;
     };
-    var ol = Y1.ol = {
+    var ol = Y.ol = {
         s: 'hello',
         id: 2,
         isvalid: true

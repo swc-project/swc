@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,10 +80,11 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -92,10 +93,11 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -104,7 +106,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,7 +126,7 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Comment",
@@ -142,7 +144,7 @@
                 "end": 99,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Comment",
@@ -157,7 +159,7 @@
               "type": "Element",
               "span": {
                 "start": 111,
-                "end": 119,
+                "end": 125,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -171,10 +173,11 @@
                     "end": 119,
                     "ctxt": 0
                   },
-                  "value": "baz"
+                  "data": "baz"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Comment",
@@ -192,13 +195,13 @@
                 "end": 143,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 143,
-                "end": 168,
+                "end": 177,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -212,10 +215,11 @@
                     "end": 168,
                     "ctxt": 0
                   },
-                  "value": "<!-- alert(1) -->"
+                  "data": "<!-- alert(1) -->"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -224,13 +228,13 @@
                 "end": 178,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 178,
-                "end": 199,
+                "end": 208,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -244,10 +248,11 @@
                     "end": 199,
                     "ctxt": 0
                   },
-                  "value": "alert('<!--')"
+                  "data": "alert('<!--')"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -256,13 +261,13 @@
                 "end": 209,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 209,
-                "end": 238,
+                "end": 247,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -276,10 +281,11 @@
                     "end": 238,
                     "ctxt": 0
                   },
-                  "value": "alert('<!-- foo -->')"
+                  "data": "alert('<!-- foo -->')"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -288,13 +294,13 @@
                 "end": 248,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 248,
-                "end": 268,
+                "end": 277,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -308,10 +314,11 @@
                     "end": 268,
                     "ctxt": 0
                   },
-                  "value": "alert('-->')"
+                  "data": "alert('-->')"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -320,13 +327,15 @@
                 "end": 294,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

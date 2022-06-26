@@ -1,0 +1,136 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | ,-> .a {
+ 2 | |       color: white !!important;
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | ,-> .a {
+ 2 | |       color: white !!important;
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | ,-> .a {
+ 2 | |       color: white !!important;
+ 3 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+   : ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+   : ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+   : ^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+   : ^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+   : ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+   :  ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | ,-> .a {
+ 2 | |       color: white !!important;
+ 3 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :       ^
+   `----
+
+  x Ident { value: Atom('white' type=inline), raw: Atom('white' type=inline) }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :        ^^^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :             ^
+   `----
+
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :              ^
+   `----
+
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :               ^
+   `----
+
+  x Ident { value: Atom('important' type=static), raw: Atom('important' type=static) }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :                ^^^^^^^^^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :                         ^
+   `----

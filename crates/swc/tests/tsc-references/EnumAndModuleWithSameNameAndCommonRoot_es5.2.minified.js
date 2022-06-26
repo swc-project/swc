@@ -1,5 +1,5 @@
 var enumdule;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(enumdule) {
     enumdule[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue";
 }(enumdule || (enumdule = {})), function(enumdule) {

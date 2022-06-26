@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_static_private_method_get from "@swc/helpers/lib/_class_static_private_method_get.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 // @target: es2015
 var X = function X() {
     "use strict";

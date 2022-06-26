@@ -1,8 +1,8 @@
-import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
-import _extends from "@swc/helpers/lib/_extends.js";
-import _class_private_field_destructure from "@swc/helpers/lib/_class_private_field_destructure.js";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _class_private_field_destructure from "@swc/helpers/src/_class_private_field_destructure.mjs";
 var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap();
 new class {
     m() {

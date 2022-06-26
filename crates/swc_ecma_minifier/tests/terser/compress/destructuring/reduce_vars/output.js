@@ -1,11 +1,11 @@
 {
-    const [aa, [bb, cc]] = dd;
+    const [aa, [bb, cc]] = dd2;
 }{
-    let [aa, [bb, cc]] = dd;
-}var [aa, [bb, cc]] = dd;
-[aa, [bb, cc]] = dd;
+    let [aa1, [bb1, cc1]] = dd2;
+}var [aa2, [bb2, cc2]] = dd2;
+[aa2, [bb2, cc2]] = dd2;
 {
-    const { aa: aa , bb: { cc: cc , dd: dd  } ,  } = {
+    const { aa: aa3 , bb: { cc: cc3 , dd: dd  }  } = {
         aa: 1,
         bb: {
             cc: 2,
@@ -13,21 +13,21 @@
         }
     };
 }{
-    let { aa: aa , bb: { cc: cc , dd: dd  } ,  } = {
+    let { aa: aa4 , bb: { cc: cc4 , dd: dd1  }  } = {
         aa: 1,
         bb: {
             cc: 2,
             dd: 3
         }
     };
-}var { aa: aa , bb: { cc: cc , dd: dd  } ,  } = {
+}var { aa: aa2 , bb: { cc: cc2 , dd: dd2  }  } = {
     aa: 1,
     bb: {
         cc: 2,
         dd: 3
     }
 };
-({ aa: aa , bb: { cc: cc , dd: dd  } ,  } = {
+({ aa: aa2 , bb: { cc: cc2 , dd: dd2  }  } = {
     aa: 1,
     bb: {
         cc: 2,

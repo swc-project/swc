@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 // @target: ES5
 // no errors
 var C = /*#__PURE__*/ function() {
@@ -7,11 +7,11 @@ var C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
-    var _proto1 = C.prototype;
-    _proto1.foo = function foo() {
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
         return this.foo;
     };
-    _proto1.bar = function bar() {
+    _proto.bar = function bar() {
         var C2 = /*#__PURE__*/ function() {
             function C2() {
                 _class_call_check(this, C2);

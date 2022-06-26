@@ -14,7 +14,7 @@
   x End tag with attributes
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
  8 | <div></div class="test" class="test-1" class="test-2">
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                      ^
    `----
 
   x Duplicate attribute
@@ -32,7 +32,7 @@
   x End tag with trailing solidus
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:9:1]
  9 | </div/>
-   : ^^^^^^^
+   :       ^
    `----
 
   x Stray end tag "div"

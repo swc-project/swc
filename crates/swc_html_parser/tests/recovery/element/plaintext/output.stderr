@@ -6,3 +6,7 @@
    `----
 
   x End of file seen and there were open elements
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:33:1]
+ 33 | </html>
+    :        ^
+    `----

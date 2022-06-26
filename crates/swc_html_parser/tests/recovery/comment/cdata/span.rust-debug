@@ -135,8 +135,8 @@
  10 | |               document.getElementById("pdf-object").src="http://www.w3.org/TR/xhtml1/xhtml1.pdf";
  11 | |           }
  12 | |           ]]>
- 13 | `->     </script>
- 14 |     </head>
+ 13 | |       </script>
+ 14 | `-> </head>
     `----
 
   x Element
@@ -149,8 +149,8 @@
  10 | |               document.getElementById("pdf-object").src="http://www.w3.org/TR/xhtml1/xhtml1.pdf";
  11 | |           }
  12 | |           ]]>
- 13 | `->     </script>
- 14 |     </head>
+ 13 | |       </script>
+ 14 | `-> </head>
     `----
 
   x Child
@@ -168,13 +168,13 @@
   x Child
    ,-[$DIR/tests/recovery/comment/cdata/input.html:6:5]
  6 | <title>XHTML 1.0 Strict Example</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/comment/cdata/input.html:6:5]
  6 | <title>XHTML 1.0 Strict Example</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -346,8 +346,8 @@
  22 | |               type="application/pdf"
  23 | |               data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
  24 | |               width="100%"
- 25 | `->             height="500"></object>
- 26 |     </p>
+ 25 | |               height="500"></object>
+ 26 | `-> </p>
     `----
 
   x Element
@@ -361,8 +361,8 @@
  22 | |               type="application/pdf"
  23 | |               data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
  24 | |               width="100%"
- 25 | `->             height="500"></object>
- 26 |     </p>
+ 25 | |               height="500"></object>
+ 26 | `-> </p>
     `----
 
   x Child
@@ -380,13 +380,13 @@
   x Child
     ,-[$DIR/tests/recovery/comment/cdata/input.html:17:5]
  17 | <abbr title="Extensible HyperText Markup Language">XHTML</abbr> 1.0 Strict document.<br />
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/comment/cdata/input.html:17:5]
  17 | <abbr title="Extensible HyperText Markup Language">XHTML</abbr> 1.0 Strict document.<br />
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

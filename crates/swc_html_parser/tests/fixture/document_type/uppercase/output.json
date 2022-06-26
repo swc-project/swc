@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 72,
+            "end": 79,
             "ctxt": 0
           },
           "tagName": "head",
@@ -47,13 +47,13 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 35,
-                "end": 63,
+                "end": 71,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -67,10 +67,11 @@
                     "end": 63,
                     "ctxt": 0
                   },
-                  "value": "Title of the document"
+                  "data": "Title of the document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -79,10 +80,11 @@
                 "end": 72,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -91,7 +93,7 @@
             "end": 81,
             "ctxt": 0
           },
-          "value": "\n\n"
+          "data": "\n\n"
         },
         {
           "type": "Element",
@@ -111,13 +113,15 @@
                 "end": 139,
                 "ctxt": 0
               },
-              "value": "\nThe content of the document......\n\n\n\n"
+              "data": "\nThe content of the document......\n\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

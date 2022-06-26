@@ -1,4 +1,4 @@
-import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
+import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
         "abc"

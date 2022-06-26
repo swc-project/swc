@@ -1,4 +1,4 @@
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 // @target: es5, es2015, es2018
 // @noTypesAndSymbols: true
 let a, b, c = {

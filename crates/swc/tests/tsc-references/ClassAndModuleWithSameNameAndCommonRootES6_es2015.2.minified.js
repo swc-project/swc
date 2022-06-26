@@ -1,14 +1,14 @@
 var X;
-!function(X1) {
-    (X1.Y || (X1.Y = {})).Point = class {
+!function(X) {
+    (X.Y || (X.Y = {})).Point = class {
         constructor(x, y){
             this.x = x, this.y = y;
         }
     };
-}(X || (X = {})), function(X2) {
+}(X || (X = {})), function(X) {
     var Y;
     let Point;
-    (Point = (Y = X2.Y || (X2.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
+    (Point = (Y = X.Y || (X.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
 }(X || (X = {})), new X.Y.Point(1, 1), X.Y.Point.Origin;
 class A {
 }

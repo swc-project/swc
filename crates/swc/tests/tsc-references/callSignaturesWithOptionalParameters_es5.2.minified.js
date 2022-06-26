@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function foo(x) {}
 var c, i, a, f = function(x) {}, f2 = function(x, y) {};
 foo(1), foo(), f(1), f(), f2(1), f2(1, 2);

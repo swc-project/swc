@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var _app, x, Outer = null != Outer ? Outer : {};
 Outer.app = null !== (_app = Outer.app) && void 0 !== _app ? _app : {}, Outer.app.SomeView = function() {}, Outer.app.Inner = function _class() {
     "use strict";

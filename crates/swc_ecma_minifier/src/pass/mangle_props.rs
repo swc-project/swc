@@ -4,7 +4,7 @@ use once_cell::sync::Lazy;
 use swc_atoms::{js_word, JsWord};
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::{
-    CallExpr, Callee, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, Module, Prop,
+    CallExpr, Callee, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -96,7 +96,7 @@ impl ManglePropertiesState {
     }
 }
 
-pub(crate) fn mangle_properties(m: &mut Module, options: ManglePropertiesOptions) {
+pub(crate) fn mangle_properties(m: &mut Program, options: ManglePropertiesOptions) {
     let mut state = ManglePropertiesState {
         options,
         ..Default::default()

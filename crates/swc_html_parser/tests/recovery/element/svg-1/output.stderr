@@ -6,3 +6,7 @@
    `----
 
   x End of file seen and there were open elements
+   ,-[$DIR/tests/recovery/element/svg-1/input.html:2:1]
+ 2 | bar]]>
+   :       ^
+   `----

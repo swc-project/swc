@@ -1,16 +1,16 @@
-let b = "PASS";
-function c() {
-    return b;
+let a = "PASS";
+function b() {
+    return a;
 }
-function d() {
-    b = {
+function c() {
+    a = {
         value: 42
     };
 }
-function a() {
+function d() {
     if (typeof somethingElse == "undefined") {
-        const a = c();
+        const a = b();
         console.log(a);
     }
 }
-a();
+d();

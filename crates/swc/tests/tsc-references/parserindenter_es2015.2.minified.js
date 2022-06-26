@@ -1,5 +1,5 @@
 var Formatting;
-!function(Formatting1) {
+!function(Formatting) {
     class Indenter {
         GetIndentationEdits(token, nextToken, node, sameLineIndent) {
             this.logger.information() && this.logger.log("GetIndentationEdits(t1=[" + token.Span.startPosition() + "," + token.Span.endPosition() + "], t2=[" + (null == nextToken ? "null" : nextToken.Span.startPosition() + "," + nextToken.Span.endPosition()) + "])");
@@ -257,5 +257,5 @@ var Formatting;
             this.logger = logger, this.tree = tree, this.snapshot = snapshot, this.languageHostIndentation = languageHostIndentation, this.editorOptions = editorOptions, this.firstToken = firstToken, this.smartIndent = smartIndent, this.indentationBag = new IndentationBag(this.snapshot), this.scriptBlockBeginLineNumber = -1, this.offsetIndentationDeltas = new Dictionary_int_int(), this.tree.Root.SetIndentationOverride(""), this.ApplyScriptBlockIndentation(this.languageHostIndentation, this.tree), this.FillInheritedIndentation(this.tree);
         }
     }
-    Formatting1.Indenter = Indenter;
+    Formatting.Indenter = Indenter;
 }(Formatting || (Formatting = {}));

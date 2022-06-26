@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // classes do not permit optional parameters, these are errors
 var C = /*#__PURE__*/ function() {
     "use strict";

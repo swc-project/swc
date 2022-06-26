@@ -1,0 +1,54 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   :  ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   :         ^^^^^^^
+   `----
+
+  x Ident { value: Atom('foo-bar' type=inline), raw: Atom('foo-bar' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
+ 1 | @import foo-bar;
+   :         ^^^^^^^
+   `----

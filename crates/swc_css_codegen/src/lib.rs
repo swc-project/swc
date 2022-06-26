@@ -19,7 +19,7 @@ mod emit;
 mod list;
 pub mod writer;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Default, Clone, Copy)]
 pub struct CodegenConfig {
     pub minify: bool,
 }

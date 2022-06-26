@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var ref, ref1, /*a1*/ ref2, /*b1*/ ref3;
 // @target: es2015, esnext
 var Foo = /*#__PURE__*/ function() {

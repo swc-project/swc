@@ -1,7 +1,7 @@
 export default function(value, options) {
     try {
         if ("string" == typeof value && value.length > 0) return function(str) {
-            if ((str = String(str)).length > 100) throw new Error("Value exceeds the maximum length of 100 characters.");
+            if ((str = String(str)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
             const match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
             if (!match) return NaN;
             const n = parseFloat(match[1]), type = (match[2] || "ms").toLowerCase();
@@ -45,14 +45,14 @@ export default function(value, options) {
                 case "ms":
                     return n;
                 default:
-                    throw new Error(`The unit ${type} was matched, but no matching case exists.`);
+                    throw Error(`The unit ${type} was matched, but no matching case exists.`);
             }
         }(value);
         if ("number" == typeof value && isFinite(value)) return options?.long ? fmtLong(value) : fmtShort(value);
-        throw new Error("Value is not a string or number.");
+        throw Error("Value is not a string or number.");
     } catch (error) {
         const message = isError(error) ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.";
-        throw new Error(message);
+        throw Error(message);
     }
 };
 function fmtShort(ms) {

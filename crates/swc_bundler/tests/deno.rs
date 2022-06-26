@@ -1053,7 +1053,7 @@ fn bundle(url: &str, minify: bool) -> String {
                 module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
                 module = swc_ecma_minifier::optimize(
-                    module,
+                    module.into(),
                     cm.clone(),
                     None,
                     None,
@@ -1069,7 +1069,8 @@ fn bundle(url: &str, minify: bool) -> String {
                         unresolved_mark,
                         top_level_mark,
                     },
-                );
+                )
+                .expect_module();
                 module.visit_mut_with(&mut fixer(None));
             }
 

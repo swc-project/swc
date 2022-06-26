@@ -111,13 +111,13 @@
   x Child
    ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
  5 | <p>This is a paragraph.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
  5 | <p>This is a paragraph.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -179,13 +179,13 @@
   x Child
     ,-[$DIR/tests/fixture/comment/multiline/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/comment/multiline/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

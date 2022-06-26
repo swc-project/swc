@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "lints": {
+            "default-case-last": [
+                "error"
+            ]
+        }
+    }
+}

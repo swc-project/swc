@@ -42,7 +42,7 @@ pub enum JSX {
     ClosingFragment(JSXClosingFragment),
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde]
 pub enum JSXAttrName {
     #[tag("JSXIdentifier")]
@@ -96,7 +96,7 @@ pub struct JSXElement {
     pub self_closing: Option<bool>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("JSXEmptyExpression")]
 pub struct JSXEmptyExpression {
     #[serde(flatten)]
@@ -128,7 +128,7 @@ pub struct JSXSpreadChild {
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("JSXIdentifier")]
 pub struct JSXIdentifier {
     #[serde(flatten)]
@@ -164,7 +164,7 @@ pub struct JSXMemberExpression {
     pub property: JSXIdentifier,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("JSXNamespacedName")]
 pub struct JSXNamespacedName {
     #[serde(flatten)]
@@ -214,7 +214,7 @@ pub struct JSXSpreadAttribute {
 //     }
 // }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("JSXText")]
 pub struct JSXText {
     #[serde(flatten)]
@@ -233,14 +233,14 @@ pub struct JSXFragment {
     pub children: Vec<JSXElementChild>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("JSXOpeningFragment")]
 pub struct JSXOpeningFragment {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("JSXClosingElement")]
 pub struct JSXClosingFragment {
     #[serde(flatten)]

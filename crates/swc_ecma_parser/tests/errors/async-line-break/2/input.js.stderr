@@ -1,0 +1,6 @@
+
+  x Expected ident
+   ,-[$DIR/tests/errors/async-line-break/2/input.js:2:1]
+ 2 | function() {
+   :         ^
+   `----

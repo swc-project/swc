@@ -56,7 +56,7 @@ impl NoLoopFunc {
         let mut names = self
             .current_fn_unsafe_vars
             .iter()
-            .map(|js_word| (&*js_word) as &str)
+            .map(|js_word| js_word as &str)
             .collect::<Vec<&str>>();
 
         let message = if names.len() == 1 {

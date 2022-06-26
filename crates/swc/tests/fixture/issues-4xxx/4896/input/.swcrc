@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false
+        },
+        "target": "es2021",
+        "loose": false
+    },
+    "module": {
+        "type": "amd",
+        "noInterop": true
+    }
+}

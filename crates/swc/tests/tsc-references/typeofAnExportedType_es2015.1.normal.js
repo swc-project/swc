@@ -16,11 +16,11 @@ var i2;
 export var r5;
 export var r5;
 export var M;
-(function(M1) {
-    var foo = M1.foo = '';
-    class C1 {
+(function(M) {
+    var foo = M.foo = '';
+    class C {
     }
-    M1.C = C1;
+    M.C = C;
 })(M || (M = {}));
 export var r6;
 export var r7;
@@ -35,10 +35,10 @@ export var r10;
 export var r11;
 export var r12;
 export function foo() {}
-(function(foo1) {
-    var y = foo1.y = 1;
-    class C2 {
+(function(foo) {
+    var y = foo.y = 1;
+    class C {
     }
-    foo1.C = C2;
+    foo.C = C;
 })(foo || (foo = {}));
 export var r13;

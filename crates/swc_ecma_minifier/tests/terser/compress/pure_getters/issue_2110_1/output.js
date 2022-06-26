@@ -1,8 +1,7 @@
 function f() {
-    function f1() {
-    }
-    return f1.g = function() {
+    function f() {}
+    return f.g = function() {
         return this;
-    }, f1.g();
+    }, f.g();
 }
 console.log(typeof f());

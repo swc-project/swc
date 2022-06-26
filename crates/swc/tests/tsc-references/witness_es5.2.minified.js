@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var co2, cnd1, or1, or2, or3, and1, and3, propAcc1, M2, InitClass = function() {
     "use strict";
     function InitClass() {

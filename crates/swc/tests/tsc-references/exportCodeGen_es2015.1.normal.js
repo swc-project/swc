@@ -1,8 +1,8 @@
 // should replace all refs to 'x' in the body,
 // with fully qualified
 var A;
-(function(A1) {
-    var x = A1.x = 12;
+(function(A) {
+    var x = A.x = 12;
     function lt12() {
         return x < 12;
     }
@@ -24,28 +24,28 @@ var C;
 })(C || (C = {}));
 // copies, since exported
 var D;
-(function(D1) {
+(function(D) {
     function yes() {
         return true;
     }
-    D1.yes = yes;
+    D.yes = yes;
 })(D || (D = {}));
 // validate all exportable statements
 var E;
-(function(E1) {
+(function(E) {
     let Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
-    })(Color = E1.Color || (E1.Color = {}));
+    })(Color = E.Color || (E.Color = {}));
     function fn() {}
-    E1.fn = fn;
-    class C1 {
+    E.fn = fn;
+    class C {
     }
-    E1.C = C1;
-    let M1;
+    E.C = C;
+    let M;
     (function(M) {
         var x = M.x = 42;
-    })(M1 = E1.M || (E1.M = {}));
+    })(M = E.M || (E.M = {}));
 })(E || (E = {}));
 // validate all exportable statements,
 // which are not exported

@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 let obj2;
 _extends({}, obj2), _extends({
     yy: 1000

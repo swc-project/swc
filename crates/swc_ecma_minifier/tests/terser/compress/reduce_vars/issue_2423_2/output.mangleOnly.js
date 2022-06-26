@@ -1,8 +1,8 @@
-function b() {
+function a() {
     return 1;
 }
-function a() {
-    console.log(b());
+function b() {
+    console.log(a());
 }
-a();
-a();
+b();
+b();

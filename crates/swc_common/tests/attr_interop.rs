@@ -1,5 +1,3 @@
-#![allow(clippy::derive_partial_eq_without_eq)]
-
 //! Test that `#[span]` and `#[fold]` can be used at same time.
 use serde::{self, Deserialize, Serialize};
 use swc_common::{self, ast_node, Span, Spanned};
@@ -15,7 +13,7 @@ pub struct Class {
 #[ast_node("Tuple")]
 pub struct Tuple(#[span] HasSpan, usize, usize);
 
-#[derive(Debug, Clone, PartialEq, Spanned, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Spanned, Serialize, Deserialize)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)

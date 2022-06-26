@@ -1,0 +1,102 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :  ^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                               ^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                               ^^^^^^^^^^^^^
+   `----
+
+  x MediaCondition
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                               ^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionAllType
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                               ^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                               ^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                               ^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                               ^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                                ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                                ^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                                       ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                                       ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
+ 1 | @media (update: slow) unknown (hover: none) {}
+   :                                             ^^
+   `----

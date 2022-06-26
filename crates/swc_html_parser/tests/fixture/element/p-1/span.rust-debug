@@ -91,13 +91,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
  5 | <p>This is a paragraph.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
  5 | <p>This is a paragraph.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -129,13 +129,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/p-1/input.html:6:1]
  6 | <p>This is another paragraph.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/p-1/input.html:6:1]
  6 | <p>This is another paragraph.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

@@ -1,3 +1,4 @@
+#![deny(warnings)]
 #![allow(clippy::unused_unit)]
 
 use std::sync::Arc;
@@ -5,15 +6,15 @@ use std::sync::Arc;
 use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use swc::{
-    config::{JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
+    config::{ErrorFormat, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
 use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
-fn convert_err(err: Error) -> JsValue {
-    format!("{:?}", err).into()
+fn convert_err(err: Error, error_format: ErrorFormat) -> JsValue {
+    error_format.format(&err).into()
 }
 
 #[wasm_bindgen(js_name = "minifySync")]
@@ -40,7 +41,7 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
 
 #[wasm_bindgen(js_name = "parseSync")]
@@ -82,7 +83,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
 
 #[wasm_bindgen(js_name = "printSync")]
@@ -125,7 +126,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
 
 #[wasm_bindgen(typescript_custom_section)]
@@ -201,6 +202,13 @@ pub fn transform_sync(
         }
     }
 
+    let opts: Options = opts
+        .into_serde()
+        .context("failed to parse options")
+        .map_err(|e| convert_err(e, ErrorFormat::Normal))?;
+
+    let error_format = opts.experimental.error_format.unwrap_or_default();
+
     try_with_handler(
         c.cm.clone(),
         swc::HandlerOpts {
@@ -208,8 +216,6 @@ pub fn transform_sync(
         },
         |handler| {
             c.run(|| {
-                let opts: Options = opts.into_serde().context("failed to parse options")?;
-
                 let fm = c.cm.new_source_file(
                     if opts.filename.is_empty() {
                         FileName::Anon
@@ -226,7 +232,7 @@ pub fn transform_sync(
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, error_format))
 }
 
 /// Get global sourcemap

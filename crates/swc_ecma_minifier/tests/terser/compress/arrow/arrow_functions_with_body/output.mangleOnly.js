@@ -18,9 +18,9 @@ var e = (a, b)=>{
     var c = a * b + a / b;
     return c;
 };
-var f = (d, ...b)=>{
-    var c = d;
-    for(var a = 0; a < b.length; a++)c += b[a];
+var f = (a, ...b)=>{
+    var c = a;
+    for(var d = 0; d < b.length; d++)c += b[d];
     return c;
 };
 var g = (...a)=>{

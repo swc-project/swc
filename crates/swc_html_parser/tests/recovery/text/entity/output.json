@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 1612,
+    "end": 1841,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 1612,
+        "end": 1841,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,20 +33,21 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 1612,
+            "end": 1841,
             "ctxt": 0
           },
           "tagName": "body",
@@ -60,13 +61,13 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 32,
-                "end": 55,
+                "end": 60,
                 "ctxt": 0
               },
               "tagName": "h1",
@@ -80,10 +81,11 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "value": "HTML Entity Example"
+                  "data": "HTML Entity Example"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -92,13 +94,13 @@
                 "end": 62,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 62,
-                "end": 71,
+                "end": 77,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -112,10 +114,11 @@
                     "end": 71,
                     "ctxt": 0
                   },
-                  "value": "®"
+                  "data": "®"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -124,13 +127,13 @@
                 "end": 78,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 78,
-                "end": 86,
+                "end": 92,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -144,10 +147,11 @@
                     "end": 86,
                     "ctxt": 0
                   },
-                  "value": "reg"
+                  "data": "reg"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -156,13 +160,13 @@
                 "end": 94,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 94,
-                "end": 103,
+                "end": 109,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -176,10 +180,11 @@
                     "end": 103,
                     "ctxt": 0
                   },
-                  "value": "&#q;"
+                  "data": "&#q;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -188,13 +193,13 @@
                 "end": 110,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 110,
-                "end": 120,
+                "end": 126,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -208,10 +213,11 @@
                     "end": 120,
                     "ctxt": 0
                   },
-                  "value": "&#qq;"
+                  "data": "&#qq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -220,13 +226,13 @@
                 "end": 127,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 127,
-                "end": 138,
+                "end": 144,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -240,10 +246,11 @@
                     "end": 138,
                     "ctxt": 0
                   },
-                  "value": "&#qqq;"
+                  "data": "&#qqq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -252,13 +259,13 @@
                 "end": 146,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 146,
-                "end": 156,
+                "end": 162,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -272,10 +279,11 @@
                     "end": 156,
                     "ctxt": 0
                   },
-                  "value": "&#xq;"
+                  "data": "&#xq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -284,13 +292,13 @@
                 "end": 163,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 163,
-                "end": 174,
+                "end": 180,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -304,10 +312,11 @@
                     "end": 174,
                     "ctxt": 0
                   },
-                  "value": "&#xqq;"
+                  "data": "&#xqq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -316,13 +325,13 @@
                 "end": 181,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 181,
-                "end": 193,
+                "end": 199,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -336,10 +345,11 @@
                     "end": 193,
                     "ctxt": 0
                   },
-                  "value": "&#xqqq;"
+                  "data": "&#xqqq;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -348,13 +358,13 @@
                 "end": 201,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 201,
-                "end": 1552,
+                "end": 1558,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -368,25 +378,280 @@
                     "end": 1552,
                     "ctxt": 0
                   },
-                  "value": "\n    €  0x20AC  EURO SIGN (€)\n    ‚  0x201A  SINGLE LOW-9 QUOTATION MARK (‚)\n    ƒ  0x0192  LATIN SMALL LETTER F WITH HOOK (ƒ)\n    „  0x201E  DOUBLE LOW-9 QUOTATION MARK („)\n    …  0x2026  HORIZONTAL ELLIPSIS (…)\n    †  0x2020  DAGGER (†)\n    ‡  0x2021  DOUBLE DAGGER (‡)\n    ˆ  0x02C6  MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)\n    ‰  0x2030  PER MILLE SIGN (‰)\n    Š  0x0160  LATIN CAPITAL LETTER S WITH CARON (Š)\n    ‹  0x2039  SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)\n    Œ  0x0152  LATIN CAPITAL LIGATURE OE (Œ)\n    Ž  0x017D  LATIN CAPITAL LETTER Z WITH CARON (Ž)\n    ‘  0x2018  LEFT SINGLE QUOTATION MARK (‘)\n    ’  0x2019  RIGHT SINGLE QUOTATION MARK (’)\n    “  0x201C  LEFT DOUBLE QUOTATION MARK (“)\n    ”  0x201D  RIGHT DOUBLE QUOTATION MARK (”)\n    •  0x2022  BULLET (•)\n    –  0x2013  EN DASH (–)\n    —  0x2014  EM DASH (—)\n    ˜  0x02DC  SMALL TILDE (˜)\n    ™  0x2122  TRADE MARK SIGN (™)\n    š  0x0161  LATIN SMALL LETTER S WITH CARON (š)\n    ›  0x203A  SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)\n    œ  0x0153  LATIN SMALL LIGATURE OE (œ)\n    ž  0x017E  LATIN SMALL LETTER Z WITH CARON (ž)\n    Ÿ  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)\n"
+                  "data": "\n    €  0x20AC  EURO SIGN (€)\n    ‚  0x201A  SINGLE LOW-9 QUOTATION MARK (‚)\n    ƒ  0x0192  LATIN SMALL LETTER F WITH HOOK (ƒ)\n    „  0x201E  DOUBLE LOW-9 QUOTATION MARK („)\n    …  0x2026  HORIZONTAL ELLIPSIS (…)\n    †  0x2020  DAGGER (†)\n    ‡  0x2021  DOUBLE DAGGER (‡)\n    ˆ  0x02C6  MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)\n    ‰  0x2030  PER MILLE SIGN (‰)\n    Š  0x0160  LATIN CAPITAL LETTER S WITH CARON (Š)\n    ‹  0x2039  SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)\n    Œ  0x0152  LATIN CAPITAL LIGATURE OE (Œ)\n    Ž  0x017D  LATIN CAPITAL LETTER Z WITH CARON (Ž)\n    ‘  0x2018  LEFT SINGLE QUOTATION MARK (‘)\n    ’  0x2019  RIGHT SINGLE QUOTATION MARK (’)\n    “  0x201C  LEFT DOUBLE QUOTATION MARK (“)\n    ”  0x201D  RIGHT DOUBLE QUOTATION MARK (”)\n    •  0x2022  BULLET (•)\n    –  0x2013  EN DASH (–)\n    —  0x2014  EM DASH (—)\n    ˜  0x02DC  SMALL TILDE (˜)\n    ™  0x2122  TRADE MARK SIGN (™)\n    š  0x0161  LATIN SMALL LETTER S WITH CARON (š)\n    ›  0x203A  SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)\n    œ  0x0153  LATIN SMALL LIGATURE OE (œ)\n    ž  0x017E  LATIN SMALL LETTER Z WITH CARON (ž)\n    Ÿ  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
               "span": {
                 "start": 1558,
-                "end": 1612,
+                "end": 1595,
                 "ctxt": 0
               },
-              "value": "\n\nFOOºR\nFOO䆺R\nFOOAZOO\n\n\n\n\n"
+              "data": "\n\nFOOºR\nFOO䆺R\nFOOAZOO\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1595,
+                "end": 1627,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 1600,
+                    "end": 1620,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "data-test",
+                  "value": "&ampamp;"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1627,
+                "end": 1628,
+                "ctxt": 0
+              },
+              "data": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1628,
+                "end": 1659,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 1633,
+                    "end": 1652,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "data-test",
+                  "value": "&ampamp"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1659,
+                "end": 1660,
+                "ctxt": 0
+              },
+              "data": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1660,
+                "end": 1693,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 1665,
+                    "end": 1686,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "data-test",
+                  "value": "&amp;"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1693,
+                "end": 1694,
+                "ctxt": 0
+              },
+              "data": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1694,
+                "end": 1726,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 1699,
+                    "end": 1719,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "data-test",
+                  "value": "&amp"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1726,
+                "end": 1727,
+                "ctxt": 0
+              },
+              "data": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1727,
+                "end": 1759,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 1732,
+                    "end": 1752,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "data-test",
+                  "value": "&#36"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1759,
+                "end": 1760,
+                "ctxt": 0
+              },
+              "data": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1760,
+                "end": 1793,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 1765,
+                    "end": 1786,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "data-test",
+                  "value": "&#x36"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1793,
+                "end": 1794,
+                "ctxt": 0
+              },
+              "data": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1794,
+                "end": 1823,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 1799,
+                    "end": 1816,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "data-test",
+                  "value": "6"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1823,
+                "end": 1841,
+                "ctxt": 0
+              },
+              "data": "\n\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

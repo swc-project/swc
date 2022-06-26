@@ -1,4 +1,4 @@
-(function d(a, b, c) {
-    console.log(a, b, c);
-    if (a) d(a - 1, b, c);
+(function a(b, c, d) {
+    console.log(b, c, d);
+    if (b) a(b - 1, c, d);
 })(3, 4, 5);

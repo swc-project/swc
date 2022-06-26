@@ -1,11 +1,11 @@
-function b(a) {
+function a(a) {
     console.log(a);
 }
-function c() {
-    return b;
+function b() {
+    return a;
 }
-function a() {
-    if (d !== (d = c())) {
+function c() {
+    if (d !== (d = b())) {
         d(1);
     } else {
         d(2);
@@ -14,5 +14,5 @@ function a() {
 var d = function() {
     console.log("init");
 };
-a();
-a();
+c();
+c();

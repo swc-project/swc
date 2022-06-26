@@ -1,19 +1,19 @@
 (function() {
-    class c {
+    class a {
         data() {
             return 123;
         }
     }
-    function b(a) {
+    function b(b) {
         return [
-            a || c
+            b || a
         ].concat([
             2
         ]);
     }
-    var a = [
+    var c = [
         b(),
         b()
     ];
-    console.log(a[0][0] === a[1][0], new a[0][0]().data());
+    console.log(c[0][0] === c[1][0], new c[0][0]().data());
 })();

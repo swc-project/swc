@@ -1,90 +1,108 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:1
-  |
-1 | a { value: @\,x }
-  | ^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:1
-  |
-1 | a { value: @\,x }
-  | ^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^^^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:1
-  |
-1 | a { value: @\,x }
-  | ^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:1
-  |
-1 | a { value: @\,x }
-  | ^
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:1
-  |
-1 | a { value: @\,x }
-  | ^
+  x SelectorList
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:1
-  |
-1 | a { value: @\,x }
-  | ^
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:1
-  |
-1 | a { value: @\,x }
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:1
-  |
-1 | a { value: @\,x }
-  | ^
+  x TypeSelector
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^
+   `----
 
-error: Block
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:3
-  |
-1 | a { value: @\,x }
-  |   ^^^^^^^^^^^^^^^
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^
+   `----
 
-error: Tokens
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:5
-  |
-1 | a { value: @\,x }
-  |     ^^^^^^^^^^^^
+  x WqName
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^
+   `----
 
-error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:5
-  |
-1 | a { value: @\,x }
-  |     ^^^^^
+  x Ident
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   : ^
+   `----
 
-error: Colon
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:10
-  |
-1 | a { value: @\,x }
-  |          ^
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   :   ^^^^^^^^^^^^^^^
+   `----
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:11
-  |
-1 | a { value: @\,x }
-  |           ^
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   :     ^^^^^^^^^^^
+   `----
 
-error: AtKeyword { value: Atom(',x' type=inline), raw: Atom('\,x' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:12
-  |
-1 | a { value: @\,x }
-  |            ^^^^
+  x StyleBlock
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   :     ^^^^^^^^^^^
+   `----
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/xVqT8wNU4CEhaDlbLxGyaw/input.css:1:16
-  |
-1 | a { value: @\,x }
-  |                ^
+  x Declaration
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   :     ^^^^^^^^^^^
+   `----
 
+  x DeclarationName
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   :     ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   :     ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   :            ^^^^
+   `----
+
+  x AtKeyword { value: Atom(',x' type=inline), raw: Atom('\,x' type=inline) }
+   ,-[$DIR/tests/recovery/value/at-keyword/2/input.css:1:1]
+ 1 | a { value: @\,x }
+   :            ^^^^
+   `----

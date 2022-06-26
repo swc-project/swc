@@ -31,7 +31,7 @@ impl QuotesType {
 
 pub fn resolve_string_quote_type(lit_str: &Str) -> Option<QuotesType> {
     lit_str.raw.as_ref().and_then(|raw| {
-        let byte = (&*raw).as_bytes()[0];
+        let byte = raw.as_bytes()[0];
 
         match byte {
             b'\'' => Some(QuotesType::Single),

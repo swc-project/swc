@@ -6,7 +6,7 @@ function f10(x) {
     if (isString) {
         let t = x;
     } else {
-        let t = x;
+        let t1 = x;
     }
 }
 function f11(x) {
@@ -21,7 +21,7 @@ function f12(x) {
     if (isString || isNumber) {
         let t = x;
     } else {
-        let t = x;
+        let t1 = x;
     }
 }
 function f13(x) {
@@ -31,92 +31,92 @@ function f13(x) {
     if (isStringOrNumber) {
         let t = x;
     } else {
-        let t = x;
+        let t1 = x;
     }
 }
 function f14(x) {
     const notUndefined = x !== undefined;
     return notUndefined ? x : 0;
 }
-function f15(obj1) {
-    const isString = typeof obj1.x === 'string';
+function f15(obj) {
+    const isString = typeof obj.x === 'string';
     if (isString) {
-        let s = obj1.x;
+        let s = obj.x;
     }
 }
-function f16(obj2) {
-    const isString = typeof obj2.x === 'string';
-    obj2 = {
+function f16(obj) {
+    const isString = typeof obj.x === 'string';
+    obj = {
         x: 42
     };
     if (isString) {
-        let s = obj2.x; // Not narrowed because of is assigned in function body
+        let s = obj.x; // Not narrowed because of is assigned in function body
     }
 }
-function f17(obj3) {
-    const isString = typeof obj3[0] === 'string';
+function f17(obj) {
+    const isString = typeof obj[0] === 'string';
     if (isString) {
-        let s = obj3[0];
+        let s = obj[0];
     }
 }
-function f18(obj4) {
-    const isString = typeof obj4[0] === 'string';
-    obj4 = [
+function f18(obj) {
+    const isString = typeof obj[0] === 'string';
+    obj = [
         42
     ];
     if (isString) {
-        let s = obj4[0]; // Not narrowed because of is assigned in function body
+        let s = obj[0]; // Not narrowed because of is assigned in function body
     }
 }
-function f20(obj5) {
-    const isFoo = obj5.kind === 'foo';
+function f20(obj) {
+    const isFoo = obj.kind === 'foo';
     if (isFoo) {
-        obj5.foo;
+        obj.foo;
     } else {
-        obj5.bar;
+        obj.bar;
     }
 }
-function f21(obj6) {
-    const isFoo = obj6.kind === 'foo';
+function f21(obj) {
+    const isFoo = obj.kind === 'foo';
     if (isFoo) {
-        obj6.foo; // Not narrowed because isFoo has type annotation
+        obj.foo; // Not narrowed because isFoo has type annotation
     } else {
-        obj6.bar; // Not narrowed because isFoo has type annotation
+        obj.bar; // Not narrowed because isFoo has type annotation
     }
 }
-function f22(obj7) {
-    let isFoo = obj7.kind === 'foo';
+function f22(obj) {
+    let isFoo = obj.kind === 'foo';
     if (isFoo) {
-        obj7.foo; // Not narrowed because isFoo is mutable
+        obj.foo; // Not narrowed because isFoo is mutable
     } else {
-        obj7.bar; // Not narrowed because isFoo is mutable
+        obj.bar; // Not narrowed because isFoo is mutable
     }
 }
-function f23(obj8) {
-    const isFoo = obj8.kind === 'foo';
-    obj8 = obj8;
+function f23(obj) {
+    const isFoo = obj.kind === 'foo';
+    obj = obj;
     if (isFoo) {
-        obj8.foo; // Not narrowed because obj is assigned in function body
+        obj.foo; // Not narrowed because obj is assigned in function body
     } else {
-        obj8.bar; // Not narrowed because obj is assigned in function body
+        obj.bar; // Not narrowed because obj is assigned in function body
     }
 }
 function f24(arg) {
-    const obj9 = arg;
-    const isFoo = obj9.kind === 'foo';
+    const obj = arg;
+    const isFoo = obj.kind === 'foo';
     if (isFoo) {
-        obj9.foo;
+        obj.foo;
     } else {
-        obj9.bar;
+        obj.bar;
     }
 }
 function f25(arg) {
-    let obj10 = arg;
-    const isFoo = obj10.kind === 'foo';
+    let obj = arg;
+    const isFoo = obj.kind === 'foo';
     if (isFoo) {
-        obj10.foo; // Not narrowed because obj is mutable
+        obj.foo; // Not narrowed because obj is mutable
     } else {
-        obj10.bar; // Not narrowed because obj is mutable
+        obj.bar; // Not narrowed because obj is mutable
     }
 }
 function f26(outer) {
@@ -135,49 +135,49 @@ function f27(outer) {
         outer.obj.bar; // Not narrowed because obj is mutable
     }
 }
-function f28(obj11) {
-    const isFoo = obj11 && obj11.kind === 'foo';
-    const isBar = obj11 && obj11.kind === 'bar';
+function f28(obj) {
+    const isFoo = obj && obj.kind === 'foo';
+    const isBar = obj && obj.kind === 'bar';
     if (isFoo) {
-        obj11.foo;
+        obj.foo;
     }
     if (isBar) {
-        obj11.bar;
+        obj.bar;
     }
 }
 // Narrowing by aliased discriminant property access
-function f30(obj12) {
-    const kind = obj12.kind;
+function f30(obj) {
+    const kind = obj.kind;
     if (kind === 'foo') {
-        obj12.foo;
+        obj.foo;
     } else {
-        obj12.bar;
+        obj.bar;
     }
 }
-function f31(obj13) {
-    const { kind  } = obj13;
+function f31(obj) {
+    const { kind  } = obj;
     if (kind === 'foo') {
-        obj13.foo;
+        obj.foo;
     } else {
-        obj13.bar;
+        obj.bar;
     }
 }
-function f32(obj14) {
-    const { kind: k  } = obj14;
+function f32(obj) {
+    const { kind: k  } = obj;
     if (k === 'foo') {
-        obj14.foo;
+        obj.foo;
     } else {
-        obj14.bar;
+        obj.bar;
     }
 }
-function f33(obj15) {
-    const { kind  } = obj15;
+function f33(obj) {
+    const { kind  } = obj;
     switch(kind){
         case 'foo':
-            obj15.foo;
+            obj.foo;
             break;
         case 'bar':
-            obj15.bar;
+            obj.bar;
             break;
     }
 }
@@ -210,25 +210,25 @@ class C11 {
     }
 }
 // Mixing of aliased discriminants and conditionals
-function f40(obj16) {
-    const { kind  } = obj16;
+function f40(obj) {
+    const { kind  } = obj;
     const isFoo = kind == 'foo';
-    if (isFoo && obj16.foo) {
-        let t = obj16.foo;
+    if (isFoo && obj.foo) {
+        let t = obj.foo;
     }
 }
-function gg2(obj17) {
-    if (obj17.kind === 'str') {
-        let t = obj17.payload;
+function gg2(obj) {
+    if (obj.kind === 'str') {
+        let t = obj.payload;
     } else {
-        let t = obj17.payload;
+        let t1 = obj.payload;
     }
 }
 function foo({ kind , payload  }) {
     if (kind === 'str') {
         let t = payload;
     } else {
-        let t = payload;
+        let t1 = payload;
     }
 }
 // Repro from #45830

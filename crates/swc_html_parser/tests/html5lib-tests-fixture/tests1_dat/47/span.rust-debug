@@ -1,0 +1,22 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/47/input.html:1:1]
+ 1 | <!COM--MENT>
+   : ^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/47/input.html:1:1]
+ 1 | <!COM--MENT>
+   : ^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/47/input.html:1:1]
+ 1 | <!COM--MENT>
+   : ^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element

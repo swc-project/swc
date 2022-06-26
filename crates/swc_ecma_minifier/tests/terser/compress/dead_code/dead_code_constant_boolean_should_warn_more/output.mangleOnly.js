@@ -1,11 +1,11 @@
-while(!((b && c) || a + "0")){
+while(!((a && b) || c + "0")){
     console.log("unreachable");
-    var b;
-    function c() {}
+    var a;
+    function b() {}
 }
-for(var a = 10, d; a && (d || a) && !typeof a; ++a){
+for(var c = 10, d; c && (d || c) && !typeof c; ++c){
     asdf();
-    b();
+    a();
     var e;
 }
-c();
+b();

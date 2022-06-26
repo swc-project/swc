@@ -1,7 +1,7 @@
 var a = "PASS";
 (function() {
-    var b = 42;
-    for(var a = 5; a > 0;)a--;
+    var a = 42;
+    for(var b = 5; b > 0;)b--;
     c = "FAIL";
     var c;
 })();

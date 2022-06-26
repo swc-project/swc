@@ -192,12 +192,10 @@ impl<V> Repeated for Folder<V>
 where
     V: Repeated + VisitMut,
 {
-    #[inline(always)]
     fn changed(&self) -> bool {
         self.0.changed()
     }
 
-    #[inline(always)]
     fn reset(&mut self) {
         self.0.reset();
     }
@@ -214,7 +212,6 @@ where
 
 macro_rules! delegate {
     ($name:ident, $T:ty) => {
-        #[inline(always)]
         fn $name(&mut self, n: &mut $T) {
             n.visit_mut_with(&mut self.0);
         }
@@ -249,7 +246,6 @@ where
 
 macro_rules! method {
     ($name:ident, $T:ty) => {
-        #[inline(always)]
         fn $name(&mut self, mut n: $T) -> $T {
             n.visit_mut_with(&mut self.0);
             n
@@ -295,7 +291,6 @@ where
 #[macro_export]
 macro_rules! noop_fold_type {
     ($name:ident, $N:tt) => {
-        #[inline]
         fn $name(&mut self, node: $crate::swc_ecma_ast::$N) -> $crate::swc_ecma_ast::$N {
             node
         }
@@ -372,7 +367,6 @@ macro_rules! noop_fold_type {
 #[macro_export]
 macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
-        #[inline]
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {}
     };
     () => {
@@ -434,7 +428,6 @@ macro_rules! noop_visit_type {
 #[macro_export]
 macro_rules! noop_visit_mut_type {
     ($name:ident, $N:ident) => {
-        #[inline]
         fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {}
     };
     () => {

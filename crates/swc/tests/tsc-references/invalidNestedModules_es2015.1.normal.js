@@ -1,36 +1,36 @@
 var A;
-(function(A1) {
-    let B1;
+(function(A) {
+    let B;
     (function(B) {
-        let C1;
+        let C;
         (function(C) {
             class Point {
             }
             C.Point = Point;
-        })(C1 = B.C || (B.C = {}));
-    })(B1 = A1.B || (A1.B = {}));
+        })(C = B.C || (B.C = {}));
+    })(B = A.B || (A.B = {}));
 })(A || (A = {}));
-(function(A2) {
-    let B2;
+(function(A) {
+    let B;
     (function(B) {
         class C {
         }
         B.C = C;
-    })(B2 = A2.B || (A2.B = {}));
+    })(B = A.B || (A.B = {}));
 })(A || (A = {}));
 var M2;
-(function(M21) {
-    let X1;
+(function(M2) {
+    let X;
     (function(X) {
         class Point {
         }
         X.Point = Point;
-    })(X1 = M21.X || (M21.X = {}));
+    })(X = M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));
-(function(M22) {
-    let X2;
+(function(M2) {
+    let X;
     (function(X) {
         var Point;
         X.Point = Point;
-    })(X2 = M22.X || (M22.X = {}));
+    })(X = M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));

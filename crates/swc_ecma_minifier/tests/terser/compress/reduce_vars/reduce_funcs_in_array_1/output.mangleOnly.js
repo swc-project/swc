@@ -1,17 +1,17 @@
 (function() {
-    function c() {
+    function a() {
         return 123;
     }
     function b() {
         return [
-            c
+            a
         ].concat([
             2
         ]);
     }
-    var a = [
+    var c = [
         b(),
         b()
     ];
-    console.log(a[0][0] === a[1][0], a[0][0]());
+    console.log(c[0][0] === c[1][0], c[0][0]());
 })();

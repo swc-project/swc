@@ -4,3 +4,9 @@
  2 | prop: "string
    :              ^
    `----
+
+  x Unterminated string
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:3]
+ 2 | prop: "string
+   :              ^
+   `----

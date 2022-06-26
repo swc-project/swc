@@ -1,0 +1,3 @@
+{
+  "preserveComments": ["^!", "^\\s+ko", "\/ko\\s+$"]
+}

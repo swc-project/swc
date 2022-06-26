@@ -22,9 +22,9 @@ for(var x in 42 ? c : d){}
 for(var x in '' ? c : d){}
 for(var x in 42 ? d[x] : c[x]){}
 for(var x in c[d]){}
-for(var x in (x1)=>x1){}
-for(var x in function(x2, y) {
-    return x2 + y;
+for(var x in (x)=>x){}
+for(var x in function(x, y) {
+    return x + y;
 }){}
 class A {
     biz() {
@@ -53,10 +53,10 @@ class B extends A {
 var i;
 for(var x in i[42]){}
 var M;
-(function(M1) {
+(function(M) {
     class X {
     }
-    M1.X = X;
+    M.X = X;
 })(M || (M = {}));
 for(var x in M){}
 for(var x in M.X){}

@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Generics, B = function() {
     "use strict";
     _class_call_check(this, B);
@@ -7,12 +7,12 @@ var Generics, B = function() {
     _class_call_check(this, B2);
 };
 !function(Generics) {
-    var B1 = function() {
+    var B = function() {
         "use strict";
-        _class_call_check(this, B1);
-    }, B21 = function() {
+        _class_call_check(this, B);
+    }, B2 = function() {
         "use strict";
-        _class_call_check(this, B21);
+        _class_call_check(this, B2);
     }, B3 = function() {
         "use strict";
         _class_call_check(this, B3);

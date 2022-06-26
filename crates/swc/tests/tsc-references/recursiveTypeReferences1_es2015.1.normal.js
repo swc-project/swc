@@ -230,8 +230,8 @@ function parse(node, index = []) {
         ]);
     }));
 }
-function cons(hs1) {
-    return hs1.reduce((hss, h)=>{
+function cons(hs) {
+    return hs.reduce((hss, h)=>{
         const hs = hss.pop();
         return hs.length === 0 || level(h) > level(hs[0]) ? concat(hss, [
             concat(hs, [

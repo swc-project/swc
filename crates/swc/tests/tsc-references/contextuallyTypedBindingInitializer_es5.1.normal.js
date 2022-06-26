@@ -4,14 +4,14 @@ function f(param) {
     } : _show;
 }
 function f2(param) {
-    var tmp1 = param["show"], showRename = tmp1 === void 0 ? function(v) {
+    var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
         return v.toString();
-    } : tmp1;
+    } : tmp;
 }
 function f3(param) {
-    var tmp2 = param["show"], showRename = tmp2 === void 0 ? function(v) {
+    var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
         return v.toString();
-    } : tmp2;
+    } : tmp;
 }
 function ff(param) {
     var _nested = param.nested, nested = _nested === void 0 ? {

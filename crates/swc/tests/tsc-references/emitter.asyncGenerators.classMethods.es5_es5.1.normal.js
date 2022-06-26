@@ -1,12 +1,12 @@
-import _async_generator_delegate from "@swc/helpers/lib/_async_generator_delegate.js";
-import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
-import _await_async_generator from "@swc/helpers/lib/_await_async_generator.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 // @target: es5
 // @lib: esnext
@@ -117,12 +117,12 @@ var C5 = /*#__PURE__*/ function() {
     }
     var _proto = C5.prototype;
     _proto.f = function f() {
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee1() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
-            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
-                while(1)switch(_ctx1.prev = _ctx1.next){
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return _ctx1.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+                        return _ctx.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -135,12 +135,12 @@ var C5 = /*#__PURE__*/ function() {
                             }, _callee);
                         }))()), _await_async_generator), "t0", 1);
                     case 1:
-                        x = _ctx1.t0;
+                        x = _ctx.t0;
                     case 2:
                     case "end":
-                        return _ctx1.stop();
+                        return _ctx.stop();
                 }
-            }, _callee1);
+            }, _callee);
         }))();
     };
     return C5;

@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
 }(E || (E = {}));
@@ -31,7 +31,7 @@ g1(1), g2(1, 1), g2(1, 2), g3(1, "two"), g4(1), g5(1, 2), g6([
 var aa = [
     0
 ];
-aa = function(a1, x) {
-    var result = a1.slice();
+aa = function(a, x) {
+    var result = a.slice();
     return result.push(1), result;
 }(aa, 1);

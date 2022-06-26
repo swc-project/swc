@@ -60,7 +60,7 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-var load = __swcpack_require__.bind(void 0, function(module, exports1) {
+var load = __swcpack_require__.bind(void 0, function(module, exports) {
     /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -87,7 +87,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
         try {
             // IE 8 has a broken Object.defineProperty that only works on DOM objects.
             define({}, "");
-        } catch (err1) {
+        } catch (err) {
             define = function(obj, key, value) {
                 return obj[key] = value;
             };
@@ -199,13 +199,13 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
                 if (record.type === "throw") reject(record.arg);
                 else {
                     var result = record.arg;
-                    var value1 = result.value;
-                    if (value1 && typeof value1 === "object" && hasOwn.call(value1, "__await")) return PromiseImpl.resolve(value1.__await).then(function(value) {
+                    var value = result.value;
+                    if (value && typeof value === "object" && hasOwn.call(value, "__await")) return PromiseImpl.resolve(value.__await).then(function(value) {
                         invoke("next", value, resolve, reject);
                     }, function(err) {
                         invoke("throw", err, resolve, reject);
                     });
-                    return PromiseImpl.resolve(value1).then(function(unwrapped) {
+                    return PromiseImpl.resolve(value).then(function(unwrapped) {
                         // When a yielded Promise is resolved, its final value becomes
                         // the .value of the Promise<{value,done}> result for the
                         // current iteration.
@@ -423,7 +423,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
         }
         exports.keys = function(object) {
             var keys = [];
-            for(var key1 in object)keys.push(key1);
+            for(var key in object)keys.push(key);
             keys.reverse();
             // Rather than returning an object with a next method, we keep
             // things simple and return the next function itself.
@@ -449,7 +449,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
                 if (iteratorMethod) return iteratorMethod.call(iterable);
                 if (typeof iterable.next === "function") return iterable;
                 if (!isNaN(iterable.length)) {
-                    var i = -1, next1 = function next() {
+                    var i = -1, next = function next() {
                         while(++i < iterable.length)if (hasOwn.call(iterable, i)) {
                             next.value = iterable[i];
                             next.done = false;
@@ -459,7 +459,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
                         next.done = true;
                         return next;
                     };
-                    return next1.next = next1;
+                    return next.next = next;
                 }
             }
             // Return an iterator with no values.

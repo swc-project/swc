@@ -1,17 +1,17 @@
 var A, X;
-!function(A1) {
+!function(A) {
     var x;
-    (A1.B || (A1.B = {})).x = x;
+    (A.B || (A.B = {})).x = x;
 }(A || (A = {})), function(A) {
     var x;
     let B;
     (B || (B = {})).x = x;
-}(A || (A = {})), A.B.x, function(X1) {
+}(A || (A = {})), A.B.x, function(X) {
     var Y;
-    ((Y = X1.Y || (X1.Y = {})).Z || (Y.Z = {})).Line = class {
+    ((Y = X.Y || (X.Y = {})).Z || (Y.Z = {})).Line = class {
     };
-}(X || (X = {})), function(X2) {
+}(X || (X = {})), function(X) {
     let Z;
-    X2.Y || (X2.Y = {}), (Z || (Z = {})).Line = class {
+    X.Y || (X.Y = {}), (Z || (Z = {})).Line = class {
     };
 }(X || (X = {}));

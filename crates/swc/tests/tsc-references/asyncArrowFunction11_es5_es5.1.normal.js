@@ -1,6 +1,6 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _define_property from "@swc/helpers/lib/_define_property.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 // @target: es5
 // @lib: esnext, dom

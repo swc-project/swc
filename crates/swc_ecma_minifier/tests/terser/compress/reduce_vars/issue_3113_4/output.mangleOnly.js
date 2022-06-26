@@ -1,6 +1,6 @@
-var a = 0, c = 0;
-function b() {
-    c += a;
+var a = 0, b = 0;
+function c() {
+    b += a;
 }
-b(b(), ++a);
-console.log(a, c);
+c(c(), ++a);
+console.log(a, b);

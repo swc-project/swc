@@ -1,24 +1,24 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var B;
-(function(B1) {
+(function(B) {
     var Line = function Line(start, end) {
         "use strict";
         _class_call_check(this, Line);
         this.start = start;
         this.end = end;
     };
-    B1.Line = Line;
+    B.Line = Line;
 })(B || (B = {}));
 var Geometry;
-(function(Geometry1) {
+(function(Geometry) {
     var Points = A;
-    Geometry1.Points = Points;
+    Geometry.Points = Points;
     var Lines = B;
-    var Origin = Geometry1.Origin = {
+    var Origin = Geometry.Origin = {
         x: 0,
         y: 0
     };
-    var Unit = Geometry1.Unit = new Lines.Line(Origin, {
+    var Unit = Geometry.Unit = new Lines.Line(Origin, {
         x: 1,
         y: 0
     });

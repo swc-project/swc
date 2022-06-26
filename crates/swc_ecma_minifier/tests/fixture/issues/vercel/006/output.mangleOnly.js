@@ -1,13 +1,13 @@
-import { jsx as c, jsxs as d, Fragment as e } from "react/jsx-runtime";
-import * as b from "react";
-import f from "invariant";
-import { injectScript as g } from "./utils/injectscript";
-import { preventGoogleFonts as h } from "./utils/prevent-google-fonts";
-import { isBrowser as i } from "./utils/isbrowser";
-import { makeLoadScriptUrl as j } from "./utils/make-load-script-url";
-let k = false;
+import { jsx as a, jsxs as b, Fragment as c } from "react/jsx-runtime";
+import * as d from "react";
+import e from "invariant";
+import { injectScript as f } from "./utils/injectscript";
+import { preventGoogleFonts as g } from "./utils/prevent-google-fonts";
+import { isBrowser as h } from "./utils/isbrowser";
+import { makeLoadScriptUrl as i } from "./utils/make-load-script-url";
+let j = false;
 export function DefaultLoadingElement() {
-    return c("div", {
+    return a("div", {
         children: `Loading...`
     });
 }
@@ -15,15 +15,15 @@ export const defaultLoadScriptProps = {
     id: "script-loader",
     version: "weekly"
 };
-class a extends b.PureComponent {
+class k extends d.PureComponent {
     componentDidMount() {
-        if (i) {
-            if (window.google && window.google.maps && !k) {
+        if (h) {
+            if (window.google && window.google.maps && !j) {
                 console.error("google api is already presented");
                 return;
             }
-            this.isCleaningUp().then(this.injectScript).catch(function b(a) {
-                console.error("Error at injecting script after cleaning up: ", a);
+            this.isCleaningUp().then(this.injectScript).catch(function a(b) {
+                console.error("Error at injecting script after cleaning up: ", b);
             });
         }
     }
@@ -31,7 +31,7 @@ class a extends b.PureComponent {
         if (this.props.libraries !== a.libraries) {
             console.warn("Performance warning! LoadScript has been reloaded unintentionally! You should not pass `libraries` prop as new array. Please keep an array of libraries as static class property for Components and PureComponents, or just a const variable outside of component, or somewhere in config files or ENV variables");
         }
-        if (i && a.language !== this.props.language) {
+        if (h && a.language !== this.props.language) {
             this.cleanup();
             this.setState(function a() {
                 return {
@@ -41,12 +41,12 @@ class a extends b.PureComponent {
         }
     }
     componentWillUnmount() {
-        if (i) {
+        if (h) {
             this.cleanup();
             const a = ()=>{
                 if (!this.check.current) {
                     delete window.google;
-                    k = false;
+                    j = false;
                 }
             };
             window.setTimeout(a, 1);
@@ -56,18 +56,18 @@ class a extends b.PureComponent {
         }
     }
     render() {
-        return d(e, {
+        return b(c, {
             children: [
-                c("div", {
+                a("div", {
                     ref: this.check
                 }),
-                this.state.loaded ? this.props.children : this.props.loadingElement || c(DefaultLoadingElement, {}), 
+                this.state.loaded ? this.props.children : this.props.loadingElement || a(DefaultLoadingElement, {}), 
             ]
         });
     }
     constructor(...a){
         super(...a);
-        this.check = b.createRef();
+        this.check = d.createRef();
         this.state = {
             loaded: false
         };
@@ -77,12 +77,12 @@ class a extends b.PureComponent {
         };
         this.isCleaningUp = async ()=>{
             function a(a) {
-                if (!k) {
+                if (!j) {
                     a();
                 } else {
-                    if (i) {
+                    if (h) {
                         const b = window.setInterval(function c() {
-                            if (!k) {
+                            if (!j) {
                                 window.clearInterval(b);
                                 a();
                             }
@@ -94,44 +94,44 @@ class a extends b.PureComponent {
             return new Promise(a);
         };
         this.cleanup = ()=>{
-            k = true;
+            j = true;
             const a = document.getElementById(this.props.id);
             if (a && a.parentNode) {
                 a.parentNode.removeChild(a);
             }
-            Array.prototype.slice.call(document.getElementsByTagName("script")).filter(function b(a) {
-                return (typeof a.src === "string" && a.src.includes("maps.googleapis"));
-            }).forEach(function b(a) {
-                if (a.parentNode) {
-                    a.parentNode.removeChild(a);
+            Array.prototype.slice.call(document.getElementsByTagName("script")).filter(function a(b) {
+                return (typeof b.src === "string" && b.src.includes("maps.googleapis"));
+            }).forEach(function a(b) {
+                if (b.parentNode) {
+                    b.parentNode.removeChild(b);
                 }
             });
-            Array.prototype.slice.call(document.getElementsByTagName("link")).filter(function b(a) {
-                return (a.href === "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans");
-            }).forEach(function b(a) {
-                if (a.parentNode) {
-                    a.parentNode.removeChild(a);
+            Array.prototype.slice.call(document.getElementsByTagName("link")).filter(function a(b) {
+                return (b.href === "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans");
+            }).forEach(function a(b) {
+                if (b.parentNode) {
+                    b.parentNode.removeChild(b);
                 }
             });
-            Array.prototype.slice.call(document.getElementsByTagName("style")).filter(function b(a) {
-                return (a.innerText !== undefined && a.innerText.length > 0 && a.innerText.includes(".gm-"));
-            }).forEach(function b(a) {
-                if (a.parentNode) {
-                    a.parentNode.removeChild(a);
+            Array.prototype.slice.call(document.getElementsByTagName("style")).filter(function a(b) {
+                return (b.innerText !== undefined && b.innerText.length > 0 && b.innerText.includes(".gm-"));
+            }).forEach(function a(b) {
+                if (b.parentNode) {
+                    b.parentNode.removeChild(b);
                 }
             });
         };
         this.injectScript = ()=>{
             if (this.props.preventGoogleFontsLoading) {
-                h();
+                g();
             }
-            f(!!this.props.id, 'LoadScript requires "id" prop to be a string: %s', this.props.id);
+            e(!!this.props.id, 'LoadScript requires "id" prop to be a string: %s', this.props.id);
             const a = {
                 id: this.props.id,
                 nonce: this.props.nonce,
-                url: j(this.props)
+                url: i(this.props)
             };
-            g(a).then(()=>{
+            f(a).then(()=>{
                 if (this.props.onLoad) {
                     this.props.onLoad();
                 }
@@ -153,5 +153,5 @@ class a extends b.PureComponent {
         };
     }
 }
-a.defaultProps = defaultLoadScriptProps;
-export default a;
+k.defaultProps = defaultLoadScriptProps;
+export default k;

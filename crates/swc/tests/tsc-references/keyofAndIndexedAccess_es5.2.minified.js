@@ -1,12 +1,12 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var E, Flag, Shape = function() {
     "use strict";
     _class_call_check(this, Shape);
-}, TaggedShape = function(Shape1) {
+}, TaggedShape = function(Shape) {
     "use strict";
-    _inherits(TaggedShape, Shape1);
+    _inherits(TaggedShape, Shape);
     var _super = _create_super(TaggedShape);
     function TaggedShape() {
         return _class_call_check(this, TaggedShape), _super.apply(this, arguments);
@@ -101,9 +101,9 @@ one(function() {}), on({
 var A = function() {
     "use strict";
     _class_call_check(this, A);
-}, B = function(A1) {
+}, B = function(A) {
     "use strict";
-    _inherits(B, A1);
+    _inherits(B, A);
     var _super = _create_super(B);
     function B() {
         return _class_call_check(this, B), _super.apply(this, arguments);
@@ -122,9 +122,9 @@ var A = function() {
 }(), SampleClass = function(props) {
     "use strict";
     _class_call_check(this, SampleClass), this.props = Object.freeze(props);
-}, AnotherSampleClass = function(SampleClass1) {
+}, AnotherSampleClass = function(SampleClass) {
     "use strict";
-    _inherits(AnotherSampleClass, SampleClass1);
+    _inherits(AnotherSampleClass, SampleClass);
     var _super = _create_super(AnotherSampleClass);
     function AnotherSampleClass(props) {
         return _class_call_check(this, AnotherSampleClass), _super.call(this, merge(props, {

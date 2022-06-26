@@ -2,14 +2,10 @@ use std::time::Instant;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::{
-    pass::{CompilerPass, Repeated},
-    util::take::Take,
-    Mark, Span, Spanned, DUMMY_SP,
-};
+use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
 pub(crate) mod sort;
@@ -139,7 +135,6 @@ pub(crate) trait ExprOptExt: Sized {
         }
     }
 
-    #[inline]
     fn prepend_exprs(&mut self, mut exprs: Vec<Box<Expr>>) {
         if exprs.is_empty() {
             return;
@@ -164,24 +159,20 @@ pub(crate) trait ExprOptExt: Sized {
 }
 
 impl ExprOptExt for Box<Expr> {
-    #[inline]
     fn as_expr(&self) -> &Expr {
         self
     }
 
-    #[inline]
     fn as_mut(&mut self) -> &mut Expr {
         self
     }
 }
 
 impl ExprOptExt for Expr {
-    #[inline]
     fn as_expr(&self) -> &Expr {
         self
     }
 
-    #[inline]
     fn as_mut(&mut self) -> &mut Expr {
         self
     }
@@ -279,14 +270,12 @@ pub(crate) trait IsModuleItem {
 }
 
 impl IsModuleItem for Stmt {
-    #[inline]
     fn is_module_item() -> bool {
         false
     }
 }
 
 impl IsModuleItem for ModuleItem {
-    #[inline]
     fn is_module_item() -> bool {
         true
     }
@@ -302,59 +291,6 @@ pub trait ValueExt<T>: Into<Value<T>> {
 }
 
 impl<T> ValueExt<T> for Value<T> {}
-
-/// TODO(kdy1): Modify swc_visit.
-/// Actually we should implement `swc_visit::Repeated` for
-/// `swc_visit::Optional`. But I'm too lazy to bump versions.
-pub(crate) struct Optional<V> {
-    pub enabled: bool,
-    pub visitor: V,
-}
-
-impl<V> Repeated for Optional<V>
-where
-    V: Repeated,
-{
-    #[inline]
-    fn changed(&self) -> bool {
-        if self.enabled {
-            return false;
-        }
-
-        self.visitor.changed()
-    }
-
-    #[inline]
-    fn reset(&mut self) {
-        if self.enabled {
-            return;
-        }
-
-        self.visitor.reset()
-    }
-}
-
-impl<V> CompilerPass for Optional<V>
-where
-    V: CompilerPass,
-{
-    fn name() -> std::borrow::Cow<'static, str> {
-        V::name()
-    }
-}
-
-impl<V> Fold for Optional<V>
-where
-    V: Fold,
-{
-    #[inline(always)]
-    fn fold_module(&mut self, module: Module) -> Module {
-        if !self.enabled {
-            return module;
-        }
-        module.fold_with(&mut self.visitor)
-    }
-}
 
 pub struct DeepThisExprVisitor {
     found: bool,
@@ -548,9 +484,12 @@ pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
 }
 
 pub fn now() -> Option<Instant> {
-    if cfg!(target_arch = "wasm32") {
+    #[cfg(target_arch = "wasm32")]
+    {
         None
-    } else {
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    {
         Some(Instant::now())
     }
 }
@@ -591,4 +530,98 @@ impl Visit for EvalFinder {
             s.visit_children_with(self);
         }
     }
+}
+
+#[macro_export(local_inner_macros)]
+#[allow(clippy::crate_in_macro_def)]
+macro_rules! maybe_par {
+  ($prefix:ident.$name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $prefix.$name.len() >= $threshold {
+          use rayon::prelude::*;
+          $prefix.$name.par_iter().$operator($($rest)*)
+      } else {
+          $prefix.$name.iter().$operator($($rest)*)
+      }
+  };
+
+  ($prefix:ident.$name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $prefix.$name.len() >= $threshold {
+          use rayon::prelude::*;
+          $prefix.$name.into_par_iter().$operator($($rest)*)
+      } else {
+          $prefix.$name.into_iter().$operator($($rest)*)
+      }
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter().$operator($($rest)*)
+      } else {
+          $name.iter().$operator($($rest)*)
+      }
+  };
+
+  ($name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.into_par_iter().$operator($($rest)*)
+      } else {
+          $name.into_iter().$operator($($rest)*)
+      }
+  };
+
+  ($name:ident.iter_mut().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter_mut().$operator($($rest)*)
+      } else {
+          $name.iter_mut().$operator($($rest)*)
+      }
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter().$operator($($rest)*).$operator2($($rest2)*)
+      } else {
+          $name.iter().$operator($($rest)*).$operator2($($rest2)*)
+      }
+  };
+
+  ($name:ident.into_iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.into_par_iter().$operator($($rest)*).$operator2($($rest2)*)
+      } else {
+          $name.into_iter().$operator($($rest)*).$operator2($($rest2)*)
+      }
+  };
+
+  ($name:ident.iter_mut().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter_mut().$operator($($rest)*).$operator2($($rest2)*)
+      } else {
+          $name.iter_mut().$operator($($rest)*).$operator2($($rest2)*)
+      }
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident::<$t:ty>($($rest2:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
+      } else {
+          $name.iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
+      }
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*).$operator3:ident($($rest3:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
+      } else {
+          $name.iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
+      }
+  };
 }

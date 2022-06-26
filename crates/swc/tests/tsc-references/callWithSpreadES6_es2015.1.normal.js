@@ -22,9 +22,9 @@ xa[1].foo(...[
 ]);
 class C {
     foo(x, y, ...z) {}
-    constructor(x, y, ...z1){
+    constructor(x, y, ...z){
         this.foo(x, y);
-        this.foo(x, y, ...z1);
+        this.foo(x, y, ...z);
     }
 }
 class D extends C {

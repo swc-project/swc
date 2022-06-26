@@ -1,12 +1,12 @@
-const { a: d , b: a , d: e = new Object(1)  } = {
+const { a: a , b: b , d: c = new Object(1)  } = {
     b: 7
 };
-let { e: b , f: f , h: g = new Object(2)  } = {
+let { e: d , f: e , h: f = new Object(2)  } = {
     e: 8
 };
-var { w: h , x: i , z: c = new Object(3)  } = {
+var { w: g , x: h , z: i = new Object(3)  } = {
     w: 4,
     x: 5,
     y: 6
 };
-console.log(a, b, c + 0);
+console.log(b, d, i + 0);

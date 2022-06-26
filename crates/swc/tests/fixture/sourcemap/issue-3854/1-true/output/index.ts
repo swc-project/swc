@@ -60,8 +60,8 @@ class BodyBuilder extends _abstractBuilders.AbstractBuilder {
         _class_private_field_set(this, _stages, stages.map(_builderUtils.mapBuildArg));
         return this;
     }
-    trustBox(trustBox1) {
-        _class_private_field_set(this, _trustBox, (0, _builderUtils).mapBuildArg(trustBox1));
+    trustBox(trustBox) {
+        _class_private_field_set(this, _trustBox, (0, _builderUtils).mapBuildArg(trustBox));
         return this;
     }
     disclaimer(disclaimer) {
@@ -153,8 +153,8 @@ class BodyStageSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
         _class_private_field_set(this, _nodes1, nodes.map(_builderUtils.mapBuildArgs));
         return this;
     }
-    header(header1) {
-        _class_private_field_set(this, _header, (0, _builderUtils).mapBuildArgs(header1 ?? []));
+    header(header) {
+        _class_private_field_set(this, _header, (0, _builderUtils).mapBuildArgs(header ?? []));
         return this;
     }
     companions(companions) {
@@ -202,10 +202,10 @@ class BodyStageBuilder extends _abstractBuilders.AbstractBuilder {
         ]);
         return this;
     }
-    header(header2) {
-        if (header2) {
+    header(header) {
+        if (header) {
             _class_private_field_get(this, _seqBuilder).header([
-                header2
+                header
             ]);
         }
         return this;
@@ -239,8 +239,8 @@ class BodyHeaderBuilder extends _abstractBuilders.AbstractBuilder {
         _class_private_field_set(this, _variant, variant);
         return this;
     }
-    opener(opener1) {
-        _class_private_field_set(this, _opener, (0, _builderUtils).mapBuildArg(opener1));
+    opener(opener) {
+        _class_private_field_set(this, _opener, (0, _builderUtils).mapBuildArg(opener));
         return this;
     }
     build() {

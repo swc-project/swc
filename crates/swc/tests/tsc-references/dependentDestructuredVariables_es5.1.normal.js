@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f10(param) {
     var kind = param.kind, payload = param.payload;
     if (kind === "A") {
@@ -108,11 +108,11 @@ function f40() {
     }
 }
 function unrefined1(ab) {
-    var variant = ab.variant, value1 = ab.value;
+    var variant = ab.variant, value = ab.value;
     if (variant === "a") {
-        printValue(value1);
+        printValue(value);
     } else {
-        printValueList(value1);
+        printValueList(value);
     }
 }
 var reducerBroken = function(state, param) {

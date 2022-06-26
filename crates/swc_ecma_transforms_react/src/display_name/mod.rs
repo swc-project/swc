@@ -177,7 +177,7 @@ fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
     };
 
     for prop in &*props {
-        if is_key_display_name(&*prop) {
+        if is_key_display_name(prop) {
             return;
         }
     }

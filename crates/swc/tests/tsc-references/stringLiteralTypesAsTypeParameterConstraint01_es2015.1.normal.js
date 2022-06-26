@@ -1,9 +1,9 @@
 // @declaration: true
-function foo(f1) {
-    return f1;
+function foo(f) {
+    return f;
 }
-function bar(f2) {
-    return f2;
+function bar(f) {
+    return f;
 }
 let f = foo((x)=>x);
 let fResult = f("foo");

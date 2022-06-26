@@ -21,8 +21,8 @@ class ReusablePayments extends PureComponent {
             onChange(null);
             return;
         }
-        var ps1 = validReusablePaymentSources.find((ps)=>ps.isDefault);
-        onChange(ps1 || validReusablePaymentSources[0]);
+        var ps = validReusablePaymentSources.find((ps)=>ps.isDefault);
+        onChange(ps || validReusablePaymentSources[0]);
     }
     render() {
         var _props = this.props, selectedReusablePayment = _props.selectedReusablePayment, reusablePaymentSources = _props.reusablePaymentSources;

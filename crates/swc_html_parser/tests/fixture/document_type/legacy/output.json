@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 63,
-            "end": 324,
+            "end": 331,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,7 +60,7 @@
                 "end": 74,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -86,7 +86,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -95,7 +96,7 @@
                 "end": 101,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -133,7 +134,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -142,7 +144,7 @@
                 "end": 242,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -180,7 +182,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -189,13 +192,13 @@
                 "end": 300,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 300,
-                "end": 315,
+                "end": 323,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -209,10 +212,11 @@
                     "end": 315,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -221,10 +225,11 @@
                 "end": 324,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -233,7 +238,7 @@
             "end": 332,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -253,13 +258,15 @@
                 "end": 360,
                 "ctxt": 0
               },
-              "value": "\nTest\n\n\n"
+              "data": "\nTest\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

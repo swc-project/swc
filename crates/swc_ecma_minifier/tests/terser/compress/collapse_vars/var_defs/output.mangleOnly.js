@@ -1,5 +1,5 @@
-var a = function(d, e) {
-    var b, c, a = d + e, f = a * a, g = f - a, b = g, c = 7;
-    console.log(b + c);
+var a = function(a, b) {
+    var c, d, e = a + b, f = e * e, g = f - e, c = g, d = 7;
+    console.log(c + d);
 };
 a("1", 0);

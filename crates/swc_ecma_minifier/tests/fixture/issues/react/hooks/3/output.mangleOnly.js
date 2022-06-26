@@ -11,25 +11,25 @@ var d = __webpack_require__(78869);
 var e = __webpack_require__(16966);
 var f = __webpack_require__(96236);
 var g = __webpack_require__(70326);
-function h(h, i) {
-    var l = (0, e.LP)();
-    var j = (0, c.ZP)(), a = j.team;
-    var k = a === null || a === void 0 ? void 0 : a.id;
-    return (0, b.ZP)(h ? "".concat(f.Ms, "/git-branches").concat((0, g.c)({
-        projectId: h,
-        teamId: k
+function h(a, h) {
+    var i = (0, e.LP)();
+    var j = (0, c.ZP)(), k = j.team;
+    var l = k === null || k === void 0 ? void 0 : k.id;
+    return (0, b.ZP)(a ? "".concat(f.Ms, "/git-branches").concat((0, g.c)({
+        projectId: a,
+        teamId: l
     })) : "", function(a) {
-        return (0, d.Z)(a, l, {
+        return (0, d.Z)(a, i, {
             throwOnHTTPError: true
         });
-    }, i);
+    }, h);
 }
 var i = __webpack_require__(76246);
-export function EnvironmentsSelector(l) {
+export function EnvironmentsSelector(b) {
     var d = (0, a.useRouter)().query, e = d.project;
-    var f = (0, i.useProject)(e), b = f.data;
-    var g = (0, c.ZP)(), m = g.teamSlug;
-    var j = b === null || b === void 0 ? void 0 : b.id;
-    var k = h(j), n = k.data;
+    var f = (0, i.useProject)(e), g = f.data;
+    var j = (0, c.ZP)(), k = j.teamSlug;
+    var l = g === null || g === void 0 ? void 0 : g.id;
+    var m = h(l), n = m.data;
     return {};
 }

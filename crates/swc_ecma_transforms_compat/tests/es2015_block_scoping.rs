@@ -513,11 +513,11 @@ test!(
         return _foo.apply(this, arguments);
     }
     function _foo() {
-        _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee1() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
-                while(1)switch(_ctx1.prev = _ctx1.next){
+        _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        _ctx1.next = 2;
+                        _ctx.next = 2;
                         return Promise.all([
                             [
                                 1
@@ -550,9 +550,9 @@ test!(
                         }()));
                     case 2:
                     case "end":
-                        return _ctx1.stop();
+                        return _ctx.stop();
                 }
-            }, _callee1);
+            }, _callee);
         }));
         return _foo.apply(this, arguments);
     }

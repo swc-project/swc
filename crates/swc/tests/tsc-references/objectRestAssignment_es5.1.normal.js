@@ -1,7 +1,7 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
-import _throw from "@swc/helpers/lib/_throw.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import _throw from "@swc/helpers/src/_throw.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 // @target: es2015
 var ka;
 var nested;

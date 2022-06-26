@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
@@ -34,8 +34,8 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a1 = x["foo"](); // should be string
-        return a1 + x.foo() + x.notHere();
+        var a = x["foo"](); // should be string
+        return a + x.foo() + x.notHere();
     };
     return C;
 }();
@@ -49,8 +49,8 @@ var r3 = a().notHere();
 var r3b = a()["foo"]();
 var b = {
     foo: function(x) {
-        var a2 = x["foo"](); // should be string
-        return a2 + x.notHere();
+        var a = x["foo"](); // should be string
+        return a + x.notHere();
     },
     // BUG 794164
     bar: b.foo(1).notHere()

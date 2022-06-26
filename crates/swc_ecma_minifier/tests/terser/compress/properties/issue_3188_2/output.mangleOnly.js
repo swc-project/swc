@@ -1,13 +1,13 @@
 (function() {
-    var b = function() {
+    var a = function() {
         console.log(this.p);
     };
-    function a() {
-        var a = {
+    function b() {
+        var b = {
             p: "PASS",
-            f: b
+            f: a
         };
-        a.f();
+        b.f();
     }
-    a();
+    b();
 })();

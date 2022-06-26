@@ -4,62 +4,62 @@
         383
     ],
     {
-        6086: function(c, a, b) {
-            b.d(a, {
+        6086: function(a, b, c) {
+            c.d(b, {
                 Z: function() {
                     return e;
                 }
             });
-            function d(c, d, e, f, g, h, i) {
+            function d(a, b, c, d, e, f, g) {
                 try {
-                    var a = c[h](i);
-                    var b = a.value;
+                    var h = a[f](g);
+                    var i = h.value;
                 } catch (j) {
-                    e(j);
+                    c(j);
                     return;
                 }
-                if (a.done) {
-                    d(b);
+                if (h.done) {
+                    b(i);
                 } else {
-                    Promise.resolve(b).then(f, g);
+                    Promise.resolve(i).then(d, e);
                 }
             }
             function e(a) {
                 return function() {
                     var b = this, c = arguments;
-                    return new Promise(function(f, g) {
-                        var h = a.apply(b, c);
-                        function e(a) {
-                            d(h, f, g, e, i, "next", a);
+                    return new Promise(function(e, f) {
+                        var g = a.apply(b, c);
+                        function h(a) {
+                            d(g, e, f, h, i, "next", a);
                         }
                         function i(a) {
-                            d(h, f, g, e, i, "throw", a);
+                            d(g, e, f, h, i, "throw", a);
                         }
-                        e(undefined);
+                        h(undefined);
                     });
                 };
             }
         },
-        1383: function(g, b, a) {
-            a.r(b);
-            var h = a(4512);
-            var c = a(7945);
-            var d = a.n(c);
-            var e = a(6086);
-            var f = a(4652);
-            var i = (0, f.default)((0, e.Z)(d().mark(function a() {
-                return d().wrap(function b(a) {
+        1383: function(a, b, c) {
+            c.r(b);
+            var d = c(4512);
+            var e = c(7945);
+            var f = c.n(e);
+            var g = c(6086);
+            var h = c(4652);
+            var i = (0, h.default)((0, g.Z)(f().mark(function a() {
+                return f().wrap(function a(b) {
                     while(1){
-                        switch((a.prev = a.next)){
+                        switch((b.prev = b.next)){
                             case 0:
-                                return a.abrupt("return", function() {
-                                    return (0, h.jsx)("div", {
+                                return b.abrupt("return", function() {
+                                    return (0, d.jsx)("div", {
                                         children: "Browser hydrated"
                                     });
                                 });
                             case 1:
                             case "end":
-                                return a.stop();
+                                return b.stop();
                         }
                     }
                 }, a);
@@ -67,12 +67,12 @@
                 ssr: false
             });
             b["default"] = function() {
-                return (0, h.jsxs)("div", {
+                return (0, d.jsxs)("div", {
                     children: [
-                        (0, h.jsx)("div", {
+                        (0, d.jsx)("div", {
                             children: "Nested 2"
                         }),
-                        (0, h.jsx)(i, {}), 
+                        (0, d.jsx)(i, {}), 
                     ]
                 });
             };

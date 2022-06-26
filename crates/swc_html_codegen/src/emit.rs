@@ -46,7 +46,7 @@ where
     #[inline]
     fn emit(&mut self, node: &Option<T>) -> Result {
         match node {
-            Some(node) => self.emit(&*node),
+            Some(node) => self.emit(node),
             None => Ok(()),
         }
     }

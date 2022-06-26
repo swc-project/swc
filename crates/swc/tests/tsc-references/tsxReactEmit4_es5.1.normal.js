@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 var p;
 var openClosed1 = /*#__PURE__*/ React.createElement("div", null, blah);
 // Should emit React.__spread({}, p, {x: 0})

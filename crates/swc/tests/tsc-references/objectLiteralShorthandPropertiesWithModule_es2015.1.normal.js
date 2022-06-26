@@ -1,8 +1,8 @@
 // module export
 var m;
-(function(m1) {
-    var x;
-    m1.x = x;
+(function(m) {
+    var x1;
+    m.x = x1;
 })(m || (m = {}));
 (function(m) {
     var z = x;

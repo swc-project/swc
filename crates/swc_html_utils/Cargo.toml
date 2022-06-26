@@ -1,0 +1,22 @@
+[package]
+authors = [
+    "강동윤 <kdy1997.dev@gmail.com>",
+    "Alexander Akait <sheo13666q@gmail.com>",
+]
+description = "Utils for HTML"
+documentation = "https://rustdoc.swc.rs/swc_html_utils/"
+edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
+license = "Apache-2.0"
+name = "swc_html_utils"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[lib]
+bench = false
+
+[dependencies]
+once_cell = "1.10.0"
+serde = { version = "1.0.118", features = ["derive"] }
+serde_json = "1.0.61"
+swc_common = { version = "0.18.0", path = "../swc_common" }

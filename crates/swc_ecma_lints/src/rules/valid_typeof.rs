@@ -80,7 +80,7 @@ impl Visit for ValidTypeof {
                     }),
                     Expr::Lit(Lit::Str(Str { value, .. })),
                 ) => {
-                    self.check(bin_expr.span, &*value);
+                    self.check(bin_expr.span, value);
                 }
                 // case "type" === typeof x
                 (
@@ -89,7 +89,7 @@ impl Visit for ValidTypeof {
                         op: op!("typeof"), ..
                     }),
                 ) => {
-                    self.check(bin_expr.span, &*value);
+                    self.check(bin_expr.span, value);
                 }
                 // case typeof x === typeof y
                 (

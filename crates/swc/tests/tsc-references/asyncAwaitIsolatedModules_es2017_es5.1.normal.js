@@ -1,5 +1,5 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 function f0() {
     return _f0.apply(this, arguments);
@@ -304,12 +304,12 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 var M;
-(function(M1) {
-    function f14() {
-        return _f11.apply(this, arguments);
+(function(M) {
+    function f1() {
+        return _f1.apply(this, arguments);
     }
-    function _f11() {
-        _f11 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    function _f1() {
+        _f1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -318,9 +318,9 @@ var M;
                 }
             }, _callee);
         }));
-        return _f11.apply(this, arguments);
+        return _f1.apply(this, arguments);
     }
-    M1.f1 = f14;
+    M.f1 = f1;
 })(M || (M = {}));
 // @target: es2017
 // @isolatedModules: true

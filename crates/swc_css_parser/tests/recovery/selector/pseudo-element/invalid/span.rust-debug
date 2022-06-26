@@ -1,0 +1,60 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | ,-> a::1 {
+ 2 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | ,-> a::1 {
+ 2 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | ,-> a::1 {
+ 2 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | a::1 {
+   : ^^^^^
+   `----
+
+  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | a::1 {
+   : ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | a::1 {
+   :  ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | a::1 {
+   :   ^
+   `----
+
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | a::1 {
+   :    ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | a::1 {
+   :     ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
+ 1 | ,-> a::1 {
+ 2 | `-> }
+   `----

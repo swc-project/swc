@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 module.exports.a = function() {}, module.exports.b = function() {}, module.exports.b.cat = "cat", module.exports.c = function() {}, module.exports.c.Cls = function _class() {
     "use strict";
     _class_call_check(this, _class);

@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 118,
-            "end": 232,
+            "end": 239,
             "ctxt": 0
           },
           "tagName": "head",
@@ -47,7 +47,7 @@
                 "end": 129,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -85,7 +85,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -94,13 +95,13 @@
                 "end": 201,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 201,
-                "end": 223,
+                "end": 231,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -114,10 +115,11 @@
                     "end": 223,
                     "ctxt": 0
                   },
-                  "value": "Тег FRAMESET"
+                  "data": "Тег FRAMESET"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -126,10 +128,11 @@
                 "end": 232,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -138,13 +141,13 @@
             "end": 241,
             "ctxt": 0
           },
-          "value": "\n\n"
+          "data": "\n\n"
         },
         {
           "type": "Element",
           "span": {
             "start": 241,
-            "end": 505,
+            "end": 516,
             "ctxt": 0
           },
           "tagName": "frameset",
@@ -183,7 +186,7 @@
                 "end": 277,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -245,7 +248,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -254,13 +258,13 @@
                 "end": 344,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 344,
-                "end": 493,
+                "end": 504,
                 "ctxt": 0
               },
               "tagName": "frameset",
@@ -287,7 +291,7 @@
                     "end": 375,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -349,7 +353,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -358,7 +363,7 @@
                     "end": 448,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -396,7 +401,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -405,10 +411,11 @@
                     "end": 493,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -417,10 +424,11 @@
                 "end": 505,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -429,10 +437,11 @@
             "end": 539,
             "ctxt": 0
           },
-          "value": "\n\n\n\n"
+          "data": "\n\n\n\n"
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

@@ -1,7 +1,7 @@
 var _x;
-import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 let C = (_x = new WeakMap(), class {
     m() {
         _class_private_field_set(this, _x, _class_private_field_get(this, _x) + 2);

@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -8,7 +8,7 @@ var C = /*#__PURE__*/ function() {
     _proto.foo = function foo() {
         C.prototype.foo = function() {};
     };
-    _proto.bar = function bar(x1) {
+    _proto.bar = function bar(x) {
         C.prototype.bar = function() {} // error
         ;
         C.prototype.bar = function(x) {

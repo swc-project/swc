@@ -1,4 +1,6 @@
-use rustc_hash::{FxHashMap, FxHashSet};
+use std::{collections::HashSet, hash::BuildHasherDefault};
+
+use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
@@ -163,35 +165,41 @@ pub(crate) struct ProgramData {
 impl ProgramData {
     pub(crate) fn expand_infected(
         &self,
-        ids: impl IntoIterator<Item = Id>,
+        ids: FxHashSet<Id>,
         max_num: usize,
     ) -> Result<FxHashSet<Id>, ()> {
-        let mut result = FxHashSet::default();
-        self.expand_infected_inner(ids, max_num, &mut result)?;
-        Ok(result)
-    }
-
-    fn expand_infected_inner(
-        &self,
-        ids: impl IntoIterator<Item = Id>,
-        max_num: usize,
-        result: &mut FxHashSet<Id>,
-    ) -> Result<(), ()> {
-        for id in ids {
-            if !result.insert(id.clone()) {
-                continue;
+        let init =
+            HashSet::with_capacity_and_hasher(max_num, BuildHasherDefault::<FxHasher>::default());
+        ids.into_iter().try_fold(init, |mut res, id| {
+            let mut ids = Vec::with_capacity(max_num);
+            ids.push(id);
+            let mut ranges = vec![0..1usize];
+            loop {
+                let range = ranges.remove(0);
+                for index in range {
+                    let iid = ids.get(index).unwrap();
+                    if !res.insert(iid.clone()) {
+                        continue;
+                    }
+                    if res.len() >= max_num {
+                        return Err(());
+                    }
+                    if let Some(info) = self.vars.get(iid) {
+                        let infects = &info.infects;
+                        if !infects.is_empty() {
+                            let old_len = ids.len();
+                            ids.extend_from_slice(infects.as_slice());
+                            let new_len = ids.len();
+                            ranges.push(old_len..new_len);
+                        }
+                    }
+                }
+                if ranges.is_empty() {
+                    break;
+                }
             }
-            if result.len() >= max_num {
-                return Err(());
-            }
-
-            if let Some(info) = self.vars.get(&id) {
-                let ids = info.infects.clone();
-                self.expand_infected_inner(ids, max_num, result)?;
-            }
-        }
-
-        Ok(())
+            Ok(res)
+        })
     }
 
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
@@ -633,7 +641,8 @@ where
         e.visit_children_with(&mut *self.with_ctx(ctx));
 
         if let Expr::Ident(i) = e {
-            if cfg!(feature = "debug") {
+            #[cfg(feature = "debug")]
+            {
                 // debug!(
                 //     "Usage: `{}``; update = {:?}, assign_lhs = {:?} ",
                 //     i,

@@ -1,6 +1,6 @@
-let a = (a)=>(console.log(a), a), d = 1, { length: b  } = [
+let a = (a)=>(console.log(a), a), b = 1, { length: c  } = [
     0
-], e = 3, { x: c  } = {
+], d = 3, { x: e  } = {
     x: 2
 };
-a(`${b} ${c}`);
+a(`${c} ${e}`);

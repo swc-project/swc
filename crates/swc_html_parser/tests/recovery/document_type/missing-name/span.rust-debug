@@ -30,8 +30,8 @@
  4 | |   
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
- 7 | `-> </body>
- 8 |     </html>
+ 7 | |   </body>
+ 8 | `-> </html>
    `----
 
   x Element
@@ -41,8 +41,8 @@
  4 | |   
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
- 7 | `-> </body>
- 8 |     </html>
+ 7 | |   </body>
+ 8 | `-> </html>
    `----
 
   x Child
@@ -86,13 +86,13 @@
   x Child
    ,-[$DIR/tests/recovery/document_type/missing-name/input.html:5:1]
  5 | <a href=https://www.w3schools.com>This is a link</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/document_type/missing-name/input.html:5:1]
  5 | <a href=https://www.w3schools.com>This is a link</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute

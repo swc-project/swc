@@ -12,9 +12,9 @@ export var D;
     D[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C";
 }(D || (D = {}));
 export var M;
-!function(M1) {
+!function(M) {
     var x;
-    M1.x = x;
+    M.x = x;
 }(M || (M = {}));
 export var a = M.x;
 export { v1 as v, f1 as f, C1 as C, I1 as I, E1 as E, D1 as D, M1 as M, N1 as N, T1 as T, a1 as a } from "./t1";

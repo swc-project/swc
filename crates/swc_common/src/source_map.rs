@@ -577,13 +577,6 @@ impl SourceMap {
         }
     }
 
-    /// Return the source snippet as `String` corresponding to the given `Span`
-    pub fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError> {
-        self.span_to_source(sp, |src, start_index, end_index| {
-            src[start_index..end_index].to_string()
-        })
-    }
-
     /// Calls `op` with the source code located at `sp`.
     pub fn with_snippet_of_span<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
     where
@@ -1274,6 +1267,13 @@ impl SourceMapper for SourceMap {
 
     fn span_to_filename(&self, sp: Span) -> FileName {
         self.span_to_filename(sp)
+    }
+
+    /// Return the source snippet as `String` corresponding to the given `Span`
+    fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError> {
+        self.span_to_source(sp, |src, start_index, end_index| {
+            src[start_index..end_index].to_string()
+        })
     }
 
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span> {

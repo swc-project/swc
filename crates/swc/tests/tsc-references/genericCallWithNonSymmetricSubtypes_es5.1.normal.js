@@ -1,8 +1,8 @@
 // generic type argument inference where inference leads to two candidates that are both supertypes of all candidates
 // we choose the first candidate so the result is dependent on the order of the arguments provided
 function foo(x, y) {
-    var r1;
-    return r1;
+    var r;
+    return r;
 }
 var a;
 var b;

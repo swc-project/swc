@@ -1,11 +1,11 @@
 var A;
-!function(A1) {
+!function(A) {
     class Point {
         constructor(x, y){
             this.x = x, this.y = y;
         }
     }
-    A1.Point = Point, function(B) {
+    A.Point = Point, function(B) {
         B.Origin = new Point(0, 0);
         class Line {
             static fromOrigin(p) {
@@ -17,5 +17,5 @@ var A;
             constructor(start, end){}
         }
         B.Line = Line;
-    }(A1.B || (A1.B = {}));
+    }(A.B || (A.B = {}));
 }(A || (A = {}));

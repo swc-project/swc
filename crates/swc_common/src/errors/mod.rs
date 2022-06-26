@@ -31,6 +31,7 @@ use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
+    SpanSnippetError,
 };
 
 mod diagnostic;
@@ -144,6 +145,7 @@ pub trait SourceMapper: crate::sync::Send + crate::sync::Sync {
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span>;
     fn call_span_if_macro(&self, sp: Span) -> Span;
     fn doctest_offset_line(&self, line: usize) -> usize;
+    fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError>;
 }
 
 impl CodeSuggestion {

@@ -14,10 +14,10 @@ class C2 {
 }
 C2.y = undefined;
 var N1;
-(function(N11) {
+(function(N1) {
     var x;
-    var y = N11.y = this;
-    N11.x = x;
+    var y = N1.y = this;
+    N1.x = x;
 })(N1 || (N1 = {}));
 class C3 {
     f() {

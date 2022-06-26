@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 var _name = /*#__PURE__*/ new WeakMap();
 // @target: esnext, es2022, es2015
 var Foo = /*#__PURE__*/ function() {
@@ -14,8 +14,8 @@ var Foo = /*#__PURE__*/ function() {
         });
         _class_private_field_set(this, _name, name);
     }
-    var _proto1 = Foo.prototype;
-    _proto1.getValue = function getValue(x) {
+    var _proto = Foo.prototype;
+    _proto.getValue = function getValue(x) {
         var obj = this;
         var _y = /*#__PURE__*/ new WeakMap();
         var tmp = _class_private_field_get(obj, _name);

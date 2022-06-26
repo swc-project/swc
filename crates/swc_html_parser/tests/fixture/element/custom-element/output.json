@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 871,
+        "end": 878,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,10 +80,11 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -92,10 +93,11 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -104,7 +106,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,13 +126,13 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 251,
+                "end": 264,
                 "ctxt": 0
               },
               "tagName": "popup-info",
@@ -162,7 +164,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -171,13 +174,13 @@
                 "end": 266,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 266,
-                "end": 297,
+                "end": 313,
                 "ctxt": 0
               },
               "tagName": "custom-square",
@@ -209,7 +212,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -218,13 +222,13 @@
                 "end": 315,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 315,
-                "end": 341,
+                "end": 354,
                 "ctxt": 0
               },
               "tagName": "app-drawer",
@@ -256,7 +260,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -265,13 +270,13 @@
                 "end": 356,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 356,
-                "end": 588,
+                "end": 604,
                 "ctxt": 0
               },
               "tagName": "share-buttons",
@@ -285,13 +290,13 @@
                     "end": 376,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 376,
-                    "end": 427,
+                    "end": 447,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -315,7 +320,7 @@
                       "type": "Element",
                       "span": {
                         "start": 406,
-                        "end": 427,
+                        "end": 431,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -342,13 +347,15 @@
                             "end": 427,
                             "ctxt": 0
                           },
-                          "value": "Twitter"
+                          "data": "Twitter"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -357,13 +364,13 @@
                     "end": 452,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 452,
-                    "end": 499,
+                    "end": 519,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -387,7 +394,7 @@
                       "type": "Element",
                       "span": {
                         "start": 477,
-                        "end": 499,
+                        "end": 503,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -414,13 +421,15 @@
                             "end": 499,
                             "ctxt": 0
                           },
-                          "value": "Facebook"
+                          "data": "Facebook"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -429,13 +438,13 @@
                     "end": 524,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 524,
-                    "end": 567,
+                    "end": 587,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -459,7 +468,7 @@
                       "type": "Element",
                       "span": {
                         "start": 551,
-                        "end": 567,
+                        "end": 571,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -486,13 +495,15 @@
                             "end": 567,
                             "ctxt": 0
                           },
-                          "value": "G+"
+                          "data": "G+"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -501,10 +512,11 @@
                     "end": 588,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -513,13 +525,13 @@
                 "end": 606,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 606,
-                "end": 663,
+                "end": 683,
                 "ctxt": 0
               },
               "tagName": "x-foo-with-markup",
@@ -533,13 +545,13 @@
                     "end": 630,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 630,
-                    "end": 658,
+                    "end": 662,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -553,10 +565,11 @@
                         "end": 658,
                         "ctxt": 0
                       },
-                      "value": "I'm an x-foo-with-markup!"
+                      "data": "I'm an x-foo-with-markup!"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -565,10 +578,11 @@
                     "end": 663,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -577,13 +591,13 @@
                 "end": 685,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 685,
-                "end": 851,
+                "end": 862,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -607,7 +621,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 685,
-                  "end": 851,
+                  "end": 862,
                   "ctxt": 0
                 },
                 "children": [
@@ -618,13 +632,13 @@
                       "end": 725,
                       "ctxt": 0
                     },
-                    "value": "\n    "
+                    "data": "\n    "
                   },
                   {
                     "type": "Element",
                     "span": {
                       "start": 725,
-                      "end": 765,
+                      "end": 773,
                       "ctxt": 0
                     },
                     "tagName": "style",
@@ -638,10 +652,11 @@
                           "end": 765,
                           "ctxt": 0
                         },
-                        "value": "\n        p { color: green; }\n    "
+                        "data": "\n        p { color: green; }\n    "
                       }
                     ],
-                    "content": null
+                    "content": null,
+                    "isSelfClosing": false
                   },
                   {
                     "type": "Text",
@@ -650,13 +665,13 @@
                       "end": 778,
                       "ctxt": 0
                     },
-                    "value": "\n    "
+                    "data": "\n    "
                   },
                   {
                     "type": "Element",
                     "span": {
                       "start": 778,
-                      "end": 846,
+                      "end": 850,
                       "ctxt": 0
                     },
                     "tagName": "p",
@@ -670,10 +685,11 @@
                           "end": 846,
                           "ctxt": 0
                         },
-                        "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
+                        "data": "I'm in Shadow DOM. My markup was stamped from a <template>."
                       }
                     ],
-                    "content": null
+                    "content": null,
+                    "isSelfClosing": false
                   },
                   {
                     "type": "Text",
@@ -682,10 +698,11 @@
                       "end": 851,
                       "ctxt": 0
                     },
-                    "value": "\n"
+                    "data": "\n"
                   }
                 ]
-              }
+              },
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -694,13 +711,15 @@
                 "end": 871,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

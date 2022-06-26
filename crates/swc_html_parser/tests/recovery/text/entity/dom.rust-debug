@@ -81,6 +81,34 @@ FOOºR
 FOO䆺R
 FOOAZOO
 
+"
+|     <div>
+|       data-test="&ampamp;"
+|     "
+"
+|     <div>
+|       data-test="&ampamp"
+|     "
+"
+|     <div>
+|       data-test="&amp;"
+|     "
+"
+|     <div>
+|       data-test="&amp"
+|     "
+"
+|     <div>
+|       data-test="&#36"
+|     "
+"
+|     <div>
+|       data-test="&#x36"
+|     "
+"
+|     <div>
+|       data-test="6"
+|     "
 
 
 

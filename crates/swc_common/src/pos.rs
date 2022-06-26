@@ -93,17 +93,17 @@ where
     S: ?Sized + Spanned,
 {
     fn span(&self) -> Span {
-        <S as Spanned>::span(&*self)
+        <S as Spanned>::span(self)
     }
 
     #[inline]
     fn span_lo(&self) -> BytePos {
-        <S as Spanned>::span_lo(&*self)
+        <S as Spanned>::span_lo(self)
     }
 
     #[inline]
     fn span_hi(&self) -> BytePos {
-        <S as Spanned>::span_hi(&*self)
+        <S as Spanned>::span_hi(self)
     }
 }
 
@@ -112,17 +112,17 @@ where
     S: ?Sized + Spanned,
 {
     fn span(&self) -> Span {
-        <S as Spanned>::span(&*self)
+        <S as Spanned>::span(self)
     }
 
     #[inline]
     fn span_lo(&self) -> BytePos {
-        <S as Spanned>::span_lo(&*self)
+        <S as Spanned>::span_lo(self)
     }
 
     #[inline]
     fn span_hi(&self) -> BytePos {
-        <S as Spanned>::span_hi(&*self)
+        <S as Spanned>::span_hi(self)
     }
 }
 
@@ -131,17 +131,17 @@ where
     S: ?Sized + Spanned,
 {
     fn span(&self) -> Span {
-        <S as Spanned>::span(&*self)
+        <S as Spanned>::span(self)
     }
 
     #[inline]
     fn span_lo(&self) -> BytePos {
-        <S as Spanned>::span_lo(&*self)
+        <S as Spanned>::span_lo(self)
     }
 
     #[inline]
     fn span_hi(&self) -> BytePos {
-        <S as Spanned>::span_hi(&*self)
+        <S as Spanned>::span_hi(self)
     }
 }
 

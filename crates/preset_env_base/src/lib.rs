@@ -73,7 +73,7 @@ impl BrowserData<Option<Version>> {
             let browser = dist.name();
             let browser = remap(browser);
             let version = dist.version();
-            match &*browser {
+            match browser {
                 "and_qq" | "and_uc" | "baidu" | "bb" | "kaios" | "op_mini" => continue,
 
                 _ => {}

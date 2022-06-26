@@ -1,4 +1,4 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var a1 = f1(1, 2); // 1 | 2
 var a2 = f1(1, "hello"); // 1

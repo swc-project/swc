@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var A = function A() {
     "use strict";
     _class_call_check(this, A);
@@ -51,7 +51,7 @@ var Generics;
         }
         return B2;
     }(A);
-    var b21;
-    a1 = b21; // ok
-    b21 = a1; // error
+    var b2;
+    a1 = b2; // ok
+    b2 = a1; // error
 })(Generics || (Generics = {}));

@@ -3,45 +3,45 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var d = i(require("react"));
-var a = g(require("prop-types"));
-var e = g(require("./Item"));
-var f = g(require("./compareObjects"));
-function g(a) {
+var a = g(require("react"));
+var b = e(require("prop-types"));
+var c = e(require("./Item"));
+var d = e(require("./compareObjects"));
+function e(a) {
     return a && a.__esModule ? a : {
         default: a
     };
 }
-function h() {
+function f() {
     if (typeof WeakMap !== "function") return null;
     var a = new WeakMap();
-    h = function b() {
+    f = function b() {
         return a;
     };
     return a;
 }
-function i(a) {
+function g(a) {
     if (a && a.__esModule) {
         return a;
     }
-    if (a === null || (j(a) !== "object" && typeof a !== "function")) {
+    if (a === null || (h(a) !== "object" && typeof a !== "function")) {
         return {
             default: a
         };
     }
-    var b = h();
+    var b = f();
     if (b && b.has(a)) {
         return b.get(a);
     }
     var c = {};
-    var f = Object.defineProperty && Object.getOwnPropertyDescriptor;
-    for(var d in a){
-        if (Object.prototype.hasOwnProperty.call(a, d)) {
-            var e = f ? Object.getOwnPropertyDescriptor(a, d) : null;
-            if (e && (e.get || e.set)) {
-                Object.defineProperty(c, d, e);
+    var d = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var e in a){
+        if (Object.prototype.hasOwnProperty.call(a, e)) {
+            var g = d ? Object.getOwnPropertyDescriptor(a, e) : null;
+            if (g && (g.get || g.set)) {
+                Object.defineProperty(c, e, g);
             } else {
-                c[d] = a[d];
+                c[e] = a[e];
             }
         }
     }
@@ -51,105 +51,105 @@ function i(a) {
     }
     return c;
 }
-function j(a) {
+function h(a) {
     "@babel/helpers - typeof";
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-        j = function b(a) {
-            return typeof a;
+        h = function a(b) {
+            return typeof b;
         };
     } else {
-        j = function b(a) {
-            return a && typeof Symbol === "function" && a.constructor === Symbol && a !== Symbol.prototype ? "symbol" : typeof a;
+        h = function a(b) {
+            return b && typeof Symbol === "function" && b.constructor === Symbol && b !== Symbol.prototype ? "symbol" : typeof b;
         };
     }
-    return j(a);
+    return h(a);
 }
-function k() {
-    k = Object.assign || function(d) {
-        for(var a = 1; a < arguments.length; a++){
-            var b = arguments[a];
-            for(var c in b){
-                if (Object.prototype.hasOwnProperty.call(b, c)) {
-                    d[c] = b[c];
+function i() {
+    i = Object.assign || function(a) {
+        for(var b = 1; b < arguments.length; b++){
+            var c = arguments[b];
+            for(var d in c){
+                if (Object.prototype.hasOwnProperty.call(c, d)) {
+                    a[d] = c[d];
                 }
             }
         }
-        return d;
+        return a;
     };
-    return k.apply(this, arguments);
+    return i.apply(this, arguments);
 }
-function l(c, d) {
-    var a = Object.keys(c);
+function j(a, b) {
+    var c = Object.keys(a);
     if (Object.getOwnPropertySymbols) {
-        var b = Object.getOwnPropertySymbols(c);
-        if (d) b = b.filter(function(a) {
-            return Object.getOwnPropertyDescriptor(c, a).enumerable;
+        var d = Object.getOwnPropertySymbols(a);
+        if (b) d = d.filter(function(b) {
+            return Object.getOwnPropertyDescriptor(a, b).enumerable;
         });
-        a.push.apply(a, b);
+        c.push.apply(c, d);
     }
-    return a;
+    return c;
 }
-function m(d) {
-    for(var a = 1; a < arguments.length; a++){
-        var b = arguments[a] != null ? arguments[a] : {};
-        if (a % 2) {
-            l(Object(b), true).forEach(function(a) {
-                c(d, a, b[a]);
+function k(a) {
+    for(var b = 1; b < arguments.length; b++){
+        var c = arguments[b] != null ? arguments[b] : {};
+        if (b % 2) {
+            j(Object(c), true).forEach(function(b) {
+                v(a, b, c[b]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
-            Object.defineProperties(d, Object.getOwnPropertyDescriptors(b));
+            Object.defineProperties(a, Object.getOwnPropertyDescriptors(c));
         } else {
-            l(Object(b)).forEach(function(a) {
-                Object.defineProperty(d, a, Object.getOwnPropertyDescriptor(b, a));
+            j(Object(c)).forEach(function(b) {
+                Object.defineProperty(a, b, Object.getOwnPropertyDescriptor(c, b));
             });
         }
     }
-    return d;
+    return a;
 }
-function n(a, b) {
+function l(a, b) {
     if (!(a instanceof b)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function o(d, c) {
-    for(var b = 0; b < c.length; b++){
-        var a = c[b];
-        a.enumerable = a.enumerable || false;
-        a.configurable = true;
-        if ("value" in a) a.writable = true;
-        Object.defineProperty(d, a.key, a);
+function m(a, b) {
+    for(var c = 0; c < b.length; c++){
+        var d = b[c];
+        d.enumerable = d.enumerable || false;
+        d.configurable = true;
+        if ("value" in d) d.writable = true;
+        Object.defineProperty(a, d.key, d);
     }
 }
-function p(a, b, c) {
-    if (b) o(a.prototype, b);
-    if (c) o(a, c);
+function n(a, b, c) {
+    if (b) m(a.prototype, b);
+    if (c) m(a, c);
     return a;
 }
-function q(a) {
+function o(a) {
     return function() {
-        var c = u(a), b;
-        if (t()) {
-            var d = u(this).constructor;
-            b = Reflect.construct(c, arguments, d);
+        var b = s(a), c;
+        if (r()) {
+            var d = s(this).constructor;
+            c = Reflect.construct(b, arguments, d);
         } else {
-            b = c.apply(this, arguments);
+            c = b.apply(this, arguments);
         }
-        return r(this, b);
+        return p(this, c);
     };
 }
-function r(b, a) {
-    if (a && (j(a) === "object" || typeof a === "function")) {
-        return a;
+function p(a, b) {
+    if (b && (h(b) === "object" || typeof b === "function")) {
+        return b;
     }
-    return s(b);
+    return q(a);
 }
-function s(a) {
+function q(a) {
     if (a === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
     return a;
 }
-function t() {
+function r() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
@@ -160,33 +160,33 @@ function t() {
         return false;
     }
 }
-function u(a) {
-    u = Object.setPrototypeOf ? Object.getPrototypeOf : function b(a) {
-        return a.__proto__ || Object.getPrototypeOf(a);
+function s(a) {
+    s = Object.setPrototypeOf ? Object.getPrototypeOf : function a(b) {
+        return b.__proto__ || Object.getPrototypeOf(b);
     };
-    return u(a);
+    return s(a);
 }
-function v(b, a) {
-    if (typeof a !== "function" && a !== null) {
+function t(a, b) {
+    if (typeof b !== "function" && b !== null) {
         throw new TypeError("Super expression must either be null or a function");
     }
-    b.prototype = Object.create(a && a.prototype, {
+    a.prototype = Object.create(b && b.prototype, {
         constructor: {
-            value: b,
+            value: a,
             writable: true,
             configurable: true
         }
     });
-    if (a) w(b, a);
+    if (b) u(a, b);
 }
-function w(a, b) {
-    w = Object.setPrototypeOf || function c(a, b) {
-        a.__proto__ = b;
-        return a;
+function u(a, b) {
+    u = Object.setPrototypeOf || function a(b, c) {
+        b.__proto__ = c;
+        return b;
     };
-    return w(a, b);
+    return u(a, b);
 }
-function c(a, b, c) {
+function v(a, b, c) {
     if (b in a) {
         Object.defineProperty(a, b, {
             value: c,
@@ -199,86 +199,86 @@ function c(a, b, c) {
     }
     return a;
 }
-var b = (function(b) {
-    v(a, b);
-    var g = q(a);
-    function a() {
-        var d;
-        n(this, a);
-        for(var e = arguments.length, f = new Array(e), b = 0; b < e; b++){
-            f[b] = arguments[b];
+var w = (function(b) {
+    t(f, b);
+    var e = o(f);
+    function f() {
+        var a;
+        l(this, f);
+        for(var b = arguments.length, c = new Array(b), d = 0; d < b; d++){
+            c[d] = arguments[d];
         }
-        d = g.call.apply(g, [
+        a = e.call.apply(e, [
             this
-        ].concat(f));
-        c(s(d), "storeHighlightedItemReference", function(a) {
-            d.props.onHighlightedItemChange(a === null ? null : a.item);
+        ].concat(c));
+        v(q(a), "storeHighlightedItemReference", function(b) {
+            a.props.onHighlightedItemChange(b === null ? null : b.item);
         });
-        return d;
+        return a;
     }
-    p(a, [
+    n(f, [
         {
             key: "shouldComponentUpdate",
-            value: function b(a) {
-                return (0, f["default"])(a, this.props, [
+            value: function a(b) {
+                return (0, d["default"])(b, this.props, [
                     "itemProps", 
                 ]);
             }
         },
         {
             key: "render",
-            value: function j() {
-                var l = this;
-                var a = this.props, f = a.items, g = a.itemProps, n = a.renderItem, o = a.renderItemData, b = a.sectionIndex, p = a.highlightedItemIndex, q = a.getItemId, h = a.theme, c = a.keyPrefix;
-                var i = b === null ? c : "".concat(c, "section-").concat(b, "-");
+            value: function b() {
+                var d = this;
+                var e = this.props, f = e.items, g = e.itemProps, h = e.renderItem, j = e.renderItemData, l = e.sectionIndex, m = e.highlightedItemIndex, n = e.getItemId, o = e.theme, p = e.keyPrefix;
+                var q = l === null ? p : "".concat(p, "section-").concat(l, "-");
                 var r = typeof g === "function";
-                return d["default"].createElement("ul", k({
+                return a["default"].createElement("ul", i({
                     role: "listbox"
-                }, h("".concat(i, "items-list"), "itemsList")), f.map(function(j, a) {
-                    var s = a === 0;
-                    var c = a === p;
-                    var t = "".concat(i, "item-").concat(a);
-                    var u = r ? g({
-                        sectionIndex: b,
-                        itemIndex: a
+                }, o("".concat(q, "items-list"), "itemsList")), f.map(function(b, e) {
+                    var f = e === 0;
+                    var p = e === m;
+                    var s = "".concat(q, "item-").concat(e);
+                    var t = r ? g({
+                        sectionIndex: l,
+                        itemIndex: e
                     }) : g;
-                    var f = m({
-                        id: q(b, a),
-                        "aria-selected": c
-                    }, h(t, "item", s && "itemFirst", c && "itemHighlighted"), {}, u);
-                    if (c) {
-                        f.ref = l.storeHighlightedItemReference;
+                    var u = k({
+                        id: n(l, e),
+                        "aria-selected": p
+                    }, o(s, "item", f && "itemFirst", p && "itemHighlighted"), {}, t);
+                    if (p) {
+                        u.ref = d.storeHighlightedItemReference;
                     }
-                    return d["default"].createElement(e["default"], k({}, f, {
-                        sectionIndex: b,
-                        isHighlighted: c,
-                        itemIndex: a,
-                        item: j,
-                        renderItem: n,
-                        renderItemData: o
+                    return a["default"].createElement(c["default"], i({}, u, {
+                        sectionIndex: l,
+                        isHighlighted: p,
+                        itemIndex: e,
+                        item: b,
+                        renderItem: h,
+                        renderItemData: j
                     }));
                 }));
             }
         }, 
     ]);
-    return a;
-})(d.Component);
-exports["default"] = b;
-c(b, "propTypes", {
-    items: a["default"].array.isRequired,
-    itemProps: a["default"].oneOfType([
-        a["default"].object,
-        a["default"].func, 
+    return f;
+})(a.Component);
+exports["default"] = w;
+v(w, "propTypes", {
+    items: b["default"].array.isRequired,
+    itemProps: b["default"].oneOfType([
+        b["default"].object,
+        b["default"].func, 
     ]),
-    renderItem: a["default"].func.isRequired,
-    renderItemData: a["default"].object.isRequired,
-    sectionIndex: a["default"].number,
-    highlightedItemIndex: a["default"].number,
-    onHighlightedItemChange: a["default"].func.isRequired,
-    getItemId: a["default"].func.isRequired,
-    theme: a["default"].func.isRequired,
-    keyPrefix: a["default"].string.isRequired
+    renderItem: b["default"].func.isRequired,
+    renderItemData: b["default"].object.isRequired,
+    sectionIndex: b["default"].number,
+    highlightedItemIndex: b["default"].number,
+    onHighlightedItemChange: b["default"].func.isRequired,
+    getItemId: b["default"].func.isRequired,
+    theme: b["default"].func.isRequired,
+    keyPrefix: b["default"].string.isRequired
 });
-c(b, "defaultProps", {
+v(w, "defaultProps", {
     sectionIndex: null
 });

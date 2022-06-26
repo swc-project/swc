@@ -1,0 +1,46 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/92/input.html:1:1]
+ 1 | <head></html><meta><p>
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/92/input.html:1:1]
+ 1 | <head></html><meta><p>
+   : ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/92/input.html:1:1]
+ 1 | <head></html><meta><p>
+   : ^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/92/input.html:1:1]
+ 1 | <head></html><meta><p>
+   :              ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/92/input.html:1:1]
+ 1 | <head></html><meta><p>
+   :              ^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/92/input.html:1:1]
+ 1 | <head></html><meta><p>
+   :                    ^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/92/input.html:1:1]
+ 1 | <head></html><meta><p>
+   :                    ^^^
+   `----

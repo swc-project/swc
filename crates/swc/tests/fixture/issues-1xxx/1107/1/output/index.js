@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var Class1 = function Class1(param) {
     "use strict";
     var _name = param.name, name = _name === void 0 ? "" : _name;

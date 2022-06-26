@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Point = function Point(x, y) {
     "use strict";
     _class_call_check(this, Point);
@@ -13,7 +13,7 @@ Point.Origin = {
     var Origin = Point.Origin = "";
 })(Point || (Point = {}));
 var A;
-(function(A1) {
+(function(A) {
     var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
@@ -24,8 +24,8 @@ var A;
         x: 0,
         y: 0
     };
-    A1.Point = Point;
+    A.Point = Point;
     (function(Point) {
         var Origin = Point.Origin = "";
-    })(Point = A1.Point || (A1.Point = {}));
+    })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));

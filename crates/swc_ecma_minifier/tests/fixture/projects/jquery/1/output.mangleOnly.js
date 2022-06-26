@@ -1,48 +1,48 @@
 export const obj = {
-    init: function(a, b, e) {
-        var c, d;
+    init: function(a, b, c) {
+        var d, e;
         if (!a) {
             return this;
         }
         if (typeof a === "string") {
             if (a.charAt(0) === "<" && a.charAt(a.length - 1) === ">" && a.length >= 3) {
-                c = [
+                d = [
                     null,
                     a,
                     null
                 ];
             } else {
-                c = rquickExpr.exec(a);
+                d = rquickExpr.exec(a);
             }
-            if (c && (c[1] || !b)) {
-                if (c[1]) {
+            if (d && (d[1] || !b)) {
+                if (d[1]) {
                     b = b instanceof jQuery ? b[0] : b;
-                    jQuery.merge(this, jQuery.parseHTML(c[1], b && b.nodeType ? b.ownerDocument || b : document, true));
-                    if (rsingleTag.test(c[1]) && jQuery.isPlainObject(b)) {
-                        for(c in b){
-                            if (jQuery.isFunction(this[c])) {
-                                this[c](b[c]);
+                    jQuery.merge(this, jQuery.parseHTML(d[1], b && b.nodeType ? b.ownerDocument || b : document, true));
+                    if (rsingleTag.test(d[1]) && jQuery.isPlainObject(b)) {
+                        for(d in b){
+                            if (jQuery.isFunction(this[d])) {
+                                this[d](b[d]);
                             } else {
-                                this.attr(c, b[c]);
+                                this.attr(d, b[d]);
                             }
                         }
                     }
                     return this;
                 } else {
-                    d = document.getElementById(c[2]);
-                    if (d && d.parentNode) {
-                        if (d.id !== c[2]) {
-                            return e.find(a);
+                    e = document.getElementById(d[2]);
+                    if (e && e.parentNode) {
+                        if (e.id !== d[2]) {
+                            return c.find(a);
                         }
                         this.length = 1;
-                        this[0] = d;
+                        this[0] = e;
                     }
                     this.context = document;
                     this.selector = a;
                     return this;
                 }
             } else if (!b || b.jquery) {
-                return (b || e).find(a);
+                return (b || c).find(a);
             } else {
                 return this.constructor(b).find(a);
             }
@@ -51,7 +51,7 @@ export const obj = {
             this.length = 1;
             return this;
         } else if (jQuery.isFunction(a)) {
-            return e.ready(a);
+            return c.ready(a);
         }
         if (a.selector !== undefined) {
             this.selector = a.selector;

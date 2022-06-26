@@ -22,10 +22,10 @@ var i = x;
 var j = x;
 var j2 = x;
 var M;
-(function(M1) {
-    var foo = M1.foo = 1;
+(function(M) {
+    var foo = M.foo = 1;
 })(M || (M = {}));
 M = x;
-function k(a1) {
-    a1 = x;
+function k(a) {
+    a = x;
 }

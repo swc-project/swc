@@ -1,10 +1,10 @@
 var A;
-(function(A1) {
+(function(A) {
     class Point {
         constructor(x, y){
             this.x = x;
             this.y = y;
         }
     }
-    var UnitSquare = A1.UnitSquare = null;
+    var UnitSquare = A.UnitSquare = null;
 })(A || (A = {}));

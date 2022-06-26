@@ -2,13 +2,13 @@ function x() {
     {
         let x;
     }
-    var x;
+    var x1;
     {
         const y = 1;
-        class Zee {}
+        class Zee {
+        }
     }
 }
 {
     let y;
-}
-var y;
+}var y1;

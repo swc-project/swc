@@ -67,7 +67,7 @@
           "type": "Element",
           "span": {
             "start": 216,
-            "end": 489,
+            "end": 496,
             "ctxt": 0
           },
           "tagName": "head",
@@ -81,13 +81,13 @@
                 "end": 227,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 227,
-                "end": 258,
+                "end": 266,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -101,10 +101,11 @@
                     "end": 258,
                     "ctxt": 0
                   },
-                  "value": "XHTML 1.0 Strict Example"
+                  "data": "XHTML 1.0 Strict Example"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -113,13 +114,13 @@
                 "end": 271,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 271,
-                "end": 479,
+                "end": 488,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -146,10 +147,11 @@
                     "end": 479,
                     "ctxt": 0
                   },
-                  "value": "\n        <![CDATA[\n        function loadpdf() {\n            document.getElementById(\"pdf-object\").src=\"http://www.w3.org/TR/xhtml1/xhtml1.pdf\";\n        }\n        ]]>\n    "
+                  "data": "\n        <![CDATA[\n        function loadpdf() {\n            document.getElementById(\"pdf-object\").src=\"http://www.w3.org/TR/xhtml1/xhtml1.pdf\";\n        }\n        ]]>\n    "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -158,10 +160,11 @@
                 "end": 489,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -170,7 +173,7 @@
             "end": 497,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -203,13 +206,13 @@
                 "end": 523,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 523,
-                "end": 956,
+                "end": 960,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -223,13 +226,13 @@
                     "end": 555,
                     "ctxt": 0
                   },
-                  "value": "This is an example of an\n    "
+                  "data": "This is an example of an\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 555,
-                    "end": 611,
+                    "end": 618,
                     "ctxt": 0
                   },
                   "tagName": "abbr",
@@ -256,10 +259,11 @@
                         "end": 611,
                         "ctxt": 0
                       },
-                      "value": "XHTML"
+                      "data": "XHTML"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -268,7 +272,7 @@
                     "end": 639,
                     "ctxt": 0
                   },
-                  "value": " 1.0 Strict document."
+                  "data": " 1.0 Strict document."
                 },
                 {
                   "type": "Element",
@@ -281,7 +285,8 @@
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -290,7 +295,7 @@
                     "end": 650,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -340,7 +345,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Element",
@@ -353,7 +359,8 @@
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -362,13 +369,13 @@
                     "end": 779,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 779,
-                    "end": 946,
+                    "end": 955,
                     "ctxt": 0
                   },
                   "tagName": "object",
@@ -436,7 +443,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -445,10 +453,11 @@
                     "end": 956,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -457,13 +466,15 @@
                 "end": 977,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

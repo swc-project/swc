@@ -1,0 +1,158 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | ,-> p::before {
+ 2 | |       content: "tes
+ 3 | |       t";
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | ,-> p::before {
+ 2 | |       content: "tes
+ 3 | |       t";
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | ,-> p::before {
+ 2 | |       content: "tes
+ 3 | |       t";
+ 4 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   : ^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   : ^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   : ^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   : ^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   :  ^^^^^^^^
+   `----
+
+  x PseudoElementSelector
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+   :    ^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | ,-> p::before {
+ 2 | |       content: "tes
+ 3 | |       t";
+ 4 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | ,-> content: "tes
+ 3 | `->     t";
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | ,-> content: "tes
+ 3 | `->     t";
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | ,-> content: "tes
+ 3 | `->     t";
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   : ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   : ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   :          ^^^^
+   `----
+
+  x BadString { value: Atom('tes' type=inline), raw: Atom('"tes' type=inline) }
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   :          ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
+   : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
+   :  ^^
+   `----
+
+  x BadString { value: Atom(';' type=inline), raw: Atom('";' type=inline) }
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
+   :  ^^
+   `----

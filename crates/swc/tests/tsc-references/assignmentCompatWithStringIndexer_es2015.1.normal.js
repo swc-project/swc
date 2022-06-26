@@ -9,19 +9,19 @@ a = b2; // ok
 b2 = a; // error
 var Generics;
 (function(Generics) {
-    class A1 {
+    class A {
     }
-    class B extends A1 {
+    class B extends A {
     }
     var b1;
     var a1;
     a1 = b1; // ok
     b1 = a1; // error
-    class B2 extends A1 {
+    class B2 extends A {
     }
-    var b21;
-    a1 = b21; // ok
-    b21 = a1; // error
+    var b2;
+    a1 = b2; // ok
+    b2 = a1; // error
     function foo() {
         var b3;
         var a3;

@@ -1,16 +1,16 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 var _this = this;
 // @target: esnext
 // @useDefineForClassFields: false
 var MyTestClass = /*#__PURE__*/ function() {
     "use strict";
     function MyTestClass() {
-        var _this1 = this;
+        var _this = this;
         _class_call_check(this, MyTestClass);
         this.someFunc = function() {
             //type of 'this' in member variable initializer is the class instance type
-            var t = _this1;
+            var t = _this;
             var t;
         };
         //type of 'this' in constructor body is the class instance type
@@ -29,10 +29,10 @@ var MyTestClass = /*#__PURE__*/ function() {
     };
     //type of 'this' in static function param list is constructor function type
     MyTestClass.staticFn = function staticFn() {
-        var t1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
-        var t1;
-        var t1 = MyTestClass;
-        t1.staticCanary;
+        var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+        var t;
+        var t = MyTestClass;
+        t.staticCanary;
         //type of 'this' in static function body is constructor function type
         var p = this;
         var p;
@@ -80,11 +80,11 @@ var MyTestClass = /*#__PURE__*/ function() {
 var MyGenericTestClass = /*#__PURE__*/ function() {
     "use strict";
     function MyGenericTestClass() {
-        var _this2 = this;
+        var _this = this;
         _class_call_check(this, MyGenericTestClass);
         this.someFunc = function() {
             //type of 'this' in member variable initializer is the class instance type
-            var t = _this2;
+            var t = _this;
             var t;
         };
         //type of 'this' in constructor body is the class instance type
@@ -103,10 +103,10 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
     };
     //type of 'this' in static function param list is constructor function type
     MyGenericTestClass.staticFn = function staticFn() {
-        var t2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
-        var t2;
-        var t2 = MyGenericTestClass;
-        t2.staticCanary;
+        var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+        var t;
+        var t = MyGenericTestClass;
+        t.staticCanary;
         //type of 'this' in static function body is constructor function type
         var p = this;
         var p;

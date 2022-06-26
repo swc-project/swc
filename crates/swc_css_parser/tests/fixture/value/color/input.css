@@ -201,3 +201,15 @@
     color: rgb(from -moz-activehyperlinktext 255 255 255);
     color: rgb(from currentColor 255 255 255);
 }
+
+
+.var {
+    color: rgb(var(--red) var(--green) var(--blue));
+    color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
+
+    color: rgb(env(--red) env(--green) env(--blue));
+    color: rgb(env(--red) env(--green) env(--blue) / env(--alpha));
+
+    color: rgb(constant(--red) constant(--green) constant(--blue));
+    color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
+}

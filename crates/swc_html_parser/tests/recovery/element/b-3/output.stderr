@@ -12,3 +12,7 @@
    `----
 
   x End of file seen and there were open elements
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
+ 1 | <b><a><b><p></a>
+   :                 ^
+   `----

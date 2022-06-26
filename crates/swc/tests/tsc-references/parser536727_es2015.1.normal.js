@@ -1,7 +1,7 @@
 function foo(f) {
     return f("");
 }
-var g = (x1)=>x1 + "blah";
+var g = (x)=>x + "blah";
 var x = ()=>g;
 foo(g);
 foo(()=>g);

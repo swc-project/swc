@@ -7,7 +7,7 @@ use crate::{
     pat::*, stmt::*, typescript::*,
 };
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct LineCol {
     pub line: usize,
@@ -20,7 +20,7 @@ impl LineCol {
     }
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Loc {
     pub start: LineCol,
@@ -36,7 +36,7 @@ impl Loc {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct BaseNode {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -408,7 +408,7 @@ pub struct Decorator {
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("Noop")]
 pub struct Noop {
     #[serde(flatten)]
@@ -521,7 +521,7 @@ pub struct PrivateName {
     pub id: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum Access {
     Public,
@@ -538,7 +538,7 @@ pub struct MetaProperty {
     pub property: Identifier,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("Directive")]
 pub struct Directive {
     #[serde(flatten)]
@@ -546,7 +546,7 @@ pub struct Directive {
     pub value: DirectiveLiteral,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde("DirectiveLiteral")]
 pub struct DirectiveLiteral {
     #[serde(flatten)]
@@ -571,7 +571,7 @@ pub struct PipelineTopicExpression {
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum PlaceholderExpectedNode {
     Identifier,
     StringLiteral,

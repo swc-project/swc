@@ -4,9 +4,9 @@ new (function(a) {
 new (function(a) {
     this.foo = a;
 })();
-new (function b(a) {
-    this.foo = a;
+new (function a(b) {
+    this.foo = b;
 })(1);
-new (function b(a) {
-    this.foo = a;
+new (function a(b) {
+    this.foo = b;
 })();

@@ -1,17 +1,17 @@
-function a(e, b, a) {
+function a(a, b, c) {
     {
-        var f = ReactSharedInternals.ReactDebugCurrentFrame;
-        var c = f.getStackAddendum();
-        if (c !== "") {
+        var d = ReactSharedInternals.ReactDebugCurrentFrame;
+        var e = d.getStackAddendum();
+        if (e !== "") {
             b += "%s";
-            a = a.concat([
-                c
+            c = c.concat([
+                e
             ]);
         }
-        var d = a.map(function(a) {
+        var f = c.map(function(a) {
             return "" + a;
         });
-        d.unshift("Warning: " + b);
-        Function.prototype.apply.call(console[e], console, d);
+        f.unshift("Warning: " + b);
+        Function.prototype.apply.call(console[a], console, f);
     }
 }

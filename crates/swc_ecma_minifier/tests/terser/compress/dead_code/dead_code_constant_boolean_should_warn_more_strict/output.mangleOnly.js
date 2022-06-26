@@ -1,11 +1,11 @@
 "use strict";
-while(!(b || a + "0")){
+while(!(a || b + "0")){
     console.log("unreachable");
-    var b;
+    var a;
 }
-for(var a = 10, c; a && (c || a) && !typeof a; ++a){
+for(var b = 10, c; b && (c || b) && !typeof b; ++b){
     asdf();
-    b();
+    a();
     var d;
 }
 bar();

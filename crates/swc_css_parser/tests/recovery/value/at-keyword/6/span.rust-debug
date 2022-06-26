@@ -1,90 +1,108 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
-  |
-1 | a { value: @\6beyword }
-  | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
-  |
-1 | a { value: @\6beyword }
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
-  |
-1 | a { value: @\6beyword }
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
-  |
-1 | a { value: @\6beyword }
-  | ^
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
-  |
-1 | a { value: @\6beyword }
-  | ^
+  x SelectorList
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
-  |
-1 | a { value: @\6beyword }
-  | ^
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
-  |
-1 | a { value: @\6beyword }
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
-  |
-1 | a { value: @\6beyword }
-  | ^
+  x TypeSelector
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^
+   `----
 
-error: Block
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:3
-  |
-1 | a { value: @\6beyword }
-  |   ^^^^^^^^^^^^^^^^^^^^^
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^
+   `----
 
-error: Tokens
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
-  |
-1 | a { value: @\6beyword }
-  |     ^^^^^^^^^^^^^^^^^^
+  x WqName
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^
+   `----
 
-error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
-  |
-1 | a { value: @\6beyword }
-  |     ^^^^^
+  x Ident
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^
+   `----
 
-error: Colon
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:10
-  |
-1 | a { value: @\6beyword }
-  |          ^
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :   ^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:11
-  |
-1 | a { value: @\6beyword }
-  |           ^
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtKeyword { value: Atom('ھyword' type=inline), raw: Atom('\6beyword' type=dynamic) }
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:12
-  |
-1 | a { value: @\6beyword }
-  |            ^^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:22
-  |
-1 | a { value: @\6beyword }
-  |                      ^
+  x Declaration
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
 
+  x DeclarationName
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :     ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :     ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :            ^^^^^^^^^^
+   `----
+
+  x AtKeyword { value: Atom('ھyword' type=inline), raw: Atom('\6beyword' type=dynamic) }
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :            ^^^^^^^^^^
+   `----

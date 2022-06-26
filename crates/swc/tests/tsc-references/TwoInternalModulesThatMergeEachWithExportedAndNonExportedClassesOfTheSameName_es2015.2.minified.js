@@ -1,10 +1,10 @@
 var A, X;
 (A || (A = {})).Point = class {
-}, A || (A = {}), function(X1) {
+}, A || (A = {}), function(X) {
     var Y;
-    ((Y = X1.Y || (X1.Y = {})).Z || (Y.Z = {})).Line = class {
+    ((Y = X.Y || (X.Y = {})).Z || (Y.Z = {})).Line = class {
     };
-}(X || (X = {})), function(X2) {
+}(X || (X = {})), function(X) {
     var Y;
-    (Y = X2.Y || (X2.Y = {})).Z || (Y.Z = {});
+    (Y = X.Y || (X.Y = {})).Z || (Y.Z = {});
 }(X || (X = {}));

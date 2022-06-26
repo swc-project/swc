@@ -1,6 +1,6 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
-import _to_property_key from "@swc/helpers/lib/_to_property_key.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 // @target: es5,es2015
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/39205

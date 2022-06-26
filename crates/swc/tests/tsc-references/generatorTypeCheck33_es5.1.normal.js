@@ -3,8 +3,8 @@ var _marked = regeneratorRuntime.mark(g);
 //@target: ES6
 function g() {
     var g2;
-    return regeneratorRuntime.wrap(function g$(_ctx1) {
-        while(1)switch(_ctx1.prev = _ctx1.next){
+    return regeneratorRuntime.wrap(function g$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 g2 = regeneratorRuntime.mark(function g2() {
                     return regeneratorRuntime.wrap(function g2$(_ctx) {
@@ -18,11 +18,11 @@ function g() {
                         }
                     }, g2);
                 });
-                _ctx1.next = 3;
+                _ctx.next = 3;
                 return 0;
             case 3:
             case "end":
-                return _ctx1.stop();
+                return _ctx.stop();
         }
     }, _marked);
 }

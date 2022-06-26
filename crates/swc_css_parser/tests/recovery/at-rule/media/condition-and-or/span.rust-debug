@@ -1,0 +1,120 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :  ^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaCondition
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionAllType
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                          ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                          ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                     ^^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                     ^^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                     ^^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                     ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                         ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                             ^^
+   `----

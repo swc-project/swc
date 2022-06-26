@@ -50,8 +50,7 @@
 <p x='x"'>x</p>
 <a href=#><p>Click me</p></a>
 <span><button>Hit me</button></span>
-<!--TODO FIX ME -->
-<!--<object type="image/svg+xml" data="image.svg"><div>[fallback image]</div></object>-->
+<object type=image/svg+xml data=image.svg><div>[fallback image]</div></object>
 
 <img class=user-image src=http://adasdasdasd.cloudfront.net/users/2011/05/24/4asdasd/asdasd.jpg>
 
@@ -90,8 +89,8 @@ foo
 <div data-test=\\foo class=bar>test</div>
 
 <span title='test "with" &amp;quot;'>test</span>
-<span title='test "with" &amp; quot'>test</span>
-<span title='test "with" &amp;test'>test</span>
+<span title='test "with" & quot'>test</span>
+<span title='test "with" &test'>test</span>
 <span title='test "with" &amp;amptest'>test</span>
 <span title='test "with" <'>test</span>
 <span title='test "with" >'>test</span>
@@ -117,9 +116,9 @@ foo
 </style>
 
 <div>
-    foo &amp; bar
-    foo&amp;<i>bar</i>
-    foo&amp;&amp;&amp; bar
+    foo & bar
+    foo&<i>bar</i>
+    foo&&& bar
 </div>
 
 <pre><code>Label current;
@@ -129,21 +128,48 @@ __ bind(&amp;current);
 </code></pre>
 
 <div>
-    &amp;xxx; &amp;xxx &amp;thorn; &amp;thorn &amp;curren;t &amp;current &amp;current; &amp;&amp;
+    &xxx; &xxx &amp;thorn; &amp;thorn &amp;curren;t &amp;current &amp;current; &&
     &amp;gt
-    &amp;unknown;
+    &unknown;
     &amp;current
     &amp;current;
     &amp;current
     &amp;current;
 
-    ø &amp;osLash Ø
-    &amp;ø &amp;&amp;osLash; &amp;Ø
-    &amp;ø &amp;&amp;osLash; &amp;Ø
+    ø &osLash Ø
+    &ø &&osLash; &Ø
+    &ø &&osLash; &Ø
 
-    &amp;oslash; &amp;osLash; &amp;Oslash;
-    &amp;oslash; &amp;osLash; &amp;Oslash;
+    &amp;oslash; &osLash; &amp;Oslash;
+    &amp;oslash; &osLash; &amp;Oslash;
 </div>
+
+<a b="`''<<==/`/"></a>
+<a b="`'&quot;<<==/`/"></a>
+<a b="`'&quot;<<==/`/"></a>
+<a b='`&apos;"""<<==/`/'></a>
+<a b='`"<<==/`/'></a>
+<a b="`'<<==/`/"></a>
+
+<a b='"'></a>
+<a b="'"></a>
+<a b="'"></a>
+<a b='"'></a>
+
+<a b="'''"></a>
+<a b="'''"></a>
+
+<a b='"""'></a>
+<a b='"""'></a>
+
+<a href=">"></a>
+<a href="<"></a>
+<a href="<"></a>
+<a href="<"></a>
+<a href=">"></a>
+<a href=">"></a>
+<a href=">"></a>
+<a href=">"></a>
 
 
 

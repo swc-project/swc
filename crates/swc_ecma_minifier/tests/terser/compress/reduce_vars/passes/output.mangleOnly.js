@@ -1,12 +1,12 @@
 function a() {
-    var c = 1, a = 2, b = 3;
-    if (c) {
-        a = b;
+    var a = 1, b = 2, c = 3;
+    if (a) {
+        b = c;
     } else {
-        b = a;
+        c = b;
     }
-    console.log(c + a);
     console.log(a + b);
-    console.log(c + b);
-    console.log(c + a + b);
+    console.log(b + c);
+    console.log(a + c);
+    console.log(a + b + c);
 }

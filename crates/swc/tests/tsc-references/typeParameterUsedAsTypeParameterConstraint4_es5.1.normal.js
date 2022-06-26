@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Type parameters are in scope in their own and other type parameter lists
 // Some negative cases
 var C = /*#__PURE__*/ function() {

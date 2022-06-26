@@ -1,0 +1,120 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :        ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :        ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :         ^^^^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('aspect-ratio' type=dynamic), raw: Atom('aspect-ratio' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :         ^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                     ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                       ^^
+   `----
+
+  x Number { value: 12.0, raw: Atom('12' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                       ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                         ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                         ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/) {}
+   :                            ^^
+   `----

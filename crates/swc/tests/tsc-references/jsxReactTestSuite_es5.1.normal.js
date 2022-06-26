@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 /*#__PURE__*/ React.createElement("div", null, "text");
 /*#__PURE__*/ React.createElement("div", null, this.props.children);
 /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("br", null)), /*#__PURE__*/ React.createElement(Component, null, foo, /*#__PURE__*/ React.createElement("br", null), bar), /*#__PURE__*/ React.createElement("br", null));

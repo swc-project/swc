@@ -1,12 +1,12 @@
-import _async_generator_delegate from "@swc/helpers/lib/_async_generator_delegate.js";
-import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _await_async_generator from "@swc/helpers/lib/_await_async_generator.js";
-import _define_property from "@swc/helpers/lib/_define_property.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
-import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {

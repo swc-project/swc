@@ -1,4 +1,4 @@
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 var str;
 var num;
 var strOrNum;

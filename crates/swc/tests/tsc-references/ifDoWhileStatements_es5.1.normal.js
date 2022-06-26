@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
@@ -22,11 +22,11 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-function F21(x) {
+function F2(x) {
     return x < 42;
 }
 var M;
-(function(M1) {
+(function(M) {
     var F2 = function F2(x) {
         return x.toString();
     };
@@ -34,11 +34,11 @@ var M;
         "use strict";
         _class_call_check(this, A);
     };
-    M1.A = A;
-    M1.F2 = F2;
+    M.A = A;
+    M.F2 = F2;
 })(M || (M = {}));
 var N;
-(function(N1) {
+(function(N) {
     var F2 = function F2(x) {
         return x.toString();
     };
@@ -46,8 +46,8 @@ var N;
         "use strict";
         _class_call_check(this, A);
     };
-    N1.A = A;
-    N1.F2 = F2;
+    N.A = A;
+    N.F2 = F2;
 })(N || (N = {}));
 // literals
 if (true) {}

@@ -1,16 +1,16 @@
 (function() {
-    function b(a) {
+    function a(a) {
         return a[a[0]];
     }
-    function a() {
+    function b() {
         if (true) {
-            const a = b([
+            const b = a([
                 1,
                 2,
                 3
             ]);
-            console.log(a);
+            console.log(b);
         }
     }
-    return a();
+    return b();
 })();

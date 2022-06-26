@@ -1,25 +1,25 @@
 export const obj = {
-    remove: function(a, c) {
-        var f = !_.isArray(a);
-        a = f ? [
+    remove: function(a, b) {
+        var c = !_.isArray(a);
+        a = c ? [
             a
         ] : _.clone(a);
-        c || (c = {});
-        var d, g, e, b;
-        for(d = 0, g = a.length; d < g; d++){
-            b = a[d] = this.get(a[d]);
-            if (!b) continue;
-            delete this._byId[b.id];
-            delete this._byId[b.cid];
-            e = this.indexOf(b);
-            this.models.splice(e, 1);
+        b || (b = {});
+        var d, e, f, g;
+        for(d = 0, e = a.length; d < e; d++){
+            g = a[d] = this.get(a[d]);
+            if (!g) continue;
+            delete this._byId[g.id];
+            delete this._byId[g.cid];
+            f = this.indexOf(g);
+            this.models.splice(f, 1);
             this.length--;
-            if (!c.silent) {
-                c.index = e;
-                b.trigger("remove", b, this, c);
+            if (!b.silent) {
+                b.index = f;
+                g.trigger("remove", g, this, b);
             }
-            this._removeReference(b);
+            this._removeReference(g);
         }
-        return f ? a[0] : a;
+        return c ? a[0] : a;
     }
 };

@@ -1,0 +1,140 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | |       );
+ 6 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | |       );
+ 6 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | |       );
+ 6 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | |       );
+ 6 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:5]
+ 2 | ,-> background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | `->     );
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:5]
+ 2 | ,-> background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | `->     );
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:5]
+ 2 | ,-> background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | `->     );
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:5]
+ 2 | background: url(
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:5]
+ 2 | background: url(
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:5]
+ 2 | ,-> background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | `->     );
+   `----
+
+  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('
+  |         /* test */
+  |         test.png
+  |     ' type=dynamic), raw_value: Atom('
+  |         /* test */
+  |         test.png
+  |     ' type=dynamic) }
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:5]
+ 2 | ,-> background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | `->     );
+   `----

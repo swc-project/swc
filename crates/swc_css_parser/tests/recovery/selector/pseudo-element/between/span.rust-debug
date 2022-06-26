@@ -1,0 +1,64 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | ,-> : :foo {
+ 2 | |       
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | ,-> : :foo {
+ 2 | |       
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | ,-> : :foo {
+ 2 | |       
+ 3 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | : :foo {
+   : ^^^^^^^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | : :foo {
+   : ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | : :foo {
+   :  ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | : :foo {
+   :   ^
+   `----
+
+  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | : :foo {
+   :    ^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | : :foo {
+   :       ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
+ 1 | ,-> : :foo {
+ 2 | |       
+ 3 | `-> }
+   `----

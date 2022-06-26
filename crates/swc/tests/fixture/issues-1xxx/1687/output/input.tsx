@@ -1,5 +1,5 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import "core-js/modules/es.object.to-string.js";
 import "core-js/modules/es.promise.js";
 import regeneratorRuntime from "regenerator-runtime";

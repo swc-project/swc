@@ -1,6 +1,6 @@
-function a(a, c) {
-    const b = a.get();
-    return b.map(function({ [c]: a  }) {
+function a(a, b) {
+    const c = a.get();
+    return c.map(function({ [b]: a  }) {
         return a;
     });
 }

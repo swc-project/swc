@@ -122,8 +122,8 @@ let p11 = defineProp(p1, "bar", {
     get () {
         return this.x;
     },
-    set (value) {
-        this.x = value;
+    set (value1) {
+        this.x = value1;
     }
 });
 p11.bar = p11.bar + 1;
@@ -135,8 +135,8 @@ let p12 = defineProps(p1, {
         get () {
             return this.x;
         },
-        set (value) {
-            this.x = value;
+        set (value1) {
+            this.x = value1;
         }
     }
 });
@@ -160,7 +160,7 @@ let vue = new Vue({
             get () {
                 return "hi";
             },
-            set (value) {}
+            set (value1) {}
         }
     }
 });

@@ -40,8 +40,8 @@ var Others;
     var o = e;
     var p = e;
     var q = e;
-    function foo(x1, y, z) {
-        x1 = e;
+    function foo(x, y, z) {
+        x = e;
         y = e;
         z = e;
         var a = e;

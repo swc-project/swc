@@ -24,3 +24,7 @@
     `----
 
   x End of file seen and there were open elements
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:15:1]
+ 15 | </html>
+    :        ^
+    `----

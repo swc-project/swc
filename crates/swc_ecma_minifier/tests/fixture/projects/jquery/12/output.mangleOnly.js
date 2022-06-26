@@ -1,49 +1,49 @@
 var a = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, b = /([A-Z])/g;
-function c(e, d, i, j) {
-    if (!jQuery.acceptData(e)) {
+function c(a, b, c, d) {
+    if (!jQuery.acceptData(a)) {
         return;
     }
-    var c, f, g = jQuery.expando, k = typeof d === "string", h = e.nodeType, b = h ? jQuery.cache : e, a = h ? e[g] : e[g] && g;
-    if ((!a || !b[a] || (!j && !b[a].data)) && k && i === undefined) {
+    var e, f, g = jQuery.expando, h = typeof b === "string", i = a.nodeType, j = i ? jQuery.cache : a, k = i ? a[g] : a[g] && g;
+    if ((!k || !j[k] || (!d && !j[k].data)) && h && c === undefined) {
         return;
     }
-    if (!a) {
-        if (h) {
-            e[g] = a = core_deletedIds.pop() || jQuery.guid++;
+    if (!k) {
+        if (i) {
+            a[g] = k = core_deletedIds.pop() || jQuery.guid++;
         } else {
-            a = g;
+            k = g;
         }
     }
-    if (!b[a]) {
-        b[a] = {};
-        if (!h) {
-            b[a].toJSON = jQuery.noop;
+    if (!j[k]) {
+        j[k] = {};
+        if (!i) {
+            j[k].toJSON = jQuery.noop;
         }
     }
-    if (typeof d === "object" || typeof d === "function") {
-        if (j) {
-            b[a] = jQuery.extend(b[a], d);
+    if (typeof b === "object" || typeof b === "function") {
+        if (d) {
+            j[k] = jQuery.extend(j[k], b);
         } else {
-            b[a].data = jQuery.extend(b[a].data, d);
+            j[k].data = jQuery.extend(j[k].data, b);
         }
     }
-    c = b[a];
-    if (!j) {
-        if (!c.data) {
-            c.data = {};
+    e = j[k];
+    if (!d) {
+        if (!e.data) {
+            e.data = {};
         }
-        c = c.data;
+        e = e.data;
     }
-    if (i !== undefined) {
-        c[jQuery.camelCase(d)] = i;
+    if (c !== undefined) {
+        e[jQuery.camelCase(b)] = c;
     }
-    if (k) {
-        f = c[d];
+    if (h) {
+        f = e[b];
         if (f == null) {
-            f = c[jQuery.camelCase(d)];
+            f = e[jQuery.camelCase(b)];
         }
     } else {
-        f = c;
+        f = e;
     }
     return f;
 }

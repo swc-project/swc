@@ -1,4 +1,4 @@
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 all.apply(void 0, _to_consumable_array(ns)), weird.apply(void 0, _to_consumable_array(ns)), weird.apply(void 0, _to_consumable_array(mixed)), weird.apply(void 0, _to_consumable_array(tuple)), prefix.apply(void 0, [
     "a"
 ].concat(_to_consumable_array(ns))), rest.apply(void 0, [

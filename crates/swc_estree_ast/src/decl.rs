@@ -78,7 +78,7 @@ pub enum Declaration {
     TSModuleDecl(TSModuleDeclaration),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum VariableDeclarationKind {
     Var,

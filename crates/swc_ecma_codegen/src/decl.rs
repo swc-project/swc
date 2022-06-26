@@ -1,13 +1,14 @@
-use swc_common::Spanned;
+use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
-use super::{list::ListFormat, Emitter, Result};
+use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     #[emitter]
     fn emit_decl(&mut self, node: &Decl) -> Result {

@@ -959,6 +959,10 @@ export interface BaseModuleConfig {
    * Defaults to `false`.
    */
   noInterop?: boolean;
+  /**
+   * If set to true, dynamic imports will be preserved.
+   */
+  ignoreDynamic?: boolean;
 }
 
 export interface Es6Config extends BaseModuleConfig {

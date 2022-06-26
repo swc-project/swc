@@ -1,10 +1,10 @@
-var b = 1;
-var a = {
+var a = 1;
+var b = {
     get this () {
-        return b;
+        return a;
     },
     set this (c){
-        b = c;
+        a = c;
     }
 };
-console.log(a.this, (a.this = 2), a.this);
+console.log(b.this, (b.this = 2), b.this);

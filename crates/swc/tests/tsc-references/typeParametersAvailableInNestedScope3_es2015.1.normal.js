@@ -1,26 +1,26 @@
 // @declaration: true
-function foo(v1) {
-    function a1(a) {
+function foo(v) {
+    function a(a) {
         return a;
     }
-    function b1() {
-        return v1;
+    function b() {
+        return v;
     }
     function c(v) {
-        function a2(a) {
+        function a(a) {
             return a;
         }
         function b() {
             return v;
         }
         return {
-            a: a2,
+            a,
             b
         };
     }
     return {
-        a: a1,
-        b: b1,
+        a,
+        b,
         c
     };
 }

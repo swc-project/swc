@@ -1,8 +1,8 @@
 var Foo;
-(function(Foo1) {
+(function(Foo) {
     var ref;
     ref = {
         a: 1,
         b: 2
-    }, Foo1.A = ref.a, Foo1.B = ref.b, ref;
+    }, Foo.A = ref.a, Foo.B = ref.b, ref;
 })(Foo || (Foo = {}));

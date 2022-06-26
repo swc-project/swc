@@ -1,10 +1,10 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 //@target: ES6
-var C1 = /*#__PURE__*/ function(C21) {
+var C1 = /*#__PURE__*/ function(C2) {
     "use strict";
-    _inherits(C1, C21);
+    _inherits(C1, C2);
     var _super = _create_super(C1);
     function C1() {
         _class_call_check(this, C1);

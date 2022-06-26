@@ -2,8 +2,8 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
-    let CompilerDiagnostics1;
+(function(TypeScript) {
+    let CompilerDiagnostics;
     (function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = false;
         var diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
@@ -28,7 +28,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics1 = TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}));
+    })(CompilerDiagnostics = TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {}));
     class NullLogger {
         information() {
             return false;
@@ -47,7 +47,7 @@ var TypeScript;
         }
         log(s) {}
     }
-    TypeScript1.NullLogger = NullLogger;
+    TypeScript.NullLogger = NullLogger;
     class LoggerAdapter {
         information() {
             return this._information;
@@ -76,7 +76,7 @@ var TypeScript;
             this._fatal = this.logger.fatal();
         }
     }
-    TypeScript1.LoggerAdapter = LoggerAdapter;
+    TypeScript.LoggerAdapter = LoggerAdapter;
     class BufferedLogger {
         information() {
             return false;
@@ -100,7 +100,7 @@ var TypeScript;
             this.logContents = [];
         }
     }
-    TypeScript1.BufferedLogger = BufferedLogger;
+    TypeScript.BufferedLogger = BufferedLogger;
     function timeFunction(logger, funcDescription, func) {
         var start = +new Date();
         var result = func();
@@ -108,7 +108,7 @@ var TypeScript;
         logger.log(funcDescription + " completed in " + (end - start) + " msec");
         return result;
     }
-    TypeScript1.timeFunction = timeFunction;
+    TypeScript.timeFunction = timeFunction;
     function stringToLiteral(value, length) {
         var result = "";
         var addChar = (index)=>{
@@ -154,5 +154,5 @@ var TypeScript;
         }
         return result;
     }
-    TypeScript1.stringToLiteral = stringToLiteral;
+    TypeScript.stringToLiteral = stringToLiteral;
 })(TypeScript || (TypeScript = {}));

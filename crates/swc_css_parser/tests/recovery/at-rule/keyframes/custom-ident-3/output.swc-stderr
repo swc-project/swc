@@ -1,12 +1,12 @@
 
-  x The CSS-wide keywords are not valid custom ident, found 'unset'
-   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
- 1 | @keyframes unset {}
-   :            ^^^^^
-   `----
-
   x Expected ident or string
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
  1 | @keyframes unset {}
    :                  ^
+   `----
+
+  x The CSS-wide keywords are not valid custom ident, found 'unset'
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :            ^^^^^
    `----

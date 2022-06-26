@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 function Todo(prop) {
     return /*#__PURE__*/ React.createElement("div", null, prop.key.toString() + prop.todo);
 }

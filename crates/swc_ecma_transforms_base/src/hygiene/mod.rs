@@ -1,19 +1,12 @@
-use swc_atoms::JsWord;
-use swc_common::{chain, collections::AHashMap};
+use swc_common::chain;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
-use self::{
-    ops::Operator,
-    usage_analyzer::{Data, UsageAnalyzer},
-};
-use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
+pub use crate::rename::rename;
+use crate::rename::{renamer, Renamer};
 
-mod ops;
 #[cfg(test)]
 mod tests;
-mod unique_scope;
-mod usage_analyzer;
 
 macro_rules! track_ident_mut {
     () => {
@@ -117,16 +110,10 @@ macro_rules! track_ident_mut {
     };
 }
 
-const LOG: bool = false;
-
 #[derive(Debug, Clone, Default)]
 pub struct Config {
     /// If true, the `hygiene` pass will preserve class names.
     pub keep_class_names: bool,
-}
-
-pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
-    as_folder(Operator(map, Default::default()))
 }
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
@@ -162,7 +149,24 @@ pub fn hygiene() -> impl Fold + VisitMut + 'static {
 ///
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    as_folder(chain!(unique_scope(), Hygiene { config }, HygieneRemover))
+    chain!(renamer(config, HygieneRenamer), as_folder(HygieneRemover))
+}
+
+struct HygieneRenamer;
+
+impl Renamer for HygieneRenamer {
+    const PARALLEL: bool = false;
+    const RESET_N: bool = true;
+
+    fn new_name_for(&self, orig: &Id, n: &mut usize) -> swc_atoms::JsWord {
+        let res = if *n == 0 {
+            orig.0.clone()
+        } else {
+            format!("{}{}", orig.0, n).into()
+        };
+        *n += 1;
+        res
+    }
 }
 
 struct HygieneRemover;
@@ -172,48 +176,5 @@ impl VisitMut for HygieneRemover {
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         i.span.ctxt = Default::default();
-    }
-}
-
-#[derive(Debug, Default)]
-struct Hygiene {
-    config: Config,
-}
-
-impl Hygiene {
-    fn analyze<N>(&mut self, n: &mut N)
-    where
-        N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
-        N: for<'aa> VisitMutWith<Operator<'aa>>,
-    {
-        let mut data = Data::default();
-        {
-            let mut v = UsageAnalyzer {
-                data: &mut data,
-                cur: CurScope {
-                    parent: None,
-                    data: Default::default(),
-                    depth: 0,
-                },
-                is_pat_decl: false,
-            };
-
-            n.visit_with(&mut v);
-        }
-
-        let ops = data.ops.into_inner();
-        n.visit_mut_with(&mut Operator(&ops.rename, self.config.clone()));
-    }
-}
-
-impl VisitMut for Hygiene {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        self.analyze(n);
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        self.analyze(n);
     }
 }

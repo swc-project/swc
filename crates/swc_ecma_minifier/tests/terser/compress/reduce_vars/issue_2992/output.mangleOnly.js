@@ -1,9 +1,9 @@
 var a = "PASS";
-(function c(b) {
+(function b(c) {
     switch(0){
         case 0:
-        case (b = 1):
-            b && (a = "FAIL");
+        case (c = 1):
+            c && (a = "FAIL");
     }
 })();
 console.log(a);

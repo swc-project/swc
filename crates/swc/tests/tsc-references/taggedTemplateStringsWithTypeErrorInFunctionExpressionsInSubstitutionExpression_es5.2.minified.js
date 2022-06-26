@@ -1,4 +1,4 @@
-import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
+import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
         "",
@@ -9,5 +9,5 @@ function _templateObject() {
     }, data;
 }
 !function() {
-    for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
+    for(var _len = arguments.length, rest = Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
 }(_templateObject(), function(x) {});

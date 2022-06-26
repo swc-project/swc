@@ -1,18 +1,18 @@
-function c(b) {
-    console.log(b === this ? "global" : b === a ? "foo" : b);
+function a(a) {
+    console.log(a === this ? "global" : a === b ? "foo" : a);
 }
-var a = {
+var b = {
     func_no_this: function() {
-        c();
+        a();
     },
     func_with_this: function() {
-        c(this);
+        a(this);
     },
     arrow_no_this: ()=>{
-        c();
+        a();
     },
     arrow_with_this: ()=>{
-        c(this);
+        a(this);
     }
 };
-for(var b in a)a[b]();
+for(var c in b)b[c]();

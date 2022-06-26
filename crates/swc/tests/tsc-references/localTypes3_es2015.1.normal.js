@@ -8,10 +8,10 @@ function f1() {
         }
         return C;
     }
-    let C1 = f();
-    let v = new C1(10, "hello");
-    let x1 = v.x;
-    let y1 = v.y;
+    let C = f();
+    let v = new C(10, "hello");
+    let x = v.x;
+    let y = v.y;
 }
 function f2() {
     function f(x) {
@@ -23,10 +23,10 @@ function f2() {
         }
         return C;
     }
-    let C2 = f(10);
-    let v = new C2("hello");
-    let x2 = v.x;
-    let y2 = v.y;
+    let C = f(10);
+    let v = new C("hello");
+    let x = v.x;
+    let y = v.y;
 }
 function f3() {
     function f(x, y) {
@@ -38,8 +38,8 @@ function f3() {
         }
         return C;
     }
-    let C3 = f(10, "hello");
-    let v = new C3();
-    let x3 = v.x;
-    let y3 = v.y;
+    let C = f(10, "hello");
+    let v = new C();
+    let x = v.x;
+    let y = v.y;
 }

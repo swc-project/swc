@@ -23,8 +23,8 @@ function explicitStructural(x) {
 function justThis() {
     return this.y;
 }
-function implicitThis(n1) {
-    return this.m + n1 + 12;
+function implicitThis(n) {
+    return this.m + n + 12;
 }
 let impl = {
     a: 12,
@@ -143,7 +143,7 @@ c.explicitC = function(m) {
     return this.n + m;
 };
 // this:void compatibility
-c.explicitVoid = (n2)=>n2;
+c.explicitVoid = (n)=>n;
 // class-based assignability
 class Base1 {
     polymorphic() {

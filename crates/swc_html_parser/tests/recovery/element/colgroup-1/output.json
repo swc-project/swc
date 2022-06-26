@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 126,
+        "end": 0,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,20 +22,21 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
           "span": {
             "start": 1,
-            "end": 126,
+            "end": 133,
             "ctxt": 0
           },
           "tagName": "body",
@@ -49,13 +50,13 @@
                 "end": 8,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 8,
-                "end": 23,
+                "end": 44,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -66,7 +67,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 8,
-                  "end": 23,
+                  "end": 44,
                   "ctxt": 0
                 },
                 "children": [
@@ -81,10 +82,12 @@
                     "namespace": "http://www.w3.org/1999/xhtml",
                     "attributes": [],
                     "children": [],
-                    "content": null
+                    "content": null,
+                    "isSelfClosing": false
                   }
                 ]
-              }
+              },
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -93,13 +96,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 87,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -110,7 +113,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 45,
-                  "end": 60,
+                  "end": 87,
                   "ctxt": 0
                 },
                 "children": [
@@ -125,10 +128,12 @@
                     "namespace": "http://www.w3.org/1999/xhtml",
                     "attributes": [],
                     "children": [],
-                    "content": null
+                    "content": null,
+                    "isSelfClosing": false
                   }
                 ]
-              }
+              },
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -137,13 +142,13 @@
                 "end": 88,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 88,
-                "end": 103,
+                "end": 125,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -154,7 +159,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 88,
-                  "end": 103,
+                  "end": 125,
                   "ctxt": 0
                 },
                 "children": [
@@ -169,10 +174,12 @@
                     "namespace": "http://www.w3.org/1999/xhtml",
                     "attributes": [],
                     "children": [],
-                    "content": null
+                    "content": null,
+                    "isSelfClosing": false
                   }
                 ]
-              }
+              },
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -181,13 +188,15 @@
                 "end": 126,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

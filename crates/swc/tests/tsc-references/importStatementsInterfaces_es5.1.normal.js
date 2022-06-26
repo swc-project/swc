@@ -16,9 +16,9 @@ var D;
 })(D || (D = {}));
 // no code gen expected
 var E;
-(function(E1) {
+(function(E) {
     var xDist = function xDist(x) {
         return 0 - x.x;
     };
-    E1.xDist = xDist;
+    E.xDist = xDist;
 })(E || (E = {}));

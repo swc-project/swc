@@ -80,7 +80,7 @@
         for(i = 0; i < len; i++)if (i in t && fun.call(this, t[i], i, t)) return !0;
         return !1;
     };
-    var token1, getSetMillisecond, momentProperties = hooks.momentProperties = [], updateInProgress = !1;
+    var token, getSetMillisecond, momentProperties = hooks.momentProperties = [], updateInProgress = !1;
     function copyConfig(to, from) {
         var i, prop, val;
         if (isUndefined(from._isAMomentObject) || (to._isAMomentObject = from._isAMomentObject), isUndefined(from._i) || (to._i = from._i), isUndefined(from._f) || (to._f = from._f), isUndefined(from._l) || (to._l = from._l), isUndefined(from._strict) || (to._strict = from._strict), isUndefined(from._tzm) || (to._tzm = from._tzm), isUndefined(from._isUTC) || (to._isUTC = from._isUTC), isUndefined(from._offset) || (to._offset = from._offset), isUndefined(from._pf) || (to._pf = getParsingFlags(from)), isUndefined(from._locale) || (to._locale = from._locale), momentProperties.length > 0) for(i = 0; i < momentProperties.length; i++)isUndefined(val = from[prop = momentProperties[i]]) || (to[prop] = val);
@@ -107,7 +107,7 @@
                     } else arg = arguments[i];
                     args.push(arg);
                 }
-                warn(msg + "\nArguments: " + Array.prototype.slice.call(args).join("") + "\n" + new Error().stack), firstTime = !1;
+                warn(msg + "\nArguments: " + Array.prototype.slice.call(args).join("") + "\n" + Error().stack), firstTime = !1;
             }
             return fn.apply(this, arguments);
         }, fn);
@@ -151,16 +151,16 @@
     function removeFormattingTokens(input) {
         return input.match(/\[[\s\S]/) ? input.replace(/^\[|\]$/g, "") : input.replace(/\\/g, "");
     }
-    function formatMoment(m, format1) {
-        return m.isValid() ? (formatFunctions[format1 = expandFormat(format1, m.localeData())] = formatFunctions[format1] || function(format) {
-            var i1, length, array = format.match(formattingTokens);
-            for(i1 = 0, length = array.length; i1 < length; i1++)formatTokenFunctions[array[i1]] ? array[i1] = formatTokenFunctions[array[i1]] : array[i1] = removeFormattingTokens(array[i1]);
+    function formatMoment(m, format) {
+        return m.isValid() ? (formatFunctions[format = expandFormat(format, m.localeData())] = formatFunctions[format] || function(format) {
+            var i, length, array = format.match(formattingTokens);
+            for(i = 0, length = array.length; i < length; i++)formatTokenFunctions[array[i]] ? array[i] = formatTokenFunctions[array[i]] : array[i] = removeFormattingTokens(array[i]);
             return function(mom) {
                 var i, output = "";
                 for(i = 0; i < length; i++)output += isFunction(array[i]) ? array[i].call(mom, format) : array[i];
                 return output;
             };
-        }(format1), formatFunctions[format1](m)) : m.localeData().invalidDate();
+        }(format), formatFunctions[format](m)) : m.localeData().invalidDate();
     }
     function expandFormat(format, locale) {
         var i = 5;
@@ -215,7 +215,7 @@
         };
     }
     function getParseRegexForToken(token, config) {
-        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : new RegExp(unescapeFormat(token));
+        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : RegExp(unescapeFormat(token));
     }
     function unescapeFormat(s) {
         return regexEscape(s.replace("\\", "").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
@@ -226,22 +226,22 @@
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
     }
     regexes = {};
-    var tokens1 = {};
+    var tokens = {};
     function addParseToken(token, callback) {
         var i, func = callback;
         for("string" == typeof token && (token = [
             token
         ]), isNumber(callback) && (func = function(input, array) {
             array[callback] = toInt(input);
-        }), i = 0; i < token.length; i++)tokens1[token[i]] = func;
+        }), i = 0; i < token.length; i++)tokens[token[i]] = func;
     }
-    function addWeekParseToken(token2, callback) {
-        addParseToken(token2, function(input, array, config, token) {
+    function addWeekParseToken(token, callback) {
+        addParseToken(token, function(input, array, config, token) {
             config._w = config._w || {}, callback(input, config._w, config, token);
         });
     }
     function addTimeToArrayFromToken(token, input, config) {
-        null != input && hasOwnProp(tokens1, token) && tokens1[token](input, config._a, config, token);
+        null != input && hasOwnProp(tokens, token) && tokens[token](input, config._a, config, token);
     }
     function daysInMonth(year, month) {
         if (isNaN(year) || isNaN(month)) return NaN;
@@ -309,7 +309,7 @@
         ]), shortPieces.push(this.monthsShort(mom, "")), longPieces.push(this.months(mom, "")), mixedPieces.push(this.months(mom, "")), mixedPieces.push(this.monthsShort(mom, ""));
         for(shortPieces.sort(cmpLenRev), longPieces.sort(cmpLenRev), mixedPieces.sort(cmpLenRev), i = 0; i < 12; i++)shortPieces[i] = regexEscape(shortPieces[i]), longPieces[i] = regexEscape(longPieces[i]);
         for(i = 0; i < 24; i++)mixedPieces[i] = regexEscape(mixedPieces[i]);
-        this._monthsRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._monthsShortRegex = this._monthsRegex, this._monthsStrictRegex = new RegExp("^(" + longPieces.join("|") + ")", "i"), this._monthsShortStrictRegex = new RegExp("^(" + shortPieces.join("|") + ")", "i");
+        this._monthsRegex = RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._monthsShortRegex = this._monthsRegex, this._monthsStrictRegex = RegExp("^(" + longPieces.join("|") + ")", "i"), this._monthsShortStrictRegex = RegExp("^(" + shortPieces.join("|") + ")", "i");
     }
     function daysInYear(year) {
         return isLeapYear(year) ? 366 : 365;
@@ -435,12 +435,12 @@
             2000,
             1
         ]).day(i), minp = regexEscape(this.weekdaysMin(mom, "")), shortp = regexEscape(this.weekdaysShort(mom, "")), longp = regexEscape(this.weekdays(mom, "")), minPieces.push(minp), shortPieces.push(shortp), longPieces.push(longp), mixedPieces.push(minp), mixedPieces.push(shortp), mixedPieces.push(longp);
-        minPieces.sort(cmpLenRev), shortPieces.sort(cmpLenRev), longPieces.sort(cmpLenRev), mixedPieces.sort(cmpLenRev), this._weekdaysRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._weekdaysShortRegex = this._weekdaysRegex, this._weekdaysMinRegex = this._weekdaysRegex, this._weekdaysStrictRegex = new RegExp("^(" + longPieces.join("|") + ")", "i"), this._weekdaysShortStrictRegex = new RegExp("^(" + shortPieces.join("|") + ")", "i"), this._weekdaysMinStrictRegex = new RegExp("^(" + minPieces.join("|") + ")", "i");
+        minPieces.sort(cmpLenRev), shortPieces.sort(cmpLenRev), longPieces.sort(cmpLenRev), mixedPieces.sort(cmpLenRev), this._weekdaysRegex = RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._weekdaysShortRegex = this._weekdaysRegex, this._weekdaysMinRegex = this._weekdaysRegex, this._weekdaysStrictRegex = RegExp("^(" + longPieces.join("|") + ")", "i"), this._weekdaysShortStrictRegex = RegExp("^(" + shortPieces.join("|") + ")", "i"), this._weekdaysMinStrictRegex = RegExp("^(" + minPieces.join("|") + ")", "i");
     }
     function hFormat() {
         return this.hours() % 12 || 12;
     }
-    function meridiem1(token, lowercase) {
+    function meridiem(token, lowercase) {
         addFormatToken(token, 0, 0, function() {
             return this.localeData().meridiem(this.hours(), this.minutes(), lowercase);
         });
@@ -467,7 +467,7 @@
         return "" + this.hours() + zeroFill(this.minutes(), 2);
     }), addFormatToken("Hmmss", 0, 0, function() {
         return "" + this.hours() + zeroFill(this.minutes(), 2) + zeroFill(this.seconds(), 2);
-    }), meridiem1("a", !0), meridiem1("A", !1), addUnitAlias("hour", "h"), addUnitPriority("hour", 13), addRegexToken("a", matchMeridiem), addRegexToken("A", matchMeridiem), addRegexToken("H", match1to2), addRegexToken("h", match1to2), addRegexToken("k", match1to2), addRegexToken("HH", match1to2, match2), addRegexToken("hh", match1to2, match2), addRegexToken("kk", match1to2, match2), addRegexToken("hmm", match3to4), addRegexToken("hmmss", match5to6), addRegexToken("Hmm", match3to4), addRegexToken("Hmmss", match5to6), addParseToken([
+    }), meridiem("a", !0), meridiem("A", !1), addUnitAlias("hour", "h"), addUnitPriority("hour", 13), addRegexToken("a", matchMeridiem), addRegexToken("A", matchMeridiem), addRegexToken("H", match1to2), addRegexToken("h", match1to2), addRegexToken("k", match1to2), addRegexToken("HH", match1to2, match2), addRegexToken("hh", match1to2, match2), addRegexToken("kk", match1to2, match2), addRegexToken("hmm", match3to4), addRegexToken("hmmss", match5to6), addRegexToken("Hmm", match3to4), addRegexToken("Hmmss", match5to6), addParseToken([
         "H",
         "HH"
     ], 3), addParseToken([
@@ -588,10 +588,10 @@
         }), getSetGlobalLocale(name), locales[name];
     }
     function getLocale(key) {
-        var locale2;
+        var locale;
         if (key && key._locale && key._locale._abbr && (key = key._locale._abbr), !key) return globalLocale;
         if (!isArray(key)) {
-            if (locale2 = loadLocale(key)) return locale2;
+            if (locale = loadLocale(key)) return locale;
             key = [
                 key
             ];
@@ -776,9 +776,9 @@
         return null != a ? a : null != b ? b : c;
     }
     function configFromArray(config) {
-        var config2, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
+        var config1, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
         if (!config._d) {
-            for(currentDate = (config2 = config, nowValue = new Date(hooks.now()), config2._useUTC ? [
+            for(currentDate = (config1 = config, nowValue = new Date(hooks.now()), config1._useUTC ? [
                 nowValue.getUTCFullYear(),
                 nowValue.getUTCMonth(),
                 nowValue.getUTCDate(), 
@@ -813,11 +813,11 @@
         var isPm;
         return null == meridiem ? hour : null != locale.meridiemHour ? locale.meridiemHour(hour, meridiem) : (null != locale.isPM && ((isPm = locale.isPM(meridiem)) && hour < 12 && (hour += 12), isPm || 12 !== hour || (hour = 0)), hour);
     }
-    function prepareConfig(config3) {
-        var input = config3._i, format = config3._f;
-        return (config3._locale = config3._locale || getLocale(config3._l), null === input || void 0 === format && "" === input) ? createInvalid({
+    function prepareConfig(config) {
+        var input = config._i, format = config._f;
+        return (config._locale = config._locale || getLocale(config._l), null === input || void 0 === format && "" === input) ? createInvalid({
             nullInput: !0
-        }) : ("string" == typeof input && (config3._i = input = config3._locale.preparse(input)), isMoment(input)) ? new Moment(checkOverflow(input)) : (isDate(input) ? config3._d = input : isArray(format) ? function(config) {
+        }) : ("string" == typeof input && (config._i = input = config._locale.preparse(input)), isMoment(input)) ? new Moment(checkOverflow(input)) : (isDate(input) ? config._d = input : isArray(format) ? function(config) {
             var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = !1;
             if (0 === config._f.length) {
                 getParsingFlags(config).invalidFormat = !0, config._d = new Date(NaN);
@@ -825,20 +825,20 @@
             }
             for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore += getParsingFlags(tempConfig).charsLeftOver, currentScore += 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
             extend(config, bestMoment || tempConfig);
-        }(config3) : format ? configFromStringAndFormat(config3) : configFromInput(config3), isValid(config3) || (config3._d = null), config3);
+        }(config) : format ? configFromStringAndFormat(config) : configFromInput(config), isValid(config) || (config._d = null), config);
     }
-    function configFromInput(config4) {
-        var input = config4._i;
-        isUndefined(input) ? config4._d = new Date(hooks.now()) : isDate(input) ? config4._d = new Date(input.valueOf()) : "string" == typeof input ? function(config) {
+    function configFromInput(config) {
+        var input = config._i;
+        isUndefined(input) ? config._d = new Date(hooks.now()) : isDate(input) ? config._d = new Date(input.valueOf()) : "string" == typeof input ? function(config) {
             var matched = aspNetJsonRegex.exec(config._i);
             if (null !== matched) {
                 config._d = new Date(+matched[1]);
                 return;
             }
             configFromISO(config), !1 === config._isValid && (delete config._isValid, configFromRFC2822(config), !1 === config._isValid && (delete config._isValid, config._strict ? config._isValid = !1 : hooks.createFromInputFallback(config)));
-        }(config4) : isArray(input) ? (config4._a = map(input.slice(0), function(obj) {
+        }(config) : isArray(input) ? (config._a = map(input.slice(0), function(obj) {
             return parseInt(obj, 10);
-        }), configFromArray(config4)) : isObject(input) ? function(config) {
+        }), configFromArray(config)) : isObject(input) ? function(config) {
             if (!config._d) {
                 var i = normalizeObjectUnits(config._i), dayOrDate = void 0 === i.day ? i.date : i.day;
                 config._a = map([
@@ -853,7 +853,7 @@
                     return obj && parseInt(obj, 10);
                 }), configFromArray(config);
             }
-        }(config4) : isNumber(input) ? config4._d = new Date(input) : hooks.createFromInputFallback(config4);
+        }(config) : isNumber(input) ? config._d = new Date(input) : hooks.createFromInputFallback(config);
     }
     function createLocalOrUTC(input, format, locale, strict, isUTC) {
         var config, res, c = {};
@@ -907,13 +907,13 @@
     function absRound(number) {
         return number < 0 ? -1 * Math.round(-1 * number) : Math.round(number);
     }
-    function offset1(token, separator) {
+    function offset(token, separator) {
         addFormatToken(token, 0, 0, function() {
             var offset = this.utcOffset(), sign = "+";
             return offset < 0 && (offset = -offset, sign = "-"), sign + zeroFill(~~(offset / 60), 2) + separator + zeroFill(~~offset % 60, 2);
         });
     }
-    offset1("Z", ":"), offset1("ZZ", ""), addRegexToken("Z", matchShortOffset), addRegexToken("ZZ", matchShortOffset), addParseToken([
+    offset("Z", ":"), offset("ZZ", ""), addRegexToken("Z", matchShortOffset), addRegexToken("ZZ", matchShortOffset), addParseToken([
         "Z",
         "ZZ"
     ], function(input, array, config) {
@@ -1000,7 +1000,7 @@
         var adjust, wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month()), anchor = a.clone().add(wholeMonthDiff, "months");
         return adjust = b - anchor < 0 ? (b - anchor) / (anchor - a.clone().add(wholeMonthDiff - 1, "months")) : (b - anchor) / (a.clone().add(wholeMonthDiff + 1, "months") - anchor), -(wholeMonthDiff + adjust) || 0;
     }
-    function locale1(key) {
+    function locale(key) {
         var newLocaleData;
         return void 0 === key ? this._locale._abbr : (null != (newLocaleData = getLocale(key)) && (this._locale = newLocaleData), this);
     }
@@ -1026,7 +1026,7 @@
     function computeErasParse() {
         var i, l, abbrPieces = [], namePieces = [], narrowPieces = [], mixedPieces = [], eras = this.eras();
         for(i = 0, l = eras.length; i < l; ++i)namePieces.push(regexEscape(eras[i].name)), abbrPieces.push(regexEscape(eras[i].abbr)), narrowPieces.push(regexEscape(eras[i].narrow)), mixedPieces.push(regexEscape(eras[i].name)), mixedPieces.push(regexEscape(eras[i].abbr)), mixedPieces.push(regexEscape(eras[i].narrow));
-        this._erasRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._erasNameRegex = new RegExp("^(" + namePieces.join("|") + ")", "i"), this._erasAbbrRegex = new RegExp("^(" + abbrPieces.join("|") + ")", "i"), this._erasNarrowRegex = new RegExp("^(" + narrowPieces.join("|") + ")", "i");
+        this._erasRegex = RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._erasNameRegex = RegExp("^(" + namePieces.join("|") + ")", "i"), this._erasAbbrRegex = RegExp("^(" + abbrPieces.join("|") + ")", "i"), this._erasNarrowRegex = RegExp("^(" + narrowPieces.join("|") + ")", "i");
     }
     function addWeekYearFormatToken(token, getter) {
         addFormatToken(0, [
@@ -1179,11 +1179,11 @@
         9
     ], 0, function() {
         return 1000000 * this.millisecond();
-    }), addUnitAlias("millisecond", "ms"), addUnitPriority("millisecond", 16), addRegexToken("S", match1to3, match1), addRegexToken("SS", match1to3, match2), addRegexToken("SSS", match1to3, match3), token1 = "SSSS"; token1.length <= 9; token1 += "S")addRegexToken(token1, matchUnsigned);
+    }), addUnitAlias("millisecond", "ms"), addUnitPriority("millisecond", 16), addRegexToken("S", match1to3, match1), addRegexToken("SS", match1to3, match2), addRegexToken("SSS", match1to3, match3), token = "SSSS"; token.length <= 9; token += "S")addRegexToken(token, matchUnsigned);
     function parseMs(input, array) {
         array[6] = toInt(("0." + input) * 1000);
     }
-    for(token1 = "S"; token1.length <= 9; token1 += "S")addParseToken(token1, parseMs);
+    for(token = "S"; token.length <= 9; token += "S")addParseToken(token, parseMs);
     getSetMillisecond = makeGetSet("Milliseconds", !1), addFormatToken("z", 0, 0, "zoneAbbr"), addFormatToken("zz", 0, 0, "zoneName");
     var proto = Moment.prototype;
     function preParsePostFormat(string) {
@@ -1192,8 +1192,8 @@
     proto.add = add, proto.calendar = function(time, formats) {
         if (1 === arguments.length) {
             if (arguments[0]) {
-                var input2, input1, arrayTest, dataTypeTest;
-                (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (arrayTest = isArray(input1 = input2), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input1.filter(function(item) {
+                var input, input1, arrayTest, dataTypeTest;
+                (input = arguments[0], isMoment(input) || isDate(input) || isString(input) || isNumber(input) || (arrayTest = isArray(input1 = input), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input1.filter(function(item) {
                     return !isNumber(item) && isString(input1);
                 }).length), arrayTest && dataTypeTest) || function(input) {
                     var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
@@ -1224,7 +1224,7 @@
                     ];
                     for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
                     return objectTest && propertyTest;
-                }(input2) || null == input2) ? (time = arguments[0], formats = void 0) : function(input) {
+                }(input) || null == input) ? (time = arguments[0], formats = void 0) : function(input) {
                     var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
                         "sameDay",
                         "nextDay",
@@ -1347,10 +1347,10 @@
         return this.isSame(input, units) || this.isBefore(input, units);
     }, proto.isValid = function() {
         return isValid(this);
-    }, proto.lang = lang, proto.locale = locale1, proto.localeData = localeData, proto.max = prototypeMax, proto.min = prototypeMin, proto.parsingFlags = function() {
+    }, proto.lang = lang, proto.locale = locale, proto.localeData = localeData, proto.max = prototypeMax, proto.min = prototypeMin, proto.parsingFlags = function() {
         return extend({}, getParsingFlags(this));
-    }, proto.set = function(units1, value) {
-        if ("object" == typeof units1) {
+    }, proto.set = function(units, value) {
+        if ("object" == typeof units) {
             var i, prioritized = function(unitsObj) {
                 var u, units = [];
                 for(u in unitsObj)hasOwnProp(unitsObj, u) && units.push({
@@ -1360,9 +1360,9 @@
                 return units.sort(function(a, b) {
                     return a.priority - b.priority;
                 }), units;
-            }(units1 = normalizeObjectUnits(units1));
-            for(i = 0; i < prioritized.length; i++)this[prioritized[i].unit](units1[prioritized[i].unit]);
-        } else if (isFunction(this[units1 = normalizeUnits(units1)])) return this[units1](value);
+            }(units = normalizeObjectUnits(units));
+            for(i = 0; i < prioritized.length; i++)this[prioritized[i].unit](units[prioritized[i].unit]);
+        } else if (isFunction(this[units = normalizeUnits(units)])) return this[units](value);
         return this;
     }, proto.startOf = function(units) {
         var time, startOfDate;
@@ -1489,8 +1489,8 @@
         return weeksInYear(this.isoWeekYear(), 1, 4);
     }, proto.date = getSetDayOfMonth, proto.day = proto.days = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
-        var input5, locale, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
-        return null == input ? day : (input = (input5 = input, locale = this.localeData(), "string" != typeof input5 ? input5 : isNaN(input5) ? "number" == typeof (input5 = locale.weekdaysParse(input5)) ? input5 : null : parseInt(input5, 10)), this.add(input - day, "d"));
+        var input1, locale, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
+        return null == input ? day : (input = (input1 = input, locale = this.localeData(), "string" != typeof input1 ? input1 : isNaN(input1) ? "number" == typeof (input1 = locale.weekdaysParse(input1)) ? input1 : null : parseInt(input1, 10)), this.add(input - day, "d"));
     }, proto.weekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
@@ -1498,7 +1498,7 @@
     }, proto.isoWeekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         if (null == input) return this.day() || 7;
-        var input6, locale, weekday = (input6 = input, locale = this.localeData(), "string" == typeof input6 ? locale.weekdaysParse(input6) % 7 || 7 : isNaN(input6) ? null : input6);
+        var input1, locale, weekday = (input1 = input, locale = this.localeData(), "string" == typeof input1 ? locale.weekdaysParse(input1) % 7 || 7 : isNaN(input1) ? null : input1);
         return this.day(this.day() % 7 ? weekday : weekday - 7);
     }, proto.dayOfYear = function(input) {
         var dayOfYear = Math.round((this.clone().startOf("day") - this.clone().startOf("year")) / 864e5) + 1;
@@ -1584,7 +1584,7 @@
     }, proto$1.set = function(config) {
         var prop, i;
         for(i in config)hasOwnProp(config, i) && (isFunction(prop = config[i]) ? this[i] = prop : this["_" + i] = prop);
-        this._config = config, this._dayOfMonthOrdinalParseLenient = new RegExp((this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) + "|" + /\d{1,2}/.source);
+        this._config = config, this._dayOfMonthOrdinalParseLenient = RegExp((this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) + "|" + /\d{1,2}/.source);
     }, proto$1.eras = function(m, format) {
         var i, l, date, eras = this._eras || getLocale("en")._eras;
         for(i = 0, l = eras.length; i < l; ++i)switch("string" == typeof eras[i].since && (date = hooks(eras[i].since).startOf("day"), eras[i].since = date.valueOf()), typeof eras[i].until){
@@ -1633,7 +1633,7 @@
         for(this._monthsParse || (this._monthsParse = [], this._longMonthsParse = [], this._shortMonthsParse = []), i = 0; i < 12; i++)if (mom = createUTC([
             2000,
             i
-        ]), strict && !this._longMonthsParse[i] && (this._longMonthsParse[i] = new RegExp("^" + this.months(mom, "").replace(".", "") + "$", "i"), this._shortMonthsParse[i] = new RegExp("^" + this.monthsShort(mom, "").replace(".", "") + "$", "i")), strict || this._monthsParse[i] || (regex = "^" + this.months(mom, "") + "|^" + this.monthsShort(mom, ""), this._monthsParse[i] = new RegExp(regex.replace(".", ""), "i")), strict && "MMMM" === format && this._longMonthsParse[i].test(monthName) || strict && "MMM" === format && this._shortMonthsParse[i].test(monthName) || !strict && this._monthsParse[i].test(monthName)) return i;
+        ]), strict && !this._longMonthsParse[i] && (this._longMonthsParse[i] = RegExp("^" + this.months(mom, "").replace(".", "") + "$", "i"), this._shortMonthsParse[i] = RegExp("^" + this.monthsShort(mom, "").replace(".", "") + "$", "i")), strict || this._monthsParse[i] || (regex = "^" + this.months(mom, "") + "|^" + this.monthsShort(mom, ""), this._monthsParse[i] = RegExp(regex.replace(".", ""), "i")), strict && "MMMM" === format && this._longMonthsParse[i].test(monthName) || strict && "MMM" === format && this._shortMonthsParse[i].test(monthName) || !strict && this._monthsParse[i].test(monthName)) return i;
     }, proto$1.monthsRegex = function(isStrict) {
         return this._monthsParseExact ? (hasOwnProp(this, "_monthsRegex") || computeMonthsParse.call(this), isStrict) ? this._monthsStrictRegex : this._monthsRegex : (hasOwnProp(this, "_monthsRegex") || (this._monthsRegex = defaultMonthsRegex), this._monthsStrictRegex && isStrict ? this._monthsStrictRegex : this._monthsRegex);
     }, proto$1.monthsShortRegex = function(isStrict) {
@@ -1657,7 +1657,7 @@
         for(this._weekdaysParse || (this._weekdaysParse = [], this._minWeekdaysParse = [], this._shortWeekdaysParse = [], this._fullWeekdaysParse = []), i = 0; i < 7; i++)if (mom = createUTC([
             2000,
             1
-        ]).day(i), strict && !this._fullWeekdaysParse[i] && (this._fullWeekdaysParse[i] = new RegExp("^" + this.weekdays(mom, "").replace(".", "\\.?") + "$", "i"), this._shortWeekdaysParse[i] = new RegExp("^" + this.weekdaysShort(mom, "").replace(".", "\\.?") + "$", "i"), this._minWeekdaysParse[i] = new RegExp("^" + this.weekdaysMin(mom, "").replace(".", "\\.?") + "$", "i")), this._weekdaysParse[i] || (regex = "^" + this.weekdays(mom, "") + "|^" + this.weekdaysShort(mom, "") + "|^" + this.weekdaysMin(mom, ""), this._weekdaysParse[i] = new RegExp(regex.replace(".", ""), "i")), strict && "dddd" === format && this._fullWeekdaysParse[i].test(weekdayName) || strict && "ddd" === format && this._shortWeekdaysParse[i].test(weekdayName) || strict && "dd" === format && this._minWeekdaysParse[i].test(weekdayName) || !strict && this._weekdaysParse[i].test(weekdayName)) return i;
+        ]).day(i), strict && !this._fullWeekdaysParse[i] && (this._fullWeekdaysParse[i] = RegExp("^" + this.weekdays(mom, "").replace(".", "\\.?") + "$", "i"), this._shortWeekdaysParse[i] = RegExp("^" + this.weekdaysShort(mom, "").replace(".", "\\.?") + "$", "i"), this._minWeekdaysParse[i] = RegExp("^" + this.weekdaysMin(mom, "").replace(".", "\\.?") + "$", "i")), this._weekdaysParse[i] || (regex = "^" + this.weekdays(mom, "") + "|^" + this.weekdaysShort(mom, "") + "|^" + this.weekdaysMin(mom, ""), this._weekdaysParse[i] = RegExp(regex.replace(".", ""), "i")), strict && "dddd" === format && this._fullWeekdaysParse[i].test(weekdayName) || strict && "ddd" === format && this._shortWeekdaysParse[i].test(weekdayName) || strict && "dd" === format && this._minWeekdaysParse[i].test(weekdayName) || !strict && this._weekdaysParse[i].test(weekdayName)) return i;
     }, proto$1.weekdaysRegex = function(isStrict) {
         return this._weekdaysParseExact ? (hasOwnProp(this, "_weekdaysRegex") || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysStrictRegex : this._weekdaysRegex : (hasOwnProp(this, "_weekdaysRegex") || (this._weekdaysRegex = defaultWeekdaysRegex), this._weekdaysStrictRegex && isStrict ? this._weekdaysStrictRegex : this._weekdaysRegex);
     }, proto$1.weekdaysShortRegex = function(isStrict) {
@@ -1718,7 +1718,7 @@
             return this.isValid() ? this._data[name] : NaN;
         };
     }
-    var milliseconds1 = makeGetter("milliseconds"), seconds1 = makeGetter("seconds"), minutes1 = makeGetter("minutes"), hours1 = makeGetter("hours"), days1 = makeGetter("days"), months1 = makeGetter("months"), years1 = makeGetter("years"), round = Math.round, thresholds = {
+    var milliseconds = makeGetter("milliseconds"), seconds = makeGetter("seconds"), minutes = makeGetter("minutes"), hours = makeGetter("hours"), days = makeGetter("days"), months = makeGetter("months"), years = makeGetter("years"), round = Math.round, thresholds = {
         ss: 44,
         s: 45,
         m: 45,
@@ -1731,13 +1731,13 @@
         return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
     }
     var abs$1 = Math.abs;
-    function sign1(x) {
+    function sign(x) {
         return (x > 0) - (x < 0) || +x;
     }
     function toISOString$1() {
         if (!this.isValid()) return this.localeData().invalidDate();
         var minutes, hours, years, s, totalSign, ymSign, daysSign, hmsSign, seconds = abs$1(this._milliseconds) / 1000, days = abs$1(this._days), months = abs$1(this._months), total = this.asSeconds();
-        return total ? (minutes = absFloor(seconds / 60), hours = absFloor(minutes / 60), seconds %= 60, minutes %= 60, years = absFloor(months / 12), months %= 12, s = seconds ? seconds.toFixed(3).replace(/\.?0+$/, "") : "", totalSign = total < 0 ? "-" : "", ymSign = sign1(this._months) !== sign1(total) ? "-" : "", daysSign = sign1(this._days) !== sign1(total) ? "-" : "", hmsSign = sign1(this._milliseconds) !== sign1(total) ? "-" : "", totalSign + "P" + (years ? ymSign + years + "Y" : "") + (months ? ymSign + months + "M" : "") + (days ? daysSign + days + "D" : "") + (hours || minutes || seconds ? "T" : "") + (hours ? hmsSign + hours + "H" : "") + (minutes ? hmsSign + minutes + "M" : "") + (seconds ? hmsSign + s + "S" : "")) : "P0D";
+        return total ? (minutes = absFloor(seconds / 60), hours = absFloor(minutes / 60), seconds %= 60, minutes %= 60, years = absFloor(months / 12), months %= 12, s = seconds ? seconds.toFixed(3).replace(/\.?0+$/, "") : "", totalSign = total < 0 ? "-" : "", ymSign = sign(this._months) !== sign(total) ? "-" : "", daysSign = sign(this._days) !== sign(total) ? "-" : "", hmsSign = sign(this._milliseconds) !== sign(total) ? "-" : "", totalSign + "P" + (years ? ymSign + years + "Y" : "") + (months ? ymSign + months + "M" : "") + (days ? daysSign + days + "D" : "") + (hours || minutes || seconds ? "T" : "") + (hours ? hmsSign + hours + "H" : "") + (minutes ? hmsSign + minutes + "M" : "") + (seconds ? hmsSign + s + "S" : "")) : "P0D";
     }
     var proto$2 = Duration.prototype;
     return proto$2.isValid = function() {
@@ -1774,7 +1774,7 @@
             case "millisecond":
                 return Math.floor(864e5 * days) + milliseconds;
             default:
-                throw new Error("Unknown unit " + units);
+                throw Error("Unknown unit " + units);
         }
     }, proto$2.asMilliseconds = asMilliseconds, proto$2.asSeconds = asSeconds, proto$2.asMinutes = asMinutes, proto$2.asHours = asHours, proto$2.asDays = asDays, proto$2.asWeeks = asWeeks, proto$2.asMonths = asMonths, proto$2.asQuarters = asQuarters, proto$2.asYears = asYears, proto$2.valueOf = function() {
         return this.isValid() ? this._milliseconds + 864e5 * this._days + this._months % 12 * 2592e6 + 31536e6 * toInt(this._months / 12) : NaN;
@@ -1785,12 +1785,12 @@
         return createDuration(this);
     }, proto$2.get = function(units) {
         return units = normalizeUnits(units), this.isValid() ? this[units + "s"]() : NaN;
-    }, proto$2.milliseconds = milliseconds1, proto$2.seconds = seconds1, proto$2.minutes = minutes1, proto$2.hours = hours1, proto$2.days = days1, proto$2.weeks = function() {
+    }, proto$2.milliseconds = milliseconds, proto$2.seconds = seconds, proto$2.minutes = minutes, proto$2.hours = hours, proto$2.days = days, proto$2.weeks = function() {
         return absFloor(this.days() / 7);
-    }, proto$2.months = months1, proto$2.years = years1, proto$2.humanize = function(argWithSuffix, argThresholds) {
+    }, proto$2.months = months, proto$2.years = years, proto$2.humanize = function(argWithSuffix, argThresholds) {
         if (!this.isValid()) return this.localeData().invalidDate();
-        var locale, output, posNegDuration, withoutSuffix, thresholds1, locale3, duration, seconds, minutes, hours, days, months, weeks, years, a, withSuffix = !1, th = thresholds;
-        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), output = (posNegDuration = this, withoutSuffix = !withSuffix, thresholds1 = th, locale3 = locale, duration = createDuration(posNegDuration).abs(), seconds = round(duration.as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
+        var locale, output, posNegDuration, withoutSuffix, thresholds1, locale1, duration, seconds, minutes, hours, days, months, weeks, years, a, withSuffix = !1, th = thresholds;
+        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), output = (posNegDuration = this, withoutSuffix = !withSuffix, thresholds1 = th, locale1 = locale, duration = createDuration(posNegDuration).abs(), seconds = round(duration.as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
             "s",
             seconds
         ] || seconds < thresholds1.s && [
@@ -1826,8 +1826,8 @@
         ] || [
             "yy",
             years
-        ])[2] = withoutSuffix, a[3] = +posNegDuration > 0, a[4] = locale3, substituteTimeAgo.apply(null, a)), withSuffix && (output = locale.pastFuture(+this, output)), locale.postformat(output);
-    }, proto$2.toISOString = toISOString$1, proto$2.toString = toISOString$1, proto$2.toJSON = toISOString$1, proto$2.locale = locale1, proto$2.localeData = localeData, proto$2.toIsoString = deprecate("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)", toISOString$1), proto$2.lang = lang, addFormatToken("X", 0, 0, "unix"), addFormatToken("x", 0, 0, "valueOf"), addRegexToken("x", matchSigned), addRegexToken("X", /[+-]?\d+(\.\d{1,3})?/), addParseToken("X", function(input, array, config) {
+        ])[2] = withoutSuffix, a[3] = +posNegDuration > 0, a[4] = locale1, substituteTimeAgo.apply(null, a)), withSuffix && (output = locale.pastFuture(+this, output)), locale.postformat(output);
+    }, proto$2.toISOString = toISOString$1, proto$2.toString = toISOString$1, proto$2.toJSON = toISOString$1, proto$2.locale = locale, proto$2.localeData = localeData, proto$2.toIsoString = deprecate("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)", toISOString$1), proto$2.lang = lang, addFormatToken("X", 0, 0, "unix"), addFormatToken("x", 0, 0, "valueOf"), addRegexToken("x", matchSigned), addRegexToken("X", /[+-]?\d+(\.\d{1,3})?/), addParseToken("X", function(input, array, config) {
         config._d = new Date(1000 * parseFloat(input));
     }), addParseToken("x", function(input, array, config) {
         config._d = new Date(toInt(input));

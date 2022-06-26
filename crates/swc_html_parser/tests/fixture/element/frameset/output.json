@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 424,
+        "end": 431,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 138,
+            "end": 145,
             "ctxt": 0
           },
           "tagName": "head",
@@ -47,7 +47,7 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -85,7 +85,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -94,13 +95,13 @@
                 "end": 107,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 107,
-                "end": 129,
+                "end": 137,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -114,10 +115,11 @@
                     "end": 129,
                     "ctxt": 0
                   },
-                  "value": "Тег FRAMESET"
+                  "data": "Тег FRAMESET"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -126,10 +128,11 @@
                 "end": 138,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -138,13 +141,13 @@
             "end": 147,
             "ctxt": 0
           },
-          "value": "\n\n"
+          "data": "\n\n"
         },
         {
           "type": "Element",
           "span": {
             "start": 147,
-            "end": 411,
+            "end": 422,
             "ctxt": 0
           },
           "tagName": "frameset",
@@ -183,7 +186,7 @@
                 "end": 183,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -245,7 +248,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -254,13 +258,13 @@
                 "end": 250,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 250,
-                "end": 399,
+                "end": 410,
                 "ctxt": 0
               },
               "tagName": "frameset",
@@ -287,7 +291,7 @@
                     "end": 281,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -349,7 +353,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -358,7 +363,7 @@
                     "end": 354,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -396,7 +401,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -405,10 +411,11 @@
                     "end": 399,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -417,10 +424,11 @@
                 "end": 411,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -429,10 +437,11 @@
             "end": 424,
             "ctxt": 0
           },
-          "value": "\n\n"
+          "data": "\n\n"
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

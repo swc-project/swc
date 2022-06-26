@@ -19,11 +19,10 @@ members = [
   "crates/swc_plugin_testing",
   "crates/swc_plugin_proxy",
   "crates/swc_timer",
-  "crates/swc_webpack_ast",
 ]
 
 [profile.release]
-codegen-units = 1
+# lto = true
 
 # We use CARGO_PROFILE_RELEASE_LTO for production builds
 # lto = "fat"
@@ -32,8 +31,8 @@ codegen-units = 1
 # opt-level = 'z'
 
 [profile.bench]
-codegen-units = 1
 debug = true
+lto = true
 
 # Without this, printing diff consumes more than a minute.
 
@@ -42,7 +41,3 @@ opt-level = 3
 
 [profile.test.package.pretty_assertions]
 opt-level = 3
-
-[patch.crates-io]
-cranelift-codegen = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
-cranelift-entity = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}

@@ -3,10 +3,10 @@ class foundFirst {
 class Other {
 }
 var Dotted;
-(function(Dotted1) {
+(function(Dotted) {
     class Name {
     }
-    Dotted1.Name = Name;
+    Dotted.Name = Name;
 })(Dotted || (Dotted = {}));
 // Should find the intrinsic element, not the class element
 var a = /*#__PURE__*/ React.createElement("foundFirst", {

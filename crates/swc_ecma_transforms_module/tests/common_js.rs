@@ -805,9 +805,9 @@ exports.test = test = 5;
 ref = test++, exports.test = test, ref;
 
 (function () {
-  var test1 = 2;
-  test1 = 3;
-  test1++;
+  var test = 2;
+  test = 3;
+  test++;
 })();
 
 var a = 2;
@@ -4683,13 +4683,18 @@ console.log(props);
 // regression_4209
 test!(
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        parameters(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            classes(Some(t.comments.clone()), Default::default()),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(),
+            common_js(Mark::fresh(Mark::root()), Default::default(), None),
+        )
+    },
     regression_4209,
     r#"
 import { copy } from './copyPaste';

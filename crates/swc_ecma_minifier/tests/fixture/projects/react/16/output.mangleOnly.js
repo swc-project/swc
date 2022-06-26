@@ -1,15 +1,15 @@
-function a(b) {
-    var a = peek(timerQueue);
-    while(a !== null){
-        if (a.callback === null) {
+function a(a) {
+    var b = peek(timerQueue);
+    while(b !== null){
+        if (b.callback === null) {
             pop(timerQueue);
-        } else if (a.startTime <= b) {
+        } else if (b.startTime <= a) {
             pop(timerQueue);
-            a.sortIndex = a.expirationTime;
-            push(taskQueue, a);
+            b.sortIndex = b.expirationTime;
+            push(taskQueue, b);
         } else {
             return;
         }
-        a = peek(timerQueue);
+        b = peek(timerQueue);
     }
 }

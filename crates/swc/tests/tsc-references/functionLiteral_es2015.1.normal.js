@@ -3,6 +3,6 @@ var x = ()=>1;
 var x;
 var y;
 var y;
-var y2 = (x1)=>x1;
+var y2 = (x)=>x;
 var z;
 var z;

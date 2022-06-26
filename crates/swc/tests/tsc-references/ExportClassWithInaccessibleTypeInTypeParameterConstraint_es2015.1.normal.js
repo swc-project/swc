@@ -1,15 +1,15 @@
 var A;
-(function(A1) {
+(function(A) {
     class Point {
     }
-    var Origin = A1.Origin = {
+    var Origin = A.Origin = {
         x: 0,
         y: 0
     };
     class Point3d extends Point {
     }
-    A1.Point3d = Point3d;
-    var Origin3d = A1.Origin3d = {
+    A.Point3d = Point3d;
+    var Origin3d = A.Origin3d = {
         x: 0,
         y: 0,
         z: 0
@@ -23,5 +23,5 @@ var A;
             this.end = end;
         }
     }
-    A1.Line = Line;
+    A.Line = Line;
 })(A || (A = {}));

@@ -81,11 +81,11 @@ var load6 = __swcpack_require__.bind(void 0, function(module, exports) {
 });
 var load7 = __swcpack_require__.bind(void 0, function(module, exports) {
     var isObject = load5();
-    var document = load().document;
+    var document1 = load().document;
     // typeof document.createElement is 'object' in old IE
-    var is = isObject(document) && isObject(document.createElement);
+    var is = isObject(document1) && isObject(document1.createElement);
     module.exports = function(it) {
-        return is ? document.createElement(it) : {};
+        return is ? document1.createElement(it) : {};
     };
 });
 var load8 = __swcpack_require__.bind(void 0, function(module, exports) {
@@ -232,7 +232,7 @@ var load19 = __swcpack_require__.bind(void 0, function(module, exports) {
         };
     };
 });
-var load20 = __swcpack_require__.bind(void 0, function(module, exports1) {
+var load20 = __swcpack_require__.bind(void 0, function(module, exports) {
     var global = load();
     var core = load4();
     var hide = load12();
@@ -338,10 +338,10 @@ var load21 = __swcpack_require__.bind(void 0, function(module, exports) {
 var load22 = __swcpack_require__.bind(void 0, function(module, exports) {
     var store = load15()('wks');
     var uid = load13();
-    var Symbol = load().Symbol;
-    var USE_SYMBOL = typeof Symbol == 'function';
+    var Symbol1 = load().Symbol;
+    var USE_SYMBOL = typeof Symbol1 == 'function';
     var $exports = module.exports = function(name) {
-        return store[name] || (store[name] = USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+        return store[name] || (store[name] = USE_SYMBOL && Symbol1[name] || (USE_SYMBOL ? Symbol1 : uid)('Symbol.' + name));
     };
     $exports.store = store;
 });
@@ -541,8 +541,8 @@ var load43 = __swcpack_require__.bind(void 0, function(module, exports) {
     };
 });
 var load44 = __swcpack_require__.bind(void 0, function(module, exports) {
-    var document = load().document;
-    module.exports = document && document.documentElement;
+    var document1 = load().document;
+    module.exports = document1 && document1.documentElement;
 });
 var load45 = __swcpack_require__.bind(void 0, function(module, exports) {
     // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
@@ -763,7 +763,7 @@ var load49 = __swcpack_require__.bind(void 0, function(module, exports) {
     };
     // 19.4.1.1 Symbol([description])
     if (!USE_NATIVE) {
-        $Symbol = function Symbol() {
+        $Symbol = function Symbol1() {
             if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor!');
             var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
             var $set = function(value) {
@@ -1265,7 +1265,7 @@ var load80 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $trim = load79().trim;
     var ws = load78();
     var hex = /^[-+]?0[xX]/;
-    module.exports = $parseInt(ws + '08') !== 8 || $parseInt(ws + '0x16') !== 22 ? function parseInt(str, radix) {
+    module.exports = $parseInt(ws + '08') !== 8 || $parseInt(ws + '0x16') !== 22 ? function parseInt1(str, radix) {
         var string = $trim(String(str), 3);
         return $parseInt(string, radix >>> 0 || (hex.test(string) ? 16 : 10));
     } : $parseInt;
@@ -1281,7 +1281,7 @@ var load81 = __swcpack_require__.bind(void 0, function(module, exports) {
 var load82 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $parseFloat = load().parseFloat;
     var $trim = load79().trim;
-    module.exports = 1 / $parseFloat(load78() + '-0') !== -Infinity ? function parseFloat(str) {
+    module.exports = 1 / $parseFloat(load78() + '-0') !== -Infinity ? function parseFloat1(str) {
         var string = $trim(String(str), 3);
         var result = $parseFloat(string);
         return result === 0 && string.charAt(0) == '-' ? -0 : result;
@@ -1361,7 +1361,7 @@ var load85 = __swcpack_require__.bind(void 0, function(module, exports) {
         return +it;
     };
     if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
-        $Number = function Number(value) {
+        $Number = function Number1(value) {
             var it = arguments.length < 1 ? 0 : value;
             var that = this;
             return that instanceof $Number && (BROKEN_COF ? fails(function() {
@@ -1541,7 +1541,7 @@ var load91 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $export = load20();
     var _isFinite = load().isFinite;
     $export($export.S, 'Number', {
-        isFinite: function isFinite(it) {
+        isFinite: function isFinite1(it) {
             return typeof it == 'number' && _isFinite(it);
         }
     });
@@ -1565,7 +1565,7 @@ var load94 = __swcpack_require__.bind(void 0, function(module, exports) {
     // 20.1.2.4 Number.isNaN(number)
     var $export = load20();
     $export($export.S, 'Number', {
-        isNaN: function isNaN(number) {
+        isNaN: function isNaN1(number) {
             // eslint-disable-next-line no-self-compare
             return number != number;
         }
@@ -2629,14 +2629,14 @@ var load172 = __swcpack_require__.bind(void 0, function(module, exports) {
         var create = $create || asc;
         return function($this, callbackfn, that) {
             var O = toObject($this);
-            var self = IObject(O);
+            var self1 = IObject(O);
             var f = ctx(callbackfn, that, 3);
-            var length = toLength(self.length);
+            var length = toLength(self1.length);
             var index = 0;
             var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
             var val, res;
-            for(; length > index; index++)if (NO_HOLES || index in self) {
-                val = self[index];
+            for(; length > index; index++)if (NO_HOLES || index in self1) {
+                val = self1[index];
                 res = f(val, index, O);
                 if (TYPE) {
                     if (IS_MAP) result[index] = res; // map
@@ -2721,20 +2721,20 @@ var load178 = __swcpack_require__.bind(void 0, function(module, exports) {
     module.exports = function(that, callbackfn, aLen, memo, isRight) {
         aFunction(callbackfn);
         var O = toObject(that);
-        var self = IObject(O);
+        var self1 = IObject(O);
         var length = toLength(O.length);
         var index = isRight ? length - 1 : 0;
         var i = isRight ? -1 : 1;
         if (aLen < 2) for(;;){
-            if (index in self) {
-                memo = self[index];
+            if (index in self1) {
+                memo = self1[index];
                 index += i;
                 break;
             }
             index += i;
             if (isRight ? index < 0 : length <= index) throw TypeError('Reduce of empty array with no initial value');
         }
-        for(; isRight ? index >= 0 : length > index; index += i)if (index in self) memo = callbackfn(memo, self[index], index, O);
+        for(; isRight ? index >= 0 : length > index; index += i)if (index in self1) memo = callbackfn(memo, self1[index], index, O);
         return memo;
     };
 });
@@ -3005,7 +3005,7 @@ var load195 = __swcpack_require__.bind(void 0, function(module, exports) {
         // RegExp constructor can alter flags and IsRegExp works correct with @@match
         return $RegExp(re1) != re1 || $RegExp(re2) == re2 || $RegExp(re1, 'i') != '/a/i';
     }))) {
-        $RegExp = function RegExp(p, f) {
+        $RegExp = function RegExp1(p, f) {
             var tiRE = this instanceof $RegExp;
             var piRE = isRegExp(p);
             var fiU = f === undefined;
@@ -3797,7 +3797,7 @@ var load217 = __swcpack_require__.bind(void 0, function(module, exports) {
     var userAgent = load214();
     var promiseResolve = load215();
     var PROMISE = 'Promise';
-    var TypeError = global.TypeError;
+    var TypeError1 = global.TypeError;
     var process = global.process;
     var versions = process && process.versions;
     var v8 = versions && versions.v8 || '';
@@ -3851,7 +3851,7 @@ var load217 = __swcpack_require__.bind(void 0, function(module, exports) {
                                 exited = true;
                             }
                         }
-                        if (result === reaction.promise) reject(TypeError('Promise-chain cycle'));
+                        if (result === reaction.promise) reject(TypeError1('Promise-chain cycle'));
                         else if (then = isThenable(result)) then.call(result, resolve, reject);
                         else resolve(result);
                     } else reject(value);
@@ -3917,7 +3917,7 @@ var load217 = __swcpack_require__.bind(void 0, function(module, exports) {
         promise._d = true;
         promise = promise._w || promise; // unwrap
         try {
-            if (promise === value) throw TypeError("Promise can't be resolved itself");
+            if (promise === value) throw TypeError1("Promise can't be resolved itself");
             if (then = isThenable(value)) microtask(function() {
                 var wrapper = {
                     _w: promise,
@@ -4433,7 +4433,7 @@ var load224 = __swcpack_require__.bind(void 0, function(module, exports) {
     var each = load172()(0);
     var redefine = load17();
     var meta = load21();
-    var assign1 = load65();
+    var assign = load65();
     var weak = load223();
     var isObject = load5();
     var validate = load218();
@@ -4468,7 +4468,7 @@ var load224 = __swcpack_require__.bind(void 0, function(module, exports) {
     // IE11 WeakMap frozen keys fix
     if (NATIVE_WEAK_MAP && IS_IE11) {
         InternalMap = weak.getConstructor(wrapper, WEAK_MAP);
-        assign1(InternalMap.prototype, methods);
+        assign(InternalMap.prototype, methods);
         meta.NEED = true;
         each([
             'delete',
@@ -4567,16 +4567,16 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
     var WRONG_INDEX = 'Wrong index!';
     var $ArrayBuffer = global[ARRAY_BUFFER];
     var $DataView = global[DATA_VIEW];
-    var Math = global.Math;
-    var RangeError = global.RangeError;
+    var Math1 = global.Math;
+    var RangeError1 = global.RangeError;
     // eslint-disable-next-line no-shadow-restricted-names
-    var Infinity = global.Infinity;
+    var Infinity1 = global.Infinity;
     var BaseBuffer = $ArrayBuffer;
-    var abs = Math.abs;
-    var pow = Math.pow;
-    var floor = Math.floor;
-    var log = Math.log;
-    var LN2 = Math.LN2;
+    var abs = Math1.abs;
+    var pow = Math1.pow;
+    var floor = Math1.floor;
+    var log = Math1.log;
+    var LN2 = Math1.LN2;
     var BUFFER = 'buffer';
     var BYTE_LENGTH = 'byteLength';
     var BYTE_OFFSET = 'byteOffset';
@@ -4595,7 +4595,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
         var e, m, c;
         value = abs(value);
         // eslint-disable-next-line no-self-compare
-        if (value != value || value === Infinity) {
+        if (value != value || value === Infinity1) {
             // eslint-disable-next-line no-self-compare
             m = value != value ? 1 : 0;
             e = eMax;
@@ -4645,7 +4645,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
         nBits += mLen;
         for(; nBits > 0; m = m * 256 + buffer[i], i--, nBits -= 8);
         if (e === 0) e = 1 - eBias;
-        else if (e === eMax) return m ? NaN : s ? -Infinity : Infinity;
+        else if (e === eMax) return m ? NaN : s ? -Infinity1 : Infinity1;
         else {
             m = m + pow(2, mLen);
             e = e - eBias;
@@ -4690,7 +4690,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
     function get(view, bytes, index, isLittleEndian) {
         var numIndex = +index;
         var intIndex = toIndex(numIndex);
-        if (intIndex + bytes > view[$LENGTH]) throw RangeError(WRONG_INDEX);
+        if (intIndex + bytes > view[$LENGTH]) throw RangeError1(WRONG_INDEX);
         var store = view[$BUFFER]._b;
         var start = intIndex + view[$OFFSET];
         var pack = store.slice(start, start + bytes);
@@ -4699,7 +4699,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
     function set(view, bytes, index, conversion, value, isLittleEndian) {
         var numIndex = +index;
         var intIndex = toIndex(numIndex);
-        if (intIndex + bytes > view[$LENGTH]) throw RangeError(WRONG_INDEX);
+        if (intIndex + bytes > view[$LENGTH]) throw RangeError1(WRONG_INDEX);
         var store = view[$BUFFER]._b;
         var start = intIndex + view[$OFFSET];
         var pack = conversion(+value);
@@ -4717,9 +4717,9 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
             anInstance(buffer, $ArrayBuffer, DATA_VIEW);
             var bufferLength = buffer[$LENGTH];
             var offset = toInteger(byteOffset);
-            if (offset < 0 || offset > bufferLength) throw RangeError('Wrong offset!');
+            if (offset < 0 || offset > bufferLength) throw RangeError1('Wrong offset!');
             byteLength = byteLength === undefined ? bufferLength - offset : toLength(byteLength);
-            if (offset + byteLength > bufferLength) throw RangeError(WRONG_LENGTH);
+            if (offset + byteLength > bufferLength) throw RangeError1(WRONG_LENGTH);
             this[$BUFFER] = buffer;
             this[$OFFSET] = offset;
             this[$LENGTH] = byteLength;
@@ -4798,15 +4798,15 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
                 return new BaseBuffer(toIndex(length));
             };
             var ArrayBufferProto = $ArrayBuffer[PROTOTYPE] = BaseBuffer[PROTOTYPE];
-            for(var keys = gOPN(BaseBuffer), j = 0, key1; keys.length > j;)if (!((key1 = keys[j++]) in $ArrayBuffer)) hide($ArrayBuffer, key1, BaseBuffer[key1]);
+            for(var keys = gOPN(BaseBuffer), j = 0, key; keys.length > j;)if (!((key = keys[j++]) in $ArrayBuffer)) hide($ArrayBuffer, key, BaseBuffer[key]);
             if (!LIBRARY) ArrayBufferProto.constructor = $ArrayBuffer;
         }
         // iOS Safari 7.x bug
-        var view1 = new $DataView(new $ArrayBuffer(2));
+        var view = new $DataView(new $ArrayBuffer(2));
         var $setInt8 = $DataView[PROTOTYPE].setInt8;
-        view1.setInt8(0, 2147483648);
-        view1.setInt8(1, 2147483649);
-        if (view1.getInt8(0) || !view1.getInt8(1)) redefineAll($DataView[PROTOTYPE], {
+        view.setInt8(0, 2147483648);
+        view.setInt8(1, 2147483649);
+        if (view.getInt8(0) || !view.getInt8(1)) redefineAll($DataView[PROTOTYPE], {
             setInt8: function setInt8(byteOffset, value) {
                 $setInt8.call(this, byteOffset, value << 24 >> 24);
             },
@@ -4915,8 +4915,8 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
         var $GOPD = load48();
         var dP = $DP.f;
         var gOPD = $GOPD.f;
-        var RangeError = global.RangeError;
-        var TypeError = global.TypeError;
+        var RangeError1 = global.RangeError;
+        var TypeError1 = global.TypeError;
         var Uint8Array = global.Uint8Array;
         var ARRAY_BUFFER = 'ArrayBuffer';
         var SHARED_BUFFER = 'Shared' + ARRAY_BUFFER;
@@ -4966,15 +4966,15 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
         });
         var toOffset = function(it, BYTES) {
             var offset = toInteger(it);
-            if (offset < 0 || offset % BYTES) throw RangeError('Wrong offset!');
+            if (offset < 0 || offset % BYTES) throw RangeError1('Wrong offset!');
             return offset;
         };
         var validate = function(it) {
             if (isObject(it) && TYPED_ARRAY in it) return it;
-            throw TypeError(it + ' is not a typed array!');
+            throw TypeError1(it + ' is not a typed array!');
         };
         var allocate = function(C, length) {
-            if (!(isObject(C) && TYPED_CONSTRUCTOR in C)) throw TypeError('It is not a typed array constructor!');
+            if (!(isObject(C) && TYPED_CONSTRUCTOR in C)) throw TypeError1('It is not a typed array constructor!');
             return new C(length);
         };
         var speciesFromList = function(O, list) {
@@ -5102,7 +5102,7 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
             var src = toObject(arrayLike);
             var len = toLength(src.length);
             var index = 0;
-            if (len + offset > length) throw RangeError(WRONG_LENGTH);
+            if (len + offset > length) throw RangeError1(WRONG_LENGTH);
             while(index < len)this[offset + index] = src[index++];
         };
         var $iterators = {
@@ -5208,12 +5208,12 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
                         offset = toOffset($offset, BYTES);
                         var $len = data.byteLength;
                         if ($length === undefined) {
-                            if ($len % BYTES) throw RangeError(WRONG_LENGTH);
+                            if ($len % BYTES) throw RangeError1(WRONG_LENGTH);
                             byteLength = $len - offset;
-                            if (byteLength < 0) throw RangeError(WRONG_LENGTH);
+                            if (byteLength < 0) throw RangeError1(WRONG_LENGTH);
                         } else {
                             byteLength = toLength($length) * BYTES;
-                            if (byteLength + offset > $len) throw RangeError(WRONG_LENGTH);
+                            if (byteLength + offset > $len) throw RangeError1(WRONG_LENGTH);
                         }
                         length = byteLength / BYTES;
                     } else if (TYPED_ARRAY in data) return fromList(TypedArray, data);
@@ -5342,7 +5342,7 @@ var load235 = __swcpack_require__.bind(void 0, function(module, exports) {
 });
 var load236 = __swcpack_require__.bind(void 0, function(module, exports) {
     load231()('Uint16', 2, function(init) {
-        return function Uint16Array(data, byteOffset, length) {
+        return function Uint16Array1(data, byteOffset, length) {
             return init(this, data, byteOffset, length);
         };
     });
@@ -5587,8 +5587,8 @@ var load251 = __swcpack_require__.bind(void 0, function(module, exports) {
     var gOPN = load46();
     var gOPS = load38();
     var anObject = load6();
-    var Reflect = load().Reflect;
-    module.exports = Reflect && Reflect.ownKeys || function ownKeys(it) {
+    var Reflect1 = load().Reflect;
+    module.exports = Reflect1 && Reflect1.ownKeys || function ownKeys(it) {
         var keys = gOPN.f(anObject(it));
         var getSymbols = gOPS.f;
         return getSymbols ? keys.concat(getSymbols(it)) : keys;
@@ -5975,7 +5975,7 @@ var load275 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $defineProperty = load10();
     // B.2.2.3 Object.prototype.__defineSetter__(P, setter)
     load3() && $export($export.P + load273(), 'Object', {
-        __defineSetter__: function __defineSetter__(P, setter) {
+        __defineSetter__: function __defineSetter__1(P, setter) {
             $defineProperty.f(toObject(this), P, {
                 set: aFunction(setter),
                 enumerable: true,
@@ -7052,7 +7052,7 @@ var load328 = __swcpack_require__.bind(void 0, function(module, exports) {
     var ctx = load19();
     var $export = load20();
     var createDesc = load11();
-    var assign2 = load65();
+    var assign = load65();
     var create = load45();
     var getPrototypeOf = load55();
     var getKeys = load37();
@@ -7143,7 +7143,7 @@ var load328 = __swcpack_require__.bind(void 0, function(module, exports) {
             if (isIterable(iterable)) forOf(iterable, true, function(key, value) {
                 dict[key] = value;
             });
-            else assign2(dict, iterable);
+            else assign(dict, iterable);
         }
         return dict;
     }

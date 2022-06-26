@@ -1,6 +1,6 @@
 var A, B;
-!function(A1) {
-    (A1.Point || (A1.Point = {})).Origin = {
+!function(A) {
+    (A.Point || (A.Point = {})).Origin = {
         x: 0,
         y: 0
     };
@@ -9,15 +9,15 @@ var A, B;
         x: 0,
         y: 0
     };
-}, function(B1) {
+}, function(B) {
     function Point() {
         return {
             x: 0,
             y: 0
         };
     }
-    (Point = B1.Point || (B1.Point = {})).Origin = {
+    (Point = B.Point || (B.Point = {})).Origin = {
         x: 0,
         y: 0
-    }, B1.Point = Point;
+    }, B.Point = Point;
 }(B || (B = {}));

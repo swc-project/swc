@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // it is an error to provide type arguments to a non-generic call
 // all of these are errors
 var C = function C() {

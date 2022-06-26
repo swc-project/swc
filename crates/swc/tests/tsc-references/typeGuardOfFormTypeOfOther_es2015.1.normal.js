@@ -60,7 +60,7 @@ if (typeof boolOrC !== "Object") {
     c = boolOrC; // C
 }
 if (typeof strOrNumOrBool !== "Object") {
-    let q1 = strOrNumOrBool; // string | number | boolean
+    let q11 = strOrNumOrBool; // string | number | boolean
 } else {
-    let q2 = strOrNumOrBool; // {}
+    let q21 = strOrNumOrBool; // {}
 }

@@ -1,6 +1,6 @@
 (()=>{
     var __webpack_modules__ = {
-        746: (__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__)=>{
+        746: (__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__1)=>{
             Object.prototype.hasOwnProperty;
         }
     };

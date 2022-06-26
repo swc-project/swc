@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // generic types should behave as if they have properties of their constraint type
 var A = /*#__PURE__*/ function() {
     "use strict";
@@ -36,13 +36,13 @@ var C = /*#__PURE__*/ function() {
     _proto.f = function f() {
         var x;
         // BUG 823818
-        var a1 = x["foo"](); // should be string
-        return a1 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     };
     _proto.g = function g(x) {
         // BUG 823818
-        var a2 = x["foo"](); // should be string
-        return a2 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     };
     return C;
 }();
@@ -60,8 +60,8 @@ var r3d = a(new B())["foo"](); // valid call to an invalid function, U is inferr
 var b = {
     foo: function(x) {
         // BUG 823818
-        var a3 = x["foo"](); // should be string
-        return a3 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     }
 };
 var r4 = b.foo(new B()); // valid call to an invalid function

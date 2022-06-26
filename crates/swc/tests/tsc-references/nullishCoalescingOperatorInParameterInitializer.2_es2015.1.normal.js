@@ -5,10 +5,10 @@
 const a = ()=>undefined;
 var ref;
 ((b = (ref = a()) !== null && ref !== void 0 ? ref : "d")=>{
-    var a;
+    var a1;
 })();
 const x = "";
 var ref1;
 ((b = (ref1 = a()) !== null && ref1 !== void 0 ? ref1 : "d", d = x)=>{
-    var x;
+    var x1;
 })();

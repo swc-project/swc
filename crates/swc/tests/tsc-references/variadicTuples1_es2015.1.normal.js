@@ -51,11 +51,11 @@ const tc5 = concat2([
     5,
     6
 ]); // (1 | 2 | 3 | 4 | 5 | 6)[]
-function foo2(t1, t21, a1) {
+function foo2(t1, t2, a1) {
     foo1(1, 'abc', true, 42, 43, 44);
     foo1(...t1, true, 42, 43, 44);
-    foo1(...t1, ...t21, 42, 43, 44);
-    foo1(...t1, ...t21, ...a1);
+    foo1(...t1, ...t2, 42, 43, 44);
+    foo1(...t1, ...t2, ...a1);
     foo1(...t1); // Error
     foo1(...t1, 45); // Error
 }
@@ -83,13 +83,13 @@ ft4([
 ]); // readonly [string, number]
 // Indexing variadic tuple types
 function f0(t, n) {
-    const a = t[0]; // string
+    const a1 = t[0]; // string
     const b = t[1]; // [string, ...T][1]
     const c = t[2]; // [string, ...T][2]
     const d = t[n]; // [string, ...T][number]
 }
 function f1(t, n) {
-    const a = t[0]; // string
+    const a1 = t[0]; // string
     const b = t[1]; // [string, ...T, number][1]
     const c = t[2]; // [string, ...T, number][2]
     const d = t[n]; // [string, ...T, number][number]
@@ -160,21 +160,21 @@ function f12(t, m, r) {
     r = t;
     r = m;
 }
-function f13(t0, t1, t22) {
+function f13(t0, t1, t2) {
     t0 = t1;
-    t0 = t22;
+    t0 = t2;
     t1 = t0;
-    t1 = t22;
-    t22 = t0; // Error
-    t22 = t1; // Error
+    t1 = t2;
+    t2 = t0; // Error
+    t2 = t1; // Error
 }
-function f14(t0, t1, t23) {
+function f14(t0, t1, t2) {
     t0 = t1;
-    t0 = t23;
+    t0 = t2;
     t1 = t0; // Error
-    t1 = t23;
-    t23 = t0; // Error
-    t23 = t1; // Error
+    t1 = t2;
+    t2 = t0; // Error
+    t2 = t1; // Error
 }
 function f15(k0, k1, k2, k3) {
     k0 = 'length';
@@ -188,10 +188,10 @@ function f15(k0, k1, k2, k3) {
     k3 = '2'; // Error
 }
 // Inference to [...T, ...U] with implied arity for T
-function curry(f, ...a) {
-    return (...b2)=>f(...a, ...b2);
+function curry(f, ...a1) {
+    return (...b)=>f(...a1, ...b);
 }
-const fn1 = (a, b, c, d)=>0;
+const fn1 = (a1, b, c, d)=>0;
 const c0 = curry(fn1); // (a: number, b: string, c: boolean, d: string[]) => number
 const c1 = curry(fn1, 1); // (b: string, c: boolean, d: string[]) => number
 const c2 = curry(fn1, 1, 'abc'); // (c: boolean, d: string[]) => number
@@ -257,7 +257,7 @@ ft([
     'd',
     42
 ]);
-call('hello', 32, (a, b)=>42);
+call('hello', 32, (a1, b)=>42);
 call(...sa, (...x)=>42);
 function f21(args) {
     let v1 = f20(args); // U

@@ -1,10 +1,10 @@
-use std::{mem, rc::Rc};
+use std::{cell::RefCell, mem, rc::Rc};
 
 use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_common::Span;
+use swc_common::{Span, DUMMY_SP};
 use swc_html_ast::*;
 
 use self::input::{Buffer, ParserInput};
@@ -90,10 +90,7 @@ where
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
-    document_mode: DocumentMode,
     document: Option<RcNode>,
-    html_additional_attributes: Vec<Attribute>,
-    body_additional_attributes: Vec<Attribute>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
     open_elements_stack: OpenElementsStack,
@@ -117,16 +114,13 @@ where
             context_element: None,
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
-            template_insertion_mode_stack: vec![],
-            document_mode: DocumentMode::NoQuirks,
+            template_insertion_mode_stack: Vec::with_capacity(16),
             document: None,
-            html_additional_attributes: vec![],
-            body_additional_attributes: vec![],
             head_element_pointer: None,
             form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
             active_formatting_elements: ActiveFormattingElementStack::new(),
-            pending_character_tokens: vec![],
+            pending_character_tokens: Vec::with_capacity(16),
             frameset_ok: true,
             foster_parenting_enabled: false,
             errors: Default::default(),
@@ -144,22 +138,29 @@ where
     pub fn parse_document(&mut self) -> PResult<Document> {
         let start = self.input.cur_span()?;
 
-        self.document = Some(self.create_document());
+        self.document = Some(self.create_document(None));
 
         self.run()?;
 
-        let original_document = &mut self.document.take().unwrap();
-        let mut children = vec![];
+        let document = &mut self.document.take().unwrap();
+        let nodes = document.children.take();
+        let mut children = Vec::with_capacity(nodes.len());
 
-        for node in original_document.children.take() {
+        for node in nodes {
             children.push(self.node_to_child(node));
         }
 
         let last = self.input.last_pos()?;
+        let mode = match &document.data {
+            Data::Document { mode, .. } => *mode.borrow(),
+            _ => {
+                unreachable!();
+            }
+        };
 
         Ok(Document {
-            span: Span::new(start.lo, last, Default::default()),
-            mode: self.document_mode,
+            span: Span::new(start.lo(), last, Default::default()),
+            mode,
             children,
         })
     }
@@ -259,21 +260,27 @@ where
     // just inserted into the input stream.
     //
     // 14. Return the child nodes of root, in tree order.
-    // TODO extract code for building tree from parser in TreeBuilder module
-    // TODO should context_element be RcNode?
     pub fn parse_document_fragment(
         &mut self,
         context_element: Element,
+        mode: DocumentMode,
+        form_element: Option<Element>,
     ) -> PResult<DocumentFragment> {
         // 1.
-        self.document = Some(self.create_document());
-
         // 2.
-        // TODO add ability to set document mode
+        self.document = Some(self.create_document(Some(mode)));
 
         // 3.
         // Parser already created
-        let context_node = Node::new(Data::Element(context_element));
+        let context_node = Node::new(
+            Data::Element {
+                namespace: context_element.namespace,
+                tag_name: context_element.tag_name,
+                attributes: RefCell::new(context_element.attributes),
+                is_self_closing: context_element.is_self_closing,
+            },
+            DUMMY_SP,
+        );
 
         // 4.
         match get_tag_name!(context_node) {
@@ -324,9 +331,18 @@ where
         self.reset_insertion_mode();
 
         // 11.
-        // TODO how we can get parent here?
         if is_html_element!(context_node, "form") {
             self.form_element_pointer = Some(context_node);
+        } else if let Some(form_element) = form_element {
+            self.form_element_pointer = Some(Node::new(
+                Data::Element {
+                    namespace: form_element.namespace,
+                    tag_name: form_element.tag_name,
+                    attributes: RefCell::new(form_element.attributes),
+                    is_self_closing: form_element.is_self_closing,
+                },
+                DUMMY_SP,
+            ));
         }
 
         // 12.
@@ -337,94 +353,157 @@ where
 
         self.run()?;
 
-        let mut children = vec![];
+        let nodes = root.children.take();
+        let mut children = Vec::with_capacity(nodes.len());
 
-        for node in root.children.take() {
+        for node in nodes {
             children.push(self.node_to_child(node));
         }
 
         let last = self.input.last_pos()?;
 
         Ok(DocumentFragment {
-            span: Span::new(start.lo, last, Default::default()),
+            span: Span::new(start.lo(), last, Default::default()),
             children,
         })
     }
 
-    fn create_document(&self) -> RcNode {
-        Node::new(Data::Document(Document {
-            span: Default::default(),
-            mode: DocumentMode::NoQuirks,
-            children: vec![],
-        }))
+    fn create_document(&self, mode: Option<DocumentMode>) -> RcNode {
+        Node::new(
+            Data::Document {
+                mode: RefCell::new(mode.unwrap_or(DocumentMode::NoQuirks)),
+            },
+            DUMMY_SP,
+        )
     }
 
-    // TODO optimize me and fix ending span
     fn node_to_child(&mut self, node: RcNode) -> Child {
+        let start_span = node.start_span.take();
+
         match node.data.clone() {
-            Data::DocumentType(document_type) => {
-                Child::DocumentType(DocumentType { ..document_type })
-            }
-            Data::Element(element) => {
-                let mut attributes = element.attributes;
+            Data::DocumentType {
+                name,
+                public_id,
+                system_id,
+            } => Child::DocumentType(DocumentType {
+                span: start_span,
+                name,
+                public_id,
+                system_id,
+            }),
+            Data::Element {
+                namespace,
+                tag_name,
+                attributes,
+                is_self_closing,
+            } => {
+                let nodes = node.children.take();
+                let mut new_children = Vec::with_capacity(nodes.len());
 
-                if element.namespace == Namespace::HTML {
-                    if !self.html_additional_attributes.is_empty() && &*element.tag_name == "html" {
-                        let additional_attributes: Vec<_> =
-                            self.html_additional_attributes.drain(..).collect();
-
-                        attributes.extend(additional_attributes)
-                    } else if !self.body_additional_attributes.is_empty()
-                        && &*element.tag_name == "body"
-                    {
-                        let additional_attributes: Vec<_> =
-                            self.body_additional_attributes.drain(..).collect();
-
-                        attributes.extend(additional_attributes);
-                    }
-                }
-
-                let mut new_children = vec![];
-
-                for node in node.children.take() {
+                for node in nodes {
                     new_children.push(self.node_to_child(node));
                 }
 
-                let first = element.span.lo;
-                let last = match new_children.last() {
-                    Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                    Some(Child::Element(Element { span, .. })) => span.hi,
-                    Some(Child::Comment(Comment { span, .. })) => span.hi,
-                    Some(Child::Text(Text { span, .. })) => span.hi,
-                    _ => element.span.hi,
-                };
+                let attributes = attributes.take();
 
-                match &*element.tag_name {
-                    "template" if element.namespace == Namespace::HTML => {
-                        let span = Span::new(first, last, Default::default());
+                match &*tag_name {
+                    "html" | "body" if namespace == Namespace::HTML => {
+                        // Elements and text after `</html>` are moving into `<body>`
+                        // Elements and text after `</body>` are moving into `<body>`
+                        let span = if start_span.is_dummy() {
+                            start_span
+                        } else {
+                            let end_body = match node.end_span.take() {
+                                Some(end_tag_span) => end_tag_span.hi(),
+                                _ => start_span.hi(),
+                            };
+                            let end_children = match new_children.last() {
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                                Some(Child::Element(Element { span, .. })) => span.hi(),
+                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                                Some(Child::Text(Text { span, .. })) => span.hi(),
+                                _ => start_span.hi(),
+                            };
+
+                            let end = if end_body >= end_children {
+                                end_body
+                            } else {
+                                end_children
+                            };
+
+                            Span::new(start_span.lo(), end, Default::default())
+                        };
 
                         Child::Element(Element {
                             span,
-                            children: vec![],
-                            content: Some(DocumentFragment {
-                                span,
-                                children: new_children,
-                            }),
+                            namespace,
+                            tag_name,
                             attributes,
-                            ..element
+                            is_self_closing,
+                            children: new_children,
+                            content: None,
                         })
                     }
-                    _ => Child::Element(Element {
-                        span: Span::new(first, last, Default::default()),
-                        children: new_children,
-                        content: None,
-                        attributes,
-                        ..element
-                    }),
+                    _ => {
+                        let is_template = namespace == Namespace::HTML && &*tag_name == "template";
+                        let span = if start_span.is_dummy() {
+                            start_span
+                        } else {
+                            let end = match node.end_span.take() {
+                                Some(end_span) => end_span.hi(),
+                                _ => match new_children.last() {
+                                    Some(Child::DocumentType(DocumentType { span, .. })) => {
+                                        span.hi()
+                                    }
+                                    Some(Child::Element(Element { span, .. })) => span.hi(),
+                                    Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                                    Some(Child::Text(Text { span, .. })) => span.hi(),
+                                    _ => start_span.hi(),
+                                },
+                            };
+
+                            Span::new(start_span.lo(), end, Default::default())
+                        };
+                        let (children, content) = if is_template {
+                            (
+                                vec![],
+                                Some(DocumentFragment {
+                                    span,
+                                    children: new_children,
+                                }),
+                            )
+                        } else {
+                            (new_children, None)
+                        };
+
+                        Child::Element(Element {
+                            span,
+                            namespace,
+                            tag_name,
+                            attributes,
+                            is_self_closing,
+                            children,
+                            content,
+                        })
+                    }
                 }
             }
-            Data::Text(text) => Child::Text(Text { ..text }),
-            Data::Comment(comment) => Child::Comment(Comment { ..comment }),
+            Data::Text { data } => {
+                let span = if let Some(end_span) = node.end_span.take() {
+                    swc_common::Span::new(start_span.lo(), end_span.hi(), Default::default())
+                } else {
+                    start_span
+                };
+
+                Child::Text(Text {
+                    span,
+                    data: data.take().into(),
+                })
+            }
+            Data::Comment { data } => Child::Comment(Comment {
+                span: start_span,
+                data,
+            }),
             _ => {
                 unreachable!();
             }
@@ -439,17 +518,27 @@ where
             self.input
                 .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
 
-            let span = self.input.cur_span()?;
-            let token = match self.input.cur()? {
+            let mut token_and_info = match self.input.cur()? {
                 Some(_) => {
-                    bump!(self)
+                    let span = self.input.cur_span()?;
+                    let token = bump!(self);
+
+                    TokenAndInfo {
+                        span: span!(self, span.lo()),
+                        acknowledged: false,
+                        token,
+                    }
                 }
-                _ => Token::Eof,
-            };
-            let mut token_and_info = TokenAndInfo {
-                span: span!(self, span.lo),
-                acknowledged: false,
-                token,
+                None => {
+                    let start_pos = self.input.start_pos()?;
+                    let last_pos = self.input.last_pos()?;
+
+                    TokenAndInfo {
+                        span: Span::new(start_pos, last_pos, Default::default()),
+                        acknowledged: false,
+                        token: Token::Eof,
+                    }
+                }
             };
 
             // Re-emit errors from tokenizer
@@ -464,8 +553,11 @@ where
             // When a start tag token is emitted with its self-closing flag set,
             // if the flag is not acknowledged when it is processed by the tree
             // construction stage, that is a parse error.
-            if let Token::StartTag { self_closing, .. } = &token_and_info.token {
-                if *self_closing && !token_and_info.acknowledged {
+            if let Token::StartTag {
+                is_self_closing, ..
+            } = &token_and_info.token
+            {
+                if *is_self_closing && !token_and_info.acknowledged {
                     self.errors.push(Error::new(
                         token_and_info.span,
                         ErrorKind::NonVoidHtmlElementStartTagWithTrailingSolidus,
@@ -519,11 +611,11 @@ where
         if self.open_elements_stack.items.is_empty()
             || is_element_in_html_namespace
             || (is_mathml_text_integration_point
-                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name != "mglyph" &&  &*tag_name != "malignmark"))
+                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if tag_name != "mglyph" &&  tag_name != "malignmark"))
             || (is_mathml_text_integration_point
                 && matches!(&token_and_info.token, Token::Character { .. }))
             || (is_mathml_annotation_xml
-                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name == "svg"))
+                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if tag_name == "svg"))
             || (is_html_integration_point
                 && matches!(&token_and_info.token, Token::StartTag { .. }))
             || (is_html_integration_point
@@ -783,10 +875,10 @@ where
             Token::StartTag {
                 tag_name,
                 raw_tag_name,
-                self_closing,
+                is_self_closing,
                 attributes,
             } => {
-                let is_self_closing = *self_closing;
+                let is_self_closing = *is_self_closing;
                 let is_script = tag_name == "script";
                 let adjusted_current_node = self.get_adjusted_current_node();
                 let namespace = match adjusted_current_node {
@@ -849,7 +941,7 @@ where
                         token_and_info.token = Token::StartTag {
                             tag_name: new_tag_name.into(),
                             raw_tag_name: raw_tag_name.clone(),
-                            self_closing: *self_closing,
+                            is_self_closing,
                             attributes: attributes.clone(),
                         }
                     }
@@ -897,7 +989,9 @@ where
             // restore the insertion point to its previous value. This value might be the
             // "undefined" value.)
             Token::EndTag { tag_name, .. } if tag_name == "script" => {
-                self.open_elements_stack.pop();
+                let popped = self.open_elements_stack.pop();
+
+                self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                 // No need to handle other steps
             }
@@ -956,12 +1050,14 @@ where
                     let inner_node = node.unwrap();
 
                     match &inner_node.data {
-                        Data::Element(element)
-                            if &*element.tag_name.to_ascii_lowercase() == tag_name =>
-                        {
+                        Data::Element {
+                            tag_name: node_tag_name,
+                            ..
+                        } if &*node_tag_name.to_ascii_lowercase() == tag_name => {
                             let clone = inner_node.clone();
+                            let popped = self.open_elements_stack.pop_until_node(&clone);
 
-                            self.open_elements_stack.pop_until_node(&clone);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                             return Ok(());
                         }
@@ -1229,12 +1325,14 @@ where
                             ));
                         }
 
-                        let document_type = Node::new(Data::DocumentType(DocumentType {
-                            span: span!(self, token_and_info.span.lo),
-                            name: name.clone(),
-                            public_id: public_id.clone(),
-                            system_id: system_id.clone(),
-                        }));
+                        let document_type = Node::new(
+                            Data::DocumentType {
+                                name: name.clone(),
+                                public_id: public_id.clone(),
+                                system_id: system_id.clone(),
+                            },
+                            token_and_info.span,
+                        );
 
                         self.append_node(self.document.as_ref().unwrap(), document_type);
 
@@ -1248,18 +1346,18 @@ where
                                     &&*system_id.to_ascii_lowercase()
                                 )))
                         {
-                            self.document_mode = DocumentMode::Quirks;
+                            self.set_document_mode(DocumentMode::Quirks);
                         } else if let Some(public_id) = public_id {
                             if LIMITED_QUIRKY_PUBLIC_PREFIXES
                                 .contains(&&*public_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = DocumentMode::Quirks;
+                                self.set_document_mode(DocumentMode::Quirks);
                             }
                         } else if let Some(system_id) = system_id {
                             if HTML4_PUBLIC_PREFIXES
                                 .contains(&&*system_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = DocumentMode::Quirks;
+                                self.set_document_mode(DocumentMode::Quirks);
                             }
                         }
 
@@ -1305,7 +1403,7 @@ where
                                 }
                             }
 
-                            self.document_mode = DocumentMode::Quirks;
+                            self.set_document_mode(DocumentMode::Quirks);
                         }
 
                         self.insertion_mode = InsertionMode::BeforeHtml;
@@ -1368,25 +1466,29 @@ where
                     Token::StartTag {
                         tag_name,
                         attributes,
+                        is_self_closing,
                         ..
                     } if tag_name == "html" => {
-                        let element = Node::new(Data::Element(Element {
-                            span: span!(self, token_and_info.span.lo),
-                            namespace: Namespace::HTML,
-                            tag_name: tag_name.into(),
-                            attributes: attributes
-                                .iter()
-                                .map(|attribute| Attribute {
-                                    span: attribute.span,
-                                    namespace: None,
-                                    prefix: None,
-                                    name: attribute.name.clone(),
-                                    value: attribute.value.clone(),
-                                })
-                                .collect(),
-                            children: vec![],
-                            content: None,
-                        }));
+                        let element = Node::new(
+                            Data::Element {
+                                namespace: Namespace::HTML,
+                                tag_name: tag_name.into(),
+                                attributes: RefCell::new(
+                                    attributes
+                                        .iter()
+                                        .map(|attribute| Attribute {
+                                            span: attribute.span,
+                                            namespace: None,
+                                            prefix: None,
+                                            name: attribute.name.clone(),
+                                            value: attribute.value.clone(),
+                                        })
+                                        .collect(),
+                                ),
+                                is_self_closing: *is_self_closing,
+                            },
+                            token_and_info.span,
+                        );
 
                         self.open_elements_stack.push(element.clone());
 
@@ -1434,16 +1536,9 @@ where
             InsertionMode::BeforeHead => {
                 let anything_else =
                     |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        let element = parser.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "head".into(),
-                                raw_tag_name: Some("head".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                        let element = parser.insert_html_element(
+                            &mut parser.create_fake_token_and_info("head", None),
+                        )?;
 
                         parser.head_element_pointer = Some(element);
                         parser.insertion_mode = InsertionMode::InHead;
@@ -1579,10 +1674,10 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if matches!(tag_name.as_ref(), "base" | "basefont" | "bgsound" | "link") => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -1612,10 +1707,10 @@ where
                     // extracted encoding.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "meta" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -1694,12 +1789,11 @@ where
                     //
                     // 10. Switch the insertion mode to "text".
                     Token::StartTag { tag_name, .. } if tag_name == "script" => {
-                        let last_pos = self.input.last_pos()?;
                         let adjusted_insertion_location =
                             self.get_appropriate_place_for_inserting_node(None)?;
                         let node = self.create_element_for_token(
                             token_and_info.token.clone(),
-                            Span::new(token_and_info.span.lo, last_pos, Default::default()),
+                            token_and_info.span,
                             Some(Namespace::HTML),
                             None,
                         );
@@ -1719,7 +1813,9 @@ where
                     //
                     // Switch the insertion mode to "after head".
                     Token::EndTag { tag_name, .. } if tag_name == "head" => {
-                        self.open_elements_stack.pop();
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = InsertionMode::AfterHead;
                     }
                     // An end tag whose tag name is one of: "body", "html", "br"
@@ -1789,8 +1885,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["template"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.template_insertion_mode_stack.pop();
                             self.reset_insertion_mode();
@@ -1890,7 +1989,9 @@ where
                     //
                     // Switch the insertion mode to "in head".
                     Token::EndTag { tag_name, .. } if tag_name == "noscript" => {
-                        self.open_elements_stack.pop();
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = InsertionMode::InHead;
                     }
                     // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
@@ -1961,23 +2062,23 @@ where
             }
             // The "after head" insertion mode
             InsertionMode::AfterHead => {
-                let anything_else =
-                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        parser.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "body".into(),
-                                raw_tag_name: Some("body".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
-                        parser.insertion_mode = InsertionMode::InBody;
-                        parser.process_token(token_and_info, None)?;
-
-                        Ok(())
+                let anything_else = |parser: &mut Parser<I>,
+                                     token_and_info: &mut TokenAndInfo|
+                 -> PResult<()> {
+                    let span = if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if tag_name == "body")
+                    {
+                        Some(token_and_info.span)
+                    } else {
+                        None
                     };
+                    let mut body_token = parser.create_fake_token_and_info("body", span);
+
+                    parser.insert_html_element(&mut body_token)?;
+                    parser.insertion_mode = InsertionMode::InBody;
+                    parser.process_token(token_and_info, None)?;
+
+                    Ok(())
+                };
                 // When the user agent is to apply the rules for the "after head" insertion
                 // mode, the user agent must handle the token as follows:
                 match token {
@@ -2191,11 +2292,34 @@ where
                         }
 
                         if let Some(top) = self.open_elements_stack.items.get(0) {
-                            let html_additional_attributes =
-                                self.get_missing_attributes(top, attributes.clone());
+                            let mut node_attributes = match &top.data {
+                                Data::Element { attributes, .. } => attributes.borrow_mut(),
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                            self.html_additional_attributes
-                                .extend(html_additional_attributes)
+                            for token_attribute in attributes {
+                                let mut found = false;
+
+                                for attribute in node_attributes.iter() {
+                                    if attribute.name == token_attribute.name {
+                                        found = true;
+
+                                        break;
+                                    }
+                                }
+
+                                if !found {
+                                    node_attributes.push(Attribute {
+                                        span: token_attribute.span,
+                                        namespace: None,
+                                        prefix: None,
+                                        name: token_attribute.name.clone(),
+                                        value: token_attribute.value.clone(),
+                                    });
+                                }
+                            }
                         }
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
@@ -2260,11 +2384,34 @@ where
                         self.frameset_ok = false;
 
                         if let Some(top) = self.open_elements_stack.items.get(1) {
-                            let body_additional_attributes =
-                                self.get_missing_attributes(top, attributes.clone());
+                            let mut node_attributes = match &top.data {
+                                Data::Element { attributes, .. } => attributes.borrow_mut(),
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                            self.body_additional_attributes
-                                .extend(body_additional_attributes);
+                            for token_attribute in attributes {
+                                let mut found = false;
+
+                                for attribute in node_attributes.iter() {
+                                    if attribute.name == token_attribute.name {
+                                        found = true;
+
+                                        break;
+                                    }
+                                }
+
+                                if !found {
+                                    node_attributes.push(Attribute {
+                                        span: token_attribute.span,
+                                        namespace: None,
+                                        prefix: None,
+                                        name: token_attribute.name.clone(),
+                                        value: token_attribute.value.clone(),
+                                    });
+                                }
+                            }
                         }
                     }
                     // A start tag whose tag name is "frameset"
@@ -2400,6 +2547,11 @@ where
                             ));
 
                             return Ok(());
+                        } else {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(1),
+                                token_and_info,
+                            );
                         }
 
                         for node in &self.open_elements_stack.items {
@@ -2457,6 +2609,11 @@ where
                             ));
 
                             return Ok(());
+                        } else {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(0),
+                                token_and_info,
+                            );
                         }
 
                         for node in &self.open_elements_stack.items {
@@ -2531,7 +2688,7 @@ where
                         ) =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2550,7 +2707,7 @@ where
                         if matches!(tag_name.as_ref(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         match self.open_elements_stack.items.last() {
@@ -2588,7 +2745,7 @@ where
                         if matches!(tag_name.as_ref(), "pre" | "listing") =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2626,7 +2783,7 @@ where
                         }
 
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         let element = self.insert_html_element(token_and_info)?;
@@ -2711,7 +2868,7 @@ where
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2828,7 +2985,7 @@ where
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2843,7 +3000,7 @@ where
                     // Switch the tokenizer to the PLAINTEXT state.
                     Token::StartTag { tag_name, .. } if tag_name == "plaintext" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2948,8 +3105,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is "form"
@@ -3024,6 +3184,8 @@ where
                                     token_and_info.span,
                                     ErrorKind::UnclosedElements(tag_name.clone()),
                                 ));
+                            } else {
+                                self.update_end_tag_span(Some(&node), token_and_info);
                             }
 
                             self.open_elements_stack.remove(&node);
@@ -3049,8 +3211,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["form"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is "p"
@@ -3067,19 +3232,13 @@ where
                                 ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
                             ));
 
-                            self.insert_html_element(&mut TokenAndInfo {
-                                span: Default::default(),
-                                acknowledged: false,
-                                token: Token::StartTag {
-                                    tag_name: "p".into(),
-                                    raw_tag_name: Some("p".into()),
-                                    self_closing: false,
-                                    attributes: vec![],
-                                },
-                            })?;
+                            self.insert_html_element(
+                                &mut self
+                                    .create_fake_token_and_info("p", Some(token_and_info.span)),
+                            )?;
                         }
 
-                        self.close_p_element(token_and_info);
+                        self.close_p_element(token_and_info, true);
                     }
                     // An end tag whose tag name is "li"
                     //
@@ -3114,7 +3273,10 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
+                            let popped =
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is one of: "dd", "dt"
@@ -3153,8 +3315,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
@@ -3190,14 +3355,15 @@ where
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
 
-                            match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element_with_tag_name!(node, tag_name) => {
+                            if let Some(node) = self.open_elements_stack.items.last() {
+                                if !is_html_element_with_tag_name!(node, tag_name) {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
+                                } else {
+                                    self.update_end_tag_span(Some(node), token_and_info);
                                 }
-                                _ => {}
                             }
 
                             self.open_elements_stack
@@ -3254,7 +3420,7 @@ where
 
                                 let remove = element.clone();
 
-                                self.run_the_adoption_agency_algorithm(token_and_info)?;
+                                self.run_the_adoption_agency_algorithm(token_and_info, false)?;
                                 self.active_formatting_elements.remove(&remove);
                                 self.open_elements_stack.remove(&remove);
                             }
@@ -3262,7 +3428,7 @@ where
 
                         self.reconstruct_active_formatting_elements()?;
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
@@ -3295,7 +3461,7 @@ where
                     {
                         self.reconstruct_active_formatting_elements()?;
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
@@ -3322,11 +3488,11 @@ where
                                 ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
                             ));
 
-                            self.run_the_adoption_agency_algorithm(token_and_info)?;
+                            self.run_the_adoption_agency_algorithm(token_and_info, false)?;
                             self.reconstruct_active_formatting_elements()?;
                         }
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
@@ -3356,7 +3522,7 @@ where
                                 | "u"
                         ) =>
                     {
-                        self.run_the_adoption_agency_algorithm(token_and_info)?;
+                        self.run_the_adoption_agency_algorithm(token_and_info, true)?;
                     }
                     // A start tag whose tag name is one of: "applet", "marquee", "object"
                     //
@@ -3413,8 +3579,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                         }
                     }
@@ -3429,10 +3598,11 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        if self.document_mode != DocumentMode::Quirks
+                        if get_document_mode!(self.document.as_ref().unwrap())
+                            != DocumentMode::Quirks
                             && self.open_elements_stack.has_in_button_scope("p")
                         {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -3446,26 +3616,18 @@ where
                     // attributes, rather than the end tag token that it actually is.
                     Token::EndTag {
                         tag_name,
-                        raw_tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "br" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.errors
                             .push(Error::new(token_and_info.span, ErrorKind::EndTagBr));
 
                         self.reconstruct_active_formatting_elements()?;
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: tag_name.clone(),
-                                raw_tag_name: raw_tag_name.clone(),
-                                self_closing: *self_closing,
-                                attributes: vec![],
-                            },
-                        })?;
+                        self.insert_html_element(
+                            &mut self.create_fake_token_and_info("br", Some(token_and_info.span)),
+                        )?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -3487,14 +3649,14 @@ where
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if matches!(
                         tag_name.as_ref(),
                         "area" | "br" | "embed" | "img" | "keygen" | "wbr"
                     ) =>
                     {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
@@ -3520,11 +3682,11 @@ where
                     // string "hidden", then: set the frameset-ok flag to "not ok".
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         attributes,
                         ..
                     } if tag_name == "input" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
                         let input_type = attributes
                             .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
@@ -3560,10 +3722,10 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if matches!(tag_name.as_ref(), "param" | "source" | "track") => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -3585,14 +3747,14 @@ where
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "hr" => {
-                        if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(&mut token_and_info.clone());
-                        }
+                        let is_self_closing = *is_self_closing;
 
-                        let is_self_closing = *self_closing;
+                        if self.open_elements_stack.has_in_button_scope("p") {
+                            self.close_p_element(token_and_info, false);
+                        }
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -3673,7 +3835,7 @@ where
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. } if tag_name == "xmp" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.reconstruct_active_formatting_elements()?;
@@ -3839,10 +4001,10 @@ where
                     // stack of open elements and acknowledge the token's self-closing flag.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "math" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_foreign_element(
@@ -3873,10 +4035,10 @@ where
                     // stack of open elements and acknowledge the token's self-closing flag.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "svg" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_foreign_element(
@@ -4177,7 +4339,9 @@ where
                     // steps from step 1.
                     Token::EndTag { tag_name, .. } if tag_name == "script" => {
                         // More things can be implemented to intercept script execution
-                        self.open_elements_stack.pop();
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
                     // Any other end tag
@@ -4186,6 +4350,13 @@ where
                     //
                     // Switch the insertion mode to the original insertion mode.
                     _ => {
+                        if let Token::EndTag { .. } = token {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
+                        }
+
                         self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
@@ -4217,7 +4388,7 @@ where
                             _ => false,
                         } =>
                     {
-                        self.pending_character_tokens = vec![];
+                        self.pending_character_tokens.clear();
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.insertion_mode = InsertionMode::InTableText;
                         self.process_token(token_and_info, None)?;
@@ -4270,16 +4441,9 @@ where
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. } if tag_name == "col" => {
                         self.open_elements_stack.clear_back_to_table_context();
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: true,
-                            token: Token::StartTag {
-                                tag_name: "colgroup".into(),
-                                raw_tag_name: Some("colgroup".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                        self.insert_html_element(
+                            &mut self.create_fake_token_and_info("colgroup", None),
+                        )?;
                         self.insertion_mode = InsertionMode::InColumnGroup;
                         self.process_token(token_and_info, None)?;
                     }
@@ -4308,16 +4472,9 @@ where
                         if matches!(tag_name.as_ref(), "td" | "th" | "tr") =>
                     {
                         self.open_elements_stack.clear_back_to_table_context();
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "tbody".into(),
-                                raw_tag_name: Some("tbody".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                        self.insert_html_element(
+                            &mut self.create_fake_token_and_info("tbody", None),
+                        )?;
                         self.insertion_mode = InsertionMode::InTableBody;
                         self.process_token(token_and_info, None)?;
                     }
@@ -4371,8 +4528,11 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["table"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.reset_insertion_mode();
                         }
                     }
@@ -4432,10 +4592,10 @@ where
                     Token::StartTag {
                         tag_name,
                         attributes,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "input" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
                         let input_type = attributes
                             .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
@@ -4623,8 +4783,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["caption"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -4791,10 +4954,10 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "col" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -4819,7 +4982,9 @@ where
                                 ));
                             }
                             _ => {
-                                self.open_elements_stack.pop();
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                                 self.insertion_mode = InsertionMode::InTable;
                             }
                         }
@@ -4916,16 +5081,7 @@ where
                             ErrorKind::StartTagInTableBody(tag_name.clone()),
                         ));
                         self.open_elements_stack.clear_back_to_table_body_context();
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "tr".into(),
-                                raw_tag_name: Some("tr".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                        self.insert_html_element(&mut self.create_fake_token_and_info("tr", None))?;
                         self.insertion_mode = InsertionMode::InRow;
                         self.process_token(token_and_info, None)?;
                     }
@@ -4951,6 +5107,10 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -5071,6 +5231,10 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                         }
@@ -5224,8 +5388,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InRow;
                         }
@@ -5420,7 +5587,9 @@ where
                                     .get(self.open_elements_stack.items.len() - 2)
                                 {
                                     Some(node) if is_html_element!(node, "optgroup") => {
-                                        self.open_elements_stack.pop();
+                                        let popped = self.open_elements_stack.pop();
+
+                                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                                     }
                                     _ => {}
                                 }
@@ -5430,7 +5599,9 @@ where
 
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "optgroup") => {
-                                self.open_elements_stack.pop();
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5445,7 +5616,9 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "option" => {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
-                                self.open_elements_stack.pop();
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5471,8 +5644,11 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["select"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.reset_insertion_mode();
                         }
                     }
@@ -5876,6 +6052,10 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(0),
+                                token_and_info,
+                            );
                             self.insertion_mode = InsertionMode::AfterAfterBody;
                         }
                     }
@@ -5988,7 +6168,9 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack.pop();
+                            let popped = self.open_elements_stack.pop();
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                             if !self.is_fragment_case {
                                 match self.open_elements_stack.items.last() {
@@ -6008,10 +6190,10 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "frame" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -6116,6 +6298,10 @@ where
                     //
                     // Switch the insertion mode to "after after frameset".
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
+                        self.update_end_tag_span(
+                            self.open_elements_stack.items.last(),
+                            token_and_info,
+                        );
                         self.insertion_mode = InsertionMode::AfterAfterFrameset;
                     }
                     // A start tag whose tag name is "noframes"
@@ -6379,7 +6565,7 @@ where
     fn any_other_end_tag_for_in_body_insertion_mode(&mut self, token_and_info: &mut TokenAndInfo) {
         let mut match_idx = None;
         let tag_name = match &token_and_info.token {
-            Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => &*tag_name,
+            Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => tag_name,
             _ => {
                 unreachable!();
             }
@@ -6426,6 +6612,10 @@ where
                 token_and_info.span,
                 ErrorKind::UnclosedElements(tag_name.clone()),
             ));
+        } else {
+            let node = self.open_elements_stack.items.last();
+
+            self.update_end_tag_span(node, token_and_info);
         }
 
         // 2.- 3.
@@ -6677,11 +6867,13 @@ where
             Token::StartTag {
                 tag_name,
                 attributes,
+                is_self_closing,
                 ..
             }
             | Token::EndTag {
                 tag_name,
                 attributes,
+                is_self_closing,
                 ..
             } => {
                 let attributes = attributes
@@ -6711,13 +6903,11 @@ where
                     })
                     .collect();
 
-                Element {
-                    span,
+                Data::Element {
                     tag_name,
                     namespace: namespace.unwrap(),
-                    attributes,
-                    children: vec![],
-                    content: None,
+                    attributes: RefCell::new(attributes),
+                    is_self_closing,
                 }
             }
             _ => {
@@ -6725,7 +6915,7 @@ where
             }
         };
 
-        Node::new(Data::Element(element))
+        Node::new(element, span)
     }
 
     // The adoption agency algorithm, which takes as its only argument a token token
@@ -6843,6 +7033,7 @@ where
     fn run_the_adoption_agency_algorithm(
         &mut self,
         token_and_info: &mut TokenAndInfo,
+        is_closing: bool,
     ) -> PResult<()> {
         // 1.
         let subject = match &token_and_info.token {
@@ -6859,7 +7050,11 @@ where
             if is_html_element_with_tag_name!(last, &*subject)
                 && self.active_formatting_elements.get_position(last).is_none()
             {
-                self.open_elements_stack.pop();
+                let popped = self.open_elements_stack.pop();
+
+                if is_closing {
+                    self.update_end_tag_span(popped.as_ref(), token_and_info);
+                }
 
                 return Ok(());
             }
@@ -6901,7 +7096,7 @@ where
                 });
 
             if formatting_element.is_none() {
-                self.any_other_end_tag_for_in_body_insertion_mode(&mut token_and_info.clone());
+                self.any_other_end_tag_for_in_body_insertion_mode(token_and_info);
 
                 return Ok(());
             }
@@ -6944,7 +7139,6 @@ where
 
             // 6.
             if let Some(node) = self.open_elements_stack.items.last() {
-                // errEndTagViolatesNestingRules(name);
                 if !is_same_node(node, &formatting_element.1) {
                     self.errors.push(Error::new(
                         token_and_info.span,
@@ -6967,6 +7161,10 @@ where
             if furthest_block.is_none() {
                 while let Some(node) = self.open_elements_stack.pop() {
                     if is_same_node(&node, &formatting_element.1) {
+                        if is_closing {
+                            self.update_end_tag_span(Some(&node), token_and_info);
+                        }
+
                         break;
                     }
                 }
@@ -7026,7 +7224,6 @@ where
 
                 // 13.6
                 let node_formatting_index = node_formatting_index.unwrap();
-                let last_pos = self.input.last_pos()?;
                 let token_and_info =
                     match self.active_formatting_elements.items[node_formatting_index] {
                         ActiveFormattingElement::Element(ref h, ref t) => {
@@ -7040,7 +7237,7 @@ where
                     };
                 let new_element = self.create_element_for_token(
                     token_and_info.token.clone(),
-                    Span::new(token_and_info.span.lo, last_pos, Default::default()),
+                    token_and_info.span,
                     Some(Namespace::HTML),
                     None,
                 );
@@ -7082,10 +7279,13 @@ where
             self.insert_at_position(appropriate_place, last_node.clone());
 
             // 15.
-            let last_pos = self.input.last_pos()?;
             let new_element = self.create_element_for_token(
                 formatting_element.2.token.clone(),
-                Span::new(formatting_element.2.span.lo, last_pos, Default::default()),
+                Span::new(
+                    formatting_element.2.span.lo(),
+                    token_and_info.span.hi(),
+                    Default::default(),
+                ),
                 Some(Namespace::HTML),
                 None,
             );
@@ -7260,14 +7460,31 @@ where
     }
 
     fn create_fake_html_element(&self) -> RcNode {
-        Node::new(Data::Element(Element {
-            span: Default::default(),
-            tag_name: "html".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-            children: vec![],
-            content: None,
-        }))
+        Node::new(
+            Data::Element {
+                tag_name: "html".into(),
+                namespace: Namespace::HTML,
+                attributes: RefCell::new(vec![]),
+                is_self_closing: false,
+            },
+            DUMMY_SP,
+        )
+    }
+
+    fn create_fake_token_and_info(&self, tag_name: &str, span: Option<Span>) -> TokenAndInfo {
+        TokenAndInfo {
+            span: match span {
+                Some(span) => span,
+                _ => DUMMY_SP,
+            },
+            acknowledged: false,
+            token: Token::StartTag {
+                tag_name: tag_name.into(),
+                raw_tag_name: None,
+                is_self_closing: false,
+                attributes: vec![],
+            },
+        }
     }
 
     // Parsing elements that contain only text
@@ -7300,7 +7517,7 @@ where
         Ok(())
     }
 
-    fn close_p_element(&mut self, token_and_info: &mut TokenAndInfo) {
+    fn close_p_element(&mut self, token_and_info: &mut TokenAndInfo, is_close_p: bool) {
         // When the steps above say the user agent is to close a p element, it means
         // that the user agent must run the following steps:
 
@@ -7330,7 +7547,11 @@ where
 
         // 3. Pop elements from the stack of open elements until a p element has been
         // popped from the stack.
-        self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
+        let popped = self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
+
+        if is_close_p {
+            self.update_end_tag_span(popped.as_ref(), token_and_info)
+        }
     }
 
     fn close_the_cell(&mut self) {
@@ -7341,8 +7562,10 @@ where
         // parse error.
         match self.open_elements_stack.items.last() {
             Some(node) if !is_html_element!(node, "td" | "th") => {
-                self.errors
-                    .push(Error::new(get_span!(node), ErrorKind::UnclosedElementsCell));
+                self.errors.push(Error::new(
+                    *node.start_span.borrow(),
+                    ErrorKind::UnclosedElementsCell,
+                ));
             }
             _ => {}
         }
@@ -7361,45 +7584,6 @@ where
         // NOTE: The stack of open elements cannot have both a td and a th
         // element in table scope at the same time, nor can it have neither
         // when the close the cell algorithm is invoked.
-    }
-
-    fn get_missing_attributes(
-        &self,
-        node: &RcNode,
-        token_attributes: Vec<AttributeToken>,
-    ) -> Vec<Attribute> {
-        let attributes = match &node.data {
-            Data::Element(element) => &element.attributes,
-            _ => {
-                unreachable!();
-            }
-        };
-
-        let mut additional_attributes = vec![];
-
-        for token_attribute in &token_attributes {
-            let mut found = false;
-
-            for attribute in attributes {
-                if attribute.name == token_attribute.name {
-                    found = true;
-
-                    break;
-                }
-            }
-
-            if !found {
-                additional_attributes.push(Attribute {
-                    span: token_attribute.span,
-                    namespace: None,
-                    prefix: None,
-                    name: token_attribute.name.clone(),
-                    value: token_attribute.value.clone(),
-                });
-            }
-        }
-
-        additional_attributes
     }
 
     fn reset_insertion_mode(&mut self) {
@@ -7605,6 +7789,21 @@ where
             // elements.
             //
             // 18. Return to the step labeled loop.
+        }
+    }
+
+    fn set_document_mode(&mut self, document_mode: DocumentMode) {
+        if let Some(document) = &self.document {
+            match &document.data {
+                Data::Document { mode, .. } => {
+                    let mut mode = mode.borrow_mut();
+
+                    *mode = document_mode;
+                }
+                _ => {
+                    unreachable!();
+                }
+            }
         }
     }
 
@@ -7871,10 +8070,11 @@ where
         adjusted_insertion_location = match &adjusted_insertion_location {
             InsertionPosition::LastChild(node) | InsertionPosition::BeforeSibling(node) => {
                 match &node.data {
-                    Data::Element(element)
-                        if &*element.tag_name == "template"
-                            && element.namespace == Namespace::HTML =>
-                    {
+                    Data::Element {
+                        namespace,
+                        tag_name,
+                        ..
+                    } if &**tag_name == "template" && *namespace == Namespace::HTML => {
                         adjusted_insertion_location
                     }
                     _ => adjusted_insertion_location,
@@ -7897,16 +8097,17 @@ where
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        let last_pos = self.input.last_pos()?;
-        let comment = Node::new(Data::Comment(Comment {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        }));
+            token_and_info.span,
+        );
 
         // Insert the newly created node at the adjusted insertion location.
         self.insert_at_position(adjusted_insertion_location, comment);
@@ -7918,16 +8119,17 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
-        let comment = Node::new(Data::Comment(Comment {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        }));
+            token_and_info.span,
+        );
 
         if let Some(document) = &self.document {
             self.append_node(document, comment);
@@ -7940,16 +8142,17 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
-        let comment = Node::new(Data::Comment(Comment {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        }));
+            token_and_info.span,
+        );
 
         if let Some(html) = &self.open_elements_stack.items.get(0) {
             self.append_node(html, comment);
@@ -7983,31 +8186,22 @@ where
         // insertion location.
         match &adjusted_insertion_location {
             InsertionPosition::LastChild(parent) => {
-                let mut children = parent.children.borrow_mut();
+                let children = parent.children.borrow();
 
                 if let Some(last) = children.last() {
-                    if let Data::Text(text) = &last.data {
-                        let mut new_value = String::new();
-
-                        new_value.push_str(&*text.value);
-
+                    if let Data::Text { data } = &last.data {
                         match &token_and_info.token {
-                            Token::Character { value, .. } => {
-                                new_value.push(*value);
+                            Token::Character { value: c, .. } => {
+                                data.borrow_mut().push(*c);
                             }
                             _ => {
                                 unreachable!();
                             }
                         }
 
-                        let first_pos = text.span.lo;
-                        let last_pos = self.input.last_pos()?;
-                        let index = children.len() - 1;
+                        let mut span = last.end_span.borrow_mut();
 
-                        children[index] = Node::new(Data::Text(Text {
-                            span: swc_common::Span::new(first_pos, last_pos, Default::default()),
-                            value: new_value.into(),
-                        }));
+                        *span = Some(token_and_info.span);
 
                         return Ok(());
                     }
@@ -8016,34 +8210,22 @@ where
             InsertionPosition::BeforeSibling(node) => {
                 if let Some((parent, i)) = self.get_parent_and_index(node) {
                     if i > 0 {
-                        let mut children = parent.children.borrow_mut();
+                        let children = parent.children.borrow();
 
                         if let Some(previous) = children.get(i - 1) {
-                            if let Data::Text(text) = &previous.data {
-                                let mut new_value = String::new();
-
-                                new_value.push_str(&*text.value);
-
+                            if let Data::Text { data } = &previous.data {
                                 match &token_and_info.token {
-                                    Token::Character { value, .. } => {
-                                        new_value.push(*value);
+                                    Token::Character { value: c, .. } => {
+                                        data.borrow_mut().push(*c);
                                     }
                                     _ => {
                                         unreachable!();
                                     }
                                 }
 
-                                let first_pos = text.span.lo;
-                                let last_pos = self.input.last_pos()?;
+                                let mut span = previous.end_span.borrow_mut();
 
-                                children[i - 1] = Node::new(Data::Text(Text {
-                                    span: swc_common::Span::new(
-                                        first_pos,
-                                        last_pos,
-                                        Default::default(),
-                                    ),
-                                    value: new_value.into(),
-                                }));
+                                *span = Some(token_and_info.span);
 
                                 return Ok(());
                             }
@@ -8057,16 +8239,23 @@ where
         // is the same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
-        let last_pos = self.input.last_pos()?;
-        let text = Node::new(Data::Text(Text {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
-            value: match &token_and_info.token {
-                Token::Character { value, .. } => value.to_string().into(),
-                _ => {
-                    unreachable!()
-                }
+        let text = Node::new(
+            Data::Text {
+                data: match &token_and_info.token {
+                    Token::Character { value: c, .. } => {
+                        let mut data = String::with_capacity(255);
+
+                        data.push(*c);
+
+                        RefCell::new(data)
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        }));
+            token_and_info.span,
+        );
 
         self.insert_at_position(adjusted_insertion_location, text);
 
@@ -8090,10 +8279,9 @@ where
         // Create an element for the token in the given namespace, with the
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
-        let last_pos = self.input.last_pos()?;
         let node = self.create_element_for_token(
             token_and_info.token.clone(),
-            Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            token_and_info.span,
             Some(namespace),
             adjust_attributes,
         );
@@ -8175,6 +8363,18 @@ where
             }
         }
     }
+
+    fn update_end_tag_span(&self, node: Option<&RcNode>, token_and_info: &TokenAndInfo) {
+        if let Some(node) = node {
+            if node.start_span.borrow().is_dummy() {
+                return;
+            }
+
+            let mut end_tag_span = node.end_span.borrow_mut();
+
+            *end_tag_span = Some(token_and_info.span);
+        }
+    }
 }
 
 fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
@@ -8185,7 +8385,7 @@ fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
 fn is_element_in_html_namespace(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element) if element.namespace == Namespace::HTML => {
+            Data::Element { namespace, .. } if *namespace == Namespace::HTML => {
                 return true;
             }
             _ => {
@@ -8208,9 +8408,12 @@ fn is_element_in_html_namespace(node: Option<&RcNode>) -> bool {
 fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element)
-                if element.namespace == Namespace::MATHML
-                    && matches!(&*element.tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
+            Data::Element {
+                namespace,
+                tag_name,
+                ..
+            } if *namespace == Namespace::MATHML
+                && matches!(&**tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
             {
                 return true;
             }
@@ -8226,10 +8429,11 @@ fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
 fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element)
-                if element.namespace == Namespace::MATHML
-                    && &*element.tag_name == "annotation-xml" =>
-            {
+            Data::Element {
+                namespace,
+                tag_name,
+                ..
+            } if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
                 return true;
             }
             _ => {
@@ -8254,13 +8458,13 @@ fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
 fn is_html_integration_point(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(Element {
+            Data::Element {
                 namespace,
                 tag_name,
                 attributes,
                 ..
-            }) if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
-                for attribute in attributes {
+            } if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
+                for attribute in &*attributes.borrow() {
                     if &*attribute.name == "encoding"
                         && (attribute.value.is_some()
                             && matches!(
@@ -8274,11 +8478,11 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
 
                 return false;
             }
-            Data::Element(Element {
+            Data::Element {
                 namespace,
                 tag_name,
                 ..
-            }) if *namespace == Namespace::SVG
+            } if *namespace == Namespace::SVG
                 && matches!(&**tag_name, "foreignObject" | "desc" | "title") =>
             {
                 return true;

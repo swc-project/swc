@@ -1,0 +1,188 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | ,-> @page Page: blank {
+ 2 | |   	@top-center { content: none }
+ 3 | |   	margin-left: 4cm;
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | ,-> @page Page: blank {
+ 2 | |   	@top-center { content: none }
+ 3 | |   	margin-left: 4cm;
+ 4 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | ,-> @page Page: blank {
+ 2 | |   	@top-center { content: none }
+ 3 | |   	margin-left: 4cm;
+ 4 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :  ^^^^
+   `----
+
+  x PageSelectorList
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :             ^^^^^
+   `----
+
+  x PageSelector
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :             ^^^^^
+   `----
+
+  x PageSelectorType
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :             ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :             ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | ,-> @page Page: blank {
+ 2 | |   	@top-center { content: none }
+ 3 | |   	margin-left: 4cm;
+ 4 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :  ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :  ^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :             ^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :               ^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :               ^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :               ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :               ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :                        ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :                        ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   : ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   : ^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :              ^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :              ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :              ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :              ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :               ^^
+   `----

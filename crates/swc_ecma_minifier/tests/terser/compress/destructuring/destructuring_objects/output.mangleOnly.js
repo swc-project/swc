@@ -1,10 +1,10 @@
 {
-    const { aa: b , bb: c  } = {
+    const { aa: a , bb: b  } = {
         aa: 1,
         bb: 2
     };
 }{
-    const { aa: d , bb: { cc: e , dd: f  } ,  } = {
+    const { aa: c , bb: { cc: d , dd: e  } ,  } = {
         aa: 1,
         bb: {
             cc: 2,
@@ -12,23 +12,23 @@
         }
     };
 }{
-    let { aa: g , bb: h  } = {
+    let { aa: f , bb: g  } = {
         aa: 1,
         bb: 2
     };
 }{
-    let { aa: i , bb: { cc: j , dd: k  } ,  } = {
+    let { aa: h , bb: { cc: i , dd: j  } ,  } = {
         aa: 1,
         bb: {
             cc: 2,
             dd: 3
         }
     };
-}var { aa: a , bb: l  } = {
+}var { aa: k , bb: l  } = {
     aa: 1,
     bb: 2
 };
-var { aa: a , bb: { cc: m , dd: n  } ,  } = {
+var { aa: k , bb: { cc: m , dd: n  } ,  } = {
     aa: 1,
     bb: {
         cc: 2,

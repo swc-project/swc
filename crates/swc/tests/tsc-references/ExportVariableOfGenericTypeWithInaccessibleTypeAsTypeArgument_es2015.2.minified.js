@@ -1,5 +1,5 @@
 var A;
-!function(A1) {
+!function(A) {
     var beez;
-    A1.beez2 = new Array(), A1.beez = beez;
+    A.beez2 = [], A.beez = beez;
 }(A || (A = {}));

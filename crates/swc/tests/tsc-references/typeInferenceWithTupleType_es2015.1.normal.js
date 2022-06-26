@@ -17,14 +17,14 @@ function zip(array1, array2) {
         ];
     }
     var length = array1.length;
-    var zipResult1;
+    var zipResult;
     for(var i = 0; i < length; ++i){
-        zipResult1.push([
+        zipResult.push([
             array1[i],
             array2[i]
         ]);
     }
-    return zipResult1;
+    return zipResult;
 }
 var zipResult = zip([
     "foo",

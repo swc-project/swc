@@ -1,0 +1,30 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/line-comment/css-in-js/8/input.css:1:1]
+ 1 | //
+   : ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/line-comment/css-in-js/8/input.css:1:1]
+ 1 | //
+   : ^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/line-comment/css-in-js/8/input.css:1:1]
+ 1 | //
+   : ^^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/8/input.css:1:1]
+ 1 | //
+   : ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/8/input.css:1:1]
+ 1 | //
+   :  ^
+   `----

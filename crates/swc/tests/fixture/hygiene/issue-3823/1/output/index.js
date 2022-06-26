@@ -1,7 +1,7 @@
 "use strict";
 function print() {
-    var value$43 = 2;
-    var value$41 = value$43 + 100;
+    var value$4 = 2;
+    var value$41 = value$4 + 100;
     var c = 1;
     if (true) {
         var value$42 = "bbb";
@@ -16,7 +16,7 @@ function print() {
         return x;
     });
     return {
-        aaa: value$43,
+        aaa: value$4,
         bbb: c
     };
 }

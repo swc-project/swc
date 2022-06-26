@@ -1,4 +1,4 @@
-import _define_enumerable_properties from "@swc/helpers/lib/_define_enumerable_properties.js";
+import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_properties.mjs";
 var s, n, a, _obj, _mutatorMap = {};
 _obj = {}, _mutatorMap[s] = _mutatorMap[s] || {}, _mutatorMap[s].get = function() {
     return 0;

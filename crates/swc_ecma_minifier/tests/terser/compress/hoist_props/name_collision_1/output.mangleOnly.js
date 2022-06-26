@@ -1,13 +1,13 @@
-var b = 1;
-var c = 2;
-function a() {
-    var a = {
+var a = 1;
+var b = 2;
+function c() {
+    var b = {
         foo: 3,
         bar: 4,
         "b-r": 5,
         "b+r": 6,
         "b!r": 7
     };
-    console.log(b, a.foo, a.bar, a["b-r"], a["b+r"], a["b!r"]);
+    console.log(a, b.foo, b.bar, b["b-r"], b["b+r"], b["b!r"]);
 }
-a();
+c();

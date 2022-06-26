@@ -1,0 +1,54 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   : ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   :   ^
+   `----
+
+  x Ident { value: Atom('Only' type=inline), raw: Atom('Only' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   :    ^^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   :        ^
+   `----
+
+  x Ident { value: Atom('comment' type=inline), raw: Atom('comment' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
+ 1 | // Only comment
+   :         ^^^^^^^
+   `----

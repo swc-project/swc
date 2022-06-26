@@ -11,15 +11,15 @@ var a, b, c;
         y: 0
     };
 }), (function(a) {
-    var c;
-    function b() {
+    var b;
+    function c() {
         return {
             x: 0,
             y: 0
         };
     }
-    ((b = a.Point || (a.Point = {})).Origin = {
+    ((c = a.Point || (a.Point = {})).Origin = {
         x: 0,
         y: 0
-    }), (a.Point = b);
+    }), (a.Point = c);
 })(b || (b = {}));

@@ -1,14 +1,14 @@
 {
     "name": "@swc/helpers",
-    "version": "0.3.16",
+    "version": "0.4.2",
     "description": "External helpers for the swc project.",
-    "esnext": "src/index.js",
-    "module": "src/index.js",
+    "esnext": "src/index.mjs",
+    "module": "src/index.mjs",
     "main": "lib/index.js",
     "sideEffects": false,
     "scripts": {
-        "build": "swc -V && swc src -d lib",
-        "prepublishOnly": "swc src -d lib"
+        "build": "swc -V && bash ./scripts/build.sh",
+        "prepublishOnly": "bash ./scripts/build.sh"
     },
     "repository": {
         "type": "git",
@@ -26,7 +26,7 @@
     "homepage": "https://swc.rs",
     "devDependencies": {
         "@swc/cli": "^0.1.36",
-        "@swc/core": "^1.2.58"
+        "@swc/core": "^1.2.196"
     },
     "dependencies": {
         "tslib": "^2.4.0"

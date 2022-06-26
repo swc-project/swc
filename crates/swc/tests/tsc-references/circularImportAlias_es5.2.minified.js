@@ -1,10 +1,10 @@
-var B, A1;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
-!function(B1) {
+var B, A;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+!function(B) {
     var a = A;
-    B1.a = a;
+    B.a = a;
     var D = function(_C) {
         "use strict";
         _inherits(D, _C);
@@ -14,7 +14,7 @@ import _create_super from "@swc/helpers/lib/_create_super.js";
         }
         return D;
     }(a.C);
-    B1.D = D;
+    B.D = D;
 }(B || (B = {})), function(A) {
     var C = function() {
         "use strict";
@@ -23,4 +23,4 @@ import _create_super from "@swc/helpers/lib/_create_super.js";
     A.C = C;
     var b = B;
     A.b = b;
-}(A1 || (A1 = {})), new B.a.C();
+}(A || (A = {})), new B.a.C();

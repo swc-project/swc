@@ -1,12 +1,12 @@
-const b = ()=>{};
-function a() {
-    let a = b();
+const a = ()=>{};
+function b() {
+    let b = a();
     let c = 0;
     switch((c = 123)){
         case "never-reached":
-            const d = b();
-            b(d);
+            const d = a();
+            a(d);
     }
-    return a === 123 ? "FAIL" : "PASS";
+    return b === 123 ? "FAIL" : "PASS";
 }
-console.log(a());
+console.log(b());

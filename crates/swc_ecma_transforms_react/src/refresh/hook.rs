@@ -3,7 +3,7 @@ use std::{fmt::Write, mem};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use sha1::{Digest, Sha1};
-use swc_common::{util::take::Take, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, SourceMap, SourceMapper, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{

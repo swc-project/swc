@@ -1,7 +1,7 @@
 //@declaration: true
 var M;
-(function(M1) {
+(function(M) {
     class C {
     }
-    M1.C = C;
+    M.C = C;
 })(M || (M = {}));

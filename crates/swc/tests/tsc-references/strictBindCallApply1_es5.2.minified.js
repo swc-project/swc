@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 foo.bind(void 0), foo.bind(void 0, 10), foo.bind(void 0, 10, "hello"), foo.bind(void 0, 10, 20), overloaded.bind(void 0), generic.bind(void 0), foo.call(void 0, 10, "hello"), foo.call(void 0, 10), foo.call(void 0, 10, 20), foo.call(void 0, 10, "hello", 30), foo.apply(void 0, [
     10,
     "hello"

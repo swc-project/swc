@@ -9,9 +9,9 @@ var E;
     E[E["c"] = 2] = "c";
 })(E || (E = {}));
 var M;
-(function(M1) {
-    var a1;
-    M1.a = a1;
+(function(M) {
+    var a;
+    M.a = a;
 })(M || (M = {}));
 var a;
 var b;

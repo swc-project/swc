@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // a class constructor may return an expression, it must be assignable to the class instance type to be valid
 var C = function C() {
     "use strict";

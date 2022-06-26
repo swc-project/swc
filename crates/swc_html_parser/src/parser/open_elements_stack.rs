@@ -96,7 +96,7 @@ pub struct OpenElementsStack {
 impl OpenElementsStack {
     pub fn new() -> Self {
         OpenElementsStack {
-            items: vec![],
+            items: Vec::with_capacity(16),
             template_element_count: 0,
         }
     }
@@ -421,20 +421,24 @@ impl OpenElementsStack {
         }
     }
 
-    pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
+    pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) -> Option<RcNode> {
         while let Some(node) = self.pop() {
             if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
-                break;
+                return Some(node);
             }
         }
+
+        None
     }
 
-    pub fn pop_until_node(&mut self, until_to_node: &RcNode) {
-        while let Some(node) = &self.pop() {
-            if is_same_node(node, until_to_node) {
-                break;
+    pub fn pop_until_node(&mut self, until_to_node: &RcNode) -> Option<RcNode> {
+        while let Some(node) = self.pop() {
+            if is_same_node(&node, until_to_node) {
+                return Some(node);
             }
         }
+
+        None
     }
 
     // While the current node is not a MathML text integration point, an HTML
@@ -443,7 +447,7 @@ impl OpenElementsStack {
     pub fn pop_until_in_foreign(&mut self) {
         while let Some(node) = self.items.last() {
             match &node.data {
-                Data::Element(Element { namespace, .. }) if *namespace == Namespace::HTML => {
+                Data::Element { namespace, .. } if *namespace == Namespace::HTML => {
                     break;
                 }
                 _ if is_mathml_text_integration_point(Some(node))

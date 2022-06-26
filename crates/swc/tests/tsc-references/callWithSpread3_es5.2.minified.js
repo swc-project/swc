@@ -1,4 +1,4 @@
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 fs2.apply(void 0, [
     "a"
 ].concat(_to_consumable_array(s2))), fs2.apply(void 0, [

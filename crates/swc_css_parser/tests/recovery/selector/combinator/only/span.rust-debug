@@ -1,0 +1,46 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
+ 1 | ,-> > {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
+ 1 | ,-> > {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
+ 1 | ,-> > {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
+ 1 | > {
+   : ^^
+   `----
+
+  x Delim { value: '>' }
+   ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
+ 1 | > {
+   : ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
+ 1 | > {
+   :  ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
+ 1 | ,-> > {
+ 2 | |   
+ 3 | `-> }
+   `----

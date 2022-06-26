@@ -96,12 +96,12 @@ function hasOwnProperty(obj, prop) {
 function integerBetween(thing, bottom, top) {
     return isInteger(thing) && thing >= bottom && thing <= top;
 }
-function floorMod(x, n1) {
-    return x - n1 * Math.floor(x / n1);
+function floorMod(x, n) {
+    return x - n * Math.floor(x / n);
 }
-function padStart(input, n2 = 2) {
-    if (input.toString().length < n2) {
-        return ("0".repeat(n2) + input).slice(-n2);
+function padStart(input, n = 2) {
+    if (input.toString().length < n) {
+        return ("0".repeat(n) + input).slice(-n);
     } else {
         return input.toString();
     }
@@ -170,7 +170,7 @@ function untruncateYear(year) {
     } else return year > 60 ? 1900 + year : 2000 + year;
 }
 function parseZoneInfo(ts, offsetFormat, locale, timeZone = null) {
-    const date1 = new Date(ts), intlOpts = {
+    const date = new Date(ts), intlOpts = {
         hour12: false,
         year: "numeric",
         month: "2-digit",
@@ -185,10 +185,10 @@ function parseZoneInfo(ts, offsetFormat, locale, timeZone = null) {
         timeZoneName: offsetFormat
     }, intlOpts), intl = hasIntl();
     if (intl && hasFormatToParts()) {
-        const parsed = new Intl.DateTimeFormat(locale, modified).formatToParts(date1).find((m)=>m.type.toLowerCase() === "timezonename");
+        const parsed = new Intl.DateTimeFormat(locale, modified).formatToParts(date).find((m)=>m.type.toLowerCase() === "timezonename");
         return parsed ? parsed.value : null;
     } else if (intl) {
-        const without = new Intl.DateTimeFormat(locale, intlOpts).format(date1), included = new Intl.DateTimeFormat(locale, modified).format(date1), diffed = included.substring(without.length), trimmed = diffed.replace(/^[, \u200e]+/, "");
+        const without = new Intl.DateTimeFormat(locale, intlOpts).format(date), included = new Intl.DateTimeFormat(locale, modified).format(date), diffed = included.substring(without.length), trimmed = diffed.replace(/^[, \u200e]+/, "");
         return trimmed;
     } else {
         return null;
@@ -219,8 +219,8 @@ function normalizeObject(obj, normalizer, nonUnitKeys) {
     }
     return normalized;
 }
-function formatOffset(offset1, format) {
-    const hours = Math.trunc(Math.abs(offset1 / 60)), minutes = Math.trunc(Math.abs(offset1 % 60)), sign = offset1 >= 0 ? "+" : "-";
+function formatOffset(offset, format) {
+    const hours = Math.trunc(Math.abs(offset / 60)), minutes = Math.trunc(Math.abs(offset % 60)), sign = offset >= 0 ? "+" : "-";
     switch(format){
         case "short":
             return `${sign}${padStart(hours, 2)}:${padStart(minutes, 2)}`;
@@ -553,17 +553,17 @@ function eras(length) {
             return null;
     }
 }
-function meridiemForDateTime(dt1) {
-    return meridiems[dt1.hour < 12 ? 0 : 1];
+function meridiemForDateTime(dt) {
+    return meridiems[dt.hour < 12 ? 0 : 1];
 }
-function weekdayForDateTime(dt2, length) {
-    return weekdays(length)[dt2.weekday - 1];
+function weekdayForDateTime(dt, length) {
+    return weekdays(length)[dt.weekday - 1];
 }
-function monthForDateTime(dt3, length) {
-    return months(length)[dt3.month - 1];
+function monthForDateTime(dt, length) {
+    return months(length)[dt.month - 1];
 }
-function eraForDateTime(dt4, length) {
-    return eras(length)[dt4.year < 0 ? 0 : 1];
+function eraForDateTime(dt, length) {
+    return eras(length)[dt.year < 0 ? 0 : 1];
 }
 function formatRelativeTime(unit, count, numeric = "always", narrow = false) {
     const units = {
@@ -684,15 +684,15 @@ function formatString(knownFormat) {
     }
 }
 function stringifyTokens(splits, tokenToString) {
-    let s1 = "";
+    let s = "";
     for (const token of splits){
         if (token.literal) {
-            s1 += token.val;
+            s += token.val;
         } else {
-            s1 += tokenToString(token.val);
+            s += tokenToString(token.val);
         }
     }
-    return s1;
+    return s;
 }
 const macroTokenToFormatOpts = {
     D: DATE_SHORT,
@@ -766,50 +766,50 @@ class Formatter {
         this.loc = locale;
         this.systemLoc = null;
     }
-    formatWithSystemDefault(dt5, opts) {
+    formatWithSystemDefault(dt, opts) {
         if (this.systemLoc === null) {
             this.systemLoc = this.loc.redefaultToSystem();
         }
-        const df = this.systemLoc.dtFormatter(dt5, Object.assign({}, this.opts, opts));
+        const df = this.systemLoc.dtFormatter(dt, Object.assign({}, this.opts, opts));
         return df.format();
     }
-    formatDateTime(dt6, opts = {}) {
-        const df = this.loc.dtFormatter(dt6, Object.assign({}, this.opts, opts));
+    formatDateTime(dt, opts = {}) {
+        const df = this.loc.dtFormatter(dt, Object.assign({}, this.opts, opts));
         return df.format();
     }
-    formatDateTimeParts(dt7, opts = {}) {
-        const df = this.loc.dtFormatter(dt7, Object.assign({}, this.opts, opts));
+    formatDateTimeParts(dt, opts = {}) {
+        const df = this.loc.dtFormatter(dt, Object.assign({}, this.opts, opts));
         return df.formatToParts();
     }
-    resolvedOptions(dt8, opts = {}) {
-        const df = this.loc.dtFormatter(dt8, Object.assign({}, this.opts, opts));
+    resolvedOptions(dt, opts = {}) {
+        const df = this.loc.dtFormatter(dt, Object.assign({}, this.opts, opts));
         return df.resolvedOptions();
     }
-    num(n3, p = 0) {
+    num(n, p = 0) {
         if (this.opts.forceSimple) {
-            return padStart(n3, p);
+            return padStart(n, p);
         }
         const opts = Object.assign({}, this.opts);
         if (p > 0) {
             opts.padTo = p;
         }
-        return this.loc.numberFormatter(opts).format(n3);
+        return this.loc.numberFormatter(opts).format(n);
     }
-    formatDateTimeFromString(dt9, fmt) {
-        const knownEnglish = this.loc.listingMode() === "en", useDateTimeFormatter = this.loc.outputCalendar && this.loc.outputCalendar !== "gregory" && hasFormatToParts(), string = (opts, extract)=>this.loc.extract(dt9, opts, extract), formatOffset1 = (opts)=>{
-            if (dt9.isOffsetFixed && dt9.offset === 0 && opts.allowZ) {
+    formatDateTimeFromString(dt, fmt) {
+        const knownEnglish = this.loc.listingMode() === "en", useDateTimeFormatter = this.loc.outputCalendar && this.loc.outputCalendar !== "gregory" && hasFormatToParts(), string = (opts, extract)=>this.loc.extract(dt, opts, extract), formatOffset = (opts)=>{
+            if (dt.isOffsetFixed && dt.offset === 0 && opts.allowZ) {
                 return "Z";
             }
-            return dt9.isValid ? dt9.zone.formatOffset(dt9.ts, opts.format) : "";
-        }, meridiem = ()=>knownEnglish ? meridiemForDateTime(dt9) : string({
+            return dt.isValid ? dt.zone.formatOffset(dt.ts, opts.format) : "";
+        }, meridiem = ()=>knownEnglish ? meridiemForDateTime(dt) : string({
                 hour: "numeric",
                 hour12: true
-            }, "dayperiod"), month = (length, standalone)=>knownEnglish ? monthForDateTime(dt9, length) : string(standalone ? {
+            }, "dayperiod"), month = (length, standalone)=>knownEnglish ? monthForDateTime(dt, length) : string(standalone ? {
                 month: length
             } : {
                 month: length,
                 day: "numeric"
-            }, "month"), weekday = (length, standalone)=>knownEnglish ? weekdayForDateTime(dt9, length) : string(standalone ? {
+            }, "month"), weekday = (length, standalone)=>knownEnglish ? weekdayForDateTime(dt, length) : string(standalone ? {
                 weekday: length
             } : {
                 weekday: length,
@@ -818,74 +818,74 @@ class Formatter {
             }, "weekday"), maybeMacro = (token)=>{
             const formatOpts = Formatter.macroTokenToFormatOpts(token);
             if (formatOpts) {
-                return this.formatWithSystemDefault(dt9, formatOpts);
+                return this.formatWithSystemDefault(dt, formatOpts);
             } else {
                 return token;
             }
-        }, era = (length)=>knownEnglish ? eraForDateTime(dt9, length) : string({
+        }, era = (length)=>knownEnglish ? eraForDateTime(dt, length) : string({
                 era: length
             }, "era"), tokenToString = (token)=>{
             switch(token){
                 case "S":
-                    return this.num(dt9.millisecond);
+                    return this.num(dt.millisecond);
                 case "u":
                 case "SSS":
-                    return this.num(dt9.millisecond, 3);
+                    return this.num(dt.millisecond, 3);
                 case "s":
-                    return this.num(dt9.second);
+                    return this.num(dt.second);
                 case "ss":
-                    return this.num(dt9.second, 2);
+                    return this.num(dt.second, 2);
                 case "m":
-                    return this.num(dt9.minute);
+                    return this.num(dt.minute);
                 case "mm":
-                    return this.num(dt9.minute, 2);
+                    return this.num(dt.minute, 2);
                 case "h":
-                    return this.num(dt9.hour % 12 === 0 ? 12 : dt9.hour % 12);
+                    return this.num(dt.hour % 12 === 0 ? 12 : dt.hour % 12);
                 case "hh":
-                    return this.num(dt9.hour % 12 === 0 ? 12 : dt9.hour % 12, 2);
+                    return this.num(dt.hour % 12 === 0 ? 12 : dt.hour % 12, 2);
                 case "H":
-                    return this.num(dt9.hour);
+                    return this.num(dt.hour);
                 case "HH":
-                    return this.num(dt9.hour, 2);
+                    return this.num(dt.hour, 2);
                 case "Z":
-                    return formatOffset1({
+                    return formatOffset({
                         format: "narrow",
                         allowZ: this.opts.allowZ
                     });
                 case "ZZ":
-                    return formatOffset1({
+                    return formatOffset({
                         format: "short",
                         allowZ: this.opts.allowZ
                     });
                 case "ZZZ":
-                    return formatOffset1({
+                    return formatOffset({
                         format: "techie",
                         allowZ: this.opts.allowZ
                     });
                 case "ZZZZ":
-                    return dt9.zone.offsetName(dt9.ts, {
+                    return dt.zone.offsetName(dt.ts, {
                         format: "short",
                         locale: this.loc.locale
                     });
                 case "ZZZZZ":
-                    return dt9.zone.offsetName(dt9.ts, {
+                    return dt.zone.offsetName(dt.ts, {
                         format: "long",
                         locale: this.loc.locale
                     });
                 case "z":
-                    return dt9.zoneName;
+                    return dt.zoneName;
                 case "a":
                     return meridiem();
                 case "d":
                     return useDateTimeFormatter ? string({
                         day: "numeric"
-                    }, "day") : this.num(dt9.day);
+                    }, "day") : this.num(dt.day);
                 case "dd":
                     return useDateTimeFormatter ? string({
                         day: "2-digit"
-                    }, "day") : this.num(dt9.day, 2);
+                    }, "day") : this.num(dt.day, 2);
                 case "c":
-                    return this.num(dt9.weekday);
+                    return this.num(dt.weekday);
                 case "ccc":
                     return weekday("short", true);
                 case "cccc":
@@ -893,7 +893,7 @@ class Formatter {
                 case "ccccc":
                     return weekday("narrow", true);
                 case "E":
-                    return this.num(dt9.weekday);
+                    return this.num(dt.weekday);
                 case "EEE":
                     return weekday("short", false);
                 case "EEEE":
@@ -904,12 +904,12 @@ class Formatter {
                     return useDateTimeFormatter ? string({
                         month: "numeric",
                         day: "numeric"
-                    }, "month") : this.num(dt9.month);
+                    }, "month") : this.num(dt.month);
                 case "LL":
                     return useDateTimeFormatter ? string({
                         month: "2-digit",
                         day: "numeric"
-                    }, "month") : this.num(dt9.month, 2);
+                    }, "month") : this.num(dt.month, 2);
                 case "LLL":
                     return month("short", true);
                 case "LLLL":
@@ -919,11 +919,11 @@ class Formatter {
                 case "M":
                     return useDateTimeFormatter ? string({
                         month: "numeric"
-                    }, "month") : this.num(dt9.month);
+                    }, "month") : this.num(dt.month);
                 case "MM":
                     return useDateTimeFormatter ? string({
                         month: "2-digit"
-                    }, "month") : this.num(dt9.month, 2);
+                    }, "month") : this.num(dt.month, 2);
                 case "MMM":
                     return month("short", false);
                 case "MMMM":
@@ -933,19 +933,19 @@ class Formatter {
                 case "y":
                     return useDateTimeFormatter ? string({
                         year: "numeric"
-                    }, "year") : this.num(dt9.year);
+                    }, "year") : this.num(dt.year);
                 case "yy":
                     return useDateTimeFormatter ? string({
                         year: "2-digit"
-                    }, "year") : this.num(dt9.year.toString().slice(-2), 2);
+                    }, "year") : this.num(dt.year.toString().slice(-2), 2);
                 case "yyyy":
                     return useDateTimeFormatter ? string({
                         year: "numeric"
-                    }, "year") : this.num(dt9.year, 4);
+                    }, "year") : this.num(dt.year, 4);
                 case "yyyyyy":
                     return useDateTimeFormatter ? string({
                         year: "numeric"
-                    }, "year") : this.num(dt9.year, 6);
+                    }, "year") : this.num(dt.year, 6);
                 case "G":
                     return era("short");
                 case "GG":
@@ -953,25 +953,25 @@ class Formatter {
                 case "GGGGG":
                     return era("narrow");
                 case "kk":
-                    return this.num(dt9.weekYear.toString().slice(-2), 2);
+                    return this.num(dt.weekYear.toString().slice(-2), 2);
                 case "kkkk":
-                    return this.num(dt9.weekYear, 4);
+                    return this.num(dt.weekYear, 4);
                 case "W":
-                    return this.num(dt9.weekNumber);
+                    return this.num(dt.weekNumber);
                 case "WW":
-                    return this.num(dt9.weekNumber, 2);
+                    return this.num(dt.weekNumber, 2);
                 case "o":
-                    return this.num(dt9.ordinal);
+                    return this.num(dt.ordinal);
                 case "ooo":
-                    return this.num(dt9.ordinal, 3);
+                    return this.num(dt.ordinal, 3);
                 case "q":
-                    return this.num(dt9.quarter);
+                    return this.num(dt.quarter);
                 case "qq":
-                    return this.num(dt9.quarter, 2);
+                    return this.num(dt.quarter, 2);
                 case "X":
-                    return this.num(Math.floor(dt9.ts / 1000));
+                    return this.num(Math.floor(dt.ts / 1000));
                 case "x":
-                    return this.num(dt9.ts);
+                    return this.num(dt.ts);
                 default:
                     return maybeMacro(token);
             }
@@ -1043,21 +1043,21 @@ class FixedOffsetZone extends Zone {
         }
         return singleton;
     }
-    static instance(offset2) {
-        return offset2 === 0 ? FixedOffsetZone.utcInstance : new FixedOffsetZone(offset2);
+    static instance(offset) {
+        return offset === 0 ? FixedOffsetZone.utcInstance : new FixedOffsetZone(offset);
     }
-    static parseSpecifier(s2) {
-        if (s2) {
-            const r = s2.match(/^utc(?:([+-]\d{1,2})(?::(\d{2}))?)?$/i);
+    static parseSpecifier(s) {
+        if (s) {
+            const r = s.match(/^utc(?:([+-]\d{1,2})(?::(\d{2}))?)?$/i);
             if (r) {
                 return new FixedOffsetZone(signedOffset(r[1], r[2]));
             }
         }
         return null;
     }
-    constructor(offset3){
+    constructor(offset){
         super();
-        this.fixed = offset3;
+        this.fixed = offset;
     }
     get type() {
         return "fixed";
@@ -1109,8 +1109,8 @@ const typeToPos = {
     minute: 4,
     second: 5
 };
-function hackyOffset(dtf, date2) {
-    const formatted = dtf.format(date2).replace(/\u200E/g, ""), parsed = /(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/.exec(formatted), [, fMonth, fDay, fYear, fHour, fMinute, fSecond] = parsed;
+function hackyOffset(dtf, date) {
+    const formatted = dtf.format(date).replace(/\u200E/g, ""), parsed = /(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/.exec(formatted), [, fMonth, fDay, fYear, fHour, fMinute, fSecond] = parsed;
     return [
         fYear,
         fMonth,
@@ -1120,8 +1120,8 @@ function hackyOffset(dtf, date2) {
         fSecond
     ];
 }
-function partsOffset(dtf, date3) {
-    const formatted = dtf.formatToParts(date3), filled = [];
+function partsOffset(dtf, date) {
+    const formatted = dtf.formatToParts(date), filled = [];
     for(let i = 0; i < formatted.length; i++){
         const { type , value  } = formatted[i], pos = typeToPos[type];
         if (!isUndefined(pos)) {
@@ -1142,8 +1142,8 @@ class IANAZone extends Zone {
         ianaZoneCache = {};
         dtfCache = {};
     }
-    static isValidSpecifier(s3) {
-        return !!(s3 && s3.match(matchingRegex));
+    static isValidSpecifier(s) {
+        return !!(s && s.match(matchingRegex));
     }
     static isValidZone(zone) {
         try {
@@ -1157,9 +1157,9 @@ class IANAZone extends Zone {
     }
     static parseGMTOffset(specifier) {
         if (specifier) {
-            const match1 = specifier.match(/^Etc\/GMT([+-]\d{1,2})$/i);
-            if (match1) {
-                return -60 * parseInt(match1[1]);
+            const match = specifier.match(/^Etc\/GMT([+-]\d{1,2})$/i);
+            if (match) {
+                return -60 * parseInt(match[1]);
             }
         }
         return null;
@@ -1185,7 +1185,7 @@ class IANAZone extends Zone {
         return formatOffset(this.offset(ts), format);
     }
     offset(ts) {
-        const date4 = new Date(ts), dtf = makeDTF(this.name), [year, month, day, hour, minute, second] = dtf.formatToParts ? partsOffset(dtf, date4) : hackyOffset(dtf, date4), adjustedHour = hour === 24 ? 0 : hour;
+        const date = new Date(ts), dtf = makeDTF(this.name), [year, month, day, hour, minute, second] = dtf.formatToParts ? partsOffset(dtf, date) : hackyOffset(dtf, date), adjustedHour = hour === 24 ? 0 : hour;
         const asUTC = objToLocalTS({
             year,
             month,
@@ -1195,7 +1195,7 @@ class IANAZone extends Zone {
             second,
             millisecond: 0
         });
-        let asTS = +date4;
+        let asTS = +date;
         const over = asTS % 1000;
         asTS -= over >= 0 ? over : 1000 + over;
         return (asUTC - asTS) / (60 * 1000);
@@ -1364,18 +1364,18 @@ class InvalidZone extends Zone {
         return false;
     }
 }
-function normalizeZone(input, defaultZone1) {
-    let offset4;
+function normalizeZone(input, defaultZone) {
+    let offset;
     if (isUndefined(input) || input === null) {
-        return defaultZone1;
+        return defaultZone;
     } else if (input instanceof Zone) {
         return input;
     } else if (isString(input)) {
         const lowered = input.toLowerCase();
-        if (lowered === "local") return defaultZone1;
+        if (lowered === "local") return defaultZone;
         else if (lowered === "utc" || lowered === "gmt") return FixedOffsetZone.utcInstance;
-        else if ((offset4 = IANAZone.parseGMTOffset(input)) != null) {
-            return FixedOffsetZone.instance(offset4);
+        else if ((offset = IANAZone.parseGMTOffset(input)) != null) {
+            return FixedOffsetZone.instance(offset);
         } else if (IANAZone.isValidSpecifier(lowered)) return IANAZone.create(input);
         else return FixedOffsetZone.parseSpecifier(lowered) || new InvalidZone(input);
     } else if (isNumber(input)) {
@@ -1452,15 +1452,15 @@ function combineExtractors(...extractors) {
             1
         ]).slice(0, 2);
 }
-function parse(s4, ...patterns) {
-    if (s4 == null) {
+function parse(s, ...patterns) {
+    if (s == null) {
         return [
             null,
             null
         ];
     }
     for (const [regex, extractor] of patterns){
-        const m = regex.exec(s4);
+        const m = regex.exec(s);
         if (m) {
             return extractor(m);
         }
@@ -1471,11 +1471,11 @@ function parse(s4, ...patterns) {
     ];
 }
 function simpleParse(...keys) {
-    return (match2, cursor)=>{
+    return (match, cursor)=>{
         const ret = {};
         let i;
         for(i = 0; i < keys.length; i++){
-            ret[keys[i]] = parseInteger(match2[cursor + i]);
+            ret[keys[i]] = parseInteger(match[cursor + i]);
         }
         return [
             ret,
@@ -1485,15 +1485,15 @@ function simpleParse(...keys) {
     };
 }
 const offsetRegex = /(?:(Z)|([+-]\d\d)(?::?(\d\d))?)/, isoTimeBaseRegex = /(\d\d)(?::?(\d\d)(?::?(\d\d)(?:[.,](\d{1,30}))?)?)?/, isoTimeRegex = RegExp(`${isoTimeBaseRegex.source}${offsetRegex.source}?`), isoTimeExtensionRegex = RegExp(`(?:T${isoTimeRegex.source})?`), isoYmdRegex = /([+-]\d{6}|\d{4})(?:-?(\d\d)(?:-?(\d\d))?)?/, isoWeekRegex = /(\d{4})-?W(\d\d)(?:-?(\d))?/, isoOrdinalRegex = /(\d{4})-?(\d{3})/, extractISOWeekData = simpleParse("weekYear", "weekNumber", "weekDay"), extractISOOrdinalData = simpleParse("year", "ordinal"), sqlYmdRegex = /(\d{4})-(\d\d)-(\d\d)/, sqlTimeRegex = RegExp(`${isoTimeBaseRegex.source} ?(?:${offsetRegex.source}|(${ianaRegex.source}))?`), sqlTimeExtensionRegex = RegExp(`(?: ${sqlTimeRegex.source})?`);
-function __int(match3, pos, fallback) {
-    const m = match3[pos];
+function __int(match, pos, fallback) {
+    const m = match[pos];
     return isUndefined(m) ? fallback : parseInteger(m);
 }
-function extractISOYmd(match4, cursor) {
+function extractISOYmd(match, cursor) {
     const item = {
-        year: __int(match4, cursor),
-        month: __int(match4, cursor + 1, 1),
-        day: __int(match4, cursor + 2, 1)
+        year: __int(match, cursor),
+        month: __int(match, cursor + 1, 1),
+        day: __int(match, cursor + 2, 1)
     };
     return [
         item,
@@ -1501,12 +1501,12 @@ function extractISOYmd(match4, cursor) {
         cursor + 3
     ];
 }
-function extractISOTime(match5, cursor) {
+function extractISOTime(match, cursor) {
     const item = {
-        hour: __int(match5, cursor, 0),
-        minute: __int(match5, cursor + 1, 0),
-        second: __int(match5, cursor + 2, 0),
-        millisecond: parseMillis(match5[cursor + 3])
+        hour: __int(match, cursor, 0),
+        minute: __int(match, cursor + 1, 0),
+        second: __int(match, cursor + 2, 0),
+        millisecond: parseMillis(match[cursor + 3])
     };
     return [
         item,
@@ -1514,16 +1514,16 @@ function extractISOTime(match5, cursor) {
         cursor + 4
     ];
 }
-function extractISOOffset(match6, cursor) {
-    const local = !match6[cursor] && !match6[cursor + 1], fullOffset = signedOffset(match6[cursor + 1], match6[cursor + 2]), zone = local ? null : FixedOffsetZone.instance(fullOffset);
+function extractISOOffset(match, cursor) {
+    const local = !match[cursor] && !match[cursor + 1], fullOffset = signedOffset(match[cursor + 1], match[cursor + 2]), zone = local ? null : FixedOffsetZone.instance(fullOffset);
     return [
         {},
         zone,
         cursor + 3
     ];
 }
-function extractIANAZone(match7, cursor) {
-    const zone = match7[cursor] ? IANAZone.create(match7[cursor]) : null;
+function extractIANAZone(match, cursor) {
+    const zone = match[cursor] ? IANAZone.create(match[cursor]) : null;
     return [
         {},
         zone,
@@ -1531,9 +1531,9 @@ function extractIANAZone(match7, cursor) {
     ];
 }
 const isoDuration = /^-?P(?:(?:(-?\d{1,9})Y)?(?:(-?\d{1,9})M)?(?:(-?\d{1,9})W)?(?:(-?\d{1,9})D)?(?:T(?:(-?\d{1,9})H)?(?:(-?\d{1,9})M)?(?:(-?\d{1,20})(?:[.,](-?\d{1,9}))?S)?)?)$/;
-function extractISODuration(match8) {
-    const [s5, yearStr, monthStr, weekStr, dayStr, hourStr, minuteStr, secondStr, millisecondsStr] = match8;
-    const hasNegativePrefix = s5[0] === "-";
+function extractISODuration(match) {
+    const [s, yearStr, monthStr, weekStr, dayStr, hourStr, minuteStr, secondStr, millisecondsStr] = match;
+    const hasNegativePrefix = s[0] === "-";
     const maybeNegate = (num)=>num && hasNegativePrefix ? -num : num;
     return [
         {
@@ -1574,34 +1574,34 @@ function fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, 
     return result;
 }
 const rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|(?:([+-]\d\d)(\d\d)))$/;
-function extractRFC2822(match9) {
-    const [, weekdayStr, dayStr, monthStr, yearStr, hourStr, minuteStr, secondStr, obsOffset, milOffset, offHourStr, offMinuteStr] = match9, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
-    let offset5;
+function extractRFC2822(match) {
+    const [, weekdayStr, dayStr, monthStr, yearStr, hourStr, minuteStr, secondStr, obsOffset, milOffset, offHourStr, offMinuteStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
+    let offset;
     if (obsOffset) {
-        offset5 = obsOffsets[obsOffset];
+        offset = obsOffsets[obsOffset];
     } else if (milOffset) {
-        offset5 = 0;
+        offset = 0;
     } else {
-        offset5 = signedOffset(offHourStr, offMinuteStr);
+        offset = signedOffset(offHourStr, offMinuteStr);
     }
     return [
         result,
-        new FixedOffsetZone(offset5)
+        new FixedOffsetZone(offset)
     ];
 }
-function preprocessRFC2822(s6) {
-    return s6.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").trim();
+function preprocessRFC2822(s) {
+    return s.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").trim();
 }
 const rfc1123 = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\d\d) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4}) (\d\d):(\d\d):(\d\d) GMT$/, rfc850 = /^(Monday|Tuesday|Wedsday|Thursday|Friday|Saturday|Sunday), (\d\d)-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d\d) (\d\d):(\d\d):(\d\d) GMT$/, ascii = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) ( \d|\d\d) (\d\d):(\d\d):(\d\d) (\d{4})$/;
-function extractRFC1123Or850(match10) {
-    const [, weekdayStr, dayStr, monthStr, yearStr, hourStr, minuteStr, secondStr] = match10, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
+function extractRFC1123Or850(match) {
+    const [, weekdayStr, dayStr, monthStr, yearStr, hourStr, minuteStr, secondStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
     return [
         result,
         FixedOffsetZone.utcInstance
     ];
 }
-function extractASCII(match11) {
-    const [, weekdayStr, monthStr, dayStr, hourStr, minuteStr, secondStr, yearStr] = match11, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
+function extractASCII(match) {
+    const [, weekdayStr, monthStr, dayStr, hourStr, minuteStr, secondStr, yearStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
     return [
         result,
         FixedOffsetZone.utcInstance
@@ -1615,8 +1615,8 @@ const extractISOYmdTimeAndOffset = combineExtractors(extractISOYmd, extractISOTi
 const extractISOWeekTimeAndOffset = combineExtractors(extractISOWeekData, extractISOTime, extractISOOffset);
 const extractISOOrdinalDataAndTime = combineExtractors(extractISOOrdinalData, extractISOTime);
 const extractISOTimeAndOffset = combineExtractors(extractISOTime, extractISOOffset);
-function parseISODate(s7) {
-    return parse(s7, [
+function parseISODate(s) {
+    return parse(s, [
         isoYmdWithTimeExtensionRegex,
         extractISOYmdTimeAndOffset
     ], [
@@ -1630,14 +1630,14 @@ function parseISODate(s7) {
         extractISOTimeAndOffset
     ]);
 }
-function parseRFC2822Date(s8) {
-    return parse(preprocessRFC2822(s8), [
+function parseRFC2822Date(s) {
+    return parse(preprocessRFC2822(s), [
         rfc2822,
         extractRFC2822
     ]);
 }
-function parseHTTPDate(s9) {
-    return parse(s9, [
+function parseHTTPDate(s) {
+    return parse(s, [
         rfc1123,
         extractRFC1123Or850
     ], [
@@ -1648,8 +1648,8 @@ function parseHTTPDate(s9) {
         extractASCII
     ]);
 }
-function parseISODuration(s10) {
-    return parse(s10, [
+function parseISODuration(s) {
+    return parse(s, [
         isoDuration,
         extractISODuration
     ]);
@@ -1658,8 +1658,8 @@ const sqlYmdWithTimeExtensionRegex = combineRegexes(sqlYmdRegex, sqlTimeExtensio
 const sqlTimeCombinedRegex = combineRegexes(sqlTimeRegex);
 const extractISOYmdTimeOffsetAndIANAZone = combineExtractors(extractISOYmd, extractISOTime, extractISOOffset, extractIANAZone);
 const extractISOTimeOffsetAndIANAZone = combineExtractors(extractISOTime, extractISOOffset, extractIANAZone);
-function parseSQL(s11) {
-    return parse(s11, [
+function parseSQL(s) {
+    return parse(s, [
         sqlYmdWithTimeExtensionRegex,
         extractISOYmdTimeOffsetAndIANAZone
     ], [
@@ -1967,8 +1967,8 @@ function clone(dur, alts, clear = false) {
     };
     return new Duration(conf);
 }
-function antiTrunc(n4) {
-    return n4 < 0 ? Math.floor(n4) : Math.ceil(n4);
+function antiTrunc(n) {
+    return n < 0 ? Math.floor(n) : Math.ceil(n);
 }
 function convert(matrix, fromMap, fromUnit, toMap, toUnit) {
     const conv = matrix[toUnit][fromUnit], raw = fromMap[fromUnit] / conv, sameSign = Math.sign(raw) === Math.sign(toMap[toUnit]), added = !sameSign && toMap[toUnit] !== 0 && Math.abs(raw) <= 1 ? antiTrunc(raw) : Math.trunc(raw);
@@ -2090,17 +2090,17 @@ class Duration {
     }
     toISO() {
         if (!this.isValid) return null;
-        let s12 = "P";
-        if (this.years !== 0) s12 += this.years + "Y";
-        if (this.months !== 0 || this.quarters !== 0) s12 += this.months + this.quarters * 3 + "M";
-        if (this.weeks !== 0) s12 += this.weeks + "W";
-        if (this.days !== 0) s12 += this.days + "D";
-        if (this.hours !== 0 || this.minutes !== 0 || this.seconds !== 0 || this.milliseconds !== 0) s12 += "T";
-        if (this.hours !== 0) s12 += this.hours + "H";
-        if (this.minutes !== 0) s12 += this.minutes + "M";
-        if (this.seconds !== 0 || this.milliseconds !== 0) s12 += roundTo(this.seconds + this.milliseconds / 1000, 3) + "S";
-        if (s12 === "P") s12 += "T0S";
-        return s12;
+        let s = "P";
+        if (this.years !== 0) s += this.years + "Y";
+        if (this.months !== 0 || this.quarters !== 0) s += this.months + this.quarters * 3 + "M";
+        if (this.weeks !== 0) s += this.weeks + "W";
+        if (this.days !== 0) s += this.days + "D";
+        if (this.hours !== 0 || this.minutes !== 0 || this.seconds !== 0 || this.milliseconds !== 0) s += "T";
+        if (this.hours !== 0) s += this.hours + "H";
+        if (this.minutes !== 0) s += this.minutes + "M";
+        if (this.seconds !== 0 || this.milliseconds !== 0) s += roundTo(this.seconds + this.milliseconds / 1000, 3) + "S";
+        if (s === "P") s += "T0S";
+        return s;
     }
     toJSON() {
         return this.toISO();
@@ -2273,7 +2273,7 @@ class Duration {
     }
 }
 function dayDiff(earlier, later) {
-    const utcDayStart = (dt10)=>dt10.toUTC(0, {
+    const utcDayStart = (dt)=>dt.toUTC(0, {
             keepLocalTime: true
         }).startOf("day").valueOf(), ms = utcDayStart(later) - utcDayStart(earlier);
     return Math.floor(Duration.fromMillis(ms).as("days"));
@@ -2283,11 +2283,11 @@ const MAX_DATE = 8.64e15;
 function unsupportedZone(zone) {
     return new Invalid("unsupported zone", `the zone "${zone.name}" is not supported`);
 }
-function possiblyCachedWeekData(dt11) {
-    if (dt11.weekData === null) {
-        dt11.weekData = gregorianToWeek(dt11.c);
+function possiblyCachedWeekData(dt) {
+    if (dt.weekData === null) {
+        dt.weekData = gregorianToWeek(dt.c);
     }
-    return dt11.weekData;
+    return dt.weekData;
 }
 function clone1(inst, alts) {
     const current = {
@@ -2324,8 +2324,8 @@ function fixOffset(localTS, o, tz) {
         Math.max(o2, o3)
     ];
 }
-function tsToObj(ts, offset6) {
-    ts += offset6 * 60 * 1000;
+function tsToObj(ts, offset) {
+    ts += offset * 60 * 1000;
     const d = new Date(ts);
     return {
         year: d.getUTCFullYear(),
@@ -2337,8 +2337,8 @@ function tsToObj(ts, offset6) {
         millisecond: d.getUTCMilliseconds()
     };
 }
-function objToTS(obj, offset7, zone) {
-    return fixOffset(objToLocalTS(obj), offset7, zone);
+function objToTS(obj, offset, zone) {
+    return fixOffset(objToLocalTS(obj), offset, zone);
 }
 function adjustTime(inst, dur) {
     const oPre = inst.o, year = inst.c.year + Math.trunc(dur.years), month = inst.c.month + Math.trunc(dur.months) + Math.trunc(dur.quarters) * 3, c = Object.assign({}, inst.c, {
@@ -2378,17 +2378,17 @@ function parseDataToDateTime(parsed, parsedZone, opts, format, text) {
         return DateTime.invalid(new Invalid("unparsable", `the input "${text}" can't be parsed as ${format}`));
     }
 }
-function toTechFormat(dt12, format, allowZ = true) {
-    return dt12.isValid ? Formatter.create(Locale.create("en-US"), {
+function toTechFormat(dt, format, allowZ = true) {
+    return dt.isValid ? Formatter.create(Locale.create("en-US"), {
         allowZ,
         forceSimple: true
-    }).formatDateTimeFromString(dt12, format) : null;
+    }).formatDateTimeFromString(dt, format) : null;
 }
-function toTechTimeFormat(dt13, { suppressSeconds =false , suppressMilliseconds =false , includeOffset , includeZone =false , spaceZone =false , format ="extended"  }) {
+function toTechTimeFormat(dt, { suppressSeconds =false , suppressMilliseconds =false , includeOffset , includeZone =false , spaceZone =false , format ="extended"  }) {
     let fmt = format === "basic" ? "HHmm" : "HH:mm";
-    if (!suppressSeconds || dt13.second !== 0 || dt13.millisecond !== 0) {
+    if (!suppressSeconds || dt.second !== 0 || dt.millisecond !== 0) {
         fmt += format === "basic" ? "ss" : ":ss";
-        if (!suppressMilliseconds || dt13.millisecond !== 0) {
+        if (!suppressMilliseconds || dt.millisecond !== 0) {
             fmt += ".SSS";
         }
     }
@@ -2400,7 +2400,7 @@ function toTechTimeFormat(dt13, { suppressSeconds =false , suppressMilliseconds 
     } else if (includeOffset) {
         fmt += format === "basic" ? "ZZZ" : "ZZ";
     }
-    return toTechFormat(dt13, fmt);
+    return toTechFormat(dt, fmt);
 }
 const defaultUnitValues = {
     month: 1,
@@ -2511,10 +2511,10 @@ function diffRelative(start, end, opts) {
     if (opts.unit) {
         return format(differ(opts.unit), opts.unit);
     }
-    for (const unit1 of opts.units){
-        const count = differ(unit1);
+    for (const unit of opts.units){
+        const count = differ(unit);
         if (Math.abs(count) >= 1) {
-            return format(count, unit1);
+            return format(count, unit);
         }
     }
     return format(0, opts.units[opts.units.length - 1]);
@@ -2594,8 +2594,8 @@ class DateTime {
             }, FixedOffsetZone.utcInstance);
         }
     }
-    static fromJSDate(date5, options = {}) {
-        const ts = isDate(date5) ? date5.valueOf() : NaN;
+    static fromJSDate(date, options = {}) {
+        const ts = isDate(date) ? date.valueOf() : NaN;
         if (Number.isNaN(ts)) {
             return DateTime.invalid("invalid input");
         }
@@ -2880,8 +2880,8 @@ class DateTime {
             outputCalendar: calendar
         };
     }
-    toUTC(offset8 = 0, opts = {}) {
-        return this.setZone(FixedOffsetZone.instance(offset8), opts);
+    toUTC(offset = 0, opts = {}) {
+        return this.setZone(FixedOffsetZone.instance(offset), opts);
     }
     toLocal() {
         return this.setZone(Settings.defaultZone);
@@ -3328,16 +3328,16 @@ function intlConfigString(localeStr, numberingSystem, outputCalendar) {
 function mapMonths(f) {
     const ms = [];
     for(let i = 1; i <= 12; i++){
-        const dt14 = DateTime.utc(2016, i, 1);
-        ms.push(f(dt14));
+        const dt = DateTime.utc(2016, i, 1);
+        ms.push(f(dt));
     }
     return ms;
 }
 function mapWeekdays(f) {
     const ms = [];
     for(let i = 1; i <= 7; i++){
-        const dt15 = DateTime.utc(2016, 11, 13 + i);
-        ms.push(f(dt15));
+        const dt = DateTime.utc(2016, 11, 13 + i);
+        ms.push(f(dt));
     }
     return ms;
 }
@@ -3375,28 +3375,28 @@ class PolyNumberFormatter {
             const fixed = this.floor ? Math.floor(i) : i;
             return this.inf.format(fixed);
         } else {
-            const fixed = this.floor ? Math.floor(i) : roundTo(i, 3);
-            return padStart(fixed, this.padTo);
+            const fixed1 = this.floor ? Math.floor(i) : roundTo(i, 3);
+            return padStart(fixed1, this.padTo);
         }
     }
 }
 class PolyDateFormatter {
-    constructor(dt16, intl, opts){
+    constructor(dt, intl, opts){
         this.opts = opts;
         this.hasIntl = hasIntl();
         let z;
-        if (dt16.zone.universal && this.hasIntl) {
+        if (dt.zone.universal && this.hasIntl) {
             z = "UTC";
             if (opts.timeZoneName) {
-                this.dt = dt16;
+                this.dt = dt;
             } else {
-                this.dt = dt16.offset === 0 ? dt16 : DateTime.fromMillis(dt16.ts + dt16.offset * 60 * 1000);
+                this.dt = dt.offset === 0 ? dt : DateTime.fromMillis(dt.ts + dt.offset * 60 * 1000);
             }
-        } else if (dt16.zone.type === "local") {
-            this.dt = dt16;
+        } else if (dt.zone.type === "local") {
+            this.dt = dt;
         } else {
-            this.dt = dt16;
-            z = dt16.zone.name;
+            this.dt = dt;
+            z = dt.zone.name;
         }
         if (this.hasIntl) {
             const intlOpts = Object.assign({}, this.opts);
@@ -3535,7 +3535,7 @@ class Locale {
                 month: length
             }, formatStr = format ? "format" : "standalone";
             if (!this.monthsCache[formatStr][length]) {
-                this.monthsCache[formatStr][length] = mapMonths((dt17)=>this.extract(dt17, intl, "month"));
+                this.monthsCache[formatStr][length] = mapMonths((dt)=>this.extract(dt, intl, "month"));
             }
             return this.monthsCache[formatStr][length];
         });
@@ -3551,7 +3551,7 @@ class Locale {
                 weekday: length
             }, formatStr = format ? "format" : "standalone";
             if (!this.weekdaysCache[formatStr][length]) {
-                this.weekdaysCache[formatStr][length] = mapWeekdays((dt18)=>this.extract(dt18, intl, "weekday"));
+                this.weekdaysCache[formatStr][length] = mapWeekdays((dt)=>this.extract(dt, intl, "weekday"));
             }
             return this.weekdaysCache[formatStr][length];
         });
@@ -3566,7 +3566,7 @@ class Locale {
                 this.meridiemCache = [
                     DateTime.utc(2016, 11, 13, 9),
                     DateTime.utc(2016, 11, 13, 19)
-                ].map((dt19)=>this.extract(dt19, intl, "dayperiod"));
+                ].map((dt)=>this.extract(dt, intl, "dayperiod"));
             }
             return this.meridiemCache;
         });
@@ -3580,20 +3580,20 @@ class Locale {
                 this.eraCache[length] = [
                     DateTime.utc(-40, 1, 1),
                     DateTime.utc(2017, 1, 1)
-                ].map((dt20)=>this.extract(dt20, intl, "era"));
+                ].map((dt)=>this.extract(dt, intl, "era"));
             }
             return this.eraCache[length];
         });
     }
-    extract(dt21, intlOpts, field) {
-        const df = this.dtFormatter(dt21, intlOpts), results = df.formatToParts(), matching = results.find((m)=>m.type.toLowerCase() === field);
+    extract(dt, intlOpts, field) {
+        const df = this.dtFormatter(dt, intlOpts), results = df.formatToParts(), matching = results.find((m)=>m.type.toLowerCase() === field);
         return matching ? matching.value : null;
     }
     numberFormatter(opts = {}) {
         return new PolyNumberFormatter(this.intl, opts.forceSimple || this.fastNumbers, opts);
     }
-    dtFormatter(dt22, intlOpts = {}) {
-        return new PolyDateFormatter(dt22, this.intl, intlOpts);
+    dtFormatter(dt, intlOpts = {}) {
+        return new PolyDateFormatter(dt, this.intl, intlOpts);
     }
     relFormatter(opts = {}) {
         return new PolyRelFormatter(this.intl, this.isEnglish(), opts);
@@ -3609,8 +3609,8 @@ class Settings {
     static get now() {
         return now;
     }
-    static set now(n5) {
-        now = n5;
+    static set now(n) {
+        now = n;
     }
     static get defaultZoneName() {
         return Settings.defaultZone.name;
@@ -3698,19 +3698,19 @@ class Interval {
         }
     }
     static after(start, duration) {
-        const dur = friendlyDuration(duration), dt23 = friendlyDateTime(start);
-        return Interval.fromDateTimes(dt23, dt23.plus(dur));
+        const dur = friendlyDuration(duration), dt = friendlyDateTime(start);
+        return Interval.fromDateTimes(dt, dt.plus(dur));
     }
     static before(end, duration) {
-        const dur = friendlyDuration(duration), dt24 = friendlyDateTime(end);
-        return Interval.fromDateTimes(dt24.minus(dur), dt24);
+        const dur = friendlyDuration(duration), dt = friendlyDateTime(end);
+        return Interval.fromDateTimes(dt.minus(dur), dt);
     }
     static fromISO(text, opts) {
-        const [s13, e] = (text || "").split("/", 2);
-        if (s13 && e) {
+        const [s, e] = (text || "").split("/", 2);
+        if (s && e) {
             let start, startIsValid;
             try {
-                start = DateTime.fromISO(s13, opts);
+                start = DateTime.fromISO(s, opts);
                 startIsValid = start.isValid;
             } catch (e1) {
                 startIsValid = false;
@@ -3731,9 +3731,9 @@ class Interval {
                     return Interval.after(start, dur);
                 }
             } else if (endIsValid) {
-                const dur = Duration.fromISO(s13, opts);
-                if (dur.isValid) {
-                    return Interval.before(end, dur);
+                const dur1 = Duration.fromISO(s, opts);
+                if (dur1.isValid) {
+                    return Interval.before(end, dur1);
                 }
             }
         }
@@ -3792,11 +3792,11 @@ class Interval {
     splitAt(...dateTimes) {
         if (!this.isValid) return [];
         const sorted = dateTimes.map(friendlyDateTime).filter((d)=>this.contains(d)).sort(), results = [];
-        let { s: s14  } = this, i = 0;
-        while(s14 < this.e){
+        let { s  } = this, i = 0;
+        while(s < this.e){
             const added = sorted[i] || this.e, next = +added > +this.e ? this.e : added;
-            results.push(Interval.fromDateTimes(s14, next));
-            s14 = next;
+            results.push(Interval.fromDateTimes(s, next));
+            s = next;
             i += 1;
         }
         return results;
@@ -3806,13 +3806,13 @@ class Interval {
         if (!this.isValid || !dur.isValid || dur.as("milliseconds") === 0) {
             return [];
         }
-        let { s: s15  } = this, added, next;
+        let { s  } = this, added, next;
         const results = [];
-        while(s15 < this.e){
-            added = s15.plus(dur);
+        while(s < this.e){
+            added = s.plus(dur);
             next = +added > +this.e ? this.e : added;
-            results.push(Interval.fromDateTimes(s15, next));
-            s15 = next;
+            results.push(Interval.fromDateTimes(s, next));
+            s = next;
         }
         return results;
     }
@@ -3843,17 +3843,17 @@ class Interval {
     }
     intersection(other) {
         if (!this.isValid) return this;
-        const s16 = this.s > other.s ? this.s : other.s, e = this.e < other.e ? this.e : other.e;
-        if (s16 > e) {
+        const s = this.s > other.s ? this.s : other.s, e = this.e < other.e ? this.e : other.e;
+        if (s > e) {
             return null;
         } else {
-            return Interval.fromDateTimes(s16, e);
+            return Interval.fromDateTimes(s, e);
         }
     }
     union(other) {
         if (!this.isValid) return this;
-        const s17 = this.s < other.s ? this.s : other.s, e = this.e > other.e ? this.e : other.e;
-        return Interval.fromDateTimes(s17, e);
+        const s = this.s < other.s ? this.s : other.s, e = this.e > other.e ? this.e : other.e;
+        return Interval.fromDateTimes(s, e);
     }
     static merge(intervals) {
         const [found, __final] = intervals.sort((a, b)=>a.s - b.s).reduce(([sofar, current], item)=>{
@@ -3896,13 +3896,13 @@ class Interval {
                     type: "e"
                 }
             ]), flattened = Array.prototype.concat(...ends), arr = flattened.sort((a, b)=>a.time - b.time);
-        for (const i1 of arr){
-            currentCount += i1.type === "s" ? 1 : -1;
+        for (const i of arr){
+            currentCount += i.type === "s" ? 1 : -1;
             if (currentCount === 1) {
-                start = i1.time;
+                start = i.time;
             } else {
-                if (start && +start !== +i1.time) {
-                    results.push(Interval.fromDateTimes(start, i1.time));
+                if (start && +start !== +i.time) {
+                    results.push(Interval.fromDateTimes(start, i.time));
                 }
                 start = null;
             }
@@ -4022,17 +4022,17 @@ function __default(earlier, later, units, opts) {
 function intUnit(regex, post = (i)=>i) {
     return {
         regex,
-        deser: ([s18])=>post(parseDigits(s18))
+        deser: ([s])=>post(parseDigits(s))
     };
 }
 const NBSP = String.fromCharCode(160);
 const spaceOrNBSP = `( |${NBSP})`;
 const spaceOrNBSPRegExp = new RegExp(spaceOrNBSP, "g");
-function fixListRegex(s19) {
-    return s19.replace(/\./g, "\\.?").replace(spaceOrNBSPRegExp, spaceOrNBSP);
+function fixListRegex(s) {
+    return s.replace(/\./g, "\\.?").replace(spaceOrNBSPRegExp, spaceOrNBSP);
 }
-function stripInsensitivities(s20) {
-    return s20.replace(/\./g, "").replace(spaceOrNBSPRegExp, " ").toLowerCase();
+function stripInsensitivities(s) {
+    return s.replace(/\./g, "").replace(spaceOrNBSPRegExp, " ").toLowerCase();
 }
 function oneOf(strings, startIndex) {
     if (strings === null) {
@@ -4040,7 +4040,7 @@ function oneOf(strings, startIndex) {
     } else {
         return {
             regex: RegExp(strings.map(fixListRegex).join("|")),
-            deser: ([s21])=>strings.findIndex((i)=>stripInsensitivities(s21) === stripInsensitivities(i)) + startIndex
+            deser: ([s])=>strings.findIndex((i)=>stripInsensitivities(s) === stripInsensitivities(i)) + startIndex
         };
     }
 }
@@ -4054,7 +4054,7 @@ function offset(regex, groups) {
 function simple(regex) {
     return {
         regex,
-        deser: ([s22])=>s22
+        deser: ([s])=>s
     };
 }
 function escapeToken(value) {
@@ -4063,7 +4063,7 @@ function escapeToken(value) {
 function unitForToken(token, loc) {
     const one = digitRegex(loc), two = digitRegex(loc, "{2}"), three = digitRegex(loc, "{3}"), four = digitRegex(loc, "{4}"), six = digitRegex(loc, "{6}"), oneOrTwo = digitRegex(loc, "{1,2}"), oneToThree = digitRegex(loc, "{1,3}"), oneToSix = digitRegex(loc, "{1,6}"), oneToNine = digitRegex(loc, "{1,9}"), twoToFour = digitRegex(loc, "{2,4}"), fourToSix = digitRegex(loc, "{4,6}"), literal = (t)=>({
             regex: RegExp(escapeToken(t.val)),
-            deser: ([s23])=>s23,
+            deser: ([s])=>s,
             literal: true
         }), unitate = (t)=>{
         if (token.literal) {

@@ -1,0 +1,87 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>
+ 2 | |   foo
+ 3 | `-> </pre></body></html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>
+ 2 | |   foo
+ 3 | `-> </pre></body></html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>
+ 2 | |   foo
+ 3 | `-> </pre></body></html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>
+   :                      ^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>
+   :                      ^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>
+ 2 | |   foo
+ 3 | `-> </pre></body></html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>
+ 2 | |   foo
+ 3 | `-> </pre></body></html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>
+ 2 | |   foo
+ 3 | `-> </pre></body></html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>
+ 2 | |   foo
+ 3 | `-> </pre></body></html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:2:1]
+ 2 | foo
+   : ^^^^
+ 3 | </pre></body></html>
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/7/input.html:2:1]
+ 2 | foo
+   : ^^^^
+ 3 | </pre></body></html>
+   `----

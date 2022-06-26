@@ -46,9 +46,12 @@ impl Task for TransformTask {
             options.config.adjust(Path::new(&options.filename));
         }
 
+        let error_format = options.experimental.error_format.unwrap_or_default();
+
         try_with(
             self.c.cm.clone(),
             !options.config.error.filename.into_bool(),
+            error_format,
             |handler| {
                 self.c.run(|| match &self.input {
                     Input::Program(ref s) => {
@@ -130,9 +133,12 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
         options.config.adjust(Path::new(&options.filename));
     }
 
+    let error_format = options.experimental.error_format.unwrap_or_default();
+
     try_with(
         c.cm.clone(),
         !options.config.error.filename.into_bool(),
+        error_format,
         |handler| {
             c.run(|| {
                 if is_module {
@@ -193,9 +199,12 @@ pub fn transform_file_sync(
         options.config.adjust(Path::new(&options.filename));
     }
 
+    let error_format = options.experimental.error_format.unwrap_or_default();
+
     try_with(
         c.cm.clone(),
         !options.config.error.filename.into_bool(),
+        error_format,
         |handler| {
             c.run(|| {
                 if is_module {

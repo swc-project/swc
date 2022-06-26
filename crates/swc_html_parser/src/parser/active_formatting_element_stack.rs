@@ -1,6 +1,6 @@
 use swc_html_ast::Token;
 
-use crate::parser::{is_same_node, Element, RcNode, TokenAndInfo};
+use crate::parser::{is_same_node, RcNode, TokenAndInfo};
 
 #[derive(Debug)]
 pub enum ActiveFormattingElement {
@@ -14,7 +14,9 @@ pub struct ActiveFormattingElementStack {
 
 impl ActiveFormattingElementStack {
     pub fn new() -> Self {
-        ActiveFormattingElementStack { items: vec![] }
+        ActiveFormattingElementStack {
+            items: Vec::with_capacity(8),
+        }
     }
 
     pub fn push(&mut self, value: ActiveFormattingElement) {

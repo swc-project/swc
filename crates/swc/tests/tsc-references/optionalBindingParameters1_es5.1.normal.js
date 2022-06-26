@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function foo(param) {
     var _param = _sliced_to_array(param, 3), x = _param[0], y = _param[1], z = _param[2];
 }

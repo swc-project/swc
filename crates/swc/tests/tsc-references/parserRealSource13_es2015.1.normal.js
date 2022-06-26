@@ -3,7 +3,7 @@
 ///<reference path='typescript.ts' />
 var TypeScript;
 (function(TypeScript1) {
-    let AstWalkerWithDetailCallback1;
+    let AstWalkerWithDetailCallback;
     (function(AstWalkerWithDetailCallback) {
         function walk(script, callback) {
             var pre = (cur, parent)=>{
@@ -30,5 +30,5 @@ var TypeScript;
             }
             return true;
         }
-    })(AstWalkerWithDetailCallback1 = TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {}));
+    })(AstWalkerWithDetailCallback = TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {}));
 })(TypeScript || (TypeScript = {}));

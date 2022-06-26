@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _type_of from "@swc/helpers/lib/_type_of.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
@@ -12,16 +12,16 @@ function F(x) {
     return 42;
 }
 var M;
-(function(M1) {
-    var F2 = function F2(x1) {
-        return x1.toString();
+(function(M) {
+    var F2 = function F2(x) {
+        return x.toString();
     };
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
-    M1.A = A;
-    M1.F2 = F2;
+    M.A = A;
+    M.F2 = F2;
 })(M || (M = {}));
 var aNumber = 9.9;
 throw aNumber;

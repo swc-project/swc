@@ -120,7 +120,7 @@ fn test_fold_block_with_declaration() {
     test_same("{x = 2; y = 4; let z;}");
     test("{'hi'; let x;}", "{'hi'; let x}");
     test("{x = 4; {let y}}", "x = 4; {let y}");
-    test_same("{class C {}} {class C {}}");
+    test_same("{class C {}} {class C1 {}}");
     test("{label: var x}", "label: var x");
     // `{label: let x}` is a syntax error
     test_same("{label: var x; let y;}");
@@ -718,7 +718,7 @@ fn test_optimize_switch_with_labelless_break() {
             "  case 'x': let x = 2; break;",
             "}",
         ),
-        concat!("let x = 1;", "{let x = 2}"),
+        concat!("let x = 1;", "{let x1 = 2}"),
     );
 }
 
@@ -778,7 +778,7 @@ fn test_optimize_switch_with_return() {
         concat!(
             "function f() {",
             "  let x = 1;",
-            "  { let x = 2; } return 3; ",
+            "  { let x1 = 2; } return 3; ",
             "}",
         ),
     );

@@ -4,7 +4,7 @@ x = {
     }
 };
 y = {
-    *foo ([{ a: a  }]) {
+    *foo ([{ a  }]) {
         yield a;
     },
     bar () {}

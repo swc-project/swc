@@ -1,6 +1,6 @@
 use swc_common::{
     collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, BytePos, Mark,
-    SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
+    SourceMap, SourceMapper, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};

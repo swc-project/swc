@@ -7,12 +7,12 @@ const [c, d = c, e = e] = [
 const [f, g = f, h = i, i = f] = [
     1
 ]; // error for h = i
-(function([a1, b = a1]) {})([
+(function([a, b = a]) {})([
     1
 ]);
-(function([c1, d = c1, e1 = e1]) {})([
+(function([c, d = c, e = e]) {})([
     1
 ]);
-(function([f1, g = f1, h = i, i = f1]) {})([
+(function([f, g = f, h = i, i1 = f]) {})([
     1
 ]);

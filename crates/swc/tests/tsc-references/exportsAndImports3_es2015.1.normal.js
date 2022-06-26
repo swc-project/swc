@@ -19,9 +19,9 @@ export var D;
     D[D["C"] = 2] = "C";
 })(D || (D = {}));
 export var M;
-(function(M1) {
+(function(M) {
     var x;
-    M1.x = x;
+    M.x = x;
 })(M || (M = {}));
 export var a = M.x;
 export { v as v1, f as f1, C as C1, E as E1, D as D1, M as M1, N as N1, a as a1 };

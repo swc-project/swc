@@ -7,9 +7,9 @@ export default function Decl() {
     return 0;
 };
 export var Decl;
-(function(Decl1) {
-    var x = Decl1.x = 10;
-    var y = Decl1.y = 20;
+(function(Decl) {
+    var x = Decl.x = 10;
+    var y = Decl.y = 20;
 })(Decl || (Decl = {}));
 Entity();
 var x;

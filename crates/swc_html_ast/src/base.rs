@@ -76,6 +76,7 @@ pub struct Element {
     pub children: Vec<Child>,
     /// For child nodes in `<template>`
     pub content: Option<DocumentFragment>,
+    pub is_self_closing: bool,
 }
 
 #[ast_node("Attribute")]
@@ -92,7 +93,7 @@ pub struct Attribute {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Text {
     pub span: Span,
-    pub value: JsWord,
+    pub data: JsWord,
 }
 
 #[ast_node("Comment")]

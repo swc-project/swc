@@ -11,21 +11,21 @@ function f1(obj, k0, k1, k2) {
     obj[k2] = 2; // Error
     obj[k2] = 'x'; // Error
 }
-function f2(a, b, c1, k) {
+function f2(a, b, c, k) {
     a = b; // Error, index signature in source doesn't imply properties are present
-    a = c1; // Error, index signature in source doesn't imply properties are present
+    a = c; // Error, index signature in source doesn't imply properties are present
     b = a;
-    b = c1;
-    c1 = a; // Error, constraint on target doesn't imply any properties or signatures
-    c1 = b; // Error, constraint on target doesn't imply any properties or signatures
+    b = c;
+    c = a; // Error, constraint on target doesn't imply any properties or signatures
+    c = b; // Error, constraint on target doesn't imply any properties or signatures
     a.x;
     b.x;
-    c1.x;
-    c1[k];
+    c.x;
+    c[k];
     a.x = 1;
     b.x = 1;
-    c1.x = 1; // Error, cannot write to index signature through constraint
-    c1[k] = 1; // Error, cannot write to index signature through constraint
+    c.x = 1; // Error, cannot write to index signature through constraint
+    c[k] = 1; // Error, cannot write to index signature through constraint
 }
 function f3(a, b, k) {
     a = b; // Error, index signature doesn't imply properties are present

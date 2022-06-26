@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function foo() {
     var X = /*#__PURE__*/ function() {
         "use strict";
@@ -16,7 +16,7 @@ function foo() {
         };
         return X;
     }();
-    var x1 = new X();
-    return x1.m();
+    var x = new X();
+    return x.m();
 }
 var x = foo();

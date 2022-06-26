@@ -1,10 +1,10 @@
 var a = 0;
-(function d(b) {
-    var c = 2;
+(function b(c) {
+    var d = 2;
     do {
-        b && b[b];
-        b && (b.null = -4);
+        c && c[c];
+        c && (c.null = -4);
         a++;
-    }while (b.null && --c > 0)
+    }while (c.null && --d > 0)
 })(true);
 console.log(a);

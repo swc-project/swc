@@ -1,10 +1,10 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _set from "@swc/helpers/lib/_set.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _set from "@swc/helpers/src/_set.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 // @target: es6
 var A = /*#__PURE__*/ function() {
@@ -20,10 +20,10 @@ var A = /*#__PURE__*/ function() {
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
-    var _super1 = _create_super(B);
+    var _super = _create_super(B);
     function B() {
         _class_call_check(this, B);
-        return _super1.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
     // async method with only call/get on 'super' does not require a binding
@@ -61,7 +61,7 @@ var B = /*#__PURE__*/ function(A) {
     // async method with assignment/destructuring on 'super' requires a binding
     _proto.advanced = function advanced() {
         var _this = this;
-        var _this2 = this, // call with property access
+        var _this1 = this, // call with property access
         _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         }, // call with element access
@@ -82,8 +82,8 @@ var B = /*#__PURE__*/ function(A) {
                         _super = null;
                         _superIndex = null;
                         f = function() {};
-                        _superprop_get_x().call(_this2);
-                        _superprop_get("x").call(_this2);
+                        _superprop_get_x().call(_this1);
+                        _superprop_get("x").call(_this1);
                         a = _superprop_get_x();
                         b = _superprop_get("x");
                         _superprop_set_x(f);

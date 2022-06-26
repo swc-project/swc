@@ -1,14 +1,14 @@
-function b() {
-    c();
-}
-function c() {
-    console.log(1);
-}
 function a() {
-    function a() {
-        console.log(2);
-    }
     b();
 }
-a();
-a();
+function b() {
+    console.log(1);
+}
+function c() {
+    function b() {
+        console.log(2);
+    }
+    a();
+}
+c();
+c();

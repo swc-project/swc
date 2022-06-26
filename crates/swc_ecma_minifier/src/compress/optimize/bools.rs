@@ -7,9 +7,10 @@ use swc_ecma_utils::{
 };
 
 use super::Optimizer;
+#[cfg(feature = "debug")]
+use crate::debug::dump;
 use crate::{
     compress::{optimize::Ctx, util::negate_cost},
-    debug::dump,
     mode::Mode,
 };
 
@@ -67,6 +68,7 @@ where
             "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
              negation)",
         );
+        #[cfg(feature = "debug")]
         let start = dump(&*e, false);
 
         e.op = if e.op == op!("&&") {

@@ -30,6 +30,6 @@ const b = shouldBeB; // works
 function inGeneric(alsoShouldBeB) {
     const b = alsoShouldBeB;
 }
-function bar(x) {
-    let ab = x;
+function bar(x1) {
+    let ab1 = x1;
 }

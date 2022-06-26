@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // generic types should behave as if they have properties of their constraint type
 var A = /*#__PURE__*/ function() {
     "use strict";
@@ -35,12 +35,12 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a1 = x["foo"](); // should be string
-        return a1 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     };
     _proto.g = function g(x) {
-        var a2 = x["foo"](); // should be string
-        return a2 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     };
     return C;
 }();
@@ -77,8 +77,8 @@ var r3c = a(aB, aB).foo();
 var r3d = a(aB, aB)["foo"]();
 var b = {
     foo: function(x, y) {
-        var a3 = x["foo"](); // should be string
-        return a3 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     }
 };
 //var b = {

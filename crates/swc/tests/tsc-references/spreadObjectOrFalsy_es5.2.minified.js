@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 var Foo = function() {
     "use strict";
     function Foo() {

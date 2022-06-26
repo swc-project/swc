@@ -33,14 +33,15 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -60,13 +61,13 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 32,
-                "end": 47,
+                "end": 52,
                 "ctxt": 0
               },
               "tagName": "h2",
@@ -80,10 +81,11 @@
                     "end": 47,
                     "ctxt": 0
                   },
-                  "value": "HTML Images"
+                  "data": "HTML Images"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -92,13 +94,13 @@
                 "end": 53,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 53,
-                "end": 97,
+                "end": 101,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -112,10 +114,11 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "value": "HTML images are defined with the img tag:"
+                  "data": "HTML images are defined with the img tag:"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -124,7 +127,7 @@
                 "end": 103,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -186,7 +189,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -195,13 +199,15 @@
                 "end": 191,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

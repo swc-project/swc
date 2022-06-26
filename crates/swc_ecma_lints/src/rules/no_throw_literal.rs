@@ -95,7 +95,7 @@ impl NoThrowLiteral {
         }
 
         if let Expr::Ident(Ident { sym, .. }) = arg {
-            if &*sym == "undefined" {
+            if sym == "undefined" {
                 self.emit_report(throw_stmt.span, NO_THROW_UNDEFINED);
             }
         }

@@ -1,4 +1,4 @@
 var r = {
-    s: new Object()
+    s: {}
 };
 r.s && r.s.toFixed();

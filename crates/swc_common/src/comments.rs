@@ -518,7 +518,7 @@ impl SingleThreadedComments {
         F: FnOnce(&[Comment]) -> Ret,
     {
         if let Some(comments) = self.leading.borrow().get(&pos) {
-            op(&*comments)
+            op(comments)
         } else {
             op(&[])
         }
@@ -529,7 +529,7 @@ impl SingleThreadedComments {
         F: FnOnce(&[Comment]) -> Ret,
     {
         if let Some(comments) = self.trailing.borrow().get(&pos) {
-            op(&*comments)
+            op(comments)
         } else {
             op(&[])
         }

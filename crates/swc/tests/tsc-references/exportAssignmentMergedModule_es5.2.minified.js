@@ -1,12 +1,12 @@
-!function(Foo1) {
-    Foo1.a = function() {
+!function(Foo) {
+    Foo.a = function() {
         return 5;
-    }, Foo1.b = !0;
-}(Foo || (Foo = {})), function(Foo2) {
-    Foo2.c = function(a) {
+    }, Foo.b = !0;
+}(Foo || (Foo = {})), function(Foo) {
+    Foo.c = function(a) {
         return a;
-    }, (Foo2.Test || (Foo2.Test = {})).answer = 42;
-}(Foo || (Foo = {})), module.exports = Foo;
+    }, (Foo.Test || (Foo.Test = {})).answer = 42;
+}(Foo || (Foo = {}));
 var Foo, foo = require("./foo_0");
-foo.a(), foo.b && (foo.Test.answer = foo.c(42));
+foo.a(), foo.b && (foo.Test.answer = foo.c(42)), module.exports = Foo;
 export { };

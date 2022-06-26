@@ -1,4 +1,4 @@
-for(var a = (b)=>{
-    var a = +b;
-    return console.log(a + a) && 0;
+for(var a = (a)=>{
+    var b = +a;
+    return console.log(b + b) && 0;
 }; a(1););

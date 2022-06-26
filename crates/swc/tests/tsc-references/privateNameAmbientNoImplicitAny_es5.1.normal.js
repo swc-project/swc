@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 var _prop = /*#__PURE__*/ new WeakMap();
 var B = function B() {
     "use strict";

@@ -1,12 +1,12 @@
 var enumdule;
-(function(enumdule1) {
+(function(enumdule) {
     class Point {
-        constructor(x1, y1){
-            this.x = x1;
-            this.y = y1;
+        constructor(x, y){
+            this.x = x;
+            this.y = y;
         }
     }
-    enumdule1.Point = Point;
+    enumdule.Point = Point;
 })(enumdule || (enumdule = {}));
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";

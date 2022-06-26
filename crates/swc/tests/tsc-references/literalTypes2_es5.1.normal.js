@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
@@ -222,8 +222,8 @@ function makeArray(x) {
         x
     ];
 }
-function append(a1, x) {
-    var result = a1.slice();
+function append(a, x) {
+    var result = a.slice();
     result.push(x);
     return result;
 }

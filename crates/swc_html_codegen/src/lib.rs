@@ -2,10 +2,12 @@
 #![allow(clippy::needless_update)]
 
 pub use std::fmt::Result;
+use std::{iter::Peekable, str::Chars};
 
 use swc_common::Spanned;
 use swc_html_ast::*;
 use swc_html_codegen_macros::emitter;
+use swc_html_utils::HTML_ENTITIES;
 use writer::HtmlWriter;
 
 pub use self::emit::*;
@@ -18,57 +20,60 @@ mod emit;
 mod list;
 pub mod writer;
 
-#[derive(Debug, Clone, Copy, Default)]
-pub struct CodegenConfig {
+#[derive(Debug, Clone, Default)]
+pub struct CodegenConfig<'a> {
     pub minify: bool,
     pub scripting_enabled: bool,
+    /// Should be used only for `DocumentFragment` code generation
+    pub context_element: Option<&'a Element>,
+    /// By default `true` when `minify` enabled, otherwise `false`
+    pub tag_omission: Option<bool>,
+    /// By default `false` when `minify` enabled, otherwise `true`
+    pub self_closing_void_elements: Option<bool>,
+}
+
+enum TagOmissionParent<'a> {
+    Document(&'a Document),
+    DocumentFragment(&'a DocumentFragment),
+    Element(&'a Element),
 }
 
 #[derive(Debug)]
-pub struct CodeGenerator<W>
+pub struct CodeGenerator<'a, W>
 where
     W: HtmlWriter,
 {
     wr: W,
-    config: CodegenConfig,
+    config: CodegenConfig<'a>,
     ctx: Ctx,
     // For legacy `<plaintext>`
     is_plaintext: bool,
+    tag_omission: bool,
+    self_closing_void_elements: bool,
 }
 
-impl<W> CodeGenerator<W>
+impl<'a, W> CodeGenerator<'a, W>
 where
     W: HtmlWriter,
 {
-    pub fn new(wr: W, config: CodegenConfig) -> Self {
+    pub fn new(wr: W, config: CodegenConfig<'a>) -> Self {
+        let tag_omission = config.tag_omission.unwrap_or(config.minify);
+        let self_closing_void_elements = config.tag_omission.unwrap_or(!config.minify);
+
         CodeGenerator {
             wr,
             config,
             ctx: Default::default(),
             is_plaintext: false,
+            tag_omission,
+            self_closing_void_elements,
         }
     }
 
     #[emitter]
     fn emit_document(&mut self, n: &Document) -> Result {
-        if self.config.minify {
-            for (idx, node) in n.children.iter().enumerate() {
-                match node {
-                    Child::Element(element) => {
-                        let prev = if idx > 0 {
-                            n.children.get(idx - 1)
-                        } else {
-                            None
-                        };
-                        let next = n.children.get(idx + 1);
-
-                        self.basic_emit_element(element, None, prev, next)?;
-                    }
-                    _ => {
-                        emit!(self, node)
-                    }
-                }
-            }
+        if self.tag_omission {
+            self.emit_list_for_tag_omission(TagOmissionParent::Document(n))?;
         } else {
             self.emit_list(&n.children, ListFormat::NotDelimited)?;
         }
@@ -76,26 +81,18 @@ where
 
     #[emitter]
     fn emit_document_fragment(&mut self, n: &DocumentFragment) -> Result {
-        if self.config.minify {
-            for (idx, node) in n.children.iter().enumerate() {
-                match node {
-                    Child::Element(element) => {
-                        let prev = if idx > 0 {
-                            n.children.get(idx - 1)
-                        } else {
-                            None
-                        };
-                        let next = n.children.get(idx + 1);
-
-                        self.basic_emit_element(element, None, prev, next)?;
-                    }
-                    _ => {
-                        emit!(self, node)
-                    }
-                }
-            }
+        let ctx = if let Some(context_element) = &self.config.context_element {
+            self.create_context_for_element(context_element)
         } else {
-            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+            Default::default()
+        };
+
+        if self.tag_omission {
+            self.with_ctx(ctx)
+                .emit_list_for_tag_omission(TagOmissionParent::DocumentFragment(n))?;
+        } else {
+            self.with_ctx(ctx)
+                .emit_list(&n.children, ListFormat::NotDelimited)?;
         }
     }
 
@@ -183,8 +180,12 @@ where
         prev: Option<&Child>,
         next: Option<&Child>,
     ) -> Result {
+        if self.is_plaintext {
+            return Ok(());
+        }
+
         let has_attributes = !n.attributes.is_empty();
-        let can_omit_start_tag = self.config.minify
+        let can_omit_start_tag = self.tag_omission
             && !has_attributes
             && n.namespace == Namespace::HTML
             && match &*n.tag_name {
@@ -208,7 +209,8 @@ where
                     if n.children.is_empty()
                         || (match n.children.get(0) {
                             Some(Child::Text(text))
-                                if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                                if text.data.len() > 0
+                                    && text.data.chars().next().unwrap().is_ascii_whitespace() =>
                             {
                                 false
                             }
@@ -298,25 +300,8 @@ where
                 _ => false,
             };
 
-        if !can_omit_start_tag {
-            write_raw!(self, "<");
-            write_raw!(self, &n.tag_name);
-
-            if has_attributes {
-                space!(self);
-
-                self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
-            }
-
-            write_raw!(self, ">");
-
-            if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
-                newline!(self);
-            }
-        }
-
-        let no_children = n.namespace == Namespace::HTML
-            && matches!(
+        let is_void_element = match n.namespace {
+            Namespace::HTML => matches!(
                 &*n.tag_name,
                 "area"
                     | "base"
@@ -336,35 +321,86 @@ where
                     | "source"
                     | "track"
                     | "wbr"
-            );
+            ),
+            Namespace::SVG => n.children.is_empty(),
+            Namespace::MATHML => n.children.is_empty(),
+            _ => false,
+        };
 
-        if no_children {
+        if !can_omit_start_tag {
+            write_raw!(self, "<");
+            write_raw!(self, &n.tag_name);
+
+            if has_attributes {
+                space!(self);
+
+                self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
+            }
+
+            if (matches!(n.namespace, Namespace::SVG | Namespace::MATHML) && is_void_element)
+                || (self.self_closing_void_elements
+                    && n.is_self_closing
+                    && is_void_element
+                    && matches!(n.namespace, Namespace::HTML))
+            {
+                if self.config.minify {
+                    let need_space = match n.attributes.last() {
+                        Some(Attribute {
+                            value: Some(value), ..
+                        }) => !value.chars().any(|c| match c {
+                            c if c.is_ascii_whitespace() => true,
+                            '`' | '=' | '<' | '>' | '"' | '\'' => true,
+                            _ => false,
+                        }),
+                        _ => false,
+                    };
+
+                    if need_space {
+                        write_raw!(self, " ");
+                    }
+                } else {
+                    write_raw!(self, " ");
+                }
+
+                write_raw!(self, "/");
+            }
+
+            write_raw!(self, ">");
+
+            if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
+                newline!(self);
+            }
+        }
+
+        if is_void_element {
             return Ok(());
         }
 
-        self.is_plaintext = matches!(&*n.tag_name, "plaintext");
+        if !self.is_plaintext {
+            self.is_plaintext = matches!(&*n.tag_name, "plaintext");
+        }
 
         if let Some(content) = &n.content {
             emit!(self, content);
         } else if !n.children.is_empty() {
-            let skip_escape_text = match &*n.tag_name {
-                "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" => true,
-                "noscript" => self.config.scripting_enabled,
-                _ if self.is_plaintext => true,
-                _ => false,
-            };
-            let need_extra_newline_in_text =
+            let ctx = self.create_context_for_element(n);
+
+            let need_extra_newline =
                 n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
-            let ctx = Ctx {
-                skip_escape_text,
-                need_extra_newline_in_text,
-                ..self.ctx
-            };
+            if need_extra_newline {
+                if let Some(Child::Text(Text { data, .. })) = &n.children.first() {
+                    if data.contains('\n') {
+                        newline!(self);
+                    } else {
+                        formatting_newline!(self);
+                    }
+                }
+            }
 
-            if self.config.minify {
+            if self.tag_omission {
                 self.with_ctx(ctx)
-                    .emit_list_for_tag_omission(n, &n.children)?;
+                    .emit_list_for_tag_omission(TagOmissionParent::Element(n))?;
             } else {
                 self.with_ctx(ctx)
                     .emit_list(&n.children, ListFormat::NotDelimited)?;
@@ -372,7 +408,7 @@ where
         }
 
         let can_omit_end_tag = self.is_plaintext
-            || (self.config.minify
+            || (self.tag_omission
                 && n.namespace == Namespace::HTML
                 && match &*n.tag_name {
                     // Tag omission in text/html:
@@ -387,7 +423,7 @@ where
                     // immediately followed by ASCII whitespace or a comment.
                     "head" => match next {
                         Some(Child::Text(text))
-                            if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                            if text.data.chars().next().unwrap().is_ascii_whitespace() =>
                         {
                             false
                         }
@@ -451,7 +487,19 @@ where
                             }) if is_html_tag_name(*namespace, &**tag_name)
                                 && !matches!(
                                     &**tag_name,
-                                    "a" | "audio" | "del" | "ins" | "map" | "noscript" | "video"
+                                    "a" | "audio"
+                                        | "acronym"
+                                        | "big"
+                                        | "del"
+                                        | "font"
+                                        | "ins"
+                                        | "tt"
+                                        | "strike"
+                                        | "map"
+                                        | "noscript"
+                                        | "video"
+                                        | "kbd"
+                                        | "rbc"
                                 ) =>
                             {
                                 true
@@ -466,15 +514,29 @@ where
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
                     // element.
-                    "li" => match next {
-                        Some(Child::Element(Element {
+                    "li" if match parent {
+                        Some(Element {
                             namespace,
                             tag_name,
                             ..
-                        })) if *namespace == Namespace::HTML && tag_name == "li" => true,
-                        None => true,
+                        }) if *namespace == Namespace::HTML
+                            && matches!(&**tag_name, "ul" | "ol" | "menu") =>
+                        {
+                            true
+                        }
                         _ => false,
-                    },
+                    } =>
+                    {
+                        match next {
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) if *namespace == Namespace::HTML && tag_name == "li" => true,
+                            None => true,
+                            _ => false,
+                        }
+                    }
                     // A dt element's end tag can be omitted if the dt element is immediately
                     // followed by another dt element or a dd element.
                     "dt" => match next {
@@ -595,7 +657,7 @@ where
                     // immediately followed by ASCII whitespace or a comment.
                     "caption" | "colgroup" => match next {
                         Some(Child::Text(text))
-                            if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                            if text.data.chars().next().unwrap().is_ascii_whitespace() =>
                         {
                             false
                         }
@@ -685,7 +747,18 @@ where
 
     #[emitter]
     fn emit_attribute(&mut self, n: &Attribute) -> Result {
-        let mut attribute = String::new();
+        let mut attribute = String::with_capacity(
+            if let Some(prefix) = &n.prefix {
+                prefix.len() + 1
+            } else {
+                0
+            } + n.name.len()
+                + if let Some(value) = &n.value {
+                    value.len() + 1
+                } else {
+                    0
+                },
+        );
 
         if let Some(prefix) = &n.prefix {
             attribute.push_str(prefix);
@@ -713,22 +786,18 @@ where
 
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
-        if self.ctx.skip_escape_text {
-            write_str!(self, n.span, &n.value);
-        } else {
-            let mut data = String::with_capacity(n.value.len());
-
-            if self.ctx.need_extra_newline_in_text && n.value.contains('\n') {
-                data.push('\n');
-            }
+        if self.ctx.need_escape_text {
+            let mut data = String::with_capacity(n.data.len());
 
             if self.config.minify {
-                data.push_str(&minify_text(&n.value));
+                data.push_str(&minify_text(&n.data));
             } else {
-                data.push_str(&escape_string(&n.value, false));
+                data.push_str(&escape_string(&n.data, false));
             }
 
             write_str!(self, n.span, &data);
+        } else {
+            write_str!(self, n.span, &n.data);
         }
     }
 
@@ -743,263 +812,46 @@ where
         write_str!(self, n.span, &comment);
     }
 
-    #[emitter]
-    fn emit_token_and_span(&mut self, n: &TokenAndSpan) -> Result {
-        let span = n.span;
+    fn create_context_for_element(&self, n: &Element) -> Ctx {
+        let need_escape_text = match &*n.tag_name {
+            "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" | "plaintext" => false,
+            "noscript" => !self.config.scripting_enabled,
+            _ if self.is_plaintext => false,
+            _ => true,
+        };
 
-        match &n.token {
-            Token::Doctype {
-                raw_keyword,
-                name,
-                raw_name,
-                public_quote,
-                raw_public_keyword,
-                public_id,
-                raw_system_keyword,
-                system_quote,
-                system_id,
-                ..
-            } => {
-                let mut doctype = String::new();
-
-                doctype.push('<');
-                doctype.push('!');
-
-                if let Some(raw_keyword) = &raw_keyword {
-                    doctype.push_str(raw_keyword);
-                } else {
-                    doctype.push_str("DOCTYPE");
-                }
-
-                if let Some(raw_name) = &raw_name {
-                    doctype.push(' ');
-                    doctype.push_str(raw_name);
-                } else if let Some(name) = &name {
-                    doctype.push(' ');
-                    doctype.push_str(name);
-                }
-
-                if let Some(public_id) = &public_id {
-                    doctype.push(' ');
-
-                    match raw_public_keyword {
-                        Some(raw_public_keyword) => {
-                            doctype.push_str(raw_public_keyword);
-                            doctype.push(' ');
-                        }
-                        _ => {
-                            doctype.push_str("PUBLIC");
-                            doctype.push(' ');
-                        }
-                    }
-
-                    match public_quote {
-                        Some(public_quote) => {
-                            doctype.push(*public_quote);
-                        }
-                        _ => {
-                            doctype.push('"');
-                        }
-                    }
-
-                    doctype.push_str(public_id);
-
-                    match public_quote {
-                        Some(public_quote) => {
-                            doctype.push(*public_quote);
-                        }
-                        _ => {
-                            doctype.push('"');
-                        }
-                    }
-
-                    if let Some(system_id) = &system_id {
-                        doctype.push(' ');
-
-                        match system_quote {
-                            Some(system_quote) => {
-                                doctype.push(*system_quote);
-                            }
-                            _ => {
-                                doctype.push('"');
-                            }
-                        }
-
-                        doctype.push_str(system_id);
-
-                        match system_quote {
-                            Some(system_quote) => {
-                                doctype.push(*system_quote);
-                            }
-                            _ => {
-                                doctype.push('"');
-                            }
-                        }
-                    }
-                } else if let Some(system_id) = &system_id {
-                    doctype.push(' ');
-
-                    match raw_system_keyword {
-                        Some(raw_system_keyword) => {
-                            doctype.push_str(raw_system_keyword);
-                            doctype.push(' ');
-                        }
-                        _ => {
-                            doctype.push_str("SYSTEM");
-                            doctype.push(' ');
-                        }
-                    }
-
-                    match system_quote {
-                        Some(system_quote) => {
-                            doctype.push(*system_quote);
-                        }
-                        _ => {
-                            doctype.push('"');
-                        }
-                    }
-
-                    doctype.push_str(system_id);
-
-                    match system_quote {
-                        Some(system_quote) => {
-                            doctype.push(*system_quote);
-                        }
-                        _ => {
-                            doctype.push('"');
-                        }
-                    }
-                }
-
-                doctype.push('>');
-
-                write_raw!(self, span, &doctype);
-            }
-            Token::StartTag {
-                tag_name,
-                raw_tag_name,
-                attributes,
-                self_closing,
-            } => {
-                let mut start_tag = String::new();
-
-                start_tag.push('<');
-
-                match raw_tag_name {
-                    Some(raw_tag_name) => {
-                        start_tag.push_str(raw_tag_name);
-                    }
-                    _ => {
-                        start_tag.push_str(tag_name);
-                    }
-                }
-
-                for attribute in attributes {
-                    start_tag.push(' ');
-
-                    match &attribute.raw_name {
-                        Some(raw_name) => {
-                            start_tag.push_str(raw_name);
-                        }
-                        _ => {
-                            start_tag.push_str(&attribute.name);
-                        }
-                    }
-                    if let Some(raw_value) = &attribute.raw_value {
-                        start_tag.push('=');
-
-                        start_tag.push_str(raw_value);
-                    } else if let Some(value) = &attribute.value {
-                        start_tag.push('=');
-
-                        let quote = if value.contains('"') { '\'' } else { '"' };
-
-                        start_tag.push(quote);
-                        start_tag.push_str(value);
-                        start_tag.push(quote);
-                    }
-                }
-
-                if *self_closing {
-                    start_tag.push('/');
-                }
-
-                start_tag.push('>');
-
-                write_raw!(self, span, &start_tag);
-            }
-            Token::EndTag {
-                tag_name,
-                raw_tag_name,
-                attributes,
-                ..
-            } => {
-                let mut start_tag = String::new();
-
-                start_tag.push_str("</");
-
-                match raw_tag_name {
-                    Some(raw_tag_name) => {
-                        start_tag.push_str(raw_tag_name);
-                    }
-                    _ => {
-                        start_tag.push_str(tag_name);
-                    }
-                }
-
-                for attribute in attributes {
-                    start_tag.push(' ');
-
-                    match &attribute.raw_name {
-                        Some(raw_name) => {
-                            start_tag.push_str(raw_name);
-                        }
-                        _ => {
-                            start_tag.push_str(&attribute.name);
-                        }
-                    }
-
-                    if let Some(raw_value) = &attribute.raw_value {
-                        start_tag.push('=');
-
-                        start_tag.push_str(raw_value);
-                    } else if let Some(value) = &attribute.value {
-                        start_tag.push('=');
-
-                        let quote = if value.contains('"') { '\'' } else { '"' };
-
-                        start_tag.push(quote);
-                        start_tag.push_str(value);
-                        start_tag.push(quote);
-                    }
-                }
-
-                start_tag.push('>');
-
-                write_str!(self, span, &start_tag);
-            }
-            Token::Comment { data } => {
-                let mut comment = String::new();
-
-                comment.push_str("<!--");
-                comment.push_str(data);
-                comment.push_str("-->");
-
-                write_str!(self, span, &comment);
-            }
-            Token::Character { value, .. } => {
-                let new_value = match value {
-                    '&' => String::from("&amp;"),
-                    '<' => String::from("&lt;"),
-                    '>' => String::from("&gt;"),
-                    '\u{00A0}' => String::from("&nbsp;"),
-                    _ => value.to_string(),
-                };
-
-                write_str!(self, span, &new_value);
-            }
-            Token::Eof => {}
+        Ctx {
+            need_escape_text,
+            ..self.ctx
         }
+    }
+
+    fn emit_list_for_tag_omission(&mut self, parent: TagOmissionParent) -> Result {
+        let nodes = match &parent {
+            TagOmissionParent::Document(document) => &document.children,
+            TagOmissionParent::DocumentFragment(document_fragment) => &document_fragment.children,
+            TagOmissionParent::Element(element) => &element.children,
+        };
+        let parent = match parent {
+            TagOmissionParent::Element(element) => Some(element),
+            _ => None,
+        };
+
+        for (idx, node) in nodes.iter().enumerate() {
+            match node {
+                Child::Element(element) => {
+                    let prev = if idx > 0 { nodes.get(idx - 1) } else { None };
+                    let next = nodes.get(idx + 1);
+
+                    self.basic_emit_element(element, parent, prev, next)?;
+                }
+                _ => {
+                    emit!(self, node)
+                }
+            }
+        }
+
+        Ok(())
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
@@ -1017,24 +869,6 @@ where
             }
 
             emit!(self, node)
-        }
-
-        Ok(())
-    }
-
-    fn emit_list_for_tag_omission(&mut self, parent: &Element, nodes: &[Child]) -> Result {
-        for (idx, node) in nodes.iter().enumerate() {
-            match node {
-                Child::Element(element) => {
-                    let prev = if idx > 0 { nodes.get(idx - 1) } else { None };
-                    let next = nodes.get(idx + 1);
-
-                    self.basic_emit_element(element, Some(parent), prev, next)?;
-                }
-                _ => {
-                    emit!(self, node)
-                }
-            }
         }
 
         Ok(())
@@ -1064,10 +898,12 @@ fn minify_attribute_value(value: &str) -> String {
     let mut dq = 0;
     let mut sq = 0;
 
-    for c in value.chars() {
+    let mut chars = value.chars().peekable();
+
+    while let Some(c) = chars.next() {
         match c {
             '&' => {
-                minified.push_str("&amp;");
+                minified.push_str(&minify_amp(&mut chars));
 
                 continue;
             }
@@ -1097,9 +933,9 @@ fn minify_attribute_value(value: &str) -> String {
     }
 
     if dq > sq {
-        format!("'{}'", minified)
+        format!("'{}'", minified.replace('\'', "&apos;"))
     } else {
-        format!("\"{}\"", minified)
+        format!("\"{}\"", minified.replace('"', "&quot;"))
     }
 }
 
@@ -1119,16 +955,105 @@ fn normalize_attribute_value(value: &str) -> String {
 
 fn minify_text(value: &str) -> String {
     let mut result = String::with_capacity(value.len());
+    let mut chars = value.chars().peekable();
 
-    for c in value.chars() {
+    while let Some(c) = chars.next() {
         match c {
             '&' => {
-                result.push_str("&amp;");
+                result.push_str(&minify_amp(&mut chars));
             }
             '<' => {
                 result.push_str("&lt;");
             }
             _ => result.push(c),
+        }
+    }
+
+    result
+}
+
+fn minify_amp(chars: &mut Peekable<Chars>) -> String {
+    let mut result = String::with_capacity(7);
+
+    match chars.next() {
+        Some(hash @ '#') => {
+            match chars.next() {
+                // HTML CODE
+                // Prevent `&amp;#38;` -> `&#38`
+                Some(number @ '0'..='9') => {
+                    result.push_str("&amp;");
+                    result.push(hash);
+                    result.push(number);
+                }
+                Some(x @ 'x' | x @ 'X') => {
+                    match chars.peek() {
+                        // HEX CODE
+                        // Prevent `&amp;#x38;` -> `&#x38`
+                        Some(c) if c.is_ascii_hexdigit() => {
+                            result.push_str("&amp;");
+                            result.push(hash);
+                            result.push(x);
+                        }
+                        _ => {
+                            result.push('&');
+                            result.push(hash);
+                            result.push(x);
+                        }
+                    }
+                }
+                any => {
+                    result.push('&');
+                    result.push(hash);
+
+                    if let Some(any) = any {
+                        result.push(any);
+                    }
+                }
+            }
+        }
+        // Named entity
+        // Prevent `&amp;current` -> `&current`
+        Some(c @ 'a'..='z') | Some(c @ 'A'..='Z') => {
+            let mut entity_temporary_buffer = String::with_capacity(33);
+
+            entity_temporary_buffer.push('&');
+            entity_temporary_buffer.push(c);
+
+            let mut found_entity = false;
+
+            // No need to validate input, because we reset position if nothing was found
+            for c in chars {
+                entity_temporary_buffer.push(c);
+
+                if HTML_ENTITIES.get(&entity_temporary_buffer).is_some() {
+                    found_entity = true;
+
+                    break;
+                } else {
+                    // We stop when:
+                    //
+                    // - not ascii alphanumeric
+                    // - we consume more characters than the longest entity
+                    if !c.is_ascii_alphanumeric() || entity_temporary_buffer.len() > 32 {
+                        break;
+                    }
+                }
+            }
+
+            if found_entity {
+                result.push_str("&amp;");
+                result.push_str(&entity_temporary_buffer[1..]);
+            } else {
+                result.push('&');
+                result.push_str(&entity_temporary_buffer[1..]);
+            }
+        }
+        any => {
+            result.push('&');
+
+            if let Some(any) = any {
+                result.push(any);
+            }
         }
     }
 
@@ -1180,6 +1105,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
     matches!(
         tag_name,
         "a" | "abbr"
+            | "acronym"
             | "address"
             | "applet"
             | "area"
@@ -1188,8 +1114,10 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "audio"
             | "b"
             | "base"
+            | "basefont"
             | "bdi"
             | "bdo"
+            | "big"
             | "blockquote"
             | "body"
             | "br"
@@ -1217,8 +1145,11 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "fieldset"
             | "figcaption"
             | "figure"
+            | "font"
             | "footer"
             | "form"
+            | "frame"
+            | "frameset"
             | "h1"
             | "h2"
             | "h3"
@@ -1236,6 +1167,9 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "img"
             | "input"
             | "ins"
+            | "isindex"
+            | "kbd"
+            | "keygen"
             | "label"
             | "legend"
             | "li"
@@ -1246,12 +1180,14 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "mark"
             | "marquee"
             | "menu"
-            | "menuitem"
+            // Removed from spec, but we keep here to track it
+            // | "menuitem"
             | "meta"
             | "meter"
             | "nav"
             | "nobr"
             | "noembed"
+            | "noframes"
             | "noscript"
             | "object"
             | "ol"
@@ -1261,10 +1197,12 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "p"
             | "param"
             | "picture"
+            | "plaintext"
             | "pre"
             | "progress"
             | "q"
             | "rb"
+            | "rbc"
             | "rp"
             | "rt"
             | "rtc"
@@ -1277,6 +1215,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "small"
             | "source"
             | "span"
+            | "strike"
             | "strong"
             | "style"
             | "sub"
@@ -1294,6 +1233,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "title"
             | "tr"
             | "track"
+            | "tt"
             | "u"
             | "ul"
             | "var"

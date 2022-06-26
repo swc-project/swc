@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _possible_constructor_return from "@swc/helpers/lib/_possible_constructor_return.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _possible_constructor_return from "@swc/helpers/src/_possible_constructor_return.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -197,9 +197,9 @@ export var M = /*#__PURE__*/ function(_superClass) {
     return O;
 }(N);
 var x = /** @type {*} */ (null);
-export var VariableBase = /*#__PURE__*/ function(x1) {
+export var VariableBase = /*#__PURE__*/ function(x) {
     "use strict";
-    _inherits(VariableBase, x1);
+    _inherits(VariableBase, x);
     var _super = _create_super(VariableBase);
     function VariableBase() {
         _class_call_check(this, VariableBase);

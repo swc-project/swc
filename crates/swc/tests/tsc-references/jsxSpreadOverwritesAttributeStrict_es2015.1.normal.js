@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 // @filename: file.tsx
 // @jsx: preserve
 // @strict: true
@@ -10,7 +10,7 @@ const props = {
     a: 1,
     b: 1
 };
-const Foo = (props1)=>/*#__PURE__*/ React.createElement("div", null, props1.a);
+const Foo = (props)=>/*#__PURE__*/ React.createElement("div", null, props.a);
 // ok
 const a1 = /*#__PURE__*/ React.createElement(Foo, _extends({}, props));
 const a2 = /*#__PURE__*/ React.createElement(Foo, _extends({

@@ -40,7 +40,7 @@
                     return bytesMatch;
                 }
             });
-            var a1, b1, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
+            var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
                 var obj;
                 return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || (obj = bytes, ArrayBuffer.isView(obj)) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
@@ -55,9 +55,9 @@
                 BigInt("0x1000000000000"),
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000"), 
-            ], bytesToNumber = (a1 = new Uint16Array([
+            ], bytesToNumber = (a = new Uint16Array([
                 0xffcc
-            ]), 0xff === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || b1[0], function(bytes, _temp) {
+            ]), 0xff === (b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength))[0] || b[0], function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
                 var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
@@ -91,7 +91,7 @@
                 for(var view = new Uint8Array(string.length), i = 0; i < string.length; i++)view[i] = string.charCodeAt(i);
                 return view;
             }, concatTypedArrays = function() {
-                for(var _len = arguments.length, buffers = new Array(_len), _key = 0; _key < _len; _key++)buffers[_key] = arguments[_key];
+                for(var _len = arguments.length, buffers = Array(_len), _key = 0; _key < _len; _key++)buffers[_key] = arguments[_key];
                 if ((buffers = buffers.filter(function(b) {
                     return b && (b.byteLength || b.length) && "string" != typeof b;
                 })).length <= 1) return toUint8(buffers[0]);
@@ -243,13 +243,13 @@
                 0x61,
                 0x64, 
             ]);
-            var normalizePath1 = function(path) {
+            var normalizePath = function(path) {
                 return "string" == typeof path ? (0, byte_helpers.qX)(path) : path;
             }, normalizePaths = function(paths) {
                 return Array.isArray(paths) ? paths.map(function(p) {
-                    return normalizePath1(p);
+                    return normalizePath(p);
                 }) : [
-                    normalizePath1(paths)
+                    normalizePath(paths)
                 ];
             }, parseDescriptors = function(bytes) {
                 bytes = (0, byte_helpers.Ki)(bytes);
@@ -322,7 +322,7 @@
                     }
                 }, 
             ];
-            var findBox1 = function findBox(bytes, paths, complete) {
+            var findBox = function findBox(bytes, paths, complete) {
                 void 0 === complete && (complete = !1), paths = normalizePaths(paths), bytes = (0, byte_helpers.Ki)(bytes);
                 var results = [];
                 if (!paths.length) return results;
@@ -452,13 +452,13 @@
                 return "string" == typeof path ? path.match(/.{1,2}/g).map(function(p) {
                     return normalizePath(p);
                 }) : "number" == typeof path ? (0, byte_helpers.hL)(path) : path;
-            }, getInfinityDataSize1 = function getInfinityDataSize(id, bytes, offset) {
+            }, getInfinityDataSize = function getInfinityDataSize(id, bytes, offset) {
                 if (offset >= bytes.length) return bytes.length;
                 var innerid = getvint(bytes, offset, !1);
                 if ((0, byte_helpers.G3)(id.bytes, innerid.bytes)) return offset;
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
-            }, findEbml1 = function findEbml(bytes, paths) {
+            }, findEbml = function findEbml(bytes, paths) {
                 paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
@@ -468,7 +468,7 @@
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
-                    0x7f === dataHeader.value && (dataHeader.value = getInfinityDataSize1(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
+                    0x7f === dataHeader.value && (dataHeader.value = getInfinityDataSize(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
                     var dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
                     (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1))));
                     var totalLength = id.length + dataHeader.length + data.length;
@@ -625,14 +625,14 @@
                     });
                 },
                 webm: function(bytes) {
-                    var docType = findEbml1(bytes, [
+                    var docType = findEbml(bytes, [
                         EBML_TAGS.EBML,
                         EBML_TAGS.DocType, 
                     ])[0];
                     return (0, byte_helpers.G3)(docType, CONSTANTS.webm);
                 },
                 mkv: function(bytes) {
-                    var docType = findEbml1(bytes, [
+                    var docType = findEbml(bytes, [
                         EBML_TAGS.EBML,
                         EBML_TAGS.DocType, 
                     ])[0];
@@ -722,7 +722,7 @@
                 }
                 return "";
             }, isLikelyFmp4MediaSegment = function(bytes) {
-                return findBox1(bytes, [
+                return findBox(bytes, [
                     "moof"
                 ]).length > 0;
             };
@@ -744,7 +744,7 @@
             "use strict";
             __webpack_require__.d(__webpack_exports__, {
                 c: function() {
-                    return getId3Offset1;
+                    return getId3Offset;
                 }
             });
             var _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(562), ID3 = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__.Ki)([
@@ -755,7 +755,7 @@
                 void 0 === offset && (offset = 0);
                 var flags = (bytes = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__.Ki)(bytes))[offset + 5], returnSize = bytes[offset + 6] << 21 | bytes[offset + 7] << 14 | bytes[offset + 8] << 7 | bytes[offset + 9];
                 return (16 & flags) >> 4 ? returnSize + 20 : returnSize + 10;
-            }, getId3Offset1 = function getId3Offset(bytes, offset) {
+            }, getId3Offset = function getId3Offset(bytes, offset) {
                 return (void 0 === offset && (offset = 0), (bytes = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__.Ki)(bytes)).length - offset < 10 || !(0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__.G3)(bytes, ID3, {
                     offset: offset
                 })) ? offset : (offset += getId3Size(bytes, offset), getId3Offset(bytes, offset));
@@ -788,7 +788,7 @@
         },
         3490: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var window = __webpack_require__(8908);
+            var window1 = __webpack_require__(8908);
             module.exports = function(callback, decodeResponseBody) {
                 return void 0 === decodeResponseBody && (decodeResponseBody = !1), function(err, response, responseBody) {
                     if (err) {
@@ -798,13 +798,13 @@
                     if (response.statusCode >= 400 && response.statusCode <= 599) {
                         var cause = responseBody;
                         if (decodeResponseBody) {
-                            if (window.TextDecoder) {
-                                var contentTypeHeader, charset1 = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
+                            if (window1.TextDecoder) {
+                                var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
                                     var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
                                     return "charset" === type.trim() ? value.trim() : charset;
                                 }, "utf-8"));
                                 try {
-                                    cause = new TextDecoder(charset1).decode(responseBody);
+                                    cause = new TextDecoder(charset).decode(responseBody);
                                 } catch (e) {}
                             } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
                         }
@@ -819,7 +819,7 @@
         },
         9603: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var window = __webpack_require__(8908), _extends = __webpack_require__(7154), isFunction = __webpack_require__(7376);
+            var window1 = __webpack_require__(8908), _extends = __webpack_require__(7154), isFunction = __webpack_require__(7376);
             createXHR.httpHandler = __webpack_require__(3490);
             var parseHeaders = function(headers) {
                 var result = {};
@@ -843,12 +843,12 @@
                 return _createXHR(options = initParams(uri, options, callback));
             }
             function _createXHR(options) {
-                if (void 0 === options.callback) throw new Error("callback argument missing");
+                if (void 0 === options.callback) throw Error("callback argument missing");
                 var key, aborted, timeoutTimer, called = !1, callback = function(err, response, body) {
                     called || (called = !0, options.callback(err, response, body));
                 };
                 function errorFunc(evt) {
-                    return clearTimeout(timeoutTimer), evt instanceof Error || (evt = new Error("" + (evt || "Unknown XMLHttpRequest Error"))), evt.statusCode = 0, callback(evt, failureResponse);
+                    return clearTimeout(timeoutTimer), evt instanceof Error || (evt = Error("" + (evt || "Unknown XMLHttpRequest Error"))), evt.statusCode = 0, callback(evt, failureResponse);
                 }
                 function loadFunc() {
                     if (!aborted) {
@@ -867,12 +867,12 @@
                             headers: {},
                             url: uri,
                             rawRequest: xhr
-                        }, xhr.getAllResponseHeaders && (response.headers = parseHeaders(xhr.getAllResponseHeaders()))) : err = new Error("Internal XMLHttpRequest Error"), callback(err, response, response.body);
+                        }, xhr.getAllResponseHeaders && (response.headers = parseHeaders(xhr.getAllResponseHeaders()))) : err = Error("Internal XMLHttpRequest Error"), callback(err, response, response.body);
                     }
                 }
                 var xhr = options.xhr || null;
                 xhr || (xhr = options.cors || options.useXDR ? new createXHR.XDomainRequest() : new createXHR.XMLHttpRequest());
-                var uri = xhr.url = options.uri || options.url, method = xhr.method = options.method || "GET", body1 = options.body || options.data, headers = xhr.headers = options.headers || {}, sync = !!options.sync, isJson = !1, failureResponse = {
+                var uri = xhr.url = options.uri || options.url, method = xhr.method = options.method || "GET", body = options.body || options.data, headers = xhr.headers = options.headers || {}, sync = !!options.sync, isJson = !1, failureResponse = {
                     body: void 0,
                     headers: {},
                     statusCode: 0,
@@ -880,22 +880,22 @@
                     url: uri,
                     rawRequest: xhr
                 };
-                if ("json" in options && !1 !== options.json && (isJson = !0, headers.accept || headers.Accept || (headers.Accept = "application/json"), "GET" !== method && "HEAD" !== method && (headers["content-type"] || headers["Content-Type"] || (headers["Content-Type"] = "application/json"), body1 = JSON.stringify(!0 === options.json ? body1 : options.json))), xhr.onreadystatechange = function() {
+                if ("json" in options && !1 !== options.json && (isJson = !0, headers.accept || headers.Accept || (headers.Accept = "application/json"), "GET" !== method && "HEAD" !== method && (headers["content-type"] || headers["Content-Type"] || (headers["Content-Type"] = "application/json"), body = JSON.stringify(!0 === options.json ? body : options.json))), xhr.onreadystatechange = function() {
                     4 === xhr.readyState && setTimeout(loadFunc, 0);
                 }, xhr.onload = loadFunc, xhr.onerror = errorFunc, xhr.onprogress = function() {}, xhr.onabort = function() {
                     aborted = !0;
                 }, xhr.ontimeout = errorFunc, xhr.open(method, uri, !sync, options.username, options.password), sync || (xhr.withCredentials = !!options.withCredentials), !sync && options.timeout > 0 && (timeoutTimer = setTimeout(function() {
                     if (!aborted) {
                         aborted = !0, xhr.abort("timeout");
-                        var e = new Error("XMLHttpRequest timeout");
+                        var e = Error("XMLHttpRequest timeout");
                         e.code = "ETIMEDOUT", errorFunc(e);
                     }
                 }, options.timeout)), xhr.setRequestHeader) for(key in headers)headers.hasOwnProperty(key) && xhr.setRequestHeader(key, headers[key]);
                 else if (options.headers && !function(obj) {
                     for(var i in obj)if (obj.hasOwnProperty(i)) return !1;
                     return !0;
-                }(options.headers)) throw new Error("Headers cannot be set on an XDomainRequest object");
-                return "responseType" in options && (xhr.responseType = options.responseType), "beforeSend" in options && "function" == typeof options.beforeSend && options.beforeSend(xhr), xhr.send(body1 || null), xhr;
+                }(options.headers)) throw Error("Headers cannot be set on an XDomainRequest object");
+                return "responseType" in options && (xhr.responseType = options.responseType), "beforeSend" in options && "function" == typeof options.beforeSend && options.beforeSend(xhr), xhr.send(body || null), xhr;
             }
             function getXml(xhr) {
                 try {
@@ -905,7 +905,7 @@
                 } catch (e) {}
                 return null;
             }
-            module.exports = createXHR, module.exports.default = createXHR, createXHR.XMLHttpRequest = window.XMLHttpRequest || function() {}, createXHR.XDomainRequest = "withCredentials" in new createXHR.XMLHttpRequest() ? createXHR.XMLHttpRequest : window.XDomainRequest, function(array, iterator) {
+            module.exports = createXHR, module.exports.default = createXHR, createXHR.XMLHttpRequest = window1.XMLHttpRequest || function() {}, createXHR.XDomainRequest = "withCredentials" in new createXHR.XMLHttpRequest() ? createXHR.XMLHttpRequest : window1.XDomainRequest, function(array, iterator) {
                 for(var i = 0; i < array.length; i++)iterator(array[i]);
             }([
                 "get",
@@ -946,7 +946,7 @@
             exports.freeze = freeze, exports.MIME_TYPE = MIME_TYPE, exports.NAMESPACE = NAMESPACE;
         },
         6129: function(__unused_webpack_module, exports, __webpack_require__) {
-            var conventions = __webpack_require__(2167), dom = __webpack_require__(1146), entities = __webpack_require__(1045), sax1 = __webpack_require__(6925), DOMImplementation = dom.DOMImplementation, NAMESPACE = conventions.NAMESPACE, ParseError = sax1.ParseError, XMLReader = sax1.XMLReader;
+            var conventions = __webpack_require__(2167), dom = __webpack_require__(1146), entities = __webpack_require__(1045), sax = __webpack_require__(6925), DOMImplementation = dom.DOMImplementation, NAMESPACE = conventions.NAMESPACE, ParseError = sax.ParseError, XMLReader = sax.XMLReader;
             function DOMParser(options) {
                 this.options = options || {
                     locator: {}
@@ -968,8 +968,8 @@
                 hander.currentElement ? hander.currentElement.appendChild(node) : hander.doc.appendChild(node);
             }
             DOMParser.prototype.parseFromString = function(source, mimeType) {
-                var options = this.options, sax = new XMLReader(), domBuilder1 = options.domBuilder || new DOMHandler(), errorHandler1 = options.errorHandler, locator1 = options.locator, defaultNSMap = options.xmlns || {}, isHTML = /\/x?html?$/.test(mimeType), entityMap = isHTML ? entities.HTML_ENTITIES : entities.XML_ENTITIES;
-                return locator1 && domBuilder1.setDocumentLocator(locator1), sax.errorHandler = function(errorImpl, domBuilder, locator) {
+                var options = this.options, sax = new XMLReader(), domBuilder = options.domBuilder || new DOMHandler(), errorHandler = options.errorHandler, locator = options.locator, defaultNSMap = options.xmlns || {}, isHTML = /\/x?html?$/.test(mimeType), entityMap = isHTML ? entities.HTML_ENTITIES : entities.XML_ENTITIES;
+                return locator && domBuilder.setDocumentLocator(locator), sax.errorHandler = function(errorImpl, domBuilder, locator) {
                     if (!errorImpl) {
                         if (domBuilder instanceof DOMHandler) return domBuilder;
                         errorImpl = domBuilder;
@@ -984,7 +984,7 @@
                         } || function() {};
                     }
                     return locator = locator || {}, build("warning"), build("error"), build("fatalError"), errorHandler;
-                }(errorHandler1, domBuilder1, locator1), sax.domBuilder = options.domBuilder || domBuilder1, isHTML && (defaultNSMap[""] = NAMESPACE.HTML), defaultNSMap.xml = defaultNSMap.xml || NAMESPACE.XML, source && "string" == typeof source ? sax.parse(source, defaultNSMap, entityMap) : sax.errorHandler.error("invalid doc source"), domBuilder1.doc;
+                }(errorHandler, domBuilder, locator), sax.domBuilder = options.domBuilder || domBuilder, isHTML && (defaultNSMap[""] = NAMESPACE.HTML), defaultNSMap.xml = defaultNSMap.xml || NAMESPACE.XML, source && "string" == typeof source ? sax.parse(source, defaultNSMap, entityMap) : sax.errorHandler.error("invalid doc source"), domBuilder.doc;
             }, DOMHandler.prototype = {
                 startDocument: function() {
                     this.doc = new DOMImplementation().createDocument(null, null, null), this.locator && (this.doc.documentURI = this.locator.systemId);
@@ -1120,7 +1120,7 @@
                         var doc = el.ownerDocument;
                         doc && (_onRemoveAttribute(doc, el, attr), attr.ownerElement = null);
                     }
-                } else throw DOMException(NOT_FOUND_ERR, new Error(el.tagName + "@" + attr));
+                } else throw DOMException(NOT_FOUND_ERR, Error(el.tagName + "@" + attr));
             }
             function DOMImplementation() {}
             function Node() {}
@@ -1573,8 +1573,8 @@
                     var attr = this.getAttributeNode(name);
                     attr && this.removeAttributeNode(attr);
                 },
-                appendChild: function(newChild1) {
-                    return newChild1.nodeType === DOCUMENT_FRAGMENT_NODE ? this.insertBefore(newChild1, null) : function(parentNode, newChild) {
+                appendChild: function(newChild) {
+                    return newChild.nodeType === DOCUMENT_FRAGMENT_NODE ? this.insertBefore(newChild, null) : function(parentNode, newChild) {
                         var cp = newChild.parentNode;
                         if (cp) {
                             var pre = parentNode.lastChild;
@@ -1583,7 +1583,7 @@
                         }
                         var pre = parentNode.lastChild;
                         return newChild.parentNode = parentNode, newChild.previousSibling = pre, newChild.nextSibling = null, pre ? pre.nextSibling = newChild : parentNode.firstChild = newChild, parentNode.lastChild = newChild, _onUpdateChild(parentNode.ownerDocument, parentNode, newChild), newChild;
-                    }(this, newChild1);
+                    }(this, newChild);
                 },
                 setAttributeNode: function(newAttr) {
                     return this.attributes.setNamedItem(newAttr);
@@ -1640,7 +1640,7 @@
                     this.replaceData(offset, 0, text);
                 },
                 appendChild: function(newChild) {
-                    throw new Error(ExceptionMessage[HIERARCHY_REQUEST_ERR]);
+                    throw Error(ExceptionMessage[HIERARCHY_REQUEST_ERR]);
                 },
                 deleteData: function(offset, count) {
                     this.replaceData(offset, count, "");
@@ -1962,7 +1962,7 @@
             dom.DOMImplementation, dom.XMLSerializer, exports.DOMParser = __webpack_require__(6129).DOMParser;
         },
         6925: function(__unused_webpack_module, exports, __webpack_require__) {
-            var NAMESPACE = __webpack_require__(2167).NAMESPACE, nameStartChar = /[A-Z_a-z\xC0-\xD6\xD8-\xF6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/, nameChar = new RegExp("[\\-\\.0-9" + nameStartChar.source.slice(1, -1) + "\\u00B7\\u0300-\\u036F\\u203F-\\u2040]"), tagNamePattern = new RegExp("^" + nameStartChar.source + nameChar.source + "*(?::" + nameStartChar.source + nameChar.source + "*)?$");
+            var NAMESPACE = __webpack_require__(2167).NAMESPACE, nameStartChar = /[A-Z_a-z\xC0-\xD6\xD8-\xF6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/, nameChar = RegExp("[\\-\\.0-9" + nameStartChar.source.slice(1, -1) + "\\u00B7\\u0300-\\u036F\\u203F-\\u2040]"), tagNamePattern = RegExp("^" + nameStartChar.source + nameChar.source + "*(?::" + nameStartChar.source + nameChar.source + "*)?$");
             function ParseError(message, locator) {
                 this.message = message, this.locator = locator, Error.captureStackTrace && Error.captureStackTrace(this, ParseError);
             }
@@ -1974,21 +1974,21 @@
                 function addAttribute(qname, value, startIndex) {
                     el.attributeNames.hasOwnProperty(qname) && errorHandler.fatalError("Attribute " + qname + " redefined"), el.addValue(qname, value, startIndex);
                 }
-                for(var attrName, value1, p = ++start, s = 0;;){
+                for(var attrName, value, p = ++start, s = 0;;){
                     var c = source.charAt(p);
                     switch(c){
                         case "=":
                             if (1 === s) attrName = source.slice(start, p), s = 3;
                             else if (2 === s) s = 3;
-                            else throw new Error("attribute equal must after attrName");
+                            else throw Error("attribute equal must after attrName");
                             break;
                         case "'":
                         case '"':
                             if (3 === s || 1 === s) {
-                                if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
-                                else throw new Error("attribute value no end '" + c + "' match");
-                            } else if (4 == s) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
-                            else throw new Error('attribute value must after "="');
+                                if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
+                                else throw Error("attribute value no end '" + c + "' match");
+                            } else if (4 == s) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
+                            else throw Error('attribute value must after "="');
                             break;
                         case "/":
                             switch(s){
@@ -2003,7 +2003,7 @@
                                 case 2:
                                     break;
                                 default:
-                                    throw new Error("attribute invalid close char('/')");
+                                    throw Error("attribute invalid close char('/')");
                             }
                             break;
                         case "":
@@ -2018,12 +2018,12 @@
                                     break;
                                 case 4:
                                 case 1:
-                                    "/" === (value1 = source.slice(start, p)).slice(-1) && (el.closed = !0, value1 = value1.slice(0, -1));
+                                    "/" === (value = source.slice(start, p)).slice(-1) && (el.closed = !0, value = value.slice(0, -1));
                                 case 2:
-                                    2 === s && (value1 = attrName), 4 == s ? (errorHandler.warning('attribute "' + value1 + '" missed quot(")!'), addAttribute(attrName, value1.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value1.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + value1 + '" missed value!! "' + value1 + '" instead!!'), addAttribute(value1, value1, start));
+                                    2 === s && (value = attrName), 4 == s ? (errorHandler.warning('attribute "' + value + '" missed quot(")!'), addAttribute(attrName, value.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + value + '" missed value!! "' + value + '" instead!!'), addAttribute(value, value, start));
                                     break;
                                 case 3:
-                                    throw new Error("attribute value missed!!");
+                                    throw Error("attribute value missed!!");
                             }
                             return p;
                         case "\u0080":
@@ -2037,8 +2037,8 @@
                                     attrName = source.slice(start, p), s = 2;
                                     break;
                                 case 4:
-                                    var value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer);
-                                    errorHandler.warning('attribute "' + value1 + '" missed quot(")!!'), addAttribute(attrName, value1, start);
+                                    var value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer);
+                                    errorHandler.warning('attribute "' + value + '" missed quot(")!!'), addAttribute(attrName, value, start);
                                 case 5:
                                     s = 6;
                             }
@@ -2055,7 +2055,7 @@
                                     s = 4, start = p;
                                     break;
                                 case 7:
-                                    throw new Error("elements closed character '/' and '>' must be connected to");
+                                    throw Error("elements closed character '/' and '>' must be connected to");
                             }
                     }
                     p++;
@@ -2129,10 +2129,10 @@
                 var match, buf = [], reg = /'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g;
                 for(reg.lastIndex = start, reg.exec(source); match = reg.exec(source);)if (buf.push(match), match[1]) return buf;
             }
-            ParseError.prototype = new Error(), ParseError.prototype.name = ParseError.name, XMLReader.prototype = {
-                parse: function(source1, defaultNSMap, entityMap1) {
-                    var domBuilder2 = this.domBuilder;
-                    domBuilder2.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
+            ParseError.prototype = Error(), ParseError.prototype.name = ParseError.name, XMLReader.prototype = {
+                parse: function(source, defaultNSMap, entityMap) {
+                    var domBuilder = this.domBuilder;
+                    domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var k = a.slice(1, -1);
                             return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? function(code) {
@@ -2167,48 +2167,48 @@
                                 }
                                 switch(tagStart > start && appendText(tagStart), source.charAt(tagStart + 1)){
                                     case "/":
-                                        var end1 = source.indexOf(">", tagStart + 3), tagName = source.substring(tagStart + 2, end1).replace(/[ \t\n\r]+$/g, ""), config = parseStack.pop();
-                                        end1 < 0 ? (tagName = source.substring(tagStart + 2).replace(/[\s<].*/, ""), errorHandler.error("end tag name: " + tagName + " is not complete:" + config.tagName), end1 = tagStart + 1 + tagName.length) : tagName.match(/\s</) && (tagName = tagName.replace(/[\s<].*/, ""), errorHandler.error("end tag name: " + tagName + " maybe not complete"), end1 = tagStart + 1 + tagName.length);
+                                        var end = source.indexOf(">", tagStart + 3), tagName = source.substring(tagStart + 2, end).replace(/[ \t\n\r]+$/g, ""), config = parseStack.pop();
+                                        end < 0 ? (tagName = source.substring(tagStart + 2).replace(/[\s<].*/, ""), errorHandler.error("end tag name: " + tagName + " is not complete:" + config.tagName), end = tagStart + 1 + tagName.length) : tagName.match(/\s</) && (tagName = tagName.replace(/[\s<].*/, ""), errorHandler.error("end tag name: " + tagName + " maybe not complete"), end = tagStart + 1 + tagName.length);
                                         var localNSMap = config.localNSMap, endMatch = config.tagName == tagName;
                                         if (endMatch || config.tagName && config.tagName.toLowerCase() == tagName.toLowerCase()) {
                                             if (domBuilder.endElement(config.uri, config.localName, tagName), localNSMap) for(var prefix in localNSMap)domBuilder.endPrefixMapping(prefix);
                                             endMatch || errorHandler.fatalError("end tag name: " + tagName + " is not match the current start tagName:" + config.tagName);
                                         } else parseStack.push(config);
-                                        end1++;
+                                        end++;
                                         break;
                                     case "?":
-                                        locator && position(tagStart), end1 = parseInstruction(source, tagStart, domBuilder);
+                                        locator && position(tagStart), end = parseInstruction(source, tagStart, domBuilder);
                                         break;
                                     case "!":
-                                        locator && position(tagStart), end1 = parseDCC(source, tagStart, domBuilder, errorHandler);
+                                        locator && position(tagStart), end = parseDCC(source, tagStart, domBuilder, errorHandler);
                                         break;
                                     default:
                                         locator && position(tagStart);
-                                        var el = new ElementAttributes(), currentNSMap = parseStack[parseStack.length - 1].currentNSMap, end1 = parseElementStartPart(source, tagStart, el, currentNSMap, entityReplacer, errorHandler), len = el.length;
-                                        if (!el.closed && fixSelfClosed(source, end1, el.tagName, closeMap) && (el.closed = !0, entityMap.nbsp || errorHandler.warning("unclosed xml attribute")), locator && len) {
+                                        var el = new ElementAttributes(), currentNSMap = parseStack[parseStack.length - 1].currentNSMap, end = parseElementStartPart(source, tagStart, el, currentNSMap, entityReplacer, errorHandler), len = el.length;
+                                        if (!el.closed && fixSelfClosed(source, end, el.tagName, closeMap) && (el.closed = !0, entityMap.nbsp || errorHandler.warning("unclosed xml attribute")), locator && len) {
                                             for(var locator2 = copyLocator(locator, {}), i = 0; i < len; i++){
-                                                var a2 = el[i];
-                                                position(a2.offset), a2.locator = copyLocator(locator, {});
+                                                var a = el[i];
+                                                position(a.offset), a.locator = copyLocator(locator, {});
                                             }
                                             domBuilder.locator = locator2, appendElement(el, domBuilder, currentNSMap) && parseStack.push(el), domBuilder.locator = locator;
                                         } else appendElement(el, domBuilder, currentNSMap) && parseStack.push(el);
-                                        NAMESPACE.isHTML(el.uri) && !el.closed ? end1 = parseHtmlSpecialContent(source, end1, el.tagName, entityReplacer, domBuilder) : end1++;
+                                        NAMESPACE.isHTML(el.uri) && !el.closed ? end = parseHtmlSpecialContent(source, end, el.tagName, entityReplacer, domBuilder) : end++;
                                 }
                             } catch (e) {
                                 if (e instanceof ParseError) throw e;
-                                errorHandler.error("element parse error: " + e), end1 = -1;
+                                errorHandler.error("element parse error: " + e), end = -1;
                             }
-                            end1 > start ? start = end1 : appendText(Math.max(tagStart, start) + 1);
+                            end > start ? start = end : appendText(Math.max(tagStart, start) + 1);
                         }
-                    }(source1, defaultNSMap, entityMap1, domBuilder2, this.errorHandler), domBuilder2.endDocument();
+                    }(source, defaultNSMap, entityMap, domBuilder, this.errorHandler), domBuilder.endDocument();
                 }
             }, ElementAttributes.prototype = {
                 setTagName: function(tagName) {
-                    if (!tagNamePattern.test(tagName)) throw new Error("invalid tagName:" + tagName);
+                    if (!tagNamePattern.test(tagName)) throw Error("invalid tagName:" + tagName);
                     this.tagName = tagName;
                 },
                 addValue: function(qName, value, offset) {
-                    if (!tagNamePattern.test(qName)) throw new Error("invalid attribute:" + qName);
+                    if (!tagNamePattern.test(qName)) throw Error("invalid attribute:" + qName);
                     this.attributeNames[qName] = this.length, this[this.length++] = {
                         qName: qName,
                         value: value,
@@ -2250,7 +2250,7 @@
             var toString = Object.prototype.toString;
         },
         7537: function(module, exports) {
-            function keyCode1(searchInput) {
+            function keyCode(searchInput) {
                 if (searchInput && "object" == typeof searchInput) {
                     var hasKeyCode = searchInput.which || searchInput.keyCode || searchInput.charCode;
                     hasKeyCode && (searchInput = hasKeyCode);
@@ -2261,7 +2261,7 @@
                 var foundNamedKey = aliases[search.toLowerCase()];
                 return foundNamedKey || (1 === search.length ? search.charCodeAt(0) : void 0);
             }
-            keyCode1.isEventKey = function(event, nameOrCode) {
+            keyCode.isEventKey = function(event, nameOrCode) {
                 if (event && "object" == typeof event) {
                     var keyCode = event.which || event.keyCode || event.charCode;
                     if (null == keyCode) return !1;
@@ -2274,7 +2274,7 @@
                     return !1;
                 }
             };
-            var codes = (exports = module.exports = keyCode1).code = exports.codes = {
+            var codes = (exports = module.exports = keyCode).code = exports.codes = {
                 backspace: 8,
                 tab: 9,
                 enter: 13,
@@ -2352,10 +2352,10 @@
             "use strict";
             __webpack_require__.d(__webpack_exports__, {
                 _b: function() {
-                    return Parser1;
+                    return Parser;
                 }
             });
-            var inheritsLoose = __webpack_require__(4578), Stream1 = function() {
+            var inheritsLoose = __webpack_require__(4578), Stream = function() {
                 function Stream() {
                     this.listeners = {};
                 }
@@ -2379,7 +2379,7 @@
                         destination.push(data);
                     });
                 }, Stream;
-            }(), esm_extends = __webpack_require__(7462), assertThisInitialized = __webpack_require__(7326), decode_b64_to_uint8_array = __webpack_require__(6722), LineStream1 = function(_Stream) {
+            }(), esm_extends = __webpack_require__(7462), assertThisInitialized = __webpack_require__(7326), decode_b64_to_uint8_array = __webpack_require__(6722), LineStream = function(_Stream) {
                 function LineStream() {
                     var _this;
                     return (_this = _Stream.call(this) || this).buffer = "", _this;
@@ -2388,15 +2388,15 @@
                     var nextNewline;
                     for(this.buffer += data, nextNewline = this.buffer.indexOf("\n"); nextNewline > -1; nextNewline = this.buffer.indexOf("\n"))this.trigger("data", this.buffer.substring(0, nextNewline)), this.buffer = this.buffer.substring(nextNewline + 1);
                 }, LineStream;
-            }(Stream1), parseByterange = function(byterangeString) {
+            }(Stream), parseByterange = function(byterangeString) {
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, attributeSeparator = function() {
-                return new RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
+                return RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
             }, parseAttributes = function(attributes) {
                 for(var attr, attrs = attributes.split(attributeSeparator()), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
-            }, ParseStream1 = function(_Stream) {
+            }, ParseStream = function(_Stream) {
                 function ParseStream() {
                     var _this;
                     return (_this = _Stream.call(this) || this).customParsers = [], _this.tagMappers = [], _this;
@@ -2684,7 +2684,7 @@
                         return expression.test(line) ? map(line) : line;
                     });
                 }, ParseStream;
-            }(Stream1), camelCase = function(str) {
+            }(Stream), camelCase = function(str) {
                 return str.toLowerCase().replace(/-(\w)/g, function(a) {
                     return a[1].toUpperCase();
                 });
@@ -2707,10 +2707,10 @@
                         message: tag + " clamping PART-HOLD-BACK (" + serverControl[phb] + ") to partTargetDuration * 2 (" + minPartDuration + ")."
                     }), serverControl[phb] = minPartDuration);
                 }
-            }, Parser1 = function(_Stream) {
+            }, Parser = function(_Stream) {
                 function Parser() {
-                    (_this = _Stream.call(this) || this).lineStream = new LineStream1(), _this.parseStream = new ParseStream1(), _this.lineStream.pipe(_this.parseStream);
-                    var _this, currentMap, _key, self = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
+                    (_this = _Stream.call(this) || this).lineStream = new LineStream(), _this.parseStream = new ParseStream(), _this.lineStream.pipe(_this.parseStream);
+                    var _this, currentMap, _key, self1 = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
                         AUDIO: {},
                         VIDEO: {},
                         "CLOSED-CAPTIONS": {},
@@ -2960,7 +2960,7 @@
                                             "PART-TARGET"
                                         ]), this.manifest.partInf.partTarget && (this.manifest.partTargetDuration = this.manifest.partInf.partTarget), setHoldBack.call(this, this.manifest);
                                     }
-                                })[entry.tagType] || noop).call(self);
+                                })[entry.tagType] || noop).call(self1);
                             },
                             uri: function() {
                                 currentUri.uri = entry.uri, uris.push(currentUri), !this.manifest.targetDuration || "duration" in currentUri || (this.trigger("warn", {
@@ -2971,7 +2971,7 @@
                             custom: function() {
                                 entry.segment ? (currentUri.custom = currentUri.custom || {}, currentUri.custom[entry.customType] = entry.data) : (this.manifest.custom = this.manifest.custom || {}, this.manifest.custom[entry.customType] = entry.data);
                             }
-                        })[entry.type].call(self);
+                        })[entry.type].call(self1);
                     }), _this;
                 }
                 (0, inheritsLoose.Z)(Parser, _Stream);
@@ -2992,7 +2992,7 @@
                 }, _proto.addTagMapper = function(options) {
                     this.parseStream.addTagMapper(options);
                 }, Parser;
-            }(Stream1);
+            }(Stream);
         },
         973: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -3012,14 +3012,14 @@
             });
             var _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(779), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6722), _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3969), isObject = function(obj) {
                 return !!obj && "object" == typeof obj;
-            }, merge1 = function merge() {
-                for(var _len = arguments.length, objects = new Array(_len), _key = 0; _key < _len; _key++)objects[_key] = arguments[_key];
+            }, merge = function merge() {
+                for(var _len = arguments.length, objects = Array(_len), _key = 0; _key < _len; _key++)objects[_key] = arguments[_key];
                 return objects.reduce(function(result, source) {
                     return "object" != typeof source || Object.keys(source).forEach(function(key) {
                         Array.isArray(result[key]) && Array.isArray(source[key]) ? result[key] = result[key].concat(source[key]) : isObject(result[key]) && isObject(source[key]) ? result[key] = merge(result[key], source[key]) : result[key] = source[key];
                     }), result;
                 }, {});
-            }, range1 = function(start, end) {
+            }, range = function(start, end) {
                 for(var result = [], i = start; i < end; i++)result.push(i);
                 return result;
             }, flatten = function(lists) {
@@ -3078,7 +3078,7 @@
                     };
                 }
             }, parseByDuration = function(attributes) {
-                var attributes1, type = attributes.type, duration1 = attributes.duration, _attributes$timescale4 = attributes.timescale, periodDuration = attributes.periodDuration, sourceDuration = attributes.sourceDuration, _segmentRange$type = segmentRange[type](attributes), start = _segmentRange$type.start, end = _segmentRange$type.end, segments = range1(start, end).map((attributes1 = attributes, function(number, index) {
+                var attributes1, type = attributes.type, duration = attributes.duration, _attributes$timescale4 = attributes.timescale, periodDuration = attributes.periodDuration, sourceDuration = attributes.sourceDuration, _segmentRange$type = segmentRange[type](attributes), start = _segmentRange$type.start, end = _segmentRange$type.end, segments = range(start, end).map((attributes1 = attributes, function(number, index) {
                     var duration = attributes1.duration, _attributes$timescale3 = attributes1.timescale, periodIndex = attributes1.periodIndex, _attributes$startNumb = attributes1.startNumber;
                     return {
                         number: (void 0 === _attributes$startNumb ? 1 : _attributes$startNumb) + number,
@@ -3088,13 +3088,13 @@
                     };
                 }));
                 if ("static" === type) {
-                    var index1 = segments.length - 1, sectionDuration = "number" == typeof periodDuration ? periodDuration : sourceDuration;
-                    segments[index1].duration = sectionDuration - duration1 / (void 0 === _attributes$timescale4 ? 1 : _attributes$timescale4) * index1;
+                    var index = segments.length - 1, sectionDuration = "number" == typeof periodDuration ? periodDuration : sourceDuration;
+                    segments[index].duration = sectionDuration - duration / (void 0 === _attributes$timescale4 ? 1 : _attributes$timescale4) * index;
                 }
                 return segments;
             }, segmentsFromBase = function(attributes) {
                 var baseUrl = attributes.baseUrl, _attributes$initializ = attributes.initialization, initialization = void 0 === _attributes$initializ ? {} : _attributes$initializ, sourceDuration = attributes.sourceDuration, _attributes$indexRang = attributes.indexRange, duration = attributes.duration;
-                if (!baseUrl) throw new Error(errors.NO_BASE_URL);
+                if (!baseUrl) throw Error(errors.NO_BASE_URL);
                 var initSegment = urlTypeToSegment({
                     baseUrl: baseUrl,
                     source: initialization.sourceURL,
@@ -3310,10 +3310,10 @@
                     if ("$$" === match) return "$";
                     if (void 0 === values1[identifier]) return match;
                     var value = "" + values1[identifier];
-                    return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + new Array(width - value.length + 1).join("0") + value;
+                    return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
                 }));
             }, segmentsFromTemplate = function(attributes, segmentTimeline) {
-                var attributes2, segmentTimeline1, templateValues = {
+                var attributes1, segmentTimeline1, templateValues = {
                     RepresentationID: attributes.id,
                     Bandwidth: attributes.bandwidth || 0
                 }, _attributes$initializ = attributes.initialization, initialization = void 0 === _attributes$initializ ? {
@@ -3324,12 +3324,12 @@
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
                 });
-                return (attributes2 = attributes, segmentTimeline1 = segmentTimeline, attributes2.duration || segmentTimeline1 ? attributes2.duration ? parseByDuration(attributes2) : parseByTimeline(attributes2, segmentTimeline1) : [
+                return (attributes1 = attributes, segmentTimeline1 = segmentTimeline, attributes1.duration || segmentTimeline1 ? attributes1.duration ? parseByDuration(attributes1) : parseByTimeline(attributes1, segmentTimeline1) : [
                     {
-                        number: attributes2.startNumber || 1,
-                        duration: attributes2.sourceDuration,
+                        number: attributes1.startNumber || 1,
+                        duration: attributes1.sourceDuration,
                         time: 0,
-                        timeline: attributes2.periodIndex
+                        timeline: attributes1.periodIndex
                     }, 
                 ]).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
@@ -3357,7 +3357,7 @@
                 return segment.map = initSegment, segment;
             }, segmentsFromList = function(attributes, segmentTimeline) {
                 var segmentTimeInfo, duration = attributes.duration, _attributes$segmentUr = attributes.segmentUrls, periodStart = attributes.periodStart;
-                if (!duration && !segmentTimeline || duration && segmentTimeline) throw new Error(errors.SEGMENT_TIME_UNSPECIFIED);
+                if (!duration && !segmentTimeline || duration && segmentTimeline) throw Error(errors.SEGMENT_TIME_UNSPECIFIED);
                 var segmentUrlMap = (void 0 === _attributes$segmentUr ? [] : _attributes$segmentUr).map(function(segmentUrlObject) {
                     return SegmentURLToSegmentObject(attributes, segmentUrlObject);
                 });
@@ -3371,7 +3371,7 @@
                 });
             }, generateSegments = function(_ref) {
                 var segmentAttributes, segmentsFn, attributes = _ref.attributes, segmentInfo = _ref.segmentInfo;
-                segmentInfo.template ? (segmentsFn = segmentsFromTemplate, segmentAttributes = merge1(attributes, segmentInfo.template)) : segmentInfo.base ? (segmentsFn = segmentsFromBase, segmentAttributes = merge1(attributes, segmentInfo.base)) : segmentInfo.list && (segmentsFn = segmentsFromList, segmentAttributes = merge1(attributes, segmentInfo.list));
+                segmentInfo.template ? (segmentsFn = segmentsFromTemplate, segmentAttributes = merge(attributes, segmentInfo.template)) : segmentInfo.base ? (segmentsFn = segmentsFromBase, segmentAttributes = merge(attributes, segmentInfo.base)) : segmentInfo.list && (segmentsFn = segmentsFromList, segmentAttributes = merge(attributes, segmentInfo.list));
                 var segmentsInfo = {
                     attributes: attributes
                 };
@@ -3470,7 +3470,7 @@
                 })) : referenceUrls;
             }, getSegmentInformation = function(adaptationSet) {
                 var segmentTemplate = findChildren(adaptationSet, "SegmentTemplate")[0], segmentList = findChildren(adaptationSet, "SegmentList")[0], segmentUrls = segmentList && findChildren(segmentList, "SegmentURL").map(function(s) {
-                    return merge1({
+                    return merge({
                         tag: "SegmentURL"
                     }, parseAttributes(s));
                 }), segmentBase = findChildren(adaptationSet, "SegmentBase")[0], segmentTimelineParentNode = segmentList || segmentTemplate, segmentTimeline = segmentTimelineParentNode && findChildren(segmentTimelineParentNode, "SegmentTimeline")[0], segmentInitializationParentNode = segmentList || segmentBase || segmentTemplate, segmentInitialization = segmentInitializationParentNode && findChildren(segmentInitializationParentNode, "Initialization")[0], template = segmentTemplate && parseAttributes(segmentTemplate);
@@ -3482,11 +3482,11 @@
                     segmentTimeline: segmentTimeline && findChildren(segmentTimeline, "S").map(function(s) {
                         return parseAttributes(s);
                     }),
-                    list: segmentList && merge1(parseAttributes(segmentList), {
+                    list: segmentList && merge(parseAttributes(segmentList), {
                         segmentUrls: segmentUrls,
                         initialization: parseAttributes(segmentInitialization)
                     }),
-                    base: segmentBase && merge1(parseAttributes(segmentBase), {
+                    base: segmentBase && merge(parseAttributes(segmentBase), {
                         initialization: parseAttributes(segmentInitialization)
                     })
                 };
@@ -3526,7 +3526,7 @@
             }, inheritAttributes = function(mpd, options) {
                 void 0 === options && (options = {});
                 var _options = options, _options$manifestUri = _options.manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
-                if (!periodNodes.length) throw new Error(errors.INVALID_NUMBER_OF_PERIOD);
+                if (!periodNodes.length) throw Error(errors.INVALID_NUMBER_OF_PERIOD);
                 var locations = findChildren(mpd, "Location"), mpdAttributes = parseAttributes(mpd), mpdBaseUrls = buildBaseUrls([
                     void 0 === _options$manifestUri ? "" : _options$manifestUri
                 ], findChildren(mpd, "BaseURL"));
@@ -3545,7 +3545,7 @@
                 }), {
                     locations: mpdAttributes.locations,
                     representationInfo: flatten(periods.map((mpdAttributes1 = mpdAttributes, mpdBaseUrls1 = mpdBaseUrls, function(period, index) {
-                        var periodBaseUrls = buildBaseUrls(mpdBaseUrls1, findChildren(period.node, "BaseURL")), parsedPeriodId = parseInt(period.attributes.id, 10), periodIndex = global_window__WEBPACK_IMPORTED_MODULE_1___default().isNaN(parsedPeriodId) ? index : parsedPeriodId, periodAttributes = merge1(mpdAttributes1, {
+                        var periodBaseUrls = buildBaseUrls(mpdBaseUrls1, findChildren(period.node, "BaseURL")), parsedPeriodId = parseInt(period.attributes.id, 10), periodIndex = global_window__WEBPACK_IMPORTED_MODULE_1___default().isNaN(parsedPeriodId) ? index : parsedPeriodId, periodAttributes = merge(mpdAttributes1, {
                             periodIndex: periodIndex,
                             periodStart: period.attributes.start
                         });
@@ -3554,12 +3554,12 @@
                         return flatten(adaptationSets.map((periodAttributes1 = periodAttributes, periodBaseUrls1 = periodBaseUrls, periodSegmentInfo = periodSegmentInfo1, function(adaptationSet) {
                             var adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls1, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
                                 role: parseAttributes(role)
-                            }, attrs = merge1(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = parseCaptionServiceMetadata(parseAttributes(accessibility));
-                            captionServices && (attrs = merge1(attrs, {
+                            }, attrs = merge(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = parseCaptionServiceMetadata(parseAttributes(accessibility));
+                            captionServices && (attrs = merge(attrs, {
                                 captionServices: captionServices
                             }));
                             var label = findChildren(adaptationSet, "Label")[0];
-                            label && label.childNodes.length && (attrs = merge1(attrs, {
+                            label && label.childNodes.length && (attrs = merge(attrs, {
                                 label: label.childNodes[0].nodeValue.trim()
                             }));
                             var contentProtection = findChildren(adaptationSet, "ContentProtection").reduce(function(acc, node) {
@@ -3576,16 +3576,16 @@
                                 }
                                 return acc;
                             }, {});
-                            Object.keys(contentProtection).length && (attrs = merge1(attrs, {
+                            Object.keys(contentProtection).length && (attrs = merge(attrs, {
                                 contentProtection: contentProtection
                             }));
-                            var adaptationSetAttributes1, adaptationSetBaseUrls1, adaptationSetSegmentInfo, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo1 = merge1(periodSegmentInfo, segmentInfo);
+                            var adaptationSetAttributes1, adaptationSetBaseUrls1, adaptationSetSegmentInfo, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo1 = merge(periodSegmentInfo, segmentInfo);
                             return flatten(representations.map((adaptationSetAttributes1 = attrs, adaptationSetBaseUrls1 = adaptationSetBaseUrls, adaptationSetSegmentInfo = adaptationSetSegmentInfo1, function(representation) {
-                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls1, repBaseUrlElements), attributes = merge1(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
+                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls1, repBaseUrlElements), attributes = merge(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
                                 return repBaseUrls.map(function(baseUrl) {
                                     return {
-                                        segmentInfo: merge1(adaptationSetSegmentInfo, representationSegmentInfo),
-                                        attributes: merge1(attributes, {
+                                        segmentInfo: merge(adaptationSetSegmentInfo, representationSegmentInfo),
+                                        attributes: merge(attributes, {
                                             baseUrl: baseUrl
                                         })
                                     };
@@ -3595,12 +3595,12 @@
                     })))
                 };
             }, stringToMpdXml = function(manifestString) {
-                if ("" === manifestString) throw new Error(errors.DASH_EMPTY_MANIFEST);
+                if ("" === manifestString) throw Error(errors.DASH_EMPTY_MANIFEST);
                 var xml, mpd, parser = new _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__.DOMParser();
                 try {
                     mpd = (xml = parser.parseFromString(manifestString, "application/xml")) && "MPD" === xml.documentElement.tagName ? xml.documentElement : null;
                 } catch (e) {}
-                if (!mpd || mpd && mpd.getElementsByTagName("parsererror").length > 0) throw new Error(errors.DASH_INVALID_XML);
+                if (!mpd || mpd && mpd.getElementsByTagName("parsererror").length > 0) throw Error(errors.DASH_INVALID_XML);
                 return mpd;
             }, parseUTCTimingScheme = function(mpd) {
                 var UTCTimingNode = findChildren(mpd, "UTCTiming")[0];
@@ -3622,7 +3622,7 @@
                         attributes.method = "DIRECT", attributes.value = Date.parse(attributes.value);
                         break;
                     default:
-                        throw new Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
+                        throw Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
                 }
                 return attributes;
             }, parse = function(manifestString, options) {
@@ -3793,14 +3793,14 @@
                     if (opts = opts || {}, baseURL = baseURL.trim(), !(relativeURL = relativeURL.trim())) {
                         if (!opts.alwaysNormalize) return baseURL;
                         var basePartsForNormalise = URLToolkit.parseURL(baseURL);
-                        if (!basePartsForNormalise) throw new Error("Error trying to parse base URL.");
+                        if (!basePartsForNormalise) throw Error("Error trying to parse base URL.");
                         return basePartsForNormalise.path = URLToolkit.normalizePath(basePartsForNormalise.path), URLToolkit.buildURLFromParts(basePartsForNormalise);
                     }
                     var relativeParts = URLToolkit.parseURL(relativeURL);
-                    if (!relativeParts) throw new Error("Error trying to parse relative URL.");
+                    if (!relativeParts) throw Error("Error trying to parse relative URL.");
                     if (relativeParts.scheme) return opts.alwaysNormalize ? (relativeParts.path = URLToolkit.normalizePath(relativeParts.path), URLToolkit.buildURLFromParts(relativeParts)) : relativeURL;
                     var baseParts = URLToolkit.parseURL(baseURL);
-                    if (!baseParts) throw new Error("Error trying to parse base URL.");
+                    if (!baseParts) throw Error("Error trying to parse base URL.");
                     if (!baseParts.netLoc && baseParts.path && "/" !== baseParts.path[0]) {
                         var pathParts = FIRST_SEGMENT_REGEX.exec(baseParts.path);
                         baseParts.netLoc = pathParts[1], baseParts.path = pathParts[2];
@@ -3843,24 +3843,24 @@
             }, module.exports = URLToolkit;
         },
         3407: function(module, __unused_webpack_exports, __webpack_require__) {
-            var window = __webpack_require__(8908), vttjs = module.exports = {
+            var window1 = __webpack_require__(8908), vttjs = module.exports = {
                 WebVTT: __webpack_require__(3706),
                 VTTCue: __webpack_require__(2230),
                 VTTRegion: __webpack_require__(3710)
             };
-            window.vttjs = vttjs, window.WebVTT = vttjs.WebVTT;
-            var cueShim = vttjs.VTTCue, regionShim = vttjs.VTTRegion, nativeVTTCue = window.VTTCue, nativeVTTRegion = window.VTTRegion;
+            window1.vttjs = vttjs, window1.WebVTT = vttjs.WebVTT;
+            var cueShim = vttjs.VTTCue, regionShim = vttjs.VTTRegion, nativeVTTCue = window1.VTTCue, nativeVTTRegion = window1.VTTRegion;
             vttjs.shim = function() {
-                window.VTTCue = cueShim, window.VTTRegion = regionShim;
+                window1.VTTCue = cueShim, window1.VTTRegion = regionShim;
             }, vttjs.restore = function() {
-                window.VTTCue = nativeVTTCue, window.VTTRegion = nativeVTTRegion;
-            }, window.VTTCue || vttjs.shim();
+                window1.VTTCue = nativeVTTCue, window1.VTTRegion = nativeVTTRegion;
+            }, window1.VTTCue || vttjs.shim();
         },
         3706: function(module, __unused_webpack_exports, __webpack_require__) {
-            var document = __webpack_require__(9144), _objCreate = Object.create || function() {
+            var document1 = __webpack_require__(9144), _objCreate = Object.create || function() {
                 function F() {}
                 return function(o) {
-                    if (1 !== arguments.length) throw new Error("Object.create shim only accepts one parameter.");
+                    if (1 !== arguments.length) throw Error("Object.create shim only accepts one parameter.");
                     return F.prototype = o, new F();
                 };
             }();
@@ -3871,8 +3871,8 @@
                 function computeSeconds(h, m, s, f) {
                     return (0 | h) * 3600 + (0 | m) * 60 + (0 | s) + (0 | f) / 1000;
                 }
-                var m1 = input.match(/^(\d+):(\d{1,2})(:\d{1,2})?\.(\d{3})/);
-                return m1 ? m1[3] ? computeSeconds(m1[1], m1[2], m1[3].replace(":", ""), m1[4]) : m1[1] > 59 ? computeSeconds(m1[1], m1[2], 0, m1[4]) : computeSeconds(0, m1[1], m1[2], m1[4]) : null;
+                var m = input.match(/^(\d+):(\d{1,2})(:\d{1,2})?\.(\d{3})/);
+                return m ? m[3] ? computeSeconds(m[1], m[2], m[3].replace(":", ""), m[4]) : m[1] > 59 ? computeSeconds(m[1], m[2], 0, m[4]) : computeSeconds(0, m[1], m[2], m[4]) : null;
             }
             function Settings() {
                 this.values = _objCreate(null);
@@ -3889,18 +3889,18 @@
                     }
                 }
             }
-            function parseCue(input2, cue1, regionList) {
-                var oInput = input2;
+            function parseCue(input, cue, regionList) {
+                var oInput = input;
                 function consumeTimeStamp() {
-                    var ts = parseTimeStamp(input2);
+                    var ts = parseTimeStamp(input);
                     if (null === ts) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed timestamp: " + oInput);
-                    return input2 = input2.replace(/^[^\sa-zA-Z-]+/, ""), ts;
+                    return input = input.replace(/^[^\sa-zA-Z-]+/, ""), ts;
                 }
                 function skipWhitespace() {
-                    input2 = input2.replace(/^\s+/, "");
+                    input = input.replace(/^\s+/, "");
                 }
-                if (skipWhitespace(), cue1.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input2.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
-                input2 = input2.substr(3), skipWhitespace(), cue1.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
+                if (skipWhitespace(), cue.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
+                input = input.substr(3), skipWhitespace(), cue.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
                     var settings = new Settings();
                     parseOptions(input, function(k, v) {
                         switch(k){
@@ -3975,7 +3975,7 @@
                         end: "end",
                         right: "end"
                     }, cue.align);
-                }(input2, cue1);
+                }(input, cue);
             }
             ParsingError.prototype = _objCreate(Error.prototype), ParsingError.prototype.constructor = ParsingError, ParsingError.Errors = {
                 BadSignature: {
@@ -4009,7 +4009,7 @@
                     return !!(v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v)) >= 0 && v <= 100) && (this.set(k, v), !0);
                 }
             };
-            var TEXTAREA_ELEMENT = document.createElement && document.createElement("textarea"), TAG_NAME = {
+            var TEXTAREA_ELEMENT = document1.createElement && document1.createElement("textarea"), TAG_NAME = {
                 c: "span",
                 i: "i",
                 b: "b",
@@ -4033,13 +4033,13 @@
             }, NEEDS_PARENT = {
                 rt: "ruby"
             };
-            function parseContent(window, input) {
+            function parseContent(window1, input) {
                 function nextToken() {
                     if (!input) return null;
                     var result, m = input.match(/^([^<]*)(<[^>]*>?)?/);
                     return result = m[1] ? m[1] : m[2], input = input.substr(result.length), result;
                 }
-                function unescape(s) {
+                function unescape1(s) {
                     return TEXTAREA_ELEMENT.innerHTML = s, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s;
                 }
                 function shouldAdd(current, element) {
@@ -4048,24 +4048,24 @@
                 function createElement(type, annotation) {
                     var tagName = TAG_NAME[type];
                     if (!tagName) return null;
-                    var element = window.document.createElement(tagName), name = TAG_ANNOTATION[type];
+                    var element = window1.document.createElement(tagName), name = TAG_ANNOTATION[type];
                     return name && annotation && (element[name] = annotation.trim()), element;
                 }
-                for(var t, rootDiv = window.document.createElement("div"), current1 = rootDiv, tagStack = []; null !== (t = nextToken());){
+                for(var t, rootDiv = window1.document.createElement("div"), current = rootDiv, tagStack = []; null !== (t = nextToken());){
                     if ("<" === t[0]) {
                         if ("/" === t[1]) {
-                            tagStack.length && tagStack[tagStack.length - 1] === t.substr(2).replace(">", "") && (tagStack.pop(), current1 = current1.parentNode);
+                            tagStack.length && tagStack[tagStack.length - 1] === t.substr(2).replace(">", "") && (tagStack.pop(), current = current.parentNode);
                             continue;
                         }
                         var node, ts = parseTimeStamp(t.substr(1, t.length - 2));
                         if (ts) {
-                            node = window.document.createProcessingInstruction("timestamp", ts), current1.appendChild(node);
+                            node = window1.document.createProcessingInstruction("timestamp", ts), current.appendChild(node);
                             continue;
                         }
-                        var m2 = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
-                        if (!m2 || !(node = createElement(m2[1], m2[3])) || !shouldAdd(current1, node)) continue;
-                        if (m2[2]) {
-                            var classes = m2[2].split(".");
+                        var m = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
+                        if (!m || !(node = createElement(m[1], m[3])) || !shouldAdd(current, node)) continue;
+                        if (m[2]) {
+                            var classes = m[2].split(".");
                             classes.forEach(function(cl) {
                                 var bgColor = /^bg_/.test(cl), colorName = bgColor ? cl.slice(3) : cl;
                                 if (DEFAULT_COLOR_CLASS.hasOwnProperty(colorName)) {
@@ -4074,10 +4074,10 @@
                                 }
                             }), node.className = classes.join(" ");
                         }
-                        tagStack.push(m2[1]), current1.appendChild(node), current1 = node;
+                        tagStack.push(m[1]), current.appendChild(node), current = node;
                         continue;
                     }
-                    current1.appendChild(window.document.createTextNode(unescape(t)));
+                    current.appendChild(window1.document.createTextNode(unescape1(t)));
                 }
                 return rootDiv;
             }
@@ -4511,8 +4511,8 @@
                 return !1;
             }
             function StyleBox() {}
-            function CueStyleBox(window, cue, styleOptions) {
-                StyleBox.call(this), this.cue = cue, this.cueDiv = parseContent(window, cue.text);
+            function CueStyleBox(window1, cue, styleOptions) {
+                StyleBox.call(this), this.cue = cue, this.cueDiv = parseContent(window1, cue.text);
                 var styles = {
                     color: "rgba(255, 255, 255, 1)",
                     backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -4525,9 +4525,9 @@
                     writingMode: "" === cue.vertical ? "horizontal-tb" : "lr" === cue.vertical ? "vertical-lr" : "vertical-rl",
                     unicodeBidi: "plaintext"
                 };
-                this.applyStyles(styles, this.cueDiv), this.div = window.document.createElement("div"), styles = {
+                this.applyStyles(styles, this.cueDiv), this.div = window1.document.createElement("div"), styles = {
                     direction: function(cueDiv) {
-                        var nodeStack1 = [], text1 = "";
+                        var nodeStack = [], text = "";
                         if (!cueDiv || !cueDiv.childNodes) return "ltr";
                         function pushNodes(nodeStack, node) {
                             for(var i = node.childNodes.length - 1; i >= 0; i--)nodeStack.push(node.childNodes[i]);
@@ -4541,7 +4541,7 @@
                             }
                             return "ruby" === node.tagName ? nextTextNode(nodeStack) : node.childNodes ? (pushNodes(nodeStack, node), nextTextNode(nodeStack)) : void 0;
                         }
-                        for(pushNodes(nodeStack1, cueDiv); text1 = nextTextNode(nodeStack1);)for(var i1 = 0; i1 < text1.length; i1++)if (isStrongRTLChar(text1.charCodeAt(i1))) return "rtl";
+                        for(pushNodes(nodeStack, cueDiv); text = nextTextNode(nodeStack);)for(var i = 0; i < text.length; i++)if (isStrongRTLChar(text.charCodeAt(i))) return "rtl";
                         return "ltr";
                     }(this.cueDiv),
                     writingMode: "" === cue.vertical ? "horizontal-tb" : "lr" === cue.vertical ? "vertical-lr" : "vertical-rl",
@@ -4588,45 +4588,45 @@
                 }
                 this.left = obj.left, this.right = obj.right, this.top = obj.top || top, this.height = obj.height || height, this.bottom = obj.bottom || top + (obj.height || height), this.width = obj.width || width, this.lineHeight = void 0 !== lh ? lh : obj.lineHeight;
             }
-            function moveBoxToLinePosition(window, styleBox, containerBox, boxPositions) {
-                var boxPosition = new BoxPosition(styleBox), cue2 = styleBox.cue, linePos = function(cue) {
+            function moveBoxToLinePosition(window1, styleBox, containerBox, boxPositions) {
+                var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
                     if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                     if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
                     for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
                     return -1 * ++count;
-                }(cue2), axis1 = [];
-                if (cue2.snapToLines) {
-                    switch(cue2.vertical){
+                }(cue), axis = [];
+                if (cue.snapToLines) {
+                    switch(cue.vertical){
                         case "":
-                            axis1 = [
+                            axis = [
                                 "+y",
                                 "-y"
                             ], size = "height";
                             break;
                         case "rl":
-                            axis1 = [
+                            axis = [
                                 "+x",
                                 "-x"
                             ], size = "width";
                             break;
                         case "lr":
-                            axis1 = [
+                            axis = [
                                 "-x",
                                 "+x"
                             ], size = "width";
                     }
-                    var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis1[0];
-                    Math.abs(position) > maxPosition && (position = position < 0 ? -1 : 1, position *= Math.ceil(maxPosition / step) * step), linePos < 0 && (position += "" === cue2.vertical ? containerBox.height : containerBox.width, axis1 = axis1.reverse()), boxPosition.move(initialAxis, position);
+                    var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
+                    Math.abs(position) > maxPosition && (position = position < 0 ? -1 : 1, position *= Math.ceil(maxPosition / step) * step), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
                 } else {
                     var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
-                    switch(cue2.lineAlign){
+                    switch(cue.lineAlign){
                         case "center":
                             linePos -= calculatedPercentage / 2;
                             break;
                         case "end":
                             linePos -= calculatedPercentage;
                     }
-                    switch(cue2.vertical){
+                    switch(cue.vertical){
                         case "":
                             styleBox.applyStyles({
                                 top: styleBox.formatStyle(linePos, "%")
@@ -4642,14 +4642,14 @@
                                 right: styleBox.formatStyle(linePos, "%")
                             });
                     }
-                    axis1 = [
+                    axis = [
                         "+y",
                         "-x",
                         "+x",
                         "-y"
                     ], boxPosition = new BoxPosition(styleBox);
                 }
-                var bestPosition1 = function(b, axis) {
+                var bestPosition = function(b, axis) {
                     for(var bestPosition, specifiedPosition = new BoxPosition(b), percentage = 1, i = 0; i < axis.length; i++){
                         for(; b.overlapsOppositeAxis(containerBox, axis[i]) || b.within(containerBox) && b.overlapsAny(boxPositions);)b.move(axis[i]);
                         if (b.within(containerBox)) return b;
@@ -4657,10 +4657,10 @@
                         percentage > p && (bestPosition = new BoxPosition(b), percentage = p), b = new BoxPosition(specifiedPosition);
                     }
                     return bestPosition || specifiedPosition;
-                }(boxPosition, axis1);
-                styleBox.move(bestPosition1.toCSSCompatValues(containerBox));
+                }(boxPosition, axis);
+                styleBox.move(bestPosition.toCSSCompatValues(containerBox));
             }
-            function WebVTT() {}
+            function WebVTT1() {}
             StyleBox.prototype.applyStyles = function(styles, div) {
                 for(var prop in div = div || this.div, styles)styles.hasOwnProperty(prop) && (div.style[prop] = styles[prop]);
             }, StyleBox.prototype.formatStyle = function(val, unit) {
@@ -4721,52 +4721,52 @@
                     width: obj.width || width
                 };
                 return ret;
-            }, WebVTT.StringDecoder = function() {
+            }, WebVTT1.StringDecoder = function() {
                 return {
                     decode: function(data) {
                         if (!data) return "";
-                        if ("string" != typeof data) throw new Error("Error - expected string data.");
+                        if ("string" != typeof data) throw Error("Error - expected string data.");
                         return decodeURIComponent(encodeURIComponent(data));
                     }
                 };
-            }, WebVTT.convertCueToDOMTree = function(window, cuetext) {
-                return window && cuetext ? parseContent(window, cuetext) : null;
-            }, WebVTT.processCues = function(window, cues1, overlay) {
-                if (!window || !cues1 || !overlay) return null;
+            }, WebVTT1.convertCueToDOMTree = function(window1, cuetext) {
+                return window1 && cuetext ? parseContent(window1, cuetext) : null;
+            }, WebVTT1.processCues = function(window1, cues, overlay) {
+                if (!window1 || !cues || !overlay) return null;
                 for(; overlay.firstChild;)overlay.removeChild(overlay.firstChild);
-                var paddedOverlay = window.document.createElement("div");
+                var paddedOverlay = window1.document.createElement("div");
                 if (paddedOverlay.style.position = "absolute", paddedOverlay.style.left = "0", paddedOverlay.style.right = "0", paddedOverlay.style.top = "0", paddedOverlay.style.bottom = "0", paddedOverlay.style.margin = "1.5%", overlay.appendChild(paddedOverlay), !function(cues) {
                     for(var i = 0; i < cues.length; i++)if (cues[i].hasBeenReset || !cues[i].displayState) return !0;
                     return !1;
-                }(cues1)) {
-                    for(var i2 = 0; i2 < cues1.length; i2++)paddedOverlay.appendChild(cues1[i2].displayState);
+                }(cues)) {
+                    for(var i = 0; i < cues.length; i++)paddedOverlay.appendChild(cues[i].displayState);
                     return;
                 }
                 var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
                     font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
                 };
                 !function() {
-                    for(var styleBox, cue, i = 0; i < cues1.length; i++)cue = cues1[i], styleBox = new CueStyleBox(window, cue, styleOptions), paddedOverlay.appendChild(styleBox.div), moveBoxToLinePosition(window, styleBox, containerBox, boxPositions), cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
+                    for(var styleBox, cue, i = 0; i < cues.length; i++)cue = cues[i], styleBox = new CueStyleBox(window1, cue, styleOptions), paddedOverlay.appendChild(styleBox.div), moveBoxToLinePosition(window1, styleBox, containerBox, boxPositions), cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
                 }();
-            }, WebVTT.Parser = function(window, vttjs, decoder) {
-                decoder || (decoder = vttjs, vttjs = {}), vttjs || (vttjs = {}), this.window = window, this.vttjs = vttjs, this.state = "INITIAL", this.buffer = "", this.decoder = decoder || new TextDecoder("utf8"), this.regionList = [];
-            }, WebVTT.Parser.prototype = {
+            }, WebVTT1.Parser = function(window1, vttjs, decoder) {
+                decoder || (decoder = vttjs, vttjs = {}), vttjs || (vttjs = {}), this.window = window1, this.vttjs = vttjs, this.state = "INITIAL", this.buffer = "", this.decoder = decoder || new TextDecoder("utf8"), this.regionList = [];
+            }, WebVTT1.Parser.prototype = {
                 reportOrThrowError: function(e) {
                     if (e instanceof ParsingError) this.onparsingerror && this.onparsingerror(e);
                     else throw e;
                 },
                 parse: function(data) {
-                    var self = this;
+                    var self1 = this;
                     function collectNextLine() {
-                        for(var buffer = self.buffer, pos = 0; pos < buffer.length && "\r" !== buffer[pos] && "\n" !== buffer[pos];)++pos;
+                        for(var buffer = self1.buffer, pos = 0; pos < buffer.length && "\r" !== buffer[pos] && "\n" !== buffer[pos];)++pos;
                         var line = buffer.substr(0, pos);
-                        return "\r" === buffer[pos] && ++pos, "\n" === buffer[pos] && ++pos, self.buffer = buffer.substr(pos), line;
+                        return "\r" === buffer[pos] && ++pos, "\n" === buffer[pos] && ++pos, self1.buffer = buffer.substr(pos), line;
                     }
-                    function parseHeader(input3) {
-                        input3.match(/X-TIMESTAMP-MAP/) ? parseOptions(input3, function(k1, v1) {
-                            if ("X-TIMESTAMP-MAP" === k1) {
+                    function parseHeader(input) {
+                        input.match(/X-TIMESTAMP-MAP/) ? parseOptions(input, function(k, v) {
+                            if ("X-TIMESTAMP-MAP" === k) {
                                 var input, settings;
-                                input = v1, settings = new Settings(), parseOptions(input, function(k, v) {
+                                input = v, settings = new Settings(), parseOptions(input, function(k, v) {
                                     switch(k){
                                         case "MPEGT":
                                             settings.integer(k + "S", v);
@@ -4774,13 +4774,13 @@
                                         case "LOCA":
                                             settings.set(k + "L", parseTimeStamp(v));
                                     }
-                                }, /[^\d]:/, /,/), self.ontimestampmap && self.ontimestampmap({
+                                }, /[^\d]:/, /,/), self1.ontimestampmap && self1.ontimestampmap({
                                     MPEGTS: settings.get("MPEGTS"),
                                     LOCAL: settings.get("LOCAL")
                                 });
                             }
-                        }, /=/) : parseOptions(input3, function(k2, v2) {
-                            "Region" === k2 && function(input) {
+                        }, /=/) : parseOptions(input, function(k, v) {
+                            "Region" === k && function(input) {
                                 var settings = new Settings();
                                 if (parseOptions(input, function(k, v) {
                                     switch(k){
@@ -4807,84 +4807,84 @@
                                             ]);
                                     }
                                 }, /=/, /\s/), settings.has("id")) {
-                                    var region = new (self.vttjs.VTTRegion || self.window.VTTRegion)();
-                                    region.width = settings.get("width", 100), region.lines = settings.get("lines", 3), region.regionAnchorX = settings.get("regionanchorX", 0), region.regionAnchorY = settings.get("regionanchorY", 100), region.viewportAnchorX = settings.get("viewportanchorX", 0), region.viewportAnchorY = settings.get("viewportanchorY", 100), region.scroll = settings.get("scroll", ""), self.onregion && self.onregion(region), self.regionList.push({
+                                    var region = new (self1.vttjs.VTTRegion || self1.window.VTTRegion)();
+                                    region.width = settings.get("width", 100), region.lines = settings.get("lines", 3), region.regionAnchorX = settings.get("regionanchorX", 0), region.regionAnchorY = settings.get("regionanchorY", 100), region.viewportAnchorX = settings.get("viewportanchorX", 0), region.viewportAnchorY = settings.get("viewportanchorY", 100), region.scroll = settings.get("scroll", ""), self1.onregion && self1.onregion(region), self1.regionList.push({
                                         id: settings.get("id"),
                                         region: region
                                     });
                                 }
-                            }(v2);
+                            }(v);
                         }, /:/);
                     }
-                    data && (self.buffer += self.decoder.decode(data, {
+                    data && (self1.buffer += self1.decoder.decode(data, {
                         stream: !0
                     }));
                     try {
-                        if ("INITIAL" === self.state) {
-                            if (!/\r\n|\n/.test(self.buffer)) return this;
-                            var line1, m = (line1 = collectNextLine()).match(/^WEBVTT([ \t].*)?$/);
+                        if ("INITIAL" === self1.state) {
+                            if (!/\r\n|\n/.test(self1.buffer)) return this;
+                            var line, m = (line = collectNextLine()).match(/^WEBVTT([ \t].*)?$/);
                             if (!m || !m[0]) throw new ParsingError(ParsingError.Errors.BadSignature);
-                            self.state = "HEADER";
+                            self1.state = "HEADER";
                         }
-                        for(var alreadyCollectedLine = !1; self.buffer && /\r\n|\n/.test(self.buffer);)switch(alreadyCollectedLine ? alreadyCollectedLine = !1 : line1 = collectNextLine(), self.state){
+                        for(var alreadyCollectedLine = !1; self1.buffer && /\r\n|\n/.test(self1.buffer);)switch(alreadyCollectedLine ? alreadyCollectedLine = !1 : line = collectNextLine(), self1.state){
                             case "HEADER":
-                                /:/.test(line1) ? parseHeader(line1) : line1 || (self.state = "ID");
+                                /:/.test(line) ? parseHeader(line) : line || (self1.state = "ID");
                                 continue;
                             case "NOTE":
-                                line1 || (self.state = "ID");
+                                line || (self1.state = "ID");
                                 continue;
                             case "ID":
-                                if (/^NOTE($|[ \t])/.test(line1)) {
-                                    self.state = "NOTE";
+                                if (/^NOTE($|[ \t])/.test(line)) {
+                                    self1.state = "NOTE";
                                     break;
                                 }
-                                if (!line1) continue;
-                                self.cue = new (self.vttjs.VTTCue || self.window.VTTCue)(0, 0, "");
+                                if (!line) continue;
+                                self1.cue = new (self1.vttjs.VTTCue || self1.window.VTTCue)(0, 0, "");
                                 try {
-                                    self.cue.align = "center";
+                                    self1.cue.align = "center";
                                 } catch (e) {
-                                    self.cue.align = "middle";
+                                    self1.cue.align = "middle";
                                 }
-                                if (self.state = "CUE", -1 === line1.indexOf("-->")) {
-                                    self.cue.id = line1;
+                                if (self1.state = "CUE", -1 === line.indexOf("-->")) {
+                                    self1.cue.id = line;
                                     continue;
                                 }
                             case "CUE":
                                 try {
-                                    parseCue(line1, self.cue, self.regionList);
-                                } catch (e3) {
-                                    self.reportOrThrowError(e3), self.cue = null, self.state = "BADCUE";
+                                    parseCue(line, self1.cue, self1.regionList);
+                                } catch (e1) {
+                                    self1.reportOrThrowError(e1), self1.cue = null, self1.state = "BADCUE";
                                     continue;
                                 }
-                                self.state = "CUETEXT";
+                                self1.state = "CUETEXT";
                                 continue;
                             case "CUETEXT":
-                                var hasSubstring = -1 !== line1.indexOf("-->");
-                                if (!line1 || hasSubstring && (alreadyCollectedLine = !0)) {
-                                    self.oncue && self.oncue(self.cue), self.cue = null, self.state = "ID";
+                                var hasSubstring = -1 !== line.indexOf("-->");
+                                if (!line || hasSubstring && (alreadyCollectedLine = !0)) {
+                                    self1.oncue && self1.oncue(self1.cue), self1.cue = null, self1.state = "ID";
                                     continue;
                                 }
-                                self.cue.text && (self.cue.text += "\n"), self.cue.text += line1.replace(/\u2028/g, "\n").replace(/u2029/g, "\n");
+                                self1.cue.text && (self1.cue.text += "\n"), self1.cue.text += line.replace(/\u2028/g, "\n").replace(/u2029/g, "\n");
                                 continue;
                             case "BADCUE":
-                                line1 || (self.state = "ID");
+                                line || (self1.state = "ID");
                                 continue;
                         }
-                    } catch (e) {
-                        self.reportOrThrowError(e), "CUETEXT" === self.state && self.cue && self.oncue && self.oncue(self.cue), self.cue = null, self.state = "INITIAL" === self.state ? "BADWEBVTT" : "BADCUE";
+                    } catch (e2) {
+                        self1.reportOrThrowError(e2), "CUETEXT" === self1.state && self1.cue && self1.oncue && self1.oncue(self1.cue), self1.cue = null, self1.state = "INITIAL" === self1.state ? "BADWEBVTT" : "BADCUE";
                     }
                     return this;
                 },
                 flush: function() {
-                    var self = this;
+                    var self1 = this;
                     try {
-                        if (self.buffer += self.decoder.decode(), (self.cue || "HEADER" === self.state) && (self.buffer += "\n\n", self.parse()), "INITIAL" === self.state) throw new ParsingError(ParsingError.Errors.BadSignature);
+                        if (self1.buffer += self1.decoder.decode(), (self1.cue || "HEADER" === self1.state) && (self1.buffer += "\n\n", self1.parse()), "INITIAL" === self1.state) throw new ParsingError(ParsingError.Errors.BadSignature);
                     } catch (e) {
-                        self.reportOrThrowError(e);
+                        self1.reportOrThrowError(e);
                     }
-                    return self.onflush && self.onflush(), this;
+                    return self1.onflush && self1.onflush(), this;
                 }
-            }, module.exports = WebVTT;
+            }, module.exports = WebVTT1;
         },
         2230: function(module) {
             var directionSetting = {
@@ -4932,7 +4932,7 @@
                             return _startTime;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("Start time must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("Start time must be set to a number.");
                             _startTime = value, this.hasBeenReset = !0;
                         }
                     },
@@ -4942,7 +4942,7 @@
                             return _endTime;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("End time must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("End time must be set to a number.");
                             _endTime = value, this.hasBeenReset = !0;
                         }
                     },
@@ -4970,8 +4970,8 @@
                             return _vertical;
                         },
                         set: function(value) {
-                            var value2, setting = "string" == typeof (value2 = value) && !!directionSetting[value2.toLowerCase()] && value2.toLowerCase();
-                            if (!1 === setting) throw new SyntaxError("Vertical: an invalid or illegal direction string was specified.");
+                            var value1, setting = "string" == typeof (value1 = value) && !!directionSetting[value1.toLowerCase()] && value1.toLowerCase();
+                            if (!1 === setting) throw SyntaxError("Vertical: an invalid or illegal direction string was specified.");
                             _vertical = setting, this.hasBeenReset = !0;
                         }
                     },
@@ -4990,7 +4990,7 @@
                             return _line;
                         },
                         set: function(value) {
-                            if ("number" != typeof value && "auto" !== value) throw new SyntaxError("Line: an invalid number or illegal string was specified.");
+                            if ("number" != typeof value && "auto" !== value) throw SyntaxError("Line: an invalid number or illegal string was specified.");
                             _line = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5010,7 +5010,7 @@
                             return _position;
                         },
                         set: function(value) {
-                            if (value < 0 || value > 100) throw new Error("Position must be between 0 and 100.");
+                            if (value < 0 || value > 100) throw Error("Position must be between 0 and 100.");
                             _position = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5030,7 +5030,7 @@
                             return _size;
                         },
                         set: function(value) {
-                            if (value < 0 || value > 100) throw new Error("Size must be between 0 and 100.");
+                            if (value < 0 || value > 100) throw Error("Size must be between 0 and 100.");
                             _size = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5041,7 +5041,7 @@
                         },
                         set: function(value) {
                             var setting = findAlignSetting(value);
-                            if (!setting) throw new SyntaxError("align: an invalid or illegal alignment string was specified.");
+                            if (!setting) throw SyntaxError("align: an invalid or illegal alignment string was specified.");
                             _align = setting, this.hasBeenReset = !0;
                         }
                     }
@@ -5068,7 +5068,7 @@
                             return _width;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("Width must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("Width must be between 0 and 100.");
                             _width = value;
                         }
                     },
@@ -5078,7 +5078,7 @@
                             return _lines;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("Lines must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("Lines must be set to a number.");
                             _lines = value;
                         }
                     },
@@ -5088,7 +5088,7 @@
                             return _regionAnchorY;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("RegionAnchorX must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("RegionAnchorX must be between 0 and 100.");
                             _regionAnchorY = value;
                         }
                     },
@@ -5098,7 +5098,7 @@
                             return _regionAnchorX;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("RegionAnchorY must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("RegionAnchorY must be between 0 and 100.");
                             _regionAnchorX = value;
                         }
                     },
@@ -5108,7 +5108,7 @@
                             return _viewportAnchorY;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("ViewportAnchorY must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("ViewportAnchorY must be between 0 and 100.");
                             _viewportAnchorY = value;
                         }
                     },
@@ -5118,7 +5118,7 @@
                             return _viewportAnchorX;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("ViewportAnchorX must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("ViewportAnchorX must be between 0 and 100.");
                             _viewportAnchorX = value;
                         }
                     },
@@ -5128,7 +5128,7 @@
                             return _scroll;
                         },
                         set: function(value) {
-                            var value3, setting = "string" == typeof (value3 = value) && !!scrollSetting[value3.toLowerCase()] && value3.toLowerCase();
+                            var value1, setting = "string" == typeof (value1 = value) && !!scrollSetting[value1.toLowerCase()] && value1.toLowerCase();
                             !1 === setting ? console.warn("Scroll: an invalid or illegal string was specified.") : _scroll = setting;
                         }
                     }
@@ -5148,10 +5148,10 @@
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(encodeChunk(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
                 return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3f] + "==") : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "="), parts.join("");
             };
-            for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i3 = 0, len1 = code.length; i3 < len1; ++i3)lookup[i3] = code[i3], revLookup[code.charCodeAt(i3)] = i3;
+            for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i = 0, len = code.length; i < len; ++i)lookup[i] = code[i], revLookup[code.charCodeAt(i)] = i;
             function getLens(b64) {
                 var len = b64.length;
-                if (len % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
+                if (len % 4 > 0) throw Error("Invalid string. Length must be a multiple of 4");
                 var validLen = b64.indexOf("=");
                 -1 === validLen && (validLen = len);
                 var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
@@ -5173,13 +5173,13 @@
             "use strict";
             var base64 = __webpack_require__(4782), ieee754 = __webpack_require__(8898), customInspectSymbol = "function" == typeof Symbol && "function" == typeof Symbol.for ? Symbol.for("nodejs.util.inspect.custom") : null;
             function createBuffer(length) {
-                if (length > 0x7fffffff) throw new RangeError('The value "' + length + '" is invalid for option "size"');
+                if (length > 0x7fffffff) throw RangeError('The value "' + length + '" is invalid for option "size"');
                 var buf = new Uint8Array(length);
                 return Object.setPrototypeOf(buf, Buffer.prototype), buf;
             }
             function Buffer(arg, encodingOrOffset, length) {
                 if ("number" == typeof arg) {
-                    if ("string" == typeof encodingOrOffset) throw new TypeError('The "string" argument must be of type string. Received type number');
+                    if ("string" == typeof encodingOrOffset) throw TypeError('The "string" argument must be of type string. Received type number');
                     return allocUnsafe(arg);
                 }
                 return from(arg, encodingOrOffset, length);
@@ -5187,26 +5187,26 @@
             function from(value, encodingOrOffset, length) {
                 if ("string" == typeof value) return fromString(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
-                if (null == value) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
                 if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
-                if ("number" == typeof value) throw new TypeError('The "value" argument must not be of type number. Received type number');
+                if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
                 var b = fromObject(value);
                 if (b) return b;
                 if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
-                throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
             }
             function assertSize(size) {
-                if ("number" != typeof size) throw new TypeError('"size" argument must be of type number');
-                if (size < 0) throw new RangeError('The value "' + size + '" is invalid for option "size"');
+                if ("number" != typeof size) throw TypeError('"size" argument must be of type number');
+                if (size < 0) throw RangeError('The value "' + size + '" is invalid for option "size"');
             }
             function allocUnsafe(size) {
                 return assertSize(size), createBuffer(size < 0 ? 0 : 0 | checked(size));
             }
             function fromString(string, encoding) {
-                if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw new TypeError("Unknown encoding: " + encoding);
-                var length = 0 | byteLength1(string, encoding), buf = createBuffer(length), actual = buf.write(string, encoding);
+                if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
+                var length = 0 | byteLength(string, encoding), buf = createBuffer(length), actual = buf.write(string, encoding);
                 return actual !== length && (buf = buf.slice(0, actual)), buf;
             }
             function fromArrayLike(array) {
@@ -5215,8 +5215,8 @@
             }
             function fromArrayBuffer(array, byteOffset, length) {
                 var buf;
-                if (byteOffset < 0 || array.byteLength < byteOffset) throw new RangeError('"offset" is outside of buffer bounds');
-                if (array.byteLength < byteOffset + (length || 0)) throw new RangeError('"length" is outside of buffer bounds');
+                if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
+                if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
                 return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
             }
             function fromObject(obj) {
@@ -5227,13 +5227,13 @@
                 return void 0 !== obj.length ? "number" != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : "Buffer" === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
             }
             function checked(length) {
-                if (length >= 0x7fffffff) throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 0x7fffffff.toString(16) + " bytes");
+                if (length >= 0x7fffffff) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 0x7fffffff.toString(16) + " bytes");
                 return 0 | length;
             }
-            function byteLength1(string, encoding) {
+            function byteLength(string, encoding) {
                 if (Buffer.isBuffer(string)) return string.length;
                 if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) return string.byteLength;
-                if ("string" != typeof string) throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
+                if ("string" != typeof string) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
                 var len = string.length, mustMatch = arguments.length > 2 && !0 === arguments[2];
                 if (!mustMatch && 0 === len) return 0;
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5280,7 +5280,7 @@
                     case "utf-16le":
                         return utf16leSlice(this, start, end);
                     default:
-                        if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+                        if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = (encoding + "").toLowerCase(), loweredCase = !0;
                 }
             }
@@ -5302,10 +5302,10 @@
                 if ("number" == typeof val) return (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
                     val
                 ], byteOffset, encoding, dir);
-                throw new TypeError("val must be string, number or Buffer");
+                throw TypeError("val must be string, number or Buffer");
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
-                var i4, indexSize = 1, arrLength = arr.length, valLength = val.length;
+                var i, indexSize = 1, arrLength = arr.length, valLength = val.length;
                 if (void 0 !== encoding && ("ucs2" === (encoding = String(encoding).toLowerCase()) || "ucs-2" === encoding || "utf16le" === encoding || "utf-16le" === encoding)) {
                     if (arr.length < 2 || val.length < 2) return -1;
                     indexSize = 2, arrLength /= 2, valLength /= 2, byteOffset /= 2;
@@ -5315,15 +5315,15 @@
                 }
                 if (dir) {
                     var foundIndex = -1;
-                    for(i4 = byteOffset; i4 < arrLength; i4++)if (read(arr, i4) === read(val, -1 === foundIndex ? 0 : i4 - foundIndex)) {
-                        if (-1 === foundIndex && (foundIndex = i4), i4 - foundIndex + 1 === valLength) return foundIndex * indexSize;
-                    } else -1 !== foundIndex && (i4 -= i4 - foundIndex), foundIndex = -1;
-                } else for(byteOffset + valLength > arrLength && (byteOffset = arrLength - valLength), i4 = byteOffset; i4 >= 0; i4--){
-                    for(var found = !0, j = 0; j < valLength; j++)if (read(arr, i4 + j) !== read(val, j)) {
+                    for(i = byteOffset; i < arrLength; i++)if (read(arr, i) === read(val, -1 === foundIndex ? 0 : i - foundIndex)) {
+                        if (-1 === foundIndex && (foundIndex = i), i - foundIndex + 1 === valLength) return foundIndex * indexSize;
+                    } else -1 !== foundIndex && (i -= i - foundIndex), foundIndex = -1;
+                } else for(byteOffset + valLength > arrLength && (byteOffset = arrLength - valLength), i = byteOffset; i >= 0; i--){
+                    for(var found = !0, j = 0; j < valLength; j++)if (read(arr, i + j) !== read(val, j)) {
                         found = !1;
                         break;
                     }
-                    if (found) return i4;
+                    if (found) return i;
                 }
                 return -1;
             }
@@ -5408,16 +5408,16 @@
                 return res;
             }
             function checkOffset(offset, ext, length) {
-                if (offset % 1 != 0 || offset < 0) throw new RangeError("offset is not uint");
-                if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
+                if (offset % 1 != 0 || offset < 0) throw RangeError("offset is not uint");
+                if (offset + ext > length) throw RangeError("Trying to access beyond buffer length");
             }
             function checkInt(buf, value, offset, ext, max, min) {
-                if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance');
-                if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
-                if (offset + ext > buf.length) throw new RangeError("Index out of range");
+                if (!Buffer.isBuffer(buf)) throw TypeError('"buffer" argument must be a Buffer instance');
+                if (value > max || value < min) throw RangeError('"value" argument is out of bounds');
+                if (offset + ext > buf.length) throw RangeError("Index out of range");
             }
             function checkIEEE754(buf, value, offset, ext, max, min) {
-                if (offset + ext > buf.length || offset < 0) throw new RangeError("Index out of range");
+                if (offset + ext > buf.length || offset < 0) throw RangeError("Index out of range");
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
                 return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
@@ -5460,7 +5460,7 @@
             }, Buffer.isBuffer = function(b) {
                 return null != b && !0 === b._isBuffer && b !== Buffer.prototype;
             }, Buffer.compare = function(a, b) {
-                if (isInstance(a, Uint8Array) && (a = Buffer.from(a, a.offset, a.byteLength)), isInstance(b, Uint8Array) && (b = Buffer.from(b, b.offset, b.byteLength)), !Buffer.isBuffer(a) || !Buffer.isBuffer(b)) throw new TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
+                if (isInstance(a, Uint8Array) && (a = Buffer.from(a, a.offset, a.byteLength)), isInstance(b, Uint8Array) && (b = Buffer.from(b, b.offset, b.byteLength)), !Buffer.isBuffer(a) || !Buffer.isBuffer(b)) throw TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
                 if (a === b) return 0;
                 for(var x = a.length, y = b.length, i = 0, len = Math.min(x, y); i < len; ++i)if (a[i] !== b[i]) {
                     x = a[i], y = b[i];
@@ -5485,43 +5485,43 @@
                         return !1;
                 }
             }, Buffer.concat = function(list, length) {
-                if (!Array.isArray(list)) throw new TypeError('"list" argument must be an Array of Buffers');
+                if (!Array.isArray(list)) throw TypeError('"list" argument must be an Array of Buffers');
                 if (0 === list.length) return Buffer.alloc(0);
                 if (void 0 === length) for(i = 0, length = 0; i < list.length; ++i)length += list[i].length;
                 var i, buffer = Buffer.allocUnsafe(length), pos = 0;
                 for(i = 0; i < list.length; ++i){
                     var buf = list[i];
-                    if (isInstance(buf, Uint8Array) && (buf = Buffer.from(buf)), !Buffer.isBuffer(buf)) throw new TypeError('"list" argument must be an Array of Buffers');
+                    if (isInstance(buf, Uint8Array) && (buf = Buffer.from(buf)), !Buffer.isBuffer(buf)) throw TypeError('"list" argument must be an Array of Buffers');
                     buf.copy(buffer, pos), pos += buf.length;
                 }
                 return buffer;
-            }, Buffer.byteLength = byteLength1, Buffer.prototype._isBuffer = !0, Buffer.prototype.swap16 = function() {
+            }, Buffer.byteLength = byteLength, Buffer.prototype._isBuffer = !0, Buffer.prototype.swap16 = function() {
                 var len = this.length;
-                if (len % 2 != 0) throw new RangeError("Buffer size must be a multiple of 16-bits");
+                if (len % 2 != 0) throw RangeError("Buffer size must be a multiple of 16-bits");
                 for(var i = 0; i < len; i += 2)swap(this, i, i + 1);
                 return this;
             }, Buffer.prototype.swap32 = function() {
                 var len = this.length;
-                if (len % 4 != 0) throw new RangeError("Buffer size must be a multiple of 32-bits");
+                if (len % 4 != 0) throw RangeError("Buffer size must be a multiple of 32-bits");
                 for(var i = 0; i < len; i += 4)swap(this, i, i + 3), swap(this, i + 1, i + 2);
                 return this;
             }, Buffer.prototype.swap64 = function() {
                 var len = this.length;
-                if (len % 8 != 0) throw new RangeError("Buffer size must be a multiple of 64-bits");
+                if (len % 8 != 0) throw RangeError("Buffer size must be a multiple of 64-bits");
                 for(var i = 0; i < len; i += 8)swap(this, i, i + 7), swap(this, i + 1, i + 6), swap(this, i + 2, i + 5), swap(this, i + 3, i + 4);
                 return this;
             }, Buffer.prototype.toString = function() {
                 var length = this.length;
                 return 0 === length ? "" : 0 === arguments.length ? utf8Slice(this, 0, length) : slowToString.apply(this, arguments);
             }, Buffer.prototype.toLocaleString = Buffer.prototype.toString, Buffer.prototype.equals = function(b) {
-                if (!Buffer.isBuffer(b)) throw new TypeError("Argument must be a Buffer");
+                if (!Buffer.isBuffer(b)) throw TypeError("Argument must be a Buffer");
                 return this === b || 0 === Buffer.compare(this, b);
             }, Buffer.prototype.inspect = function() {
                 var str = "", max = exports.INSPECT_MAX_BYTES;
                 return str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim(), this.length > max && (str += " ... "), "<Buffer " + str + ">";
             }, customInspectSymbol && (Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect), Buffer.prototype.compare = function(target, start, end, thisStart, thisEnd) {
-                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
-                if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw new RangeError("out of range index");
+                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
+                if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw RangeError("out of range index");
                 if (thisStart >= thisEnd && start >= end) return 0;
                 if (thisStart >= thisEnd) return -1;
                 if (start >= end) return 1;
@@ -5541,9 +5541,9 @@
                 if (void 0 === offset) encoding = "utf8", length = this.length, offset = 0;
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
-                else throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
+                else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                 var remaining = this.length - offset;
-                if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw new RangeError("Attempt to write outside buffer bounds");
+                if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
                     case "hex":
@@ -5564,7 +5564,7 @@
                     case "utf-16le":
                         return ucs2Write(this, string, offset, length);
                     default:
-                        if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+                        if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = ("" + encoding).toLowerCase(), loweredCase = !0;
                 }
             }, Buffer.prototype.toJSON = function() {
@@ -5686,11 +5686,11 @@
             }, Buffer.prototype.writeDoubleBE = function(value, offset, noAssert) {
                 return writeDouble(this, value, offset, !1, noAssert);
             }, Buffer.prototype.copy = function(target, targetStart, start, end) {
-                if (!Buffer.isBuffer(target)) throw new TypeError("argument should be a Buffer");
+                if (!Buffer.isBuffer(target)) throw TypeError("argument should be a Buffer");
                 if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
-                if (targetStart < 0) throw new RangeError("targetStart out of bounds");
-                if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
-                if (end < 0) throw new RangeError("sourceEnd out of bounds");
+                if (targetStart < 0) throw RangeError("targetStart out of bounds");
+                if (start < 0 || start >= this.length) throw RangeError("Index out of range");
+                if (end < 0) throw RangeError("sourceEnd out of bounds");
                 end > this.length && (end = this.length), target.length - targetStart < end - start && (end = target.length - targetStart + start);
                 var len = end - start;
                 if (this === target && "function" == typeof Uint8Array.prototype.copyWithin) this.copyWithin(targetStart, start, end);
@@ -5699,19 +5699,19 @@
                 return len;
             }, Buffer.prototype.fill = function(val, start, end, encoding) {
                 if ("string" == typeof val) {
-                    if ("string" == typeof start ? (encoding = start, start = 0, end = this.length) : "string" == typeof end && (encoding = end, end = this.length), void 0 !== encoding && "string" != typeof encoding) throw new TypeError("encoding must be a string");
-                    if ("string" == typeof encoding && !Buffer.isEncoding(encoding)) throw new TypeError("Unknown encoding: " + encoding);
+                    if ("string" == typeof start ? (encoding = start, start = 0, end = this.length) : "string" == typeof end && (encoding = end, end = this.length), void 0 !== encoding && "string" != typeof encoding) throw TypeError("encoding must be a string");
+                    if ("string" == typeof encoding && !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
                     if (1 === val.length) {
                         var i, code = val.charCodeAt(0);
                         ("utf8" === encoding && code < 128 || "latin1" === encoding) && (val = code);
                     }
                 } else "number" == typeof val ? val &= 255 : "boolean" == typeof val && (val = Number(val));
-                if (start < 0 || this.length < start || this.length < end) throw new RangeError("Out of range index");
+                if (start < 0 || this.length < start || this.length < end) throw RangeError("Out of range index");
                 if (end <= start) return this;
                 if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, val || (val = 0), "number" == typeof val) for(i = start; i < end; ++i)this[i] = val;
                 else {
                     var bytes = Buffer.isBuffer(val) ? val : Buffer.from(val, encoding), len = bytes.length;
-                    if (0 === len) throw new TypeError('The value "' + val + '" is invalid for argument "value"');
+                    if (0 === len) throw TypeError('The value "' + val + '" is invalid for argument "value"');
                     for(i = 0; i < end - start; ++i)this[i + start] = bytes[i % len];
                 }
                 return this;
@@ -5747,7 +5747,7 @@
                     } else if (codePoint < 0x110000) {
                         if ((units -= 4) < 0) break;
                         bytes.push(codePoint >> 0x12 | 0xf0, codePoint >> 0xc & 0x3f | 0x80, codePoint >> 0x6 & 0x3f | 0x80, 0x3f & codePoint | 0x80);
-                    } else throw new Error("Invalid code point");
+                    } else throw Error("Invalid code point");
                 }
                 return bytes;
             }
@@ -5759,12 +5759,12 @@
                 for(var c, hi, lo, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
                 return byteArray;
             }
-            function base64ToBytes(str1) {
+            function base64ToBytes(str) {
                 return base64.toByteArray(function(str) {
                     if ((str = (str = str.split("=")[0]).trim().replace(INVALID_BASE64_RE, "")).length < 2) return "";
                     for(; str.length % 4 != 0;)str += "=";
                     return str;
-                }(str1));
+                }(str));
             }
             function blitBuffer(src, dst, offset, length) {
                 for(var i = 0; i < length && !(i + offset >= dst.length) && !(i >= src.length); ++i)dst[i + offset] = src[i];
@@ -5774,7 +5774,7 @@
                 return obj instanceof type || null != obj && null != obj.constructor && null != obj.constructor.name && obj.constructor.name === type.name;
             }
             var hexSliceLookupTable = function() {
-                for(var alphabet = "0123456789abcdef", table = new Array(256), i = 0; i < 16; ++i)for(var i16 = 16 * i, j = 0; j < 16; ++j)table[i16 + j] = alphabet[i] + alphabet[j];
+                for(var alphabet = "0123456789abcdef", table = Array(256), i = 0; i < 16; ++i)for(var i16 = 16 * i, j = 0; j < 16; ++j)table[i16 + j] = alphabet[i] + alphabet[j];
                 return table;
             }();
         },
@@ -5799,9 +5799,9 @@
         7579: function() {},
         7326: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
-            function _assertThisInitialized(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
+            function _assertThisInitialized(self1) {
+                if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
+                return self1;
             }
             __webpack_require__.d(__webpack_exports__, {
                 Z: function() {
@@ -5817,7 +5817,7 @@
                 }
             });
             var setPrototypeOf = __webpack_require__(9611);
-            function _construct(Parent1, args1, Class1) {
+            function _construct(Parent, args, Class) {
                 return (_construct = !function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
@@ -5862,7 +5862,7 @@
             });
             var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9611);
             function _inherits(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 Object.defineProperty(subClass, "prototype", {
                     value: Object.create(superClass && superClass.prototype, {
                         constructor: {
@@ -5889,10 +5889,10 @@
         },
         9611: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
-            function _setPrototypeOf(o1, p1) {
+            function _setPrototypeOf(o, p) {
                 return (_setPrototypeOf = Object.setPrototypeOf || function(o, p) {
                     return o.__proto__ = p, o;
-                })(o1, p1);
+                })(o, p);
             }
             __webpack_require__.d(__webpack_exports__, {
                 Z: function() {

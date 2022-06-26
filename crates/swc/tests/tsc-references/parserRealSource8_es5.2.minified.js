@@ -1,5 +1,5 @@
 var TypeScript;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(TypeScript1) {
     var pushAssignScope = function(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);

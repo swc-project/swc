@@ -1,12 +1,12 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
 function f1() {}
 var M;
-(function(M1) {
-    var y = M1.y = 1;
+(function(M) {
+    var y = M.y = 1;
 })(M || (M = {}));
 var E;
 (function(E) {

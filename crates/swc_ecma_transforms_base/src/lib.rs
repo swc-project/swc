@@ -1,4 +1,4 @@
-#![deny(clippy::all)]
+#![cfg_attr(test, deny(warnings))]
 
 pub use self::resolver::resolver;
 
@@ -15,6 +15,7 @@ pub mod native;
 pub mod pass;
 pub mod perf;
 pub mod quote;
+pub mod rename;
 mod resolver;
 pub mod scope;
 #[cfg(test)]

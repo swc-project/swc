@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // all errors imported modules conflict with local variables
 var A;
-(function(A1) {
-    var Point = A1.Point = {
+(function(A) {
+    var Point = A.Point = {
         x: 0,
         y: 0
     };
@@ -15,12 +15,12 @@ var B;
     };
 })(B || (B = {}));
 var X;
-(function(X1) {
+(function(X) {
     var Y = function Y() {
         "use strict";
         _class_call_check(this, Y);
     };
-    X1.Y = Y;
+    X.Y = Y;
 })(X || (X = {}));
 var Z;
 (function(Z) {

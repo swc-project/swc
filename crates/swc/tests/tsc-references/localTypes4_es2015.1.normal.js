@@ -21,8 +21,8 @@ function f4() {
     let v;
     v.x = 10;
     if (true) {
-        let v;
-        v.x = "hello";
+        let v1;
+        v1.x = "hello";
     } else {
         v.x = 20;
     }

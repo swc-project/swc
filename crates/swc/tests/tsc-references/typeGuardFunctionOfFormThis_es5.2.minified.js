@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var b, crate, RoyalGuard = function() {
     "use strict";
     function RoyalGuard() {
@@ -43,17 +43,17 @@ var ArrowGuard = function() {
     }, this.isMedic = function() {
         return _instanceof(_this, ArrowMedic);
     };
-}, ArrowElite = function(ArrowGuard1) {
+}, ArrowElite = function(ArrowGuard) {
     "use strict";
-    _inherits(ArrowElite, ArrowGuard1);
+    _inherits(ArrowElite, ArrowGuard);
     var _super = _create_super(ArrowElite);
     function ArrowElite() {
         return _class_call_check(this, ArrowElite), _super.apply(this, arguments);
     }
     return ArrowElite.prototype.defend = function() {}, ArrowElite;
-}(ArrowGuard), ArrowMedic = function(ArrowGuard2) {
+}(ArrowGuard), ArrowMedic = function(ArrowGuard) {
     "use strict";
-    _inherits(ArrowMedic, ArrowGuard2);
+    _inherits(ArrowMedic, ArrowGuard);
     var _super = _create_super(ArrowMedic);
     function ArrowMedic() {
         return _class_call_check(this, ArrowMedic), _super.apply(this, arguments);

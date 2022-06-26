@@ -1,7 +1,7 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 _sliced_to_array(strArray, 1)[0].toString(), _to_array(strArray).slice(0).push(void 0), _to_array(strArray).slice(2).push(void 0), strMap.t1.toString(), _extends({}, strMap).z.toString();
 var ref, x = numMapPoint.x, y = numMapPoint.y, z = numMapPoint.z;
 x.toFixed(), y.toFixed(), z.toFixed();

@@ -1,10 +1,11 @@
+use rayon::prelude::*;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{extract_var_ids, ExprExt, StmtExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
-use crate::{compress::util::is_fine_for_if_cons, util::ModuleItemExt};
+use crate::{compress::util::is_fine_for_if_cons, maybe_par, util::ModuleItemExt};
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
@@ -229,29 +230,34 @@ impl Pure<'_> {
 
             report_change!("Dropping statements after a control keyword");
 
-            let mut new_stmts = Vec::with_capacity(stmts.len());
-            let mut decls = vec![];
-            let mut hoisted_fns = vec![];
+            let stmts_len = stmts.len();
 
             // Hoist function and `var` declarations above return.
-            stmts
-                .iter_mut()
-                .skip(idx + 1)
-                .for_each(|stmt| match stmt.take().try_into_stmt() {
-                    Ok(Stmt::Decl(Decl::Fn(f))) => {
-                        hoisted_fns.push(Stmt::Decl(Decl::Fn(f)).into());
-                    }
-                    Ok(t) => {
-                        let ids = extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
-                            span: i.span,
-                            name: i.into(),
-                            init: None,
-                            definite: false,
-                        });
-                        decls.extend(ids);
-                    }
-                    Err(item) => new_stmts.push(item),
-                });
+            let (decls, hoisted_fns, mut new_stmts) = stmts.iter_mut().skip(idx + 1).fold(
+                (
+                    Vec::with_capacity(stmts_len),
+                    Vec::<T>::with_capacity(stmts_len),
+                    Vec::with_capacity(stmts_len),
+                ),
+                |(mut decls, mut hoisted_fns, mut new_stmts), stmt| {
+                    match stmt.take().try_into_stmt() {
+                        Ok(Stmt::Decl(Decl::Fn(f))) => {
+                            hoisted_fns.push(Stmt::Decl(Decl::Fn(f)).into());
+                        }
+                        Ok(t) => {
+                            let ids = extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
+                                span: i.span,
+                                name: i.into(),
+                                init: None,
+                                definite: false,
+                            });
+                            decls.extend(ids);
+                        }
+                        Err(item) => new_stmts.push(item),
+                    };
+                    (decls, hoisted_fns, new_stmts)
+                },
+            );
 
             if !decls.is_empty() {
                 new_stmts.push(
@@ -380,34 +386,58 @@ impl Pure<'_> {
         T: StmtLike,
     {
         fn is_ok(b: &BlockStmt) -> bool {
-            b.stmts.iter().all(is_fine_for_if_cons)
+            maybe_par!(
+                b.stmts.iter().all(is_fine_for_if_cons),
+                *crate::LIGHT_TASK_PARALLELS
+            )
         }
 
-        if stmts
-            .iter()
-            .all(|stmt| !matches!(stmt.as_stmt(), Some(Stmt::Block(b)) if is_ok(b)))
-        {
+        if maybe_par!(
+            stmts
+                .iter()
+                .all(|stmt| !matches!(stmt.as_stmt(), Some(Stmt::Block(b)) if is_ok(b))),
+            *crate::LIGHT_TASK_PARALLELS
+        ) {
             return;
         }
 
         self.changed = true;
         report_change!("Dropping useless block");
 
-        let mut new = vec![];
-        for stmt in stmts.take() {
-            match stmt.try_into_stmt() {
-                Ok(v) => match v {
-                    Stmt::Block(v) if is_ok(&v) => {
-                        new.extend(v.stmts.into_iter().map(T::from_stmt));
-                    }
-                    _ => new.push(T::from_stmt(v)),
-                },
-                Err(v) => {
-                    new.push(v);
-                }
-            }
-        }
+        let old_stmts = stmts.take();
 
+        let new: Vec<T> = if old_stmts.len() >= *crate::LIGHT_TASK_PARALLELS {
+            old_stmts
+                .into_par_iter()
+                .flat_map(|stmt| match stmt.try_into_stmt() {
+                    Ok(v) => match v {
+                        Stmt::Block(v) if is_ok(&v) => {
+                            let stmts = v.stmts;
+                            maybe_par!(
+                                stmts.into_iter().map(T::from_stmt).collect(),
+                                *crate::LIGHT_TASK_PARALLELS
+                            )
+                        }
+                        _ => vec![T::from_stmt(v)],
+                    },
+                    Err(v) => vec![v],
+                })
+                .collect()
+        } else {
+            let mut new = Vec::with_capacity(old_stmts.len() * 2);
+            old_stmts
+                .into_iter()
+                .for_each(|stmt| match stmt.try_into_stmt() {
+                    Ok(v) => match v {
+                        Stmt::Block(v) if is_ok(&v) => {
+                            new.extend(v.stmts.into_iter().map(T::from_stmt));
+                        }
+                        _ => new.push(T::from_stmt(v)),
+                    },
+                    Err(v) => new.push(v),
+                });
+            new
+        };
         *stmts = new;
     }
 
@@ -437,20 +467,24 @@ impl Pure<'_> {
             return;
         }
 
-        if !stmts.iter().any(|stmt| match stmt.as_stmt() {
-            Some(Stmt::If(s)) => s.test.cast_to_bool(&self.expr_ctx).1.is_known(),
-            _ => false,
-        }) {
+        if !maybe_par!(
+            stmts.iter().any(|stmt| match stmt.as_stmt() {
+                Some(Stmt::If(s)) => s.test.cast_to_bool(&self.expr_ctx).1.is_known(),
+                _ => false,
+            }),
+            *crate::LIGHT_TASK_PARALLELS
+        ) {
             return;
         }
 
         self.changed = true;
         report_change!("dead_code: Removing dead codes");
 
-        let mut new = vec![];
-
-        for stmt in stmts.take() {
-            match stmt.try_into_stmt() {
+        let mut new = Vec::with_capacity(stmts.len());
+        stmts
+            .take()
+            .into_iter()
+            .for_each(|stmt| match stmt.try_into_stmt() {
                 Ok(stmt) => match stmt {
                     Stmt::If(mut s) => {
                         if let Value::Known(v) = s.test.cast_to_bool(&self.expr_ctx).1 {
@@ -462,14 +496,16 @@ impl Pure<'_> {
 
                             if v {
                                 if let Some(alt) = s.alt.take() {
-                                    var_ids.extend(alt.extract_var_ids().into_iter().map(|name| {
-                                        VarDeclarator {
+                                    var_ids = alt
+                                        .extract_var_ids()
+                                        .into_iter()
+                                        .map(|name| VarDeclarator {
                                             span: DUMMY_SP,
                                             name: Pat::Ident(name.into()),
                                             init: None,
                                             definite: Default::default(),
-                                        }
-                                    }));
+                                        })
+                                        .collect();
                                 }
                                 if !var_ids.is_empty() {
                                     new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -481,14 +517,17 @@ impl Pure<'_> {
                                 }
                                 new.push(T::from_stmt(*s.cons.take()));
                             } else {
-                                var_ids.extend(s.cons.extract_var_ids().into_iter().map(|name| {
-                                    VarDeclarator {
+                                var_ids = s
+                                    .cons
+                                    .extract_var_ids()
+                                    .into_iter()
+                                    .map(|name| VarDeclarator {
                                         span: DUMMY_SP,
                                         name: Pat::Ident(name.into()),
                                         init: None,
                                         definite: Default::default(),
-                                    }
-                                }));
+                                    })
+                                    .collect();
                                 if !var_ids.is_empty() {
                                     new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                         span: DUMMY_SP,
@@ -502,14 +541,13 @@ impl Pure<'_> {
                                 }
                             }
                         } else {
-                            new.push(T::from_stmt(Stmt::If(s)))
+                            new.push(T::from_stmt(Stmt::If(s)));
                         }
                     }
                     _ => new.push(T::from_stmt(stmt)),
                 },
                 Err(stmt) => new.push(stmt),
-            }
-        }
+            });
 
         *stmts = new;
     }

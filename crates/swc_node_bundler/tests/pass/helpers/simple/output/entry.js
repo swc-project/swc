@@ -9,9 +9,9 @@ var __decorate = this && this.__decorate || function(decorators, target, key, de
     else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var Foo = function Foo1() {
+var Foo = function Foo() {
     "use strict";
-    _classCallCheck(this, Foo1);
+    _classCallCheck(this, Foo);
 };
 Foo = __decorate([
     isDecorator

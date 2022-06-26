@@ -159,8 +159,8 @@ fn block_scoping_with_usage() {
         "
         var foo = 1;
         {
-            let foo = 2;
-            use(foo);
+            let foo1 = 2;
+            use(foo1);
         }
         use(foo);",
     );
@@ -186,7 +186,7 @@ fn block_scoping_no_usage() {
         "
         let foo;
         {
-            let foo;
+            let foo1;
         }
         ",
     );
@@ -285,8 +285,8 @@ fn const_then_fn_param() {
             ])
         },
         "const a = 1;
-            function foo(a1) {
-                use(a1);
+            function foo(a) {
+                use(a);
             }",
     );
 }
@@ -375,8 +375,8 @@ fn shorthand() {
         "
             let a = 1;
             function foo() {
-                let a1 = 2;
-                use({ a: a1 })
+                let a = 2;
+                use({ a })
             }
             ",
     );
@@ -497,6 +497,7 @@ fn fn_args() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
@@ -508,7 +509,8 @@ fn fn_args() {
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![tester
-                            .parse_stmt("actual1.js", "_defineProperty(this, 'force', force);")?],
+                            .parse_stmt("actual1.js", "_defineProperty(this, 'force', force);")?
+                            .fold_with(&mut marker(&[("force", mark2)]))],
                     }),
                     params: vec![Param {
                         span: DUMMY_SP,
@@ -737,8 +739,8 @@ fn for_x() {
             var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
         }
         async function a() {
-            for await (var _ref2 of []){
-                var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
+            for await (var _ref of []){
+                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
             }
         }
         ",
@@ -1092,10 +1094,10 @@ fn issue_281_02() {
                     &[mark1, mark2, mark3, mark2],
                 )])))
         },
-        "function foo(e) {
+        "function foo(e1) {
             e: {
                 try {
-                } catch (e) {
+                } catch (e2) {
                     o = null;
                     break e
                 }

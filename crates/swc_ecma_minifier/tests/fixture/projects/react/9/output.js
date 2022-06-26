@@ -8,10 +8,10 @@ function lazyInitializer(payload) {
                 var resolved = payload;
                 resolved._status = 1, resolved._result = defaultExport;
             }
-        }, function(error) {
+        }, function(error1) {
             if (0 === payload._status) {
                 var rejected = payload;
-                rejected._status = 2, rejected._result = error;
+                rejected._status = 2, rejected._result = error1;
             }
         });
     }

@@ -1,52 +1,52 @@
-function b(a, b, c) {
-    return (a = i()), (b = h()), (b = a && (c >>= 5));
+function a(a, b, c) {
+    return (a = i()), (b = g()), (b = a && (c >>= 5));
 }
-function c() {
+function b() {
     return (j = i());
 }
-function d(a) {
+function c(a) {
     return (a = i());
 }
-function e() {
+function d() {
     var a;
     return (a = i());
 }
-function f(a) {
+function e(a) {
     try {
         return (a = i());
     } catch (b) {
         console.log(a);
     }
 }
-function g(a) {
+function f(a) {
     try {
         return (a = i());
     } finally{
         console.log(a);
     }
 }
-function h() {
+function g() {
     console.log("y");
 }
-function a(a) {
+function h(g) {
     var h = 0;
     i = function() {
-        h += a;
-        if (a < 0) throw h;
+        h += g;
+        if (g < 0) throw h;
         return h;
     };
     [
+        a,
         b,
         c,
         d,
         e,
-        f,
-        g
-    ].forEach(function(b, a) {
+        f
+    ].forEach(function(a, b) {
         j = null;
         try {
-            a += 1;
-            console.log("result " + b(10 * a, 100 * a, 1e3 * a));
+            b += 1;
+            console.log("result " + a(10 * b, 100 * b, 1e3 * b));
         } catch (c) {
             console.log("caught " + c);
         }
@@ -54,5 +54,5 @@ function a(a) {
     });
 }
 var i, j;
-a(1);
-a(-1);
+h(1);
+h(-1);

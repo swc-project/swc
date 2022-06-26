@@ -1,4 +1,4 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var x = function() {
     var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(i) {

@@ -4,7 +4,9 @@ use swc_ecma_utils::{undefined, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{compress::util::is_pure_undefined, debug::dump, mode::Mode, util::ExprOptExt};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
+use crate::{compress::util::is_pure_undefined, mode::Mode, util::ExprOptExt};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
@@ -44,7 +46,7 @@ where
     pub(super) fn merge_if_returns(
         &mut self,
         stmts: &mut Vec<Stmt>,
-        can_work: bool,
+        terminates: bool,
         is_fn_body: bool,
     ) {
         if !self.options.if_return {
@@ -52,11 +54,11 @@ where
         }
 
         for stmt in stmts.iter_mut() {
-            self.merge_nested_if_returns(stmt, can_work);
+            self.merge_nested_if_returns(stmt, terminates);
         }
 
-        if can_work || is_fn_body {
-            self.merge_if_returns_inner(stmts);
+        if terminates || is_fn_body {
+            self.merge_if_returns_inner(stmts, !is_fn_body);
         }
     }
 
@@ -99,7 +101,7 @@ where
     ///     return a ? foo() : bar();
     /// }
     /// ```
-    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>) {
+    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>, should_preserve_last_return: bool) {
         if !self.options.if_return {
             return;
         }
@@ -366,11 +368,12 @@ where
         if let Some(mut cur) = cur {
             match &*cur {
                 Expr::Seq(seq)
-                    if seq
-                        .exprs
-                        .last()
-                        .map(|v| is_pure_undefined(&self.expr_ctx, v))
-                        .unwrap_or(true) =>
+                    if !should_preserve_last_return
+                        && seq
+                            .exprs
+                            .last()
+                            .map(|v| is_pure_undefined(&self.expr_ctx, v))
+                            .unwrap_or(true) =>
                 {
                     let expr = self.ignore_return_value(&mut cur);
 
@@ -455,7 +458,11 @@ where
     }
 
     fn can_merge_stmt_as_if_return(&self, s: &Stmt, _is_last: bool) -> bool {
-        let res = match s {
+        // if !res {
+        //     trace!("Cannot merge: {}", dump(s));
+        // }
+
+        match s {
             Stmt::Expr(..) => true,
             Stmt::Return(..) => true,
             Stmt::Block(s) => {
@@ -469,12 +476,7 @@ where
                     )
             }
             _ => false,
-        };
-        // if !res {
-        //     trace!("Cannot merge: {}", dump(s));
-        // }
-
-        res
+        }
     }
 }
 

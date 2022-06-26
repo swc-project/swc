@@ -79,7 +79,6 @@ impl VisitMut for GlobalDefs {
         n.visit_mut_children_with(self);
     }
 
-    #[inline]
     fn visit_mut_update_expr(&mut self, e: &mut UpdateExpr) {
         match &mut *e.arg {
             Expr::Ident(..) => {}

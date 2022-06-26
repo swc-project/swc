@@ -10,10 +10,10 @@ var M;
         var r3 = b.foo; // error
         var r4 = b.bar;
     })(M2 || (M2 = {}));
-    var a1;
-    var r1 = a1.foo;
-    var r2 = a1.bar; // error
-    var b1;
-    var r3 = b1.foo;
-    var r4 = b1.bar; // error
+    var a;
+    var r1 = a.foo;
+    var r2 = a.bar; // error
+    var b;
+    var r3 = b.foo;
+    var r4 = b.bar; // error
 })(M || (M = {}));

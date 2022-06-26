@@ -5,31 +5,31 @@ import { hasMultipleIndices as d } from "./indexUtils";
 import { version as e } from "react";
 import f from "./version";
 import { defer as g } from "./utils";
-function h(b) {
-    const c = [];
-    let d = false;
-    function a() {
-        if (d) {
+function h(a) {
+    const b = [];
+    let c = false;
+    function d() {
+        if (c) {
             return;
         }
-        d = true;
+        c = true;
         g(()=>{
-            d = false;
-            b();
+            c = false;
+            a();
         });
     }
     return {
-        registerWidget (b) {
-            c.push(b);
-            a();
-            return function d() {
-                c.splice(c.indexOf(b), 1);
-                a();
+        registerWidget (a) {
+            b.push(a);
+            d();
+            return function c() {
+                b.splice(b.indexOf(a), 1);
+                d();
             };
         },
-        update: a,
+        update: d,
         getWidgets () {
-            return c;
+            return b;
         }
     };
 }
@@ -46,13 +46,13 @@ const j = (a)=>d({
 const k = (a, b)=>a.props.indexContextValue.targetedIndex === b;
 const l = (a)=>Boolean(a.props.indexId);
 const m = (a, b)=>a.props.indexId === b;
-const n = (c, d)=>{
-    const a = l(c);
-    const b = l(d);
-    if (a && !b) {
+const n = (a, b)=>{
+    const c = l(a);
+    const d = l(b);
+    if (c && !d) {
         return -1;
     }
-    if (!a && b) {
+    if (!c && d) {
         return 1;
     }
     return 0;
@@ -65,145 +65,145 @@ function o(a) {
     };
     return Object.keys(a).map((d)=>c("%s=%s", d, b(a[d]) ? JSON.stringify(a[d]) : a[d])).join("&");
 }
-export default function p({ indexName: f , initialState: p = {} , searchClient: d , resultsState: e , stalledSearchDelay: C ,  }) {
-    const g = a(d, f, {
+export default function p({ indexName: d , initialState: e = {} , searchClient: f , resultsState: g , stalledSearchDelay: p ,  }) {
+    const r = a(f, d, {
         ...c
     });
-    i(d);
-    g.on("search", K).on("result", I({
-        indexId: f
-    })).on("error", J);
-    let D = false;
-    let E = null;
-    let F = g.state;
-    const r = h(P);
-    L(d, e);
-    const s = b({
-        widgets: p,
-        metadata: q(e),
-        results: O(e),
+    i(f);
+    r.on("search", F).on("result", D({
+        indexId: d
+    })).on("error", E);
+    let s = false;
+    let t = null;
+    let u = r.state;
+    const v = h(K);
+    G(f, g);
+    const w = b({
+        widgets: e,
+        metadata: q(g),
+        results: J(g),
         error: null,
         searching: false,
         isSearchStalled: true,
         searchingForFacetValues: false
     });
-    function t() {
-        D = true;
+    function x() {
+        s = true;
     }
-    function u(a) {
+    function y(a) {
         i(a);
-        g.setClient(a);
-        H();
+        r.setClient(a);
+        C();
     }
-    function v() {
-        g.clearCache();
-        H();
+    function z() {
+        r.clearCache();
+        C();
     }
-    function G(a) {
-        return r.getWidgets().filter((a)=>Boolean(a.getMetadata)).map((b)=>b.getMetadata(a));
+    function A(a) {
+        return v.getWidgets().filter((a)=>Boolean(a.getMetadata)).map((b)=>b.getMetadata(a));
     }
-    function w() {
-        const a = r.getWidgets().filter((a)=>Boolean(a.getSearchParameters)).filter((a)=>!j(a) && !l(a)).reduce((a, b)=>b.getSearchParameters(a), F);
-        const b = r.getWidgets().filter((a)=>Boolean(a.getSearchParameters)).filter((a)=>{
-            const b = j(a) && k(a, f);
-            const c = l(a) && m(a, f);
+    function B() {
+        const a = v.getWidgets().filter((a)=>Boolean(a.getSearchParameters)).filter((a)=>!j(a) && !l(a)).reduce((a, b)=>b.getSearchParameters(a), u);
+        const b = v.getWidgets().filter((a)=>Boolean(a.getSearchParameters)).filter((a)=>{
+            const b = j(a) && k(a, d);
+            const c = l(a) && m(a, d);
             return b || c;
         }).sort(n).reduce((a, b)=>b.getSearchParameters(a), a);
-        const c = r.getWidgets().filter((a)=>Boolean(a.getSearchParameters)).filter((a)=>{
-            const b = j(a) && !k(a, f);
-            const c = l(a) && !m(a, f);
+        const c = v.getWidgets().filter((a)=>Boolean(a.getSearchParameters)).filter((a)=>{
+            const b = j(a) && !k(a, d);
+            const c = l(a) && !m(a, d);
             return (b || c);
-        }).sort(n).reduce((b, a)=>{
-            const c = j(a) ? a.props.indexContextValue.targetedIndex : a.props.indexId;
-            const d = b[c] || [];
+        }).sort(n).reduce((a, b)=>{
+            const c = j(b) ? b.props.indexContextValue.targetedIndex : b.props.indexId;
+            const d = a[c] || [];
             return {
-                ...b,
-                [c]: d.concat(a)
+                ...a,
+                [c]: d.concat(b)
             };
         }, {});
-        const d = Object.keys(c).map((b)=>({
+        const e = Object.keys(c).map((b)=>({
                 parameters: c[b].reduce((a, b)=>b.getSearchParameters(a), a),
                 indexId: b
             }));
         return {
             mainParameters: b,
-            derivedParameters: d
+            derivedParameters: e
         };
     }
-    function H() {
-        if (!D) {
-            const { mainParameters: a , derivedParameters: b  } = w(g.state);
-            g.derivedHelpers.slice().forEach((a)=>{
+    function C() {
+        if (!s) {
+            const { mainParameters: a , derivedParameters: b  } = B(r.state);
+            r.derivedHelpers.slice().forEach((a)=>{
                 a.detach();
             });
-            b.forEach(({ indexId: a , parameters: c  })=>{
-                const b = g.derive(()=>c);
-                b.on("result", I({
+            b.forEach(({ indexId: a , parameters: b  })=>{
+                const c = r.derive(()=>b);
+                c.on("result", D({
                     indexId: a
-                })).on("error", J);
+                })).on("error", E);
             });
-            g.setState(a);
-            g.search();
+            r.setState(a);
+            r.search();
         }
     }
-    function I({ indexId: a  }) {
-        return (c)=>{
-            const d = s.getState();
-            const e = !g.derivedHelpers.length;
-            let b = d.results ? d.results : {};
-            b = !e && b.getFacetByName ? {} : b;
-            if (!e) {
-                b = {
-                    ...b,
-                    [a]: c.results
+    function D({ indexId: a  }) {
+        return (b)=>{
+            const c = w.getState();
+            const d = !r.derivedHelpers.length;
+            let e = c.results ? c.results : {};
+            e = !d && e.getFacetByName ? {} : e;
+            if (!d) {
+                e = {
+                    ...e,
+                    [a]: b.results
                 };
             } else {
-                b = c.results;
+                e = b.results;
             }
-            const f = s.getState();
-            let h = f.isSearchStalled;
-            if (!g.hasPendingRequests()) {
-                clearTimeout(E);
-                E = null;
-                h = false;
+            const f = w.getState();
+            let g = f.isSearchStalled;
+            if (!r.hasPendingRequests()) {
+                clearTimeout(t);
+                t = null;
+                g = false;
             }
-            const { resultsFacetValues: j , ...i } = f;
-            s.setState({
+            const { resultsFacetValues: h , ...i } = f;
+            w.setState({
                 ...i,
-                results: b,
-                isSearchStalled: h,
+                results: e,
+                isSearchStalled: g,
                 searching: false,
                 error: null
             });
         };
     }
-    function J({ error: c  }) {
-        const a = s.getState();
-        let b = a.isSearchStalled;
-        if (!g.hasPendingRequests()) {
-            clearTimeout(E);
-            b = false;
+    function E({ error: a  }) {
+        const b = w.getState();
+        let c = b.isSearchStalled;
+        if (!r.hasPendingRequests()) {
+            clearTimeout(t);
+            c = false;
         }
-        const { resultsFacetValues: e , ...d } = a;
-        s.setState({
-            ...d,
-            isSearchStalled: b,
-            error: c,
+        const { resultsFacetValues: d , ...e } = b;
+        w.setState({
+            ...e,
+            isSearchStalled: c,
+            error: a,
             searching: false
         });
     }
-    function K() {
-        if (!E) {
-            E = setTimeout(()=>{
-                const { resultsFacetValues: b , ...a } = s.getState();
-                s.setState({
-                    ...a,
+    function F() {
+        if (!t) {
+            t = setTimeout(()=>{
+                const { resultsFacetValues: a , ...b } = w.getState();
+                w.setState({
+                    ...b,
                     isSearchStalled: true
                 });
-            }, C);
+            }, p);
         }
     }
-    function L(a, b) {
+    function G(a, b) {
         if (!b) {
             return;
         }
@@ -230,12 +230,12 @@ export default function p({ indexName: f , initialState: p = {} , searchClient: 
             };
         }
         if (Array.isArray(b.results)) {
-            M(a, b.results);
+            H(a, b.results);
             return;
         }
-        N(a, b);
+        I(a, b);
     }
-    function M(a, b) {
+    function H(a, b) {
         if (a.transporter) {
             a.transporter.responsesCache.set({
                 method: "search",
@@ -263,7 +263,7 @@ export default function p({ indexName: f , initialState: p = {} , searchClient: 
             })
         };
     }
-    function N(a, b) {
+    function I(a, b) {
         if (a.transporter) {
             a.transporter.responsesCache.set({
                 method: "search",
@@ -291,61 +291,61 @@ export default function p({ indexName: f , initialState: p = {} , searchClient: 
             })
         };
     }
-    function O(b) {
+    function J(b) {
         if (!b) {
             return null;
         }
         if (Array.isArray(b.results)) {
-            return b.results.reduce((c, b)=>({
-                    ...c,
-                    [b._internalIndexId]: new a.SearchResults(new a.SearchParameters(b.state), b.rawResults)
+            return b.results.reduce((b, c)=>({
+                    ...b,
+                    [c._internalIndexId]: new a.SearchResults(new a.SearchParameters(c.state), c.rawResults)
                 }), {});
         }
         return new a.SearchResults(new a.SearchParameters(b.state), b.rawResults);
     }
-    function P() {
-        const a = G(s.getState().widgets);
-        s.setState({
-            ...s.getState(),
+    function K() {
+        const a = A(w.getState().widgets);
+        w.setState({
+            ...w.getState(),
             metadata: a,
             searching: true
         });
-        H();
+        C();
     }
-    function x(a) {
-        const b = s.getState().widgets;
-        return r.getWidgets().filter((a)=>Boolean(a.transitionState)).reduce((a, c)=>c.transitionState(b, a), a);
+    function L(a) {
+        const b = w.getState().widgets;
+        return v.getWidgets().filter((a)=>Boolean(a.transitionState)).reduce((a, c)=>c.transitionState(b, a), a);
     }
-    function y(a) {
-        const b = G(a);
-        s.setState({
-            ...s.getState(),
+    function M(a) {
+        const b = A(a);
+        w.setState({
+            ...w.getState(),
             widgets: a,
             metadata: b,
             searching: true
         });
-        H();
+        C();
     }
-    function z({ facetName: a , query: b , maxFacetHits: c = 10  }) {
+    function N({ facetName: a , query: b , maxFacetHits: c = 10  }) {
         const d = Math.max(1, Math.min(c, 100));
-        s.setState({
-            ...s.getState(),
+        w.setState({
+            ...w.getState(),
             searchingForFacetValues: true
         });
-        g.searchForFacetValues(a, b, d).then((c)=>{
-            s.setState({
-                ...s.getState(),
+        r.searchForFacetValues(a, b, d).then((c)=>{
+            w.setState({
+                ...w.getState(),
                 error: null,
                 searchingForFacetValues: false,
                 resultsFacetValues: {
-                    ...s.getState().resultsFacetValues,
+                    ...w.getState().resultsFacetValues,
                     [a]: c.facetHits,
                     query: b
                 }
             });
         }, (a)=>{
-            s.setState({
-                ...s.getState(),
+            w.setState({
+                ...w.getState(),
                 searchingForFacetValues: false,
                 error: a
             });
@@ -355,24 +355,24 @@ export default function p({ indexName: f , initialState: p = {} , searchClient: 
             });
         });
     }
-    function A(a) {
-        F = F.setIndex(a);
+    function O(a) {
+        u = u.setIndex(a);
     }
-    function B() {
-        return s.getState().metadata.reduce((a, b)=>typeof b.id !== "undefined" ? a.concat(b.id) : a, []);
+    function P() {
+        return w.getState().metadata.reduce((a, b)=>typeof b.id !== "undefined" ? a.concat(b.id) : a, []);
     }
     return {
-        store: s,
-        widgetsManager: r,
-        getWidgetsIds: B,
-        getSearchParameters: w,
-        onSearchForFacetValues: z,
-        onExternalStateUpdate: y,
-        transitionState: x,
-        updateClient: u,
-        updateIndex: A,
-        clearCache: v,
-        skipSearch: t
+        store: w,
+        widgetsManager: v,
+        getWidgetsIds: P,
+        getSearchParameters: B,
+        onSearchForFacetValues: N,
+        onExternalStateUpdate: M,
+        transitionState: L,
+        updateClient: y,
+        updateIndex: O,
+        clearCache: z,
+        skipSearch: x
     };
 };
 function q(a) {

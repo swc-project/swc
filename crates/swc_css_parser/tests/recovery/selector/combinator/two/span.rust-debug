@@ -1,0 +1,66 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   : ^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   : ^^^^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   : ^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   : ^^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   :     ^
+   `----
+
+  x Delim { value: '~' }
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   :      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   :       ^
+   `----
+
+  x Delim { value: '+' }
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   :         ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
+ 1 | span ~ + {}
+   :          ^^
+   `----

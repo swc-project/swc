@@ -1,4 +1,4 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 it("should compress avif smaller than webp and smaller than jpg", _async_to_generator(regeneratorRuntime.mark(function _callee() {
     var query, res1, res2, res3, avif, webp, jpeg;

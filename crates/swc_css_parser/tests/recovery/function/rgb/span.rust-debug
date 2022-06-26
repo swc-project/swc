@@ -1,0 +1,1244 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+  1 | ,-> .div {
+  2 | |       color: rgb("test");
+  3 | |   
+  4 | |       color: rgb("test", 100, 100);
+  5 | |       color: rgb(100, "test", 100);
+  6 | |       color: rgb(100, 100, "test");
+  7 | |       color: rgb(100, 100, 100, "test");
+  8 | |   
+  9 | |       color: rgb("test" 100 100);
+ 10 | |       color: rgb(100 "test" 100);
+ 11 | |       color: rgb(100 100 "test");
+ 12 | |       color: rgb(100 100 100 / "test");
+ 13 | |   
+ 14 | |       color: rgb(var(--red));
+ 15 | |       color: rgb(var(--red) var(--green));
+ 16 | `-> }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+  1 | ,-> .div {
+  2 | |       color: rgb("test");
+  3 | |   
+  4 | |       color: rgb("test", 100, 100);
+  5 | |       color: rgb(100, "test", 100);
+  6 | |       color: rgb(100, 100, "test");
+  7 | |       color: rgb(100, 100, 100, "test");
+  8 | |   
+  9 | |       color: rgb("test" 100 100);
+ 10 | |       color: rgb(100 "test" 100);
+ 11 | |       color: rgb(100 100 "test");
+ 12 | |       color: rgb(100 100 100 / "test");
+ 13 | |   
+ 14 | |       color: rgb(var(--red));
+ 15 | |       color: rgb(var(--red) var(--green));
+ 16 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+  1 | ,-> .div {
+  2 | |       color: rgb("test");
+  3 | |   
+  4 | |       color: rgb("test", 100, 100);
+  5 | |       color: rgb(100, "test", 100);
+  6 | |       color: rgb(100, 100, "test");
+  7 | |       color: rgb(100, 100, 100, "test");
+  8 | |   
+  9 | |       color: rgb("test" 100 100);
+ 10 | |       color: rgb(100 "test" 100);
+ 11 | |       color: rgb(100 100 "test");
+ 12 | |       color: rgb(100 100 100 / "test");
+ 13 | |   
+ 14 | |       color: rgb(var(--red));
+ 15 | |       color: rgb(var(--red) var(--green));
+ 16 | `-> }
+    `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+ 1 | .div {
+   : ^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+ 1 | .div {
+   : ^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+ 1 | .div {
+   : ^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+ 1 | .div {
+   : ^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+ 1 | .div {
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+ 1 | .div {
+   :  ^^^
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+  1 | ,-> .div {
+  2 | |       color: rgb("test");
+  3 | |   
+  4 | |       color: rgb("test", 100, 100);
+  5 | |       color: rgb(100, "test", 100);
+  6 | |       color: rgb(100, 100, "test");
+  7 | |       color: rgb(100, 100, 100, "test");
+  8 | |   
+  9 | |       color: rgb("test" 100 100);
+ 10 | |       color: rgb(100 "test" 100);
+ 11 | |       color: rgb(100 100 "test");
+ 12 | |       color: rgb(100 100 100 / "test");
+ 13 | |   
+ 14 | |       color: rgb(var(--red));
+ 15 | |       color: rgb(var(--red) var(--green));
+ 16 | `-> }
+    `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   :        ^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   :        ^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   :        ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   :            ^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
+ 2 | color: rgb("test");
+   :            ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :            ^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :            ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                  ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                    ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                    ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                       ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                         ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
+ 4 | color: rgb("test", 100, 100);
+   :                         ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :            ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :            ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :               ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :                 ^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :                 ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :                       ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :                       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :                         ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
+ 5 | color: rgb(100, "test", 100);
+   :                         ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :            ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :            ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :               ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :                 ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :                 ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :                    ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :                      ^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
+ 6 | color: rgb(100, 100, "test");
+   :                      ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :            ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :            ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :               ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                 ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                 ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                    ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                      ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                      ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                         ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                           ^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
+ 7 | color: rgb(100, 100, 100, "test");
+   :                           ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :        ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :        ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :        ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :            ^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :            ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :                   ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :                   ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :                       ^^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
+ 9 | color: rgb("test" 100 100);
+   :                       ^^^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Color
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :            ^^^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :            ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :                ^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :                ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :                       ^^^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
+ 10 | color: rgb(100 "test" 100);
+    :                       ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Color
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :            ^^^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :            ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :                ^^^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :                ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :                    ^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/recovery/function/rgb/input.css:11:5]
+ 11 | color: rgb(100 100 "test");
+    :                    ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Color
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :            ^^^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :            ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :                ^^^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :                ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :                    ^^^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :                    ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :                        ^
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :                        ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :                          ^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
+ 12 | color: rgb(100 100 100 / "test");
+    :                          ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :        ^^^^^^^^^^^^^^^
+    `----
+
+  x Color
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :        ^^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :        ^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :            ^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :            ^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :            ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :                ^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :                ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Color
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :            ^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :            ^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :            ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :                ^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :                ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :                       ^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :                       ^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :                       ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :                           ^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :                           ^^^^^^^
+    `----

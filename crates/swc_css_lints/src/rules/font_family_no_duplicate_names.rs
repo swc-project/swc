@@ -50,7 +50,7 @@ impl FontFamilyNoDuplicateNames {
                 ComponentValue::Ident(Ident { value, span, .. }) => {
                     if let Some((mut identifier, last_span)) = last_identifier {
                         identifier.push(' ');
-                        identifier.push_str(&*value);
+                        identifier.push_str(value);
                         (fonts, Some((identifier, last_span.with_hi(span.hi()))))
                     } else {
                         (fonts, Some((value.to_string(), *span)))

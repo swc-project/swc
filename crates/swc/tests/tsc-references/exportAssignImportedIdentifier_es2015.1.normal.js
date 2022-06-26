@@ -5,7 +5,7 @@ export function x() {
 // @Filename: foo2.ts
 const foo1 = require('./foo1');
 var x = foo1.x;
-module.exports = x;
 // @Filename: foo3.ts
 const foo2 = require('./foo2');
 var x = foo2(); // should be boolean
+module.exports = x;

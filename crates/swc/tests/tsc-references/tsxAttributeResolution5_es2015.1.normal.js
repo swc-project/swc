@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 function make1(obj) {
     return /*#__PURE__*/ React.createElement("test1", _extends({}, obj)); // OK
 }

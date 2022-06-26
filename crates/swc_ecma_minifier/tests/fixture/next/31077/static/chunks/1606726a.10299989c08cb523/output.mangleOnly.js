@@ -4,57 +4,57 @@
         453
     ],
     {
-        8780: function(D, w, k) {
-            k.r(w);
-            k.d(w, {
+        8780: function(a, b, c) {
+            c.r(b);
+            c.d(b, {
                 Decoration: function() {
-                    return j;
+                    return cd;
                 },
                 DecorationSet: function() {
-                    return d;
+                    return ch;
                 },
                 EditorView: function() {
-                    return c;
+                    return cu;
                 },
                 __endComposition: function() {
-                    return cb;
+                    return b0;
                 },
                 __parseFromClipboard: function() {
-                    return by;
+                    return bi;
                 },
                 __serializeForClipboard: function() {
-                    return bx;
+                    return bh;
                 }
             });
-            var E = k(6922);
-            var F = k(2230);
-            var G = k(1081);
-            var a = {};
+            var d = c(6922);
+            var e = c(2230);
+            var f = c(1081);
+            var g = {};
             if (typeof navigator != "undefined" && typeof document != "undefined") {
-                var n = /Edge\/(\d+)/.exec(navigator.userAgent);
-                var x = /MSIE \d/.test(navigator.userAgent);
-                var o = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(navigator.userAgent);
-                var p = (a.ie = !!(x || o || n));
-                a.ie_version = x ? document.documentMode || 6 : o ? +o[1] : n ? +n[1] : null;
-                a.gecko = !p && /gecko\/(\d+)/i.test(navigator.userAgent);
-                a.gecko_version = a.gecko && +(/Firefox\/(\d+)/.exec(navigator.userAgent) || [
+                var h = /Edge\/(\d+)/.exec(navigator.userAgent);
+                var i = /MSIE \d/.test(navigator.userAgent);
+                var j = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(navigator.userAgent);
+                var k = (g.ie = !!(i || j || h));
+                g.ie_version = i ? document.documentMode || 6 : j ? +j[1] : h ? +h[1] : null;
+                g.gecko = !k && /gecko\/(\d+)/i.test(navigator.userAgent);
+                g.gecko_version = g.gecko && +(/Firefox\/(\d+)/.exec(navigator.userAgent) || [
                     0,
                     0
                 ])[1];
-                var q = !p && /Chrome\/(\d+)/.exec(navigator.userAgent);
-                a.chrome = !!q;
-                a.chrome_version = q && +q[1];
-                a.safari = !p && /Apple Computer/.test(navigator.vendor);
-                a.ios = a.safari && (/Mobile\/\w+/.test(navigator.userAgent) || navigator.maxTouchPoints > 2);
-                a.mac = a.ios || /Mac/.test(navigator.platform);
-                a.android = /Android \d/.test(navigator.userAgent);
-                a.webkit = "webkitFontSmoothing" in document.documentElement.style;
-                a.webkit_version = a.webkit && +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [
+                var l = !k && /Chrome\/(\d+)/.exec(navigator.userAgent);
+                g.chrome = !!l;
+                g.chrome_version = l && +l[1];
+                g.safari = !k && /Apple Computer/.test(navigator.vendor);
+                g.ios = g.safari && (/Mobile\/\w+/.test(navigator.userAgent) || navigator.maxTouchPoints > 2);
+                g.mac = g.ios || /Mac/.test(navigator.platform);
+                g.android = /Android \d/.test(navigator.userAgent);
+                g.webkit = "webkitFontSmoothing" in document.documentElement.style;
+                g.webkit_version = g.webkit && +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [
                     0,
                     0, 
                 ])[1];
             }
-            var H = function(a) {
+            var m = function(a) {
                 for(var b = 0;; b++){
                     a = a.previousSibling;
                     if (!a) {
@@ -62,85 +62,85 @@
                     }
                 }
             };
-            var I = function(b) {
-                var a = b.assignedSlot || b.parentNode;
-                return a && a.nodeType == 11 ? a.host : a;
+            var n = function(a) {
+                var b = a.assignedSlot || a.parentNode;
+                return b && b.nodeType == 11 ? b.host : b;
             };
-            var J = null;
-            var K = function(a, d, c) {
-                var b = J || (J = document.createRange());
-                b.setEnd(a, c == null ? a.nodeValue.length : c);
-                b.setStart(a, d || 0);
-                return b;
+            var o = null;
+            var p = function(a, b, c) {
+                var d = o || (o = document.createRange());
+                d.setEnd(a, c == null ? a.nodeValue.length : c);
+                d.setStart(a, b || 0);
+                return d;
             };
-            var L = function(b, c, a, d) {
-                return (a && (N(b, c, a, d, -1) || N(b, c, a, d, 1)));
+            var q = function(a, b, c, d) {
+                return (c && (s(a, b, c, d, -1) || s(a, b, c, d, 1)));
             };
-            var M = /^(img|br|input|textarea|hr)$/i;
-            function N(a, b, e, f, c) {
+            var r = /^(img|br|input|textarea|hr)$/i;
+            function s(a, b, c, d, e) {
                 for(;;){
-                    if (a == e && b == f) {
+                    if (a == c && b == d) {
                         return true;
                     }
-                    if (b == (c < 0 ? 0 : O(a))) {
-                        var d = a.parentNode;
-                        if (d.nodeType != 1 || Q(a) || M.test(a.nodeName) || a.contentEditable == "false") {
+                    if (b == (e < 0 ? 0 : t(a))) {
+                        var f = a.parentNode;
+                        if (f.nodeType != 1 || v(a) || r.test(a.nodeName) || a.contentEditable == "false") {
                             return false;
                         }
-                        b = H(a) + (c < 0 ? 0 : 1);
-                        a = d;
+                        b = m(a) + (e < 0 ? 0 : 1);
+                        a = f;
                     } else if (a.nodeType == 1) {
-                        a = a.childNodes[b + (c < 0 ? -1 : 0)];
+                        a = a.childNodes[b + (e < 0 ? -1 : 0)];
                         if (a.contentEditable == "false") {
                             return false;
                         }
-                        b = c < 0 ? O(a) : 0;
+                        b = e < 0 ? t(a) : 0;
                     } else {
                         return false;
                     }
                 }
             }
-            function O(a) {
+            function t(a) {
                 return a.nodeType == 3 ? a.nodeValue.length : a.childNodes.length;
             }
-            function P(a, d, f) {
-                for(var b = d == 0, c = d == O(a); b || c;){
-                    if (a == f) {
+            function u(a, b, c) {
+                for(var d = b == 0, e = b == t(a); d || e;){
+                    if (a == c) {
                         return true;
                     }
-                    var e = H(a);
+                    var f = m(a);
                     a = a.parentNode;
                     if (!a) {
                         return false;
                     }
-                    b = b && e == 0;
-                    c = c && e == O(a);
+                    d = d && f == 0;
+                    e = e && f == t(a);
                 }
             }
-            function Q(c) {
-                var a;
-                for(var b = c; b; b = b.parentNode){
-                    if ((a = b.pmViewDesc)) {
+            function v(a) {
+                var b;
+                for(var c = a; c; c = c.parentNode){
+                    if ((b = c.pmViewDesc)) {
                         break;
                     }
                 }
-                return (a && a.node && a.node.isBlock && (a.dom == c || a.contentDOM == c));
+                return (b && b.node && b.node.isBlock && (b.dom == a || b.contentDOM == a));
             }
-            var R = function(b) {
-                var c = b.isCollapsed;
-                if (c && a.chrome && b.rangeCount && !b.getRangeAt(0).collapsed) {
-                    c = false;
+            var w = function(a) {
+                var b = a.isCollapsed;
+                if (b && g.chrome && a.rangeCount && !a.getRangeAt(0).collapsed) {
+                    b = false;
                 }
-                return c;
+                return b;
             };
-            function S(b, c) {
-                var a = document.createEvent("Event");
-                a.initEvent("keydown", true, true);
-                a.keyCode = b;
-                a.key = a.code = c;
-                return a;
+            function x(a, b) {
+                var c = document.createEvent("Event");
+                c.initEvent("keydown", true, true);
+                c.keyCode = a;
+                c.key = c.code = b;
+                return c;
             }
-            function T(a) {
+            function y(a) {
                 return {
                     left: 0,
                     right: a.documentElement.clientWidth,
@@ -148,92 +148,92 @@
                     bottom: a.documentElement.clientHeight
                 };
             }
-            function U(a, b) {
+            function z(a, b) {
                 return typeof a == "number" ? a : a[b];
             }
-            function V(b) {
-                var a = b.getBoundingClientRect();
-                var c = a.width / b.offsetWidth || 1;
-                var d = a.height / b.offsetHeight || 1;
+            function A(a) {
+                var b = a.getBoundingClientRect();
+                var c = b.width / a.offsetWidth || 1;
+                var d = b.height / a.offsetHeight || 1;
                 return {
-                    left: a.left,
-                    right: a.left + b.clientWidth * c,
-                    top: a.top,
-                    bottom: a.top + b.clientHeight * d
+                    left: b.left,
+                    right: b.left + a.clientWidth * c,
+                    top: b.top,
+                    bottom: b.top + a.clientHeight * d
                 };
             }
-            function W(f, a, m) {
-                var g = f.someProp("scrollThreshold") || 0, h = f.someProp("scrollMargin") || 5;
-                var i = f.dom.ownerDocument;
-                for(var b = m || f.dom;; b = I(b)){
-                    if (!b) {
+            function B(a, b, c) {
+                var d = a.someProp("scrollThreshold") || 0, e = a.someProp("scrollMargin") || 5;
+                var f = a.dom.ownerDocument;
+                for(var g = c || a.dom;; g = n(g)){
+                    if (!g) {
                         break;
                     }
-                    if (b.nodeType != 1) {
+                    if (g.nodeType != 1) {
                         continue;
                     }
-                    var j = b == i.body || b.nodeType != 1;
-                    var c = j ? T(i) : V(b);
-                    var d = 0, e = 0;
-                    if (a.top < c.top + U(g, "top")) {
-                        e = -(c.top - a.top + U(h, "top"));
-                    } else if (a.bottom > c.bottom - U(g, "bottom")) {
-                        e = a.bottom - c.bottom + U(h, "bottom");
+                    var h = g == f.body || g.nodeType != 1;
+                    var i = h ? y(f) : A(g);
+                    var j = 0, k = 0;
+                    if (b.top < i.top + z(d, "top")) {
+                        k = -(i.top - b.top + z(e, "top"));
+                    } else if (b.bottom > i.bottom - z(d, "bottom")) {
+                        k = b.bottom - i.bottom + z(e, "bottom");
                     }
-                    if (a.left < c.left + U(g, "left")) {
-                        d = -(c.left - a.left + U(h, "left"));
-                    } else if (a.right > c.right - U(g, "right")) {
-                        d = a.right - c.right + U(h, "right");
+                    if (b.left < i.left + z(d, "left")) {
+                        j = -(i.left - b.left + z(e, "left"));
+                    } else if (b.right > i.right - z(d, "right")) {
+                        j = b.right - i.right + z(e, "right");
                     }
-                    if (d || e) {
-                        if (j) {
-                            i.defaultView.scrollBy(d, e);
+                    if (j || k) {
+                        if (h) {
+                            f.defaultView.scrollBy(j, k);
                         } else {
-                            var n = b.scrollLeft, o = b.scrollTop;
-                            if (e) {
-                                b.scrollTop += e;
+                            var l = g.scrollLeft, m = g.scrollTop;
+                            if (k) {
+                                g.scrollTop += k;
                             }
-                            if (d) {
-                                b.scrollLeft += d;
+                            if (j) {
+                                g.scrollLeft += j;
                             }
-                            var k = b.scrollLeft - n, l = b.scrollTop - o;
-                            a = {
-                                left: a.left - k,
-                                top: a.top - l,
-                                right: a.right - k,
-                                bottom: a.bottom - l
+                            var o = g.scrollLeft - l, p = g.scrollTop - m;
+                            b = {
+                                left: b.left - o,
+                                top: b.top - p,
+                                right: b.right - o,
+                                bottom: b.bottom - p
                             };
                         }
                     }
-                    if (j) {
+                    if (h) {
                         break;
                     }
                 }
             }
-            function X(a) {
-                var b = a.dom.getBoundingClientRect(), e = Math.max(0, b.top);
-                var f, g;
-                for(var i = (b.left + b.right) / 2, d = e + 1; d < Math.min(innerHeight, b.bottom); d += 5){
-                    var c = a.root.elementFromPoint(i, d);
-                    if (c == a.dom || !a.dom.contains(c)) {
+            function C(a) {
+                var b = a.dom.getBoundingClientRect(), c = Math.max(0, b.top);
+                var d, e;
+                for(var f = (b.left + b.right) / 2, g = c + 1; g < Math.min(innerHeight, b.bottom); g += 5){
+                    var h = a.root.elementFromPoint(f, g);
+                    if (h == a.dom || !a.dom.contains(h)) {
                         continue;
                     }
-                    var h = c.getBoundingClientRect();
-                    if (h.top >= e - 20) {
-                        f = c;
-                        g = h.top;
+                    var i = h.getBoundingClientRect();
+                    if (i.top >= c - 20) {
+                        d = h;
+                        e = i.top;
                         break;
                     }
                 }
                 return {
-                    refDOM: f,
-                    refTop: g,
-                    stack: Y(a.dom)
+                    refDOM: d,
+                    refTop: e,
+                    stack: D(a.dom)
                 };
             }
-            function Y(a) {
+            function D(a) {
                 var b = [], c = a.ownerDocument;
-                for(; a; a = I(a)){
+                for(; a; a = n(a)){
                     b.push({
                         dom: a,
                         top: a.scrollTop,
@@ -245,110 +245,110 @@
                 }
                 return b;
             }
-            function Z(a) {
+            function E(a) {
                 var b = a.refDOM;
-                var d = a.refTop;
-                var e = a.stack;
-                var c = b ? b.getBoundingClientRect().top : 0;
-                $(e, c == 0 ? 0 : c - d);
+                var c = a.refTop;
+                var d = a.stack;
+                var e = b ? b.getBoundingClientRect().top : 0;
+                F(d, e == 0 ? 0 : e - c);
             }
-            function $(d, e) {
-                for(var b = 0; b < d.length; b++){
-                    var c = d[b];
-                    var a = c.dom;
-                    var f = c.top;
-                    var g = c.left;
-                    if (a.scrollTop != f + e) {
-                        a.scrollTop = f + e;
+            function F(a, b) {
+                for(var c = 0; c < a.length; c++){
+                    var d = a[c];
+                    var e = d.dom;
+                    var f = d.top;
+                    var g = d.left;
+                    if (e.scrollTop != f + b) {
+                        e.scrollTop = f + b;
                     }
-                    if (a.scrollLeft != g) {
-                        a.scrollLeft = g;
+                    if (e.scrollLeft != g) {
+                        e.scrollLeft = g;
                     }
                 }
             }
-            var _ = null;
-            function aa(a) {
+            var G = null;
+            function H(a) {
                 if (a.setActive) {
                     return a.setActive();
                 }
-                if (_) {
-                    return a.focus(_);
+                if (G) {
+                    return a.focus(G);
                 }
-                var b = Y(a);
-                a.focus(_ == null ? {
+                var b = D(a);
+                a.focus(G == null ? {
                     get preventScroll () {
-                        _ = {
+                        G = {
                             preventScroll: true
                         };
                         return true;
                     }
                 } : undefined);
-                if (!_) {
-                    _ = false;
-                    $(b, 0);
+                if (!G) {
+                    G = false;
+                    F(b, 0);
                 }
             }
-            function ab(n, b) {
-                var c, g = 2e8, h, i = 0;
-                var j = b.top, k = b.top;
-                for(var d = n.firstChild, l = 0; d; d = d.nextSibling, l++){
-                    var e = void 0;
-                    if (d.nodeType == 1) {
-                        e = d.getClientRects();
-                    } else if (d.nodeType == 3) {
-                        e = K(d).getClientRects();
+            function I(a, b) {
+                var c, d = 2e8, e, f = 0;
+                var g = b.top, h = b.top;
+                for(var i = a.firstChild, j = 0; i; i = i.nextSibling, j++){
+                    var k = void 0;
+                    if (i.nodeType == 1) {
+                        k = i.getClientRects();
+                    } else if (i.nodeType == 3) {
+                        k = p(i).getClientRects();
                     } else {
                         continue;
                     }
-                    for(var m = 0; m < e.length; m++){
-                        var a = e[m];
-                        if (a.top <= j && a.bottom >= k) {
-                            j = Math.max(a.bottom, j);
-                            k = Math.min(a.top, k);
-                            var f = a.left > b.left ? a.left - b.left : a.right < b.left ? b.left - a.right : 0;
-                            if (f < g) {
-                                c = d;
-                                g = f;
-                                h = f && c.nodeType == 3 ? {
-                                    left: a.right < b.left ? a.right : a.left,
+                    for(var l = 0; l < k.length; l++){
+                        var m = k[l];
+                        if (m.top <= g && m.bottom >= h) {
+                            g = Math.max(m.bottom, g);
+                            h = Math.min(m.top, h);
+                            var n = m.left > b.left ? m.left - b.left : m.right < b.left ? b.left - m.right : 0;
+                            if (n < d) {
+                                c = i;
+                                d = n;
+                                e = n && c.nodeType == 3 ? {
+                                    left: m.right < b.left ? m.right : m.left,
                                     top: b.top
                                 } : b;
-                                if (d.nodeType == 1 && f) {
-                                    i = l + (b.left >= (a.left + a.right) / 2 ? 1 : 0);
+                                if (i.nodeType == 1 && n) {
+                                    f = j + (b.left >= (m.left + m.right) / 2 ? 1 : 0);
                                 }
                                 continue;
                             }
                         }
-                        if (!c && ((b.left >= a.right && b.top >= a.top) || (b.left >= a.left && b.top >= a.bottom))) {
-                            i = l + 1;
+                        if (!c && ((b.left >= m.right && b.top >= m.top) || (b.left >= m.left && b.top >= m.bottom))) {
+                            f = j + 1;
                         }
                     }
                 }
                 if (c && c.nodeType == 3) {
-                    return ac(c, h);
+                    return J(c, e);
                 }
-                if (!c || (g && c.nodeType == 1)) {
+                if (!c || (d && c.nodeType == 1)) {
                     return {
-                        node: n,
-                        offset: i
+                        node: a,
+                        offset: f
                     };
                 }
-                return ab(c, h);
+                return I(c, e);
             }
-            function ac(a, e) {
-                var f = a.nodeValue.length;
+            function J(a, b) {
+                var c = a.nodeValue.length;
                 var d = document.createRange();
-                for(var b = 0; b < f; b++){
-                    d.setEnd(a, b + 1);
-                    d.setStart(a, b);
-                    var c = aj(d, 1);
-                    if (c.top == c.bottom) {
+                for(var e = 0; e < c; e++){
+                    d.setEnd(a, e + 1);
+                    d.setStart(a, e);
+                    var f = Q(d, 1);
+                    if (f.top == f.bottom) {
                         continue;
                     }
-                    if (ad(e, c)) {
+                    if (K(b, f)) {
                         return {
                             node: a,
-                            offset: b + (e.left >= (c.left + c.right) / 2 ? 1 : 0)
+                            offset: e + (b.left >= (f.left + f.right) / 2 ? 1 : 0)
                         };
                     }
                 }
@@ -357,279 +357,279 @@
                     offset: 0
                 };
             }
-            function ad(a, b) {
+            function K(a, b) {
                 return (a.left >= b.left - 1 && a.left <= b.right + 1 && a.top >= b.top - 1 && a.top <= b.bottom + 1);
             }
-            function ae(a, c) {
-                var b = a.parentNode;
-                if (b && /^li$/i.test(b.nodeName) && c.left < a.getBoundingClientRect().left) {
-                    return b;
+            function L(a, b) {
+                var c = a.parentNode;
+                if (c && /^li$/i.test(c.nodeName) && b.left < a.getBoundingClientRect().left) {
+                    return c;
                 }
                 return a;
             }
-            function af(f, g, c) {
-                var d = ab(g, c);
-                var a = d.node;
-                var h = d.offset;
-                var e = -1;
-                if (a.nodeType == 1 && !a.firstChild) {
-                    var b = a.getBoundingClientRect();
-                    e = b.left != b.right && c.left > (b.left + b.right) / 2 ? 1 : -1;
+            function M(a, b, c) {
+                var d = I(b, c);
+                var e = d.node;
+                var f = d.offset;
+                var g = -1;
+                if (e.nodeType == 1 && !e.firstChild) {
+                    var h = e.getBoundingClientRect();
+                    g = h.left != h.right && c.left > (h.left + h.right) / 2 ? 1 : -1;
                 }
-                return f.docView.posFromDOM(a, h, e);
+                return a.docView.posFromDOM(e, f, g);
             }
-            function ag(e, g, h, b) {
-                var c = -1;
-                for(var f = g;;){
-                    if (f == e.dom) {
+            function N(a, b, c, d) {
+                var e = -1;
+                for(var f = b;;){
+                    if (f == a.dom) {
                         break;
                     }
-                    var a = e.docView.nearestDesc(f, true);
-                    if (!a) {
+                    var g = a.docView.nearestDesc(f, true);
+                    if (!g) {
                         return null;
                     }
-                    if (a.node.isBlock && a.parent) {
-                        var d = a.dom.getBoundingClientRect();
-                        if (d.left > b.left || d.top > b.top) {
-                            c = a.posBefore;
-                        } else if (d.right < b.left || d.bottom < b.top) {
-                            c = a.posAfter;
+                    if (g.node.isBlock && g.parent) {
+                        var h = g.dom.getBoundingClientRect();
+                        if (h.left > d.left || h.top > d.top) {
+                            e = g.posBefore;
+                        } else if (h.right < d.left || h.bottom < d.top) {
+                            e = g.posAfter;
                         } else {
                             break;
                         }
                     }
-                    f = a.dom.parentNode;
+                    f = g.dom.parentNode;
                 }
-                return c > -1 ? c : e.docView.posFromDOM(g, h);
+                return e > -1 ? e : a.docView.posFromDOM(b, c);
             }
-            function ah(c, d, a) {
-                var b = c.childNodes.length;
-                if (b && a.top < a.bottom) {
-                    for(var h = Math.max(0, Math.min(b - 1, Math.floor((b * (d.top - a.top)) / (a.bottom - a.top)) - 2)), e = h;;){
-                        var f = c.childNodes[e];
-                        if (f.nodeType == 1) {
-                            var i = f.getClientRects();
-                            for(var g = 0; g < i.length; g++){
-                                var j = i[g];
-                                if (ad(d, j)) {
-                                    return ah(f, d, j);
+            function O(a, b, c) {
+                var d = a.childNodes.length;
+                if (d && c.top < c.bottom) {
+                    for(var e = Math.max(0, Math.min(d - 1, Math.floor((d * (b.top - c.top)) / (c.bottom - c.top)) - 2)), f = e;;){
+                        var g = a.childNodes[f];
+                        if (g.nodeType == 1) {
+                            var h = g.getClientRects();
+                            for(var i = 0; i < h.length; i++){
+                                var j = h[i];
+                                if (K(b, j)) {
+                                    return O(g, b, j);
                                 }
                             }
                         }
-                        if ((e = (e + 1) % b) == h) {
+                        if ((f = (f + 1) % d) == e) {
                             break;
                         }
                     }
                 }
-                return c;
+                return a;
             }
-            function ai(e, c) {
-                var j, k;
-                var g = e.dom.ownerDocument, b, d;
-                if (g.caretPositionFromPoint) {
+            function P(a, b) {
+                var c, d;
+                var e = a.dom.ownerDocument, f, h;
+                if (e.caretPositionFromPoint) {
                     try {
-                        var m = g.caretPositionFromPoint(c.left, c.top);
-                        if (m) {
-                            (j = m), (b = j.offsetNode), (d = j.offset);
+                        var i = e.caretPositionFromPoint(b.left, b.top);
+                        if (i) {
+                            (c = i), (f = c.offsetNode), (h = c.offset);
                         }
-                    } catch (r) {}
+                    } catch (j) {}
                 }
-                if (!b && g.caretRangeFromPoint) {
-                    var n = g.caretRangeFromPoint(c.left, c.top);
-                    if (n) {
-                        (k = n), (b = k.startContainer), (d = k.startOffset);
+                if (!f && e.caretRangeFromPoint) {
+                    var k = e.caretRangeFromPoint(b.left, b.top);
+                    if (k) {
+                        (d = k), (f = d.startContainer), (h = d.startOffset);
                     }
                 }
-                var f = (e.root.elementFromPoint ? e.root : g).elementFromPoint(c.left, c.top + 1), h;
-                if (!f || !e.dom.contains(f.nodeType != 1 ? f.parentNode : f)) {
-                    var o = e.dom.getBoundingClientRect();
-                    if (!ad(c, o)) {
+                var l = (a.root.elementFromPoint ? a.root : e).elementFromPoint(b.left, b.top + 1), m;
+                if (!l || !a.dom.contains(l.nodeType != 1 ? l.parentNode : l)) {
+                    var o = a.dom.getBoundingClientRect();
+                    if (!K(b, o)) {
                         return null;
                     }
-                    f = ah(e.dom, c, o);
-                    if (!f) {
+                    l = O(a.dom, b, o);
+                    if (!l) {
                         return null;
                     }
                 }
-                if (a.safari) {
-                    for(var i = f; b && i; i = I(i)){
-                        if (i.draggable) {
-                            b = d = null;
+                if (g.safari) {
+                    for(var p = l; f && p; p = n(p)){
+                        if (p.draggable) {
+                            f = h = null;
                         }
                     }
                 }
-                f = ae(f, c);
-                if (b) {
-                    if (a.gecko && b.nodeType == 1) {
-                        d = Math.min(d, b.childNodes.length);
-                        if (d < b.childNodes.length) {
-                            var p = b.childNodes[d], q;
-                            if (p.nodeName == "IMG" && (q = p.getBoundingClientRect()).right <= c.left && q.bottom > c.top) {
-                                d++;
+                l = L(l, b);
+                if (f) {
+                    if (g.gecko && f.nodeType == 1) {
+                        h = Math.min(h, f.childNodes.length);
+                        if (h < f.childNodes.length) {
+                            var q = f.childNodes[h], r;
+                            if (q.nodeName == "IMG" && (r = q.getBoundingClientRect()).right <= b.left && r.bottom > b.top) {
+                                h++;
                             }
                         }
                     }
-                    if (b == e.dom && d == b.childNodes.length - 1 && b.lastChild.nodeType == 1 && c.top > b.lastChild.getBoundingClientRect().bottom) {
-                        h = e.state.doc.content.size;
-                    } else if (d == 0 || b.nodeType != 1 || b.childNodes[d - 1].nodeName != "BR") {
-                        h = ag(e, b, d, c);
+                    if (f == a.dom && h == f.childNodes.length - 1 && f.lastChild.nodeType == 1 && b.top > f.lastChild.getBoundingClientRect().bottom) {
+                        m = a.state.doc.content.size;
+                    } else if (h == 0 || f.nodeType != 1 || f.childNodes[h - 1].nodeName != "BR") {
+                        m = N(a, f, h, b);
                     }
                 }
-                if (h == null) {
-                    h = af(e, f, c);
+                if (m == null) {
+                    m = M(a, l, b);
                 }
-                var l = e.docView.nearestDesc(f, true);
+                var s = a.docView.nearestDesc(l, true);
                 return {
-                    pos: h,
-                    inside: l ? l.posAtStart - l.border : -1
+                    pos: m,
+                    inside: s ? s.posAtStart - s.border : -1
                 };
             }
-            function aj(b, c) {
-                var a = b.getClientRects();
-                return !a.length ? b.getBoundingClientRect() : a[c < 0 ? 0 : a.length - 1];
+            function Q(a, b) {
+                var c = a.getClientRects();
+                return !c.length ? a.getBoundingClientRect() : c[b < 0 ? 0 : c.length - 1];
             }
-            var ak = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
-            function al(m, n, d) {
-                var o = m.docView.domFromPos(n, d < 0 ? -1 : 1);
-                var c = o.node;
-                var b = o.offset;
-                var h = a.webkit || a.gecko;
-                if (c.nodeType == 3) {
-                    if (h && (ak.test(c.nodeValue) || (d < 0 ? !b : b == c.nodeValue.length))) {
-                        var i = aj(K(c, b, b), d);
-                        if (a.gecko && b && /\s/.test(c.nodeValue[b - 1]) && b < c.nodeValue.length) {
-                            var p = aj(K(c, b - 1, b - 1), -1);
-                            if (p.top == i.top) {
-                                var j = aj(K(c, b, b + 1), -1);
-                                if (j.top != i.top) {
-                                    return am(j, j.left < p.left);
+            var R = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
+            function S(a, b, c) {
+                var d = a.docView.domFromPos(b, c < 0 ? -1 : 1);
+                var e = d.node;
+                var f = d.offset;
+                var h = g.webkit || g.gecko;
+                if (e.nodeType == 3) {
+                    if (h && (R.test(e.nodeValue) || (c < 0 ? !f : f == e.nodeValue.length))) {
+                        var i = Q(p(e, f, f), c);
+                        if (g.gecko && f && /\s/.test(e.nodeValue[f - 1]) && f < e.nodeValue.length) {
+                            var j = Q(p(e, f - 1, f - 1), -1);
+                            if (j.top == i.top) {
+                                var k = Q(p(e, f, f + 1), -1);
+                                if (k.top != i.top) {
+                                    return T(k, k.left < j.left);
                                 }
                             }
                         }
                         return i;
                     } else {
-                        var k = b, l = b, g = d < 0 ? 1 : -1;
-                        if (d < 0 && !b) {
-                            l++;
-                            g = -1;
-                        } else if (d >= 0 && b == c.nodeValue.length) {
-                            k--;
-                            g = 1;
-                        } else if (d < 0) {
-                            k--;
+                        var l = f, m = f, n = c < 0 ? 1 : -1;
+                        if (c < 0 && !f) {
+                            m++;
+                            n = -1;
+                        } else if (c >= 0 && f == e.nodeValue.length) {
+                            l--;
+                            n = 1;
+                        } else if (c < 0) {
+                            l--;
                         } else {
-                            l++;
+                            m++;
                         }
-                        return am(aj(K(c, k, l), g), g < 0);
+                        return T(Q(p(e, l, m), n), n < 0);
                     }
                 }
-                if (!m.state.doc.resolve(n).parent.inlineContent) {
-                    if (b && (d < 0 || b == O(c))) {
-                        var q = c.childNodes[b - 1];
+                if (!a.state.doc.resolve(b).parent.inlineContent) {
+                    if (f && (c < 0 || f == t(e))) {
+                        var o = e.childNodes[f - 1];
+                        if (o.nodeType == 1) {
+                            return U(o.getBoundingClientRect(), false);
+                        }
+                    }
+                    if (f < t(e)) {
+                        var q = e.childNodes[f];
                         if (q.nodeType == 1) {
-                            return an(q.getBoundingClientRect(), false);
+                            return U(q.getBoundingClientRect(), true);
                         }
                     }
-                    if (b < O(c)) {
-                        var r = c.childNodes[b];
-                        if (r.nodeType == 1) {
-                            return an(r.getBoundingClientRect(), true);
-                        }
-                    }
-                    return an(c.getBoundingClientRect(), d >= 0);
+                    return U(e.getBoundingClientRect(), c >= 0);
                 }
-                if (b && (d < 0 || b == O(c))) {
-                    var f = c.childNodes[b - 1];
-                    var s = f.nodeType == 3 ? K(f, O(f) - (h ? 0 : 1)) : f.nodeType == 1 && (f.nodeName != "BR" || !f.nextSibling) ? f : null;
+                if (f && (c < 0 || f == t(e))) {
+                    var r = e.childNodes[f - 1];
+                    var s = r.nodeType == 3 ? p(r, t(r) - (h ? 0 : 1)) : r.nodeType == 1 && (r.nodeName != "BR" || !r.nextSibling) ? r : null;
                     if (s) {
-                        return am(aj(s, 1), false);
+                        return T(Q(s, 1), false);
                     }
                 }
-                if (b < O(c)) {
-                    var e = c.childNodes[b];
-                    while(e.pmViewDesc && e.pmViewDesc.ignoreForCoords){
-                        e = e.nextSibling;
+                if (f < t(e)) {
+                    var u = e.childNodes[f];
+                    while(u.pmViewDesc && u.pmViewDesc.ignoreForCoords){
+                        u = u.nextSibling;
                     }
-                    var t = !e ? null : e.nodeType == 3 ? K(e, 0, h ? 0 : 1) : e.nodeType == 1 ? e : null;
-                    if (t) {
-                        return am(aj(t, -1), true);
+                    var v = !u ? null : u.nodeType == 3 ? p(u, 0, h ? 0 : 1) : u.nodeType == 1 ? u : null;
+                    if (v) {
+                        return T(Q(v, -1), true);
                     }
                 }
-                return am(aj(c.nodeType == 3 ? K(c) : c, -d), d >= 0);
+                return T(Q(e.nodeType == 3 ? p(e) : e, -c), c >= 0);
             }
-            function am(a, c) {
+            function T(a, b) {
                 if (a.width == 0) {
                     return a;
                 }
-                var b = c ? a.left : a.right;
+                var c = b ? a.left : a.right;
                 return {
                     top: a.top,
                     bottom: a.bottom,
-                    left: b,
-                    right: b
+                    left: c,
+                    right: c
                 };
             }
-            function an(a, c) {
+            function U(a, b) {
                 if (a.height == 0) {
                     return a;
                 }
-                var b = c ? a.top : a.bottom;
+                var c = b ? a.top : a.bottom;
                 return {
-                    top: b,
-                    bottom: b,
+                    top: c,
+                    bottom: c,
                     left: a.left,
                     right: a.right
                 };
             }
-            function ao(a, c, e) {
-                var d = a.state, b = a.root.activeElement;
-                if (d != c) {
-                    a.updateState(c);
+            function V(a, b, c) {
+                var d = a.state, e = a.root.activeElement;
+                if (d != b) {
+                    a.updateState(b);
                 }
-                if (b != a.dom) {
+                if (e != a.dom) {
                     a.focus();
                 }
                 try {
-                    return e();
+                    return c();
                 } finally{
-                    if (d != c) {
+                    if (d != b) {
                         a.updateState(d);
                     }
-                    if (b != a.dom && b) {
-                        b.focus();
+                    if (e != a.dom && e) {
+                        e.focus();
                     }
                 }
             }
-            function ap(c, a, d) {
-                var b = a.selection;
-                var e = d == "up" ? b.$from : b.$to;
-                return ao(c, a, function() {
-                    var k = c.docView.domFromPos(e.pos, d == "up" ? -1 : 1);
-                    var f = k.node;
+            function W(a, b, c) {
+                var d = b.selection;
+                var e = c == "up" ? d.$from : d.$to;
+                return V(a, b, function() {
+                    var b = a.docView.domFromPos(e.pos, c == "up" ? -1 : 1);
+                    var d = b.node;
                     for(;;){
-                        var g = c.docView.nearestDesc(f, true);
-                        if (!g) {
+                        var f = a.docView.nearestDesc(d, true);
+                        if (!f) {
                             break;
                         }
-                        if (g.node.isBlock) {
-                            f = g.dom;
+                        if (f.node.isBlock) {
+                            d = f.dom;
                             break;
                         }
-                        f = g.dom.parentNode;
+                        d = f.dom.parentNode;
                     }
-                    var h = al(c, e.pos, 1);
-                    for(var a = f.firstChild; a; a = a.nextSibling){
+                    var g = S(a, e.pos, 1);
+                    for(var h = d.firstChild; h; h = h.nextSibling){
                         var i = void 0;
-                        if (a.nodeType == 1) {
-                            i = a.getClientRects();
-                        } else if (a.nodeType == 3) {
-                            i = K(a, 0, a.nodeValue.length).getClientRects();
+                        if (h.nodeType == 1) {
+                            i = h.getClientRects();
+                        } else if (h.nodeType == 3) {
+                            i = p(h, 0, h.nodeValue.length).getClientRects();
                         } else {
                             continue;
                         }
                         for(var j = 0; j < i.length; j++){
-                            var b = i[j];
-                            if (b.bottom > b.top + 1 && (d == "up" ? h.top - b.top > (b.bottom - h.top) * 2 : b.bottom - h.bottom > (h.bottom - b.top) * 2)) {
+                            var k = i[j];
+                            if (k.bottom > k.top + 1 && (c == "up" ? g.top - k.top > (k.bottom - g.top) * 2 : k.bottom - g.bottom > (g.bottom - k.top) * 2)) {
                                 return false;
                             }
                         }
@@ -637,51 +637,51 @@
                     return true;
                 });
             }
-            var aq = /[\u0590-\u08ac]/;
-            function ar(b, c, d) {
-                var f = c.selection;
-                var a = f.$head;
-                if (!a.parent.isTextblock) {
+            var X = /[\u0590-\u08ac]/;
+            function Y(a, b, c) {
+                var d = b.selection;
+                var e = d.$head;
+                if (!e.parent.isTextblock) {
                     return false;
                 }
-                var e = a.parentOffset, g = !e, h = e == a.parent.content.size;
-                var i = b.root.getSelection();
-                if (!aq.test(a.parent.textContent) || !i.modify) {
-                    return d == "left" || d == "backward" ? g : h;
+                var f = e.parentOffset, g = !f, h = f == e.parent.content.size;
+                var i = a.root.getSelection();
+                if (!X.test(e.parent.textContent) || !i.modify) {
+                    return c == "left" || c == "backward" ? g : h;
                 }
-                return ao(b, c, function() {
-                    var e = i.getRangeAt(0), f = i.focusNode, g = i.focusOffset;
-                    var c = i.caretBidiLevel;
-                    i.modify("move", d, "character");
-                    var h = a.depth ? b.docView.domAfterPos(a.before()) : b.dom;
-                    var j = !h.contains(i.focusNode.nodeType == 1 ? i.focusNode : i.focusNode.parentNode) || (f == i.focusNode && g == i.focusOffset);
+                return V(a, b, function() {
+                    var b = i.getRangeAt(0), d = i.focusNode, f = i.focusOffset;
+                    var g = i.caretBidiLevel;
+                    i.modify("move", c, "character");
+                    var h = e.depth ? a.docView.domAfterPos(e.before()) : a.dom;
+                    var j = !h.contains(i.focusNode.nodeType == 1 ? i.focusNode : i.focusNode.parentNode) || (d == i.focusNode && f == i.focusOffset);
                     i.removeAllRanges();
-                    i.addRange(e);
-                    if (c != null) {
-                        i.caretBidiLevel = c;
+                    i.addRange(b);
+                    if (g != null) {
+                        i.caretBidiLevel = g;
                     }
                     return j;
                 });
             }
-            var as = null, at = null, au = false;
-            function av(c, b, a) {
-                if (as == b && at == a) {
-                    return au;
+            var Z = null, $ = null, _ = false;
+            function aa(a, b, c) {
+                if (Z == b && $ == c) {
+                    return _;
                 }
-                as = b;
-                at = a;
-                return (au = a == "up" || a == "down" ? ap(c, b, a) : ar(c, b, a));
+                Z = b;
+                $ = c;
+                return (_ = c == "up" || c == "down" ? W(a, b, c) : Y(a, b, c));
             }
-            var aw = 0, ax = 1, ay = 2, az = 3;
-            var b = function e(b, c, a, d) {
+            var ab = 0, ac = 1, ad = 2, ae = 3;
+            var af = function a(b, c, d, e) {
                 this.parent = b;
                 this.children = c;
-                this.dom = a;
-                a.pmViewDesc = this;
-                this.contentDOM = d;
-                this.dirty = aw;
+                this.dom = d;
+                d.pmViewDesc = this;
+                this.contentDOM = e;
+                this.dirty = ab;
             };
-            var h = {
+            var ag = {
                 size: {
                     configurable: true
                 },
@@ -710,480 +710,480 @@
                     configurable: true
                 }
             };
-            b.prototype.matchesWidget = function a() {
+            af.prototype.matchesWidget = function a() {
                 return false;
             };
-            b.prototype.matchesMark = function a() {
+            af.prototype.matchesMark = function a() {
                 return false;
             };
-            b.prototype.matchesNode = function a() {
+            af.prototype.matchesNode = function a() {
                 return false;
             };
-            b.prototype.matchesHack = function a(b) {
+            af.prototype.matchesHack = function a(b) {
                 return false;
             };
-            b.prototype.parseRule = function a() {
+            af.prototype.parseRule = function a() {
                 return null;
             };
-            b.prototype.stopEvent = function a() {
+            af.prototype.stopEvent = function a() {
                 return false;
             };
-            h.size.get = function() {
-                var b = 0;
-                for(var a = 0; a < this.children.length; a++){
-                    b += this.children[a].size;
+            ag.size.get = function() {
+                var a = 0;
+                for(var b = 0; b < this.children.length; b++){
+                    a += this.children[b].size;
                 }
-                return b;
+                return a;
             };
-            h.border.get = function() {
+            ag.border.get = function() {
                 return 0;
             };
-            b.prototype.destroy = function b() {
+            af.prototype.destroy = function a() {
                 this.parent = null;
                 if (this.dom.pmViewDesc == this) {
                     this.dom.pmViewDesc = null;
                 }
-                for(var a = 0; a < this.children.length; a++){
-                    this.children[a].destroy();
+                for(var b = 0; b < this.children.length; b++){
+                    this.children[b].destroy();
                 }
             };
-            b.prototype.posBeforeChild = function e(d) {
-                for(var a = 0, b = this.posAtStart; a < this.children.length; a++){
-                    var c = this.children[a];
-                    if (c == d) {
-                        return b;
+            af.prototype.posBeforeChild = function a(b) {
+                for(var c = 0, d = this.posAtStart; c < this.children.length; c++){
+                    var e = this.children[c];
+                    if (e == b) {
+                        return d;
                     }
-                    b += c.size;
+                    d += e.size;
                 }
             };
-            h.posBefore.get = function() {
+            ag.posBefore.get = function() {
                 return this.parent.posBeforeChild(this);
             };
-            h.posAtStart.get = function() {
+            ag.posAtStart.get = function() {
                 return this.parent ? this.parent.posBeforeChild(this) + this.border : 0;
             };
-            h.posAfter.get = function() {
+            ag.posAfter.get = function() {
                 return this.posBefore + this.size;
             };
-            h.posAtEnd.get = function() {
+            ag.posAtEnd.get = function() {
                 return this.posAtStart + this.size - 2 * this.border;
             };
-            b.prototype.localPosFromDOM = function k(a, e, j) {
-                if (this.contentDOM && this.contentDOM.contains(a.nodeType == 1 ? a : a.parentNode)) {
-                    if (j < 0) {
-                        var b, h;
-                        if (a == this.contentDOM) {
-                            b = a.childNodes[e - 1];
+            af.prototype.localPosFromDOM = function a(b, c, d) {
+                if (this.contentDOM && this.contentDOM.contains(b.nodeType == 1 ? b : b.parentNode)) {
+                    if (d < 0) {
+                        var e, f;
+                        if (b == this.contentDOM) {
+                            e = b.childNodes[c - 1];
                         } else {
-                            while(a.parentNode != this.contentDOM){
-                                a = a.parentNode;
+                            while(b.parentNode != this.contentDOM){
+                                b = b.parentNode;
                             }
-                            b = a.previousSibling;
+                            e = b.previousSibling;
                         }
-                        while(b && !((h = b.pmViewDesc) && h.parent == this)){
-                            b = b.previousSibling;
+                        while(e && !((f = e.pmViewDesc) && f.parent == this)){
+                            e = e.previousSibling;
                         }
-                        return b ? this.posBeforeChild(h) + h.size : this.posAtStart;
+                        return e ? this.posBeforeChild(f) + f.size : this.posAtStart;
                     } else {
-                        var c, i;
-                        if (a == this.contentDOM) {
-                            c = a.childNodes[e];
+                        var g, h;
+                        if (b == this.contentDOM) {
+                            g = b.childNodes[c];
                         } else {
-                            while(a.parentNode != this.contentDOM){
-                                a = a.parentNode;
+                            while(b.parentNode != this.contentDOM){
+                                b = b.parentNode;
                             }
-                            c = a.nextSibling;
+                            g = b.nextSibling;
                         }
-                        while(c && !((i = c.pmViewDesc) && i.parent == this)){
-                            c = c.nextSibling;
+                        while(g && !((h = g.pmViewDesc) && h.parent == this)){
+                            g = g.nextSibling;
                         }
-                        return c ? this.posBeforeChild(i) : this.posAtEnd;
+                        return g ? this.posBeforeChild(h) : this.posAtEnd;
                     }
                 }
-                var d;
-                if (a == this.dom && this.contentDOM) {
-                    d = e > H(this.contentDOM);
+                var i;
+                if (b == this.dom && this.contentDOM) {
+                    i = c > m(this.contentDOM);
                 } else if (this.contentDOM && this.contentDOM != this.dom && this.dom.contains(this.contentDOM)) {
-                    d = a.compareDocumentPosition(this.contentDOM) & 2;
+                    i = b.compareDocumentPosition(this.contentDOM) & 2;
                 } else if (this.dom.firstChild) {
-                    if (e == 0) {
-                        for(var f = a;; f = f.parentNode){
-                            if (f == this.dom) {
-                                d = false;
+                    if (c == 0) {
+                        for(var j = b;; j = j.parentNode){
+                            if (j == this.dom) {
+                                i = false;
                                 break;
                             }
-                            if (f.parentNode.firstChild != f) {
+                            if (j.parentNode.firstChild != j) {
                                 break;
                             }
                         }
                     }
-                    if (d == null && e == a.childNodes.length) {
-                        for(var g = a;; g = g.parentNode){
-                            if (g == this.dom) {
-                                d = true;
+                    if (i == null && c == b.childNodes.length) {
+                        for(var k = b;; k = k.parentNode){
+                            if (k == this.dom) {
+                                i = true;
                                 break;
                             }
-                            if (g.parentNode.lastChild != g) {
+                            if (k.parentNode.lastChild != k) {
                                 break;
                             }
                         }
                     }
                 }
-                return (d == null ? j > 0 : d) ? this.posAtEnd : this.posAtStart;
+                return (i == null ? d > 0 : i) ? this.posAtEnd : this.posAtStart;
             };
-            b.prototype.nearestDesc = function f(b, e) {
-                for(var d = true, c = b; c; c = c.parentNode){
-                    var a = this.getDesc(c);
-                    if (a && (!e || a.node)) {
-                        if (d && a.nodeDOM && !(a.nodeDOM.nodeType == 1 ? a.nodeDOM.contains(b.nodeType == 1 ? b : b.parentNode) : a.nodeDOM == b)) {
+            af.prototype.nearestDesc = function a(b, c) {
+                for(var d = true, e = b; e; e = e.parentNode){
+                    var f = this.getDesc(e);
+                    if (f && (!c || f.node)) {
+                        if (d && f.nodeDOM && !(f.nodeDOM.nodeType == 1 ? f.nodeDOM.contains(b.nodeType == 1 ? b : b.parentNode) : f.nodeDOM == b)) {
                             d = false;
                         } else {
-                            return a;
+                            return f;
                         }
                     }
                 }
             };
-            b.prototype.getDesc = function d(c) {
-                var b = c.pmViewDesc;
-                for(var a = b; a; a = a.parent){
-                    if (a == this) {
-                        return b;
+            af.prototype.getDesc = function a(b) {
+                var c = b.pmViewDesc;
+                for(var d = c; d; d = d.parent){
+                    if (d == this) {
+                        return c;
                     }
                 }
             };
-            b.prototype.posFromDOM = function f(b, d, e) {
-                for(var a = b; a; a = a.parentNode){
-                    var c = this.getDesc(a);
-                    if (c) {
-                        return c.localPosFromDOM(b, d, e);
+            af.prototype.posFromDOM = function a(b, c, d) {
+                for(var e = b; e; e = e.parentNode){
+                    var f = this.getDesc(e);
+                    if (f) {
+                        return f.localPosFromDOM(b, c, d);
                     }
                 }
                 return -1;
             };
-            b.prototype.descAt = function f(c) {
-                for(var d = 0, b = 0; d < this.children.length; d++){
-                    var a = this.children[d], e = b + a.size;
-                    if (b == c && e != b) {
-                        while(!a.border && a.children.length){
-                            a = a.children[0];
+            af.prototype.descAt = function a(b) {
+                for(var c = 0, d = 0; c < this.children.length; c++){
+                    var e = this.children[c], f = d + e.size;
+                    if (d == b && f != d) {
+                        while(!e.border && e.children.length){
+                            e = e.children[0];
                         }
-                        return a;
+                        return e;
                     }
-                    if (c < e) {
-                        return a.descAt(c - b - a.border);
+                    if (b < f) {
+                        return e.descAt(b - d - e.border);
                     }
-                    b = e;
+                    d = f;
                 }
             };
-            b.prototype.domFromPos = function m(h, d) {
+            af.prototype.domFromPos = function a(b, c) {
                 if (!this.contentDOM) {
                     return {
                         node: this.dom,
                         offset: 0
                     };
                 }
-                var a = 0, e = 0;
-                for(var f = 0; a < this.children.length; a++){
-                    var i = this.children[a], j = f + i.size;
-                    if (j > h || i instanceof aG) {
-                        e = h - f;
+                var d = 0, e = 0;
+                for(var f = 0; d < this.children.length; d++){
+                    var g = this.children[d], h = f + g.size;
+                    if (h > b || g instanceof ao) {
+                        e = b - f;
                         break;
                     }
-                    f = j;
+                    f = h;
                 }
                 if (e) {
-                    return this.children[a].domFromPos(e - this.children[a].border, d);
+                    return this.children[d].domFromPos(e - this.children[d].border, c);
                 }
-                for(var g = void 0; a && !(g = this.children[a - 1]).size && g instanceof aB && g.widget.type.side >= 0; a--){}
-                if (d <= 0) {
-                    var b, k = true;
-                    for(;; a--, k = false){
-                        b = a ? this.children[a - 1] : null;
-                        if (!b || b.dom.parentNode == this.contentDOM) {
+                for(var i = void 0; d && !(i = this.children[d - 1]).size && i instanceof ai && i.widget.type.side >= 0; d--){}
+                if (c <= 0) {
+                    var j, k = true;
+                    for(;; d--, k = false){
+                        j = d ? this.children[d - 1] : null;
+                        if (!j || j.dom.parentNode == this.contentDOM) {
                             break;
                         }
                     }
-                    if (b && d && k && !b.border && !b.domAtom) {
-                        return b.domFromPos(b.size, d);
+                    if (j && c && k && !j.border && !j.domAtom) {
+                        return j.domFromPos(j.size, c);
                     }
                     return {
                         node: this.contentDOM,
-                        offset: b ? H(b.dom) + 1 : 0
+                        offset: j ? m(j.dom) + 1 : 0
                     };
                 } else {
-                    var c, l = true;
-                    for(;; a++, l = false){
-                        c = a < this.children.length ? this.children[a] : null;
-                        if (!c || c.dom.parentNode == this.contentDOM) {
+                    var l, n = true;
+                    for(;; d++, n = false){
+                        l = d < this.children.length ? this.children[d] : null;
+                        if (!l || l.dom.parentNode == this.contentDOM) {
                             break;
                         }
                     }
-                    if (c && l && !c.border && !c.domAtom) {
-                        return c.domFromPos(0, d);
+                    if (l && n && !l.border && !l.domAtom) {
+                        return l.domFromPos(0, c);
                     }
                     return {
                         node: this.contentDOM,
-                        offset: c ? H(c.dom) : this.contentDOM.childNodes.length
+                        offset: l ? m(l.dom) : this.contentDOM.childNodes.length
                     };
                 }
             };
-            b.prototype.parseRange = function o(a, b, k) {
-                if (k === void 0) k = 0;
+            af.prototype.parseRange = function a(b, c, d) {
+                if (d === void 0) d = 0;
                 if (this.children.length == 0) {
                     return {
                         node: this.contentDOM,
-                        from: a,
-                        to: b,
+                        from: b,
+                        to: c,
                         fromOffset: 0,
                         toOffset: this.contentDOM.childNodes.length
                     };
                 }
-                var d = -1, i = -1;
-                for(var j = k, e = 0;; e++){
-                    var c = this.children[e], f = j + c.size;
-                    if (d == -1 && a <= f) {
-                        var n = j + c.border;
-                        if (a >= n && b <= f - c.border && c.node && c.contentDOM && this.contentDOM.contains(c.contentDOM)) {
-                            return c.parseRange(a, b, n);
+                var e = -1, f = -1;
+                for(var g = d, h = 0;; h++){
+                    var i = this.children[h], j = g + i.size;
+                    if (e == -1 && b <= j) {
+                        var k = g + i.border;
+                        if (b >= k && c <= j - i.border && i.node && i.contentDOM && this.contentDOM.contains(i.contentDOM)) {
+                            return i.parseRange(b, c, k);
                         }
-                        a = j;
-                        for(var l = e; l > 0; l--){
-                            var g = this.children[l - 1];
-                            if (g.size && g.dom.parentNode == this.contentDOM && !g.emptyChildAt(1)) {
-                                d = H(g.dom) + 1;
+                        b = g;
+                        for(var l = h; l > 0; l--){
+                            var n = this.children[l - 1];
+                            if (n.size && n.dom.parentNode == this.contentDOM && !n.emptyChildAt(1)) {
+                                e = m(n.dom) + 1;
                                 break;
                             }
-                            a -= g.size;
+                            b -= n.size;
                         }
-                        if (d == -1) {
-                            d = 0;
+                        if (e == -1) {
+                            e = 0;
                         }
                     }
-                    if (d > -1 && (f > b || e == this.children.length - 1)) {
-                        b = f;
-                        for(var m = e + 1; m < this.children.length; m++){
-                            var h = this.children[m];
-                            if (h.size && h.dom.parentNode == this.contentDOM && !h.emptyChildAt(-1)) {
-                                i = H(h.dom);
+                    if (e > -1 && (j > c || h == this.children.length - 1)) {
+                        c = j;
+                        for(var o = h + 1; o < this.children.length; o++){
+                            var p = this.children[o];
+                            if (p.size && p.dom.parentNode == this.contentDOM && !p.emptyChildAt(-1)) {
+                                f = m(p.dom);
                                 break;
                             }
-                            b += h.size;
+                            c += p.size;
                         }
-                        if (i == -1) {
-                            i = this.contentDOM.childNodes.length;
+                        if (f == -1) {
+                            f = this.contentDOM.childNodes.length;
                         }
                         break;
                     }
-                    j = f;
+                    g = j;
                 }
                 return {
                     node: this.contentDOM,
-                    from: a,
-                    to: b,
-                    fromOffset: d,
-                    toOffset: i
+                    from: b,
+                    to: c,
+                    fromOffset: e,
+                    toOffset: f
                 };
             };
-            b.prototype.emptyChildAt = function c(a) {
+            af.prototype.emptyChildAt = function a(b) {
                 if (this.border || !this.contentDOM || !this.children.length) {
                     return false;
                 }
-                var b = this.children[a < 0 ? 0 : this.children.length - 1];
-                return b.size == 0 || b.emptyChildAt(a);
+                var c = this.children[b < 0 ? 0 : this.children.length - 1];
+                return c.size == 0 || c.emptyChildAt(b);
             };
-            b.prototype.domAfterPos = function e(b) {
+            af.prototype.domAfterPos = function a(b) {
                 var c = this.domFromPos(b, 0);
-                var a = c.node;
-                var d = c.offset;
-                if (a.nodeType != 1 || d == a.childNodes.length) {
+                var d = c.node;
+                var e = c.offset;
+                if (d.nodeType != 1 || e == d.childNodes.length) {
                     throw new RangeError("No node after pos " + b);
                 }
-                return a.childNodes[d];
+                return d.childNodes[e];
             };
-            b.prototype.setSelection = function A(d, e, s, n) {
-                var x = Math.min(d, e), y = Math.max(d, e);
-                for(var o = 0, g = 0; o < this.children.length; o++){
-                    var k = this.children[o], t = g + k.size;
-                    if (x > g && y < t) {
-                        return k.setSelection(d - g - k.border, e - g - k.border, s, n);
+            af.prototype.setSelection = function a(b, c, d, e) {
+                var f = Math.min(b, c), h = Math.max(b, c);
+                for(var i = 0, j = 0; i < this.children.length; i++){
+                    var k = this.children[i], l = j + k.size;
+                    if (f > j && h < l) {
+                        return k.setSelection(b - j - k.border, c - j - k.border, d, e);
                     }
-                    g = t;
+                    j = l;
                 }
-                var c = this.domFromPos(d, d ? -1 : 1);
-                var f = e == d ? c : this.domFromPos(e, e ? -1 : 1);
-                var b = s.getSelection();
-                var h = false;
-                if ((a.gecko || a.safari) && d == e) {
-                    var i = c.node;
-                    var l = c.offset;
-                    if (i.nodeType == 3) {
-                        h = l && i.nodeValue[l - 1] == "\n";
-                        if (h && l == i.nodeValue.length) {
-                            for(var j = i, m = void 0; j; j = j.parentNode){
-                                if ((m = j.nextSibling)) {
-                                    if (m.nodeName == "BR") {
-                                        c = f = {
-                                            node: m.parentNode,
-                                            offset: H(m) + 1
+                var n = this.domFromPos(b, b ? -1 : 1);
+                var o = c == b ? n : this.domFromPos(c, c ? -1 : 1);
+                var p = d.getSelection();
+                var r = false;
+                if ((g.gecko || g.safari) && b == c) {
+                    var s = n.node;
+                    var t = n.offset;
+                    if (s.nodeType == 3) {
+                        r = t && s.nodeValue[t - 1] == "\n";
+                        if (r && t == s.nodeValue.length) {
+                            for(var u = s, v = void 0; u; u = u.parentNode){
+                                if ((v = u.nextSibling)) {
+                                    if (v.nodeName == "BR") {
+                                        n = o = {
+                                            node: v.parentNode,
+                                            offset: m(v) + 1
                                         };
                                     }
                                     break;
                                 }
-                                var p = j.pmViewDesc;
-                                if (p && p.node && p.node.isBlock) {
+                                var w = u.pmViewDesc;
+                                if (w && w.node && w.node.isBlock) {
                                     break;
                                 }
                             }
                         }
                     } else {
-                        var q = i.childNodes[l - 1];
-                        h = q && (q.nodeName == "BR" || q.contentEditable == "false");
+                        var x = s.childNodes[t - 1];
+                        r = x && (x.nodeName == "BR" || x.contentEditable == "false");
                     }
                 }
-                if (a.gecko && b.focusNode && b.focusNode != f.node && b.focusNode.nodeType == 1) {
-                    var u = b.focusNode.childNodes[b.focusOffset];
-                    if (u && u.contentEditable == "false") {
-                        n = true;
+                if (g.gecko && p.focusNode && p.focusNode != o.node && p.focusNode.nodeType == 1) {
+                    var y = p.focusNode.childNodes[p.focusOffset];
+                    if (y && y.contentEditable == "false") {
+                        e = true;
                     }
                 }
-                if (!(n || (h && a.safari)) && L(c.node, c.offset, b.anchorNode, b.anchorOffset) && L(f.node, f.offset, b.focusNode, b.focusOffset)) {
+                if (!(e || (r && g.safari)) && q(n.node, n.offset, p.anchorNode, p.anchorOffset) && q(o.node, o.offset, p.focusNode, p.focusOffset)) {
                     return;
                 }
-                var v = false;
-                if ((b.extend || d == e) && !h) {
-                    b.collapse(c.node, c.offset);
+                var z = false;
+                if ((p.extend || b == c) && !r) {
+                    p.collapse(n.node, n.offset);
                     try {
-                        if (d != e) {
-                            b.extend(f.node, f.offset);
+                        if (b != c) {
+                            p.extend(o.node, o.offset);
                         }
-                        v = true;
-                    } catch (w) {
-                        if (!(w instanceof DOMException)) {
-                            throw w;
+                        z = true;
+                    } catch (A) {
+                        if (!(A instanceof DOMException)) {
+                            throw A;
                         }
                     }
                 }
-                if (!v) {
-                    if (d > e) {
-                        var z = c;
-                        c = f;
-                        f = z;
+                if (!z) {
+                    if (b > c) {
+                        var B = n;
+                        n = o;
+                        o = B;
                     }
-                    var r = document.createRange();
-                    r.setEnd(f.node, f.offset);
-                    r.setStart(c.node, c.offset);
-                    b.removeAllRanges();
-                    b.addRange(r);
+                    var C = document.createRange();
+                    C.setEnd(o.node, o.offset);
+                    C.setStart(n.node, n.offset);
+                    p.removeAllRanges();
+                    p.addRange(C);
                 }
             };
-            b.prototype.ignoreMutation = function b(a) {
-                return !this.contentDOM && a.type != "selection";
+            af.prototype.ignoreMutation = function a(b) {
+                return !this.contentDOM && b.type != "selection";
             };
-            h.contentLost.get = function() {
+            ag.contentLost.get = function() {
                 return (this.contentDOM && this.contentDOM != this.dom && !this.dom.contains(this.contentDOM));
             };
-            b.prototype.markDirty = function i(c, d) {
-                for(var b = 0, g = 0; g < this.children.length; g++){
-                    var a = this.children[g], e = b + a.size;
-                    if (b == e ? c <= e && d >= b : c < e && d > b) {
-                        var f = b + a.border, h = e - a.border;
-                        if (c >= f && d <= h) {
-                            this.dirty = c == b || d == e ? ay : ax;
-                            if (c == f && d == h && (a.contentLost || a.dom.parentNode != this.contentDOM)) {
-                                a.dirty = az;
+            af.prototype.markDirty = function a(b, c) {
+                for(var d = 0, e = 0; e < this.children.length; e++){
+                    var f = this.children[e], g = d + f.size;
+                    if (d == g ? b <= g && c >= d : b < g && c > d) {
+                        var h = d + f.border, i = g - f.border;
+                        if (b >= h && c <= i) {
+                            this.dirty = b == d || c == g ? ad : ac;
+                            if (b == h && c == i && (f.contentLost || f.dom.parentNode != this.contentDOM)) {
+                                f.dirty = ae;
                             } else {
-                                a.markDirty(c - f, d - f);
+                                f.markDirty(b - h, c - h);
                             }
                             return;
                         } else {
-                            a.dirty = a.dom == a.contentDOM && a.dom.parentNode == this.contentDOM ? ay : az;
+                            f.dirty = f.dom == f.contentDOM && f.dom.parentNode == this.contentDOM ? ad : ae;
                         }
                     }
-                    b = e;
+                    d = g;
                 }
-                this.dirty = ay;
+                this.dirty = ad;
             };
-            b.prototype.markParentsDirty = function d() {
+            af.prototype.markParentsDirty = function a() {
                 var b = 1;
-                for(var a = this.parent; a; a = a.parent, b++){
-                    var c = b == 1 ? ay : ax;
-                    if (a.dirty < c) {
-                        a.dirty = c;
+                for(var c = this.parent; c; c = c.parent, b++){
+                    var d = b == 1 ? ad : ac;
+                    if (c.dirty < d) {
+                        c.dirty = d;
                     }
                 }
             };
-            h.domAtom.get = function() {
+            ag.domAtom.get = function() {
                 return false;
             };
-            h.ignoreForCoords.get = function() {
+            ag.ignoreForCoords.get = function() {
                 return false;
             };
-            Object.defineProperties(b.prototype, h);
-            var aA = [];
-            var aB = (function(b) {
-                function a(e, c, f, h) {
-                    var g, a = c.type.toDOM;
-                    if (typeof a == "function") {
-                        a = a(f, function() {
-                            if (!g) {
-                                return h;
+            Object.defineProperties(af.prototype, ag);
+            var ah = [];
+            var ai = (function(a) {
+                function b(b, c, d, e) {
+                    var f, g = c.type.toDOM;
+                    if (typeof g == "function") {
+                        g = g(d, function() {
+                            if (!f) {
+                                return e;
                             }
-                            if (g.parent) {
-                                return g.parent.posBeforeChild(g);
+                            if (f.parent) {
+                                return f.parent.posBeforeChild(f);
                             }
                         });
                     }
                     if (!c.type.spec.raw) {
-                        if (a.nodeType != 1) {
-                            var d = document.createElement("span");
-                            d.appendChild(a);
-                            a = d;
+                        if (g.nodeType != 1) {
+                            var h = document.createElement("span");
+                            h.appendChild(g);
+                            g = h;
                         }
-                        a.contentEditable = false;
-                        a.classList.add("ProseMirror-widget");
+                        g.contentEditable = false;
+                        g.classList.add("ProseMirror-widget");
                     }
-                    b.call(this, e, aA, a, null);
+                    a.call(this, b, ah, g, null);
                     this.widget = c;
-                    g = this;
+                    f = this;
                 }
-                if (b) a.__proto__ = b;
-                a.prototype = Object.create(b && b.prototype);
-                a.prototype.constructor = a;
+                if (a) b.__proto__ = a;
+                b.prototype = Object.create(a && a.prototype);
+                b.prototype.constructor = b;
                 var c = {
                     domAtom: {
                         configurable: true
                     }
                 };
-                a.prototype.matchesWidget = function b(a) {
-                    return (this.dirty == aw && a.type.eq(this.widget.type));
+                b.prototype.matchesWidget = function a(b) {
+                    return (this.dirty == ab && b.type.eq(this.widget.type));
                 };
-                a.prototype.parseRule = function a() {
+                b.prototype.parseRule = function a() {
                     return {
                         ignore: true
                     };
                 };
-                a.prototype.stopEvent = function c(b) {
-                    var a = this.widget.spec.stopEvent;
-                    return a ? a(b) : false;
+                b.prototype.stopEvent = function a(b) {
+                    var c = this.widget.spec.stopEvent;
+                    return c ? c(b) : false;
                 };
-                a.prototype.ignoreMutation = function b(a) {
-                    return (a.type != "selection" || this.widget.spec.ignoreSelection);
+                b.prototype.ignoreMutation = function a(b) {
+                    return (b.type != "selection" || this.widget.spec.ignoreSelection);
                 };
                 c.domAtom.get = function() {
                     return true;
                 };
-                Object.defineProperties(a.prototype, c);
-                return a;
-            })(b);
-            var aC = (function(b) {
-                function a(a, c, d, e) {
-                    b.call(this, a, aA, c, null);
+                Object.defineProperties(b.prototype, c);
+                return b;
+            })(af);
+            var aj = (function(a) {
+                function b(b, c, d, e) {
+                    a.call(this, b, ah, c, null);
                     this.textDOM = d;
                     this.text = e;
                 }
-                if (b) a.__proto__ = b;
-                a.prototype = Object.create(b && b.prototype);
-                a.prototype.constructor = a;
+                if (a) b.__proto__ = a;
+                b.prototype = Object.create(a && a.prototype);
+                b.prototype.constructor = b;
                 var c = {
                     size: {
                         configurable: true
@@ -1192,95 +1192,95 @@
                 c.size.get = function() {
                     return this.text.length;
                 };
-                a.prototype.localPosFromDOM = function c(b, a) {
+                b.prototype.localPosFromDOM = function a(b, c) {
                     if (b != this.textDOM) {
-                        return this.posAtStart + (a ? this.size : 0);
+                        return this.posAtStart + (c ? this.size : 0);
                     }
-                    return this.posAtStart + a;
+                    return this.posAtStart + c;
                 };
-                a.prototype.domFromPos = function b(a) {
+                b.prototype.domFromPos = function a(b) {
                     return {
                         node: this.textDOM,
-                        offset: a
+                        offset: b
                     };
                 };
-                a.prototype.ignoreMutation = function b(a) {
-                    return (a.type === "characterData" && a.target.nodeValue == a.oldValue);
+                b.prototype.ignoreMutation = function a(b) {
+                    return (b.type === "characterData" && b.target.nodeValue == b.oldValue);
                 };
-                Object.defineProperties(a.prototype, c);
-                return a;
-            })(b);
-            var aD = (function(b) {
-                function a(a, c, d, e) {
-                    b.call(this, a, [], d, e);
+                Object.defineProperties(b.prototype, c);
+                return b;
+            })(af);
+            var ak = (function(a) {
+                function b(b, c, d, e) {
+                    a.call(this, b, [], d, e);
                     this.mark = c;
                 }
-                if (b) a.__proto__ = b;
-                a.prototype = Object.create(b && b.prototype);
-                a.prototype.constructor = a;
-                a.create = function h(g, c, d, e) {
-                    var f = e.nodeViews[c.type.name];
-                    var b = f && f(c, e, d);
-                    if (!b || !b.dom) {
-                        b = F.DOMSerializer.renderSpec(document, c.type.spec.toDOM(c, d));
+                if (a) b.__proto__ = a;
+                b.prototype = Object.create(a && a.prototype);
+                b.prototype.constructor = b;
+                b.create = function a(c, d, f, g) {
+                    var h = g.nodeViews[d.type.name];
+                    var i = h && h(d, g, f);
+                    if (!i || !i.dom) {
+                        i = e.DOMSerializer.renderSpec(document, d.type.spec.toDOM(d, f));
                     }
-                    return new a(g, c, b.dom, b.contentDOM || b.dom);
+                    return new b(c, d, i.dom, i.contentDOM || i.dom);
                 };
-                a.prototype.parseRule = function a() {
+                b.prototype.parseRule = function a() {
                     return {
                         mark: this.mark.type.name,
                         attrs: this.mark.attrs,
                         contentElement: this.contentDOM
                     };
                 };
-                a.prototype.matchesMark = function b(a) {
-                    return this.dirty != az && this.mark.eq(a);
+                b.prototype.matchesMark = function a(b) {
+                    return this.dirty != ae && this.mark.eq(b);
                 };
-                a.prototype.markDirty = function e(c, d) {
-                    b.prototype.markDirty.call(this, c, d);
-                    if (this.dirty != aw) {
-                        var a = this.parent;
-                        while(!a.node){
-                            a = a.parent;
+                b.prototype.markDirty = function b(c, d) {
+                    a.prototype.markDirty.call(this, c, d);
+                    if (this.dirty != ab) {
+                        var e = this.parent;
+                        while(!e.node){
+                            e = e.parent;
                         }
-                        if (a.dirty < this.dirty) {
-                            a.dirty = this.dirty;
+                        if (e.dirty < this.dirty) {
+                            e.dirty = this.dirty;
                         }
-                        this.dirty = aw;
+                        this.dirty = ab;
                     }
                 };
-                a.prototype.slice = function i(f, g, c) {
-                    var d = a.create(this.parent, this.mark, true, c);
-                    var b = this.children, h = this.size;
-                    if (g < h) {
-                        b = aW(b, g, h, c);
+                b.prototype.slice = function a(c, d, e) {
+                    var f = b.create(this.parent, this.mark, true, e);
+                    var g = this.children, h = this.size;
+                    if (d < h) {
+                        g = aG(g, d, h, e);
                     }
-                    if (f > 0) {
-                        b = aW(b, 0, f, c);
+                    if (c > 0) {
+                        g = aG(g, 0, c, e);
                     }
-                    for(var e = 0; e < b.length; e++){
-                        b[e].parent = d;
+                    for(var i = 0; i < g.length; i++){
+                        g[i].parent = f;
                     }
-                    d.children = b;
-                    return d;
+                    f.children = g;
+                    return f;
                 };
-                return a;
-            })(b);
-            var y = (function(c) {
-                function b(d, a, e, f, g, b, h, i, j) {
-                    c.call(this, d, a.isLeaf ? aA : [], g, b);
+                return b;
+            })(af);
+            var al = (function(a) {
+                function b(b, c, d, e, f, g, h, i, j) {
+                    a.call(this, b, c.isLeaf ? ah : [], f, g);
                     this.nodeDOM = h;
-                    this.node = a;
-                    this.outerDeco = e;
-                    this.innerDeco = f;
-                    if (b) {
+                    this.node = c;
+                    this.outerDeco = d;
+                    this.innerDeco = e;
+                    if (g) {
                         this.updateChildren(i, j);
                     }
                 }
-                if (c) b.__proto__ = c;
-                b.prototype = Object.create(c && c.prototype);
+                if (a) b.__proto__ = a;
+                b.prototype = Object.create(a && a.prototype);
                 b.prototype.constructor = b;
-                var d = {
+                var c = {
                     size: {
                         configurable: true
                     },
@@ -1291,196 +1291,196 @@
                         configurable: true
                     }
                 };
-                b.create = function o(i, c, e, g, f, l) {
+                b.create = function a(c, d, f, g, h, i) {
                     var j;
-                    var m = f.nodeViews[c.type.name], n;
-                    var d = m && m(c, f, function() {
+                    var k = h.nodeViews[d.type.name], l;
+                    var m = k && k(d, h, function() {
+                        if (!l) {
+                            return i;
+                        }
+                        if (l.parent) {
+                            return l.parent.posBeforeChild(l);
+                        }
+                    }, f, g);
+                    var n = m && m.dom, o = m && m.contentDOM;
+                    if (d.isText) {
                         if (!n) {
-                            return l;
-                        }
-                        if (n.parent) {
-                            return n.parent.posBeforeChild(n);
-                        }
-                    }, e, g);
-                    var a = d && d.dom, h = d && d.contentDOM;
-                    if (c.isText) {
-                        if (!a) {
-                            a = document.createTextNode(c.text);
-                        } else if (a.nodeType != 3) {
+                            n = document.createTextNode(d.text);
+                        } else if (n.nodeType != 3) {
                             throw new RangeError("Text must be rendered as a DOM text node");
                         }
-                    } else if (!a) {
-                        (j = F.DOMSerializer.renderSpec(document, c.type.spec.toDOM(c))), (a = j.dom), (h = j.contentDOM);
+                    } else if (!n) {
+                        (j = e.DOMSerializer.renderSpec(document, d.type.spec.toDOM(d))), (n = j.dom), (o = j.contentDOM);
                     }
-                    if (!h && !c.isText && a.nodeName != "BR") {
-                        if (!a.hasAttribute("contenteditable")) {
-                            a.contentEditable = false;
+                    if (!o && !d.isText && n.nodeName != "BR") {
+                        if (!n.hasAttribute("contenteditable")) {
+                            n.contentEditable = false;
                         }
-                        if (c.type.spec.draggable) {
-                            a.draggable = true;
+                        if (d.type.spec.draggable) {
+                            n.draggable = true;
                         }
                     }
-                    var k = a;
-                    a = aN(a, e, c);
-                    if (d) {
-                        return (n = new aH(i, c, e, g, a, h, k, d, f, l + 1));
-                    } else if (c.isText) {
-                        return new aF(i, c, e, g, a, k, f);
+                    var p = n;
+                    n = aw(n, f, d);
+                    if (m) {
+                        return (l = new ap(c, d, f, g, n, o, p, m, h, i + 1));
+                    } else if (d.isText) {
+                        return new an(c, d, f, g, n, p, h);
                     } else {
-                        return new b(i, c, e, g, a, h, k, f, l + 1);
+                        return new b(c, d, f, g, n, o, p, h, i + 1);
                     }
                 };
-                b.prototype.parseRule = function b() {
-                    var c = this;
+                b.prototype.parseRule = function a() {
+                    var b = this;
                     if (this.node.type.spec.reparseInView) {
                         return null;
                     }
-                    var a = {
+                    var c = {
                         node: this.node.type.name,
                         attrs: this.node.attrs
                     };
                     if (this.node.type.spec.code) {
-                        a.preserveWhitespace = "full";
+                        c.preserveWhitespace = "full";
                     }
                     if (this.contentDOM && !this.contentLost) {
-                        a.contentElement = this.contentDOM;
+                        c.contentElement = this.contentDOM;
                     } else {
-                        a.getContent = function() {
-                            return c.contentDOM ? F.Fragment.empty : c.node.content;
+                        c.getContent = function() {
+                            return b.contentDOM ? e.Fragment.empty : b.node.content;
                         };
                     }
-                    return a;
+                    return c;
                 };
-                b.prototype.matchesNode = function d(a, b, c) {
-                    return (this.dirty == aw && a.eq(this.node) && aO(b, this.outerDeco) && c.eq(this.innerDeco));
+                b.prototype.matchesNode = function a(b, c, d) {
+                    return (this.dirty == ab && b.eq(this.node) && ax(c, this.outerDeco) && d.eq(this.innerDeco));
                 };
-                d.size.get = function() {
+                c.size.get = function() {
                     return this.node.nodeSize;
                 };
-                d.border.get = function() {
+                c.border.get = function() {
                     return this.node.isLeaf ? 0 : 1;
                 };
-                b.prototype.updateChildren = function i(b, f) {
-                    var j = this;
-                    var h = this.node.inlineContent, k = f;
-                    var c = b.composing && this.localCompositionInfo(b, f);
-                    var d = c && c.pos > -1 ? c : null;
-                    var l = c && c.pos < 0;
-                    var e = new g(this, d && d.node);
-                    aS(this.node, this.innerDeco, function(a, c, d) {
+                b.prototype.updateChildren = function a(b, c) {
+                    var d = this;
+                    var f = this.node.inlineContent, h = c;
+                    var i = b.composing && this.localCompositionInfo(b, c);
+                    var j = i && i.pos > -1 ? i : null;
+                    var k = i && i.pos < 0;
+                    var l = new az(this, j && j.node);
+                    aC(this.node, this.innerDeco, function(a, c, g) {
                         if (a.spec.marks) {
-                            e.syncToMarks(a.spec.marks, h, b);
-                        } else if (a.type.side >= 0 && !d) {
-                            e.syncToMarks(c == j.node.childCount ? F.Mark.none : j.node.child(c).marks, h, b);
+                            l.syncToMarks(a.spec.marks, f, b);
+                        } else if (a.type.side >= 0 && !g) {
+                            l.syncToMarks(c == d.node.childCount ? e.Mark.none : d.node.child(c).marks, f, b);
                         }
-                        e.placeWidget(a, b, k);
-                    }, function(a, d, f, g) {
-                        e.syncToMarks(a.marks, h, b);
-                        var i;
-                        if (e.findNodeMatch(a, d, f, g)) ;
-                        else if (l && b.state.selection.from > k && b.state.selection.to < k + a.nodeSize && (i = e.findIndexWithChild(c.node)) > -1 && e.updateNodeAt(a, d, f, i, b)) ;
-                        else if (e.updateNextNode(a, d, f, b, g)) ;
+                        l.placeWidget(a, b, h);
+                    }, function(a, c, d, e) {
+                        l.syncToMarks(a.marks, f, b);
+                        var g;
+                        if (l.findNodeMatch(a, c, d, e)) ;
+                        else if (k && b.state.selection.from > h && b.state.selection.to < h + a.nodeSize && (g = l.findIndexWithChild(i.node)) > -1 && l.updateNodeAt(a, c, d, g, b)) ;
+                        else if (l.updateNextNode(a, c, d, b, e)) ;
                         else {
-                            e.addNode(a, d, f, b, k);
+                            l.addNode(a, c, d, b, h);
                         }
-                        k += a.nodeSize;
+                        h += a.nodeSize;
                     });
-                    e.syncToMarks(aA, h, b);
+                    l.syncToMarks(ah, f, b);
                     if (this.node.isTextblock) {
-                        e.addTextblockHacks();
+                        l.addTextblockHacks();
                     }
-                    e.destroyRest();
-                    if (e.changed || this.dirty == ay) {
-                        if (d) {
-                            this.protectLocalComposition(b, d);
+                    l.destroyRest();
+                    if (l.changed || this.dirty == ad) {
+                        if (j) {
+                            this.protectLocalComposition(b, j);
                         }
-                        aI(this.contentDOM, this.children, b);
-                        if (a.ios) {
-                            aT(this.dom);
+                        aq(this.contentDOM, this.children, b);
+                        if (g.ios) {
+                            aD(this.dom);
                         }
                     }
                 };
-                b.prototype.localCompositionInfo = function j(c, b) {
-                    var d = c.state.selection;
-                    var e = d.from;
-                    var f = d.to;
-                    if (!(c.state.selection instanceof E.TextSelection) || e < b || f > b + this.node.content.size) {
+                b.prototype.localCompositionInfo = function a(b, c) {
+                    var e = b.state.selection;
+                    var f = e.from;
+                    var g = e.to;
+                    if (!(b.state.selection instanceof d.TextSelection) || f < c || g > c + this.node.content.size) {
                         return;
                     }
-                    var g = c.root.getSelection();
-                    var a = aU(g.focusNode, g.focusOffset);
-                    if (!a || !this.dom.contains(a.parentNode)) {
+                    var h = b.root.getSelection();
+                    var i = aE(h.focusNode, h.focusOffset);
+                    if (!i || !this.dom.contains(i.parentNode)) {
                         return;
                     }
                     if (this.node.inlineContent) {
-                        var h = a.nodeValue;
-                        var i = aV(this.node.content, h, e - b, f - b);
-                        return i < 0 ? null : {
-                            node: a,
-                            pos: i,
-                            text: h
+                        var j = i.nodeValue;
+                        var k = aF(this.node.content, j, f - c, g - c);
+                        return k < 0 ? null : {
+                            node: i,
+                            pos: k,
+                            text: j
                         };
                     } else {
                         return {
-                            node: a,
+                            node: i,
                             pos: -1
                         };
                     }
                 };
-                b.prototype.protectLocalComposition = function h(d, b) {
-                    var c = b.node;
-                    var e = b.pos;
-                    var f = b.text;
-                    if (this.getDesc(c)) {
+                b.prototype.protectLocalComposition = function a(b, c) {
+                    var d = c.node;
+                    var e = c.pos;
+                    var f = c.text;
+                    if (this.getDesc(d)) {
                         return;
                     }
-                    var a = c;
-                    for(;; a = a.parentNode){
-                        if (a.parentNode == this.contentDOM) {
+                    var g = d;
+                    for(;; g = g.parentNode){
+                        if (g.parentNode == this.contentDOM) {
                             break;
                         }
-                        while(a.previousSibling){
-                            a.parentNode.removeChild(a.previousSibling);
+                        while(g.previousSibling){
+                            g.parentNode.removeChild(g.previousSibling);
                         }
-                        while(a.nextSibling){
-                            a.parentNode.removeChild(a.nextSibling);
+                        while(g.nextSibling){
+                            g.parentNode.removeChild(g.nextSibling);
                         }
-                        if (a.pmViewDesc) {
-                            a.pmViewDesc = null;
+                        if (g.pmViewDesc) {
+                            g.pmViewDesc = null;
                         }
                     }
-                    var g = new aC(this, a, c, f);
-                    d.compositionNodes.push(g);
-                    this.children = aW(this.children, e, e + f.length, d, g);
+                    var h = new aj(this, g, d, f);
+                    b.compositionNodes.push(h);
+                    this.children = aG(this.children, e, e + f.length, b, h);
                 };
-                b.prototype.update = function e(a, b, c, d) {
-                    if (this.dirty == az || !a.sameMarkup(this.node)) {
+                b.prototype.update = function a(b, c, d, e) {
+                    if (this.dirty == ae || !b.sameMarkup(this.node)) {
                         return false;
                     }
-                    this.updateInner(a, b, c, d);
+                    this.updateInner(b, c, d, e);
                     return true;
                 };
-                b.prototype.updateInner = function e(a, b, c, d) {
-                    this.updateOuterDeco(b);
-                    this.node = a;
-                    this.innerDeco = c;
+                b.prototype.updateInner = function a(b, c, d, e) {
+                    this.updateOuterDeco(c);
+                    this.node = b;
+                    this.innerDeco = d;
                     if (this.contentDOM) {
-                        this.updateChildren(d, this.posAtStart);
+                        this.updateChildren(e, this.posAtStart);
                     }
-                    this.dirty = aw;
+                    this.dirty = ab;
                 };
-                b.prototype.updateOuterDeco = function d(a) {
-                    if (aO(a, this.outerDeco)) {
+                b.prototype.updateOuterDeco = function a(b) {
+                    if (ax(b, this.outerDeco)) {
                         return;
                     }
-                    var b = this.nodeDOM.nodeType != 1;
-                    var c = this.dom;
-                    this.dom = aL(this.dom, this.nodeDOM, aK(this.outerDeco, this.node, b), aK(a, this.node, b));
-                    if (this.dom != c) {
-                        c.pmViewDesc = null;
+                    var c = this.nodeDOM.nodeType != 1;
+                    var d = this.dom;
+                    this.dom = au(this.dom, this.nodeDOM, at(this.outerDeco, this.node, c), at(b, this.node, c));
+                    if (this.dom != d) {
+                        d.pmViewDesc = null;
                         this.dom.pmViewDesc = this;
                     }
-                    this.outerDeco = a;
+                    this.outerDeco = b;
                 };
                 b.prototype.selectNode = function a() {
                     this.nodeDOM.classList.add("ProseMirror-selectednode");
@@ -1494,99 +1494,99 @@
                         this.dom.removeAttribute("draggable");
                     }
                 };
-                d.domAtom.get = function() {
+                c.domAtom.get = function() {
                     return this.node.isAtom;
                 };
-                Object.defineProperties(b.prototype, d);
+                Object.defineProperties(b.prototype, c);
                 return b;
-            })(b);
-            function aE(b, c, d, a, e) {
-                aN(a, c, b);
-                return new y(null, b, c, d, a, a, a, e, 0);
+            })(af);
+            function am(a, b, c, d, e) {
+                aw(d, b, a);
+                return new al(null, a, b, c, d, d, d, e, 0);
             }
-            var aF = (function(b) {
-                function a(a, c, d, e, f, g, h) {
-                    b.call(this, a, c, d, e, f, null, g, h);
+            var an = (function(a) {
+                function b(b, c, d, e, f, g, h) {
+                    a.call(this, b, c, d, e, f, null, g, h);
                 }
-                if (b) a.__proto__ = b;
-                a.prototype = Object.create(b && b.prototype);
-                a.prototype.constructor = a;
+                if (a) b.__proto__ = a;
+                b.prototype = Object.create(a && a.prototype);
+                b.prototype.constructor = b;
                 var c = {
                     domAtom: {
                         configurable: true
                     }
                 };
-                a.prototype.parseRule = function b() {
-                    var a = this.nodeDOM.parentNode;
-                    while(a && a != this.dom && !a.pmIsDeco){
-                        a = a.parentNode;
+                b.prototype.parseRule = function a() {
+                    var b = this.nodeDOM.parentNode;
+                    while(b && b != this.dom && !b.pmIsDeco){
+                        b = b.parentNode;
                     }
                     return {
-                        skip: a || true
+                        skip: b || true
                     };
                 };
-                a.prototype.update = function d(a, c, e, b) {
-                    if (this.dirty == az || (this.dirty != aw && !this.inParent()) || !a.sameMarkup(this.node)) {
+                b.prototype.update = function a(b, c, d, e) {
+                    if (this.dirty == ae || (this.dirty != ab && !this.inParent()) || !b.sameMarkup(this.node)) {
                         return false;
                     }
                     this.updateOuterDeco(c);
-                    if ((this.dirty != aw || a.text != this.node.text) && a.text != this.nodeDOM.nodeValue) {
-                        this.nodeDOM.nodeValue = a.text;
-                        if (b.trackWrites == this.nodeDOM) {
-                            b.trackWrites = null;
+                    if ((this.dirty != ab || b.text != this.node.text) && b.text != this.nodeDOM.nodeValue) {
+                        this.nodeDOM.nodeValue = b.text;
+                        if (e.trackWrites == this.nodeDOM) {
+                            e.trackWrites = null;
                         }
                     }
-                    this.node = a;
-                    this.dirty = aw;
+                    this.node = b;
+                    this.dirty = ab;
                     return true;
                 };
-                a.prototype.inParent = function c() {
+                b.prototype.inParent = function a() {
                     var b = this.parent.contentDOM;
-                    for(var a = this.nodeDOM; a; a = a.parentNode){
-                        if (a == b) {
+                    for(var c = this.nodeDOM; c; c = c.parentNode){
+                        if (c == b) {
                             return true;
                         }
                     }
                     return false;
                 };
-                a.prototype.domFromPos = function b(a) {
+                b.prototype.domFromPos = function a(b) {
                     return {
                         node: this.nodeDOM,
-                        offset: a
+                        offset: b
                     };
                 };
-                a.prototype.localPosFromDOM = function e(a, c, d) {
-                    if (a == this.nodeDOM) {
-                        return (this.posAtStart + Math.min(c, this.node.text.length));
+                b.prototype.localPosFromDOM = function b(c, d, e) {
+                    if (c == this.nodeDOM) {
+                        return (this.posAtStart + Math.min(d, this.node.text.length));
                     }
-                    return b.prototype.localPosFromDOM.call(this, a, c, d);
+                    return a.prototype.localPosFromDOM.call(this, c, d, e);
                 };
-                a.prototype.ignoreMutation = function b(a) {
-                    return (a.type != "characterData" && a.type != "selection");
+                b.prototype.ignoreMutation = function a(b) {
+                    return (b.type != "characterData" && b.type != "selection");
                 };
-                a.prototype.slice = function g(d, e, f) {
-                    var b = this.node.cut(d, e), c = document.createTextNode(b.text);
-                    return new a(this.parent, b, this.outerDeco, this.innerDeco, c, c, f);
+                b.prototype.slice = function a(c, d, e) {
+                    var f = this.node.cut(c, d), g = document.createTextNode(f.text);
+                    return new b(this.parent, f, this.outerDeco, this.innerDeco, g, g, e);
                 };
-                a.prototype.markDirty = function d(a, c) {
-                    b.prototype.markDirty.call(this, a, c);
-                    if (this.dom != this.nodeDOM && (a == 0 || c == this.nodeDOM.nodeValue.length)) {
-                        this.dirty = az;
+                b.prototype.markDirty = function b(c, d) {
+                    a.prototype.markDirty.call(this, c, d);
+                    if (this.dom != this.nodeDOM && (c == 0 || d == this.nodeDOM.nodeValue.length)) {
+                        this.dirty = ae;
                     }
                 };
                 c.domAtom.get = function() {
                     return false;
                 };
-                Object.defineProperties(a.prototype, c);
-                return a;
-            })(y);
-            var aG = (function(b) {
-                function a() {
-                    b.apply(this, arguments);
+                Object.defineProperties(b.prototype, c);
+                return b;
+            })(al);
+            var ao = (function(a) {
+                function b() {
+                    a.apply(this, arguments);
                 }
-                if (b) a.__proto__ = b;
-                a.prototype = Object.create(b && b.prototype);
-                a.prototype.constructor = a;
+                if (a) b.__proto__ = a;
+                b.prototype = Object.create(a && a.prototype);
+                b.prototype.constructor = b;
                 var c = {
                     domAtom: {
                         configurable: true
@@ -1595,13 +1595,13 @@
                         configurable: true
                     }
                 };
-                a.prototype.parseRule = function a() {
+                b.prototype.parseRule = function a() {
                     return {
                         ignore: true
                     };
                 };
-                a.prototype.matchesHack = function b(a) {
-                    return (this.dirty == aw && this.dom.nodeName == a);
+                b.prototype.matchesHack = function a(b) {
+                    return (this.dirty == ab && this.dom.nodeName == b);
                 };
                 c.domAtom.get = function() {
                     return true;
@@ -1609,300 +1609,300 @@
                 c.ignoreForCoords.get = function() {
                     return this.dom.nodeName == "IMG";
                 };
-                Object.defineProperties(a.prototype, c);
-                return a;
-            })(b);
-            var aH = (function(b) {
-                function a(a, c, d, e, f, g, h, i, j, k) {
-                    b.call(this, a, c, d, e, f, g, h, j, k);
+                Object.defineProperties(b.prototype, c);
+                return b;
+            })(af);
+            var ap = (function(a) {
+                function b(b, c, d, e, f, g, h, i, j, k) {
+                    a.call(this, b, c, d, e, f, g, h, j, k);
                     this.spec = i;
                 }
-                if (b) a.__proto__ = b;
-                a.prototype = Object.create(b && b.prototype);
-                a.prototype.constructor = a;
-                a.prototype.update = function g(a, c, d, e) {
-                    if (this.dirty == az) {
+                if (a) b.__proto__ = a;
+                b.prototype = Object.create(a && a.prototype);
+                b.prototype.constructor = b;
+                b.prototype.update = function b(c, d, e, f) {
+                    if (this.dirty == ae) {
                         return false;
                     }
                     if (this.spec.update) {
-                        var f = this.spec.update(a, c, d);
-                        if (f) {
-                            this.updateInner(a, c, d, e);
+                        var g = this.spec.update(c, d, e);
+                        if (g) {
+                            this.updateInner(c, d, e, f);
                         }
-                        return f;
-                    } else if (!this.contentDOM && !a.isLeaf) {
+                        return g;
+                    } else if (!this.contentDOM && !c.isLeaf) {
                         return false;
                     } else {
-                        return b.prototype.update.call(this, a, c, d, e);
+                        return a.prototype.update.call(this, c, d, e, f);
                     }
                 };
-                a.prototype.selectNode = function a() {
-                    this.spec.selectNode ? this.spec.selectNode() : b.prototype.selectNode.call(this);
+                b.prototype.selectNode = function b() {
+                    this.spec.selectNode ? this.spec.selectNode() : a.prototype.selectNode.call(this);
                 };
-                a.prototype.deselectNode = function a() {
-                    this.spec.deselectNode ? this.spec.deselectNode() : b.prototype.deselectNode.call(this);
+                b.prototype.deselectNode = function b() {
+                    this.spec.deselectNode ? this.spec.deselectNode() : a.prototype.deselectNode.call(this);
                 };
-                a.prototype.setSelection = function f(a, c, d, e) {
-                    this.spec.setSelection ? this.spec.setSelection(a, c, d) : b.prototype.setSelection.call(this, a, c, d, e);
+                b.prototype.setSelection = function b(c, d, e, f) {
+                    this.spec.setSelection ? this.spec.setSelection(c, d, e) : a.prototype.setSelection.call(this, c, d, e, f);
                 };
-                a.prototype.destroy = function a() {
+                b.prototype.destroy = function b() {
                     if (this.spec.destroy) {
                         this.spec.destroy();
                     }
-                    b.prototype.destroy.call(this);
+                    a.prototype.destroy.call(this);
                 };
-                a.prototype.stopEvent = function b(a) {
-                    return this.spec.stopEvent ? this.spec.stopEvent(a) : false;
+                b.prototype.stopEvent = function a(b) {
+                    return this.spec.stopEvent ? this.spec.stopEvent(b) : false;
                 };
-                a.prototype.ignoreMutation = function c(a) {
-                    return this.spec.ignoreMutation ? this.spec.ignoreMutation(a) : b.prototype.ignoreMutation.call(this, a);
+                b.prototype.ignoreMutation = function b(c) {
+                    return this.spec.ignoreMutation ? this.spec.ignoreMutation(c) : a.prototype.ignoreMutation.call(this, c);
                 };
-                return a;
-            })(y);
-            function aI(b, h, e) {
-                var a = b.firstChild, c = false;
-                for(var f = 0; f < h.length; f++){
-                    var d = h[f], g = d.dom;
-                    if (g.parentNode == b) {
-                        while(g != a){
-                            a = aP(a);
-                            c = true;
+                return b;
+            })(al);
+            function aq(a, b, c) {
+                var d = a.firstChild, e = false;
+                for(var f = 0; f < b.length; f++){
+                    var g = b[f], h = g.dom;
+                    if (h.parentNode == a) {
+                        while(h != d){
+                            d = ay(d);
+                            e = true;
                         }
-                        a = a.nextSibling;
+                        d = d.nextSibling;
                     } else {
-                        c = true;
-                        b.insertBefore(g, a);
+                        e = true;
+                        a.insertBefore(h, d);
                     }
-                    if (d instanceof aD) {
-                        var i = a ? a.previousSibling : b.lastChild;
-                        aI(d.contentDOM, d.children, e);
-                        a = i ? i.nextSibling : b.firstChild;
+                    if (g instanceof ak) {
+                        var i = d ? d.previousSibling : a.lastChild;
+                        aq(g.contentDOM, g.children, c);
+                        d = i ? i.nextSibling : a.firstChild;
                     }
                 }
-                while(a){
-                    a = aP(a);
-                    c = true;
+                while(d){
+                    d = ay(d);
+                    e = true;
                 }
-                if (c && e.trackWrites == b) {
-                    e.trackWrites = null;
+                if (e && c.trackWrites == a) {
+                    c.trackWrites = null;
                 }
             }
-            function z(a) {
+            function ar(a) {
                 if (a) {
                     this.nodeName = a;
                 }
             }
-            z.prototype = Object.create(null);
-            var aJ = [
-                new z()
+            ar.prototype = Object.create(null);
+            var as = [
+                new ar()
             ];
-            function aK(f, i, h) {
-                if (f.length == 0) {
-                    return aJ;
+            function at(a, b, c) {
+                if (a.length == 0) {
+                    return as;
                 }
-                var a = h ? aJ[0] : new z(), d = [
-                    a
+                var d = c ? as[0] : new ar(), e = [
+                    d
                 ];
-                for(var g = 0; g < f.length; g++){
-                    var b = f[g].type.attrs;
-                    if (!b) {
+                for(var f = 0; f < a.length; f++){
+                    var g = a[f].type.attrs;
+                    if (!g) {
                         continue;
                     }
-                    if (b.nodeName) {
-                        d.push((a = new z(b.nodeName)));
+                    if (g.nodeName) {
+                        e.push((d = new ar(g.nodeName)));
                     }
-                    for(var c in b){
-                        var e = b[c];
-                        if (e == null) {
+                    for(var h in g){
+                        var i = g[h];
+                        if (i == null) {
                             continue;
                         }
-                        if (h && d.length == 1) {
-                            d.push((a = new z(i.isInline ? "span" : "div")));
+                        if (c && e.length == 1) {
+                            e.push((d = new ar(b.isInline ? "span" : "div")));
                         }
-                        if (c == "class") {
-                            a.class = (a.class ? a.class + " " : "") + e;
-                        } else if (c == "style") {
-                            a.style = (a.style ? a.style + ";" : "") + e;
-                        } else if (c != "nodeName") {
-                            a[c] = e;
+                        if (h == "class") {
+                            d.class = (d.class ? d.class + " " : "") + i;
+                        } else if (h == "style") {
+                            d.style = (d.style ? d.style + ";" : "") + i;
+                        } else if (h != "nodeName") {
+                            d[h] = i;
                         }
                     }
                 }
-                return d;
+                return e;
             }
-            function aL(i, g, h, f) {
-                if (h == aJ && f == aJ) {
-                    return g;
+            function au(a, b, c, d) {
+                if (c == as && d == as) {
+                    return b;
                 }
-                var a = g;
-                for(var c = 0; c < f.length; c++){
-                    var d = f[c], e = h[c];
-                    if (c) {
-                        var b = void 0;
-                        if (e && e.nodeName == d.nodeName && a != i && (b = a.parentNode) && b.tagName.toLowerCase() == d.nodeName) {
-                            a = b;
+                var e = b;
+                for(var f = 0; f < d.length; f++){
+                    var g = d[f], h = c[f];
+                    if (f) {
+                        var i = void 0;
+                        if (h && h.nodeName == g.nodeName && e != a && (i = e.parentNode) && i.tagName.toLowerCase() == g.nodeName) {
+                            e = i;
                         } else {
-                            b = document.createElement(d.nodeName);
-                            b.pmIsDeco = true;
-                            b.appendChild(a);
-                            e = aJ[0];
-                            a = b;
+                            i = document.createElement(g.nodeName);
+                            i.pmIsDeco = true;
+                            i.appendChild(e);
+                            h = as[0];
+                            e = i;
                         }
                     }
-                    aM(a, e || aJ[0], d);
+                    av(e, h || as[0], g);
                 }
-                return a;
+                return e;
             }
-            function aM(d, b, a) {
-                for(var e in b){
-                    if (e != "class" && e != "style" && e != "nodeName" && !(e in a)) {
-                        d.removeAttribute(e);
+            function av(a, b, c) {
+                for(var d in b){
+                    if (d != "class" && d != "style" && d != "nodeName" && !(d in c)) {
+                        a.removeAttribute(d);
                     }
                 }
-                for(var c in a){
-                    if (c != "class" && c != "style" && c != "nodeName" && a[c] != b[c]) {
-                        d.setAttribute(c, a[c]);
+                for(var e in c){
+                    if (e != "class" && e != "style" && e != "nodeName" && c[e] != b[e]) {
+                        a.setAttribute(e, c[e]);
                     }
                 }
-                if (b.class != a.class) {
-                    var f = b.class ? b.class.split(" ").filter(Boolean) : aA;
-                    var g = a.class ? a.class.split(" ").filter(Boolean) : aA;
+                if (b.class != c.class) {
+                    var f = b.class ? b.class.split(" ").filter(Boolean) : ah;
+                    var g = c.class ? c.class.split(" ").filter(Boolean) : ah;
                     for(var h = 0; h < f.length; h++){
                         if (g.indexOf(f[h]) == -1) {
-                            d.classList.remove(f[h]);
+                            a.classList.remove(f[h]);
                         }
                     }
                     for(var i = 0; i < g.length; i++){
                         if (f.indexOf(g[i]) == -1) {
-                            d.classList.add(g[i]);
+                            a.classList.add(g[i]);
                         }
                     }
                 }
-                if (b.style != a.style) {
+                if (b.style != c.style) {
                     if (b.style) {
-                        var k = /\s*([\w\-\xa1-\uffff]+)\s*:(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\(.*?\)|[^;])*/g, j;
-                        while((j = k.exec(b.style))){
-                            d.style.removeProperty(j[1]);
+                        var j = /\s*([\w\-\xa1-\uffff]+)\s*:(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\(.*?\)|[^;])*/g, k;
+                        while((k = j.exec(b.style))){
+                            a.style.removeProperty(k[1]);
                         }
                     }
-                    if (a.style) {
-                        d.style.cssText += a.style;
+                    if (c.style) {
+                        a.style.cssText += c.style;
                     }
                 }
             }
-            function aN(a, b, c) {
-                return aL(a, a, aJ, aK(b, c, a.nodeType != 1));
+            function aw(a, b, c) {
+                return au(a, a, as, at(b, c, a.nodeType != 1));
             }
-            function aO(b, c) {
-                if (b.length != c.length) {
+            function ax(a, b) {
+                if (a.length != b.length) {
                     return false;
                 }
-                for(var a = 0; a < b.length; a++){
-                    if (!b[a].type.eq(c[a].type)) {
+                for(var c = 0; c < a.length; c++){
+                    if (!a[c].type.eq(b[c].type)) {
                         return false;
                     }
                 }
                 return true;
             }
-            function aP(a) {
+            function ay(a) {
                 var b = a.nextSibling;
                 a.parentNode.removeChild(a);
                 return b;
             }
-            var g = function c(a, b) {
-                this.top = a;
-                this.lock = b;
+            var az = function a(b, c) {
+                this.top = b;
+                this.lock = c;
                 this.index = 0;
                 this.stack = [];
                 this.changed = false;
-                this.preMatch = aQ(a.node.content, a.children);
+                this.preMatch = aA(b.node.content, b.children);
             };
-            g.prototype.destroyBetween = function d(a, b) {
-                if (a == b) {
+            az.prototype.destroyBetween = function a(b, c) {
+                if (b == c) {
                     return;
                 }
-                for(var c = a; c < b; c++){
-                    this.top.children[c].destroy();
+                for(var d = b; d < c; d++){
+                    this.top.children[d].destroy();
                 }
-                this.top.children.splice(a, b - a);
+                this.top.children.splice(b, c - b);
                 this.changed = true;
             };
-            g.prototype.destroyRest = function a() {
+            az.prototype.destroyRest = function a() {
                 this.destroyBetween(this.index, this.top.children.length);
             };
-            g.prototype.syncToMarks = function j(c, g, h) {
-                var b = 0, a = this.stack.length >> 1;
-                var i = Math.min(a, c.length);
-                while(b < i && (b == a - 1 ? this.top : this.stack[(b + 1) << 1]).matchesMark(c[b]) && c[b].type.spec.spanning !== false){
-                    b++;
+            az.prototype.syncToMarks = function a(b, c, d) {
+                var e = 0, f = this.stack.length >> 1;
+                var g = Math.min(f, b.length);
+                while(e < g && (e == f - 1 ? this.top : this.stack[(e + 1) << 1]).matchesMark(b[e]) && b[e].type.spec.spanning !== false){
+                    e++;
                 }
-                while(b < a){
+                while(e < f){
                     this.destroyRest();
-                    this.top.dirty = aw;
+                    this.top.dirty = ab;
                     this.index = this.stack.pop();
                     this.top = this.stack.pop();
-                    a--;
+                    f--;
                 }
-                while(a < c.length){
+                while(f < b.length){
                     this.stack.push(this.top, this.index + 1);
-                    var d = -1;
-                    for(var e = this.index; e < Math.min(this.index + 3, this.top.children.length); e++){
-                        if (this.top.children[e].matchesMark(c[a])) {
-                            d = e;
+                    var h = -1;
+                    for(var i = this.index; i < Math.min(this.index + 3, this.top.children.length); i++){
+                        if (this.top.children[i].matchesMark(b[f])) {
+                            h = i;
                             break;
                         }
                     }
-                    if (d > -1) {
-                        if (d > this.index) {
+                    if (h > -1) {
+                        if (h > this.index) {
                             this.changed = true;
-                            this.destroyBetween(this.index, d);
+                            this.destroyBetween(this.index, h);
                         }
                         this.top = this.top.children[this.index];
                     } else {
-                        var f = aD.create(this.top, c[a], g, h);
-                        this.top.children.splice(this.index, 0, f);
-                        this.top = f;
+                        var j = ak.create(this.top, b[f], c, d);
+                        this.top.children.splice(this.index, 0, j);
+                        this.top = j;
                         this.changed = true;
                     }
                     this.index = 0;
-                    a++;
+                    f++;
                 }
             };
-            g.prototype.findNodeMatch = function k(e, f, g, i) {
-                var b = this.top.children, c = -1;
-                if (i >= this.preMatch.index) {
-                    for(var d = this.index; d < b.length; d++){
-                        if (b[d].matchesNode(e, f, g)) {
-                            c = d;
+            az.prototype.findNodeMatch = function a(b, c, d, e) {
+                var f = this.top.children, g = -1;
+                if (e >= this.preMatch.index) {
+                    for(var h = this.index; h < f.length; h++){
+                        if (f[h].matchesNode(b, c, d)) {
+                            g = h;
                             break;
                         }
                     }
                 } else {
-                    for(var a = this.index, j = Math.min(b.length, a + 1); a < j; a++){
-                        var h = b[a];
-                        if (h.matchesNode(e, f, g) && !this.preMatch.matched.has(h)) {
-                            c = a;
+                    for(var i = this.index, j = Math.min(f.length, i + 1); i < j; i++){
+                        var k = f[i];
+                        if (k.matchesNode(b, c, d) && !this.preMatch.matched.has(k)) {
+                            g = i;
                             break;
                         }
                     }
                 }
-                if (c < 0) {
+                if (g < 0) {
                     return false;
                 }
-                this.destroyBetween(this.index, c);
+                this.destroyBetween(this.index, g);
                 this.index++;
                 return true;
             };
-            g.prototype.updateNodeAt = function g(b, c, d, a, e) {
-                var f = this.top.children[a];
-                if (!f.update(b, c, d, e)) {
+            az.prototype.updateNodeAt = function a(b, c, d, e, f) {
+                var g = this.top.children[e];
+                if (!g.update(b, c, d, f)) {
                     return false;
                 }
-                this.destroyBetween(this.index, a);
-                this.index = a + 1;
+                this.destroyBetween(this.index, e);
+                this.index = e + 1;
                 return true;
             };
-            g.prototype.findIndexWithChild = function e(b) {
+            az.prototype.findIndexWithChild = function a(b) {
                 for(;;){
                     var c = b.parentNode;
                     if (!c) {
@@ -1911,9 +1911,9 @@
                     if (c == this.top.contentDOM) {
                         var d = b.pmViewDesc;
                         if (d) {
-                            for(var a = this.index; a < this.top.children.length; a++){
-                                if (this.top.children[a] == d) {
-                                    return a;
+                            for(var e = this.index; e < this.top.children.length; e++){
+                                if (this.top.children[e] == d) {
+                                    return e;
                                 }
                             }
                         }
@@ -1922,19 +1922,19 @@
                     b = c;
                 }
             };
-            g.prototype.updateNextNode = function k(d, e, g, h, i) {
-                for(var b = this.index; b < this.top.children.length; b++){
-                    var a = this.top.children[b];
-                    if (a instanceof y) {
-                        var f = this.preMatch.matched.get(a);
-                        if (f != null && f != i) {
+            az.prototype.updateNextNode = function a(b, c, d, e, f) {
+                for(var g = this.index; g < this.top.children.length; g++){
+                    var h = this.top.children[g];
+                    if (h instanceof al) {
+                        var i = this.preMatch.matched.get(h);
+                        if (i != null && i != f) {
                             return false;
                         }
-                        var c = a.dom;
-                        var j = this.lock && (c == this.lock || (c.nodeType == 1 && c.contains(this.lock.parentNode))) && !(d.isText && a.node && a.node.isText && a.nodeDOM.nodeValue == d.text && a.dirty != az && aO(e, a.outerDeco));
-                        if (!j && a.update(d, e, g, h)) {
-                            this.destroyBetween(this.index, b);
-                            if (a.dom != c) {
+                        var j = h.dom;
+                        var k = this.lock && (j == this.lock || (j.nodeType == 1 && j.contains(this.lock.parentNode))) && !(b.isText && h.node && h.node.isText && h.nodeDOM.nodeValue == b.text && h.dirty != ae && ax(c, h.outerDeco));
+                        if (!k && h.update(b, c, d, e)) {
+                            this.destroyBetween(this.index, g);
+                            if (h.dom != j) {
                                 this.changed = true;
                             }
                             this.index++;
@@ -1945,141 +1945,141 @@
                 }
                 return false;
             };
-            g.prototype.addNode = function f(a, b, c, d, e) {
-                this.top.children.splice(this.index++, 0, y.create(this.top, a, b, c, d, e));
+            az.prototype.addNode = function a(b, c, d, e, f) {
+                this.top.children.splice(this.index++, 0, al.create(this.top, b, c, d, e, f));
                 this.changed = true;
             };
-            g.prototype.placeWidget = function f(b, c, d) {
-                var a = this.index < this.top.children.length ? this.top.children[this.index] : null;
-                if (a && a.matchesWidget(b) && (b == a.widget || !a.widget.type.toDOM.parentNode)) {
+            az.prototype.placeWidget = function a(b, c, d) {
+                var e = this.index < this.top.children.length ? this.top.children[this.index] : null;
+                if (e && e.matchesWidget(b) && (b == e.widget || !e.widget.type.toDOM.parentNode)) {
                     this.index++;
                 } else {
-                    var e = new aB(this.top, b, c, d);
-                    this.top.children.splice(this.index++, 0, e);
+                    var f = new ai(this.top, b, c, d);
+                    this.top.children.splice(this.index++, 0, f);
                     this.changed = true;
                 }
             };
-            g.prototype.addTextblockHacks = function c() {
+            az.prototype.addTextblockHacks = function a() {
                 var b = this.top.children[this.index - 1];
-                while(b instanceof aD){
+                while(b instanceof ak){
                     b = b.children[b.children.length - 1];
                 }
-                if (!b || !(b instanceof aF) || /\n$/.test(b.node.text)) {
-                    if ((a.safari || a.chrome) && b && b.dom.contentEditable == "false") {
+                if (!b || !(b instanceof an) || /\n$/.test(b.node.text)) {
+                    if ((g.safari || g.chrome) && b && b.dom.contentEditable == "false") {
                         this.addHackNode("IMG");
                     }
                     this.addHackNode("BR");
                 }
             };
-            g.prototype.addHackNode = function c(a) {
-                if (this.index < this.top.children.length && this.top.children[this.index].matchesHack(a)) {
+            az.prototype.addHackNode = function a(b) {
+                if (this.index < this.top.children.length && this.top.children[this.index].matchesHack(b)) {
                     this.index++;
                 } else {
-                    var b = document.createElement(a);
-                    if (a == "IMG") {
-                        b.className = "ProseMirror-separator";
+                    var c = document.createElement(b);
+                    if (b == "IMG") {
+                        c.className = "ProseMirror-separator";
                     }
-                    if (a == "BR") {
-                        b.className = "ProseMirror-trailingBreak";
+                    if (b == "BR") {
+                        c.className = "ProseMirror-trailingBreak";
                     }
-                    this.top.children.splice(this.index++, 0, new aG(this.top, aA, b, null));
+                    this.top.children.splice(this.index++, 0, new ao(this.top, ah, c, null));
                     this.changed = true;
                 }
             };
-            function aQ(c, d) {
-                var a = c.childCount, b = d.length, e = new Map();
-                for(; a > 0 && b > 0; b--){
-                    var f = d[b - 1], g = f.node;
+            function aA(a, b) {
+                var c = a.childCount, d = b.length, e = new Map();
+                for(; c > 0 && d > 0; d--){
+                    var f = b[d - 1], g = f.node;
                     if (!g) {
                         continue;
                     }
-                    if (g != c.child(a - 1)) {
+                    if (g != a.child(c - 1)) {
                         break;
                     }
-                    --a;
-                    e.set(f, a);
+                    --c;
+                    e.set(f, c);
                 }
                 return {
-                    index: a,
+                    index: c,
                     matched: e
                 };
             }
-            function aR(a, b) {
+            function aB(a, b) {
                 return a.type.side - b.type.side;
             }
-            function aS(i, p, s, t) {
-                var a = p.locals(i), c = 0;
-                if (a.length == 0) {
-                    for(var k = 0; k < i.childCount; k++){
-                        var q = i.child(k);
-                        t(q, a, p.forChild(c, q), k);
-                        c += q.nodeSize;
+            function aC(a, b, c, d) {
+                var e = b.locals(a), f = 0;
+                if (e.length == 0) {
+                    for(var g = 0; g < a.childCount; g++){
+                        var h = a.child(g);
+                        d(h, e, b.forChild(f, h), g);
+                        f += h.nodeSize;
                     }
                     return;
                 }
-                var b = 0, e = [], g = null;
-                for(var j = 0;;){
-                    if (b < a.length && a[b].to == c) {
-                        var u = a[b++], h = void 0;
-                        while(b < a.length && a[b].to == c){
-                            (h || (h = [
-                                u
-                            ])).push(a[b++]);
+                var i = 0, j = [], k = null;
+                for(var l = 0;;){
+                    if (i < e.length && e[i].to == f) {
+                        var m = e[i++], n = void 0;
+                        while(i < e.length && e[i].to == f){
+                            (n || (n = [
+                                m
+                            ])).push(e[i++]);
                         }
-                        if (h) {
-                            h.sort(aR);
-                            for(var r = 0; r < h.length; r++){
-                                s(h[r], j, !!g);
+                        if (n) {
+                            n.sort(aB);
+                            for(var o = 0; o < n.length; o++){
+                                c(n[o], l, !!k);
                             }
                         } else {
-                            s(u, j, !!g);
+                            c(m, l, !!k);
                         }
                     }
-                    var d = void 0, l = void 0;
-                    if (g) {
-                        l = -1;
-                        d = g;
-                        g = null;
-                    } else if (j < i.childCount) {
-                        l = j;
-                        d = i.child(j++);
+                    var p = void 0, q = void 0;
+                    if (k) {
+                        q = -1;
+                        p = k;
+                        k = null;
+                    } else if (l < a.childCount) {
+                        q = l;
+                        p = a.child(l++);
                     } else {
                         break;
                     }
-                    for(var m = 0; m < e.length; m++){
-                        if (e[m].to <= c) {
-                            e.splice(m--, 1);
+                    for(var r = 0; r < j.length; r++){
+                        if (j[r].to <= f) {
+                            j.splice(r--, 1);
                         }
                     }
-                    while(b < a.length && a[b].from <= c && a[b].to > c){
-                        e.push(a[b++]);
+                    while(i < e.length && e[i].from <= f && e[i].to > f){
+                        j.push(e[i++]);
                     }
-                    var n = c + d.nodeSize;
-                    if (d.isText) {
-                        var f = n;
-                        if (b < a.length && a[b].from < f) {
-                            f = a[b].from;
+                    var s = f + p.nodeSize;
+                    if (p.isText) {
+                        var t = s;
+                        if (i < e.length && e[i].from < t) {
+                            t = e[i].from;
                         }
-                        for(var o = 0; o < e.length; o++){
-                            if (e[o].to < f) {
-                                f = e[o].to;
+                        for(var u = 0; u < j.length; u++){
+                            if (j[u].to < t) {
+                                t = j[u].to;
                             }
                         }
-                        if (f < n) {
-                            g = d.cut(f - c);
-                            d = d.cut(0, f - c);
-                            n = f;
-                            l = -1;
+                        if (t < s) {
+                            k = p.cut(t - f);
+                            p = p.cut(0, t - f);
+                            s = t;
+                            q = -1;
                         }
                     }
-                    var v = !e.length ? aA : d.isInline && !d.isLeaf ? e.filter(function(a) {
+                    var v = !j.length ? ah : p.isInline && !p.isLeaf ? j.filter(function(a) {
                         return !a.inline;
-                    }) : e.slice();
-                    t(d, v, p.forChild(c, d), l);
-                    c = n;
+                    }) : j.slice();
+                    d(p, v, b.forChild(f, p), q);
+                    f = s;
                 }
             }
-            function aT(a) {
+            function aD(a) {
                 if (a.nodeName == "UL" || a.nodeName == "OL") {
                     var b = a.style.cssText;
                     a.style.cssText = b + "; list-style: square !important";
@@ -2087,7 +2087,7 @@
                     a.style.cssText = b;
                 }
             }
-            function aU(a, b) {
+            function aE(a, b) {
                 for(;;){
                     if (a.nodeType == 3) {
                         return a;
@@ -2097,7 +2097,7 @@
                             return a.childNodes[b];
                         }
                         a = a.childNodes[b - 1];
-                        b = O(a);
+                        b = t(a);
                     } else if (a.nodeType == 1 && b < a.childNodes.length) {
                         a = a.childNodes[b];
                         b = 0;
@@ -2106,169 +2106,169 @@
                     }
                 }
             }
-            function aV(b, h, i, j) {
-                for(var c = 0, a = 0; c < b.childCount && a <= j;){
-                    var d = b.child(c++), e = a;
-                    a += d.nodeSize;
-                    if (!d.isText) {
+            function aF(a, b, c, d) {
+                for(var e = 0, f = 0; e < a.childCount && f <= d;){
+                    var g = a.child(e++), h = f;
+                    f += g.nodeSize;
+                    if (!g.isText) {
                         continue;
                     }
-                    var k = d.text;
-                    while(c < b.childCount){
-                        var f = b.child(c++);
-                        a += f.nodeSize;
-                        if (!f.isText) {
+                    var i = g.text;
+                    while(e < a.childCount){
+                        var j = a.child(e++);
+                        f += j.nodeSize;
+                        if (!j.isText) {
                             break;
                         }
-                        k += f.text;
+                        i += j.text;
                     }
-                    if (a >= i) {
-                        var g = k.lastIndexOf(h, j - e);
-                        if (g >= 0 && g + h.length + e >= i) {
-                            return e + g;
+                    if (f >= c) {
+                        var k = i.lastIndexOf(b, d - h);
+                        if (k >= 0 && k + b.length + h >= c) {
+                            return h + k;
                         }
                     }
                 }
                 return -1;
             }
-            function aW(h, d, e, i, f) {
-                var a = [];
-                for(var g = 0, j = 0; g < h.length; g++){
-                    var b = h[g], c = j, k = (j += b.size);
-                    if (c >= e || k <= d) {
-                        a.push(b);
+            function aG(a, b, c, d, e) {
+                var f = [];
+                for(var g = 0, h = 0; g < a.length; g++){
+                    var i = a[g], j = h, k = (h += i.size);
+                    if (j >= c || k <= b) {
+                        f.push(i);
                     } else {
-                        if (c < d) {
-                            a.push(b.slice(0, d - c, i));
+                        if (j < b) {
+                            f.push(i.slice(0, b - j, d));
                         }
-                        if (f) {
-                            a.push(f);
-                            f = null;
+                        if (e) {
+                            f.push(e);
+                            e = null;
                         }
-                        if (k > e) {
-                            a.push(b.slice(e - c, b.size, i));
+                        if (k > c) {
+                            f.push(i.slice(c - j, i.size, d));
                         }
                     }
                 }
-                return a;
+                return f;
             }
-            function aX(c, k) {
-                var b = c.root.getSelection(), f = c.state.doc;
-                if (!b.focusNode) {
+            function aH(a, b) {
+                var c = a.root.getSelection(), e = a.state.doc;
+                if (!c.focusNode) {
                     return null;
                 }
-                var a = c.docView.nearestDesc(b.focusNode), l = a && a.size == 0;
-                var g = c.docView.posFromDOM(b.focusNode, b.focusOffset);
-                if (g < 0) {
+                var f = a.docView.nearestDesc(c.focusNode), g = f && f.size == 0;
+                var h = a.docView.posFromDOM(c.focusNode, c.focusOffset);
+                if (h < 0) {
                     return null;
                 }
-                var d = f.resolve(g), h, e;
-                if (R(b)) {
-                    h = d;
-                    while(a && !a.node){
-                        a = a.parent;
+                var i = e.resolve(h), j, k;
+                if (w(c)) {
+                    j = i;
+                    while(f && !f.node){
+                        f = f.parent;
                     }
-                    if (a && a.node.isAtom && E.NodeSelection.isSelectable(a.node) && a.parent && !(a.node.isInline && P(b.focusNode, b.focusOffset, a.dom))) {
-                        var i = a.posBefore;
-                        e = new E.NodeSelection(g == i ? d : f.resolve(i));
+                    if (f && f.node.isAtom && d.NodeSelection.isSelectable(f.node) && f.parent && !(f.node.isInline && u(c.focusNode, c.focusOffset, f.dom))) {
+                        var l = f.posBefore;
+                        k = new d.NodeSelection(h == l ? i : e.resolve(l));
                     }
                 } else {
-                    var j = c.docView.posFromDOM(b.anchorNode, b.anchorOffset);
-                    if (j < 0) {
+                    var m = a.docView.posFromDOM(c.anchorNode, c.anchorOffset);
+                    if (m < 0) {
                         return null;
                     }
-                    h = f.resolve(j);
+                    j = e.resolve(m);
                 }
-                if (!e) {
-                    var m = k == "pointer" || (c.state.selection.head < d.pos && !l) ? 1 : -1;
-                    e = a6(c, h, d, m);
+                if (!k) {
+                    var n = b == "pointer" || (a.state.selection.head < i.pos && !g) ? 1 : -1;
+                    k = aS(a, j, i, n);
                 }
-                return e;
+                return k;
             }
-            function aY(a) {
-                return a.editable ? a.hasFocus() : a8(a) && document.activeElement && document.activeElement.contains(a.dom);
+            function aI(a) {
+                return a.editable ? a.hasFocus() : aU(a) && document.activeElement && document.activeElement.contains(a.dom);
             }
-            function aZ(a, e) {
-                var b = a.state.selection;
-                a4(a, b);
-                if (!aY(a)) {
+            function aJ(a, b) {
+                var c = a.state.selection;
+                aQ(a, c);
+                if (!aI(a)) {
                     return;
                 }
-                if (!e && a.mouseDown && a.mouseDown.allowDefault) {
+                if (!b && a.mouseDown && a.mouseDown.allowDefault) {
                     a.mouseDown.delayedSelectionSync = true;
                     a.domObserver.setCurSelection();
                     return;
                 }
                 a.domObserver.disconnectSelection();
                 if (a.cursorWrapper) {
-                    a3(a);
+                    aP(a);
                 } else {
-                    var f = b.anchor;
-                    var g = b.head;
-                    var c, d;
-                    if (a$ && !(b instanceof E.TextSelection)) {
-                        if (!b.$from.parent.inlineContent) {
-                            c = a_(a, b.from);
+                    var e = c.anchor;
+                    var f = c.head;
+                    var g, h;
+                    if (aK && !(c instanceof d.TextSelection)) {
+                        if (!c.$from.parent.inlineContent) {
+                            g = aL(a, c.from);
                         }
-                        if (!b.empty && !b.$from.parent.inlineContent) {
-                            d = a_(a, b.to);
-                        }
-                    }
-                    a.docView.setSelection(f, g, a.root, e);
-                    if (a$) {
-                        if (c) {
-                            a1(c);
-                        }
-                        if (d) {
-                            a1(d);
+                        if (!c.empty && !c.$from.parent.inlineContent) {
+                            h = aL(a, c.to);
                         }
                     }
-                    if (b.visible) {
+                    a.docView.setSelection(e, f, a.root, b);
+                    if (aK) {
+                        if (g) {
+                            aN(g);
+                        }
+                        if (h) {
+                            aN(h);
+                        }
+                    }
+                    if (c.visible) {
                         a.dom.classList.remove("ProseMirror-hideselection");
                     } else {
                         a.dom.classList.add("ProseMirror-hideselection");
                         if ("onselectionchange" in document) {
-                            a2(a);
+                            aO(a);
                         }
                     }
                 }
                 a.domObserver.setCurSelection();
                 a.domObserver.connectSelection();
             }
-            var a$ = a.safari || (a.chrome && a.chrome_version < 63);
-            function a_(g, h) {
-                var f = g.docView.domFromPos(h, 0);
-                var e = f.node;
-                var c = f.offset;
-                var b = c < e.childNodes.length ? e.childNodes[c] : null;
-                var d = c ? e.childNodes[c - 1] : null;
-                if (a.safari && b && b.contentEditable == "false") {
-                    return a0(b);
+            var aK = g.safari || (g.chrome && g.chrome_version < 63);
+            function aL(a, b) {
+                var c = a.docView.domFromPos(b, 0);
+                var d = c.node;
+                var e = c.offset;
+                var f = e < d.childNodes.length ? d.childNodes[e] : null;
+                var h = e ? d.childNodes[e - 1] : null;
+                if (g.safari && f && f.contentEditable == "false") {
+                    return aM(f);
                 }
-                if ((!b || b.contentEditable == "false") && (!d || d.contentEditable == "false")) {
-                    if (b) {
-                        return a0(b);
-                    } else if (d) {
-                        return a0(d);
+                if ((!f || f.contentEditable == "false") && (!h || h.contentEditable == "false")) {
+                    if (f) {
+                        return aM(f);
+                    } else if (h) {
+                        return aM(h);
                     }
                 }
             }
-            function a0(b) {
-                b.contentEditable = "true";
-                if (a.safari && b.draggable) {
-                    b.draggable = false;
-                    b.wasDraggable = true;
+            function aM(a) {
+                a.contentEditable = "true";
+                if (g.safari && a.draggable) {
+                    a.draggable = false;
+                    a.wasDraggable = true;
                 }
-                return b;
+                return a;
             }
-            function a1(a) {
+            function aN(a) {
                 a.contentEditable = "false";
                 if (a.wasDraggable) {
                     a.draggable = true;
                     a.wasDraggable = null;
                 }
             }
-            function a2(a) {
+            function aO(a) {
                 var b = a.dom.ownerDocument;
                 b.removeEventListener("selectionchange", a.hideSelectionGuard);
                 var c = a.root.getSelection();
@@ -2277,44 +2277,44 @@
                     if (c.anchorNode != d || c.anchorOffset != e) {
                         b.removeEventListener("selectionchange", a.hideSelectionGuard);
                         setTimeout(function() {
-                            if (!aY(a) || a.state.selection.visible) {
+                            if (!aI(a) || a.state.selection.visible) {
                                 a.dom.classList.remove("ProseMirror-hideselection");
                             }
                         }, 20);
                     }
                 }));
             }
-            function a3(d) {
-                var e = d.root.getSelection(), c = document.createRange();
-                var b = d.cursorWrapper.dom, f = b.nodeName == "IMG";
-                if (f) {
-                    c.setEnd(b.parentNode, H(b) + 1);
+            function aP(a) {
+                var b = a.root.getSelection(), c = document.createRange();
+                var d = a.cursorWrapper.dom, e = d.nodeName == "IMG";
+                if (e) {
+                    c.setEnd(d.parentNode, m(d) + 1);
                 } else {
-                    c.setEnd(b, 0);
+                    c.setEnd(d, 0);
                 }
                 c.collapse(false);
-                e.removeAllRanges();
-                e.addRange(c);
-                if (!f && !d.state.selection.visible && a.ie && a.ie_version <= 11) {
-                    b.disabled = true;
-                    b.disabled = false;
+                b.removeAllRanges();
+                b.addRange(c);
+                if (!e && !a.state.selection.visible && g.ie && g.ie_version <= 11) {
+                    d.disabled = true;
+                    d.disabled = false;
                 }
             }
-            function a4(a, c) {
-                if (c instanceof E.NodeSelection) {
-                    var b = a.docView.descAt(c.from);
-                    if (b != a.lastSelectedViewDesc) {
-                        a5(a);
-                        if (b) {
-                            b.selectNode();
+            function aQ(a, b) {
+                if (b instanceof d.NodeSelection) {
+                    var c = a.docView.descAt(b.from);
+                    if (c != a.lastSelectedViewDesc) {
+                        aR(a);
+                        if (c) {
+                            c.selectNode();
                         }
-                        a.lastSelectedViewDesc = b;
+                        a.lastSelectedViewDesc = c;
                     }
                 } else {
-                    a5(a);
+                    aR(a);
                 }
             }
-            function a5(a) {
+            function aR(a) {
                 if (a.lastSelectedViewDesc) {
                     if (a.lastSelectedViewDesc.parent) {
                         a.lastSelectedViewDesc.deselectNode();
@@ -2322,857 +2322,857 @@
                     a.lastSelectedViewDesc = null;
                 }
             }
-            function a6(a, b, c, d) {
+            function aS(a, b, c, e) {
                 return (a.someProp("createSelectionBetween", function(d) {
                     return d(a, b, c);
-                }) || E.TextSelection.between(b, c, d));
+                }) || d.TextSelection.between(b, c, e));
             }
-            function a7(a) {
+            function aT(a) {
                 if (a.editable && a.root.activeElement != a.dom) {
                     return false;
                 }
-                return a8(a);
+                return aU(a);
             }
-            function a8(b) {
-                var a = b.root.getSelection();
-                if (!a.anchorNode) {
+            function aU(a) {
+                var b = a.root.getSelection();
+                if (!b.anchorNode) {
                     return false;
                 }
                 try {
-                    return (b.dom.contains(a.anchorNode.nodeType == 3 ? a.anchorNode.parentNode : a.anchorNode) && (b.editable || b.dom.contains(a.focusNode.nodeType == 3 ? a.focusNode.parentNode : a.focusNode)));
+                    return (a.dom.contains(b.anchorNode.nodeType == 3 ? b.anchorNode.parentNode : b.anchorNode) && (a.editable || a.dom.contains(b.focusNode.nodeType == 3 ? b.focusNode.parentNode : b.focusNode)));
                 } catch (c) {
                     return false;
                 }
             }
-            function a9(a) {
+            function aV(a) {
                 var b = a.docView.domFromPos(a.state.selection.anchor, 0);
                 var c = a.root.getSelection();
-                return L(b.node, b.offset, c.anchorNode, c.anchorOffset);
+                return q(b.node, b.offset, c.anchorNode, c.anchorOffset);
             }
-            function ba(c, b) {
-                var d = c.selection;
-                var e = d.$anchor;
-                var f = d.$head;
-                var a = b > 0 ? e.max(f) : e.min(f);
-                var g = !a.parent.inlineContent ? a : a.depth ? c.doc.resolve(b > 0 ? a.after() : a.before()) : null;
-                return (g && E.Selection.findFrom(g, b));
+            function aW(a, b) {
+                var c = a.selection;
+                var e = c.$anchor;
+                var f = c.$head;
+                var g = b > 0 ? e.max(f) : e.min(f);
+                var h = !g.parent.inlineContent ? g : g.depth ? a.doc.resolve(b > 0 ? g.after() : g.before()) : null;
+                return (h && d.Selection.findFrom(h, b));
             }
-            function bb(a, b) {
+            function aX(a, b) {
                 a.dispatch(a.state.tr.setSelection(b).scrollIntoView());
                 return true;
             }
-            function bc(b, c, i) {
-                var d = b.state.selection;
-                if (d instanceof E.TextSelection) {
-                    if (!d.empty || i.indexOf("s") > -1) {
+            function aY(a, b, c) {
+                var e = a.state.selection;
+                if (e instanceof d.TextSelection) {
+                    if (!e.empty || c.indexOf("s") > -1) {
                         return false;
-                    } else if (b.endOfTextblock(c > 0 ? "right" : "left")) {
-                        var g = ba(b.state, c);
-                        if (g && g instanceof E.NodeSelection) {
-                            return bb(b, g);
+                    } else if (a.endOfTextblock(b > 0 ? "right" : "left")) {
+                        var f = aW(a.state, b);
+                        if (f && f instanceof d.NodeSelection) {
+                            return aX(a, f);
                         }
                         return false;
-                    } else if (!(a.mac && i.indexOf("m") > -1)) {
-                        var e = d.$head, f = e.textOffset ? null : c < 0 ? e.nodeBefore : e.nodeAfter, j;
-                        if (!f || f.isText) {
+                    } else if (!(g.mac && c.indexOf("m") > -1)) {
+                        var h = e.$head, i = h.textOffset ? null : b < 0 ? h.nodeBefore : h.nodeAfter, j;
+                        if (!i || i.isText) {
                             return false;
                         }
-                        var h = c < 0 ? e.pos - f.nodeSize : e.pos;
-                        if (!(f.isAtom || ((j = b.docView.descAt(h)) && !j.contentDOM))) {
+                        var k = b < 0 ? h.pos - i.nodeSize : h.pos;
+                        if (!(i.isAtom || ((j = a.docView.descAt(k)) && !j.contentDOM))) {
                             return false;
                         }
-                        if (E.NodeSelection.isSelectable(f)) {
-                            return bb(b, new E.NodeSelection(c < 0 ? b.state.doc.resolve(e.pos - f.nodeSize) : e));
-                        } else if (a.webkit) {
-                            return bb(b, new E.TextSelection(b.state.doc.resolve(c < 0 ? h : h + f.nodeSize)));
+                        if (d.NodeSelection.isSelectable(i)) {
+                            return aX(a, new d.NodeSelection(b < 0 ? a.state.doc.resolve(h.pos - i.nodeSize) : h));
+                        } else if (g.webkit) {
+                            return aX(a, new d.TextSelection(a.state.doc.resolve(b < 0 ? k : k + i.nodeSize)));
                         } else {
                             return false;
                         }
                     }
-                } else if (d instanceof E.NodeSelection && d.node.isInline) {
-                    return bb(b, new E.TextSelection(c > 0 ? d.$to : d.$from));
+                } else if (e instanceof d.NodeSelection && e.node.isInline) {
+                    return aX(a, new d.TextSelection(b > 0 ? e.$to : e.$from));
                 } else {
-                    var k = ba(b.state, c);
-                    if (k) {
-                        return bb(b, k);
+                    var l = aW(a.state, b);
+                    if (l) {
+                        return aX(a, l);
                     }
                     return false;
                 }
             }
-            function bd(a) {
+            function aZ(a) {
                 return a.nodeType == 3 ? a.nodeValue.length : a.childNodes.length;
             }
-            function be(a) {
+            function a$(a) {
                 var b = a.pmViewDesc;
                 return (b && b.size == 0 && (a.nextSibling || a.nodeName != "BR"));
             }
-            function bf(e) {
-                var f = e.root.getSelection();
-                var b = f.focusNode, c = f.focusOffset;
-                if (!b) {
+            function a_(a) {
+                var b = a.root.getSelection();
+                var c = b.focusNode, d = b.focusOffset;
+                if (!c) {
                     return;
                 }
-                var g, h, j = false;
-                if (a.gecko && b.nodeType == 1 && c < bd(b) && be(b.childNodes[c])) {
-                    j = true;
+                var e, f, h = false;
+                if (g.gecko && c.nodeType == 1 && d < aZ(c) && a$(c.childNodes[d])) {
+                    h = true;
                 }
                 for(;;){
-                    if (c > 0) {
-                        if (b.nodeType != 1) {
+                    if (d > 0) {
+                        if (c.nodeType != 1) {
                             break;
                         } else {
-                            var i = b.childNodes[c - 1];
-                            if (be(i)) {
-                                g = b;
-                                h = --c;
+                            var i = c.childNodes[d - 1];
+                            if (a$(i)) {
+                                e = c;
+                                f = --d;
                             } else if (i.nodeType == 3) {
-                                b = i;
-                                c = b.nodeValue.length;
+                                c = i;
+                                d = c.nodeValue.length;
                             } else {
                                 break;
                             }
                         }
-                    } else if (bh(b)) {
+                    } else if (a1(c)) {
                         break;
                     } else {
-                        var d = b.previousSibling;
-                        while(d && be(d)){
-                            g = b.parentNode;
-                            h = H(d);
-                            d = d.previousSibling;
+                        var j = c.previousSibling;
+                        while(j && a$(j)){
+                            e = c.parentNode;
+                            f = m(j);
+                            j = j.previousSibling;
                         }
-                        if (!d) {
-                            b = b.parentNode;
-                            if (b == e.dom) {
+                        if (!j) {
+                            c = c.parentNode;
+                            if (c == a.dom) {
                                 break;
                             }
-                            c = 0;
+                            d = 0;
                         } else {
-                            b = d;
-                            c = bd(b);
+                            c = j;
+                            d = aZ(c);
                         }
                     }
                 }
-                if (j) {
-                    bi(e, f, b, c);
-                } else if (g) {
-                    bi(e, f, g, h);
+                if (h) {
+                    a2(a, b, c, d);
+                } else if (e) {
+                    a2(a, b, e, f);
                 }
             }
-            function bg(e) {
-                var f = e.root.getSelection();
-                var a = f.focusNode, c = f.focusOffset;
-                if (!a) {
+            function a0(a) {
+                var b = a.root.getSelection();
+                var c = b.focusNode, d = b.focusOffset;
+                if (!c) {
                     return;
                 }
-                var g = bd(a);
-                var d, h;
+                var e = aZ(c);
+                var f, g;
                 for(;;){
-                    if (c < g) {
-                        if (a.nodeType != 1) {
+                    if (d < e) {
+                        if (c.nodeType != 1) {
                             break;
                         }
-                        var i = a.childNodes[c];
-                        if (be(i)) {
-                            d = a;
-                            h = ++c;
+                        var h = c.childNodes[d];
+                        if (a$(h)) {
+                            f = c;
+                            g = ++d;
                         } else {
                             break;
                         }
-                    } else if (bh(a)) {
+                    } else if (a1(c)) {
                         break;
                     } else {
-                        var b = a.nextSibling;
-                        while(b && be(b)){
-                            d = b.parentNode;
-                            h = H(b) + 1;
-                            b = b.nextSibling;
+                        var i = c.nextSibling;
+                        while(i && a$(i)){
+                            f = i.parentNode;
+                            g = m(i) + 1;
+                            i = i.nextSibling;
                         }
-                        if (!b) {
-                            a = a.parentNode;
-                            if (a == e.dom) {
+                        if (!i) {
+                            c = c.parentNode;
+                            if (c == a.dom) {
                                 break;
                             }
-                            c = g = 0;
+                            d = e = 0;
                         } else {
-                            a = b;
-                            c = 0;
-                            g = bd(a);
+                            c = i;
+                            d = 0;
+                            e = aZ(c);
                         }
                     }
                 }
-                if (d) {
-                    bi(e, f, d, h);
+                if (f) {
+                    a2(a, b, f, g);
                 }
             }
-            function bh(b) {
-                var a = b.pmViewDesc;
-                return a && a.node && a.node.isBlock;
+            function a1(a) {
+                var b = a.pmViewDesc;
+                return b && b.node && b.node.isBlock;
             }
-            function bi(e, a, b, c) {
-                if (R(a)) {
-                    var d = document.createRange();
-                    d.setEnd(b, c);
-                    d.setStart(b, c);
-                    a.removeAllRanges();
-                    a.addRange(d);
-                } else if (a.extend) {
-                    a.extend(b, c);
+            function a2(a, b, c, d) {
+                if (w(b)) {
+                    var e = document.createRange();
+                    e.setEnd(c, d);
+                    e.setStart(c, d);
+                    b.removeAllRanges();
+                    b.addRange(e);
+                } else if (b.extend) {
+                    b.extend(c, d);
                 }
-                e.domObserver.setCurSelection();
-                var f = e.state;
+                a.domObserver.setCurSelection();
+                var f = a.state;
                 setTimeout(function() {
-                    if (e.state == f) {
-                        aZ(e);
+                    if (a.state == f) {
+                        aJ(a);
                     }
                 }, 50);
             }
-            function bj(b, c, g) {
-                var d = b.state.selection;
-                if ((d instanceof E.TextSelection && !d.empty) || g.indexOf("s") > -1) {
+            function a3(a, b, c) {
+                var e = a.state.selection;
+                if ((e instanceof d.TextSelection && !e.empty) || c.indexOf("s") > -1) {
                     return false;
                 }
-                if (a.mac && g.indexOf("m") > -1) {
+                if (g.mac && c.indexOf("m") > -1) {
                     return false;
                 }
-                var e = d.$from;
-                var j = d.$to;
-                if (!e.parent.inlineContent || b.endOfTextblock(c < 0 ? "up" : "down")) {
-                    var f = ba(b.state, c);
-                    if (f && f instanceof E.NodeSelection) {
-                        return bb(b, f);
+                var f = e.$from;
+                var h = e.$to;
+                if (!f.parent.inlineContent || a.endOfTextblock(b < 0 ? "up" : "down")) {
+                    var i = aW(a.state, b);
+                    if (i && i instanceof d.NodeSelection) {
+                        return aX(a, i);
                     }
                 }
-                if (!e.parent.inlineContent) {
-                    var h = c < 0 ? e : j;
-                    var i = d instanceof E.AllSelection ? E.Selection.near(h, c) : E.Selection.findFrom(h, c);
-                    return i ? bb(b, i) : false;
+                if (!f.parent.inlineContent) {
+                    var j = b < 0 ? f : h;
+                    var k = e instanceof d.AllSelection ? d.Selection.near(j, b) : d.Selection.findFrom(j, b);
+                    return k ? aX(a, k) : false;
                 }
                 return false;
             }
-            function bk(b, d) {
-                if (!(b.state.selection instanceof E.TextSelection)) {
+            function a4(a, b) {
+                if (!(a.state.selection instanceof d.TextSelection)) {
                     return true;
                 }
-                var e = b.state.selection;
-                var a = e.$head;
-                var g = e.$anchor;
-                var h = e.empty;
-                if (!a.sameParent(g)) {
+                var c = a.state.selection;
+                var e = c.$head;
+                var f = c.$anchor;
+                var g = c.empty;
+                if (!e.sameParent(f)) {
                     return true;
                 }
-                if (!h) {
+                if (!g) {
                     return false;
                 }
-                if (b.endOfTextblock(d > 0 ? "forward" : "backward")) {
+                if (a.endOfTextblock(b > 0 ? "forward" : "backward")) {
                     return true;
                 }
-                var c = !a.textOffset && (d < 0 ? a.nodeBefore : a.nodeAfter);
-                if (c && !c.isText) {
-                    var f = b.state.tr;
-                    if (d < 0) {
-                        f.delete(a.pos - c.nodeSize, a.pos);
+                var h = !e.textOffset && (b < 0 ? e.nodeBefore : e.nodeAfter);
+                if (h && !h.isText) {
+                    var i = a.state.tr;
+                    if (b < 0) {
+                        i.delete(e.pos - h.nodeSize, e.pos);
                     } else {
-                        f.delete(a.pos, a.pos + c.nodeSize);
+                        i.delete(e.pos, e.pos + h.nodeSize);
                     }
-                    b.dispatch(f);
+                    a.dispatch(i);
                     return true;
                 }
                 return false;
             }
-            function bl(a, b, c) {
+            function a5(a, b, c) {
                 a.domObserver.stop();
                 b.contentEditable = c;
                 a.domObserver.start();
             }
-            function bm(c) {
-                if (!a.safari || c.state.selection.$head.parentOffset > 0) {
+            function a6(a) {
+                if (!g.safari || a.state.selection.$head.parentOffset > 0) {
                     return;
                 }
-                var d = c.root.getSelection();
-                var b = d.focusNode;
-                var e = d.focusOffset;
-                if (b && b.nodeType == 1 && e == 0 && b.firstChild && b.firstChild.contentEditable == "false") {
-                    var f = b.firstChild;
-                    bl(c, f, true);
+                var b = a.root.getSelection();
+                var c = b.focusNode;
+                var d = b.focusOffset;
+                if (c && c.nodeType == 1 && d == 0 && c.firstChild && c.firstChild.contentEditable == "false") {
+                    var e = c.firstChild;
+                    a5(a, e, true);
                     setTimeout(function() {
-                        return bl(c, f, false);
+                        return a5(a, e, false);
                     }, 20);
                 }
             }
-            function bn(b) {
-                var a = "";
-                if (b.ctrlKey) {
-                    a += "c";
+            function a7(a) {
+                var b = "";
+                if (a.ctrlKey) {
+                    b += "c";
                 }
-                if (b.metaKey) {
-                    a += "m";
+                if (a.metaKey) {
+                    b += "m";
                 }
-                if (b.altKey) {
-                    a += "a";
+                if (a.altKey) {
+                    b += "a";
                 }
-                if (b.shiftKey) {
-                    a += "s";
+                if (a.shiftKey) {
+                    b += "s";
                 }
-                return a;
+                return b;
             }
-            function bo(c, e) {
-                var b = e.keyCode, d = bn(e);
-                if (b == 8 || (a.mac && b == 72 && d == "c")) {
-                    return (bk(c, -1) || bf(c));
-                } else if (b == 46 || (a.mac && b == 68 && d == "c")) {
-                    return (bk(c, 1) || bg(c));
-                } else if (b == 13 || b == 27) {
+            function a8(a, b) {
+                var c = b.keyCode, d = a7(b);
+                if (c == 8 || (g.mac && c == 72 && d == "c")) {
+                    return (a4(a, -1) || a_(a));
+                } else if (c == 46 || (g.mac && c == 68 && d == "c")) {
+                    return (a4(a, 1) || a0(a));
+                } else if (c == 13 || c == 27) {
                     return true;
-                } else if (b == 37) {
-                    return (bc(c, -1, d) || bf(c));
-                } else if (b == 39) {
-                    return (bc(c, 1, d) || bg(c));
-                } else if (b == 38) {
-                    return (bj(c, -1, d) || bf(c));
-                } else if (b == 40) {
-                    return (bm(c) || bj(c, 1, d) || bg(c));
-                } else if (d == (a.mac ? "m" : "c") && (b == 66 || b == 73 || b == 89 || b == 90)) {
+                } else if (c == 37) {
+                    return (aY(a, -1, d) || a_(a));
+                } else if (c == 39) {
+                    return (aY(a, 1, d) || a0(a));
+                } else if (c == 38) {
+                    return (a3(a, -1, d) || a_(a));
+                } else if (c == 40) {
+                    return (a6(a) || a3(a, 1, d) || a0(a));
+                } else if (d == (g.mac ? "m" : "c") && (c == 66 || c == 73 || c == 89 || c == 90)) {
                     return true;
                 }
                 return false;
             }
-            function bp(c, r, s) {
-                var d = c.docView.parseRange(r, s);
-                var m = d.node;
-                var n = d.fromOffset;
-                var j = d.toOffset;
-                var h = d.from;
-                var t = d.to;
-                var e = c.root.getSelection(), b = null, f = e.anchorNode;
-                if (f && c.dom.contains(f.nodeType == 1 ? f : f.parentNode)) {
-                    b = [
+            function a9(a, b, c) {
+                var d = a.docView.parseRange(b, c);
+                var f = d.node;
+                var h = d.fromOffset;
+                var i = d.toOffset;
+                var j = d.from;
+                var k = d.to;
+                var l = a.root.getSelection(), m = null, n = l.anchorNode;
+                if (n && a.dom.contains(n.nodeType == 1 ? n : n.parentNode)) {
+                    m = [
                         {
-                            node: f,
-                            offset: e.anchorOffset
+                            node: n,
+                            offset: l.anchorOffset
                         }
                     ];
-                    if (!R(e)) {
-                        b.push({
-                            node: e.focusNode,
-                            offset: e.focusOffset
+                    if (!w(l)) {
+                        m.push({
+                            node: l.focusNode,
+                            offset: l.focusOffset
                         });
                     }
                 }
-                if (a.chrome && c.lastKeyCode === 8) {
-                    for(var i = j; i > n; i--){
-                        var o = m.childNodes[i - 1], k = o.pmViewDesc;
-                        if (o.nodeName == "BR" && !k) {
-                            j = i;
+                if (g.chrome && a.lastKeyCode === 8) {
+                    for(var o = i; o > h; o--){
+                        var p = f.childNodes[o - 1], q = p.pmViewDesc;
+                        if (p.nodeName == "BR" && !q) {
+                            i = o;
                             break;
                         }
-                        if (!k || k.size) {
+                        if (!q || q.size) {
                             break;
                         }
                     }
                 }
-                var u = c.state.doc;
-                var v = c.someProp("domParser") || F.DOMParser.fromSchema(c.state.schema);
-                var g = u.resolve(h);
-                var p = null, w = v.parse(m, {
-                    topNode: g.parent,
-                    topMatch: g.parent.contentMatchAt(g.index()),
+                var r = a.state.doc;
+                var s = a.someProp("domParser") || e.DOMParser.fromSchema(a.state.schema);
+                var t = r.resolve(j);
+                var u = null, v = s.parse(f, {
+                    topNode: t.parent,
+                    topMatch: t.parent.contentMatchAt(t.index()),
                     topOpen: true,
-                    from: n,
-                    to: j,
-                    preserveWhitespace: g.parent.type.spec.code ? "full" : true,
+                    from: h,
+                    to: i,
+                    preserveWhitespace: t.parent.type.spec.code ? "full" : true,
                     editableContent: true,
-                    findPositions: b,
-                    ruleFromNode: bq,
-                    context: g
+                    findPositions: m,
+                    ruleFromNode: ba,
+                    context: t
                 });
-                if (b && b[0].pos != null) {
-                    var q = b[0].pos, l = b[1] && b[1].pos;
-                    if (l == null) {
-                        l = q;
+                if (m && m[0].pos != null) {
+                    var x = m[0].pos, y = m[1] && m[1].pos;
+                    if (y == null) {
+                        y = x;
                     }
-                    p = {
-                        anchor: q + h,
-                        head: l + h
+                    u = {
+                        anchor: x + j,
+                        head: y + j
                     };
                 }
                 return {
-                    doc: w,
-                    sel: p,
-                    from: h,
-                    to: t
+                    doc: v,
+                    sel: u,
+                    from: j,
+                    to: k
                 };
             }
-            function bq(b) {
-                var c = b.pmViewDesc;
-                if (c) {
-                    return c.parseRule();
-                } else if (b.nodeName == "BR" && b.parentNode) {
-                    if (a.safari && /^(ul|ol)$/i.test(b.parentNode.nodeName)) {
-                        var d = document.createElement("div");
-                        d.appendChild(document.createElement("li"));
+            function ba(a) {
+                var b = a.pmViewDesc;
+                if (b) {
+                    return b.parseRule();
+                } else if (a.nodeName == "BR" && a.parentNode) {
+                    if (g.safari && /^(ul|ol)$/i.test(a.parentNode.nodeName)) {
+                        var c = document.createElement("div");
+                        c.appendChild(document.createElement("li"));
                         return {
-                            skip: d
+                            skip: c
                         };
-                    } else if (b.parentNode.lastChild == b || (a.safari && /^(tr|table)$/i.test(b.parentNode.nodeName))) {
+                    } else if (a.parentNode.lastChild == a || (g.safari && /^(tr|table)$/i.test(a.parentNode.nodeName))) {
                         return {
                             ignore: true
                         };
                     }
-                } else if (b.nodeName == "IMG" && b.getAttribute("mark-placeholder")) {
+                } else if (a.nodeName == "IMG" && a.getAttribute("mark-placeholder")) {
                     return {
                         ignore: true
                     };
                 }
             }
-            function br(b, m, n, F, z) {
-                if (m < 0) {
-                    var r = b.lastSelectionTime > Date.now() - 50 ? b.lastSelectionOrigin : null;
-                    var s = aX(b, r);
-                    if (s && !b.state.selection.eq(s)) {
-                        var t = b.state.tr.setSelection(s);
-                        if (r == "pointer") {
-                            t.setMeta("pointer", true);
-                        } else if (r == "key") {
-                            t.scrollIntoView();
+            function bb(a, b, c, e, f) {
+                if (b < 0) {
+                    var h = a.lastSelectionTime > Date.now() - 50 ? a.lastSelectionOrigin : null;
+                    var i = aH(a, h);
+                    if (i && !a.state.selection.eq(i)) {
+                        var j = a.state.tr.setSelection(i);
+                        if (h == "pointer") {
+                            j.setMeta("pointer", true);
+                        } else if (h == "key") {
+                            j.scrollIntoView();
                         }
-                        b.dispatch(t);
+                        a.dispatch(j);
                     }
                     return;
                 }
-                var A = b.state.doc.resolve(m);
-                var B = A.sharedDepth(n);
-                m = A.before(B + 1);
-                n = b.state.doc.resolve(n).after(B + 1);
-                var h = b.state.selection;
-                var d = bp(b, m, n);
-                if (a.chrome && b.cursorWrapper && d.sel && d.sel.anchor == b.cursorWrapper.deco.from) {
-                    var u = b.cursorWrapper.deco.type.toDOM.nextSibling;
-                    var C = u && u.nodeValue ? u.nodeValue.length : 1;
-                    d.sel = {
-                        anchor: d.sel.anchor + C,
-                        head: d.sel.anchor + C
+                var k = a.state.doc.resolve(b);
+                var l = k.sharedDepth(c);
+                b = k.before(l + 1);
+                c = a.state.doc.resolve(c).after(l + 1);
+                var m = a.state.selection;
+                var n = a9(a, b, c);
+                if (g.chrome && a.cursorWrapper && n.sel && n.sel.anchor == a.cursorWrapper.deco.from) {
+                    var o = a.cursorWrapper.deco.type.toDOM.nextSibling;
+                    var p = o && o.nodeValue ? o.nodeValue.length : 1;
+                    n.sel = {
+                        anchor: n.sel.anchor + p,
+                        head: n.sel.anchor + p
                     };
                 }
-                var l = b.state.doc, G = l.slice(d.from, d.to);
-                var v, w;
-                if (b.lastKeyCode === 8 && Date.now() - 100 < b.lastKeyCodeTime) {
-                    v = b.state.selection.to;
-                    w = "end";
+                var q = a.state.doc, r = q.slice(n.from, n.to);
+                var s, t;
+                if (a.lastKeyCode === 8 && Date.now() - 100 < a.lastKeyCodeTime) {
+                    s = a.state.selection.to;
+                    t = "end";
                 } else {
-                    v = b.state.selection.from;
-                    w = "start";
+                    s = a.state.selection.from;
+                    t = "start";
                 }
-                b.lastKeyCode = null;
-                var c = bw(G.content, d.doc.content, d.from, v, w);
-                if (!c) {
-                    if (F && h instanceof E.TextSelection && !h.empty && h.$head.sameParent(h.$anchor) && !b.composing && !(d.sel && d.sel.anchor != d.sel.head)) {
-                        c = {
-                            start: h.from,
-                            endA: h.to,
-                            endB: h.to
+                a.lastKeyCode = null;
+                var u = bg(r.content, n.doc.content, n.from, s, t);
+                if (!u) {
+                    if (e && m instanceof d.TextSelection && !m.empty && m.$head.sameParent(m.$anchor) && !a.composing && !(n.sel && n.sel.anchor != n.sel.head)) {
+                        u = {
+                            start: m.from,
+                            endA: m.to,
+                            endB: m.to
                         };
-                    } else if (((a.ios && b.lastIOSEnter > Date.now() - 225) || a.android) && z.some(function(a) {
+                    } else if (((g.ios && a.lastIOSEnter > Date.now() - 225) || g.android) && f.some(function(a) {
                         return a.nodeName == "DIV" || a.nodeName == "P";
-                    }) && b.someProp("handleKeyDown", function(a) {
-                        return a(b, S(13, "Enter"));
+                    }) && a.someProp("handleKeyDown", function(b) {
+                        return b(a, x(13, "Enter"));
                     })) {
-                        b.lastIOSEnter = 0;
+                        a.lastIOSEnter = 0;
                         return;
                     } else {
-                        if (d.sel) {
-                            var x = bs(b, b.state.doc, d.sel);
-                            if (x && !x.eq(b.state.selection)) {
-                                b.dispatch(b.state.tr.setSelection(x));
+                        if (n.sel) {
+                            var v = bc(a, a.state.doc, n.sel);
+                            if (v && !v.eq(a.state.selection)) {
+                                a.dispatch(a.state.tr.setSelection(v));
                             }
                         }
                         return;
                     }
                 }
-                b.domChangeCount++;
-                if (b.state.selection.from < b.state.selection.to && c.start == c.endB && b.state.selection instanceof E.TextSelection) {
-                    if (c.start > b.state.selection.from && c.start <= b.state.selection.from + 2) {
-                        c.start = b.state.selection.from;
-                    } else if (c.endA < b.state.selection.to && c.endA >= b.state.selection.to - 2) {
-                        c.endB += b.state.selection.to - c.endA;
-                        c.endA = b.state.selection.to;
+                a.domChangeCount++;
+                if (a.state.selection.from < a.state.selection.to && u.start == u.endB && a.state.selection instanceof d.TextSelection) {
+                    if (u.start > a.state.selection.from && u.start <= a.state.selection.from + 2) {
+                        u.start = a.state.selection.from;
+                    } else if (u.endA < a.state.selection.to && u.endA >= a.state.selection.to - 2) {
+                        u.endB += a.state.selection.to - u.endA;
+                        u.endA = a.state.selection.to;
                     }
                 }
-                if (a.ie && a.ie_version <= 11 && c.endB == c.start + 1 && c.endA == c.start && c.start > d.from && d.doc.textBetween(c.start - d.from - 1, c.start - d.from + 1) == " \u00a0") {
-                    c.start--;
-                    c.endA--;
-                    c.endB--;
+                if (g.ie && g.ie_version <= 11 && u.endB == u.start + 1 && u.endA == u.start && u.start > n.from && n.doc.textBetween(u.start - n.from - 1, u.start - n.from + 1) == " \u00a0") {
+                    u.start--;
+                    u.endA--;
+                    u.endB--;
                 }
-                var e = d.doc.resolveNoCache(c.start - d.from);
-                var f = d.doc.resolveNoCache(c.endB - d.from);
-                var o = e.sameParent(f) && e.parent.inlineContent;
-                var D;
-                if (((a.ios && b.lastIOSEnter > Date.now() - 225 && (!o || z.some(function(a) {
+                var w = n.doc.resolveNoCache(u.start - n.from);
+                var y = n.doc.resolveNoCache(u.endB - n.from);
+                var z = w.sameParent(y) && w.parent.inlineContent;
+                var A;
+                if (((g.ios && a.lastIOSEnter > Date.now() - 225 && (!z || f.some(function(a) {
                     return a.nodeName == "DIV" || a.nodeName == "P";
-                }))) || (!o && e.pos < d.doc.content.size && (D = E.Selection.findFrom(d.doc.resolve(e.pos + 1), 1, true)) && D.head == f.pos)) && b.someProp("handleKeyDown", function(a) {
-                    return a(b, S(13, "Enter"));
+                }))) || (!z && w.pos < n.doc.content.size && (A = d.Selection.findFrom(n.doc.resolve(w.pos + 1), 1, true)) && A.head == y.pos)) && a.someProp("handleKeyDown", function(b) {
+                    return b(a, x(13, "Enter"));
                 })) {
-                    b.lastIOSEnter = 0;
+                    a.lastIOSEnter = 0;
                     return;
                 }
-                if (b.state.selection.anchor > c.start && bu(l, c.start, c.endA, e, f) && b.someProp("handleKeyDown", function(a) {
-                    return a(b, S(8, "Backspace"));
+                if (a.state.selection.anchor > u.start && be(q, u.start, u.endA, w, y) && a.someProp("handleKeyDown", function(b) {
+                    return b(a, x(8, "Backspace"));
                 })) {
-                    if (a.android && a.chrome) {
-                        b.domObserver.suppressSelectionUpdates();
+                    if (g.android && g.chrome) {
+                        a.domObserver.suppressSelectionUpdates();
                     }
                     return;
                 }
-                if (a.chrome && a.android && c.toB == c.from) {
-                    b.lastAndroidDelete = Date.now();
+                if (g.chrome && g.android && u.toB == u.from) {
+                    a.lastAndroidDelete = Date.now();
                 }
-                if (a.android && !o && e.start() != f.start() && f.parentOffset == 0 && e.depth == f.depth && d.sel && d.sel.anchor == d.sel.head && d.sel.head == c.endA) {
-                    c.endB -= 2;
-                    f = d.doc.resolveNoCache(c.endB - d.from);
+                if (g.android && !z && w.start() != y.start() && y.parentOffset == 0 && w.depth == y.depth && n.sel && n.sel.anchor == n.sel.head && n.sel.head == u.endA) {
+                    u.endB -= 2;
+                    y = n.doc.resolveNoCache(u.endB - n.from);
                     setTimeout(function() {
-                        b.someProp("handleKeyDown", function(a) {
-                            return a(b, S(13, "Enter"));
+                        a.someProp("handleKeyDown", function(b) {
+                            return b(a, x(13, "Enter"));
                         });
                     }, 20);
                 }
-                var i = c.start, k = c.endA;
-                var g, y, p, q;
-                if (o) {
-                    if (e.pos == f.pos) {
-                        if (a.ie && a.ie_version <= 11 && e.parentOffset == 0) {
-                            b.domObserver.suppressSelectionUpdates();
+                var B = u.start, C = u.endA;
+                var D, E, F, G;
+                if (z) {
+                    if (w.pos == y.pos) {
+                        if (g.ie && g.ie_version <= 11 && w.parentOffset == 0) {
+                            a.domObserver.suppressSelectionUpdates();
                             setTimeout(function() {
-                                return aZ(b);
+                                return aJ(a);
                             }, 20);
                         }
-                        g = b.state.tr.delete(i, k);
-                        y = l.resolve(c.start).marksAcross(l.resolve(c.endA));
-                    } else if (c.endA == c.endB && (q = l.resolve(c.start)) && (p = bt(e.parent.content.cut(e.parentOffset, f.parentOffset), q.parent.content.cut(q.parentOffset, c.endA - q.start())))) {
-                        g = b.state.tr;
-                        if (p.type == "add") {
-                            g.addMark(i, k, p.mark);
+                        D = a.state.tr.delete(B, C);
+                        E = q.resolve(u.start).marksAcross(q.resolve(u.endA));
+                    } else if (u.endA == u.endB && (G = q.resolve(u.start)) && (F = bd(w.parent.content.cut(w.parentOffset, y.parentOffset), G.parent.content.cut(G.parentOffset, u.endA - G.start())))) {
+                        D = a.state.tr;
+                        if (F.type == "add") {
+                            D.addMark(B, C, F.mark);
                         } else {
-                            g.removeMark(i, k, p.mark);
+                            D.removeMark(B, C, F.mark);
                         }
-                    } else if (e.parent.child(e.index()).isText && e.index() == f.index() - (f.textOffset ? 0 : 1)) {
-                        var H = e.parent.textBetween(e.parentOffset, f.parentOffset);
-                        if (b.someProp("handleTextInput", function(a) {
-                            return a(b, i, k, H);
+                    } else if (w.parent.child(w.index()).isText && w.index() == y.index() - (y.textOffset ? 0 : 1)) {
+                        var H = w.parent.textBetween(w.parentOffset, y.parentOffset);
+                        if (a.someProp("handleTextInput", function(b) {
+                            return b(a, B, C, H);
                         })) {
                             return;
                         }
-                        g = b.state.tr.insertText(H, i, k);
+                        D = a.state.tr.insertText(H, B, C);
                     }
                 }
-                if (!g) {
-                    g = b.state.tr.replace(i, k, d.doc.slice(c.start - d.from, c.endB - d.from));
+                if (!D) {
+                    D = a.state.tr.replace(B, C, n.doc.slice(u.start - n.from, u.endB - n.from));
                 }
-                if (d.sel) {
-                    var j = bs(b, g.doc, d.sel);
-                    if (j && !((a.chrome && a.android && b.composing && j.empty && (c.start != c.endB || b.lastAndroidDelete < Date.now() - 100) && (j.head == i || j.head == g.mapping.map(k) - 1)) || (a.ie && j.empty && j.head == i))) {
-                        g.setSelection(j);
+                if (n.sel) {
+                    var I = bc(a, D.doc, n.sel);
+                    if (I && !((g.chrome && g.android && a.composing && I.empty && (u.start != u.endB || a.lastAndroidDelete < Date.now() - 100) && (I.head == B || I.head == D.mapping.map(C) - 1)) || (g.ie && I.empty && I.head == B))) {
+                        D.setSelection(I);
                     }
                 }
-                if (y) {
-                    g.ensureMarks(y);
+                if (E) {
+                    D.ensureMarks(E);
                 }
-                b.dispatch(g.scrollIntoView());
+                a.dispatch(D.scrollIntoView());
             }
-            function bs(c, b, a) {
-                if (Math.max(a.anchor, a.head) > b.content.size) {
+            function bc(a, b, c) {
+                if (Math.max(c.anchor, c.head) > b.content.size) {
                     return null;
                 }
-                return a6(c, b.resolve(a.anchor), b.resolve(a.head));
+                return aS(a, b.resolve(c.anchor), b.resolve(c.head));
             }
-            function bt(l, c) {
-                var d = l.firstChild.marks, e = c.firstChild.marks;
-                var a = d, b = e, f, g, h;
-                for(var i = 0; i < e.length; i++){
-                    a = e[i].removeFromSet(a);
+            function bd(a, b) {
+                var c = a.firstChild.marks, d = b.firstChild.marks;
+                var f = c, g = d, h, i, j;
+                for(var k = 0; k < d.length; k++){
+                    f = d[k].removeFromSet(f);
                 }
-                for(var j = 0; j < d.length; j++){
-                    b = d[j].removeFromSet(b);
+                for(var l = 0; l < c.length; l++){
+                    g = c[l].removeFromSet(g);
                 }
-                if (a.length == 1 && b.length == 0) {
-                    g = a[0];
-                    f = "add";
-                    h = function(a) {
-                        return a.mark(g.addToSet(a.marks));
+                if (f.length == 1 && g.length == 0) {
+                    i = f[0];
+                    h = "add";
+                    j = function(a) {
+                        return a.mark(i.addToSet(a.marks));
                     };
-                } else if (a.length == 0 && b.length == 1) {
-                    g = b[0];
-                    f = "remove";
-                    h = function(a) {
-                        return a.mark(g.removeFromSet(a.marks));
+                } else if (f.length == 0 && g.length == 1) {
+                    i = g[0];
+                    h = "remove";
+                    j = function(a) {
+                        return a.mark(i.removeFromSet(a.marks));
                     };
                 } else {
                     return null;
                 }
                 var m = [];
-                for(var k = 0; k < c.childCount; k++){
-                    m.push(h(c.child(k)));
+                for(var n = 0; n < b.childCount; n++){
+                    m.push(j(b.child(n)));
                 }
-                if (F.Fragment.from(m).eq(l)) {
+                if (e.Fragment.from(m).eq(a)) {
                     return {
-                        mark: g,
-                        type: f
+                        mark: i,
+                        type: h
                     };
                 }
             }
-            function bu(e, f, d, a, g) {
-                if (!a.parent.isTextblock || d - f <= g.pos - a.pos || bv(a, true, false) < g.pos) {
+            function be(a, b, c, d, e) {
+                if (!d.parent.isTextblock || c - b <= e.pos - d.pos || bf(d, true, false) < e.pos) {
                     return false;
                 }
-                var b = e.resolve(f);
-                if (b.parentOffset < b.parent.content.size || !b.parent.isTextblock) {
+                var f = a.resolve(b);
+                if (f.parentOffset < f.parent.content.size || !f.parent.isTextblock) {
                     return false;
                 }
-                var c = e.resolve(bv(b, true, true));
-                if (!c.parent.isTextblock || c.pos > d || bv(c, true, false) < d) {
+                var g = a.resolve(bf(f, true, true));
+                if (!g.parent.isTextblock || g.pos > c || bf(g, true, false) < c) {
                     return false;
                 }
-                return a.parent.content.cut(a.parentOffset).eq(c.parent.content);
+                return d.parent.content.cut(d.parentOffset).eq(g.parent.content);
             }
-            function bv(a, d, f) {
-                var b = a.depth, e = d ? a.end() : a.pos;
-                while(b > 0 && (d || a.indexAfter(b) == a.node(b).childCount)){
-                    b--;
+            function bf(a, b, c) {
+                var d = a.depth, e = b ? a.end() : a.pos;
+                while(d > 0 && (b || a.indexAfter(d) == a.node(d).childCount)){
+                    d--;
                     e++;
-                    d = false;
+                    b = false;
                 }
-                if (f) {
-                    var c = a.node(b).maybeChild(a.indexAfter(b));
-                    while(c && !c.isLeaf){
-                        c = c.firstChild;
+                if (c) {
+                    var f = a.node(d).maybeChild(a.indexAfter(d));
+                    while(f && !f.isLeaf){
+                        f = f.firstChild;
                         e++;
                     }
                 }
                 return e;
             }
-            function bw(e, f, g, d, i) {
-                var a = e.findDiffStart(f, g);
-                if (a == null) {
+            function bg(a, b, c, d, e) {
+                var f = a.findDiffStart(b, c);
+                if (f == null) {
                     return null;
                 }
-                var h = e.findDiffEnd(f, g + e.size, g + f.size);
-                var b = h.a;
-                var c = h.b;
-                if (i == "end") {
-                    var j = Math.max(0, a - Math.min(b, c));
-                    d -= b + j - a;
+                var g = a.findDiffEnd(b, c + a.size, c + b.size);
+                var h = g.a;
+                var i = g.b;
+                if (e == "end") {
+                    var j = Math.max(0, f - Math.min(h, i));
+                    d -= h + j - f;
                 }
-                if (b < a && e.size < f.size) {
-                    var k = d <= a && d >= b ? a - d : 0;
-                    a -= k;
-                    c = a + (c - b);
-                    b = a;
-                } else if (c < a) {
-                    var l = d <= a && d >= c ? a - d : 0;
-                    a -= l;
-                    b = a + (b - c);
-                    c = a;
+                if (h < f && a.size < b.size) {
+                    var k = d <= f && d >= h ? f - d : 0;
+                    f -= k;
+                    i = f + (i - h);
+                    h = f;
+                } else if (i < f) {
+                    var l = d <= f && d >= i ? f - d : 0;
+                    f -= l;
+                    h = f + (h - i);
+                    i = f;
                 }
                 return {
-                    start: a,
-                    endA: b,
-                    endB: c
+                    start: f,
+                    endA: h,
+                    endB: i
                 };
             }
-            function bx(j, c) {
-                var l = [];
-                var d = c.content;
-                var f = c.openStart;
-                var g = c.openEnd;
+            function bh(a, b) {
+                var c = [];
+                var d = b.content;
+                var f = b.openStart;
+                var g = b.openEnd;
                 while(f > 1 && g > 1 && d.childCount == 1 && d.firstChild.childCount == 1){
                     f--;
                     g--;
-                    var e = d.firstChild;
-                    l.push(e.type.name, e.attrs != e.type.defaultAttrs ? e.attrs : null);
-                    d = e.content;
+                    var h = d.firstChild;
+                    c.push(h.type.name, h.attrs != h.type.defaultAttrs ? h.attrs : null);
+                    d = h.content;
                 }
-                var n = j.someProp("clipboardSerializer") || F.DOMSerializer.fromSchema(j.state.schema);
-                var k = bH(), a = k.createElement("div");
-                a.appendChild(n.serializeFragment(d, {
-                    document: k
+                var i = a.someProp("clipboardSerializer") || e.DOMSerializer.fromSchema(a.state.schema);
+                var j = br(), k = j.createElement("div");
+                k.appendChild(i.serializeFragment(d, {
+                    document: j
                 }));
-                var b = a.firstChild, h;
-                while(b && b.nodeType == 1 && (h = bF[b.nodeName.toLowerCase()])){
-                    for(var i = h.length - 1; i >= 0; i--){
-                        var m = k.createElement(h[i]);
-                        while(a.firstChild){
-                            m.appendChild(a.firstChild);
+                var l = k.firstChild, m;
+                while(l && l.nodeType == 1 && (m = bp[l.nodeName.toLowerCase()])){
+                    for(var n = m.length - 1; n >= 0; n--){
+                        var o = j.createElement(m[n]);
+                        while(k.firstChild){
+                            o.appendChild(k.firstChild);
                         }
-                        a.appendChild(m);
-                        if (h[i] != "tbody") {
+                        k.appendChild(o);
+                        if (m[n] != "tbody") {
                             f++;
                             g++;
                         }
                     }
-                    b = a.firstChild;
+                    l = k.firstChild;
                 }
-                if (b && b.nodeType == 1) {
-                    b.setAttribute("data-pm-slice", f + " " + g + " " + JSON.stringify(l));
+                if (l && l.nodeType == 1) {
+                    l.setAttribute("data-pm-slice", f + " " + g + " " + JSON.stringify(c));
                 }
-                var o = j.someProp("clipboardTextSerializer", function(a) {
-                    return a(c);
-                }) || c.content.textBetween(0, c.content.size, "\n\n");
+                var p = a.someProp("clipboardTextSerializer", function(a) {
+                    return a(b);
+                }) || b.content.textBetween(0, b.content.size, "\n\n");
                 return {
-                    dom: a,
-                    text: o
+                    dom: k,
+                    text: p
                 };
             }
-            function by(c, e, h, q, g) {
-                var d, m = g.parent.type.spec.code, b;
-                if (!h && !e) {
+            function bi(a, b, c, d, f) {
+                var h, i = f.parent.type.spec.code, j;
+                if (!c && !b) {
                     return null;
                 }
-                var n = e && (q || m || !h);
-                if (n) {
-                    c.someProp("transformPastedText", function(a) {
-                        e = a(e, m || q);
+                var k = b && (d || i || !c);
+                if (k) {
+                    a.someProp("transformPastedText", function(a) {
+                        b = a(b, i || d);
                     });
-                    if (m) {
-                        return e ? new F.Slice(F.Fragment.from(c.state.schema.text(e.replace(/\r\n?/g, "\n"))), 0, 0) : F.Slice.empty;
+                    if (i) {
+                        return b ? new e.Slice(e.Fragment.from(a.state.schema.text(b.replace(/\r\n?/g, "\n"))), 0, 0) : e.Slice.empty;
                     }
-                    var o = c.someProp("clipboardTextParser", function(a) {
-                        return a(e, g, q);
+                    var l = a.someProp("clipboardTextParser", function(a) {
+                        return a(b, f, d);
                     });
-                    if (o) {
-                        b = o;
+                    if (l) {
+                        j = l;
                     } else {
-                        var u = g.marks();
-                        var r = c.state;
-                        var s = r.schema;
-                        var v = F.DOMSerializer.fromSchema(s);
-                        d = document.createElement("div");
-                        e.split(/(?:\r\n?|\n)+/).forEach(function(a) {
-                            var b = d.appendChild(document.createElement("p"));
+                        var m = f.marks();
+                        var n = a.state;
+                        var o = n.schema;
+                        var p = e.DOMSerializer.fromSchema(o);
+                        h = document.createElement("div");
+                        b.split(/(?:\r\n?|\n)+/).forEach(function(a) {
+                            var b = h.appendChild(document.createElement("p"));
                             if (a) {
-                                b.appendChild(v.serializeNode(s.text(a, u)));
+                                b.appendChild(p.serializeNode(o.text(a, m)));
                             }
                         });
                     }
                 } else {
-                    c.someProp("transformPastedHTML", function(a) {
-                        h = a(h);
+                    a.someProp("transformPastedHTML", function(a) {
+                        c = a(c);
                     });
-                    d = bI(h);
-                    if (a.webkit) {
-                        bJ(d);
+                    h = bs(c);
+                    if (g.webkit) {
+                        bt(h);
                     }
                 }
-                var p = d && d.querySelector("[data-pm-slice]");
-                var f = p && /^(\d+) (\d+) (.*)/.exec(p.getAttribute("data-pm-slice"));
-                if (!b) {
-                    var t = c.someProp("clipboardParser") || c.someProp("domParser") || F.DOMParser.fromSchema(c.state.schema);
-                    b = t.parseSlice(d, {
-                        preserveWhitespace: !!(n || f),
-                        context: g
+                var q = h && h.querySelector("[data-pm-slice]");
+                var r = q && /^(\d+) (\d+) (.*)/.exec(q.getAttribute("data-pm-slice"));
+                if (!j) {
+                    var s = a.someProp("clipboardParser") || a.someProp("domParser") || e.DOMParser.fromSchema(a.state.schema);
+                    j = s.parseSlice(h, {
+                        preserveWhitespace: !!(k || r),
+                        context: f
                     });
                 }
-                if (f) {
-                    b = bK(bE(b, +f[1], +f[2]), f[3]);
+                if (r) {
+                    j = bu(bo(j, +r[1], +r[2]), r[3]);
                 } else {
-                    b = F.Slice.maxOpen(bz(b.content, g), true);
-                    if (b.openStart || b.openEnd) {
-                        var i = 0, j = 0;
-                        for(var k = b.content.firstChild; i < b.openStart && !k.type.spec.isolating; i++, k = k.firstChild){}
-                        for(var l = b.content.lastChild; j < b.openEnd && !l.type.spec.isolating; j++, l = l.lastChild){}
-                        b = bE(b, i, j);
+                    j = e.Slice.maxOpen(bj(j.content, f), true);
+                    if (j.openStart || j.openEnd) {
+                        var t = 0, u = 0;
+                        for(var v = j.content.firstChild; t < j.openStart && !v.type.spec.isolating; t++, v = v.firstChild){}
+                        for(var w = j.content.lastChild; u < j.openEnd && !w.type.spec.isolating; u++, w = w.lastChild){}
+                        j = bo(j, t, u);
                     }
                 }
-                c.someProp("transformPasted", function(a) {
-                    b = a(b);
+                a.someProp("transformPasted", function(a) {
+                    j = a(j);
                 });
-                return b;
+                return j;
             }
-            function bz(a, d) {
+            function bj(a, b) {
                 if (a.childCount < 2) {
                     return a;
                 }
-                var e = function(b) {
-                    var e = d.node(b);
-                    var f = e.contentMatchAt(d.index(b));
-                    var g = void 0, c = [];
-                    a.forEach(function(b) {
-                        if (!c) {
+                var c = function(c) {
+                    var d = b.node(c);
+                    var f = d.contentMatchAt(b.index(c));
+                    var g = void 0, h = [];
+                    a.forEach(function(a) {
+                        if (!h) {
                             return;
                         }
-                        var a = f.findWrapping(b.type), e;
-                        if (!a) {
-                            return (c = null);
+                        var b = f.findWrapping(a.type), c;
+                        if (!b) {
+                            return (h = null);
                         }
-                        if ((e = c.length && g.length && bB(a, g, b, c[c.length - 1], 0))) {
-                            c[c.length - 1] = e;
+                        if ((c = h.length && g.length && bl(b, g, a, h[h.length - 1], 0))) {
+                            h[h.length - 1] = c;
                         } else {
-                            if (c.length) {
-                                c[c.length - 1] = bC(c[c.length - 1], g.length);
+                            if (h.length) {
+                                h[h.length - 1] = bm(h[h.length - 1], g.length);
                             }
-                            var d = bA(b, a);
-                            c.push(d);
+                            var d = bk(a, b);
+                            h.push(d);
                             f = f.matchType(d.type, d.attrs);
-                            g = a;
+                            g = b;
                         }
                     });
-                    if (c) {
+                    if (h) {
                         return {
-                            v: F.Fragment.from(c)
+                            v: e.Fragment.from(h)
                         };
                     }
                 };
-                for(var b = d.depth; b >= 0; b--){
-                    var c = e(b);
-                    if (c) return c.v;
+                for(var d = b.depth; d >= 0; d--){
+                    var f = c(d);
+                    if (f) return f.v;
                 }
                 return a;
             }
-            function bA(a, d, b) {
-                if (b === void 0) b = 0;
-                for(var c = d.length - 1; c >= b; c--){
-                    a = d[c].create(null, F.Fragment.from(a));
+            function bk(a, b, c) {
+                if (c === void 0) c = 0;
+                for(var d = b.length - 1; d >= c; d--){
+                    a = b[d].create(null, e.Fragment.from(a));
                 }
                 return a;
             }
-            function bB(c, d, e, a, b) {
-                if (b < c.length && b < d.length && c[b] == d[b]) {
-                    var f = bB(c, d, e, a.lastChild, b + 1);
-                    if (f) {
-                        return a.copy(a.content.replaceChild(a.childCount - 1, f));
+            function bl(a, b, c, d, f) {
+                if (f < a.length && f < b.length && a[f] == b[f]) {
+                    var g = bl(a, b, c, d.lastChild, f + 1);
+                    if (g) {
+                        return d.copy(d.content.replaceChild(d.childCount - 1, g));
                     }
-                    var g = a.contentMatchAt(a.childCount);
-                    if (g.matchType(b == c.length - 1 ? e.type : c[b + 1])) {
-                        return a.copy(a.content.append(F.Fragment.from(bA(e, c, b + 1))));
+                    var h = d.contentMatchAt(d.childCount);
+                    if (h.matchType(f == a.length - 1 ? c.type : a[f + 1])) {
+                        return d.copy(d.content.append(e.Fragment.from(bk(c, a, f + 1))));
                     }
                 }
             }
-            function bC(a, b) {
+            function bm(a, b) {
                 if (b == 0) {
                     return a;
                 }
-                var c = a.content.replaceChild(a.childCount - 1, bC(a.lastChild, b - 1));
-                var d = a.contentMatchAt(a.childCount).fillBefore(F.Fragment.empty, true);
+                var c = a.content.replaceChild(a.childCount - 1, bm(a.lastChild, b - 1));
+                var d = a.contentMatchAt(a.childCount).fillBefore(e.Fragment.empty, true);
                 return a.copy(c.append(d));
             }
-            function bD(b, d, f, g, e, h) {
-                var c = d < 0 ? b.firstChild : b.lastChild, a = c.content;
-                if (e < g - 1) {
-                    a = bD(a, d, f, g, e + 1, h);
+            function bn(a, b, c, d, f, g) {
+                var h = b < 0 ? a.firstChild : a.lastChild, i = h.content;
+                if (f < d - 1) {
+                    i = bn(i, b, c, d, f + 1, g);
                 }
-                if (e >= f) {
-                    a = d < 0 ? c.contentMatchAt(0).fillBefore(a, b.childCount > 1 || h <= e).append(a) : a.append(c.contentMatchAt(c.childCount).fillBefore(F.Fragment.empty, true));
+                if (f >= c) {
+                    i = b < 0 ? h.contentMatchAt(0).fillBefore(i, a.childCount > 1 || g <= f).append(i) : i.append(h.contentMatchAt(h.childCount).fillBefore(e.Fragment.empty, true));
                 }
-                return b.replaceChild(d < 0 ? 0 : b.childCount - 1, c.copy(a));
+                return a.replaceChild(b < 0 ? 0 : a.childCount - 1, h.copy(i));
             }
-            function bE(a, b, c) {
+            function bo(a, b, c) {
                 if (b < a.openStart) {
-                    a = new F.Slice(bD(a.content, -1, b, a.openStart, 0, a.openEnd), b, a.openEnd);
+                    a = new e.Slice(bn(a.content, -1, b, a.openStart, 0, a.openEnd), b, a.openEnd);
                 }
                 if (c < a.openEnd) {
-                    a = new F.Slice(bD(a.content, 1, c, a.openEnd, 0, 0), a.openStart, c);
+                    a = new e.Slice(bn(a.content, 1, c, a.openEnd, 0, 0), a.openStart, c);
                 }
                 return a;
             }
-            var bF = {
+            var bp = {
                 thead: [
                     "table"
                 ],
@@ -3207,66 +3207,66 @@
                     "tr"
                 ]
             };
-            var bG = null;
-            function bH() {
-                return (bG || (bG = document.implementation.createHTMLDocument("title")));
+            var bq = null;
+            function br() {
+                return (bq || (bq = document.implementation.createHTMLDocument("title")));
             }
-            function bI(a) {
-                var e = /^(\s*<meta [^>]*>)*/.exec(a);
-                if (e) {
-                    a = a.slice(e[0].length);
+            function bs(a) {
+                var b = /^(\s*<meta [^>]*>)*/.exec(a);
+                if (b) {
+                    a = a.slice(b[0].length);
                 }
-                var c = bH().createElement("div");
-                var f = /<([a-z][^>\s]+)/i.exec(a), b;
-                if ((b = f && bF[f[1].toLowerCase()])) {
-                    a = b.map(function(a) {
+                var c = br().createElement("div");
+                var d = /<([a-z][^>\s]+)/i.exec(a), e;
+                if ((e = d && bp[d[1].toLowerCase()])) {
+                    a = e.map(function(a) {
                         return "<" + a + ">";
-                    }).join("") + a + b.map(function(a) {
+                    }).join("") + a + e.map(function(a) {
                         return "</" + a + ">";
                     }).reverse().join("");
                 }
                 c.innerHTML = a;
-                if (b) {
-                    for(var d = 0; d < b.length; d++){
-                        c = c.querySelector(b[d]) || c;
+                if (e) {
+                    for(var f = 0; f < e.length; f++){
+                        c = c.querySelector(e[f]) || c;
                     }
                 }
                 return c;
             }
-            function bJ(d) {
-                var e = d.querySelectorAll(a.chrome ? "span:not([class]):not([style])" : "span.Apple-converted-space");
-                for(var c = 0; c < e.length; c++){
-                    var b = e[c];
-                    if (b.childNodes.length == 1 && b.textContent == "\u00a0" && b.parentNode) {
-                        b.parentNode.replaceChild(d.ownerDocument.createTextNode(" "), b);
+            function bt(a) {
+                var b = a.querySelectorAll(g.chrome ? "span:not([class]):not([style])" : "span.Apple-converted-space");
+                for(var c = 0; c < b.length; c++){
+                    var d = b[c];
+                    if (d.childNodes.length == 1 && d.textContent == "\u00a0" && d.parentNode) {
+                        d.parentNode.replaceChild(a.ownerDocument.createTextNode(" "), d);
                     }
                 }
             }
-            function bK(a, h) {
+            function bu(a, b) {
                 if (!a.size) {
                     return a;
                 }
-                var i = a.content.firstChild.type.schema, b;
+                var c = a.content.firstChild.type.schema, d;
                 try {
-                    b = JSON.parse(h);
-                } catch (j) {
+                    d = JSON.parse(b);
+                } catch (f) {
                     return a;
                 }
-                var d = a.content;
-                var f = a.openStart;
-                var g = a.openEnd;
-                for(var c = b.length - 2; c >= 0; c -= 2){
-                    var e = i.nodes[b[c]];
-                    if (!e || e.hasRequiredAttrs()) {
+                var g = a.content;
+                var h = a.openStart;
+                var i = a.openEnd;
+                for(var j = d.length - 2; j >= 0; j -= 2){
+                    var k = c.nodes[d[j]];
+                    if (!k || k.hasRequiredAttrs()) {
                         break;
                     }
-                    d = F.Fragment.from(e.create(b[c + 1], d));
-                    f++;
-                    g++;
+                    g = e.Fragment.from(k.create(d[j + 1], g));
+                    h++;
+                    i++;
                 }
-                return new F.Slice(d, f, g);
+                return new e.Slice(g, h, i);
             }
-            var bL = {
+            var bv = {
                 childList: true,
                 characterData: true,
                 characterDataOldValue: true,
@@ -3274,52 +3274,52 @@
                 attributeOldValue: true,
                 subtree: true
             };
-            var bM = a.ie && a.ie_version <= 11;
-            var A = function a() {
+            var bw = g.ie && g.ie_version <= 11;
+            var bx = function a() {
                 this.anchorNode = this.anchorOffset = this.focusNode = this.focusOffset = null;
             };
-            A.prototype.set = function b(a) {
-                this.anchorNode = a.anchorNode;
-                this.anchorOffset = a.anchorOffset;
-                this.focusNode = a.focusNode;
-                this.focusOffset = a.focusOffset;
+            bx.prototype.set = function a(b) {
+                this.anchorNode = b.anchorNode;
+                this.anchorOffset = b.anchorOffset;
+                this.focusNode = b.focusNode;
+                this.focusOffset = b.focusOffset;
             };
-            A.prototype.eq = function b(a) {
-                return (a.anchorNode == this.anchorNode && a.anchorOffset == this.anchorOffset && a.focusNode == this.focusNode && a.focusOffset == this.focusOffset);
+            bx.prototype.eq = function a(b) {
+                return (b.anchorNode == this.anchorNode && b.anchorOffset == this.anchorOffset && b.focusNode == this.focusNode && b.focusOffset == this.focusOffset);
             };
-            var f = function d(b, c) {
-                var e = this;
+            var by = function a(b, c) {
+                var d = this;
                 this.view = b;
                 this.handleDOMChange = c;
                 this.queue = [];
                 this.flushingSoon = -1;
-                this.observer = window.MutationObserver && new window.MutationObserver(function(b) {
-                    for(var c = 0; c < b.length; c++){
-                        e.queue.push(b[c]);
+                this.observer = window.MutationObserver && new window.MutationObserver(function(a) {
+                    for(var b = 0; b < a.length; b++){
+                        d.queue.push(a[b]);
                     }
-                    if (a.ie && a.ie_version <= 11 && b.some(function(a) {
+                    if (g.ie && g.ie_version <= 11 && a.some(function(a) {
                         return ((a.type == "childList" && a.removedNodes.length) || (a.type == "characterData" && a.oldValue.length > a.target.nodeValue.length));
                     })) {
-                        e.flushSoon();
+                        d.flushSoon();
                     } else {
-                        e.flush();
+                        d.flush();
                     }
                 });
-                this.currentSelection = new A();
-                if (bM) {
+                this.currentSelection = new bx();
+                if (bw) {
                     this.onCharData = function(a) {
-                        e.queue.push({
+                        d.queue.push({
                             target: a.target,
                             type: "characterData",
                             oldValue: a.prevValue
                         });
-                        e.flushSoon();
+                        d.flushSoon();
                     };
                 }
                 this.onSelectionChange = this.onSelectionChange.bind(this);
                 this.suppressingSelectionUpdates = false;
             };
-            f.prototype.flushSoon = function a() {
+            by.prototype.flushSoon = function a() {
                 var b = this;
                 if (this.flushingSoon < 0) {
                     this.flushingSoon = window.setTimeout(function() {
@@ -3328,252 +3328,252 @@
                     }, 20);
                 }
             };
-            f.prototype.forceFlush = function a() {
+            by.prototype.forceFlush = function a() {
                 if (this.flushingSoon > -1) {
                     window.clearTimeout(this.flushingSoon);
                     this.flushingSoon = -1;
                     this.flush();
                 }
             };
-            f.prototype.start = function a() {
+            by.prototype.start = function a() {
                 if (this.observer) {
-                    this.observer.observe(this.view.dom, bL);
+                    this.observer.observe(this.view.dom, bv);
                 }
-                if (bM) {
+                if (bw) {
                     this.view.dom.addEventListener("DOMCharacterDataModified", this.onCharData);
                 }
                 this.connectSelection();
             };
-            f.prototype.stop = function c() {
-                var d = this;
+            by.prototype.stop = function a() {
+                var b = this;
                 if (this.observer) {
-                    var a = this.observer.takeRecords();
-                    if (a.length) {
-                        for(var b = 0; b < a.length; b++){
-                            this.queue.push(a[b]);
+                    var c = this.observer.takeRecords();
+                    if (c.length) {
+                        for(var d = 0; d < c.length; d++){
+                            this.queue.push(c[d]);
                         }
                         window.setTimeout(function() {
-                            return d.flush();
+                            return b.flush();
                         }, 20);
                     }
                     this.observer.disconnect();
                 }
-                if (bM) {
+                if (bw) {
                     this.view.dom.removeEventListener("DOMCharacterDataModified", this.onCharData);
                 }
                 this.disconnectSelection();
             };
-            f.prototype.connectSelection = function a() {
+            by.prototype.connectSelection = function a() {
                 this.view.dom.ownerDocument.addEventListener("selectionchange", this.onSelectionChange);
             };
-            f.prototype.disconnectSelection = function a() {
+            by.prototype.disconnectSelection = function a() {
                 this.view.dom.ownerDocument.removeEventListener("selectionchange", this.onSelectionChange);
             };
-            f.prototype.suppressSelectionUpdates = function a() {
+            by.prototype.suppressSelectionUpdates = function a() {
                 var b = this;
                 this.suppressingSelectionUpdates = true;
                 setTimeout(function() {
                     return (b.suppressingSelectionUpdates = false);
                 }, 50);
             };
-            f.prototype.onSelectionChange = function c() {
-                if (!a7(this.view)) {
+            by.prototype.onSelectionChange = function a() {
+                if (!aT(this.view)) {
                     return;
                 }
                 if (this.suppressingSelectionUpdates) {
-                    return aZ(this.view);
+                    return aJ(this.view);
                 }
-                if (a.ie && a.ie_version <= 11 && !this.view.state.selection.empty) {
+                if (g.ie && g.ie_version <= 11 && !this.view.state.selection.empty) {
                     var b = this.view.root.getSelection();
-                    if (b.focusNode && L(b.focusNode, b.focusOffset, b.anchorNode, b.anchorOffset)) {
+                    if (b.focusNode && q(b.focusNode, b.focusOffset, b.anchorNode, b.anchorOffset)) {
                         return this.flushSoon();
                     }
                 }
                 this.flush();
             };
-            f.prototype.setCurSelection = function a() {
+            by.prototype.setCurSelection = function a() {
                 this.currentSelection.set(this.view.root.getSelection());
             };
-            f.prototype.ignoreSelectionChange = function d(b) {
+            by.prototype.ignoreSelectionChange = function a(b) {
                 if (b.rangeCount == 0) {
                     return true;
                 }
-                var a = b.getRangeAt(0).commonAncestorContainer;
-                var c = this.view.docView.nearestDesc(a);
-                if (c && c.ignoreMutation({
+                var c = b.getRangeAt(0).commonAncestorContainer;
+                var d = this.view.docView.nearestDesc(c);
+                if (d && d.ignoreMutation({
                     type: "selection",
-                    target: a.nodeType == 3 ? a.parentNode : a
+                    target: c.nodeType == 3 ? c.parentNode : c
                 })) {
                     this.setCurSelection();
                     return true;
                 }
             };
-            f.prototype.flush = function n() {
+            by.prototype.flush = function a() {
                 if (!this.view.docView || this.flushingSoon > -1) {
                     return;
                 }
-                var e = this.observer ? this.observer.takeRecords() : [];
+                var b = this.observer ? this.observer.takeRecords() : [];
                 if (this.queue.length) {
-                    e = this.queue.concat(e);
+                    b = this.queue.concat(b);
                     this.queue.length = 0;
                 }
-                var f = this.view.root.getSelection();
-                var m = !this.suppressingSelectionUpdates && !this.currentSelection.eq(f) && a8(this.view) && !this.ignoreSelectionChange(f);
-                var b = -1, d = -1, k = false, g = [];
+                var c = this.view.root.getSelection();
+                var d = !this.suppressingSelectionUpdates && !this.currentSelection.eq(c) && aU(this.view) && !this.ignoreSelectionChange(c);
+                var e = -1, f = -1, h = false, i = [];
                 if (this.view.editable) {
-                    for(var h = 0; h < e.length; h++){
-                        var c = this.registerMutation(e[h], g);
-                        if (c) {
-                            b = b < 0 ? c.from : Math.min(c.from, b);
-                            d = d < 0 ? c.to : Math.max(c.to, d);
-                            if (c.typeOver) {
-                                k = true;
+                    for(var j = 0; j < b.length; j++){
+                        var k = this.registerMutation(b[j], i);
+                        if (k) {
+                            e = e < 0 ? k.from : Math.min(k.from, e);
+                            f = f < 0 ? k.to : Math.max(k.to, f);
+                            if (k.typeOver) {
+                                h = true;
                             }
                         }
                     }
                 }
-                if (a.gecko && g.length > 1) {
-                    var i = g.filter(function(a) {
+                if (g.gecko && i.length > 1) {
+                    var l = i.filter(function(a) {
                         return a.nodeName == "BR";
                     });
-                    if (i.length == 2) {
-                        var j = i[0];
-                        var l = i[1];
-                        if (j.parentNode && j.parentNode.parentNode == l.parentNode) {
-                            l.remove();
+                    if (l.length == 2) {
+                        var m = l[0];
+                        var n = l[1];
+                        if (m.parentNode && m.parentNode.parentNode == n.parentNode) {
+                            n.remove();
                         } else {
-                            j.remove();
+                            m.remove();
                         }
                     }
                 }
-                if (b > -1 || m) {
-                    if (b > -1) {
-                        this.view.docView.markDirty(b, d);
-                        bO(this.view);
+                if (e > -1 || d) {
+                    if (e > -1) {
+                        this.view.docView.markDirty(e, f);
+                        bA(this.view);
                     }
-                    this.handleDOMChange(b, d, k, g);
+                    this.handleDOMChange(e, f, h, i);
                     if (this.view.docView.dirty) {
                         this.view.updateState(this.view.state);
-                    } else if (!this.currentSelection.eq(f)) {
-                        aZ(this.view);
+                    } else if (!this.currentSelection.eq(c)) {
+                        aJ(this.view);
                     }
-                    this.currentSelection.set(f);
+                    this.currentSelection.set(c);
                 }
             };
-            f.prototype.registerMutation = function p(b, j) {
-                if (j.indexOf(b.target) > -1) {
+            by.prototype.registerMutation = function a(b, c) {
+                if (c.indexOf(b.target) > -1) {
                     return null;
                 }
-                var c = this.view.docView.nearestDesc(b.target);
-                if (b.type == "attributes" && (c == this.view.docView || b.attributeName == "contenteditable" || (b.attributeName == "style" && !b.oldValue && !b.target.getAttribute("style")))) {
+                var d = this.view.docView.nearestDesc(b.target);
+                if (b.type == "attributes" && (d == this.view.docView || b.attributeName == "contenteditable" || (b.attributeName == "style" && !b.oldValue && !b.target.getAttribute("style")))) {
                     return null;
                 }
-                if (!c || c.ignoreMutation(b)) {
+                if (!d || d.ignoreMutation(b)) {
                     return null;
                 }
                 if (b.type == "childList") {
-                    for(var f = 0; f < b.addedNodes.length; f++){
-                        j.push(b.addedNodes[f]);
+                    for(var e = 0; e < b.addedNodes.length; e++){
+                        c.push(b.addedNodes[e]);
                     }
-                    if (c.contentDOM && c.contentDOM != c.dom && !c.contentDOM.contains(b.target)) {
+                    if (d.contentDOM && d.contentDOM != d.dom && !d.contentDOM.contains(b.target)) {
                         return {
-                            from: c.posBefore,
-                            to: c.posAfter
+                            from: d.posBefore,
+                            to: d.posAfter
                         };
                     }
-                    var d = b.previousSibling, e = b.nextSibling;
-                    if (a.ie && a.ie_version <= 11 && b.addedNodes.length) {
-                        for(var g = 0; g < b.addedNodes.length; g++){
-                            var k = b.addedNodes[g];
-                            var h = k.previousSibling;
-                            var i = k.nextSibling;
-                            if (!h || Array.prototype.indexOf.call(b.addedNodes, h) < 0) {
-                                d = h;
+                    var f = b.previousSibling, h = b.nextSibling;
+                    if (g.ie && g.ie_version <= 11 && b.addedNodes.length) {
+                        for(var i = 0; i < b.addedNodes.length; i++){
+                            var j = b.addedNodes[i];
+                            var k = j.previousSibling;
+                            var l = j.nextSibling;
+                            if (!k || Array.prototype.indexOf.call(b.addedNodes, k) < 0) {
+                                f = k;
                             }
-                            if (!i || Array.prototype.indexOf.call(b.addedNodes, i) < 0) {
-                                e = i;
+                            if (!l || Array.prototype.indexOf.call(b.addedNodes, l) < 0) {
+                                h = l;
                             }
                         }
                     }
-                    var l = d && d.parentNode == b.target ? H(d) + 1 : 0;
-                    var m = c.localPosFromDOM(b.target, l, -1);
-                    var n = e && e.parentNode == b.target ? H(e) : b.target.childNodes.length;
-                    var o = c.localPosFromDOM(b.target, n, 1);
+                    var n = f && f.parentNode == b.target ? m(f) + 1 : 0;
+                    var o = d.localPosFromDOM(b.target, n, -1);
+                    var p = h && h.parentNode == b.target ? m(h) : b.target.childNodes.length;
+                    var q = d.localPosFromDOM(b.target, p, 1);
                     return {
-                        from: m,
-                        to: o
+                        from: o,
+                        to: q
                     };
                 } else if (b.type == "attributes") {
                     return {
-                        from: c.posAtStart - c.border,
-                        to: c.posAtEnd + c.border
+                        from: d.posAtStart - d.border,
+                        to: d.posAtEnd + d.border
                     };
                 } else {
                     return {
-                        from: c.posAtStart,
-                        to: c.posAtEnd,
+                        from: d.posAtStart,
+                        to: d.posAtEnd,
                         typeOver: b.target.nodeValue == b.oldValue
                     };
                 }
             };
-            var bN = false;
-            function bO(a) {
-                if (bN) {
+            var bz = false;
+            function bA(a) {
+                if (bz) {
                     return;
                 }
-                bN = true;
+                bz = true;
                 if (getComputedStyle(a.dom).whiteSpace == "normal") {
                     console["warn"]("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package.");
                 }
             }
-            var i = {}, e = {};
-            function bP(b) {
-                b.shiftKey = false;
-                b.mouseDown = null;
-                b.lastKeyCode = null;
-                b.lastKeyCodeTime = 0;
-                b.lastClick = {
+            var bB = {}, bC = {};
+            function bD(a) {
+                a.shiftKey = false;
+                a.mouseDown = null;
+                a.lastKeyCode = null;
+                a.lastKeyCodeTime = 0;
+                a.lastClick = {
                     time: 0,
                     x: 0,
                     y: 0,
                     type: ""
                 };
-                b.lastSelectionOrigin = null;
-                b.lastSelectionTime = 0;
-                b.lastIOSEnter = 0;
-                b.lastIOSEnterFallbackTimeout = null;
-                b.lastAndroidDelete = 0;
-                b.composing = false;
-                b.composingTimeout = null;
-                b.compositionNodes = [];
-                b.compositionEndedAt = -2e8;
-                b.domObserver = new f(b, function(a, c, d, e) {
-                    return br(b, a, c, d, e);
+                a.lastSelectionOrigin = null;
+                a.lastSelectionTime = 0;
+                a.lastIOSEnter = 0;
+                a.lastIOSEnterFallbackTimeout = null;
+                a.lastAndroidDelete = 0;
+                a.composing = false;
+                a.composingTimeout = null;
+                a.compositionNodes = [];
+                a.compositionEndedAt = -2e8;
+                a.domObserver = new by(a, function(b, c, d, e) {
+                    return bb(a, b, c, d, e);
                 });
-                b.domObserver.start();
-                b.domChangeCount = 0;
-                b.eventHandlers = Object.create(null);
-                var c = function(a) {
-                    var c = i[a];
-                    b.dom.addEventListener(a, (b.eventHandlers[a] = function(a) {
-                        if (bU(b, a) && !bT(b, a) && (b.editable || !(a.type in e))) {
-                            c(b, a);
+                a.domObserver.start();
+                a.domChangeCount = 0;
+                a.eventHandlers = Object.create(null);
+                var b = function(b) {
+                    var c = bB[b];
+                    a.dom.addEventListener(b, (a.eventHandlers[b] = function(b) {
+                        if (bI(a, b) && !bH(a, b) && (a.editable || !(b.type in bC))) {
+                            c(a, b);
                         }
                     }));
                 };
-                for(var d in i)c(d);
-                if (a.safari) {
-                    b.dom.addEventListener("input", function() {
+                for(var c in bB)b(c);
+                if (g.safari) {
+                    a.dom.addEventListener("input", function() {
                         return null;
                     });
                 }
-                bS(b);
+                bG(a);
             }
-            function bQ(a, b) {
+            function bE(a, b) {
                 a.lastSelectionOrigin = b;
                 a.lastSelectionTime = Date.now();
             }
-            function bR(a) {
+            function bF(a) {
                 a.domObserver.stop();
                 for(var b in a.eventHandlers){
                     a.dom.removeEventListener(b, a.eventHandlers[b]);
@@ -3581,283 +3581,283 @@
                 clearTimeout(a.composingTimeout);
                 clearTimeout(a.lastIOSEnterFallbackTimeout);
             }
-            function bS(a) {
-                a.someProp("handleDOMEvents", function(c) {
-                    for(var b in c){
-                        if (!a.eventHandlers[b]) {
-                            a.dom.addEventListener(b, (a.eventHandlers[b] = function(b) {
-                                return bT(a, b);
+            function bG(a) {
+                a.someProp("handleDOMEvents", function(b) {
+                    for(var c in b){
+                        if (!a.eventHandlers[c]) {
+                            a.dom.addEventListener(c, (a.eventHandlers[c] = function(b) {
+                                return bH(a, b);
                             }));
                         }
                     }
                 });
             }
-            function bT(a, b) {
-                return a.someProp("handleDOMEvents", function(d) {
-                    var c = d[b.type];
-                    return c ? c(a, b) || b.defaultPrevented : false;
+            function bH(a, b) {
+                return a.someProp("handleDOMEvents", function(c) {
+                    var d = c[b.type];
+                    return d ? d(a, b) || b.defaultPrevented : false;
                 });
             }
-            function bU(c, b) {
+            function bI(a, b) {
                 if (!b.bubbles) {
                     return true;
                 }
                 if (b.defaultPrevented) {
                     return false;
                 }
-                for(var a = b.target; a != c.dom; a = a.parentNode){
-                    if (!a || a.nodeType == 11 || (a.pmViewDesc && a.pmViewDesc.stopEvent(b))) {
+                for(var c = b.target; c != a.dom; c = c.parentNode){
+                    if (!c || c.nodeType == 11 || (c.pmViewDesc && c.pmViewDesc.stopEvent(b))) {
                         return false;
                     }
                 }
                 return true;
             }
-            function bV(b, a) {
-                if (!bT(b, a) && i[a.type] && (b.editable || !(a.type in e))) {
-                    i[a.type](b, a);
+            function bJ(a, b) {
+                if (!bH(a, b) && bB[b.type] && (a.editable || !(b.type in bC))) {
+                    bB[b.type](a, b);
                 }
             }
-            e.keydown = function(c, b) {
-                c.shiftKey = b.keyCode == 16 || b.shiftKey;
-                if (b6(c, b)) {
+            bC.keydown = function(a, b) {
+                a.shiftKey = b.keyCode == 16 || b.shiftKey;
+                if (bX(a, b)) {
                     return;
                 }
                 if (b.keyCode != 229) {
-                    c.domObserver.forceFlush();
+                    a.domObserver.forceFlush();
                 }
-                c.lastKeyCode = b.keyCode;
-                c.lastKeyCodeTime = Date.now();
-                if (a.ios && b.keyCode == 13 && !b.ctrlKey && !b.altKey && !b.metaKey) {
-                    var d = Date.now();
-                    c.lastIOSEnter = d;
-                    c.lastIOSEnterFallbackTimeout = setTimeout(function() {
-                        if (c.lastIOSEnter == d) {
-                            c.someProp("handleKeyDown", function(a) {
-                                return a(c, S(13, "Enter"));
+                a.lastKeyCode = b.keyCode;
+                a.lastKeyCodeTime = Date.now();
+                if (g.ios && b.keyCode == 13 && !b.ctrlKey && !b.altKey && !b.metaKey) {
+                    var c = Date.now();
+                    a.lastIOSEnter = c;
+                    a.lastIOSEnterFallbackTimeout = setTimeout(function() {
+                        if (a.lastIOSEnter == c) {
+                            a.someProp("handleKeyDown", function(b) {
+                                return b(a, x(13, "Enter"));
                             });
-                            c.lastIOSEnter = 0;
+                            a.lastIOSEnter = 0;
                         }
                     }, 200);
-                } else if (c.someProp("handleKeyDown", function(a) {
-                    return a(c, b);
-                }) || bo(c, b)) {
+                } else if (a.someProp("handleKeyDown", function(c) {
+                    return c(a, b);
+                }) || a8(a, b)) {
                     b.preventDefault();
                 } else {
-                    bQ(c, "key");
+                    bE(a, "key");
                 }
             };
-            e.keyup = function(a, b) {
+            bC.keyup = function(a, b) {
                 if (b.keyCode == 16) {
                     a.shiftKey = false;
                 }
             };
-            e.keypress = function(c, b) {
-                if (b6(c, b) || !b.charCode || (b.ctrlKey && !b.altKey) || (a.mac && b.metaKey)) {
+            bC.keypress = function(a, b) {
+                if (bX(a, b) || !b.charCode || (b.ctrlKey && !b.altKey) || (g.mac && b.metaKey)) {
                     return;
                 }
-                if (c.someProp("handleKeyPress", function(a) {
-                    return a(c, b);
+                if (a.someProp("handleKeyPress", function(c) {
+                    return c(a, b);
                 })) {
                     b.preventDefault();
                     return;
                 }
-                var d = c.state.selection;
-                if (!(d instanceof E.TextSelection) || !d.$from.sameParent(d.$to)) {
+                var c = a.state.selection;
+                if (!(c instanceof d.TextSelection) || !c.$from.sameParent(c.$to)) {
                     var e = String.fromCharCode(b.charCode);
-                    if (!c.someProp("handleTextInput", function(a) {
-                        return a(c, d.$from.pos, d.$to.pos, e);
+                    if (!a.someProp("handleTextInput", function(b) {
+                        return b(a, c.$from.pos, c.$to.pos, e);
                     })) {
-                        c.dispatch(c.state.tr.insertText(e).scrollIntoView());
+                        a.dispatch(a.state.tr.insertText(e).scrollIntoView());
                     }
                     b.preventDefault();
                 }
             };
-            function bW(a) {
+            function bK(a) {
                 return {
                     left: a.clientX,
                     top: a.clientY
                 };
             }
-            function bX(a, b) {
+            function bL(a, b) {
                 var c = b.x - a.clientX, d = b.y - a.clientY;
                 return c * c + d * d < 100;
             }
-            function bY(d, g, h, b, i) {
-                if (b == -1) {
+            function bM(a, b, c, d, e) {
+                if (d == -1) {
                     return false;
                 }
-                var e = d.state.doc.resolve(b);
-                var f = function(a) {
-                    if (d.someProp(g, function(b) {
-                        return a > e.depth ? b(d, h, e.nodeAfter, e.before(a), i, true) : b(d, h, e.node(a), e.before(a), i, false);
+                var f = a.state.doc.resolve(d);
+                var g = function(d) {
+                    if (a.someProp(b, function(b) {
+                        return d > f.depth ? b(a, c, f.nodeAfter, f.before(d), e, true) : b(a, c, f.node(d), f.before(d), e, false);
                     })) {
                         return {
                             v: true
                         };
                     }
                 };
-                for(var a = e.depth + 1; a > 0; a--){
-                    var c = f(a);
-                    if (c) return c.v;
+                for(var h = f.depth + 1; h > 0; h--){
+                    var i = g(h);
+                    if (i) return i.v;
                 }
                 return false;
             }
-            function bZ(a, c, d) {
+            function bN(a, b, c) {
                 if (!a.focused) {
                     a.focus();
                 }
-                var b = a.state.tr.setSelection(c);
-                if (d == "pointer") {
-                    b.setMeta("pointer", true);
+                var d = a.state.tr.setSelection(b);
+                if (c == "pointer") {
+                    d.setMeta("pointer", true);
                 }
-                a.dispatch(b);
+                a.dispatch(d);
             }
-            function b$(b, c) {
-                if (c == -1) {
+            function bO(a, b) {
+                if (b == -1) {
                     return false;
                 }
-                var d = b.state.doc.resolve(c), a = d.nodeAfter;
-                if (a && a.isAtom && E.NodeSelection.isSelectable(a)) {
-                    bZ(b, new E.NodeSelection(d), "pointer");
+                var c = a.state.doc.resolve(b), e = c.nodeAfter;
+                if (e && e.isAtom && d.NodeSelection.isSelectable(e)) {
+                    bN(a, new d.NodeSelection(c), "pointer");
                     return true;
                 }
                 return false;
             }
-            function b_(d, f) {
-                if (f == -1) {
+            function bP(a, b) {
+                if (b == -1) {
                     return false;
                 }
-                var a = d.state.selection, g, e;
-                if (a instanceof E.NodeSelection) {
-                    g = a.node;
+                var c = a.state.selection, e, f;
+                if (c instanceof d.NodeSelection) {
+                    e = c.node;
                 }
-                var b = d.state.doc.resolve(f);
-                for(var c = b.depth + 1; c > 0; c--){
-                    var h = c > b.depth ? b.nodeAfter : b.node(c);
-                    if (E.NodeSelection.isSelectable(h)) {
-                        if (g && a.$from.depth > 0 && c >= a.$from.depth && b.before(a.$from.depth + 1) == a.$from.pos) {
-                            e = b.before(a.$from.depth);
+                var g = a.state.doc.resolve(b);
+                for(var h = g.depth + 1; h > 0; h--){
+                    var i = h > g.depth ? g.nodeAfter : g.node(h);
+                    if (d.NodeSelection.isSelectable(i)) {
+                        if (e && c.$from.depth > 0 && h >= c.$from.depth && g.before(c.$from.depth + 1) == c.$from.pos) {
+                            f = g.before(c.$from.depth);
                         } else {
-                            e = b.before(c);
+                            f = g.before(h);
                         }
                         break;
                     }
                 }
-                if (e != null) {
-                    bZ(d, E.NodeSelection.create(d.state.doc, e), "pointer");
+                if (f != null) {
+                    bN(a, d.NodeSelection.create(a.state.doc, f), "pointer");
                     return true;
                 } else {
                     return false;
                 }
             }
-            function b0(a, c, b, d, e) {
-                return (bY(a, "handleClickOn", c, b, d) || a.someProp("handleClick", function(b) {
-                    return b(a, c, d);
-                }) || (e ? b_(a, b) : b$(a, b)));
+            function bQ(a, b, c, d, e) {
+                return (bM(a, "handleClickOn", b, c, d) || a.someProp("handleClick", function(c) {
+                    return c(a, b, d);
+                }) || (e ? bP(a, c) : bO(a, c)));
             }
-            function b1(a, b, c, d) {
-                return (bY(a, "handleDoubleClickOn", b, c, d) || a.someProp("handleDoubleClick", function(c) {
+            function bR(a, b, c, d) {
+                return (bM(a, "handleDoubleClickOn", b, c, d) || a.someProp("handleDoubleClick", function(c) {
                     return c(a, b, d);
                 }));
             }
-            function b2(a, d, b, c) {
-                return (bY(a, "handleTripleClickOn", d, b, c) || a.someProp("handleTripleClick", function(b) {
-                    return b(a, d, c);
-                }) || b3(a, b, c));
+            function bS(a, b, c, d) {
+                return (bM(a, "handleTripleClickOn", b, c, d) || a.someProp("handleTripleClick", function(c) {
+                    return c(a, b, d);
+                }) || bT(a, c, d));
             }
-            function b3(d, g, h) {
-                if (h.button != 0) {
+            function bT(a, b, c) {
+                if (c.button != 0) {
                     return false;
                 }
-                var a = d.state.doc;
-                if (g == -1) {
-                    if (a.inlineContent) {
-                        bZ(d, E.TextSelection.create(a, 0, a.content.size), "pointer");
+                var e = a.state.doc;
+                if (b == -1) {
+                    if (e.inlineContent) {
+                        bN(a, d.TextSelection.create(e, 0, e.content.size), "pointer");
                         return true;
                     }
                     return false;
                 }
-                var b = a.resolve(g);
-                for(var c = b.depth + 1; c > 0; c--){
-                    var e = c > b.depth ? b.nodeAfter : b.node(c);
-                    var f = b.before(c);
-                    if (e.inlineContent) {
-                        bZ(d, E.TextSelection.create(a, f + 1, f + 1 + e.content.size), "pointer");
-                    } else if (E.NodeSelection.isSelectable(e)) {
-                        bZ(d, E.NodeSelection.create(a, f), "pointer");
+                var f = e.resolve(b);
+                for(var g = f.depth + 1; g > 0; g--){
+                    var h = g > f.depth ? f.nodeAfter : f.node(g);
+                    var i = f.before(g);
+                    if (h.inlineContent) {
+                        bN(a, d.TextSelection.create(e, i + 1, i + 1 + h.content.size), "pointer");
+                    } else if (d.NodeSelection.isSelectable(h)) {
+                        bN(a, d.NodeSelection.create(e, i), "pointer");
                     } else {
                         continue;
                     }
                     return true;
                 }
             }
-            function b4(a) {
-                return cb(a);
+            function bU(a) {
+                return b0(a);
             }
-            var b5 = a.mac ? "metaKey" : "ctrlKey";
-            i.mousedown = function(a, b) {
+            var bV = g.mac ? "metaKey" : "ctrlKey";
+            bB.mousedown = function(a, b) {
                 a.shiftKey = b.shiftKey;
-                var f = b4(a);
-                var e = Date.now(), c = "singleClick";
-                if (e - a.lastClick.time < 500 && bX(b, a.lastClick) && !b[b5]) {
+                var c = bU(a);
+                var d = Date.now(), e = "singleClick";
+                if (d - a.lastClick.time < 500 && bL(b, a.lastClick) && !b[bV]) {
                     if (a.lastClick.type == "singleClick") {
-                        c = "doubleClick";
+                        e = "doubleClick";
                     } else if (a.lastClick.type == "doubleClick") {
-                        c = "tripleClick";
+                        e = "tripleClick";
                     }
                 }
                 a.lastClick = {
-                    time: e,
+                    time: d,
                     x: b.clientX,
                     y: b.clientY,
-                    type: c
+                    type: e
                 };
-                var d = a.posAtCoords(bW(b));
-                if (!d) {
+                var f = a.posAtCoords(bK(b));
+                if (!f) {
                     return;
                 }
-                if (c == "singleClick") {
+                if (e == "singleClick") {
                     if (a.mouseDown) {
                         a.mouseDown.done();
                     }
-                    a.mouseDown = new r(a, d, b, f);
-                } else if ((c == "doubleClick" ? b1 : b2)(a, d.pos, d.inside, b)) {
+                    a.mouseDown = new bW(a, f, b, c);
+                } else if ((e == "doubleClick" ? bR : bS)(a, f.pos, f.inside, b)) {
                     b.preventDefault();
                 } else {
-                    bQ(a, "pointer");
+                    bE(a, "pointer");
                 }
             };
-            var r = function m(b, c, d, i) {
-                var n = this;
+            var bW = function a(b, c, e, f) {
+                var h = this;
                 this.view = b;
                 this.startDoc = b.state.doc;
                 this.pos = c;
-                this.event = d;
-                this.flushed = i;
-                this.selectNode = d[b5];
-                this.allowDefault = d.shiftKey;
+                this.event = e;
+                this.flushed = f;
+                this.selectNode = e[bV];
+                this.allowDefault = e.shiftKey;
                 this.delayedSelectionSync = false;
-                var e, f;
+                var i, j;
                 if (c.inside > -1) {
-                    e = b.state.doc.nodeAt(c.inside);
-                    f = c.inside;
+                    i = b.state.doc.nodeAt(c.inside);
+                    j = c.inside;
                 } else {
-                    var g = b.state.doc.resolve(c.pos);
-                    e = g.parent;
-                    f = g.depth ? g.before() : 0;
+                    var k = b.state.doc.resolve(c.pos);
+                    i = k.parent;
+                    j = k.depth ? k.before() : 0;
                 }
                 this.mightDrag = null;
-                var j = i ? null : d.target;
-                var k = j ? b.docView.nearestDesc(j, true) : null;
-                this.target = k ? k.dom : null;
-                var l = b.state;
-                var h = l.selection;
-                if ((d.button == 0 && e.type.spec.draggable && e.type.spec.selectable !== false) || (h instanceof E.NodeSelection && h.from <= f && h.to > f)) {
+                var l = f ? null : e.target;
+                var m = l ? b.docView.nearestDesc(l, true) : null;
+                this.target = m ? m.dom : null;
+                var n = b.state;
+                var o = n.selection;
+                if ((e.button == 0 && i.type.spec.draggable && i.type.spec.selectable !== false) || (o instanceof d.NodeSelection && o.from <= j && o.to > j)) {
                     this.mightDrag = {
-                        node: e,
-                        pos: f,
+                        node: i,
+                        pos: j,
                         addAttr: this.target && !this.target.draggable,
-                        setUneditable: this.target && a.gecko && !this.target.hasAttribute("contentEditable")
+                        setUneditable: this.target && g.gecko && !this.target.hasAttribute("contentEditable")
                     };
                 }
                 if (this.target && this.mightDrag && (this.mightDrag.addAttr || this.mightDrag.setUneditable)) {
@@ -3867,8 +3867,8 @@
                     }
                     if (this.mightDrag.setUneditable) {
                         setTimeout(function() {
-                            if (n.view.mouseDown == n) {
-                                n.target.setAttribute("contentEditable", "false");
+                            if (h.view.mouseDown == h) {
+                                h.target.setAttribute("contentEditable", "false");
                             }
                         }, 20);
                     }
@@ -3876,9 +3876,9 @@
                 }
                 b.root.addEventListener("mouseup", (this.up = this.up.bind(this)));
                 b.root.addEventListener("mousemove", (this.move = this.move.bind(this)));
-                bQ(b, "pointer");
+                bE(b, "pointer");
             };
-            r.prototype.done = function a() {
+            bW.prototype.done = function a() {
                 var b = this;
                 this.view.root.removeEventListener("mouseup", this.up);
                 this.view.root.removeEventListener("mousemove", this.move);
@@ -3894,128 +3894,128 @@
                 }
                 if (this.delayedSelectionSync) {
                     setTimeout(function() {
-                        return aZ(b.view);
+                        return aJ(b.view);
                     });
                 }
                 this.view.mouseDown = null;
             };
-            r.prototype.up = function d(b) {
+            bW.prototype.up = function a(b) {
                 this.done();
                 if (!this.view.dom.contains(b.target.nodeType == 3 ? b.target.parentNode : b.target)) {
                     return;
                 }
                 var c = this.pos;
                 if (this.view.state.doc != this.startDoc) {
-                    c = this.view.posAtCoords(bW(b));
+                    c = this.view.posAtCoords(bK(b));
                 }
                 if (this.allowDefault || !c) {
-                    bQ(this.view, "pointer");
-                } else if (b0(this.view, c.pos, c.inside, b, this.selectNode)) {
+                    bE(this.view, "pointer");
+                } else if (bQ(this.view, c.pos, c.inside, b, this.selectNode)) {
                     b.preventDefault();
-                } else if (b.button == 0 && (this.flushed || (a.safari && this.mightDrag && !this.mightDrag.node.isAtom) || (a.chrome && !(this.view.state.selection instanceof E.TextSelection) && Math.min(Math.abs(c.pos - this.view.state.selection.from), Math.abs(c.pos - this.view.state.selection.to)) <= 2))) {
-                    bZ(this.view, E.Selection.near(this.view.state.doc.resolve(c.pos)), "pointer");
+                } else if (b.button == 0 && (this.flushed || (g.safari && this.mightDrag && !this.mightDrag.node.isAtom) || (g.chrome && !(this.view.state.selection instanceof d.TextSelection) && Math.min(Math.abs(c.pos - this.view.state.selection.from), Math.abs(c.pos - this.view.state.selection.to)) <= 2))) {
+                    bN(this.view, d.Selection.near(this.view.state.doc.resolve(c.pos)), "pointer");
                     b.preventDefault();
                 } else {
-                    bQ(this.view, "pointer");
+                    bE(this.view, "pointer");
                 }
             };
-            r.prototype.move = function b(a) {
-                if (!this.allowDefault && (Math.abs(this.event.x - a.clientX) > 4 || Math.abs(this.event.y - a.clientY) > 4)) {
+            bW.prototype.move = function a(b) {
+                if (!this.allowDefault && (Math.abs(this.event.x - b.clientX) > 4 || Math.abs(this.event.y - b.clientY) > 4)) {
                     this.allowDefault = true;
                 }
-                bQ(this.view, "pointer");
-                if (a.buttons == 0) {
+                bE(this.view, "pointer");
+                if (b.buttons == 0) {
                     this.done();
                 }
             };
-            i.touchdown = function(a) {
-                b4(a);
-                bQ(a, "pointer");
+            bB.touchdown = function(a) {
+                bU(a);
+                bE(a, "pointer");
             };
-            i.contextmenu = function(a) {
-                return b4(a);
+            bB.contextmenu = function(a) {
+                return bU(a);
             };
-            function b6(b, c) {
-                if (b.composing) {
+            function bX(a, b) {
+                if (a.composing) {
                     return true;
                 }
-                if (a.safari && Math.abs(c.timeStamp - b.compositionEndedAt) < 500) {
-                    b.compositionEndedAt = -2e8;
+                if (g.safari && Math.abs(b.timeStamp - a.compositionEndedAt) < 500) {
+                    a.compositionEndedAt = -2e8;
                     return true;
                 }
                 return false;
             }
-            var b7 = a.android ? 5000 : -1;
-            e.compositionstart = e.compositionupdate = function(b) {
-                if (!b.composing) {
-                    b.domObserver.flush();
-                    var f = b.state;
-                    var c = f.selection.$from;
-                    if (f.selection.empty && (f.storedMarks || (!c.textOffset && c.parentOffset && c.nodeBefore.marks.some(function(a) {
+            var bY = g.android ? 5000 : -1;
+            bC.compositionstart = bC.compositionupdate = function(a) {
+                if (!a.composing) {
+                    a.domObserver.flush();
+                    var b = a.state;
+                    var c = b.selection.$from;
+                    if (b.selection.empty && (b.storedMarks || (!c.textOffset && c.parentOffset && c.nodeBefore.marks.some(function(a) {
                         return a.type.spec.inclusive === false;
                     })))) {
-                        b.markCursor = b.state.storedMarks || c.marks();
-                        cb(b, true);
-                        b.markCursor = null;
+                        a.markCursor = a.state.storedMarks || c.marks();
+                        b0(a, true);
+                        a.markCursor = null;
                     } else {
-                        cb(b);
-                        if (a.gecko && f.selection.empty && c.parentOffset && !c.textOffset && c.nodeBefore.marks.length) {
-                            var h = b.root.getSelection();
-                            for(var d = h.focusNode, g = h.focusOffset; d && d.nodeType == 1 && g != 0;){
-                                var e = g < 0 ? d.lastChild : d.childNodes[g - 1];
-                                if (!e) {
+                        b0(a);
+                        if (g.gecko && b.selection.empty && c.parentOffset && !c.textOffset && c.nodeBefore.marks.length) {
+                            var d = a.root.getSelection();
+                            for(var e = d.focusNode, f = d.focusOffset; e && e.nodeType == 1 && f != 0;){
+                                var h = f < 0 ? e.lastChild : e.childNodes[f - 1];
+                                if (!h) {
                                     break;
                                 }
-                                if (e.nodeType == 3) {
-                                    h.collapse(e, e.nodeValue.length);
+                                if (h.nodeType == 3) {
+                                    d.collapse(h, h.nodeValue.length);
                                     break;
                                 } else {
-                                    d = e;
-                                    g = -1;
+                                    e = h;
+                                    f = -1;
                                 }
                             }
                         }
                     }
-                    b.composing = true;
+                    a.composing = true;
                 }
-                b8(b, b7);
+                bZ(a, bY);
             };
-            e.compositionend = function(a, b) {
+            bC.compositionend = function(a, b) {
                 if (a.composing) {
                     a.composing = false;
                     a.compositionEndedAt = b.timeStamp;
-                    b8(a, 20);
+                    bZ(a, 20);
                 }
             };
-            function b8(a, b) {
+            function bZ(a, b) {
                 clearTimeout(a.composingTimeout);
                 if (b > -1) {
                     a.composingTimeout = setTimeout(function() {
-                        return cb(a);
+                        return b0(a);
                     }, b);
                 }
             }
-            function b9(a) {
+            function b$(a) {
                 if (a.composing) {
                     a.composing = false;
-                    a.compositionEndedAt = ca();
+                    a.compositionEndedAt = b_();
                 }
                 while(a.compositionNodes.length > 0){
                     a.compositionNodes.pop().markParentsDirty();
                 }
             }
-            function ca() {
+            function b_() {
                 var a = document.createEvent("Event");
                 a.initEvent("event", true, true);
                 return a.timeStamp;
             }
-            function cb(a, c) {
+            function b0(a, b) {
                 a.domObserver.forceFlush();
-                b9(a);
-                if (c || a.docView.dirty) {
-                    var b = aX(a);
-                    if (b && !b.eq(a.state.selection)) {
-                        a.dispatch(a.state.tr.setSelection(b));
+                b$(a);
+                if (b || a.docView.dirty) {
+                    var c = aH(a);
+                    if (c && !c.eq(a.state.selection)) {
+                        a.dispatch(a.state.tr.setSelection(c));
                     } else {
                         a.updateState(a.state);
                     }
@@ -4023,7 +4023,7 @@
                 }
                 return false;
             }
-            function cc(a, b) {
+            function b1(a, b) {
                 if (!a.dom.parentNode) {
                     return;
                 }
@@ -4042,84 +4042,84 @@
                     a.focus();
                 }, 50);
             }
-            var cd = (a.ie && a.ie_version < 15) || (a.ios && a.webkit_version < 604);
-            i.copy = e.cut = function(a, c) {
-                var d = a.state.selection, g = c.type == "cut";
-                if (d.empty) {
+            var b2 = (g.ie && g.ie_version < 15) || (g.ios && g.webkit_version < 604);
+            bB.copy = bC.cut = function(a, b) {
+                var c = a.state.selection, d = b.type == "cut";
+                if (c.empty) {
                     return;
                 }
-                var b = cd ? null : c.clipboardData;
-                var h = d.content();
-                var e = bx(a, h);
-                var f = e.dom;
-                var i = e.text;
-                if (b) {
-                    c.preventDefault();
-                    b.clearData();
-                    b.setData("text/html", f.innerHTML);
-                    b.setData("text/plain", i);
+                var e = b2 ? null : b.clipboardData;
+                var f = c.content();
+                var g = bh(a, f);
+                var h = g.dom;
+                var i = g.text;
+                if (e) {
+                    b.preventDefault();
+                    e.clearData();
+                    e.setData("text/html", h.innerHTML);
+                    e.setData("text/plain", i);
                 } else {
-                    cc(a, f);
+                    b1(a, h);
                 }
-                if (g) {
+                if (d) {
                     a.dispatch(a.state.tr.deleteSelection().scrollIntoView().setMeta("uiEvent", "cut"));
                 }
             };
-            function ce(a) {
+            function b3(a) {
                 return a.openStart == 0 && a.openEnd == 0 && a.content.childCount == 1 ? a.content.firstChild : null;
             }
-            function cf(a, d) {
+            function b4(a, b) {
                 if (!a.dom.parentNode) {
                     return;
                 }
                 var c = a.shiftKey || a.state.selection.$from.parent.type.spec.code;
-                var b = a.dom.parentNode.appendChild(document.createElement(c ? "textarea" : "div"));
+                var d = a.dom.parentNode.appendChild(document.createElement(c ? "textarea" : "div"));
                 if (!c) {
-                    b.contentEditable = "true";
+                    d.contentEditable = "true";
                 }
-                b.style.cssText = "position: fixed; left: -10000px; top: 10px";
-                b.focus();
+                d.style.cssText = "position: fixed; left: -10000px; top: 10px";
+                d.focus();
                 setTimeout(function() {
                     a.focus();
-                    if (b.parentNode) {
-                        b.parentNode.removeChild(b);
+                    if (d.parentNode) {
+                        d.parentNode.removeChild(d);
                     }
                     if (c) {
-                        cg(a, b.value, null, d);
+                        b5(a, d.value, null, b);
                     } else {
-                        cg(a, b.textContent, b.innerHTML, d);
+                        b5(a, d.textContent, d.innerHTML, b);
                     }
                 }, 50);
             }
-            function cg(a, d, e, g) {
-                var b = by(a, d, e, a.shiftKey, a.state.selection.$from);
-                if (a.someProp("handlePaste", function(c) {
-                    return c(a, g, b || F.Slice.empty);
+            function b5(a, b, c, d) {
+                var f = bi(a, b, c, a.shiftKey, a.state.selection.$from);
+                if (a.someProp("handlePaste", function(b) {
+                    return b(a, d, f || e.Slice.empty);
                 })) {
                     return true;
                 }
-                if (!b) {
+                if (!f) {
                     return false;
                 }
-                var c = ce(b);
-                var f = c ? a.state.tr.replaceSelectionWith(c, a.shiftKey) : a.state.tr.replaceSelection(b);
-                a.dispatch(f.scrollIntoView().setMeta("paste", true).setMeta("uiEvent", "paste"));
+                var g = b3(f);
+                var h = g ? a.state.tr.replaceSelectionWith(g, a.shiftKey) : a.state.tr.replaceSelection(f);
+                a.dispatch(h.scrollIntoView().setMeta("paste", true).setMeta("uiEvent", "paste"));
                 return true;
             }
-            e.paste = function(c, a) {
-                var b = cd ? null : a.clipboardData;
-                if (b && cg(c, b.getData("text/plain"), b.getData("text/html"), a)) {
-                    a.preventDefault();
+            bC.paste = function(a, b) {
+                var c = b2 ? null : b.clipboardData;
+                if (c && b5(a, c.getData("text/plain"), c.getData("text/html"), b)) {
+                    b.preventDefault();
                 } else {
-                    cf(c, a);
+                    b4(a, b);
                 }
             };
-            var ch = function c(a, b) {
-                this.slice = a;
-                this.move = b;
+            var b6 = function a(b, c) {
+                this.slice = b;
+                this.move = c;
             };
-            var ci = a.mac ? "altKey" : "ctrlKey";
-            i.dragstart = function(a, b) {
+            var b7 = g.mac ? "altKey" : "ctrlKey";
+            bB.dragstart = function(a, b) {
                 var c = a.mouseDown;
                 if (c) {
                     c.done();
@@ -4127,30 +4127,30 @@
                 if (!b.dataTransfer) {
                     return;
                 }
-                var d = a.state.selection;
-                var f = d.empty ? null : a.posAtCoords(bW(b));
-                if (f && f.pos >= d.from && f.pos <= (d instanceof E.NodeSelection ? d.to - 1 : d.to)) ;
+                var e = a.state.selection;
+                var f = e.empty ? null : a.posAtCoords(bK(b));
+                if (f && f.pos >= e.from && f.pos <= (e instanceof d.NodeSelection ? e.to - 1 : e.to)) ;
                 else if (c && c.mightDrag) {
-                    a.dispatch(a.state.tr.setSelection(E.NodeSelection.create(a.state.doc, c.mightDrag.pos)));
+                    a.dispatch(a.state.tr.setSelection(d.NodeSelection.create(a.state.doc, c.mightDrag.pos)));
                 } else if (b.target && b.target.nodeType == 1) {
-                    var e = a.docView.nearestDesc(b.target, true);
-                    if (e && e.node.type.spec.draggable && e != a.docView) {
-                        a.dispatch(a.state.tr.setSelection(E.NodeSelection.create(a.state.doc, e.posBefore)));
+                    var g = a.docView.nearestDesc(b.target, true);
+                    if (g && g.node.type.spec.draggable && g != a.docView) {
+                        a.dispatch(a.state.tr.setSelection(d.NodeSelection.create(a.state.doc, g.posBefore)));
                     }
                 }
-                var g = a.state.selection.content();
-                var h = bx(a, g);
-                var i = h.dom;
-                var j = h.text;
+                var h = a.state.selection.content();
+                var i = bh(a, h);
+                var j = i.dom;
+                var k = i.text;
                 b.dataTransfer.clearData();
-                b.dataTransfer.setData(cd ? "Text" : "text/html", i.innerHTML);
+                b.dataTransfer.setData(b2 ? "Text" : "text/html", j.innerHTML);
                 b.dataTransfer.effectAllowed = "copyMove";
-                if (!cd) {
-                    b.dataTransfer.setData("text/plain", j);
+                if (!b2) {
+                    b.dataTransfer.setData("text/plain", k);
                 }
-                a.dragging = new ch(g, !b[ci]);
+                a.dragging = new b6(h, !b[b7]);
             };
-            i.dragend = function(a) {
+            bB.dragend = function(a) {
                 var b = a.dragging;
                 window.setTimeout(function() {
                     if (a.dragging == b) {
@@ -4158,75 +4158,75 @@
                     }
                 }, 50);
             };
-            e.dragover = e.dragenter = function(b, a) {
-                return a.preventDefault();
+            bC.dragover = bC.dragenter = function(a, b) {
+                return b.preventDefault();
             };
-            e.drop = function(b, d) {
-                var i = b.dragging;
-                b.dragging = null;
-                if (!d.dataTransfer) {
+            bC.drop = function(a, b) {
+                var c = a.dragging;
+                a.dragging = null;
+                if (!b.dataTransfer) {
                     return;
                 }
-                var j = b.posAtCoords(bW(d));
-                if (!j) {
+                var g = a.posAtCoords(bK(b));
+                if (!g) {
                     return;
                 }
-                var e = b.state.doc.resolve(j.pos);
-                if (!e) {
+                var h = a.state.doc.resolve(g.pos);
+                if (!h) {
                     return;
                 }
-                var c = i && i.slice;
-                if (c) {
-                    b.someProp("transformPasted", function(a) {
-                        c = a(c);
+                var i = c && c.slice;
+                if (i) {
+                    a.someProp("transformPasted", function(a) {
+                        i = a(i);
                     });
                 } else {
-                    c = by(b, d.dataTransfer.getData(cd ? "Text" : "text/plain"), cd ? null : d.dataTransfer.getData("text/html"), false, e);
+                    i = bi(a, b.dataTransfer.getData(b2 ? "Text" : "text/plain"), b2 ? null : b.dataTransfer.getData("text/html"), false, h);
                 }
-                var l = i && !d[ci];
-                if (b.someProp("handleDrop", function(a) {
-                    return a(b, d, c || F.Slice.empty, l);
+                var j = c && !b[b7];
+                if (a.someProp("handleDrop", function(c) {
+                    return c(a, b, i || e.Slice.empty, j);
                 })) {
-                    d.preventDefault();
+                    b.preventDefault();
                     return;
                 }
-                if (!c) {
+                if (!i) {
                     return;
                 }
-                d.preventDefault();
-                var g = c ? (0, G.nj)(b.state.doc, e.pos, c) : e.pos;
-                if (g == null) {
-                    g = e.pos;
+                b.preventDefault();
+                var k = i ? (0, f.nj)(a.state.doc, h.pos, i) : h.pos;
+                if (k == null) {
+                    k = h.pos;
                 }
-                var a = b.state.tr;
-                if (l) {
-                    a.deleteSelection();
+                var l = a.state.tr;
+                if (j) {
+                    l.deleteSelection();
                 }
-                var f = a.mapping.map(g);
-                var k = c.openStart == 0 && c.openEnd == 0 && c.content.childCount == 1;
-                var m = a.doc;
-                if (k) {
-                    a.replaceRangeWith(f, f, c.content.firstChild);
+                var m = l.mapping.map(k);
+                var n = i.openStart == 0 && i.openEnd == 0 && i.content.childCount == 1;
+                var o = l.doc;
+                if (n) {
+                    l.replaceRangeWith(m, m, i.content.firstChild);
                 } else {
-                    a.replaceRange(f, f, c);
+                    l.replaceRange(m, m, i);
                 }
-                if (a.doc.eq(m)) {
+                if (l.doc.eq(o)) {
                     return;
                 }
-                var h = a.doc.resolve(f);
-                if (k && E.NodeSelection.isSelectable(c.content.firstChild) && h.nodeAfter && h.nodeAfter.sameMarkup(c.content.firstChild)) {
-                    a.setSelection(new E.NodeSelection(h));
+                var p = l.doc.resolve(m);
+                if (n && d.NodeSelection.isSelectable(i.content.firstChild) && p.nodeAfter && p.nodeAfter.sameMarkup(i.content.firstChild)) {
+                    l.setSelection(new d.NodeSelection(p));
                 } else {
-                    var n = a.mapping.map(g);
-                    a.mapping.maps[a.mapping.maps.length - 1].forEach(function(b, c, d, a) {
-                        return (n = a);
+                    var q = l.mapping.map(k);
+                    l.mapping.maps[l.mapping.maps.length - 1].forEach(function(a, b, c, d) {
+                        return (q = d);
                     });
-                    a.setSelection(a6(b, h, a.doc.resolve(n)));
+                    l.setSelection(aS(a, p, l.doc.resolve(q)));
                 }
-                b.focus();
-                b.dispatch(a.setMeta("uiEvent", "drop"));
+                a.focus();
+                a.dispatch(l.setMeta("uiEvent", "drop"));
             };
-            i.focus = function(a) {
+            bB.focus = function(a) {
                 if (!a.focused) {
                     a.domObserver.stop();
                     a.dom.classList.add("ProseMirror-focused");
@@ -4234,12 +4234,12 @@
                     a.focused = true;
                     setTimeout(function() {
                         if (a.docView && a.hasFocus() && !a.domObserver.currentSelection.eq(a.root.getSelection())) {
-                            aZ(a);
+                            aJ(a);
                         }
                     }, 20);
                 }
             };
-            i.blur = function(a, b) {
+            bB.blur = function(a, b) {
                 if (a.focused) {
                     a.domObserver.stop();
                     a.dom.classList.remove("ProseMirror-focused");
@@ -4250,32 +4250,32 @@
                     a.focused = false;
                 }
             };
-            i.beforeinput = function(b, c) {
-                if (a.chrome && a.android && c.inputType == "deleteContentBackward") {
-                    var d = b.domChangeCount;
+            bB.beforeinput = function(a, b) {
+                if (g.chrome && g.android && b.inputType == "deleteContentBackward") {
+                    var c = a.domChangeCount;
                     setTimeout(function() {
-                        if (b.domChangeCount != d) {
+                        if (a.domChangeCount != c) {
                             return;
                         }
-                        b.dom.blur();
-                        b.focus();
-                        if (b.someProp("handleKeyDown", function(a) {
-                            return a(b, S(8, "Backspace"));
+                        a.dom.blur();
+                        a.focus();
+                        if (a.someProp("handleKeyDown", function(b) {
+                            return b(a, x(8, "Backspace"));
                         })) {
                             return;
                         }
-                        var c = b.state.selection;
-                        var a = c.$cursor;
-                        if (a && a.pos > 0) {
-                            b.dispatch(b.state.tr.delete(a.pos - 1, a.pos).scrollIntoView());
+                        var b = a.state.selection;
+                        var d = b.$cursor;
+                        if (d && d.pos > 0) {
+                            a.dispatch(a.state.tr.delete(d.pos - 1, d.pos).scrollIntoView());
                         }
                     }, 50);
                 }
             };
-            for(var B in e){
-                i[B] = e[B];
+            for(var b8 in bC){
+                bB[b8] = bC[b8];
             }
-            function cj(a, b) {
+            function b9(a, b) {
                 if (a == b) {
                     return true;
                 }
@@ -4291,72 +4291,72 @@
                 }
                 return true;
             }
-            var s = function c(a, b) {
-                this.spec = b || cl;
+            var ca = function a(b, c) {
+                this.spec = c || cg;
                 this.side = this.spec.side || 0;
-                this.toDOM = a;
+                this.toDOM = b;
             };
-            s.prototype.map = function h(d, e, a, f) {
-                var b = d.mapResult(e.from + f, this.side < 0 ? -1 : 1);
-                var c = b.pos;
-                var g = b.deleted;
-                return g ? null : new j(c - a, c - a, this);
+            ca.prototype.map = function a(b, c, d, e) {
+                var f = b.mapResult(c.from + e, this.side < 0 ? -1 : 1);
+                var g = f.pos;
+                var h = f.deleted;
+                return h ? null : new cd(g - d, g - d, this);
             };
-            s.prototype.valid = function a() {
+            ca.prototype.valid = function a() {
                 return true;
             };
-            s.prototype.eq = function b(a) {
-                return (this == a || (a instanceof s && ((this.spec.key && this.spec.key == a.spec.key) || (this.toDOM == a.toDOM && cj(this.spec, a.spec)))));
+            ca.prototype.eq = function a(b) {
+                return (this == b || (b instanceof ca && ((this.spec.key && this.spec.key == b.spec.key) || (this.toDOM == b.toDOM && b9(this.spec, b.spec)))));
             };
-            var m = function c(a, b) {
-                this.spec = b || cl;
-                this.attrs = a;
+            var cb = function a(b, c) {
+                this.spec = c || cg;
+                this.attrs = b;
             };
-            m.prototype.map = function g(a, b, c, d) {
-                var e = a.map(b.from + d, this.spec.inclusiveStart ? -1 : 1) - c;
-                var f = a.map(b.to + d, this.spec.inclusiveEnd ? 1 : -1) - c;
-                return e >= f ? null : new j(e, f, this);
+            cb.prototype.map = function a(b, c, d, e) {
+                var f = b.map(c.from + e, this.spec.inclusiveStart ? -1 : 1) - d;
+                var g = b.map(c.to + e, this.spec.inclusiveEnd ? 1 : -1) - d;
+                return f >= g ? null : new cd(f, g, this);
             };
-            m.prototype.valid = function b(c, a) {
-                return a.from < a.to;
+            cb.prototype.valid = function a(b, c) {
+                return c.from < c.to;
             };
-            m.prototype.eq = function b(a) {
-                return (this == a || (a instanceof m && cj(this.attrs, a.attrs) && cj(this.spec, a.spec)));
+            cb.prototype.eq = function a(b) {
+                return (this == b || (b instanceof cb && b9(this.attrs, b.attrs) && b9(this.spec, b.spec)));
             };
-            m.is = function b(a) {
-                return a.type instanceof m;
+            cb.is = function a(b) {
+                return b.type instanceof cb;
             };
-            var t = function c(a, b) {
-                this.spec = b || cl;
-                this.attrs = a;
+            var cc = function a(b, c) {
+                this.spec = c || cg;
+                this.attrs = b;
             };
-            t.prototype.map = function g(c, d, e, f) {
-                var a = c.mapResult(d.from + f, 1);
-                if (a.deleted) {
+            cc.prototype.map = function a(b, c, d, e) {
+                var f = b.mapResult(c.from + e, 1);
+                if (f.deleted) {
                     return null;
                 }
-                var b = c.mapResult(d.to + f, -1);
-                if (b.deleted || b.pos <= a.pos) {
+                var g = b.mapResult(c.to + e, -1);
+                if (g.deleted || g.pos <= f.pos) {
                     return null;
                 }
-                return new j(a.pos - e, b.pos - e, this);
+                return new cd(f.pos - d, g.pos - d, this);
             };
-            t.prototype.valid = function g(b, a) {
-                var c = b.content.findIndex(a.from);
-                var f = c.index;
-                var d = c.offset;
-                var e;
-                return (d == a.from && !(e = b.child(f)).isText && d + e.nodeSize == a.to);
+            cc.prototype.valid = function a(b, c) {
+                var d = b.content.findIndex(c.from);
+                var e = d.index;
+                var f = d.offset;
+                var g;
+                return (f == c.from && !(g = b.child(e)).isText && f + g.nodeSize == c.to);
             };
-            t.prototype.eq = function b(a) {
-                return (this == a || (a instanceof t && cj(this.attrs, a.attrs) && cj(this.spec, a.spec)));
+            cc.prototype.eq = function a(b) {
+                return (this == b || (b instanceof cc && b9(this.attrs, b.attrs) && b9(this.spec, b.spec)));
             };
-            var j = function d(a, b, c) {
-                this.from = a;
-                this.to = b;
-                this.type = c;
+            var cd = function a(b, c, d) {
+                this.from = b;
+                this.to = c;
+                this.type = d;
             };
-            var u = {
+            var ce = {
                 spec: {
                     configurable: true
                 },
@@ -4364,529 +4364,529 @@
                     configurable: true
                 }
             };
-            j.prototype.copy = function c(a, b) {
-                return new j(a, b, this.type);
+            cd.prototype.copy = function a(b, c) {
+                return new cd(b, c, this.type);
             };
-            j.prototype.eq = function c(b, a) {
-                if (a === void 0) a = 0;
-                return (this.type.eq(b.type) && this.from + a == b.from && this.to + a == b.to);
+            cd.prototype.eq = function a(b, c) {
+                if (c === void 0) c = 0;
+                return (this.type.eq(b.type) && this.from + c == b.from && this.to + c == b.to);
             };
-            j.prototype.map = function d(a, b, c) {
-                return this.type.map(a, this, b, c);
+            cd.prototype.map = function a(b, c, d) {
+                return this.type.map(b, this, c, d);
             };
-            j.widget = function d(a, b, c) {
-                return new j(a, a, new s(b, c));
+            cd.widget = function a(b, c, d) {
+                return new cd(b, b, new ca(c, d));
             };
-            j.inline = function e(a, b, c, d) {
-                return new j(a, b, new m(c, d));
+            cd.inline = function a(b, c, d, e) {
+                return new cd(b, c, new cb(d, e));
             };
-            j.node = function e(a, b, c, d) {
-                return new j(a, b, new t(c, d));
+            cd.node = function a(b, c, d, e) {
+                return new cd(b, c, new cc(d, e));
             };
-            u.spec.get = function() {
+            ce.spec.get = function() {
                 return this.type.spec;
             };
-            u.inline.get = function() {
-                return this.type instanceof m;
+            ce.inline.get = function() {
+                return this.type instanceof cb;
             };
-            Object.defineProperties(j.prototype, u);
-            var ck = [], cl = {};
-            var d = function c(a, b) {
-                this.local = a && a.length ? a : ck;
-                this.children = b && b.length ? b : ck;
+            Object.defineProperties(cd.prototype, ce);
+            var cf = [], cg = {};
+            var ch = function a(b, c) {
+                this.local = b && b.length ? b : cf;
+                this.children = c && c.length ? c : cf;
             };
-            d.create = function c(b, a) {
-                return a.length ? cr(a, b, 0, cl) : C;
+            ch.create = function a(b, c) {
+                return c.length ? cp(c, b, 0, cg) : ci;
             };
-            d.prototype.find = function e(a, b, d) {
-                var c = [];
-                this.findInner(a == null ? 0 : a, b == null ? 1e9 : b, c, 0, d);
-                return c;
+            ch.prototype.find = function a(b, c, d) {
+                var e = [];
+                this.findInner(b == null ? 0 : b, c == null ? 1e9 : c, e, 0, d);
+                return e;
             };
-            d.prototype.findInner = function j(c, d, i, e, f) {
+            ch.prototype.findInner = function a(b, c, d, e, f) {
                 for(var g = 0; g < this.local.length; g++){
-                    var a = this.local[g];
-                    if (a.from <= d && a.to >= c && (!f || f(a.spec))) {
-                        i.push(a.copy(a.from + e, a.to + e));
+                    var h = this.local[g];
+                    if (h.from <= c && h.to >= b && (!f || f(h.spec))) {
+                        d.push(h.copy(h.from + e, h.to + e));
                     }
                 }
-                for(var b = 0; b < this.children.length; b += 3){
-                    if (this.children[b] < d && this.children[b + 1] > c) {
-                        var h = this.children[b] + 1;
-                        this.children[b + 2].findInner(c - h, d - h, i, e + h, f);
+                for(var i = 0; i < this.children.length; i += 3){
+                    if (this.children[i] < c && this.children[i + 1] > b) {
+                        var j = this.children[i] + 1;
+                        this.children[i + 2].findInner(b - j, c - j, d, e + j, f);
                     }
                 }
             };
-            d.prototype.map = function d(a, b, c) {
-                if (this == C || a.maps.length == 0) {
+            ch.prototype.map = function a(b, c, d) {
+                if (this == ci || b.maps.length == 0) {
                     return this;
                 }
-                return this.mapInner(a, b, 0, 0, c || cl);
+                return this.mapInner(b, c, 0, 0, d || cg);
             };
-            d.prototype.mapInner = function j(f, g, h, i, e) {
-                var a;
-                for(var b = 0; b < this.local.length; b++){
-                    var c = this.local[b].map(f, h, i);
-                    if (c && c.type.valid(g, c)) {
-                        (a || (a = [])).push(c);
-                    } else if (e.onRemove) {
-                        e.onRemove(this.local[b].spec);
+            ch.prototype.mapInner = function a(b, c, d, e, f) {
+                var g;
+                for(var h = 0; h < this.local.length; h++){
+                    var i = this.local[h].map(b, d, e);
+                    if (i && i.type.valid(c, i)) {
+                        (g || (g = [])).push(i);
+                    } else if (f.onRemove) {
+                        f.onRemove(this.local[h].spec);
                     }
                 }
                 if (this.children.length) {
-                    return cm(this.children, a, f, g, h, i, e);
+                    return ck(this.children, g, b, c, d, e, f);
                 } else {
-                    return a ? new d(a.sort(cs)) : C;
+                    return g ? new ch(g.sort(cq)) : ci;
                 }
             };
-            d.prototype.add = function c(b, a) {
-                if (!a.length) {
+            ch.prototype.add = function a(b, c) {
+                if (!c.length) {
                     return this;
                 }
-                if (this == C) {
-                    return d.create(b, a);
+                if (this == ci) {
+                    return ch.create(b, c);
                 }
-                return this.addInner(b, a, 0);
+                return this.addInner(b, c, 0);
             };
-            d.prototype.addInner = function i(c, e, f) {
-                var j = this;
-                var g, h = 0;
-                c.forEach(function(b, a) {
-                    var c = a + f, d;
-                    if (!(d = cp(e, b, c))) {
+            ch.prototype.addInner = function a(b, c, d) {
+                var e = this;
+                var f, g = 0;
+                b.forEach(function(a, b) {
+                    var h = b + d, i;
+                    if (!(i = cn(c, a, h))) {
                         return;
                     }
-                    if (!g) {
-                        g = j.children.slice();
+                    if (!f) {
+                        f = e.children.slice();
                     }
-                    while(h < g.length && g[h] < a){
-                        h += 3;
+                    while(g < f.length && f[g] < b){
+                        g += 3;
                     }
-                    if (g[h] == a) {
-                        g[h + 2] = g[h + 2].addInner(b, d, c + 1);
+                    if (f[g] == b) {
+                        f[g + 2] = f[g + 2].addInner(a, i, h + 1);
                     } else {
-                        g.splice(h, 0, a, a + b.nodeSize, cr(d, b, c + 1, cl));
+                        f.splice(g, 0, b, b + a.nodeSize, cp(i, a, h + 1, cg));
                     }
-                    h += 3;
+                    g += 3;
                 });
-                var a = cn(h ? cq(e) : e, -f);
-                for(var b = 0; b < a.length; b++){
-                    if (!a[b].type.valid(c, a[b])) {
-                        a.splice(b--, 1);
+                var h = cl(g ? co(c) : c, -d);
+                for(var i = 0; i < h.length; i++){
+                    if (!h[i].type.valid(b, h[i])) {
+                        h.splice(i--, 1);
                     }
                 }
-                return new d(a.length ? this.local.concat(a).sort(cs) : this.local, g || this.children);
+                return new ch(h.length ? this.local.concat(h).sort(cq) : this.local, f || this.children);
             };
-            d.prototype.remove = function b(a) {
-                if (a.length == 0 || this == C) {
+            ch.prototype.remove = function a(b) {
+                if (b.length == 0 || this == ci) {
                     return this;
                 }
-                return this.removeInner(a, 0);
+                return this.removeInner(b, 0);
             };
-            d.prototype.removeInner = function p(e, j) {
-                var a = this.children, b = this.local;
-                for(var c = 0; c < a.length; c += 3){
-                    var f = void 0, l = a[c] + j, o = a[c + 1] + j;
-                    for(var g = 0, h = void 0; g < e.length; g++){
-                        if ((h = e[g])) {
-                            if (h.from > l && h.to < o) {
-                                e[g] = null;
-                                (f || (f = [])).push(h);
+            ch.prototype.removeInner = function a(b, c) {
+                var d = this.children, e = this.local;
+                for(var f = 0; f < d.length; f += 3){
+                    var g = void 0, h = d[f] + c, i = d[f + 1] + c;
+                    for(var j = 0, k = void 0; j < b.length; j++){
+                        if ((k = b[j])) {
+                            if (k.from > h && k.to < i) {
+                                b[j] = null;
+                                (g || (g = [])).push(k);
                             }
                         }
                     }
-                    if (!f) {
+                    if (!g) {
                         continue;
                     }
-                    if (a == this.children) {
-                        a = this.children.slice();
+                    if (d == this.children) {
+                        d = this.children.slice();
                     }
-                    var m = a[c + 2].removeInner(f, l + 1);
-                    if (m != C) {
-                        a[c + 2] = m;
+                    var l = d[f + 2].removeInner(g, h + 1);
+                    if (l != ci) {
+                        d[f + 2] = l;
                     } else {
-                        a.splice(c, 3);
-                        c -= 3;
+                        d.splice(f, 3);
+                        f -= 3;
                     }
                 }
-                if (b.length) {
-                    for(var k = 0, n = void 0; k < e.length; k++){
-                        if ((n = e[k])) {
-                            for(var i = 0; i < b.length; i++){
-                                if (b[i].eq(n, j)) {
-                                    if (b == this.local) {
-                                        b = this.local.slice();
+                if (e.length) {
+                    for(var m = 0, n = void 0; m < b.length; m++){
+                        if ((n = b[m])) {
+                            for(var o = 0; o < e.length; o++){
+                                if (e[o].eq(n, c)) {
+                                    if (e == this.local) {
+                                        e = this.local.slice();
                                     }
-                                    b.splice(i--, 1);
+                                    e.splice(o--, 1);
                                 }
                             }
                         }
                     }
                 }
-                if (a == this.children && b == this.local) {
+                if (d == this.children && e == this.local) {
                     return this;
                 }
-                return b.length || a.length ? new d(b, a) : C;
+                return e.length || d.length ? new ch(e, d) : ci;
             };
-            d.prototype.forChild = function p(g, i) {
-                if (this == C) {
+            ch.prototype.forChild = function a(b, c) {
+                if (this == ci) {
                     return this;
                 }
-                if (i.isLeaf) {
-                    return d.empty;
+                if (c.isLeaf) {
+                    return ch.empty;
                 }
-                var e, f;
-                for(var b = 0; b < this.children.length; b += 3){
-                    if (this.children[b] >= g) {
-                        if (this.children[b] == g) {
-                            e = this.children[b + 2];
+                var d, e;
+                for(var f = 0; f < this.children.length; f += 3){
+                    if (this.children[f] >= b) {
+                        if (this.children[f] == b) {
+                            d = this.children[f + 2];
                         }
                         break;
                     }
                 }
-                var c = g + 1, j = c + i.content.size;
-                for(var h = 0; h < this.local.length; h++){
-                    var a = this.local[h];
-                    if (a.from < j && a.to > c && a.type instanceof m) {
-                        var k = Math.max(c, a.from) - c, n = Math.min(j, a.to) - c;
-                        if (k < n) {
-                            (f || (f = [])).push(a.copy(k, n));
+                var g = b + 1, h = g + c.content.size;
+                for(var i = 0; i < this.local.length; i++){
+                    var j = this.local[i];
+                    if (j.from < h && j.to > g && j.type instanceof cb) {
+                        var k = Math.max(g, j.from) - g, l = Math.min(h, j.to) - g;
+                        if (k < l) {
+                            (e || (e = [])).push(j.copy(k, l));
                         }
                     }
                 }
-                if (f) {
-                    var o = new d(f.sort(cs));
-                    return e ? new l([
-                        o,
-                        e
-                    ]) : o;
+                if (e) {
+                    var m = new ch(e.sort(cq));
+                    return d ? new cj([
+                        m,
+                        d
+                    ]) : m;
                 }
-                return e || C;
+                return d || ci;
             };
-            d.prototype.eq = function e(a) {
-                if (this == a) {
+            ch.prototype.eq = function a(b) {
+                if (this == b) {
                     return true;
                 }
-                if (!(a instanceof d) || this.local.length != a.local.length || this.children.length != a.children.length) {
+                if (!(b instanceof ch) || this.local.length != b.local.length || this.children.length != b.children.length) {
                     return false;
                 }
                 for(var c = 0; c < this.local.length; c++){
-                    if (!this.local[c].eq(a.local[c])) {
+                    if (!this.local[c].eq(b.local[c])) {
                         return false;
                     }
                 }
-                for(var b = 0; b < this.children.length; b += 3){
-                    if (this.children[b] != a.children[b] || this.children[b + 1] != a.children[b + 1] || !this.children[b + 2].eq(a.children[b + 2])) {
+                for(var d = 0; d < this.children.length; d += 3){
+                    if (this.children[d] != b.children[d] || this.children[d + 1] != b.children[d + 1] || !this.children[d + 2].eq(b.children[d + 2])) {
                         return false;
                     }
                 }
                 return true;
             };
-            d.prototype.locals = function b(a) {
-                return ct(this.localsInner(a));
+            ch.prototype.locals = function a(b) {
+                return cr(this.localsInner(b));
             };
-            d.prototype.localsInner = function d(c) {
-                if (this == C) {
-                    return ck;
+            ch.prototype.localsInner = function a(b) {
+                if (this == ci) {
+                    return cf;
                 }
-                if (c.inlineContent || !this.local.some(m.is)) {
+                if (b.inlineContent || !this.local.some(cb.is)) {
                     return this.local;
                 }
-                var b = [];
-                for(var a = 0; a < this.local.length; a++){
-                    if (!(this.local[a].type instanceof m)) {
-                        b.push(this.local[a]);
+                var c = [];
+                for(var d = 0; d < this.local.length; d++){
+                    if (!(this.local[d].type instanceof cb)) {
+                        c.push(this.local[d]);
                     }
                 }
-                return b;
+                return c;
             };
-            var C = new d();
-            d.empty = C;
-            d.removeOverlap = ct;
-            var l = function b(a) {
-                this.members = a;
+            var ci = new ch();
+            ch.empty = ci;
+            ch.removeOverlap = cr;
+            var cj = function a(b) {
+                this.members = b;
             };
-            l.prototype.map = function b(c, d) {
-                var a = this.members.map(function(a) {
-                    return a.map(c, d, cl);
+            cj.prototype.map = function a(b, c) {
+                var d = this.members.map(function(a) {
+                    return a.map(b, c, cg);
                 });
-                return l.from(a);
+                return cj.from(d);
             };
-            l.prototype.forChild = function g(f, e) {
-                if (e.isLeaf) {
-                    return d.empty;
+            cj.prototype.forChild = function a(b, c) {
+                if (c.isLeaf) {
+                    return ch.empty;
                 }
-                var a = [];
-                for(var c = 0; c < this.members.length; c++){
-                    var b = this.members[c].forChild(f, e);
-                    if (b == C) {
+                var d = [];
+                for(var e = 0; e < this.members.length; e++){
+                    var f = this.members[e].forChild(b, c);
+                    if (f == ci) {
                         continue;
                     }
-                    if (b instanceof l) {
-                        a = a.concat(b.members);
+                    if (f instanceof cj) {
+                        d = d.concat(f.members);
                     } else {
-                        a.push(b);
+                        d.push(f);
                     }
                 }
-                return l.from(a);
+                return cj.from(d);
             };
-            l.prototype.eq = function c(b) {
-                if (!(b instanceof l) || b.members.length != this.members.length) {
+            cj.prototype.eq = function a(b) {
+                if (!(b instanceof cj) || b.members.length != this.members.length) {
                     return false;
                 }
-                for(var a = 0; a < this.members.length; a++){
-                    if (!this.members[a].eq(b.members[a])) {
+                for(var c = 0; c < this.members.length; c++){
+                    if (!this.members[c].eq(b.members[c])) {
                         return false;
                     }
                 }
                 return true;
             };
-            l.prototype.locals = function b(f) {
-                var a, c = true;
-                for(var d = 0; d < this.members.length; d++){
-                    var b = this.members[d].localsInner(f);
-                    if (!b.length) {
+            cj.prototype.locals = function a(b) {
+                var c, d = true;
+                for(var e = 0; e < this.members.length; e++){
+                    var a = this.members[e].localsInner(b);
+                    if (!a.length) {
                         continue;
                     }
-                    if (!a) {
-                        a = b;
+                    if (!c) {
+                        c = a;
                     } else {
-                        if (c) {
-                            a = a.slice();
-                            c = false;
+                        if (d) {
+                            c = c.slice();
+                            d = false;
                         }
-                        for(var e = 0; e < b.length; e++){
-                            a.push(b[e]);
+                        for(var f = 0; f < a.length; f++){
+                            c.push(a[f]);
                         }
                     }
                 }
-                return a ? ct(c ? a : a.sort(cs)) : ck;
+                return c ? cr(d ? c : c.sort(cq)) : cf;
             };
-            l.from = function b(a) {
-                switch(a.length){
+            cj.from = function a(b) {
+                switch(b.length){
                     case 0:
-                        return C;
+                        return ci;
                     case 1:
-                        return a[0];
+                        return b[0];
                     default:
-                        return new l(a);
+                        return new cj(b);
                 }
             };
-            function cm(g, j, c, k, o, l, p) {
-                var a = g.slice();
-                var x = function(d, e, f, h) {
-                    for(var b = 0; b < a.length; b += 3){
-                        var g = a[b + 1], c = void 0;
-                        if (g == -1 || d > g + l) {
+            function ck(a, b, c, d, e, f, g) {
+                var h = a.slice();
+                var i = function(a, b, c, d) {
+                    for(var g = 0; g < h.length; g += 3){
+                        var i = h[g + 1], j = void 0;
+                        if (i == -1 || a > i + f) {
                             continue;
                         }
-                        if (e >= a[b] + l) {
-                            a[b + 1] = -1;
-                        } else if (f >= o && (c = h - f - (e - d))) {
-                            a[b] += c;
-                            a[b + 1] += c;
+                        if (b >= h[g] + f) {
+                            h[g + 1] = -1;
+                        } else if (c >= e && (j = d - c - (b - a))) {
+                            h[g] += j;
+                            h[g + 1] += j;
                         }
                     }
                 };
-                for(var q = 0; q < c.maps.length; q++){
-                    c.maps[q].forEach(x);
+                for(var j = 0; j < c.maps.length; j++){
+                    c.maps[j].forEach(i);
                 }
-                var m = false;
-                for(var b = 0; b < a.length; b += 3){
-                    if (a[b + 1] == -1) {
-                        var s = c.map(g[b] + l), h = s - o;
-                        if (h < 0 || h >= k.content.size) {
-                            m = true;
+                var k = false;
+                for(var l = 0; l < h.length; l += 3){
+                    if (h[l + 1] == -1) {
+                        var m = c.map(a[l] + f), n = m - e;
+                        if (n < 0 || n >= d.content.size) {
+                            k = true;
                             continue;
                         }
-                        var y = c.map(g[b + 1] + l, -1), t = y - o;
-                        var u = k.content.findIndex(h);
-                        var z = u.index;
-                        var v = u.offset;
-                        var r = k.maybeChild(z);
-                        if (r && v == h && v + r.nodeSize == t) {
-                            var w = a[b + 2].mapInner(c, r, s + 1, g[b] + l + 1, p);
-                            if (w != C) {
-                                a[b] = h;
-                                a[b + 1] = t;
-                                a[b + 2] = w;
+                        var o = c.map(a[l + 1] + f, -1), p = o - e;
+                        var q = d.content.findIndex(n);
+                        var r = q.index;
+                        var s = q.offset;
+                        var t = d.maybeChild(r);
+                        if (t && s == n && s + t.nodeSize == p) {
+                            var u = h[l + 2].mapInner(c, t, m + 1, a[l] + f + 1, g);
+                            if (u != ci) {
+                                h[l] = n;
+                                h[l + 1] = p;
+                                h[l + 2] = u;
                             } else {
-                                a[b + 1] = -2;
-                                m = true;
+                                h[l + 1] = -2;
+                                k = true;
                             }
                         } else {
-                            m = true;
+                            k = true;
                         }
                     }
                 }
-                if (m) {
-                    var A = co(a, g, j || [], c, o, l, p);
-                    var e = cr(A, k, 0, p);
-                    j = e.local;
-                    for(var i = 0; i < a.length; i += 3){
-                        if (a[i + 1] < 0) {
-                            a.splice(i, 3);
-                            i -= 3;
+                if (k) {
+                    var v = cm(h, a, b || [], c, e, f, g);
+                    var w = cp(v, d, 0, g);
+                    b = w.local;
+                    for(var x = 0; x < h.length; x += 3){
+                        if (h[x + 1] < 0) {
+                            h.splice(x, 3);
+                            x -= 3;
                         }
                     }
-                    for(var f = 0, n = 0; f < e.children.length; f += 3){
-                        var B = e.children[f];
-                        while(n < a.length && a[n] < B){
-                            n += 3;
+                    for(var y = 0, z = 0; y < w.children.length; y += 3){
+                        var A = w.children[y];
+                        while(z < h.length && h[z] < A){
+                            z += 3;
                         }
-                        a.splice(n, 0, e.children[f], e.children[f + 1], e.children[f + 2]);
+                        h.splice(z, 0, w.children[y], w.children[y + 1], w.children[y + 2]);
                     }
                 }
-                return new d(j && j.sort(cs), a);
+                return new ch(b && b.sort(cq), h);
             }
-            function cn(a, b) {
+            function cl(a, b) {
                 if (!b || !a.length) {
                     return a;
                 }
-                var e = [];
-                for(var c = 0; c < a.length; c++){
-                    var d = a[c];
-                    e.push(new j(d.from + b, d.to + b, d.type));
+                var c = [];
+                for(var d = 0; d < a.length; d++){
+                    var e = a[d];
+                    c.push(new cd(e.from + b, e.to + b, e.type));
                 }
-                return e;
+                return c;
             }
-            function co(b, c, d, g, h, e, i) {
-                function f(a, e) {
-                    for(var b = 0; b < a.local.length; b++){
-                        var j = a.local[b].map(g, h, e);
-                        if (j) {
-                            d.push(j);
-                        } else if (i.onRemove) {
-                            i.onRemove(a.local[b].spec);
+            function cm(a, b, c, d, e, f, g) {
+                function h(a, b) {
+                    for(var f = 0; f < a.local.length; f++){
+                        var i = a.local[f].map(d, e, b);
+                        if (i) {
+                            c.push(i);
+                        } else if (g.onRemove) {
+                            g.onRemove(a.local[f].spec);
                         }
                     }
-                    for(var c = 0; c < a.children.length; c += 3){
-                        f(a.children[c + 2], a.children[c] + e + 1);
+                    for(var j = 0; j < a.children.length; j += 3){
+                        h(a.children[j + 2], a.children[j] + b + 1);
                     }
                 }
-                for(var a = 0; a < b.length; a += 3){
-                    if (b[a + 1] == -1) {
-                        f(b[a + 2], c[a] + e + 1);
-                    }
-                }
-                return d;
-            }
-            function cp(c, e, f) {
-                if (e.isLeaf) {
-                    return null;
-                }
-                var g = f + e.nodeSize, d = null;
-                for(var a = 0, b = void 0; a < c.length; a++){
-                    if ((b = c[a]) && b.from > f && b.to < g) {
-                        (d || (d = [])).push(b);
-                        c[a] = null;
-                    }
-                }
-                return d;
-            }
-            function cq(b) {
-                var c = [];
-                for(var a = 0; a < b.length; a++){
-                    if (b[a] != null) {
-                        c.push(b[a]);
+                for(var i = 0; i < a.length; i += 3){
+                    if (a[i + 1] == -1) {
+                        h(a[i + 2], b[i] + f + 1);
                     }
                 }
                 return c;
             }
-            function cr(c, e, h, f) {
-                var g = [], i = false;
-                e.forEach(function(b, a) {
-                    var d = cp(c, b, a + h);
-                    if (d) {
-                        i = true;
-                        var e = cr(d, b, h + a + 1, f);
-                        if (e != C) {
-                            g.push(a, a + b.nodeSize, e);
+            function cn(a, b, c) {
+                if (b.isLeaf) {
+                    return null;
+                }
+                var d = c + b.nodeSize, e = null;
+                for(var f = 0, g = void 0; f < a.length; f++){
+                    if ((g = a[f]) && g.from > c && g.to < d) {
+                        (e || (e = [])).push(g);
+                        a[f] = null;
+                    }
+                }
+                return e;
+            }
+            function co(a) {
+                var b = [];
+                for(var c = 0; c < a.length; c++){
+                    if (a[c] != null) {
+                        b.push(a[c]);
+                    }
+                }
+                return b;
+            }
+            function cp(a, b, c, d) {
+                var e = [], f = false;
+                b.forEach(function(b, g) {
+                    var h = cn(a, b, g + c);
+                    if (h) {
+                        f = true;
+                        var i = cp(h, b, c + g + 1, d);
+                        if (i != ci) {
+                            e.push(g, g + b.nodeSize, i);
                         }
                     }
                 });
-                var a = cn(i ? cq(c) : c, -h).sort(cs);
-                for(var b = 0; b < a.length; b++){
-                    if (!a[b].type.valid(e, a[b])) {
-                        if (f.onRemove) {
-                            f.onRemove(a[b].spec);
+                var g = cl(f ? co(a) : a, -c).sort(cq);
+                for(var h = 0; h < g.length; h++){
+                    if (!g[h].type.valid(b, g[h])) {
+                        if (d.onRemove) {
+                            d.onRemove(g[h].spec);
                         }
-                        a.splice(b--, 1);
+                        g.splice(h--, 1);
                     }
                 }
-                return a.length || g.length ? new d(a, g) : C;
+                return g.length || e.length ? new ch(g, e) : ci;
             }
-            function cs(a, b) {
+            function cq(a, b) {
                 return a.from - b.from || a.to - b.to;
             }
-            function ct(e) {
-                var a = e;
-                for(var f = 0; f < a.length - 1; f++){
-                    var b = a[f];
-                    if (b.from != b.to) {
-                        for(var d = f + 1; d < a.length; d++){
-                            var c = a[d];
-                            if (c.from == b.from) {
-                                if (c.to != b.to) {
-                                    if (a == e) {
-                                        a = e.slice();
+            function cr(a) {
+                var b = a;
+                for(var c = 0; c < b.length - 1; c++){
+                    var d = b[c];
+                    if (d.from != d.to) {
+                        for(var e = c + 1; e < b.length; e++){
+                            var f = b[e];
+                            if (f.from == d.from) {
+                                if (f.to != d.to) {
+                                    if (b == a) {
+                                        b = a.slice();
                                     }
-                                    a[d] = c.copy(c.from, b.to);
-                                    cu(a, d + 1, c.copy(b.to, c.to));
+                                    b[e] = f.copy(f.from, d.to);
+                                    cs(b, e + 1, f.copy(d.to, f.to));
                                 }
                                 continue;
                             } else {
-                                if (c.from < b.to) {
-                                    if (a == e) {
-                                        a = e.slice();
+                                if (f.from < d.to) {
+                                    if (b == a) {
+                                        b = a.slice();
                                     }
-                                    a[f] = b.copy(b.from, c.from);
-                                    cu(a, d, b.copy(c.from, b.to));
+                                    b[c] = d.copy(d.from, f.from);
+                                    cs(b, e, d.copy(f.from, d.to));
                                 }
                                 break;
                             }
                         }
                     }
                 }
-                return a;
+                return b;
             }
-            function cu(b, a, c) {
-                while(a < b.length && cs(c, b[a]) > 0){
-                    a++;
+            function cs(a, b, c) {
+                while(b < a.length && cq(c, a[b]) > 0){
+                    b++;
                 }
-                b.splice(a, 0, c);
+                a.splice(b, 0, c);
             }
-            function cv(a) {
+            function ct(a) {
                 var b = [];
-                a.someProp("decorations", function(d) {
-                    var c = d(a.state);
-                    if (c && c != C) {
-                        b.push(c);
+                a.someProp("decorations", function(c) {
+                    var d = c(a.state);
+                    if (d && d != ci) {
+                        b.push(d);
                     }
                 });
                 if (a.cursorWrapper) {
-                    b.push(d.create(a.state.doc, [
+                    b.push(ch.create(a.state.doc, [
                         a.cursorWrapper.deco, 
                     ]));
                 }
-                return l.from(b);
+                return cj.from(b);
             }
-            var c = function c(a, b) {
-                this._props = b;
-                this.state = b.state;
-                this.directPlugins = b.plugins || [];
+            var cu = function a(b, c) {
+                this._props = c;
+                this.state = c.state;
+                this.directPlugins = c.plugins || [];
                 this.directPlugins.forEach(cC);
                 this.dispatch = this.dispatch.bind(this);
                 this._root = null;
                 this.focused = false;
                 this.trackWrites = null;
-                this.dom = (a && a.mount) || document.createElement("div");
-                if (a) {
-                    if (a.appendChild) {
-                        a.appendChild(this.dom);
-                    } else if (a.apply) {
-                        a(this.dom);
-                    } else if (a.mount) {
+                this.dom = (b && b.mount) || document.createElement("div");
+                if (b) {
+                    if (b.appendChild) {
+                        b.appendChild(this.dom);
+                    } else if (b.apply) {
+                        b(this.dom);
+                    } else if (b.mount) {
                         this.mounted = true;
                     }
                 }
@@ -4895,15 +4895,15 @@
                 this.cursorWrapper = null;
                 cx(this);
                 this.nodeViews = cA(this);
-                this.docView = aE(this.state.doc, cw(this), cv(this), this.dom, this);
+                this.docView = am(this.state.doc, cw(this), ct(this), this.dom, this);
                 this.lastSelectedViewDesc = null;
                 this.dragging = null;
-                bP(this);
+                bD(this);
                 this.prevDirectPlugins = [];
                 this.pluginViews = [];
                 this.updatePluginViews();
             };
-            var v = {
+            var cv = {
                 props: {
                     configurable: true
                 },
@@ -4911,7 +4911,7 @@
                     configurable: true
                 }
             };
-            v.props.get = function() {
+            cv.props.get = function() {
                 if (this._props.state != this.state) {
                     var a = this._props;
                     this._props = {};
@@ -4922,210 +4922,210 @@
                 }
                 return this._props;
             };
-            c.prototype.update = function b(a) {
-                if (a.handleDOMEvents != this._props.handleDOMEvents) {
-                    bS(this);
+            cu.prototype.update = function a(b) {
+                if (b.handleDOMEvents != this._props.handleDOMEvents) {
+                    bG(this);
                 }
-                this._props = a;
-                if (a.plugins) {
-                    a.plugins.forEach(cC);
-                    this.directPlugins = a.plugins;
+                this._props = b;
+                if (b.plugins) {
+                    b.plugins.forEach(cC);
+                    this.directPlugins = b.plugins;
                 }
-                this.updateStateInner(a.state, true);
+                this.updateStateInner(b.state, true);
             };
-            c.prototype.setProps = function e(b) {
-                var a = {};
-                for(var c in this._props){
-                    a[c] = this._props[c];
+            cu.prototype.setProps = function a(b) {
+                var c = {};
+                for(var d in this._props){
+                    c[d] = this._props[d];
                 }
-                a.state = this.state;
-                for(var d in b){
-                    a[d] = b[d];
+                c.state = this.state;
+                for(var e in b){
+                    c[e] = b[e];
                 }
-                this.update(a);
+                this.update(c);
             };
-            c.prototype.updateState = function b(a) {
-                this.updateStateInner(a, this.state.plugins != a.plugins);
+            cu.prototype.updateState = function a(b) {
+                this.updateStateInner(b, this.state.plugins != b.plugins);
             };
-            c.prototype.updateStateInner = function p(b, k) {
-                var q = this;
-                var c = this.state, e = false, d = false;
+            cu.prototype.updateStateInner = function a(b, c) {
+                var e = this;
+                var f = this.state, h = false, i = false;
                 if (b.storedMarks && this.composing) {
-                    b9(this);
-                    d = true;
+                    b$(this);
+                    i = true;
                 }
                 this.state = b;
-                if (k) {
-                    var l = cA(this);
-                    if (cB(l, this.nodeViews)) {
-                        this.nodeViews = l;
-                        e = true;
+                if (c) {
+                    var j = cA(this);
+                    if (cB(j, this.nodeViews)) {
+                        this.nodeViews = j;
+                        h = true;
                     }
-                    bS(this);
+                    bG(this);
                 }
                 this.editable = cy(this);
                 cx(this);
-                var f = cv(this), g = cw(this);
-                var h = k ? "reset" : b.scrollToSelection > c.scrollToSelection ? "to selection" : "preserve";
-                var i = e || !this.docView.matchesNode(b.doc, g, f);
-                if (i || !b.selection.eq(c.selection)) {
-                    d = true;
+                var k = ct(this), l = cw(this);
+                var m = c ? "reset" : b.scrollToSelection > f.scrollToSelection ? "to selection" : "preserve";
+                var n = h || !this.docView.matchesNode(b.doc, l, k);
+                if (n || !b.selection.eq(f.selection)) {
+                    i = true;
                 }
-                var m = h == "preserve" && d && this.dom.style.overflowAnchor == null && X(this);
-                if (d) {
+                var o = m == "preserve" && i && this.dom.style.overflowAnchor == null && C(this);
+                if (i) {
                     this.domObserver.stop();
-                    var j = i && (a.ie || a.chrome) && !this.composing && !c.selection.empty && !b.selection.empty && cz(c.selection, b.selection);
-                    if (i) {
-                        var o = a.chrome ? (this.trackWrites = this.root.getSelection().focusNode) : null;
-                        if (e || !this.docView.update(b.doc, g, f, this)) {
+                    var p = n && (g.ie || g.chrome) && !this.composing && !f.selection.empty && !b.selection.empty && cz(f.selection, b.selection);
+                    if (n) {
+                        var q = g.chrome ? (this.trackWrites = this.root.getSelection().focusNode) : null;
+                        if (h || !this.docView.update(b.doc, l, k, this)) {
                             this.docView.updateOuterDeco([]);
                             this.docView.destroy();
-                            this.docView = aE(b.doc, g, f, this.dom, this);
+                            this.docView = am(b.doc, l, k, this.dom, this);
                         }
-                        if (o && !this.trackWrites) {
-                            j = true;
+                        if (q && !this.trackWrites) {
+                            p = true;
                         }
                     }
-                    if (j || !(this.mouseDown && this.domObserver.currentSelection.eq(this.root.getSelection()) && a9(this))) {
-                        aZ(this, j);
+                    if (p || !(this.mouseDown && this.domObserver.currentSelection.eq(this.root.getSelection()) && aV(this))) {
+                        aJ(this, p);
                     } else {
-                        a4(this, b.selection);
+                        aQ(this, b.selection);
                         this.domObserver.setCurSelection();
                     }
                     this.domObserver.start();
                 }
-                this.updatePluginViews(c);
-                if (h == "reset") {
+                this.updatePluginViews(f);
+                if (m == "reset") {
                     this.dom.scrollTop = 0;
-                } else if (h == "to selection") {
-                    var n = this.root.getSelection().focusNode;
+                } else if (m == "to selection") {
+                    var r = this.root.getSelection().focusNode;
                     if (this.someProp("handleScrollToSelection", function(a) {
-                        return a(q);
+                        return a(e);
                     })) ;
-                    else if (b.selection instanceof E.NodeSelection) {
-                        W(this, this.docView.domAfterPos(b.selection.from).getBoundingClientRect(), n);
+                    else if (b.selection instanceof d.NodeSelection) {
+                        B(this, this.docView.domAfterPos(b.selection.from).getBoundingClientRect(), r);
                     } else {
-                        W(this, this.coordsAtPos(b.selection.head, 1), n);
+                        B(this, this.coordsAtPos(b.selection.head, 1), r);
                     }
-                } else if (m) {
-                    Z(m);
+                } else if (o) {
+                    E(o);
                 }
             };
-            c.prototype.destroyPluginViews = function b() {
-                var a;
-                while((a = this.pluginViews.pop())){
-                    if (a.destroy) {
-                        a.destroy();
+            cu.prototype.destroyPluginViews = function a() {
+                var b;
+                while((b = this.pluginViews.pop())){
+                    if (b.destroy) {
+                        b.destroy();
                     }
                 }
             };
-            c.prototype.updatePluginViews = function h(a) {
-                if (!a || a.plugins != this.state.plugins || this.directPlugins != this.prevDirectPlugins) {
+            cu.prototype.updatePluginViews = function a(b) {
+                if (!b || b.plugins != this.state.plugins || this.directPlugins != this.prevDirectPlugins) {
                     this.prevDirectPlugins = this.directPlugins;
                     this.destroyPluginViews();
-                    for(var b = 0; b < this.directPlugins.length; b++){
-                        var e = this.directPlugins[b];
-                        if (e.spec.view) {
-                            this.pluginViews.push(e.spec.view(this));
+                    for(var c = 0; c < this.directPlugins.length; c++){
+                        var d = this.directPlugins[c];
+                        if (d.spec.view) {
+                            this.pluginViews.push(d.spec.view(this));
                         }
                     }
-                    for(var c = 0; c < this.state.plugins.length; c++){
-                        var f = this.state.plugins[c];
+                    for(var e = 0; e < this.state.plugins.length; e++){
+                        var f = this.state.plugins[e];
                         if (f.spec.view) {
                             this.pluginViews.push(f.spec.view(this));
                         }
                     }
                 } else {
-                    for(var d = 0; d < this.pluginViews.length; d++){
-                        var g = this.pluginViews[d];
-                        if (g.update) {
-                            g.update(this, a);
+                    for(var g = 0; g < this.pluginViews.length; g++){
+                        var h = this.pluginViews[g];
+                        if (h.update) {
+                            h.update(this, b);
                         }
                     }
                 }
             };
-            c.prototype.someProp = function j(c, a) {
-                var d = this._props && this._props[c], b;
-                if (d != null && (b = a ? a(d) : d)) {
-                    return b;
+            cu.prototype.someProp = function a(b, c) {
+                var d = this._props && this._props[b], e;
+                if (d != null && (e = c ? c(d) : d)) {
+                    return e;
                 }
-                for(var e = 0; e < this.directPlugins.length; e++){
-                    var f = this.directPlugins[e].props[c];
-                    if (f != null && (b = a ? a(f) : f)) {
-                        return b;
+                for(var f = 0; f < this.directPlugins.length; f++){
+                    var g = this.directPlugins[f].props[b];
+                    if (g != null && (e = c ? c(g) : g)) {
+                        return e;
                     }
                 }
-                var g = this.state.plugins;
-                if (g) {
-                    for(var h = 0; h < g.length; h++){
-                        var i = g[h].props[c];
-                        if (i != null && (b = a ? a(i) : i)) {
-                            return b;
+                var h = this.state.plugins;
+                if (h) {
+                    for(var i = 0; i < h.length; i++){
+                        var j = h[i].props[b];
+                        if (j != null && (e = c ? c(j) : j)) {
+                            return e;
                         }
                     }
                 }
             };
-            c.prototype.hasFocus = function a() {
+            cu.prototype.hasFocus = function a() {
                 return this.root.activeElement == this.dom;
             };
-            c.prototype.focus = function a() {
+            cu.prototype.focus = function a() {
                 this.domObserver.stop();
                 if (this.editable) {
-                    aa(this.dom);
+                    H(this.dom);
                 }
-                aZ(this);
+                aJ(this);
                 this.domObserver.start();
             };
-            v.root.get = function() {
-                var b = this._root;
-                if (b == null) {
-                    for(var a = this.dom.parentNode; a; a = a.parentNode){
-                        if (a.nodeType == 9 || (a.nodeType == 11 && a.host)) {
-                            if (!a.getSelection) {
-                                Object.getPrototypeOf(a).getSelection = function() {
+            cv.root.get = function() {
+                var a = this._root;
+                if (a == null) {
+                    for(var b = this.dom.parentNode; b; b = b.parentNode){
+                        if (b.nodeType == 9 || (b.nodeType == 11 && b.host)) {
+                            if (!b.getSelection) {
+                                Object.getPrototypeOf(b).getSelection = function() {
                                     return document.getSelection();
                                 };
                             }
-                            return (this._root = a);
+                            return (this._root = b);
                         }
                     }
                 }
-                return b || document;
+                return a || document;
             };
-            c.prototype.posAtCoords = function b(a) {
-                return ai(this, a);
+            cu.prototype.posAtCoords = function a(b) {
+                return P(this, b);
             };
-            c.prototype.coordsAtPos = function c(b, a) {
-                if (a === void 0) a = 1;
-                return al(this, b, a);
+            cu.prototype.coordsAtPos = function a(b, c) {
+                if (c === void 0) c = 1;
+                return S(this, b, c);
             };
-            c.prototype.domAtPos = function c(b, a) {
-                if (a === void 0) a = 0;
-                return this.docView.domFromPos(b, a);
+            cu.prototype.domAtPos = function a(b, c) {
+                if (c === void 0) c = 0;
+                return this.docView.domFromPos(b, c);
             };
-            c.prototype.nodeDOM = function c(b) {
-                var a = this.docView.descAt(b);
-                return a ? a.nodeDOM : null;
+            cu.prototype.nodeDOM = function a(b) {
+                var c = this.docView.descAt(b);
+                return c ? c.nodeDOM : null;
             };
-            c.prototype.posAtDOM = function e(c, d, a) {
-                if (a === void 0) a = -1;
-                var b = this.docView.posFromDOM(c, d, a);
-                if (b == null) {
+            cu.prototype.posAtDOM = function a(b, c, d) {
+                if (d === void 0) d = -1;
+                var e = this.docView.posFromDOM(b, c, d);
+                if (e == null) {
                     throw new RangeError("DOM position not inside the editor");
                 }
-                return b;
+                return e;
             };
-            c.prototype.endOfTextblock = function c(a, b) {
-                return av(this, b || this.state, a);
+            cu.prototype.endOfTextblock = function a(b, c) {
+                return aa(this, c || this.state, b);
             };
-            c.prototype.destroy = function a() {
+            cu.prototype.destroy = function a() {
                 if (!this.docView) {
                     return;
                 }
-                bR(this);
+                bF(this);
                 this.destroyPluginViews();
                 if (this.mounted) {
-                    this.docView.update(this.state.doc, [], cv(this), this);
+                    this.docView.update(this.state.doc, [], ct(this), this);
                     this.dom.textContent = "";
                 } else if (this.dom.parentNode) {
                     this.dom.parentNode.removeChild(this.dom);
@@ -5133,42 +5133,42 @@
                 this.docView.destroy();
                 this.docView = null;
             };
-            c.prototype.dispatchEvent = function b(a) {
-                return bV(this, a);
+            cu.prototype.dispatchEvent = function a(b) {
+                return bJ(this, b);
             };
-            c.prototype.dispatch = function c(a) {
-                var b = this._props.dispatchTransaction;
-                if (b) {
-                    b.call(this, a);
+            cu.prototype.dispatch = function a(b) {
+                var c = this._props.dispatchTransaction;
+                if (c) {
+                    c.call(this, b);
                 } else {
-                    this.updateState(this.state.apply(a));
+                    this.updateState(this.state.apply(b));
                 }
             };
-            Object.defineProperties(c.prototype, v);
-            function cw(b) {
-                var a = Object.create(null);
-                a.class = "ProseMirror";
-                a.contenteditable = String(b.editable);
-                a.translate = "no";
-                b.someProp("attributes", function(d) {
-                    if (typeof d == "function") {
-                        d = d(b.state);
+            Object.defineProperties(cu.prototype, cv);
+            function cw(a) {
+                var b = Object.create(null);
+                b.class = "ProseMirror";
+                b.contenteditable = String(a.editable);
+                b.translate = "no";
+                a.someProp("attributes", function(c) {
+                    if (typeof c == "function") {
+                        c = c(a.state);
                     }
-                    if (d) {
-                        for(var c in d){
-                            if (c == "class") {
-                                a.class += " " + d[c];
+                    if (c) {
+                        for(var d in c){
+                            if (d == "class") {
+                                b.class += " " + c[d];
                             }
-                            if (c == "style") {
-                                a.style = (a.style ? a.style + ";" : "") + d[c];
-                            } else if (!a[c] && c != "contenteditable" && c != "nodeName") {
-                                a[c] = String(d[c]);
+                            if (d == "style") {
+                                b.style = (b.style ? b.style + ";" : "") + c[d];
+                            } else if (!b[d] && d != "contenteditable" && d != "nodeName") {
+                                b[d] = String(c[d]);
                             }
                         }
                     }
                 });
                 return [
-                    j.node(0, b.state.doc.content.size, a)
+                    cd.node(0, a.state.doc.content.size, b)
                 ];
             }
             function cx(a) {
@@ -5178,7 +5178,7 @@
                     b.setAttribute("mark-placeholder", "true");
                     a.cursorWrapper = {
                         dom: b,
-                        deco: j.widget(a.state.selection.head, b, {
+                        deco: cd.widget(a.state.selection.head, b, {
                             raw: true,
                             marks: a.markCursor
                         })
@@ -5198,10 +5198,10 @@
             }
             function cA(a) {
                 var b = {};
-                a.someProp("nodeViews", function(c) {
-                    for(var a in c){
-                        if (!Object.prototype.hasOwnProperty.call(b, a)) {
-                            b[a] = c[a];
+                a.someProp("nodeViews", function(a) {
+                    for(var c in a){
+                        if (!Object.prototype.hasOwnProperty.call(b, c)) {
+                            b[c] = a[c];
                         }
                     }
                 });

@@ -106,7 +106,7 @@ impl UseIsNan {
                             }
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {
-                                    if &*value == "NaN" {
+                                    if value == "NaN" {
                                         self.emit_report(expr_span.unwrap_or(*span), label_msg);
                                     }
                                 }

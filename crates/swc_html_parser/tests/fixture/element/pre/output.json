@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 584,
+        "end": 591,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 295,
+            "end": 302,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -86,7 +86,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -95,7 +96,7 @@
                 "end": 72,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -133,7 +134,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -142,7 +144,7 @@
                 "end": 213,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -180,7 +182,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -189,13 +192,13 @@
                 "end": 271,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 271,
-                "end": 286,
+                "end": 294,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -209,10 +212,11 @@
                     "end": 286,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -221,10 +225,11 @@
                 "end": 295,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -233,7 +238,7 @@
             "end": 303,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -253,13 +258,13 @@
                 "end": 310,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 310,
-                "end": 569,
+                "end": 575,
                 "ctxt": 0
               },
               "tagName": "pre",
@@ -273,10 +278,11 @@
                     "end": 569,
                     "ctxt": 0
                   },
-                  "value": "  L          TE\n    A       A\n      C    V\n       R A\n       DOU\n       LOU\n      REUSE\n      QUE TU\n      PORTES\n    ET QUI T'\n    ORNE O CI\n     VILISÉ\n    OTE-  TU VEUX\n     LA    BIEN\n    SI      RESPI\n            RER       - Apollinaire\n\t\t\t\ttest\n\n"
+                  "data": "  L          TE\n    A       A\n      C    V\n       R A\n       DOU\n       LOU\n      REUSE\n      QUE TU\n      PORTES\n    ET QUI T'\n    ORNE O CI\n     VILISÉ\n    OTE-  TU VEUX\n     LA    BIEN\n    SI      RESPI\n            RER       - Apollinaire\n\t\t\t\ttest\n\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -285,13 +291,15 @@
                 "end": 584,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

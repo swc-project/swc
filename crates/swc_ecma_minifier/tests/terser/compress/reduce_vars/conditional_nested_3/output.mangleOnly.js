@@ -1,10 +1,10 @@
-var b = 2, a = 0;
+var a = 2, b = 0;
 (function c(d) {
-    0 < b-- && e((d = 1));
+    0 < a-- && e((d = 1));
     function e() {
-        d && a++;
+        d && b++;
     }
     e();
-    0 < b-- && c();
+    0 < a-- && c();
 })();
-console.log(a);
+console.log(b);

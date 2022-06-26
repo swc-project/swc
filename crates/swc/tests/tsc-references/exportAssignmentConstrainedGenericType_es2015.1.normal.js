@@ -3,7 +3,6 @@
 class Foo {
     constructor(x){}
 }
-module.exports = Foo;
 // @Filename: foo_1.ts
 const foo = require("./foo_0");
 var x = new foo(true); // Should error
@@ -12,4 +11,5 @@ var y = new foo({
     b: 42
 }); // Should be OK
 var z = y.test.b;
+module.exports = Foo;
 export { };

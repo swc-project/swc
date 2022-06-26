@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // accessing any private outside the class is an error
 var C = /*#__PURE__*/ function() {
     "use strict";

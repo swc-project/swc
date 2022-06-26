@@ -1,4 +1,4 @@
-import _define_enumerable_properties from "@swc/helpers/lib/_define_enumerable_properties.js";
+import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_properties.mjs";
 // @target: es5
 var s;
 var n;

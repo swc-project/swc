@@ -1,21 +1,29 @@
-function b() {
+function a() {
     throw (l = k());
 }
-function c(a) {
+function b(a) {
     throw (a = k());
 }
-function d() {
+function c() {
     var a;
     throw (a = k());
 }
-function e() {
+function d() {
     try {
         throw (l = k());
     } catch (a) {
         console.log(l);
     }
 }
-function f(a) {
+function e(a) {
+    try {
+        throw (a = k());
+    } catch (b) {
+        console.log(a);
+    }
+}
+function f() {
+    var a;
     try {
         throw (a = k());
     } catch (b) {
@@ -23,28 +31,20 @@ function f(a) {
     }
 }
 function g() {
-    var a;
-    try {
-        throw (a = k());
-    } catch (b) {
-        console.log(a);
-    }
-}
-function h() {
     try {
         throw (l = k());
     } finally{
         console.log(l);
     }
 }
-function i(a) {
+function h(a) {
     try {
         throw (a = k());
     } finally{
         console.log(a);
     }
 }
-function j() {
+function i() {
     var a;
     try {
         throw (a = k());
@@ -52,14 +52,15 @@ function j() {
         console.log(a);
     }
 }
-function a(a) {
+function j(j) {
     var m = 0;
     k = function() {
-        m += a;
-        if (a < 0) throw m;
+        m += j;
+        if (j < 0) throw m;
         return m;
     };
     [
+        a,
         b,
         c,
         d,
@@ -67,8 +68,7 @@ function a(a) {
         f,
         g,
         h,
-        i,
-        j
+        i
     ].forEach(function(a, b) {
         l = null;
         try {
@@ -80,5 +80,5 @@ function a(a) {
     });
 }
 var k, l;
-a(1);
-a(-1);
+j(1);
+j(-1);

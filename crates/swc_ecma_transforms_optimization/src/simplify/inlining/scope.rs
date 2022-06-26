@@ -600,7 +600,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn is_inline_prevented(&self, e: &Expr) -> bool {
-        match &*e {
+        match e {
             Expr::Ident(ref ri) => {
                 if let Some(v) = self.find_binding_from_current(&ri.to_id()) {
                     return v.inline_prevented.get();

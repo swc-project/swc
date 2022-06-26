@@ -1,0 +1,42 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
+ 1 | // comment
+   : ^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
+ 1 | // comment
+   : ^^^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
+ 1 | // comment
+   : ^^^^^^^^^^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
+ 1 | // comment
+   : ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
+ 1 | // comment
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
+ 1 | // comment
+   :   ^
+   `----
+
+  x Ident { value: Atom('comment' type=inline), raw: Atom('comment' type=inline) }
+   ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
+ 1 | // comment
+   :    ^^^^^^^
+   `----

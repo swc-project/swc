@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 16,
-        "end": 4702,
+        "end": 4709,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 60,
-            "end": 482,
+            "end": 489,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 71,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 71,
-                "end": 92,
+                "end": 100,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,10 +80,11 @@
                     "end": 92,
                     "ctxt": 0
                   },
-                  "value": "XTech SVG Demo"
+                  "data": "XTech SVG Demo"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -92,13 +93,13 @@
                 "end": 105,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 105,
-                "end": 325,
+                "end": 333,
                 "ctxt": 0
               },
               "tagName": "style",
@@ -112,10 +113,11 @@
                     "end": 325,
                     "ctxt": 0
                   },
-                  "value": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    "
+                  "data": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -124,13 +126,13 @@
                 "end": 338,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 338,
-                "end": 472,
+                "end": 481,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -144,10 +146,11 @@
                     "end": 472,
                     "ctxt": 0
                   },
-                  "value": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    "
+                  "data": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -156,10 +159,11 @@
                 "end": 482,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -168,7 +172,7 @@
             "end": 490,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -213,13 +217,13 @@
                 "end": 615,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 615,
-                "end": 920,
+                "end": 927,
                 "ctxt": 0
               },
               "tagName": "form",
@@ -233,13 +237,13 @@
                     "end": 626,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 626,
-                    "end": 908,
+                    "end": 919,
                     "ctxt": 0
                   },
                   "tagName": "fieldset",
@@ -253,13 +257,13 @@
                         "end": 645,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 645,
-                        "end": 662,
+                        "end": 671,
                         "ctxt": 0
                       },
                       "tagName": "legend",
@@ -273,10 +277,11 @@
                             "end": 662,
                             "ctxt": 0
                           },
-                          "value": "HTML Form"
+                          "data": "HTML Form"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -285,13 +290,13 @@
                         "end": 680,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 680,
-                        "end": 810,
+                        "end": 821,
                         "ctxt": 0
                       },
                       "tagName": "p",
@@ -302,7 +307,7 @@
                           "type": "Element",
                           "span": {
                             "start": 683,
-                            "end": 725,
+                            "end": 733,
                             "ctxt": 0
                           },
                           "tagName": "label",
@@ -316,10 +321,11 @@
                                 "end": 725,
                                 "ctxt": 0
                               },
-                              "value": "Введите что-нибудь:"
+                              "data": "Введите что-нибудь:"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -328,7 +334,7 @@
                             "end": 746,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -354,7 +360,8 @@
                             }
                           ],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         },
                         {
                           "type": "Text",
@@ -363,13 +370,13 @@
                             "end": 779,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 779,
-                            "end": 810,
+                            "end": 817,
                             "ctxt": 0
                           },
                           "tagName": "span",
@@ -396,13 +403,15 @@
                                 "end": 810,
                                 "ctxt": 0
                               },
-                              "value": "Incorrect value!"
+                              "data": "Incorrect value!"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -411,13 +420,13 @@
                         "end": 830,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 830,
-                        "end": 899,
+                        "end": 903,
                         "ctxt": 0
                       },
                       "tagName": "p",
@@ -472,10 +481,12 @@
                             }
                           ],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -484,10 +495,11 @@
                         "end": 908,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -496,10 +508,11 @@
                     "end": 920,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -508,13 +521,13 @@
                 "end": 929,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 929,
-                "end": 1436,
+                "end": 1442,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -601,13 +614,13 @@
                     "end": 1155,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 1155,
-                    "end": 1274,
+                    "end": 1291,
                     "ctxt": 0
                   },
                   "tagName": "linearGradient",
@@ -634,7 +647,7 @@
                         "end": 1194,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -672,7 +685,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -681,7 +695,7 @@
                         "end": 1236,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -719,7 +733,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -728,10 +743,11 @@
                         "end": 1274,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -740,7 +756,7 @@
                     "end": 1296,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -814,7 +830,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -823,7 +840,7 @@
                     "end": 1374,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -885,7 +902,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -894,10 +912,11 @@
                     "end": 1436,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -906,13 +925,13 @@
                 "end": 1444,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 1444,
-                "end": 1947,
+                "end": 1953,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -951,13 +970,13 @@
                     "end": 1511,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 1511,
-                    "end": 1622,
+                    "end": 1631,
                     "ctxt": 0
                   },
                   "tagName": "filter",
@@ -1032,7 +1051,7 @@
                         "end": 1579,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1058,7 +1077,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -1067,10 +1087,11 @@
                         "end": 1622,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1079,13 +1100,13 @@
                     "end": 1636,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 1636,
-                    "end": 1746,
+                    "end": 1755,
                     "ctxt": 0
                   },
                   "tagName": "filter",
@@ -1160,7 +1181,7 @@
                         "end": 1704,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1186,7 +1207,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -1195,10 +1217,11 @@
                         "end": 1746,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1207,7 +1230,7 @@
                     "end": 1761,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Element",
@@ -1281,7 +1304,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -1290,7 +1314,7 @@
                     "end": 1841,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1364,7 +1388,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -1373,10 +1398,11 @@
                     "end": 1947,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1385,13 +1411,13 @@
                 "end": 1955,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 1955,
-                "end": 2078,
+                "end": 2084,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -1430,13 +1456,13 @@
                     "end": 2022,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2022,
-                    "end": 2070,
+                    "end": 2077,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1463,10 +1489,11 @@
                         "end": 2070,
                         "ctxt": 0
                       },
-                      "value": "This is some English text"
+                      "data": "This is some English text"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1475,10 +1502,11 @@
                     "end": 2078,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1487,13 +1515,13 @@
                 "end": 2086,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2086,
-                "end": 2406,
+                "end": 2412,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -1568,7 +1596,7 @@
                     "end": 2223,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1654,7 +1682,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -1663,10 +1692,11 @@
                     "end": 2406,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1675,13 +1705,13 @@
                 "end": 2414,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2414,
-                "end": 2603,
+                "end": 2609,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -1720,13 +1750,13 @@
                     "end": 2480,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2480,
-                    "end": 2530,
+                    "end": 2537,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1765,10 +1795,11 @@
                         "end": 2530,
                         "ctxt": 0
                       },
-                      "value": "Default   spacing"
+                      "data": "Default   spacing"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1777,13 +1808,13 @@
                     "end": 2542,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2542,
-                    "end": 2595,
+                    "end": 2602,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1822,10 +1853,11 @@
                         "end": 2595,
                         "ctxt": 0
                       },
-                      "value": "Preserved   spacing"
+                      "data": "Preserved   spacing"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1834,10 +1866,11 @@
                     "end": 2603,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1846,13 +1879,13 @@
                 "end": 2611,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2611,
-                "end": 2918,
+                "end": 2924,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -1891,13 +1924,13 @@
                     "end": 2678,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2678,
-                    "end": 2726,
+                    "end": 2733,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1924,10 +1957,11 @@
                         "end": 2726,
                         "ctxt": 0
                       },
-                      "value": "This is some English text"
+                      "data": "This is some English text"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1936,13 +1970,13 @@
                     "end": 2738,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2738,
-                    "end": 2913,
+                    "end": 2917,
                     "ctxt": 0
                   },
                   "tagName": "a",
@@ -1981,13 +2015,13 @@
                         "end": 2864,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 2864,
-                        "end": 2901,
+                        "end": 2908,
                         "ctxt": 0
                       },
                       "tagName": "text",
@@ -2026,10 +2060,11 @@
                             "end": 2901,
                             "ctxt": 0
                           },
-                          "value": "An example link."
+                          "data": "An example link."
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2038,10 +2073,11 @@
                         "end": 2913,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2050,10 +2086,11 @@
                     "end": 2918,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2062,13 +2099,13 @@
                 "end": 2926,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2926,
-                "end": 3832,
+                "end": 3838,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -2107,13 +2144,13 @@
                     "end": 2993,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2993,
-                    "end": 3139,
+                    "end": 3147,
                     "ctxt": 0
                   },
                   "tagName": "style",
@@ -2127,10 +2164,11 @@
                         "end": 3139,
                         "ctxt": 0
                       },
-                      "value": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    "
+                      "data": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2139,7 +2177,7 @@
                     "end": 3153,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Element",
@@ -2165,7 +2203,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -2174,7 +2213,7 @@
                     "end": 3205,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Comment",
@@ -2192,13 +2231,13 @@
                     "end": 3260,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 3260,
-                    "end": 3815,
+                    "end": 3831,
                     "ctxt": 0
                   },
                   "tagName": "foreignObject",
@@ -2261,7 +2300,7 @@
                         "end": 3323,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Comment",
@@ -2279,13 +2318,13 @@
                         "end": 3522,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 3522,
-                        "end": 3804,
+                        "end": 3810,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -2312,10 +2351,11 @@
                             "end": 3804,
                             "ctxt": 0
                           },
-                          "value": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        "
+                          "data": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2324,10 +2364,11 @@
                         "end": 3815,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2336,10 +2377,11 @@
                     "end": 3832,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2348,13 +2390,13 @@
                 "end": 3840,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 3840,
-                "end": 4686,
+                "end": 4692,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -2417,13 +2459,13 @@
                     "end": 3925,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 3925,
-                    "end": 4681,
+                    "end": 4685,
                     "ctxt": 0
                   },
                   "tagName": "g",
@@ -2450,13 +2492,13 @@
                         "end": 3966,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 3966,
-                        "end": 4103,
+                        "end": 4110,
                         "ctxt": 0
                       },
                       "tagName": "path",
@@ -2500,7 +2542,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2509,13 +2552,13 @@
                         "end": 4119,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 4119,
-                        "end": 4155,
+                        "end": 4162,
                         "ctxt": 0
                       },
                       "tagName": "text",
@@ -2542,10 +2585,11 @@
                             "end": 4155,
                             "ctxt": 0
                           },
-                          "value": "1"
+                          "data": "1"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2554,13 +2598,13 @@
                         "end": 4171,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 4171,
-                        "end": 4667,
+                        "end": 4676,
                         "ctxt": 0
                       },
                       "tagName": "switch",
@@ -2587,13 +2631,13 @@
                             "end": 4222,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 4222,
-                            "end": 4603,
+                            "end": 4619,
                             "ctxt": 0
                           },
                           "tagName": "foreignObject",
@@ -2644,13 +2688,13 @@
                                 "end": 4361,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 4361,
-                                "end": 4583,
+                                "end": 4590,
                                 "ctxt": 0
                               },
                               "tagName": "math",
@@ -2664,13 +2708,13 @@
                                     "end": 4388,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 4388,
-                                    "end": 4558,
+                                    "end": 4566,
                                     "ctxt": 0
                                   },
                                   "tagName": "msqrt",
@@ -2684,13 +2728,13 @@
                                         "end": 4420,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
                                       "span": {
                                         "start": 4420,
-                                        "end": 4425,
+                                        "end": 4430,
                                         "ctxt": 0
                                       },
                                       "tagName": "mn",
@@ -2704,10 +2748,11 @@
                                             "end": 4425,
                                             "ctxt": 0
                                           },
-                                          "value": "2"
+                                          "data": "2"
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -2716,13 +2761,13 @@
                                         "end": 4455,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
                                       "span": {
                                         "start": 4455,
-                                        "end": 4460,
+                                        "end": 4465,
                                         "ctxt": 0
                                       },
                                       "tagName": "mi",
@@ -2736,10 +2781,11 @@
                                             "end": 4460,
                                             "ctxt": 0
                                           },
-                                          "value": "r"
+                                          "data": "r"
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -2748,13 +2794,13 @@
                                         "end": 4490,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
                                       "span": {
                                         "start": 4490,
-                                        "end": 4497,
+                                        "end": 4502,
                                         "ctxt": 0
                                       },
                                       "tagName": "mo",
@@ -2768,10 +2814,11 @@
                                             "end": 4497,
                                             "ctxt": 0
                                           },
-                                          "value": "−"
+                                          "data": "−"
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -2780,13 +2827,13 @@
                                         "end": 4527,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
                                       "span": {
                                         "start": 4527,
-                                        "end": 4532,
+                                        "end": 4537,
                                         "ctxt": 0
                                       },
                                       "tagName": "mn",
@@ -2800,10 +2847,11 @@
                                             "end": 4532,
                                             "ctxt": 0
                                           },
-                                          "value": "1"
+                                          "data": "1"
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -2812,10 +2860,11 @@
                                         "end": 4558,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                    "
+                                      "data": "\n                    "
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2824,10 +2873,11 @@
                                     "end": 4583,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -2836,10 +2886,11 @@
                                 "end": 4603,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -2848,13 +2899,13 @@
                             "end": 4632,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 4632,
-                            "end": 4651,
+                            "end": 4658,
                             "ctxt": 0
                           },
                           "tagName": "text",
@@ -2868,10 +2919,11 @@
                                 "end": 4651,
                                 "ctxt": 0
                               },
-                              "value": "\\sqrt{2r - 1}"
+                              "data": "\\sqrt{2r - 1}"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -2880,10 +2932,11 @@
                             "end": 4667,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2892,10 +2945,11 @@
                         "end": 4681,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2904,10 +2958,11 @@
                     "end": 4686,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2916,13 +2971,15 @@
                 "end": 4702,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

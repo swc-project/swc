@@ -1,0 +1,22 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/78.fragment_select/input.html:1:1]
+ 1 | </select><option>
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/78.fragment_select/input.html:1:1]
+ 1 | </select><option>
+   :          ^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/78.fragment_select/input.html:1:1]
+ 1 | </select><option>
+   :          ^^^^^^^^
+   `----

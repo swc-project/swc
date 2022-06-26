@@ -1,4 +1,4 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 function _await() {
     return _await1.apply(this, arguments);

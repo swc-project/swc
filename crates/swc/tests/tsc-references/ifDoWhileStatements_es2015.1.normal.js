@@ -11,24 +11,24 @@ function F2(x) {
     return x < 42;
 }
 var M;
-(function(M1) {
+(function(M) {
     class A {
     }
-    M1.A = A;
-    function F21(x) {
+    M.A = A;
+    function F2(x) {
         return x.toString();
     }
-    M1.F2 = F21;
+    M.F2 = F2;
 })(M || (M = {}));
 var N;
-(function(N1) {
+(function(N) {
     class A {
     }
-    N1.A = A;
-    function F22(x) {
+    N.A = A;
+    function F2(x) {
         return x.toString();
     }
-    N1.F2 = F22;
+    N.F2 = F2;
 })(N || (N = {}));
 // literals
 if (true) {}

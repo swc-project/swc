@@ -1,84 +1,84 @@
-function a(b, e, l, f, m) {
-    const q = ".";
-    var g = typeof b;
-    if (g === "undefined" || g === "boolean") {
+function a(b, c, d, e, f) {
+    const g = ".";
+    var h = typeof b;
+    if (h === "undefined" || h === "boolean") {
         b = null;
     }
-    var h = false;
+    var i = false;
     if (b === null) {
-        h = true;
+        i = true;
     } else {
-        switch(g){
+        switch(h){
             case "string":
             case "number":
-                h = true;
+                i = true;
                 break;
             case "object":
                 switch(b.$$typeof){
                     case REACT_ELEMENT_TYPE:
                     case REACT_PORTAL_TYPE:
-                        h = true;
+                        i = true;
                 }
         }
     }
-    if (h) {
-        var i = b;
-        var c = m(i);
-        var n = f === "" ? q + getElementKey(i, 0) : f;
-        if (Array.isArray(c)) {
-            var r = "";
-            if (n != null) {
-                r = escapeUserProvidedKey(n) + "/";
+    if (i) {
+        var j = b;
+        var k = f(j);
+        var l = e === "" ? g + getElementKey(j, 0) : e;
+        if (Array.isArray(k)) {
+            var m = "";
+            if (l != null) {
+                m = escapeUserProvidedKey(l) + "/";
             }
-            a(c, e, r, "", function(a) {
+            a(k, c, m, "", function(a) {
                 return a;
             });
-        } else if (c != null) {
-            if (isValidElement(c)) {
-                c = cloneAndReplaceKey(c, l + (c.key && (!i || i.key !== c.key) ? escapeUserProvidedKey("" + c.key) + "/" : "") + n);
+        } else if (k != null) {
+            if (isValidElement(k)) {
+                k = cloneAndReplaceKey(k, d + (k.key && (!j || j.key !== k.key) ? escapeUserProvidedKey("" + k.key) + "/" : "") + l);
             }
-            e.push(c);
+            c.push(k);
         }
         return 1;
     }
-    var d;
-    var j;
-    var o = 0;
-    var s = f === "" ? q : f + SUBSEPARATOR;
+    var n;
+    var o;
+    var p = 0;
+    var q = e === "" ? g : e + SUBSEPARATOR;
     if (Array.isArray(b)) {
-        for(var k = 0; k < b.length; k++){
-            d = b[k];
-            j = s + getElementKey(d, k);
-            o += a(d, e, l, j, m);
+        for(var r = 0; r < b.length; r++){
+            n = b[r];
+            o = q + getElementKey(n, r);
+            p += a(n, c, d, o, f);
         }
     } else {
-        var p = getIteratorFn(b);
-        if (typeof p === "function") {
+        var s = getIteratorFn(b);
+        if (typeof s === "function") {
             var t = b;
             {
-                if (p === t.entries) {
+                if (s === t.entries) {
                     if (!didWarnAboutMaps) {
                         warn("Using Maps as children is not supported. " + "Use an array of keyed ReactElements instead.");
                     }
                     didWarnAboutMaps = true;
                 }
             }
-            var w = p.call(t);
-            var u;
-            var x = 0;
-            while(!(u = w.next()).done){
-                d = u.value;
-                j = s + getElementKey(d, x++);
-                o += a(d, e, l, j, m);
+            var u = s.call(t);
+            var v;
+            var w = 0;
+            while(!(v = u.next()).done){
+                n = v.value;
+                o = q + getElementKey(n, w++);
+                p += a(n, c, d, o, f);
             }
-        } else if (g === "object") {
-            var v = "" + b;
+        } else if (h === "object") {
+            var x = "" + b;
             {
                 {
-                    throw Error("Objects are not valid as a React child (found: " + (v === "[object Object]" ? "object with keys {" + Object.keys(b).join(", ") + "}" : v) + "). If you meant to render a collection of children, use an array instead.");
+                    throw Error("Objects are not valid as a React child (found: " + (x === "[object Object]" ? "object with keys {" + Object.keys(b).join(", ") + "}" : x) + "). If you meant to render a collection of children, use an array instead.");
                 }
             }
         }
     }
-    return o;
+    return p;
 }

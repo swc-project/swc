@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
-var DB = /*#__PURE__*/ function(B) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+var DB = /*#__PURE__*/ function(B1) {
     "use strict";
-    _inherits(DB, B);
+    _inherits(DB, B1);
     var _super = _create_super(DB);
     function DB() {
         _class_call_check(this, DB);
@@ -14,9 +14,9 @@ var DB = /*#__PURE__*/ function(B) {
     _proto.bar = function bar() {};
     return DB;
 }(B);
-var DD = /*#__PURE__*/ function(D) {
+var DD = /*#__PURE__*/ function(D1) {
     "use strict";
-    _inherits(DD, D);
+    _inherits(DD, D1);
     var _super = _create_super(DD);
     function DD() {
         _class_call_check(this, DD);
@@ -27,9 +27,9 @@ var DD = /*#__PURE__*/ function(D) {
     _proto.bar = function bar() {};
     return DD;
 }(D);
-var EB = /*#__PURE__*/ function(D) {
+var EB = /*#__PURE__*/ function(D1) {
     "use strict";
-    _inherits(EB, D);
+    _inherits(EB, D1);
     var _super = _create_super(EB);
     function EB() {
         _class_call_check(this, EB);

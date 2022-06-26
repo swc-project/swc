@@ -1,6 +1,6 @@
-function a(a, c) {
-    const b = a.get();
-    return b.map(({ [c]: a  })=>a);
+function a(a, b) {
+    const c = a.get();
+    return c.map(({ [b]: a  })=>a);
 }
 console.log(a({
     get: ()=>[

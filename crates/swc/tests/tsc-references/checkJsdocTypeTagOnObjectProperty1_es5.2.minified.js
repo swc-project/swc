@@ -1,4 +1,4 @@
-import _define_property from "@swc/helpers/lib/_define_property.js";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var _obj, obj = (_define_property(_obj = {
     foo: void 0,
     bar: "42",

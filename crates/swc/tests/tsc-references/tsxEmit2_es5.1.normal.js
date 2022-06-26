@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 var p1, p2, p3;
 var spreads1 = /*#__PURE__*/ React.createElement("div", _extends({}, p1), p2);
 var spreads2 = /*#__PURE__*/ React.createElement("div", _extends({}, p1), p2);

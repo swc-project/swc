@@ -2,11 +2,11 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_utils::{undefined, ExprCtx, ExprExt};
-use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
 
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
@@ -74,17 +74,14 @@ impl Evaluator {
 
             let marks = self.marks;
             let data = self.data.clone();
-            self.module.map_with_mut(|m| {
-                //
-                swc_common::GLOBALS.with(|globals| {
-                    //
-                    m.fold_with(&mut compressor(
-                        globals,
-                        marks,
-                        &serde_json::from_str("{ \"hoist_props\": true }").unwrap(),
-                        &data,
-                    ))
-                })
+            //
+            swc_common::GLOBALS.with(|globals| {
+                self.module.visit_mut_with(&mut compressor(
+                    globals,
+                    marks,
+                    &serde_json::from_str("{ \"hoist_props\": true }").unwrap(),
+                    &data,
+                ));
             });
         }
     }
@@ -239,6 +236,7 @@ impl Evaluator {
                 PureOptimizerConfig {
                     enable_join_vars: false,
                     force_str_for_tpl: Eval::force_str_for_tpl(),
+                    #[cfg(feature = "debug")]
                     debug_infinite_loop: false,
                 },
             ));

@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @Filename: use.js
 import * as s from "./mod";
 // @allowJs: true
@@ -18,7 +18,7 @@ var k = new s.n.K();
 k.x;
 var classic = new s.Classic();
 /** @param {s.n.K} c
-    @param {s.Classic} classic */ function f(c, classic1) {
+    @param {s.Classic} classic */ function f(c, classic) {
     c.x;
-    classic1.p;
+    classic.p;
 }

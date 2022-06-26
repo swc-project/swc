@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _construct from "@swc/helpers/lib/_construct.js";
-import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _construct from "@swc/helpers/src/_construct.mjs";
+import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
         "head",
@@ -35,7 +35,7 @@ var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap(), A = function() {
         }), _class_private_field_init(this, _fieldFunc2, {
             writable: !0,
             value: function(a) {
-                for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
+                for(var _len = arguments.length, b = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
             }
         }), this.x = 1;
     }

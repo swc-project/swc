@@ -77,7 +77,7 @@ use crate::{
 #[cfg(test)]
 mod tests;
 
-#[derive(Clone, Debug, Copy)]
+#[derive(Clone, Debug, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum IsModule {
     Bool(bool),
     Unknown,
@@ -86,6 +86,14 @@ pub enum IsModule {
 impl Default for IsModule {
     fn default() -> Self {
         IsModule::Bool(true)
+    }
+}
+
+impl Merge for IsModule {
+    fn merge(&mut self, other: Self) {
+        if *self == Default::default() {
+            *self = other;
+        }
     }
 }
 
@@ -209,10 +217,17 @@ pub struct Options {
     pub source_root: Option<String>,
 
     #[serde(default)]
-    pub is_module: IsModule,
+    pub output_path: Option<PathBuf>,
 
     #[serde(default)]
-    pub output_path: Option<PathBuf>,
+    pub experimental: ExperimentalOptions,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Merge)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ExperimentalOptions {
+    #[serde(default)]
+    pub error_format: Option<ErrorFormat>,
 }
 
 impl Options {
@@ -288,7 +303,7 @@ impl Options {
             cfg.adjust(base);
         }
 
-        let is_module = self.is_module;
+        let is_module = self.config.is_module;
 
         let mut source_maps = self.source_maps.clone();
         source_maps.merge(cfg.source_maps.clone());
@@ -460,6 +475,8 @@ impl Options {
             json_parse_pass
         );
 
+        let preserve_import_export_assign = matches!(&cfg.module, Some(ModuleConfig::Amd(..)));
+
         let pass = PassBuilder::new(
             cm,
             handler,
@@ -600,6 +617,7 @@ impl Options {
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
                         use_define_for_class_fields: !assumptions.set_public_class_fields,
+                        preserve_import_export_assign,
                         ..Default::default()
                     },
                     comments,
@@ -813,6 +831,9 @@ pub struct Config {
 
     #[serde(default)]
     pub error: ErrorConfig,
+
+    #[serde(default)]
+    pub is_module: IsModule,
 
     #[serde(rename = "$schema")]
     pub schema: Option<String>,
@@ -1187,6 +1208,46 @@ pub struct JscExperimental {
     pub cache_root: Option<String>,
 }
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum ErrorFormat {
+    #[serde(rename = "json")]
+    Json,
+    #[serde(rename = "normal")]
+    Normal,
+}
+
+impl ErrorFormat {
+    pub fn format(&self, err: &Error) -> String {
+        match self {
+            ErrorFormat::Normal => format!("{:?}", err),
+            ErrorFormat::Json => {
+                let mut map = serde_json::Map::new();
+
+                map.insert("message".into(), serde_json::Value::String(err.to_string()));
+
+                map.insert(
+                    "stack".into(),
+                    serde_json::Value::Array(
+                        err.chain()
+                            .skip(1)
+                            .map(|err| err.to_string())
+                            .map(serde_json::Value::String)
+                            .collect(),
+                    ),
+                );
+
+                serde_json::to_string(&map).unwrap()
+            }
+        }
+    }
+}
+
+impl Default for ErrorFormat {
+    fn default() -> Self {
+        Self::Normal
+    }
+}
+
 /// `paths` section of `tsconfig.json`.
 pub type Paths = IndexMap<String, Vec<String>, ahash::RandomState>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
@@ -1498,7 +1559,7 @@ impl GlobalPassOption {
                             cm,
                             handler,
                             env::vars()
-                                .filter(|(k, _)| env_list.contains(&*k))
+                                .filter(|(k, _)| env_list.contains(k))
                                 .map(|(k, v)| (k.into(), v.into())),
                             true,
                         );

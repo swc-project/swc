@@ -1,5 +1,12 @@
+use once_cell::sync::Lazy;
+use swc_common::util::move_map::MoveMap;
+#[cfg(feature = "concurrent")]
+use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
+
+#[cfg(feature = "concurrent")]
+use crate::helpers::HELPERS;
 
 pub trait Check: Visit + Default {
     fn should_handle(&self) -> bool;
@@ -15,7 +22,13 @@ where
     checker.should_handle()
 }
 
-pub trait Parallel {
+static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
+
+pub fn cpu_count() -> usize {
+    *CPU_COUNT
+}
+
+pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
     /// Used to create visitor.
     fn create(&self) -> Self;
 
@@ -39,4 +52,231 @@ pub trait ParExplode: Parallel {
     ///
     /// Implementor should not delete/prepend to `stmts`.
     fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>);
+}
+
+pub trait ParVisit: Visit + Parallel {
+    fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
+    where
+        N: Send + Sync + VisitWith<Self>;
+}
+
+#[cfg(feature = "concurrent")]
+impl<T> ParVisit for T
+where
+    T: Visit + Parallel,
+{
+    fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
+    where
+        N: Send + Sync + VisitWith<Self>,
+    {
+        if nodes.len() >= threshold {
+            GLOBALS.with(|globals| {
+                HELPERS.with(|helpers| {
+                    HANDLER.with(|handler| {
+                        use rayon::prelude::*;
+
+                        let visitor = nodes
+                            .into_par_iter()
+                            .map(|node| {
+                                GLOBALS.set(globals, || {
+                                    HELPERS.set(helpers, || {
+                                        HANDLER.set(handler, || {
+                                            let mut visitor = Parallel::create(&*self);
+                                            node.visit_with(&mut visitor);
+
+                                            visitor
+                                        })
+                                    })
+                                })
+                            })
+                            .reduce(
+                                || Parallel::create(&*self),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a, b);
+
+                                    a
+                                },
+                            );
+
+                        Parallel::merge(self, visitor);
+                    })
+                })
+            });
+
+            return;
+        }
+
+        for n in nodes {
+            n.visit_with(self);
+        }
+    }
+}
+
+pub trait ParVisitMut: VisitMut + Parallel {
+    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
+    where
+        N: Send + Sync + VisitMutWith<Self>;
+}
+
+#[cfg(feature = "concurrent")]
+impl<T> ParVisitMut for T
+where
+    T: VisitMut + Parallel,
+{
+    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
+    where
+        N: Send + Sync + VisitMutWith<Self>,
+    {
+        if nodes.len() >= threshold {
+            GLOBALS.with(|globals| {
+                HELPERS.with(|helpers| {
+                    HANDLER.with(|handler| {
+                        use rayon::prelude::*;
+
+                        let visitor = nodes
+                            .into_par_iter()
+                            .map(|node| {
+                                GLOBALS.set(globals, || {
+                                    HELPERS.set(helpers, || {
+                                        HANDLER.set(handler, || {
+                                            let mut visitor = Parallel::create(&*self);
+                                            node.visit_mut_with(&mut visitor);
+
+                                            visitor
+                                        })
+                                    })
+                                })
+                            })
+                            .reduce(
+                                || Parallel::create(&*self),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a, b);
+
+                                    a
+                                },
+                            );
+
+                        Parallel::merge(self, visitor);
+                    })
+                })
+            });
+
+            return;
+        }
+
+        for n in nodes {
+            n.visit_mut_with(self);
+        }
+    }
+}
+
+pub trait ParFold: Fold + Parallel {
+    fn fold_par<N>(&mut self, threshold: usize, nodes: Vec<N>) -> Vec<N>
+    where
+        N: Send + Sync + FoldWith<Self>;
+}
+
+#[cfg(feature = "concurrent")]
+impl<T> ParFold for T
+where
+    T: Fold + Parallel,
+{
+    fn fold_par<N>(&mut self, threshold: usize, nodes: Vec<N>) -> Vec<N>
+    where
+        N: Send + Sync + FoldWith<Self>,
+    {
+        if nodes.len() >= threshold {
+            use rayon::prelude::*;
+
+            let (visitor, nodes) = GLOBALS.with(|globals| {
+                HELPERS.with(|helpers| {
+                    HANDLER.with(|handler| {
+                        nodes
+                            .into_par_iter()
+                            .map(|node| {
+                                GLOBALS.set(globals, || {
+                                    HELPERS.set(helpers, || {
+                                        HANDLER.set(handler, || {
+                                            let mut visitor = Parallel::create(&*self);
+                                            let node = node.fold_with(&mut visitor);
+
+                                            (visitor, node)
+                                        })
+                                    })
+                                })
+                            })
+                            .fold(
+                                || (Parallel::create(&*self), vec![]),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a.0, b.0);
+
+                                    a.1.push(b.1);
+
+                                    a
+                                },
+                            )
+                            .reduce(
+                                || (Parallel::create(&*self), vec![]),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a.0, b.0);
+
+                                    a.1.extend(b.1);
+
+                                    a
+                                },
+                            )
+                    })
+                })
+            });
+
+            Parallel::merge(self, visitor);
+
+            return nodes;
+        }
+
+        nodes.move_map(|n| n.fold_with(self))
+    }
+}
+
+#[cfg(not(feature = "concurrent"))]
+impl<T> ParVisit for T
+where
+    T: Visit + Parallel,
+{
+    fn visit_par<N>(&mut self, _: usize, nodes: &[N])
+    where
+        N: Send + Sync + VisitWith<Self>,
+    {
+        for n in nodes {
+            n.visit_with(self);
+        }
+    }
+}
+
+#[cfg(not(feature = "concurrent"))]
+impl<T> ParVisitMut for T
+where
+    T: VisitMut + Parallel,
+{
+    fn visit_mut_par<N>(&mut self, _: usize, nodes: &mut [N])
+    where
+        N: Send + Sync + VisitMutWith<Self>,
+    {
+        for n in nodes {
+            n.visit_mut_with(self);
+        }
+    }
+}
+
+#[cfg(not(feature = "concurrent"))]
+impl<T> ParFold for T
+where
+    T: Fold + Parallel,
+{
+    fn fold_par<N>(&mut self, _: usize, nodes: Vec<N>) -> Vec<N>
+    where
+        N: Send + Sync + FoldWith<Self>,
+    {
+        nodes.move_map(|n| n.fold_with(self))
+    }
 }

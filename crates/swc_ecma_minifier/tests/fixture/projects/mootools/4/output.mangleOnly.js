@@ -1,11 +1,11 @@
 const a = {
     flatten: function() {
-        var c = [];
-        for(var a = 0, d = this.length; a < d; a++){
-            var b = typeOf(this[a]);
-            if (b == "null") continue;
-            c = c.concat(b == "array" || b == "collection" || b == "arguments" || instanceOf(this[a], Array) ? Array.flatten(this[a]) : this[a]);
+        var a = [];
+        for(var b = 0, c = this.length; b < c; b++){
+            var d = typeOf(this[b]);
+            if (d == "null") continue;
+            a = a.concat(d == "array" || d == "collection" || d == "arguments" || instanceOf(this[b], Array) ? Array.flatten(this[b]) : this[b]);
         }
-        return c;
+        return a;
     }
 };

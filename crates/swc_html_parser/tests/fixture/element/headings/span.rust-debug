@@ -111,13 +111,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -149,13 +149,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -187,13 +187,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -225,13 +225,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -263,13 +263,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -301,13 +301,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

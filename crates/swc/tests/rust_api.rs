@@ -86,6 +86,7 @@ fn shopify_1_check_filename() {
             &handler,
             &Options {
                 config: Config {
+                    is_module: IsModule::Bool(true),
                     jsc: JscConfig {
                         syntax: Some(Syntax::Es(EsConfig {
                             jsx: true,
@@ -98,7 +99,6 @@ fn shopify_1_check_filename() {
                     })),
                     ..Default::default()
                 },
-                is_module: IsModule::Bool(true),
                 ..Default::default()
             },
             |_, _: &SingleThreadedComments| {
@@ -128,6 +128,7 @@ fn shopify_2_same_opt() {
 
         let opts = Options {
             config: Config {
+                is_module: IsModule::Bool(true),
                 env: None,
                 test: None,
                 exclude: None,
@@ -163,7 +164,6 @@ fn shopify_2_same_opt() {
             env_name: "development".into(),
             source_maps: Some(SourceMapsConfig::Bool(false)),
             source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
-            is_module: IsModule::Bool(true),
             ..Default::default()
         };
 
@@ -206,6 +206,7 @@ fn shopify_3_reduce_defaults() {
 
         let opts = Options {
             config: Config {
+                is_module: IsModule::Bool(true),
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
                         tsx: true,
@@ -225,7 +226,6 @@ fn shopify_3_reduce_defaults() {
             env_name: "development".into(),
             source_maps: Some(SourceMapsConfig::Bool(false)),
             source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
-            is_module: IsModule::Bool(true),
             ..Default::default()
         };
 
@@ -268,6 +268,7 @@ fn shopify_4_reduce_more() {
 
         let opts = Options {
             config: Config {
+                is_module: IsModule::Bool(true),
                 jsc: JscConfig {
                     syntax: Some(Syntax::Es(EsConfig {
                         jsx: true,
@@ -282,7 +283,6 @@ fn shopify_4_reduce_more() {
             env_name: "development".into(),
             source_maps: Some(SourceMapsConfig::Bool(false)),
             source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
-            is_module: IsModule::Bool(true),
             ..Default::default()
         };
 

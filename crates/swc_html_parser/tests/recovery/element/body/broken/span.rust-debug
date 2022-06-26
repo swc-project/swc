@@ -78,13 +78,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
  4 | <title>Test</title></head>
-   : ^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
  4 | <title>Test</title></head>
-   : ^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

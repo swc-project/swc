@@ -1,7 +1,6 @@
 var Foo;
-(function(Foo1) {
-    ({ a: Foo1.a  } = {
+(function(Foo) {
+    ({ a: Foo.a  } = {
         a: 1
     });
-})(Foo || (Foo = {
-}));
+})(Foo || (Foo = {}));

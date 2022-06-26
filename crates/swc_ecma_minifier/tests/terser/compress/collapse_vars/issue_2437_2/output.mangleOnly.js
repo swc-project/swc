@@ -1,19 +1,19 @@
-function b() {
+function a() {
     this.onreadystatechange = "PASS";
 }
 global.SYMBOL_FAKE_ONREADYSTATECHANGE_1 = Symbol();
 global.xhrDesc = null;
-function a() {
+function b() {
     return c();
 }
 function c() {
     if (!xhrDesc) {
-        var a = new b();
+        var b = new a();
         var c = function() {};
-        a.onreadystatechange = c;
-        var d = a[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === c;
-        a.onreadystatechange = null;
+        b.onreadystatechange = c;
+        var d = b[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === c;
+        b.onreadystatechange = null;
         return d;
     }
 }
-console.log(a());
+console.log(b());

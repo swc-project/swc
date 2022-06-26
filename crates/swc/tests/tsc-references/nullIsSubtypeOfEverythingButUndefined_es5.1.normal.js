@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // null is a subtype of any other types except undefined
 var r0 = true ? null : null;
 var r0 = true ? null : null;
@@ -55,8 +55,8 @@ var r13 = true ? null : E;
 var r14 = true ? E.A : null;
 var r14 = true ? null : E.A;
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var af;
 var r15 = true ? af : null;

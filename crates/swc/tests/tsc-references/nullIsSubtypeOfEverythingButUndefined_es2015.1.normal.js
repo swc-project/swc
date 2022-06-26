@@ -50,16 +50,16 @@ var r13 = true ? null : E;
 var r14 = true ? E.A : null;
 var r14 = true ? null : E.A;
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var af;
 var r15 = true ? af : null;
 var r15 = true ? null : af;
 class c {
 }
-(function(c3) {
-    var bar = c3.bar = 1;
+(function(c) {
+    var bar = c.bar = 1;
 })(c || (c = {}));
 var ac;
 var r16 = true ? ac : null;

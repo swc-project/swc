@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_transforms_macros"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.4.0"
+version = "0.5.0"
 
 [lib]
 bench = false

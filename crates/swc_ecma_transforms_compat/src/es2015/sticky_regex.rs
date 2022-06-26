@@ -1,6 +1,8 @@
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -26,7 +28,16 @@ pub fn sticky_regex() -> impl 'static + Fold + VisitMut {
 
 struct StickyRegex;
 
+impl Parallel for StickyRegex {
+    fn merge(&mut self, _: Self) {}
+
+    fn create(&self) -> Self {
+        StickyRegex
+    }
+}
+
 #[swc_trace]
+#[parallel]
 impl VisitMut for StickyRegex {
     noop_visit_mut_type!();
 

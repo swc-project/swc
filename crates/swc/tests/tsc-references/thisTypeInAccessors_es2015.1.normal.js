@@ -38,8 +38,8 @@ class Explicit {
     get x() {
         return this.n;
     }
-    set x(n) {
-        this.n = n;
+    set x(n1) {
+        this.n = n1;
     }
     constructor(){
         this.n = 17;

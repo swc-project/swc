@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function error(message) {
-    throw new Error(message);
+    throw Error(message);
 }
 var C = function() {
     "use strict";
@@ -9,11 +9,11 @@ var C = function() {
     }
     var _proto = C.prototype;
     return _proto.void1 = function() {
-        throw new Error();
+        throw Error();
     }, _proto.void2 = function() {
         for(;;);
     }, _proto.never1 = function() {
-        throw new Error();
+        throw Error();
     }, _proto.never2 = function() {
         for(;;);
     }, C;
@@ -29,7 +29,7 @@ var C = function() {
 }), function(cb) {
     cb();
 }(function() {
-    throw new Error();
+    throw Error();
 }), function(cb) {
     cb();
 }(function() {

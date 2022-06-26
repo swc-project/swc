@@ -1,6 +1,6 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function a1() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
         x[_key] = arguments[_key];
@@ -30,7 +30,7 @@ function a9(param) {
     var _param = _sliced_to_array(param, 3), a = _param[0], b = _param[1], ref = _sliced_to_array(_param[2], 1), ref1 = _sliced_to_array(ref[0], 1), c = ref1[0];
 }
 function a10(param) {
-    var _param = _to_array(param), a = _param[0], b = _param[1], ref = _sliced_to_array(_param[2], 1), ref2 = _sliced_to_array(ref[0], 1), c = ref2[0], x = _param.slice(3);
+    var _param = _to_array(param), a = _param[0], b = _param[1], ref = _sliced_to_array(_param[2], 1), ref1 = _sliced_to_array(ref[0], 1), c = ref1[0], x = _param.slice(3);
 }
 function a11(param) {
     var _param = _to_array(param), a = _param[0], b = _param[1], c = _param[2], x = _param.slice(3);

@@ -64,7 +64,7 @@ if (typeof numOrC !== "number") {
     num = numOrC; // number
 }
 if (typeof strOrBool !== "number") {
-    let y1 = strOrBool; // string | boolean
+    let y11 = strOrBool; // string | boolean
 } else {
-    let y2 = strOrBool; // {}
+    let y21 = strOrBool; // {}
 }

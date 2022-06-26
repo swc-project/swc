@@ -1,4 +1,4 @@
-console.log((function(b) {
-    var a = {}, c = (a.b = b);
-    return a.b + c;
+console.log((function(a) {
+    var b = {}, c = (b.b = a);
+    return b.b + c;
 })(1));

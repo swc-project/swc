@@ -1,0 +1,19 @@
+{
+  "type": "DocumentFragment",
+  "span": {
+    "start": 1,
+    "end": 20,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Text",
+      "span": {
+        "start": 19,
+        "end": 20,
+        "ctxt": 0
+      },
+      "data": "X"
+    }
+  ]
+}

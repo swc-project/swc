@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // Generic call with constraints infering type parameter from object member properties
 // No errors expected
 var Base = function Base() {
@@ -18,8 +18,8 @@ var Derived = /*#__PURE__*/ function(Base) {
     return Derived;
 }(Base);
 function f(x) {
-    var r1;
-    return r1;
+    var r;
+    return r;
 }
 var r = f({
     foo: new Base(),
@@ -30,8 +30,8 @@ var r2 = f({
     bar: new Derived()
 });
 function f2(x) {
-    var r8;
-    return r8;
+    var r;
+    return r;
 }
 var i;
 var r3 = f2(i);

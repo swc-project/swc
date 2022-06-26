@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-module.exports = function Obj1() {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+module.exports = function Obj() {
     "use strict";
-    _class_call_check(this, Obj1), this.x = 12;
+    _class_call_check(this, Obj), this.x = 12;
 };
 var Obj = require("./obj"), Container = function() {
     "use strict";

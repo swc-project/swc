@@ -18,13 +18,13 @@ function d(a) {
     var b = foo(), c = (5 - a) / b;
     return c;
 }
-function e(c) {
-    var a = foo(), b = (5 - u) / a;
-    return b;
+function e(a) {
+    var b = foo(), c = (5 - u) / b;
+    return c;
 }
-function f(c) {
-    const a = foo(), b = (5 - window.x) / a;
-    return b;
+function f(a) {
+    const b = foo(), c = (5 - window.x) / b;
+    return c;
 }
 function g() {
     var a = window.a * window.z;
@@ -43,11 +43,11 @@ function j() {
     var a = window.a * window.z;
     return bar() || a;
 }
-function k(c) {
-    var a = 5, b = 3;
-    return (a += b);
+function k(a) {
+    var b = 5, c = 3;
+    return (b += c);
 }
-function l(c) {
-    var a = 5, b = 3;
-    return (a += --b);
+function l(a) {
+    var b = 5, c = 3;
+    return (b += --c);
 }

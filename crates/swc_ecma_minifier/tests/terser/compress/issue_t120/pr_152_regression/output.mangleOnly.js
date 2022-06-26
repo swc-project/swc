@@ -1,12 +1,12 @@
 (function(a, b) {
     a.CryptoJS = b();
 })(this, function() {
-    var a = a || (function(b) {
-        var a = {};
-        a.demo = function(a) {
-            return b.ceil(a);
+    var a = a || (function(a) {
+        var b = {};
+        b.demo = function(b) {
+            return a.ceil(b);
         };
-        return a;
+        return b;
     })(Math);
     return a;
 });

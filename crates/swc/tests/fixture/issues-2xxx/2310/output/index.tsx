@@ -1,6 +1,6 @@
 var A;
-(function(A1) {
-    var Foo = A1.Foo = function() {
+(function(A) {
+    var Foo = A.Foo = function() {
         return /*#__PURE__*/ React.createElement("div", null);
     };
 })(A || (A = {}));

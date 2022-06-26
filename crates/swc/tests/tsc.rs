@@ -129,8 +129,6 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                 fm,
                 &handler,
                 &Options {
-                    is_module: IsModule::Bool(true),
-
                     config: Config {
                         jsc: JscConfig {
                             syntax: Some(Syntax::Typescript(TsConfig {
@@ -145,6 +143,7 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                         source_maps: Some(SourceMapsConfig::Bool(
                             !input.to_string_lossy().contains("Unicode"),
                         )),
+                        is_module: IsModule::Bool(true),
                         ..opts.config
                     },
                     ..opts

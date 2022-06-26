@@ -4,8 +4,8 @@ var _marked = regeneratorRuntime.mark(g);
 //@noImplicitAny: true
 function g() {
     var h;
-    return regeneratorRuntime.wrap(function g$(_ctx1) {
-        while(1)switch(_ctx1.prev = _ctx1.next){
+    return regeneratorRuntime.wrap(function g$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 h = regeneratorRuntime.mark(function h() {
                     return regeneratorRuntime.wrap(function h$(_ctx) {
@@ -21,7 +21,7 @@ function g() {
                 });
             case 1:
             case "end":
-                return _ctx1.stop();
+                return _ctx.stop();
         }
     }, _marked);
 }

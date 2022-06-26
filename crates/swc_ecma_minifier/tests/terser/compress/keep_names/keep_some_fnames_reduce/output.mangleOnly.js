@@ -1,13 +1,13 @@
 function a() {
     var a = [];
-    function d() {}
+    function b() {}
+    a.map(b);
+    function c() {}
+    a.map(c);
+    var d = ()=>{};
     a.map(d);
-    function e() {}
+    a.map(d);
+    var e = function() {};
     a.map(e);
-    var b = ()=>{};
-    a.map(b);
-    a.map(b);
-    var c = function() {};
-    a.map(c);
-    a.map(c);
+    a.map(e);
 }

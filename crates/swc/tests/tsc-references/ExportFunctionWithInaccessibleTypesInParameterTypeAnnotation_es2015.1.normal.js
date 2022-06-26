@@ -1,5 +1,5 @@
 var A;
-(function(A1) {
+(function(A) {
     class Point {
     }
     class Line {
@@ -8,12 +8,12 @@ var A;
             this.end = end;
         }
     }
-    A1.Line = Line;
+    A.Line = Line;
     function fromOrigin(p) {
         return new Line({
             x: 0,
             y: 0
         }, p);
     }
-    A1.fromOrigin = fromOrigin;
+    A.fromOrigin = fromOrigin;
 })(A || (A = {}));

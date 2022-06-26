@@ -2,6 +2,8 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+use crate::maybe_par;
+
 ///
 /// - merge exports
 pub(crate) fn merge_exports() -> impl VisitMut {
@@ -17,9 +19,12 @@ impl VisitMut for Merger {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        let was_module = stmts
-            .iter()
-            .any(|s| matches!(s, ModuleItem::ModuleDecl(..)));
+        let was_module = maybe_par!(
+            stmts
+                .iter()
+                .any(|s| matches!(s, ModuleItem::ModuleDecl(..))),
+            *crate::LIGHT_TASK_PARALLELS
+        );
 
         // Fast-path
         if !was_module {

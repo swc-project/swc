@@ -6,6 +6,6 @@ function foo() {
     doSomething(o);
 }
 function bar() {
-    var unused = 42;
+    var a = 42;
     return something();
 }

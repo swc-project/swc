@@ -1,43 +1,43 @@
 var A;
-(function(A1) {
-    let B1;
+(function(A) {
+    let B;
     (function(B) {
-        var x1;
-        B.x = x1;
-    })(B1 = A1.B || (A1.B = {}));
+        var x;
+        B.x = x;
+    })(B = A.B || (A.B = {}));
 })(A || (A = {}));
 (function(A) {
-    let B2;
+    let B;
     (function(B) {
-        var x2;
-        B.x = x2;
-    })(B2 || (B2 = {}));
+        var x;
+        B.x = x;
+    })(B || (B = {}));
 })(A || (A = {}));
 // ensure the right var decl is exported
 var x;
 var x = A.B.x;
 var X;
-(function(X1) {
-    let Y1;
-    (function(Y) {
-        let Z1;
-        (function(Z) {
-            class Line {
-            }
-            Z.Line = Line;
-        })(Z1 = Y.Z || (Y.Z = {}));
-    })(Y1 = X1.Y || (X1.Y = {}));
-})(X || (X = {}));
-(function(X2) {
+(function(X) {
     let Y;
     (function(Y) {
-        let Z2;
+        let Z;
         (function(Z) {
             class Line {
             }
             Z.Line = Line;
-        })(Z2 || (Z2 = {}));
-    })(Y = X2.Y || (X2.Y = {}));
+        })(Z = Y.Z || (Y.Z = {}));
+    })(Y = X.Y || (X.Y = {}));
+})(X || (X = {}));
+(function(X) {
+    let Y;
+    (function(Y) {
+        let Z;
+        (function(Z) {
+            class Line {
+            }
+            Z.Line = Line;
+        })(Z || (Z = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 // make sure merging works as expected
 var l;

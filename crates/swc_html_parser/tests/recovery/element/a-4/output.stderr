@@ -54,3 +54,7 @@
    `----
 
   x End of file seen and there were open elements
+   ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
+ 1 | <table><a>1<p>2</a>3</p>
+   :                         ^
+   `----

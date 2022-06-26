@@ -8,13 +8,13 @@
   x Child
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -24,13 +24,13 @@
   x Child
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
-   :        ^^^^^^^^^^^^^^^
+   :        ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
-   :        ^^^^^^^^^^^^^^^
+   :        ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -48,13 +48,13 @@
   x Child
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
-   :               ^^^^^^^^
+   :               ^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
-   :               ^^^^^^^^
+   :               ^^^^^^^^^^^^
    `----
 
   x Child

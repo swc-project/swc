@@ -24,38 +24,38 @@ swc_v1 = ["swc_node_bundler/swc_v1"]
 swc_v2 = ["swc_node_bundler/swc_v2"]
 
 [build-dependencies]
-napi-build = {version = "1"}
+napi-build = { version = "2" }
 
 [dependencies]
 anyhow = "1"
 backtrace = "0.3"
-napi = {version = "2", default-features = false, features = [
+napi = { version = "2", default-features = false, features = [
   "napi3",
   "serde-json",
-]}
-napi-derive = {version = "2", default-features = false, features = [
+] }
+napi-derive = { version = "2", default-features = false, features = [
   "type-def",
-]}
-node_macro_deps = {path = "../node_macro_deps"}
+] }
+node_macro_deps = { path = "../node_macro_deps" }
 path-clean = "0.1"
-serde = {version = "1", features = ["derive"]}
-serde_json = {version = "1", features = ["unbounded_depth"]}
-swc = {path = "../swc", features = ["node"]}
-swc_atoms = {version = "0.2.4", path = "../swc_atoms"}
-swc_bundler = {path = "../swc_bundler"}
-swc_common = {path = "../swc_common", features = ["sourcemap", "perf"]}
-swc_ecma_ast = {path = "../swc_ecma_ast"}
-swc_ecma_lints = {path = "../swc_ecma_lints", features = [
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["unbounded_depth"] }
+swc = { path = "../swc", features = ["node", "concurrent"] }
+swc_atoms = { version = "0.2.4", path = "../swc_atoms" }
+swc_bundler = { path = "../swc_bundler" }
+swc_common = { path = "../swc_common", features = ["sourcemap", "perf"] }
+swc_ecma_ast = { path = "../swc_ecma_ast" }
+swc_ecma_lints = { path = "../swc_ecma_lints", features = [
   "non_critical_lints",
-]}
-swc_ecma_loader = {path = "../swc_ecma_loader"}
-swc_ecma_parser = {path = "../swc_ecma_parser"}
-swc_node_bundler = {path = "../swc_node_bundler"}
-swc_nodejs_common = {path = "../swc_nodejs_common"}
-swc_plugin_runner = {path = "../swc_plugin_runner", optional = true, default-features = false}
-tracing = {version = "0.1.32", features = ["release_max_level_info"]}
+] }
+swc_ecma_loader = { path = "../swc_ecma_loader" }
+swc_ecma_parser = { path = "../swc_ecma_parser" }
+swc_node_bundler = { path = "../swc_node_bundler" }
+swc_nodejs_common = { path = "../swc_nodejs_common" }
+swc_plugin_runner = { path = "../swc_plugin_runner", optional = true, default-features = false }
+tracing = { version = "0.1.32", features = ["release_max_level_info"] }
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
-tracing-subscriber = {version = "0.3.9", features = ["env-filter"]}
-wasmer = {version = "2.2.1", optional = true, default-features = false}
-wasmer-wasi = {version = "2.2.1", optional = true, default-features = false}
+tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
+wasmer = { version = "2.3.0", optional = true, default-features = false }
+wasmer-wasi = { version = "2.3.0", optional = true, default-features = false }

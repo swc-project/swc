@@ -5,9 +5,9 @@ const ReactRouter = require('react-router');
 var Route = ReactRouter.Route;
 var routes1 = /*#__PURE__*/ React.createElement(Route, null);
 var M;
-(function(M1) {
-    var X;
-    M1.X = X;
+(function(M) {
+    var X1;
+    M.X = X1;
 })(M || (M = {}));
 (function(M) {
     // Should emit 'M.X' in both opening and closing tags

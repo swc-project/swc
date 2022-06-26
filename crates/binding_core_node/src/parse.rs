@@ -8,7 +8,10 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
 };
-use swc::{config::ParseOptions, Compiler};
+use swc::{
+    config::{ErrorFormat, ParseOptions},
+    Compiler,
+};
 use swc_common::{comments::Comments, FileName};
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
@@ -47,7 +50,7 @@ impl Task for ParseTask {
             None
         };
 
-        let program = try_with(self.c.cm.clone(), false, |handler| {
+        let program = try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
             self.c.parse_js(
                 fm,
                 handler,
@@ -75,7 +78,7 @@ impl Task for ParseFileTask {
     type Output = String;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let program = try_with(self.c.cm.clone(), false, |handler| {
+        let program = try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
             self.c.run(|| {
                 let options: ParseOptions = deserialize_json(&self.options)?;
 
@@ -154,7 +157,7 @@ pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::
         FileName::Anon
     };
 
-    let program = try_with(c.cm.clone(), false, |handler| {
+    let program = try_with(c.cm.clone(), false, ErrorFormat::Normal, |handler| {
         c.run(|| {
             let fm = c.cm.new_source_file(filename, src);
 
@@ -186,7 +189,7 @@ pub fn parse_file_sync(path: String, opts: Buffer) -> napi::Result<String> {
     let options: ParseOptions = get_deserialized(&opts)?;
 
     let program = {
-        try_with(c.cm.clone(), false, |handler| {
+        try_with(c.cm.clone(), false, ErrorFormat::Normal, |handler| {
             let fm =
                 c.cm.load_file(Path::new(path.as_str()))
                     .expect("failed to read program file");

@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
+(function(TypeScript) {
     var getAstWalkerFactory = function getAstWalkerFactory() {
         if (!globalAstWalkerFactory) {
             globalAstWalkerFactory = new AstWalkerFactory();
@@ -27,7 +27,7 @@ var TypeScript;
         };
         return AstWalkOptions;
     }();
-    TypeScript1.AstWalkOptions = AstWalkOptions;
+    TypeScript.AstWalkOptions = AstWalkOptions;
     var AstWalker = /*#__PURE__*/ function() {
         "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
@@ -203,10 +203,10 @@ var TypeScript;
         };
         return AstWalkerFactory;
     }();
-    TypeScript1.AstWalkerFactory = AstWalkerFactory;
+    TypeScript.AstWalkerFactory = AstWalkerFactory;
     var globalAstWalkerFactory;
-    TypeScript1.getAstWalkerFactory = getAstWalkerFactory;
-    var ChildrenWalkers1;
+    TypeScript.getAstWalkerFactory = getAstWalkerFactory;
+    var ChildrenWalkers;
     (function(ChildrenWalkers) {
         function walkNone(preAst, parent, walker) {
         // Nothing to do
@@ -502,5 +502,5 @@ var TypeScript;
             }
         }
         ChildrenWalkers.walkLabeledStatementChildren = walkLabeledStatementChildren;
-    })(ChildrenWalkers1 || (ChildrenWalkers1 = {}));
+    })(ChildrenWalkers || (ChildrenWalkers = {}));
 })(TypeScript || (TypeScript = {}));

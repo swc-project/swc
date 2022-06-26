@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _construct from "@swc/helpers/lib/_construct.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _construct from "@swc/helpers/src/_construct.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 //@target: ES5
 function f(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){

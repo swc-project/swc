@@ -1,9 +1,9 @@
 var M;
-!function(M1) {
+!function(M) {
     function fn(x) {
         return '';
     }
-    M1.fn = fn;
+    M.fn = fn;
 }(M || (M = {})), M.fn(1), (x)=>'';
 class C {
 }

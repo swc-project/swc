@@ -1,8 +1,8 @@
 let namespace = 10;
 var a;
-(function(a1) {
-    let b1;
+(function(a) {
+    let b;
     (function(b) {
         var c = b.c = 20;
-    })(b1 = a1.b || (a1.b = {}));
+    })(b = a.b || (a.b = {}));
 })(a || (a = {}));

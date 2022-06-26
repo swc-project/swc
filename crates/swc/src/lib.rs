@@ -1009,8 +1009,7 @@ impl Compiler {
                     IsModule::Bool(true),
                     Some(&comments),
                 )
-                .context("failed to parse input file")?
-                .expect_module();
+                .context("failed to parse input file")?;
 
             let source_map_names = if source_map.enabled() {
                 let mut v = IdentCollector {

@@ -29,7 +29,6 @@ console.log(c, d);
 // @Filename: /h.ts
 class H {
 }
-module.exports = H;
 // @Filename: /i.ts
 const H = require('./h'); // Error
 let h = {};
@@ -42,8 +41,8 @@ K;
     K[K["One"] = 0] = "One";
     K[K["Two"] = 1] = "Two";
 })(K || (K = {}));
-module.exports = K;
 // @Filename: /l.ts
 const K = require('./k');
 0; // @Filename: /j.ts
  // Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207
+module.exports = K;

@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -30,22 +30,22 @@ c.Cls = function _class() {
 /**
  * @template T
  * @param {T} a
- */ export function f(a1) {
-    return a1;
+ */ export function f(a) {
+    return a;
 }
 f.self = f;
 /**
  * @param {{x: string}} a
  * @param {{y: typeof b}} b
- */ function g(a2, b1) {
-    return a2.x && b1.y();
+ */ function g(a, b) {
+    return a.x && b.y();
 }
 export { g };
 /**
  * @param {{x: string}} a
  * @param {{y: typeof b}} b
- */ function hh(a3, b2) {
-    return a3.x && b2.y();
+ */ function hh(a, b) {
+    return a.x && b.y();
 }
 export { hh as h };
 export function i() {}

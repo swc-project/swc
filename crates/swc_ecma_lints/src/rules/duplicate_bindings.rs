@@ -11,7 +11,10 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::rule::{visitor_rule, Rule};
 
 pub fn duplicate_bindings() -> Box<dyn Rule> {
-    visitor_rule(DuplicateBindings::default())
+    visitor_rule(DuplicateBindings {
+        top_level: true,
+        ..Default::default()
+    })
 }
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -29,6 +32,8 @@ struct DuplicateBindings {
     is_pat_decl: bool,
 
     is_module: bool,
+
+    top_level: bool,
 }
 
 impl DuplicateBindings {
@@ -91,6 +96,13 @@ impl DuplicateBindings {
         self.is_pat_decl = old_is_pat_decl;
         self.var_decl_kind = old_var_decl_kind;
     }
+
+    fn visit_with_fn_scope<V: VisitWith<Self>>(&mut self, e: &V) {
+        let top_level = self.top_level;
+        self.top_level = false;
+        e.visit_children_with(self);
+        self.top_level = top_level;
+    }
 }
 
 impl Visit for DuplicateBindings {
@@ -102,6 +114,18 @@ impl Visit for DuplicateBindings {
         if self.is_pat_decl {
             self.add(&p.key, self.is_unique_var_kind());
         }
+    }
+
+    fn visit_function(&mut self, f: &Function) {
+        self.visit_with_fn_scope(f)
+    }
+
+    fn visit_arrow_expr(&mut self, a: &ArrowExpr) {
+        self.visit_with_fn_scope(a)
+    }
+
+    fn visit_class(&mut self, c: &Class) {
+        self.visit_with_fn_scope(c)
     }
 
     fn visit_catch_clause(&mut self, c: &CatchClause) {
@@ -129,7 +153,7 @@ impl Visit for DuplicateBindings {
 
     fn visit_fn_decl(&mut self, d: &FnDecl) {
         if d.function.body.is_some() {
-            self.add(&d.ident, self.is_module);
+            self.add(&d.ident, self.is_module && self.top_level);
         }
 
         d.visit_children_with(self);

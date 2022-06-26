@@ -1,15 +1,15 @@
 function a() {
-    var b = 3, a = 5, c = 2, a = 1, a = 3;
-    return -a;
+    var a = 3, b = 5, c = 2, b = 1, b = 3;
+    return -b;
 }
-function b(b) {
-    var a = 3, a = b;
-    return a;
+function b(a) {
+    var b = 3, b = a;
+    return b;
 }
-(function(b) {
-    var c = "GOOD" + b, a = "BAD", d = "!", a = c;
-    console.log(a + d);
+(function(a) {
+    var b = "GOOD" + a, c = "BAD", d = "!", c = b;
+    console.log(c + d);
 })("!"), (function(a) {
-    var c = "GOOD" + a, b = "BAD" + a, d = "!", b = c;
-    console.log(b + d);
+    var b = "GOOD" + a, c = "BAD" + a, d = "!", c = b;
+    console.log(c + d);
 })("!");

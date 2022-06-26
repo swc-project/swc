@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _define_property from "@swc/helpers/lib/_define_property.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var _obj, TopLevelSym = Symbol(), InnerSym = Symbol();
 module.exports = (_define_property(_obj = {}, TopLevelSym, function() {
     var x = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 12;

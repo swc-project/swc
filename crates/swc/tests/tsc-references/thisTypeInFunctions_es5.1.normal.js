@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var _this = this;
 // body checking
 var B = function B() {
@@ -43,8 +43,8 @@ function explicitStructural(x) {
 function justThis() {
     return this.y;
 }
-function implicitThis(n1) {
-    return this.m + n1 + 12;
+function implicitThis(n) {
+    return this.m + n + 12;
 }
 var impl = {
     a: 12,
@@ -189,8 +189,8 @@ c.explicitC = function(m) {
     return this.n + m;
 };
 // this:void compatibility
-c.explicitVoid = function(n2) {
-    return n2;
+c.explicitVoid = function(n) {
+    return n;
 };
 // class-based assignability
 var Base1 = /*#__PURE__*/ function() {

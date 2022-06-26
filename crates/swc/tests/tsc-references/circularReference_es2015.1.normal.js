@@ -1,7 +1,7 @@
 // @Filename: foo1.ts
 const foo2 = require('./foo2');
 export var M1;
-(function(M11) {
+(function(M1) {
     class C1 {
         constructor(){
             this.m1 = new foo2.M1.C1();
@@ -9,11 +9,11 @@ export var M1;
             this.m1.x = 20; // Error
         }
     }
-    M11.C1 = C1;
+    M1.C1 = C1;
 })(M1 || (M1 = {}));
 // @Filename: foo2.ts
 const foo1 = require('./foo1');
-(function(M12) {
+(function(M11) {
     class C1 {
         constructor(){
             this.m1 = new foo1.M1.C1();
@@ -24,5 +24,5 @@ const foo1 = require('./foo1');
             tmp.x = 20; // Error			
         }
     }
-    M12.C1 = C1;
+    M11.C1 = C1;
 })(M1 || (M1 = {}));

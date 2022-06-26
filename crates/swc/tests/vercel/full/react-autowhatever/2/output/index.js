@@ -2,48 +2,48 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
-var d = require("@swc/helpers/lib/_class_call_check.js").default, e = require("@swc/helpers/lib/_inherits.js").default, b = require("@swc/helpers/lib/_interop_require_wildcard.js").default, f = require("@swc/helpers/lib/_object_spread.js").default, g = require("@swc/helpers/lib/_object_spread_props.js").default, h = require("@swc/helpers/lib/_create_super.js").default, i = require("react/jsx-runtime"), c = b(require("react")), a = function(c) {
+var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@swc/helpers/lib/_inherits.js").default, c = require("@swc/helpers/lib/_interop_require_wildcard.js").default, d = require("@swc/helpers/lib/_object_spread.js").default, e = require("@swc/helpers/lib/_object_spread_props.js").default, f = require("@swc/helpers/lib/_create_super.js").default, g = require("react/jsx-runtime"), h = c(require("react")), i = function(c) {
     "use strict";
-    e(a, c);
-    var j = h(a);
-    function a() {
+    b(i, c);
+    var h = f(i);
+    function i() {
         var b;
-        return d(this, a), b = j.apply(this, arguments), b.storeHighlightedItemReference = function(a) {
+        return a(this, i), b = h.apply(this, arguments), b.storeHighlightedItemReference = function(a) {
             b.props.onHighlightedItemChange(null === a ? null : a.item);
         }, b;
     }
-    var b = a.prototype;
-    return b.shouldComponentUpdate = function(a) {
+    var j = i.prototype;
+    return j.shouldComponentUpdate = function(a) {
         return compareObjects(a, this.props, [
             "itemProps"
         ]);
-    }, b.render = function() {
-        var k = this, a = this.props, d = a.items, e = a.itemProps, l = a.renderItem, m = a.renderItemData, b = a.sectionIndex, n = a.highlightedItemIndex, o = a.getItemId, h = a.theme, c = a.keyPrefix, j = null === b ? c : "".concat(c, "section-").concat(b, "-"), p = "function" == typeof e;
-        return i.jsx("ul", g(f({
+    }, j.render = function() {
+        var a = this, b = this.props, c = b.items, f = b.itemProps, h = b.renderItem, i = b.renderItemData, j = b.sectionIndex, k = b.highlightedItemIndex, l = b.getItemId, m = b.theme, n = b.keyPrefix, o = null === j ? n : "".concat(n, "section-").concat(j, "-"), p = "function" == typeof f;
+        return g.jsx("ul", e(d({
             role: "listbox"
-        }, h("".concat(j, "items-list"), "itemsList")), {
-            children: d.map(function(q, a) {
-                var c = a === n, r = "".concat(j, "item-").concat(a), s = p ? e({
-                    sectionIndex: b,
-                    itemIndex: a
-                }) : e, d = f({
-                    id: o(b, a),
-                    "aria-selected": c
-                }, h(r, "item", 0 === a && "itemFirst", c && "itemHighlighted"), s);
-                return c && (d.ref = k.storeHighlightedItemReference), i.jsx(Item, g(f({}, d), {
-                    sectionIndex: b,
-                    isHighlighted: c,
-                    itemIndex: a,
-                    item: q,
-                    renderItem: l,
-                    renderItemData: m
+        }, m("".concat(o, "items-list"), "itemsList")), {
+            children: c.map(function(b, c) {
+                var n = c === k, q = "".concat(o, "item-").concat(c), r = p ? f({
+                    sectionIndex: j,
+                    itemIndex: c
+                }) : f, s = d({
+                    id: l(j, c),
+                    "aria-selected": n
+                }, m(q, "item", 0 === c && "itemFirst", n && "itemHighlighted"), r);
+                return n && (s.ref = a.storeHighlightedItemReference), g.jsx(Item, e(d({}, s), {
+                    sectionIndex: j,
+                    isHighlighted: n,
+                    itemIndex: c,
+                    item: b,
+                    renderItem: h,
+                    renderItemData: i
                 }));
             })
         }));
-    }, a;
-}(c.Component);
-a.propTypes = {
+    }, i;
+}(h.Component);
+i.propTypes = {
     items: 500
-}, a.defaultProps = {
+}, i.defaultProps = {
     sectionIndex: null
-}, new a(), exports.default = a;
+}, new i(), exports.default = i;

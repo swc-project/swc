@@ -8,7 +8,7 @@ Wagon.circle = function(wagons) {
 };
 var db = new class extends Wagon {
     load(files, format) {
-        if ("xmlolololol" === format) throw new Error("please do not use XML. It was a joke.");
+        if ("xmlolololol" === format) throw Error("please do not use XML. It was a joke.");
         super.speed(), super.weight();
     }
     constructor(){

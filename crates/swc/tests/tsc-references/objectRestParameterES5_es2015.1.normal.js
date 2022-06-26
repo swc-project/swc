@@ -1,4 +1,4 @@
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 // @target: es5
 function cloneAgain(_param) {
     var { a  } = _param, clone = _object_without_properties(_param, [

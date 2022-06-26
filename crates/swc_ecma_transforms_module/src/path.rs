@@ -43,6 +43,16 @@ impl Resolver {
     ) -> Expr {
         let src = self.resolve(src);
 
+        if let Some(suffix) = src.strip_prefix("@swc/helpers/src/") {
+            if let Some(prefix) = suffix.strip_suffix(".mjs") {
+                return self.make_require_call(
+                    unresolved_mark,
+                    format!("@swc/helpers/lib/{}.js", prefix).into(),
+                    src_span,
+                );
+            }
+        }
+
         Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require").as_callee(),

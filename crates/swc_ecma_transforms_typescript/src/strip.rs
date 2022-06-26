@@ -86,6 +86,12 @@ pub struct Config {
 
     #[serde(default)]
     pub ts_enum_config: TSEnumConfig,
+
+    /// If this is true, the following codes will be preserved.
+    /// - `import foo = require()`
+    /// - `export = expr`
+    #[serde(default)]
+    pub preserve_import_export_assign: bool,
 }
 
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]
@@ -990,6 +996,7 @@ where
         items.visit_with(self);
 
         let mut stmts = Vec::with_capacity(items.len());
+        let mut export_assign = None;
         for mut item in items {
             self.is_side_effect_import = false;
             match item {
@@ -1088,6 +1095,7 @@ where
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
                 })) => {
                     self.cross_transform_scope.borrow_mut().has_require_call = true;
+                })) if !self.config.preserve_import_export_assign => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
                         name: id.into(),
@@ -1114,6 +1122,10 @@ where
                 }))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     type_only: true,
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
+                    is_type_only: true,
                     ..
                 })) => continue,
 
@@ -1168,7 +1180,13 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
+                    import @ TsImportEqualsDecl {
+                        module_ref: TsModuleRef::TsEntityName(..),
+                        declare: false,
+                        ..
+                    },
+                )) => {
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
                     let has_concrete = if let Some(entry) = maybe_entry {
                         entry.has_concrete
@@ -1216,15 +1234,21 @@ where
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(mut export)) => {
                     export.expr.visit_mut_with(self);
 
-                    stmts.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                        span: export.span,
-                        expr: Box::new(Expr::Assign(AssignExpr {
+                    let stmt = if self.config.preserve_import_export_assign {
+                        ModuleDecl::TsExportAssignment(export).into()
+                    } else {
+                        ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                             span: export.span,
-                            left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
-                            op: op!("="),
-                            right: export.expr,
-                        })),
-                    })));
+                            expr: Box::new(Expr::Assign(AssignExpr {
+                                span: export.span,
+                                left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
+                                op: op!("="),
+                                right: export.expr,
+                            })),
+                        }))
+                    };
+
+                    export_assign = Some(stmt);
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
@@ -1406,6 +1430,10 @@ where
                         .collect(),
                 })),
             })));
+        }
+
+        if let Some(export_assign) = export_assign {
+            stmts.push(export_assign);
         }
 
         stmts
@@ -2084,6 +2112,7 @@ where
         items.visit_with(self);
 
         let mut stmts = Vec::with_capacity(items.len());
+        let mut export_assign = None;
         for mut item in take(items) {
             self.is_side_effect_import = false;
             match item {
@@ -2200,6 +2229,7 @@ where
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
                 })) => {
                     self.cross_transform_scope.borrow_mut().has_require_call = true;
+                })) if !self.config.preserve_import_export_assign => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
                         name: id.into(),
@@ -2226,6 +2256,10 @@ where
                 }))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     type_only: true,
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
+                    is_type_only: true,
                     ..
                 })) => continue,
 
@@ -2275,7 +2309,13 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
+                    import @ TsImportEqualsDecl {
+                        module_ref: TsModuleRef::TsEntityName(..),
+                        declare: false,
+                        ..
+                    },
+                )) => {
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
                     let has_concrete = if let Some(entry) = maybe_entry {
                         entry.has_concrete
@@ -2313,15 +2353,21 @@ where
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(mut export)) => {
                     export.expr.visit_mut_with(self);
 
-                    stmts.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                        span: export.span,
-                        expr: Box::new(Expr::Assign(AssignExpr {
+                    let stmt = if self.config.preserve_import_export_assign {
+                        ModuleDecl::TsExportAssignment(export).into()
+                    } else {
+                        ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                             span: export.span,
-                            left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
-                            op: op!("="),
-                            right: export.expr,
-                        })),
-                    })));
+                            expr: Box::new(Expr::Assign(AssignExpr {
+                                span: export.span,
+                                left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
+                                op: op!("="),
+                                right: export.expr,
+                            })),
+                        }))
+                    };
+
+                    export_assign = Some(stmt);
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
@@ -2378,6 +2424,8 @@ where
                 .into(),
             )
         }
+
+        stmts.extend(export_assign);
 
         self.keys = orig_keys;
 

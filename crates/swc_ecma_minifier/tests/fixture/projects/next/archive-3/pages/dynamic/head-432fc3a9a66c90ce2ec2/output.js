@@ -16,9 +16,9 @@
             }
             function _asyncToGenerator(fn) {
                 return function() {
-                    var self = this, args = arguments;
+                    var self1 = this, args = arguments;
                     return new Promise(function(resolve, reject) {
-                        var gen = fn.apply(self, args);
+                        var gen = fn.apply(self1, args);
                         function _next(value) {
                             asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
                         }
@@ -95,7 +95,7 @@
         },
         880: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var obj1, _defineProperty = __webpack_require__(566), _classCallCheck = __webpack_require__(4988), _createClass = __webpack_require__(9590);
+            var obj, _defineProperty = __webpack_require__(566), _classCallCheck = __webpack_require__(4988), _createClass = __webpack_require__(9590);
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
                 if (Object.getOwnPropertySymbols) {
@@ -119,14 +119,14 @@
             }
             function _arrayLikeToArray(arr, len) {
                 (null == len || len > arr.length) && (len = arr.length);
-                for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+                for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
             }
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = void 0;
-            var _react = (obj1 = __webpack_require__(2735)) && obj1.__esModule ? obj1 : {
-                default: obj1
+            var _react = (obj = __webpack_require__(2735)) && obj.__esModule ? obj : {
+                default: obj
             }, _useSubscription = __webpack_require__(4234), _loadableContext = __webpack_require__(8183), ALL_INITIALIZERS = [], READY_INITIALIZERS = [], initialized = !1;
             function load(loader) {
                 var promise = loader(), state = {
@@ -140,7 +140,7 @@
                     throw state.loading = !1, state.error = err, err;
                 }), state;
             }
-            var LoadableSubscription1 = function() {
+            var LoadableSubscription = function() {
                 function LoadableSubscription(loadFn, opts) {
                     _classCallCheck(this, LoadableSubscription), this._loadFn = loadFn, this._opts = opts, this._callbacks = new Set(), this._delay = null, this._timeout = null, this.retry();
                 }
@@ -222,7 +222,7 @@
                     }, options), subscription = null;
                     function init() {
                         if (!subscription) {
-                            var sub = new LoadableSubscription1(loadFn, opts);
+                            var sub = new LoadableSubscription(loadFn, opts);
                             subscription = {
                                 getCurrentValue: sub.getCurrentValue.bind(sub),
                                 subscribe: sub.subscribe.bind(sub),
@@ -235,26 +235,26 @@
                     if (!initialized && "function" == typeof opts.webpack) {
                         var moduleIds = opts.webpack();
                         READY_INITIALIZERS.push(function(ids) {
-                            var _step, _iterator = function(o1, allowArrayLike) {
-                                if ("undefined" == typeof Symbol || null == o1[Symbol.iterator]) {
-                                    if (Array.isArray(o1) || (it = function(o, minLen) {
+                            var _step, _iterator = function(o, allowArrayLike) {
+                                if ("undefined" == typeof Symbol || null == o[Symbol.iterator]) {
+                                    if (Array.isArray(o) || (it = function(o, minLen) {
                                         if (o) {
                                             if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
                                             var n = Object.prototype.toString.call(o).slice(8, -1);
                                             if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
                                             if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
                                         }
-                                    }(o1))) {
-                                        it && (o1 = it);
+                                    }(o))) {
+                                        it && (o = it);
                                         var i = 0, F = function() {};
                                         return {
                                             s: F,
                                             n: function() {
-                                                return i >= o1.length ? {
+                                                return i >= o.length ? {
                                                     done: !0
                                                 } : {
                                                     done: !1,
-                                                    value: o1[i++]
+                                                    value: o[i++]
                                                 };
                                             },
                                             e: function(_e) {
@@ -263,12 +263,12 @@
                                             f: F
                                         };
                                     }
-                                    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                                    throw TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
                                 }
                                 var it, err, normalCompletion = !0, didErr = !1;
                                 return {
                                     s: function() {
-                                        it = o1[Symbol.iterator]();
+                                        it = o[Symbol.iterator]();
                                     },
                                     n: function() {
                                         var step = it.next();

@@ -1,25 +1,25 @@
 //@filename: part1.ts
 var A;
-(function(A1) {
-    let Utils1;
+(function(A) {
+    let Utils;
     (function(Utils) {
-        function mirror(p1) {
+        function mirror(p) {
             return {
-                x: p1.y,
-                y: p1.x
+                x: p.y,
+                y: p.x
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 = A1.Utils || (A1.Utils = {}));
-    var Origin = A1.Origin = {
+    })(Utils = A.Utils || (A.Utils = {}));
+    var Origin = A.Origin = {
         x: 0,
         y: 0
     };
 })(A || (A = {}));
-(function(A2) {
+(function(A) {
     // not a collision, since we don't export
     var Origin = "0,0";
-    let Utils2;
+    let Utils;
     (function(Utils) {
         class Plane {
             constructor(tl, br){
@@ -28,7 +28,7 @@ var A;
             }
         }
         Utils.Plane = Plane;
-    })(Utils2 = A2.Utils || (A2.Utils = {}));
+    })(Utils = A.Utils || (A.Utils = {}));
 })(A || (A = {}));
 //@filename: part3.ts
 // test the merging actually worked

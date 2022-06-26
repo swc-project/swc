@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 //@target: ES6
 //@declaration: true
 var M;
-(function(M1) {
+(function(M) {
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
@@ -28,5 +28,5 @@ var M;
         ]);
         return C;
     }();
-    M1.C = C;
+    M.C = C;
 })(M || (M = {}));

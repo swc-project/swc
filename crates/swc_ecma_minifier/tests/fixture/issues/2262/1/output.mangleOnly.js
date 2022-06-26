@@ -1,8 +1,8 @@
 (()=>{
     "use strict";
-    var c = globalThis;
-    function d(a) {}
-    var a = somethingGlobal;
-    const b = a;
-    b();
+    var a = globalThis;
+    function b(a) {}
+    var c = somethingGlobal;
+    const d = c;
+    d();
 })();

@@ -1,90 +1,120 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:1
-  |
-1 | a { width: +0.; }
-  | ^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:1
-  |
-1 | a { width: +0.; }
-  | ^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^^^^^^^^^^^^^^^^^
+   `----
 
-error: StyleRule
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:1
-  |
-1 | a { width: +0.; }
-  | ^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:1
-  |
-1 | a { width: +0.; }
-  | ^
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^^^^^^^^^^^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:1
-  |
-1 | a { width: +0.; }
-  | ^
+  x SelectorList
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^
+   `----
 
-error: NamespacedName
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:1
-  |
-1 | a { width: +0.; }
-  | ^
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^
+   `----
 
-error: Text
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:1
-  |
-1 | a { width: +0.; }
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^
+   `----
 
-error: DeclBlock
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:3
-  |
-1 | a { width: +0.; }
-  |   ^^^^^^^^^^^^^^^
+  x TypeSelector
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^
+   `----
 
-error: Property
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:5
-  |
-1 | a { width: +0.; }
-  |     ^^^^^^^^^
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^
+   `----
 
-error: Text
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:5
-  |
-1 | a { width: +0.; }
-  |     ^^^^^
+  x WqName
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^
+   `----
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:11
-  |
-1 | a { width: +0.; }
-  |           ^^^^
+  x Ident
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   : ^
+   `----
 
-error: Tokens
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:11
-  |
-1 | a { width: +0.; }
-  |           ^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :   ^^^^^^^^^^^^^^^
+   `----
 
-error: WhiteSpace
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:11
-  |
-1 | a { width: +0.; }
-  |           ^
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :     ^^^^^^^^^^
+   `----
 
-error: Num(NumToken { value: 0.0 })
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:12
-  |
-1 | a { width: +0.; }
-  |            ^^
+  x StyleBlock
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :     ^^^^^^^^^^
+   `----
 
-error: Delim { value: '.' }
- --> $DIR/tests/fixture/esbuild/misc/6mrV_7sMC078PDku0AmwVw/input.css:1:14
-  |
-1 | a { width: +0.; }
-  |              ^
+  x Declaration
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :     ^^^^^^^^^^
+   `----
 
+  x DeclarationName
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :     ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :     ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :            ^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :            ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :              ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/value/number/plus-dot/input.css:1:1]
+ 1 | a { width: +0.; }
+   :              ^
+   `----

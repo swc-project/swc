@@ -25,7 +25,7 @@ pub fn get_minified(
 
     let mut module = {
         swc_ecma_minifier::optimize(
-            m.module,
+            m.module.into(),
             cm,
             Some(&m.comments),
             None,
@@ -47,6 +47,7 @@ pub fn get_minified(
                 top_level_mark: m.top_level_mark,
             },
         )
+        .expect_module()
     };
 
     module.visit_mut_with(&mut Normalizer {});

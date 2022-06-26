@@ -2,7 +2,7 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
+(function(TypeScript) {
     class AstWalkOptions {
         stopWalk(stop = true) {
             this.goChildren = !stop;
@@ -15,7 +15,7 @@ var TypeScript;
             ;
         }
     }
-    TypeScript1.AstWalkOptions = AstWalkOptions;
+    TypeScript.AstWalkOptions = AstWalkOptions;
     class AstWalker {
         walk(ast, parent) {
             var preAst = this.pre(ast, parent, this);
@@ -183,7 +183,7 @@ var TypeScript;
             this.initChildrenWalkers();
         }
     }
-    TypeScript1.AstWalkerFactory = AstWalkerFactory;
+    TypeScript.AstWalkerFactory = AstWalkerFactory;
     var globalAstWalkerFactory;
     function getAstWalkerFactory() {
         if (!globalAstWalkerFactory) {
@@ -191,8 +191,8 @@ var TypeScript;
         }
         return globalAstWalkerFactory;
     }
-    TypeScript1.getAstWalkerFactory = getAstWalkerFactory;
-    let ChildrenWalkers1;
+    TypeScript.getAstWalkerFactory = getAstWalkerFactory;
+    let ChildrenWalkers;
     (function(ChildrenWalkers) {
         function walkNone(preAst, parent, walker) {
         // Nothing to do
@@ -488,5 +488,5 @@ var TypeScript;
             }
         }
         ChildrenWalkers.walkLabeledStatementChildren = walkLabeledStatementChildren;
-    })(ChildrenWalkers1 || (ChildrenWalkers1 = {}));
+    })(ChildrenWalkers || (ChildrenWalkers = {}));
 })(TypeScript || (TypeScript = {}));

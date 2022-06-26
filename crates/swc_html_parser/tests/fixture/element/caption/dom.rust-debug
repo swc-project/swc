@@ -1,0 +1,65 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <table>
+|       "
+    "
+|       <caption>
+|         "Example Caption"
+|       "
+    "
+|       <tbody>
+|         <tr>
+|           "
+        "
+|           <th>
+|             "Login"
+|           "
+        "
+|           <th>
+|             "Email"
+|           "
+    "
+|         "
+    "
+|         <tr>
+|           "
+        "
+|           <td>
+|             "user1"
+|           "
+        "
+|           <td>
+|             "user1@sample.com"
+|           "
+    "
+|         "
+    "
+|         <tr>
+|           "
+        "
+|           <td>
+|             "user2"
+|           "
+        "
+|           <td>
+|             "user2@sample.com"
+|           "
+    "
+|         "
+"
+|     "
+
+"

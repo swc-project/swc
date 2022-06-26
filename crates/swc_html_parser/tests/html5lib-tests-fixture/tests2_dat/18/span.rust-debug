@@ -1,0 +1,52 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/18/input.html:1:1]
+ 1 | <!doctypehtml><scrIPt type=text/x-foobar;baz>X</SCRipt
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/18/input.html:1:1]
+ 1 | <!doctypehtml><scrIPt type=text/x-foobar;baz>X</SCRipt
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/18/input.html:1:1]
+ 1 | <!doctypehtml><scrIPt type=text/x-foobar;baz>X</SCRipt
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/18/input.html:1:1]
+ 1 | <!doctypehtml><scrIPt type=text/x-foobar;baz>X</SCRipt
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/18/input.html:1:1]
+ 1 | <!doctypehtml><scrIPt type=text/x-foobar;baz>X</SCRipt
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/18/input.html:1:1]
+ 1 | <!doctypehtml><scrIPt type=text/x-foobar;baz>X</SCRipt
+   :                       ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/18/input.html:1:1]
+ 1 | <!doctypehtml><scrIPt type=text/x-foobar;baz>X</SCRipt
+   :                                              ^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/18/input.html:1:1]
+ 1 | <!doctypehtml><scrIPt type=text/x-foobar;baz>X</SCRipt
+   :                                              ^^^^^^^^^
+   `----

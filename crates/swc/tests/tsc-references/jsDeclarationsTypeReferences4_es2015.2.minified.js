@@ -1,8 +1,8 @@
 export const Something = 2;
 export var A;
-!function(A1) {
+!function(A) {
     !function(B) {
-        let Something1 = require("fs").Something;
-        new Something1();
-    }(A1.B || (A1.B = {}));
+        let Something = require("fs").Something;
+        new Something();
+    }(A.B || (A.B = {}));
 }(A || (A = {}));

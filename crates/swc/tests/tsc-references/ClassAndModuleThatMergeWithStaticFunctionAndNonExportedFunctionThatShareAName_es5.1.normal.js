@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Point = /*#__PURE__*/ function() {
     "use strict";
     function Point(x, y) {
@@ -21,7 +21,7 @@ var Point = /*#__PURE__*/ function() {
     ;
 })(Point || (Point = {}));
 var A;
-(function(A1) {
+(function(A) {
     var Point = /*#__PURE__*/ function() {
         "use strict";
         function Point(x, y) {
@@ -37,10 +37,10 @@ var A;
         };
         return Point;
     }();
-    A1.Point = Point;
+    A.Point = Point;
     (function(Point) {
         function Origin() {
             return "";
         } // not an error since not exported
-    })(Point = A1.Point || (A1.Point = {}));
+    })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));

@@ -49,10 +49,10 @@ function f3(b) {
             a[0].x = E.B;
             return a;
         } else {
-            class A1 {
+            class A {
             }
             let c = [
-                new A1()
+                new A()
             ];
             c[0].x = E.B;
             return c;
@@ -118,10 +118,10 @@ class A {
     }
 }
 function f6() {
-    class A2 {
+    class A {
     }
     function g() {
-        class B extends A2 {
+        class B extends A {
         }
         function h() {
             class C extends B {

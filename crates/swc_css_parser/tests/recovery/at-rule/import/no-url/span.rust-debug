@@ -1,0 +1,120 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | ,-> @import nourl(test);
+ 2 | `-> @import 123;
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :  ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :         ^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :         ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :         ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :               ^^^^
+   `----
+
+  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
+ 1 | @import nourl(test);
+   :               ^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
+ 2 | @import 123;
+   : ^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
+ 2 | @import 123;
+   : ^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
+ 2 | @import 123;
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
+ 2 | @import 123;
+   :  ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
+ 2 | @import 123;
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
+ 2 | @import 123;
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
+ 2 | @import 123;
+   :         ^^^
+   `----
+
+  x Number { value: 123.0, raw: Atom('123' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
+ 2 | @import 123;
+   :         ^^^
+   `----

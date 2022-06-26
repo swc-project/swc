@@ -1,8 +1,8 @@
 var M;
-!function(M1) {
+!function(M) {
     var Symbol;
     class C {
         [Symbol.iterator]() {}
     }
-    M1.Symbol = Symbol;
+    M.Symbol = Symbol;
 }(M || (M = {}));

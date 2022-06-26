@@ -1,5 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-module.exports = Point;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Bar = function(input) {
     "use strict";
     _class_call_check(this, Bar);
@@ -25,4 +24,5 @@ export var Bar2 = function(input) {
 export var shim = {
     Bar: Bar2
 };
+module.exports = Point;
 export { Bar };

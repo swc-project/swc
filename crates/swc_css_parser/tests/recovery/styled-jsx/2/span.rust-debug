@@ -1,0 +1,196 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | ,-> .a :global(> .b) {
+ 2 | |       flex-basis: __styled-jsx-placeholder__0%;
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | ,-> .a :global(> .b) {
+ 2 | |       flex-basis: __styled-jsx-placeholder__0%;
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | ,-> .a :global(> .b) {
+ 2 | |       flex-basis: __styled-jsx-placeholder__0%;
+ 3 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   : ^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   : ^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   : ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :  ^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :   ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :    ^^^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :    ^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :    ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :     ^^^^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :            ^
+   `----
+
+  x Delim { value: '>' }
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :            ^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :             ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :             ^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :              ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :              ^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :               ^
+   `----
+
+  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | .a :global(> .b) {
+   :               ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+ 1 | ,-> .a :global(> .b) {
+ 2 | |       flex-basis: __styled-jsx-placeholder__0%;
+ 3 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   :                                        ^
+   `----
+
+  x Delim { value: '%' }
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:5]
+ 2 | flex-basis: __styled-jsx-placeholder__0%;
+   :                                        ^
+   `----

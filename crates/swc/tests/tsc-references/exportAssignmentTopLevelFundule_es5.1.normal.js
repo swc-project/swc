@@ -3,13 +3,13 @@
 function foo() {
     return "test";
 }
-(function(foo1) {
-    var answer = foo1.answer = 42;
+(function(foo) {
+    var answer = foo.answer = 42;
 })(foo || (foo = {}));
-module.exports = foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");
 if (foo.answer === 42) {
     var x = foo();
 }
+module.exports = foo;
 export { };

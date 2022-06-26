@@ -5,8 +5,8 @@ function foo3() {
 function m1() {
     return 1;
 }
-foo3(), function(M1) {
-    M1.x = 1, M1.C = class {
+foo3(), function(M) {
+    M.x = 1, M.C = class {
     };
 }(M || (M = {})), (m1 || (m1 = {})).y = 2;
 class c1 {

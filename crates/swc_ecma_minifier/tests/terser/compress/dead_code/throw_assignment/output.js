@@ -14,19 +14,19 @@ function f4() {
         console.log(a);
     }
 }
-function f5(a1) {
+function f5(a) {
     try {
-        throw a1 = x();
+        throw a = x();
     } catch (b) {
-        console.log(a1);
+        console.log(a);
     }
 }
 function f6() {
-    var a2;
+    var a;
     try {
-        throw a2 = x();
+        throw a = x();
     } catch (b) {
-        console.log(a2);
+        console.log(a);
     }
 }
 function f7() {
@@ -36,19 +36,19 @@ function f7() {
         console.log(a);
     }
 }
-function f8(a3) {
+function f8(a) {
     try {
-        throw a3 = x();
+        throw a = x();
     } finally{
-        console.log(a3);
+        console.log(a);
     }
 }
 function f9() {
-    var a4;
+    var a;
     try {
-        throw a4 = x();
+        throw a = x();
     } finally{
-        console.log(a4);
+        console.log(a);
     }
 }
 function test(inc) {
@@ -72,8 +72,8 @@ function test(inc) {
         a = null;
         try {
             f(10 * (1 + i));
-        } catch (x1) {
-            console.log("caught " + x1);
+        } catch (x) {
+            console.log("caught " + x);
         }
         if (null !== a) console.log("a: " + a);
     });

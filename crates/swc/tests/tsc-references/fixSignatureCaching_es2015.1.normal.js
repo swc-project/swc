@@ -1,6 +1,6 @@
 // Repro from #10697
-(function(define, undefined) {
-    define(function() {
+(function(define1, undefined) {
+    define1(function() {
         'use strict';
         var impl = {};
         impl.mobileDetectRules = {

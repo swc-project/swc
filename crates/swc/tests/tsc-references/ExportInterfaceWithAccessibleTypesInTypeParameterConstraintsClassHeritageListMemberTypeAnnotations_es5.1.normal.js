@@ -1,10 +1,10 @@
 var A;
-(function(A1) {
-    var Origin = A1.Origin = {
+(function(A) {
+    var Origin = A.Origin = {
         x: 0,
         y: 0
     };
-    var Origin3d = A1.Origin3d = {
+    var Origin3d = A.Origin3d = {
         x: 0,
         y: 0,
         z: 0

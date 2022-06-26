@@ -1,12 +1,12 @@
-function a(d) {
-    var e = 0;
-    var a = 0;
+function a(a) {
     var b = 0;
-    while(a < 32){
-        var c = d[e++];
-        b |= (127 & c) << a;
-        if (0 === (128 & c)) return b;
-        a += 7;
+    var c = 0;
+    var d = 0;
+    while(c < 32){
+        var e = a[b++];
+        d |= (127 & e) << c;
+        if (0 === (128 & e)) return d;
+        c += 7;
     }
 }
 console.log(a([

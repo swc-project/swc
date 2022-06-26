@@ -55,7 +55,7 @@ var m;
 var m1;
 (function(m1) {
     var x;
-    let m21;
+    let m2;
     (function(m2) {
         let m3;
         (function(m3) {
@@ -69,5 +69,5 @@ var m1;
                  : x.toString(); // number
             }
         })(m3 = m2.m3 || (m2.m3 = {}));
-    })(m21 || (m21 = {}));
+    })(m2 || (m2 = {}));
 })(m1 || (m1 = {}));

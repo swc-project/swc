@@ -3,10 +3,10 @@
 export var Something = 2; // to show conflict that can occur
 // @ts-ignore
 export var A;
-(function(A1) {
+(function(A) {
     var B;
     (function(B) {
-        var Something1 = require("fs").Something;
-        var thing = new Something1();
-    })(B = A1.B || (A1.B = {}));
+        var Something = require("fs").Something;
+        var thing = new Something();
+    })(B = A.B || (A.B = {}));
 })(A || (A = {}));

@@ -1,5 +1,3 @@
-#![allow(clippy::derive_partial_eq_without_eq)]
-
 use std::borrow::Cow;
 
 use swc_atoms::JsWord;
@@ -9,7 +7,7 @@ use swc_common::{
 };
 
 /// Size is same as a size of a pointer.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Error {
     inner: Box<(Span, ErrorKind)>,
 }
@@ -260,7 +258,7 @@ impl Error {
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum ErrorKind {
     Eof,

@@ -288,9 +288,9 @@ for (var _ref1 of []) {
 }
 
 async function a() {
-  for await (var _ref2 of []) {
+  for await (var _ref of []) {
       var __ref;
-      __ref = _ref2, b = _objectWithoutProperties(__ref, [
+      __ref = _ref, b = _objectWithoutProperties(__ref, [
           "a"
       ]), ({ a  } = __ref), __ref;
   }

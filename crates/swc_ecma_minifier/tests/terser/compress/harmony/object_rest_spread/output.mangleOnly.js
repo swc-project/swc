@@ -1,43 +1,43 @@
-var { w: d , ...b } = {
+var { w: a , ...b } = {
     w: 7,
     x: 1,
     y: 2
 };
-console.log(d, b);
-let { w: e , ...a } = {
+console.log(a, b);
+let { w: c , ...d } = {
     w: 8,
     x: 3,
     y: 4
 };
-console.log(e, a);
-const { w: f , ...g } = {
+console.log(c, d);
+const { w: e , ...f } = {
     w: 9,
     x: 5,
     y: 6
 };
-console.log(f, g);
-let c;
-({ b: c , ...b } = {
+console.log(e, f);
+let g;
+({ b: g , ...b } = {
     a: 1,
     b: 2,
     c: 3
 });
 console.log(b);
-({ b: c , ...a } = {
+({ b: g , ...d } = {
     a: 4,
     b: 5,
     c: 6
 });
-console.log(a);
-(function({ y: b , ...a }) {
-    console.log(a);
+console.log(d);
+(function({ y: a , ...b }) {
+    console.log(b);
 })({
     x: 1,
     y: 2,
     z: 3
 });
-(({ y: b , ...a })=>{
-    console.log(a);
+(({ y: a , ...b })=>{
+    console.log(b);
 })({
     x: 4,
     y: 5,
@@ -51,7 +51,7 @@ console.log({
     ...h,
     w: 0,
     ...{},
-    ...a,
+    ...d,
     ...{
         K: 9
     }

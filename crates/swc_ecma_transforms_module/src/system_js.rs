@@ -249,7 +249,7 @@ impl SystemJs {
                         value,
                     }))));
                 }
-                return vec![CallExpr {
+                vec![CallExpr {
                     span: DUMMY_SP,
                     callee: self.export_ident.clone().as_callee(),
                     args: vec![ObjectLit {
@@ -259,7 +259,7 @@ impl SystemJs {
                     .as_arg()],
                     type_args: None,
                 }
-                .into_stmt()];
+                .into_stmt()]
             }
         }
     }

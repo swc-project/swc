@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 // ArrowFormalParameters => AssignmentExpression is equivalent to ArrowFormalParameters => { return AssignmentExpression; }
 var a = function(p) {
     return p.length;
@@ -151,10 +151,10 @@ function tryCatchFn() {
         var x = function() {
             return _this;
         };
-    } catch (e1) {
+    } catch (e) {
         var _this1 = this;
         var t = function() {
-            return e1 + _this1;
+            return e + _this1;
         };
     } finally{
         var _this2 = this;

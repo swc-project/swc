@@ -1,7 +1,7 @@
 function a(a) {
-    var b = function(b) {
-        var a = b.data;
-        return a && a.a != a.b;
+    var b = function(a) {
+        var b = a.data;
+        return b && b.a != b.b;
     };
     while(b(a)){
         a = a.data;

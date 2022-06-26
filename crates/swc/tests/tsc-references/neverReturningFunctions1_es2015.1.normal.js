@@ -18,18 +18,18 @@ function f03(x) {
     fail();
     x; // Unreachable
 }
-function f11(x, fail1) {
-    if (x === undefined) fail1("undefined argument");
+function f11(x, fail) {
+    if (x === undefined) fail("undefined argument");
     x.length; // string
 }
-function f12(x, fail2) {
+function f12(x, fail) {
     if (x >= 0) return x;
-    fail2("negative number");
+    fail("negative number");
     x; // Unreachable
 }
-function f13(x, fail3) {
+function f13(x, fail) {
     x; // string
-    fail3();
+    fail();
     x; // Unreachable
 }
 function f21(x) {
@@ -131,13 +131,13 @@ function f42(x) {
     x; // Unreachable
 }
 function f43() {
-    const fail4 = ()=>{
+    const fail = ()=>{
         throw new Error();
     };
     const f = [
-        fail4
+        fail
     ];
-    fail4(); // No effect (missing type annotation)
+    fail(); // No effect (missing type annotation)
     f[0](); // No effect (not a dotted name)
     f;
 }

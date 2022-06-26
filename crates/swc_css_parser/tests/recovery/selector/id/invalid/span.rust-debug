@@ -1,0 +1,46 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | ,-> #1234 {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | ,-> #1234 {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | ,-> #1234 {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | #1234 {
+   : ^^^^^^
+   `----
+
+  x Hash { is_id: false, value: Atom('1234' type=inline), raw: Atom('1234' type=inline) }
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | #1234 {
+   : ^^^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | #1234 {
+   :      ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | ,-> #1234 {
+ 2 | |   
+ 3 | `-> }
+   `----

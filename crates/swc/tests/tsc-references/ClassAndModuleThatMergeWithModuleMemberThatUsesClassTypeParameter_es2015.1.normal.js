@@ -13,8 +13,8 @@ class clodule2 {
 })(clodule2 || (clodule2 = {}));
 class clodule3 {
 }
-(function(clodule31) {
-    var y = clodule31.y = {
+(function(clodule3) {
+    var y = clodule3.y = {
         id: T
     };
 })(clodule3 || (clodule3 = {}));

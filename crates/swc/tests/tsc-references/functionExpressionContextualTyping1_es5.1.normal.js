@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var // When a function expression with no type parameters and no parameter type annotations 
 // is contextually typed (section 4.19) by a type T and a contextual signature S can be extracted from T
 E;
@@ -21,8 +21,8 @@ var Class = /*#__PURE__*/ function() {
     _proto.foo = function foo() {};
     return Class;
 }();
-var a1 = function(a11) {
-    a11.foo();
+var a1 = function(a1) {
+    a1.foo();
     return 1;
 };
 // A contextual signature S is extracted from a function type T as follows:
@@ -64,7 +64,7 @@ b7 = function(j, m) {}; // Per spec, no contextual signature can be extracted in
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
-    var k1 = function(j, k) {
+    var k = function(j, k) {
         return [
             j,
             k

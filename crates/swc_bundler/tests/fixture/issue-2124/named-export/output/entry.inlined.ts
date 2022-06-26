@@ -35,12 +35,12 @@ var load = __swcpack_require__.bind(void 0, function(module, exports) {
     function lodash(value) {
         console.log("lodash");
     }
-    function memoize1() {
+    function memoize() {
         console.log("memoize");
     }
-    lodash.memoize = memoize1;
+    lodash.memoize = memoize;
     module.exports = lodash;
-    exports.memoize = memoize1;
+    exports.memoize = memoize;
 });
 const _cjs_module_ = load(), memoize = _cjs_module_.memoize;
 const name = memoize();

@@ -19,15 +19,15 @@
             propName: null
         }, 
     ];
-    function b(b) {
-        var d = [];
-        for(var a = 0; a < b.length; a++){
-            var e = b[a];
+    function b(a) {
+        var b = [];
+        for(var d = 0; d < a.length; d++){
+            var e = a[d];
             var f = c(e.eventName);
-            d.push(f);
+            b.push(f);
         }
         var g, h;
-        return d;
+        return b;
     }
     function c(a) {
         return function() {

@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var A;
-(function(A2) {
+(function(A) {
     var F = function F(s) {
         return 2;
     };
@@ -24,9 +24,9 @@ var A;
         }
         return B;
     }(AA);
-    var BB = /*#__PURE__*/ function(A3) {
+    var BB = /*#__PURE__*/ function(A) {
         "use strict";
-        _inherits(BB, A3);
+        _inherits(BB, A);
         var _super = _create_super(BB);
         function BB() {
             _class_call_check(this, BB);
@@ -36,9 +36,9 @@ var A;
     }(A1);
     var Module;
     (function(Module) {
-        var A4 = function A4() {
+        var A = function A() {
             "use strict";
-            _class_call_check(this, A4);
+            _class_call_check(this, A);
         };
     })(Module || (Module = {}));
     var Color;
@@ -58,20 +58,20 @@ var A;
     };
 })(A || (A = {}));
 var Y;
-(function(Y1) {
+(function(Y) {
     var F = function F(s) {
         return 2;
     };
-    var A5 = function A5() {
+    var A = function A() {
         "use strict";
-        _class_call_check(this, A5);
+        _class_call_check(this, A);
     };
-    Y1.A = A5;
+    Y.A = A;
     var AA = function AA() {
         "use strict";
         _class_call_check(this, AA);
     };
-    Y1.AA = AA;
+    Y.AA = AA;
     var B = /*#__PURE__*/ function(AA) {
         "use strict";
         _inherits(B, AA);
@@ -82,37 +82,37 @@ var Y;
         }
         return B;
     }(AA);
-    Y1.B = B;
-    var BB = /*#__PURE__*/ function(A6) {
+    Y.B = B;
+    var BB = /*#__PURE__*/ function(A) {
         "use strict";
-        _inherits(BB, A6);
+        _inherits(BB, A);
         var _super = _create_super(BB);
         function BB() {
             _class_call_check(this, BB);
             return _super.apply(this, arguments);
         }
         return BB;
-    }(A5);
-    Y1.BB = BB;
+    }(A);
+    Y.BB = BB;
     var Module;
     (function(Module) {
-        var A7 = function A7() {
+        var A = function A() {
             "use strict";
-            _class_call_check(this, A7);
+            _class_call_check(this, A);
         };
-    })(Module = Y1.Module || (Y1.Module = {}));
+    })(Module = Y.Module || (Y.Module = {}));
     var Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color = Y1.Color || (Y1.Color = {}));
-    var x = Y1.x = 12;
-    Y1.F = F;
-    var array = Y1.array = null;
-    var fn = Y1.fn = function(s) {
+    })(Color = Y.Color || (Y.Color = {}));
+    var x = Y.x = 12;
+    Y.F = F;
+    var array = Y.array = null;
+    var fn = Y.fn = function(s) {
         return "hello " + s;
     };
-    var ol = Y1.ol = {
+    var ol = Y.ol = {
         s: "hello",
         id: 2,
         isvalid: true

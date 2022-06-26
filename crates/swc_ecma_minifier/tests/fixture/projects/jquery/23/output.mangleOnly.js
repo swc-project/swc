@@ -1,36 +1,36 @@
 export const obj = {
-    style: function(b, c, a, i) {
-        if (!b || b.nodeType === 3 || b.nodeType === 8 || !b.style) {
+    style: function(a, b, c, d) {
+        if (!a || a.nodeType === 3 || a.nodeType === 8 || !a.style) {
             return;
         }
-        var e, f, d, g = jQuery.camelCase(c), h = b.style;
-        c = jQuery.cssProps[g] || (jQuery.cssProps[g] = vendorPropName(h, g));
-        d = jQuery.cssHooks[c] || jQuery.cssHooks[g];
-        if (a !== undefined) {
-            f = typeof a;
-            if (f === "string" && (e = rrelNum.exec(a))) {
-                a = (e[1] + 1) * e[2] + parseFloat(jQuery.css(b, c));
+        var e, f, g, h = jQuery.camelCase(b), i = a.style;
+        b = jQuery.cssProps[h] || (jQuery.cssProps[h] = vendorPropName(i, h));
+        g = jQuery.cssHooks[b] || jQuery.cssHooks[h];
+        if (c !== undefined) {
+            f = typeof c;
+            if (f === "string" && (e = rrelNum.exec(c))) {
+                c = (e[1] + 1) * e[2] + parseFloat(jQuery.css(a, b));
                 f = "number";
             }
-            if (a == null || (f === "number" && isNaN(a))) {
+            if (c == null || (f === "number" && isNaN(c))) {
                 return;
             }
-            if (f === "number" && !jQuery.cssNumber[g]) {
-                a += "px";
+            if (f === "number" && !jQuery.cssNumber[h]) {
+                c += "px";
             }
-            if (!jQuery.support.clearCloneStyle && a === "" && c.indexOf("background") === 0) {
-                h[c] = "inherit";
+            if (!jQuery.support.clearCloneStyle && c === "" && b.indexOf("background") === 0) {
+                i[b] = "inherit";
             }
-            if (!d || !("set" in d) || (a = d.set(b, a, i)) !== undefined) {
+            if (!g || !("set" in g) || (c = g.set(a, c, d)) !== undefined) {
                 try {
-                    h[c] = a;
+                    i[b] = c;
                 } catch (j) {}
             }
         } else {
-            if (d && "get" in d && (e = d.get(b, false, i)) !== undefined) {
+            if (g && "get" in g && (e = g.get(a, false, d)) !== undefined) {
                 return e;
             }
-            return h[c];
+            return i[b];
         }
     }
 };

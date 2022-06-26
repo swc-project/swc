@@ -1,4 +1,4 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 const a1 = f1(1, 2); // 1 | 2
 const a2 = f1(1, "hello"); // 1
 const a3 = f1(1, sn); // number

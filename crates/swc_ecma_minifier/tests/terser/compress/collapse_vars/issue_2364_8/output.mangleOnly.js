@@ -1,12 +1,12 @@
-function b(a, b, c) {
+function a(a, b, c) {
     var d = a[(b.f = function() {
         return "PASS";
     })];
     return c.f(d);
 }
-var a = {
+var b = {
     f: function() {
         return "FAIL";
     }
 };
-console.log(b({}, a, a));
+console.log(a({}, b, b));

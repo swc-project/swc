@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // type parameters are not assignable to one another unless directly or indirectly constrained to one another
 var Foo = function Foo() {
     "use strict";

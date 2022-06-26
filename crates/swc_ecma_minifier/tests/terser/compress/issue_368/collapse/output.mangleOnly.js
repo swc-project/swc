@@ -9,21 +9,21 @@ function e(a) {
     e = typeof a === "function" ? a() : a;
     return "stirng" == typeof e && d();
 }
-function f(e) {
-    var a;
-    a = b(a / 2);
-    if (a < 0) {
-        a++;
-        ++e;
-        return e / 2;
+function f(a) {
+    var e;
+    e = b(e / 2);
+    if (e < 0) {
+        e++;
+        ++a;
+        return a / 2;
     }
 }
-function g(e) {
-    var a;
-    a = b(a / 2);
-    if (a < 0) {
-        a++;
+function g(a) {
+    var e;
+    e = b(e / 2);
+    if (e < 0) {
         e++;
-        return e / 2;
+        a++;
+        return a / 2;
     }
 }

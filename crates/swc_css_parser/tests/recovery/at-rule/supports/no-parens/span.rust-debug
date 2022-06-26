@@ -1,0 +1,108 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :  ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :          ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :          ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :           ^^^^^^^
+   `----
+
+  x Ident { value: Atom('display' type=inline), raw: Atom('display' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :           ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                  ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                   ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                    ^^^^
+   `----
+
+  x Ident { value: Atom('flex' type=inline), raw: Atom('flex' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                    ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                        ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
+   :                         ^^
+   `----

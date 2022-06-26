@@ -1,5 +1,5 @@
 var A;
-(function(A1) {
+(function(A) {
     class Point2d {
         fromOrigin(p) {
             return 1;
@@ -9,5 +9,5 @@ var A;
             this.y = y;
         }
     }
-    A1.Point2d = Point2d;
+    A.Point2d = Point2d;
 })(A || (A = {}));

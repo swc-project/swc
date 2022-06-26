@@ -4,9 +4,13 @@ use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith, VisitWith};
+#[cfg(debug_assertions)]
+use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith};
 
-use crate::debug::{dump, AssertValid};
+use crate::debug::dump;
+#[cfg(debug_assertions)]
+use crate::debug::AssertValid;
 
 /// Indicates a unit of minifaction.
 pub(crate) trait CompileUnit:
@@ -19,11 +23,14 @@ pub(crate) trait CompileUnit:
     fn is_module() -> bool;
 
     fn dump(&self) -> String {
-        if !cfg!(feature = "debug") {
-            return String::new();
+        #[cfg(feature = "debug")]
+        {
+            self.force_dump()
         }
-
-        self.force_dump()
+        #[cfg(not(feature = "debug"))]
+        {
+            String::new()
+        }
     }
 
     fn force_dump(&self) -> String;
@@ -90,7 +97,8 @@ impl CompileUnit for FnExpr {
         V: VisitMut,
     {
         self.visit_mut_with(&mut *visitor);
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             self.visit_with(&mut AssertValid);
         }
     }

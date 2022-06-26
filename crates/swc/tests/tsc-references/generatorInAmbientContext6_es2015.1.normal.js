@@ -1,7 +1,7 @@
 //@target: ES6
 //@declaration: true
 var M;
-(function(M1) {
+(function(M) {
     function* generator() {}
-    M1.generator = generator;
+    M.generator = generator;
 })(M || (M = {}));

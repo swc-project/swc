@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 this.props.children, this.props.children;
 var x = React.createElement("div", {
     attr1: "foobar",

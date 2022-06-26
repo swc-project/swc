@@ -5,16 +5,16 @@ var person = {
     name,
     id
 }; // error
-function bar(name1, id1) {
+function bar(name, id) {
     return {
-        name: name1,
-        id: id1
+        name,
+        id
     };
 } // error
-function foo(name2, id2) {
+function foo(name, id) {
     return {
-        name: name2,
-        id: id2
+        name,
+        id
     };
 } // error
 var person1; // ok

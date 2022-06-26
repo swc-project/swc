@@ -1,13 +1,13 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-!function(X1) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(X) {
     var Y, Point;
-    Y = X1.Y || (X1.Y = {}), Point = function(x, y) {
+    Y = X.Y || (X.Y = {}), Point = function(x, y) {
         "use strict";
         _class_call_check(this, Point), this.x = x, this.y = y;
     }, Y.Point = Point;
-}(X || (X = {})), function(X2) {
+}(X || (X = {})), function(X) {
     var Y, Point;
-    (Point = (Y = X2.Y || (X2.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
+    (Point = (Y = X.Y || (X.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
 }(X || (X = {})), new X.Y.Point(1, 1), X.Y.Point.Origin;
 var X, A = function() {
     "use strict";

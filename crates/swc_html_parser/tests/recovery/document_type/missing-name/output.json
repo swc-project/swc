@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 12,
-        "end": 89,
+        "end": 96,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,14 +33,15 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 25,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -60,13 +61,13 @@
                 "end": 27,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 27,
-                "end": 75,
+                "end": 79,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -93,10 +94,11 @@
                     "end": 75,
                     "ctxt": 0
                   },
-                  "value": "This is a link"
+                  "data": "This is a link"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -105,13 +107,15 @@
                 "end": 89,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

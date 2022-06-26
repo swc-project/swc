@@ -1,6 +1,6 @@
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
-import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
     for(var array, _step, _iterator = array[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){

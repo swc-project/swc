@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Index notation should resolve to the type of a declared property with that same name
 var C = function C() {
     "use strict";

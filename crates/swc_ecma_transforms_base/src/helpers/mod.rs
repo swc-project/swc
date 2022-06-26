@@ -79,7 +79,7 @@ macro_rules! add_import_to {
                 ),
             });
 
-            let src: Str = concat!("@swc/helpers/lib/_", stringify!($name), ".js").into();
+            let src: Str = concat!("@swc/helpers/src/_", stringify!($name), ".mjs").into();
 
             $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 span: DUMMY_SP,
@@ -479,7 +479,13 @@ impl VisitMut for Marker {
     }
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
-        if let Pat::Ident(i) = &v.name {
+        if let Pat::Ident(i) = &mut v.name {
+            if &*i.id.sym == "id" {
+                i.id.span.ctxt = self.base;
+                self.decls.insert(i.id.sym.clone(), self.base);
+                return;
+            }
+
             if &*i.id.sym != "_typeof" && !i.id.sym.starts_with("__") {
                 self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
             }
@@ -508,7 +514,7 @@ mod tests {
                     }),
                     "output.js",
                     Default::default(),
-                    "import _throw1 from \"@swc/helpers/lib/_throw.js\";
+                    "import _throw from \"@swc/helpers/src/_throw.mjs\";
 _throw();",
                 )?;
                 enable_helper!(throw);

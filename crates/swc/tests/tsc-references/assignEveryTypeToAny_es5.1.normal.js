@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // all of these are valid
 var x;
 x = 1;
@@ -39,10 +39,10 @@ x = {
     }
 };
 x = {
-    f: function f(x1) {
-        return x1;
+    f: function f(x) {
+        return x;
     }
 };
-function j(a1) {
-    x = a1;
+function j(a) {
+    x = a;
 }

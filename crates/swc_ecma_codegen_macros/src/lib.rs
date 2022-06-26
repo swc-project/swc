@@ -60,9 +60,10 @@ fn (&mut self, node: Node) -> Result;
                 {
                     {
                         impl crate::Node for NodeType {
-                            fn emit_with<W>(&self, e: &mut crate::Emitter<'_, W>) -> Result
+                            fn emit_with<W, S: swc_common::SourceMapper>(&self, e: &mut crate::Emitter<'_, W, S>) -> Result
                             where
                                 W: crate::text_writer::WriteJs,
+                                S: swc_ecma_ast::SourceMapperExt
                             {
                                 e.mtd_name(self)
                             }

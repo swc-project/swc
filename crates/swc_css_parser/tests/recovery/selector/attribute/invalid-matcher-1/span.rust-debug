@@ -1,0 +1,60 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   : ^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   : ^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   : ^^^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   : ^^^^^^^^
+   `----
+
+  x LBracket
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   : ^
+   `----
+
+  x Ident { value: Atom('href' type=inline), raw: Atom('href' type=inline) }
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   :  ^^^^
+   `----
+
+  x Delim { value: '=' }
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   :      ^
+   `----
+
+  x RBracket
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   :        ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
+ 1 | [href=] {}
+   :         ^^
+   `----

@@ -1,17 +1,17 @@
 var a = {};
 (function(a) {
-    function b(b) {
-        var a = {};
+    function b(a) {
+        var b = {};
         function d() {
             return c({
-                one: b.one,
-                two: b.two
+                one: a.one,
+                two: a.two
             });
         }
-        a.inner = function() {
+        b.inner = function() {
             return d();
         };
-        return a;
+        return b;
     }
     function c(a) {
         var b;

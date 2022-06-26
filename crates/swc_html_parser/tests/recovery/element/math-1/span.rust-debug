@@ -36,8 +36,8 @@
   7 | |   <math>
   8 | |   </math>X
   9 | |   </math>
- 10 | `-> </body>
- 11 |     </html>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Element
@@ -50,8 +50,8 @@
   7 | |   <math>
   8 | |   </math>X
   9 | |   </math>
- 10 | `-> </body>
- 11 |     </html>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Attribute
@@ -63,15 +63,15 @@
   x Child
    ,-[$DIR/tests/recovery/element/math-1/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/math-1/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Child
@@ -89,13 +89,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/math-1/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/math-1/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -174,16 +174,14 @@
 
   x Child
    ,-[$DIR/tests/recovery/element/math-1/input.html:7:1]
- 7 | <math>
-   : ^^^^^^^
- 8 | </math>X
+ 7 | ,-> <math>
+ 8 | `-> </math>X
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/math-1/input.html:7:1]
- 7 | <math>
-   : ^^^^^^^
- 8 | </math>X
+ 7 | ,-> <math>
+ 8 | `-> </math>X
    `----
 
   x Child

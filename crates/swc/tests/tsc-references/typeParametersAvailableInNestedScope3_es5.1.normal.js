@@ -1,25 +1,25 @@
 // @declaration: true
-function foo(v1) {
-    var a1 = function a1(a) {
-        return a;
+function foo(v) {
+    var a = function a(a1) {
+        return a1;
     };
     var b = function b() {
-        return v1;
+        return v;
     };
     var c = function c(v) {
-        function a2(a) {
+        function a(a) {
             return a;
         }
         function b() {
             return v;
         }
         return {
-            a: a2,
+            a: a,
             b: b
         };
     };
     return {
-        a: a1,
+        a: a,
         b: b,
         c: c
     };

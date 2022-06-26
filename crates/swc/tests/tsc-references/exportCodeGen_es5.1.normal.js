@@ -1,12 +1,12 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // should replace all refs to 'x' in the body,
 // with fully qualified
 var A;
-(function(A1) {
+(function(A) {
     var lt12 = function lt12() {
         return x < 12;
     };
-    var x = A1.x = 12;
+    var x = A.x = 12;
 })(A || (A = {}));
 // should not fully qualify 'x'
 var B;
@@ -25,30 +25,30 @@ var C;
 })(C || (C = {}));
 // copies, since exported
 var D;
-(function(D1) {
+(function(D) {
     var yes = function yes() {
         return true;
     };
-    D1.yes = yes;
+    D.yes = yes;
 })(D || (D = {}));
 // validate all exportable statements
 var E;
-(function(E1) {
+(function(E) {
     var fn = function fn() {};
     var Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
-    })(Color = E1.Color || (E1.Color = {}));
-    E1.fn = fn;
-    var C1 = function C1() {
+    })(Color = E.Color || (E.Color = {}));
+    E.fn = fn;
+    var C = function C() {
         "use strict";
-        _class_call_check(this, C1);
+        _class_call_check(this, C);
     };
-    E1.C = C1;
-    var M1;
+    E.C = C;
+    var M;
     (function(M) {
         var x = M.x = 42;
-    })(M1 = E1.M || (E1.M = {}));
+    })(M = E.M || (E.M = {}));
 })(E || (E = {}));
 // validate all exportable statements,
 // which are not exported
@@ -59,9 +59,9 @@ var F;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
     })(Color || (Color = {}));
-    var C2 = function C2() {
+    var C = function C() {
         "use strict";
-        _class_call_check(this, C2);
+        _class_call_check(this, C);
     };
     var M;
     (function(M) {

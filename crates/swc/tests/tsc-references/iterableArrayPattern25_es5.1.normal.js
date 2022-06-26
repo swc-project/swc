@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 //@target: ES6
 function takeFirstTwoEntries() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){

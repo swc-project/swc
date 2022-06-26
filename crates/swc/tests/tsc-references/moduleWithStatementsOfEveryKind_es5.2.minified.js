@@ -1,14 +1,14 @@
 var A, Y;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
-!function(A3) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+!function(A) {
     var Module, Color, A1, Color1, A2 = function() {
         "use strict";
         _class_call_check(this, A2);
-    }, AA1 = function() {
+    }, AA = function() {
         "use strict";
-        _class_call_check(this, AA1);
+        _class_call_check(this, AA);
     }, B = function(AA) {
         "use strict";
         _inherits(B, AA);
@@ -17,9 +17,9 @@ import _create_super from "@swc/helpers/lib/_create_super.js";
             return _class_call_check(this, B), _super.apply(this, arguments);
         }
         return B;
-    }(AA1), BB = function(A4) {
+    }(AA), BB = function(A) {
         "use strict";
-        _inherits(BB, A4);
+        _inherits(BB, A);
         var _super = _create_super(BB);
         function BB() {
             return _class_call_check(this, BB), _super.apply(this, arguments);
@@ -30,17 +30,17 @@ import _create_super from "@swc/helpers/lib/_create_super.js";
         "use strict";
         _class_call_check(this, A1);
     }, (Color1 = Color || (Color = {}))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
-}(A || (A = {})), function(Y1) {
-    var A6 = function() {
+}(A || (A = {})), function(Y) {
+    var A = function() {
         "use strict";
-        _class_call_check(this, A6);
+        _class_call_check(this, A);
     };
-    Y1.A = A6;
-    var AA2 = function() {
+    Y.A = A;
+    var AA = function() {
         "use strict";
-        _class_call_check(this, AA2);
+        _class_call_check(this, AA);
     };
-    Y1.AA = AA2;
+    Y.AA = AA;
     var B = function(AA) {
         "use strict";
         _inherits(B, AA);
@@ -49,25 +49,25 @@ import _create_super from "@swc/helpers/lib/_create_super.js";
             return _class_call_check(this, B), _super.apply(this, arguments);
         }
         return B;
-    }(AA2);
-    Y1.B = B;
-    var A5, Color, BB = function(A7) {
+    }(AA);
+    Y.B = B;
+    var A1, Color, BB = function(A) {
         "use strict";
-        _inherits(BB, A7);
+        _inherits(BB, A);
         var _super = _create_super(BB);
         function BB() {
             return _class_call_check(this, BB), _super.apply(this, arguments);
         }
         return BB;
-    }(A6);
-    Y1.BB = BB, Y1.Module || (Y1.Module = {}), A5 = function() {
+    }(A);
+    Y.BB = BB, Y.Module || (Y.Module = {}), A1 = function() {
         "use strict";
-        _class_call_check(this, A5);
-    }, (Color = Y1.Color || (Y1.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
+        _class_call_check(this, A1);
+    }, (Color = Y.Color || (Y.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y.x = 12, Y.F = function(s) {
         return 2;
-    }, Y1.array = null, Y1.fn = function(s) {
+    }, Y.array = null, Y.fn = function(s) {
         return "hello " + s;
-    }, Y1.ol = {
+    }, Y.ol = {
         s: "hello",
         id: 2,
         isvalid: !0

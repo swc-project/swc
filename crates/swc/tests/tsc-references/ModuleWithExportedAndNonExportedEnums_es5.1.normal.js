@@ -1,10 +1,10 @@
 var A;
-(function(A1) {
+(function(A) {
     var Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
         Color[Color["Blue"] = 1] = "Blue";
-    })(Color = A1.Color || (A1.Color = {}));
+    })(Color = A.Color || (A.Color = {}));
     var Day;
     (function(Day) {
         Day[Day["Monday"] = 0] = "Monday";

@@ -12,3 +12,7 @@
    `----
 
   x End of file seen and there were open elements
+   ,-[$DIR/tests/recovery/element/applet/input.html:1:18]
+ 1 |  
+   : ^
+   `----

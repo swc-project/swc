@@ -1,3 +1,4 @@
+use rayon::prelude::*;
 use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, StmtLike};
@@ -6,7 +7,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use super::util::drop_invalid_stmts;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
-    util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem, ModuleItemExt},
+    util::{is_hoisted_var_decl_without_init, sort::is_sorted_by, IsModuleItem, ModuleItemExt},
 };
 
 pub(super) struct DeclHoisterConfig {
@@ -46,33 +47,43 @@ impl Hoister<'_> {
         Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer>,
     {
         stmts.visit_mut_children_with(self);
+        let len = stmts.len();
+        let should_hoist = !is_sorted_by(
+            stmts.iter().map(|stmt| match stmt.as_stmt() {
+                Some(stmt) => match stmt {
+                    Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
+                    Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
+                        let ids: Vec<Id> = find_pat_ids(&var.decls);
 
-        let should_hoist = !is_sorted_by_key(stmts.iter(), |stmt| match stmt.as_stmt() {
-            Some(stmt) => match stmt {
-                Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
-                Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
-                    let ids: Vec<Id> = find_pat_ids(&var.decls);
-
-                    if ids.iter().any(|id| {
-                        self.data
-                            .vars
-                            .get(id)
-                            .map(|v| !v.used_above_decl)
-                            .unwrap_or(false)
-                    }) {
-                        2
-                    } else {
-                        3
+                        if ids.iter().any(|id| {
+                            self.data
+                                .vars
+                                .get(id)
+                                .map(|v| !v.used_above_decl)
+                                .unwrap_or(false)
+                        }) {
+                            2
+                        } else {
+                            3
+                        }
                     }
-                }
-                _ => 3,
-            },
-            None => 3,
-        }) || (self.config.hoist_vars
-            && stmts.windows(2).any(|stmts| {
-                is_hoisted_var_decl_without_init(&stmts[0])
-                    && is_hoisted_var_decl_without_init(&stmts[1])
-            }));
+                    _ => 3,
+                },
+                None => 3,
+            }),
+            PartialOrd::partial_cmp,
+        ) || (self.config.hoist_vars
+            && if len >= *crate::LIGHT_TASK_PARALLELS {
+                stmts.par_chunks(2).any(|stmts| {
+                    is_hoisted_var_decl_without_init(&stmts[0])
+                        && is_hoisted_var_decl_without_init(&stmts[1])
+                })
+            } else {
+                stmts.windows(2).any(|stmts| {
+                    is_hoisted_var_decl_without_init(&stmts[0])
+                        && is_hoisted_var_decl_without_init(&stmts[1])
+                })
+            });
 
         if !should_hoist {
             return;

@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: ES6
 // @module: amd
 // @rootDir: tests/cases/conformance/es6/moduleExportsAmd/src

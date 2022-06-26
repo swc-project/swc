@@ -211,11 +211,6 @@ macro_rules! mtd {
         fn $name(&mut self, n: &$T) {
             let span = n.span();
 
-            // We should not have dummy span in original parsing
-            if span.lo == BytePos(0) && span.hi == BytePos(0) {
-                panic!("Broken span");
-            }
-
             self.handler.struct_span_err(span, stringify!($T)).emit();
 
             n.visit_children_with(self);
@@ -239,12 +234,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Text, visit_text);
 
     mtd!(Comment, visit_comment);
-
-    fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
-        self.handler
-            .struct_span_err(n.span, &format!("{:?}", n.token))
-            .emit();
-    }
 }
 
 struct DomVisualizer<'a> {
@@ -387,7 +376,7 @@ impl VisitMut for DomVisualizer<'_> {
 
         text.push_str(&self.get_ident());
         text.push('"');
-        text.push_str(&n.value);
+        text.push_str(&n.data);
         text.push('"');
         text.push('\n');
 
@@ -445,6 +434,7 @@ fn recovery(input: PathBuf) {
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
 #[testing::fixture("tests/iframe_srcdoc/**/*.html")]
+#[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
     document_span_visualizer(
         input,
@@ -465,8 +455,6 @@ fn dom_visualizer(input: PathBuf) {
         },
     )
 }
-
-// TODO add span visualizer for html5test_lib tests
 
 fn unescape(s: &str) -> Option<String> {
     let mut out = String::with_capacity(s.len());
@@ -649,11 +637,11 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     Token::EndTag {
                         ref mut raw_tag_name,
                         ref mut attributes,
-                        ref mut self_closing,
+                        ref mut is_self_closing,
                         ..
                     } => {
                         *raw_tag_name = None;
-                        *self_closing = false;
+                        *is_self_closing = false;
                         *attributes = vec![];
                     }
                     Token::Character { ref mut raw, .. } => {
@@ -671,7 +659,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 for output_token in output_tokens {
                     match output_token {
                         Value::Array(token_parts) => {
-                            let tokens = match &*token_parts[0].as_str().expect("failed") {
+                            let tokens = match token_parts[0].as_str().expect("failed") {
                                 "DOCTYPE" => {
                                     let name: Option<String> =
                                         serde_json::from_value(token_parts[1].clone())
@@ -735,14 +723,14 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                         }
                                     }
 
-                                    let mut self_closing = false;
+                                    let mut is_self_closing = false;
 
-                                    if let Some(json_self_closing) = token_parts.get(3) {
+                                    if let Some(json_is_self_closing) = token_parts.get(3) {
                                         let value: bool =
-                                            serde_json::from_value(json_self_closing.clone())
+                                            serde_json::from_value(json_is_self_closing.clone())
                                                 .expect("failed to deserialize");
 
-                                        self_closing = value;
+                                        is_self_closing = value;
                                     }
 
                                     attributes.sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
@@ -750,7 +738,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     vec![Token::StartTag {
                                         tag_name: tag_name.into(),
                                         raw_tag_name: None,
-                                        self_closing,
+                                        is_self_closing,
                                         attributes,
                                     }]
                                 }
@@ -762,7 +750,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     vec![Token::EndTag {
                                         tag_name: tag_name.into(),
                                         raw_tag_name: None,
-                                        self_closing: false,
+                                        is_self_closing: false,
                                         attributes: vec![],
                                     }]
                                 }
@@ -961,7 +949,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         }
                     };
 
-                    // TODO validate error positions
                     assert!(actual_errors
                         .iter()
                         .any(|error| *error.kind() == expected_code));
@@ -1113,7 +1100,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             let mut file_stem = counter.to_string();
 
             if !document_fragment.is_empty() {
-                file_stem += ".fragment.";
+                file_stem += ".fragment_";
                 file_stem += &document_fragment.join("").replace(' ', "_");
             }
 
@@ -1121,12 +1108,17 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 file_stem += ".script_on";
             }
 
-            let html_path = dir.join(file_stem.clone() + ".html");
+            let test_case_dir = dir.join(file_stem);
+
+            fs::create_dir_all(test_case_dir.clone())
+                .expect("failed to create directory for fixtures");
+
+            let html_path = test_case_dir.join("input.html");
 
             fs::write(html_path, data.join("\n"))
                 .expect("Something went wrong when writing to the file");
 
-            let dom_snapshot_path = dir.join(file_stem.clone() + ".dom");
+            let dom_snapshot_path = test_case_dir.join("dom.rust-debug");
 
             let mut dom = document.join("\n");
 
@@ -1138,7 +1130,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 .expect("Something went wrong when writing to the file");
 
             let errors = errors.join("\n");
-            let errors_snapshot_path = dir.join(file_stem + ".errors");
+            let errors_snapshot_path = test_case_dir.join("output.stderr");
 
             fs::write(errors_snapshot_path, errors)
                 .expect("Something went wrong when writing to the file");
@@ -1155,10 +1147,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             return Ok(());
         }
 
-        let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
+        let parent = input.parent().unwrap();
+        let parent_str = parent.to_string_lossy();
 
-        let scripting_enabled = file_stem.contains("script_on");
-        let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
+        let scripting_enabled = parent_str.contains("script_on");
+        let json_path = parent.join("output.json");
         let fm = cm.load_file(&input).unwrap();
 
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
@@ -1167,14 +1160,15 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             iframe_srcdoc: false,
         };
         let mut parser = Parser::new(lexer, config);
-        let document_or_document_fragment = if file_stem.contains("fragment") {
+        let document_or_document_fragment = if parent_str.contains("fragment") {
             let mut context_element_namespace = Namespace::HTML;
             let mut context_element_tag_name = "unknown";
 
-            let context_element = file_stem
+            let context_element = parent_str
                 .split('.')
                 .last()
-                .expect("failed to get context element from filename");
+                .expect("failed to get context element from filename")
+                .replace("fragment_", "");
 
             if context_element.contains('_') {
                 let mut splited = context_element.split('_');
@@ -1193,7 +1187,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     context_element_tag_name = tag_name;
                 }
             } else {
-                context_element_tag_name = context_element;
+                context_element_tag_name = &context_element;
             }
 
             let context_element = Element {
@@ -1201,40 +1195,44 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 namespace: context_element_namespace,
                 tag_name: context_element_tag_name.into(),
                 attributes: vec![],
+                is_self_closing: false,
                 children: vec![],
                 content: None,
             };
 
-            DocumentOrDocumentFragment::DocumentFragment(
-                parser.parse_document_fragment(context_element),
-            )
+            DocumentOrDocumentFragment::DocumentFragment(parser.parse_document_fragment(
+                context_element,
+                DocumentMode::NoQuirks,
+                None,
+            ))
         } else {
             DocumentOrDocumentFragment::Document(parser.parse_document())
         };
 
-        let parent_name = input.parent().unwrap().to_string_lossy();
+        let parent_parent = parent.parent().unwrap().to_string_lossy();
         // `scripted` for browser tests with JS
         // `search` proposed, but not merged in spec
-        let need_skip_tests = parent_name.contains("scripted") || parent_name.contains("search");
+        let need_skip_tests =
+            parent_parent.contains("scripted") || parent_parent.contains("search");
 
         if !need_skip_tests {
             let errors = parser.take_errors();
-            let errors_path = input.parent().unwrap().join(file_stem.clone() + ".errors");
+            let errors_path = input.parent().unwrap().join("output.stderr");
             let contents =
                 fs::read_to_string(errors_path).expect("Something went wrong reading the file");
 
             // TODO bug in tests - https://github.com/html5lib/html5lib-tests/issues/138
             let actual_number_of_errors =
-                if parent_name.contains("tests19_dat") && file_stem.contains("84") {
+                if parent_parent.contains("tests19_dat") && parent_str.contains("84") {
                     errors.len() + 1
-                } else if (parent_name.contains("math_dat") || parent_name.contains("svg_dat"))
-                    && (file_stem.contains("5.fragment.tbody")
-                        || file_stem.contains("6.fragment.tbody")
-                        || file_stem.contains("7.fragment.tbody"))
+                } else if (parent_parent.contains("math_dat") || parent_parent.contains("svg_dat"))
+                    && (parent_str.contains("5.fragment_tbody")
+                        || parent_str.contains("6.fragment_tbody")
+                        || parent_str.contains("7.fragment_tbody"))
                 {
                     errors.len() - 1
-                } else if parent_name.contains("foreign-fragment_dat")
-                    && file_stem.contains("3.fragment.svg_path")
+                } else if parent_parent.contains("foreign-fragment_dat")
+                    && parent_str.contains("3.fragment_svg_path")
                 {
                     errors.len() - 1
                 } else {
@@ -1253,7 +1251,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
                 actual_json.compare_to_file(&json_path).unwrap();
 
-                if parent_name.contains("scripted") || parent_name.contains("search") {
+                if parent_parent.contains("scripted") || parent_parent.contains("search") {
                     return Ok(());
                 }
 
@@ -1264,10 +1262,8 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     indent: 0,
                 });
 
-                let dir = input.parent().unwrap().to_path_buf();
-
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&dir.join(file_stem + ".dom"))
+                    .compare_to_file(&parent.join("dom.rust-debug"))
                     .unwrap();
 
                 Ok(())
@@ -1290,10 +1286,8 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     indent: 0,
                 });
 
-                let dir = input.parent().unwrap().to_path_buf();
-
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&dir.join(file_stem + ".dom"))
+                    .compare_to_file(&parent.join("dom.rust-debug"))
                     .unwrap();
 
                 Ok(())

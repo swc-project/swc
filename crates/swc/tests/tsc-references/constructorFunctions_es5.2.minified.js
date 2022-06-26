@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 function C1() {
     if (!_instanceof(this, C1)) return new C1();
     this.x = 1;

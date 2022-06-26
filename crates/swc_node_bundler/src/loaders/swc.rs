@@ -212,6 +212,7 @@ impl SwcLoader {
                             module: None,
                             minify: false.into(),
                             input_source_map: InputSourceMap::Bool(false).into(),
+                            is_module: IsModule::Bool(true),
                             ..c.clone()
                         }
                     },
@@ -226,7 +227,6 @@ impl SwcLoader {
                     root: None,
                     swcrc: true,
                     env_name: { env::var("NODE_ENV").unwrap_or_else(|_| "development".into()) },
-                    is_module: IsModule::Bool(true),
                     ..Default::default()
                 },
                 &fm.name,

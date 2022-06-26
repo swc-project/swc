@@ -1,4 +1,4 @@
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 if (_instanceof(x, Function)) {
     x();
     x(1, 2, 3);

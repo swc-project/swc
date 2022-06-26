@@ -1,6 +1,6 @@
 var a = {
-    p: function b(a) {
-        return 10 * a;
+    p: function a(b) {
+        return 10 * b;
     },
     x: 1,
     y: 2

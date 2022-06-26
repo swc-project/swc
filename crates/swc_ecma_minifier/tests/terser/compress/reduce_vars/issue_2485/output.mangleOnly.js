@@ -8,9 +8,9 @@ var a = function(a) {
     var d = function(a) {
         return c(a);
     };
-    a.baz = function(b) {
-        var a = d(b);
-        return (a.get = 1), a;
+    a.baz = function(a) {
+        var b = d(a);
+        return (b.get = 1), b;
     };
     return a;
 };

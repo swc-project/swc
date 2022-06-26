@@ -26,8 +26,8 @@ f14([
             y: !1
         }
     ]
-]), function(M1) {
-    [M1.a, M1.b] = [
+]), function(M) {
+    [M.a, M.b] = [
         1,
         2
     ];

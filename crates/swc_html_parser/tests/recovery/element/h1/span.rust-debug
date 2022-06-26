@@ -44,8 +44,8 @@
  11 | |       <h5>test<h1>test</h1></h5>
  12 | |       <h6>test<h1>test</h1></h6>
  13 | |       <h1>test<h2>test</h2></h1>
- 14 | `-> </body>
- 15 |     </html>
+ 14 | |   </body>
+ 15 | `-> </html>
     `----
 
   x Element
@@ -62,8 +62,8 @@
  11 | |       <h5>test<h1>test</h1></h5>
  12 | |       <h6>test<h1>test</h1></h6>
  13 | |       <h1>test<h2>test</h2></h1>
- 14 | `-> </body>
- 15 |     </html>
+ 14 | |   </body>
+ 15 | `-> </html>
     `----
 
   x Attribute
@@ -75,15 +75,15 @@
   x Child
    ,-[$DIR/tests/recovery/element/h1/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/h1/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Child
@@ -101,13 +101,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/h1/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/h1/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -217,13 +217,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/h1/input.html:7:5]
  7 | <h1>test<h1>test</h1></h1>
-   :         ^^^^^^^^
+   :         ^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/h1/input.html:7:5]
  7 | <h1>test<h1>test</h1></h1>
-   :         ^^^^^^^^
+   :         ^^^^^^^^^^^^^
    `----
 
   x Child
@@ -277,13 +277,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/h1/input.html:8:5]
  8 | <h2>test<h1>test</h1></h2>
-   :         ^^^^^^^^
+   :         ^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/h1/input.html:8:5]
  8 | <h2>test<h1>test</h1></h2>
-   :         ^^^^^^^^
+   :         ^^^^^^^^^^^^^
    `----
 
   x Child
@@ -337,13 +337,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/h1/input.html:9:5]
  9 | <h3>test<h1>test</h1></h3>
-   :         ^^^^^^^^
+   :         ^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/h1/input.html:9:5]
  9 | <h3>test<h1>test</h1></h3>
-   :         ^^^^^^^^
+   :         ^^^^^^^^^^^^^
    `----
 
   x Child
@@ -397,13 +397,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/h1/input.html:10:5]
  10 | <h4>test<h1>test</h1></h4>
-    :         ^^^^^^^^
+    :         ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/h1/input.html:10:5]
  10 | <h4>test<h1>test</h1></h4>
-    :         ^^^^^^^^
+    :         ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -457,13 +457,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/h1/input.html:11:5]
  11 | <h5>test<h1>test</h1></h5>
-    :         ^^^^^^^^
+    :         ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/h1/input.html:11:5]
  11 | <h5>test<h1>test</h1></h5>
-    :         ^^^^^^^^
+    :         ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -517,13 +517,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/h1/input.html:12:5]
  12 | <h6>test<h1>test</h1></h6>
-    :         ^^^^^^^^
+    :         ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/h1/input.html:12:5]
  12 | <h6>test<h1>test</h1></h6>
-    :         ^^^^^^^^
+    :         ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -577,13 +577,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/h1/input.html:13:5]
  13 | <h1>test<h2>test</h2></h1>
-    :         ^^^^^^^^
+    :         ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/h1/input.html:13:5]
  13 | <h1>test<h2>test</h2></h1>
-    :         ^^^^^^^^
+    :         ^^^^^^^^^^^^^
     `----
 
   x Child

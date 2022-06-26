@@ -11,24 +11,24 @@ if (x /* RegExp */ , x = true) {
 }
 x; // string | number
 function a() {
-    let x1;
+    let x;
     if (cond) {
-        x1 = 42;
+        x = 42;
     } else {
-        x1 = "";
+        x = "";
         return;
     }
-    x1; // number
+    x; // number
 }
 function b() {
-    let x2;
+    let x;
     if (cond) {
-        x2 = 42;
+        x = 42;
         throw "";
     } else {
-        x2 = "";
+        x = "";
     }
-    x2; // string
+    x; // string
 }
 function c(data) {
     if (typeof data === 'string') {
@@ -44,8 +44,8 @@ function d(data) {
         return data;
     }
 }
-function e(x3) {
-    if (x3.p === "A") {
+function e(x) {
+    if (x.p === "A") {
         let a = null;
     }
 }

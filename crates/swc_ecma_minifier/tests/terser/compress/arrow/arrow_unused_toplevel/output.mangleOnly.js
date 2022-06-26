@@ -10,10 +10,10 @@ let b = (a, b)=>a - b + g;
     (()=>{
         console.log("1");
     })();
-    let c = (a)=>{
+    let b = (a)=>{
         console.log(a);
     };
-    let b = (a)=>a + a;
-    console.log(b(a));
+    let c = (a)=>a + a;
+    console.log(c(a));
 })(1);
 a(3);

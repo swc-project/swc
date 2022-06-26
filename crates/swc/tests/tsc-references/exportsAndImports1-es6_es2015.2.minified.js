@@ -7,9 +7,9 @@ class C {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
 }(E || (E = {})), function(D) {
     D[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C";
-}(D || (D = {})), function(M1) {
+}(D || (D = {})), function(M) {
     var x;
-    M1.x = x;
+    M.x = x;
 }(M || (M = {}));
 var a = M.x;
 export { v, f, C, I, E, D, M, N, T, a } from "./t1";

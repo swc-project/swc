@@ -1,4 +1,4 @@
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 // @target: es5, es2015, esnext
 // @noEmit: true
 // @noTypesAndSymbols: true
@@ -15,5 +15,5 @@ function c(_param = a(), d = x) {
     var { b  } = _param, c = _object_without_properties(_param, [
         "b"
     ]);
-    var x;
+    var x1;
 }

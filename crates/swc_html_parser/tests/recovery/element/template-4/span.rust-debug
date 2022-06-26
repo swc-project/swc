@@ -36,8 +36,8 @@
   7 | |   <template>
   8 | |       </div>
   9 | |   </template>
- 10 | `-> </body>
- 11 |     </html>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Element
@@ -50,8 +50,8 @@
   7 | |   <template>
   8 | |       </div>
   9 | |   </template>
- 10 | `-> </body>
- 11 |     </html>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Attribute
@@ -63,15 +63,15 @@
   x Child
    ,-[$DIR/tests/recovery/element/template-4/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/template-4/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Child
@@ -89,13 +89,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/template-4/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/template-4/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -175,22 +175,22 @@
   x Child
    ,-[$DIR/tests/recovery/element/template-4/input.html:7:1]
  7 | ,-> <template>
- 8 | `->     </div>
- 9 |     </template>
+ 8 | |       </div>
+ 9 | `-> </template>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/template-4/input.html:7:1]
  7 | ,-> <template>
- 8 | `->     </div>
- 9 |     </template>
+ 8 | |       </div>
+ 9 | `-> </template>
    `----
 
   x DocumentFragment
    ,-[$DIR/tests/recovery/element/template-4/input.html:7:1]
  7 | ,-> <template>
- 8 | `->     </div>
- 9 |     </template>
+ 8 | |       </div>
+ 9 | `-> </template>
    `----
 
   x Child

@@ -1,0 +1,559 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+  1 | ,-> .class {
+  2 | |       color: red;
+  3 | |       & test;
+  4 | |       background: red
+  5 | |   }
+  6 | |   
+  7 | |   article {
+  8 | |       color: green;
+  9 | |       & { color: blue; }
+ 10 | |       color: red;
+ 11 | |       &.foo { color: yellow; } /* valid! */
+ 12 | `-> }
+    `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       color: red;
+ 3 | |       & test;
+ 4 | |       background: red
+ 5 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       color: red;
+ 3 | |       & test;
+ 4 | |       background: red
+ 5 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | .class {
+   :  ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       color: red;
+ 3 | |       & test;
+ 4 | |       background: red
+ 5 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:5]
+ 2 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:5]
+ 2 | color: red;
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
+ 4 | background: red
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
+ 4 | background: red
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
+ 4 | background: red
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
+ 4 | background: red
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
+ 4 | background: red
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
+ 4 | background: red
+   :             ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
+ 4 | background: red
+   :             ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^^^^^^^
+   `----
+
+  x Delim { value: '&' }
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :  ^
+   `----
+
+  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :   ^^^^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :       ^
+   `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+  7 | ,-> article {
+  8 | |       color: green;
+  9 | |       & { color: blue; }
+ 10 | |       color: red;
+ 11 | |       &.foo { color: yellow; } /* valid! */
+ 12 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+  7 | ,-> article {
+  8 | |       color: green;
+  9 | |       & { color: blue; }
+ 10 | |       color: red;
+ 11 | |       &.foo { color: yellow; } /* valid! */
+ 12 | `-> }
+    `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+ 7 | article {
+   : ^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+ 7 | article {
+   : ^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+ 7 | article {
+   : ^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+ 7 | article {
+   : ^^^^^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+ 7 | article {
+   : ^^^^^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+ 7 | article {
+   : ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+ 7 | article {
+   : ^^^^^^^
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+  7 | ,-> article {
+  8 | |       color: green;
+  9 | |       & { color: blue; }
+ 10 | |       color: red;
+ 11 | |       &.foo { color: yellow; } /* valid! */
+ 12 | `-> }
+    `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:8:5]
+ 8 | color: green;
+   : ^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:8:5]
+ 8 | color: green;
+   : ^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:8:5]
+ 8 | color: green;
+   : ^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:8:5]
+ 8 | color: green;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:8:5]
+ 8 | color: green;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:8:5]
+ 8 | color: green;
+   :        ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:8:5]
+ 8 | color: green;
+   :        ^^^^^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:10:5]
+ 10 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:10:5]
+ 10 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:10:5]
+ 10 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:10:5]
+ 10 | color: red;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:10:5]
+ 10 | color: red;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:10:5]
+ 10 | color: red;
+    :        ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:10:5]
+ 10 | color: red;
+    :        ^^^
+    `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   : ^
+   `----
+
+  x NestingSelector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :   ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :     ^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :     ^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :     ^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :     ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :     ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :            ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :            ^^^^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    : ^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    : ^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    : ^^^^^
+    `----
+
+  x NestingSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    : ^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :  ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :   ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :       ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :         ^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :         ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :         ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :         ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :         ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :                ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :                ^^^^^^
+    `----

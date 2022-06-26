@@ -5,7 +5,9 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
 use super::Pure;
-use crate::{compress::util::negate_cost, debug::dump, util::make_bool};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
+use crate::{compress::util::negate_cost, util::make_bool};
 
 impl Pure<'_> {
     ///
@@ -130,6 +132,7 @@ impl Pure<'_> {
         }
 
         report_change!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
+        #[cfg(feature = "debug")]
         let start_str = dump(&*cond, false);
 
         self.negate(&mut cond.test, true, false);

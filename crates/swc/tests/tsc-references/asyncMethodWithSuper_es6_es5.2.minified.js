@@ -1,11 +1,11 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _set from "@swc/helpers/lib/_set.js";
-import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _set from "@swc/helpers/src/_set.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var A = function() {
     "use strict";
@@ -41,18 +41,18 @@ var A = function() {
             }, _callee);
         }))();
     }, _proto.advanced = function() {
-        var _this = this, _this2 = this, _superprop_get_x = function() {
+        var _this = this, _this1 = this, _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         }, _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee1() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var f, a, b, ref, ref1;
-            return regeneratorRuntime.wrap(function(_ctx1) {
-                for(;;)switch(_ctx1.prev = _ctx1.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
                         var _value, _value1;
-                        f = function() {}, _superprop_get_x().call(_this2), _superprop_get("x").call(_this2), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, _set(_get_prototype_of(B.prototype), "x", _value, _this, !0), _value1 = f, _set(_get_prototype_of(B.prototype), "x", _value1, _this, !0), ref = {
+                        f = function() {}, _superprop_get_x().call(_this1), _superprop_get("x").call(_this1), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, _set(_get_prototype_of(B.prototype), "x", _value, _this, !0), _value1 = f, _set(_get_prototype_of(B.prototype), "x", _value1, _this, !0), ref = {
                             f: f
                         }, _superprop_get_x() = ref.f, ref1 = {
                             f: f
@@ -60,7 +60,7 @@ var A = function() {
                             return regeneratorRuntime.wrap(function(_ctx) {
                                 for(;;)switch(_ctx.prev = _ctx.next){
                                     case 0:
-                                        return _ctx.abrupt("return", _superprop_get_x().call(_this2));
+                                        return _ctx.abrupt("return", _superprop_get_x().call(_this1));
                                     case 1:
                                     case "end":
                                         return _ctx.stop();
@@ -70,7 +70,7 @@ var A = function() {
                             return regeneratorRuntime.wrap(function(_ctx) {
                                 for(;;)switch(_ctx.prev = _ctx.next){
                                     case 0:
-                                        return _ctx.abrupt("return", _superprop_get("x").call(_this2));
+                                        return _ctx.abrupt("return", _superprop_get("x").call(_this1));
                                     case 1:
                                     case "end":
                                         return _ctx.stop();
@@ -79,24 +79,24 @@ var A = function() {
                         }));
                     case 15:
                     case "end":
-                        return _ctx1.stop();
+                        return _ctx.stop();
                 }
-            }, _callee1);
+            }, _callee);
         }))();
     }, _proto.property_access_only_read_only = function() {
-        var _this = this, _this3 = this, _superprop_get_x = function() {
+        var _this = this, _this1 = this, _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee2() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var a;
-            return regeneratorRuntime.wrap(function(_ctx2) {
-                for(;;)switch(_ctx2.prev = _ctx2.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        _superprop_get_x().call(_this3), a = _superprop_get_x(), _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        _superprop_get_x().call(_this1), a = _superprop_get_x(), _async_to_generator(regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function(_ctx) {
                                 for(;;)switch(_ctx.prev = _ctx.next){
                                     case 0:
-                                        return _ctx.abrupt("return", _superprop_get_x().call(_this3));
+                                        return _ctx.abrupt("return", _superprop_get_x().call(_this1));
                                     case 1:
                                     case "end":
                                         return _ctx.stop();
@@ -105,9 +105,9 @@ var A = function() {
                         }));
                     case 4:
                     case "end":
-                        return _ctx2.stop();
+                        return _ctx.stop();
                 }
-            }, _callee2);
+            }, _callee);
         }))();
     }, _proto.property_access_only_write_only = function() {
         var _this = this, _superprop_get_x = function() {
@@ -115,10 +115,10 @@ var A = function() {
         }, _superprop_set_x = function(_value) {
             return _set(_get_prototype_of(B.prototype), "x", _value, _this, !0);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee3() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var f, ref;
-            return regeneratorRuntime.wrap(function(_ctx3) {
-                for(;;)switch(_ctx3.prev = _ctx3.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
                         _superprop_set_x(f = function() {}), ref = {
                             f: f
@@ -135,24 +135,24 @@ var A = function() {
                         }));
                     case 6:
                     case "end":
-                        return _ctx3.stop();
+                        return _ctx.stop();
                 }
-            }, _callee3);
+            }, _callee);
         }))();
     }, _proto.element_access_only_read_only = function() {
-        var _this = this, _this4 = this, _superprop_get = function(_prop) {
+        var _this = this, _this1 = this, _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee4() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var a;
-            return regeneratorRuntime.wrap(function(_ctx4) {
-                for(;;)switch(_ctx4.prev = _ctx4.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        _superprop_get("x").call(_this4), a = _superprop_get("x"), _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        _superprop_get("x").call(_this1), a = _superprop_get("x"), _async_to_generator(regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function(_ctx) {
                                 for(;;)switch(_ctx.prev = _ctx.next){
                                     case 0:
-                                        return _ctx.abrupt("return", _superprop_get("x").call(_this4));
+                                        return _ctx.abrupt("return", _superprop_get("x").call(_this1));
                                     case 1:
                                     case "end":
                                         return _ctx.stop();
@@ -161,9 +161,9 @@ var A = function() {
                         }));
                     case 4:
                     case "end":
-                        return _ctx4.stop();
+                        return _ctx.stop();
                 }
-            }, _callee4);
+            }, _callee);
         }))();
     }, _proto.element_access_only_write_only = function() {
         var _this = this, _superprop_get = function(_prop) {
@@ -171,10 +171,10 @@ var A = function() {
         }, _superprop_set = function(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, !0);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee5() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var f, ref;
-            return regeneratorRuntime.wrap(function(_ctx5) {
-                for(;;)switch(_ctx5.prev = _ctx5.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
                         _superprop_set("x", f = function() {}), ref = {
                             f: f
@@ -191,24 +191,24 @@ var A = function() {
                         }));
                     case 6:
                     case "end":
-                        return _ctx5.stop();
+                        return _ctx.stop();
                 }
-            }, _callee5);
+            }, _callee);
         }))();
     }, _proto.property_access_only_read_only_in_generator = function() {
-        var _this = this, _this5 = this, _superprop_get_x = function() {
+        var _this = this, _this1 = this, _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         };
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee6() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var a;
-            return regeneratorRuntime.wrap(function(_ctx6) {
-                for(;;)switch(_ctx6.prev = _ctx6.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        _superprop_get_x().call(_this5), a = _superprop_get_x(), _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        _superprop_get_x().call(_this1), a = _superprop_get_x(), _async_to_generator(regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function(_ctx) {
                                 for(;;)switch(_ctx.prev = _ctx.next){
                                     case 0:
-                                        return _ctx.abrupt("return", _superprop_get_x().call(_this5));
+                                        return _ctx.abrupt("return", _superprop_get_x().call(_this1));
                                     case 1:
                                     case "end":
                                         return _ctx.stop();
@@ -217,9 +217,9 @@ var A = function() {
                         }));
                     case 4:
                     case "end":
-                        return _ctx6.stop();
+                        return _ctx.stop();
                 }
-            }, _callee6);
+            }, _callee);
         }))();
     }, _proto.property_access_only_write_only_in_generator = function() {
         var _this = this, _superprop_get_x = function() {
@@ -227,10 +227,10 @@ var A = function() {
         }, _superprop_set_x = function(_value) {
             return _set(_get_prototype_of(B.prototype), "x", _value, _this, !0);
         };
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee7() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var f, ref;
-            return regeneratorRuntime.wrap(function(_ctx7) {
-                for(;;)switch(_ctx7.prev = _ctx7.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
                         _superprop_set_x(f = function() {}), ref = {
                             f: f
@@ -247,24 +247,24 @@ var A = function() {
                         }));
                     case 6:
                     case "end":
-                        return _ctx7.stop();
+                        return _ctx.stop();
                 }
-            }, _callee7);
+            }, _callee);
         }))();
     }, _proto.element_access_only_read_only_in_generator = function() {
-        var _this = this, _this6 = this, _superprop_get = function(_prop) {
+        var _this = this, _this1 = this, _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee8() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var a;
-            return regeneratorRuntime.wrap(function(_ctx8) {
-                for(;;)switch(_ctx8.prev = _ctx8.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        _superprop_get("x").call(_this6), a = _superprop_get("x"), _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        _superprop_get("x").call(_this1), a = _superprop_get("x"), _async_to_generator(regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function(_ctx) {
                                 for(;;)switch(_ctx.prev = _ctx.next){
                                     case 0:
-                                        return _ctx.abrupt("return", _superprop_get("x").call(_this6));
+                                        return _ctx.abrupt("return", _superprop_get("x").call(_this1));
                                     case 1:
                                     case "end":
                                         return _ctx.stop();
@@ -273,9 +273,9 @@ var A = function() {
                         }));
                     case 4:
                     case "end":
-                        return _ctx8.stop();
+                        return _ctx.stop();
                 }
-            }, _callee8);
+            }, _callee);
         }))();
     }, _proto.element_access_only_write_only_in_generator = function() {
         var _this = this, _superprop_get = function(_prop) {
@@ -283,10 +283,10 @@ var A = function() {
         }, _superprop_set = function(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, !0);
         };
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee9() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var f, ref;
-            return regeneratorRuntime.wrap(function(_ctx9) {
-                for(;;)switch(_ctx9.prev = _ctx9.next){
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
                         _superprop_set("x", f = function() {}), ref = {
                             f: f
@@ -303,9 +303,9 @@ var A = function() {
                         }));
                     case 6:
                     case "end":
-                        return _ctx9.stop();
+                        return _ctx.stop();
                 }
-            }, _callee9);
+            }, _callee);
         }))();
     }, B;
 }(A);

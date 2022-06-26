@@ -1,10 +1,10 @@
-function b(a) {
+function a(a) {
     return a != null;
 }
-function a(a, c) {
-    if (a == null || b(a)) {
+function b(b, c) {
+    if (b == null || a(b)) {
         return true;
     }
     return false;
 }
-module.exports = a;
+module.exports = b;

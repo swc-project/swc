@@ -1,0 +1,13 @@
+
+  x Expected ';', '}' or <eof>
+   ,-[$DIR/tests/errors/async-line-break/1/input.js:2:1]
+ 2 | () => 42
+   :    ^^
+   `----
+
+Error: 
+  > This is the expression part of an expression statement
+   ,-[$DIR/tests/errors/async-line-break/1/input.js:1:1]
+ 1 | ,-> foo = async
+ 2 | `-> () => 42
+   `----

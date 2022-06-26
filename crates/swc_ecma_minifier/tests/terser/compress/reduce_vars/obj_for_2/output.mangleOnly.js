@@ -1,4 +1,4 @@
-var b = {
+var a = {
     a: 1
 };
-for(var a; (a = b.a--);)console.log(a);
+for(var b; (b = a.a--);)console.log(b);

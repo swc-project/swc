@@ -2,10 +2,10 @@ var v = function() {
     return 1;
 };
 var v = a;
-var v = function(a) {
+var v = function(a1) {
     return 1;
 };
-var v = function(a, b) {
+var v = function(a1, b1) {
     return 1;
 };
 var v = function() {

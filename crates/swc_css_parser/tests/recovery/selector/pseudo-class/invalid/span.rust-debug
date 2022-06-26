@@ -1,0 +1,162 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | ,-> a: b {}
+ 2 | |   
+ 3 | |   a: b {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   : ^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   : ^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   : ^^^^^
+   `----
+
+  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   : ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   :   ^
+   `----
+
+  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   :    ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   :     ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | a: b {}
+   :      ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | ,-> a: b {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | ,-> a: b {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | a: b {
+   : ^^^^^
+   `----
+
+  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | a: b {
+   : ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | a: b {
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | a: b {
+   :   ^
+   `----
+
+  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | a: b {
+   :    ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | a: b {
+   :     ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:1]
+ 3 | ,-> a: b {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----

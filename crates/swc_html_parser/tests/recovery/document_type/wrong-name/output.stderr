@@ -2,5 +2,5 @@
   x Invalid character sequence after doctype name
    ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:1:1]
  1 | <!DOCTYPE html broken>
-   : ^^^^^^^^^^^^^^^
+   :                ^
    `----

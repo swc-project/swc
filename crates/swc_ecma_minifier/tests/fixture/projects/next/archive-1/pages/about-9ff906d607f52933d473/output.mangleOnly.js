@@ -3,11 +3,11 @@
         521
     ],
     {
-        4426: function(c, a, b) {
+        4426: function(a, b, c) {
             "use strict";
-            b.r(a);
-            var d = b(4512);
-            a["default"] = function() {
+            c.r(b);
+            var d = c(4512);
+            b["default"] = function() {
                 return (0, d.jsx)("div", {
                     className: "about-page",
                     children: "About Page"
@@ -24,7 +24,7 @@
         }
     },
     function(a) {
-        var c = function(b) {
+        var b = function(b) {
             return a((a.s = b));
         };
         a.O(0, [
@@ -32,9 +32,9 @@
             888,
             179
         ], function() {
-            return c(8484);
+            return b(8484);
         });
-        var b = a.O();
-        _N_E = b;
+        var c = a.O();
+        _N_E = c;
     }, 
 ]);

@@ -176,7 +176,7 @@ enum AcornLiteralValue {
     Decimal(JsWord),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct StringLiteral {
     #[serde(flatten)]
@@ -202,14 +202,14 @@ pub struct NumberLiteral {
     pub value: f64,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct NullLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct BooleanLiteral {
     #[serde(flatten)]
@@ -217,7 +217,7 @@ pub struct BooleanLiteral {
     pub value: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct RegExpLiteral {
     #[serde(flatten)]
@@ -228,7 +228,7 @@ pub struct RegExpLiteral {
 }
 
 /// Deprecated. Use RegExpLiteral instead.
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct RegexLiteral {
     #[serde(flatten)]
@@ -238,7 +238,7 @@ pub struct RegexLiteral {
     pub flags: JsWord,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct TemplateElVal {
     #[serde(default)]
     pub raw: JsWord,
@@ -246,7 +246,7 @@ pub struct TemplateElVal {
     pub cooked: Option<JsWord>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct TemplateElement {
     #[serde(flatten)]
@@ -310,7 +310,7 @@ pub struct TemplateLiteral {
     pub expressions: Vec<TemplateLiteralExpr>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct BigIntLiteral {
     #[serde(flatten)]
@@ -321,7 +321,7 @@ pub struct BigIntLiteral {
     pub raw: JsWord,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct DecimalLiteral {
     #[serde(flatten)]

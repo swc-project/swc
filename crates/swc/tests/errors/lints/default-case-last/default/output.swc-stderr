@@ -1,0 +1,84 @@
+
+  x Default clause should be the last clause
+   ,----
+ 1 | switch (foo) { default: bar(); break; case 1: baz(); break; }
+   :                ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+   ,----
+ 2 | switch (foo) { default: break; case 1: break; }
+   :                ^^^^^^^^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+   ,----
+ 3 | switch (foo) { default: break; case 1: }
+   :                ^^^^^^^^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+   ,----
+ 4 | switch (foo) { default: case 1: break; }
+   :                ^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+   ,----
+ 5 | switch (foo) { default: case 1: }
+   :                ^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+   ,----
+ 6 | switch (foo) { default: break; case 1: break; case 2: break; }
+   :                ^^^^^^^^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+   ,----
+ 7 | switch (foo) { default: case 1: break; case 2: break; }
+   :                ^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+   ,----
+ 8 | switch (foo) { default: case 1: case 2: break; }
+   :                ^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+   ,----
+ 9 | switch (foo) { default: case 1: case 2: }
+   :                ^^^^^^^^
+   `----
+
+  x Default clause should be the last clause
+    ,----
+ 10 | switch (foo) { case 1: break; default: break; case 2: break; }
+    :                               ^^^^^^^^^^^^^^^
+    `----
+
+  x Default clause should be the last clause
+    ,----
+ 11 | switch (foo) { case 1: default: break; case 2: break; }
+    :                        ^^^^^^^^^^^^^^^
+    `----
+
+  x Default clause should be the last clause
+    ,----
+ 12 | switch (foo) { case 1: break; default: case 2: break; }
+    :                               ^^^^^^^^
+    `----
+
+  x Default clause should be the last clause
+    ,----
+ 13 | switch (foo) { case 1: default: case 2: break; }
+    :                        ^^^^^^^^
+    `----
+
+  x Default clause should be the last clause
+    ,----
+ 14 | switch (foo) { case 1: default: case 2: }
+    :                        ^^^^^^^^
+    `----

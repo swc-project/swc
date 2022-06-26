@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 var explicit = {
     n: 12,
     get x () {
@@ -48,8 +48,8 @@ var Explicit = /*#__PURE__*/ function() {
             get: function get() {
                 return this.n;
             },
-            set: function set(n) {
-                this.n = n;
+            set: function set(n1) {
+                this.n = n1;
             }
         }
     ]);

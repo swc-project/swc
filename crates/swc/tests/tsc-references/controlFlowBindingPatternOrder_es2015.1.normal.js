@@ -9,28 +9,28 @@
     ]] = [];
     const bb = b;
 }{
-    let a = 1;
-    const [{ [a]: b  } = [
+    let a1 = 1;
+    const [{ [a1]: b1  } = [
         9,
-        a = 0
+        a1 = 0
     ]] = [];
-    const bb = b;
+    const bb1 = b1;
 }{
-    let a = 0;
-    const [{ [a = 1]: b  } = [
+    let a2 = 0;
+    const [{ [a2 = 1]: b2  } = [
         9,
-        a
+        a2
     ]] = [
         [
             9,
             8
         ]
     ];
-    const bb = b;
+    const bb2 = b2;
 }{
-    let a = 1;
-    const [{ [a]: b  } = [
-        a = 0,
+    let a3 = 1;
+    const [{ [a3]: b3  } = [
+        a3 = 0,
         9
     ]] = [
         [
@@ -38,5 +38,5 @@
             9
         ]
     ];
-    const bb = b;
+    const bb3 = b3;
 }

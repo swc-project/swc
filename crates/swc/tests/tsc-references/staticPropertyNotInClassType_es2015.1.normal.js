@@ -1,6 +1,6 @@
 var NonGeneric;
 (function(NonGeneric) {
-    class C1 {
+    class C {
         fn() {
             return this;
         }
@@ -15,8 +15,8 @@ var NonGeneric;
     }
     (function(C) {
         var bar = C.bar = '';
-    })(C1 || (C1 = {}));
-    var c = new C1(1, 2);
+    })(C || (C = {}));
+    var c = new C(1, 2);
     var r = c.fn();
     var r4 = c.foo; // error
     var r5 = c.bar; // error
@@ -24,7 +24,7 @@ var NonGeneric;
 })(NonGeneric || (NonGeneric = {}));
 var Generic;
 (function(Generic) {
-    class C2 {
+    class C {
         fn() {
             return this;
         }
@@ -39,8 +39,8 @@ var Generic;
     }
     (function(C) {
         var bar = C.bar = '';
-    })(C2 || (C2 = {}));
-    var c = new C2(1, '');
+    })(C || (C = {}));
+    var c = new C(1, '');
     var r = c.fn();
     var r4 = c.foo; // error
     var r5 = c.bar; // error

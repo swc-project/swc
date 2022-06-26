@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _aMethod = new WeakSet(), _bMethod = new WeakSet(), _cMethod = new WeakSet(), _aProp = new WeakMap(), _bProp = new WeakMap(), _cProp = new WeakMap(), A = function() {
     "use strict";
     _class_call_check(this, A), _class_private_method_init(this, _aMethod), _class_private_method_init(this, _bMethod), _class_private_method_init(this, _cMethod), _class_private_field_init(this, _aProp, {

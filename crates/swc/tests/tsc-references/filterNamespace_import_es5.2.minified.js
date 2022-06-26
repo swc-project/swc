@@ -1,11 +1,11 @@
 var ns;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-!function(ns1) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(ns) {
     var nested, NestedClass, Class = function() {
         "use strict";
         _class_call_check(this, Class);
     };
-    ns1.Class = Class, ns1.Value = "", nested = ns1.nested || (ns1.nested = {}), NestedClass = function() {
+    ns.Class = Class, ns.Value = "", nested = ns.nested || (ns.nested = {}), NestedClass = function() {
         "use strict";
         _class_call_check(this, NestedClass);
     }, nested.NestedClass = NestedClass;

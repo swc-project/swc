@@ -1,6 +1,6 @@
 var A;
-(function(A1) {
-    var Origin = A1.Origin = {
+(function(A) {
+    var Origin = A.Origin = {
         x: 0,
         y: 0
     };

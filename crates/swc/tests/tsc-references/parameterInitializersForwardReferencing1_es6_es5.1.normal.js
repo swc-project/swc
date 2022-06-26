@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: es2015
 var foo = "";
 function f1() {
@@ -11,15 +11,15 @@ function f2() {
         var baz = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
         return baz;
     };
-    var foo2 = 2;
+    var foo1 = 2;
     return bar(); // returns 1
 }
 function f3() {
-    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo, foo3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
+    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo, foo1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
     return bar;
 }
-function f4(foo4) {
-    var bar = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : foo4;
+function f4(foo) {
+    var bar = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : foo;
     return bar;
 }
 function f5() {
@@ -32,7 +32,7 @@ function f6() {
 }
 function f7(param) {
     var bar = param[foo];
-    var foo5 = 2;
+    var foo1 = 2;
 }
 var Foo = function Foo() {
     "use strict";

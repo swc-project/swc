@@ -3,7 +3,7 @@ export const def = {
         const { gen , schema , parentSchema , data , it  } = cxt;
         "all" === it.opts.removeAdditional && void 0 === parentSchema.additionalProperties && additionalProperties_1.default.code(new validate_1.KeywordCxt(it, additionalProperties_1.default, "additionalProperties"));
         const allProps = (0, code_1.allSchemaProperties)(schema);
-        for (const prop2 of allProps)it.definedProperties.add(prop2);
+        for (const prop of allProps)it.definedProperties.add(prop);
         it.opts.unevaluated && allProps.length && !0 !== it.props && (it.props = util_1.mergeEvaluated.props(gen, (0, util_1.toHash)(allProps), it.props));
         const properties = allProps.filter((p)=>!(0, util_1.alwaysValidSchema)(it, schema[p]));
         if (0 === properties.length) return;

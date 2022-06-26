@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @allowUnreachableCode: true
 // FunctionExpression with no return type annotation and no return statement returns void
 var v = function() {}();
@@ -103,22 +103,22 @@ function thisFunc() {
 }
 // Function signature with optional parameter, no type annotation and initializer has initializer's type
 function opt1() {
-    var n1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 4;
-    var m = n1;
+    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 4;
+    var m = n;
     var m;
 }
 // Function signature with optional parameter, no type annotation and initializer has initializer's widened type
 function opt2() {
-    var n2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
+    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: null,
         y: undefined
     };
-    var m = n2;
+    var m = n;
     var m;
 }
 // Function signature with initializer referencing other parameter to the left
-function opt3(n3) {
-    var m = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n3;
+function opt3(n) {
+    var m = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n;
     var y = m;
     var y;
 }

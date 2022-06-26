@@ -1,4 +1,4 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 function f0() {
     return _f0.apply(this, arguments);
 }
@@ -120,15 +120,15 @@ class C {
     }
 }
 var M;
-(function(M1) {
-    function f15() {
-        return _f11.apply(this, arguments);
+(function(M) {
+    function f1() {
+        return _f1.apply(this, arguments);
     }
-    function _f11() {
-        _f11 = _async_to_generator(function*() {});
-        return _f11.apply(this, arguments);
+    function _f1() {
+        _f1 = _async_to_generator(function*() {});
+        return _f1.apply(this, arguments);
     }
-    M1.f1 = f15;
+    M.f1 = f1;
 })(M || (M = {}));
 function f14() {
     return _f14.apply(this, arguments);

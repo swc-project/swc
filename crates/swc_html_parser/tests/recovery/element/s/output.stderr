@@ -36,3 +36,7 @@
    `----
 
   x End of file seen and there were open elements
+   ,-[$DIR/tests/recovery/element/s/input.html:1:1]
+ 1 | <div><table><svg><foreignObject><select><table><s>
+   :                                                   ^
+   `----

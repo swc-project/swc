@@ -1,27 +1,27 @@
 jQuery.support = (function() {
-    var c, e, d, b, f, g, h, i, k, j, a = document.createElement("div");
-    a.setAttribute("className", "t");
-    a.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
-    e = a.getElementsByTagName("*");
-    d = a.getElementsByTagName("a")[0];
-    if (!e || !d || !e.length) {
+    var a, b, c, d, e, f, g, h, i, j, k = document.createElement("div");
+    k.setAttribute("className", "t");
+    k.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
+    b = k.getElementsByTagName("*");
+    c = k.getElementsByTagName("a")[0];
+    if (!b || !c || !b.length) {
         return {};
     }
-    f = document.createElement("select");
-    h = f.appendChild(document.createElement("option"));
-    b = a.getElementsByTagName("input")[0];
-    d.style.cssText = "top:1px;float:left;opacity:.5";
-    c = {
-        getSetAttribute: a.className !== "t",
-        leadingWhitespace: a.firstChild.nodeType === 3,
-        tbody: !a.getElementsByTagName("tbody").length,
-        htmlSerialize: !!a.getElementsByTagName("link").length,
-        style: /top/.test(d.getAttribute("style")),
-        hrefNormalized: d.getAttribute("href") === "/a",
-        opacity: /^0.5/.test(d.style.opacity),
-        cssFloat: !!d.style.cssFloat,
-        checkOn: !!b.value,
-        optSelected: h.selected,
+    e = document.createElement("select");
+    g = e.appendChild(document.createElement("option"));
+    d = k.getElementsByTagName("input")[0];
+    c.style.cssText = "top:1px;float:left;opacity:.5";
+    a = {
+        getSetAttribute: k.className !== "t",
+        leadingWhitespace: k.firstChild.nodeType === 3,
+        tbody: !k.getElementsByTagName("tbody").length,
+        htmlSerialize: !!k.getElementsByTagName("link").length,
+        style: /top/.test(c.getAttribute("style")),
+        hrefNormalized: c.getAttribute("href") === "/a",
+        opacity: /^0.5/.test(c.style.opacity),
+        cssFloat: !!c.style.cssFloat,
+        checkOn: !!d.value,
+        optSelected: g.selected,
         enctype: !!document.createElement("form").enctype,
         html5Clone: document.createElement("nav").cloneNode(true).outerHTML !== "<:nav></:nav>",
         boxModel: document.compatMode === "CSS1Compat",
@@ -33,89 +33,89 @@ jQuery.support = (function() {
         boxSizingReliable: true,
         pixelPosition: false
     };
-    b.checked = true;
-    c.noCloneChecked = b.cloneNode(true).checked;
-    f.disabled = true;
-    c.optDisabled = !h.disabled;
+    d.checked = true;
+    a.noCloneChecked = d.cloneNode(true).checked;
+    e.disabled = true;
+    a.optDisabled = !g.disabled;
     try {
-        delete a.test;
+        delete k.test;
     } catch (l) {
-        c.deleteExpando = false;
+        a.deleteExpando = false;
     }
-    b = document.createElement("input");
-    b.setAttribute("value", "");
-    c.input = b.getAttribute("value") === "";
-    b.value = "t";
-    b.setAttribute("type", "radio");
-    c.radioValue = b.value === "t";
-    b.setAttribute("checked", "t");
-    b.setAttribute("name", "t");
-    g = document.createDocumentFragment();
-    g.appendChild(b);
-    c.appendChecked = b.checked;
-    c.checkClone = g.cloneNode(true).cloneNode(true).lastChild.checked;
-    if (a.attachEvent) {
-        a.attachEvent("onclick", function() {
-            c.noCloneEvent = false;
+    d = document.createElement("input");
+    d.setAttribute("value", "");
+    a.input = d.getAttribute("value") === "";
+    d.value = "t";
+    d.setAttribute("type", "radio");
+    a.radioValue = d.value === "t";
+    d.setAttribute("checked", "t");
+    d.setAttribute("name", "t");
+    f = document.createDocumentFragment();
+    f.appendChild(d);
+    a.appendChecked = d.checked;
+    a.checkClone = f.cloneNode(true).cloneNode(true).lastChild.checked;
+    if (k.attachEvent) {
+        k.attachEvent("onclick", function() {
+            a.noCloneEvent = false;
         });
-        a.cloneNode(true).click();
+        k.cloneNode(true).click();
     }
     for(j in {
         submit: true,
         change: true,
         focusin: true
     }){
-        a.setAttribute((i = "on" + j), "t");
-        c[j + "Bubbles"] = i in window || a.attributes[i].expando === false;
+        k.setAttribute((h = "on" + j), "t");
+        a[j + "Bubbles"] = h in window || k.attributes[h].expando === false;
     }
-    a.style.backgroundClip = "content-box";
-    a.cloneNode(true).style.backgroundClip = "";
-    c.clearCloneStyle = a.style.backgroundClip === "content-box";
+    k.style.backgroundClip = "content-box";
+    k.cloneNode(true).style.backgroundClip = "";
+    a.clearCloneStyle = k.style.backgroundClip === "content-box";
     jQuery(function() {
-        var e, d, b, g = "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;", f = document.getElementsByTagName("body")[0];
+        var b, c, d, e = "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;", f = document.getElementsByTagName("body")[0];
         if (!f) {
             return;
         }
-        e = document.createElement("div");
-        e.style.cssText = "border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px";
-        f.appendChild(e).appendChild(a);
-        a.innerHTML = "<table><tr><td></td><td>t</td></tr></table>";
-        b = a.getElementsByTagName("td");
-        b[0].style.cssText = "padding:0;margin:0;border:0;display:none";
-        k = b[0].offsetHeight === 0;
-        b[0].style.display = "";
-        b[1].style.display = "none";
-        c.reliableHiddenOffsets = k && b[0].offsetHeight === 0;
-        a.innerHTML = "";
-        a.style.cssText = "box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding:1px;border:1px;display:block;width:4px;margin-top:1%;position:absolute;top:1%;";
-        c.boxSizing = a.offsetWidth === 4;
-        c.doesNotIncludeMarginInBodyOffset = f.offsetTop !== 1;
+        b = document.createElement("div");
+        b.style.cssText = "border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px";
+        f.appendChild(b).appendChild(k);
+        k.innerHTML = "<table><tr><td></td><td>t</td></tr></table>";
+        d = k.getElementsByTagName("td");
+        d[0].style.cssText = "padding:0;margin:0;border:0;display:none";
+        i = d[0].offsetHeight === 0;
+        d[0].style.display = "";
+        d[1].style.display = "none";
+        a.reliableHiddenOffsets = i && d[0].offsetHeight === 0;
+        k.innerHTML = "";
+        k.style.cssText = "box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding:1px;border:1px;display:block;width:4px;margin-top:1%;position:absolute;top:1%;";
+        a.boxSizing = k.offsetWidth === 4;
+        a.doesNotIncludeMarginInBodyOffset = f.offsetTop !== 1;
         if (window.getComputedStyle) {
-            c.pixelPosition = (window.getComputedStyle(a, null) || {}).top !== "1%";
-            c.boxSizingReliable = (window.getComputedStyle(a, null) || {
+            a.pixelPosition = (window.getComputedStyle(k, null) || {}).top !== "1%";
+            a.boxSizingReliable = (window.getComputedStyle(k, null) || {
                 width: "4px"
             }).width === "4px";
-            d = a.appendChild(document.createElement("div"));
-            d.style.cssText = a.style.cssText = g;
-            d.style.marginRight = d.style.width = "0";
-            a.style.width = "1px";
-            c.reliableMarginRight = !parseFloat((window.getComputedStyle(d, null) || {}).marginRight);
+            c = k.appendChild(document.createElement("div"));
+            c.style.cssText = k.style.cssText = e;
+            c.style.marginRight = c.style.width = "0";
+            k.style.width = "1px";
+            a.reliableMarginRight = !parseFloat((window.getComputedStyle(c, null) || {}).marginRight);
         }
-        if (typeof a.style.zoom !== core_strundefined) {
-            a.innerHTML = "";
-            a.style.cssText = g + "width:1px;padding:1px;display:inline;zoom:1";
-            c.inlineBlockNeedsLayout = a.offsetWidth === 3;
-            a.style.display = "block";
-            a.innerHTML = "<div></div>";
-            a.firstChild.style.width = "5px";
-            c.shrinkWrapBlocks = a.offsetWidth !== 3;
-            if (c.inlineBlockNeedsLayout) {
+        if (typeof k.style.zoom !== core_strundefined) {
+            k.innerHTML = "";
+            k.style.cssText = e + "width:1px;padding:1px;display:inline;zoom:1";
+            a.inlineBlockNeedsLayout = k.offsetWidth === 3;
+            k.style.display = "block";
+            k.innerHTML = "<div></div>";
+            k.firstChild.style.width = "5px";
+            a.shrinkWrapBlocks = k.offsetWidth !== 3;
+            if (a.inlineBlockNeedsLayout) {
                 f.style.zoom = 1;
             }
         }
-        f.removeChild(e);
-        e = a = b = d = null;
+        f.removeChild(b);
+        b = k = d = c = null;
     });
-    e = f = g = h = d = b = null;
-    return c;
+    b = e = f = g = c = d = null;
+    return a;
 })();

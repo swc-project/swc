@@ -5,7 +5,7 @@ class C {
 var __ = {
     writable: true,
     value: (()=>{
-        const a1 = 1;
-        a1;
+        const a = 1;
+        a;
     })()
 };

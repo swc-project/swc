@@ -1,5 +1,5 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 function rootConnection(name) {
     return {
         resolve: function() {

@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @module: amd
 // @Filename: foo_0.ts
 var Foo = function Foo() {
@@ -9,10 +9,10 @@ var Foo = function Foo() {
 (function(Foo) {
     var answer = Foo.answer = 42;
 })(Foo || (Foo = {}));
-module.exports = Foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");
 if (foo.answer === 42) {
     var x = new foo();
 }
+module.exports = Foo;
 export { };

@@ -4,7 +4,7 @@ let a2 = f1(neverArray); // never
 const list = mkList([], compareNumbers);
 f2(Array.from([
     0
-]), [], (a11, a21)=>a11 - a21);
+]), [], (a1, a2)=>a1 - a2);
 f2(Array.from([]), [
     0
-], (a12, a22)=>a12 - a22);
+], (a1, a2)=>a1 - a2);

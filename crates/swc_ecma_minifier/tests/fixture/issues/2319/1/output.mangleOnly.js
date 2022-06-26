@@ -1,13 +1,13 @@
-function a(c, d) {
-    var a;
-    if (c > 0) {
-        var b = "hello";
+function a(a, b) {
+    var c;
+    if (a > 0) {
+        var d = "hello";
     } else {
-        var b = "howdy";
+        var d = "howdy";
     }
-    if (d > 0) {
-        a = b.substr(0, 2);
+    if (b > 0) {
+        c = d.substr(0, 2);
     }
-    return a;
+    return c;
 }
 module.exports = a;

@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @strictNullChecks: true
 // @declaration: true
 var Shape = function Shape() {
@@ -365,12 +365,12 @@ function path(obj) {
     for(var _len = arguments.length, keys = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         keys[_key - 1] = arguments[_key];
     }
-    var result1 = obj;
+    var result = obj;
     var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
     try {
         for(var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
             var k = _step.value;
-            result1 = result1[k];
+            result = result[k];
         }
     } catch (err) {
         _didIteratorError = true;
@@ -386,7 +386,7 @@ function path(obj) {
             }
         }
     }
-    return result1;
+    return result;
 }
 function f1(thing) {
     var x1 = path(thing, "a"); // { x: number, y: string }

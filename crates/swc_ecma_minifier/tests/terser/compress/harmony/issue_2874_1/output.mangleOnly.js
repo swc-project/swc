@@ -1,16 +1,16 @@
 (function() {
     function a() {
-        let c = [
+        let a = [
             "A",
             "B",
             "C"
         ];
-        let a = [
+        let c = [
             2,
             1,
             0
-        ].map((a)=>b(c[a] + a));
-        return a;
+        ].map((c)=>b(a[c] + c));
+        return c;
     }
     function b(a) {
         return ()=>console.log(a);

@@ -1,4 +1,4 @@
-import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
+import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 var _class, _Foo;
 // @target: es2015
 class B {

@@ -1,288 +1,288 @@
-import { D as f, F as n, y as o, b as p } from "../index.f66dda46.js";
-var q = typeof document === "undefined";
-var r = "M";
-var s = "T";
-var v = "L";
-var w = "P";
-var x = "S";
-var y = function g(e, f) {
-    return f ? f.replace(/%s/g, e || "") : e;
+import { D as a, F as b, y as c, b as d } from "../index.f66dda46.js";
+var e = typeof document === "undefined";
+var f = "M";
+var g = "T";
+var h = "L";
+var i = "P";
+var j = "S";
+var k = function a(b, c) {
+    return c ? c.replace(/%s/g, b || "") : b;
 };
-var z = function h(e) {
-    var g = document.head.querySelectorAll(e.charset ? "meta[" + e.keyword + "]" : "meta[" + e.keyword + '="' + e[e.keyword] + '"]');
-    if (g[0]) {
-        if (e.charset) {
-            g[0].setAttribute(e.keyword, e.charset);
+var l = function a(b) {
+    var c = document.head.querySelectorAll(b.charset ? "meta[" + b.keyword + "]" : "meta[" + b.keyword + '="' + b[b.keyword] + '"]');
+    if (c[0]) {
+        if (b.charset) {
+            c[0].setAttribute(b.keyword, b.charset);
         } else {
-            g[0].setAttribute("content", e.content);
+            c[0].setAttribute("content", b.content);
         }
     } else {
-        var f = document.createElement("meta");
-        if (e.charset) {
-            f.setAttribute(e.keyword, e.charset);
+        var d = document.createElement("meta");
+        if (b.charset) {
+            d.setAttribute(b.keyword, b.charset);
         } else {
-            f.setAttribute(e.keyword, e[e.keyword]);
-            f.setAttribute("content", e.content);
+            d.setAttribute(b.keyword, b[b.keyword]);
+            d.setAttribute("content", b.content);
         }
-        document.head.appendChild(f);
+        document.head.appendChild(d);
     }
 };
-var g = function e() {
-    var f;
-    var g = [];
+var m = function a() {
+    var b;
+    var c = [];
+    var d = [];
     var h = [];
-    var i = [];
-    var j = [];
-    var k = [];
-    var l = 0;
-    var m = 0;
-    var n = 0;
-    var o = (function() {
-        var e;
+    var m = [];
+    var n = [];
+    var o = 0;
+    var p = 0;
+    var q = 0;
+    var r = (function() {
+        var a;
         return function() {
-            clearTimeout(e);
-            e = setTimeout(function() {
-                e = null;
-                var f = new Set();
-                document.title = y(i[0], j[0]);
-                k.forEach(function(e) {
-                    if (!f.has(e.charset ? e.keyword : e[e.keyword])) {
-                        f.add(e.charset ? e.keyword : e[e.keyword]);
-                        z(e);
+            clearTimeout(a);
+            a = setTimeout(function() {
+                a = null;
+                var b = new Set();
+                document.title = k(h[0], m[0]);
+                n.forEach(function(a) {
+                    if (!b.has(a.charset ? a.keyword : a[a.keyword])) {
+                        b.add(a.charset ? a.keyword : a[a.keyword]);
+                        l(a);
                     }
                 });
-                l = m = n = 0;
+                o = p = q = 0;
             }, 1000 / 60);
         };
     })();
     return {
-        _setLang: function g(e) {
-            f = e;
+        _setLang: function a(c) {
+            b = c;
         },
-        _addToQueue: function p(f, e) {
-            if (!q) o();
-            if (f === x) {
-                h.push(e);
-            } else if (f === s) {
-                i.splice(l++, 0, e);
-            } else if (f === w) {
-                j.splice(m++, 0, e);
-            } else if (f === r) {
-                k.splice(n++, 0, e);
+        _addToQueue: function a(b, k) {
+            if (!e) r();
+            if (b === j) {
+                d.push(k);
+            } else if (b === g) {
+                h.splice(o++, 0, k);
+            } else if (b === i) {
+                m.splice(p++, 0, k);
+            } else if (b === f) {
+                n.splice(q++, 0, k);
             } else {
-                g.push(e);
+                c.push(k);
             }
         },
-        _removeFromQueue: function o(f, g) {
-            if (f === s || f === w) {
-                var h = f === w ? j : i;
-                var l = h.indexOf(g);
-                h.splice(l, 1);
-                if (l === 0) document.title = y(i[0] || "", j[0]);
+        _removeFromQueue: function a(b, c) {
+            if (b === g || b === i) {
+                var d = b === i ? m : h;
+                var e = d.indexOf(c);
+                d.splice(e, 1);
+                if (e === 0) document.title = k(h[0] || "", m[0]);
             } else {
-                var e = k[k.indexOf(g)];
-                if (e) {
-                    k.splice(k.indexOf(g), 1);
-                    var m = k.find(function(f) {
-                        return (f.keyword === e.keyword && (f.charset || f[f.keyword] === e[f.keyword]));
+                var f = n[n.indexOf(c)];
+                if (f) {
+                    n.splice(n.indexOf(c), 1);
+                    var j = n.find(function(a) {
+                        return (a.keyword === f.keyword && (a.charset || a[a.keyword] === f[a.keyword]));
                     });
-                    if (m) {
-                        z(m);
+                    if (j) {
+                        l(j);
                     } else {
-                        var n = document.head.querySelectorAll(e.charset ? "meta[" + e.keyword + "]" : "meta[" + e.keyword + '="' + e[e.keyword] + '"]');
-                        document.head.removeChild(n[0]);
+                        var o = document.head.querySelectorAll(f.charset ? "meta[" + f.keyword + "]" : "meta[" + f.keyword + '="' + f[f.keyword] + '"]');
+                        document.head.removeChild(o[0]);
                     }
                 }
             }
         },
-        _change: function l(g, h, f) {
-            if (g === s || g === w) {
-                var e = g === w ? j : i;
-                e[e.indexOf(h)] = f;
-                if (e.indexOf(f) === 0) {
-                    document.title = y(e[e.indexOf(f)], j[0]);
+        _change: function a(b, c, d) {
+            if (b === g || b === i) {
+                var e = b === i ? m : h;
+                e[e.indexOf(c)] = d;
+                if (e.indexOf(d) === 0) {
+                    document.title = k(e[e.indexOf(d)], m[0]);
                 }
             } else {
-                z((k[k.indexOf(h)] = f));
+                l((n[n.indexOf(c)] = d));
             }
         },
         _reset: undefined,
-        toStatic: function r() {
-            var e = y(i[i.length - 1], j[j.length - 1]);
-            var s = new Set();
-            var o = [].concat(g);
-            var p = [].concat(h);
-            k.reverse();
-            var q = [].concat(k).filter(function(e) {
-                if (!s.has(e.charset ? e.keyword : e[e.keyword])) {
-                    s.add(e.charset ? e.keyword : e[e.keyword]);
+        toStatic: function a() {
+            var e = k(h[h.length - 1], m[m.length - 1]);
+            var f = new Set();
+            var g = [].concat(c);
+            var i = [].concat(d);
+            n.reverse();
+            var j = [].concat(n).filter(function(a) {
+                if (!f.has(a.charset ? a.keyword : a[a.keyword])) {
+                    f.add(a.charset ? a.keyword : a[a.keyword]);
                     return true;
                 }
             });
-            i = [];
-            j = [];
-            k = [];
-            g = [];
             h = [];
-            l = m = n = 0;
+            m = [];
+            n = [];
+            c = [];
+            d = [];
+            o = p = q = 0;
             return {
-                lang: f,
+                lang: b,
                 title: e,
-                links: o,
-                scripts: p,
-                metas: q.map(function(e) {
-                    var f;
-                    return e.keyword === "charset" ? {
-                        charset: e[e.keyword]
-                    } : ((f = {}), (f[e.keyword] = e[e.keyword]), (f.content = e.content), f);
+                links: g,
+                scripts: i,
+                metas: j.map(function(a) {
+                    var b;
+                    return a.keyword === "charset" ? {
+                        charset: a[a.keyword]
+                    } : ((b = {}), (b[a.keyword] = a[a.keyword]), (b.content = a.content), b);
                 })
             };
         }
     };
 };
-var e = g();
-var A = f(e);
-var h = function g(e) {
-    var f = n(A);
-    if (q) {
-        f._setLang(e);
+var n = m();
+var o = a(n);
+var p = function a(d) {
+    var f = b(o);
+    if (e) {
+        f._setLang(d);
     }
-    o(function() {
-        document.getElementsByTagName("html")[0].setAttribute("lang", e);
+    c(function() {
+        document.getElementsByTagName("html")[0].setAttribute("lang", d);
     }, [
-        e
+        d
     ]);
 };
-var i = function h(e) {
-    var f = n(A);
-    var g = p(false);
-    var i = p();
-    var j = p();
-    if (q && !g.current) {
-        f._addToQueue(v, e);
+var q = function a(f) {
+    var g = b(o);
+    var i = d(false);
+    var j = d();
+    var k = d();
+    if (e && !i.current) {
+        g._addToQueue(h, f);
     }
-    o(function() {
-        if (g.current) {
-            Object.keys(e).forEach(function(f) {
-                i.current.setAttribute(f, e[f]);
+    c(function() {
+        if (i.current) {
+            Object.keys(f).forEach(function(a) {
+                j.current.setAttribute(a, f[a]);
             });
         }
     }, [
-        e.href,
-        e.media,
-        e.as,
-        e.rel,
-        e.crossorigin,
-        e.type,
-        e.hreflang, 
+        f.href,
+        f.media,
+        f.as,
+        f.rel,
+        f.crossorigin,
+        f.type,
+        f.hreflang, 
     ]);
-    o(function() {
-        g.current = true;
-        var f = document.querySelectorAll('link[rel="' + e.rel + '"]');
-        f.forEach(function(f) {
-            var g = true;
-            Object.keys(e).forEach(function(h) {
-                if (f.getAttribute(h) !== e[h]) {
-                    g = false;
+    c(function() {
+        i.current = true;
+        var a = document.querySelectorAll('link[rel="' + f.rel + '"]');
+        a.forEach(function(a) {
+            var b = true;
+            Object.keys(f).forEach(function(c) {
+                if (a.getAttribute(c) !== f[c]) {
+                    b = false;
                 }
             });
-            if (g) {
-                i.current = f;
+            if (b) {
+                j.current = a;
             }
         });
-        if (i.current) {
-            j.current = Object.keys(e).reduce(function(e, f) {
-                e[f] = i.current.getAttribute(f);
-                return e;
+        if (j.current) {
+            k.current = Object.keys(f).reduce(function(a, b) {
+                a[b] = j.current.getAttribute(b);
+                return a;
             }, {});
         } else {
-            i.current = document.createElement("link");
-            Object.keys(e).forEach(function(f) {
-                i.current.setAttribute(f, e[f]);
+            j.current = document.createElement("link");
+            Object.keys(f).forEach(function(a) {
+                j.current.setAttribute(a, f[a]);
             });
-            document.head.appendChild(i.current);
+            document.head.appendChild(j.current);
         }
         return function() {
-            g.current = false;
-            if (j.current) {
-                Object.keys(j.current).forEach(function(e) {
-                    i.current.setAttribute(e, j.current[e]);
+            i.current = false;
+            if (k.current) {
+                Object.keys(k.current).forEach(function(a) {
+                    j.current.setAttribute(a, k.current[a]);
                 });
             } else {
-                document.head.removeChild(i.current);
+                document.head.removeChild(j.current);
             }
         };
     }, []);
 };
-function B(e) {
-    return e.charset ? "charset" : e.name ? "name" : e.property ? "property" : "http-equiv";
+function r(a) {
+    return a.charset ? "charset" : a.name ? "name" : a.property ? "property" : "http-equiv";
 }
-var j = function j(e) {
-    var f = n(A);
-    var g = p(false);
-    var h = p();
-    var i = p({
-        keyword: (h.current = B(e)),
-        name: e.name,
-        charset: e.charset,
-        "http-equiv": e.httpEquiv,
-        property: e.property,
-        content: e.content
+var s = function a(g) {
+    var h = b(o);
+    var i = d(false);
+    var j = d();
+    var k = d({
+        keyword: (j.current = r(g)),
+        name: g.name,
+        charset: g.charset,
+        "http-equiv": g.httpEquiv,
+        property: g.property,
+        content: g.content
     });
-    if (q && !g.current) {
-        f._addToQueue(r, i.current);
+    if (e && !i.current) {
+        h._addToQueue(f, k.current);
     }
-    o(function() {
-        if (g.current) {
-            f._change(r, i.current, (i.current = {
-                keyword: h.current,
-                name: e.name,
-                charset: e.charset,
-                "http-equiv": e.httpEquiv,
-                property: e.property,
-                content: e.content
+    c(function() {
+        if (i.current) {
+            h._change(f, k.current, (k.current = {
+                keyword: j.current,
+                name: g.name,
+                charset: g.charset,
+                "http-equiv": g.httpEquiv,
+                property: g.property,
+                content: g.content
             }));
         }
     }, [
-        e.content
+        g.content
     ]);
-    o(function() {
-        f._addToQueue(r, i.current);
-        g.current = true;
+    c(function() {
+        h._addToQueue(f, k.current);
+        i.current = true;
         return function() {
-            g.current = false;
-            f._removeFromQueue(r, i.current);
+            i.current = false;
+            h._removeFromQueue(f, k.current);
         };
     }, []);
 };
-var k = function i(f, e) {
-    var g = n(A);
-    var h = p(false);
-    var j = p();
-    if (q && !h.current) {
-        g._addToQueue(e ? w : s, f);
+var t = function a(f, h) {
+    var j = b(o);
+    var k = d(false);
+    var l = d();
+    if (e && !k.current) {
+        j._addToQueue(h ? i : g, f);
     }
-    o(function() {
-        if (h.current) {
-            g._change(e ? w : s, j.current, (j.current = f));
+    c(function() {
+        if (k.current) {
+            j._change(h ? i : g, l.current, (l.current = f));
         }
     }, [
         f,
-        e
+        h
     ]);
-    o(function() {
-        h.current = true;
-        g._addToQueue(e ? w : s, (j.current = f));
+    c(function() {
+        k.current = true;
+        j._addToQueue(h ? i : g, (l.current = f));
         return function() {
-            h.current = false;
-            g._removeFromQueue(e ? w : s, j.current);
+            k.current = false;
+            j._removeFromQueue(h ? i : g, l.current);
         };
     }, [
-        e
+        h
     ]);
 };
-var l = function f(e) {
-    k(e, true);
+var u = function a(b) {
+    t(b, true);
 };
-var m = e.toStatic;
-export { l as a, k as b, j as c, i as d, m as t, h as u };
+var v = n.toStatic;
+export { u as a, t as b, s as c, q as d, v as t, p as u };

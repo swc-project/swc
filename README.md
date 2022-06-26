@@ -15,10 +15,20 @@
     <a href="https://crates.io/crates/swc_ecma_parser">
       <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20downloads">
     </a>
+    <img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/swc-project/swc">
 </p>
+
 <p align="center">
+   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/swc-project/swc">
    <a href="https://github.com/swc-project/swc/actions/workflows/cargo.yml">
       <img alt="CI Status" src="https://github.com/swc-project/swc/actions/workflows/cargo.yml/badge.svg?event=push">
+   </a>
+   <img alt="node-current (scoped)" src="https://img.shields.io/node/v/@swc/core">
+</p>
+
+<p align="center">
+   <a href="https://discord.com/invite/GnHbXTdZz6">
+      <img alt="Discord" src="https://img.shields.io/discord/889779439272075314">
    </a>
 </p>
 

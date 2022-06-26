@@ -1,3 +1,3 @@
-var x = function(x1) {
-    return "abc".concat(x1, "def");
+var x = function(x) {
+    return "abc".concat(x, "def");
 };

@@ -10,11 +10,11 @@ var f = x;
 var g = 1;
 var g2 = 1;
 var M;
-(function(M1) {
-    var x = M1.x = 1;
+(function(M) {
+    var x = M.x = 1;
 })(M || (M = {}));
 M = x;
-function i(a1) {
-    a1 = x;
+function i(a) {
+    a = x;
 }
 i = x;

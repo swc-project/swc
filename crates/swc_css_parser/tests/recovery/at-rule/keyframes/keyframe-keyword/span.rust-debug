@@ -1,0 +1,217 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | ,-> @keyframes foo {
+ 2 | |   	form {}
+ 3 | |   }
+ 4 | |   
+ 5 | |   @keyframes foo {
+ 6 | |   	ot {}
+ 7 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | ,-> @keyframes foo {
+ 2 | |   	form {}
+ 3 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | ,-> @keyframes foo {
+ 2 | |   	form {}
+ 3 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | @keyframes foo {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | @keyframes foo {
+   :  ^^^^^^^^^
+   `----
+
+  x CustomIdent
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | @keyframes foo {
+   :            ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | ,-> @keyframes foo {
+ 2 | |   	form {}
+ 3 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | ,-> @keyframes foo {
+ 2 | `-> 	form {}
+   `----
+
+  x WhiteSpace { value: Atom('
+  | 	' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | ,-> @keyframes foo {
+ 2 | `-> 	form {}
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
+ 2 | form {}
+   : ^^^^
+   `----
+
+  x Ident { value: Atom('form' type=inline), raw: Atom('form' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
+ 2 | form {}
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
+ 2 | form {}
+   :     ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
+ 2 | form {}
+   :     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
+ 2 | form {}
+   :      ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
+ 2 | form {}
+   :      ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
+ 2 | form {}
+   :        ^
+ 3 | }
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
+ 2 | form {}
+   :        ^
+ 3 | }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | ,-> @keyframes foo {
+ 6 | |   	ot {}
+ 7 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | ,-> @keyframes foo {
+ 6 | |   	ot {}
+ 7 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | @keyframes foo {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | @keyframes foo {
+   :  ^^^^^^^^^
+   `----
+
+  x CustomIdent
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | @keyframes foo {
+   :            ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | ,-> @keyframes foo {
+ 6 | |   	ot {}
+ 7 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | ,-> @keyframes foo {
+ 6 | `-> 	ot {}
+   `----
+
+  x WhiteSpace { value: Atom('
+  | 	' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | ,-> @keyframes foo {
+ 6 | `-> 	ot {}
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
+ 6 | ot {}
+   : ^^
+   `----
+
+  x Ident { value: Atom('ot' type=inline), raw: Atom('ot' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
+ 6 | ot {}
+   : ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
+ 6 | ot {}
+   :   ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
+ 6 | ot {}
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
+ 6 | ot {}
+   :    ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
+ 6 | ot {}
+   :    ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
+ 6 | ot {}
+   :      ^
+ 7 | }
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
+ 6 | ot {}
+   :      ^
+ 7 | }
+   `----

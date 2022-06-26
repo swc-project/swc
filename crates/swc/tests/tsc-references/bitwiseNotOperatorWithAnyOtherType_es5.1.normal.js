@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowUnreachableCode: true
 // ~ operator on any type
 var ANY;
@@ -28,9 +28,9 @@ var A = /*#__PURE__*/ function() {
     return A;
 }();
 var M;
-(function(M1) {
+(function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 })(M || (M = {}));
 var objA = new A();
 // any other type var

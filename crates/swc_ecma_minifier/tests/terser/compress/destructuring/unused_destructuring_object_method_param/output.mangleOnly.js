@@ -1,6 +1,6 @@
 ({
-    baz ({ w: b = console.log("side effect") , x: a , y: c  }) {
-        console.log(a);
+    baz ({ w: a = console.log("side effect") , x: b , y: c  }) {
+        console.log(b);
     }
 }.baz({
     x: 7,

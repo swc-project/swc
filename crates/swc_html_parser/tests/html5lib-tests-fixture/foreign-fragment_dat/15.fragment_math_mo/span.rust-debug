@@ -1,0 +1,22 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/15.fragment_math_mo/input.html:1:1]
+ 1 | </mo>X
+   : ^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/15.fragment_math_mo/input.html:1:1]
+ 1 | </mo>X
+   :      ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/15.fragment_math_mo/input.html:1:1]
+ 1 | </mo>X
+   :      ^
+   `----

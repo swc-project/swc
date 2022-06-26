@@ -34,13 +34,13 @@ var E;
     E[E["A"] = 0] = "A";
 })(E || (E = {}));
 function f() {}
-(function(f22) {
-    var bar = f22.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 class c {
 }
-(function(c1) {
-    var bar = c1.bar = 1;
+(function(c) {
+    var bar = c.bar = 1;
 })(c || (c = {}));
 function f4(x) {
     var r0 = true ? x : null; // ok
@@ -81,11 +81,11 @@ function f11(x) {
     var r7 = true ? ()=>{} : x; // ok
     var r7 = true ? x : ()=>{}; // ok
 }
-function f12(x1) {
+function f12(x) {
     var r8 = true ? (x)=>{
         return x;
-    } : x1; // ok
-    var r8b = true ? x1 : (x)=>{
+    } : x; // ok
+    var r8b = true ? x : (x)=>{
         return x;
     }; // ok, type parameters not identical across declarations
 }

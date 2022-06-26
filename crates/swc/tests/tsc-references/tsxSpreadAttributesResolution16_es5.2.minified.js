@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 var React = require("react");
 export default function Component(props) {
     return React.createElement(AnotherComponent, _extends({}, props));

@@ -1,4 +1,4 @@
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -36,13 +36,13 @@ Vec.prototype = {
 /**
  * @param {number} x
  * @param {number} y
- */ export function Point2D(x, y) {
+ */ export function Point2D(x1, y1) {
     if (!_instanceof(this, Point2D)) {
-        return new Point2D(x, y);
+        return new Point2D(x1, y1);
     }
     Vec.call(this, 2);
-    this.x = x;
-    this.y = y;
+    this.x = x1;
+    this.y = y1;
 }
 Point2D.prototype = {
     __proto__: Vec,

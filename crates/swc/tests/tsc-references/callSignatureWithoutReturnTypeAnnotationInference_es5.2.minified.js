@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _type_of from "@swc/helpers/lib/_type_of.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
 function foo3() {
     return foo3();
 }
@@ -13,13 +13,13 @@ var M, e1, C = function() {
 function m1() {
     return 1;
 }
-!function(M1) {
-    M1.x = 1;
-    var C1 = function() {
+!function(M) {
+    M.x = 1;
+    var C = function() {
         "use strict";
-        _class_call_check(this, C1);
+        _class_call_check(this, C);
     };
-    M1.C = C1;
+    M.C = C;
 }(M || (M = {})), (m1 || (m1 = {})).y = 2;
 var c1 = function(x) {
     "use strict";

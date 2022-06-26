@@ -1,8 +1,8 @@
-var b = console.log;
-function a(a, c) {
-    var d = (a <<= c);
-    if (a) return a;
-    b(d);
+var a = console.log;
+function b(b, c) {
+    var d = (b <<= c);
+    if (b) return b;
+    a(d);
 }
-a(false, 1);
-a(true, 2);
+b(false, 1);
+b(true, 2);

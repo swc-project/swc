@@ -839,7 +839,7 @@ impl Fold for CommonJs {
                     .make_require_call(self.unresolved_mark, src.clone(), src_span);
 
             // We can't use _interopRequireDefault
-            if src.starts_with("@swc/helpers/lib/") {
+            if src.starts_with("@swc/helpers/src/") {
                 require = require.make_member(quote_ident!("default"));
             }
 
@@ -1154,7 +1154,7 @@ pub(super) fn handle_dynamic_import(
     // Promise.resolve().then
     let then = resolve_call.make_member(quote_ident!("then"));
 
-    return Expr::Call(CallExpr {
+    Expr::Call(CallExpr {
         span,
         callee: then.as_callee(),
         args: vec![
@@ -1202,5 +1202,5 @@ pub(super) fn handle_dynamic_import(
             .as_arg(),
         ],
         type_args: Default::default(),
-    });
+    })
 }

@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: ES6
 // @filename: class.ts
 var X;
-(function(X1) {
-    var Y1;
+(function(X) {
+    var Y;
     (function(Y) {
         var Point = function Point(x, y) {
             "use strict";
@@ -12,16 +12,16 @@ var X;
             this.y = y;
         };
         Y.Point = Point;
-    })(Y1 = X1.Y || (X1.Y = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
-(function(X2) {
-    var Y2;
+(function(X) {
+    var Y;
     (function(Y) {
-        var Point1;
-        (function(Point) {
-            var Origin = Point.Origin = new Point1(0, 0);
-        })(Point1 = Y.Point || (Y.Point = {}));
-    })(Y2 = X2.Y || (X2.Y = {}));
+        var Point;
+        (function(Point1) {
+            var Origin = Point1.Origin = new Point(0, 0);
+        })(Point = Y.Point || (Y.Point = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 // @filename: test.ts
 //var cl: { x: number; y: number; }

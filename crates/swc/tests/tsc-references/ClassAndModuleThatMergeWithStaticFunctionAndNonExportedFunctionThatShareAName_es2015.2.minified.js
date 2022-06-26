@@ -10,8 +10,8 @@ class Point {
         this.x = x, this.y = y;
     }
 }
-Point || (Point = {}), function(A1) {
-    class Point1 {
+Point || (Point = {}), function(A) {
+    class Point {
         static Origin() {
             return {
                 x: 0,
@@ -22,5 +22,5 @@ Point || (Point = {}), function(A1) {
             this.x = x, this.y = y;
         }
     }
-    A1.Point = Point1, Point1 = A1.Point || (A1.Point = {});
+    A.Point = Point, Point = A.Point || (A.Point = {});
 }(A || (A = {}));

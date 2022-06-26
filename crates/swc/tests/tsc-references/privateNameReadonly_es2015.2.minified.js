@@ -1,6 +1,6 @@
 var _bar;
-import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
-import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
+import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 let C = (_bar = new WeakSet(), class {
     foo() {
         _class_private_field_set(this, _bar, console.log("should log this then throw"));

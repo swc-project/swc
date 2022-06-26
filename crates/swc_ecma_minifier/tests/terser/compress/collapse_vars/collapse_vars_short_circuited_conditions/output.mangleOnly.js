@@ -1,54 +1,54 @@
-function a(d) {
-    var a = foo(), b = bar(), c = baz();
-    return a ? b : c;
+function a(a) {
+    var b = foo(), c = bar(), d = baz();
+    return b ? c : d;
 }
-function b(d) {
-    var a = foo(), b = bar(), c = baz();
-    return a ? c : b;
+function b(a) {
+    var b = foo(), c = bar(), d = baz();
+    return b ? d : c;
 }
-function c(d) {
-    var a = foo(), b = bar(), c = baz();
-    return b ? a : c;
+function c(a) {
+    var b = foo(), c = bar(), d = baz();
+    return c ? b : d;
 }
-function d(d) {
-    var a = foo(), b = bar(), c = baz();
-    return b ? c : a;
+function d(a) {
+    var b = foo(), c = bar(), d = baz();
+    return c ? d : b;
 }
-function e(d) {
-    var a = foo(), b = bar(), c = baz();
-    return c ? a : b;
+function e(a) {
+    var b = foo(), c = bar(), d = baz();
+    return d ? b : c;
 }
-function f(d) {
-    var a = foo(), b = bar(), c = baz();
-    return c ? b : a;
+function f(a) {
+    var b = foo(), c = bar(), d = baz();
+    return d ? c : b;
 }
-function g(d) {
-    var a = foo(), b = bar(), c = baz();
-    if (a) return b;
-    else return c;
-}
-function h(d) {
-    var a = foo(), b = bar(), c = baz();
-    if (a) return c;
-    else return b;
-}
-function i(d) {
-    var a = foo(), b = bar(), c = baz();
-    if (b) return a;
-    else return c;
-}
-function j(d) {
-    var a = foo(), b = bar(), c = baz();
+function g(a) {
+    var b = foo(), c = bar(), d = baz();
     if (b) return c;
-    else return a;
+    else return d;
 }
-function k(d) {
-    var a = foo(), b = bar(), c = baz();
-    if (c) return a;
+function h(a) {
+    var b = foo(), c = bar(), d = baz();
+    if (b) return d;
+    else return c;
+}
+function i(a) {
+    var b = foo(), c = bar(), d = baz();
+    if (c) return b;
+    else return d;
+}
+function j(a) {
+    var b = foo(), c = bar(), d = baz();
+    if (c) return d;
     else return b;
 }
-function l(d) {
-    var a = foo(), b = bar(), c = baz();
-    if (c) return b;
-    else return a;
+function k(a) {
+    var b = foo(), c = bar(), d = baz();
+    if (d) return b;
+    else return c;
+}
+function l(a) {
+    var b = foo(), c = bar(), d = baz();
+    if (d) return c;
+    else return b;
 }
