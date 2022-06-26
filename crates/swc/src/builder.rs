@@ -186,7 +186,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Some(ModuleConfig::CommonJs(ref c)) => (true, c.no_interop, c.ignore_dynamic),
             Some(ModuleConfig::Amd(ref c)) => (true, c.config.no_interop, c.config.ignore_dynamic),
             Some(ModuleConfig::Umd(ref c)) => (true, c.config.no_interop, c.config.ignore_dynamic),
-            Some(ModuleConfig::SystemJs(_)) | Some(ModuleConfig::Es6) | None => (false, true, true),
+            Some(ModuleConfig::SystemJs(_))
+            | Some(ModuleConfig::Es6)
+            | Some(ModuleConfig::NodeNext)
+            | None => (false, true, true),
         };
 
         let mut feature_flag = FeatureFlag::empty();

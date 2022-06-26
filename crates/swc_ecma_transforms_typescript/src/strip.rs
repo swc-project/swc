@@ -13,15 +13,18 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, is_literal, member_expr, prepend_stmt,
-    private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory,
+    alias_ident_for, constructor::inject_after_super, is_literal, prepend_stmt, private_ident,
+    prop_name_to_expr, var::VarCollector, ExprFactory,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_obj_and_computed, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 
-use crate::inline_enum::{inline_enum, TSEnumLit};
+use crate::{
+    import_export_assign::import_export_assign,
+    inline_enum::{inline_enum, TSEnumLit},
+};
 
 /// Value does not contain TsLit::Bool
 type EnumValues = AHashMap<JsWord, Option<TsLit>>;
@@ -90,7 +93,7 @@ pub struct Config {
     /// - `import foo = require()`
     /// - `export = expr`
     #[serde(default)]
-    pub preserve_import_export_assign: bool,
+    pub import_export_assign: TSImportExportAssignConfig,
 }
 
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]
@@ -108,6 +111,29 @@ pub struct TSEnumConfig {
     pub ts_enum_is_readonly: bool,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum TSImportExportAssignConfig {
+    /// - Rewrite `import foo = require("foo")` to `var foo = require("foo")`
+    /// - Rewrite `export =` to `module.exports = `
+    /// Note: This option is deprecated as all CJS/AMD/UMD can handle it
+    /// themselves.
+    Classic,
+    Preserve,
+    /// Rewriet `import foo = require("foo")` to
+    /// ```javascript
+    /// import { createRequire as _createRequire } from "module";
+    /// const __require = _createRequire(import.meta.url);
+    /// const foo = __require("foo");
+    /// ```
+    NodeNext,
+}
+
+impl Default for TSImportExportAssignConfig {
+    fn default() -> Self {
+        Self::Classic
+    }
+}
+
 impl TSEnumConfig {
     pub fn should_collect_enum(&self, is_const: bool) -> bool {
         self.ts_enum_is_readonly || (!self.treat_const_enum_as_enum && is_const)
@@ -120,6 +146,7 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
     let ts_enum_config = config.ts_enum_config;
 
     chain!(
+        import_export_assign(top_level_mark, config.import_export_assign),
         as_folder(Strip {
             config,
             comments: NoopComments,
@@ -186,6 +213,7 @@ where
     let ts_enum_config = config.ts_enum_config;
 
     chain!(
+        import_export_assign(top_level_mark, config.import_export_assign),
         as_folder(Strip {
             config,
             comments,
@@ -984,7 +1012,7 @@ where
         items.visit_with(self);
 
         let mut stmts = Vec::with_capacity(items.len());
-        let mut export_assign = None;
+
         for mut item in items {
             self.is_side_effect_import = false;
             match item {
@@ -1073,34 +1101,6 @@ where
                     continue
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
-                    span,
-                    declare: false,
-                    is_export: false,
-                    is_type_only: false,
-                    id,
-                    module_ref:
-                        TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
-                })) if !self.config.preserve_import_export_assign => {
-                    let default = VarDeclarator {
-                        span: DUMMY_SP,
-                        name: id.into(),
-                        init: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: quote_ident!("require").as_callee(),
-                            args: vec![expr.as_arg()],
-                            type_args: None,
-                        }))),
-                        definite: false,
-                    };
-                    stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls: vec![default],
-                    }))))
-                }
-
                 // Always strip type only import / exports
                 ModuleItem::Stmt(Stmt::Empty(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -1110,10 +1110,18 @@ where
                     type_only: true,
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
-                    is_type_only: true,
-                    ..
-                })) => continue,
+                | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
+                    TsImportEqualsDecl {
+                        is_type_only: true,
+                        module_ref: TsModuleRef::TsExternalModuleRef(..),
+                        ..
+                    }
+                    | TsImportEqualsDecl {
+                        declare: true,
+                        module_ref: TsModuleRef::TsExternalModuleRef(..),
+                        ..
+                    },
+                )) => continue,
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(mut i)) => {
                     i.visit_mut_with(self);
@@ -1217,26 +1225,25 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(mut export)) => {
-                    export.expr.visit_mut_with(self);
+                // ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(mut export)) => {
+                //     export.expr.visit_mut_with(self);
 
-                    let stmt = if self.config.preserve_import_export_assign {
-                        ModuleDecl::TsExportAssignment(export).into()
-                    } else {
-                        ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                            span: export.span,
-                            expr: Box::new(Expr::Assign(AssignExpr {
-                                span: export.span,
-                                left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
-                                op: op!("="),
-                                right: export.expr,
-                            })),
-                        }))
-                    };
+                //     let stmt = if self.config.preserve_import_export_assign {
+                //         ModuleDecl::TsExportAssignment(export).into()
+                //     } else {
+                //         ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                //             span: export.span,
+                //             expr: Box::new(Expr::Assign(AssignExpr {
+                //                 span: export.span,
+                //                 left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
+                //                 op: op!("="),
+                //                 right: export.expr,
+                //             })),
+                //         }))
+                //     };
 
-                    export_assign = Some(stmt);
-                }
-
+                //     export_assign = Some(stmt);
+                // }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
 
@@ -1416,10 +1423,6 @@ where
                         .collect(),
                 })),
             })));
-        }
-
-        if let Some(export_assign) = export_assign {
-            stmts.push(export_assign);
         }
 
         stmts
@@ -2098,7 +2101,7 @@ where
         items.visit_with(self);
 
         let mut stmts = Vec::with_capacity(items.len());
-        let mut export_assign = None;
+
         for mut item in take(items) {
             self.is_side_effect_import = false;
             match item {
@@ -2205,34 +2208,6 @@ where
                     stmts.push(item);
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
-                    span,
-                    declare: false,
-                    is_export: false,
-                    is_type_only: false,
-                    id,
-                    module_ref:
-                        TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
-                })) if !self.config.preserve_import_export_assign => {
-                    let default = VarDeclarator {
-                        span: DUMMY_SP,
-                        name: id.into(),
-                        init: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: quote_ident!("require").as_callee(),
-                            args: vec![expr.as_arg()],
-                            type_args: None,
-                        }))),
-                        definite: false,
-                    };
-                    stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls: vec![default],
-                    }))))
-                }
-
                 // Always strip type only import / exports
                 ModuleItem::Stmt(Stmt::Empty(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -2242,10 +2217,18 @@ where
                     type_only: true,
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
-                    is_type_only: true,
-                    ..
-                })) => continue,
+                | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
+                    TsImportEqualsDecl {
+                        is_type_only: true,
+                        module_ref: TsModuleRef::TsExternalModuleRef(..),
+                        ..
+                    }
+                    | TsImportEqualsDecl {
+                        declare: true,
+                        module_ref: TsModuleRef::TsExternalModuleRef(..),
+                        ..
+                    },
+                )) => continue,
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(mut i)) => {
                     i.visit_mut_with(self);
@@ -2334,26 +2317,6 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(mut export)) => {
-                    export.expr.visit_mut_with(self);
-
-                    let stmt = if self.config.preserve_import_export_assign {
-                        ModuleDecl::TsExportAssignment(export).into()
-                    } else {
-                        ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                            span: export.span,
-                            expr: Box::new(Expr::Assign(AssignExpr {
-                                span: export.span,
-                                left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
-                                op: op!("="),
-                                right: export.expr,
-                            })),
-                        }))
-                    };
-
-                    export_assign = Some(stmt);
-                }
-
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
 
@@ -2408,8 +2371,6 @@ where
                 .into(),
             )
         }
-
-        stmts.extend(export_assign);
 
         self.keys = orig_keys;
 

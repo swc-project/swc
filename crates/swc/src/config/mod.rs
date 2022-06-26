@@ -56,7 +56,7 @@ use swc_ecma_transforms::{
     proposals::{decorators, export_default_from, import_assertions},
     react::{self, default_pragma, default_pragma_frag},
     resolver,
-    typescript::{self, TSEnumConfig},
+    typescript::{self, TSEnumConfig, TSImportExportAssignConfig},
     Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
@@ -468,12 +468,14 @@ impl Options {
             json_parse_pass
         );
 
-        let preserve_import_export_assign = matches!(
-            &cfg.module,
+        let import_export_assign = match cfg.module {
             Some(ModuleConfig::CommonJs(..))
-                | Some(ModuleConfig::Amd(..))
-                | Some(ModuleConfig::Umd(..))
-        );
+            | Some(ModuleConfig::Amd(..))
+            | Some(ModuleConfig::Umd(..)) => TSImportExportAssignConfig::Preserve,
+            Some(ModuleConfig::NodeNext) => TSImportExportAssignConfig::NodeNext,
+            // TODO: should Preserve for SystemJS
+            _ => TSImportExportAssignConfig::Classic,
+        };
 
         let pass = PassBuilder::new(
             cm,
@@ -614,7 +616,7 @@ impl Options {
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
                         use_define_for_class_fields: !assumptions.set_public_class_fields,
-                        preserve_import_export_assign,
+                        import_export_assign,
                         ..Default::default()
                     },
                     comments,
@@ -1262,6 +1264,8 @@ pub enum ModuleConfig {
     SystemJs(modules::system_js::Config),
     #[serde(rename = "es6")]
     Es6,
+    #[serde(rename = "nodenext")]
+    NodeNext,
 }
 
 impl ModuleConfig {
@@ -1282,7 +1286,7 @@ impl ModuleConfig {
         };
 
         match config {
-            None | Some(ModuleConfig::Es6) => {
+            None | Some(ModuleConfig::Es6) | Some(ModuleConfig::NodeNext) => {
                 if paths.is_empty() {
                     Box::new(noop())
                 } else {
