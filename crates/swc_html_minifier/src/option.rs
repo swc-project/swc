@@ -72,7 +72,7 @@ pub struct MinifyOptions {
     pub minify_conditional_comments: bool,
     /// Sorting the values of `class`, `rel`, etc. of attributes
     #[serde(default = "true_by_default")]
-    pub sort_unordered_attribute_values: bool,
+    pub sort_space_separated_attribute_values: bool,
 }
 
 /// Implement default using serde.

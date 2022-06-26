@@ -332,6 +332,8 @@ struct Minifier {
     minify_css: bool,
     minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
     minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
+
+    sort_space_separated_attribute_values: bool,
 }
 
 fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
@@ -342,9 +344,6 @@ fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
         },
         _ => WhiteSpace::Normal,
     }
-    preserve_comments: Option<Vec<CachedRegex>>,
-    minify_conditional_comments: bool,
-    sort_unordered_attribute_values: bool,
 }
 
 impl Minifier {
@@ -1525,9 +1524,7 @@ impl Minifier {
                 minify_js: self.minify_js,
                 minify_json: self.minify_json,
                 minify_css: self.minify_css,
-                preserve_comments: self.preserve_comments.clone(),
-                minify_conditional_comments: self.minify_conditional_comments,
-                sort_unordered_attribute_values: self.sort_unordered_attribute_values,
+                sort_space_separated_attribute_values: self.sort_space_separated_attribute_values,
             },
         );
 
@@ -1795,7 +1792,7 @@ impl VisitMut for Minifier {
         if &*n.name == "class" {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
 
-            if self.sort_unordered_attribute_values
+            if self.sort_space_separated_attribute_values
                 && self.is_attribute_value_unordered_set(
                     self.current_element.as_ref().unwrap(),
                     &n.name,
@@ -2090,6 +2087,7 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         preserve_comments: options.preserve_comments.clone(),
         minify_conditional_comments: options.minify_conditional_comments,
         sort_unordered_attribute_values: options.sort_unordered_attribute_values,
+        sort_space_separated_attribute_values: options.sort_space_separated_attribute_values,
     }
 }
 
