@@ -6,6 +6,8 @@ use swc_cached::regex::CachedRegex;
 #[serde(deny_unknown_fields)]
 pub enum MinifierType {
     Js,
+    JsModule,
+    JsScript,
     Json,
     Css,
     Html,
@@ -51,6 +53,8 @@ pub struct MinifyOptions {
     // The third is type of minifier
     #[serde(default)]
     pub minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
+    #[serde(default)]
+    pub minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
 }
 
 /// Implement default using serde.

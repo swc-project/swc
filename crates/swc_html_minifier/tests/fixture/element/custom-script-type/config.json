@@ -1,0 +1,9 @@
+{
+  "minifyAdditionalScriptsContent": [
+    ["text/custom-module", "jsmodule"],
+    ["text/custom-script", "jsscript"],
+    ["text/custom-json", "json"],
+    ["text/custom-css", "css"],
+    ["text/html", "html"]
+  ]
+}
