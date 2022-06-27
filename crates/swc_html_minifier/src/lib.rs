@@ -823,8 +823,193 @@ impl Minifier {
     }
 
     fn minify_children(&mut self, children: &mut Vec<Child>) {
-        let namespace = self.current_element.as_ref().unwrap().namespace;
-        let tag_name = &self.current_element.as_ref().unwrap().tag_name;
+        let (namespace, tag_name) = match &self.current_element {
+            Some(element) => (element.namespace, &element.tag_name),
+            _ => return,
+        };
+
+        if let Some(mode) = self
+            .collapse_whitespaces
+            .as_ref()
+            .map(|mode| self.get_whitespace_minification_for_tag(mode, namespace, tag_name))
+        {
+            let cloned_children = children.clone();
+
+            let mut index = 0;
+            let mut prev = None;
+            let mut next = None;
+
+            children.retain_mut(|child| {
+                index += 1;
+                next = cloned_children.get(index);
+
+                let result = match child {
+                    Child::Comment(comment) if self.remove_comments => {
+                        self.is_preserved_comment(&comment.data)
+                    }
+                    // Always remove whitespaces from html and head elements (except nested
+                    // elements), it should be safe
+                    Child::Text(text)
+                        if namespace == Namespace::HTML
+                            && matches!(&**tag_name, "html" | "head")
+                            && text.data.chars().all(is_whitespace) =>
+                    {
+                        false
+                    }
+                    Child::Text(text)
+                        if !self.descendant_of_pre
+                            && get_white_space(namespace, tag_name) == WhiteSpace::Normal =>
+                    {
+                        let mut is_smart_left_trim = false;
+                        let mut is_smart_right_trim = false;
+
+                        if self.collapse_whitespaces == Some(CollapseWhitespaces::Smart) {
+                            let prev_display = if let Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) = &prev
+                            {
+                                Some(self.get_display(*namespace, tag_name))
+                            } else {
+                                None
+                            };
+
+                            is_smart_left_trim = match prev_display {
+                                // Block-level containers:
+                                //
+                                // `Display::Block`    - `display: block flow`
+                                // `Display::ListItem` - `display: block flow list-item`
+                                // `Display::Table`    - `display: block table`
+                                // + internal table display (only whitespace characters allowed
+                                // there)
+                                Some(
+                                    Display::Block
+                                    | Display::ListItem
+                                    | Display::Table
+                                    | Display::TableColumnGroup
+                                    | Display::TableCaption
+                                    | Display::TableColumn
+                                    | Display::TableRow
+                                    | Display::TableCell
+                                    | Display::TableHeaderGroup
+                                    | Display::TableRowGroup
+                                    | Display::TableFooterGroup,
+                                ) => true,
+                                // Inline box
+                                Some(Display::Inline) => {
+                                    let deep =
+                                        self.get_deep_last_text_element(prev.as_mut().unwrap());
+
+                                    if let Some(deep) = deep {
+                                        deep.data.ends_with(is_whitespace)
+                                    } else {
+                                        false
+                                    }
+                                }
+                                // Inline level containers and etc
+                                Some(_) => false,
+                                None => {
+                                    let parent_display = self.get_display(namespace, tag_name);
+
+                                    match parent_display {
+                                        Display::Inline => {
+                                            if let Some(Child::Text(Text { data, .. })) =
+                                                &self.latest_element
+                                            {
+                                                data.ends_with(is_whitespace)
+                                            } else {
+                                                false
+                                            }
+                                        }
+                                        _ => true,
+                                    }
+                                }
+                            };
+
+                            let next_display = if let Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) = &next
+                            {
+                                Some(self.get_display(*namespace, tag_name))
+                            } else {
+                                None
+                            };
+
+                            is_smart_right_trim = match next_display {
+                                // Block-level containers:
+                                //
+                                // `Display::Block`    - `display: block flow`
+                                // `Display::ListItem` - `display: block flow list-item`
+                                // `Display::Table`    - `display: block table`
+                                // + internal table display (only whitespace characters allowed
+                                // there)
+                                Some(
+                                    Display::Block
+                                    | Display::ListItem
+                                    | Display::Table
+                                    | Display::TableColumnGroup
+                                    | Display::TableCaption
+                                    | Display::TableColumn
+                                    | Display::TableRow
+                                    | Display::TableCell
+                                    | Display::TableHeaderGroup
+                                    | Display::TableRowGroup
+                                    | Display::TableFooterGroup,
+                                ) => true,
+                                Some(_) => false,
+                                None => {
+                                    let parent_display = self.get_display(namespace, tag_name);
+
+                                    !matches!(parent_display, Display::Inline)
+                                }
+                            };
+                        }
+
+                        let mut value = if (mode.trim) || is_smart_left_trim {
+                            text.data.trim_start_matches(is_whitespace)
+                        } else {
+                            &*text.data
+                        };
+
+                        value = if (mode.trim) || is_smart_right_trim {
+                            value.trim_end_matches(is_whitespace)
+                        } else {
+                            value
+                        };
+
+                        if value.is_empty() {
+                            false
+                        } else if mode.collapse {
+                            text.data = self.collapse_whitespace(value).into();
+
+                            true
+                        } else {
+                            text.data = value.into();
+
+                            true
+                        }
+                    }
+                    _ => true,
+                };
+
+                prev = Some(child.clone());
+
+                result
+            });
+        }
+
+        if namespace == Namespace::HTML && tag_name == "body" {
+            if let Some(first) = children.first_mut() {
+                self.remove_whitespace_from_first_text_element(first);
+            }
+
+            if let Some(last) = children.last_mut() {
+                self.remove_whitespace_from_last_text_element(last)
+            }
+        }
 
         children.retain_mut(|child| {
             match child {
@@ -840,200 +1025,9 @@ impl Minifier {
                 {
                     false
                 }
+                Child::Text(text) if text.data.is_empty() => false,
                 _ => true,
             }
-        });
-
-        let mode = self
-            .collapse_whitespaces
-            .as_ref()
-            .map(|mode| self.get_whitespace_minification_for_tag(mode, namespace, tag_name));
-
-        let mut index = 0;
-
-        let mut cloned_children = None;
-
-        if mode.is_some() {
-            cloned_children = Some(children.clone());
-        }
-
-        let mut prev = None;
-        let mut next = None;
-
-        if namespace == Namespace::HTML && &**tag_name == "body" {
-            if let Some(first) = children.first_mut() {
-                self.remove_whitespace_from_first_text_element(first);
-            }
-
-            if let Some(last) = children.last_mut() {
-                self.remove_whitespace_from_last_text_element(last)
-            }
-        }
-
-        children.retain_mut(|child| {
-            index += 1;
-
-            if mode.is_some() {
-                if let Some(cloned_children) = &cloned_children {
-                    next = cloned_children.get(index);
-                }
-            }
-
-            let result = match child {
-                Child::Comment(comment) if self.remove_comments => {
-                    self.is_preserved_comment(&comment.data)
-                }
-                // Always remove whitespaces from html and head elements (except nested elements),
-                // it should be safe
-                Child::Text(text)
-                    if namespace == Namespace::HTML
-                        && matches!(&**tag_name, "html" | "head")
-                        && text.data.chars().all(is_whitespace) =>
-                {
-                    false
-                }
-                Child::Text(text)
-                    if !self.descendant_of_pre
-                        && get_white_space(namespace, &**tag_name) == WhiteSpace::Normal =>
-                {
-                    let mut is_smart_left_trim = false;
-                    let mut is_smart_right_trim = false;
-
-                    if self.collapse_whitespaces == Some(CollapseWhitespaces::Smart) {
-                        let prev_display = if let Some(Child::Element(Element {
-                            namespace,
-                            tag_name,
-                            ..
-                        })) = &prev
-                        {
-                            Some(self.get_display(*namespace, &**tag_name))
-                        } else {
-                            None
-                        };
-
-                        is_smart_left_trim = match prev_display {
-                            // Block-level containers:
-                            //
-                            // `Display::Block`    - `display: block flow`
-                            // `Display::ListItem` - `display: block flow list-item`
-                            // `Display::Table`    - `display: block table`
-                            // + internal table display (only whitespace characters allowed there)
-                            Some(
-                                Display::Block
-                                | Display::ListItem
-                                | Display::Table
-                                | Display::TableColumnGroup
-                                | Display::TableCaption
-                                | Display::TableColumn
-                                | Display::TableRow
-                                | Display::TableCell
-                                | Display::TableHeaderGroup
-                                | Display::TableRowGroup
-                                | Display::TableFooterGroup,
-                            ) => true,
-                            // Inline box
-                            Some(Display::Inline) => {
-                                let deep = self.get_deep_last_text_element(prev.as_mut().unwrap());
-
-                                if let Some(deep) = deep {
-                                    deep.data.ends_with(is_whitespace)
-                                } else {
-                                    false
-                                }
-                            }
-                            // Inline level containers and etc
-                            Some(_) => false,
-                            None => {
-                                let parent_display = self.get_display(namespace, &**tag_name);
-
-                                match parent_display {
-                                    Display::Inline => {
-                                        if let Some(Child::Text(Text { data, .. })) =
-                                            &self.latest_element
-                                        {
-                                            data.ends_with(is_whitespace)
-                                        } else {
-                                            false
-                                        }
-                                    }
-                                    _ => true,
-                                }
-                            }
-                        };
-
-                        let next_display = if let Some(Child::Element(Element {
-                            namespace,
-                            tag_name,
-                            ..
-                        })) = &next
-                        {
-                            Some(self.get_display(*namespace, &**tag_name))
-                        } else {
-                            None
-                        };
-
-                        is_smart_right_trim = match next_display {
-                            // Block-level containers:
-                            //
-                            // `Display::Block`    - `display: block flow`
-                            // `Display::ListItem` - `display: block flow list-item`
-                            // `Display::Table`    - `display: block table`
-                            // + internal table display (only whitespace characters allowed there)
-                            Some(
-                                Display::Block
-                                | Display::ListItem
-                                | Display::Table
-                                | Display::TableColumnGroup
-                                | Display::TableCaption
-                                | Display::TableColumn
-                                | Display::TableRow
-                                | Display::TableCell
-                                | Display::TableHeaderGroup
-                                | Display::TableRowGroup
-                                | Display::TableFooterGroup,
-                            ) => true,
-                            Some(_) => false,
-                            None => {
-                                let parent_display = self.get_display(namespace, &**tag_name);
-
-                                !matches!(parent_display, Display::Inline)
-                            }
-                        };
-                    }
-
-                    let mut value = if (mode.is_some() && mode.unwrap().trim) || is_smart_left_trim
-                    {
-                        text.data.trim_start_matches(is_whitespace)
-                    } else {
-                        &*text.data
-                    };
-
-                    value = if (mode.is_some() && mode.unwrap().trim) || is_smart_right_trim {
-                        value.trim_end_matches(is_whitespace)
-                    } else {
-                        value
-                    };
-
-                    if value.is_empty() {
-                        false
-                    } else if mode.is_some() && mode.unwrap().collapse {
-                        text.data = self.collapse_whitespace(value).into();
-
-                        true
-                    } else {
-                        text.data = value.into();
-
-                        true
-                    }
-                }
-                _ => true,
-            };
-
-            if mode.is_some() {
-                prev = Some(child.clone());
-            }
-
-            result
         });
     }
 
