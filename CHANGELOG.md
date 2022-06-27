@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix name conflict of `Array` (#5034) ([04fc1cb](https://github.com/swc-project/swc/commit/04fc1cb429b274e72bb2a939f4aaa102c158121a))
 
+
+- **(es/parser)** Allow initializer of the var of for-in loop in non-strict mode (#5038) ([f238093](https://github.com/swc-project/swc/commit/f238093c3b54e5a6e9d46239c28ab936de7d68e9))
+
 ### Features
 
 
@@ -15,6 +18,9 @@
 
 
 - **(html/minifier)** Add `remove_comments` option (#5037) ([e6c78d0](https://github.com/swc-project/swc/commit/e6c78d0b1d863c61882c941f62fccd04a501530b))
+
+
+- **(html/minifier)** Improve smart mode (#5004) ([9202ff9](https://github.com/swc-project/swc/commit/9202ff9700cbea5714a65746d7375fa41f8bb140))
 
 ## [1.2.205] - 2022-06-24
 
