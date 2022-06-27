@@ -421,16 +421,6 @@ impl Minifier {
         }
     }
 
-    fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
-        if let Some(minify_additional_attributes) = &self.minify_additional_attributes {
-            for item in minify_additional_attributes {
-                if item.0.is_match(name) {
-                    return Some(item.1.clone());
-                }
-            }
-        }
-
-        None
     fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &str) -> bool {
         if matches!(
             attribute_name,
@@ -901,6 +891,18 @@ impl Minifier {
         }
 
         collapsed
+    }
+
+    fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
+        if let Some(minify_additional_attributes) = &self.minify_additional_attributes {
+            for item in minify_additional_attributes {
+                if item.0.is_match(name) {
+                    return Some(item.1.clone());
+                }
+            }
+        }
+
+        None
     }
 
     fn minify_children(&mut self, children: &mut Vec<Child>) {
@@ -1509,24 +1511,8 @@ impl Minifier {
             minify_css: self.minify_css,
             minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
             minify_additional_attributes: self.minify_additional_attributes.clone(),
+            sort_space_separated_attribute_values: self.sort_space_separated_attribute_values,
         };
-        let mut minifier = create_minifier(
-            Some(&context_element),
-            &MinifyOptions {
-                force_set_html5_doctype: self.force_set_html5_doctype,
-                remove_comments: self.remove_comments,
-                preserve_comments: self.preserve_comments.clone(),
-                minify_conditional_comments: self.minify_conditional_comments,
-                collapse_whitespaces: self.collapse_whitespaces.clone(),
-                remove_empty_attributes: self.remove_empty_attributes,
-                remove_redundant_attributes: self.remove_empty_attributes,
-                collapse_boolean_attributes: self.collapse_boolean_attributes,
-                minify_js: self.minify_js,
-                minify_json: self.minify_json,
-                minify_css: self.minify_css,
-                sort_space_separated_attribute_values: self.sort_space_separated_attribute_values,
-            },
-        );
 
         match document_or_document_fragment {
             HtmlRoot::Document(ref mut document) => {
@@ -2087,6 +2073,7 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         preserve_comments: options.preserve_comments.clone(),
         minify_conditional_comments: options.minify_conditional_comments,
         sort_unordered_attribute_values: options.sort_unordered_attribute_values,
+
         sort_space_separated_attribute_values: options.sort_space_separated_attribute_values,
     }
 }
