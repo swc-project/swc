@@ -1,7 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), exports.default = void 0;
+}), Object.defineProperty(exports, "default", {
+    get: function() {
+        return k;
+    },
+    enumerable: !0
+});
 var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@swc/helpers/lib/_inherits.js").default, c = require("@swc/helpers/lib/_interop_require_default.js").default, d = require("@swc/helpers/lib/_interop_require_wildcard.js").default, e = require("@swc/helpers/lib/_object_spread.js").default, f = require("@swc/helpers/lib/_object_spread_props.js").default, g = require("@swc/helpers/lib/_create_super.js").default, h = require("react/jsx-runtime"), i = d(require("react")), j = c(require("prop-types")), k = function(c) {
     "use strict";
     b(k, c);
@@ -17,7 +22,7 @@ var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@
         return !0;
     }, i.render = function() {
         var a = this, b = this.props, c = b.items, d = b.itemProps, g = b.renderItem, i = b.renderItemData, j = b.sectionIndex, k = b.highlightedItemIndex, l = b.getItemId, m = b.theme, n = b.keyPrefix, o = null === j ? n : "".concat(n, "section-").concat(j, "-"), p = "function" == typeof d;
-        return h.jsx("ul", f(e({
+        return (0, h.jsx)("ul", f(e({
             role: "listbox"
         }, m("".concat(o, "items-list"), "itemsList")), {
             children: c.map(function(b, c) {
@@ -28,7 +33,7 @@ var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@
                     id: l(j, c),
                     "aria-selected": n
                 }, m(q, "item", 0 === c && "itemFirst", n && "itemHighlighted"), r);
-                return n && (s.ref = a.storeHighlightedItemReference), h.jsx(Item, f(e({}, s), {
+                return n && (s.ref = a.storeHighlightedItemReference), (0, h.jsx)(Item, f(e({}, s), {
                     sectionIndex: j,
                     isHighlighted: n,
                     itemIndex: c,
@@ -56,4 +61,4 @@ k.propTypes = {
     keyPrefix: j.default.string.isRequired
 }, k.defaultProps = {
     sectionIndex: null
-}, new k(), exports.default = k;
+}, new k();

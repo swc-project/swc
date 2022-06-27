@@ -2,16 +2,18 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = void 0;
-var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _foo = _interop_require_default(require("foo"));
-class NotOK {
+Object.defineProperty(exports, "default", {
+    get: ()=>NotOK,
+    enumerable: true
+});
+const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
+const _foo = _interopRequireDefault(require("foo"));
+class OK {
     constructor(){
         console.log(_foo.default);
     }
 }
-exports.default = NotOK;
-class OK {
+class NotOK {
     constructor(){
         console.log(_foo.default);
     }

@@ -16,6 +16,7 @@ bench = false
 Inflector = "0.11.4"
 ahash = "0.7.4"
 anyhow = "1.0.41"
+bitflags = "1"
 indexmap = "1.8.0"
 path-clean = "0.1.0"
 pathdiff = "0.2.0"

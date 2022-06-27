@@ -1,6 +1,9 @@
-var _tagged_template_literal = require("@swc/helpers/lib/_tagged_template_literal.js").default;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var _taggedTemplateLiteral = require("@swc/helpers/lib/_tagged_template_literal.js").default;
 function _templateObject() {
-    var data = _tagged_template_literal([
+    var data = _taggedTemplateLiteral([
         "'#ERROR'"
     ]);
     _templateObject = function _templateObject() {

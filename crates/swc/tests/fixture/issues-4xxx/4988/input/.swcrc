@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2022",
+        "loose": false
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

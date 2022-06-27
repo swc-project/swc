@@ -1,8 +1,9 @@
 define([
     "require",
     "@swc/helpers/src/_ts_decorate.mjs"
-], function(require, _ts_decorate) {
+], function(require, _tsDecorate) {
     "use strict";
+    _tsDecorate = _tsDecorate.default;
     function es5ClassCompat(target) {
         function _() {
             return Reflect.construct(target, arguments, this.constructor);
@@ -18,7 +19,7 @@ define([
         }
         constructor(){}
     };
-    Foo = _ts_decorate([
+    Foo = _tsDecorate([
         es5ClassCompat
     ], Foo);
 });

@@ -2,9 +2,14 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = Foo;
-var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _react = _interop_require_default(require("react"));
+Object.defineProperty(exports, "default", {
+    get: function() {
+        return Foo;
+    },
+    enumerable: true
+});
+var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _react = _interopRequireDefault(require("react"));
 function Foo() {
     return call(function(e) {
         doSomething();

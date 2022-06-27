@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.bar = void 0;
+Object.defineProperty(exports, "bar", {
+    get: function() {
+        return bar;
+    },
+    enumerable: true
+});
 var bar = function() {};
-exports.bar = bar;

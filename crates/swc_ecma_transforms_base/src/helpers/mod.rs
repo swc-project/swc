@@ -264,6 +264,7 @@ define_helpers!(Helpers {
     defaults: (),
     define_enumerable_properties: (),
     define_property: (),
+    export_star: (),
     extends: (),
     get: (super_prop_base),
     get_prototype_of: (),

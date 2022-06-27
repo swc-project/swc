@@ -3875,7 +3875,7 @@ test!(
                 no_interop: true,
                 ..Default::default()
             },
-            None
+            Default::default()
         ),
     ),
     issue_395_1,
@@ -3892,7 +3892,7 @@ class Demo {
     "
 \"use strict\";
 var _moduleAJs = require(\"./moduleA.js\");
-let Demo = _decorate([(0, _moduleAJs).default('0.0.1')], function(_initialize) {
+let Demo = _decorate([(0, _moduleAJs.default)('0.0.1')], function(_initialize) {
   class Demo{
       constructor(){
           _initialize(this);
@@ -3920,7 +3920,7 @@ test!(
                 no_interop: true,
                 ..Default::default()
             },
-            None
+            Default::default(),
         ),
     ),
     issue_395_2,
@@ -3935,17 +3935,18 @@ export default Test
 ",
     "
 \"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-  value: true
+Object.defineProperty(exports, \"default\", {
+  get: function() {
+      return _default;
+  },
+  enumerable: true
 });
-exports.default = void 0;
 const Test = (version)=>{
   return (target)=>{
       target.version = version;
   };
 };
 var _default = Test;
-exports.default = _default;
 "
 );
 
@@ -4281,7 +4282,11 @@ test!(
             }),
             classes(Some(t.comments.clone()), Default::default()),
             function_name(),
-            common_js(Mark::fresh(Mark::root()), Default::default(), None),
+            common_js(
+                Mark::fresh(Mark::root()),
+                Default::default(),
+                Default::default(),
+            ),
         )
     },
     function_name_modules,
@@ -4299,7 +4304,9 @@ console.log(new Template().events());
 "#,
     r#"
 "use strict";
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var _events = _interopRequireDefault(require("events"));
 
 let Template =

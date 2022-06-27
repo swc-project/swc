@@ -8,5 +8,8 @@
             "tsx": true
         },
         "loose": true
+    },
+    "module": {
+        "type": "nodenext"
     }
 }

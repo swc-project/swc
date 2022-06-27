@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.B = void 0;
+Object.defineProperty(exports, "B", {
+    get: ()=>B,
+    enumerable: true
+});
 const B = 500;
-exports.B = B;

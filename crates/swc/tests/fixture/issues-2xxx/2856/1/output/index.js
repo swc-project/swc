@@ -1,5 +1,8 @@
 "use strict";
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _boo = _interop_require_wildcard(require("boo"));
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _boo = _interopRequireWildcard(require("boo"));
 _boo.default.some();
-(0, _boo).sdx();
+(0, _boo.sdx)();

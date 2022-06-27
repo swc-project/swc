@@ -1,11 +1,18 @@
 "use strict";
-exports.byID = exports.get = void 0;
-var _get = require("./get");
-exports.get = _get;
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+_export(exports, {
+    byID: ()=>byID,
+    get: ()=>_get
+});
+const _get = require("./get");
 const byID = (id)=>{
     // Do some async stuff
     return new Promise((resolve)=>setTimeout(()=>{
             resolve("result");
         }, 2000));
 };
-exports.byID = byID;
