@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use swc_cached::regex::CachedRegex;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 #[serde(deny_unknown_fields)]
 pub enum MinifierType {
     JsModule,
