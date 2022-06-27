@@ -40,4 +40,3 @@ var InnerButton = /*#__PURE__*/ function(_Component) {
     };
     return InnerButton;
 }(React.Component);
-export { };

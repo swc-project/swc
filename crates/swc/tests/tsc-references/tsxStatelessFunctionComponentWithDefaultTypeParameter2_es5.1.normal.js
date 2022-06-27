@@ -12,4 +12,3 @@ function MyComponent1(attr) {
 var i1 = /*#__PURE__*/ React.createElement(MyComponent1, {
     values: 5
 });
-export { };

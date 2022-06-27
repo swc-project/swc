@@ -1,6 +1,3 @@
-var // @module: amd
-// @Filename: foo_0.ts
-foo;
 (function(foo) {
     foo[foo["red"] = 0] = "red";
     foo[foo["green"] = 1] = "green";
@@ -16,4 +13,3 @@ if (color === foo.green) {
     color = foo.answer;
 }
 module.exports = foo;
-export { };

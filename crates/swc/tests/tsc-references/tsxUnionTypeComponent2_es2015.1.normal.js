@@ -6,4 +6,3 @@
 const React = require('react');
 const X = 1;
 /*#__PURE__*/ React.createElement(X, null);
-export { };

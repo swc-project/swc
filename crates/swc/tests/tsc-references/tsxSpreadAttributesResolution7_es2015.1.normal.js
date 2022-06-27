@@ -20,4 +20,3 @@ const textPropsTrue = {
     onEdit: ()=>{}
 };
 let y2 = /*#__PURE__*/ React.createElement(TextComponent, _extends({}, textPropsTrue));
-export { };

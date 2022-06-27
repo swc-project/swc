@@ -16,4 +16,3 @@ function Baz(arg1, arg2) {
     })) // missing a
     ;
 }
-export { };

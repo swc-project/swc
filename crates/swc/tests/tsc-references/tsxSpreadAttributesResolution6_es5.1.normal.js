@@ -28,4 +28,3 @@ var x = /*#__PURE__*/ React.createElement(TextComponent, {
 var textProps = {
     editable: false
 };
-export { };

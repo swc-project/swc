@@ -60,4 +60,3 @@ var x4 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, {
     y: true
 }));
 var x5 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, anyobj));
-export { };

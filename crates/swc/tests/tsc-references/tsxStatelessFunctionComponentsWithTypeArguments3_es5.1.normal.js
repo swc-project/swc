@@ -35,4 +35,3 @@ function createLink(func) {
         func: function(a, b) {}
     });
 }
-export { };

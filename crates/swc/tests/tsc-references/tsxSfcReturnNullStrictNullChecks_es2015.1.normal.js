@@ -12,4 +12,3 @@ function Greet(x) {
 }
 const foo = /*#__PURE__*/ React.createElement(Foo, null);
 const G = /*#__PURE__*/ React.createElement(Greet, null);
-export { };

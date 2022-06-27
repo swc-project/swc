@@ -1,4 +1,4 @@
-let React = require('react');
+const React = require('react');
 class RC1 extends React.Component {
     render() {
         return null;
@@ -20,4 +20,3 @@ class RC4 extends React.Component {
         return null;
     }
 }
-export { };

@@ -26,4 +26,3 @@ function Bar(arg) {
         prop1: "hello"
     })); // U is "hello"
 }
-export { };

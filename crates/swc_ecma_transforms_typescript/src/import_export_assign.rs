@@ -95,16 +95,13 @@ impl VisitMut for ImportExportAssign {
                 })) if self.config != TSImportExportAssignConfig::Preserve => match self.config {
                     TSImportExportAssignConfig::Classic => {
                         // const foo = require("foo")
-                        stmts.push(
-                            Stmt::Decl(
-                                cjs_require
-                                    .clone()
-                                    .as_call(span, vec![expr.as_arg()])
-                                    .into_var_decl(VarDeclKind::Const, id.clone().into())
-                                    .into(),
-                            )
-                            .into(),
-                        );
+                        let mut var_decl = cjs_require
+                            .clone()
+                            .as_call(DUMMY_SP, vec![expr.as_arg()])
+                            .into_var_decl(VarDeclKind::Const, id.clone().into());
+                        var_decl.span = span;
+
+                        stmts.push(Stmt::Decl(var_decl.into()).into());
 
                         // exports.foo = foo;
                         if is_export {

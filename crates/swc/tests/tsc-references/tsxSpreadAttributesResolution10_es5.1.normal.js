@@ -39,4 +39,3 @@ var y2 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
 var y3 = /*#__PURE__*/ React.createElement(Opt, {
     x: true
 });
-export { };

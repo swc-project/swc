@@ -35,4 +35,3 @@ function createLink(func) {
         func: (a, b)=>{}
     });
 }
-export { };

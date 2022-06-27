@@ -1,2 +1,1 @@
 require("react");
-export { };

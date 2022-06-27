@@ -36,4 +36,3 @@ var v6 = iAny;
 const iGeneric = require('./expGeneric');
 var v7 = iGeneric;
 module.exports = x;
-export { };

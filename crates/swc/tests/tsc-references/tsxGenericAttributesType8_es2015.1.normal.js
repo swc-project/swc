@@ -11,4 +11,3 @@ const decorator = function(props) {
 const decorator1 = function(props) {
     return /*#__PURE__*/ React.createElement(Component, _extends({}, props));
 };
-export { };

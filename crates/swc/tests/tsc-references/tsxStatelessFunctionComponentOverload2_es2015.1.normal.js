@@ -44,4 +44,3 @@ const c9 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, {
 const c10 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj2, {
     yy1: "boo"
 }));
-export { };

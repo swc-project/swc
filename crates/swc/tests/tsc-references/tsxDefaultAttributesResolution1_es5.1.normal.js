@@ -25,4 +25,3 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
 var p = /*#__PURE__*/ React.createElement(Poisoned, {
     x: true
 });
-export { };

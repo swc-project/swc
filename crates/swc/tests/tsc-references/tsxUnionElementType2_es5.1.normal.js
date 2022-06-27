@@ -14,4 +14,3 @@ var SFCComp = SFC1 || SFC2;
 /*#__PURE__*/ React.createElement(SFCComp, {
     x: "hi"
 });
-export { };

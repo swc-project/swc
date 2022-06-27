@@ -1,2 +1,1 @@
 require("react").Fragment;
-export { };

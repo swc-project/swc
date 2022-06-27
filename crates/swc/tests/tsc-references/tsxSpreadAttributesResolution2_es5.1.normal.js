@@ -45,4 +45,3 @@ var w1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
 }, {
     X: "hi"
 }));
-export { };

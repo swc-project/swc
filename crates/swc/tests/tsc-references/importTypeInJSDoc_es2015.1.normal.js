@@ -10,9 +10,3 @@ const q = /** @type {import("./externs").Bar} */ ({
 });
 const r = /** @type {typeof import("./externs").Bar} */ ((r)=>r);
 module.exports = MyClass;
-// @target: es6
-// @outDir: ./out
-// @allowJs: true
-// @checkJs: true
-// @filename: externs.d.ts
-export { };

@@ -21,4 +21,3 @@ var y = /*#__PURE__*/ function(x) {
     return y;
 }(x);
 module.exports = x;
-export { };

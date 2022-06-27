@@ -13,4 +13,3 @@ const decorator1 = function(props) {
         x: "hi"
     }));
 };
-export { };

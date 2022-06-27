@@ -1,3 +1,2 @@
-let React = require('react');
+const React = require('react');
 React.Fragment;
-export { };

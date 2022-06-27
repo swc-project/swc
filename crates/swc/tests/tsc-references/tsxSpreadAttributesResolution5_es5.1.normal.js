@@ -47,4 +47,3 @@ var o = {
 };
 // Ok
 var e = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, o));
-export { };

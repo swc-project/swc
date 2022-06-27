@@ -19,4 +19,3 @@ class InnerButton extends React.Component {
         return /*#__PURE__*/ React.createElement("button", null, "Hello");
     }
 }
-export { };

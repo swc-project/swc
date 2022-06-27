@@ -20,5 +20,4 @@ function y() {
 var x = 5;
 var y = "test";
 var z = {};
-module.exports = z;
-export { };
+module.exports = x;

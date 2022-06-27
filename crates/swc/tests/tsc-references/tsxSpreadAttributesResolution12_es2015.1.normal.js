@@ -39,4 +39,3 @@ let x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
 }, obj1, {
     y: true
 }));
-export { };

@@ -44,4 +44,3 @@ var k4 = /*#__PURE__*/ React.createElement(Comp, {
     a: 10,
     b: "hi"
 }, /*#__PURE__*/ React.createElement(Button, null));
-export { };

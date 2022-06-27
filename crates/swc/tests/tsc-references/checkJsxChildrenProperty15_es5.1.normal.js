@@ -20,4 +20,3 @@ var k4 = /*#__PURE__*/ React.createElement(Tag, {
 var k5 = /*#__PURE__*/ React.createElement(Tag, {
     key: "1"
 }, /*#__PURE__*/ React.createElement("div", null), /*#__PURE__*/ React.createElement("div", null));
-export { };

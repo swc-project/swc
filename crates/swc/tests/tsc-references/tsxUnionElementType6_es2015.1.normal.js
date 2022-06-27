@@ -26,4 +26,3 @@ let c = /*#__PURE__*/ React.createElement(SFC2AndEmptyComp, null);
 let d = /*#__PURE__*/ React.createElement(SFC2AndEmptyComp, {
     "data-prop": true
 });
-export { };

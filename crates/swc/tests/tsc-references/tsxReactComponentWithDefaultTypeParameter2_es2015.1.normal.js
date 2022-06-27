@@ -8,4 +8,3 @@ let x = /*#__PURE__*/ React.createElement(MyComp, null);
 let x1 = /*#__PURE__*/ React.createElement(MyComp, {
     a: "hi"
 });
-export { };

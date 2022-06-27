@@ -60,4 +60,3 @@ module.exports.func18 = function() {};
 module.exports = {};
 exports.func19 = function() {};
 module.exports.func20 = function() {};
-export { };

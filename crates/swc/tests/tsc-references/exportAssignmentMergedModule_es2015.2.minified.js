@@ -10,6 +10,5 @@ var Foo;
     }
     Foo.c = c, (Foo.Test || (Foo.Test = {})).answer = 42;
 }(Foo || (Foo = {}));
-let foo = require("./foo_0");
+const foo = require("./foo_0");
 foo.a(), foo.b && (foo.Test.answer = foo.c(42)), module.exports = Foo;
-export { };

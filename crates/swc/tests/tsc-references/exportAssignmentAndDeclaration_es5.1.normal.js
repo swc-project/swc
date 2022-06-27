@@ -9,5 +9,4 @@ var C1 = function C1() {
     "use strict";
     _class_call_check(this, C1);
 };
-// Invalid, as there is already an exported member.
 module.exports = C1;

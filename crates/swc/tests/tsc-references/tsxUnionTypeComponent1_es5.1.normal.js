@@ -42,4 +42,3 @@ var MyButtonComponent = /*#__PURE__*/ function(_Component) {
 /*#__PURE__*/ React.createElement(MyComponent, {
     AnyComponent: MyButtonComponent
 });
-export { };

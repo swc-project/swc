@@ -1225,25 +1225,6 @@ where
                     }
                 }
 
-                // ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(mut export)) => {
-                //     export.expr.visit_mut_with(self);
-
-                //     let stmt = if self.config.preserve_import_export_assign {
-                //         ModuleDecl::TsExportAssignment(export).into()
-                //     } else {
-                //         ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                //             span: export.span,
-                //             expr: Box::new(Expr::Assign(AssignExpr {
-                //                 span: export.span,
-                //                 left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
-                //                 op: op!("="),
-                //                 right: export.expr,
-                //             })),
-                //         }))
-                //     };
-
-                //     export_assign = Some(stmt);
-                // }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
 

@@ -41,4 +41,3 @@ let k5 = /*#__PURE__*/ React.createElement(SingleChildComp, {
     a: 10,
     b: "hi"
 }, /*#__PURE__*/ React.createElement(React.Fragment, null), /*#__PURE__*/ React.createElement(Button, null), /*#__PURE__*/ React.createElement(AnotherButton, null));
-export { };

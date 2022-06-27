@@ -79,4 +79,3 @@ x.lastName = "should fail";
 x.houseNumber = 12; // should also fail
 x.zipStr = 12; // should fail
 x.middleInit = "R"; // should also fail
-export { };

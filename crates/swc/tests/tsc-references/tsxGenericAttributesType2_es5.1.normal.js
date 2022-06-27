@@ -12,4 +12,3 @@ var decorator4 = function decorator4(Component) {
         }));
     };
 };
-export { };

@@ -7,4 +7,3 @@ const foo = require("./foo_0");
 var x = new foo();
 var y = x.test;
 module.exports = Foo;
-export { };

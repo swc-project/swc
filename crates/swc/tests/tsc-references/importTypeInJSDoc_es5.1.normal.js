@@ -14,9 +14,3 @@ var r = /** @type {typeof import("./externs").Bar} */ function(r) {
     return r;
 };
 module.exports = MyClass;
-// @target: es6
-// @outDir: ./out
-// @allowJs: true
-// @checkJs: true
-// @filename: externs.d.ts
-export { };

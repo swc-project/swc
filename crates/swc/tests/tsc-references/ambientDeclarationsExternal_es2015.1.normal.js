@@ -6,6 +6,3 @@ const imp1 = require('equ');
 const imp3 = require('equ2');
 var n = imp3.x;
 var n;
-//@Filename: decls.ts
-// Ambient external module with export assignment
-export { };
