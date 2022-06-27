@@ -828,6 +828,37 @@ impl Minifier {
             _ => return,
         };
 
+        // Remove all comments and safe whitespaces firstly
+        if namespace == Namespace::HTML && tag_name == "body" {
+            if let Some(first) = children.first_mut() {
+                self.remove_whitespace_from_first_text_element(first);
+            }
+
+            if let Some(last) = children.last_mut() {
+                self.remove_whitespace_from_last_text_element(last)
+            }
+        }
+
+        children.retain_mut(|child| {
+            match child {
+                Child::Comment(comment) if self.remove_comments => {
+                    self.is_preserved_comment(&comment.data)
+                }
+                // Always remove whitespaces from html and head elements (except nested elements),
+                // it should be safe
+                Child::Text(text)
+                    if namespace == Namespace::HTML
+                        && matches!(&**tag_name, "html" | "head")
+                        && text.data.chars().all(is_whitespace) =>
+                {
+                    false
+                }
+                Child::Text(text) if text.data.is_empty() => false,
+                _ => true,
+            }
+        });
+
+        // Normalize whitespaces - collapse and trim them
         if let Some(mode) = self
             .collapse_whitespaces
             .as_ref()
@@ -1000,35 +1031,6 @@ impl Minifier {
                 result
             });
         }
-
-        if namespace == Namespace::HTML && tag_name == "body" {
-            if let Some(first) = children.first_mut() {
-                self.remove_whitespace_from_first_text_element(first);
-            }
-
-            if let Some(last) = children.last_mut() {
-                self.remove_whitespace_from_last_text_element(last)
-            }
-        }
-
-        children.retain_mut(|child| {
-            match child {
-                Child::Comment(comment) if self.remove_comments => {
-                    self.is_preserved_comment(&comment.data)
-                }
-                // Always remove whitespaces from html and head elements (except nested elements),
-                // it should be safe
-                Child::Text(text)
-                    if namespace == Namespace::HTML
-                        && matches!(&**tag_name, "html" | "head")
-                        && text.data.chars().all(is_whitespace) =>
-                {
-                    false
-                }
-                Child::Text(text) if text.data.is_empty() => false,
-                _ => true,
-            }
-        });
     }
 
     // TODO source map url output?
