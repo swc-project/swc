@@ -1010,7 +1010,7 @@ impl Minifier {
                 _ => true,
             };
 
-            if result && mode.is_some() {
+            if mode.is_some() {
                 prev = Some(child.clone());
             }
 
