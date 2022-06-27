@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<template ngFor #hero [ngForOf]="heroes">
+    <hero-detail *ngIf="hero" [hero]="hero"></hero-detail>
+</template>
+<form (ngSubmit)="onSubmit(theForm)" #theForm="ngForm">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input class="form-control"
+               required
+               ngControl="firstName"
+               [(ngModel)]="currentHero.firstName">
+        </div>
+    <button type="submit" [disabled]="!theForm.form.valid">Submit</button>
+</form>
+</body>
+</html>
