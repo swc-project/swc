@@ -5,11 +5,11 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitWith,
 };
 
-use crate::TSImportExportAssignConfig;
+use crate::TsImportExportAssignConfig;
 
 pub fn import_export_assign(
     unresolved_mark: Mark,
-    config: TSImportExportAssignConfig,
+    config: TsImportExportAssignConfig,
 ) -> impl Fold + VisitMut {
     as_folder(ImportExportAssign {
         unresolved_mark,
@@ -22,7 +22,7 @@ pub fn import_export_assign(
 
 struct ImportExportAssign {
     unresolved_mark: Mark,
-    config: TSImportExportAssignConfig,
+    config: TsImportExportAssignConfig,
     export_assign: Option<TsExportAssignment>,
     found_import_assign: bool,
     found_export_assign: bool,
@@ -43,7 +43,7 @@ impl VisitMut for ImportExportAssign {
         let create_require = private_ident!("_createRequire");
         let require = private_ident!("__require");
 
-        if self.found_import_assign && self.config == TSImportExportAssignConfig::NodeNext {
+        if self.found_import_assign && self.config == TsImportExportAssignConfig::NodeNext {
             stmts.push(
                 ModuleDecl::Import(ImportDecl {
                     span: DUMMY_SP,
@@ -92,8 +92,8 @@ impl VisitMut for ImportExportAssign {
                     is_type_only: false,
                     id,
                     module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { expr, .. }),
-                })) if self.config != TSImportExportAssignConfig::Preserve => match self.config {
-                    TSImportExportAssignConfig::Classic => {
+                })) if self.config != TsImportExportAssignConfig::Preserve => match self.config {
+                    TsImportExportAssignConfig::Classic => {
                         // const foo = require("foo")
                         let mut var_decl = cjs_require
                             .clone()
@@ -115,7 +115,7 @@ impl VisitMut for ImportExportAssign {
                             )
                         }
                     }
-                    TSImportExportAssignConfig::NodeNext => {
+                    TsImportExportAssignConfig::NodeNext => {
                         // const foo = __require("foo")
                         stmts.push(
                             Stmt::Decl(
@@ -148,7 +148,7 @@ impl VisitMut for ImportExportAssign {
                             ))
                         }
                     }
-                    TSImportExportAssignConfig::Preserve => unreachable!(),
+                    TsImportExportAssignConfig::Preserve => unreachable!(),
                 },
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export_assign)) => {
                     self.export_assign.get_or_insert(export_assign);
@@ -160,7 +160,7 @@ impl VisitMut for ImportExportAssign {
         }
 
         if let Some(export_assign) = self.export_assign.take() {
-            if self.config == TSImportExportAssignConfig::Classic {
+            if self.config == TsImportExportAssignConfig::Classic {
                 let TsExportAssignment { expr, span } = export_assign;
 
                 stmts.push(

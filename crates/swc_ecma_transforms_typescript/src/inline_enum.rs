@@ -8,13 +8,13 @@ use swc_ecma_ast::{
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-use crate::TSEnumConfig;
+use crate::TsEnumConfig;
 
 pub(crate) type TSEnumLit = Rc<RefCell<AHashMap<Id, AHashMap<JsWord, Lit>>>>;
 
 pub(crate) fn inline_enum(
     ts_enum_lit: TSEnumLit,
-    ts_enum_config: TSEnumConfig,
+    ts_enum_config: TsEnumConfig,
 ) -> impl Fold + VisitMut {
     as_folder(InlineEnum {
         ts_enum_lit,
@@ -25,7 +25,7 @@ pub(crate) fn inline_enum(
 
 struct InlineEnum {
     ts_enum_lit: TSEnumLit,
-    ts_enum_config: TSEnumConfig,
+    ts_enum_config: TsEnumConfig,
 
     is_lhs: bool,
 }
@@ -108,7 +108,7 @@ impl InlineEnum {
     fn skip(&self) -> bool {
         let Self {
             ts_enum_config:
-                TSEnumConfig {
+                TsEnumConfig {
                     treat_const_enum_as_enum,
                     ts_enum_is_readonly,
                 },

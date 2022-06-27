@@ -56,7 +56,7 @@ use swc_ecma_transforms::{
     proposals::{decorators, export_default_from, import_assertions},
     react::{self, default_pragma, default_pragma_frag},
     resolver,
-    typescript::{self, TSEnumConfig, TSImportExportAssignConfig},
+    typescript::{self, TsEnumConfig, TsImportExportAssignConfig},
     Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
@@ -471,10 +471,10 @@ impl Options {
         let import_export_assign_config = match cfg.module {
             Some(ModuleConfig::CommonJs(..))
             | Some(ModuleConfig::Amd(..))
-            | Some(ModuleConfig::Umd(..)) => TSImportExportAssignConfig::Preserve,
-            Some(ModuleConfig::NodeNext) => TSImportExportAssignConfig::NodeNext,
+            | Some(ModuleConfig::Umd(..)) => TsImportExportAssignConfig::Preserve,
+            Some(ModuleConfig::NodeNext) => TsImportExportAssignConfig::NodeNext,
             // TODO: should Preserve for SystemJS
-            _ => TSImportExportAssignConfig::Classic,
+            _ => TsImportExportAssignConfig::Classic,
         };
 
         let pass = PassBuilder::new(
@@ -609,7 +609,7 @@ impl Options {
                                 .clone()
                                 .unwrap_or_else(default_pragma_frag)
                         ),
-                        ts_enum_config: TSEnumConfig {
+                        ts_enum_config: TsEnumConfig {
                             treat_const_enum_as_enum: transform
                                 .treat_const_enum_as_enum
                                 .into_bool(),

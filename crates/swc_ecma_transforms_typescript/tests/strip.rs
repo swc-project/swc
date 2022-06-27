@@ -11,7 +11,7 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
-use swc_ecma_transforms_typescript::{strip, strip::strip_with_config, TSImportExportAssignConfig};
+use swc_ecma_transforms_typescript::{strip, strip::strip_with_config, TsImportExportAssignConfig};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
@@ -4579,7 +4579,7 @@ test!(
     Syntax::Typescript(TsConfig::default()),
     |_| tr_config(
         Some(strip::Config {
-            import_export_assign_config: TSImportExportAssignConfig::NodeNext,
+            import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),
         None
@@ -4603,7 +4603,7 @@ test!(
     Syntax::Typescript(TsConfig::default()),
     |_| tr_config(
         Some(strip::Config {
-            import_export_assign_config: TSImportExportAssignConfig::NodeNext,
+            import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),
         None

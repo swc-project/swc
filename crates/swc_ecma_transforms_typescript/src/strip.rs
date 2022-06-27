@@ -87,14 +87,14 @@ pub struct Config {
     pub pragma_frag: Option<String>,
 
     #[serde(default)]
-    pub ts_enum_config: TSEnumConfig,
+    pub ts_enum_config: TsEnumConfig,
 
     #[serde(default)]
-    pub import_export_assign_config: TSImportExportAssignConfig,
+    pub import_export_assign_config: TsImportExportAssignConfig,
 }
 
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]
-pub struct TSEnumConfig {
+pub struct TsEnumConfig {
     /// Note: `const enum` will be inlined if this is false(default)
     /// All `const enum` *should be* inlined since it's align to tsc behavior.
     /// This option exists to allow you to roll back the old behavior of swc.
@@ -109,7 +109,7 @@ pub struct TSEnumConfig {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum TSImportExportAssignConfig {
+pub enum TsImportExportAssignConfig {
     /// - Rewrite `import foo = require("foo")` to `var foo = require("foo")`
     /// - Rewrite `export =` to `module.exports = `
     /// Note: This option is deprecated as all CJS/AMD/UMD can handle it
@@ -126,13 +126,13 @@ pub enum TSImportExportAssignConfig {
     NodeNext,
 }
 
-impl Default for TSImportExportAssignConfig {
+impl Default for TsImportExportAssignConfig {
     fn default() -> Self {
         Self::Classic
     }
 }
 
-impl TSEnumConfig {
+impl TsEnumConfig {
     pub fn should_collect_enum(&self, is_const: bool) -> bool {
         self.ts_enum_is_readonly || (!self.treat_const_enum_as_enum && is_const)
     }
