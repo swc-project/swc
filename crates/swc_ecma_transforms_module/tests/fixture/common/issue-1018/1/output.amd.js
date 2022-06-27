@@ -1,11 +1,7 @@
 define([
-    "require",
-    "exports"
-], function(require, exports) {
+    "require"
+], function(require) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     async function foo() {
         await new Promise((resolve, reject)=>require([
                 "foo"

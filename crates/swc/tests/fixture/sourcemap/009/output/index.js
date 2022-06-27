@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 /**
  * This is a
  * long

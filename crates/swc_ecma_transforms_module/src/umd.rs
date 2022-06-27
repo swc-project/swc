@@ -106,12 +106,13 @@ impl VisitMut for Umd {
             link,
             export,
             export_assign,
+            has_module_decl,
             ..
         } = strip;
 
         let is_export_assign = export_assign.is_some();
 
-        if !self.config.config.no_interop && !is_export_assign {
+        if has_module_decl && !self.config.config.no_interop && !is_export_assign {
             stmts.push(define_es_module(self.exports()))
         }
 

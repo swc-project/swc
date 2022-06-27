@@ -33,8 +33,6 @@ pub fn common_js(
         } else {
             VarDeclKind::Var
         },
-
-        exports: None,
     })
 }
 
@@ -56,8 +54,6 @@ pub fn common_js_with_resolver(
         } else {
             VarDeclKind::Var
         },
-
-        exports: None,
     })
 }
 
@@ -68,8 +64,6 @@ pub struct Cjs {
     available_features: FeatureFlag,
     support_arrow: bool,
     const_var_kind: VarDeclKind,
-
-    exports: Option<Ident>,
 }
 
 impl VisitMut for Cjs {
@@ -90,12 +84,13 @@ impl VisitMut for Cjs {
             link,
             export,
             export_assign,
+            has_module_decl,
             ..
         } = strip;
 
         let is_export_assign = export_assign.is_some();
 
-        if !self.config.no_interop && !is_export_assign {
+        if has_module_decl && !self.config.no_interop && !is_export_assign {
             stmts.push(define_es_module(self.exports()).into())
         }
 
@@ -355,11 +350,7 @@ impl Cjs {
     }
 
     fn exports(&mut self) -> Ident {
-        self.exports
-            .get_or_insert_with(|| {
-                quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports")
-            })
-            .clone()
+        quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports")
     }
 }
 

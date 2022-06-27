@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 class A {
     // this is weird I know
     [(()=>void 0)()] = 123;
