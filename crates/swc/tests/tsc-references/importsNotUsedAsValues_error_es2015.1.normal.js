@@ -35,6 +35,8 @@ let h = {};
 console.log(h);
 // @Filename: /j.ts
 const H = require('./h'); // noUnusedLocals error only
+var // @Filename: /k.ts
+K;
 (function(K) {
     K[K["One"] = 0] = "One";
     K[K["Two"] = 1] = "Two";

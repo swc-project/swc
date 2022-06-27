@@ -144,7 +144,6 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
     let ts_enum_config = config.ts_enum_config;
 
     chain!(
-        import_export_assign(top_level_mark, config.import_export_assign_config),
         as_folder(Strip {
             config,
             comments: NoopComments,
@@ -211,7 +210,6 @@ where
     let ts_enum_config = config.ts_enum_config;
 
     chain!(
-        import_export_assign(top_level_mark, config.import_export_assign_config),
         as_folder(Strip {
             config,
             comments,
@@ -2032,6 +2030,12 @@ where
         }
 
         module.visit_mut_children_with(self);
+
+        module.visit_mut_with(&mut import_export_assign(
+            self.top_level_ctxt.outer(),
+            self.config.import_export_assign_config,
+        ));
+
         if !self.uninitialized_vars.is_empty() {
             prepend_stmt(
                 &mut module.body,

@@ -40,19 +40,6 @@ impl VisitMut for ImportExportAssign {
 
         let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 2);
 
-        // insert `export type {}` to preserve module env
-        // will be removed by `strip` pass
-        // TODO: rewrite TS strip and merge these two pass
-        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-            NamedExport {
-                span: DUMMY_SP,
-                specifiers: vec![],
-                src: None,
-                type_only: true,
-                asserts: None,
-            },
-        )));
-
         let create_require = private_ident!("_createRequire");
         let require = private_ident!("__require");
 
