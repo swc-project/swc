@@ -40,6 +40,19 @@ impl VisitMut for ImportExportAssign {
 
         let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 2);
 
+        // insert `export type {}` to preserve module env
+        // will be removed by `strip` pass
+        // TODO: rewrite TS strip and merge these two pass
+        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+            NamedExport {
+                span: DUMMY_SP,
+                specifiers: vec![],
+                src: None,
+                type_only: true,
+                asserts: None,
+            },
+        )));
+
         let create_require = private_ident!("_createRequire");
         let require = private_ident!("__require");
 
@@ -94,17 +107,6 @@ impl VisitMut for ImportExportAssign {
                     module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { expr, .. }),
                 })) if self.config != TSImportExportAssignConfig::Preserve => match self.config {
                     TSImportExportAssignConfig::Classic => {
-                        // insert `export type {}` to preserve module env
-                        // TODO: rewrite TS strip and merge these two pass
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                            NamedExport {
-                                span: DUMMY_SP,
-                                specifiers: vec![],
-                                src: None,
-                                type_only: true,
-                                asserts: None,
-                            },
-                        )));
                         // const foo = require("foo")
                         let mut var_decl = cjs_require
                             .clone()

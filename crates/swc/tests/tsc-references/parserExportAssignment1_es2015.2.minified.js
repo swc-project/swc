@@ -1,1 +1,2 @@
 module.exports = foo;
+export { };
