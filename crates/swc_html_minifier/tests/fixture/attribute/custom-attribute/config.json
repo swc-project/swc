@@ -1,7 +1,7 @@
 {
   "minifyAdditionalAttributes": [
-    ["^data-click", "js"],
-    ["^ng-", "js"],
+    ["^data-click", "jsscript"],
+    ["^ng-", "jsscript"],
     ["^data-json", "json"],
     ["^data-style", "css"],
     ["^data-html", "html"]
