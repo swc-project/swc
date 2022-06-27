@@ -174,14 +174,22 @@ impl VisitMut for ImportExportAssign {
 
         if let Some(export_assign) = self.export_assign.take() {
             if self.config == TSImportExportAssignConfig::Classic {
-                let TsExportAssignment { expr, .. } = export_assign;
+                let TsExportAssignment { expr, span } = export_assign;
+
                 stmts.push(
-                    expr.make_assign_to(
-                        op!("="),
-                        member_expr!(DUMMY_SP.apply_mark(self.unresolved_mark), module.exports)
-                            .as_pat_or_expr(),
-                    )
-                    .into_stmt()
+                    Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(
+                            expr.make_assign_to(
+                                op!("="),
+                                member_expr!(
+                                    DUMMY_SP.apply_mark(self.unresolved_mark),
+                                    module.exports
+                                )
+                                .as_pat_or_expr(),
+                            ),
+                        ),
+                    })
                     .into(),
                 )
             } else {

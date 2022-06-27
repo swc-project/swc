@@ -4,4 +4,4 @@ export function x() {
 }
 // @Filename: foo2.ts
 const foo1 = require('./foo1');
-module.exports = foo1.x;
+module.exports = foo1.x; // Ok

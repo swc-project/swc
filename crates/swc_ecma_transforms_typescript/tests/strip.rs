@@ -4579,7 +4579,7 @@ test!(
     Syntax::Typescript(TsConfig::default()),
     |_| tr_config(
         Some(strip::Config {
-            import_export_assign: TSImportExportAssignConfig::NodeNext,
+            import_export_assign_config: TSImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),
         None
@@ -4603,7 +4603,7 @@ test!(
     Syntax::Typescript(TsConfig::default()),
     |_| tr_config(
         Some(strip::Config {
-            import_export_assign: TSImportExportAssignConfig::NodeNext,
+            import_export_assign_config: TSImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),
         None

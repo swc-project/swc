@@ -468,7 +468,7 @@ impl Options {
             json_parse_pass
         );
 
-        let import_export_assign = match cfg.module {
+        let import_export_assign_config = match cfg.module {
             Some(ModuleConfig::CommonJs(..))
             | Some(ModuleConfig::Amd(..))
             | Some(ModuleConfig::Umd(..)) => TSImportExportAssignConfig::Preserve,
@@ -616,7 +616,7 @@ impl Options {
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
                         use_define_for_class_fields: !assumptions.set_public_class_fields,
-                        import_export_assign,
+                        import_export_assign_config,
                         ..Default::default()
                     },
                     comments,

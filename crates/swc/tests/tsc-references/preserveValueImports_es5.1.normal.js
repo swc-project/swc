@@ -10,4 +10,5 @@ var D = require("./d");
 var DD = require("./d");
 DD;
 b;
+// @Filename: d.ts
 module.exports = {};

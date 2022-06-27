@@ -90,7 +90,7 @@ pub struct Config {
     pub ts_enum_config: TSEnumConfig,
 
     #[serde(default)]
-    pub import_export_assign: TSImportExportAssignConfig,
+    pub import_export_assign_config: TSImportExportAssignConfig,
 }
 
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]
@@ -144,7 +144,7 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
     let ts_enum_config = config.ts_enum_config;
 
     chain!(
-        import_export_assign(top_level_mark, config.import_export_assign),
+        import_export_assign(top_level_mark, config.import_export_assign_config),
         as_folder(Strip {
             config,
             comments: NoopComments,
@@ -211,7 +211,7 @@ where
     let ts_enum_config = config.ts_enum_config;
 
     chain!(
-        import_export_assign(top_level_mark, config.import_export_assign),
+        import_export_assign(top_level_mark, config.import_export_assign_config),
         as_folder(Strip {
             config,
             comments,
