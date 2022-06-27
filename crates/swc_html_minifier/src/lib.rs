@@ -825,6 +825,25 @@ impl Minifier {
     fn minify_children(&mut self, children: &mut Vec<Child>) {
         let namespace = self.current_element.as_ref().unwrap().namespace;
         let tag_name = &self.current_element.as_ref().unwrap().tag_name;
+
+        children.retain_mut(|child| {
+            match child {
+                Child::Comment(comment) if self.remove_comments => {
+                    self.is_preserved_comment(&comment.data)
+                }
+                // Always remove whitespaces from html and head elements (except nested elements),
+                // it should be safe
+                Child::Text(text)
+                    if namespace == Namespace::HTML
+                        && matches!(&**tag_name, "html" | "head")
+                        && text.data.chars().all(is_whitespace) =>
+                {
+                    false
+                }
+                _ => true,
+            }
+        });
+
         let mode = self
             .collapse_whitespaces
             .as_ref()
