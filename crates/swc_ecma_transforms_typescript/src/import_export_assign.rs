@@ -184,7 +184,8 @@ impl Visit for ImportExportAssign {
     noop_visit_type!();
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
-        for item in n.iter() {
+        // `export =` is usually at the end of the code, let's scan from both sides
+        for item in AlternateEndIterator(n.iter(), false) {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..)) => {
                     self.found_import_assign = true
@@ -198,6 +199,20 @@ impl Visit for ImportExportAssign {
                     }
                 }
             }
+        }
+    }
+}
+
+struct AlternateEndIterator<T>(T, bool);
+impl<T: DoubleEndedIterator> Iterator for AlternateEndIterator<T> {
+    type Item = T::Item;
+
+    fn next(&mut self) -> Option<T::Item> {
+        self.1 = !self.1;
+        if self.1 {
+            self.0.next()
+        } else {
+            self.0.next_back()
         }
     }
 }
