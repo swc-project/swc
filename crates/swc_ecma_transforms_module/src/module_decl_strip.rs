@@ -147,7 +147,9 @@ impl VisitMut for ModuleDeclStrip {
                 .extend(specifiers.into_iter().map(Into::into));
         } else {
             self.export.extend(specifiers.into_iter().map(|e| match e {
-                ExportSpecifier::Namespace(..) => unreachable!("`export * as` without src"),
+                ExportSpecifier::Namespace(..) => {
+                    unreachable!("`export *` without src is invalid")
+                }
                 ExportSpecifier::Default(ExportDefaultSpecifier { exported }) => {
                     ((js_word!("default"), DUMMY_SP), exported)
                 }
@@ -155,7 +157,7 @@ impl VisitMut for ModuleDeclStrip {
                     let orig = match orig {
                         ModuleExportName::Ident(id) => id,
                         ModuleExportName::Str(_) => {
-                            unreachable!(r#"`export {{ "foo" }}` is not valid"#)
+                            unreachable!(r#"`export {{ "foo" }}` without src is invalid"#)
                         }
                     };
 
@@ -522,7 +524,7 @@ impl From<&ExportSpecifier> for LinkFlag {
 
             ExportSpecifier::Default(_) => {
                 // https://github.com/tc39/proposal-export-default-from
-                unreachable!("`export default` does not support re-export");
+                Self::DEFAULT
             }
 
             ExportSpecifier::Named(ExportNamedSpecifier {
