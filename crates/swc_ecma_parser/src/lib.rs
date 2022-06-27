@@ -256,6 +256,16 @@ impl Syntax {
         }
     }
 
+    pub fn allow_return_outside_function(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                allow_return_outside_function,
+                ..
+            }) => allow_return_outside_function,
+            Syntax::Typescript(_) => false,
+        }
+    }
+
     pub(crate) fn early_errors(self) -> bool {
         match self {
             Syntax::Typescript(t) => !t.no_early_errors,
@@ -315,6 +325,9 @@ pub struct EsConfig {
 
     #[serde(default, rename = "allowSuperOutsideMethod")]
     pub allow_super_outside_method: bool,
+
+    #[serde(default, rename = "allowReturnOutsideFunction")]
+    pub allow_return_outside_function: bool,
 }
 
 /// Syntactic context.
