@@ -196,10 +196,10 @@ impl Umd {
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                let is_swc_detault_helper =
+                let is_swc_default_helper =
                     !link_flag.has_named() && src.starts_with("@swc/helpers/");
 
-                if self.config.config.no_interop || is_swc_detault_helper {
+                if self.config.config.no_interop || is_swc_default_helper {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -222,10 +222,10 @@ impl Umd {
                     &new_var_ident,
                     &Some(mod_ident.clone()),
                     &mut false,
-                    is_swc_detault_helper,
+                    is_swc_default_helper,
                 );
 
-                if is_swc_detault_helper {
+                if is_swc_default_helper {
                     stmts.push(
                         mod_ident
                             .clone()
