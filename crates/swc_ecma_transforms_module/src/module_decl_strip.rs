@@ -350,7 +350,6 @@ pub enum LinkSpecifier {
     /// ```javascript
     /// import foo = require("foo");
     /// ```
-    #[allow(unused)]
     ImportEqual(Id),
 }
 
@@ -522,12 +521,9 @@ impl From<&ExportSpecifier> for LinkFlag {
         match e {
             ExportSpecifier::Namespace(..) => Self::NAMESPACE,
 
-            ExportSpecifier::Default(_) => {
-                // https://github.com/tc39/proposal-export-default-from
-                Self::DEFAULT
-            }
-
-            ExportSpecifier::Named(ExportNamedSpecifier {
+            // https://github.com/tc39/proposal-export-default-from
+            ExportSpecifier::Default(..)
+            | ExportSpecifier::Named(ExportNamedSpecifier {
                 orig:
                     ModuleExportName::Ident(Ident {
                         sym: js_word!("default"),
@@ -539,6 +535,7 @@ impl From<&ExportSpecifier> for LinkFlag {
                     }),
                 ..
             }) => Self::DEFAULT,
+
             ExportSpecifier::Named(..) => Self::NAMED,
         }
     }
