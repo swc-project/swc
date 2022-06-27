@@ -10,3 +10,4 @@ const decorator4 = function(Component) {
             y: "blah"
         }));
 };
+export { };

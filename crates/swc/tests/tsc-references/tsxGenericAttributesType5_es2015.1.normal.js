@@ -17,3 +17,4 @@ class B extends React.Component {
         }));
     }
 }
+export { };

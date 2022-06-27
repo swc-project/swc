@@ -1,4 +1,4 @@
-const React = require('react');
+let React = require('react');
 class MyComponent extends React.Component {
     render() {
         let { AnyComponent  } = this.props;
@@ -7,3 +7,4 @@ class MyComponent extends React.Component {
 }
 class MyButtonComponent extends React.Component {
 }
+export { };

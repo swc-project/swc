@@ -40,3 +40,4 @@ let i = /*#__PURE__*/ React.createElement(InferParamComponent, {
     ],
     selectHandler: (val)=>{}
 });
+export { };

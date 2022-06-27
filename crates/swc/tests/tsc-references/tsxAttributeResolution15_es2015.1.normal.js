@@ -23,3 +23,4 @@ let b = /*#__PURE__*/ React.createElement(BigGreeter, {
 let c = /*#__PURE__*/ React.createElement(BigGreeter, {
     "data-extra": "hi"
 });
+export { };

@@ -18,3 +18,4 @@ var App = function(param) {
     var children = param.children;
     return /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(MainMenu, null));
 };
+export { };

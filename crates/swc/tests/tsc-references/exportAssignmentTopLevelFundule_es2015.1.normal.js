@@ -12,3 +12,4 @@ if (foo.answer === 42) {
     var x = foo();
 }
 module.exports = foo;
+export { };

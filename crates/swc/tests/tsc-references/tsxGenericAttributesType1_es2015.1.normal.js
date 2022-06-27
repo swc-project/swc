@@ -18,3 +18,4 @@ const decorator3 = function(Component) {
             x: 2
         }, props));
 };
+export { };

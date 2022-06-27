@@ -16,3 +16,4 @@ function UserName0() {
 function UserName1() {
     return /*#__PURE__*/ React.createElement(FetchUser, null, (user)=>/*#__PURE__*/ React.createElement("h1", null, user.Name));
 }
+export { };

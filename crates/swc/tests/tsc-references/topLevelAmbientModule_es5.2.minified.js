@@ -1,1 +1,2 @@
 require("foo").x;
+export { };

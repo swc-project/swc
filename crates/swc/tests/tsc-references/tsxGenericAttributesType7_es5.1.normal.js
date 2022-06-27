@@ -13,3 +13,4 @@ var decorator1 = function decorator1(props) {
         x: "hi"
     }));
 };
+export { };

@@ -24,3 +24,4 @@ var decorator3 = function decorator3(Component) {
         }, props));
     };
 };
+export { };

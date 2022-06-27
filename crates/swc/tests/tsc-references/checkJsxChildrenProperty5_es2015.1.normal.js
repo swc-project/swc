@@ -26,3 +26,4 @@ let k2 = /*#__PURE__*/ React.createElement(Comp, {
     a: 10,
     b: "hi"
 }, Button);
+export { };

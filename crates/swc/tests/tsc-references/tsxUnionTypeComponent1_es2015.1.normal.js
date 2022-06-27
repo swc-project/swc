@@ -20,3 +20,4 @@ class MyButtonComponent extends React.Component {
 /*#__PURE__*/ React.createElement(MyComponent, {
     AnyComponent: MyButtonComponent
 });
+export { };

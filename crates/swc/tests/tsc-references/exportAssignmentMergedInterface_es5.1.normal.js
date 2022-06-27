@@ -11,3 +11,6 @@ var z = {
 };
 z = x.d;
 module.exports = Foo;
+// @module: amd
+// @Filename: foo_0.ts
+export { };

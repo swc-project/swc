@@ -26,3 +26,4 @@ var obj = {};
 // OK
 var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 var y = /*#__PURE__*/ React.createElement(Poisoned, null);
+export { };

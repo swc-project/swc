@@ -36,3 +36,4 @@ let e4 = /*#__PURE__*/ React.createElement(EmptyProp, {
 let e5 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {
     "data-prop": true
 }));
+export { };

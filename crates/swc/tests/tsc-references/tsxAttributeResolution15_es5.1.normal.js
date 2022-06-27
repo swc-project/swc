@@ -36,3 +36,4 @@ var b = /*#__PURE__*/ React.createElement(BigGreeter, {
 var c = /*#__PURE__*/ React.createElement(BigGreeter, {
     "data-extra": "hi"
 });
+export { };

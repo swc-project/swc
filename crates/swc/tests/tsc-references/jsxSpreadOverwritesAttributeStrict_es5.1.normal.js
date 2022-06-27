@@ -39,3 +39,4 @@ var b4 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1,
     d: 1
 }));
+export { };

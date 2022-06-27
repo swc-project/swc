@@ -22,3 +22,4 @@ var x = /*#__PURE__*/ function(_x) {
     return x;
 }(foo2.x);
 module.exports = x;
+export { };

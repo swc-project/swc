@@ -89,9 +89,6 @@ pub struct Config {
     #[serde(default)]
     pub ts_enum_config: TSEnumConfig,
 
-    /// If this is true, the following codes will be preserved.
-    /// - `import foo = require()`
-    /// - `export = expr`
     #[serde(default)]
     pub import_export_assign: TSImportExportAssignConfig,
 }
@@ -118,8 +115,9 @@ pub enum TSImportExportAssignConfig {
     /// Note: This option is deprecated as all CJS/AMD/UMD can handle it
     /// themselves.
     Classic,
+    /// preserve for CJS/AMD/UMD
     Preserve,
-    /// Rewriet `import foo = require("foo")` to
+    /// Rewrite `import foo = require("foo")` to
     /// ```javascript
     /// import { createRequire as _createRequire } from "module";
     /// const __require = _createRequire(import.meta.url);

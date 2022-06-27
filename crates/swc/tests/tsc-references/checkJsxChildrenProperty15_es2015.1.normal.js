@@ -18,3 +18,4 @@ const k4 = /*#__PURE__*/ React.createElement(Tag, {
 const k5 = /*#__PURE__*/ React.createElement(Tag, {
     key: "1"
 }, /*#__PURE__*/ React.createElement("div", null), /*#__PURE__*/ React.createElement("div", null));
+export { };

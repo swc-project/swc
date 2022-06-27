@@ -32,3 +32,4 @@ var y = /*#__PURE__*/ React.createElement(Poisoned, {
     x: "hi",
     y: 2
 });
+export { };

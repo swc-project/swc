@@ -10,3 +10,4 @@ var React = require("react");
 "Hi", "// Another not Comment");
 /*#__PURE__*/ React.createElement("div", null, "/* Not Comment */", //Comment just Fine
 "Hi");
+export { };

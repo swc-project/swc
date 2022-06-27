@@ -8,3 +8,4 @@ var x = foo1;
 class y extends x {
 }
 module.exports = x;
+export { };

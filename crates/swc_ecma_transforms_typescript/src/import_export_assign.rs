@@ -94,6 +94,17 @@ impl VisitMut for ImportExportAssign {
                     module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { expr, .. }),
                 })) if self.config != TSImportExportAssignConfig::Preserve => match self.config {
                     TSImportExportAssignConfig::Classic => {
+                        // insert `export type {}` to preserve module env
+                        // TODO: rewrite TS strip and merge these two pass
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span: DUMMY_SP,
+                                specifiers: vec![],
+                                src: None,
+                                type_only: true,
+                                asserts: None,
+                            },
+                        )));
                         // const foo = require("foo")
                         let mut var_decl = cjs_require
                             .clone()

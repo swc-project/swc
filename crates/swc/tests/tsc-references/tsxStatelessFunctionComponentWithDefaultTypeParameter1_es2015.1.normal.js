@@ -15,3 +15,4 @@ let i = /*#__PURE__*/ React.createElement(MyComponent, {
 let i1 = /*#__PURE__*/ React.createElement(MyComponent, {
     values: "Hello"
 });
+export { };

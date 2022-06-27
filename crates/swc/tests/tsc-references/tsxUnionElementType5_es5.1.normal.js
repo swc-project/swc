@@ -22,3 +22,4 @@ var a1 = /*#__PURE__*/ React.createElement(EmptySFCComp, {
 var b = /*#__PURE__*/ React.createElement(SFC2AndEmptyComp, {
     x: true
 });
+export { };

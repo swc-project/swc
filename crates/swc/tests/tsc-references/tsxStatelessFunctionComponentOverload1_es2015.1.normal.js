@@ -69,3 +69,4 @@ const e2 = /*#__PURE__*/ React.createElement(TestingOptional, {
     y3: true,
     "extra-prop": true
 });
+export { };

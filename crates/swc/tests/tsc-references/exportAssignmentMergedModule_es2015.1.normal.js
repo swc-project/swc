@@ -25,3 +25,4 @@ if (!!foo.b) {
     foo.Test.answer = foo.c(42);
 }
 module.exports = Foo;
+export { };

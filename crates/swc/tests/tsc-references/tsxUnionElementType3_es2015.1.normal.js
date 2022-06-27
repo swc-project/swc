@@ -40,3 +40,4 @@ let b = /*#__PURE__*/ React.createElement(PartRCComp, null);
 let c = /*#__PURE__*/ React.createElement(PartRCComp, {
     "data-extra": "hello"
 });
+export { };

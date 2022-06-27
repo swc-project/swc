@@ -15,3 +15,4 @@ var x = /*#__PURE__*/ React.createElement(MyComp, {
 var x2 = /*#__PURE__*/ React.createElement(MyComp, {
     a: "hi"
 });
+export { };

@@ -12,3 +12,4 @@ var y = new foo({
 }); // Should be OK
 var z = y.test.b;
 module.exports = Foo;
+export { };

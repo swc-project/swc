@@ -11,3 +11,4 @@ var decorator = function decorator(props) {
 var decorator1 = function decorator1(props) {
     return /*#__PURE__*/ React.createElement(Component, _extends({}, props));
 };
+export { };

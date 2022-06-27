@@ -3,3 +3,4 @@
 }(foo || (foo = {})), (foo || (foo = {})).answer = 42;
 var color, foo = require("./foo_0");
 color === foo.green && (color = foo.answer), module.exports = foo;
+export { };

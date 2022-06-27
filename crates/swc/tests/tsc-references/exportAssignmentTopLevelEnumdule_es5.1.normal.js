@@ -13,3 +13,6 @@ if (color === foo.green) {
     color = foo.answer;
 }
 module.exports = foo;
+// @module: amd
+// @Filename: foo_0.ts
+export { };

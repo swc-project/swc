@@ -11,3 +11,4 @@ const foo = /*#__PURE__*/ React.createElement(Foo, null);
 // Should be OK
 var MainMenu = (props)=>/*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("h3", null, "Main Menu"));
 var App = ({ children  })=>/*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(MainMenu, null));
+export { };

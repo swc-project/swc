@@ -26,3 +26,4 @@ let o = {
 };
 // Ok
 let e = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, o));
+export { };

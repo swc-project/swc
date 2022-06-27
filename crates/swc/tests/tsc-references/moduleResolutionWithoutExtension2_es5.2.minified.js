@@ -1,1 +1,2 @@
 require("./foo");
+export { };

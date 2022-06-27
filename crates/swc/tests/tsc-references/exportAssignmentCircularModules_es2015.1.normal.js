@@ -16,3 +16,4 @@ const foo0 = require("./foo_0");
     var x = Foo.x = foo0.x;
 })(Foo || (Foo = {}));
 module.exports = Foo;
+export { };

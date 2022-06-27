@@ -36,3 +36,4 @@ var x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj, {
     overwrite: "hi"
 }, obj1));
 var x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj1, obj3));
+export { };

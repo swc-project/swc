@@ -13,3 +13,4 @@ function Greet(x) {
 }
 var foo = /*#__PURE__*/ React.createElement(Foo, null);
 var G = /*#__PURE__*/ React.createElement(Greet, null);
+export { };

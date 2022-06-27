@@ -40,3 +40,4 @@ var k3 = /*#__PURE__*/ React.createElement(Comp, {
     a: 10,
     b: "hi"
 }, "    ", /*#__PURE__*/ React.createElement(Button, null), /*#__PURE__*/ React.createElement(AnotherButton, null));
+export { };

@@ -2,3 +2,4 @@
 // @module: esnext
 var i = require("mod"); // Error;
 module.exports = N;
+export { }; // Error

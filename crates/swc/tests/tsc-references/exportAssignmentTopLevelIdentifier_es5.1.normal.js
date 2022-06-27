@@ -8,3 +8,4 @@ var Foo;
 var foo = require("./foo_0");
 if (foo.answer === 42) {}
 module.exports = Foo;
+export { };

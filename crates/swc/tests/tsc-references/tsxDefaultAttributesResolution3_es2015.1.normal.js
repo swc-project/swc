@@ -13,3 +13,4 @@ class Poisoned extends React.Component {
 let p = /*#__PURE__*/ React.createElement(Poisoned, {
     x: true
 });
+export { };
