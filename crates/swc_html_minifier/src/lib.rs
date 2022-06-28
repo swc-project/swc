@@ -1,5 +1,7 @@
 #![deny(clippy::all)]
 
+use std::mem::take;
+
 use once_cell::sync::Lazy;
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
@@ -851,6 +853,41 @@ impl Minifier {
                     false
                 }
                 Child::Text(text) if text.data.is_empty() => false,
+                _ => true,
+            }
+        });
+
+        // Merge text nodes after comments removing
+        let cloned_children = children.clone();
+
+        let mut index = 0;
+        let mut pending_text = vec![];
+
+        children.retain_mut(|child| {
+            index += 1;
+
+            match child {
+                Child::Text(text) => {
+                    if let Some(Child::Text(_)) = cloned_children.get(index) {
+                        pending_text.push(text.data.clone());
+
+                        false
+                    } else if !pending_text.is_empty() {
+                        let mut new_data = String::new();
+
+                        for pending_text in take(&mut pending_text) {
+                            new_data.push_str(&pending_text);
+                        }
+
+                        new_data.push_str(&text.data);
+
+                        text.data = new_data.into();
+
+                        true
+                    } else {
+                        true
+                    }
+                }
                 _ => true,
             }
         });
