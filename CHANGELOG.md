@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html/minifier)** Allow compressing additional attributes (#5036) ([55e0ea3](https://github.com/swc-project/swc/commit/55e0ea32940ff34de73e7eb4b8c999b58d798272))
+
+## [1.2.206] - 2022-06-27
+
 ### Bug Fixes
 
 
@@ -21,6 +29,12 @@
 
 
 - **(html/minifier)** Improve smart mode (#5004) ([9202ff9](https://github.com/swc-project/swc/commit/9202ff9700cbea5714a65746d7375fa41f8bb140))
+
+### Refactor
+
+
+
+- **(es/module)** Implement new module transformer (#4758) ([fa68cbd](https://github.com/swc-project/swc/commit/fa68cbd74ad2b36c0f1aaec563320114d5603cae))
 
 ## [1.2.205] - 2022-06-24
 
