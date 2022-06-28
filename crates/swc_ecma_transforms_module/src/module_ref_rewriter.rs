@@ -46,7 +46,7 @@ impl VisitMut for ModuleRefRewriter {
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         match n {
             Prop::Shorthand(shorthand) => {
-                if let Some(expr) = self.convert_ident_to_expr(shorthand) {
+                if let Some(expr) = self.map_module_ref_ident(shorthand) {
                     *n = KeyValueProp {
                         key: shorthand.take().into(),
                         value: Box::new(expr),
@@ -61,7 +61,7 @@ impl VisitMut for ModuleRefRewriter {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(ref_ident) => {
-                if let Some(expr) = self.convert_ident_to_expr(ref_ident) {
+                if let Some(expr) = self.map_module_ref_ident(ref_ident) {
                     *n = expr;
                 }
             }
@@ -133,7 +133,7 @@ impl ModuleRefRewriter {
         self.top_level = top_level;
     }
 
-    fn convert_ident_to_expr(&mut self, ref_ident: &Ident) -> Option<Expr> {
+    fn map_module_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
         self.import_map
             .get(&ref_ident.to_id())
             .map(|(mod_ident, mod_prop)| -> Expr {
@@ -151,7 +151,7 @@ impl ModuleRefRewriter {
                     let prop = prop_name(imported_name, DUMMY_SP).into();
 
                     MemberExpr {
-                        obj: Box::new(mod_expr.clone()),
+                        obj: Box::new(mod_expr),
                         span,
                         prop,
                     }
