@@ -17,6 +17,9 @@
 - **(es/lints)** Report an error for reassignment to import binding (#5033) ([376c4e1](https://github.com/swc-project/swc/commit/376c4e11af5aa8c0e5bc5900f6168893644473b7))
 
 
+- **(es/modules)** Optimize a dynamic import with a literal path (#5049) ([2cc229e](https://github.com/swc-project/swc/commit/2cc229e6fb1d0b439e1fe7661be481494f57efa9))
+
+
 - **(html/minifier)** Allow compressing additional attributes (#5036) ([55e0ea3](https://github.com/swc-project/swc/commit/55e0ea32940ff34de73e7eb4b8c999b58d798272))
 
 
