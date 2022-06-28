@@ -836,9 +836,7 @@ impl Minifier {
             _ => return,
         };
 
-        // Drop comments and safe whitespaces (children of head and html are not
-        // rendered) firstly
-        children.retain_mut(|child| {
+        let child_will_be_retained = |child: &Child| {
             match child {
                 Child::Comment(comment) if self.remove_comments => {
                     self.is_preserved_comment(&comment.data)
@@ -855,40 +853,55 @@ impl Minifier {
                 Child::Text(text) if text.data.is_empty() => false,
                 _ => true,
             }
-        });
+        };
 
-        // Merge text nodes after comments removing
         let cloned_children = children.clone();
 
         let mut index = 0;
         let mut pending_text = vec![];
 
+        // Drop comments and safe whitespaces (children of head and html are not
+        // rendered) firstly
         children.retain_mut(|child| {
+            let result = child_will_be_retained(child);
+
             index += 1;
 
+            if !result {
+                return false;
+            }
+
+            let next = cloned_children.get(index);
+
             match child {
-                Child::Text(text) => {
-                    if let Some(Child::Text(_)) = cloned_children.get(index) {
-                        pending_text.push(text.data.clone());
+                Child::Text(text)
+                    if next.is_some()
+                        && !child_will_be_retained(next.unwrap())
+                        && matches!(
+                            cloned_children.get(index + 1),
+                            Some(Child::Text(_)) | Some(Child::Comment(_))
+                        ) =>
+                {
+                    pending_text.push(text.data.clone());
 
-                        false
-                    } else if !pending_text.is_empty() {
-                        let mut new_data = String::new();
-
-                        for pending_text in take(&mut pending_text) {
-                            new_data.push_str(&pending_text);
-                        }
-
-                        new_data.push_str(&text.data);
-
-                        text.data = new_data.into();
-
-                        true
-                    } else {
-                        true
-                    }
+                    false
                 }
-                _ => true,
+                Child::Text(text) if !pending_text.is_empty() => {
+                    let mut new_data = String::with_capacity(
+                        pending_text.iter().map(|x| x.len()).sum::<usize>() + text.data.len(),
+                    );
+
+                    for pending_text in take(&mut pending_text) {
+                        new_data.push_str(&pending_text);
+                    }
+
+                    new_data.push_str(&text.data);
+
+                    text.data = new_data.into();
+
+                    true
+                }
+                _ => result,
             }
         });
 
@@ -1057,7 +1070,7 @@ impl Minifier {
             });
         }
 
-        // Remove all comments and safe whitespaces lately
+        // Remove all leading and trailing whitespaces for the `body` element
         if namespace == Namespace::HTML && tag_name == "body" {
             self.remove_leading_and_trailing_whitespaces(children);
         }
