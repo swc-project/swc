@@ -965,9 +965,20 @@ where
                 method: None,
             });
             match m.kind {
-                MethodKind::Getter => data.get = Some(value),
-                MethodKind::Setter => data.set = Some(value),
-                MethodKind::Method => data.method = Some(value),
+                // https://github.com/swc-project/swc/issues/5029
+                MethodKind::Getter => {
+                    data.method = None;
+                    data.get = Some(value)
+                }
+                MethodKind::Setter => {
+                    data.method = None;
+                    data.set = Some(value)
+                }
+                MethodKind::Method => {
+                    data.get = None;
+                    data.set = None;
+                    data.method = Some(value)
+                }
             }
         }
 
