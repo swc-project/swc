@@ -13,6 +13,6 @@ define([
     });
     _foo = _interopRequireDefault(_foo);
     const bar = {
-        foo
+        foo: _foo.default
     };
 });

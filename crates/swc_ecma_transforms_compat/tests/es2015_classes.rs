@@ -1903,9 +1903,6 @@ function Foo() {
     key: "foo",
     value: function foo() {}
   }, {
-    key: "foo",
-    value: function foo() {}
-  }, {
     key: bar,
     value: function() {}
   }, {
@@ -7230,10 +7227,6 @@ let Test = /*#__PURE__*/function (Foo) {
     _classCallCheck(this, Test);
     return _super.apply(this, arguments);
   }
-
-  var _proto = Test.prototype;
-
-  _proto["foo"] = function foo() {};
 
   _createClass(Test, [
     {

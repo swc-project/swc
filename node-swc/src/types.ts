@@ -891,7 +891,7 @@ export interface GlobalPassOption {
   envs?: string[];
 }
 
-export type ModuleConfig = Es6Config | CommonJsConfig | UmdConfig | AmdConfig;
+export type ModuleConfig = Es6Config | CommonJsConfig | UmdConfig | AmdConfig | NodeNextConfig;
 
 export interface BaseModuleConfig {
   /**
@@ -967,6 +967,10 @@ export interface BaseModuleConfig {
 
 export interface Es6Config extends BaseModuleConfig {
   type: "es6";
+}
+
+export interface NodeNextConfig extends BaseModuleConfig {
+  type: "nodenext";
 }
 
 export interface CommonJsConfig extends BaseModuleConfig {
