@@ -47,10 +47,11 @@ impl VisitMut for ModuleRefRewriter {
         match n {
             Prop::Shorthand(shorthand) => {
                 if let Some(expr) = self.convert_ident_to_expr(shorthand) {
-                    *n = Prop::KeyValue(KeyValueProp {
+                    *n = KeyValueProp {
                         key: shorthand.take().into(),
                         value: Box::new(expr),
-                    })
+                    }
+                    .into()
                 }
             }
             _ => n.visit_mut_children_with(self),
@@ -146,18 +147,18 @@ impl ModuleRefRewriter {
                     mod_ident.into()
                 };
 
-                mod_prop
-                    .as_ref()
-                    .map(|imported_name| {
-                        let prop = prop_name(imported_name, DUMMY_SP).into();
+                if let Some(imported_name) = mod_prop {
+                    let prop = prop_name(imported_name, DUMMY_SP).into();
 
-                        Expr::Member(MemberExpr {
-                            obj: Box::new(mod_expr.clone()),
-                            span,
-                            prop,
-                        })
-                    })
-                    .unwrap_or_else(|| mod_expr.clone())
+                    MemberExpr {
+                        obj: Box::new(mod_expr.clone()),
+                        span,
+                        prop,
+                    }
+                    .into()
+                } else {
+                    mod_expr
+                }
             })
     }
 }
