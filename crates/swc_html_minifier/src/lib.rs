@@ -735,7 +735,7 @@ impl Minifier {
         }
     }
 
-    fn get_deep_last_text_element<'a>(&self, node: &'a mut Child) -> Option<&'a mut Text> {
+    fn get_deep_last_text_element<'a>(&self, node: &'a Child) -> Option<&'a Text> {
         match node {
             Child::Text(text) => Some(text),
             Child::Element(Element {
@@ -744,7 +744,7 @@ impl Minifier {
                 children,
                 ..
             }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
-                if let Some(last) = children.last_mut() {
+                if let Some(last) = children.last() {
                     self.get_deep_last_text_element(last)
                 } else {
                     None
@@ -912,8 +912,8 @@ impl Minifier {
             .map(|mode| self.get_whitespace_minification_for_tag(mode, namespace, tag_name));
 
         let mut index = 0;
-        let mut prev = None;
-        let mut next = None;
+        let mut prev: Option<&Child> = None;
+        let mut next: Option<&Child> = None;
 
         children.retain_mut(|child| {
             index += 1;
@@ -965,10 +965,14 @@ impl Minifier {
                             ) => true,
                             // Inline box
                             Some(Display::Inline) => {
-                                let deep = self.get_deep_last_text_element(prev.as_mut().unwrap());
+                                if let Some(prev) = &prev {
+                                    let deep = self.get_deep_last_text_element(prev);
 
-                                if let Some(deep) = deep {
-                                    deep.data.ends_with(is_whitespace)
+                                    if let Some(deep) = deep {
+                                        deep.data.ends_with(is_whitespace)
+                                    } else {
+                                        false
+                                    }
                                 } else {
                                     false
                                 }
@@ -1058,12 +1062,10 @@ impl Minifier {
                         true
                     }
                 }
-                _ => child_will_be_retained(child),
+                _ => true,
             };
 
-            if matches!(child, Child::Element(_)) {
-                prev = Some(child.clone());
-            }
+            prev = cloned_children.get(index - 1);
 
             result
         });
