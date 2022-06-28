@@ -3914,7 +3914,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3963,7 +3963,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "once_cell",
  "serde",
