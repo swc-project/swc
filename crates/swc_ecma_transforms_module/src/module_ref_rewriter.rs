@@ -4,7 +4,7 @@ use swc_common::{
     util::take::Take,
     DUMMY_SP,
 };
-use swc_ecma_ast::{Id, Ident, *};
+use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprFactory, IntoIndirectCall};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -41,32 +41,28 @@ pub(crate) struct ModuleRefRewriter {
 impl VisitMut for ModuleRefRewriter {
     noop_visit_mut_type!();
 
+    /// replace bar in binding pattern
+    /// const foo = { bar }
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(shorthand) => {
+                if let Some(expr) = self.map_module_ref_ident(shorthand) {
+                    *n = KeyValueProp {
+                        key: shorthand.take().into(),
+                        value: Box::new(expr),
+                    }
+                    .into()
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
+    }
+
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(ref_ident) => {
-                if let Some((mod_ident, mod_prop)) = self.import_map.get(&ref_ident.to_id()) {
-                    let mut mod_ident = mod_ident.clone();
-                    let span = ref_ident.span.with_ctxt(mod_ident.span.ctxt);
-                    mod_ident.span = span;
-
-                    let mod_expr = if self.lazy_record.contains(&mod_ident.to_id()) {
-                        mod_ident.as_call(span, Default::default())
-                    } else {
-                        mod_ident.into()
-                    };
-
-                    if let Some(imported_name) = mod_prop {
-                        let prop = prop_name(imported_name, DUMMY_SP).into();
-
-                        *n = MemberExpr {
-                            obj: Box::new(mod_expr),
-                            span,
-                            prop,
-                        }
-                        .into();
-                    } else {
-                        *n = mod_expr;
-                    }
+                if let Some(expr) = self.map_module_ref_ident(ref_ident) {
+                    *n = expr;
                 }
             }
 
@@ -135,5 +131,34 @@ impl ModuleRefRewriter {
         self.top_level = false;
         n.visit_mut_with(self);
         self.top_level = top_level;
+    }
+
+    fn map_module_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
+        self.import_map
+            .get(&ref_ident.to_id())
+            .map(|(mod_ident, mod_prop)| -> Expr {
+                let mut mod_ident = mod_ident.clone();
+                let span = ref_ident.span.with_ctxt(mod_ident.span.ctxt);
+                mod_ident.span = span;
+
+                let mod_expr = if self.lazy_record.contains(&mod_ident.to_id()) {
+                    mod_ident.as_call(span, Default::default())
+                } else {
+                    mod_ident.into()
+                };
+
+                if let Some(imported_name) = mod_prop {
+                    let prop = prop_name(imported_name, DUMMY_SP).into();
+
+                    MemberExpr {
+                        obj: Box::new(mod_expr),
+                        span,
+                        prop,
+                    }
+                    .into()
+                } else {
+                    mod_expr
+                }
+            })
     }
 }
