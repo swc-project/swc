@@ -8,6 +8,9 @@
 - **(es/compat)** Handle classes with accessors and a method with the same name (#5039) ([25bd520](https://github.com/swc-project/swc/commit/25bd5206205d76c1ff93e67b67b3aeca551113d6))
 
 
+- **(es/modules)** Handle module references in binding idents (#5055) ([e13364f](https://github.com/swc-project/swc/commit/e13364f976e0c10f879fa0f9678c617a713d052d))
+
+
 - **(node-swc/types)** Add `nodenext` config type (#5044) ([7d4e6be](https://github.com/swc-project/swc/commit/7d4e6bef96242d6506fb0f51c7002f7bbc84af94))
 
 ### Features
