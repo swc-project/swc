@@ -1079,8 +1079,6 @@ impl Minifier {
             }
         };
 
-        println!("{:?}", errors);
-
         // Avoid compress potential invalid JS
         if !errors.is_empty() {
             return None;
