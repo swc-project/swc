@@ -21,7 +21,5 @@ var x = /*#__PURE__*/ function(_x) {
     }
     return x;
 }(foo2.x);
-module.exports = {
-    x: foo1
-};
+module.exports = x;
 export { };

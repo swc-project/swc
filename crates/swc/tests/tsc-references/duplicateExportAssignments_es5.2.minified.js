@@ -12,4 +12,4 @@ function y() {
     return 42;
 }
 var x = 5, y = "test";
-module.exports = {};
+module.exports = x;

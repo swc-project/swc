@@ -1,12 +1,15 @@
 "use strict";
-var _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
 class A {
     foo() {
         var _this = this;
-        return _async_to_generator(function*() {
+        return _asyncToGenerator(function*() {
             try {
                 return yield (function() {
-                    var _ref = _async_to_generator(function*(x) {
+                    var _ref = _asyncToGenerator(function*(x) {
                         return x + _this.val;
                     });
                     return function(x) {

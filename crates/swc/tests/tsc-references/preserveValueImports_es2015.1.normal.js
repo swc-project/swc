@@ -1,3 +1,5 @@
+// @Filename: b.ts
+import { D } from "./a";
 // @preserveValueImports: true
 // @isolatedModules: true,false
 // @module: esnext

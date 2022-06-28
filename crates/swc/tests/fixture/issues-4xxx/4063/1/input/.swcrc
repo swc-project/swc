@@ -1,0 +1,12 @@
+{
+    "module": {
+        "type": "amd"
+    },
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "target": "es2016"
+    }
+}

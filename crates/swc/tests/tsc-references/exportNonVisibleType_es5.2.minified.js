@@ -6,4 +6,7 @@ var C1 = function() {
     "use strict";
     _class_call_check(this, C1);
 };
-module.exports = C1;
+module.exports = {
+    a: "test",
+    b: 42
+};

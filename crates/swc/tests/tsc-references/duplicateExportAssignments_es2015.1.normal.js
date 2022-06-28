@@ -20,5 +20,5 @@ function y() {
 var x = 5;
 var y = "test";
 var z = {};
-module.exports = z;
+module.exports = x;
 export { };

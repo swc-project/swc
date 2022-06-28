@@ -1,6 +1,6 @@
-use std::{cell::RefCell, path::PathBuf, rc::Rc, sync::Arc};
+use std::{path::PathBuf, sync::Arc};
 
-use compat::{es2015::regenerator, es2020::export_namespace_from};
+use compat::es2015::regenerator;
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
@@ -16,9 +16,15 @@ use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat, compat::es2022::private_in_object, fixer, helpers, hygiene,
-    hygiene::hygiene_with_config, modules, modules::util::Scope, optimization::const_modules,
-    pass::Optional, Assumptions,
+    compat,
+    compat::es2022::private_in_object,
+    feature::{enable_available_feature_from_es_version, FeatureFlag},
+    fixer, helpers, hygiene,
+    hygiene::hygiene_with_config,
+    modules,
+    optimization::const_modules,
+    pass::Optional,
+    Assumptions,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -176,12 +182,17 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     where
         P: 'cmt,
     {
-        let need_interop_analysis = match module {
-            Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
-            Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
-            Some(ModuleConfig::Umd(ref c)) => !c.config.no_interop,
-            Some(ModuleConfig::SystemJs(_)) | Some(ModuleConfig::Es6) | None => false,
+        let (need_analyzer, no_interop, ignore_dynamic) = match module {
+            Some(ModuleConfig::CommonJs(ref c)) => (true, c.no_interop, c.ignore_dynamic),
+            Some(ModuleConfig::Amd(ref c)) => (true, c.config.no_interop, c.config.ignore_dynamic),
+            Some(ModuleConfig::Umd(ref c)) => (true, c.config.no_interop, c.config.ignore_dynamic),
+            Some(ModuleConfig::SystemJs(_))
+            | Some(ModuleConfig::Es6)
+            | Some(ModuleConfig::NodeNext)
+            | None => (false, true, true),
         };
+
+        let mut feature_flag = FeatureFlag::empty();
 
         // compat
         let compat_pass = if let Some(env) = self.env {
@@ -190,9 +201,13 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 comments,
                 env,
                 self.assumptions,
+                &mut feature_flag,
             ))
         } else {
             let assumptions = self.assumptions;
+
+            feature_flag = enable_available_feature_from_es_version(self.target);
+
             Either::Right(chain!(
                 Optional::new(
                     compat::es2022::es2022(
@@ -299,18 +314,16 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             .map(|v| v.mangle.is_obj() || v.mangle.is_true())
             .unwrap_or(false);
 
-        let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             self.pass,
             Optional::new(private_in_object(), syntax.private_in_object()),
             compat_pass,
             // module / helper
             Optional::new(
-                modules::import_analysis::import_analyzer(Rc::clone(&module_scope)),
-                need_interop_analysis
+                modules::import_analysis::import_analyzer(no_interop, ignore_dynamic),
+                need_analyzer
             ),
             compat::reserved_words::reserved_words(),
-            Optional::new(export_namespace_from(), need_interop_analysis),
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
             ModuleConfig::build(
                 self.cm.clone(),
@@ -319,7 +332,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 base,
                 self.unresolved_mark,
                 module,
-                Rc::clone(&module_scope)
+                feature_flag
             ),
             as_folder(MinifierPass {
                 options: self.minify,

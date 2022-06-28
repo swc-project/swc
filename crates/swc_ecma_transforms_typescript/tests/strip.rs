@@ -11,7 +11,7 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
-use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
+use swc_ecma_transforms_typescript::{strip, strip::strip_with_config, TsImportExportAssignConfig};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
@@ -4557,4 +4557,69 @@ let b = (_key = console.log(456), class {
     }
 });
 "
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |_| tr_config(None, None),
+    export_import_assign,
+    r#"
+    export import foo = require("foo");
+
+    foo();
+    "#,
+    r#"
+    const foo = require("foo");
+    exports.foo = foo;
+    foo();
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |_| tr_config(
+        Some(strip::Config {
+            import_export_assign_config: TsImportExportAssignConfig::NodeNext,
+            ..Default::default()
+        }),
+        None
+    ),
+    node_next_1,
+    r#"
+    import foo = require("foo");
+
+    foo();
+    "#,
+    r#"
+    import { createRequire as _createRequire } from "module";
+    const __require = _createRequire(import.meta.url);
+    const foo = __require("foo");
+    
+    foo();
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |_| tr_config(
+        Some(strip::Config {
+            import_export_assign_config: TsImportExportAssignConfig::NodeNext,
+            ..Default::default()
+        }),
+        None
+    ),
+    node_next_2,
+    r#"
+    export import foo = require("foo");
+
+    foo();
+    "#,
+    r#"
+    import { createRequire as _createRequire } from "module";
+    const __require = _createRequire(import.meta.url);
+    const foo = __require("foo");
+    export { foo };
+
+    foo();
+    "#
 );

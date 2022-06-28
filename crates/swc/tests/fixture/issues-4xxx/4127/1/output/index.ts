@@ -2,14 +2,16 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = void 0;
-var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+Object.defineProperty(exports, "default", {
+    get: ()=>_class,
+    enumerable: true
+});
+const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
 function test(constructor) {
     console.log(constructor);
 }
 let _class = class _class {
 };
-exports.default = _class = _ts_decorate([
+_class = _tsDecorate([
     test
 ], _class);
-exports.default = _class;

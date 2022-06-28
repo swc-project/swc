@@ -1130,7 +1130,7 @@ test!(
                 Some(t.comments.clone()),
                 top_level_mark
             ),
-            common_js(unresolved_mark, Default::default(), None)
+            common_js(unresolved_mark, Default::default(), Default::default())
         )
     },
     include_hook_signature_in_commonjs,
@@ -1147,24 +1147,29 @@ test!(
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
-      value: true
+        value: true
     });
-    exports.default = App;
+    Object.defineProperty(exports, "default", {
+        get: function() {
+            return App;
+        },
+        enumerable: true
+    });
     var _hooks = require("./hooks");
     var _foo = _interopRequireDefault(require("./foo"));
 
     var _s = $RefreshSig$();
 
     function App() {
-      _s();
+        _s();
 
-      const bar = (0, _hooks).useFancyState();
-      const foo = (0, _foo).default();
-      return <h1>{bar}</h1>;
+        const bar = (0, _hooks.useFancyState)();
+        const foo = (0, _foo.default)();
+        return <h1>{bar}</h1>;
     }
 
     _s(App, "useFancyState{bar}\nuseFoo{foo}", false, function () {
-      return [_hooks.useFancyState, _foo.default];
+        return [_hooks.useFancyState, _foo.default];
     });
 
     _c = App;

@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+Object.defineProperty(exports, "ServiceError", {
+    get: ()=>ServiceError,
+    enumerable: true
+});
 class ServiceError extends Error {
     constructor(...args){
         super(...args);
@@ -9,7 +13,6 @@ class ServiceError extends Error {
         this.name = "ServiceError.BadResponse";
     }
 }
-exports.ServiceError = ServiceError;
 (function(ServiceError1) {
     let Code;
     (function(Code) {

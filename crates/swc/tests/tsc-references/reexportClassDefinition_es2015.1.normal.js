@@ -8,7 +8,5 @@ const foo1 = require('./foo1');
 const foo2 = require('./foo2');
 class x extends foo2.x {
 }
-module.exports = {
-    x: foo1
-};
+module.exports = x;
 export { };

@@ -287,7 +287,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            common_js(unresolved_mark, Default::default(), None)
+            common_js(unresolved_mark, Default::default(), Default::default(),)
         )
     },
     function_name_modules_3,
@@ -307,7 +307,13 @@ export default class Login extends React.Component {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+
+Object.defineProperty(exports, "default", {
+  get: function() {
+      return Login;
+  },
+  enumerable: true
+});
 
 var _store = require("./store");
 
@@ -325,13 +331,11 @@ function (_Component) {
   _createClass(Login, [{
     key: "getForm",
     value: function getForm() {
-      return (0, _store).getForm().toJS();
+      return (0, _store.getForm)().toJS();
     }
   }]);
   return Login;
 }(React.Component);
-
-exports.default = Login;
 
 "#
 );
@@ -376,7 +380,11 @@ test!(
         arrow(),
         shorthand(),
         function_name(),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None)
+        common_js(
+            Mark::fresh(Mark::root()),
+            Default::default(),
+            Default::default()
+        )
     ),
     function_name_export_default_arrow_renaming,
     r#"
@@ -907,7 +915,7 @@ test!(
             }),
             classes(Some(t.comments.clone()), Default::default()),
             function_name(),
-            common_js(unresolved_mark, Default::default(), None)
+            common_js(unresolved_mark, Default::default(), Default::default())
         )
     },
     function_name_modules_2,
