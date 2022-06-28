@@ -2,10 +2,11 @@ use serde::{Deserialize, Serialize};
 use swc_cached::regex::CachedRegex;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "kebab-case")]
 #[serde(deny_unknown_fields)]
 pub enum MinifierType {
-    Js,
+    JsModule,
+    JsScript,
     Json,
     Css,
     Html,
@@ -56,6 +57,14 @@ pub struct MinifyOptions {
     /// The third is type of minifier
     #[serde(default)]
     pub minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
+    // Allow to compress value of custom script elements,
+    // i.e. `<script type="text/html"><div><!-- text --> <div data-foo="bar> Text </div></script>`
+    //
+    // The first item is tag_name
+    // The second is attribute name
+    // The third is type of minifier
+    #[serde(default)]
+    pub minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
 }
 
 /// Implement default using serde.

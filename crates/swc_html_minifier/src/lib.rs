@@ -247,13 +247,6 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "blocking"),
 ];
 
-enum TextChildrenType {
-    Json,
-    Css,
-    Script,
-    Module,
-}
-
 enum CssMinificationMode {
     Stylesheet,
     ListOfDeclarations,
@@ -335,6 +328,7 @@ struct Minifier {
     minify_js: bool,
     minify_css: bool,
     minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
+    minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
 }
 
 fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
@@ -1019,7 +1013,6 @@ impl Minifier {
         });
     }
 
-    // TODO source map url output?
     fn get_attribute_value(&self, attributes: &Vec<Attribute>, name: &str) -> Option<JsWord> {
         let mut type_attribute_value = None;
 
@@ -1034,6 +1027,18 @@ impl Minifier {
         }
 
         type_attribute_value
+    }
+
+    fn is_additional_scripts_content(&self, name: &str) -> Option<MinifierType> {
+        if let Some(minify_additional_scripts_content) = &self.minify_additional_scripts_content {
+            for item in minify_additional_scripts_content {
+                if item.0.is_match(name) {
+                    return Some(item.1.clone());
+                }
+            }
+        }
+
+        None
     }
 
     fn minify_json(&self, data: String) -> Option<String> {
@@ -1379,6 +1384,7 @@ impl Minifier {
             minify_js: self.minify_js,
             minify_json: self.minify_json,
             minify_css: self.minify_css,
+            minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
             minify_additional_attributes: self.minify_additional_attributes.clone(),
         };
 
@@ -1674,8 +1680,14 @@ impl VisitMut for Minifier {
             let minifier_type = self.is_additional_minifier_attribute(&n.name);
 
             match minifier_type {
-                Some(MinifierType::Js) if self.minify_js => {
+                Some(MinifierType::JsScript) if self.minify_js => {
                     value = match self.minify_js(value.clone(), false) {
+                        Some(minified) => minified,
+                        _ => value,
+                    };
+                }
+                Some(MinifierType::JsModule) if self.minify_js => {
+                    value = match self.minify_js(value.clone(), true) {
                         Some(minified) => minified,
                         _ => value,
                     };
@@ -1737,7 +1749,7 @@ impl VisitMut for Minifier {
 
                     match type_attribute_value.as_deref() {
                         Some("module") if self.minify_js => {
-                            text_type = Some(TextChildrenType::Module);
+                            text_type = Some(MinifierType::JsModule);
                         }
                         Some(
                             "text/javascript"
@@ -1750,7 +1762,7 @@ impl VisitMut for Minifier {
                         | None
                             if self.minify_js =>
                         {
-                            text_type = Some(TextChildrenType::Script);
+                            text_type = Some(MinifierType::JsScript);
                         }
                         Some(
                             "application/json"
@@ -1758,7 +1770,14 @@ impl VisitMut for Minifier {
                             | "importmap"
                             | "speculationrules",
                         ) if self.minify_json => {
-                            text_type = Some(TextChildrenType::Json);
+                            text_type = Some(MinifierType::Json);
+                        }
+                        Some(script_type) if self.minify_additional_scripts_content.is_some() => {
+                            if let Some(minifier_type) =
+                                self.is_additional_scripts_content(script_type)
+                            {
+                                text_type = Some(minifier_type);
+                            }
                         }
                         _ => {}
                     }
@@ -1790,7 +1809,7 @@ impl VisitMut for Minifier {
                     if type_attribute_value.is_none()
                         || type_attribute_value == Some("text/css".into())
                     {
-                        text_type = Some(TextChildrenType::Css)
+                        text_type = Some(MinifierType::Css)
                     }
                 }
                 _ => {}
@@ -1798,7 +1817,7 @@ impl VisitMut for Minifier {
         }
 
         match text_type {
-            Some(TextChildrenType::Script) => {
+            Some(MinifierType::JsScript) => {
                 let minified = match self.minify_js(n.data.to_string(), false) {
                     Some(minified) => minified,
                     None => return,
@@ -1806,7 +1825,7 @@ impl VisitMut for Minifier {
 
                 n.data = minified.into();
             }
-            Some(TextChildrenType::Module) => {
+            Some(MinifierType::JsModule) => {
                 let minified = match self.minify_js(n.data.to_string(), true) {
                     Some(minified) => minified,
                     None => return,
@@ -1814,7 +1833,7 @@ impl VisitMut for Minifier {
 
                 n.data = minified.into();
             }
-            Some(TextChildrenType::Json) => {
+            Some(MinifierType::Json) => {
                 let minified = match self.minify_json(n.data.to_string()) {
                     Some(minified) => minified,
                     None => return,
@@ -1822,12 +1841,23 @@ impl VisitMut for Minifier {
 
                 n.data = minified.into();
             }
-            Some(TextChildrenType::Css) => {
+            Some(MinifierType::Css) => {
                 let minified =
                     match self.minify_css(n.data.to_string(), CssMinificationMode::Stylesheet) {
                         Some(minified) => minified,
                         None => return,
                     };
+
+                n.data = minified.into();
+            }
+            Some(MinifierType::Html) => {
+                let minified = match self.minify_html(
+                    n.data.to_string(),
+                    HtmlMinificationMode::ConditionalComments,
+                ) {
+                    Some(minified) => minified,
+                    None => return,
+                };
 
                 n.data = minified.into();
             }
@@ -1909,6 +1939,7 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_css: options.minify_css,
 
         minify_additional_attributes: options.minify_additional_attributes.clone(),
+        minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
     }
 }
 
