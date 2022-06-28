@@ -1775,17 +1775,12 @@ impl VisitMut for Minifier {
             }
         }
 
-        if &*n.name == "class" {
+        if self.sort_space_separated_attribute_values
+            && self.is_attribute_value_unordered_set(current_element, &n.name)
+        {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
 
-            if self.sort_space_separated_attribute_values
-                && self.is_attribute_value_unordered_set(
-                    self.current_element.as_ref().unwrap(),
-                    &n.name,
-                )
-            {
-                values.sort_unstable();
-            }
+            values.sort_unstable();
 
             value = values.join(" ");
         } else if self.is_event_handler_attribute(&n.name) {
@@ -2070,9 +2065,6 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_css: options.minify_css,
         minify_additional_attributes: options.minify_additional_attributes.clone(),
         minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
-        preserve_comments: options.preserve_comments.clone(),
-        minify_conditional_comments: options.minify_conditional_comments,
-        sort_unordered_attribute_values: options.sort_unordered_attribute_values,
 
         sort_space_separated_attribute_values: options.sort_space_separated_attribute_values,
     }
