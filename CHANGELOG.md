@@ -5,6 +5,26 @@
 
 
 
+- **(es/compat)** Handle classes with accessors and a method with the same name (#5039) ([25bd520](https://github.com/swc-project/swc/commit/25bd5206205d76c1ff93e67b67b3aeca551113d6))
+
+### Features
+
+
+
+- **(es/lints)** Report an error for reassignment to import binding (#5033) ([376c4e1](https://github.com/swc-project/swc/commit/376c4e11af5aa8c0e5bc5900f6168893644473b7))
+
+
+- **(html/minifier)** Allow compressing additional attributes (#5036) ([55e0ea3](https://github.com/swc-project/swc/commit/55e0ea32940ff34de73e7eb4b8c999b58d798272))
+
+
+- **(html/minifier)** Add `normalize_attributes` for disabling normalization (#5045) ([0836d29](https://github.com/swc-project/swc/commit/0836d29913e51846a3361837442c18e2011bec71))
+
+## [1.2.206] - 2022-06-27
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Fix name conflict of `Array` (#5034) ([04fc1cb](https://github.com/swc-project/swc/commit/04fc1cb429b274e72bb2a939f4aaa102c158121a))
 
 
@@ -21,6 +41,12 @@
 
 
 - **(html/minifier)** Improve smart mode (#5004) ([9202ff9](https://github.com/swc-project/swc/commit/9202ff9700cbea5714a65746d7375fa41f8bb140))
+
+### Refactor
+
+
+
+- **(es/module)** Implement new module transformer (#4758) ([fa68cbd](https://github.com/swc-project/swc/commit/fa68cbd74ad2b36c0f1aaec563320114d5603cae))
 
 ## [1.2.205] - 2022-06-24
 
