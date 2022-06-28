@@ -3096,6 +3096,7 @@ dependencies = [
  "ast_node",
  "atty",
  "better_scoped_tls",
+ "bytecheck",
  "cfg-if 1.0.0",
  "criterion",
  "debug_unreachable",
