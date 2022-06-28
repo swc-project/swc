@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(html/minifier)** Allow compressing additional attributes (#5036) ([55e0ea3](https://github.com/swc-project/swc/commit/55e0ea32940ff34de73e7eb4b8c999b58d798272))
+
 ## [1.2.206] - 2022-06-27
 
 ### Bug Fixes
