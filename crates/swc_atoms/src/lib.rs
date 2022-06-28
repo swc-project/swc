@@ -30,7 +30,7 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
 /// An interned string.
 ///
-/// Use [AtomGenerator] and [LocalAtomGenerator] to create [Atom]s.
+/// Use [AtomGenerator] to create [Atom]s.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(
     feature = "rkyv",
