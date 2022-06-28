@@ -11,6 +11,7 @@ pub fn const_assign() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct ConstAssign {
     const_vars: AHashMap<Id, Span>,
+    import_binding: AHashMap<Id, Span>,
 
     is_pat_decl: bool,
 }
@@ -38,6 +39,15 @@ impl ConstAssign {
                     .emit();
             });
         }
+
+        if let Some(&binding_span) = self.import_binding.get(&id.to_id()) {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(id.span, "cannot reassign to an imported binding")
+                    .span_label(binding_span, "imported binding")
+                    .emit();
+            });
+        }
     }
 }
 
@@ -53,6 +63,7 @@ impl Visit for ConstAssign {
     fn visit_module(&mut self, program: &Module) {
         program.visit_children_with(&mut Collector {
             const_vars: &mut self.const_vars,
+            import_binding: &mut self.import_binding,
             var_decl_kind: None,
         });
 
@@ -70,6 +81,9 @@ impl Visit for ConstAssign {
     fn visit_script(&mut self, program: &Script) {
         program.visit_children_with(&mut Collector {
             const_vars: &mut self.const_vars,
+            // I don't believe that import stmt exists in Script
+            // But it's ok. Let's pass it in.
+            import_binding: &mut self.import_binding,
             var_decl_kind: None,
         });
 
@@ -86,12 +100,23 @@ impl Visit for ConstAssign {
 
 struct Collector<'a> {
     const_vars: &'a mut AHashMap<Id, Span>,
+    import_binding: &'a mut AHashMap<Id, Span>,
 
     var_decl_kind: Option<VarDeclKind>,
 }
 
 impl Visit for Collector<'_> {
     noop_visit_type!();
+
+    fn visit_import_specifier(&mut self, n: &ImportSpecifier) {
+        match n {
+            ImportSpecifier::Named(ImportNamedSpecifier { local, .. })
+            | ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
+            | ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
+                self.import_binding.insert(local.to_id(), local.span);
+            }
+        }
+    }
 
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
         p.visit_children_with(self);
