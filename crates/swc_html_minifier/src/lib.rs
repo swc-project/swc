@@ -834,7 +834,8 @@ impl Minifier {
             _ => return,
         };
 
-        // Drop comments firstly
+        // Drop comments and safe whitespaces (children of head and html are not
+        // rendered) firstly
         children.retain_mut(|child| {
             match child {
                 Child::Comment(comment) if self.remove_comments => {
@@ -868,21 +869,10 @@ impl Minifier {
 
             children.retain_mut(|child| {
                 index += 1;
+
                 next = cloned_children.get(index);
 
                 let result = match child {
-                    Child::Comment(comment) if self.remove_comments => {
-                        self.is_preserved_comment(&comment.data)
-                    }
-                    // Always remove whitespaces from html and head elements (except nested
-                    // elements), it should be safe
-                    Child::Text(text)
-                        if namespace == Namespace::HTML
-                            && matches!(&**tag_name, "html" | "head")
-                            && text.data.chars().all(is_whitespace) =>
-                    {
-                        false
-                    }
                     Child::Text(text)
                         if !self.descendant_of_pre
                             && get_white_space(namespace, tag_name) == WhiteSpace::Normal =>
@@ -1022,7 +1012,9 @@ impl Minifier {
                     _ => true,
                 };
 
-                prev = Some(child.clone());
+                if matches!(child, Child::Element(_)) {
+                    prev = Some(child.clone());
+                }
 
                 result
             });
