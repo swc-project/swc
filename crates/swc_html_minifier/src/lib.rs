@@ -689,41 +689,47 @@ impl Minifier {
         }
     }
 
-    fn remove_whitespace_from_first_text_element(&self, node: &mut Child) {
-        match node {
-            Child::Text(text) => {
-                text.data = text.data.trim_start_matches(is_whitespace).into();
-            }
-            Child::Element(Element {
-                namespace,
-                tag_name,
-                children,
-                ..
-            }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
-                if let Some(last) = children.first_mut() {
-                    self.remove_whitespace_from_first_text_element(last)
-                }
-            }
-            _ => {}
-        }
-    }
+    fn remove_leading_and_trailing_whitespaces(&self, children: &mut Vec<Child>) {
+        if let Some(last) = children.first_mut() {
+            match last {
+                Child::Text(text) => {
+                    text.data = text.data.trim_start_matches(is_whitespace).into();
 
-    fn remove_whitespace_from_last_text_element(&self, node: &mut Child) {
-        match node {
-            Child::Text(text) => {
-                text.data = text.data.trim_end_matches(is_whitespace).into();
-            }
-            Child::Element(Element {
-                namespace,
-                tag_name,
-                children,
-                ..
-            }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
-                if let Some(last) = children.last_mut() {
-                    self.remove_whitespace_from_last_text_element(last)
+                    if text.data.is_empty() {
+                        children.remove(0);
+                    }
                 }
+                Child::Element(Element {
+                    namespace,
+                    tag_name,
+                    children,
+                    ..
+                }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
+                    self.remove_leading_and_trailing_whitespaces(children);
+                }
+                _ => {}
             }
-            _ => {}
+        }
+
+        if let Some(last) = children.last_mut() {
+            match last {
+                Child::Text(text) => {
+                    text.data = text.data.trim_end_matches(is_whitespace).into();
+
+                    if text.data.is_empty() {
+                        children.pop();
+                    }
+                }
+                Child::Element(Element {
+                    namespace,
+                    tag_name,
+                    children,
+                    ..
+                }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
+                    self.remove_leading_and_trailing_whitespaces(children);
+                }
+                _ => {}
+            }
         }
     }
 
@@ -828,17 +834,7 @@ impl Minifier {
             _ => return,
         };
 
-        // Remove all comments and safe whitespaces firstly
-        if namespace == Namespace::HTML && tag_name == "body" {
-            if let Some(first) = children.first_mut() {
-                self.remove_whitespace_from_first_text_element(first);
-            }
-
-            if let Some(last) = children.last_mut() {
-                self.remove_whitespace_from_last_text_element(last)
-            }
-        }
-
+        // Drop comments firstly
         children.retain_mut(|child| {
             match child {
                 Child::Comment(comment) if self.remove_comments => {
@@ -1030,6 +1026,11 @@ impl Minifier {
 
                 result
             });
+        }
+
+        // Remove all comments and safe whitespaces lately
+        if namespace == Namespace::HTML && tag_name == "body" {
+            self.remove_leading_and_trailing_whitespaces(children);
         }
     }
 
