@@ -1,5 +1,5 @@
 "use strict";
 (async ()=>{
-    const example = await Promise.resolve("./example").then((p)=>_interopRequireWildcard(require(p)));
+    const example = await Promise.resolve().then(()=>_interopRequireWildcard(require("./example")));
     console.log(example.foo);
 })();

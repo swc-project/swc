@@ -4,6 +4,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 const _interopRequireWildcard = require("../../../../../../../../../packages/swc-helpers/src/_interop_require_wildcard.mjs").default;
 (async function() {
-    const { displayA  } = await Promise.resolve("../packages/a/src/index").then((p)=>_interopRequireWildcard(require(p)));
+    const { displayA  } = await Promise.resolve().then(()=>_interopRequireWildcard(require("../packages/a/src/index")));
     console.log(displayA());
 })();
