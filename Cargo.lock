@@ -2994,6 +2994,7 @@ dependencies = [
 name = "swc_atoms"
 version = "0.2.12"
 dependencies = [
+ "bytecheck",
  "once_cell",
  "rkyv",
  "rustc-hash",
@@ -3285,6 +3286,7 @@ version = "0.79.0"
 dependencies = [
  "arbitrary",
  "bitflags",
+ "bytecheck",
  "is-macro",
  "num-bigint",
  "rkyv",
@@ -4120,6 +4122,7 @@ name = "swc_plugin_proxy"
 version = "0.4.1"
 dependencies = [
  "better_scoped_tls",
+ "bytecheck",
  "rkyv",
  "swc_common",
  "swc_ecma_ast",

@@ -18,6 +18,10 @@ use crate::{syntax_pos::Mark, SyntaxContext};
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
+)]
 /// Enum for possible errors while running transform via plugin.
 /// This error indicates internal operation failure either in plugin_runner
 /// or plugin_macro. Plugin's transform fn itself does not allow to return

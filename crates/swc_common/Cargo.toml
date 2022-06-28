@@ -24,7 +24,7 @@ perf = ["parking_lot"]
 plugin-base = ["anyhow", "rkyv-impl", "diagnostic-serde"]
 plugin-mode = ["plugin-base"]
 plugin-rt = ["plugin-base"]
-rkyv-impl = ["rkyv"]
+rkyv-impl = ["rkyv", "bytecheck"]
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
@@ -34,7 +34,7 @@ arbitrary = { version = "1", optional = true, features = ["derive"] }
 ast_node = { version = "0.7.5", path = "../ast_node" }
 atty = { version = "0.2", optional = true }
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
-bytecheck = "0.6.8"
+bytecheck = { version = "0.6.8", optional = true }
 cfg-if = "1.0.0"
 debug_unreachable = "0.1.1"
 either = "1.5"
