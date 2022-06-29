@@ -4,7 +4,7 @@
 //! `swc_common`.
 #![allow(unused)]
 
-use std::any::type_name;
+use std::{any::type_name, mem};
 
 use anyhow::Error;
 use bytecheck::CheckBytes;
@@ -178,7 +178,7 @@ pub struct VersionedSerializable<T>(#[with(AsBox)] (u32, T));
 
 impl<T> VersionedSerializable<T> {
     pub fn new(value: T) -> Self {
-        // TODO: we'll add compile time flag to augment schema version per binary.
+        // TODO: we'll add compile time flag to augment schema version.
         // User should not try to set version by themselves.
         VersionedSerializable((1, value))
     }
@@ -189,5 +189,12 @@ impl<T> VersionedSerializable<T> {
 
     pub fn inner(&self) -> &T {
         &self.0 .1
+    }
+
+    pub fn take(&mut self) -> T
+    where
+        T: Default,
+    {
+        mem::take(&mut self.0 .1)
     }
 }
