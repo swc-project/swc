@@ -140,7 +140,7 @@ impl VisitMut for Umd {
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record: Default::default(),
-            top_level: true,
+            is_global_this: true,
         });
 
         // ====================

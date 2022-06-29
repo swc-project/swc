@@ -35,7 +35,7 @@ pub(crate) struct ModuleRefRewriter {
 
     pub lazy_record: AHashSet<Id>,
 
-    pub top_level: bool,
+    pub is_global_this: bool,
 }
 
 impl VisitMut for ModuleRefRewriter {
@@ -67,7 +67,7 @@ impl VisitMut for ModuleRefRewriter {
             }
 
             Expr::This(ThisExpr { span }) => {
-                if self.top_level {
+                if self.is_global_this {
                     *n = *undefined(*span);
                 }
             }
@@ -99,38 +99,34 @@ impl VisitMut for ModuleRefRewriter {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        n.params.visit_mut_with(self);
-
-        self.visit_mut_with_non_top_level(&mut n.body);
+        self.visit_mut_with_non_global_this(n);
     }
 
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        n.params.visit_mut_with(self);
-
-        self.visit_mut_with_non_top_level(&mut n.body);
+        self.visit_mut_with_non_global_this(n);
     }
 
     fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
         n.key.visit_mut_with(self);
 
-        self.visit_mut_with_non_top_level(&mut n.value);
+        self.visit_mut_with_non_global_this(&mut n.value);
     }
 
     fn visit_mut_static_block(&mut self, n: &mut StaticBlock) {
-        self.visit_mut_with_non_top_level(&mut n.body);
+        self.visit_mut_with_non_global_this(n);
     }
 }
 
 impl ModuleRefRewriter {
-    fn visit_mut_with_non_top_level<T>(&mut self, n: &mut T)
+    fn visit_mut_with_non_global_this<T>(&mut self, n: &mut T)
     where
         T: VisitMutWith<Self>,
     {
-        let top_level = self.top_level;
+        let top_level = self.is_global_this;
 
-        self.top_level = false;
-        n.visit_mut_with(self);
-        self.top_level = top_level;
+        self.is_global_this = false;
+        n.visit_mut_children_with(self);
+        self.is_global_this = top_level;
     }
 
     fn map_module_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
