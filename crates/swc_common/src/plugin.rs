@@ -67,7 +67,7 @@ impl Serialized {
     pub fn into<T>(self) -> T
     where
         T: rkyv::Archive,
-        T::Archived: rkyv::Deserialize<T, rkyv::Infallible>,
+        T::Archived: rkyv::Deserialize<T, rkyv::de::deserializers::SharedDeserializeMap>,
     {
         Serialized::deserialize(&self).expect("Should able to deserialize")
     }
@@ -97,7 +97,7 @@ impl Serialized {
     pub fn deserialize<W>(bytes: &Serialized) -> Result<W, Error>
     where
         W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::Infallible>,
+        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
     {
         use anyhow::Context;
         use rkyv::Deserialize;
@@ -106,7 +106,7 @@ impl Serialized {
         let archived = unsafe { rkyv::archived_root::<W>(&bytes[..]) };
 
         archived
-            .deserialize(&mut rkyv::Infallible)
+            .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
     }
 
@@ -122,7 +122,7 @@ impl Serialized {
     ) -> Result<W, Error>
     where
         W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::Infallible>,
+        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
     {
         // Create serialized bytes slice from ptr
         let raw_ptr_bytes = unsafe {
