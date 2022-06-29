@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.79.0"
+version = "0.80.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -18,11 +18,12 @@ bench = false
 [features]
 default = []
 fuzzing = ["arbitrary", "swc_common/arbitrary"]
-rkyv-impl = ["rkyv", "swc_common/rkyv-impl"]
+rkyv-impl = ["rkyv", "bytecheck", "swc_common/rkyv-impl"]
 
 [dependencies]
 arbitrary = { version = "1", optional = true, features = ["derive"] }
 bitflags = "1"
+bytecheck = { version = "0.6.8", optional = true }
 is-macro = "0.2.0"
 num-bigint = { version = "0.4", features = ["serde"] }
 rkyv = { version = "0.7.39", optional = true }
@@ -30,7 +31,7 @@ scoped-tls = "1.0.0"
 serde = { version = "1.0.133", features = ["derive"] }
 string_enum = { version = "0.3.1", path = "../string_enum" }
 swc_atoms = { version = "0.2", path = "../swc_atoms" }
-swc_common = { version = "0.18.0", path = "../swc_common" }
+swc_common = { version = "0.19.0", path = "../swc_common" }
 unicode-id = "0.3"
 
 [dev-dependencies]

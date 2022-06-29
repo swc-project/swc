@@ -21,6 +21,7 @@ use crate::typescript::TsTypeAnn;
     feature = "rkyv",
     archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
 )]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]

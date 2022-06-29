@@ -7,6 +7,8 @@
 use std::any::type_name;
 
 use anyhow::Error;
+use bytecheck::CheckBytes;
+use rkyv::{with::AsBox, Archive, Deserialize, Serialize};
 
 use crate::{syntax_pos::Mark, SyntaxContext};
 
@@ -15,6 +17,10 @@ use crate::{syntax_pos::Mark, SyntaxContext};
 #[cfg_attr(
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
 )]
 /// Enum for possible errors while running transform via plugin.
 /// This error indicates internal operation failure either in plugin_runner
@@ -157,3 +163,15 @@ impl Serialized {
         }
     }
 }
+
+/// A wrapper type for the structures to be passed into plugins
+/// serializes the contained value out-of-line so that newer
+/// versions can be viewed as the older version.
+///
+/// First field indicate version of struct type (schema). Any consumers like
+/// swc_plugin_macro can use this to validate compatiblility before attempt to
+/// serialize.
+#[derive(Archive, Deserialize, Serialize)]
+#[repr(transparent)]
+#[archive_attr(repr(transparent), derive(CheckBytes))]
+pub struct VersionedSerializable<T>(#[with(AsBox)] pub (u32, T));
