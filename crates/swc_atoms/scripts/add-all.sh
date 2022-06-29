@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
-cargo run -p dbg-swc -- x print-atoms ../../node_modules/typescript/lib/lib.es2015.d.ts
+cargo build -p dbg-swc
+BINARY="$(cargo metadata --format-version 1 | jq -r '.target_directory')/debug/dbg-swc"
+echo "Binary:$BINARY"
+# TypeScript libraries has lots of commonly used identifiers.
+ls ../../node_modules/typescript/lib/lib.*.d.ts | xargs -L 1 -I {} $BINARY x print-atoms {}
