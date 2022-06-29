@@ -7,6 +7,12 @@
 
 - **(html/minifier)** Allow minifying custom script contents (#5043) ([d7a5f71](https://github.com/swc-project/swc/commit/d7a5f710730063c51deb91c9aa937f7d5a33e582))
 
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update `rkyv` (#5057) ([374366d](https://github.com/swc-project/swc/commit/374366d56ca431dc892b390efaf090ee4d116100))
+
 ## [1.2.207] - 2022-06-28
 
 ### Bug Fixes
