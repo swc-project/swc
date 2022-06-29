@@ -14,30 +14,30 @@ define([
     }
     _export(exports, {
         Foo: ()=>Foo,
-        bar: ()=>bar,
         default: ()=>_default,
         foo: ()=>foo
     });
     class Foo {
-        bar = 5;
-        getThing(a, b = this.bar) {
+        [void 0] = this;
+        [void 0](a, b = this.x) {
             return a + b;
         }
-        static baz = 6;
-        static foo(a, b = this.baz) {
+        static [void 0] = this;
+        static [void 0](a, b = this.x) {
             return a + b;
         }
     }
     function foo(a = this) {
         console.log(a);
     }
-    const bar = {
-        [void 0]: foo,
-        bar (x = this) {}
-    };
     var _default = {
-        [void 0] () {
-            return this;
+        [void 0]: void 0,
+        [void 0]: void 0,
+        [void 0] (a, b = this.x) {
+            return a + b;
+        },
+        [void 0]: function(a, b = this.x) {
+            return a + b;
         }
     };
 });

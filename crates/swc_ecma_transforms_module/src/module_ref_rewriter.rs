@@ -112,12 +112,6 @@ impl VisitMut for ModuleRefRewriter {
         self.visit_mut_with_non_global_this(&mut n.value);
     }
 
-    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
-        n.key.visit_mut_with(self);
-
-        self.visit_mut_with_non_global_this(&mut n.function);
-    }
-
     fn visit_mut_static_block(&mut self, n: &mut StaticBlock) {
         self.visit_mut_with_non_global_this(n);
     }

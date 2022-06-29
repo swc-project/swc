@@ -1,11 +1,12 @@
 export class Foo {
-    bar = 5;
-    getThing(a, b = this.bar) {
+    [this] = this;
+
+    [this](a, b = this.x) {
         return a + b;
     }
 
-    static baz = 6;
-    static foo(a, b = this.baz) {
+    static [this] = this;
+    static [this](a, b = this.x) {
         return a + b;
     }
 }
@@ -14,13 +15,15 @@ export function foo(a = this) {
     console.log(a);
 }
 
-export const bar = {
-    [this]: foo,
-    bar(x = this) {},
-};
-
 export default {
-    [this]() {
-        return this;
+    [this]: this,
+    [this]: this,
+
+    [this](a, b = this.x) {
+        return a + b;
+    },
+
+    [this]: function (a, b = this.x) {
+        return a + b;
     },
 };
