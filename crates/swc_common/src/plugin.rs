@@ -174,4 +174,20 @@ impl Serialized {
 #[derive(Archive, Deserialize, Serialize)]
 #[repr(transparent)]
 #[archive_attr(repr(transparent), derive(CheckBytes))]
-pub struct VersionedSerializable<T>(#[with(AsBox)] pub (u32, T));
+pub struct VersionedSerializable<T>(#[with(AsBox)] (u32, T));
+
+impl<T> VersionedSerializable<T> {
+    pub fn new(value: T) -> Self {
+        // TODO: we'll add compile time flag to augment schema version per binary.
+        // User should not try to set version by themselves.
+        VersionedSerializable((1, value))
+    }
+
+    pub fn version(&self) -> u32 {
+        self.0 .0
+    }
+
+    pub fn inner(&self) -> &T {
+        &self.0 .1
+    }
+}
