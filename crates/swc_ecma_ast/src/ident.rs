@@ -19,7 +19,11 @@ use crate::typescript::TsTypeAnn;
 )]
 #[cfg_attr(
     feature = "rkyv",
-    archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
 )]
 #[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct BindingIdent {
