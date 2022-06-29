@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.18.9"
+version = "0.19.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -31,7 +31,7 @@ tty-emitter = ["atty", "termcolor"]
 ahash = "0.7.4"
 anyhow = { version = "1.0.45", optional = true }
 arbitrary = { version = "1", optional = true, features = ["derive"] }
-ast_node = { version = "0.7.5", path = "../ast_node" }
+ast_node = { version = "0.8.0", path = "../ast_node" }
 atty = { version = "0.2", optional = true }
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
 bytecheck = { version = "0.6.8", optional = true }

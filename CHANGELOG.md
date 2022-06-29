@@ -7,6 +7,9 @@
 
 - **(html/minifier)** Allow minifying custom script contents (#5043) ([d7a5f71](https://github.com/swc-project/swc/commit/d7a5f710730063c51deb91c9aa937f7d5a33e582))
 
+
+- **(plugin)** Add versioned wrapper struct (#5062) ([e34a864](https://github.com/swc-project/swc/commit/e34a864390dc6a8a0d78cc60af458be37031e30f))
+
 ### Miscellaneous Tasks
 
 
