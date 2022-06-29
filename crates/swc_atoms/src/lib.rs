@@ -117,8 +117,13 @@ pub struct AtomGenerator {
 }
 
 impl AtomGenerator {
-    pub fn gen(&mut self, s: &str) -> Atom {
-        if let Some(v) = self.inner.get(s).cloned() {
+    pub fn gen<S>(&mut self, s: S) -> Atom
+    where
+        Arc<str>: From<S>,
+        S: Eq + Hash,
+        S: AsRef<str>,
+    {
+        if let Some(v) = self.inner.get(s.as_ref()).cloned() {
             return v;
         }
 
@@ -154,6 +159,20 @@ macro_rules! atom {
         static CACHE: $crate::once_cell::sync::Lazy<$crate::Atom> =
             $crate::once_cell::sync::Lazy::new(|| $crate::Atom::new_bad($s));
 
-        $crate::Atom::clone(*CACHE)
+        $crate::Atom::clone(&*CACHE)
     }};
+}
+
+#[test]
+fn _assert() {
+    let mut g = AtomGenerator::default();
+
+    g.gen("str");
+    g.gen(String::new());
+}
+
+impl PartialEq<Atom> for str {
+    fn eq(&self, other: &Atom) -> bool {
+        *self == **other
+    }
 }

@@ -18,6 +18,13 @@ impl EqIgnoreSpan for Span {
     }
 }
 
+impl EqIgnoreSpan for swc_atoms::Atom {
+    #[inline]
+    fn eq_ignore_span(&self, r: &Self) -> bool {
+        self == r
+    }
+}
+
 impl<T> EqIgnoreSpan for [T]
 where
     T: EqIgnoreSpan,
