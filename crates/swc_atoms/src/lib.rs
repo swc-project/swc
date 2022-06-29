@@ -36,6 +36,7 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct Atom(Arc<str>);
 
 impl Atom {

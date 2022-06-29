@@ -8,6 +8,9 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+// TODO: https://github.com/rkyv/bytecheck/issues/20
+#![allow(ambiguous_associated_items)]
+
 use std::{
     borrow::Cow,
     cell::RefCell,
@@ -50,6 +53,10 @@ mod styled_buffer;
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
+)]
 pub enum Applicability {
     MachineApplicable,
     HasPlaceholders,
@@ -65,6 +72,10 @@ pub enum Applicability {
 #[cfg_attr(
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(C), derive(bytecheck::CheckBytes))
 )]
 pub struct CodeSuggestion {
     /// Each substitute can have multiple variants due to multiple
@@ -117,6 +128,10 @@ pub struct CodeSuggestion {
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(C), derive(bytecheck::CheckBytes))
+)]
 pub struct Substitution {
     pub parts: Vec<SubstitutionPart>,
 }
@@ -129,6 +144,10 @@ pub struct Substitution {
 #[cfg_attr(
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(C), derive(bytecheck::CheckBytes))
 )]
 pub struct SubstitutionPart {
     pub span: Span,
@@ -876,6 +895,10 @@ impl Handler {
 #[cfg_attr(
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
 )]
 pub enum Level {
     Bug,
