@@ -2992,7 +2992,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.2.12"
+version = "0.2.13"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -3114,6 +3114,7 @@ dependencies = [
  "siphasher",
  "sourcemap",
  "string_cache",
+ "swc_atoms",
  "swc_eq_ignore_macros",
  "swc_visit",
  "termcolor",
