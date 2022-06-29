@@ -12,6 +12,24 @@ pub enum MinifierType {
     Html,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(rename_all = "kebab-case")]
+pub enum CollapseWhitespaces {
+    /// Keep whitespaces
+    None,
+    /// Remove all whitespaces
+    All,
+    /// Remove and collapse whitespaces based on the `display` CSS property
+    Smart,
+    /// Remove and collapse multiple whitespace into one whitespace
+    Conservative,
+    /// Remove whitespace in the `head` element, trim whitespaces for the `body`
+    /// element, remove spaces between `metadata` elements (i.e.
+    /// `script`/`style`/etc)
+    OnlyMetadata,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
@@ -74,22 +92,6 @@ impl Default for MinifyOptions {
     fn default() -> Self {
         serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
     }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-#[serde(rename_all = "kebab-case")]
-pub enum CollapseWhitespaces {
-    None,
-    /// Remove all whitespaces
-    All,
-    /// Remove and collapse whitespaces based on `display` CSS property
-    Smart,
-    /// Remove and collapse multiple whitespace into one whitespace
-    Conservative,
-    /// Remove whitespace in the `head` element, trim whitespaces for the `body`
-    /// element, remove spaces between `Metadata content`
-    OnlyMetadata,
 }
 
 const fn default_collapse_whitespaces() -> CollapseWhitespaces {

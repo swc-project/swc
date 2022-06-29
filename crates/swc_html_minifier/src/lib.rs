@@ -650,6 +650,10 @@ impl Minifier {
         false
     }
 
+    fn need_collapse_whitespace(&self) -> bool {
+        !matches!(self.collapse_whitespaces, CollapseWhitespaces::None)
+    }
+
     fn get_display(&self, namespace: Namespace, tag_name: &str) -> Display {
         match namespace {
             Namespace::HTML => {
@@ -923,7 +927,7 @@ impl Minifier {
                     }
                     Child::Text(text) if text.data.is_empty() => false,
                     Child::Text(text)
-                        if !matches!(self.collapse_whitespaces, CollapseWhitespaces::None)
+                        if self.need_collapse_whitespace()
                             && namespace == Namespace::HTML
                             && matches!(&**tag_name, "html" | "head")
                             && text.data.chars().all(is_whitespace) =>
@@ -1588,7 +1592,7 @@ impl VisitMut for Minifier {
 
         self.current_element = None;
 
-        if !matches!(self.collapse_whitespaces, CollapseWhitespaces::None) {
+        if self.need_collapse_whitespace() {
             self.latest_element = Some(n.clone());
         }
     }
@@ -1607,8 +1611,7 @@ impl VisitMut for Minifier {
 
         let old_descendant_of_pre = self.descendant_of_pre;
 
-        if !matches!(self.collapse_whitespaces, CollapseWhitespaces::None) && !old_descendant_of_pre
-        {
+        if self.need_collapse_whitespace() && !old_descendant_of_pre {
             self.descendant_of_pre = get_white_space(n.namespace, &n.tag_name) == WhiteSpace::Pre;
         }
 
@@ -1616,7 +1619,7 @@ impl VisitMut for Minifier {
 
         n.visit_mut_children_with(self);
 
-        if !matches!(self.collapse_whitespaces, CollapseWhitespaces::None) {
+        if self.need_collapse_whitespace() {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 
