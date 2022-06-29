@@ -903,7 +903,11 @@ impl Take for Import {
 #[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 #[cfg_attr(
     feature = "rkyv",
-    archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
 )]
 pub struct ExprOrSpread {
     #[serde(default)]

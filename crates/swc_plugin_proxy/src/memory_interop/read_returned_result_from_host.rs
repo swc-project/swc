@@ -60,7 +60,7 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(i32) -> i32,
     R: rkyv::Archive,
-    R::Archived: rkyv::Deserialize<R, rkyv::Infallible>,
+    R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>,
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 

@@ -30,8 +30,8 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
 /// An interned string.
 ///
-/// Use [AtomGenerator] and [LocalAtomGenerator] to create [Atom]s.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+/// Use [AtomGenerator] to create [Atom]s.
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -93,6 +93,12 @@ impl AsRef<str> for Atom {
 impl Borrow<str> for Atom {
     fn borrow(&self) -> &str {
         &self.0
+    }
+}
+
+impl fmt::Debug for Atom {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        fmt::Debug::fmt(&*self.0, f)
     }
 }
 
