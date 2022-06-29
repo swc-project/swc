@@ -1055,13 +1055,17 @@ impl Minifier {
 
     // TODO source map url output for JS and CSS?
     // TODO allow preserve comments
-    fn minify_js(&self, data: String, is_module: bool) -> Option<String> {
+    fn minify_js(&self, data: String, is_module: bool, is_attribute: bool) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
 
-        let syntax = swc_ecma_parser::Syntax::Es(Default::default());
+        let syntax = swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig {
+            allow_return_outside_function: !is_module && is_attribute,
+            ..Default::default()
+        });
+
         let target = swc_ecma_ast::EsVersion::latest();
         let mut program = if is_module {
             match swc_ecma_parser::parse_file_as_module(&fm, syntax, target, None, &mut errors) {
@@ -1075,6 +1079,11 @@ impl Minifier {
             }
         };
 
+        // Avoid compress potential invalid JS
+        if !errors.is_empty() {
+            return None;
+        }
+
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1082,11 +1091,6 @@ impl Minifier {
             &mut program,
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
         );
-
-        // Avoid compress potential invalid JS
-        if !errors.is_empty() {
-            return None;
-        }
 
         let options = swc_ecma_minifier::option::MinifyOptions {
             compress: Some(swc_ecma_minifier::option::CompressOptions {
@@ -1657,8 +1661,8 @@ impl VisitMut for Minifier {
             }
 
             value = values.join(" ");
-        } else if self.minify_js && self.is_event_handler_attribute(&n.name) {
-            value = match self.minify_js(value.clone(), false) {
+        } else if self.is_event_handler_attribute(&n.name) {
+            value = match self.minify_js(value.clone(), false, true) {
                 Some(minified) => minified,
                 _ => value,
             };
@@ -1681,13 +1685,13 @@ impl VisitMut for Minifier {
 
             match minifier_type {
                 Some(MinifierType::JsScript) if self.minify_js => {
-                    value = match self.minify_js(value.clone(), false) {
+                    value = match self.minify_js(value.clone(), false, true) {
                         Some(minified) => minified,
                         _ => value,
                     };
                 }
                 Some(MinifierType::JsModule) if self.minify_js => {
-                    value = match self.minify_js(value.clone(), true) {
+                    value = match self.minify_js(value.clone(), true, true) {
                         Some(minified) => minified,
                         _ => value,
                     };
@@ -1818,7 +1822,7 @@ impl VisitMut for Minifier {
 
         match text_type {
             Some(MinifierType::JsScript) => {
-                let minified = match self.minify_js(n.data.to_string(), false) {
+                let minified = match self.minify_js(n.data.to_string(), false, false) {
                     Some(minified) => minified,
                     None => return,
                 };
@@ -1826,7 +1830,7 @@ impl VisitMut for Minifier {
                 n.data = minified.into();
             }
             Some(MinifierType::JsModule) => {
-                let minified = match self.minify_js(n.data.to_string(), true) {
+                let minified = match self.minify_js(n.data.to_string(), true, false) {
                     Some(minified) => minified,
                     None => return,
                 };
@@ -1937,7 +1941,6 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_js: options.minify_js,
         minify_json: options.minify_json,
         minify_css: options.minify_css,
-
         minify_additional_attributes: options.minify_additional_attributes.clone(),
         minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
     }
