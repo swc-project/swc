@@ -6,11 +6,14 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitWith,
 };
 
-use crate::module_decl_strip::LinkFlag;
+use crate::{module_decl_strip::LinkFlag, util::ImportInterop};
 
-pub fn import_analyzer(no_interop: bool, ignore_dynamic: bool) -> impl Fold + VisitMut {
+pub fn import_analyzer(
+    import_interop: ImportInterop,
+    ignore_dynamic: bool,
+) -> impl Fold + VisitMut {
     as_folder(ImportAnalyzer {
-        no_interop,
+        import_interop,
         ignore_dynamic,
         flag_record: Default::default(),
         dynamic_import_found: false,
@@ -18,7 +21,7 @@ pub fn import_analyzer(no_interop: bool, ignore_dynamic: bool) -> impl Fold + Vi
 }
 
 pub struct ImportAnalyzer {
-    no_interop: bool,
+    import_interop: ImportInterop,
     ignore_dynamic: bool,
 
     flag_record: AHashMap<JsWord, LinkFlag>,
@@ -50,13 +53,14 @@ impl Visit for ImportAnalyzer {
             enable_helper!(export_star);
         }
 
-        if self.no_interop {
+        if self.import_interop.is_none() {
             return;
         }
 
-        if flag_record
-            .values()
-            .any(|flag| flag.interop() && !flag.has_named())
+        if self.import_interop.is_swc()
+            && flag_record
+                .values()
+                .any(|flag| flag.interop() && !flag.has_named())
         {
             enable_helper!(interop_require_default);
         }

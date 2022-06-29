@@ -1,4 +1,5 @@
 use inflector::Inflector;
+use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
@@ -20,6 +21,9 @@ pub struct Config {
     #[serde(default)]
     pub lazy: Lazy,
     #[serde(default)]
+    pub import_interop: Option<ImportInterop>,
+    #[serde(default)]
+    /// Note: deprecated
     pub no_interop: bool,
     #[serde(default)]
     pub ignore_dynamic: bool,
@@ -33,6 +37,7 @@ impl Default for Config {
             strict: false,
             strict_mode: default_strict_mode(),
             lazy: Lazy::default(),
+            import_interop: None,
             no_interop: false,
             ignore_dynamic: false,
             preserve_import_meta: false,
@@ -42,6 +47,33 @@ impl Default for Config {
 
 const fn default_strict_mode() -> bool {
     true
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Is, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum ImportInterop {
+    #[serde(alias = "babel")]
+    Swc,
+    Node,
+    None,
+}
+
+impl From<bool> for ImportInterop {
+    fn from(no_interop: bool) -> Self {
+        if no_interop {
+            ImportInterop::None
+        } else {
+            ImportInterop::Swc
+        }
+    }
+}
+
+impl Config {
+    #[inline(always)]
+    pub fn import_interop(&self) -> ImportInterop {
+        self.import_interop
+            .unwrap_or_else(|| self.no_interop.into())
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

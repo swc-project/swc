@@ -1,9 +1,9 @@
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureFlag, helper, helper_expr};
+use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory, IsDirective,
+    member_expr, private_ident, quote_ident, undefined, ExprFactory, FunctionFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -13,7 +13,8 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, use_strict,
+        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, prop_name,
+        use_strict, ImportInterop,
     },
 };
 
@@ -70,6 +71,8 @@ impl VisitMut for Cjs {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        let import_interop = self.config.import_interop();
+
         let mut strip = ModuleDeclStrip::default();
         n.visit_mut_with(&mut strip);
 
@@ -90,7 +93,7 @@ impl VisitMut for Cjs {
 
         let is_export_assign = export_assign.is_some();
 
-        if has_module_decl && !self.config.no_interop && !is_export_assign {
+        if has_module_decl && !import_interop.is_none() && !is_export_assign {
             stmts.push(define_es_module(self.exports()).into())
         }
 
@@ -170,7 +173,7 @@ impl VisitMut for Cjs {
                     *span,
                     args.take(),
                     quote_ident!(require_span, "require"),
-                    !self.config.no_interop,
+                    self.config.import_interop(),
                     self.support_arrow,
                     is_lit_path,
                 );
@@ -208,6 +211,8 @@ impl Cjs {
         export: Export,
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
+        let import_interop = self.config.import_interop();
+
         let mut stmts = Vec::with_capacity(link.len());
 
         let mut export_obj_prop_list = export
@@ -233,7 +238,9 @@ impl Cjs {
                 let is_swc_default_helper =
                     !link_flag.has_named() && src.starts_with("@swc/helpers/");
 
-                if self.config.no_interop || is_swc_default_helper {
+                let is_node_default = !link_flag.has_named() && import_interop.is_node();
+
+                if import_interop.is_none() || is_swc_default_helper {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -250,7 +257,7 @@ impl Cjs {
                     &mod_ident,
                     &raw_mod_ident,
                     &mut decl_mod_ident,
-                    is_swc_default_helper,
+                    is_swc_default_helper || is_node_default,
                 );
 
                 let is_lazy =
@@ -300,20 +307,20 @@ impl Cjs {
                 };
 
                 // _introp(require("mod"));
-                let import_expr = if !link_flag.interop() {
-                    import_expr
-                } else {
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: if link_flag.namespace() {
-                            helper!(interop_require_wildcard, "interopRequireWildcard")
+                let import_expr = {
+                    match import_interop {
+                        ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
+                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
                         } else {
-                            helper!(interop_require_default, "interopRequireDefault")
-                        },
-                        args: vec![import_expr.as_arg()],
-                        type_args: Default::default(),
+                            helper_expr!(interop_require_default, "interopRequireDefault")
+                        }
+                        .as_call(DUMMY_SP, vec![import_expr.as_arg()]),
+                        ImportInterop::Node if link_flag.namespace() => {
+                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                                .as_call(DUMMY_SP, vec![import_expr.as_arg(), true.as_arg()])
+                        }
+                        _ => import_expr,
                     }
-                    .into()
                 };
 
                 if decl_mod_ident {
@@ -342,13 +349,24 @@ impl Cjs {
             },
         );
 
-        let mut export_stmts = Default::default();
+        let mut export_stmts: Vec<Stmt> = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
+            if import_interop.is_node() {
+                export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+
+                let export_id_list: Vec<(JsWord, Span)> = export_obj_prop_list
+                    .iter()
+                    .map(|(name, span, _)| (name.clone(), *span))
+                    .collect();
+
+                self.emit_lexer_export_init(export_id_list, &mut export_stmts);
+            }
+
             let features = self.available_features;
             let exports = self.exports();
 
-            export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
+            export_stmts.extend(emit_export_stmts(features, exports, export_obj_prop_list));
         }
 
         export_stmts.into_iter().chain(stmts)
@@ -356,6 +374,34 @@ impl Cjs {
 
     fn exports(&mut self) -> Ident {
         quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports")
+    }
+
+    /// emit [cjs-module-lexer](https://github.com/nodejs/cjs-module-lexer) friendly exports list
+    /// ```javascript
+    /// exports.foo = exports.bar = void 0;
+    /// ```
+    fn emit_lexer_export_init(
+        &mut self,
+        export_id_list: Vec<(JsWord, Span)>,
+        stmts: &mut Vec<Stmt>,
+    ) {
+        for group in export_id_list.chunks(100) {
+            let mut expr = *undefined(DUMMY_SP);
+
+            for (export_name, span) in group {
+                let prop = prop_name(export_name, DUMMY_SP).into();
+
+                let export_binding = MemberExpr {
+                    obj: Box::new(self.exports().into()),
+                    span: *span,
+                    prop,
+                };
+
+                expr = expr.make_assign_to(op!("="), export_binding.as_pat_or_expr());
+            }
+
+            stmts.push(expr.into_stmt());
+        }
     }
 }
 
@@ -368,7 +414,7 @@ pub(crate) fn cjs_dynamic_import(
     span: Span,
     args: Vec<ExprOrSpread>,
     require: Ident,
-    es_module_interop: bool,
+    import_interop: ImportInterop,
     support_arrow: bool,
     is_lit_path: bool,
 ) -> Expr {
@@ -388,11 +434,12 @@ pub(crate) fn cjs_dynamic_import(
     let import_expr = {
         let require = require.as_call(DUMMY_SP, require_args);
 
-        if es_module_interop {
-            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-                .as_call(DUMMY_SP, vec![require.as_arg()])
-        } else {
-            require
+        match import_interop {
+            ImportInterop::None => require,
+            ImportInterop::Swc => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                .as_call(DUMMY_SP, vec![require.as_arg()]),
+            ImportInterop::Node => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                .as_call(DUMMY_SP, vec![require.as_arg(), true.as_arg()]),
         }
     };
 

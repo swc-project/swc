@@ -3648,6 +3648,7 @@ dependencies = [
  "anyhow",
  "bitflags",
  "indexmap",
+ "is-macro",
  "path-clean",
  "pathdiff",
  "serde",

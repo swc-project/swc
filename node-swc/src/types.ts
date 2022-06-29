@@ -949,6 +949,8 @@ export interface BaseModuleConfig {
    */
   lazy?: boolean | string[];
   /**
+   * @deprecated  Use the `importInterop` option instead.
+   * 
    * By default, when using exports with swc a non-enumerable __esModule property is exported.
    * This property is then used to determine if the import is the default export or if
    *  it contains the default export.
@@ -959,6 +961,93 @@ export interface BaseModuleConfig {
    * Defaults to `false`.
    */
   noInterop?: boolean;
+  /**
+   * Defaults to `swc`.
+   * 
+   * CommonJS modules and ECMAScript modules are not fully compatible.
+   * However, compilers, bundlers and JavaScript runtimes developed different strategies
+   * to make them work together as well as possible.
+   * 
+   * - `swc` (alias: `babel`)
+   * 
+   * When using exports with `swc` a non-enumerable `__esModule` property is exported
+   * This property is then used to determine if the import is the default export
+   * or if it contains the default export.
+   * 
+   * ```javascript
+   * import foo from "foo";
+   * import { bar } from "bar";
+   * foo;
+   * bar;
+   * 
+   * // Is compiled to ...
+   * 
+   * "use strict";
+   * 
+   * function _interopRequireDefault(obj) {
+   *   return obj && obj.__esModule ? obj : { default: obj };
+   * }
+   * 
+   * var _foo = _interopRequireDefault(require("foo"));
+   * var _bar = require("bar");
+   * 
+   * _foo.default;
+   * _bar.bar;
+   * ```
+   * 
+   * When this import interop is used, if both the imported and the importer module are compiled
+   * with swc they behave as if none of them was compiled.
+   * 
+   * This is the default behavior.
+   * 
+   * - `node`
+   * 
+   * When importing CommonJS files (either directly written in CommonJS, or generated with a compiler)
+   * Node.js always binds the `default` export to the value of `module.exports`.
+   * 
+   * ```javascript
+   * import foo from "foo";
+   * import { bar } from "bar";
+   * foo;
+   * bar;
+   * 
+   * // Is compiled to ...
+   * 
+   * "use strict";
+   * 
+   * var _foo = require("foo");
+   * var _bar = require("bar");
+   * 
+   * _foo;
+   * _bar.bar;
+   * ```
+   * This is not exactly the same as what Node.js does since swc allows accessing any property of `module.exports`
+   * as a named export, while Node.js only allows importing statically analyzable properties of `module.exports`.
+   * However, any import working in Node.js will also work when compiled with swc using `importInterop: "node"`.
+   * 
+   * - `none`
+   * 
+   * If you know that the imported file has been transformed with a compiler that stores the `default` export on
+   * `exports.default` (such as swc or Babel), you can safely omit the `_interopRequireDefault` helper.
+   * 
+   * ```javascript
+   * import foo from "foo";
+   * import { bar } from "bar";
+   * foo;
+   * bar;
+   * 
+   * // Is compiled to ...
+   * 
+   * "use strict";
+   * 
+   * var _foo = require("foo");
+   * var _bar = require("bar");
+   * 
+   * _foo.default;
+   * _bar.bar;
+   * ```
+   */
+  importInterop?: "swc" | "babel" | "node" | "none";
   /**
    * If set to true, dynamic imports will be preserved.
    */
