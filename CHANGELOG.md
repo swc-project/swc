@@ -7,6 +7,9 @@
 
 - **(es/compat)** Preserve this in function with block scoped vars (#5056) ([18ea2b5](https://github.com/swc-project/swc/commit/18ea2b577011d610fbb06bb6728a86be8366703a))
 
+
+- **(es/modules)** Handle `this` in class methods (#5065) ([ef543b1](https://github.com/swc-project/swc/commit/ef543b1b22b9cf29add68984318fe19620240888))
+
 ### Features
 
 
