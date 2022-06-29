@@ -13,6 +13,7 @@ use tracing_subscriber::EnvFilter;
 
 use self::{
     bundle::BundleCommand,
+    extra::ExtraCommand,
     minify::MinifyCommand,
     test::TestCommand,
     util::{minifier::get_esbuild_output, print_js},
@@ -20,6 +21,7 @@ use self::{
 use crate::util::minifier::{get_minified, get_terser_output};
 
 mod bundle;
+mod extra;
 mod minify;
 mod test;
 mod util;
@@ -42,6 +44,9 @@ enum Cmd {
     Minify(MinifyCommand),
     #[clap(subcommand)]
     Test(TestCommand),
+
+    #[clap(subcommand)]
+    X(ExtraCommand),
 }
 
 fn init() -> Result<()> {
@@ -150,6 +155,7 @@ fn main() -> Result<()> {
                     Cmd::Bundle(_) => todo!(),
                     Cmd::Minify(cmd) => cmd.run(cm),
                     Cmd::Test(cmd) => cmd.run(cm),
+                    Cmd::X(cmd) => cmd.run(cm),
                 })
             })
         },
