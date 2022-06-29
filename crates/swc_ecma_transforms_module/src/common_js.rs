@@ -136,7 +136,7 @@ impl VisitMut for Cjs {
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record,
-            top_level: true,
+            is_global_this: true,
         });
 
         *n = stmts;
