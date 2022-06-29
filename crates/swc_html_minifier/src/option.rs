@@ -18,8 +18,8 @@ pub enum MinifierType {
 pub struct MinifyOptions {
     #[serde(default)]
     pub force_set_html5_doctype: bool,
-    #[serde(default)]
-    pub collapse_whitespaces: Option<CollapseWhitespaces>,
+    #[serde(default = "default_collapse_whitespaces")]
+    pub collapse_whitespaces: CollapseWhitespaces,
     #[serde(default = "true_by_default")]
     pub remove_comments: bool,
     #[serde(default = "default_preserve_comments")]
@@ -80,9 +80,20 @@ impl Default for MinifyOptions {
 #[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
 pub enum CollapseWhitespaces {
+    None,
+    /// Remove all whitespaces
     All,
+    /// Remove and collapse whitespaces based on `display` CSS property
     Smart,
+    /// Remove and collapse multiple whitespace into one whitespace
     Conservative,
+    /// Remove whitespace in the `head` element, trim whitespaces for the `body`
+    /// element, remove spaces between `Metadata content`
+    OnlyMetadata,
+}
+
+const fn default_collapse_whitespaces() -> CollapseWhitespaces {
+    CollapseWhitespaces::OnlyMetadata
 }
 
 const fn true_by_default() -> bool {
