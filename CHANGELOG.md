@@ -1,11 +1,32 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/compat)** Preserve this in function with block scoped vars (#5056) ([18ea2b5](https://github.com/swc-project/swc/commit/18ea2b577011d610fbb06bb6728a86be8366703a))
+
 ### Features
 
 
 
 - **(html/minifier)** Allow minifying custom script contents (#5043) ([d7a5f71](https://github.com/swc-project/swc/commit/d7a5f710730063c51deb91c9aa937f7d5a33e582))
+
+
+- **(plugin)** Add versioned wrapper struct (#5062) ([e34a864](https://github.com/swc-project/swc/commit/e34a864390dc6a8a0d78cc60af458be37031e30f))
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update `rkyv` (#5057) ([374366d](https://github.com/swc-project/swc/commit/374366d56ca431dc892b390efaf090ee4d116100))
+
+### Performance
+
+
+
+- **(atoms)** More groundwork for replacing `JsWord` with `Atom` (#5064) ([2e139f1](https://github.com/swc-project/swc/commit/2e139f144126636a5d44ae3866cf858426a1bb8e))
 
 ## [1.2.207] - 2022-06-28
 
