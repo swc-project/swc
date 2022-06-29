@@ -2858,8 +2858,7 @@ checksum = "213701ba3370744dcd1a12960caa4843b3d68b4d1c0a5d575e0d65b2ee9d16c0"
 [[package]]
 name = "string_cache"
 version = "0.8.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "213494b7a2b503146286049378ce02b482200519accc31872ee8be91fa820a08"
+source = "git+https://github.com/kdy1/string-cache?branch=drop#b781de22349ad4f8f2043432ad98c8c67624dd76"
 dependencies = [
  "new_debug_unreachable",
  "once_cell",
