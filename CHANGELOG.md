@@ -14,6 +14,9 @@
 
 
 
+- **(atoms)** Improve atoms (#5066) ([34f4f5a](https://github.com/swc-project/swc/commit/34f4f5a3bc7797e2b9b192671cf68b63ea0dd25c))
+
+
 - **(es/parser)** Add `allow_return_outside_function` to options (#5046) ([37eb366](https://github.com/swc-project/swc/commit/37eb366a1f554668fd7011869ec8f58c67e9ce9f))
 
 
