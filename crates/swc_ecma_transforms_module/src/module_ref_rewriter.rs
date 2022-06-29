@@ -99,15 +99,11 @@ impl VisitMut for ModuleRefRewriter {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        n.params.visit_mut_with(self);
-
-        self.visit_mut_with_non_global_this(&mut n.body);
+        self.visit_mut_with_non_global_this(n);
     }
 
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        n.params.visit_mut_with(self);
-
-        self.visit_mut_with_non_global_this(&mut n.body);
+        self.visit_mut_with_non_global_this(n);
     }
 
     fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
