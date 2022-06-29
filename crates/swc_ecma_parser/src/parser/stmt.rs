@@ -562,7 +562,7 @@ impl<'a, I: Tokens> Parser<I> {
             }))
         });
 
-        if !self.ctx().in_function {
+        if !self.ctx().in_function && !self.input.syntax().allow_return_outside_function() {
             self.emit_err(span!(self, start), SyntaxError::ReturnNotAllowed);
         }
 

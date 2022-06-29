@@ -23,6 +23,10 @@ use crate::syntax_pos::{MultiSpan, Span};
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(C), derive(bytecheck::CheckBytes))
+)]
 pub struct Diagnostic {
     pub level: Level,
     pub message: Vec<(String, Style)>,
@@ -41,6 +45,10 @@ pub struct Diagnostic {
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
+)]
 pub enum DiagnosticId {
     Error(String),
     Lint(String),
@@ -55,6 +63,10 @@ pub enum DiagnosticId {
 #[cfg_attr(
     feature = "plugin-base",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    archive_attr(repr(C), derive(bytecheck::CheckBytes))
 )]
 pub struct SubDiagnostic {
     pub level: Level,
