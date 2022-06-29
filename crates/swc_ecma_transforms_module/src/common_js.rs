@@ -136,7 +136,7 @@ impl VisitMut for Cjs {
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record,
-            top_level: true,
+            is_global_this: true,
         });
 
         *n = stmts;
@@ -152,9 +152,13 @@ impl VisitMut for Cjs {
             }) if !self.config.ignore_dynamic => {
                 args.visit_mut_with(self);
 
+                let mut is_lit_path = false;
+
                 args.get_mut(0).into_iter().for_each(|x| {
                     if let ExprOrSpread { spread: None, expr } = x {
                         if let Expr::Lit(Lit::Str(Str { value, raw, .. })) = &mut **expr {
+                            is_lit_path = true;
+
                             *value = self.resolver.resolve(value.clone());
                             *raw = None;
                         }
@@ -168,6 +172,7 @@ impl VisitMut for Cjs {
                     quote_ident!(require_span, "require"),
                     !self.config.no_interop,
                     self.support_arrow,
+                    is_lit_path,
                 );
             }
             Expr::Member(MemberExpr {
@@ -354,23 +359,34 @@ impl Cjs {
     }
 }
 
+/// ```javascript
 /// Promise.resolve(args).then(p => require(p))
+/// // for literial dynamic import:
+/// Promise.resolve().then(() => require(args))
+/// ```
 pub(crate) fn cjs_dynamic_import(
     span: Span,
     args: Vec<ExprOrSpread>,
     require: Ident,
     es_module_interop: bool,
     support_arrow: bool,
+    is_lit_path: bool,
 ) -> Expr {
+    let p = private_ident!("p");
+
+    let (resolve_args, callback_params, require_args) = if is_lit_path {
+        (vec![], vec![], args)
+    } else {
+        (args, vec![p.clone().into()], vec![p.as_arg()])
+    };
+
     let then = member_expr!(DUMMY_SP, Promise.resolve)
         // TODO: handle import assert
-        .as_call(DUMMY_SP, args)
+        .as_call(DUMMY_SP, resolve_args)
         .make_member(quote_ident!("then"));
 
-    let path = private_ident!("p");
-
     let import_expr = {
-        let require = require.as_call(DUMMY_SP, vec![path.clone().as_arg()]);
+        let require = require.as_call(DUMMY_SP, require_args);
 
         if es_module_interop {
             helper_expr!(interop_require_wildcard, "interopRequireWildcard")
@@ -383,7 +399,7 @@ pub(crate) fn cjs_dynamic_import(
     then.as_call(
         span,
         vec![import_expr
-            .into_lazy_auto(vec![path.into()], support_arrow)
+            .into_lazy_auto(callback_params, support_arrow)
             .as_arg()],
     )
 }

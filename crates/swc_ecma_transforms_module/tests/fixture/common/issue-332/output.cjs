@@ -8,5 +8,5 @@ Object.defineProperty(exports, "bar", {
 });
 const _foo = _interopRequireDefault(require("foo"));
 const bar = {
-    foo
+    foo: _foo.default
 };

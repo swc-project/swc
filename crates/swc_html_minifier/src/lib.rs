@@ -249,13 +249,6 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "blocking"),
 ];
 
-enum TextChildrenType {
-    Json,
-    Css,
-    Script,
-    Module,
-}
-
 enum CssMinificationMode {
     Stylesheet,
     ListOfDeclarations,
@@ -332,10 +325,12 @@ struct Minifier {
     remove_empty_attributes: bool,
     remove_redundant_attributes: bool,
     collapse_boolean_attributes: bool,
+    normalize_attributes: bool,
     minify_json: bool,
     minify_js: bool,
     minify_css: bool,
     minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
+    minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
 }
 
 fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
@@ -1100,7 +1095,6 @@ impl Minifier {
         }
     }
 
-    // TODO source map url output?
     fn get_attribute_value(&self, attributes: &Vec<Attribute>, name: &str) -> Option<JsWord> {
         let mut type_attribute_value = None;
 
@@ -1117,6 +1111,18 @@ impl Minifier {
         type_attribute_value
     }
 
+    fn is_additional_scripts_content(&self, name: &str) -> Option<MinifierType> {
+        if let Some(minify_additional_scripts_content) = &self.minify_additional_scripts_content {
+            for item in minify_additional_scripts_content {
+                if item.0.is_match(name) {
+                    return Some(item.1.clone());
+                }
+            }
+        }
+
+        None
+    }
+
     fn minify_json(&self, data: String) -> Option<String> {
         let json = match serde_json::from_str::<Value>(&data) {
             Ok(json) => json,
@@ -1131,13 +1137,17 @@ impl Minifier {
 
     // TODO source map url output for JS and CSS?
     // TODO allow preserve comments
-    fn minify_js(&self, data: String, is_module: bool) -> Option<String> {
+    fn minify_js(&self, data: String, is_module: bool, is_attribute: bool) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
 
-        let syntax = swc_ecma_parser::Syntax::Es(Default::default());
+        let syntax = swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig {
+            allow_return_outside_function: !is_module && is_attribute,
+            ..Default::default()
+        });
+
         let target = swc_ecma_ast::EsVersion::latest();
         let mut program = if is_module {
             match swc_ecma_parser::parse_file_as_module(&fm, syntax, target, None, &mut errors) {
@@ -1151,6 +1161,11 @@ impl Minifier {
             }
         };
 
+        // Avoid compress potential invalid JS
+        if !errors.is_empty() {
+            return None;
+        }
+
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1158,11 +1173,6 @@ impl Minifier {
             &mut program,
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
         );
-
-        // Avoid compress potential invalid JS
-        if !errors.is_empty() {
-            return None;
-        }
 
         let options = swc_ecma_minifier::option::MinifyOptions {
             compress: Some(swc_ecma_minifier::option::CompressOptions {
@@ -1456,9 +1466,11 @@ impl Minifier {
             remove_empty_attributes: self.remove_empty_attributes,
             remove_redundant_attributes: self.remove_empty_attributes,
             collapse_boolean_attributes: self.collapse_boolean_attributes,
+            normalize_attributes: self.normalize_attributes,
             minify_js: self.minify_js,
             minify_json: self.minify_json,
             minify_css: self.minify_css,
+            minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
             minify_additional_attributes: self.minify_additional_attributes.clone(),
         };
 
@@ -1629,6 +1641,10 @@ impl VisitMut for Minifier {
             }
         };
 
+        if value.is_empty() {
+            return;
+        }
+
         let current_element = self.current_element.as_ref().unwrap();
 
         if self.collapse_boolean_attributes
@@ -1638,7 +1654,88 @@ impl VisitMut for Minifier {
             n.value = None;
 
             return;
-        } else if self.is_space_separated_attribute(current_element, &n.name) {
+        } else if self.normalize_attributes {
+            if self.is_space_separated_attribute(current_element, &n.name) {
+                value = value.split_whitespace().collect::<Vec<_>>().join(" ");
+            } else if self.is_comma_separated_attribute(current_element, &n.name) {
+                let is_sizes = matches!(&*n.name, "sizes" | "imagesizes");
+
+                let mut new_values = vec![];
+
+                for value in value.trim().split(',') {
+                    if is_sizes {
+                        let trimmed = value.trim();
+
+                        match self.minify_sizes(trimmed) {
+                            Some(minified) => {
+                                new_values.push(minified);
+                            }
+                            _ => {
+                                new_values.push(trimmed.to_string());
+                            }
+                        };
+                    } else {
+                        new_values.push(value.trim().to_string());
+                    }
+                }
+
+                value = new_values.join(",");
+            } else if self.is_trimable_separated_attribute(current_element, &n.name) {
+                value = value.trim().to_string();
+            } else if current_element.namespace == Namespace::HTML
+                && &n.name == "contenteditable"
+                && value == "true"
+            {
+                n.value = Some(js_word!(""));
+
+                return;
+            } else if &n.name == "content"
+                && self.element_has_attribute_with_value(
+                    current_element,
+                    "http-equiv",
+                    &["content-security-policy"],
+                )
+            {
+                let values = value.trim().split(';');
+
+                let mut new_values = vec![];
+
+                for value in values {
+                    new_values.push(
+                        value
+                            .trim()
+                            .split(' ')
+                            .filter(|s| !s.is_empty())
+                            .collect::<Vec<_>>()
+                            .join(" "),
+                    );
+                }
+
+                value = new_values.join(";");
+
+                if value.ends_with(';') {
+                    value.pop();
+                }
+            } else if self.is_event_handler_attribute(&n.name) {
+                value = value.trim().into();
+
+                if value.trim().to_lowercase().starts_with("javascript:") {
+                    value = value.chars().skip(11).collect();
+                }
+            } else if current_element.namespace == Namespace::HTML
+                && &*current_element.tag_name == "iframe"
+                && &n.name == "srcdoc"
+            {
+                value = match self
+                    .minify_html(value.clone(), HtmlMinificationMode::DocumentIframeSrcdoc)
+                {
+                    Some(minified) => minified,
+                    _ => value,
+                };
+            }
+        }
+
+        if &*n.name == "class" {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
 
             if &*n.name == "class" {
@@ -1646,109 +1743,37 @@ impl VisitMut for Minifier {
             }
 
             value = values.join(" ");
-        } else if self.is_comma_separated_attribute(current_element, &n.name) {
-            let is_sizes = matches!(&*n.name, "sizes" | "imagesizes");
-
-            let mut new_values = vec![];
-
-            for value in value.trim().split(',') {
-                if is_sizes {
-                    let trimmed = value.trim();
-
-                    match self.minify_sizes(trimmed) {
-                        Some(minified) => {
-                            new_values.push(minified);
-                        }
-                        _ => {
-                            new_values.push(trimmed.to_string());
-                        }
-                    };
-                } else {
-                    new_values.push(value.trim().to_string());
-                }
-            }
-
-            value = new_values.join(",");
-
-            if self.minify_css && &*n.name == "media" && !value.is_empty() {
-                if let Some(minified) =
-                    self.minify_css(value.clone(), CssMinificationMode::MediaQueryList)
-                {
-                    value = minified;
-                }
-            }
-        } else if self.is_trimable_separated_attribute(current_element, &n.name) {
-            value = value.trim().to_string();
-
-            if self.minify_css && &*n.name == "style" && !value.is_empty() {
-                if let Some(minified) =
-                    self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
-                {
-                    value = minified;
-                }
-            }
-        } else if current_element.namespace == Namespace::HTML
-            && &n.name == "contenteditable"
-            && value == "true"
-        {
-            n.value = Some(js_word!(""));
-
-            return;
-        } else if &n.name == "content"
-            && self.element_has_attribute_with_value(
-                current_element,
-                "http-equiv",
-                &["content-security-policy"],
-            )
-        {
-            let values = value.trim().split(';');
-
-            let mut new_values = vec![];
-
-            for value in values {
-                new_values.push(
-                    value
-                        .trim()
-                        .split(' ')
-                        .filter(|s| !s.is_empty())
-                        .collect::<Vec<_>>()
-                        .join(" "),
-                );
-            }
-
-            value = new_values.join(";");
-
-            if value.ends_with(';') {
-                value.pop();
-            }
         } else if self.is_event_handler_attribute(&n.name) {
-            value = value.trim().into();
-
-            if value.trim().to_lowercase().starts_with("javascript:") {
-                value = value.chars().skip(11).collect();
-            }
-
-            value = match self.minify_js(value.clone(), false) {
+            value = match self.minify_js(value.clone(), false, true) {
                 Some(minified) => minified,
                 _ => value,
             };
-        } else if current_element.namespace == Namespace::HTML
-            && &*current_element.tag_name == "iframe"
-            && &n.name == "srcdoc"
-        {
-            value =
-                match self.minify_html(value.clone(), HtmlMinificationMode::DocumentIframeSrcdoc) {
-                    Some(minified) => minified,
-                    _ => value,
-                };
+        } else if self.minify_css && &*n.name == "media" && !value.is_empty() {
+            if let Some(minified) =
+                self.minify_css(value.clone(), CssMinificationMode::MediaQueryList)
+            {
+                value = minified;
+            }
+        } else if self.minify_css && &*n.name == "style" && !value.is_empty() {
+            if let Some(minified) =
+                self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
+            {
+                value = minified;
+            }
         }
 
         if self.minify_additional_attributes.is_some() {
             let minifier_type = self.is_additional_minifier_attribute(&n.name);
 
             match minifier_type {
-                Some(MinifierType::Js) if self.minify_js => {
-                    value = match self.minify_js(value.clone(), false) {
+                Some(MinifierType::JsScript) if self.minify_js => {
+                    value = match self.minify_js(value.clone(), false, true) {
+                        Some(minified) => minified,
+                        _ => value,
+                    };
+                }
+                Some(MinifierType::JsModule) if self.minify_js => {
+                    value = match self.minify_js(value.clone(), true, true) {
                         Some(minified) => minified,
                         _ => value,
                     };
@@ -1810,7 +1835,7 @@ impl VisitMut for Minifier {
 
                     match type_attribute_value.as_deref() {
                         Some("module") if self.minify_js => {
-                            text_type = Some(TextChildrenType::Module);
+                            text_type = Some(MinifierType::JsModule);
                         }
                         Some(
                             "text/javascript"
@@ -1823,7 +1848,7 @@ impl VisitMut for Minifier {
                         | None
                             if self.minify_js =>
                         {
-                            text_type = Some(TextChildrenType::Script);
+                            text_type = Some(MinifierType::JsScript);
                         }
                         Some(
                             "application/json"
@@ -1831,7 +1856,14 @@ impl VisitMut for Minifier {
                             | "importmap"
                             | "speculationrules",
                         ) if self.minify_json => {
-                            text_type = Some(TextChildrenType::Json);
+                            text_type = Some(MinifierType::Json);
+                        }
+                        Some(script_type) if self.minify_additional_scripts_content.is_some() => {
+                            if let Some(minifier_type) =
+                                self.is_additional_scripts_content(script_type)
+                            {
+                                text_type = Some(minifier_type);
+                            }
                         }
                         _ => {}
                     }
@@ -1863,7 +1895,7 @@ impl VisitMut for Minifier {
                     if type_attribute_value.is_none()
                         || type_attribute_value == Some("text/css".into())
                     {
-                        text_type = Some(TextChildrenType::Css)
+                        text_type = Some(MinifierType::Css)
                     }
                 }
                 _ => {}
@@ -1871,23 +1903,23 @@ impl VisitMut for Minifier {
         }
 
         match text_type {
-            Some(TextChildrenType::Script) => {
-                let minified = match self.minify_js(n.data.to_string(), false) {
+            Some(MinifierType::JsScript) => {
+                let minified = match self.minify_js(n.data.to_string(), false, false) {
                     Some(minified) => minified,
                     None => return,
                 };
 
                 n.data = minified.into();
             }
-            Some(TextChildrenType::Module) => {
-                let minified = match self.minify_js(n.data.to_string(), true) {
+            Some(MinifierType::JsModule) => {
+                let minified = match self.minify_js(n.data.to_string(), true, false) {
                     Some(minified) => minified,
                     None => return,
                 };
 
                 n.data = minified.into();
             }
-            Some(TextChildrenType::Json) => {
+            Some(MinifierType::Json) => {
                 let minified = match self.minify_json(n.data.to_string()) {
                     Some(minified) => minified,
                     None => return,
@@ -1895,12 +1927,23 @@ impl VisitMut for Minifier {
 
                 n.data = minified.into();
             }
-            Some(TextChildrenType::Css) => {
+            Some(MinifierType::Css) => {
                 let minified =
                     match self.minify_css(n.data.to_string(), CssMinificationMode::Stylesheet) {
                         Some(minified) => minified,
                         None => return,
                     };
+
+                n.data = minified.into();
+            }
+            Some(MinifierType::Html) => {
+                let minified = match self.minify_html(
+                    n.data.to_string(),
+                    HtmlMinificationMode::ConditionalComments,
+                ) {
+                    Some(minified) => minified,
+                    None => return,
+                };
 
                 n.data = minified.into();
             }
@@ -1975,12 +2018,13 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         remove_empty_attributes: options.remove_empty_attributes,
         remove_redundant_attributes: options.remove_redundant_attributes,
         collapse_boolean_attributes: options.collapse_boolean_attributes,
+        normalize_attributes: options.normalize_attributes,
 
         minify_js: options.minify_js,
         minify_json: options.minify_json,
         minify_css: options.minify_css,
-
         minify_additional_attributes: options.minify_additional_attributes.clone(),
+        minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
     }
 }
 

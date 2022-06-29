@@ -4,7 +4,7 @@ use swc_common::{
     util::take::Take,
     DUMMY_SP,
 };
-use swc_ecma_ast::{Id, Ident, *};
+use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprFactory, IntoIndirectCall};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -35,43 +35,39 @@ pub(crate) struct ModuleRefRewriter {
 
     pub lazy_record: AHashSet<Id>,
 
-    pub top_level: bool,
+    pub is_global_this: bool,
 }
 
 impl VisitMut for ModuleRefRewriter {
     noop_visit_mut_type!();
 
+    /// replace bar in binding pattern
+    /// const foo = { bar }
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(shorthand) => {
+                if let Some(expr) = self.map_module_ref_ident(shorthand) {
+                    *n = KeyValueProp {
+                        key: shorthand.take().into(),
+                        value: Box::new(expr),
+                    }
+                    .into()
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
+    }
+
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(ref_ident) => {
-                if let Some((mod_ident, mod_prop)) = self.import_map.get(&ref_ident.to_id()) {
-                    let mut mod_ident = mod_ident.clone();
-                    let span = ref_ident.span.with_ctxt(mod_ident.span.ctxt);
-                    mod_ident.span = span;
-
-                    let mod_expr = if self.lazy_record.contains(&mod_ident.to_id()) {
-                        mod_ident.as_call(span, Default::default())
-                    } else {
-                        mod_ident.into()
-                    };
-
-                    if let Some(imported_name) = mod_prop {
-                        let prop = prop_name(imported_name, DUMMY_SP).into();
-
-                        *n = MemberExpr {
-                            obj: Box::new(mod_expr),
-                            span,
-                            prop,
-                        }
-                        .into();
-                    } else {
-                        *n = mod_expr;
-                    }
+                if let Some(expr) = self.map_module_ref_ident(ref_ident) {
+                    *n = expr;
                 }
             }
 
             Expr::This(ThisExpr { span }) => {
-                if self.top_level {
+                if self.is_global_this {
                     *n = *undefined(*span);
                 }
             }
@@ -103,37 +99,62 @@ impl VisitMut for ModuleRefRewriter {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        n.params.visit_mut_with(self);
-
-        self.visit_mut_with_non_top_level(&mut n.body);
+        self.visit_mut_with_non_global_this(n);
     }
 
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        n.params.visit_mut_with(self);
-
-        self.visit_mut_with_non_top_level(&mut n.body);
+        self.visit_mut_with_non_global_this(n);
     }
 
     fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
         n.key.visit_mut_with(self);
 
-        self.visit_mut_with_non_top_level(&mut n.value);
+        self.visit_mut_with_non_global_this(&mut n.value);
     }
 
     fn visit_mut_static_block(&mut self, n: &mut StaticBlock) {
-        self.visit_mut_with_non_top_level(&mut n.body);
+        self.visit_mut_with_non_global_this(n);
     }
 }
 
 impl ModuleRefRewriter {
-    fn visit_mut_with_non_top_level<T>(&mut self, n: &mut T)
+    fn visit_mut_with_non_global_this<T>(&mut self, n: &mut T)
     where
         T: VisitMutWith<Self>,
     {
-        let top_level = self.top_level;
+        let top_level = self.is_global_this;
 
-        self.top_level = false;
-        n.visit_mut_with(self);
-        self.top_level = top_level;
+        self.is_global_this = false;
+        n.visit_mut_children_with(self);
+        self.is_global_this = top_level;
+    }
+
+    fn map_module_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
+        self.import_map
+            .get(&ref_ident.to_id())
+            .map(|(mod_ident, mod_prop)| -> Expr {
+                let mut mod_ident = mod_ident.clone();
+                let span = ref_ident.span.with_ctxt(mod_ident.span.ctxt);
+                mod_ident.span = span;
+
+                let mod_expr = if self.lazy_record.contains(&mod_ident.to_id()) {
+                    mod_ident.as_call(span, Default::default())
+                } else {
+                    mod_ident.into()
+                };
+
+                if let Some(imported_name) = mod_prop {
+                    let prop = prop_name(imported_name, DUMMY_SP).into();
+
+                    MemberExpr {
+                        obj: Box::new(mod_expr),
+                        span,
+                        prop,
+                    }
+                    .into()
+                } else {
+                    mod_expr
+                }
+            })
     }
 }
