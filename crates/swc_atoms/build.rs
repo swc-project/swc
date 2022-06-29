@@ -1,6 +1,9 @@
 use std::{env, path::Path};
 
 fn main() {
+    print!("cargo:rerun-if-changed=build.rs");
+    print!("cargo:rerun-if-changed=words.txt");
+
     let strs = include_str!("words.txt")
         .lines()
         .map(|l| l.trim())
