@@ -246,7 +246,7 @@ impl Syntax {
         }
     }
 
-    pub fn allow_super_outside_method(self) -> bool {
+    pub(crate) fn allow_super_outside_method(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
                 allow_super_outside_method,
@@ -256,7 +256,7 @@ impl Syntax {
         }
     }
 
-    pub fn allow_return_outside_function(self) -> bool {
+    pub(crate) fn allow_return_outside_function(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
                 allow_return_outside_function,
