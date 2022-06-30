@@ -28,6 +28,9 @@
 
 - **(plugin)** Add versioned wrapper struct (#5062) ([e34a864](https://github.com/swc-project/swc/commit/e34a864390dc6a8a0d78cc60af458be37031e30f))
 
+
+- **(plugin)** Allow taking the inner data from versioned (#5071) ([e1aa937](https://github.com/swc-project/swc/commit/e1aa937183ca3c803be9665ec0a683b679bfc29f))
+
 ### Miscellaneous Tasks
 
 
