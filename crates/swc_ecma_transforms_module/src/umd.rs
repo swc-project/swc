@@ -291,6 +291,8 @@ impl Umd {
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
+            export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+
             let features = self.available_features;
             let exports = self.exports();
 

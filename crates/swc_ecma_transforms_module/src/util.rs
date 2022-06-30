@@ -316,7 +316,6 @@ pub(crate) fn emit_export_stmts(
             .into_iter()
             .collect(),
         _ => {
-            prop_list.sort_by(|a, b| a.0.cmp(&b.0));
             let props = prop_list
                 .into_iter()
                 .map(prop_auto)

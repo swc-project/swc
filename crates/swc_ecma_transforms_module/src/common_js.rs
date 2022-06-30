@@ -352,15 +352,15 @@ impl Cjs {
         let mut export_stmts: Vec<Stmt> = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            if import_interop.is_node() {
-                export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+            export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
 
+            if import_interop.is_node() {
                 let export_id_list: Vec<(JsWord, Span)> = export_obj_prop_list
                     .iter()
                     .map(|(name, span, _)| (name.clone(), *span))
                     .collect();
 
-                self.emit_lexer_export_init(export_id_list, &mut export_stmts);
+                export_stmts = self.emit_lexer_exports_init(export_id_list);
             }
 
             let features = self.available_features;
@@ -372,7 +372,7 @@ impl Cjs {
         export_stmts.into_iter().chain(stmts)
     }
 
-    fn exports(&mut self) -> Ident {
+    fn exports(&self) -> Ident {
         quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports")
     }
 
@@ -380,28 +380,27 @@ impl Cjs {
     /// ```javascript
     /// exports.foo = exports.bar = void 0;
     /// ```
-    fn emit_lexer_export_init(
-        &mut self,
-        export_id_list: Vec<(JsWord, Span)>,
-        stmts: &mut Vec<Stmt>,
-    ) {
-        for group in export_id_list.chunks(100) {
-            let mut expr = *undefined(DUMMY_SP);
+    fn emit_lexer_exports_init(&mut self, export_id_list: Vec<(JsWord, Span)>) -> Vec<Stmt> {
+        export_id_list
+            .chunks(100)
+            .map(|group| {
+                let mut expr = *undefined(DUMMY_SP);
 
-            for (export_name, span) in group {
-                let prop = prop_name(export_name, DUMMY_SP).into();
+                for (export_name, span) in group {
+                    let prop = prop_name(export_name, DUMMY_SP).into();
 
-                let export_binding = MemberExpr {
-                    obj: Box::new(self.exports().into()),
-                    span: *span,
-                    prop,
-                };
+                    let export_binding = MemberExpr {
+                        obj: Box::new(self.exports().into()),
+                        span: *span,
+                        prop,
+                    };
 
-                expr = expr.make_assign_to(op!("="), export_binding.as_pat_or_expr());
-            }
+                    expr = expr.make_assign_to(op!("="), export_binding.as_pat_or_expr());
+                }
 
-            stmts.push(expr.into_stmt());
-        }
+                expr.into_stmt()
+            })
+            .collect()
     }
 }
 
