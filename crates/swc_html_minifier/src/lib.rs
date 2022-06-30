@@ -890,17 +890,15 @@ impl Minifier {
                 }
             },
             Namespace::SVG => match tag_name {
-                "desc" | "text" | "title" => WhitespaceMinificationMode {
-                    collapse: true,
-                    trim: true,
-                },
-                "a" | "altGlyph" | "tspan" | "textPath" | "tref" => WhitespaceMinificationMode {
-                    collapse: true,
-                    trim: default_trim,
-                },
+                _ if self.is_metadata_element_displayed(namespace, tag_name) => {
+                    WhitespaceMinificationMode {
+                        collapse: true,
+                        trim: true,
+                    }
+                }
                 _ => WhitespaceMinificationMode {
                     collapse: true,
-                    trim: true,
+                    trim: default_trim,
                 },
             },
             _ => WhitespaceMinificationMode {
