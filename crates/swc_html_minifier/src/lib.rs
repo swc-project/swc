@@ -221,10 +221,10 @@ static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[("style", "media")];
 
 static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
     "class",
-    "part",
-    "itemtype",
-    "itemref",
     "itemprop",
+    "itemref",
+    "itemtype",
+    "part",
     "accesskey",
     "aria-describedby",
     "aria-labelledby",
@@ -238,15 +238,16 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("area", "ping"),
     ("link", "rel"),
     ("link", "sizes"),
-    ("input", "autocomplete"),
-    ("form", "autocomplete"),
+    ("link", "blocking"),
     ("iframe", "sandbox"),
     ("td", "headers"),
     ("th", "headers"),
     ("output", "for"),
-    ("link", "blocking"),
     ("script", "blocking"),
     ("style", "blocking"),
+    ("input", "autocomplete"),
+    ("form", "rel"),
+    ("form", "autocomplete"),
 ];
 
 enum CssMinificationMode {
@@ -331,6 +332,8 @@ struct Minifier {
     minify_css: bool,
     minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
     minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
+
+    sort_space_separated_attribute_values: bool,
 }
 
 fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
@@ -418,16 +421,40 @@ impl Minifier {
         }
     }
 
-    fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
-        if let Some(minify_additional_attributes) = &self.minify_additional_attributes {
-            for item in minify_additional_attributes {
-                if item.0.is_match(name) {
-                    return Some(item.1.clone());
-                }
-            }
+    fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &str) -> bool {
+        if matches!(
+            attribute_name,
+            "class" | "part" | "itemprop" | "itemref" | "itemtype"
+        ) {
+            return true;
         }
 
-        None
+        match element.namespace {
+            Namespace::HTML => match &*element.tag_name {
+                "link" if attribute_name == "blocking" => true,
+                "script" if attribute_name == "blocking" => true,
+                "style" if attribute_name == "blocking" => true,
+                "output" if attribute_name == "for" => true,
+                "td" if attribute_name == "headers" => true,
+                "th" if attribute_name == "headers" => true,
+                "form" if attribute_name == "rel" => true,
+                "a" if attribute_name == "rel" => true,
+                "area" if attribute_name == "rel" => true,
+                "link" if attribute_name == "rel" => true,
+                "iframe" if attribute_name == "sandbox" => true,
+                "link"
+                    if self.element_has_attribute_with_value(
+                        element,
+                        "rel",
+                        &["icon", "apple-touch-icon", "apple-touch-icon-precomposed"],
+                    ) && attribute_name == "sizes" =>
+                {
+                    true
+                }
+                _ => false,
+            },
+            _ => false,
+        }
     }
 
     fn element_has_attribute_with_value(
@@ -864,6 +891,18 @@ impl Minifier {
         }
 
         collapsed
+    }
+
+    fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
+        if let Some(minify_additional_attributes) = &self.minify_additional_attributes {
+            for item in minify_additional_attributes {
+                if item.0.is_match(name) {
+                    return Some(item.1.clone());
+                }
+            }
+        }
+
+        None
     }
 
     fn minify_children(&mut self, children: &mut Vec<Child>) {
@@ -1472,6 +1511,7 @@ impl Minifier {
             minify_css: self.minify_css,
             minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
             minify_additional_attributes: self.minify_additional_attributes.clone(),
+            sort_space_separated_attribute_values: self.sort_space_separated_attribute_values,
         };
 
         match document_or_document_fragment {
@@ -1735,12 +1775,12 @@ impl VisitMut for Minifier {
             }
         }
 
-        if &*n.name == "class" {
+        if self.sort_space_separated_attribute_values
+            && self.is_attribute_value_unordered_set(current_element, &n.name)
+        {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
 
-            if &*n.name == "class" {
-                values.sort_unstable();
-            }
+            values.sort_unstable();
 
             value = values.join(" ");
         } else if self.is_event_handler_attribute(&n.name) {
@@ -2025,6 +2065,8 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_css: options.minify_css,
         minify_additional_attributes: options.minify_additional_attributes.clone(),
         minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
+
+        sort_space_separated_attribute_values: options.sort_space_separated_attribute_values,
     }
 }
 

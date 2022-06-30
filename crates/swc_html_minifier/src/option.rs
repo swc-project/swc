@@ -49,14 +49,6 @@ pub struct MinifyOptions {
     pub minify_json: bool,
     #[serde(default = "true_by_default")]
     pub minify_css: bool,
-    /// Allow to compress value of custom attributes,
-    /// i.e. `<div data-js="myFunction(100 * 2, 'foo' + 'bar')"></div>`
-    ///
-    /// The first item is tag_name
-    /// The second is attribute name
-    /// The third is type of minifier
-    #[serde(default)]
-    pub minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
     // Allow to compress value of custom script elements,
     // i.e. `<script type="text/html"><div><!-- text --> <div data-foo="bar> Text </div></script>`
     //
@@ -65,6 +57,16 @@ pub struct MinifyOptions {
     // The third is type of minifier
     #[serde(default)]
     pub minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
+    /// Allow to compress value of custom attributes,
+    /// i.e. `<div data-js="myFunction(100 * 2, 'foo' + 'bar')"></div>`
+    ///
+    /// The first item is tag_name
+    /// The second is attribute name
+    /// The third is type of minifier
+    pub minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
+    /// Sorting the values of `class`, `rel`, etc. of attributes
+    #[serde(default = "true_by_default")]
+    pub sort_space_separated_attribute_values: bool,
 }
 
 /// Implement default using serde.
