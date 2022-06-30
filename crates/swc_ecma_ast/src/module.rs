@@ -14,6 +14,12 @@ pub enum Program {
     Script(Script),
 }
 
+impl Default for Program {
+    fn default() -> Self {
+        Program::Module(Module::dummy())
+    }
+}
+
 #[ast_node("Module")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Module {
