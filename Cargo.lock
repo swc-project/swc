@@ -768,7 +768,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.25.0"
+version = "0.26.0"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.194.0"
+version = "0.195.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3005,7 +3005,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.159.0"
+version = "0.160.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.68.0"
+version = "0.69.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3402,7 +3402,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.126.0"
+version = "0.127.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3823,7 +3823,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.169.0"
+version = "0.170.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3870,7 +3870,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.114.0"
+version = "0.115.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3918,7 +3918,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3967,7 +3967,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.23.1"
+version = "0.24.0"
 dependencies = [
  "once_cell",
  "serde",
@@ -4099,7 +4099,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
