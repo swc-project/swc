@@ -13,6 +13,12 @@
 
 - **(html/minifier)** Fix smart mode (#5058) ([e9bad20](https://github.com/swc-project/swc/commit/e9bad20898df92f7d0dd898ab1924229d5113251))
 
+### Documentation
+
+
+
+- **(contributing)** Add `--features memory_cache` to test steps (#5074) ([9d8beb0](https://github.com/swc-project/swc/commit/9d8beb02b7161a6af604cf187f2a53d91cd336ea))
+
 ### Features
 
 
