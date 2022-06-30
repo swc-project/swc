@@ -716,15 +716,39 @@ impl Minifier {
     fn is_metadata_element_displayed(&self, namespace: Namespace, tag_name: &str) -> bool {
         match namespace {
             Namespace::HTML => {
-                match tag_name {
-                    // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#metadata_content
-                    //
-                    // Excluded:
-                    // `noscript` - can be displayed if JavaScript disabled
-                    // `script` - can insert markup using `document.write`
-                    "base" | "command" | "link" | "meta" | "style" | "title" => false,
-                    _ => true,
-                }
+                // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#metadata_content
+                //
+                // Excluded:
+                // `noscript` - can be displayed if JavaScript disabled
+                // `script` - can insert markup using `document.write`
+                !matches!(
+                    tag_name,
+                    "base" | "command" | "link" | "meta" | "style" | "title"
+                )
+            }
+            Namespace::SVG => {
+                // https://svgwg.org/svg2-draft/render.html#Definitions
+                !matches!(
+                    tag_name,
+                    "a" | "circle"
+                        | "ellipse"
+                        | "foreignobject"
+                        | "g"
+                        | "image"
+                        | "line"
+                        | "path"
+                        | "polygon"
+                        | "polyline"
+                        | "rect"
+                        | "svg"
+                        | "switch"
+                        | "symbol"
+                        | "text"
+                        | "textpath"
+                        | "tspan"
+                        | "use"
+                        | "symbol’"
+                )
             }
             _ => true,
         }
