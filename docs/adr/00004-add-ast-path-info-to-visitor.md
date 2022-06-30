@@ -20,7 +20,7 @@ We can workaround this by
 -   call `visit_mut_callee(&mut self, callee: &mut Callee, parent: &CallExpr)`, with dummy callee in `parent.callee`.
 -   restore the original callee from `visit_mut_call`.
 
-Doing this by hand is error-prone and doing this automatically by codegen is costly.
+But doing this by hand is error-prone and doing this automatically by codegen is costly.
 This is explicit `memmove`, and `memmove` is quite costly.
 SWC moved from `Fold` to `VisitMut` because of `mmemove`.
 
