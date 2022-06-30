@@ -726,30 +726,6 @@ impl Minifier {
                     "base" | "command" | "link" | "meta" | "style" | "title"
                 )
             }
-            Namespace::SVG => {
-                // https://svgwg.org/svg2-draft/render.html#Definitions
-                !matches!(
-                    tag_name,
-                    "a" | "circle"
-                        | "ellipse"
-                        | "foreignobject"
-                        | "g"
-                        | "image"
-                        | "line"
-                        | "path"
-                        | "polygon"
-                        | "polyline"
-                        | "rect"
-                        | "svg"
-                        | "switch"
-                        | "symbol"
-                        | "text"
-                        | "textpath"
-                        | "tspan"
-                        | "use"
-                        | "symbol’"
-                )
-            }
             _ => true,
         }
     }
@@ -890,15 +866,37 @@ impl Minifier {
                 }
             },
             Namespace::SVG => match tag_name {
-                _ if self.is_metadata_element_displayed(namespace, tag_name) => {
+                // https://svgwg.org/svg2-draft/render.html#Definitions
+                _ if matches!(
+                    tag_name,
+                    "a" | "circle"
+                        | "ellipse"
+                        | "foreignobject"
+                        | "g"
+                        | "image"
+                        | "line"
+                        | "path"
+                        | "polygon"
+                        | "polyline"
+                        | "rect"
+                        | "svg"
+                        | "switch"
+                        | "symbol"
+                        | "text"
+                        | "textpath"
+                        | "tspan"
+                        | "use"
+                        | "symbol’"
+                ) =>
+                {
                     WhitespaceMinificationMode {
                         collapse: true,
-                        trim: true,
+                        trim: default_trim,
                     }
                 }
                 _ => WhitespaceMinificationMode {
                     collapse: true,
-                    trim: default_trim,
+                    trim: true,
                 },
             },
             _ => WhitespaceMinificationMode {
