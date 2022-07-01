@@ -636,7 +636,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::WithPath) => q!({
-                pub trait FoldWithPath<V: ?Sized + Fold> {
+                pub trait FoldWithPath<V: ?Sized + FoldPath> {
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
 
                     /// Visit children nodes of self with `v`
