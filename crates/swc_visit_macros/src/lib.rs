@@ -566,7 +566,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }),
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
-                pub trait VisitWithPath<V: ?Sized + VisitPath> {
+                pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
                     fn visit_with_path(&self, v: &mut V, ast_path: &mut AstNodePath);
 
                     /// Visit children nodes of self with `v`
@@ -575,7 +575,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> VisitWithPath<V> for Box<T>
                 where
-                    V: ?Sized + VisitPath,
+                    V: ?Sized + VisitAstPath,
                     T: 'static + VisitWithPath<V>,
                 {
                     fn visit_with_path(&self, v: &mut V, ast_path: &mut AstNodePath) {
@@ -636,7 +636,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::WithPath) => q!({
-                pub trait FoldWithPath<V: ?Sized + FoldPath> {
+                pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
 
                     /// Visit children nodes of self with `v`
@@ -646,7 +646,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> FoldWithPath<V> for Box<T>
                 where
-                    V: ?Sized + FoldPath,
+                    V: ?Sized + FoldAstPath,
                     T: 'static + FoldWithPath<V>,
                 {
                     fn fold_with_path(self, v: &mut V) -> Self {
