@@ -203,3 +203,16 @@ where
         self.second.reset();
     }
 }
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AstKindPath<K>
+where
+    K: Copy,
+{
+    path: Vec<K>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AstNodePath<'a, N> {
+    path: Vec<&'a N>,
+}
