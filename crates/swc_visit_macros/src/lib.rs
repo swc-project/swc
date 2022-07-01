@@ -15,23 +15,29 @@ use syn::{
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum VisitorVariant {
+    Normal,
+    WithPath,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Mode {
     VisitAll,
-    Visit { with_path: bool },
-    VisitMut { with_path: bool },
-    Fold { with_path: bool },
+    Visit(VisitorVariant),
+    VisitMut(VisitorVariant),
+    Fold(VisitorVariant),
 }
 
 impl Mode {
     fn trait_name(self) -> &'static str {
         match self {
             Mode::VisitAll => "VisitAll",
-            Mode::Fold { with_path: false } => "Fold",
-            Mode::Visit { with_path: false } => "Visit",
-            Mode::VisitMut { with_path: false } => "VisitMut",
-            Mode::Visit { with_path: true } => "VisitWithPath",
-            Mode::VisitMut { with_path: true } => "VisitMutWithPath",
-            Mode::Fold { with_path: true } => "FoldWithPath",
+            Mode::Fold(VisitorVariant::Normal) => "Fold",
+            Mode::Visit(VisitorVariant::Normal) => "Visit",
+            Mode::VisitMut(VisitorVariant::Normal) => "VisitMut",
+            Mode::Visit(VisitorVariant::WithPath) => "VisitWithPath",
+            Mode::VisitMut(VisitorVariant::WithPath) => "VisitMutWithPath",
+            Mode::Fold(VisitorVariant::WithPath) => "FoldWithPath",
         }
     }
 
@@ -56,14 +62,17 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
-    q.push_tokens(&make(Mode::Fold { with_path: true }, &block.stmts));
-    q.push_tokens(&make(Mode::Fold { with_path: false }, &block.stmts));
+    q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
+    q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
 
-    q.push_tokens(&make(Mode::Visit { with_path: true }, &block.stmts));
-    q.push_tokens(&make(Mode::Visit { with_path: false }, &block.stmts));
+    q.push_tokens(&make(Mode::Visit(VisitorVariant::WithPath), &block.stmts));
+    q.push_tokens(&make(Mode::Visit(VisitorVariant::Normal), &block.stmts));
 
-    q.push_tokens(&make(Mode::VisitMut { with_path: true }, &block.stmts));
-    q.push_tokens(&make(Mode::VisitMut { with_path: false }, &block.stmts));
+    q.push_tokens(&make(
+        Mode::VisitMut(VisitorVariant::WithPath),
+        &block.stmts,
+    ));
+    q.push_tokens(&make(Mode::VisitMut(VisitorVariant::Normal), &block.stmts));
 
     q.push_tokens(&make(Mode::VisitAll, &block.stmts));
 
@@ -178,8 +187,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 sig: sig.clone(),
                 block: match mode {
                     Mode::VisitAll
-                    | Mode::Visit { with_path: false }
-                    | Mode::VisitMut { with_path: false } => q!(
+                    | Mode::Visit(VisitorVariant::Normal)
+                    | Mode::VisitMut(VisitorVariant::Normal) => q!(
                         Vars { visit: &name },
                         ({
                             if self.enabled {
@@ -189,7 +198,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     )
                     .parse(),
 
-                    Mode::Visit { with_path: true } | Mode::VisitMut { with_path: true } => q!(
+                    Mode::Visit(VisitorVariant::WithPath)
+                    | Mode::VisitMut(VisitorVariant::WithPath) => q!(
                         Vars { visit: &name },
                         ({
                             if self.enabled {
@@ -199,7 +209,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     )
                     .parse(),
 
-                    Mode::Fold { with_path: false } => q!(
+                    Mode::Fold(VisitorVariant::Normal) => q!(
                         Vars { fold: &name },
                         ({
                             if self.enabled {
@@ -211,7 +221,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     )
                     .parse(),
 
-                    Mode::Fold { with_path: true } => q!(
+                    Mode::Fold(VisitorVariant::WithPath) => q!(
                         Vars { fold: &name },
                         ({
                             if self.enabled {
@@ -1445,8 +1455,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             }
 
             match mode {
-                Mode::Fold => q!(({ return n })).parse(),
-                Mode::VisitAll | Mode::Visit | Mode::VisitMut => q!(({})).parse(),
+                Mode::Fold { .. } => q!(({ return n })).parse(),
+                Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => q!(({})).parse(),
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
