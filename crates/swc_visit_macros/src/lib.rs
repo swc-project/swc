@@ -1024,7 +1024,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
-                            impl<V: ?Sized + Fold> FoldWithPath<V> for Type {
+                            impl<V: ?Sized + FoldAstPath> FoldWithPath<V> for Type {
                                 fn fold_with_path(
                                     self,
                                     v: &mut V,
