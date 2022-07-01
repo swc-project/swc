@@ -946,7 +946,8 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
 
             if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
                 p.push_punct(def_site());
-                p.push_value(ast_path_type(mode));
+                let ty = ast_path_type(mode);
+                p.push_value(q!(Vars { Type: ty }, { path: Type }).parse());
             }
 
             p
@@ -1256,9 +1257,9 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             }
 
             match mode {
-                Mode::Fold => mk_exact(mode, ident, ty),
-                Mode::VisitMut => mk_ref(mode, ident, ty, true),
-                Mode::Visit | Mode::VisitAll => mk_ref(mode, ident, ty, false),
+                Mode::Fold { .. } => mk_exact(mode, ident, ty),
+                Mode::VisitMut { .. } => mk_ref(mode, ident, ty, true),
+                Mode::Visit { .. } | Mode::VisitAll => mk_ref(mode, ident, ty, false),
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
