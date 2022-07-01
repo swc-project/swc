@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "default", {
-    get: ()=>_default,
-    enumerable: true
+    enumerable: true,
+    get: ()=>_default
 });
 const _rootJs = _interopRequireDefault(require("./_root.js"));
 const _stubFalseJs = _interopRequireDefault(require("./stubFalse.js"));

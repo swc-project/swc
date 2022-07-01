@@ -9,8 +9,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "BIZ", {
-        get: ()=>BIZ,
-        enumerable: true
+        enumerable: true,
+        get: ()=>BIZ
     });
     _exportStar(_file1, exports);
     _exportStar(_file2, exports);

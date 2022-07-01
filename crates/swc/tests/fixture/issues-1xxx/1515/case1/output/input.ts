@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "ServiceError", {
-    get: ()=>ServiceError,
-    enumerable: true
+    enumerable: true,
+    get: ()=>ServiceError
 });
 class ServiceError extends Error {
     constructor(...args){

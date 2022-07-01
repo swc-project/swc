@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "Foo", {
-    get: ()=>Foo,
-    enumerable: true
+    enumerable: true,
+    get: ()=>Foo
 });
 const _simple = require("./files_with_swcrc/simple");
 class Foo {

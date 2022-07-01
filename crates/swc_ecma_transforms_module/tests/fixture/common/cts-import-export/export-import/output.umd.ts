@@ -11,7 +11,7 @@
         value: true
     });
     Object.defineProperty(exports, "foo", {
-        get: ()=>_foo,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_foo
     });
 });

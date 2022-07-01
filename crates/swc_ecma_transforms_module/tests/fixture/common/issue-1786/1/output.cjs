@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "Foo", {
-    get: ()=>_foo.Foo,
-    enumerable: true
+    enumerable: true,
+    get: ()=>_foo.Foo
 });
 const _foo = _interopRequireWildcard(require("foo"));

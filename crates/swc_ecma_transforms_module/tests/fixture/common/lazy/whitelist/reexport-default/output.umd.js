@@ -11,8 +11,8 @@
         value: true
     });
     Object.defineProperty(exports, "default", {
-        get: ()=>_white.default,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_white.default
     });
     _white = _interopRequireDefault(_white);
 });

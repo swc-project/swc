@@ -309,10 +309,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 Object.defineProperty(exports, "default", {
+  enumerable: true,
   get: function() {
       return Login;
-  },
-  enumerable: true
+  }
 });
 
 var _store = require("./store");

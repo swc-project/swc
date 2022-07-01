@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "getPackage", {
-    get: ()=>getPackage,
-    enumerable: true
+    enumerable: true,
+    get: ()=>getPackage
 });
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 const _path = require("path");

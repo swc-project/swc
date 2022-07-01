@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "whatever", {
-    get: ()=>whatever,
-    enumerable: true
+    enumerable: true,
+    get: ()=>whatever
 });
 _exportStar(require("another-module"), exports);
 function whatever(notExportName) {

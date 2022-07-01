@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "AnElement", {
-    get: ()=>AnElement,
-    enumerable: true
+    enumerable: true,
+    get: ()=>AnElement
 });
 const AnElement = ({ prop1 , prop2 , prop3 , num , data  })=>{
     return /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement(SomeElement, {

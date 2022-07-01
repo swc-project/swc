@@ -11,8 +11,8 @@
         value: true
     });
     Object.defineProperty(exports, "X", {
-        get: ()=>_z.default,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_z.default
     });
     _z = _interopRequireDefault(_z);
 });

@@ -11,8 +11,8 @@
         value: true
     });
     Object.defineProperty(exports, "default", {
-        get: ()=>_default,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_default
     });
     _react = _exportStar(_react, exports);
     var _default = _react;

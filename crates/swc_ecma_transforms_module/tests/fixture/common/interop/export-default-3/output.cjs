@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "default", {
-    get: ()=>_default,
-    enumerable: true
+    enumerable: true,
+    get: ()=>_default
 });
 var _default = [];

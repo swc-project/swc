@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "App", {
+    enumerable: true,
     get: function() {
         return App;
-    },
-    enumerable: true
+    }
 });
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
 var _slicedToArray = require("@swc/helpers/lib/_sliced_to_array.js").default;

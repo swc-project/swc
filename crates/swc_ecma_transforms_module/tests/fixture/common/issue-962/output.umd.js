@@ -12,8 +12,8 @@
         value: true
     });
     Object.defineProperty(exports1, "default", {
-        get: ()=>_default,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_default
     });
     _rootJs = _interopRequireDefault(_rootJs);
     _stubFalseJs = _interopRequireDefault(_stubFalseJs);

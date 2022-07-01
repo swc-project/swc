@@ -11,8 +11,8 @@
         value: true
     });
     Object.defineProperty(exports, "Foo", {
-        get: ()=>Foo,
-        enumerable: true
+        enumerable: true,
+        get: ()=>Foo
     });
     class Foo {
         static prop = _simple.a;

@@ -3936,10 +3936,10 @@ export default Test
     "
 \"use strict\";
 Object.defineProperty(exports, \"default\", {
+  enumerable: true,
   get: function() {
       return _default;
-  },
-  enumerable: true
+  }
 });
 const Test = (version)=>{
   return (target)=>{

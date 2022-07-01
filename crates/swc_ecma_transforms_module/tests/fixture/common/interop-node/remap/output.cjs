@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.test = exports.f = exports.e = exports.c = exports.a = void 0;
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {

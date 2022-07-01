@@ -7,8 +7,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "a", {
-        get: ()=>a,
-        enumerable: true
+        enumerable: true,
+        get: ()=>a
     });
     let a = 1;
     a = 2;
