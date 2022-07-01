@@ -1413,7 +1413,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         )
                                         .parse(),
                                         Mode::Fold(VisitorVariant::WithPath)
-                                        | Mode::VisitMut(VisitorVariant::WithPath) => q!(
+                                        | Mode::VisitMut(VisitorVariant::WithPath)
+                                        | Mode::Visit(VisitorVariant::WithPath) => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
