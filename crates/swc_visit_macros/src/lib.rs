@@ -492,6 +492,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
+
             Mode::VisitAll => q!({
                 pub trait VisitAllWith<V: ?Sized + VisitAll> {
                     fn visit_all_with(&self, v: &mut V);
@@ -559,6 +560,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
+
+            // TODO
+            _ => q!({}),
         };
         tokens.push_tokens(&trait_decl);
 
@@ -736,6 +740,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         }
                     ));
                 }
+
+                // TODO
+                _ => {}
             }
         }
     }
@@ -768,10 +775,7 @@ where
     if as_box(ty).is_some() {
         expr = match mode {
             Mode::Visit { .. } | Mode::VisitAll => expr,
-            Mode::VisitMut { .. } => {
-                // TODO
-                expr
-            }
+            Mode::VisitMut { .. } => expr,
             Mode::Fold { .. } => q!(Vars { expr }, { *expr }).parse(),
         };
     }
@@ -781,10 +785,7 @@ where
     if as_box(ty).is_some() {
         expr = match mode {
             Mode::Visit { .. } | Mode::VisitAll => expr,
-            Mode::VisitMut { .. } => {
-                // TODO
-                expr
-            }
+            Mode::VisitMut { .. } => expr,
             Mode::Fold { .. } => q!(Vars { expr }, { Box::new(expr) }).parse(),
         };
     }
