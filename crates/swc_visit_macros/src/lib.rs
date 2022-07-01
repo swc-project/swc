@@ -723,6 +723,95 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
 
+                Mode::Visit(VisitorVariant::WithPath) => {
+                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                        q!(
+                            Vars {
+                                expr,
+                                method_name: &method_name
+                            },
+                            { method_name(_visitor, expr, __ast_path) }
+                        )
+                        .parse()
+                    });
+
+                    if let Some(elem_ty) = extract_generic("Vec", ty) {
+                        tokens.push_tokens(&q!(
+                            Vars {
+                                elem_ty,
+                                expr,
+                                default_body,
+                            },
+                            {
+                                impl<V: ?Sized + Visit> VisitWithPath<V> for [elem_ty] {
+                                    fn visit_with_path(
+                                        &self,
+                                        v: &mut V,
+                                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                    ) {
+                                        expr
+                                    }
+
+                                    fn visit_children_with_path(
+                                        &self,
+                                        _visitor: &mut V,
+                                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                    ) {
+                                        default_body
+                                    }
+                                }
+                            }
+                        ));
+
+                        tokens.push_tokens(&q!(Vars { Type: ty }, {
+                            impl<V: ?Sized + Visit> VisitWithPath<V> for Type {
+                                fn visit_with_path(
+                                    &self,
+                                    v: &mut V,
+                                    __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                ) {
+                                    (**self).visit_with(v)
+                                }
+
+                                fn visit_children_with_path(
+                                    &self,
+                                    _visitor: &mut V,
+                                    __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                ) {
+                                    (**self).visit_children_with(_visitor)
+                                }
+                            }
+                        }));
+                    } else {
+                        tokens.push_tokens(&q!(
+                            Vars {
+                                Type: ty,
+                                expr,
+                                default_body,
+                            },
+                            {
+                                impl<V: ?Sized + Visit> VisitWithPath<V> for Type {
+                                    fn visit_with_path(
+                                        &self,
+                                        v: &mut V,
+                                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                    ) {
+                                        expr
+                                    }
+
+                                    fn visit_children_with_path(
+                                        &self,
+                                        _visitor: &mut V,
+                                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                    ) {
+                                        default_body
+                                    }
+                                }
+                            }
+                        ));
+                    }
+                }
+
                 Mode::VisitAll => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
