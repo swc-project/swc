@@ -318,7 +318,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             .unwrap();
 
         match mode {
-            Mode::Fold { .. } => tokens.push_tokens(&q!(
+            Mode::Fold(VisitorVariant::Normal) => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -333,7 +333,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::VisitMut { .. } => tokens.push_tokens(&q!(
+            Mode::VisitMut(VisitorVariant::Normal) => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -348,7 +348,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::Visit { .. } => tokens.push_tokens(&q!(
+            Mode::Visit(VisitorVariant::Normal) => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -358,6 +358,51 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 {
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
+                        default_body
+                    }
+                }
+            )),
+
+            Mode::Fold(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[allow(unused_variables)]
+                    fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
+                        default_body
+                    }
+                }
+            )),
+
+            Mode::VisitMut(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[allow(unused_variables)]
+                    fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
+                        default_body
+                    }
+                }
+            )),
+
+            Mode::Visit(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[allow(unused_variables)]
+                    fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
                     }
                 }
@@ -1432,14 +1477,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                                     swc_visit::util::map::Map::map(
                                                                         n,
                                                                         |n| {
-                                                                            __ast_path.with_kind(
-                                                                                n,
-                                                                                |__ast_path| {
-                                                                                    _visitor.ident(
-                                                                                        n,
-                                                                                        __ast_path,
-                                                                                    )
-                                                                                },
+                                                                            _visitor.ident(
+                                                                                n, __ast_path,
                                                                             )
                                                                         },
                                                                     ),
@@ -1474,11 +1513,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             Vars { ident },
                                             ({
                                                 match n {
-                                                    Some(n) => Some(
-                                                        __ast_path.with_kind(n, |__ast_path| {
-                                                            _visitor.ident(n, __ast_path)
-                                                        }),
-                                                    ),
+                                                    Some(n) => Some(_visitor.ident(n, __ast_path)),
                                                     None => None,
                                                 }
                                             })
@@ -1528,10 +1563,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             Mode::Fold(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
                                 ({
-                                    __ast_path.with_kind(n, |__ast_path| {
-                                        swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                            _visitor.ident(v, __ast_path)
-                                        })
+                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                        _visitor.ident(v, __ast_path)
                                     })
                                 })
                             )
@@ -1545,11 +1578,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             Mode::VisitMut(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
-                                ({
-                                    __ast_path.with_kind(n, |__ast_path| {
-                                        n.iter_mut().for_each(|v| _visitor.ident(v))
-                                    })
-                                })
+                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
                             )
                             .parse(),
 
@@ -1561,11 +1590,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             Mode::Visit(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
-                                ({
-                                    __ast_path.with_kind(n, |__ast_path| {
-                                        n.iter().for_each(|v| _visitor.ident(v.as_ref()))
-                                    })
-                                })
+                                ({ n.iter().for_each(|v| _visitor.ident(v.as_ref())) })
                             )
                             .parse(),
                         }
@@ -1584,10 +1609,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             Mode::Fold(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
                                 ({
-                                    __ast_path.with_kind(n, |__ast_path| {
-                                        swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                            _visitor.ident(v)
-                                        })
+                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                        _visitor.ident(v)
                                     })
                                 })
                             )
@@ -1601,11 +1624,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             Mode::VisitMut(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
-                                ({
-                                    __ast_path.with_kind(n, |__ast_path| {
-                                        n.iter_mut().for_each(|v| _visitor.ident(v))
-                                    })
-                                })
+                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
                             )
                             .parse(),
 
@@ -1617,11 +1636,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             Mode::Visit(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
-                                ({
-                                    __ast_path.with_kind(n, |__ast_path| {
-                                        n.iter().for_each(|v| _visitor.ident(v))
-                                    })
-                                })
+                                ({ n.iter().for_each(|v| _visitor.ident(v)) })
                             )
                             .parse(),
                         }
