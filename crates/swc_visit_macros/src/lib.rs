@@ -127,14 +127,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         {
             // &'_ mut V, Box<V>
-            let block = match mode {
-                Mode::Visit | Mode::VisitAll => {
-                    q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse()
-                }
-                Mode::Fold | Mode::VisitMut => {
-                    q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse()
-                }
-            };
+            let block = q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse();
 
             ref_methods.push(ImplItemMethod {
                 attrs: vec![],
@@ -153,28 +146,16 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
-                block: match mode {
-                    Mode::Visit | Mode::VisitAll => q!(
-                        Vars { visit: &name },
-                        ({
-                            match self {
-                                swc_visit::Either::Left(v) => v.visit(n),
-                                swc_visit::Either::Right(v) => v.visit(n),
-                            }
-                        })
-                    )
-                    .parse(),
-                    Mode::Fold | Mode::VisitMut => q!(
-                        Vars { fold: &name },
-                        ({
-                            match self {
-                                swc_visit::Either::Left(v) => v.fold(n),
-                                swc_visit::Either::Right(v) => v.fold(n),
-                            }
-                        })
-                    )
-                    .parse(),
-                },
+                block: q!(
+                    Vars { visit: &name },
+                    ({
+                        match self {
+                            swc_visit::Either::Left(v) => v.visit(n),
+                            swc_visit::Either::Right(v) => v.visit(n),
+                        }
+                    })
+                )
+                .parse(),
             });
         }
 
