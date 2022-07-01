@@ -264,11 +264,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     }
 
     methods.iter_mut().for_each(|v| {
-        // We don't create top level functions for with path variant
-        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
-            return;
-        }
-
         v.attrs.push(Attribute {
             pound_token: def_site(),
             style: AttrStyle::Outer,
@@ -277,7 +272,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             tokens: q!({ (unused_variables) }).parse(),
         });
 
-        let fn_name = v.sig.ident.clone();
+        let mut fn_name = v.sig.ident.clone();
+
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            fn_name = Ident::new(&format!("{}_with_path", fn_name), def_site());
+        }
+
         let default_body = replace(
             &mut v.default,
             Some(match mode {
@@ -575,7 +575,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             // Signature of visit_item / fold_item
             let method_sig = method_sig(mode, ty);
-            let method_name = method_sig.ident;
+            let mut method_name = method_sig.ident;
+
+            if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+                method_name = Ident::new(&format!("{}_with_path", method_name), def_site());
+            }
 
             // Prevent duplicate implementations.
             let s = method_name.to_string();
@@ -734,6 +738,32 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 }
 
                                 fn fold_children_with(self, v: &mut V) -> Self {
+                                    method_name(v, self)
+                                }
+                            }
+                        }
+                    ));
+                }
+
+                Mode::Fold(VisitorVariant::WithPath) => {
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            method_name,
+                            Type: ty,
+                            expr,
+                        },
+                        {
+                            impl<V: ?Sized + Fold> FoldWithPath<V> for Type {
+                                fn fold_with_path(
+                                    self,
+                                    v: &mut V,
+                                    path: &mut swc_visit::AstPath,
+                                ) -> Self {
+                                    __ast__path
+                                        .with_kind(self.to_ast_path_component(), |__ast_path| expr)
+                                }
+
+                                fn fold_children_with_path(self, v: &mut V) -> Self {
                                     method_name(v, self)
                                 }
                             }
