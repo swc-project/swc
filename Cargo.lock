@@ -87,7 +87,7 @@ checksum = "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
 
 [[package]]
 name = "ast_node"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "darling",
  "pmutil",
@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.196.0"
+version = "0.196.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.20.0"
+version = "0.20.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4100,7 +4100,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.68.0"
+version = "0.68.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
