@@ -415,7 +415,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         n: Type,
                         __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
                     ) {
-                        __ast_path.with(n.to_ast_path(), |__ast_path| default_body)
+                        __ast_path.with(n.to_ast_path_node(), |__ast_path| default_body)
                     }
                 }
             )),
@@ -824,7 +824,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 fn fold_with_path(
                                     self,
                                     v: &mut V,
-                                    __ast_path: &mut swc_visit::AstKindPath,
+                                    __ast_path: &mut swc_visit::AstKindPath<AstKind>,
                                 ) -> Self {
                                     expr
                                 }
@@ -832,7 +832,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 fn fold_children_with_path(
                                     self,
                                     v: &mut V,
-                                    __ast_path: &mut swc_visit::AstKindPath,
+                                    __ast_path: &mut swc_visit::AstKindPath<AstKind>,
                                 ) -> Self {
                                     method_name(v, self, __ast_path)
                                 }
@@ -1768,8 +1768,8 @@ fn method_name_as_str(mode: Mode, ty: &Type) -> String {
 
 fn ast_path_type(mode: Mode) -> Type {
     match mode {
-        Mode::Visit(_) => q!((&mut swc_visit::AstNodePath)).parse(),
-        Mode::VisitMut(_) | Mode::Fold(_) => q!((&mut swc_visit::AstKindPath)).parse(),
+        Mode::Visit(_) => q!((&mut swc_visit::AstNodePath<AstNodeRef>)).parse(),
+        Mode::VisitMut(_) | Mode::Fold(_) => q!((&mut swc_visit::AstKindPath<AstKind>)).parse(),
         _ => unreachable!(),
     }
 }
