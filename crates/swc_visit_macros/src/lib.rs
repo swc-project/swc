@@ -1399,7 +1399,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     }
 
                                     return match mode {
-                                        Mode::Fold => q!(
+                                        Mode::Fold(VisitorVariant::Normal) => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
@@ -1409,8 +1409,22 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             })
                                         )
                                         .parse(),
+                                        Mode::Fold(VisitorVariant::WithPath) => q!(
+                                            Vars { ident },
+                                            ({
+                                                match n {
+                                                    Some(n) => Some(
+                                                        __ast_path.with_kind(n, |__ast_path| {
+                                                            _visitor.ident(n, __ast_path)
+                                                        }),
+                                                    ),
+                                                    None => None,
+                                                }
+                                            })
+                                        )
+                                        .parse(),
 
-                                        Mode::VisitMut => q!(
+                                        Mode::VisitMut(VisitorVariant::Normal) => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
@@ -1421,7 +1435,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         )
                                         .parse(),
 
-                                        Mode::Visit | Mode::VisitAll => q!(
+                                        Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
@@ -1450,7 +1464,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     let ident = method_name(mode, arg);
 
                                     match mode {
-                                        Mode::Fold => {
+                                        Mode::Fold { .. } => {
                                             if let Some(..) = as_box(arg) {
                                                 return q!(
                                                     Vars { ident },
@@ -1471,7 +1485,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                                     return if is_option(arg) {
                                         match mode {
-                                            Mode::Fold => q!(
+                                            Mode::Fold(VisitorVariant::Normal) => q!(
                                                 Vars { ident },
                                                 ({
                                                     swc_visit::util::move_map::MoveMap::move_map(
@@ -1481,12 +1495,13 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 })
                                             )
                                             .parse(),
-                                            Mode::VisitMut => q!(
+                                            Mode::VisitMut(VisitorVariant::Normal) => q!(
                                                 Vars { ident },
                                                 ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
                                             )
                                             .parse(),
-                                            Mode::Visit | Mode::VisitAll => q!(
+                                            Mode::Visit(VisitorVariant::Normal)
+                                            | Mode::VisitAll => q!(
                                                 Vars { ident },
                                                 ({
                                                     n.iter()
@@ -1497,7 +1512,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         }
                                     } else {
                                         match mode {
-                                            Mode::Fold => q!(
+                                            Mode::Fold(VisitorVariant::Normal) => q!(
                                                 Vars { ident },
                                                 ({
                                                     swc_visit::util::move_map::MoveMap::move_map(
@@ -1508,13 +1523,14 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             )
                                             .parse(),
 
-                                            Mode::VisitMut => q!(
+                                            Mode::VisitMut(VisitorVariant::Normal) => q!(
                                                 Vars { ident },
                                                 ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
                                             )
                                             .parse(),
 
-                                            Mode::Visit | Mode::VisitAll => q!(
+                                            Mode::Visit(VisitorVariant::Normal)
+                                            | Mode::VisitAll => q!(
                                                 Vars { ident },
                                                 ({ n.iter().for_each(|v| _visitor.ident(v)) })
                                             )
