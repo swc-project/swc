@@ -11,8 +11,11 @@ version = "0.94.0"
 [lib]
 bench = false
 
+[features]
+path = []
+
 [dependencies]
 swc_atoms = {version = "0.2.7", path = "../swc_atoms"}
-swc_common = { version = "0.20.0", path = "../swc_common"}
+swc_common = {version = "0.20.0", path = "../swc_common"}
 swc_css_ast = {version = "0.95.0", path = "../swc_css_ast"}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
