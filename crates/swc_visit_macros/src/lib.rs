@@ -1437,95 +1437,86 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     }
                 }
 
-                if last.ident == "Vec" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
+                if let Some(arg) = extract_generic("Vec", ty) {
+                    let ident = method_name(mode, arg);
 
-                            match arg {
-                                GenericArgument::Type(arg) => {
-                                    let ident = method_name(mode, arg);
-
-                                    match mode {
-                                        Mode::Fold { .. } => {
-                                            if let Some(..) = as_box(arg) {
-                                                return q!(
-                                                    Vars { ident },
-                                                    ({
-                                                        swc_visit::util::move_map::MoveMap::move_map(
-                                                            n,
-                                                            |v| swc_visit::util::map::Map::map(v, |v|_visitor.ident(v)),
-                                                        )
-                                                    })
-                                                )
-                                                .parse();
-                                            }
-                                        }
-                                        Mode::Visit { .. }
-                                        | Mode::VisitAll
-                                        | Mode::VisitMut { .. } => {}
-                                    }
-
-                                    return if is_option(arg) {
-                                        match mode {
-                                            Mode::Fold(VisitorVariant::Normal) => q!(
-                                                Vars { ident },
-                                                ({
-                                                    swc_visit::util::move_map::MoveMap::move_map(
-                                                        n,
-                                                        |v| _visitor.ident(v),
-                                                    )
-                                                })
-                                            )
-                                            .parse(),
-                                            Mode::VisitMut(VisitorVariant::Normal) => q!(
-                                                Vars { ident },
-                                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
-                                            )
-                                            .parse(),
-                                            Mode::Visit(VisitorVariant::Normal)
-                                            | Mode::VisitAll => q!(
-                                                Vars { ident },
-                                                ({
-                                                    n.iter()
-                                                        .for_each(|v| _visitor.ident(v.as_ref()))
-                                                })
-                                            )
-                                            .parse(),
-                                        }
-                                    } else {
-                                        match mode {
-                                            Mode::Fold(VisitorVariant::Normal) => q!(
-                                                Vars { ident },
-                                                ({
-                                                    swc_visit::util::move_map::MoveMap::move_map(
-                                                        n,
-                                                        |v| _visitor.ident(v),
-                                                    )
-                                                })
-                                            )
-                                            .parse(),
-
-                                            Mode::VisitMut(VisitorVariant::Normal) => q!(
-                                                Vars { ident },
-                                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
-                                            )
-                                            .parse(),
-
-                                            Mode::Visit(VisitorVariant::Normal)
-                                            | Mode::VisitAll => q!(
-                                                Vars { ident },
-                                                ({ n.iter().for_each(|v| _visitor.ident(v)) })
-                                            )
-                                            .parse(),
-                                        }
-                                    };
-                                }
-                                _ => unimplemented!("generic parameter other than type"),
+                    match mode {
+                        Mode::Fold { .. } => {
+                            if let Some(..) = as_box(arg) {
+                                return q!(
+                                    Vars { ident },
+                                    ({
+                                        swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                            swc_visit::util::map::Map::map(v, |v| _visitor.ident(v))
+                                        })
+                                    })
+                                )
+                                .parse();
                             }
                         }
-                        _ => unimplemented!("Vec() -> Ret or Vec without a type parameter"),
+                        Mode::Visit { .. } | Mode::VisitAll | Mode::VisitMut { .. } => {}
                     }
+
+                    return if is_option(arg) {
+                        match mode {
+                            Mode::Fold(VisitorVariant::Normal) => q!(
+                                Vars { ident },
+                                ({
+                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                        _visitor.ident(v)
+                                    })
+                                })
+                            )
+                            .parse(),
+
+                            Mode::Fold(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    __ast_path.with_kind(n, |__ast_path| {
+                                        swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                            _visitor.ident(v, __ast_path)
+                                        })
+                                    })
+                                })
+                            )
+                            .parse(),
+
+                            Mode::VisitMut(VisitorVariant::Normal) => q!(
+                                Vars { ident },
+                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
+                            )
+                            .parse(),
+                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
+                                Vars { ident },
+                                ({ n.iter().for_each(|v| _visitor.ident(v.as_ref())) })
+                            )
+                            .parse(),
+                        }
+                    } else {
+                        match mode {
+                            Mode::Fold(VisitorVariant::Normal) => q!(
+                                Vars { ident },
+                                ({
+                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                        _visitor.ident(v)
+                                    })
+                                })
+                            )
+                            .parse(),
+
+                            Mode::VisitMut(VisitorVariant::Normal) => q!(
+                                Vars { ident },
+                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
+                            )
+                            .parse(),
+
+                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
+                                Vars { ident },
+                                ({ n.iter().for_each(|v| _visitor.ident(v)) })
+                            )
+                            .parse(),
+                        }
+                    };
                 }
             }
 
