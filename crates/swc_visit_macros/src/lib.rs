@@ -183,11 +183,34 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         })
                     )
                     .parse(),
+
+                    Mode::VisitWithPath | Mode::VisitMutWithPath => q!(
+                        Vars { visit: &name },
+                        ({
+                            if self.enabled {
+                                self.visitor.visit(n, path)
+                            }
+                        })
+                    )
+                    .parse(),
+
                     Mode::Fold => q!(
                         Vars { fold: &name },
                         ({
                             if self.enabled {
                                 self.visitor.fold(n)
+                            } else {
+                                n
+                            }
+                        })
+                    )
+                    .parse(),
+
+                    Mode::FoldWithPath => q!(
+                        Vars { fold: &name },
+                        ({
+                            if self.enabled {
+                                self.visitor.fold(n, path)
                             } else {
                                 n
                             }
