@@ -70,6 +70,18 @@
 //! You can use your `Visit` implementation like  `node.visit_with(&Invalid{
 //! span: DUMMY_SP, }, &mut visitor`. I think API is mis-designed, but it works
 //! and there are really lots of code using `Visit` already.
+//!
+//!
+//!
+//! # Cargo features
+//!
+//! You should add
+//! ```toml
+//! [features]
+//! path = []
+//! ```
+//!
+//! If you want to use path-aware visitor.
 
 pub use either::Either;
 pub use swc_visit_macros::define;
