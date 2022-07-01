@@ -947,7 +947,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
             if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
                 p.push_punct(def_site());
                 let ty = ast_path_type(mode);
-                p.push_value(q!(Vars { Type: ty }, { path: Type }).parse());
+                p.push_value(q!(Vars { Type: ty }, { __ast_path: Type }).parse());
             }
 
             p
@@ -1099,7 +1099,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                             Vars {
                                 Type: ast_path_type(mode)
                             },
-                            { path: Type }
+                            { __ast_path: Type }
                         )
                         .parse(),
                     );
@@ -1305,12 +1305,25 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             if !last.arguments.is_empty() {
                 if let Some(arg) = as_box(ty) {
                     match mode {
-                        Mode::Fold => {
+                        Mode::Fold(VisitorVariant::Normal) => {
                             let ident = method_name(mode, arg);
 
                             return q!(
                                 Vars { ident },
                                 ({ swc_visit::util::map::Map::map(n, |n| _visitor.ident(*n)) })
+                            )
+                            .parse();
+                        }
+                        Mode::Fold(VisitorVariant::WithPath) => {
+                            let ident = method_name(mode, arg);
+
+                            return q!(
+                                Vars { ident },
+                                ({
+                                    swc_visit::util::map::Map::map(n, |n| {
+                                        _visitor.ident(*n, __ast_path)
+                                    })
+                                })
                             )
                             .parse();
                         }
