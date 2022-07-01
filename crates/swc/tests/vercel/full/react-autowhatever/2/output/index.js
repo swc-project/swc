@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
+    enumerable: !0,
     get: function() {
         return i;
-    },
-    enumerable: !0
+    }
 });
 var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@swc/helpers/lib/_inherits.js").default, c = require("@swc/helpers/lib/_interop_require_wildcard.js").default, d = require("@swc/helpers/lib/_object_spread.js").default, e = require("@swc/helpers/lib/_object_spread_props.js").default, f = require("@swc/helpers/lib/_create_super.js").default, g = require("react/jsx-runtime"), h = c(require("react")), i = function(c) {
     "use strict";

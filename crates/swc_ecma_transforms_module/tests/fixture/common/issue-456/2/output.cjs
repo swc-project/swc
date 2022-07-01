@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "foo", {
-    get: ()=>foo,
-    enumerable: true
+    enumerable: true,
+    get: ()=>foo
 });
 const _path = require("path");
 const foo = function() {

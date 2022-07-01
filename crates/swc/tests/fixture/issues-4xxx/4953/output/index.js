@@ -16,6 +16,6 @@ function a(a, b) {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
-    get: ()=>a,
-    enumerable: !0
+    enumerable: !0,
+    get: ()=>a
 });

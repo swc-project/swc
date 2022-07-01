@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "namespace", {
-    get: ()=>_foo(),
-    enumerable: true
+    enumerable: true,
+    get: ()=>_foo()
 });
 function _foo() {
     const data = _interopRequireWildcard(require("foo"));

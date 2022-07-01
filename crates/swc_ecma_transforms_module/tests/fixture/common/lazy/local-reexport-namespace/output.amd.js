@@ -8,8 +8,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "namespace", {
-        get: ()=>_foo,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_foo
     });
     _foo = _interopRequireWildcard(_foo);
 });

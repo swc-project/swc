@@ -7,8 +7,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "default", {
-        get: ()=>Foo,
-        enumerable: true
+        enumerable: true,
+        get: ()=>Foo
     });
     const Base = getBase("");
     class Foo extends Base {

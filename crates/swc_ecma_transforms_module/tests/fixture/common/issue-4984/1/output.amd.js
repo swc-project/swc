@@ -7,8 +7,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "default", {
-        get: ()=>MyClass,
-        enumerable: true
+        enumerable: true,
+        get: ()=>MyClass
     });
     const VALUE = "hello";
     class MyClass {

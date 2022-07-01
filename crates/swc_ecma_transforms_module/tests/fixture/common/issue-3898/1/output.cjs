@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "foo", {
-    get: ()=>foo,
-    enumerable: true
+    enumerable: true,
+    get: ()=>foo
 });
 let foo = 1;
 foo = 2;

@@ -8,8 +8,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "flakySuite", {
-        get: ()=>flakySuite,
-        enumerable: true
+        enumerable: true,
+        get: ()=>flakySuite
     });
     _testUtils = _interopRequireWildcard(_testUtils);
     var flakySuite = _testUtils.flakySuite;

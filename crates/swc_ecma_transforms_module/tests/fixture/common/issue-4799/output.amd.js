@@ -8,7 +8,7 @@ define([
         value: true
     });
     Object.defineProperty(exports, "createP", {
-        get: ()=>_st.createP,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_st.createP
     });
 });

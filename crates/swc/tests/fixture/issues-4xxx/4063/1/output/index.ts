@@ -8,8 +8,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "default", {
-        get: ()=>_class,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_class
     });
     _tsDecorate = _tsDecorate.default;
     function state() {}

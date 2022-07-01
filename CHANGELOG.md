@@ -11,6 +11,9 @@
 - **(es/modules)** Handle `this` in class methods (#5065) ([ef543b1](https://github.com/swc-project/swc/commit/ef543b1b22b9cf29add68984318fe19620240888))
 
 
+- **(es/modules)** Improve compatibility with cjs lexer (#5080) ([9e162dc](https://github.com/swc-project/swc/commit/9e162dcbae91a3dd4cef47ab0d80de14ada6d70d))
+
+
 - **(html/minifier)** Fix smart mode (#5058) ([e9bad20](https://github.com/swc-project/swc/commit/e9bad20898df92f7d0dd898ab1924229d5113251))
 
 

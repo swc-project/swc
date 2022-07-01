@@ -11,7 +11,7 @@
         value: true
     });
     Object.defineProperty(exports, "bar", {
-        get: ()=>_foo.foo,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_foo.foo
     });
 });

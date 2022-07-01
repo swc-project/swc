@@ -8,8 +8,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "Foo", {
-        get: ()=>_foo.Foo,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_foo.Foo
     });
     _foo = _interopRequireWildcard(_foo);
 });
