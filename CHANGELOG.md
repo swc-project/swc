@@ -41,6 +41,9 @@
 - **(html/minifier)** Sort unordered values in attributes (#5035) ([26cfeff](https://github.com/swc-project/swc/commit/26cfeff79cbae9c7b998690ed6b59d2336cf2430))
 
 
+- **(html/minifier)** Improve `collapse_whitespaces` (#5070) ([144314d](https://github.com/swc-project/swc/commit/144314dcc2e98baba79502be6f82ea39aa71f560))
+
+
 - **(plugin)** Add versioned wrapper struct (#5062) ([e34a864](https://github.com/swc-project/swc/commit/e34a864390dc6a8a0d78cc60af458be37031e30f))
 
 
