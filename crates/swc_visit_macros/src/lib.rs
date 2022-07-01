@@ -681,7 +681,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut(VisitorVariant::WithPath) => q!({
-                pub trait VisitMutWithPath<V: ?Sized + VisitMutPath> {
+                pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
 
                     fn visit_mut_children_with_path(
@@ -693,7 +693,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> VisitMutWith<V> for Box<T>
                 where
-                    V: ?Sized + VisitMutPath,
+                    V: ?Sized + VisitMutAstPath,
                     T: 'static + VisitMutWithPath<V>,
                 {
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath) {
