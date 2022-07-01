@@ -731,6 +731,19 @@ impl Minifier {
                 "base" | "command" | "link" | "meta" | "style" | "title"
             ),
             Namespace::SVG => !matches!(tag_name, "style"),
+    fn is_displayed_element(&self, namespace: Namespace, tag_name: &str) -> bool {
+        match namespace {
+            Namespace::HTML => {
+                // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#metadata_content
+                //
+                // Excluded:
+                // `noscript` - can be displayed if JavaScript disabled
+                // `script` - can insert markup using `document.write`
+                !matches!(
+                    tag_name,
+                    "base" | "command" | "link" | "meta" | "style" | "title" | "template"
+                )
+            }
             _ => true,
         }
     }
@@ -798,7 +811,7 @@ impl Minifier {
         }
     }
 
-    fn get_prev_non_comment_node<'a>(
+    fn get_prev_displayed_node<'a>(
         &self,
         children: &'a Vec<Child>,
         index: usize,
@@ -806,15 +819,24 @@ impl Minifier {
         let prev = children.get(index);
 
         match prev {
-            Some(Child::Comment(_)) if index >= 1 => {
-                self.get_prev_non_comment_node(children, index - 1)
+            Some(Child::Comment(_)) | Some(Child::Text(_)) if index >= 1 => {
+                self.get_prev_displayed_node(children, index - 1)
+            }
+            Some(Child::Element(element))
+                if !self.is_displayed_element(element.namespace, &element.tag_name) =>
+            {
+                if index >= 1 {
+                    self.get_prev_displayed_node(children, index - 1)
+                } else {
+                    None
+                }
             }
             Some(_) => prev,
             _ => None,
         }
     }
 
-    fn get_next_non_comment_node<'a>(
+    fn get_next_displayed_node<'a>(
         &self,
         children: &'a Vec<Child>,
         index: usize,
@@ -822,7 +844,14 @@ impl Minifier {
         let next = children.get(index);
 
         match next {
-            Some(Child::Comment(_)) => self.get_next_non_comment_node(children, index + 1),
+            Some(Child::Comment(_)) | Some(Child::Text(_)) => {
+                self.get_next_displayed_node(children, index + 1)
+            }
+            Some(Child::Element(element))
+                if !self.is_displayed_element(element.namespace, &element.tag_name) =>
+            {
+                self.get_next_displayed_node(children, index + 1)
+            }
             Some(_) => next,
             _ => None,
         }
@@ -1025,20 +1054,18 @@ impl Minifier {
                         {
                             Some(self.get_display(*namespace, tag_name))
                         let prev = if index >= 1 {
-                            self.get_prev_non_comment_node(&children, index - 1)
+                            self.get_prev_displayed_node(children, index - 1)
                         } else {
                             None
                         };
 
-                        let prev_display = if let Some(Child::Element(Element {
-                            namespace,
-                            tag_name,
-                            ..
-                        })) = &prev
-                        {
-                            Some(self.get_display(*namespace, tag_name))
-                        } else {
-                            None
+                        let prev_display = match prev {
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) => Some(self.get_display(*namespace, tag_name)),
+                            _ => None,
                         };
 
                         is_smart_left_trim = match prev_display {
@@ -1063,7 +1090,7 @@ impl Minifier {
                                 | Display::TableFooterGroup,
                             ) => true,
                             // These elements are not displayed
-                            Some(Display::None) if prev.is_some() => {
+                            Some(Display::None) => {
                                 if let Some(Child::Element(Element {
                                     namespace,
                                     tag_name,
@@ -1072,6 +1099,7 @@ impl Minifier {
                                 {
                                     !self.is_element_displayed(*namespace, tag_name)
                                     !self.is_metadata_element_displayed(*namespace, tag_name)
+                                    !self.is_displayed_element(*namespace, tag_name)
                                 } else {
                                     true
                                 }
@@ -1110,16 +1138,14 @@ impl Minifier {
                             }
                         };
 
-                        let next = self.get_next_non_comment_node(&children, index + 1);
-                        let next_display = if let Some(Child::Element(Element {
-                            namespace,
-                            tag_name,
-                            ..
-                        })) = &next
-                        {
-                            Some(self.get_display(*namespace, tag_name))
-                        } else {
-                            None
+                        let next = children.get(index + 1);
+                        let next_display = match next {
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) => Some(self.get_display(*namespace, tag_name)),
+                            _ => None,
                         };
 
                         is_smart_right_trim = match next_display {
@@ -1144,7 +1170,7 @@ impl Minifier {
                                 | Display::TableFooterGroup,
                             ) => true,
                             // These elements are not displayed
-                            Some(Display::None) if prev.is_some() => {
+                            Some(Display::None) => {
                                 if let Some(Child::Element(Element {
                                     namespace,
                                     tag_name,
@@ -1153,6 +1179,7 @@ impl Minifier {
                                 {
                                     !self.is_element_displayed(*namespace, tag_name)
                                     !self.is_metadata_element_displayed(*namespace, tag_name)
+                                    !self.is_displayed_element(*namespace, tag_name)
                                 } else {
                                     true
                                 }
