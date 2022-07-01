@@ -583,7 +583,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
 
             match mode {
-                Mode::Visit => {
+                Mode::Visit(VisitorVariant::Normal) => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -648,7 +648,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
 
-                Mode::VisitAll => {
+                Mode::VisitAll(VisitorVariant::Normal) => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -684,7 +684,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ));
                 }
 
-                Mode::VisitMut => {
+                Mode::VisitMut(VisitorVariant::Normal) => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -716,7 +716,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ));
                 }
 
-                Mode::Fold => {
+                Mode::Fold(VisitorVariant::Normal) => {
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
@@ -750,29 +750,29 @@ where
     if is_option(ty) {
         expr = if is_opt_vec(ty) {
             match mode {
-                Mode::Fold => expr,
-                Mode::VisitMut => expr,
-                Mode::Visit | Mode::VisitAll => {
+                Mode::Fold { .. } => expr,
+                Mode::VisitMut { .. } => expr,
+                Mode::Visit { .. } | Mode::VisitAll => {
                     q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse()
                 }
             }
         } else {
             match mode {
-                Mode::Fold => expr,
-                Mode::VisitMut => expr,
-                Mode::Visit | Mode::VisitAll => q!(Vars { expr }, { expr.as_ref() }).parse(),
+                Mode::Fold { .. } => expr,
+                Mode::VisitMut { .. } => expr,
+                Mode::Visit { .. } | Mode::VisitAll => q!(Vars { expr }, { expr.as_ref() }).parse(),
             }
         };
     }
 
     if as_box(ty).is_some() {
         expr = match mode {
-            Mode::Visit | Mode::VisitAll => expr,
-            Mode::VisitMut => {
+            Mode::Visit { .. } | Mode::VisitAll => expr,
+            Mode::VisitMut { .. } => {
                 // TODO
                 expr
             }
-            Mode::Fold => q!(Vars { expr }, { *expr }).parse(),
+            Mode::Fold { .. } => q!(Vars { expr }, { *expr }).parse(),
         };
     }
 
@@ -780,12 +780,12 @@ where
 
     if as_box(ty).is_some() {
         expr = match mode {
-            Mode::Visit | Mode::VisitAll => expr,
-            Mode::VisitMut => {
+            Mode::Visit { .. } | Mode::VisitAll => expr,
+            Mode::VisitMut { .. } => {
                 // TODO
                 expr
             }
-            Mode::Fold => q!(Vars { expr }, { Box::new(expr) }).parse(),
+            Mode::Fold { .. } => q!(Vars { expr }, { Box::new(expr) }).parse(),
         };
     }
 
