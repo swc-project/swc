@@ -16,33 +16,30 @@ use syn::{
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Mode {
-    Visit,
     VisitAll,
-    VisitMut,
-    Fold,
-    VisitWithPath,
-    VisitMutWithPath,
-    FoldWithPath,
+    Visit { with_path: bool },
+    VisitMut { with_path: bool },
+    Fold { with_path: bool },
 }
 
 impl Mode {
     fn trait_name(self) -> &'static str {
         match self {
-            Mode::Fold => "Fold",
             Mode::VisitAll => "VisitAll",
-            Mode::Visit => "Visit",
-            Mode::VisitMut => "VisitMut",
-            Mode::VisitWithPath => "VisitWithPath",
-            Mode::VisitMutWithPath => "VisitMutWithPath",
-            Mode::FoldWithPath => "FoldWithPath",
+            Mode::Fold { with_path: false } => "Fold",
+            Mode::Visit { with_path: false } => "Visit",
+            Mode::VisitMut { with_path: false } => "VisitMut",
+            Mode::Visit { with_path: true } => "VisitWithPath",
+            Mode::VisitMut { with_path: true } => "VisitMutWithPath",
+            Mode::Fold { with_path: true } => "FoldWithPath",
         }
     }
 
     fn prefix(self) -> &'static str {
         match self {
-            Mode::Fold | Mode::FoldWithPath => "fold",
-            Mode::Visit | Mode::VisitAll | Mode::VisitWithPath => "visit",
-            Mode::VisitMut | Mode::VisitMutWithPath => "visit_mut",
+            Mode::Fold { .. } => "fold",
+            Mode::Visit { .. } | Mode::VisitAll => "visit",
+            Mode::VisitMut { .. } => "visit_mut",
         }
     }
 }
