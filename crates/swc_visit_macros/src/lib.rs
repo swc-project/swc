@@ -649,13 +649,19 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     V: ?Sized + FoldAstPath,
                     T: 'static + FoldWithPath<V>,
                 {
-                    fn fold_with_path(self, v: &mut V) -> Self {
-                        swc_visit::util::map::Map::map(self, |value| value.fold_with(v))
+                    fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self {
+                        swc_visit::util::map::Map::map(self, |value| value.fold_with(v, ast_path))
                     }
 
                     /// Visit children nodes of self with `v`
-                    fn fold_children_with_path(self, v: &mut V) -> Self {
-                        swc_visit::util::map::Map::map(self, |value| value.fold_children_with(v))
+                    fn fold_children_with_path(
+                        self,
+                        v: &mut V,
+                        ast_path: &mut AstKindPath,
+                    ) -> Self {
+                        swc_visit::util::map::Map::map(self, |value| {
+                            value.fold_children_with(v, ast_path)
+                        })
                     }
                 }
             }),
