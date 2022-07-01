@@ -767,7 +767,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 fn fold_with_path(
                                     self,
                                     v: &mut V,
-                                    path: &mut swc_visit::AstPath,
+                                    path: &mut swc_visit::AstKindPath,
                                 ) -> Self {
                                     __ast__path
                                         .with_kind(self.to_ast_path_component(), |__ast_path| expr)
