@@ -372,7 +372,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 },
                 {
                     #[allow(unused_variables)]
-                    fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
+                    fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        __ast_path: &mut swc_visit::AstKindPath,
+                    ) -> Type {
                         __ast_path.with(n.to_ast_path_kind(), |__ast_path| default_body)
                     }
                 }
@@ -387,7 +391,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 },
                 {
                     #[allow(unused_variables)]
-                    fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
+                    fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        __ast_path: &mut swc_visit::AstKindPath,
+                    ) {
                         __ast_path.with(n.to_ast_path_kind(), |__ast_path| default_body)
                     }
                 }
