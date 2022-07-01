@@ -13,6 +13,9 @@
 
 - **(html/minifier)** Fix smart mode (#5058) ([e9bad20](https://github.com/swc-project/swc/commit/e9bad20898df92f7d0dd898ab1924229d5113251))
 
+
+- **(html/minifier)** Minify `meta` element (#5075) ([214c60a](https://github.com/swc-project/swc/commit/214c60a313162218c9acb007b8747dbc8f39ac8a))
+
 ### Documentation
 
 
