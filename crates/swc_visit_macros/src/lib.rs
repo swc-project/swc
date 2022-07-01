@@ -1261,13 +1261,13 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                 return q!(Vars { visit }, ({ _visitor.visit(n) })).parse();
             }
-            Mode::VisitMut => {
+            Mode::VisitMut { .. } => {
                 return Block {
                     brace_token: def_site(),
                     stmts: vec![],
                 }
             }
-            Mode::Fold => return q!(({ n })).parse(),
+            Mode::Fold { .. } => return q!(({ n })).parse(),
         }
     }
 
@@ -1447,7 +1447,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                                             Mode::Visit | Mode::VisitAll => q!(
                                                 Vars { ident },
-                                                ({ n.iter().for_each(|v| _visitor.ident(v,)) })
+                                                ({ n.iter().for_each(|v| _visitor.ident(v)) })
                                             )
                                             .parse(),
                                         }
