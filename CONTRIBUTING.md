@@ -115,13 +115,13 @@ For running all tests, take the following steps:
 7. Run tests
 
     ```bash
-    cargo test --all --no-default-features --features swc_v1
+    cargo test --all --no-default-features --features swc_v1 --features memory_cache
     ```
 
     Or
 
     ```bash
-    cargo test --all --no-default-features --features swc_v2
+    cargo test --all --no-default-features --features swc_v2 --features memory_cache
     ```
 
 ## Running tests per package

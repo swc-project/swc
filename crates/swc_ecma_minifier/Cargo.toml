@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license = "Apache-2.0"
 name = "swc_ecma_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.125.0"
+version = "0.127.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -40,11 +40,11 @@ swc_cached = {version = "0.1.0", path = "../swc_cached"}
 swc_common = {version = "0.19.0", path = "../swc_common"}
 swc_config = {version = "0.1.0", path = "../swc_config"}
 swc_ecma_ast = {version = "0.80.0", path = "../swc_ecma_ast"}
-swc_ecma_codegen = {version = "0.110.0", path = "../swc_ecma_codegen"}
-swc_ecma_parser = {version = "0.106.0", path = "../swc_ecma_parser"}
-swc_ecma_transforms_base = {version = "0.91.0", path = "../swc_ecma_transforms_base", features = ["concurrent-renamer"]}
-swc_ecma_transforms_optimization = {version = "0.134.0", path = "../swc_ecma_transforms_optimization"}
-swc_ecma_utils = {version = "0.87.0", path = "../swc_ecma_utils"}
+swc_ecma_codegen = {version = "0.111.0", path = "../swc_ecma_codegen"}
+swc_ecma_parser = {version = "0.107.0", path = "../swc_ecma_parser"}
+swc_ecma_transforms_base = {version = "0.92.0", path = "../swc_ecma_transforms_base", features = ["concurrent-renamer"]}
+swc_ecma_transforms_optimization = {version = "0.135.0", path = "../swc_ecma_transforms_optimization"}
+swc_ecma_utils = {version = "0.88.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.66.0", path = "../swc_ecma_visit"}
 swc_timer = {version = "0.7.0", path = "../swc_timer"}
 tracing = "0.1.32"
@@ -55,7 +55,7 @@ ansi_term = "0.12.1"
 anyhow = "1"
 criterion = "0.3.5"
 pretty_assertions = "1.1"
-swc_ecma_testing = {version = "0.3.0", path = "../swc_ecma_testing"}
+swc_ecma_testing = {version = "0.4.0", path = "../swc_ecma_testing"}
 swc_node_base = {version = "0.5.0", path = "../swc_node_base"}
 testing = {version = "0.21.0", path = "../testing"}
 walkdir = "2"

@@ -7,14 +7,38 @@
 
 - **(es/compat)** Preserve this in function with block scoped vars (#5056) ([18ea2b5](https://github.com/swc-project/swc/commit/18ea2b577011d610fbb06bb6728a86be8366703a))
 
+
+- **(es/modules)** Handle `this` in class methods (#5065) ([ef543b1](https://github.com/swc-project/swc/commit/ef543b1b22b9cf29add68984318fe19620240888))
+
+
+- **(html/minifier)** Fix smart mode (#5058) ([e9bad20](https://github.com/swc-project/swc/commit/e9bad20898df92f7d0dd898ab1924229d5113251))
+
+### Documentation
+
+
+
+- **(contributing)** Add `--features memory_cache` to test steps (#5074) ([9d8beb0](https://github.com/swc-project/swc/commit/9d8beb02b7161a6af604cf187f2a53d91cd336ea))
+
 ### Features
 
+
+
+- **(atoms)** Improve atoms (#5066) ([34f4f5a](https://github.com/swc-project/swc/commit/34f4f5a3bc7797e2b9b192671cf68b63ea0dd25c))
+
+
+- **(es/parser)** Add `allow_return_outside_function` to options (#5046) ([37eb366](https://github.com/swc-project/swc/commit/37eb366a1f554668fd7011869ec8f58c67e9ce9f))
 
 
 - **(html/minifier)** Allow minifying custom script contents (#5043) ([d7a5f71](https://github.com/swc-project/swc/commit/d7a5f710730063c51deb91c9aa937f7d5a33e582))
 
 
+- **(html/minifier)** Sort unordered values in attributes (#5035) ([26cfeff](https://github.com/swc-project/swc/commit/26cfeff79cbae9c7b998690ed6b59d2336cf2430))
+
+
 - **(plugin)** Add versioned wrapper struct (#5062) ([e34a864](https://github.com/swc-project/swc/commit/e34a864390dc6a8a0d78cc60af458be37031e30f))
+
+
+- **(plugin)** Allow taking the inner data from versioned (#5071) ([e1aa937](https://github.com/swc-project/swc/commit/e1aa937183ca3c803be9665ec0a683b679bfc29f))
 
 ### Miscellaneous Tasks
 
