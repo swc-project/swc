@@ -13,8 +13,8 @@ define([
         });
     }
     _export(exports, {
-        bar: ()=>bar,
-        foo: ()=>foo
+        foo: ()=>foo,
+        bar: ()=>bar
     });
     const [foo, bar = 2] = [];
 });

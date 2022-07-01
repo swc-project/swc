@@ -9,7 +9,7 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    Foo: ()=>_moduleWithGetter.default,
-    baz: ()=>_moduleWithGetter.baz
+    baz: ()=>_moduleWithGetter.baz,
+    Foo: ()=>_moduleWithGetter.default
 });
 const _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));

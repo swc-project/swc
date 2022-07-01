@@ -17,10 +17,10 @@
     }
     _export(exports, {
         bar: ()=>bar,
+        foo1: ()=>foo,
         bar2: ()=>bar,
-        default: ()=>bar,
         foo: ()=>foo,
-        foo1: ()=>foo
+        default: ()=>bar
     });
     const foo = 1;
     let bar = 2;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.y = exports.x = exports.f4 = exports.f3 = exports.f2 = exports.f1 = void 0;
+exports.f4 = exports.f3 = exports.f2 = exports.f1 = exports.y = exports.x = void 0;
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         get: all[name],
@@ -10,12 +10,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    x: ()=>x,
+    y: ()=>y,
     f1: ()=>f1,
     f2: ()=>f2,
     f3: ()=>f3,
-    f4: ()=>f4,
-    x: ()=>x,
-    y: ()=>y
+    f4: ()=>f4
 });
 let x = 0;
 let y = 0;

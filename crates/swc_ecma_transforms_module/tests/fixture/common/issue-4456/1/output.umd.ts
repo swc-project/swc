@@ -20,11 +20,11 @@
         });
     }
     _export(exports, {
-        breakpoints: ()=>breakpoints,
-        clsx: ()=>_css.cx,
-        cx: ()=>_css.cx,
         default: ()=>_default,
-        keyframes: ()=>_css.keyframes
+        cx: ()=>_css.cx,
+        clsx: ()=>_css.cx,
+        keyframes: ()=>_css.keyframes,
+        breakpoints: ()=>breakpoints
     });
     _styled = _interopRequireDefault(_styled);
     interface IStyledProp {

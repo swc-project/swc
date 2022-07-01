@@ -9,8 +9,8 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    Foo: ()=>Foo,
     default: ()=>_default,
+    Foo: ()=>Foo,
     foo: ()=>foo
 });
 class Foo {

@@ -17,8 +17,8 @@
         });
     }
     _export(exports, {
-        byID: ()=>byID,
-        get: ()=>_get
+        get: ()=>_get,
+        byID: ()=>byID
     });
     _get = _interopRequireWildcard(_get);
     const byID = (id)=>{

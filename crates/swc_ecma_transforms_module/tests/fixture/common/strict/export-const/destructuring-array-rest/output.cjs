@@ -9,8 +9,8 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    foo: ()=>foo,
     bar: ()=>bar,
-    baz: ()=>baz,
-    foo: ()=>foo
+    baz: ()=>baz
 });
 const [foo, bar, ...baz] = [];

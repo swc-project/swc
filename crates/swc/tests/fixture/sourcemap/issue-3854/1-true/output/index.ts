@@ -9,15 +9,15 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    create: ()=>create,
-    header: ()=>header,
     node: ()=>_bodyNodesBuilder,
+    create: ()=>create,
+    trustBox: ()=>trustBox,
     opener: ()=>opener,
-    seq: ()=>seq,
+    stage: ()=>stage,
+    header: ()=>header,
     source: ()=>source,
     sources: ()=>sources,
-    stage: ()=>stage,
-    trustBox: ()=>trustBox
+    seq: ()=>seq
 });
 const _classPrivateFieldGet = require("@swc/helpers/lib/_class_private_field_get.js").default;
 const _classPrivateFieldInit = require("@swc/helpers/lib/_class_private_field_init.js").default;
