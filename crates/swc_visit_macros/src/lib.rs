@@ -1275,10 +1275,15 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 fn create_method_body(mode: Mode, ty: &Type) -> Block {
     if let Some(ty) = extract_generic("Arc", ty) {
         match mode {
-            Mode::Visit | Mode::VisitAll => {
+            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
                 let visit = method_name(mode, ty);
 
                 return q!(Vars { visit }, ({ _visitor.visit(n) })).parse();
+            }
+            Mode::Visit(VisitorVariant::WithPath) => {
+                let visit = method_name(mode, ty);
+
+                return q!(Vars { visit }, ({ _visitor.visit(n, __ast_path) })).parse();
             }
             Mode::VisitMut { .. } => {
                 return Block {
@@ -1342,23 +1347,48 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, arg);
 
-                                    if mode == Mode::Fold {
+                                    if let Mode::Fold(v) = mode {
                                         if let Some(..) = as_box(arg) {
-                                            return q!(
-                                                Vars { ident },
-                                                ({
-                                                    match n {
-                                                        Some(n) => {
-                                                            Some(swc_visit::util::map::Map::map(
-                                                                n,
-                                                                |n| _visitor.ident(n),
-                                                            ))
-                                                        }
-                                                        None => None,
-                                                    }
-                                                })
-                                            )
-                                            .parse();
+                                            match v {
+                                                VisitorVariant::Normal => {
+                                                    return q!(
+                                                        Vars { ident },
+                                                        ({
+                                                            match n {
+                                                                Some(n) => Some(
+                                                                    swc_visit::util::map::Map::map(
+                                                                        n,
+                                                                        |n| _visitor.ident(n),
+                                                                    ),
+                                                                ),
+                                                                None => None,
+                                                            }
+                                                        })
+                                                    )
+                                                    .parse();
+                                                }
+                                                VisitorVariant::WithPath => {
+                                                    return q!(
+                                                        Vars { ident },
+                                                        ({
+                                                            match n {
+                                                                Some(n) => Some(
+                                                                    swc_visit::util::map::Map::map(
+                                                                        n,
+                                                                        |n| {
+                                                                            _visitor.ident(
+                                                                                n, __ast_path,
+                                                                            )
+                                                                        },
+                                                                    ),
+                                                                ),
+                                                                None => None,
+                                                            }
+                                                        })
+                                                    )
+                                                    .parse();
+                                                }
+                                            }
                                         }
                                     }
 
