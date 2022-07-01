@@ -743,7 +743,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 default_body,
                             },
                             {
-                                impl<V: ?Sized + Visit> VisitWithPath<V> for [elem_ty] {
+                                impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for [elem_ty] {
                                     fn visit_with_path(
                                         &self,
                                         v: &mut V,
@@ -764,7 +764,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ));
 
                         tokens.push_tokens(&q!(Vars { Type: ty }, {
-                            impl<V: ?Sized + Visit> VisitWithPath<V> for Type {
+                            impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
                                 fn visit_with_path(
                                     &self,
                                     v: &mut V,
@@ -790,7 +790,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 default_body,
                             },
                             {
-                                impl<V: ?Sized + Visit> VisitWithPath<V> for Type {
+                                impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
                                     fn visit_with_path(
                                         &self,
                                         v: &mut V,
@@ -899,7 +899,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
-                            impl<V: ?Sized + VisitMut> VisitMutWithPath<V> for Type {
+                            impl<V: ?Sized + VisitMutAstPath> VisitMutWithPath<V> for Type {
                                 fn visit_mut_with_path(
                                     &mut self,
                                     v: &mut V,
@@ -928,7 +928,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
-                            impl<V: ?Sized + Fold> FoldWith<V> for Type {
+                            impl<V: ?Sized + FoldAstPath> FoldWith<V> for Type {
                                 fn fold_with(self, v: &mut V) -> Self {
                                     expr
                                 }
