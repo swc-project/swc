@@ -264,6 +264,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     }
 
     methods.iter_mut().for_each(|v| {
+        // We don't create top level functions for with path variant
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            return;
+        }
+
         v.attrs.push(Attribute {
             pound_token: def_site(),
             style: AttrStyle::Outer,
@@ -303,7 +308,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             .unwrap();
 
         match mode {
-            Mode::Fold => tokens.push_tokens(&q!(
+            Mode::Fold { .. } => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -318,7 +323,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::VisitMut => tokens.push_tokens(&q!(
+            Mode::VisitMut { .. } => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -333,7 +338,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::Visit => tokens.push_tokens(&q!(
+            Mode::Visit { .. } => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
