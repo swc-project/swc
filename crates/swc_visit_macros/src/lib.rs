@@ -469,7 +469,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         // Add FoldWith, VisitWith
 
         let trait_decl = match mode {
-            Mode::Visit => q!({
+            Mode::Visit(VisitorVariant::Normal) => q!({
                 pub trait VisitWith<V: ?Sized + Visit> {
                     fn visit_with(&self, v: &mut V);
 
@@ -515,7 +515,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
-            Mode::Fold => q!({
+            Mode::Fold(VisitorVariant::Normal) => q!({
                 pub trait FoldWith<V: ?Sized + Fold> {
                     fn fold_with(self, v: &mut V) -> Self;
 
@@ -538,7 +538,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
-            Mode::VisitMut => q!({
+            Mode::VisitMut(VisitorVariant::Normal) => q!({
                 pub trait VisitMutWith<V: ?Sized + VisitMut> {
                     fn visit_mut_with(&mut self, v: &mut V);
 
