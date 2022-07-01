@@ -177,7 +177,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 defaultness: None,
                 sig: sig.clone(),
                 block: match mode {
-                    Mode::VisitAll | Mode::Visit | Mode::VisitMut => q!(
+                    Mode::VisitAll
+                    | Mode::Visit { with_path: false }
+                    | Mode::VisitMut { with_path: false } => q!(
                         Vars { visit: &name },
                         ({
                             if self.enabled {
@@ -187,7 +189,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     )
                     .parse(),
 
-                    Mode::VisitWithPath | Mode::VisitMutWithPath => q!(
+                    Mode::Visit { with_path: true } | Mode::VisitMut { with_path: true } => q!(
                         Vars { visit: &name },
                         ({
                             if self.enabled {
@@ -197,7 +199,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     )
                     .parse(),
 
-                    Mode::Fold => q!(
+                    Mode::Fold { with_path: false } => q!(
                         Vars { fold: &name },
                         ({
                             if self.enabled {
@@ -209,7 +211,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     )
                     .parse(),
 
-                    Mode::FoldWithPath => q!(
+                    Mode::Fold { with_path: true } => q!(
                         Vars { fold: &name },
                         ({
                             if self.enabled {
