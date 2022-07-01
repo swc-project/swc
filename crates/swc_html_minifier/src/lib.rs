@@ -318,7 +318,7 @@ struct Minifier {
     descendant_of_pre: bool,
 
     force_set_html5_doctype: bool,
-    collapse_whitespaces: Option<CollapseWhitespaces>,
+    collapse_whitespaces: CollapseWhitespaces,
 
     remove_comments: bool,
     preserve_comments: Option<Vec<CachedRegex>>,
@@ -650,6 +650,10 @@ impl Minifier {
         false
     }
 
+    fn need_collapse_whitespace(&self) -> bool {
+        !matches!(self.collapse_whitespaces, CollapseWhitespaces::None)
+    }
+
     fn get_display(&self, namespace: Namespace, tag_name: &str) -> Display {
         match namespace {
             Namespace::HTML => {
@@ -836,13 +840,15 @@ impl Minifier {
 
     fn get_whitespace_minification_for_tag(
         &self,
-        mode: &CollapseWhitespaces,
         namespace: Namespace,
         tag_name: &str,
     ) -> WhitespaceMinificationMode {
-        let default_trim = match mode {
+        let default_trim = match self.collapse_whitespaces {
             CollapseWhitespaces::All => true,
-            CollapseWhitespaces::Smart | CollapseWhitespaces::Conservative => false,
+            CollapseWhitespaces::Smart
+            | CollapseWhitespaces::Conservative
+            | CollapseWhitespaces::OnlyMetadata
+            | CollapseWhitespaces::None => false,
         };
 
         match namespace {
@@ -952,10 +958,7 @@ impl Minifier {
             _ => return,
         };
 
-        let mode = self
-            .collapse_whitespaces
-            .as_ref()
-            .map(|mode| self.get_whitespace_minification_for_tag(mode, namespace, tag_name));
+        let mode = self.get_whitespace_minification_for_tag(namespace, tag_name);
 
         let child_will_be_retained =
             |child: &mut Child, prev: Option<&Child>, next: Option<&Child>| {
@@ -963,26 +966,29 @@ impl Minifier {
                     Child::Comment(comment) if self.remove_comments => {
                         self.is_preserved_comment(&comment.data)
                     }
-                    // Always remove whitespaces from html and head elements (except nested
-                    // elements), it should be safe
+                    Child::Text(text) if text.data.is_empty() => false,
                     Child::Text(text)
-                        if namespace == Namespace::HTML
+                        if self.need_collapse_whitespace()
+                            && namespace == Namespace::HTML
                             && matches!(&**tag_name, "html" | "head")
                             && text.data.chars().all(is_whitespace) =>
                     {
                         false
                     }
-                    Child::Text(text) if text.data.is_empty() => false,
                     Child::Text(text)
                         if !self.descendant_of_pre
                             && get_white_space(namespace, tag_name) == WhiteSpace::Normal
-                            && mode.is_some() =>
+                            && matches!(
+                                self.collapse_whitespaces,
+                                CollapseWhitespaces::All
+                                    | CollapseWhitespaces::Smart
+                                    | CollapseWhitespaces::Conservative
+                            ) =>
                     {
-                        let mode = mode.unwrap();
                         let mut is_smart_left_trim = false;
                         let mut is_smart_right_trim = false;
 
-                        if self.collapse_whitespaces == Some(CollapseWhitespaces::Smart) {
+                        if self.collapse_whitespaces == CollapseWhitespaces::Smart {
                             let prev_display = if let Some(Child::Element(Element {
                                 namespace,
                                 tag_name,
@@ -1653,7 +1659,7 @@ impl VisitMut for Minifier {
 
         self.current_element = None;
 
-        if self.collapse_whitespaces == Some(CollapseWhitespaces::Smart) {
+        if self.need_collapse_whitespace() {
             self.latest_element = Some(n.clone());
         }
     }
@@ -1672,7 +1678,7 @@ impl VisitMut for Minifier {
 
         let old_descendant_of_pre = self.descendant_of_pre;
 
-        if self.collapse_whitespaces.is_some() && !old_descendant_of_pre {
+        if self.need_collapse_whitespace() && !old_descendant_of_pre {
             self.descendant_of_pre = get_white_space(n.namespace, &n.tag_name) == WhiteSpace::Pre;
         }
 
@@ -1680,7 +1686,7 @@ impl VisitMut for Minifier {
 
         n.visit_mut_children_with(self);
 
-        if self.collapse_whitespaces.is_some() {
+        if self.need_collapse_whitespace() {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 

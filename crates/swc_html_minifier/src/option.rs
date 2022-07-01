@@ -12,14 +12,32 @@ pub enum MinifierType {
     Html,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(rename_all = "kebab-case")]
+pub enum CollapseWhitespaces {
+    /// Keep whitespaces
+    None,
+    /// Remove all whitespaces
+    All,
+    /// Remove and collapse whitespaces based on the `display` CSS property
+    Smart,
+    /// Remove and collapse multiple whitespace into one whitespace
+    Conservative,
+    /// Remove whitespace in the `head` element, trim whitespaces for the `body`
+    /// element, remove spaces between `metadata` elements (i.e.
+    /// `script`/`style`/etc)
+    OnlyMetadata,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct MinifyOptions {
     #[serde(default)]
     pub force_set_html5_doctype: bool,
-    #[serde(default)]
-    pub collapse_whitespaces: Option<CollapseWhitespaces>,
+    #[serde(default = "default_collapse_whitespaces")]
+    pub collapse_whitespaces: CollapseWhitespaces,
     #[serde(default = "true_by_default")]
     pub remove_comments: bool,
     #[serde(default = "default_preserve_comments")]
@@ -76,13 +94,8 @@ impl Default for MinifyOptions {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-#[serde(rename_all = "kebab-case")]
-pub enum CollapseWhitespaces {
-    All,
-    Smart,
-    Conservative,
+const fn default_collapse_whitespaces() -> CollapseWhitespaces {
+    CollapseWhitespaces::OnlyMetadata
 }
 
 const fn true_by_default() -> bool {
