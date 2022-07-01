@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "AppController", {
-    get: ()=>AppController,
-    enumerable: true
+    enumerable: true,
+    get: ()=>AppController
 });
 const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
 const _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;

@@ -208,7 +208,6 @@ pub(crate) fn object_define_enumerable(
         ObjectLit {
             span: DUMMY_SP,
             props: vec![
-                prop,
                 PropOrSpread::Prop(Box::new(
                     KeyValueProp {
                         key: quote_ident!("enumerable").into(),
@@ -216,6 +215,7 @@ pub(crate) fn object_define_enumerable(
                     }
                     .into(),
                 )),
+                prop,
             ],
         }
         .as_arg(),

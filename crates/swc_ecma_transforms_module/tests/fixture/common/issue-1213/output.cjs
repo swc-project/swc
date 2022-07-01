@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "default", {
-    get: ()=>NotOK,
-    enumerable: true
+    enumerable: true,
+    get: ()=>NotOK
 });
 const _foo = _interopRequireDefault(require("foo"));
 class OK {

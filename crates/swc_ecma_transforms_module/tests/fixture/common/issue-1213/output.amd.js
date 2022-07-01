@@ -8,8 +8,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "default", {
-        get: ()=>NotOK,
-        enumerable: true
+        enumerable: true,
+        get: ()=>NotOK
     });
     _foo = _interopRequireDefault(_foo);
     class OK {

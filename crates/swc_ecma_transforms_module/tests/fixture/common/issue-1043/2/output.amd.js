@@ -11,8 +11,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "id", {
-        get: ()=>_interfaces.id,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_interfaces.id
     });
     _exportStar(_http, exports);
     _exportStar(_pipes, exports);

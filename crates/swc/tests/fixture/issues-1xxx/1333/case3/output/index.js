@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "RequestHandler", {
-    get: ()=>RequestHandler,
-    enumerable: true
+    enumerable: true,
+    get: ()=>RequestHandler
 });
 const _classPrivateFieldGet = require("@swc/helpers/lib/_class_private_field_get.js").default;
 const _classPrivateFieldInit = require("@swc/helpers/lib/_class_private_field_init.js").default;
