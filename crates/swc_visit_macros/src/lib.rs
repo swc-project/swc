@@ -767,14 +767,17 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 fn fold_with_path(
                                     self,
                                     v: &mut V,
-                                    path: &mut swc_visit::AstKindPath,
+                                    __ast_path: &mut swc_visit::AstKindPath,
                                 ) -> Self {
-                                    __ast__path
-                                        .with_kind(self.to_ast_path_component(), |__ast_path| expr)
+                                    expr
                                 }
 
-                                fn fold_children_with_path(self, v: &mut V) -> Self {
-                                    method_name(v, self)
+                                fn fold_children_with_path(
+                                    self,
+                                    v: &mut V,
+                                    __ast_path: &mut swc_visit::AstKindPath,
+                                ) -> Self {
+                                    method_name(v, self, __ast_path)
                                 }
                             }
                         }
