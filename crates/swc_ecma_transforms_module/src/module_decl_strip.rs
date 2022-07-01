@@ -576,7 +576,8 @@ pub trait LinkSpecifierReducer {
         mod_ident: &Ident,
         raw_mod_ident: &Option<Ident>,
         ref_to_mod_ident: &mut bool,
-        is_swc_default_helper: bool,
+        // do not emit `mod.default`, emit `mod` instead
+        default_nowrap: bool,
     );
 }
 
@@ -588,7 +589,7 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
         mod_ident: &Ident,
         raw_mod_ident: &Option<Ident>,
         ref_to_mod_ident: &mut bool,
-        is_swc_default_helper: bool,
+        default_nowrap: bool,
     ) {
         self.into_iter().for_each(|s| match s {
             LinkSpecifier::ImportNamed { imported, local } => {
@@ -606,7 +607,7 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                     id,
                     (
                         mod_ident.clone(),
-                        (!is_swc_default_helper).then(|| js_word!("default")),
+                        (!default_nowrap).then(|| js_word!("default")),
                     ),
                 );
             }

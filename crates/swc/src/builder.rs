@@ -182,14 +182,18 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     where
         P: 'cmt,
     {
-        let (need_analyzer, no_interop, ignore_dynamic) = match module {
-            Some(ModuleConfig::CommonJs(ref c)) => (true, c.no_interop, c.ignore_dynamic),
-            Some(ModuleConfig::Amd(ref c)) => (true, c.config.no_interop, c.config.ignore_dynamic),
-            Some(ModuleConfig::Umd(ref c)) => (true, c.config.no_interop, c.config.ignore_dynamic),
+        let (need_analyzer, import_interop, ignore_dynamic) = match module {
+            Some(ModuleConfig::CommonJs(ref c)) => (true, c.import_interop(), c.ignore_dynamic),
+            Some(ModuleConfig::Amd(ref c)) => {
+                (true, c.config.import_interop(), c.config.ignore_dynamic)
+            }
+            Some(ModuleConfig::Umd(ref c)) => {
+                (true, c.config.import_interop(), c.config.ignore_dynamic)
+            }
             Some(ModuleConfig::SystemJs(_))
             | Some(ModuleConfig::Es6)
             | Some(ModuleConfig::NodeNext)
-            | None => (false, true, true),
+            | None => (false, true.into(), true),
         };
 
         let mut feature_flag = FeatureFlag::empty();
@@ -320,7 +324,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             compat_pass,
             // module / helper
             Optional::new(
-                modules::import_analysis::import_analyzer(no_interop, ignore_dynamic),
+                modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer
             ),
             compat::reserved_words::reserved_words(),

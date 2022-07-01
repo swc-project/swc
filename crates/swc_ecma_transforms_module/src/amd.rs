@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureFlag, helper, helper_expr};
+use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
@@ -15,7 +15,8 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, use_strict,
+        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src,
+        use_strict, ImportInterop,
     },
 };
 
@@ -108,6 +109,8 @@ impl VisitMut for Amd {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        let import_interop = self.config.import_interop();
+
         let mut strip = ModuleDeclStrip::default();
         n.visit_mut_with(&mut strip);
 
@@ -128,7 +131,7 @@ impl VisitMut for Amd {
 
         let is_export_assign = export_assign.is_some();
 
-        if has_module_decl && !self.config.no_interop && !is_export_assign {
+        if has_module_decl && !import_interop.is_none() && !is_export_assign {
             stmts.push(define_es_module(self.exports()))
         }
 
@@ -260,7 +263,7 @@ impl VisitMut for Amd {
                     *span,
                     args.take(),
                     require,
-                    !self.config.no_interop,
+                    self.config.import_interop(),
                     self.support_arrow,
                 );
             }
@@ -296,6 +299,8 @@ impl Amd {
         export: Export,
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
+        let import_interop = self.config.import_interop();
+
         let mut stmts = Vec::with_capacity(link.len());
 
         let mut export_obj_prop_list = export
@@ -308,7 +313,9 @@ impl Amd {
                 let is_swc_default_helper =
                     !link_flag.has_named() && src.starts_with("@swc/helpers/");
 
-                if self.config.no_interop || is_swc_default_helper {
+                let is_node_default = !link_flag.has_named() && import_interop.is_node();
+
+                if import_interop.is_none() || is_swc_default_helper {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -331,7 +338,7 @@ impl Amd {
                     &new_var_ident,
                     &Some(mod_ident.clone()),
                     &mut false,
-                    is_swc_default_helper,
+                    is_swc_default_helper || is_node_default,
                 );
 
                 if is_swc_default_helper {
@@ -356,17 +363,19 @@ impl Amd {
 
                 // _introp(mod);
                 if need_interop {
-                    import_expr = CallExpr {
-                        span: DUMMY_SP,
-                        callee: if link_flag.namespace() {
-                            helper!(interop_require_wildcard, "interopRequireWildcard")
+                    import_expr = match import_interop {
+                        ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
+                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
                         } else {
-                            helper!(interop_require_default, "interopRequireDefault")
-                        },
-                        args: vec![import_expr.as_arg()],
-                        type_args: Default::default(),
+                            helper_expr!(interop_require_default, "interopRequireDefault")
+                        }
+                        .as_call(DUMMY_SP, vec![import_expr.as_arg()]),
+                        ImportInterop::Node if link_flag.namespace() => {
+                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                                .as_call(DUMMY_SP, vec![import_expr.as_arg(), true.as_arg()])
+                        }
+                        _ => import_expr,
                     }
-                    .into()
                 };
 
                 // mod = _introp(mod);
@@ -391,6 +400,8 @@ impl Amd {
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
+            export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+
             let features = self.available_features;
             let exports = self.exports();
 
@@ -418,7 +429,7 @@ pub(crate) fn amd_dynamic_import(
     span: Span,
     args: Vec<ExprOrSpread>,
     require: Ident,
-    es_module_interop: bool,
+    import_interop: ImportInterop,
     support_arrow: bool,
 ) -> Expr {
     let resolve = private_ident!("resolve");
@@ -427,11 +438,12 @@ pub(crate) fn amd_dynamic_import(
 
     let module = private_ident!("m");
 
-    let resolved_module: Expr = if es_module_interop {
-        helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-            .as_call(DUMMY_SP, vec![module.clone().as_arg()])
-    } else {
-        module.clone().into()
+    let resolved_module: Expr = match import_interop {
+        ImportInterop::None => module.clone().into(),
+        ImportInterop::Swc => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+            .as_call(DUMMY_SP, vec![module.clone().as_arg()]),
+        ImportInterop::Node => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+            .as_call(DUMMY_SP, vec![module.clone().as_arg(), true.as_arg()]),
     };
 
     let resolve_callback = resolve

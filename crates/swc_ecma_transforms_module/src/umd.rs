@@ -2,7 +2,7 @@ use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureFlag, helper, helper_expr};
+use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
 };
@@ -15,7 +15,8 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, use_strict,
+        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src,
+        use_strict, ImportInterop,
     },
 };
 
@@ -87,6 +88,8 @@ impl VisitMut for Umd {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
+        let import_interop = self.config.config.import_interop();
+
         let filename = self.cm.span_to_filename(module.span);
         let exported_name = self.config.determine_export_name(filename);
 
@@ -112,7 +115,7 @@ impl VisitMut for Umd {
 
         let is_export_assign = export_assign.is_some();
 
-        if has_module_decl && !self.config.config.no_interop && !is_export_assign {
+        if has_module_decl && !import_interop.is_none() && !is_export_assign {
             stmts.push(define_es_module(self.exports()))
         }
 
@@ -187,6 +190,8 @@ impl Umd {
         export: Export,
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
+        let import_interop = self.config.config.import_interop();
+
         let mut stmts = Vec::with_capacity(link.len());
 
         let mut export_obj_prop_list = export
@@ -199,7 +204,9 @@ impl Umd {
                 let is_swc_default_helper =
                     !link_flag.has_named() && src.starts_with("@swc/helpers/");
 
-                if self.config.config.no_interop || is_swc_default_helper {
+                let is_node_default = !link_flag.has_named() && import_interop.is_node();
+
+                if import_interop.is_none() || is_swc_default_helper {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -222,7 +229,7 @@ impl Umd {
                     &new_var_ident,
                     &Some(mod_ident.clone()),
                     &mut false,
-                    is_swc_default_helper,
+                    is_swc_default_helper || is_node_default,
                 );
 
                 if is_swc_default_helper {
@@ -247,17 +254,19 @@ impl Umd {
 
                 // _introp(mod);
                 if need_interop {
-                    import_expr = CallExpr {
-                        span: DUMMY_SP,
-                        callee: if link_flag.namespace() {
-                            helper!(interop_require_wildcard, "interopRequireWildcard")
+                    import_expr = match import_interop {
+                        ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
+                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
                         } else {
-                            helper!(interop_require_default, "interopRequireDefault")
-                        },
-                        args: vec![import_expr.as_arg()],
-                        type_args: Default::default(),
+                            helper_expr!(interop_require_default, "interopRequireDefault")
+                        }
+                        .as_call(DUMMY_SP, vec![import_expr.as_arg()]),
+                        ImportInterop::Node if link_flag.namespace() => {
+                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                                .as_call(DUMMY_SP, vec![import_expr.as_arg(), true.as_arg()])
+                        }
+                        _ => import_expr,
                     }
-                    .into()
                 };
 
                 // mod = _introp(mod);
@@ -282,6 +291,8 @@ impl Umd {
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
+            export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+
             let features = self.available_features;
             let exports = self.exports();
 
