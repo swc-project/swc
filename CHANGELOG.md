@@ -47,7 +47,7 @@
 
 
 
-- **(deps)** Update `rkyv` (#5057) ([374366d](https://github.com/swc-project/swc/commit/374366d56ca431dc892b390efaf090ee4d116100))
+- **(deps)** Update `rkyv` (#5057) ([374366d](https://github.com/swc-project/swc/commit/374366d56ca431dc892b390efaf090ee4d116100))- **general**: Workaround cargo mono bug ([60424db](https://github.com/swc-project/swc/commit/60424db67b3c9bc0d36012249e16ebaa2100f299))
 
 ### Performance
 

@@ -3467,7 +3467,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.141.0"
+version = "0.142.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3537,7 +3537,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.166.0"
+version = "0.167.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3823,7 +3823,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.171.0"
+version = "0.172.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3870,7 +3870,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.116.0"
+version = "0.117.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4099,7 +4099,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.67.0"
+version = "0.68.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
