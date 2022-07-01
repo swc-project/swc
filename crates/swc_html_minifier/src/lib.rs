@@ -1681,13 +1681,15 @@ impl VisitMut for Minifier {
 
         n.visit_mut_children_with(self);
 
-        if self.need_collapse_whitespace() {
         // Remove all leading and trailing whitespaces for the `body` element
-        if n.namespace == Namespace::HTML && &*n.tag_name == "body" {
+        if n.namespace == Namespace::HTML
+            && &*n.tag_name == "body"
+            && self.need_collapse_whitespace()
+        {
             self.remove_leading_and_trailing_whitespaces(&mut n.children);
         }
 
-        if self.collapse_whitespaces.is_some() {
+        if self.need_collapse_whitespace() {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 
