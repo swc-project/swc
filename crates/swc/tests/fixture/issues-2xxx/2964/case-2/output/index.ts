@@ -16,7 +16,7 @@ _export(exports, {
 const _objectWithoutProperties = require("@swc/helpers/lib/_object_without_properties.js").default;
 //top comment
 const noop = ()=>{};
-var /* istanbul ignore next */ badIstanbul = (test)=>{
+/* istanbul ignore next */ const badIstanbul = (test)=>{
     const { value  } = test, pixelParams = _objectWithoutProperties(test, [
         "value"
     ]);
