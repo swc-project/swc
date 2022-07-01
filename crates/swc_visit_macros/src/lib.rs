@@ -1458,8 +1458,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 .parse();
                                             }
                                         }
-                                        Mode::Visit | Mode::VisitAll => {}
-                                        Mode::VisitMut => {}
+                                        Mode::Visit { .. }
+                                        | Mode::VisitAll
+                                        | Mode::VisitMut { .. } => {}
                                     }
 
                                     return if is_option(arg) {
