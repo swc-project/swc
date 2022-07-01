@@ -174,16 +174,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 defaultness: None,
                 sig: sig.clone(),
                 block: match mode {
-                    Mode::VisitAll | Mode::Visit => q!(
-                        Vars { visit: &name },
-                        ({
-                            if self.enabled {
-                                self.visitor.visit(n)
-                            }
-                        })
-                    )
-                    .parse(),
-                    Mode::VisitMut => q!(
+                    Mode::VisitAll | Mode::Visit | Mode::VisitMut => q!(
                         Vars { visit: &name },
                         ({
                             if self.enabled {
