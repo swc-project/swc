@@ -838,8 +838,10 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
 
             let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr);
             stmts.push(match mode {
-                Mode::VisitAll | Mode::Visit | Mode::VisitMut => Stmt::Semi(expr, call_site()),
-                Mode::Fold => q!(
+                Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
+                    Stmt::Semi(expr, call_site())
+                }
+                Mode::Fold { .. } => q!(
                     Vars {
                         name: &binding_ident,
                         expr
@@ -929,17 +931,22 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
             p.push_value(q!(Vars {}, { &mut self }).parse());
             p.push_punct(def_site());
             match mode {
-                Mode::Fold => {
+                Mode::Fold { .. } => {
                     p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
                 }
 
-                Mode::VisitMut => {
+                Mode::VisitMut { .. } => {
                     p.push_value(q!(Vars { Type: ty }, { n: &mut Type }).parse());
                 }
 
-                Mode::Visit | Mode::VisitAll => {
+                Mode::Visit { .. } | Mode::VisitAll => {
                     p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
                 }
+            }
+
+            if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+                p.push_punct(def_site());
+                p.push_value(ast_path_type(mode));
             }
 
             p
