@@ -565,6 +565,30 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
 
+            Mode::Visit(VisitorVariant::WithPath) => q!({
+                pub trait VisitWithPath<V: ?Sized + VisitPath> {
+                    fn visit_with_path(&self, v: &mut V, ast_path: &mut AstNodePath);
+
+                    /// Visit children nodes of self with `v`
+                    fn visit_children_with_path(&self, v: &mut V, ast_path: &mut AstNodePath);
+                }
+
+                impl<V, T> VisitWithPath<V> for Box<T>
+                where
+                    V: ?Sized + VisitPath,
+                    T: 'static + VisitWithPath<V>,
+                {
+                    fn visit_with_path(&self, v: &mut V, ast_path: &mut AstNodePath) {
+                        (**self).visit_with_path(v)
+                    }
+
+                    /// Visit children nodes of self with `v`
+                    fn visit_children_with_path(&self, v: &mut V, ast_path: &mut AstNodePath) {
+                        (**self).visit_children_with_path(v)
+                    }
+                }
+            }),
+
             Mode::VisitAll => q!({
                 pub trait VisitAllWith<V: ?Sized + VisitAll> {
                     fn visit_all_with(&self, v: &mut V);
@@ -611,11 +635,35 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
+            Mode::Fold(VisitorVariant::WithPath) => q!({
+                pub trait FoldWithPath<V: ?Sized + Fold> {
+                    fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
+
+                    /// Visit children nodes of self with `v`
+                    fn fold_children_with_path(self, v: &mut V, ast_path: &mut AstKindPath)
+                        -> Self;
+                }
+
+                impl<V, T> FoldWithPath<V> for Box<T>
+                where
+                    V: ?Sized + FoldPath,
+                    T: 'static + FoldWithPath<V>,
+                {
+                    fn fold_with_path(self, v: &mut V) -> Self {
+                        swc_visit::util::map::Map::map(self, |value| value.fold_with(v))
+                    }
+
+                    /// Visit children nodes of self with `v`
+                    fn fold_children_with_path(self, v: &mut V) -> Self {
+                        swc_visit::util::map::Map::map(self, |value| value.fold_children_with(v))
+                    }
+                }
+            }),
             Mode::VisitMut(VisitorVariant::Normal) => q!({
                 pub trait VisitMutWith<V: ?Sized + VisitMut> {
-                    fn visit_mut_with(&mut self, v: &mut V);
+                    fn visit_mut_with_path(&mut self, v: &mut V);
 
-                    fn visit_mut_children_with(&mut self, v: &mut V);
+                    fn visit_mut_children_with_path(&mut self, v: &mut V);
                 }
 
                 impl<V, T> VisitMutWith<V> for Box<T>
@@ -623,18 +671,44 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     V: ?Sized + VisitMut,
                     T: 'static + VisitMutWith<V>,
                 {
-                    fn visit_mut_with(&mut self, v: &mut V) {
-                        (**self).visit_mut_with(v);
+                    fn visit_mut_with_path(&mut self, v: &mut V) {
+                        (**self).visit_mut_with_path(v);
                     }
 
-                    fn visit_mut_children_with(&mut self, v: &mut V) {
-                        (**self).visit_mut_children_with(v);
+                    fn visit_mut_children_with_path(&mut self, v: &mut V) {
+                        (**self).visit_mut_children_with_path(v);
                     }
                 }
             }),
+            Mode::VisitMut(VisitorVariant::WithPath) => q!({
+                pub trait VisitMutWithPath<V: ?Sized + VisitMutPath> {
+                    fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
 
-            // TODO
-            _ => q!({}),
+                    fn visit_mut_children_with_path(
+                        &mut self,
+                        v: &mut V,
+                        ast_path: &mut AstKindPath,
+                    );
+                }
+
+                impl<V, T> VisitMutWith<V> for Box<T>
+                where
+                    V: ?Sized + VisitMutPath,
+                    T: 'static + VisitMutWithPath<V>,
+                {
+                    fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath) {
+                        (**self).visit_mut_with_path(v);
+                    }
+
+                    fn visit_mut_children_with_path(
+                        &mut self,
+                        v: &mut V,
+                        ast_path: &mut AstKindPath,
+                    ) {
+                        (**self).visit_mut_children_with_path(v);
+                    }
+                }
+            }),
         };
         tokens.push_tokens(&trait_decl);
 
