@@ -1715,10 +1715,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     }
 
                                     return match mode {
-                                        Mode::Fold(VisitorVariant::Normal)
-                                        | Mode::VisitMut(VisitorVariant::Normal)
-                                        | Mode::Visit(VisitorVariant::Normal)
-                                        | Mode::VisitAll => q!(
+                                        Mode::Fold(VisitorVariant::Normal) => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
@@ -1728,14 +1725,37 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             })
                                         )
                                         .parse(),
-                                        Mode::Fold(VisitorVariant::WithPath)
-                                        | Mode::VisitMut(VisitorVariant::WithPath)
-                                        | Mode::Visit(VisitorVariant::WithPath) => q!(
+
+                                        Mode::VisitMut(VisitorVariant::Normal)
+                                        | Mode::Visit(VisitorVariant::Normal)
+                                        | Mode::VisitAll => q!(
+                                            Vars { ident },
+                                            ({
+                                                match n {
+                                                    Some(n) => _visitor.ident(n),
+                                                    None => {}
+                                                }
+                                            })
+                                        )
+                                        .parse(),
+                                        Mode::Fold(VisitorVariant::WithPath) => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
                                                     Some(n) => Some(_visitor.ident(n, __ast_path)),
                                                     None => None,
+                                                }
+                                            })
+                                        )
+                                        .parse(),
+
+                                        Mode::VisitMut(VisitorVariant::WithPath)
+                                        | Mode::Visit(VisitorVariant::WithPath) => q!(
+                                            Vars { ident },
+                                            ({
+                                                match n {
+                                                    Some(n) => _visitor.ident(n, __ast_path),
+                                                    None => {}
                                                 }
                                             })
                                         )
