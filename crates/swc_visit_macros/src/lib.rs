@@ -71,7 +71,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let mut q = Quote::new_call_site();
     q.push_tokens(&q!({
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
-        pub type AstNodePath = swc_visit::AstNodePath<AstNodeRef>;
+        pub type AstNodePath<'a> = swc_visit::AstNodePath<'a, AstNodeRef>;
     }));
 
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
