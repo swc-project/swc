@@ -888,7 +888,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 expr,
                                 method_name: &method_name
                             },
-                            { method_name(_visitor, expr, _ast_path) }
+                            { method_name(_visitor, expr, __ast_path) }
                         )
                         .parse()
                     });
