@@ -1054,7 +1054,7 @@ impl Minifier {
                         {
                             Some(self.get_display(*namespace, tag_name))
                         let prev = if index >= 1 {
-                            self.get_prev_displayed_node(children, index - 1)
+                            children.get(index - 1)
                         } else {
                             None
                         };
@@ -1104,18 +1104,25 @@ impl Minifier {
                                     true
                                 }
                             }
+                            // And
                             // Inline box
-                            Some(Display::Inline) => {
-                                if let Some(prev) = &prev {
-                                    let deep = self.get_deep_last_text_element(prev);
-
-                                    if let Some(deep) = deep {
-                                        deep.data.ends_with(is_whitespace)
-                                    } else {
-                                        false
+                            Some(Display::None) | Some(Display::Inline) => {
+                                match &self.get_prev_displayed_node(children, index - 1) {
+                                    Some(Child::Text(text))
+                                        if text.data.ends_with(is_whitespace) =>
+                                    {
+                                        true
                                     }
-                                } else {
-                                    false
+                                    Some(child @ Child::Element(_)) => {
+                                        let deep = self.get_deep_last_text_element(child);
+
+                                        if let Some(deep) = deep {
+                                            deep.data.ends_with(is_whitespace)
+                                        } else {
+                                            false
+                                        }
+                                    }
+                                    _ => false,
                                 }
                             }
                             // Inline level containers and etc
@@ -1182,6 +1189,23 @@ impl Minifier {
                                     !self.is_displayed_element(*namespace, tag_name)
                                 } else {
                                     true
+                            Some(Display::None) | Some(Display::Inline) => {
+                                match &self.get_next_displayed_node(children, index + 1) {
+                                    Some(Child::Text(text))
+                                        if text.data.ends_with(is_whitespace) =>
+                                    {
+                                        true
+                                    }
+                                    Some(child @ Child::Element(_)) => {
+                                        let deep = self.get_deep_last_text_element(child);
+
+                                        if let Some(deep) = deep {
+                                            deep.data.ends_with(is_whitespace)
+                                        } else {
+                                            false
+                                        }
+                                    }
+                                    _ => false,
                                 }
                             }
                             Some(_) => false,
