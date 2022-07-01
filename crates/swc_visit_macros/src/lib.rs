@@ -35,9 +35,9 @@ impl Mode {
             Mode::Fold(VisitorVariant::Normal) => "Fold",
             Mode::Visit(VisitorVariant::Normal) => "Visit",
             Mode::VisitMut(VisitorVariant::Normal) => "VisitMut",
-            Mode::Visit(VisitorVariant::WithPath) => "VisitWithPath",
-            Mode::VisitMut(VisitorVariant::WithPath) => "VisitMutWithPath",
-            Mode::Fold(VisitorVariant::WithPath) => "FoldWithPath",
+            Mode::Visit(VisitorVariant::WithPath) => "VisitPath",
+            Mode::VisitMut(VisitorVariant::WithPath) => "VisitMutPath",
+            Mode::Fold(VisitorVariant::WithPath) => "FoldPath",
         }
     }
 
