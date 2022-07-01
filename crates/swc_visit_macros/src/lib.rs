@@ -1525,15 +1525,47 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
+                            Mode::Fold(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    __ast_path.with_kind(n, |__ast_path| {
+                                        swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                            _visitor.ident(v)
+                                        })
+                                    })
+                                })
+                            )
+                            .parse(),
+
                             Mode::VisitMut(VisitorVariant::Normal) => q!(
                                 Vars { ident },
                                 ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
                             )
                             .parse(),
 
+                            Mode::VisitMut(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    __ast_path.with_kind(n, |__ast_path| {
+                                        n.iter_mut().for_each(|v| _visitor.ident(v))
+                                    })
+                                })
+                            )
+                            .parse(),
+
                             Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
                                 Vars { ident },
                                 ({ n.iter().for_each(|v| _visitor.ident(v)) })
+                            )
+                            .parse(),
+
+                            Mode::Visit(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    __ast_path.with_kind(n, |__ast_path| {
+                                        n.iter().for_each(|v| _visitor.ident(v))
+                                    })
+                                })
                             )
                             .parse(),
                         }
