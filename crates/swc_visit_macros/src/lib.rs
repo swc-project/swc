@@ -812,6 +812,18 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
             { visitor.visit_name(expr) }
         )
         .parse(),
+
+        Mode::Fold(VisitorVariant::WithPath)
+        | Mode::VisitMut(VisitorVariant::WithPath)
+        | Mode::Visit(VisitorVariant::WithPath) => q!(
+            Vars {
+                visitor,
+                expr,
+                visit_name
+            },
+            { visitor.visit_name(expr, __ast_path) }
+        )
+        .parse(),
     })
 }
 
