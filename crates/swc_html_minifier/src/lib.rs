@@ -977,6 +977,7 @@ impl Minifier {
         let child_will_be_retained = |child: &mut Child,
                                       prev: Option<&Child>,
                                       next: Option<&Child>| {
+        let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
             match child {
                 Child::Comment(comment) if self.remove_comments => {
                     self.is_preserved_comment(&comment.data)
@@ -1023,6 +1024,19 @@ impl Minifier {
                         })) = &prev
                         {
                             Some(self.get_display(*namespace, tag_name))
+                        let prev = if index >= 1 {
+                            self.get_prev_non_comment_node(&children, index - 1)
+                        } else {
+                            None
+                        };
+
+                        let prev_display = if let Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) = &prev
+                        {
+                            Some(self.get_display(*namespace, tag_name))
                         } else {
                             None
                         };
@@ -1057,6 +1071,7 @@ impl Minifier {
                                 })) = &prev
                                 {
                                     !self.is_element_displayed(*namespace, tag_name)
+                                    !self.is_metadata_element_displayed(*namespace, tag_name)
                                 } else {
                                     true
                                 }
@@ -1095,6 +1110,7 @@ impl Minifier {
                             }
                         };
 
+                        let next = self.get_next_non_comment_node(&children, index + 1);
                         let next_display = if let Some(Child::Element(Element {
                             namespace,
                             tag_name,
@@ -1136,6 +1152,7 @@ impl Minifier {
                                 })) = &next
                                 {
                                     !self.is_element_displayed(*namespace, tag_name)
+                                    !self.is_metadata_element_displayed(*namespace, tag_name)
                                 } else {
                                     true
                                 }
@@ -1190,8 +1207,8 @@ impl Minifier {
                         .is_some()
                         && !child_will_be_retained(
                             &mut cloned_children.get(index + 1).cloned().unwrap(),
-                            self.get_prev_non_comment_node(&cloned_children, index),
-                            self.get_next_non_comment_node(&cloned_children, index + 2),
+                            &cloned_children,
+                            index + 1,
                         ) =>
                 {
                     pending_text.push(text.data.clone());
@@ -1214,14 +1231,7 @@ impl Minifier {
                 _ => {}
             }
 
-            let prev = if index >= 1 {
-                self.get_prev_non_comment_node(&cloned_children, index - 1)
-            } else {
-                None
-            };
-            let next = self.get_next_non_comment_node(&cloned_children, index + 1);
-
-            let result = child_will_be_retained(child, prev, next);
+            let result = child_will_be_retained(child, &cloned_children, index);
 
             index += 1;
 
