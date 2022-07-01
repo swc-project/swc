@@ -259,17 +259,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let default_body = replace(
             &mut v.default,
             Some(match mode {
-                Mode::Fold
-                | Mode::VisitMut
-                | Mode::Visit
-                | Mode::VisitWithPath
-                | Mode::VisitMutWithPath
-                | Mode::FoldWithPath => q!(Vars { fn_name: &fn_name }, {
-                    {
-                        fn_name(self, n)
-                    }
-                })
-                .parse(),
+                Mode::Fold { .. } | Mode::VisitMut { .. } | Mode::Visit { .. } => {
+                    q!(Vars { fn_name: &fn_name }, {
+                        {
+                            fn_name(self, n)
+                        }
+                    })
+                    .parse()
+                }
                 Mode::VisitAll => Block {
                     brace_token: def_site(),
                     stmts: Default::default(),
