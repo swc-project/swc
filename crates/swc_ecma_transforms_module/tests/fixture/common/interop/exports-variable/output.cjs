@@ -9,9 +9,9 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    bar: ()=>bar,
     foo: ()=>foo,
     foo2: ()=>foo2,
+    bar: ()=>bar,
     foo3: ()=>foo3,
     foo4: ()=>foo4,
     foo5: ()=>foo5,

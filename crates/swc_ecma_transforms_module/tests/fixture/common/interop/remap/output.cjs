@@ -9,11 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    test: ()=>test,
     a: ()=>a,
     c: ()=>b,
     e: ()=>d,
-    f: ()=>d,
-    test: ()=>test
+    f: ()=>d
 });
 var test = 2;
 test = 5;

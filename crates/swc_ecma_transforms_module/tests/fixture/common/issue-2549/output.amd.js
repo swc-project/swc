@@ -13,12 +13,12 @@ define([
         });
     }
     _export(exports, {
-        addOne: ()=>addOne,
-        errors: ()=>errors,
         noassign: ()=>noassign,
+        warn: ()=>warn,
+        errors: ()=>errors,
+        addOne: ()=>addOne,
         someFunc: ()=>someFunc,
-        test: ()=>test,
-        warn: ()=>warn
+        test: ()=>test
     });
     function log() {
         console.log("unexported");

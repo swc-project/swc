@@ -16,8 +16,8 @@
         });
     }
     _export(exports, {
-        Cachier: ()=>Cachier,
-        default: ()=>_default
+        default: ()=>_default,
+        Cachier: ()=>Cachier
     });
     var _default = new Cachier();
     function Cachier(databaseName) {}

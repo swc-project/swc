@@ -13,8 +13,8 @@ define([
         });
     }
     _export(exports, {
-        bar: ()=>foo,
-        default: ()=>foo
+        default: ()=>foo,
+        bar: ()=>foo
     });
     foo = 1;
     class foo {

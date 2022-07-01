@@ -9,8 +9,8 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    byID: ()=>byID,
-    get: ()=>_get
+    get: ()=>_get,
+    byID: ()=>byID
 });
 const _get = _interopRequireWildcard(require("./get"));
 const byID = (id)=>{

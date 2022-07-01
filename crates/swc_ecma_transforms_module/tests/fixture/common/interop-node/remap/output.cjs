@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.test = exports.f = exports.e = exports.c = exports.a = void 0;
+exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
@@ -10,11 +10,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    test: ()=>test,
     a: ()=>a,
     c: ()=>b,
     e: ()=>d,
-    f: ()=>d,
-    test: ()=>test
+    f: ()=>d
 });
 var test = 2;
 test = 5;

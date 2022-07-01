@@ -9,8 +9,8 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    isOdd: ()=>isOdd,
-    nextOdd: ()=>nextOdd
+    nextOdd: ()=>nextOdd,
+    isOdd: ()=>isOdd
 });
 const _evens = require("./evens");
 function nextOdd(n) {

@@ -16,8 +16,8 @@
         });
     }
     _export(exports, {
-        bar: ()=>foo,
-        default: ()=>foo
+        default: ()=>foo,
+        bar: ()=>foo
     });
     foo = 1;
     function foo() {}

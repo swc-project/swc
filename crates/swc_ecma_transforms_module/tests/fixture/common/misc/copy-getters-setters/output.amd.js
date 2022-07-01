@@ -14,8 +14,8 @@ define([
         });
     }
     _export(exports, {
-        Foo: ()=>_moduleWithGetter.default,
-        baz: ()=>_moduleWithGetter.baz
+        baz: ()=>_moduleWithGetter.baz,
+        Foo: ()=>_moduleWithGetter.default
     });
     _moduleWithGetter = _interopRequireWildcard(_moduleWithGetter);
 });

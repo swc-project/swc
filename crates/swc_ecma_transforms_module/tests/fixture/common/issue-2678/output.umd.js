@@ -17,8 +17,8 @@
     }
     _export(exports, {
         default: ()=>someCall,
-        test: ()=>test,
-        warn: ()=>warn
+        warn: ()=>warn,
+        test: ()=>test
     });
     function someCall() {
         throw new Error("this should not be called");

@@ -16,8 +16,8 @@
         });
     }
     _export(exports, {
-        diff: ()=>diff,
-        diffLevel: ()=>diffLevel
+        diffLevel: ()=>diffLevel,
+        diff: ()=>diff
     });
     let diffLevel = 0;
     function diff() {

@@ -9,10 +9,10 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    foo: ()=>foo,
     bar: ()=>bar,
     baz: ()=>baz,
     bazbar: ()=>baz,
-    foo: ()=>foo,
     foobar: ()=>foo
 });
 let foo = 1n;

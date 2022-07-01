@@ -9,7 +9,14 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    baz: ()=>_moduleWithGetter.baz,
-    Foo: ()=>_moduleWithGetter.default
+    foo: ()=>foo,
+    a: ()=>a,
+    b: ()=>b
 });
-const _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));
+const _extends = require("@swc/helpers/lib/_extends.js").default;
+const a = 1;
+const b = 2;
+var foo = _extends({}, {
+    a: 1,
+    b: 2
+});
