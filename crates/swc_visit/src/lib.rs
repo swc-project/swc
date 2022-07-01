@@ -81,7 +81,7 @@
 //! path = []
 //! ```
 //!
-//! If you want to use path-aware visitor.
+//! If you want to allow using path-aware visitor.
 
 pub use either::Either;
 pub use swc_visit_macros::define;
