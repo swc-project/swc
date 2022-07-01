@@ -791,6 +791,46 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ));
                 }
 
+                Mode::VisitMut(VisitorVariant::WithPath) => {
+                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                        q!(
+                            Vars {
+                                expr,
+                                method_name: &method_name
+                            },
+                            { method_name(_visitor, expr, _ast_path) }
+                        )
+                        .parse()
+                    });
+
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            default_body,
+                            Type: ty,
+                            expr,
+                        },
+                        {
+                            impl<V: ?Sized + VisitMut> VisitMutWithPath<V> for Type {
+                                fn visit_mut_with_path(
+                                    &mut self,
+                                    v: &mut V,
+                                    __ast_path: &mut swc_visit::AstKindPath<AstKind>,
+                                ) {
+                                    expr
+                                }
+
+                                fn visit_mut_children_with_path(
+                                    &mut self,
+                                    _visitor: &mut V,
+                                    __ast_path: &mut swc_visit::AstKindPath<AstKind>,
+                                ) {
+                                    default_body
+                                }
+                            }
+                        }
+                    ));
+                }
+
                 Mode::Fold(VisitorVariant::Normal) => {
                     tokens.push_tokens(&q!(
                         Vars {
@@ -840,9 +880,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         }
                     ));
                 }
-
-                // TODO
-                _ => {}
             }
         }
     }
