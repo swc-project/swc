@@ -69,6 +69,11 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
+    q.push_tokens(&q!({
+        pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
+        pub type AstNodePath = swc_visit::AstNodePath<AstNodeRef>;
+    }));
+
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
     q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
 
@@ -375,7 +380,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn fn_name<V: ?Sized + Trait>(
                         _visitor: &mut V,
                         n: Type,
-                        __ast_path: &mut swc_visit::AstKindPath<AstKind>,
+                        __ast_path: &mut AstKindPath,
                     ) -> Type {
                         __ast_path.with(n.to_ast_kind(), |__ast_path| default_body)
                     }
@@ -394,7 +399,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn fn_name<V: ?Sized + Trait>(
                         _visitor: &mut V,
                         n: Type,
-                        __ast_path: &mut swc_visit::AstKindPath<AstKind>,
+                        __ast_path: &mut AstKindPath,
                     ) {
                         __ast_path.with(n.to_ast_kind(), |__ast_path| default_body)
                     }
@@ -413,7 +418,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn fn_name<V: ?Sized + Trait>(
                         _visitor: &mut V,
                         n: Type,
-                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                        __ast_path: &mut AstNodePath,
                     ) {
                         __ast_path.with(n.to_ast_path_node(), |__ast_path| default_body)
                     }
@@ -747,7 +752,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     fn visit_with_path(
                                         &self,
                                         v: &mut V,
-                                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                        __ast_path: &mut AstNodePath,
                                     ) {
                                         expr
                                     }
@@ -755,7 +760,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     fn visit_children_with_path(
                                         &self,
                                         _visitor: &mut V,
-                                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                        __ast_path: &mut AstNodePath,
                                     ) {
                                         default_body
                                     }
@@ -765,18 +770,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                         tokens.push_tokens(&q!(Vars { Type: ty }, {
                             impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
-                                fn visit_with_path(
-                                    &self,
-                                    v: &mut V,
-                                    __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
-                                ) {
+                                fn visit_with_path(&self, v: &mut V, __ast_path: &mut AstNodePath) {
                                     (**self).visit_with(v)
                                 }
 
                                 fn visit_children_with_path(
                                     &self,
                                     _visitor: &mut V,
-                                    __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                    __ast_path: &mut AstNodePath,
                                 ) {
                                     (**self).visit_children_with(_visitor)
                                 }
@@ -794,7 +795,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     fn visit_with_path(
                                         &self,
                                         v: &mut V,
-                                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                        __ast_path: &mut AstNodePath,
                                     ) {
                                         expr
                                     }
@@ -802,7 +803,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     fn visit_children_with_path(
                                         &self,
                                         _visitor: &mut V,
-                                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
+                                        __ast_path: &mut AstNodePath,
                                     ) {
                                         default_body
                                     }
@@ -903,7 +904,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 fn visit_mut_with_path(
                                     &mut self,
                                     v: &mut V,
-                                    __ast_path: &mut swc_visit::AstKindPath<AstKind>,
+                                    __ast_path: &mut AstKindPath,
                                 ) {
                                     expr
                                 }
@@ -911,7 +912,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 fn visit_mut_children_with_path(
                                     &mut self,
                                     _visitor: &mut V,
-                                    __ast_path: &mut swc_visit::AstKindPath<AstKind>,
+                                    __ast_path: &mut AstKindPath,
                                 ) {
                                     default_body
                                 }
@@ -953,7 +954,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 fn fold_with_path(
                                     self,
                                     v: &mut V,
-                                    __ast_path: &mut swc_visit::AstKindPath<AstKind>,
+                                    __ast_path: &mut AstKindPath,
                                 ) -> Self {
                                     expr
                                 }
@@ -961,7 +962,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 fn fold_children_with_path(
                                     self,
                                     v: &mut V,
-                                    __ast_path: &mut swc_visit::AstKindPath<AstKind>,
+                                    __ast_path: &mut AstKindPath,
                                 ) -> Self {
                                     method_name(v, self, __ast_path)
                                 }
@@ -1894,8 +1895,8 @@ fn method_name_as_str(mode: Mode, ty: &Type) -> String {
 
 fn ast_path_type(mode: Mode) -> Type {
     match mode {
-        Mode::Visit(_) => q!((&mut swc_visit::AstNodePath<AstNodeRef>)).parse(),
-        Mode::VisitMut(_) | Mode::Fold(_) => q!((&mut swc_visit::AstKindPath<AstKind>)).parse(),
+        Mode::Visit(_) => q!((&mut AstNodePath)).parse(),
+        Mode::VisitMut(_) | Mode::Fold(_) => q!((&mut AstKindPath)).parse(),
         _ => unreachable!(),
     }
 }
