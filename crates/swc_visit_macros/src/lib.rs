@@ -648,7 +648,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
 
-                Mode::VisitAll(VisitorVariant::Normal) => {
+                Mode::VisitAll => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -800,17 +800,10 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
     let visit_name = method_name(mode, ty);
 
     adjust_expr(mode, ty, expr, |expr| match mode {
-        Mode::Fold | Mode::VisitMut => q!(
-            Vars {
-                visitor,
-                expr,
-                visit_name
-            },
-            { visitor.visit_name(expr) }
-        )
-        .parse(),
-
-        Mode::Visit | Mode::VisitAll => q!(
+        Mode::Fold(VisitorVariant::Normal)
+        | Mode::VisitMut(VisitorVariant::Normal)
+        | Mode::Visit(VisitorVariant::Normal)
+        | Mode::VisitAll => q!(
             Vars {
                 visitor,
                 expr,
