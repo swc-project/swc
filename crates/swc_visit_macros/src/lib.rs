@@ -20,6 +20,9 @@ enum Mode {
     VisitAll,
     VisitMut,
     Fold,
+    VisitWithPath,
+    VisitMutWithPath,
+    FoldWithPath,
 }
 
 impl Mode {
@@ -29,14 +32,17 @@ impl Mode {
             Mode::VisitAll => "VisitAll",
             Mode::Visit => "Visit",
             Mode::VisitMut => "VisitMut",
+            Mode::VisitWithPath => "VisitWithPath",
+            Mode::VisitMutWithPath => "VisitMutWithPath",
+            Mode::FoldWithPath => "FoldWithPath",
         }
     }
 
     fn prefix(self) -> &'static str {
         match self {
-            Mode::Fold => "fold",
-            Mode::Visit | Mode::VisitAll => "visit",
-            Mode::VisitMut => "visit_mut",
+            Mode::Fold | Mode::FoldWithPath => "fold",
+            Mode::Visit | Mode::VisitAll | Mode::VisitWithPath => "visit",
+            Mode::VisitMut | Mode::VisitMutWithPath => "visit_mut",
         }
     }
 }
