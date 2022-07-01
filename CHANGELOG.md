@@ -5,6 +5,14 @@
 
 
 
+- **(es/modules)** Preserve orders of exports (#5081) ([2f2039c](https://github.com/swc-project/swc/commit/2f2039c693bd1e16b16dd1b1b32f3582fdadca4e))
+
+## [1.2.208] - 2022-07-01
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Preserve this in function with block scoped vars (#5056) ([18ea2b5](https://github.com/swc-project/swc/commit/18ea2b577011d610fbb06bb6728a86be8366703a))
 
 
