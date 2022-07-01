@@ -48,6 +48,13 @@ impl Mode {
             Mode::VisitMut { .. } => "visit_mut",
         }
     }
+
+    fn visitor_variant(self) -> Option<VisitorVariant> {
+        match self {
+            Mode::Fold(v) | Mode::Visit(v) | Mode::VisitMut(v) => Some(v),
+            Mode::VisitAll => None,
+        }
+    }
 }
 
 /// This creates `Visit`. This is extensible visitor generator, and it
