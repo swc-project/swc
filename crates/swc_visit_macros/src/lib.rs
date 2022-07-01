@@ -1671,17 +1671,32 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     let ident = method_name(mode, arg);
 
                     match mode {
-                        Mode::Fold { .. } => {
+                        Mode::Fold(v) => {
                             if let Some(..) = as_box(arg) {
-                                return q!(
-                                    Vars { ident },
-                                    ({
-                                        swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                            swc_visit::util::map::Map::map(v, |v| _visitor.ident(v))
+                                return match v {
+                                    VisitorVariant::Normal => q!(
+                                        Vars { ident },
+                                        ({
+                                            swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                                swc_visit::util::map::Map::map(v, |v| {
+                                                    _visitor.ident(v)
+                                                })
+                                            })
                                         })
-                                    })
-                                )
-                                .parse();
+                                    )
+                                    .parse(),
+                                    VisitorVariant::WithPath => q!(
+                                        Vars { ident },
+                                        ({
+                                            swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                                swc_visit::util::map::Map::map(v, |v| {
+                                                    _visitor.ident(v, __ast_path)
+                                                })
+                                            })
+                                        })
+                                    )
+                                    .parse(),
+                                };
                             }
                         }
                         Mode::Visit { .. } | Mode::VisitAll | Mode::VisitMut { .. } => {}
