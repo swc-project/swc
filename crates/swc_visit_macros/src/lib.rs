@@ -691,7 +691,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     );
                 }
 
-                impl<V, T> VisitMutWith<V> for Box<T>
+                impl<V, T> VisitMutWithPath<V> for Box<T>
                 where
                     V: ?Sized + VisitMutAstPath,
                     T: 'static + VisitMutWithPath<V>,
