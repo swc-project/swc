@@ -871,7 +871,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
     }
 
     match mode {
-        Mode::Fold => {
+        Mode::Fold { .. } => {
             // Append return statement
             stmts.push(
                 q!(
@@ -887,7 +887,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                 .parse(),
             )
         }
-        Mode::VisitAll | Mode::Visit | Mode::VisitMut => {}
+        Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {}
     }
 
     let block = Block {
@@ -941,7 +941,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
         },
         variadic: None,
         output: match mode {
-            Mode::Fold => q!(Vars { ty }, { -> ty }).parse(),
+            Mode::Fold { .. } => q!(Vars { ty }, { -> ty }).parse(),
             _ => ReturnType::Default,
         },
     }
@@ -1083,7 +1083,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             },
             variadic: None,
             output: match mode {
-                Mode::Fold => q!(Vars { ty }, { -> ty }).parse(),
+                Mode::Fold { .. } => q!(Vars { ty }, { -> ty }).parse(),
                 _ => ReturnType::Default,
             },
         }
