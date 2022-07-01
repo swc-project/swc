@@ -29,6 +29,9 @@
 - **(atoms)** Improve atoms (#5066) ([34f4f5a](https://github.com/swc-project/swc/commit/34f4f5a3bc7797e2b9b192671cf68b63ea0dd25c))
 
 
+- **(es/modules)** Support node interop (#5069) ([1e33dba](https://github.com/swc-project/swc/commit/1e33dbab24a534477ed1046b57a0c9daeb84e3ca))
+
+
 - **(es/parser)** Add `allow_return_outside_function` to options (#5046) ([37eb366](https://github.com/swc-project/swc/commit/37eb366a1f554668fd7011869ec8f58c67e9ce9f))
 
 
@@ -47,7 +50,7 @@
 
 
 
-- **(deps)** Update `rkyv` (#5057) ([374366d](https://github.com/swc-project/swc/commit/374366d56ca431dc892b390efaf090ee4d116100))
+- **(deps)** Update `rkyv` (#5057) ([374366d](https://github.com/swc-project/swc/commit/374366d56ca431dc892b390efaf090ee4d116100))- **general**: Workaround cargo mono bug ([60424db](https://github.com/swc-project/swc/commit/60424db67b3c9bc0d36012249e16ebaa2100f299))
 
 ### Performance
 

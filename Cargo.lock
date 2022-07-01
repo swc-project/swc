@@ -87,7 +87,7 @@ checksum = "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
 
 [[package]]
 name = "ast_node"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "darling",
  "pmutil",
@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.196.0"
+version = "0.196.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.20.0"
+version = "0.20.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3467,7 +3467,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.141.0"
+version = "0.142.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3537,7 +3537,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.166.0"
+version = "0.167.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3649,6 +3649,7 @@ dependencies = [
  "anyhow",
  "bitflags",
  "indexmap",
+ "is-macro",
  "path-clean",
  "pathdiff",
  "serde",
@@ -3823,7 +3824,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.171.0"
+version = "0.172.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3870,7 +3871,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.116.0"
+version = "0.117.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4099,7 +4100,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.67.0"
+version = "0.68.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
