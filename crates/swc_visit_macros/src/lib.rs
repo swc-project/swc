@@ -1145,21 +1145,21 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
                     if let Some(item) = extract_vec(arg) {
                         match mode {
-                            Mode::Fold => {
+                            Mode::Fold { .. } => {
                                 return mk_exact(
                                     mode,
                                     ident,
                                     &q!(Vars { item }, { Option<Vec<item>> }).parse(),
                                 );
                             }
-                            Mode::VisitMut => {
+                            Mode::VisitMut { .. } => {
                                 return mk_exact(
                                     mode,
                                     ident,
                                     &q!(Vars { item }, { &mut Option<Vec<item>> }).parse(),
                                 );
                             }
-                            Mode::Visit | Mode::VisitAll => {
+                            Mode::Visit { .. } | Mode::VisitAll => {
                                 return mk_exact(
                                     mode,
                                     ident,
@@ -1170,21 +1170,21 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                     }
 
                     match mode {
-                        Mode::Fold => {
+                        Mode::Fold { .. } => {
                             return mk_exact(
                                 mode,
                                 ident,
                                 &q!(Vars { arg }, { Option<arg> }).parse(),
                             );
                         }
-                        Mode::VisitMut => {
+                        Mode::VisitMut { .. } => {
                             return mk_exact(
                                 mode,
                                 ident,
                                 &q!(Vars { arg }, { &mut Option<arg> }).parse(),
                             );
                         }
-                        Mode::Visit | Mode::VisitAll => {
+                        Mode::Visit { .. } | Mode::VisitAll => {
                             return mk_exact(
                                 mode,
                                 ident,
@@ -1204,14 +1204,14 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                     let ident = method_name(mode, ty);
 
                                     match mode {
-                                        Mode::Fold => {
+                                        Mode::Fold { .. } => {
                                             return mk_exact(
                                                 mode,
                                                 ident,
                                                 &q!(Vars { arg }, { Vec<arg> }).parse(),
                                             );
                                         }
-                                        Mode::VisitMut => {
+                                        Mode::VisitMut { .. } => {
                                             return mk_ref(
                                                 mode,
                                                 ident,
@@ -1219,7 +1219,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                                 true,
                                             );
                                         }
-                                        Mode::Visit | Mode::VisitAll => {
+                                        Mode::Visit { .. } | Mode::VisitAll => {
                                             return mk_ref(
                                                 mode,
                                                 ident,
@@ -1295,7 +1295,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse();
                         }
-                        Mode::VisitAll | Mode::Visit | Mode::VisitMut => {
+                        Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
                             return create_method_body(mode, arg);
                         }
                     }
