@@ -38,7 +38,7 @@ SWC moved from `Fold` to `VisitMut` because of `mmemove`.
 
 We will expose the spans and kinds of the parent ast nodes for `VisitMut` and `Fold`, while passing an enum with parent data for `Visit`.
 This difference is related to the restriction above.
-This is the core of rust, and we don't want to violate the rules of rust.
+This is the exact problem rust is trying to solve, and we don't want to violate the rules of rust.
 
 ## Decision Outcome
 
