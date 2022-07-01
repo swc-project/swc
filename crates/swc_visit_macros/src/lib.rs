@@ -210,7 +210,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         Vars { visit: &name },
                         ({
                             if self.enabled {
-                                self.visitor.visit(n, path)
+                                self.visitor.visit(n, __ast_path)
                             }
                         })
                     )
@@ -232,7 +232,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         Vars { fold: &name },
                         ({
                             if self.enabled {
-                                self.visitor.fold(n, path)
+                                self.visitor.fold(n, __ast_path)
                             } else {
                                 n
                             }
