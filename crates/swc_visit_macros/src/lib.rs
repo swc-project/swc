@@ -1086,6 +1086,19 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 p.push_punct(def_site());
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
 
+                if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+                    p.push_punct(def_site());
+                    p.push_value(
+                        q!(
+                            Vars {
+                                Type: ast_path_type(mode)
+                            },
+                            { path: Type }
+                        )
+                        .parse(),
+                    );
+                }
+
                 p
             },
             variadic: None,
@@ -1126,15 +1139,15 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 if let Some(arg) = as_box(ty) {
                     let ident = method_name(mode, arg);
                     match mode {
-                        Mode::Fold => {
+                        Mode::Fold { .. } => {
                             return mk_exact(mode, ident, arg);
                         }
 
-                        Mode::VisitMut => {
+                        Mode::VisitMut { .. } => {
                             return mk_ref(mode, ident, arg, true);
                         }
 
-                        Mode::Visit | Mode::VisitAll => {
+                        Mode::Visit { .. } | Mode::VisitAll => {
                             return mk_ref(mode, ident, arg, false);
                         }
                     }
@@ -1569,6 +1582,14 @@ fn method_name_as_str(mode: Mode, ty: &Type) -> String {
     }
 
     format!("{}_{}", mode.prefix(), suffix(ty))
+}
+
+fn ast_path_type(mode: Mode) -> Type {
+    match mode {
+        Mode::Visit(_) => q!((&[AstNode])).parse(),
+        Mode::VisitMut(_) | Mode::Fold(_) => q!((&[AstPath])).parse(),
+        _ => unreachable!(),
+    }
 }
 
 fn method_name(mode: Mode, ty: &Type) -> Ident {
