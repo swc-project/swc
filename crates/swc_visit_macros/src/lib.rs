@@ -853,7 +853,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         tokens.push_tokens(&q!(Vars { Type: ty }, {
                             impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
                                 fn visit_with_path(&self, v: &mut V, __ast_path: &mut AstNodePath) {
-                                    (**self).visit_with(v)
+                                    (**self).visit_with_path(v, __ast_path)
                                 }
 
                                 fn visit_children_with_path(
@@ -861,7 +861,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     _visitor: &mut V,
                                     __ast_path: &mut AstNodePath,
                                 ) {
-                                    (**self).visit_children_with(_visitor)
+                                    (**self).visit_children_with_path(_visitor, __ast_path)
                                 }
                             }
                         }));
