@@ -717,6 +717,23 @@ impl Minifier {
         }
     }
 
+    fn is_metadata_element_displayed(&self, namespace: Namespace, tag_name: &str) -> bool {
+        match namespace {
+            Namespace::HTML => {
+                // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#metadata_content
+                //
+                // Excluded:
+                // `noscript` - can be displayed if JavaScript disabled
+                // `script` - can insert markup using `document.write`
+                !matches!(
+                    tag_name,
+                    "base" | "command" | "link" | "meta" | "style" | "title"
+                )
+            }
+            _ => true,
+        }
+    }
+
     fn remove_leading_and_trailing_whitespaces(&self, children: &mut Vec<Child>) {
         if let Some(last) = children.first_mut() {
             match last {
@@ -855,14 +872,38 @@ impl Minifier {
                 }
             },
             Namespace::SVG => match tag_name {
-                "desc" | "text" | "title" => WhitespaceMinificationMode {
-                    collapse: true,
+                "script" | "style" => WhitespaceMinificationMode {
+                    collapse: false,
                     trim: true,
                 },
-                "a" | "altGlyph" | "tspan" | "textPath" | "tref" => WhitespaceMinificationMode {
-                    collapse: true,
-                    trim: default_trim,
-                },
+                // https://svgwg.org/svg2-draft/render.html#Definitions
+                _ if matches!(
+                    tag_name,
+                    "a" | "circle"
+                        | "ellipse"
+                        | "foreignobject"
+                        | "g"
+                        | "image"
+                        | "line"
+                        | "path"
+                        | "polygon"
+                        | "polyline"
+                        | "rect"
+                        | "svg"
+                        | "switch"
+                        | "symbol"
+                        | "text"
+                        | "textpath"
+                        | "tspan"
+                        | "use"
+                        | "symbol’"
+                ) =>
+                {
+                    WhitespaceMinificationMode {
+                        collapse: true,
+                        trim: default_trim,
+                    }
+                }
                 _ => WhitespaceMinificationMode {
                     collapse: true,
                     trim: true,
@@ -980,6 +1021,19 @@ impl Minifier {
                                     | Display::TableRowGroup
                                     | Display::TableFooterGroup,
                                 ) => true,
+                                // These elements are not displayed
+                                Some(Display::None) if prev.is_some() => {
+                                    if let Some(Child::Element(Element {
+                                        namespace,
+                                        tag_name,
+                                        ..
+                                    })) = &prev
+                                    {
+                                        !self.is_metadata_element_displayed(*namespace, tag_name)
+                                    } else {
+                                        true
+                                    }
+                                }
                                 // Inline box
                                 Some(Display::Inline) => {
                                     if let Some(prev) = &prev {
@@ -1046,6 +1100,19 @@ impl Minifier {
                                     | Display::TableRowGroup
                                     | Display::TableFooterGroup,
                                 ) => true,
+                                // These elements are not displayed
+                                Some(Display::None) if prev.is_some() => {
+                                    if let Some(Child::Element(Element {
+                                        namespace,
+                                        tag_name,
+                                        ..
+                                    })) = &next
+                                    {
+                                        !self.is_metadata_element_displayed(*namespace, tag_name)
+                                    } else {
+                                        true
+                                    }
+                                }
                                 Some(_) => false,
                                 None => {
                                     let parent_display = self.get_display(namespace, tag_name);
