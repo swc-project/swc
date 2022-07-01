@@ -377,7 +377,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         n: Type,
                         __ast_path: &mut swc_visit::AstKindPath<AstKind>,
                     ) -> Type {
-                        __ast_path.with(n.to_ast_path_kind(), |__ast_path| default_body)
+                        __ast_path.with(n.to_ast_kind(), |__ast_path| default_body)
                     }
                 }
             )),
@@ -396,7 +396,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         n: Type,
                         __ast_path: &mut swc_visit::AstKindPath<AstKind>,
                     ) {
-                        __ast_path.with(n.to_ast_path_kind(), |__ast_path| default_body)
+                        __ast_path.with(n.to_ast_kind(), |__ast_path| default_body)
                     }
                 }
             )),
@@ -413,7 +413,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn fn_name<V: ?Sized + Trait>(
                         _visitor: &mut V,
                         n: Type,
-                        __ast_path: &mut swc_visit::AstNodePath<AstNode>,
+                        __ast_path: &mut swc_visit::AstNodePath<AstNodeRef>,
                     ) {
                         __ast_path.with(n.to_ast_path(), |__ast_path| default_body)
                     }
