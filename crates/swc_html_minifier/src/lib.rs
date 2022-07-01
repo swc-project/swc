@@ -819,7 +819,7 @@ impl Minifier {
         let prev = children.get(index);
 
         match prev {
-            Some(Child::Comment(_)) | Some(Child::Text(_)) if index >= 1 => {
+            Some(Child::Comment(_)) if index >= 1 => {
                 self.get_prev_displayed_node(children, index - 1)
             }
             Some(Child::Element(element))
@@ -844,9 +844,7 @@ impl Minifier {
         let next = children.get(index);
 
         match next {
-            Some(Child::Comment(_)) | Some(Child::Text(_)) => {
-                self.get_next_displayed_node(children, index + 1)
-            }
+            Some(Child::Comment(_)) => self.get_next_displayed_node(children, index + 1),
             Some(Child::Element(element))
                 if !self.is_displayed_element(element.namespace, &element.tag_name) =>
             {
@@ -1053,20 +1051,23 @@ impl Minifier {
                         })) = &prev
                         {
                             Some(self.get_display(*namespace, tag_name))
+                        println!("cur: {:?}", text);
+
                         let prev = if index >= 1 {
                             children.get(index - 1)
                         } else {
                             None
                         };
-
                         let prev_display = match prev {
                             Some(Child::Element(Element {
                                 namespace,
                                 tag_name,
                                 ..
                             })) => Some(self.get_display(*namespace, tag_name)),
+                            Some(Child::Comment(_)) => Some(Display::None),
                             _ => None,
                         };
+                        println!("prev: {:?}", prev);
 
                         is_smart_left_trim = match prev_display {
                             // Block-level containers:
@@ -1104,9 +1105,15 @@ impl Minifier {
                                     true
                                 }
                             }
+                            // Elements are not displayed
                             // And
                             // Inline box
                             Some(Display::None) | Some(Display::Inline) => {
+                                println!(
+                                    "real prev {:?}",
+                                    self.get_prev_displayed_node(children, index - 1)
+                                );
+
                                 match &self.get_prev_displayed_node(children, index - 1) {
                                     Some(Child::Text(text))
                                         if text.data.ends_with(is_whitespace) =>
@@ -1122,7 +1129,22 @@ impl Minifier {
                                             false
                                         }
                                     }
-                                    _ => false,
+                                    _ => {
+                                        let parent_display = self.get_display(namespace, tag_name);
+
+                                        match parent_display {
+                                            Display::Inline => {
+                                                if let Some(Child::Text(Text { data, .. })) =
+                                                    &self.latest_element
+                                                {
+                                                    data.ends_with(is_whitespace)
+                                                } else {
+                                                    false
+                                                }
+                                            }
+                                            _ => true,
+                                        }
+                                    }
                                 }
                             }
                             // Inline level containers and etc
@@ -1154,6 +1176,7 @@ impl Minifier {
                             })) => Some(self.get_display(*namespace, tag_name)),
                             _ => None,
                         };
+                        println!("next {:?}", next);
 
                         is_smart_right_trim = match next_display {
                             // Block-level containers:
@@ -1190,22 +1213,31 @@ impl Minifier {
                                 } else {
                                     true
                             Some(Display::None) | Some(Display::Inline) => {
+                                println!(
+                                    "real next {:?}",
+                                    self.get_next_displayed_node(children, index + 1)
+                                );
+
                                 match &self.get_next_displayed_node(children, index + 1) {
                                     Some(Child::Text(text))
-                                        if text.data.ends_with(is_whitespace) =>
+                                        if text.data.starts_with(is_whitespace) =>
                                     {
-                                        true
+                                        false
                                     }
                                     Some(child @ Child::Element(_)) => {
                                         let deep = self.get_deep_last_text_element(child);
 
                                         if let Some(deep) = deep {
-                                            deep.data.ends_with(is_whitespace)
+                                            !deep.data.starts_with(is_whitespace)
                                         } else {
                                             false
                                         }
                                     }
-                                    _ => false,
+                                    _ => {
+                                        let parent_display = self.get_display(namespace, tag_name);
+
+                                        !matches!(parent_display, Display::Inline)
+                                    }
                                 }
                             }
                             Some(_) => false,
