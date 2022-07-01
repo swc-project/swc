@@ -866,6 +866,10 @@ impl Minifier {
                 }
             },
             Namespace::SVG => match tag_name {
+                "script" | "style" => WhitespaceMinificationMode {
+                    collapse: false,
+                    trim: true,
+                },
                 // https://svgwg.org/svg2-draft/render.html#Definitions
                 _ if matches!(
                     tag_name,
