@@ -386,7 +386,7 @@ where
             }
 
             Decl::Var(ref var) => {
-                let mut names = vec![];
+                let mut names: Vec<Id> = vec![];
                 var.decls.visit_with(&mut VarCollector { to: &mut names });
 
                 for name in names {
