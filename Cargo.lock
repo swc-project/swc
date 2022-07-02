@@ -3652,6 +3652,7 @@ dependencies = [
  "is-macro",
  "path-clean",
  "pathdiff",
+ "regex",
  "serde",
  "serde_json",
  "swc_atoms",

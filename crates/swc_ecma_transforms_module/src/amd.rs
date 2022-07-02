@@ -1,7 +1,8 @@
 use anyhow::Context;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{comments::Comments, util::take::Take, FileName, Mark, Span, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, FileName, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
@@ -128,6 +129,12 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        if let Some(first) = n.first() {
+            if self.module_id.is_none() {
+                self.module_id = self.get_amd_module_id_from_comments(first.span());
+            }
+        }
+
         let import_interop = self.config.import_interop();
 
         let mut strip = ModuleDeclStrip::default();
@@ -462,6 +469,28 @@ where
             comments.add_pure_comment(span.lo);
         }
         span
+    }
+
+    fn get_amd_module_id_from_comments(&self, span: Span) -> Option<String> {
+        // https://github.com/microsoft/TypeScript/blob/1b9c8a15adc3c9a30e017a7048f98ef5acc0cada/src/compiler/parser.ts#L9648-L9658
+        let amd_module_re = Regex::new(
+            r##"(?i)^/\s*<amd-module.*?name\s*=\s*(?:(?:'([^']*)')|(?:"([^"]*)")).*?/>"##,
+        )
+        .unwrap();
+
+        self.comments.as_ref().and_then(|comments| {
+            comments
+                .get_leading(span.lo)
+                .iter()
+                .flatten()
+                .rev()
+                .find_map(|x| {
+                    amd_module_re
+                        .captures(&x.text)
+                        .and_then(|cap| cap.get(1).or_else(|| cap.get(2)))
+                })
+                .map(|m| m.as_str().to_string())
+        })
     }
 }
 
