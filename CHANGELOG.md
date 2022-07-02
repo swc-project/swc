@@ -14,6 +14,9 @@
 
 
 
+- **(es/modules)** Support `allowTopLevelThis` (#5086) ([9addef6](https://github.com/swc-project/swc/commit/9addef6fc8672854b52a1b71668795474a6f3fec))
+
+
 - **(html/minifier)** Remove empty metadata elements (#5085) ([cb845c9](https://github.com/swc-project/swc/commit/cb845c9bf903136b074af269b96a685027599284))
 
 ## [1.2.208] - 2022-07-01
