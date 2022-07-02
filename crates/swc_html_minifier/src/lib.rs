@@ -1005,6 +1005,9 @@ impl Minifier {
                                       prev: Option<&Child>,
                                       next: Option<&Child>| {
         let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
+                                      children: &Vec<Child>,
+                                      index: usize,
+                                      offset: usize| {
             match child {
                 Child::Comment(comment) if self.remove_comments => {
                     self.is_preserved_comment(&comment.data)
@@ -1055,6 +1058,8 @@ impl Minifier {
 
                         let prev = if index >= 1 {
                             children.get(index - 1)
+                        let prev = if index - offset >= 1 {
+                            children.get(index - offset - 1)
                         } else {
                             None
                         };
@@ -1108,12 +1113,8 @@ impl Minifier {
                             // And
                             // Inline box
                             Some(Display::None) | Some(Display::Inline) => {
-                                match &self.get_prev_displayed_node(children, index - 1) {
-                                    Some(Child::Text(text))
-                                        if text.data.ends_with(is_whitespace) =>
-                                    {
-                                        true
-                                    }
+                                match &self.get_prev_displayed_node(children, index - offset - 1) {
+                                    Some(Child::Text(text)) => text.data.ends_with(is_whitespace),
                                     Some(child @ Child::Element(_)) => {
                                         let deep = self.get_deep_last_text_element(child);
 
@@ -1212,11 +1213,7 @@ impl Minifier {
                                 );
 
                                 match &self.get_next_displayed_node(children, index + 1) {
-                                    Some(Child::Text(text))
-                                        if text.data.starts_with(is_whitespace) =>
-                                    {
-                                        false
-                                    }
+                                    Some(Child::Text(text)) => text.data.starts_with(is_whitespace),
                                     Some(child @ Child::Element(_)) => {
                                         let deep = self.get_deep_last_text_element(child);
 
@@ -1273,6 +1270,7 @@ impl Minifier {
         let cloned_children = children.clone();
 
         let mut index = 0;
+        let mut offset = 0;
         let mut pending_text = vec![];
 
         children.retain_mut(|child| {
@@ -1285,11 +1283,13 @@ impl Minifier {
                             &mut cloned_children.get(index + 1).cloned().unwrap(),
                             &cloned_children,
                             index + 1,
+                            0,
                         ) =>
                 {
                     pending_text.push(text.data.clone());
 
                     index += 1;
+                    offset += 1;
 
                     return false;
                 }
@@ -1307,7 +1307,13 @@ impl Minifier {
                 _ => {}
             }
 
-            let result = child_will_be_retained(child, &cloned_children, index);
+            let result = child_will_be_retained(child, &cloned_children, index, offset);
+
+            if !result {
+                offset += 1;
+            } else {
+                offset = 0;
+            }
 
             index += 1;
 
