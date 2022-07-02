@@ -76,7 +76,10 @@ fn test_mark_for() {
                 unresolved_mark: Mark::fresh(Mark::root()),
             },
         );
-        folder2.current.declared_symbols.insert("foo".into());
+        folder2
+            .current
+            .declared_symbols
+            .insert("foo".into(), DeclKind::Var);
 
         let mut folder3 = Resolver::new(
             Scope::new(ScopeKind::Block, mark3, Some(&folder2.current)),
@@ -85,7 +88,10 @@ fn test_mark_for() {
                 unresolved_mark: Mark::fresh(Mark::root()),
             },
         );
-        folder3.current.declared_symbols.insert("bar".into());
+        folder3
+            .current
+            .declared_symbols
+            .insert("bar".into(), DeclKind::Var);
         assert_eq!(folder3.mark_for_ref(&"bar".into()), Some(mark3));
 
         let mut folder4 = Resolver::new(
@@ -95,7 +101,10 @@ fn test_mark_for() {
                 unresolved_mark: Mark::fresh(Mark::root()),
             },
         );
-        folder4.current.declared_symbols.insert("foo".into());
+        folder4
+            .current
+            .declared_symbols
+            .insert("foo".into(), DeclKind::Var);
 
         assert_eq!(folder4.mark_for_ref(&"foo".into()), Some(mark4));
         assert_eq!(folder4.mark_for_ref(&"bar".into()), Some(mark3));
