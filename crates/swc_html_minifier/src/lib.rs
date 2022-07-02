@@ -1067,7 +1067,6 @@ impl Minifier {
                             Some(Child::Comment(_)) => Some(Display::None),
                             _ => None,
                         };
-                        println!("prev: {:?}", prev);
 
                         is_smart_left_trim = match prev_display {
                             // Block-level containers:
@@ -1109,11 +1108,6 @@ impl Minifier {
                             // And
                             // Inline box
                             Some(Display::None) | Some(Display::Inline) => {
-                                println!(
-                                    "real prev {:?}",
-                                    self.get_prev_displayed_node(children, index - 1)
-                                );
-
                                 match &self.get_prev_displayed_node(children, index - 1) {
                                     Some(Child::Text(text))
                                         if text.data.ends_with(is_whitespace) =>
@@ -1176,7 +1170,6 @@ impl Minifier {
                             })) => Some(self.get_display(*namespace, tag_name)),
                             _ => None,
                         };
-                        println!("next {:?}", next);
 
                         is_smart_right_trim = match next_display {
                             // Block-level containers:
