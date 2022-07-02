@@ -10,7 +10,7 @@ function _lib() {
     return data;
 }
 function myFn() {
-    _lib().fn();
+    (0, _lib().fn)();
 }
 class MyClass extends _lib().Klass {
 }

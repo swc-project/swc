@@ -84,9 +84,7 @@ impl VisitMut for ModuleRefRewriter {
                 let is_indirect_callee = e
                     .as_ident()
                     .and_then(|ident| self.import_map.get(&ident.to_id()))
-                    .map(|(mod_ident, prop)| {
-                        prop.is_some() && !self.lazy_record.contains(&mod_ident.to_id())
-                    })
+                    .map(|(_, prop)| prop.is_some())
                     .unwrap_or_default();
 
                 e.visit_mut_with(self);

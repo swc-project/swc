@@ -17,5 +17,5 @@ function _external() {
     return data;
 }
 function use() {
-    _local().local(_external().external);
+    (0, _local().local)(_external().external);
 }
