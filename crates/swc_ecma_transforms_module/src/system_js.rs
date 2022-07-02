@@ -128,7 +128,7 @@ impl SystemJs {
                 _ => Expr::Assign(assign_expr),
             },
             PatOrExpr::Pat(pat) => {
-                let mut to = vec![];
+                let mut to: Vec<Id> = vec![];
                 pat.visit_with(&mut VarCollector { to: &mut to });
 
                 match &**pat {
@@ -392,7 +392,7 @@ impl SystemJs {
     fn hoist_var_decl(&mut self, var_decl: VarDecl) -> Option<Expr> {
         let mut exprs = vec![];
         for var_declarator in var_decl.decls {
-            let mut tos = vec![];
+            let mut tos: Vec<Id> = vec![];
             var_declarator.visit_with(&mut VarCollector { to: &mut tos });
 
             for (sym, ctxt) in tos {
@@ -433,7 +433,7 @@ impl SystemJs {
         if let VarDeclOrPat::VarDecl(mut var_decl) = var_decl_or_pat {
             if var_decl.kind == VarDeclKind::Var {
                 let var_declarator = var_decl.decls.remove(0);
-                let mut tos = vec![];
+                let mut tos: Vec<Id> = vec![];
                 var_declarator.visit_with(&mut VarCollector { to: &mut tos });
 
                 for to in tos {
@@ -834,7 +834,7 @@ impl Fold for SystemJs {
                                     ..var_decl
                                 };
                                 for var_declarator in var_decl.decls {
-                                    let mut tos = vec![];
+                                    let mut tos: Vec<Id> = vec![];
                                     var_declarator.visit_with(&mut VarCollector { to: &mut tos });
                                     for to in tos {
                                         let ident =
