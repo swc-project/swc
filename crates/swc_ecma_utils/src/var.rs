@@ -1,15 +1,15 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use crate::Id;
+use crate::ident::IdentLike;
 
 /// This collects variables bindings while ignoring if it's nested in
 /// expression.
-pub struct VarCollector<'a> {
-    pub to: &'a mut Vec<Id>,
+pub struct VarCollector<'a, I: IdentLike> {
+    pub to: &'a mut Vec<I>,
 }
 
-impl Visit for VarCollector<'_> {
+impl<'a, I: IdentLike> Visit for VarCollector<'a, I> {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
@@ -25,7 +25,7 @@ impl Visit for VarCollector<'_> {
     }
 
     fn visit_ident(&mut self, i: &Ident) {
-        self.to.push((i.sym.clone(), i.span.ctxt()))
+        self.to.push(I::from_ident(i))
     }
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {

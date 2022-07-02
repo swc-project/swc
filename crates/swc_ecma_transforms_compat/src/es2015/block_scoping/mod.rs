@@ -581,7 +581,7 @@ impl BlockScoping {
 
 fn find_vars<T>(node: &T) -> Vec<Id>
 where
-    T: for<'any> VisitWith<VarCollector<'any>>,
+    T: for<'any> VisitWith<VarCollector<'any, Id>>,
 {
     let mut vars = vec![];
     let mut v = VarCollector { to: &mut vars };
