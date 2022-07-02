@@ -7,6 +7,12 @@
 
 - **(es/modules)** Preserve orders of exports (#5081) ([2f2039c](https://github.com/swc-project/swc/commit/2f2039c693bd1e16b16dd1b1b32f3582fdadca4e))
 
+### Features
+
+
+
+- **(html/minifier)** Remove empty metadata elements (#5085) ([cb845c9](https://github.com/swc-project/swc/commit/cb845c9bf903136b074af269b96a685027599284))
+
 ## [1.2.208] - 2022-07-01
 
 ### Bug Fixes
