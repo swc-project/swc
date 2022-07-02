@@ -15,6 +15,8 @@ use swc_ecma_utils::{
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
+    pub allow_top_level_this: bool,
+    #[serde(default)]
     pub strict: bool,
     #[serde(default = "default_strict_mode")]
     pub strict_mode: bool,
@@ -34,6 +36,7 @@ pub struct Config {
 impl Default for Config {
     fn default() -> Self {
         Config {
+            allow_top_level_this: false,
             strict: false,
             strict_mode: default_strict_mode(),
             lazy: Lazy::default(),

@@ -163,6 +163,7 @@ impl VisitMut for Amd {
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record: Default::default(),
+            allow_top_level_this: self.config.allow_top_level_this,
             is_global_this: true,
         });
 
