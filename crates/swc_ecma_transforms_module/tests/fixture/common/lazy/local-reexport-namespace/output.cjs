@@ -6,4 +6,4 @@ Object.defineProperty(exports, "namespace", {
     enumerable: true,
     get: ()=>_foo
 });
-const _foo = _interopRequireWildcard(require("./foo"));
+const _foo = /*#__PURE__*/ _interopRequireWildcard(require("./foo"));

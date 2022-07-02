@@ -3865,7 +3865,7 @@ fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
 
 test!(
     issue_395_syntax(),
-    |_| chain!(
+    |t| chain!(
         decorators(Default::default()),
         common_js(
             Mark::fresh(Mark::root()),
@@ -3875,7 +3875,8 @@ test!(
                 no_interop: true,
                 ..Default::default()
             },
-            Default::default()
+            Default::default(),
+            Some(t.comments.clone())
         ),
     ),
     issue_395_1,
@@ -3910,7 +3911,7 @@ let Demo = _decorate([(0, _moduleAJs.default)('0.0.1')], function(_initialize) {
 
 test!(
     issue_395_syntax(),
-    |_| chain!(
+    |t| chain!(
         decorators(Default::default()),
         common_js::common_js(
             Mark::fresh(Mark::root()),
@@ -3921,6 +3922,7 @@ test!(
                 ..Default::default()
             },
             Default::default(),
+            Some(t.comments.clone())
         ),
     ),
     issue_395_2,
@@ -4286,6 +4288,7 @@ test!(
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),
+                Some(t.comments.clone())
             ),
         )
     },

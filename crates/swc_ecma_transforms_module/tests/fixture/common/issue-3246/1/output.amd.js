@@ -9,5 +9,5 @@ define([
     });
     new Promise((resolve, reject)=>require([
             _bar.foo
-        ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
 });

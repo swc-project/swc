@@ -9,7 +9,7 @@ Object.defineProperty(exports, "RequestHandler", {
 const _classPrivateFieldGet = require("@swc/helpers/lib/_class_private_field_get.js").default;
 const _classPrivateFieldInit = require("@swc/helpers/lib/_class_private_field_init.js").default;
 const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-const _nodeFetch = _interopRequireDefault(require("node-fetch"));
+const _nodeFetch = /*#__PURE__*/ _interopRequireDefault(require("node-fetch"));
 const _abortSignal = require("./misc/AbortSignal");
 const _errors = require("../../errors");
 const _utils = require("../../utils");

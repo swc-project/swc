@@ -8,8 +8,8 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _white = _interopRequireWildcard(_white);
-    _black = _interopRequireWildcard(_black);
+    _white = /*#__PURE__*/ _interopRequireWildcard(_white);
+    _black = /*#__PURE__*/ _interopRequireWildcard(_black);
     function use1() {
         console.log(_white);
     }

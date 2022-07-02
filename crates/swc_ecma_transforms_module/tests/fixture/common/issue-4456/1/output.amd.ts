@@ -23,7 +23,7 @@ define([
         keyframes: ()=>_css.keyframes,
         breakpoints: ()=>breakpoints
     });
-    _styled = _interopRequireDefault(_styled);
+    _styled = /*#__PURE__*/ _interopRequireDefault(_styled);
     interface IStyledProp {
         className?: string;
     }

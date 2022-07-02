@@ -20,4 +20,4 @@ _export(exports, {
     }
 });
 var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _module = _interopRequireWildcard(require("./module"));
+var _module = /*#__PURE__*/ _interopRequireWildcard(require("./module"));

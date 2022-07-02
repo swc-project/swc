@@ -19,4 +19,4 @@ const b = 2;
 var foo = _extends({}, {
     a: 1,
     b: 2
-});
+} /*#__PURE__*/ );

@@ -6,8 +6,8 @@ Object.defineProperty(exports, "default", {
     enumerable: true,
     get: ()=>_default
 });
-const _rootJs = _interopRequireDefault(require("./_root.js"));
-const _stubFalseJs = _interopRequireDefault(require("./stubFalse.js"));
+const _rootJs = /*#__PURE__*/ _interopRequireDefault(require("./_root.js"));
+const _stubFalseJs = /*#__PURE__*/ _interopRequireDefault(require("./stubFalse.js"));
 var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
 var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
 var moduleExports = freeModule && freeModule.exports === freeExports;

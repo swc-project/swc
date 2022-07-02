@@ -7,4 +7,4 @@ Object.defineProperty(exports, "foo", {
     get: ()=>_foo
 });
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-const _foo = _interopRequireWildcard(require("./foo"));
+const _foo = /*#__PURE__*/ _interopRequireWildcard(require("./foo"));

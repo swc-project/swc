@@ -231,7 +231,7 @@ fn issue_225() {
     println!("{}", s);
 
     assert!(s.contains("function _interopRequireDefault"));
-    assert!(s.contains("var _foo = _interopRequireDefault(require(\"foo\"))"));
+    assert!(s.contains("_interopRequireDefault(require(\"foo\"))"));
 }
 
 /// should handle exportNamespaceFrom configured by .swcrc
