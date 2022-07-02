@@ -9,9 +9,9 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    foo: ()=>foo,
     a: ()=>a,
-    b: ()=>b
+    b: ()=>b,
+    foo: ()=>foo
 });
 const _extends = require("@swc/helpers/lib/_extends.js").default;
 const a = 1;

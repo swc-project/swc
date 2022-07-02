@@ -38,6 +38,10 @@ pub struct MinifyOptions {
     pub force_set_html5_doctype: bool,
     #[serde(default = "default_collapse_whitespaces")]
     pub collapse_whitespaces: CollapseWhitespaces,
+    // Remove safe empty elements with metadata content, i.e. the `script` and `style` element
+    // without content and attributes, `meta` and `link` elements without attributes and etc
+    #[serde(default = "true_by_default")]
+    pub remove_empty_metedata_elements: bool,
     #[serde(default = "true_by_default")]
     pub remove_comments: bool,
     #[serde(default = "default_preserve_comments")]
