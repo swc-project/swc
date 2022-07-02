@@ -14,4 +14,3 @@ const x = (_param)=>/*todo: refactor any type*/ {
         z: rest.z
     };
 }; // final comment
- /*#__PURE__*/ 

@@ -24,4 +24,4 @@ const noop = ()=>{};
 };
 /* istanbul ignore next: UI-5137 */ const downloadDocument = ()=>{
     console.log("fail");
-}; /*#__PURE__*/ 
+};

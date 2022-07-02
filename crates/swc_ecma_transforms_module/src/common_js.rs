@@ -332,18 +332,19 @@ where
 
                 // _introp(require("mod"));
                 let import_expr = {
-                    let pure_span = self.pure_span();
-
                     match import_interop {
                         ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
                             helper_expr!(interop_require_wildcard, "interopRequireWildcard")
                         } else {
                             helper_expr!(interop_require_default, "interopRequireDefault")
                         }
-                        .as_call(pure_span, vec![import_expr.as_arg()]),
+                        .as_call(self.pure_span(), vec![import_expr.as_arg()]),
                         ImportInterop::Node if link_flag.namespace() => {
                             helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-                                .as_call(pure_span, vec![import_expr.as_arg(), true.as_arg()])
+                                .as_call(
+                                    self.pure_span(),
+                                    vec![import_expr.as_arg(), true.as_arg()],
+                                )
                         }
                         _ => import_expr,
                     }
