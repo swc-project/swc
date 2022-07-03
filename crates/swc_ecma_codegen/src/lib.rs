@@ -664,15 +664,7 @@ where
         } else {
             match &v.raw {
                 Some(raw) => {
-                    if raw.len() > 2 && self.cfg.target < EsVersion::Es2015 && {
-                        let slice = &raw.as_bytes()[..2];
-                        slice == b"0b" || slice == b"0o" || slice == b"0B" || slice == b"0O"
-                    } {
-                        self.wr.write_str_lit(v.span, &v.value.to_string())?;
-                    } else if raw.len() > 2
-                        && self.cfg.target < EsVersion::Es2021
-                        && raw.contains('_')
-                    {
+                    if raw.len() > 2 && self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
                         self.wr.write_str_lit(v.span, &raw.replace('_', ""))?;
                     } else {
                         self.wr.write_str_lit(v.span, raw)?;
