@@ -1227,11 +1227,6 @@ impl Minifier {
 
             result
         });
-
-        // Remove all leading and trailing whitespaces for the `body` element
-        if namespace == Namespace::HTML && tag_name == "body" {
-            self.remove_leading_and_trailing_whitespaces(children);
-        }
     }
 
     fn get_attribute_value(&self, attributes: &Vec<Attribute>, name: &str) -> Option<JsWord> {
@@ -1713,6 +1708,14 @@ impl VisitMut for Minifier {
         self.minify_children(&mut n.children);
 
         n.visit_mut_children_with(self);
+
+        // Remove all leading and trailing whitespaces for the `body` element
+        if n.namespace == Namespace::HTML
+            && &*n.tag_name == "body"
+            && self.need_collapse_whitespace()
+        {
+            self.remove_leading_and_trailing_whitespaces(&mut n.children);
+        }
 
         if self.need_collapse_whitespace() {
             self.descendant_of_pre = old_descendant_of_pre;

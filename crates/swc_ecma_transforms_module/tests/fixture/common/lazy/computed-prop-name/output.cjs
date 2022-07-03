@@ -19,6 +19,6 @@ function _liby() {
 class F {
     get [_libx().x]() {}
     get y() {
-        _liby().y();
+        (0, _liby().y)();
     }
 }

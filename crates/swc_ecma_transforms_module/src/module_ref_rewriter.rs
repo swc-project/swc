@@ -35,6 +35,8 @@ pub(crate) struct ModuleRefRewriter {
 
     pub lazy_record: AHashSet<Id>,
 
+    pub allow_top_level_this: bool,
+
     pub is_global_this: bool,
 }
 
@@ -67,7 +69,7 @@ impl VisitMut for ModuleRefRewriter {
             }
 
             Expr::This(ThisExpr { span }) => {
-                if self.is_global_this {
+                if !self.allow_top_level_this && self.is_global_this {
                     *n = *undefined(*span);
                 }
             }
@@ -82,9 +84,7 @@ impl VisitMut for ModuleRefRewriter {
                 let is_indirect_callee = e
                     .as_ident()
                     .and_then(|ident| self.import_map.get(&ident.to_id()))
-                    .map(|(mod_ident, prop)| {
-                        prop.is_some() && !self.lazy_record.contains(&mod_ident.to_id())
-                    })
+                    .map(|(_, prop)| prop.is_some())
                     .unwrap_or_default();
 
                 e.visit_mut_with(self);
