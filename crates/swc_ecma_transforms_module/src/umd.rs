@@ -538,8 +538,9 @@ where
     }
 
     fn pure_span(&self) -> Span {
-        let span = Span::dummy_with_cmt();
+        let mut span = DUMMY_SP;
         if let Some(comments) = &self.comments {
+            span = Span::dummy_with_cmt();
             comments.add_pure_comment(span.lo);
         }
         span
