@@ -484,9 +484,9 @@ where
                 .iter()
                 .flatten()
                 .rev()
-                .find_map(|x| {
+                .find_map(|cmt| {
                     amd_module_re
-                        .captures(&x.text)
+                        .captures(&cmt.text)
                         .and_then(|cap| cap.get(1).or_else(|| cap.get(2)))
                 })
                 .map(|m| m.as_str().to_string())
