@@ -8,6 +8,9 @@
 - **(es/compat)** Preserve spans in `object_rest_spread` (#5082) ([de66b64](https://github.com/swc-project/swc/commit/de66b64aed13166803ebdfb91d1c421eec064c25))
 
 
+- **(es/lints)** Cover more `const-assign` cases (#5098) ([f7d857c](https://github.com/swc-project/swc/commit/f7d857c6b6c32ad228aa929d0301b22c9d34ff8b))
+
+
 - **(es/modules)** Preserve orders of exports (#5081) ([2f2039c](https://github.com/swc-project/swc/commit/2f2039c693bd1e16b16dd1b1b32f3582fdadca4e))
 
 
