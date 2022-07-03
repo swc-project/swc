@@ -1,4 +1,4 @@
-define("should-ignore", [
+define([
     "require"
 ], function(require) {
     "use strict";

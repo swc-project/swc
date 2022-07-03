@@ -2,7 +2,11 @@ use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{comments::Comments, util::take::Take, FileName, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    comments::{CommentKind, Comments},
+    util::take::Take,
+    FileName, Mark, Span, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
@@ -485,6 +489,9 @@ where
                 .flatten()
                 .rev()
                 .find_map(|cmt| {
+                    if cmt.kind != CommentKind::Line {
+                        return None;
+                    }
                     amd_module_re
                         .captures(&cmt.text)
                         .and_then(|cap| cap.get(1).or_else(|| cap.get(2)))
