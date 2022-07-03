@@ -28,6 +28,12 @@
 
 - **(html/minifier)** Remove empty metadata elements (#5085) ([cb845c9](https://github.com/swc-project/swc/commit/cb845c9bf903136b074af269b96a685027599284))
 
+### Testing
+
+
+
+- **(es/modules)** Add test for string-names (#5088) ([52bfb18](https://github.com/swc-project/swc/commit/52bfb18113895d20bc952e84302e8591c1fdf407))
+
 ## [1.2.208] - 2022-07-01
 
 ### Bug Fixes
