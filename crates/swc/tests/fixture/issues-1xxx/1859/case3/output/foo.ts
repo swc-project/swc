@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "foo", {
+    enumerable: true,
     get: function() {
         return foo;
-    },
-    enumerable: true
+    }
 });
 var foo = function() {};

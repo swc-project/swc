@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "named1", {
-    get: ()=>_external.named1,
-    enumerable: true
+    enumerable: true,
+    get: ()=>_external.named1
 });
 function _external() {
     const data = require("external");

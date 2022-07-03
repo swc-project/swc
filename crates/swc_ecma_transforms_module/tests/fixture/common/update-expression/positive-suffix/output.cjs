@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
-    diff: ()=>diff,
-    diffLevel: ()=>diffLevel
+    diffLevel: ()=>diffLevel,
+    diff: ()=>diff
 });
 let diffLevel = 0;
 function diff() {

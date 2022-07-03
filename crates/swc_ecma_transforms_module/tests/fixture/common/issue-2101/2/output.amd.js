@@ -9,8 +9,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "render", {
-        get: ()=>_customRender.customRender,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_customRender.customRender
     });
     _exportStar(_react, exports);
 });

@@ -1150,10 +1150,10 @@ test!(
         value: true
     });
     Object.defineProperty(exports, "default", {
+        enumerable: true,
         get: function() {
             return App;
-        },
-        enumerable: true
+        }
     });
     var _hooks = require("./hooks");
     var _foo = _interopRequireDefault(require("./foo"));

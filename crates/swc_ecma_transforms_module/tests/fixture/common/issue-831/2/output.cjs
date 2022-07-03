@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "myGenerator", {
-    get: ()=>myGenerator,
-    enumerable: true
+    enumerable: true,
+    get: ()=>myGenerator
 });
 function* myGenerator() {
     yield* [

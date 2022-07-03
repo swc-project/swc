@@ -8,8 +8,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "bar", {
-        get: ()=>bar,
-        enumerable: true
+        enumerable: true,
+        get: ()=>bar
     });
     _foo = _interopRequireDefault(_foo);
     const bar = {

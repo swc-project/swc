@@ -139,6 +139,7 @@ impl VisitMut for Cjs {
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record,
+            allow_top_level_this: self.config.allow_top_level_this,
             is_global_this: true,
         });
 
@@ -352,7 +353,7 @@ impl Cjs {
         let mut export_stmts: Vec<Stmt> = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+            export_obj_prop_list.sort_by(|a, b| a.1.cmp(&b.1));
 
             if import_interop.is_node() {
                 let export_id_list: Vec<(JsWord, Span)> = export_obj_prop_list

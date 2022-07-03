@@ -4,14 +4,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
     default: ()=>someCall,
-    test: ()=>test,
-    warn: ()=>warn
+    warn: ()=>warn,
+    test: ()=>test
 });
 function someCall() {
     throw new Error("this should not be called");

@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 Object.defineProperty(exports, "default", {
-    get: ()=>Foo,
-    enumerable: true
+    enumerable: true,
+    get: ()=>Foo
 });
 class Foo {
 }

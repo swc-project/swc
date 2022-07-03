@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
-    byID: ()=>byID,
-    get: ()=>_get
+    get: ()=>_get,
+    byID: ()=>byID
 });
 const _get = _interopRequireWildcard(require("./get"));
 const byID = (id)=>{
