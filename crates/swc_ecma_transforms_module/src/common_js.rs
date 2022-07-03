@@ -432,6 +432,11 @@ where
 
     fn pure_span(&self) -> Span {
         let mut span = DUMMY_SP;
+
+        if self.config.import_interop().is_none() {
+            return span;
+        }
+
         if let Some(comments) = &self.comments {
             span = Span::dummy_with_cmt();
             comments.add_pure_comment(span.lo);
