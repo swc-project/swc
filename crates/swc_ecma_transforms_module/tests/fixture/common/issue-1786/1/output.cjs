@@ -6,4 +6,4 @@ Object.defineProperty(exports, "Foo", {
     enumerable: true,
     get: ()=>_foo.Foo
 });
-const _foo = _interopRequireWildcard(require("foo"));
+const _foo = /*#__PURE__*/ _interopRequireWildcard(require("foo"));

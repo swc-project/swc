@@ -7,6 +7,6 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _bar = _interopRequireDefault(_bar);
+    _bar = /*#__PURE__*/ _interopRequireDefault(_bar);
     obj[(0, _bar.default)("bas")] = "123";
 });

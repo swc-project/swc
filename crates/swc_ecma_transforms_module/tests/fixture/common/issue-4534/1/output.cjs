@@ -12,4 +12,4 @@ _export(exports, {
     A: ()=>_a,
     B: ()=>_a
 });
-const _a = _interopRequireWildcard(require("./A"));
+const _a = /*#__PURE__*/ _interopRequireWildcard(require("./A"));

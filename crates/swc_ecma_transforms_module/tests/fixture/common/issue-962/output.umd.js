@@ -15,8 +15,8 @@
         enumerable: true,
         get: ()=>_default
     });
-    _rootJs = _interopRequireDefault(_rootJs);
-    _stubFalseJs = _interopRequireDefault(_stubFalseJs);
+    _rootJs = /*#__PURE__*/ _interopRequireDefault(_rootJs);
+    _stubFalseJs = /*#__PURE__*/ _interopRequireDefault(_stubFalseJs);
     var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
     var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
     var moduleExports = freeModule && freeModule.exports === freeExports;

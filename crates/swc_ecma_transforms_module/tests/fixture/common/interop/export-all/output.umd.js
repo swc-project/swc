@@ -14,6 +14,6 @@
         enumerable: true,
         get: ()=>_default
     });
-    _react = _interopRequireDefault(_exportStar(_react, exports));
+    _react = /*#__PURE__*/ _interopRequireDefault(_exportStar(_react, exports));
     var _default = _react.default;
 });

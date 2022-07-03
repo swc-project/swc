@@ -18,5 +18,5 @@ define([
         X2: ()=>_z.X2,
         Y: ()=>_z.Y
     });
-    _z = _interopRequireWildcard(_exportStar(_z, exports));
+    _z = /*#__PURE__*/ _interopRequireWildcard(_exportStar(_z, exports));
 });

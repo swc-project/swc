@@ -20,5 +20,5 @@
         A: ()=>_a,
         B: ()=>_a
     });
-    _a = _interopRequireWildcard(_a);
+    _a = /*#__PURE__*/ _interopRequireWildcard(_a);
 });

@@ -20,7 +20,7 @@
         get: ()=>_get,
         byID: ()=>byID
     });
-    _get = _interopRequireWildcard(_get);
+    _get = /*#__PURE__*/ _interopRequireWildcard(_get);
     const byID = (id)=>{
         // Do some async stuff
         return new Promise((resolve)=>setTimeout(()=>{

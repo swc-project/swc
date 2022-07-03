@@ -27,7 +27,7 @@ const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildc
 const _abstractBuilders = require("./AbstractBuilders");
 const _builderUtils = require("./Builder.utils");
 const _elementBuilder = require("./ElementBuilder");
-const _bodyNodesBuilder = _interopRequireWildcard(_exportStar(require("./BodyNodesBuilder"), exports));
+const _bodyNodesBuilder = /*#__PURE__*/ _interopRequireWildcard(_exportStar(require("./BodyNodesBuilder"), exports));
 const create = ()=>new BodyBuilder();
 const trustBox = ()=>new TrustBoxBuilder();
 const opener = ()=>new OpenerBuilder();

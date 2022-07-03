@@ -10,7 +10,7 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _props = _interopRequireDefault(_props);
+    _props = /*#__PURE__*/ _interopRequireDefault(_props);
     console.log(_props.default);
     (function() {
         const { ...props } = this.props;
