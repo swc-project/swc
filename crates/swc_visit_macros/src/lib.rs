@@ -1764,6 +1764,10 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
     }
 
     fn mk_ref(mode: Mode, ident: Ident, ty: &Type, mutable: bool) -> Signature {
+        if let Mode::Visit(VisitorVariant::WithPath) = mode {
+            return mk_exact(mode, ident, &q!(Vars { ty }, (&'ast ty)).parse());
+        }
+
         mk_exact(
             mode,
             ident,
