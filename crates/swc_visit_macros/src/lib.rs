@@ -630,62 +630,76 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::Fold(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
-                Vars {
-                    fn_name,
-                    default_body,
-                    Type: arg_ty,
-                    Trait: Ident::new(mode.trait_name(), call_site()),
-                },
-                {
-                    #[allow(unused_variables)]
-                    fn fn_name<V: ?Sized + Trait>(
-                        _visitor: &mut V,
-                        n: Type,
-                        __ast_path: &mut AstKindPath,
-                    ) -> Type {
-                        __ast_path.with(n.to_ast_kind(), |__ast_path| default_body)
-                    }
-                }
-            )),
+            Mode::Fold(VisitorVariant::WithPath) => {
+                let to_kind_expr = make_to_ast_kind(arg_ty, false);
 
-            Mode::VisitMut(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
-                Vars {
-                    fn_name,
-                    default_body,
-                    Type: arg_ty,
-                    Trait: Ident::new(mode.trait_name(), call_site()),
-                },
-                {
-                    #[allow(unused_variables)]
-                    fn fn_name<V: ?Sized + Trait>(
-                        _visitor: &mut V,
-                        n: Type,
-                        __ast_path: &mut AstKindPath,
-                    ) {
-                        __ast_path.with(n.to_ast_kind(), |__ast_path| default_body)
+                tokens.push_tokens(&q!(
+                    Vars {
+                        fn_name,
+                        default_body,
+                        Type: arg_ty,
+                        Trait: Ident::new(mode.trait_name(), call_site()),
+                        to_kind_expr,
+                    },
+                    {
+                        #[allow(unused_variables)]
+                        fn fn_name<V: ?Sized + Trait>(
+                            _visitor: &mut V,
+                            n: Type,
+                            __ast_path: &mut AstKindPath,
+                        ) -> Type {
+                            __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                        }
                     }
-                }
-            )),
+                ))
+            }
 
-            Mode::Visit(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
-                Vars {
-                    fn_name,
-                    default_body,
-                    Type: arg_ty,
-                    Trait: Ident::new(mode.trait_name(), call_site()),
-                },
-                {
-                    #[allow(unused_variables)]
-                    fn fn_name<V: ?Sized + Trait>(
-                        _visitor: &mut V,
-                        n: Type,
-                        __ast_path: &mut AstNodePath,
-                    ) {
-                        __ast_path.with(&n.to_ast_path_node(), |__ast_path| default_body)
+            Mode::VisitMut(VisitorVariant::WithPath) => {
+                let to_kind_expr = make_to_ast_kind(arg_ty, false);
+
+                tokens.push_tokens(&q!(
+                    Vars {
+                        fn_name,
+                        default_body,
+                        Type: arg_ty,
+                        Trait: Ident::new(mode.trait_name(), call_site()),
+                        to_kind_expr,
+                    },
+                    {
+                        #[allow(unused_variables)]
+                        fn fn_name<V: ?Sized + Trait>(
+                            _visitor: &mut V,
+                            n: Type,
+                            __ast_path: &mut AstKindPath,
+                        ) {
+                            __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                        }
                     }
-                }
-            )),
+                ))
+            }
+
+            Mode::Visit(VisitorVariant::WithPath) => {
+                let to_kind_expr = make_to_ast_kind(arg_ty, false);
+
+                tokens.push_tokens(&q!(
+                    Vars {
+                        fn_name,
+                        default_body,
+                        Type: arg_ty,
+                        Trait: Ident::new(mode.trait_name(), call_site()),
+                    },
+                    {
+                        #[allow(unused_variables)]
+                        fn fn_name<V: ?Sized + Trait>(
+                            _visitor: &mut V,
+                            n: Type,
+                            __ast_path: &mut AstNodePath,
+                        ) {
+                            __ast_path.with(&to_kind_expr, |__ast_path| default_body)
+                        }
+                    }
+                ))
+            }
 
             Mode::VisitAll => {}
         }
@@ -1362,6 +1376,14 @@ where
     }
 
     expr
+}
+
+fn make_to_ast_kind(ty: &Type, is_ref: bool) -> Expr {
+    if is_ref {
+        q!({ n.to_ast_path_node() }).parse()
+    } else {
+        q!({ n.to_ast_kind() }).parse()
+    }
 }
 
 ///
