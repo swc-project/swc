@@ -724,18 +724,6 @@ impl Minifier {
 
     fn is_element_displayed(&self, namespace: Namespace, tag_name: &str) -> bool {
         match namespace {
-            // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#metadata_content
-            //
-            // Excluded:
-            // `noscript` - can be displayed if JavaScript disabled
-            // `script` - can insert markup using `document.write`
-            Namespace::HTML => !matches!(
-                tag_name,
-                "base" | "command" | "link" | "meta" | "style" | "title"
-            ),
-            Namespace::SVG => !matches!(tag_name, "style"),
-    fn is_displayed_element(&self, namespace: Namespace, tag_name: &str) -> bool {
-        match namespace {
             Namespace::HTML => {
                 // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#metadata_content
                 //
@@ -747,6 +735,7 @@ impl Minifier {
                     "base" | "command" | "link" | "meta" | "style" | "title" | "template"
                 )
             }
+            Namespace::SVG => !matches!(tag_name, "style"),
             _ => true,
         }
     }
@@ -835,7 +824,7 @@ impl Minifier {
                 self.get_prev_displayed_node(children, index - 1)
             }
             Some(Child::Element(element))
-                if !self.is_displayed_element(element.namespace, &element.tag_name) =>
+                if !self.is_element_displayed(element.namespace, &element.tag_name) =>
             {
                 if index >= 1 {
                     self.get_prev_displayed_node(children, index - 1)
@@ -858,7 +847,7 @@ impl Minifier {
         match next {
             Some(Child::Comment(_)) => self.get_next_displayed_node(children, index + 1),
             Some(Child::Element(element))
-                if !self.is_displayed_element(element.namespace, &element.tag_name) =>
+                if !self.is_element_displayed(element.namespace, &element.tag_name) =>
             {
                 self.get_next_displayed_node(children, index + 1)
             }
@@ -994,7 +983,6 @@ impl Minifier {
         true
     }
 
-    fn minify_children(&mut self, children: &mut Vec<Child>) {
     fn minify_children(&mut self, children: &Vec<Child>) -> Vec<Child> {
         let (namespace, tag_name) = match &self.current_element {
             Some(element) => (element.namespace, &element.tag_name),
@@ -1005,13 +993,6 @@ impl Minifier {
 
         let mode = self.get_whitespace_minification_for_tag(namespace, tag_name);
 
-        let child_will_be_retained = |child: &mut Child,
-                                      prev: Option<&Child>,
-                                      next: Option<&Child>| {
-        let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
-                                      children: &Vec<Child>,
-                                      index: usize,
-                                      offset: usize| {
         let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
             match child {
                 Child::Comment(comment) if self.remove_comments => {
@@ -1025,7 +1006,8 @@ impl Minifier {
                             || (element.namespace == Namespace::HTML
                                 && &*element.tag_name == "noscript"))
                         && element.attributes.is_empty()
-                        && self.empty_children(&element.children) =>
+                        && self.empty_children(&element.children)
+                        && element.content.is_none() =>
                 {
                     false
                 }
@@ -1052,19 +1034,6 @@ impl Minifier {
                     let mut is_smart_right_trim = false;
 
                     if self.collapse_whitespaces == CollapseWhitespaces::Smart {
-                        let prev_display = if let Some(Child::Element(Element {
-                            namespace,
-                            tag_name,
-                            ..
-                        })) = &prev
-                        {
-                            Some(self.get_display(*namespace, tag_name))
-                        println!("cur: {:?}", text);
-
-                        let prev = if index >= 1 {
-                            children.get(index - 1)
-                        let prev = if index - offset >= 1 {
-                            children.get(index - offset - 1)
                         let prev = if index >= 1 {
                             children.get(index - 1)
                         } else {
@@ -1101,21 +1070,6 @@ impl Minifier {
                                 | Display::TableRowGroup
                                 | Display::TableFooterGroup,
                             ) => true,
-                            // These elements are not displayed
-                            Some(Display::None) => {
-                                if let Some(Child::Element(Element {
-                                    namespace,
-                                    tag_name,
-                                    ..
-                                })) = &prev
-                                {
-                                    !self.is_element_displayed(*namespace, tag_name)
-                                    !self.is_metadata_element_displayed(*namespace, tag_name)
-                                    !self.is_displayed_element(*namespace, tag_name)
-                                } else {
-                                    true
-                                }
-                            }
                             // Elements are not displayed
                             // And
                             // Inline box
@@ -1203,23 +1157,6 @@ impl Minifier {
                             ) => true,
                             // These elements are not displayed
                             Some(Display::None) => {
-                                if let Some(Child::Element(Element {
-                                    namespace,
-                                    tag_name,
-                                    ..
-                                })) = &next
-                                {
-                                    !self.is_element_displayed(*namespace, tag_name)
-                                    !self.is_metadata_element_displayed(*namespace, tag_name)
-                                    !self.is_displayed_element(*namespace, tag_name)
-                                } else {
-                                    true
-                            Some(Display::None) | Some(Display::Inline) => {
-                                println!(
-                                    "real next {:?}",
-                                    self.get_next_displayed_node(children, index + 1)
-                                );
-
                                 match &self.get_next_displayed_node(children, index + 1) {
                                     Some(Child::Text(text)) => text.data.starts_with(is_whitespace),
                                     Some(child @ Child::Element(_)) => {
@@ -1322,16 +1259,9 @@ impl Minifier {
 
             let result = child_will_be_retained(&mut child, &merged_children, offset);
 
-            result
-        });
             if result {
                 new_children.push(child);
             }
-        }
-
-        // Remove all leading and trailing whitespaces for the `body` element
-        if namespace == Namespace::HTML && tag_name == "body" {
-            self.remove_leading_and_trailing_whitespaces(&mut new_children, true, true);
         }
 
         new_children
@@ -1822,7 +1752,7 @@ impl VisitMut for Minifier {
             && &*n.tag_name == "body"
             && self.need_collapse_whitespace()
         {
-            self.remove_leading_and_trailing_whitespaces(&mut n.children);
+            self.remove_leading_and_trailing_whitespaces(&mut n.children, true, true);
         }
 
         if self.need_collapse_whitespace() {
