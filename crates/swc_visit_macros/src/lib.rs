@@ -87,11 +87,13 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
             make_method(Mode::VisitAll, item, &mut types);
         }
+        types.sort_by_cached_key(ast_enum_variant_name);
+        types.dedup_by_key(|ty| ast_enum_variant_name(ty));
 
         q.push_tokens(&make_ast_enum(&types, true));
         q.push_tokens(&make_ast_enum(&types, false));
 
-        for item in impl_ast_node(&block.stmts) {
+        for item in impl_ast_node(&types) {
             q.push_tokens(&item);
         }
     }
@@ -134,13 +136,8 @@ fn ast_enum_variant_name(t: &Type) -> String {
 fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     let mut variants = Punctuated::new();
 
-    let mut done = HashSet::new();
-
     for ty in types {
         let name = ast_enum_variant_name(ty);
-        if !done.insert(name.clone()) {
-            continue;
-        }
 
         let ident = Ident::new(&name, ty.span());
 
@@ -224,37 +221,34 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     })
 }
 
-fn impl_ast_node(stmts: &[Stmt]) -> Vec<Item> {
-    stmts
+fn impl_ast_node(types: &[Type]) -> Vec<Item> {
+    types
         .iter()
-        .filter_map(|stmt| match stmt {
-            Stmt::Item(i) => Some(i),
-            _ => None,
-        })
-        .filter_map(|item| {
-            let ident = match item {
-                Item::Struct(item) => item.ident.clone(),
-                Item::Enum(item) => item.ident.clone(),
-                _ => return None,
-            };
+        .map(|ty| {
+            let name = ast_enum_variant_name(ty);
+            let ident = Ident::new(&name, ty.span());
 
-            Some(
-                q!(Vars { Type: &ident }, {
+            q!(
+                Vars {
+                    Type: ty,
+                    Name: ident
+                },
+                {
                     impl<'ast> AstNode<'ast> for Type {
                         type Kind = AstKind;
                         type NodeRef = AstNodeRef<'ast>;
 
                         fn to_ast_kind(&self) -> Self::Kind {
-                            AstKind::Type
+                            AstKind::Name
                         }
 
                         fn to_ast_path_node(&'ast self) -> Self::NodeRef {
-                            AstNodeRef::Type(self)
+                            AstNodeRef::Name(self)
                         }
                     }
-                })
-                .parse(),
+                }
             )
+            .parse()
         })
         .collect()
 }
