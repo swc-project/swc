@@ -300,16 +300,28 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
-                block: q!(
-                    Vars { visit: &name },
-                    ({
-                        match self {
-                            swc_visit::Either::Left(v) => v.visit(n),
-                            swc_visit::Either::Right(v) => v.visit(n),
-                        }
-                    })
-                )
-                .parse(),
+                block: match mode.visitor_variant() {
+                    Some(VisitorVariant::Normal) | None => q!(
+                        Vars { visit: &name },
+                        ({
+                            match self {
+                                swc_visit::Either::Left(v) => v.visit(n),
+                                swc_visit::Either::Right(v) => v.visit(n),
+                            }
+                        })
+                    )
+                    .parse(),
+                    Some(VisitorVariant::WithPath) => q!(
+                        Vars { visit: &name },
+                        ({
+                            match self {
+                                swc_visit::Either::Left(v) => v.visit(n, __ast_path),
+                                swc_visit::Either::Right(v) => v.visit(n, __ast_path),
+                            }
+                        })
+                    )
+                    .parse(),
+                },
             });
         }
 
