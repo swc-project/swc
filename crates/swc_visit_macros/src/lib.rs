@@ -715,7 +715,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ) {
                             let __ast_kind = to_kind_expr;
 
-                            __ast_path.with(&__ast_kind, |__ast_path| default_body)
+                            __ast_path.with(__ast_kind, |__ast_path| default_body)
                         }
                     }
                 ))
