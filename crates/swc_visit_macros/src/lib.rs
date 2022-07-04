@@ -2397,7 +2397,7 @@ fn method_name_as_str(mode: Mode, ty: &Type) -> String {
 
 fn ast_path_type(mode: Mode) -> Type {
     match mode {
-        Mode::Visit(_) => q!((&mut AstNodePath)).parse(),
+        Mode::Visit(_) => q!((&mut AstNodePath<'r>)).parse(),
         Mode::VisitMut(_) | Mode::Fold(_) => q!((&mut AstKindPath)).parse(),
         _ => unreachable!(),
     }
