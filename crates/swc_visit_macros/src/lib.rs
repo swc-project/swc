@@ -228,7 +228,7 @@ fn impl_ast_node(stmts: &[Stmt]) -> Vec<Item> {
 
             Some(
                 q!(Vars { Type: &ident }, {
-                    impl<'ast> AstNode<'ast> for Type {
+                    impl<'ast> swc_visit::AstNode<'ast> for Type {
                         type Kind = AstKind;
                         type NodeRef = AstNodeRef<'ast>;
 
