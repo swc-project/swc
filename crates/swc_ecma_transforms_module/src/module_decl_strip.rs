@@ -312,10 +312,11 @@ pub enum LinkSpecifier {
     /// import "mod";
     /// import {} from "mod",
     /// import { type foo } from "mod";
-    /// export {}
-    /// export type {}
+    /// export {} from "mod";
+    /// export { type foo } from "mod";
     /// ```
     Empty,
+
     /// ```javascript
     /// import { imported as local, local } from "mod";
     /// import { "imported" as local } from "mod";
