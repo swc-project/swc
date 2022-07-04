@@ -300,6 +300,12 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
 }
 
 fn process_ast_node_ref_type(ty: &Type) -> Type {
+    if let Type::Reference(ty) = ty {
+        if extract_generic("Option", &ty.elem).is_some() {
+            return process_ast_node_ref_type(&ty.elem);
+        }
+    }
+
     if let Some(inner) = extract_vec(ty) {
         return q!(Vars { ty: &inner }, (&'ast [ty])).parse();
     }
