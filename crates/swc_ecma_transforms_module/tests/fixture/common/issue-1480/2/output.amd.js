@@ -7,5 +7,5 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _ora = _interopRequireWildcard(_ora);
+    _ora = /*#__PURE__*/ _interopRequireWildcard(_ora);
 });

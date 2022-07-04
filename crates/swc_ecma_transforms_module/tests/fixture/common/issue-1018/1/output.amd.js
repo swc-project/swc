@@ -5,6 +5,6 @@ define([
     async function foo() {
         await new Promise((resolve, reject)=>require([
                 "foo"
-            ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+            ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
     }
 });

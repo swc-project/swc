@@ -27,7 +27,7 @@
         test2: ()=>test2
     });
     _foo2 = _foo2;
-    _foo3 = _interopRequireWildcard(_foo3, true);
+    _foo3 = /*#__PURE__*/ _interopRequireWildcard(_foo3, true);
     var test;
     var test2 = 5;
     _foo4.bar;

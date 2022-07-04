@@ -331,6 +331,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
             ModuleConfig::build(
                 self.cm.clone(),
+                comments,
                 base_url,
                 paths,
                 base,

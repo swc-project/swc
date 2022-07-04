@@ -7,7 +7,7 @@ Object.defineProperty(exports, "default", {
     get: ()=>_white().default
 });
 function _white() {
-    const data = _interopRequireDefault(require("white"));
+    const data = /*#__PURE__*/ _interopRequireDefault(require("white"));
     _white = function() {
         return data;
     };

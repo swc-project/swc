@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
+var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
 function _asyncIterator(iterable) {
     var method;
     if (typeof Symbol === "function") {

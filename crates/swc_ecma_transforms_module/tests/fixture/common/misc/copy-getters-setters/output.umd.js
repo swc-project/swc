@@ -20,5 +20,5 @@
         baz: ()=>_moduleWithGetter.baz,
         Foo: ()=>_moduleWithGetter.default
     });
-    _moduleWithGetter = _interopRequireWildcard(_moduleWithGetter);
+    _moduleWithGetter = /*#__PURE__*/ _interopRequireWildcard(_moduleWithGetter);
 });

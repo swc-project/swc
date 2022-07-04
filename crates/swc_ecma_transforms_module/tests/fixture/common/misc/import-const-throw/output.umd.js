@@ -12,8 +12,8 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _foo = _interopRequireDefault(_foo);
-    _bar = _interopRequireWildcard(_bar);
+    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
+    _bar = /*#__PURE__*/ _interopRequireWildcard(_bar);
     Foo = 42;
     Bar = 43;
     Baz = 44;

@@ -1269,15 +1269,16 @@ pub enum ModuleConfig {
 }
 
 impl ModuleConfig {
-    pub fn build(
+    pub fn build<'cmt>(
         cm: Arc<SourceMap>,
+        comments: Option<&'cmt SingleThreadedComments>,
         base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
         unresolved_mark: Mark,
         config: Option<ModuleConfig>,
         available_features: FeatureFlag,
-    ) -> Box<dyn swc_ecma_visit::Fold> {
+    ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
         let base = match base {
             FileName::Real(v) if !paths.is_empty() => {
                 FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
@@ -1301,6 +1302,7 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
+                        comments,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1310,6 +1312,7 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
+                        comments,
                     ))
                 }
             }
@@ -1320,6 +1323,7 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
+                        comments,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1331,6 +1335,7 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
+                        comments,
                     ))
                 }
             }
@@ -1340,6 +1345,7 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
+                        comments,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1350,6 +1356,7 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
+                        comments,
                     ))
                 }
             }

@@ -14,5 +14,5 @@
         enumerable: true,
         get: ()=>_white.default
     });
-    _white = _interopRequireDefault(_white);
+    _white = /*#__PURE__*/ _interopRequireDefault(_white);
 });

@@ -4,5 +4,5 @@ define([
     "use strict";
     const { default: ora  } = await new Promise((resolve, reject)=>require([
             "ora"
-        ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
 });

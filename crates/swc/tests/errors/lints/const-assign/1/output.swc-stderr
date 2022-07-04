@@ -1,13 +1,520 @@
 
   x cannot reassign to a variable declared with `const`
    ,-[1:1]
- 1 | const a = 500;
+ 1 | const a = 100,
    :       |
    :       `-- const variable was declared here
- 2 | 
- 3 | 
- 4 | 
- 5 | a = 600;
+ 2 |     [b] = [200],
+ 3 |     { c } = { c: 300 },
+ 4 |     [d = 400] = [];
+ 5 | 
+ 6 | a = 200;
    : |
    : `-- cannot reassign
    `----
+
+  x cannot reassign to a variable declared with `const`
+   ,-[2:5]
+ 2 | [b] = [200],
+   :  |
+   :  `-- const variable was declared here
+ 3 |     { c } = { c: 300 },
+ 4 |     [d = 400] = [];
+ 5 | 
+ 6 | a = 200;
+ 7 | 
+ 8 | b++;
+   : |
+   : `-- cannot reassign
+   `----
+
+  x cannot reassign to a variable declared with `const`
+   ,-[3:5]
+ 3 | { c } = { c: 300 },
+   :   |
+   :   `-- const variable was declared here
+ 4 |     [d = 400] = [];
+ 5 | 
+ 6 | a = 200;
+ 7 | 
+ 8 | b++;
+ 9 | c--;
+   : |
+   : `-- cannot reassign
+   `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[4:5]
+  4 | [d = 400] = [];
+    :  |
+    :  `-- const variable was declared here
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+    :   |
+    :   `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[1:1]
+  1 | const a = 100,
+    :       |
+    :       `-- const variable was declared here
+  2 |     [b] = [200],
+  3 |     { c } = { c: 300 },
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+    :   |
+    :   `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[2:5]
+  2 | [b] = [200],
+    :  |
+    :  `-- const variable was declared here
+  3 |     { c } = { c: 300 },
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[3:5]
+  3 | { c } = { c: 300 },
+    :   |
+    :   `-- const variable was declared here
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[4:5]
+  4 | [d = 400] = [];
+    :  |
+    :  `-- const variable was declared here
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[1:1]
+  1 | const a = 100,
+    :       |
+    :       `-- const variable was declared here
+  2 |     [b] = [200],
+  3 |     { c } = { c: 300 },
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[2:5]
+  2 | [b] = [200],
+    :  |
+    :  `-- const variable was declared here
+  3 |     { c } = { c: 300 },
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[3:5]
+  3 | { c } = { c: 300 },
+    :   |
+    :   `-- const variable was declared here
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[4:5]
+  4 | [d = 400] = [];
+    :  |
+    :  `-- const variable was declared here
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[1:1]
+  1 | const a = 100,
+    :       |
+    :       `-- const variable was declared here
+  2 |     [b] = [200],
+  3 |     { c } = { c: 300 },
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+ 22 | 
+ 23 | a >>>= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[2:5]
+  2 | [b] = [200],
+    :  |
+    :  `-- const variable was declared here
+  3 |     { c } = { c: 300 },
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+ 22 | 
+ 23 | a >>>= 10;
+ 24 | 
+ 25 | b |= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[3:5]
+  3 | { c } = { c: 300 },
+    :   |
+    :   `-- const variable was declared here
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+ 22 | 
+ 23 | a >>>= 10;
+ 24 | 
+ 25 | b |= 10;
+ 26 | c ^= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[4:5]
+  4 | [d = 400] = [];
+    :  |
+    :  `-- const variable was declared here
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+ 22 | 
+ 23 | a >>>= 10;
+ 24 | 
+ 25 | b |= 10;
+ 26 | c ^= 10;
+ 27 | d &= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[1:1]
+  1 | const a = 100,
+    :       |
+    :       `-- const variable was declared here
+  2 |     [b] = [200],
+  3 |     { c } = { c: 300 },
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+ 22 | 
+ 23 | a >>>= 10;
+ 24 | 
+ 25 | b |= 10;
+ 26 | c ^= 10;
+ 27 | d &= 10;
+ 28 | a **= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[2:5]
+  2 | [b] = [200],
+    :  |
+    :  `-- const variable was declared here
+  3 |     { c } = { c: 300 },
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+ 22 | 
+ 23 | a >>>= 10;
+ 24 | 
+ 25 | b |= 10;
+ 26 | c ^= 10;
+ 27 | d &= 10;
+ 28 | a **= 10;
+ 29 | 
+ 30 | b &&= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[3:5]
+  3 | { c } = { c: 300 },
+    :   |
+    :   `-- const variable was declared here
+  4 |     [d = 400] = [];
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+ 22 | 
+ 23 | a >>>= 10;
+ 24 | 
+ 25 | b |= 10;
+ 26 | c ^= 10;
+ 27 | d &= 10;
+ 28 | a **= 10;
+ 29 | 
+ 30 | b &&= 10;
+ 31 | c ||= 10;
+    : |
+    : `-- cannot reassign
+    `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[4:5]
+  4 | [d = 400] = [];
+    :  |
+    :  `-- const variable was declared here
+  5 | 
+  6 | a = 200;
+  7 | 
+  8 | b++;
+  9 | c--;
+ 10 | 
+ 11 | ++d;
+ 12 | --a;
+ 13 | 
+ 14 | b += 10;
+ 15 | c -= 10;
+ 16 | d *= 10;
+ 17 | a /= 10;
+ 18 | b %= 10;
+ 19 | 
+ 20 | c <<= 10;
+ 21 | d >>= 10;
+ 22 | 
+ 23 | a >>>= 10;
+ 24 | 
+ 25 | b |= 10;
+ 26 | c ^= 10;
+ 27 | d &= 10;
+ 28 | a **= 10;
+ 29 | 
+ 30 | b &&= 10;
+ 31 | c ||= 10;
+ 32 | 
+ 33 | d ??= 10;
+    : |
+    : `-- cannot reassign
+    `----

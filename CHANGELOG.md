@@ -8,7 +8,16 @@
 - **(es/compat)** Preserve spans in `object_rest_spread` (#5082) ([de66b64](https://github.com/swc-project/swc/commit/de66b64aed13166803ebdfb91d1c421eec064c25))
 
 
+- **(es/lints)** Cover more `const-assign` cases (#5098) ([f7d857c](https://github.com/swc-project/swc/commit/f7d857c6b6c32ad228aa929d0301b22c9d34ff8b))
+
+
 - **(es/modules)** Preserve orders of exports (#5081) ([2f2039c](https://github.com/swc-project/swc/commit/2f2039c693bd1e16b16dd1b1b32f3582fdadca4e))
+
+
+- **(es/modules)** Create an indirect call for a lazy require (#5089) ([0a7ca2f](https://github.com/swc-project/swc/commit/0a7ca2f4bbfaa2573b4da6b25127064cbcfd755f))
+
+
+- **(html/minifier)** Small fix (#5079) ([5ac5ae2](https://github.com/swc-project/swc/commit/5ac5ae200c3c896f205e7c4567a5a6281d16015b))
 
 ### Features
 
@@ -17,10 +26,19 @@
 - **(es/modules)** Support `allowTopLevelThis` (#5086) ([9addef6](https://github.com/swc-project/swc/commit/9addef6fc8672854b52a1b71668795474a6f3fec))
 
 
+- **(es/modules)** Add pure annotations to interop functions (#5087) ([4d5783d](https://github.com/swc-project/swc/commit/4d5783d9cd1f91f5b7cdcc5efaa7d83f35ee4fef))
+
+
 - **(es/parser)** Support labelled function from annex B (#5078) ([b62fd3e](https://github.com/swc-project/swc/commit/b62fd3e6cc371ad4f8cb9055b3fed70f1954afa2))
 
 
 - **(html/minifier)** Remove empty metadata elements (#5085) ([cb845c9](https://github.com/swc-project/swc/commit/cb845c9bf903136b074af269b96a685027599284))
+
+### Testing
+
+
+
+- **(es/modules)** Add test for string-names (#5088) ([52bfb18](https://github.com/swc-project/swc/commit/52bfb18113895d20bc952e84302e8591c1fdf407))
 
 ## [1.2.208] - 2022-07-01
 

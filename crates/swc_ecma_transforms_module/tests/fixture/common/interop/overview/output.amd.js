@@ -23,8 +23,8 @@ define([
         test: ()=>test,
         test2: ()=>test2
     });
-    _foo2 = _interopRequireDefault(_foo2);
-    _foo3 = _interopRequireWildcard(_foo3);
+    _foo2 = /*#__PURE__*/ _interopRequireDefault(_foo2);
+    _foo3 = /*#__PURE__*/ _interopRequireWildcard(_foo3);
     var test;
     var test2 = 5;
     _foo4.bar;
