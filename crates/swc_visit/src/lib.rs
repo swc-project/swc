@@ -212,6 +212,17 @@ where
     path: Vec<K>,
 }
 
+impl<K> std::ops::Deref for AstKindPath<K>
+where
+    K: Copy,
+{
+    type Target = Vec<K>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.path
+    }
+}
+
 impl<K> Default for AstKindPath<K>
 where
     K: Copy,
@@ -242,6 +253,14 @@ where
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AstNodePath<'a, N> {
     path: Vec<&'a N>,
+}
+
+impl<'a, N> std::ops::Deref for AstNodePath<'a, N> {
+    type Target = Vec<&'a N>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.path
+    }
 }
 
 impl<N> Default for AstNodePath<'_, N> {
