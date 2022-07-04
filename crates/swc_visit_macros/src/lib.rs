@@ -134,8 +134,15 @@ fn ast_enum_variant_name(t: &Type) -> String {
 fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     let mut variants = Punctuated::new();
 
+    let mut done = HashSet::new();
+
     for ty in types {
-        let ident = Ident::new(&ast_enum_variant_name(ty), ty.span());
+        let name = ast_enum_variant_name(ty);
+        if !done.insert(name.clone()) {
+            continue;
+        }
+
+        let ident = Ident::new(&name, ty.span());
 
         let fields = if !is_ref {
             Fields::Unit
