@@ -75,8 +75,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             type NodeRef: 'ast;
 
             fn to_ast_kind(&self) -> Self::Kind;
-
-            fn to_ast_path_node(&'ast self) -> Self::NodeRef;
         }
 
         impl<'ast, T> AstNode<'ast> for Vec<T>
@@ -88,10 +86,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
             fn to_ast_kind(&self) -> Self::Kind {
                 <[T]>::to_ast_kind(self)
-            }
-
-            fn to_ast_path_node(&'ast self) -> Self::NodeRef {
-                <[T]>::to_ast_path_node(self)
             }
         }
 
@@ -360,18 +354,11 @@ fn impl_ast_node(types: &[Type]) -> Vec<Item> {
 
             let ident = Ident::new(&name, ty.span());
 
-            let ast_path_expr = if extract_generic("Option", ty).is_some() {
-                q!({ self.as_deref() })
-            } else {
-                q!({ self })
-            };
-
             Some(
                 q!(
                     Vars {
                         Type: process_ast_node_ref_type(ty),
                         Name: ident,
-                        ast_path_expr,
                     },
                     {
                         impl<'ast> AstNode<'ast> for Type {
@@ -380,10 +367,6 @@ fn impl_ast_node(types: &[Type]) -> Vec<Item> {
 
                             fn to_ast_kind(&self) -> Self::Kind {
                                 AstKind::Name
-                            }
-
-                            fn to_ast_path_node(&'ast self) -> Self::NodeRef {
-                                AstNodeRef::Name(ast_path_expr)
                             }
                         }
                     }
