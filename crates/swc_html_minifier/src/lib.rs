@@ -812,6 +812,25 @@ impl Minifier {
         }
     }
 
+    fn get_deep_first_text_element<'a>(&self, node: &'a Child) -> Option<&'a Text> {
+        match node {
+            Child::Text(text) => Some(text),
+            Child::Element(Element {
+                namespace,
+                tag_name,
+                children,
+                ..
+            }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
+                if let Some(first) = children.first() {
+                    self.get_deep_first_text_element(first)
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        }
+    }
+
     fn get_prev_displayed_node<'a>(
         &self,
         children: &'a Vec<Child>,
@@ -1160,7 +1179,7 @@ impl Minifier {
                                 match &self.get_next_displayed_node(children, index + 1) {
                                     Some(Child::Text(text)) => text.data.starts_with(is_whitespace),
                                     Some(child @ Child::Element(_)) => {
-                                        let deep = self.get_deep_last_text_element(child);
+                                        let deep = self.get_deep_first_text_element(child);
 
                                         if let Some(deep) = deep {
                                             !deep.data.starts_with(is_whitespace)
