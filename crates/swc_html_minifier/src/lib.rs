@@ -1280,8 +1280,8 @@ impl Minifier {
         for (index, child) in children.iter().enumerate() {
             let mut child = child.clone();
 
-            // Merge text nodes
-            let modified_exiting = match &mut child {
+            // Merge adjacent text nodes
+            let merged = match &mut child {
                 Child::Text(text) => {
                     if let Some(Child::Text(prev_text)) = new_children.last_mut() {
                         let mut new_data =
@@ -1304,19 +1304,21 @@ impl Minifier {
 
             let mut merged_children = new_children.clone();
 
-            let offset;
-
-            if modified_exiting {
+            let (merged_children, offset) = if merged {
                 merged_children.push(child.clone());
 
-                offset = merged_children.len() - 1;
+                let offset = merged_children.len() - 1;
 
                 merged_children.extend_from_slice(&children[index + 1..]);
+
+                (merged_children, offset)
             } else {
-                offset = merged_children.len();
+                let offset = merged_children.len();
 
                 merged_children.extend_from_slice(&children[index..]);
-            }
+
+                (merged_children, offset)
+            };
 
             let result = child_will_be_retained(&mut child, &merged_children, offset);
 
