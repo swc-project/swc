@@ -128,7 +128,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
 fn expand_visitor_types(ty: Type) -> Vec<Type> {
     if let Some(inner) = extract_vec(&ty) {
-        let new = q!(Vars { ty: &inner }, (&'_ ty)).parse();
+        let new = q!(Vars { ty: &inner }, (&'_ [ty])).parse();
         return expand_visitor_types(inner.clone())
             .into_iter()
             .chain(once(ty))
