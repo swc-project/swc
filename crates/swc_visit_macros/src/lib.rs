@@ -177,6 +177,10 @@ fn expand_visitor_types(ty: Type) -> Vec<Type> {
 
 fn ast_enum_variant_name(t: &Type) -> Option<String> {
     if let Some(inner) = extract_generic("Option", t) {
+        if let Some(inner) = extract_generic("Vec", inner) {
+            return Some(format!("OptVec{}", ast_enum_variant_name(inner)?));
+        }
+
         return Some(format!("Opt{}", ast_enum_variant_name(inner)?));
     }
 
