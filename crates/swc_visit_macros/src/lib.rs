@@ -152,10 +152,15 @@ fn ast_enum_variant_name(t: &Type) -> String {
 
     match t {
         Type::Path(p) => p.path.segments.last().unwrap().ident.to_string(),
-        Type::Reference(t) => {
-            format!("{}", ast_enum_variant_name(&t.elem))
-        }
+        Type::Reference(t) => ast_enum_variant_name(&t.elem).to_string(),
         _ => unimplemented!("Type: {:?}", t),
+    }
+}
+
+fn unwrap_ref(ty: &Type) -> Type {
+    match ty {
+        Type::Reference(t) => unwrap_ref(&t.elem),
+        _ => ty.clone(),
     }
 }
 
@@ -183,7 +188,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
                         ident: Ident::new("ast", ty.span()),
                     }),
                     mutability: Default::default(),
-                    elem: Box::new(ty.clone()),
+                    elem: Box::new(unwrap_ref(ty)),
                 }),
             });
 
