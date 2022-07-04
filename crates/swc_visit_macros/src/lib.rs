@@ -1937,11 +1937,18 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                 &q!(Vars { arg }, { &mut Option<arg> }).parse(),
                             );
                         }
-                        Mode::Visit { .. } | Mode::VisitAll => {
+                        Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
                             return mk_exact(
                                 mode,
                                 ident,
-                                &q!(Vars { arg }, { Option<&'astarg> }).parse(),
+                                &q!(Vars { arg }, { Option<& arg> }).parse(),
+                            );
+                        }
+                        Mode::Visit(VisitorVariant::WithPath) => {
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &q!(Vars { arg }, { Option<&'ast arg> }).parse(),
                             );
                         }
                     }
