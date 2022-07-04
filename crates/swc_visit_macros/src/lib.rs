@@ -88,8 +88,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             make_method(Mode::VisitAll, item, &mut types);
         }
 
-        q.push_tokens(&make_ast_enum(&block.stmts, true));
-        q.push_tokens(&make_ast_enum(&block.stmts, false));
+        q.push_tokens(&make_ast_enum(&types, true));
+        q.push_tokens(&make_ast_enum(&types, false));
 
         for item in impl_ast_node(&block.stmts) {
             q.push_tokens(&item);
@@ -112,24 +112,22 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     proc_macro2::TokenStream::from(q).into()
 }
 
-fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
+fn ast_enum_variant_name(t: &Type) -> String {
+    if let Some(inner) = extract_generic("Option", t) {
+        return format!("Opt{}", ast_enum_variant_name(&inner));
+    }
+
+    match t {
+        Type::Path(p) => p.path.segments.last().unwrap().ident.to_string(),
+        _ => unimplemented!(),
+    }
+}
+
+fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     let mut variants = Punctuated::new();
 
-    for item in stmts.iter().filter_map(|stmt| match stmt {
-        Stmt::Item(i) => Some(i),
-        _ => None,
-    }) {
-        let ident = match item {
-            Item::Enum(item) => {
-                if item.variants.iter().all(|v| v.fields.is_empty()) {
-                    continue;
-                }
-
-                item.ident.clone()
-            }
-            Item::Struct(item) => item.ident.clone(),
-            _ => continue,
-        };
+    for ty in types {
+        let ident = Ident::new(&ast_enum_variant_name(ty), ty.span());
 
         let fields = if !is_ref {
             Fields::Unit
@@ -141,10 +139,10 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
                 colon_token: None,
                 ident: None,
                 ty: Type::Reference(TypeReference {
-                    and_token: item.span().as_token(),
+                    and_token: ty.span().as_token(),
                     lifetime: Some(Lifetime {
                         apostrophe: call_site(),
-                        ident: Ident::new("ast", item.span()),
+                        ident: Ident::new("ast", ty.span()),
                     }),
                     mutability: Default::default(),
                     elem: Box::new(Type::Path(TypePath {
@@ -160,25 +158,12 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             })
         };
 
-        match item {
-            Item::Enum(item) => {
-                variants.push(Variant {
-                    attrs: Default::default(),
-                    ident: item.ident.clone(),
-                    fields,
-                    discriminant: None,
-                });
-            }
-            Item::Struct(item) => {
-                variants.push(Variant {
-                    attrs: Default::default(),
-                    ident: item.ident.clone(),
-                    fields,
-                    discriminant: None,
-                });
-            }
-            _ => {}
-        }
+        variants.push(Variant {
+            attrs: Default::default(),
+            ident,
+            fields,
+            discriminant: None,
+        });
     }
     let mut attrs = vec![];
 
