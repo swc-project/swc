@@ -235,7 +235,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
                         ident: Ident::new("ast", ty.span()),
                     }),
                     mutability: Default::default(),
-                    elem: Box::new(unwrap_ref(ty)),
+                    elem: Box::new(vec_to_slice(&unwrap_ref(ty))),
                 }),
             });
 
@@ -299,6 +299,19 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     })
 }
 
+fn vec_to_slice(ty: &Type) -> Type {
+    if let Some(inner) = extract_vec(ty) {
+        return q!(Vars { ty: &inner }, (&'ast [ty])).parse();
+    }
+
+    if let Some(inner) = extract_generic("Option", ty) {
+        let inner = vec_to_slice(inner);
+        return q!(Vars { ty: &inner }, (Option<ty>)).parse();
+    }
+
+    ty.clone()
+}
+
 fn impl_ast_node(types: &[Type]) -> Vec<Item> {
     types
         .iter()
@@ -314,7 +327,7 @@ fn impl_ast_node(types: &[Type]) -> Vec<Item> {
             Some(
                 q!(
                     Vars {
-                        Type: ty,
+                        Type: vec_to_slice(ty),
                         Name: ident
                     },
                     {
