@@ -79,6 +79,22 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             fn to_ast_path_node(&'ast self) -> Self::NodeRef;
         }
 
+        impl<'ast, T> AstNode for Vec<T>
+        where
+            [T]: AstNode,
+        {
+            type Kind = T::Kind;
+            type NodeRef = T::NodeRef;
+
+            fn to_ast_kind(&self) -> Self::Kind {
+                <[T]>::to_ast_kind(self)
+            }
+
+            fn to_ast_path_node(&'ast self) -> Self::NodeRef {
+                <[T]>::to_ast_path_node(self)
+            }
+        }
+
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<'ast, AstNodeRef<'ast>>;
     }));
