@@ -801,8 +801,12 @@ impl Minifier {
         let prev = children.get(index);
 
         match prev {
-            Some(Child::Comment(_)) if index >= 1 => {
-                self.get_prev_displayed_node(children, index - 1)
+            Some(Child::Comment(_)) => {
+                if index >= 1 {
+                    self.get_prev_displayed_node(children, index - 1)
+                } else {
+                    None
+                }
             }
             Some(Child::Element(element))
                 if !self.is_element_displayed(element.namespace, &element.tag_name) =>
