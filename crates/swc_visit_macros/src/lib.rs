@@ -708,10 +708,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     },
                     {
                         #[allow(unused_variables)]
-                        fn fn_name<V: ?Sized + Trait>(
+                        fn fn_name<'ast, V: ?Sized + Trait>(
                             _visitor: &mut V,
                             n: Type,
-                            __ast_path: &mut AstNodePath,
+                            __ast_path: &'ast mut AstNodePath<'ast>,
                         ) {
                             let __ast_kind = to_kind_expr;
 
@@ -1583,8 +1583,12 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
                     p.push_value(q!(Vars { Type: ty }, { n: &mut Type }).parse());
                 }
 
-                Mode::Visit { .. } | Mode::VisitAll => {
+                Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
                     p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
+                }
+
+                Mode::Visit(VisitorVariant::WithPath) => {
+                    p.push_value(q!(Vars { Type: ty }, { n: &'ast Type }).parse());
                 }
             }
 
