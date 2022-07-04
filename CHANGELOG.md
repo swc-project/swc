@@ -32,6 +32,9 @@
 - **(es/modules)** Add pure annotations to interop functions (#5087) ([4d5783d](https://github.com/swc-project/swc/commit/4d5783d9cd1f91f5b7cdcc5efaa7d83f35ee4fef))
 
 
+- **(es/modules)** Support AMD triple slash directives (#5091) ([ddb31d1](https://github.com/swc-project/swc/commit/ddb31d1fd79250b14cbb873424f02c750f9c6ef6))
+
+
 - **(es/parser)** Support labelled function from annex B (#5078) ([b62fd3e](https://github.com/swc-project/swc/commit/b62fd3e6cc371ad4f8cb9055b3fed70f1954afa2))
 
 
