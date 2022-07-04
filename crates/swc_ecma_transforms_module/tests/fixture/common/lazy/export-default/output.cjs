@@ -9,12 +9,20 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    default: ()=>_external().default,
-    foo: ()=>_external().default
+    default: ()=>_foo().default,
+    foo: ()=>_foo().default,
+    bar: ()=>_bar().default
 });
-function _external() {
-    const data = /*#__PURE__*/ _interopRequireDefault(require("external"));
-    _external = function() {
+function _foo() {
+    const data = /*#__PURE__*/ _interopRequireDefault(require("foo"));
+    _foo = function() {
+        return data;
+    };
+    return data;
+}
+function _bar() {
+    const data = /*#__PURE__*/ _interopRequireDefault(require("bar"));
+    _bar = function() {
         return data;
     };
     return data;

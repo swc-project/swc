@@ -1,8 +1,9 @@
 define([
     "require",
     "exports",
-    "external"
-], function(require, exports, _external) {
+    "foo",
+    "bar"
+], function(require, exports, _foo, _bar) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -14,8 +15,10 @@ define([
         });
     }
     _export(exports, {
-        default: ()=>_external.default,
-        foo: ()=>_external.default
+        default: ()=>_foo.default,
+        foo: ()=>_foo.default,
+        bar: ()=>_bar.default
     });
-    _external = /*#__PURE__*/ _interopRequireDefault(_external);
+    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
+    _bar = /*#__PURE__*/ _interopRequireDefault(_bar);
 });
