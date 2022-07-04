@@ -669,11 +669,7 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                 let (export_key, export_span) = exported.unwrap_or_else(|| orig.clone());
 
                 // bar -> foo
-                export_obj_prop_list.push((
-                    export_key,
-                    export_span,
-                    quote_ident!(orig.1, orig.0).into(),
-                ))
+                export_obj_prop_list.push((export_key, export_span, quote_ident!(orig.1, orig.0)))
             }
             LinkSpecifier::ExportDefaultAs(_, key, span) => {
                 *ref_to_mod_ident = true;
@@ -691,12 +687,12 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                     (mod_ident.clone(), Some("default".into())),
                 );
 
-                export_obj_prop_list.push((key.clone(), span, quote_ident!(span, key).into()))
+                export_obj_prop_list.push((key.clone(), span, quote_ident!(span, key)))
             }
             LinkSpecifier::ExportStarAs(key, span) => {
                 *ref_to_mod_ident = true;
 
-                export_obj_prop_list.push((key, span, mod_ident.clone().into()))
+                export_obj_prop_list.push((key, span, mod_ident.clone()))
             }
             LinkSpecifier::ExportStar => {}
             LinkSpecifier::ImportEqual(id) => {

@@ -242,7 +242,7 @@ where
 
         let mut export_obj_prop_list = export
             .into_iter()
-            .map(|((key, span), ident)| (key, span, ident.into()))
+            .map(|((key, span), ident)| (key, span, ident))
             .collect();
 
         link.into_iter().for_each(
