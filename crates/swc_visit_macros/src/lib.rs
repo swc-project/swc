@@ -715,12 +715,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + VisitWithPath<V>,
                 {
                     fn visit_with_path(&self, v: &mut V, ast_path: &mut AstNodePath) {
-                        (**self).visit_with_path(v)
+                        (**self).visit_with_path(v, ast_path)
                     }
 
                     /// Visit children nodes of self with `v`
                     fn visit_children_with_path(&self, v: &mut V, ast_path: &mut AstNodePath) {
-                        (**self).visit_children_with_path(v)
+                        (**self).visit_children_with_path(v, ast_path)
                     }
                 }
             }),
