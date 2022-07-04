@@ -170,6 +170,10 @@ fn expand_visitor_types(ty: Type) -> Vec<Type> {
 }
 
 fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
+    if skip(t) {
+        return None;
+    }
+
     if let Type::Reference(t) = t {
         // &'ast Option<&'ast Item> is useless.
         if let Some(..) = extract_generic("Option", &t.elem) {
