@@ -338,10 +338,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export
-            .into_iter()
-            .map(|((key, span), ident)| (key, span, ident))
-            .collect();
+        let mut export_obj_prop_list = export.into_iter().map(Into::into).collect();
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
@@ -438,7 +435,7 @@ where
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by(|a, b| a.1.cmp(&b.1));
+            export_obj_prop_list.sort_by_key(|prop| prop.span());
 
             let features = self.available_features;
             let exports = self.exports();

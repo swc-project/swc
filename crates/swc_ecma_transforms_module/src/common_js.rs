@@ -1,6 +1,7 @@
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_common::{
-    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, DUMMY_SP,
+    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, Spanned,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -16,7 +17,7 @@ use crate::{
     path::{ImportResolver, Resolver},
     util::{
         clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, prop_name,
-        use_strict, ImportInterop,
+        use_strict, ImportInterop, ObjPropKeyIdent,
     },
 };
 
@@ -240,10 +241,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export
-            .into_iter()
-            .map(|((key, span), ident)| (key, span, ident))
-            .collect();
+        let mut export_obj_prop_list = export.into_iter().map(Into::into).collect();
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
@@ -380,15 +378,10 @@ where
         let mut export_stmts: Vec<Stmt> = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by(|a, b| a.1.cmp(&b.1));
+            export_obj_prop_list.sort_by_key(|prop| prop.span());
 
             if import_interop.is_node() {
-                let export_id_list: Vec<(JsWord, Span)> = export_obj_prop_list
-                    .iter()
-                    .map(|(name, span, _)| (name.clone(), *span))
-                    .collect();
-
-                export_stmts = self.emit_lexer_exports_init(export_id_list);
+                export_stmts = self.emit_lexer_exports_init(&export_obj_prop_list);
             }
 
             let features = self.available_features;
@@ -408,18 +401,18 @@ where
     /// ```javascript
     /// exports.foo = exports.bar = void 0;
     /// ```
-    fn emit_lexer_exports_init(&mut self, export_id_list: Vec<(JsWord, Span)>) -> Vec<Stmt> {
+    fn emit_lexer_exports_init(&mut self, export_id_list: &[ObjPropKeyIdent]) -> Vec<Stmt> {
         export_id_list
             .chunks(100)
             .map(|group| {
                 let mut expr = *undefined(DUMMY_SP);
 
-                for (export_name, span) in group {
-                    let prop = prop_name(export_name, DUMMY_SP).into();
+                for key_value in group {
+                    let prop = prop_name(key_value.key(), DUMMY_SP).into();
 
                     let export_binding = MemberExpr {
                         obj: Box::new(self.exports().into()),
-                        span: *span,
+                        span: key_value.span(),
                         prop,
                     };
 

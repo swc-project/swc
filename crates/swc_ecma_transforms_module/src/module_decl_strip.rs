@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ident::IdentLike, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::module_ref_rewriter::ImportMap;
+use crate::{module_ref_rewriter::ImportMap, util::ObjPropKeyIdent};
 
 pub type Link = IndexMap<JsWord, LinkItem>;
 pub type Export = IndexMap<(JsWord, Span), Ident>;
@@ -602,11 +602,10 @@ impl LinkItem {
     }
 }
 
-/// (exported_name, exported_span, binding_ident)
-pub type ExportObjPropList = Vec<(JsWord, Span, Ident)>;
+pub(crate) type ExportObjPropList = Vec<ObjPropKeyIdent>;
 
 /// Reduce self to generate ImportMap and ExportObjPropList
-pub trait LinkSpecifierReducer {
+pub(crate) trait LinkSpecifierReducer {
     fn reduce(
         self,
         import_map: &mut ImportMap,
@@ -667,10 +666,10 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                 // foo -> mod.foo
                 import_map.insert(orig.to_id(), (mod_ident.clone(), Some(orig.0.clone())));
 
-                let (export_key, export_span) = exported.unwrap_or_else(|| orig.clone());
+                let exported = exported.unwrap_or_else(|| orig.clone());
 
                 // bar -> foo
-                export_obj_prop_list.push((export_key, export_span, quote_ident!(orig.1, orig.0)))
+                export_obj_prop_list.push((exported, quote_ident!(orig.1, orig.0)).into())
             }
             LinkSpecifier::ExportDefaultAs(_, key, span) => {
                 *ref_to_mod_ident = true;
@@ -682,18 +681,20 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                 // export { foo };
                 // ```
 
+                let exported = (key.clone(), span);
+
                 // foo -> mod.default
                 import_map.insert(
-                    (key.clone(), span).into_id(),
+                    exported.to_id(),
                     (mod_ident.clone(), Some("default".into())),
                 );
 
-                export_obj_prop_list.push((key.clone(), span, quote_ident!(span, key)))
+                export_obj_prop_list.push((exported, quote_ident!(span, key)).into())
             }
             LinkSpecifier::ExportStarAs(key, span) => {
                 *ref_to_mod_ident = true;
 
-                export_obj_prop_list.push((key, span, mod_ident.clone()))
+                export_obj_prop_list.push((key, span, mod_ident.clone()).into())
             }
             LinkSpecifier::ExportStar => {}
             LinkSpecifier::ImportEqual(id) => {
