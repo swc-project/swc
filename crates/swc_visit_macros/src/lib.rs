@@ -165,7 +165,7 @@ fn ast_enum_variant_name(t: &Type) -> Option<String> {
         return Some(format!("Arc{}", ast_enum_variant_name(inner)?));
     }
 
-    if let Some(inner) = extract_generic("Vec", t) {
+    if let Some(..) = extract_generic("Vec", t) {
         return None;
     }
 
