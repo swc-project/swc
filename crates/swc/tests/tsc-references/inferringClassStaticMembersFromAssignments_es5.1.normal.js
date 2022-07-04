@@ -11,9 +11,9 @@ export var C1 = function C1() {
 C1.staticProp = 0;
 export function F1() {}
 F1.staticProp = 0;
-export var C2 = function _class() {
+export var C2 = function C2() {
     "use strict";
-    _class_call_check(this, _class);
+    _class_call_check(this, C2);
 };
 C2.staticProp = 0;
 export var F2 = function F2() {};
@@ -26,9 +26,9 @@ var C3 = function C3() {
 C3.staticProp = 0;
 function F3() {}
 F3.staticProp = 0;
-var C4 = function _class() {
+var C4 = function C4() {
     "use strict";
-    _class_call_check(this, _class);
+    _class_call_check(this, C4);
 };
 C4.staticProp = 0;
 var F4 = function F4() {};

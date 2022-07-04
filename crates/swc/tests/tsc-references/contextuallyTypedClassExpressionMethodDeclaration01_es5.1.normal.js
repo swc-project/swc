@@ -15,24 +15,24 @@ function getFoo1() {
     }();
 }
 function getFoo2() {
-    var _class1;
-    return _class1 = function _class() {
+    var _class;
+    return _class = function _class() {
         "use strict";
         _class_call_check(this, _class);
-    }, _class1.method1 = function(arg) {
+    }, _class.method1 = function(arg) {
         arg.numProp = 10;
-    }, _class1.method2 = function(arg) {
+    }, _class.method2 = function(arg) {
         arg.strProp = "hello";
-    }, _class1;
+    }, _class;
 }
 function getFoo3() {
-    var _class1;
-    return _class1 = function _class() {
+    var _class;
+    return _class = function _class() {
         "use strict";
         _class_call_check(this, _class);
-    }, _class1.method1 = function(arg) {
+    }, _class.method1 = function(arg) {
         arg.numProp = 10;
-    }, _class1.method2 = function(arg) {
+    }, _class.method2 = function(arg) {
         arg.strProp = "hello";
-    }, _class1;
+    }, _class;
 }
