@@ -10,7 +10,7 @@ function _export(target, all) {
 }
 _export(exports, {
     SETs: ()=>SETs,
-    SI: ()=>_ss.SI,
+    SI: ()=>SI,
     SSERT: ()=>_st().S_E_R_T,
     ILIAN: ()=>_st().ILIAN,
     IWI: ()=>_st().IWI,
@@ -23,7 +23,13 @@ _export(exports, {
     us: ()=>us,
     C: ()=>C
 });
-const _ss = require("./path/to/SS");
+function _ss() {
+    const data = require("./path/to/SS");
+    _ss = function() {
+        return data;
+    };
+    return data;
+}
 function _st() {
     const data = require("./path/to/ST");
     _st = function() {
@@ -63,7 +69,7 @@ const SETs = {
     [_st().S_E_T]: _st().S_E_T as typeof SSET
 };
 const SI = {
-    [SETs[_st().S_E_T]]: _ss.SI
+    [SETs[_st().S_E_T]]: _ss().SI
 };
 const iCSP = async ()=>{
     return Promise.resolve(_s().cSP);

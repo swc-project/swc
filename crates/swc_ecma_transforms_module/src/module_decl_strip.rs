@@ -85,6 +85,10 @@ impl VisitMut for ModuleDeclStrip {
 
     // collect all static import
     fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        if n.type_only {
+            return;
+        }
+
         let ImportDecl {
             specifiers, src, ..
         } = n.take();
@@ -135,6 +139,10 @@ impl VisitMut for ModuleDeclStrip {
     /// export * as "bar" from "mod";
     /// ```
     fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
+        if n.type_only {
+            return;
+        }
+
         let NamedExport {
             specifiers, src, ..
         } = n.take();
@@ -257,17 +265,16 @@ impl VisitMut for ModuleDeclStrip {
     /// export import foo = require("mod");
     /// ```
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
+        if n.is_type_only || n.declare {
+            return;
+        }
+
         let TsImportEqualsDecl {
             id,
             module_ref,
             is_export,
-            declare,
-            is_type_only,
             ..
         } = n;
-
-        debug_assert!(!*declare);
-        debug_assert!(!*is_type_only);
 
         if let TsModuleRef::TsExternalModuleRef(TsExternalModuleRef {
             expr:
@@ -301,6 +308,14 @@ impl VisitMut for ModuleDeclStrip {
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub enum LinkSpecifier {
+    ///```javascript
+    /// import "mod";
+    /// import {} from "mod",
+    /// import { type foo } from "mod";
+    /// export {}
+    /// export type {}
+    /// ```
+    Empty,
     /// ```javascript
     /// import { imported as local, local } from "mod";
     /// import { "imported" as local } from "mod";
@@ -362,6 +377,7 @@ impl From<ImportSpecifier> for LinkSpecifier {
 
             ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
             | ImportSpecifier::Named(ImportNamedSpecifier {
+                is_type_only: false,
                 local,
                 imported:
                     Some(ModuleExportName::Ident(Ident {
@@ -376,7 +392,10 @@ impl From<ImportSpecifier> for LinkSpecifier {
             }) => Self::ImportDefault(local.to_id()),
 
             ImportSpecifier::Named(ImportNamedSpecifier {
-                local, imported, ..
+                is_type_only: false,
+                local,
+                imported,
+                ..
             }) => {
                 let imported = imported.map(|e| match e {
                     ModuleExportName::Ident(Ident { sym, .. }) => sym,
@@ -388,6 +407,7 @@ impl From<ImportSpecifier> for LinkSpecifier {
                     imported,
                 }
             }
+            _ => Self::Empty,
         }
     }
 }
@@ -409,7 +429,12 @@ impl From<ExportSpecifier> for LinkSpecifier {
                 Self::ExportDefaultAs(exported.span, exported.sym, exported.span)
             }
 
-            ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
+            ExportSpecifier::Named(ExportNamedSpecifier {
+                is_type_only: false,
+                orig,
+                exported,
+                ..
+            }) => {
                 let orig = match orig {
                     ModuleExportName::Ident(Ident { span, sym, .. })
                     | ModuleExportName::Str(Str {
@@ -433,6 +458,7 @@ impl From<ExportSpecifier> for LinkSpecifier {
                     _ => Self::ExportNamed { orig, exported },
                 }
             }
+            _ => Self::Empty,
         }
     }
 }
@@ -478,6 +504,7 @@ impl LinkFlag {
 impl From<&LinkSpecifier> for LinkFlag {
     fn from(s: &LinkSpecifier) -> Self {
         match s {
+            LinkSpecifier::Empty => Self::empty(),
             LinkSpecifier::ImportStarAs(..) => Self::NAMESPACE,
             LinkSpecifier::ImportDefault(..) => Self::DEFAULT,
             LinkSpecifier::ImportNamed { .. } => Self::NAMED,
@@ -511,7 +538,12 @@ impl From<&ImportSpecifier> for LinkFlag {
                 ..
             }) => Self::DEFAULT,
 
-            ImportSpecifier::Named(..) => Self::NAMED,
+            ImportSpecifier::Named(ImportNamedSpecifier {
+                is_type_only: false,
+                ..
+            }) => Self::NAMED,
+
+            _ => Self::empty(),
         }
     }
 }
@@ -536,7 +568,12 @@ impl From<&ExportSpecifier> for LinkFlag {
                 ..
             }) => Self::DEFAULT,
 
-            ExportSpecifier::Named(..) => Self::NAMED,
+            ExportSpecifier::Named(ExportNamedSpecifier {
+                is_type_only: false,
+                ..
+            }) => Self::NAMED,
+
+            _ => Self::empty(),
         }
     }
 }
@@ -673,6 +710,7 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                     ),
                 );
             }
+            LinkSpecifier::Empty => {}
         })
     }
 }

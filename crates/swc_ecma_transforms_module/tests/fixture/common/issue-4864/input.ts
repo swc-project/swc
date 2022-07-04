@@ -1,4 +1,4 @@
-import type { SI } from "./path/to/SS";
+import { SI as SI_IMPORTED } from "./path/to/SS";
 
 import { S_E_T as SSET } from "./path/to/ST";
 
@@ -7,7 +7,7 @@ export const SETs = {
 };
 
 export const SI = {
-    [SETs[SSET]]: SI,
+    [SETs[SSET]]: SI_IMPORTED,
 };
 
 export { S_E_R_T as SSERT } from "./path/to/ST";
