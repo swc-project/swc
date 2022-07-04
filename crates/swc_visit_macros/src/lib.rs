@@ -70,7 +70,14 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let mut q = Quote::new_call_site();
     q.push_tokens(&q!({
-        use swc_visit::AstNode;
+        pub(crate) trait AstNode<'ast> {
+            type Kind;
+            type NodeRef: 'ast;
+
+            fn to_ast_kind(&self) -> Self::Kind;
+
+            fn to_ast_path_node(&'ast self) -> Self::NodeRef;
+        }
 
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<'ast, AstNodeRef<'ast>>;

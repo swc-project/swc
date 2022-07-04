@@ -265,12 +265,3 @@ impl<'a, N> AstNodePath<'a, N> {
         ret
     }
 }
-
-pub trait AstNode<'ast> {
-    type Kind;
-    type NodeRef: 'ast;
-
-    fn to_ast_kind(&self) -> Self::Kind;
-
-    fn to_ast_path_node(&'ast self) -> Self::NodeRef;
-}
