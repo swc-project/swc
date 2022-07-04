@@ -83,8 +83,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         where
             [T]: AstNode<'ast>,
         {
-            type Kind = T::Kind;
-            type NodeRef = T::NodeRef;
+            type Kind = <[T] as AstNode>::Kind;
+            type NodeRef = <[T] as AstNode>::NodeRef;
 
             fn to_ast_kind(&self) -> Self::Kind {
                 <[T]>::to_ast_kind(self)
