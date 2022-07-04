@@ -1398,19 +1398,21 @@ where
 
 fn make_to_ast_kind(ty: &Type, is_ref: bool) -> Expr {
     if let Some(inner) = extract_generic("Option", ty) {
-        if extract_generic("Box", inner).is_some() || extract_generic("Vec", inner).is_some() {
+        if let Type::Path(..) = inner {
+            if extract_generic("Box", inner).is_some() || extract_generic("Vec", inner).is_some() {
+                return if is_ref {
+                    q!({ n.as_deref().to_ast_path_node() }).parse()
+                } else {
+                    q!({ n.as_deref().to_ast_kind() }).parse()
+                };
+            }
+
             return if is_ref {
-                q!({ n.as_deref().to_ast_path_node() }).parse()
+                q!({ n.as_ref().to_ast_path_node() }).parse()
             } else {
-                q!({ n.as_deref().to_ast_kind() }).parse()
+                q!({ n.as_ref().to_ast_kind() }).parse()
             };
         }
-
-        return if is_ref {
-            q!({ n.as_ref().to_ast_path_node() }).parse()
-        } else {
-            q!({ n.as_ref().to_ast_kind() }).parse()
-        };
     }
 
     if is_ref {
