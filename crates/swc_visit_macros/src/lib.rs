@@ -1155,7 +1155,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                         expr
                                     }
 
-                                    fn visit_children_with_path<'ast>(
+                                    fn visit_children_with_path<'ast, 'r>(
                                         &'ast self,
                                         _visitor: &mut V,
                                         __ast_path: &mut AstNodePath<'r>,
