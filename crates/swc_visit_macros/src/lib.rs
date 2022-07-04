@@ -171,6 +171,7 @@ fn ast_enum_variant_name(t: &Type) -> String {
     match t {
         Type::Path(p) => p.path.segments.last().unwrap().ident.to_string(),
         Type::Reference(t) => ast_enum_variant_name(&t.elem).to_string(),
+        Type::Slice(t) => format!("Vec{}", ast_enum_variant_name(&t.elem)),
         _ => unimplemented!("Type: {:?}", t),
     }
 }
