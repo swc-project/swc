@@ -79,7 +79,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             fn to_ast_path_node(&'ast self) -> Self::NodeRef;
         }
 
-        impl<'ast, T> AstNode for Vec<T>
+        impl<'ast, T> AstNode<'ast> for Vec<T>
         where
             [T]: AstNode<'ast>,
         {
