@@ -153,7 +153,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
                         ident: Ident::new("ast", ty.span()),
                     }),
                     mutability: Default::default(),
-                    elem: ty.clone(),
+                    elem: Box::new(ty.clone()),
                 }),
             });
 
