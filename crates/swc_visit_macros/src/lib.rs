@@ -123,13 +123,18 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     proc_macro2::TokenStream::from(q).into()
 }
 
-fn expand_deref(t: Type) -> Vec<Type> {
-    if let Some(inner) = extract_vec(&t) {
+fn expand_deref(ty: Type) -> Vec<Type> {
+    if let Some(inner) = extract_vec(&ty) {
         let new = q!(Vars { ty: &inner }, (&'_ ty)).parse();
-        return vec![t, new];
+        return vec![ty, new];
     }
 
-    vec![t]
+    if let Some(inner) = extract_generic("Arc", &ty) {
+        let new = q!(Vars { ty: &inner }, (&'_ ty)).parse();
+        return vec![ty, new];
+    }
+
+    vec![ty]
 }
 
 fn ast_enum_variant_name(t: &Type) -> String {
