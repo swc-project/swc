@@ -79,19 +79,19 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             fn to_ast_path_node(&'ast self) -> Self::NodeRef;
         }
 
-        impl<'ast, T> AstNode<'ast> for Vec<T>
+        impl<'ast, 'b, T> AstNode<'ast> for Vec<T>
         where
-            [T]: AstNode<'ast>,
+            &'b [T]: AstNode<'ast>,
         {
-            type Kind = <[T] as AstNode<'ast>>::Kind;
-            type NodeRef = <[T] as AstNode<'ast>>::NodeRef;
+            type Kind = <&'b [T] as AstNode<'ast>>::Kind;
+            type NodeRef = <&'b [T] as AstNode<'ast>>::NodeRef;
 
             fn to_ast_kind(&self) -> Self::Kind {
-                <[T]>::to_ast_kind(self)
+                <&'b [T]>::to_ast_kind(self)
             }
 
             fn to_ast_path_node(&'ast self) -> Self::NodeRef {
-                <[T]>::to_ast_path_node(self)
+                <&'b [T]>::to_ast_path_node(self)
             }
         }
 
@@ -145,7 +145,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
 fn expand_visitor_types(ty: Type) -> Vec<Type> {
     if let Some(inner) = extract_vec(&ty) {
-        let new = q!(Vars { ty: &inner }, (&'_ [ty])).parse();
+        let new = q!(Vars { ty: &inner }, (&'ast [ty])).parse();
         return expand_visitor_types(inner.clone())
             .into_iter()
             .chain(once(ty))
@@ -154,7 +154,7 @@ fn expand_visitor_types(ty: Type) -> Vec<Type> {
     }
 
     if let Some(inner) = extract_generic("Arc", &ty) {
-        let new = q!(Vars { ty: &inner }, (&'_ ty)).parse();
+        let new = q!(Vars { ty: &inner }, (&'ast ty)).parse();
         return expand_visitor_types(inner.clone())
             .into_iter()
             .chain(once(ty))
@@ -163,7 +163,10 @@ fn expand_visitor_types(ty: Type) -> Vec<Type> {
     }
 
     if let Some(inner) = extract_generic("Option", &ty) {
-        return expand_visitor_types(inner.clone())
+        let new: Type = q!(Vars { ty: &inner }, (Option<&'ast ty>)).parse();
+        return once(new)
+            .into_iter()
+            .chain(expand_visitor_types(inner.clone()))
             .into_iter()
             .chain(once(ty))
             .collect();
