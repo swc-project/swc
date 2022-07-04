@@ -129,7 +129,7 @@ fn expand_deref(t: Type) -> Vec<Type> {
         return vec![t, new];
     }
 
-    return vec![t];
+    vec![t]
 }
 
 fn ast_enum_variant_name(t: &Type) -> String {
@@ -147,7 +147,10 @@ fn ast_enum_variant_name(t: &Type) -> String {
 
     match t {
         Type::Path(p) => p.path.segments.last().unwrap().ident.to_string(),
-        _ => unimplemented!(),
+        Type::Reference(t) => {
+            format!("{}", ast_enum_variant_name(&t.elem))
+        }
+        _ => unimplemented!("Type: {:?}", t),
     }
 }
 
