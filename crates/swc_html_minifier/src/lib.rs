@@ -746,46 +746,55 @@ impl Minifier {
         }
     }
 
-    fn remove_leading_and_trailing_whitespaces(&self, children: &mut Vec<Child>) {
-        if let Some(last) = children.first_mut() {
-            match last {
-                Child::Text(text) => {
-                    text.data = text.data.trim_start_matches(is_whitespace).into();
+    fn remove_leading_and_trailing_whitespaces(
+        &self,
+        children: &mut Vec<Child>,
+        only_first: bool,
+        only_last: bool,
+    ) {
+        if only_first {
+            if let Some(last) = children.first_mut() {
+                match last {
+                    Child::Text(text) => {
+                        text.data = text.data.trim_start_matches(is_whitespace).into();
 
-                    if text.data.is_empty() {
-                        children.remove(0);
+                        if text.data.is_empty() {
+                            children.remove(0);
+                        }
                     }
+                    Child::Element(Element {
+                        namespace,
+                        tag_name,
+                        children,
+                        ..
+                    }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
+                        self.remove_leading_and_trailing_whitespaces(children, true, false);
+                    }
+                    _ => {}
                 }
-                Child::Element(Element {
-                    namespace,
-                    tag_name,
-                    children,
-                    ..
-                }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
-                    self.remove_leading_and_trailing_whitespaces(children);
-                }
-                _ => {}
             }
         }
 
-        if let Some(last) = children.last_mut() {
-            match last {
-                Child::Text(text) => {
-                    text.data = text.data.trim_end_matches(is_whitespace).into();
+        if only_last {
+            if let Some(last) = children.last_mut() {
+                match last {
+                    Child::Text(text) => {
+                        text.data = text.data.trim_end_matches(is_whitespace).into();
 
-                    if text.data.is_empty() {
-                        children.pop();
+                        if text.data.is_empty() {
+                            children.pop();
+                        }
                     }
+                    Child::Element(Element {
+                        namespace,
+                        tag_name,
+                        children,
+                        ..
+                    }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
+                        self.remove_leading_and_trailing_whitespaces(children, false, true);
+                    }
+                    _ => {}
                 }
-                Child::Element(Element {
-                    namespace,
-                    tag_name,
-                    children,
-                    ..
-                }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
-                    self.remove_leading_and_trailing_whitespaces(children);
-                }
-                _ => {}
             }
         }
     }
@@ -1290,13 +1299,11 @@ impl Minifier {
 
             let mut merged_children = new_children.clone();
 
-            if modified_exiting {
-                merged_children.push(child.clone());
-            }
-
             let offset;
 
             if modified_exiting {
+                merged_children.push(child.clone());
+
                 offset = merged_children.len() - 1;
 
                 merged_children.extend_from_slice(&children[index + 1..]);
@@ -1317,7 +1324,7 @@ impl Minifier {
 
         // Remove all leading and trailing whitespaces for the `body` element
         if namespace == Namespace::HTML && tag_name == "body" {
-            self.remove_leading_and_trailing_whitespaces(&mut new_children);
+            self.remove_leading_and_trailing_whitespaces(&mut new_children, true, true);
         }
 
         new_children
