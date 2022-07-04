@@ -2229,6 +2229,10 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
         }
     }
 
+    if let Type::Reference(r) = ty {
+        return extract_generic(name, &r.elem);
+    }
+
     None
 }
 
