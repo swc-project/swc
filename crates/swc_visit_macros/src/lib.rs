@@ -752,6 +752,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         Type: arg_ty,
                         Trait: Ident::new(mode.trait_name(), call_site()),
                         to_kind_expr,
+                        NodeVariant: ast_enum_variant_name,
                     },
                     {
                         #[allow(unused_variables)]
@@ -762,7 +763,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ) where
                             'ast: 'r,
                         {
-                            let __ast_kind: AstNodeRef<'r> = to_kind_expr;
+                            let __ast_kind: AstNodeRef<'r> = AstNodeRef::NodeVariant(to_kind_expr);
 
                             __ast_path.with(__ast_kind, |__ast_path| default_body)
                         }
