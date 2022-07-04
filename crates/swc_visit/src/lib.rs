@@ -216,3 +216,12 @@ where
 pub struct AstNodePath<'a, N> {
     path: Vec<&'a N>,
 }
+
+pub trait AstNode {
+    type Kind;
+    type NodeRef;
+
+    fn to_ast_kind(&self) -> Self::Kind;
+
+    fn to_ast_node(&self) -> Self::NodeRef;
+}
