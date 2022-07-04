@@ -1,7 +1,5 @@
 #![deny(clippy::all)]
 
-use std::mem::take;
-
 use once_cell::sync::Lazy;
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
@@ -855,17 +853,6 @@ impl Minifier {
         }
     }
 
-    fn get_next_text_node<'a>(&self, children: &'a Vec<Child>, index: usize) -> Option<&'a Child> {
-        let next = children.get(index);
-
-        match next {
-            Some(Child::Text(_)) => next,
-            Some(Child::Element(_)) => None,
-            Some(_) => self.get_next_text_node(children, index + 1),
-            _ => None,
-        }
-    }
-
     fn get_whitespace_minification_for_tag(
         &self,
         namespace: Namespace,
@@ -994,9 +981,12 @@ impl Minifier {
     }
 
     fn minify_children(&mut self, children: &mut Vec<Child>) {
+    fn minify_children(&mut self, children: &Vec<Child>) -> Vec<Child> {
         let (namespace, tag_name) = match &self.current_element {
             Some(element) => (element.namespace, &element.tag_name),
-            _ => return,
+            _ => {
+                unreachable!();
+            }
         };
 
         let mode = self.get_whitespace_minification_for_tag(namespace, tag_name);
@@ -1008,6 +998,7 @@ impl Minifier {
                                       children: &Vec<Child>,
                                       index: usize,
                                       offset: usize| {
+        let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
             match child {
                 Child::Comment(comment) if self.remove_comments => {
                     self.is_preserved_comment(&comment.data)
@@ -1060,6 +1051,8 @@ impl Minifier {
                             children.get(index - 1)
                         let prev = if index - offset >= 1 {
                             children.get(index - offset - 1)
+                        let prev = if index >= 1 {
+                            children.get(index - 1)
                         } else {
                             None
                         };
@@ -1113,7 +1106,7 @@ impl Minifier {
                             // And
                             // Inline box
                             Some(Display::None) | Some(Display::Inline) => {
-                                match &self.get_prev_displayed_node(children, index - offset - 1) {
+                                match &self.get_prev_displayed_node(children, index - 1) {
                                     Some(Child::Text(text)) => text.data.ends_with(is_whitespace),
                                     Some(child @ Child::Element(_)) => {
                                         let deep = self.get_deep_last_text_element(child);
@@ -1169,6 +1162,7 @@ impl Minifier {
                                 tag_name,
                                 ..
                             })) => Some(self.get_display(*namespace, tag_name)),
+                            Some(Child::Comment(_)) => Some(Display::None),
                             _ => None,
                         };
 
@@ -1267,58 +1261,66 @@ impl Minifier {
             }
         };
 
-        let cloned_children = children.clone();
+        let mut new_children = Vec::with_capacity(children.len());
 
-        let mut index = 0;
-        let mut offset = 0;
-        let mut pending_text = vec![];
+        for (index, child) in children.iter().enumerate() {
+            let mut child = child.clone();
 
-        children.retain_mut(|child| {
-            match child {
-                Child::Text(text)
-                    if self
-                        .get_next_text_node(&cloned_children, index + 1)
-                        .is_some()
-                        && !child_will_be_retained(
-                            &mut cloned_children.get(index + 1).cloned().unwrap(),
-                            &cloned_children,
-                            index + 1,
-                            0,
-                        ) =>
-                {
-                    pending_text.push(text.data.clone());
+            // Merge text nodes
+            let modified_exiting = match &mut child {
+                Child::Text(text) => {
+                    if let Some(Child::Text(prev_text)) = new_children.last_mut() {
+                        let mut new_data =
+                            String::with_capacity(prev_text.data.len() + text.data.len());
 
-                    index += 1;
-                    offset += 1;
+                        new_data.push_str(&prev_text.data);
+                        new_data.push_str(&text.data);
 
-                    return false;
-                }
-                Child::Text(text) if !pending_text.is_empty() => {
-                    let mut new_value = String::new();
+                        text.data = new_data.into();
 
-                    for text in take(&mut pending_text) {
-                        new_value.push_str(&text);
+                        new_children.pop();
+
+                        true
+                    } else {
+                        false
                     }
-
-                    new_value.push_str(&text.data);
-
-                    text.data = new_value.into();
                 }
-                _ => {}
+                _ => false,
+            };
+
+            let mut merged_children = new_children.clone();
+
+            if modified_exiting {
+                merged_children.push(child.clone());
             }
 
-            let result = child_will_be_retained(child, &cloned_children, index, offset);
+            let offset;
 
-            if !result {
-                offset += 1;
+            if modified_exiting {
+                offset = merged_children.len() - 1;
+
+                merged_children.extend_from_slice(&children[index + 1..]);
             } else {
-                offset = 0;
+                offset = merged_children.len();
+
+                merged_children.extend_from_slice(&children[index..]);
             }
 
-            index += 1;
+            let result = child_will_be_retained(&mut child, &merged_children, offset);
 
             result
         });
+            if result {
+                new_children.push(child);
+            }
+        }
+
+        // Remove all leading and trailing whitespaces for the `body` element
+        if namespace == Namespace::HTML && tag_name == "body" {
+            self.remove_leading_and_trailing_whitespaces(&mut new_children);
+        }
+
+        new_children
     }
 
     fn get_attribute_value(&self, attributes: &Vec<Attribute>, name: &str) -> Option<JsWord> {
@@ -1752,7 +1754,7 @@ impl VisitMut for Minifier {
     }
 
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
-        self.minify_children(&mut n.children);
+        n.children = self.minify_children(&n.children);
 
         n.visit_mut_children_with(self);
     }
@@ -1797,7 +1799,7 @@ impl VisitMut for Minifier {
             self.descendant_of_pre = get_white_space(n.namespace, &n.tag_name) == WhiteSpace::Pre;
         }
 
-        self.minify_children(&mut n.children);
+        n.children = self.minify_children(&n.children);
 
         n.visit_mut_children_with(self);
 
