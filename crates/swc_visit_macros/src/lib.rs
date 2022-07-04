@@ -9,9 +9,9 @@ use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprMatch, Field, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
-    ImplItem, ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, Member, Path,
-    PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
-    TypeReference, Variant, VisPublic, Visibility,
+    GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemTrait,
+    Lifetime, LifetimeDef, Member, Path, PathArguments, ReturnType, Signature, Stmt, Token,
+    TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -167,7 +167,27 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         } else {
             Ident::new("AstKind", call_site())
         },
-        generics: Default::default(),
+        generics: if is_ref {
+            let mut g = Punctuated::new();
+            g.push(GenericParam::Lifetime(LifetimeDef {
+                attrs: Default::default(),
+                lifetime: Lifetime {
+                    apostrophe: call_site(),
+                    ident: Ident::new("ast", def_site()),
+                },
+                colon_token: Default::default(),
+                bounds: Default::default(),
+            }));
+
+            Generics {
+                lt_token: Some(def_site()),
+                params: g,
+                gt_token: Some(def_site()),
+                where_clause: None,
+            }
+        } else {
+            Default::default()
+        },
         brace_token: def_site(),
         variants,
     })
