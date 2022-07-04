@@ -153,10 +153,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
                         ident: Ident::new("ast", ty.span()),
                     }),
                     mutability: Default::default(),
-                    elem: Box::new(Type::Path(TypePath {
-                        qself: Default::default(),
-                        path: ident.clone().into(),
-                    })),
+                    elem: ty.clone(),
                 }),
             });
 
