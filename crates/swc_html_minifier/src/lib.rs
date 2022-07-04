@@ -714,7 +714,8 @@ impl Minifier {
                 }
             }
             Namespace::SVG => match tag_name {
-                "text" => Display::Block,
+                "text" | "foreignObject" => Display::Block,
+
                 _ => Display::Inline,
             },
             _ => Display::Inline,
