@@ -212,6 +212,33 @@ where
     path: Vec<K>,
 }
 
+impl<K> Default for AstKindPath<K>
+where
+    K: Copy,
+{
+    fn default() -> Self {
+        Self {
+            path: Default::default(),
+        }
+    }
+}
+
+impl<K> AstKindPath<K>
+where
+    K: Copy,
+{
+    pub fn new(path: Vec<K>) -> Self {
+        Self { path }
+    }
+
+    pub fn with<Ret>(&mut self, path: K, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
+        self.path.push(path);
+        let ret = op(self);
+        self.path.pop();
+        ret
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AstNodePath<'a, N> {
     path: Vec<&'a N>,
