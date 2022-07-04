@@ -2154,7 +2154,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             Mode::VisitMut(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
-                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
+                                ({ n.iter_mut().for_each(|v| _visitor.ident(v, __ast_path)) })
                             )
                             .parse(),
 
@@ -2166,7 +2166,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             Mode::Visit(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
-                                ({ n.iter().for_each(|v| _visitor.ident(v.as_ref())) })
+                                ({
+                                    n.iter()
+                                        .for_each(|v| _visitor.ident(v.as_ref(), __ast_path))
+                                })
                             )
                             .parse(),
                         }
