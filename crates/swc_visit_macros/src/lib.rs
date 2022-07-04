@@ -1609,7 +1609,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
         fn_token: def_site(),
         ident: method_name(mode, ty),
         generics: if let Mode::Visit(VisitorVariant::WithPath) = mode {
-            q!({<'ast>}).parse()
+            q!({<'ast: 'r, 'r>}).parse()
         } else {
             Default::default()
         },
