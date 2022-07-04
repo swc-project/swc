@@ -176,6 +176,13 @@ fn expand_visitor_types(ty: Type) -> Vec<Type> {
 }
 
 fn ast_enum_variant_name(t: &Type) -> Option<String> {
+    if let Type::Reference(t) = t {
+        // &'ast Option<&'ast Item> is useless.
+        if let Some(..) = extract_generic("Option", &t.elem) {
+            return None;
+        }
+    }
+
     if let Some(inner) = extract_generic("Option", t) {
         if let Some(inner) = extract_generic("Vec", inner) {
             return Some(format!("OptVec{}", ast_enum_variant_name(inner)?));
@@ -228,15 +235,22 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
                 vis: Visibility::Inherited,
                 colon_token: None,
                 ident: None,
-                ty: Type::Reference(TypeReference {
-                    and_token: ty.span().as_token(),
-                    lifetime: Some(Lifetime {
-                        apostrophe: call_site(),
-                        ident: Ident::new("ast", ty.span()),
-                    }),
-                    mutability: Default::default(),
-                    elem: Box::new(process_ast_node_ref_type(&unwrap_ref(ty))),
-                }),
+                ty: {
+                    let ty = process_ast_node_ref_type(&unwrap_ref(ty));
+                    if extract_generic("Option", &ty).is_some() {
+                        ty
+                    } else {
+                        Type::Reference(TypeReference {
+                            and_token: ty.span().as_token(),
+                            lifetime: Some(Lifetime {
+                                apostrophe: call_site(),
+                                ident: Ident::new("ast", ty.span()),
+                            }),
+                            mutability: Default::default(),
+                            elem: Box::new(ty),
+                        })
+                    }
+                },
             });
 
             Fields::Unnamed(FieldsUnnamed {
