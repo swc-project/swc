@@ -597,7 +597,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         n: Type,
                         __ast_path: &mut AstNodePath,
                     ) {
-                        __ast_path.with(n.to_ast_path_node(), |__ast_path| default_body)
+                        __ast_path.with(&n.to_ast_path_node(), |__ast_path| default_body)
                     }
                 }
             )),
