@@ -161,9 +161,18 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             _ => {}
         }
     }
+    let mut attrs = vec![];
+
+    attrs.push(Attribute {
+        pound_token: def_site(),
+        style: AttrStyle::Outer,
+        bracket_token: def_site(),
+        path: q!({ derive }).parse(),
+        tokens: q!({ (Debug, Copy, Clone, PartialEq) }).into(),
+    });
 
     Item::Enum(ItemEnum {
-        attrs: Default::default(),
+        attrs,
         vis: Visibility::Public(VisPublic {
             pub_token: def_site(),
         }),
