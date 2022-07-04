@@ -70,6 +70,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let mut q = Quote::new_call_site();
     q.push_tokens(&q!({
+        use swc_visit::AstNode;
+
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<'ast, AstNodeRef<'ast>>;
     }));
@@ -228,7 +230,7 @@ fn impl_ast_node(stmts: &[Stmt]) -> Vec<Item> {
 
             Some(
                 q!(Vars { Type: &ident }, {
-                    impl<'ast> swc_visit::AstNode<'ast> for Type {
+                    impl<'ast> AstNode<'ast> for Type {
                         type Kind = AstKind;
                         type NodeRef = AstNodeRef<'ast>;
 
