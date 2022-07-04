@@ -94,7 +94,10 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
             make_method(Mode::VisitMut(VisitorVariant::Normal), item, &mut types);
         }
-        let mut types = types.into_iter().flat_map(expand_deref).collect::<Vec<_>>();
+        let mut types = types
+            .into_iter()
+            .flat_map(expand_visitor_types)
+            .collect::<Vec<_>>();
 
         types.sort_by_cached_key(ast_enum_variant_name);
         types.dedup_by_key(|ty| ast_enum_variant_name(ty));
@@ -123,7 +126,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     proc_macro2::TokenStream::from(q).into()
 }
 
-fn expand_deref(ty: Type) -> Vec<Type> {
+fn expand_visitor_types(ty: Type) -> Vec<Type> {
     if let Some(inner) = extract_vec(&ty) {
         let new = q!(Vars { ty: &inner }, (&'_ ty)).parse();
         return vec![ty, new];
