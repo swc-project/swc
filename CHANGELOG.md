@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Emit numeric value for Binary and Octal literals (#5083) ([8df6e04](https://github.com/swc-project/swc/commit/8df6e047cc523088a26a3363fe33f1bc224738b0))
+
+
 - **(es/compat)** Preserve spans in `object_rest_spread` (#5082) ([de66b64](https://github.com/swc-project/swc/commit/de66b64aed13166803ebdfb91d1c421eec064c25))
 
 
