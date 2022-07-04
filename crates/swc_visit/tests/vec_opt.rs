@@ -1,7 +1,5 @@
 #![allow(clippy::ptr_arg)]
 
-use std::any::Any;
-
 use swc_visit::define;
 
 #[derive(Debug, PartialEq)]
