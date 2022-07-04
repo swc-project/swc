@@ -1732,7 +1732,11 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             abi: None,
             fn_token: def_site(),
             ident,
-            generics: Default::default(),
+            generics: if let Mode::Visit(VisitorVariant::WithPath) = mode {
+                q!({<'ast>}).parse()
+            } else {
+                Default::default()
+            },
             paren_token: def_site(),
             inputs: {
                 let mut p = Punctuated::default();
