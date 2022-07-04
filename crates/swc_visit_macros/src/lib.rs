@@ -131,7 +131,7 @@ fn ast_enum_variant_name(t: &Type) -> String {
     }
 
     if let Some(inner) = extract_generic("Vec", t) {
-        return ast_enum_variant_name(inner).to_plural();
+        return format!("Vec{}", ast_enum_variant_name(inner));
     }
 
     match t {
