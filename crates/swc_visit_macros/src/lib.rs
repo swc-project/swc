@@ -708,11 +708,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     },
                     {
                         #[allow(unused_variables)]
-                        fn fn_name<'ast, V: ?Sized + Trait>(
+                        fn fn_name<'a, V: ?Sized + Trait>(
                             _visitor: &mut V,
                             n: Type,
-                            __ast_path: &'ast mut AstNodePath<'ast>,
-                        ) {
+                            __ast_path: &mut AstNodePath<'b>,
+                        ) where
+                            'a: 'b,
+                        {
                             let __ast_kind = to_kind_expr;
 
                             __ast_path.with(__ast_kind, |__ast_path| default_body)
