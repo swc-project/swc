@@ -101,7 +101,13 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         _ => None,
     }) {
         let ident = match item {
-            Item::Enum(item) => item.ident.clone(),
+            Item::Enum(item) => {
+                if item.variants.iter().all(|v| v.fields.is_empty()) {
+                    continue;
+                }
+
+                item.ident.clone()
+            }
             Item::Struct(item) => item.ident.clone(),
             _ => continue,
         };
