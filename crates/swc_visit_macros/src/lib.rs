@@ -96,7 +96,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
 
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
-        pub type AstNodePath<'ast> = swc_visit::AstNodePath<'ast, AstNodeRef<'ast>>;
+        pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstNodeRef<'ast>>;
     }));
 
     {
