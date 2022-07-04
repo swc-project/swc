@@ -223,5 +223,5 @@ pub trait AstNode<'ast> {
 
     fn to_ast_kind(&self) -> Self::Kind;
 
-    fn to_ast_node(&'ast self) -> Self::NodeRef;
+    fn to_ast_path_node(&'ast self) -> Self::NodeRef;
 }

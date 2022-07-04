@@ -236,7 +236,7 @@ fn impl_ast_node(stmts: &[Stmt]) -> Vec<Item> {
                             AstKind::Type
                         }
 
-                        fn to_ast_node(&'ast self) -> Self::NodeRef {
+                        fn to_ast_path_node(&'ast self) -> Self::NodeRef {
                             AstNodeRef::Type(self)
                         }
                     }
