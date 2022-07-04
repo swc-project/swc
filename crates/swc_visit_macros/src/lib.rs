@@ -863,10 +863,18 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
-                    fn visit_with_path(&self, v: &mut V, ast_path: &mut AstNodePath);
+                    fn visit_with_path<'ast>(
+                        &self,
+                        v: &mut V,
+                        ast_path: &'ast mut AstNodePath<'ast>,
+                    );
 
                     /// Visit children nodes of self with `v`
-                    fn visit_children_with_path(&self, v: &mut V, ast_path: &mut AstNodePath);
+                    fn visit_children_with_path<'ast>(
+                        &self,
+                        v: &mut V,
+                        ast_path: &'ast mut AstNodePath<'ast>,
+                    );
                 }
 
                 impl<V, T> VisitWithPath<V> for Box<T>
@@ -874,12 +882,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     V: ?Sized + VisitAstPath,
                     T: 'static + VisitWithPath<V>,
                 {
-                    fn visit_with_path(&self, v: &mut V, ast_path: &mut AstNodePath) {
+                    fn visit_with_path<'ast>(
+                        &self,
+                        v: &mut V,
+                        ast_path: &'ast mut AstNodePath<'ast>,
+                    ) {
                         (**self).visit_with_path(v, ast_path)
                     }
 
                     /// Visit children nodes of self with `v`
-                    fn visit_children_with_path(&self, v: &mut V, ast_path: &mut AstNodePath) {
+                    fn visit_children_with_path<'ast>(
+                        &self,
+                        v: &mut V,
+                        ast_path: &'ast mut AstNodePath<'ast>,
+                    ) {
                         (**self).visit_children_with_path(v, ast_path)
                     }
                 }
