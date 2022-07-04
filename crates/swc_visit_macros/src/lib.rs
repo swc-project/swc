@@ -822,7 +822,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + VisitMutWithPath<V>,
                 {
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath) {
-                        (**self).visit_mut_with_path(v);
+                        (**self).visit_mut_with_path(v, ast_path);
                     }
 
                     fn visit_mut_children_with_path(
@@ -830,7 +830,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         v: &mut V,
                         ast_path: &mut AstKindPath,
                     ) {
-                        (**self).visit_mut_children_with_path(v);
+                        (**self).visit_mut_children_with_path(v, ast_path);
                     }
                 }
             }),
