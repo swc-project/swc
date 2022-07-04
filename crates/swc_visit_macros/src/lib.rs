@@ -865,8 +865,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
-                    fn visit_with_path<'ast, 'r>(&'ast self, v: &mut V, ast_path: &mut AstNodePath)
-                    where
+                    fn visit_with_path<'ast, 'r>(
+                        &'ast self,
+                        v: &mut V,
+                        ast_path: &mut AstNodePath<'r>,
+                    ) where
                         'ast: 'r;
 
                     /// Visit children nodes of self with `v`
