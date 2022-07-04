@@ -679,7 +679,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }
 
             Mode::Visit(VisitorVariant::WithPath) => {
-                let to_kind_expr = make_to_ast_kind(arg_ty, false);
+                let to_kind_expr = make_to_ast_kind(arg_ty, true);
 
                 tokens.push_tokens(&q!(
                     Vars {
