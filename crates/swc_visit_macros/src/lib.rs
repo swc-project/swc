@@ -3,15 +3,15 @@ extern crate proc_macro;
 use std::{collections::HashSet, mem::replace};
 
 use inflector::Inflector;
-use pmutil::{q, Quote};
+use pmutil::{q, Quote, SpanExt};
 use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprMatch, FieldValue, Fields, FnArg, GenericArgument, ImplItem,
-    ImplItemMethod, Index, Item, ItemImpl, ItemTrait, Member, Path, PathArguments, ReturnType,
-    Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, VisPublic,
-    Visibility,
+    Expr, ExprBlock, ExprMatch, Field, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
+    ImplItem, ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, Member, Path,
+    PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
+    TypeReference, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -73,6 +73,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
         pub type AstNodePath<'a> = swc_visit::AstNodePath<'a, AstNodeRef>;
     }));
+    q.push_tokens(&make_ast_enum(&block.stmts, true));
+    q.push_tokens(&make_ast_enum(&block.stmts, false));
 
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
     q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
@@ -89,6 +91,86 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     q.push_tokens(&make(Mode::VisitAll, &block.stmts));
 
     proc_macro2::TokenStream::from(q).into()
+}
+
+fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
+    let mut variants = Punctuated::new();
+
+    for item in stmts.iter().filter_map(|stmt| match stmt {
+        Stmt::Item(i) => Some(i),
+        _ => None,
+    }) {
+        let ident = match item {
+            Item::Enum(item) => item.ident.clone(),
+            Item::Struct(item) => item.ident.clone(),
+            _ => continue,
+        };
+
+        let fields = if !is_ref {
+            Fields::Unit
+        } else {
+            let mut fields = Punctuated::new();
+            fields.push(Field {
+                attrs: Default::default(),
+                vis: Visibility::Inherited,
+                colon_token: None,
+                ident: None,
+                ty: Type::Reference(TypeReference {
+                    and_token: item.span().as_token(),
+                    lifetime: Some(Lifetime {
+                        apostrophe: call_site(),
+                        ident: Ident::new("ast", item.span()),
+                    }),
+                    mutability: Default::default(),
+                    elem: Box::new(Type::Path(TypePath {
+                        qself: Default::default(),
+                        path: ident.clone().into(),
+                    })),
+                }),
+            });
+
+            Fields::Unnamed(FieldsUnnamed {
+                paren_token: def_site(),
+                unnamed: fields,
+            })
+        };
+
+        match item {
+            Item::Enum(item) => {
+                variants.push(Variant {
+                    attrs: Default::default(),
+                    ident: item.ident.clone(),
+                    fields,
+                    discriminant: None,
+                });
+            }
+            Item::Struct(item) => {
+                variants.push(Variant {
+                    attrs: Default::default(),
+                    ident: item.ident.clone(),
+                    fields,
+                    discriminant: None,
+                });
+            }
+            _ => {}
+        }
+    }
+
+    Item::Enum(ItemEnum {
+        attrs: Default::default(),
+        vis: Visibility::Public(VisPublic {
+            pub_token: def_site(),
+        }),
+        enum_token: def_site(),
+        ident: if is_ref {
+            Ident::new("AstNodeRef", call_site())
+        } else {
+            Ident::new("AstKind", call_site())
+        },
+        generics: Default::default(),
+        brace_token: def_site(),
+        variants,
+    })
 }
 
 fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
