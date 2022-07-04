@@ -57,7 +57,7 @@ const foo39 = 0.00001543000;
 const foo40 = (0.00001543000);
 const foo41 = { 1000050000: "foo" };
 const foo42 = 1000000003242;
-const foo43 = -1000000003242;
+const foo43_ = -1000000003242;
 const foo43 = 0.0;
 const foo44 = -0.0;
 const foo45 = +0.0;
@@ -114,6 +114,7 @@ const hugefoo = 1000000000001..test();
 const hugefoo1 = 0xEE.test();
 
 1_2_3_4..toString();
+1_2_3_4 .toString();
 
 const foo72 = 86400000;
 const foo73 = 65535;
