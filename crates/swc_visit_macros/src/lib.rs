@@ -99,6 +99,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             .flat_map(expand_visitor_types)
             .collect::<Vec<_>>();
 
+        types.retain(|ty| ast_enum_variant_name(ty).is_some());
         types.sort_by_cached_key(ast_enum_variant_name);
         types.dedup_by_key(|ty| ast_enum_variant_name(ty));
 
@@ -155,23 +156,23 @@ fn expand_visitor_types(ty: Type) -> Vec<Type> {
     vec![ty]
 }
 
-fn ast_enum_variant_name(t: &Type) -> String {
+fn ast_enum_variant_name(t: &Type) -> Option<String> {
     if let Some(inner) = extract_generic("Option", t) {
-        return format!("Opt{}", ast_enum_variant_name(inner));
+        return Some(format!("Opt{}", ast_enum_variant_name(inner)?));
     }
 
     if let Some(inner) = extract_generic("Arc", t) {
-        return format!("Arc{}", ast_enum_variant_name(inner));
+        return Some(format!("Arc{}", ast_enum_variant_name(inner)?));
     }
 
     if let Some(inner) = extract_generic("Vec", t) {
-        return format!("Vec{}", ast_enum_variant_name(inner));
+        return None;
     }
 
     match t {
-        Type::Path(p) => p.path.segments.last().unwrap().ident.to_string(),
+        Type::Path(p) => Some(p.path.segments.last().unwrap().ident.to_string()),
         Type::Reference(t) => ast_enum_variant_name(&t.elem),
-        Type::Slice(t) => format!("Vec{}", ast_enum_variant_name(&t.elem)),
+        Type::Slice(t) => Some(format!("Vec{}", ast_enum_variant_name(&t.elem)?)),
         _ => unimplemented!("Type: {:?}", t),
     }
 }
@@ -188,6 +189,10 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
 
     for ty in types {
         let name = ast_enum_variant_name(ty);
+        let name = match name {
+            Some(name) => name,
+            None => continue,
+        };
 
         let ident = Ident::new(&name, ty.span());
 
@@ -274,31 +279,38 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
 fn impl_ast_node(types: &[Type]) -> Vec<Item> {
     types
         .iter()
-        .map(|ty| {
+        .filter_map(|ty| {
             let name = ast_enum_variant_name(ty);
+            let name = match name {
+                Some(name) => name,
+                None => return None,
+            };
+
             let ident = Ident::new(&name, ty.span());
 
-            q!(
-                Vars {
-                    Type: ty,
-                    Name: ident
-                },
-                {
-                    impl<'ast> AstNode<'ast> for Type {
-                        type Kind = AstKind;
-                        type NodeRef = AstNodeRef<'ast>;
+            Some(
+                q!(
+                    Vars {
+                        Type: ty,
+                        Name: ident
+                    },
+                    {
+                        impl<'ast> AstNode<'ast> for Type {
+                            type Kind = AstKind;
+                            type NodeRef = AstNodeRef<'ast>;
 
-                        fn to_ast_kind(&self) -> Self::Kind {
-                            AstKind::Name
-                        }
+                            fn to_ast_kind(&self) -> Self::Kind {
+                                AstKind::Name
+                            }
 
-                        fn to_ast_path_node(&'ast self) -> Self::NodeRef {
-                            AstNodeRef::Name(self)
+                            fn to_ast_path_node(&'ast self) -> Self::NodeRef {
+                                AstNodeRef::Name(self)
+                            }
                         }
                     }
-                }
+                )
+                .parse(),
             )
-            .parse()
         })
         .collect()
 }
