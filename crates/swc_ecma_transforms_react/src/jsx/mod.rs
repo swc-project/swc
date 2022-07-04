@@ -313,17 +313,26 @@ impl JsxDirectives {
                         Some("@jsxRuntime") => match val {
                             Some("classic") => res.runtime = Some(Runtime::Classic),
                             Some("automatic") => res.runtime = Some(Runtime::Automatic),
-                            _ => todo!("proper error reporting for wrong `@jsxRuntime`"),
+                            None => {}
+                            _ => {
+                                HANDLER.with(|handler| {
+                                    handler
+                                        .struct_span_err(
+                                            cmt.span,
+                                            "Runtime must be either `classic` or `automatic`.",
+                                        )
+                                        .emit()
+                                });
+                            }
                         },
-                        Some("@jsxImportSource") => match val {
-                            Some(src) => {
+                        Some("@jsxImportSource") => {
+                            if let Some(src) = val {
                                 res.runtime = Some(Runtime::Automatic);
                                 res.import_source = Some(src.into());
                             }
-                            _ => todo!("proper error reporting for wrong `@jsxImportSource`"),
-                        },
-                        Some("@jsxFrag") => match val {
-                            Some(src) => {
+                        }
+                        Some("@jsxFrag") => {
+                            if let Some(src) = val {
                                 // TODO: Optimize
                                 let mut e = (*parse_expr_for_jsx(
                                     cm,
@@ -335,10 +344,9 @@ impl JsxDirectives {
                                 respan(&mut e, cmt.span);
                                 res.pragma_frag = Some(e.into())
                             }
-                            _ => todo!("proper error reporting for wrong `@jsxFrag`"),
-                        },
-                        Some("@jsx") => match val {
-                            Some(src) => {
+                        }
+                        Some("@jsx") => {
+                            if let Some(src) = val {
                                 // TODO: Optimize
                                 let mut e = (*parse_expr_for_jsx(
                                     cm,
@@ -350,8 +358,7 @@ impl JsxDirectives {
                                 respan(&mut e, cmt.span);
                                 res.pragma = Some(e.into());
                             }
-                            _ => todo!("proper error reporting for wrong `@jsxFrag`"),
-                        },
+                        }
                         _ => {}
                     }
                 }
