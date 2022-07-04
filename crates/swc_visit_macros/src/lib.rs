@@ -76,6 +76,10 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     q.push_tokens(&make_ast_enum(&block.stmts, true));
     q.push_tokens(&make_ast_enum(&block.stmts, false));
 
+    for item in impl_ast_node(&block.stmts) {
+        q.push_tokens(&item);
+    }
+
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
     q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
 
@@ -206,6 +210,41 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         brace_token: def_site(),
         variants,
     })
+}
+
+fn impl_ast_node(stmts: &[Stmt]) -> Vec<Item> {
+    stmts
+        .iter()
+        .filter_map(|stmt| match stmt {
+            Stmt::Item(i) => Some(i),
+            _ => None,
+        })
+        .filter_map(|item| {
+            let ident = match item {
+                Item::Struct(item) => item.ident.clone(),
+                Item::Enum(item) => item.ident.clone(),
+                _ => return None,
+            };
+
+            Some(
+                q!(Vars { Type: &ident }, {
+                    impl<'ast> AstNode<'ast> for Type {
+                        type Kind = AstKind;
+                        type NodeRef = AstNodeRef<'ast>;
+
+                        fn to_ast_kind(&self) -> Self::Kind {
+                            AstKind::Type
+                        }
+
+                        fn to_ast_node(&'ast self) -> Self::NodeRef {
+                            AstNodeRef::Type(self)
+                        }
+                    }
+                })
+                .parse(),
+            )
+        })
+        .collect()
 }
 
 fn make(mode: Mode, stmts: &[Stmt]) -> Quote {

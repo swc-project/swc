@@ -217,11 +217,11 @@ pub struct AstNodePath<'a, N> {
     path: Vec<&'a N>,
 }
 
-pub trait AstNode {
+pub trait AstNode<'ast> {
     type Kind;
-    type NodeRef;
+    type NodeRef: 'ast;
 
     fn to_ast_kind(&self) -> Self::Kind;
 
-    fn to_ast_node(&self) -> Self::NodeRef;
+    fn to_ast_node(&'ast self) -> Self::NodeRef;
 }
