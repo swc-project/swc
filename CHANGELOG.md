@@ -20,6 +20,9 @@
 - **(es/modules)** Create an indirect call for a lazy require (#5089) ([0a7ca2f](https://github.com/swc-project/swc/commit/0a7ca2f4bbfaa2573b4da6b25127064cbcfd755f))
 
 
+- **(es/react)** Don't panic on invalid react pragma (#5101) ([cc555ef](https://github.com/swc-project/swc/commit/cc555ef225e3299bc17b6e21d67b3a42619abd5a))
+
+
 - **(html/minifier)** Small fix (#5079) ([5ac5ae2](https://github.com/swc-project/swc/commit/5ac5ae200c3c896f205e7c4567a5a6281d16015b))
 
 ### Features
