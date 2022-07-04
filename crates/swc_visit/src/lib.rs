@@ -251,19 +251,28 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct AstNodePath<'a, N> {
-    path: Vec<&'a N>,
+pub struct AstNodePath<N>
+where
+    N: Copy,
+{
+    path: Vec<N>,
 }
 
-impl<'a, N> std::ops::Deref for AstNodePath<'a, N> {
-    type Target = Vec<&'a N>;
+impl<N> std::ops::Deref for AstNodePath<N>
+where
+    N: Copy,
+{
+    type Target = Vec<N>;
 
     fn deref(&self) -> &Self::Target {
         &self.path
     }
 }
 
-impl<N> Default for AstNodePath<'_, N> {
+impl<N> Default for AstNodePath<N>
+where
+    N: Copy,
+{
     fn default() -> Self {
         Self {
             path: Default::default(),
@@ -271,14 +280,17 @@ impl<N> Default for AstNodePath<'_, N> {
     }
 }
 
-impl<'a, N> AstNodePath<'a, N> {
-    pub fn new(path: Vec<&'a N>) -> Self {
+impl<N> AstNodePath<N>
+where
+    N: Copy,
+{
+    pub fn new(path: Vec<N>) -> Self {
         Self { path }
     }
 
-    pub fn with<F, Ret>(&mut self, node: &'a N, op: F) -> Ret
+    pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
     where
-        F: for<'aa, 'bb> FnOnce(&'aa mut AstNodePath<'bb, N>) -> Ret,
+        F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
     {
         self.path.push(node);
         let ret = op(self);
