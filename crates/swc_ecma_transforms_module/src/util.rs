@@ -308,11 +308,11 @@ pub(crate) fn emit_export_stmts(
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
-            .map(|(prop_name, span, expr)| {
+            .map(|(prop_name, span, ident)| {
                 object_define_enumerable(
                     exports.as_arg(),
                     quote_str!(span, prop_name).as_arg(),
-                    prop_auto((js_word!("get"), DUMMY_SP, expr)).into(),
+                    prop_auto((js_word!("get"), DUMMY_SP, ident.into())).into(),
                 )
                 .into_stmt()
             })
@@ -321,8 +321,7 @@ pub(crate) fn emit_export_stmts(
         _ => {
             let props = prop_list
                 .into_iter()
-                .map(prop_auto)
-                .map(Into::into)
+                .map(|(key, span, ident)| prop_auto((key, span, ident.into())).into())
                 .collect();
             let obj_lit = ObjectLit {
                 span: DUMMY_SP,

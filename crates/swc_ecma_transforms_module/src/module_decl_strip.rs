@@ -601,8 +601,8 @@ impl LinkItem {
     }
 }
 
-/// (exported_name, exported_span, expr)
-pub type ExportObjPropList = Vec<(JsWord, Span, Expr)>;
+/// (exported_name, exported_span, binding_ident)
+pub type ExportObjPropList = Vec<(JsWord, Span, Ident)>;
 
 /// Reduce self to generate ImportMap and ExportObjPropList
 pub trait LinkSpecifierReducer {
