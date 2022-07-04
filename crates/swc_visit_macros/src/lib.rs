@@ -75,13 +75,26 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<'ast, AstNodeRef<'ast>>;
     }));
-    q.push_tokens(&make_ast_enum(&block.stmts, true));
-    q.push_tokens(&make_ast_enum(&block.stmts, false));
 
-    for item in impl_ast_node(&block.stmts) {
-        q.push_tokens(&item);
+    {
+        let mut types = vec![];
+
+        for stmts in block.stmts.iter() {
+            let item = match stmts {
+                Stmt::Item(item) => item,
+                _ => unimplemented!("error reporting for something other than Item"),
+            };
+
+            make_method(Mode::VisitAll, item, &mut types);
+        }
+
+        q.push_tokens(&make_ast_enum(&block.stmts, true));
+        q.push_tokens(&make_ast_enum(&block.stmts, false));
+
+        for item in impl_ast_node(&block.stmts) {
+            q.push_tokens(&item);
+        }
     }
-
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
     q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
 
