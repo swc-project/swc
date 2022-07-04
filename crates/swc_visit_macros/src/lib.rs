@@ -883,18 +883,21 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     V: ?Sized + VisitAstPath,
                     T: 'static + VisitWithPath<V>,
                 {
-                    fn visit_with_path<'ast>(&'ast self, v: &mut V, ast_path: &mut AstNodePath)
-                    where
+                    fn visit_with_path<'ast, 'r>(
+                        &'ast self,
+                        v: &mut V,
+                        ast_path: &mut AstNodePath<'r>,
+                    ) where
                         'ast: 'r,
                     {
                         (**self).visit_with_path(v, ast_path)
                     }
 
                     /// Visit children nodes of self with `v`
-                    fn visit_children_with_path<'ast>(
+                    fn visit_children_with_path<'ast, 'r>(
                         &'ast self,
                         v: &mut V,
-                        ast_path: &mut AstNodePath,
+                        ast_path: &mut AstNodePath<'r>,
                     ) where
                         'ast: 'r,
                     {
