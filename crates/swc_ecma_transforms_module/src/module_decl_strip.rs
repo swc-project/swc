@@ -2,7 +2,7 @@ use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::module_ref_rewriter::ImportMap;
@@ -619,35 +619,47 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
             LinkSpecifier::ExportNamed { orig, exported } => {
                 *ref_to_mod_ident = true;
 
-                let (key, span) = exported.unwrap_or_else(|| orig.clone());
+                // ```javascript
+                // export { foo as bar } from "mod";
+                //
+                // import { foo } from "mod";
+                // export { foo as bar };
+                // ```
 
-                let expr = {
-                    let (name, span) = orig;
-                    if is_valid_prop_ident(&name) {
-                        mod_ident.clone().make_member(quote_ident!(span, name))
-                    } else {
-                        mod_ident.clone().computed_member(Str {
-                            span,
-                            value: name,
-                            raw: None,
-                        })
-                    }
-                };
-                export_obj_prop_list.push((key, span, expr))
+                // foo -> mod.foo
+                import_map.insert(orig.to_id(), (mod_ident.clone(), Some(orig.0.clone())));
+
+                let (export_key, export_span) = exported.unwrap_or_else(|| orig.clone());
+
+                // bar -> foo
+                export_obj_prop_list.push((
+                    export_key,
+                    export_span,
+                    quote_ident!(orig.1, orig.0).into(),
+                ))
             }
-            LinkSpecifier::ExportDefaultAs(default_span, key, span) => {
+            LinkSpecifier::ExportDefaultAs(_, key, span) => {
                 *ref_to_mod_ident = true;
 
-                let expr = mod_ident
-                    .clone()
-                    .make_member(quote_ident!(default_span, "default"));
-                export_obj_prop_list.push((key, span, expr))
+                // ```javascript
+                // export { default as foo } from "mod";
+                //
+                // import { default as foo } from "mod";
+                // export { foo };
+                // ```
+
+                // foo -> mod.default
+                import_map.insert(
+                    (key.clone(), span).into_id(),
+                    (mod_ident.clone(), Some("default".into())),
+                );
+
+                export_obj_prop_list.push((key.clone(), span, quote_ident!(span, key).into()))
             }
             LinkSpecifier::ExportStarAs(key, span) => {
                 *ref_to_mod_ident = true;
 
-                let expr = mod_ident.clone().into();
-                export_obj_prop_list.push((key, span, expr))
+                export_obj_prop_list.push((key, span, mod_ident.clone().into()))
             }
             LinkSpecifier::ExportStar => {}
             LinkSpecifier::ImportEqual(id) => {

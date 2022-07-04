@@ -1,0 +1,9 @@
+{
+    "lazy": [
+        "./path/to/ST",
+        "./path/to/SC",
+        "./path/to/S",
+        "./path/to/PTUs",
+        "./path/to/SDUs"
+    ]
+}
