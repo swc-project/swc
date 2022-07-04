@@ -865,10 +865,17 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
-                    fn visit_with_path<'ast>(&self, v: &mut V, ast_path: &mut AstNodePath);
+                    fn visit_with_path<'ast, 'r>(&'ast self, v: &mut V, ast_path: &mut AstNodePath)
+                    where
+                        'ast: 'r;
 
                     /// Visit children nodes of self with `v`
-                    fn visit_children_with_path<'ast>(&self, v: &mut V, ast_path: &mut AstNodePath);
+                    fn visit_children_with_path<'ast, 'r>(
+                        &'ast self,
+                        v: &mut V,
+                        ast_path: &mut AstNodePath<'r>,
+                    ) where
+                        'ast: 'r;
                 }
 
                 impl<V, T> VisitWithPath<V> for Box<T>
@@ -876,16 +883,21 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     V: ?Sized + VisitAstPath,
                     T: 'static + VisitWithPath<V>,
                 {
-                    fn visit_with_path<'ast>(&self, v: &mut V, ast_path: &mut AstNodePath) {
+                    fn visit_with_path<'ast>(&'ast self, v: &mut V, ast_path: &mut AstNodePath)
+                    where
+                        'ast: 'r,
+                    {
                         (**self).visit_with_path(v, ast_path)
                     }
 
                     /// Visit children nodes of self with `v`
                     fn visit_children_with_path<'ast>(
-                        &self,
+                        &'ast self,
                         v: &mut V,
                         ast_path: &mut AstNodePath,
-                    ) {
+                    ) where
+                        'ast: 'r,
+                    {
                         (**self).visit_children_with_path(v, ast_path)
                     }
                 }
@@ -1133,19 +1145,23 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             },
                             {
                                 impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for [elem_ty] {
-                                    fn visit_with_path<'ast>(
-                                        &self,
+                                    fn visit_with_path<'ast, 'r>(
+                                        &'ast self,
                                         v: &mut V,
-                                        __ast_path: &mut AstNodePath,
-                                    ) {
+                                        __ast_path: &mut AstNodePath<'r>,
+                                    ) where
+                                        'ast: 'r,
+                                    {
                                         expr
                                     }
 
                                     fn visit_children_with_path<'ast>(
-                                        &self,
+                                        &'ast self,
                                         _visitor: &mut V,
-                                        __ast_path: &mut AstNodePath,
-                                    ) {
+                                        __ast_path: &mut AstNodePath<'r>,
+                                    ) where
+                                        'ast: 'r,
+                                    {
                                         default_body
                                     }
                                 }
@@ -1154,19 +1170,23 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                         tokens.push_tokens(&q!(Vars { Type: ty }, {
                             impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
-                                fn visit_with_path<'ast>(
-                                    &self,
+                                fn visit_with_path<'ast, 'r>(
+                                    &'ast self,
                                     v: &mut V,
-                                    __ast_path: &mut AstNodePath,
-                                ) {
+                                    __ast_path: &mut AstNodePath<'r>,
+                                ) where
+                                    'ast: 'r,
+                                {
                                     (**self).visit_with_path(v, __ast_path)
                                 }
 
-                                fn visit_children_with_path<'ast>(
-                                    &self,
+                                fn visit_children_with_path<'ast, 'r>(
+                                    &'ast self,
                                     _visitor: &mut V,
-                                    __ast_path: &mut AstNodePath,
-                                ) {
+                                    __ast_path: &mut AstNodePath<'r>,
+                                ) where
+                                    'ast: 'r,
+                                {
                                     (**self).visit_children_with_path(_visitor, __ast_path)
                                 }
                             }
@@ -1180,19 +1200,23 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             },
                             {
                                 impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
-                                    fn visit_with_path<'ast>(
-                                        &self,
+                                    fn visit_with_path<'ast, 'r>(
+                                        &'ast self,
                                         v: &mut V,
-                                        __ast_path: &mut AstNodePath,
-                                    ) {
+                                        __ast_path: &mut AstNodePath<'r>,
+                                    ) where
+                                        'ast: 'r,
+                                    {
                                         expr
                                     }
 
-                                    fn visit_children_with_path<'ast>(
-                                        &self,
+                                    fn visit_children_with_path<'ast, 'r>(
+                                        &'ast self,
                                         _visitor: &mut V,
-                                        __ast_path: &mut AstNodePath,
-                                    ) {
+                                        __ast_path: &mut AstNodePath<'r>,
+                                    ) where
+                                        'ast: 'r,
+                                    {
                                         default_body
                                     }
                                 }
