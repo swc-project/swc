@@ -114,7 +114,15 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
 fn ast_enum_variant_name(t: &Type) -> String {
     if let Some(inner) = extract_generic("Option", t) {
-        return format!("Opt{}", ast_enum_variant_name(&inner));
+        return format!("Opt{}", ast_enum_variant_name(inner));
+    }
+
+    if let Some(inner) = extract_generic("Arc", t) {
+        return format!("Arc{}", ast_enum_variant_name(inner));
+    }
+
+    if let Some(inner) = extract_generic("Vec", t) {
+        return ast_enum_variant_name(inner).to_plural();
     }
 
     match t {
