@@ -217,6 +217,28 @@ pub struct AstNodePath<'a, N> {
     path: Vec<&'a N>,
 }
 
+impl<N> Default for AstNodePath<'_, N> {
+    fn default() -> Self {
+        Self {
+            path: Default::default(),
+        }
+    }
+}
+
+impl<'a, N> AstNodePath<'a, N> {
+    pub fn new(path: Vec<&'a N>) -> Self {
+        Self { path }
+    }
+
+    pub fn with<Ret>(&mut self, node: &'a N, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
+        self.path.push(node);
+        let ret = op(self);
+        self.path.pop();
+
+        ret
+    }
+}
+
 pub trait AstNode<'ast> {
     type Kind;
     type NodeRef: 'ast;
