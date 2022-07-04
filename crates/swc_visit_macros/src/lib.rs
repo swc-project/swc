@@ -274,7 +274,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         {
             // &'_ mut V, Box<V>
-            let block = q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse();
+            let block = match mode.visitor_variant() {
+                Some(VisitorVariant::Normal) | None => {
+                    q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse()
+                }
+                Some(VisitorVariant::WithPath) => {
+                    q!(Vars { visit: &name }, ({ (**self).visit(n, __ast_path) })).parse()
+                }
+            };
 
             ref_methods.push(ImplItemMethod {
                 attrs: vec![],
