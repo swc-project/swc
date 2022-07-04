@@ -115,9 +115,9 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             .flat_map(expand_visitor_types)
             .collect::<Vec<_>>();
 
-        types.retain(|ty| ast_enum_variant_name(ty).is_some());
-        types.sort_by_cached_key(ast_enum_variant_name);
-        types.dedup_by_key(|ty| ast_enum_variant_name(ty));
+        types.retain(|ty| ast_enum_variant_name(ty, true).is_some());
+        types.sort_by_cached_key(|ty| ast_enum_variant_name(ty, true));
+        types.dedup_by_key(|ty| ast_enum_variant_name(ty, true));
 
         q.push_tokens(&make_ast_enum(&types, true));
         q.push_tokens(&make_ast_enum(&types, false));
@@ -175,7 +175,7 @@ fn expand_visitor_types(ty: Type) -> Vec<Type> {
     vec![ty]
 }
 
-fn ast_enum_variant_name(t: &Type) -> Option<String> {
+fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
     if let Type::Reference(t) = t {
         // &'ast Option<&'ast Item> is useless.
         if let Some(..) = extract_generic("Option", &t.elem) {
@@ -185,24 +185,40 @@ fn ast_enum_variant_name(t: &Type) -> Option<String> {
 
     if let Some(inner) = extract_generic("Option", t) {
         if let Some(inner) = extract_generic("Vec", inner) {
-            return Some(format!("OptVec{}", ast_enum_variant_name(inner)?));
+            return Some(format!(
+                "OptVec{}",
+                ast_enum_variant_name(inner, exclude_useless)?
+            ));
         }
 
-        return Some(format!("Opt{}", ast_enum_variant_name(inner)?));
+        return Some(format!(
+            "Opt{}",
+            ast_enum_variant_name(inner, exclude_useless)?
+        ));
     }
 
     if let Some(inner) = extract_generic("Arc", t) {
-        return Some(format!("Arc{}", ast_enum_variant_name(inner)?));
+        return ast_enum_variant_name(inner, exclude_useless);
     }
 
-    if let Some(..) = extract_generic("Vec", t) {
-        return None;
+    if let Some(inner) = extract_generic("Vec", t) {
+        if exclude_useless {
+            return None;
+        }
+
+        return Some(format!(
+            "Vec{}",
+            ast_enum_variant_name(inner, exclude_useless)?
+        ));
     }
 
     match t {
         Type::Path(p) => Some(p.path.segments.last().unwrap().ident.to_string()),
-        Type::Reference(t) => ast_enum_variant_name(&t.elem),
-        Type::Slice(t) => Some(format!("Vec{}", ast_enum_variant_name(&t.elem)?)),
+        Type::Reference(t) => ast_enum_variant_name(&t.elem, exclude_useless),
+        Type::Slice(t) => Some(format!(
+            "Vec{}",
+            ast_enum_variant_name(&t.elem, exclude_useless)?
+        )),
         _ => unimplemented!("Type: {:?}", t),
     }
 }
@@ -218,7 +234,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     let mut variants = Punctuated::new();
 
     for ty in types {
-        let name = ast_enum_variant_name(ty);
+        let name = ast_enum_variant_name(ty, true);
         let name = match name {
             Some(name) => name,
             None => continue,
@@ -336,7 +352,7 @@ fn impl_ast_node(types: &[Type]) -> Vec<Item> {
     types
         .iter()
         .filter_map(|ty| {
-            let name = ast_enum_variant_name(ty);
+            let name = ast_enum_variant_name(ty, true);
             let name = match name {
                 Some(name) => name,
                 None => return None,
@@ -723,6 +739,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }
 
             Mode::Visit(VisitorVariant::WithPath) => {
+                let ast_enum_variant_name = Ident::new(
+                    &ast_enum_variant_name(arg_ty, false).unwrap(),
+                    arg_ty.span(),
+                );
                 let to_kind_expr = make_to_ast_kind(arg_ty, true);
 
                 tokens.push_tokens(&q!(
