@@ -793,44 +793,6 @@ impl Minifier {
         }
     }
 
-    fn get_deep_last_text_element<'a>(&self, node: &'a Child) -> Option<&'a Text> {
-        match node {
-            Child::Text(text) => Some(text),
-            Child::Element(Element {
-                namespace,
-                tag_name,
-                children,
-                ..
-            }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
-                if let Some(last) = children.last() {
-                    self.get_deep_last_text_element(last)
-                } else {
-                    None
-                }
-            }
-            _ => None,
-        }
-    }
-
-    fn get_deep_first_text_element<'a>(&self, node: &'a Child) -> Option<&'a Text> {
-        match node {
-            Child::Text(text) => Some(text),
-            Child::Element(Element {
-                namespace,
-                tag_name,
-                children,
-                ..
-            }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
-                if let Some(first) = children.first() {
-                    self.get_deep_first_text_element(first)
-                } else {
-                    None
-                }
-            }
-            _ => None,
-        }
-    }
-
     fn get_prev_displayed_node<'a>(
         &self,
         children: &'a Vec<Child>,
@@ -1095,10 +1057,17 @@ impl Minifier {
                             Some(Display::None) | Some(Display::Inline) => {
                                 match &self.get_prev_displayed_node(children, index - 1) {
                                     Some(Child::Text(text)) => text.data.ends_with(is_whitespace),
-                                    Some(child @ Child::Element(_)) => {
-                                        let deep = self.get_deep_last_text_element(child);
+                                    Some(Child::Element(element)) => {
+                                        let deep = if !element.children.is_empty() {
+                                            self.get_prev_displayed_node(
+                                                &element.children,
+                                                element.children.len() - 1,
+                                            )
+                                        } else {
+                                            None
+                                        };
 
-                                        if let Some(deep) = deep {
+                                        if let Some(Child::Text(deep)) = deep {
                                             deep.data.ends_with(is_whitespace)
                                         } else {
                                             false
@@ -1178,10 +1147,11 @@ impl Minifier {
                             Some(Display::None) => {
                                 match &self.get_next_displayed_node(children, index + 1) {
                                     Some(Child::Text(text)) => text.data.starts_with(is_whitespace),
-                                    Some(child @ Child::Element(_)) => {
-                                        let deep = self.get_deep_first_text_element(child);
+                                    Some(Child::Element(element)) => {
+                                        let deep =
+                                            self.get_next_displayed_node(&element.children, 0);
 
-                                        if let Some(deep) = deep {
+                                        if let Some(Child::Text(deep)) = deep {
                                             !deep.data.starts_with(is_whitespace)
                                         } else {
                                             false
