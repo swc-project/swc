@@ -713,6 +713,10 @@ impl Minifier {
                     _ => Display::Inline,
                 }
             }
+            Namespace::SVG => match tag_name {
+                "text" => Display::Block,
+                _ => Display::Inline,
+            },
             _ => Display::Inline,
         }
     }
