@@ -81,7 +81,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
         impl<'ast, T> AstNode for Vec<T>
         where
-            [T]: AstNode,
+            [T]: AstNode<'ast>,
         {
             type Kind = T::Kind;
             type NodeRef = T::NodeRef;
