@@ -276,7 +276,10 @@ impl<'a, N> AstNodePath<'a, N> {
         Self { path }
     }
 
-    pub fn with<Ret>(&mut self, node: &'a N, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
+    pub fn with<F, Ret>(&mut self, node: &'a N, op: F) -> Ret
+    where
+        F: for<'aa, 'bb> FnOnce(&'aa mut AstNodePath<'bb, N>) -> Ret,
+    {
         self.path.push(node);
         let ret = op(self);
         self.path.pop();
