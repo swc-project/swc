@@ -262,15 +262,24 @@ where
 
     fn visit_mut_assign_expr(&mut self, a: &mut AssignExpr) {
         if let AssignExpr {
-            op: op!("="),
-            left: PatOrExpr::Pat(pat),
+            op: op!("=") | op!("||=") | op!("??="),
+            left,
             right,
             ..
         } = a
         {
-            if let Pat::Ident(i) = &**pat {
-                if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
-                    c.ident = Some(i.id.clone())
+            if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
+                match left {
+                    PatOrExpr::Pat(pat) => {
+                        if let Pat::Ident(i) = &**pat {
+                            c.ident = Some(i.id.clone())
+                        }
+                    }
+                    PatOrExpr::Expr(expr) => {
+                        if let Expr::Ident(ident) = &**expr {
+                            c.ident = Some(ident.clone())
+                        }
+                    }
                 }
             }
         }
