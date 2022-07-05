@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Documentation
+
+
+
+- **(visit)** Generate rustdoc (#5107) ([8ea631c](https://github.com/swc-project/swc/commit/8ea631c7669356905fb7defd6aeb0fb0602ec458))
+
+## [1.2.209] - 2022-07-05
+
 ### Bug Fixes
 
 
