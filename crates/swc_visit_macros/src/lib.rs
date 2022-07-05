@@ -759,39 +759,60 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 ))
             }
 
-            Mode::Visit(VisitorVariant::WithPath) => {
-                let ast_enum_variant_name = Ident::new(
-                    &ast_enum_variant_name(arg_ty, false)
-                        .expect("ast_enum_variant_name returned None"),
-                    arg_ty.span(),
-                );
-                let to_kind_expr = make_to_ast_kind(arg_ty, true);
+            Mode::Visit(VisitorVariant::WithPath) => match ast_enum_variant_name(arg_ty, false) {
+                Some(ast_enum_variant_name) => {
+                    let ast_enum_variant_name = Ident::new(&ast_enum_variant_name, arg_ty.span());
+                    let to_kind_expr = make_to_ast_kind(arg_ty, true);
 
-                tokens.push_tokens(&q!(
-                    Vars {
-                        fn_name,
-                        default_body,
-                        Type: arg_ty,
-                        Trait: Ident::new(mode.trait_name(), call_site()),
-                        to_kind_expr,
-                        NodeVariant: ast_enum_variant_name,
-                    },
-                    {
-                        #[allow(unused_variables)]
-                        fn fn_name<'ast, 'r, V: ?Sized + Trait>(
-                            _visitor: &mut V,
-                            n: Type,
-                            __ast_path: &mut AstNodePath<'r>,
-                        ) where
-                            'ast: 'r,
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            fn_name,
+                            default_body,
+                            Type: arg_ty,
+                            Trait: Ident::new(mode.trait_name(), call_site()),
+                            to_kind_expr,
+                            NodeVariant: ast_enum_variant_name,
+                        },
                         {
-                            let __ast_kind: AstNodeRef<'r> = AstNodeRef::NodeVariant(to_kind_expr);
+                            #[allow(unused_variables)]
+                            fn fn_name<'ast, 'r, V: ?Sized + Trait>(
+                                _visitor: &mut V,
+                                n: Type,
+                                __ast_path: &mut AstNodePath<'r>,
+                            ) where
+                                'ast: 'r,
+                            {
+                                let __ast_kind: AstNodeRef<'r> =
+                                    AstNodeRef::NodeVariant(to_kind_expr);
 
-                            __ast_path.with(__ast_kind, |__ast_path| default_body)
+                                __ast_path.with(__ast_kind, |__ast_path| default_body)
+                            }
                         }
-                    }
-                ))
-            }
+                    ))
+                }
+                _ => {
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            fn_name,
+                            default_body,
+                            Type: arg_ty,
+                            Trait: Ident::new(mode.trait_name(), call_site()),
+                        },
+                        {
+                            #[allow(unused_variables)]
+                            fn fn_name<'ast, 'r, V: ?Sized + Trait>(
+                                _visitor: &mut V,
+                                n: Type,
+                                __ast_path: &mut AstNodePath<'r>,
+                            ) where
+                                'ast: 'r,
+                            {
+                                default_body
+                            }
+                        }
+                    ));
+                }
+            },
 
             Mode::VisitAll => {}
         }
