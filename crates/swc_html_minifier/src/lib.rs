@@ -654,6 +654,15 @@ impl Minifier {
         !matches!(self.collapse_whitespaces, CollapseWhitespaces::None)
     }
 
+    fn is_custom_element(&self, tag_name: &str) -> bool {
+        // https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name
+        match tag_name {
+            "annotation-xml" | "color-profile" | "font-face" | "font-face-src"
+            | "font-face-uri" | "font-face-format" | "font-face-name" | "missing-glyph" => false,
+            _ => matches!(tag_name.chars().next(), Some('a'..='z')) && tag_name.contains("-"),
+        }
+    }
+
     fn get_display(&self, namespace: Namespace, tag_name: &str) -> Display {
         match namespace {
             Namespace::HTML => {
@@ -1127,38 +1136,55 @@ impl Minifier {
                             // And
                             // Inline box
                             Some(Display::None) | Some(Display::Inline) => {
-                                match &self.get_prev_displayed_node(children, index - 1) {
-                                    Some(Child::Text(text)) => text.data.ends_with(is_whitespace),
-                                    Some(Child::Element(element)) => {
-                                        let deep = if !element.children.is_empty() {
-                                            self.get_last_displayed_text_node(
-                                                &element.children,
-                                                element.children.len() - 1,
-                                            )
-                                        } else {
-                                            None
-                                        };
+                                // A custom element can contain any elements, we cannot predict the
+                                // behavior of spaces
+                                let is_custom_element = if let Some(Child::Element(element)) = &prev
+                                {
+                                    self.is_custom_element(&*element.tag_name)
+                                } else {
+                                    false
+                                };
 
-                                        if let Some(deep) = deep {
-                                            deep.data.ends_with(is_whitespace)
-                                        } else {
-                                            false
+                                if is_custom_element {
+                                    false
+                                } else {
+                                    match &self.get_prev_displayed_node(children, index - 1) {
+                                        Some(Child::Text(text)) => {
+                                            text.data.ends_with(is_whitespace)
                                         }
-                                    }
-                                    _ => {
-                                        let parent_display = self.get_display(namespace, tag_name);
+                                        Some(Child::Element(element)) => {
+                                            let deep = if !element.children.is_empty() {
+                                                self.get_last_displayed_text_node(
+                                                    &element.children,
+                                                    element.children.len() - 1,
+                                                )
+                                            } else {
+                                                None
+                                            };
 
-                                        match parent_display {
-                                            Display::Inline => {
-                                                if let Some(Child::Text(Text { data, .. })) =
-                                                    &self.latest_element
-                                                {
-                                                    data.ends_with(is_whitespace)
-                                                } else {
-                                                    false
-                                                }
+                                            if let Some(deep) = deep {
+                                                deep.data.ends_with(is_whitespace)
+                                            } else {
+                                                false
                                             }
-                                            _ => true,
+                                        }
+                                        _ => {
+                                            let parent_display =
+                                                self.get_display(namespace, tag_name);
+
+                                            match parent_display {
+                                                Display::Inline => {
+                                                    if let Some(Child::Text(Text {
+                                                        data, ..
+                                                    })) = &self.latest_element
+                                                    {
+                                                        data.ends_with(is_whitespace)
+                                                    } else {
+                                                        false
+                                                    }
+                                                }
+                                                _ => true,
+                                            }
                                         }
                                     }
                                 }
