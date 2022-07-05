@@ -801,21 +801,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     let mut attrs = vec![];
 
     if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
-        attrs.push(Attribute {
-            pound_token: def_site(),
-            style: AttrStyle::Outer,
-            bracket_token: def_site(),
-            path: q!({ cfg }).parse(),
-            tokens: q!({ (feature = "path") }).into(),
-        });
-
-        attrs.push(Attribute {
-            pound_token: def_site(),
-            style: AttrStyle::Outer,
-            bracket_token: def_site(),
-            path: q!({ cfg_attr }).parse(),
-            tokens: q!({ (docsrs, doc(cfg(feature = "path"))) }).into(),
-        });
+        attrs.extend(feature_path_attrs())
     }
 
     tokens.push_tokens(&ItemTrait {
@@ -2566,4 +2552,23 @@ fn skip(ty: &Type) -> bool {
         Type::Reference(r) => skip(&r.elem),
         _ => false,
     }
+}
+
+fn feature_path_attrs() -> Vec<Attribute> {
+    vec![
+        Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg }).parse(),
+            tokens: q!({ (feature = "path") }).into(),
+        },
+        Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg_attr }).parse(),
+            tokens: q!({ (docsrs, doc(cfg(feature = "path"))) }).into(),
+        },
+    ]
 }
