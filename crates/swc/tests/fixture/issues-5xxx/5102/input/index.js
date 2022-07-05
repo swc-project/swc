@@ -17,4 +17,5 @@ function foo(bar = class /* bar */ {}) {}
 d = {
     i: class /* i */ {},
     ["j"]: class /* j */ {},
+    "-": class {},
 };

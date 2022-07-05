@@ -64,12 +64,16 @@ function foo() {
         _class_call_check(this, bar);
     };
 }
-d = _define_property({
+var _obj;
+d = (_obj = {
     i: function i() {
         "use strict";
         _class_call_check(this, i);
     }
-}, "j", function j() {
+}, _define_property(_obj, "j", function j() {
     "use strict";
     _class_call_check(this, j);
-});
+}), _define_property(_obj, "-", function _class() {
+    "use strict";
+    _class_call_check(this, _class);
+}), _obj);
