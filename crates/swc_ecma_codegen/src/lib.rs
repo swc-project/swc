@@ -536,7 +536,7 @@ where
         let target = self.cfg.target;
 
         if self.cfg.minify {
-            let value = get_quoted_utf16(&node.value, target);
+            let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
             self.wr.write_str_lit(DUMMY_SP, &value)?;
         } else {
@@ -550,7 +550,7 @@ where
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
-                    let value = get_quoted_utf16(&node.value, target);
+                    let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
                 }
@@ -3430,7 +3430,7 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     buf
 }
 
-fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
+fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
@@ -3573,6 +3573,8 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                     } else {
                         let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
                     }
+                } else if ascii_only {
+                    let _ = write!(buf, "\\u{:04X}", c as u16);
                 } else {
                     buf.push(c);
                 }

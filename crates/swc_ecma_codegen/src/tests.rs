@@ -580,15 +580,21 @@ CONTENT\r
 #[test]
 fn test_get_quoted_utf16() {
     fn es2020(src: &str, expected: &str) {
-        assert_eq!(super::get_quoted_utf16(src, EsVersion::Es2020), expected)
+        assert_eq!(
+            super::get_quoted_utf16(src, true, EsVersion::Es2020),
+            expected
+        )
     }
 
     fn es2020_nonascii(src: &str, expected: &str) {
-        assert_eq!(super::get_quoted_utf16(src, EsVersion::Es2020), expected)
+        assert_eq!(
+            super::get_quoted_utf16(src, true, EsVersion::Es2020),
+            expected
+        )
     }
 
     fn es5(src: &str, expected: &str) {
-        assert_eq!(super::get_quoted_utf16(src, EsVersion::Es5), expected)
+        assert_eq!(super::get_quoted_utf16(src, true, EsVersion::Es5), expected)
     }
 
     es2020("abcde", "\"abcde\"");
@@ -654,7 +660,10 @@ fn issue_1619_2() {
 
 #[test]
 fn issue_1619_3() {
-    assert_eq!(get_quoted_utf16("\x00\x31", EsVersion::Es3), "\"\\x001\"");
+    assert_eq!(
+        get_quoted_utf16("\x00\x31", true, EsVersion::Es3),
+        "\"\\x001\""
+    );
 }
 
 fn check_latest(src: &str, expected: &str) {
