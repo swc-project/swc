@@ -1,0 +1,10 @@
+
+  x the name `fx` is defined multiple times
+   ,-[2:5]
+ 2 | var fx
+   :     ^|
+   :      `-- previous definition of `fx` here
+ 3 |     function fx(){}
+   :              ^|
+   :               `-- `fx` redefined here
+   `----
