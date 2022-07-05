@@ -89,6 +89,18 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             }
         }
 
+        impl<'ast, T> AstNode<'ast> for Box<T>
+        where
+            T: AstNode<'ast>,
+        {
+            type Kind = <T as AstNode<'ast>>::Kind;
+            type NodeRef = <T as AstNode<'ast>>::NodeRef;
+
+            fn to_ast_kind(&self) -> Self::Kind {
+                <T>::to_ast_kind(self)
+            }
+        }
+
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstNodeRef<'ast>>;
     }));
