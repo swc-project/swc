@@ -1,12 +1,13 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var a = function a() {
     "use strict";
     _class_call_check(this, a);
 };
 var ref = [
-    function b() {
+    function _class() {
         "use strict";
-        _class_call_check(this, b);
+        _class_call_check(this, _class);
     }
 ], b = ref[0];
 var ref1 = [], tmp = ref1[0], c = tmp === void 0 ? function c() {
@@ -63,9 +64,12 @@ function foo() {
         _class_call_check(this, bar);
     };
 }
-d = {
+d = _define_property({
     i: function i() {
         "use strict";
         _class_call_check(this, i);
     }
-};
+}, "j", function j() {
+    "use strict";
+    _class_call_check(this, j);
+});
