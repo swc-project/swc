@@ -712,16 +712,15 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             )),
 
             Mode::Fold(VisitorVariant::WithPath) => {
-                if ast_enum_variant_name(arg_ty, false).is_some() {
-                    let to_kind_expr = make_to_ast_kind(arg_ty, false);
-
+                if Some(ast_enum_variant_name) = ast_enum_variant_name(arg_ty, false) {
                     tokens.push_tokens(&q!(
                         Vars {
                             fn_name,
                             default_body,
                             Type: arg_ty,
                             Trait: Ident::new(mode.trait_name(), call_site()),
-                            to_kind_expr,
+
+                            NodeVariant: ast_enum_variant_name,
                         },
                         {
                             #[allow(unused_variables)]
@@ -730,7 +729,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 n: Type,
                                 __ast_path: &mut AstKindPath,
                             ) -> Type {
-                                __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                                __ast_path.with(AstKind::NodeVariant, |__ast_path| default_body)
                             }
                         }
                     ))
@@ -757,16 +756,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }
 
             Mode::VisitMut(VisitorVariant::WithPath) => {
-                if ast_enum_variant_name(arg_ty, false).is_some() {
-                    let to_kind_expr = make_to_ast_kind(arg_ty, false);
-
+                if let Some(ast_enum_variant_name) = ast_enum_variant_name(arg_ty, false) {
                     tokens.push_tokens(&q!(
                         Vars {
                             fn_name,
                             default_body,
                             Type: arg_ty,
                             Trait: Ident::new(mode.trait_name(), call_site()),
-                            to_kind_expr,
+                            NodeVariant: ast_enum_variant_name,
                         },
                         {
                             #[allow(unused_variables)]
@@ -775,7 +772,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 n: Type,
                                 __ast_path: &mut AstKindPath,
                             ) {
-                                __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                                __ast_path.with(AstKind::NodeVariant, |__ast_path| default_body)
                             }
                         }
                     ))
