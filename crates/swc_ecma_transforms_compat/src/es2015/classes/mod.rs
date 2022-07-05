@@ -260,6 +260,17 @@ where
         d.visit_mut_children_with(self)
     }
 
+    /// `let { f = class /* f */ {} } = {};`
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        if let Some(value) = &mut n.value {
+            if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **value {
+                c.ident = Some(n.key.clone());
+            }
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_assign_expr(&mut self, a: &mut AssignExpr) {
         if let AssignExpr {
             op: op!("=") | op!("||=") | op!("??="),
