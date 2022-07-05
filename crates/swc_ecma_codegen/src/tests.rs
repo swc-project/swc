@@ -809,7 +809,7 @@ fn ascii_only_str_1() {
     test_all(
         "'😊❤️'",
         "'😊❤️';\n",
-        r#"'😊❤️'"#,
+        r#""😊❤️""#,
         Config {
             ascii_only: false,
             target: EsVersion::Es2015,
