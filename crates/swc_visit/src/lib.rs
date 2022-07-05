@@ -70,6 +70,18 @@
 //! You can use your `Visit` implementation like  `node.visit_with(&Invalid{
 //! span: DUMMY_SP, }, &mut visitor`. I think API is mis-designed, but it works
 //! and there are really lots of code using `Visit` already.
+//!
+//!
+//!
+//! # Cargo features
+//!
+//! You should add
+//! ```toml
+//! [features]
+//! path = []
+//! ```
+//!
+//! If you want to allow using path-aware visitor.
 
 pub use either::Either;
 pub use swc_visit_macros::define;
@@ -189,5 +201,101 @@ where
     fn reset(&mut self) {
         self.first.reset();
         self.second.reset();
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AstKindPath<K>
+where
+    K: Copy,
+{
+    path: Vec<K>,
+}
+
+impl<K> std::ops::Deref for AstKindPath<K>
+where
+    K: Copy,
+{
+    type Target = Vec<K>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.path
+    }
+}
+
+impl<K> Default for AstKindPath<K>
+where
+    K: Copy,
+{
+    fn default() -> Self {
+        Self {
+            path: Default::default(),
+        }
+    }
+}
+
+impl<K> AstKindPath<K>
+where
+    K: Copy,
+{
+    pub fn new(path: Vec<K>) -> Self {
+        Self { path }
+    }
+
+    pub fn with<Ret>(&mut self, path: K, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
+        self.path.push(path);
+        let ret = op(self);
+        self.path.pop();
+        ret
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AstNodePath<N>
+where
+    N: Copy,
+{
+    path: Vec<N>,
+}
+
+impl<N> std::ops::Deref for AstNodePath<N>
+where
+    N: Copy,
+{
+    type Target = Vec<N>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.path
+    }
+}
+
+impl<N> Default for AstNodePath<N>
+where
+    N: Copy,
+{
+    fn default() -> Self {
+        Self {
+            path: Default::default(),
+        }
+    }
+}
+
+impl<N> AstNodePath<N>
+where
+    N: Copy,
+{
+    pub fn new(path: Vec<N>) -> Self {
+        Self { path }
+    }
+
+    pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
+    where
+        F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
+    {
+        self.path.push(node);
+        let ret = op(self);
+        self.path.pop();
+
+        ret
     }
 }
