@@ -1031,6 +1031,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::WithPath) => q!({
+                #[cfg(feature = "path")]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
 
@@ -1039,6 +1041,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         -> Self;
                 }
 
+                #[cfg(feature = "path")]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 impl<V, T> FoldWithPath<V> for Box<T>
                 where
                     V: ?Sized + FoldAstPath,
@@ -1455,6 +1459,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             impl<V: ?Sized + FoldAstPath> FoldWithPath<V> for Type {
                                 fn fold_with_path(
                                     self,
