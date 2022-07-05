@@ -42,6 +42,12 @@ use testing::assert_eq;
         "drop_unused/issue_1656",
         "transform/condition_evaluate",
         "reduce_vars/var_assign_3",
+        // should error
+        "blocks/issue_1672_if_strict",
+        "blocks/issue_1672_for_strict",
+        // need support for script mode
+        "blocks/issue_1672_if",
+        "blocks/issue_1672_for",
     )
 )]
 fn terser_exec(input: PathBuf) {

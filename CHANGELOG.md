@@ -23,10 +23,19 @@
 - **(es/modules)** Create an indirect call for a lazy require (#5089) ([0a7ca2f](https://github.com/swc-project/swc/commit/0a7ca2f4bbfaa2573b4da6b25127064cbcfd755f))
 
 
+- **(es/modules)** Support lazy for `export from` (#5103) ([c531e67](https://github.com/swc-project/swc/commit/c531e67a3058bd6d567922d74fe51dc6e393761b))
+
+
 - **(es/react)** Don't panic on invalid react pragma (#5101) ([cc555ef](https://github.com/swc-project/swc/commit/cc555ef225e3299bc17b6e21d67b3a42619abd5a))
 
 
+- **(es/resolver)** Fix handling of block scoped functions (#5092) ([9519e80](https://github.com/swc-project/swc/commit/9519e801ea3bd9a0d7cc4f145323d0a734c83669))
+
+
 - **(html/minifier)** Small fix (#5079) ([5ac5ae2](https://github.com/swc-project/swc/commit/5ac5ae200c3c896f205e7c4567a5a6281d16015b))
+
+
+- **(node/types)** Add `simplify` (#5105) ([2a29b50](https://github.com/swc-project/swc/commit/2a29b50c5eb7e1441c2735fec9686771c6050053))
 
 ### Features
 
@@ -45,6 +54,9 @@
 
 
 - **(html/minifier)** Remove empty metadata elements (#5085) ([cb845c9](https://github.com/swc-project/swc/commit/cb845c9bf903136b074af269b96a685027599284))
+
+
+- **(visit)** Add path-aware variants (#5073) ([204d742](https://github.com/swc-project/swc/commit/204d742ed6ed5f91612245604b4e9037470bc97a))
 
 ### Testing
 

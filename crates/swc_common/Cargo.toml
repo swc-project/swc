@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.20.1"
+version = "0.20.2"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -50,7 +50,7 @@ sourcemap = { version = "6", optional = true }
 string_cache = "0.8.4"
 swc_atoms = { version = "0.2.12", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "0.1", path = "../swc_eq_ignore_macros" }
-swc_visit = { version = "0.3.0", path = "../swc_visit" }
+swc_visit = { version = "0.3.2", path = "../swc_visit" }
 termcolor = { version = "1.0", optional = true }
 tracing = "0.1.32"
 unicode-width = "0.1.4"
