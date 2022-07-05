@@ -1193,10 +1193,16 @@ impl Minifier {
                             Some(_) => false,
                             None => {
                                 // Template can be used in any place, so let's keep whitespaces
-                                let is_template =
-                                    namespace == Namespace::HTML && tag_name == "template";
+                                //
+                                // For custom elements - an unnamed `<slot>` will be filled with all
+                                // of the custom element's top-level
+                                // child nodes that do not have the slot
+                                // attribute. This includes text nodes.
+                                // Also they can be used for custom logic
 
-                                if is_template {
+                                if (namespace == Namespace::HTML && tag_name == "template")
+                                    || self.is_custom_element(tag_name)
+                                {
                                     false
                                 } else {
                                     let parent_display = self.get_display(namespace, tag_name);
@@ -1281,11 +1287,7 @@ impl Minifier {
                                 } else {
                                     let parent_display = self.get_display(namespace, tag_name);
 
-                                    if self.is_custom_element(tag_name) {
-                                        true
-                                    } else {
-                                        !matches!(parent_display, Display::Inline)
-                                    }
+                                    !matches!(parent_display, Display::Inline)
                                 }
                             }
                         };
