@@ -1108,8 +1108,8 @@ impl Minifier {
                             // `Display::Block`    - `display: block flow`
                             // `Display::ListItem` - `display: block flow list-item`
                             // `Display::Table`    - `display: block table`
-                            // + internal table display (only whitespace characters allowed
-                            // there)
+                            //
+                            // + internal table display (only whitespace characters allowed there)
                             Some(
                                 Display::Block
                                 | Display::ListItem
@@ -1166,19 +1166,27 @@ impl Minifier {
                             // Inline level containers and etc
                             Some(_) => false,
                             None => {
-                                let parent_display = self.get_display(namespace, tag_name);
+                                // Template can be used in any place, so let's keep whitespaces
+                                let is_template =
+                                    namespace == Namespace::HTML && tag_name == "template";
 
-                                match parent_display {
-                                    Display::Inline => {
-                                        if let Some(Child::Text(Text { data, .. })) =
-                                            &self.latest_element
-                                        {
-                                            data.ends_with(is_whitespace)
-                                        } else {
-                                            false
+                                if is_template {
+                                    false
+                                } else {
+                                    let parent_display = self.get_display(namespace, tag_name);
+
+                                    match parent_display {
+                                        Display::Inline => {
+                                            if let Some(Child::Text(Text { data, .. })) =
+                                                &self.latest_element
+                                            {
+                                                data.ends_with(is_whitespace)
+                                            } else {
+                                                false
+                                            }
                                         }
+                                        _ => true,
                                     }
-                                    _ => true,
                                 }
                             }
                         };
@@ -1200,8 +1208,8 @@ impl Minifier {
                             // `Display::Block`    - `display: block flow`
                             // `Display::ListItem` - `display: block flow list-item`
                             // `Display::Table`    - `display: block table`
-                            // + internal table display (only whitespace characters allowed
-                            // there)
+                            //
+                            // + internal table display (only whitespace characters allowed there)
                             Some(
                                 Display::Block
                                 | Display::ListItem
@@ -1238,9 +1246,17 @@ impl Minifier {
                             }
                             Some(_) => false,
                             None => {
-                                let parent_display = self.get_display(namespace, tag_name);
+                                // Template can be used in any place, so let's keep whitespaces
+                                let is_template =
+                                    namespace == Namespace::HTML && tag_name == "template";
 
-                                !matches!(parent_display, Display::Inline)
+                                if is_template {
+                                    false
+                                } else {
+                                    let parent_display = self.get_display(namespace, tag_name);
+
+                                    !matches!(parent_display, Display::Inline)
+                                }
                             }
                         };
                     }
@@ -1647,7 +1663,7 @@ impl Minifier {
         let mut document_or_document_fragment = match mode {
             HtmlMinificationMode::ConditionalComments => {
                 // Emulate content inside conditional comments like content inside the
-                // `template` element
+                // `template` element, because it can be used in any place in source code
                 context_element = Some(Element {
                     span: Default::default(),
                     tag_name: "template".into(),
