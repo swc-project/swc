@@ -35,6 +35,9 @@
 - **(html/minifier)** Small fix (#5079) ([5ac5ae2](https://github.com/swc-project/swc/commit/5ac5ae200c3c896f205e7c4567a5a6281d16015b))
 
 
+- **(html/minifier)** Fix bugs of the smart mode (#5093) ([5932a0a](https://github.com/swc-project/swc/commit/5932a0a2ef42ae67f1d2eceebe752b01160ca6fe))
+
+
 - **(node/types)** Add `simplify` (#5105) ([2a29b50](https://github.com/swc-project/swc/commit/2a29b50c5eb7e1441c2735fec9686771c6050053))
 
 ### Features
