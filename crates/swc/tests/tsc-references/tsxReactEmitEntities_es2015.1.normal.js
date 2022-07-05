@@ -16,4 +16,4 @@
     attr: '"'
 });
 // https://github.com/microsoft/TypeScript/issues/35732
-/*#__PURE__*/ React.createElement("div", null, "\u{1F408}\u{1F415}\u{1F407}\u{1F411}");
+/*#__PURE__*/ React.createElement("div", null, "🐈🐕🐇🐑");
