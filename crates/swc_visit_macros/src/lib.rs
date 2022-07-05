@@ -712,51 +712,93 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             )),
 
             Mode::Fold(VisitorVariant::WithPath) => {
-                let to_kind_expr = make_to_ast_kind(arg_ty, false);
+                if ast_enum_variant_name(arg_ty, false).is_some() {
+                    let to_kind_expr = make_to_ast_kind(arg_ty, false);
 
-                tokens.push_tokens(&q!(
-                    Vars {
-                        fn_name,
-                        default_body,
-                        Type: arg_ty,
-                        Trait: Ident::new(mode.trait_name(), call_site()),
-                        to_kind_expr,
-                    },
-                    {
-                        #[allow(unused_variables)]
-                        fn fn_name<V: ?Sized + Trait>(
-                            _visitor: &mut V,
-                            n: Type,
-                            __ast_path: &mut AstKindPath,
-                        ) -> Type {
-                            __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            fn_name,
+                            default_body,
+                            Type: arg_ty,
+                            Trait: Ident::new(mode.trait_name(), call_site()),
+                            to_kind_expr,
+                        },
+                        {
+                            #[allow(unused_variables)]
+                            fn fn_name<V: ?Sized + Trait>(
+                                _visitor: &mut V,
+                                n: Type,
+                                __ast_path: &mut AstKindPath,
+                            ) -> Type {
+                                __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                            }
                         }
-                    }
-                ))
+                    ))
+                } else {
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            fn_name,
+                            default_body,
+                            Type: arg_ty,
+                            Trait: Ident::new(mode.trait_name(), call_site()),
+                        },
+                        {
+                            #[allow(unused_variables)]
+                            fn fn_name<V: ?Sized + Trait>(
+                                _visitor: &mut V,
+                                n: Type,
+                                __ast_path: &mut AstKindPath,
+                            ) -> Type {
+                                __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                            }
+                        }
+                    ))
+                }
             }
 
             Mode::VisitMut(VisitorVariant::WithPath) => {
-                let to_kind_expr = make_to_ast_kind(arg_ty, false);
+                if ast_enum_variant_name(arg_ty, false).is_some() {
+                    let to_kind_expr = make_to_ast_kind(arg_ty, false);
 
-                tokens.push_tokens(&q!(
-                    Vars {
-                        fn_name,
-                        default_body,
-                        Type: arg_ty,
-                        Trait: Ident::new(mode.trait_name(), call_site()),
-                        to_kind_expr,
-                    },
-                    {
-                        #[allow(unused_variables)]
-                        fn fn_name<V: ?Sized + Trait>(
-                            _visitor: &mut V,
-                            n: Type,
-                            __ast_path: &mut AstKindPath,
-                        ) {
-                            __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            fn_name,
+                            default_body,
+                            Type: arg_ty,
+                            Trait: Ident::new(mode.trait_name(), call_site()),
+                            to_kind_expr,
+                        },
+                        {
+                            #[allow(unused_variables)]
+                            fn fn_name<V: ?Sized + Trait>(
+                                _visitor: &mut V,
+                                n: Type,
+                                __ast_path: &mut AstKindPath,
+                            ) {
+                                default_body
+                            }
                         }
-                    }
-                ))
+                    ))
+                } else {
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            fn_name,
+                            default_body,
+                            Type: arg_ty,
+                            Trait: Ident::new(mode.trait_name(), call_site()),
+                        },
+                        {
+                            #[allow(unused_variables)]
+                            fn fn_name<V: ?Sized + Trait>(
+                                _visitor: &mut V,
+                                n: Type,
+                                __ast_path: &mut AstKindPath,
+                            ) {
+                                default_body
+                            }
+                        }
+                    ))
+                }
             }
 
             Mode::Visit(VisitorVariant::WithPath) => match ast_enum_variant_name(arg_ty, false) {
