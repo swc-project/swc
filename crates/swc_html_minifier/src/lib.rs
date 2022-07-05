@@ -659,7 +659,7 @@ impl Minifier {
         match tag_name {
             "annotation-xml" | "color-profile" | "font-face" | "font-face-src"
             | "font-face-uri" | "font-face-format" | "font-face-name" | "missing-glyph" => false,
-            _ => matches!(tag_name.chars().next(), Some('a'..='z')) && tag_name.contains("-"),
+            _ => matches!(tag_name.chars().next(), Some('a'..='z')) && tag_name.contains('-'),
         }
     }
 
