@@ -5,6 +5,20 @@
 
 
 
+- **(es/fixer)** Preserve parens in opt calls (#5110) ([3e3c44a](https://github.com/swc-project/swc/commit/3e3c44a0b64c55b4d976a4dafbb999000612d14a))
+
+### Documentation
+
+
+
+- **(visit)** Generate rustdoc (#5107) ([8ea631c](https://github.com/swc-project/swc/commit/8ea631c7669356905fb7defd6aeb0fb0602ec458))
+
+## [1.2.209] - 2022-07-05
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Emit numeric value for Binary and Octal literals (#5083) ([8df6e04](https://github.com/swc-project/swc/commit/8df6e047cc523088a26a3363fe33f1bc224738b0))
 
 

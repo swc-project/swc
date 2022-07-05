@@ -662,7 +662,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             NodeVariant: ast_enum_variant_name,
                         },
                         {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<V: ?Sized + Trait>(
@@ -683,7 +683,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             Trait: Ident::new(mode.trait_name(), call_site()),
                         },
                         {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<V: ?Sized + Trait>(
@@ -711,7 +711,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             NodeVariant: ast_enum_variant_name,
                         },
                         {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<V: ?Sized + Trait>(
@@ -732,7 +732,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             Trait: Ident::new(mode.trait_name(), call_site()),
                         },
                         {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<V: ?Sized + Trait>(
@@ -762,7 +762,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             NodeVariant: ast_enum_variant_name,
                         },
                         {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<'ast, 'r, V: ?Sized + Trait>(
@@ -789,7 +789,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             Trait: Ident::new(mode.trait_name(), call_site()),
                         },
                         {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<'ast, 'r, V: ?Sized + Trait>(
@@ -971,7 +971,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }),
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
-                #[cfg(feature = "path")]
+                #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
                     fn visit_with_path<'ast, 'r>(
@@ -990,7 +990,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         'ast: 'r;
                 }
 
-                #[cfg(feature = "path")]
+                #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 impl<V, T> VisitWithPath<V> for Box<T>
                 where
@@ -1067,7 +1067,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::WithPath) => q!({
-                #[cfg(feature = "path")]
+                #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
@@ -1077,7 +1077,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         -> Self;
                 }
 
-                #[cfg(feature = "path")]
+                #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 impl<V, T> FoldWithPath<V> for Box<T>
                 where
@@ -1124,7 +1124,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut(VisitorVariant::WithPath) => q!({
-                #[cfg(feature = "path")]
+                #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
@@ -1136,7 +1136,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     );
                 }
 
-                #[cfg(feature = "path")]
+                #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 impl<V, T> VisitMutWithPath<V> for Box<T>
                 where
@@ -1269,7 +1269,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 default_body,
                             },
                             {
-                                #[cfg(feature = "path")]
+                                #[cfg(any(feature = "path", docsrs))]
                                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                                 impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for [elem_ty] {
                                     fn visit_with_path<'ast, 'r>(
@@ -1296,7 +1296,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ));
 
                         tokens.push_tokens(&q!(Vars { Type: ty }, {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
                                 fn visit_with_path<'ast, 'r>(
@@ -1328,7 +1328,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 default_body,
                             },
                             {
-                                #[cfg(feature = "path")]
+                                #[cfg(any(feature = "path", docsrs))]
                                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                                 impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
                                     fn visit_with_path<'ast, 'r>(
@@ -1443,7 +1443,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             impl<V: ?Sized + VisitMutAstPath> VisitMutWithPath<V> for Type {
                                 fn visit_mut_with_path(
@@ -1495,7 +1495,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
-                            #[cfg(feature = "path")]
+                            #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             impl<V: ?Sized + FoldAstPath> FoldWithPath<V> for Type {
                                 fn fold_with_path(
@@ -2591,7 +2591,7 @@ fn feature_path_attrs() -> Vec<Attribute> {
             style: AttrStyle::Outer,
             bracket_token: def_site(),
             path: q!({ cfg }).parse(),
-            tokens: q!({ (feature = "path") }).into(),
+            tokens: q!({ (any(feature = "path", docsrs)) }).into(),
         },
         Attribute {
             pound_token: def_site(),
