@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.20.1"
+version = "0.20.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3273,7 +3273,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3813,7 +3813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.67.0"
+version = "0.67.1"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -4022,7 +4022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.13.0"
+version = "0.13.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4179,7 +4179,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "either",
  "swc_visit_macros",
@@ -4187,7 +4187,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "Inflector",
  "pmutil",
