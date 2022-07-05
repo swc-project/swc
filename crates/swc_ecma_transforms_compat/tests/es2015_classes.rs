@@ -7356,6 +7356,8 @@ test!(
     r#"
 let C = class {}
 D = class {}
+C ||= class /* C */ {}; 
+D ??= class /* D */ {}; 
 "#,
     r#"
 var C = function C() {
@@ -7365,6 +7367,14 @@ var C = function C() {
 D = function D() {
     "use strict";
     _classCallCheck(this, D);
+};
+C ||= function C() {
+  "use strict";
+  _classCallCheck(this, C);
+};
+D ??= function D() {
+  "use strict";
+  _classCallCheck(this, D);
 };
 "#
 );
