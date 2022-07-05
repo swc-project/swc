@@ -2504,6 +2504,13 @@ fn skip(ty: &Type) -> bool {
                 || i == "u8"
                 || i == "isize"
                 || i == "i128"
+                || i == "i64"
+                || i == "i32"
+                || i == "i16"
+                || i == "i8"
+                || i == "char"
+                || i == "f32"
+                || i == "f64"
         }
         Type::Reference(r) => skip(&r.elem),
         _ => false,
