@@ -1,4 +1,4 @@
-use swc_common::{Mark, DUMMY_SP};
+use swc_common::{errors::HANDLER, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{member_expr, private_ident, quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{
@@ -115,6 +115,17 @@ impl VisitMut for ImportExportAssign {
                             )
                         }
                     }
+                    TsImportExportAssignConfig::EsNext => {
+                        // TS1202
+                        HANDLER.with(|handler| {
+                            handler
+                                .struct_span_err(
+                                    span,
+                                    r#"Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead."#,
+                                )
+                                .emit()
+                        });
+                    }
                     TsImportExportAssignConfig::NodeNext => {
                         // const foo = __require("foo")
                         stmts.push(
@@ -160,27 +171,41 @@ impl VisitMut for ImportExportAssign {
         }
 
         if let Some(export_assign) = self.export_assign.take() {
-            if self.config == TsImportExportAssignConfig::Classic {
-                let TsExportAssignment { expr, span } = export_assign;
+            match self.config {
+                TsImportExportAssignConfig::Classic => {
+                    let TsExportAssignment { expr, span } = export_assign;
 
-                stmts.push(
-                    Stmt::Expr(ExprStmt {
-                        span,
-                        expr: Box::new(
-                            expr.make_assign_to(
-                                op!("="),
-                                member_expr!(
-                                    DUMMY_SP.apply_mark(self.unresolved_mark),
-                                    module.exports
-                                )
-                                .as_pat_or_expr(),
+                    stmts.push(
+                        Stmt::Expr(ExprStmt {
+                            span,
+                            expr: Box::new(
+                                expr.make_assign_to(
+                                    op!("="),
+                                    member_expr!(
+                                        DUMMY_SP.apply_mark(self.unresolved_mark),
+                                        module.exports
+                                    )
+                                    .as_pat_or_expr(),
+                                ),
                             ),
-                        ),
-                    })
-                    .into(),
-                )
-            } else {
-                stmts.push(ModuleDecl::TsExportAssignment(export_assign).into())
+                        })
+                        .into(),
+                    )
+                }
+                TsImportExportAssignConfig::Preserve => {
+                    stmts.push(ModuleDecl::TsExportAssignment(export_assign).into())
+                }
+                TsImportExportAssignConfig::EsNext | TsImportExportAssignConfig::NodeNext => {
+                    // TS1203
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(
+                                export_assign.span,
+                                r#"Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead."#,
+                            )
+                            .emit()
+                    });
+                }
             }
         }
 

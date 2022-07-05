@@ -115,15 +115,23 @@ pub enum TsImportExportAssignConfig {
     /// Note: This option is deprecated as all CJS/AMD/UMD can handle it
     /// themselves.
     Classic,
+
     /// preserve for CJS/AMD/UMD
     Preserve,
+
     /// Rewrite `import foo = require("foo")` to
     /// ```javascript
     /// import { createRequire as _createRequire } from "module";
     /// const __require = _createRequire(import.meta.url);
     /// const foo = __require("foo");
     /// ```
+    ///
+    /// Report error for `export =`
     NodeNext,
+
+    /// Both `import =` and `export =` are disabled.
+    /// An error will be reported if an import/export assignment is found.
+    EsNext,
 }
 
 impl Default for TsImportExportAssignConfig {
