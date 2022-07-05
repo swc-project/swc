@@ -943,14 +943,14 @@ var x = {
   /*#__PURE__*/
   function (Foo) {
   "use strict";
-_inherits(_class, Foo);
-  var _super = _createSuper(_class);
-    function _class() {
-      _classCallCheck(this, _class);
+_inherits(Foo1, Foo);
+  var _super = _createSuper(Foo1);
+    function Foo1() {
+      _classCallCheck(this, Foo1);
       return _super.apply(this, arguments);
     }
 
-    return _class;
+    return Foo1;
   }(Foo)
 };
 

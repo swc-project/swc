@@ -8,7 +8,7 @@ use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, is_valid_prop_ident, prepend_stmt, private_ident,
-    prop_name_to_expr, quote_expr, quote_ident, quote_str, ExprFactory, IsDirective,
+    prop_name_to_expr, quote_expr, quote_ident, quote_str, ExprFactory, IdentExt, IsDirective,
     ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
@@ -295,17 +295,17 @@ where
         if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut *n.value {
             match &n.key {
                 PropName::Ident(ident) => {
-                    c.ident = Some(ident.clone());
+                    c.ident = Some(ident.clone().private());
                 }
                 PropName::Str(Str { value, span, .. }) => {
                     if is_valid_prop_ident(value) {
-                        c.ident = Some(quote_ident!(*span, value));
+                        c.ident = Some(private_ident!(*span, value));
                     }
                 }
                 PropName::Computed(ComputedPropName { expr, .. }) => {
                     if let Expr::Lit(Lit::Str(Str { value, span, .. })) = &**expr {
                         if is_valid_prop_ident(value) {
-                            c.ident = Some(quote_ident!(*span, value));
+                            c.ident = Some(private_ident!(*span, value));
                         }
                     }
                 }
