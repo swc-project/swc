@@ -3562,7 +3562,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -4179,7 +4179,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "either",
  "swc_visit_macros",

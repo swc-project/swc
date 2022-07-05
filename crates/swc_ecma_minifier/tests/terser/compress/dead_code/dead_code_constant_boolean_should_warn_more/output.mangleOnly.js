@@ -1,4 +1,4 @@
-while(!((a && b) || c + "0")){
+while(!((a && bar) || c + "0")){
     console.log("unreachable");
     var a;
     function b() {}
@@ -8,4 +8,4 @@ for(var c = 10, d; c && (d || c) && !typeof c; ++c){
     a();
     var e;
 }
-b();
+bar();

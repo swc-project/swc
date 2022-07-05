@@ -1,0 +1,10 @@
+
+  x the name `foo` is defined multiple times
+   ,-[3:7]
+ 3 | var foo
+   :     ^|^
+   :      `-- previous definition of `foo` here
+ 4 |       function foo() {}
+   :                ^|^
+   :                 `-- `foo` redefined here
+   `----
