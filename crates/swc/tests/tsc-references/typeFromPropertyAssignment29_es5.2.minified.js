@@ -47,9 +47,9 @@ var ExpandoClass = function() {
 ExpandoClass.prop = 2, ExpandoClass.m = function(n) {
     return n + 1;
 }, ExpandoClass.prop, ExpandoClass.m(12), new ExpandoClass().n;
-var ExpandoExpr3 = function _class() {
+var ExpandoExpr3 = function() {
     "use strict";
-    _class_call_check(this, _class), this.n = 10001;
+    _class_call_check(this, ExpandoExpr3), this.n = 10001;
 };
 ExpandoExpr3.prop = 3, ExpandoExpr3.m = function(n) {
     return n + 1;

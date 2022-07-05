@@ -30,9 +30,9 @@ var c5_v1;
 c5_v1 = function f() {};
 new c5_v1();
 var c5_v2;
-c5_v2 = function _class() {
+c5_v2 = function c5_v2() {
     "use strict";
-    _class_call_check(this, _class);
+    _class_call_check(this, c5_v2);
 };
 new c5_v2();
 /** @class */ function C6() {

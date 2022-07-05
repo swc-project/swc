@@ -3601,7 +3601,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.110.0"
+version = "0.110.1"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3724,7 +3724,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.128.0"
+version = "0.128.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -4179,7 +4179,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "either",
  "swc_visit_macros",

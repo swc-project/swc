@@ -5,11 +5,11 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Foo = function() {
     "use strict";
-    function _class() {
-        _class_call_check(this, _class);
+    function Foo() {
+        _class_call_check(this, Foo);
     }
-    var _proto = _class.prototype;
-    return _proto.m1 = function() {}, _proto.m2 = function() {}, _class;
+    var _proto = Foo.prototype;
+    return _proto.m1 = function() {}, _proto.m2 = function() {}, Foo;
 }();
 export var Bar = function(Foo) {
     "use strict";
