@@ -775,7 +775,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 n: Type,
                                 __ast_path: &mut AstKindPath,
                             ) {
-                                default_body
+                                __ast_path.with(to_kind_expr, |__ast_path| default_body)
                             }
                         }
                     ))
@@ -786,6 +786,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             default_body,
                             Type: arg_ty,
                             Trait: Ident::new(mode.trait_name(), call_site()),
+                            to_kind_expr,
                         },
                         {
                             #[allow(unused_variables)]
