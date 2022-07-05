@@ -220,6 +220,13 @@ fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
     }
 
     if let Some(inner) = extract_generic("Vec", t) {
+        if let Some(inner) = extract_generic("Box", inner) {
+            return Some(format!(
+                "Vec{}",
+                ast_enum_variant_name(inner, exclude_useless)?
+            ));
+        }
+
         if exclude_useless {
             return None;
         }
