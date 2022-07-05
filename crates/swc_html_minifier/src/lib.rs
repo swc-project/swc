@@ -1281,7 +1281,11 @@ impl Minifier {
                                 } else {
                                     let parent_display = self.get_display(namespace, tag_name);
 
-                                    !matches!(parent_display, Display::Inline)
+                                    if self.is_custom_element(tag_name) {
+                                        true
+                                    } else {
+                                        !matches!(parent_display, Display::Inline)
+                                    }
                                 }
                             }
                         };
