@@ -847,6 +847,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         item.items
             .extend(ref_methods.clone().into_iter().map(ImplItem::Method));
+
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            item.attrs.extend(feature_path_attrs())
+        }
+
         tokens.push_tokens(&item);
     }
     {
@@ -864,6 +869,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         item.items
             .extend(ref_methods.into_iter().map(ImplItem::Method));
+
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            item.attrs.extend(feature_path_attrs())
+        }
+
         tokens.push_tokens(&item);
     }
 
