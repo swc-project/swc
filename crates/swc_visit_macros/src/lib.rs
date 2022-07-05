@@ -761,7 +761,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::Visit(VisitorVariant::WithPath) => {
                 let ast_enum_variant_name = Ident::new(
-                    &ast_enum_variant_name(arg_ty, false).unwrap(),
+                    &ast_enum_variant_name(arg_ty, false)
+                        .expect("ast_enum_variant_name returned None"),
                     arg_ty.span(),
                 );
                 let to_kind_expr = make_to_ast_kind(arg_ty, true);
