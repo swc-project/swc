@@ -19,6 +19,7 @@ pub struct Item {
 #[derive(Debug, PartialEq)]
 pub enum Enum {
     Item(Item),
+    Boxed(Box<Enum>),
 }
 
 define!({
@@ -30,5 +31,6 @@ define!({
     }
     pub enum Enum {
         Item(Item),
+        Boxed(Box<Enum>),
     }
 });
