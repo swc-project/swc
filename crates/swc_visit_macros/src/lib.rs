@@ -712,7 +712,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             )),
 
             Mode::Fold(VisitorVariant::WithPath) => {
-                if Some(ast_enum_variant_name) = ast_enum_variant_name(arg_ty, false) {
+                if let Some(ast_enum_variant_name) = ast_enum_variant_name(arg_ty, false) {
                     tokens.push_tokens(&q!(
                         Vars {
                             fn_name,
