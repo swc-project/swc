@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Fix codegen of some non-ascii characters (#5108) ([b76b499](https://github.com/swc-project/swc/commit/b76b4999cce42fb2e41ca165bd68bbc8f6663bdc))
+
+
 - **(es/fixer)** Preserve parens in opt calls (#5110) ([3e3c44a](https://github.com/swc-project/swc/commit/3e3c44a0b64c55b4d976a4dafbb999000612d14a))
 
 ### Documentation
