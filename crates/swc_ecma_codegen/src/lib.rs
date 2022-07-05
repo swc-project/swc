@@ -3434,8 +3434,8 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
-    let mut sq = 0;
-    let mut dq = 0;
+    let mut single_quote_count = 0;
+    let mut double_quote_count = 0;
 
     while let Some(c) = iter.next() {
         match c {
@@ -3527,11 +3527,11 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                 }
             }
             '\'' => {
-                sq += 1;
+                single_quote_count += 1;
                 buf.push('\'');
             }
             '"' => {
-                dq += 1;
+                double_quote_count += 1;
                 buf.push('"');
             }
             '\x01'..='\x0f' => {
@@ -3580,7 +3580,7 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
         }
     }
 
-    if dq > sq {
+    if double_quote_count > single_quote_count {
         format!("'{}'", buf.replace('\'', "\\'"))
     } else {
         format!("\"{}\"", buf.replace('"', "\\\""))
