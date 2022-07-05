@@ -70,37 +70,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let mut q = Quote::new_call_site();
     q.push_tokens(&q!({
-        pub(crate) trait AstNode<'ast> {
-            type Kind;
-            type NodeRef: 'ast;
-
-            fn to_ast_kind(&self) -> Self::Kind;
-        }
-
-        impl<'ast, T> AstNode<'ast> for Vec<T>
-        where
-            [T]: AstNode<'ast>,
-        {
-            type Kind = <[T] as AstNode<'ast>>::Kind;
-            type NodeRef = <[T] as AstNode<'ast>>::NodeRef;
-
-            fn to_ast_kind(&self) -> Self::Kind {
-                <[T]>::to_ast_kind(self)
-            }
-        }
-
-        impl<'ast, T> AstNode<'ast> for Box<T>
-        where
-            T: AstNode<'ast>,
-        {
-            type Kind = <T as AstNode<'ast>>::Kind;
-            type NodeRef = <T as AstNode<'ast>>::NodeRef;
-
-            fn to_ast_kind(&self) -> Self::Kind {
-                <T>::to_ast_kind(self)
-            }
-        }
-
         pub type AstKindPath = swc_visit::AstKindPath<AstKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstNodeRef<'ast>>;
     }));
@@ -127,10 +96,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
         q.push_tokens(&make_ast_enum(&types, true));
         q.push_tokens(&make_ast_enum(&types, false));
-
-        for item in impl_ast_node(&types) {
-            q.push_tokens(&item);
-        }
     }
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
     q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
@@ -385,41 +350,6 @@ fn process_ast_node_ref_type(ty: &Type) -> Type {
     }
 
     ty.clone()
-}
-
-fn impl_ast_node(types: &[Type]) -> Vec<Item> {
-    types
-        .iter()
-        .filter_map(|ty| {
-            let name = ast_enum_variant_name(ty, true);
-            let name = match name {
-                Some(name) => name,
-                None => return None,
-            };
-
-            let ident = Ident::new(&name, ty.span());
-
-            Some(
-                q!(
-                    Vars {
-                        Type: process_ast_node_ref_type(ty),
-                        Name: ident,
-                    },
-                    {
-                        impl<'ast> AstNode<'ast> for Type {
-                            type Kind = AstKind;
-                            type NodeRef = AstNodeRef<'ast>;
-
-                            fn to_ast_kind(&self) -> Self::Kind {
-                                AstKind::Name
-                            }
-                        }
-                    }
-                )
-                .parse(),
-            )
-        })
-        .collect()
 }
 
 fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
