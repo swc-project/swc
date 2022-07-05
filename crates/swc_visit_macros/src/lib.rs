@@ -284,7 +284,8 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
                 ident: None,
                 ty: {
                     let ty = process_ast_node_ref_type(&unwrap_ref(ty));
-                    if extract_generic("Option", &ty).is_some() {
+                    if extract_generic("Option", &ty).is_some() || matches!(ty, Type::Reference(..))
+                    {
                         ty
                     } else {
                         Type::Reference(TypeReference {
