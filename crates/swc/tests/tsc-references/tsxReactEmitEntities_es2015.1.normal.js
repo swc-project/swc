@@ -5,7 +5,7 @@
 /*#__PURE__*/ React.createElement("div", null, "\\n");
 // Also works in string literal attributes
 /*#__PURE__*/ React.createElement("div", {
-    attr: "{\u2026}\\"
+    attr: "{…}\\"
 });
 // Does not happen for a string literal that happens to be inside an attribute (and escapes then work)
 /*#__PURE__*/ React.createElement("div", {
@@ -16,4 +16,4 @@
     attr: '"'
 });
 // https://github.com/microsoft/TypeScript/issues/35732
-/*#__PURE__*/ React.createElement("div", null, "\u{1F408}\u{1F415}\u{1F407}\u{1F411}");
+/*#__PURE__*/ React.createElement("div", null, "🐈🐕🐇🐑");

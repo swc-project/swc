@@ -2105,7 +2105,7 @@
                         for(var d = a[c], e = void 0, f = 0; e = aM.exec(d.string);){
                             var g = e.index, h = e[0], i = d.attributes.fontSize, j = d.string.slice(f, g + e[0].length);
                             aL[h] && aL[h].data ? b.push({
-                                string: j.replace(e, "\uFFFC"),
+                                string: j.replace(e, "￼"),
                                 attributes: O.default({}, d.attributes, {
                                     attachment: {
                                         width: i,
@@ -2156,7 +2156,7 @@
                 }, F = 0; F < c.children.length; F += 1){
                     var G, H, I, J = c.children[F];
                     J.type === C.Image ? f.push({
-                        string: "\uFFFC",
+                        string: "￼",
                         attributes: O.default({}, E, {
                             attachment: {
                                 width: J.style.width || o,
@@ -5422,7 +5422,7 @@
             b.default = function(a) {
                 var b = (null === (h = (0, e.last)(a)) || void 0 === h ? void 0 : h.runs) || [], c = null === (i = (0, e.last)(b)) || void 0 === i ? void 0 : null === (j = i.attributes) || void 0 === j ? void 0 : j.font;
                 if (c) {
-                    var d, h, i, j, k, l = a.length - 1, m = (d = c).encode ? parseInt(d.encode("\u2026")[0][0], 16) : 8230, n = c.glyphForCodePoint(m), o = (0, g.default)(n, (0, f.default)(a[l]));
+                    var d, h, i, j, k, l = a.length - 1, m = (d = c).encode ? parseInt(d.encode("…")[0][0], 16) : 8230, n = c.glyphForCodePoint(m), o = (0, g.default)(n, (0, f.default)(a[l]));
                     return Object.assign([], a, ((k = {})[l] = o, k));
                 }
                 return a;
