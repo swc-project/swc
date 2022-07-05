@@ -15,6 +15,8 @@ pub struct Item {
     // pub inner: Option<Box<Item>>,
     pub opt_vec: Option<Vec<Item>>,
     pub vec_opt: Vec<Option<Item>>,
+
+    pub value: f64,
 }
 #[derive(Debug, PartialEq)]
 pub enum Enum {
@@ -28,6 +30,8 @@ define!({
         // pub inner: Option<Box<Item>>,
         pub opt_vec: Option<Vec<Item>>,
         pub vec_opt: Vec<Option<Item>>,
+
+        pub value: f64,
     }
     pub enum Enum {
         Item(Item),
