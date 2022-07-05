@@ -1,0 +1,6 @@
+
+  x An export assignment cannot be used in a module with other exported elements.
+   ,----
+ 3 | export = {};
+   : ^^^^^^^^^^^^
+   `----
