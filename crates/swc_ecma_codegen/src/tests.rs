@@ -711,7 +711,7 @@ fn issue_2213() {
 }
 
 #[test]
-fn issue3617() {
+fn issue_3617() {
     // Convert characters to es5 compatibility code
     let from = r"// a string of all valid unicode whitespaces
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
@@ -738,7 +738,7 @@ module.exports = "	\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\
 }
 
 #[test]
-fn issue3617_1() {
+fn issue_3617_1() {
     // Print characters as is for ECMA target > 5
     let from = r"// a string of all valid unicode whitespaces
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
@@ -809,7 +809,7 @@ fn ascii_only_str_1() {
     test_all(
         "'😊❤️'",
         "'😊❤️';\n",
-        r#"'😊❤️';"#,
+        r#"'😊❤️'"#,
         Config {
             ascii_only: false,
             target: EsVersion::Es2015,
