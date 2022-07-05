@@ -722,6 +722,7 @@ module.exports = "	\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\
     let out = parse_then_emit(
         from,
         Config {
+            ascii_only: true,
             target: EsVersion::Es5,
             ..Default::default()
         },
