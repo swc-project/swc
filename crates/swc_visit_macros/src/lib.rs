@@ -211,6 +211,14 @@ fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
         return ast_enum_variant_name(inner, exclude_useless);
     }
 
+    if let Some(inner) = extract_generic("Box", t) {
+        if exclude_useless {
+            return None;
+        }
+
+        return ast_enum_variant_name(inner, exclude_useless);
+    }
+
     if let Some(inner) = extract_generic("Vec", t) {
         if exclude_useless {
             return None;
