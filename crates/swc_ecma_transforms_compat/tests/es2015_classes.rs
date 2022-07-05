@@ -6500,17 +6500,17 @@ test!(
     "
     const foo = function() {
         \"use strict\";
-        function _class() {
-            _classCallCheck(this, _class);
+        function foo() {
+            _classCallCheck(this, foo);
         }
-        _createClass(_class, [
+        _createClass(foo, [
             {
                 key: \"run\",
                 value: function run() {
                 }
             }
         ]);
-        return _class;
+        return foo;
     }();
     "
 );
@@ -7343,5 +7343,28 @@ let Thing = function(B) {
     }
     return Thing;
 }(B);
+"#
+);
+
+test!(
+    syntax(),
+    |t| chain!(
+        classes(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
+    issue_5102,
+    r#"
+let C = class {}
+D = class {}
+"#,
+    r#"
+var C = function C() {
+    "use strict";
+    _classCallCheck(this, C);
+};
+D = function D() {
+    "use strict";
+    _classCallCheck(this, D);
+};
 "#
 );

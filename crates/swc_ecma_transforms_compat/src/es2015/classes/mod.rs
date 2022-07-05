@@ -243,6 +243,40 @@ where
             _ => n.visit_mut_children_with(self),
         }
     }
+
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        // will there be anything else in var name at this point?
+        if let VarDeclarator {
+            name: Pat::Ident(i),
+            init: Some(init),
+            ..
+        } = d
+        {
+            if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **init {
+                c.ident = Some(i.id.clone())
+            }
+        }
+
+        d.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_assign_expr(&mut self, a: &mut AssignExpr) {
+        if let AssignExpr {
+            op: op!("="),
+            left: PatOrExpr::Pat(pat),
+            right,
+            ..
+        } = a
+        {
+            if let Pat::Ident(i) = &**pat {
+                if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
+                    c.ident = Some(i.id.clone())
+                }
+            }
+        }
+
+        a.visit_mut_children_with(self)
+    }
 }
 
 #[swc_trace]
