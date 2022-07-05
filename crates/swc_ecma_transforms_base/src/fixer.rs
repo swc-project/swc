@@ -100,9 +100,12 @@ impl Fixer<'_> {
     fn wrap_callee(&mut self, e: &mut Expr) {
         if match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
-            Expr::Cond(..) | Expr::Bin(..) | Expr::Lit(..) | Expr::Unary(..) | Expr::Object(..) => {
-                true
-            }
+            Expr::Cond(..)
+            | Expr::Bin(..)
+            | Expr::Lit(..)
+            | Expr::Unary(..)
+            | Expr::Object(..)
+            | Expr::Seq(..) => true,
             _ => false,
         } {
             self.wrap(e)
@@ -1608,4 +1611,8 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_4761, "x = { ...(0, foo) }");
 
     identical!(issue_4914, "(a ?? b)?.()");
+
+    identical!(issue_5109_1, "(0, b)?.()");
+    identical!(issue_5109_2, "1 + (0, b)?.()");
+    identical!(issue_5109_3, "(0, a)() ? undefined : (0, b)?.()");
 }
