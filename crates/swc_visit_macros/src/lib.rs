@@ -798,8 +798,28 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         }
     });
 
+    let mut attrs = vec![];
+
+    if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg }).parse(),
+            tokens: q!({ (feature = "path") }).into(),
+        });
+
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg_attr }).parse(),
+            tokens: q!({ (docsrs, doc(cfg(feature = "path"))) }).into(),
+        });
+    }
+
     tokens.push_tokens(&ItemTrait {
-        attrs: vec![],
+        attrs,
         vis: Visibility::Public(VisPublic {
             pub_token: def_site(),
         }),
