@@ -13,6 +13,9 @@
 
 - **(es/fixer)** Preserve parens in more opt calls (#5111) ([528d4c5](https://github.com/swc-project/swc/commit/528d4c5aa45f4a7445fcc7b50eb71302d3631190))
 
+
+- **(es/lints)** Allow overload in typescript (#5116) ([bef8aeb](https://github.com/swc-project/swc/commit/bef8aebdeadb4d15b7417af88947bfc905f93628))
+
 ### Documentation
 
 

@@ -87,11 +87,16 @@ impl DuplicateBindings {
     fn visit_with_stmt_like<T: StmtLike + VisitWith<Self>>(&mut self, s: &[T]) {
         let mut fn_name = AHashMap::default();
         for s in s {
-            if let Some(Stmt::Decl(Decl::Fn(s))) = s.as_stmt() {
-                if let Some(prev) = fn_name.get(&s.ident.sym) {
-                    emit_error(&s.ident.sym, s.ident.span, *prev)
+            if let Some(Stmt::Decl(Decl::Fn(FnDecl {
+                ident,
+                function: Function { body: Some(_), .. },
+                ..
+            }))) = s.as_stmt()
+            {
+                if let Some(prev) = fn_name.get(&ident.sym) {
+                    emit_error(&ident.sym, ident.span, *prev)
                 } else {
-                    fn_name.insert(s.ident.sym.clone(), s.ident.span);
+                    fn_name.insert(ident.sym.clone(), ident.span);
                 }
             }
 
