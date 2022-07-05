@@ -3,7 +3,7 @@ use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::feature::FeatureFlag;
 use swc_ecma_utils::{
@@ -291,7 +291,7 @@ pub(crate) fn esm_export() -> Function {
 pub(crate) fn emit_export_stmts(
     features: FeatureFlag,
     exports: Ident,
-    mut prop_list: crate::module_decl_strip::ExportObjPropList,
+    mut prop_list: Vec<ObjPropKeyIdent>,
 ) -> Vec<Stmt> {
     let features = &features;
     let support_arrow = caniuse!(features.ArrowFunctions);
@@ -308,11 +308,11 @@ pub(crate) fn emit_export_stmts(
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
-            .map(|(prop_name, span, expr)| {
+            .map(|obj_prop| {
                 object_define_enumerable(
                     exports.as_arg(),
-                    quote_str!(span, prop_name).as_arg(),
-                    prop_auto((js_word!("get"), DUMMY_SP, expr)).into(),
+                    quote_str!(obj_prop.span(), obj_prop.key()).as_arg(),
+                    prop_auto((js_word!("get"), DUMMY_SP, obj_prop.2.clone()).into()).into(),
                 )
                 .into_stmt()
             })
@@ -377,17 +377,50 @@ impl From<IdentOrStr> for MemberProp {
     }
 }
 
+/// {
+///     "key": ident,
+/// }
+pub(crate) struct ObjPropKeyIdent(JsWord, Span, Ident);
+
+impl From<((JsWord, Span), Ident)> for ObjPropKeyIdent {
+    fn from(((key, span), ident): ((JsWord, Span), Ident)) -> Self {
+        Self(key, span, ident)
+    }
+}
+
+impl From<(JsWord, Span, Ident)> for ObjPropKeyIdent {
+    fn from((key, span, ident): (JsWord, Span, Ident)) -> Self {
+        Self(key, span, ident)
+    }
+}
+
+impl Spanned for ObjPropKeyIdent {
+    fn span(&self) -> Span {
+        self.1
+    }
+}
+
+impl ObjPropKeyIdent {
+    pub fn key(&self) -> &JsWord {
+        &self.0
+    }
+
+    pub fn into_expr(self) -> Expr {
+        self.2.into()
+    }
+}
+
 /// ```javascript
 /// {
 ///     key: () => expr,
 /// }
 /// ```
-pub(crate) fn prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> Prop {
-    let key = prop_name(&key, span).into();
+pub(crate) fn prop_arrow(prop: ObjPropKeyIdent) -> Prop {
+    let key = prop_name(prop.key(), prop.span()).into();
 
     KeyValueProp {
         key,
-        value: Box::new(expr.into_lazy_arrow(Default::default()).into()),
+        value: Box::new(prop.into_expr().into_lazy_arrow(Default::default()).into()),
     }
     .into()
 }
@@ -399,10 +432,11 @@ pub(crate) fn prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> Prop {
 ///     },
 /// }
 /// ```
-pub(crate) fn prop_method((key, span, expr): (JsWord, Span, Expr)) -> Prop {
-    let key = prop_name(&key, span).into();
+pub(crate) fn prop_method(prop: ObjPropKeyIdent) -> Prop {
+    let key = prop_name(prop.key(), prop.span()).into();
 
-    expr.into_lazy_fn(Default::default())
+    prop.into_expr()
+        .into_lazy_fn(Default::default())
         .into_method_prop(key)
         .into()
 }
@@ -414,13 +448,14 @@ pub(crate) fn prop_method((key, span, expr): (JsWord, Span, Expr)) -> Prop {
 ///     },
 /// }
 /// ```
-pub(crate) fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> Prop {
-    let key = prop_name(&key, span).into();
+pub(crate) fn prop_function(prop: ObjPropKeyIdent) -> Prop {
+    let key = prop_name(prop.key(), prop.span()).into();
 
     KeyValueProp {
         key,
         value: Box::new(
-            expr.into_lazy_fn(Default::default())
+            prop.into_expr()
+                .into_lazy_fn(Default::default())
                 .into_fn_expr(None)
                 .into(),
         ),
