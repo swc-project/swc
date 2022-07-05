@@ -935,6 +935,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }),
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
+                #[cfg(feature = "path")]
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
                     fn visit_with_path<'ast, 'r>(
                         &'ast self,
@@ -952,6 +953,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         'ast: 'r;
                 }
 
+                #[cfg(feature = "path")]
                 impl<V, T> VisitWithPath<V> for Box<T>
                 where
                     V: ?Sized + VisitAstPath,
