@@ -713,6 +713,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::Fold(VisitorVariant::WithPath) => {
                 if let Some(ast_enum_variant_name) = ast_enum_variant_name(arg_ty, false) {
+                    let ast_enum_variant_name = Ident::new(&ast_enum_variant_name, arg_ty.span());
+
                     tokens.push_tokens(&q!(
                         Vars {
                             fn_name,
@@ -757,6 +759,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::VisitMut(VisitorVariant::WithPath) => {
                 if let Some(ast_enum_variant_name) = ast_enum_variant_name(arg_ty, false) {
+                    let ast_enum_variant_name = Ident::new(&ast_enum_variant_name, arg_ty.span());
+
                     tokens.push_tokens(&q!(
                         Vars {
                             fn_name,
