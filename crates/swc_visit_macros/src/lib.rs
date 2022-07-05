@@ -749,7 +749,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 n: Type,
                                 __ast_path: &mut AstKindPath,
                             ) -> Type {
-                                __ast_path.with(to_kind_expr, |__ast_path| default_body)
+                                default_body
                             }
                         }
                     ))
