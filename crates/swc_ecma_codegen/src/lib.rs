@@ -3574,7 +3574,7 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                         let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
                     }
                 } else {
-                    let _ = write!(buf, "\\u{:04X}", c as u16);
+                    buf.push(c);
                 }
             }
         }
