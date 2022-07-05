@@ -271,6 +271,20 @@ where
         n.visit_mut_children_with(self);
     }
 
+    /// `let [c = class /* c */ {}] = [];`
+    /// `function foo(bar = class /* bar */ {}) {}`
+    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
+        if let (
+            Pat::Ident(BindingIdent { id, .. }),
+            Expr::Class(c @ ClassExpr { ident: None, .. }),
+        ) = (&*n.left, &mut *n.right)
+        {
+            c.ident = Some(id.clone())
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_assign_expr(&mut self, a: &mut AssignExpr) {
         if let AssignExpr {
             op: op!("=") | op!("||=") | op!("??="),
