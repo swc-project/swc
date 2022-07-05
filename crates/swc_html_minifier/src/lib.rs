@@ -1781,8 +1781,13 @@ impl VisitMut for Minifier {
 
         self.current_element = None;
 
-        if self.need_collapse_whitespace() {
-            self.latest_element = Some(n.clone());
+        if self.collapse_whitespaces == CollapseWhitespaces::Smart {
+            match n {
+                Child::Text(_) | Child::Element(_) => {
+                    self.latest_element = Some(n.clone());
+                }
+                _ => {}
+            }
         }
     }
 
