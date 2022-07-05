@@ -1030,13 +1030,19 @@ impl<'a, I: Tokens> Parser<I> {
                     function:
                         Function {
                             span,
-                            is_generator: true,
+                            is_generator,
+                            is_async,
                             ..
                         },
                     ..
                 }) = f
                 {
-                    syntax_error!(p, span, SyntaxError::LabelledGenerator)
+                    if p.ctx().strict {
+                        p.emit_err(span, SyntaxError::LabelledFunctionInStrict)
+                    }
+                    if is_generator || is_async {
+                        p.emit_err(span, SyntaxError::LabelledGeneratorOrAsync)
+                    }
                 }
 
                 f.into()

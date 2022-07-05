@@ -4,12 +4,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
     A: ()=>_a,
     B: ()=>_a
 });
-const _a = _interopRequireWildcard(require("./A"));
+const _a = /*#__PURE__*/ _interopRequireWildcard(require("./A"));

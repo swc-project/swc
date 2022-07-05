@@ -287,7 +287,12 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            common_js(unresolved_mark, Default::default(), Default::default(),)
+            common_js(
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
     },
     function_name_modules_3,
@@ -309,10 +314,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 Object.defineProperty(exports, "default", {
+  enumerable: true,
   get: function() {
       return Login;
-  },
-  enumerable: true
+  }
 });
 
 var _store = require("./store");
@@ -376,14 +381,15 @@ var g = function g() {
 test!(
     ignore,
     syntax(),
-    |_| chain!(
+    |t| chain!(
         arrow(),
         shorthand(),
         function_name(),
         common_js(
             Mark::fresh(Mark::root()),
             Default::default(),
-            Default::default()
+            Default::default(),
+            Some(t.comments.clone())
         )
     ),
     function_name_export_default_arrow_renaming,
@@ -915,7 +921,12 @@ test!(
             }),
             classes(Some(t.comments.clone()), Default::default()),
             function_name(),
-            common_js(unresolved_mark, Default::default(), Default::default())
+            common_js(
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
     },
     function_name_modules_2,

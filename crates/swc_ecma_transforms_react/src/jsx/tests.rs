@@ -1235,7 +1235,12 @@ test!(
                 },
                 top_level_mark
             ),
-            common_js(top_level_mark, Default::default(), Default::default())
+            common_js(
+                top_level_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
     },
     issue_351,
@@ -1289,6 +1294,7 @@ test!(
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),
+                Some(t.comments.clone())
             )
         )
     },

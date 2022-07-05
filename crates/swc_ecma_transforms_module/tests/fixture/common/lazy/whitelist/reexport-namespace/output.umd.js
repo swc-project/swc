@@ -13,14 +13,14 @@
     });
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
+            enumerable: true,
+            get: all[name]
         });
     }
     _export(exports, {
         namespace1: ()=>_white,
         namespace2: ()=>_black
     });
-    _white = _interopRequireWildcard(_white);
-    _black = _interopRequireWildcard(_black);
+    _white = /*#__PURE__*/ _interopRequireWildcard(_white);
+    _black = /*#__PURE__*/ _interopRequireWildcard(_black);
 });

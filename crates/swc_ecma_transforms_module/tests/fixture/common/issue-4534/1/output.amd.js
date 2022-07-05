@@ -9,13 +9,13 @@ define([
     });
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
+            enumerable: true,
+            get: all[name]
         });
     }
     _export(exports, {
         A: ()=>_a,
         B: ()=>_a
     });
-    _a = _interopRequireWildcard(_a);
+    _a = /*#__PURE__*/ _interopRequireWildcard(_a);
 });

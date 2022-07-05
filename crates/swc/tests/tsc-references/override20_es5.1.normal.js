@@ -7,13 +7,13 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @noImplicitOverride: true
 var Foo = /*#__PURE__*/ function() {
     "use strict";
-    function _class() {
-        _class_call_check(this, _class);
+    function Foo() {
+        _class_call_check(this, Foo);
     }
-    var _proto = _class.prototype;
+    var _proto = Foo.prototype;
     _proto.m1 = function m1() {};
     _proto.m2 = function m2() {};
-    return _class;
+    return Foo;
 }();
 export var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";

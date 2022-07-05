@@ -4,17 +4,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
     default: ()=>_default,
     y: ()=>y
 });
-const _foo = _interopRequireDefault(require("foo"));
+const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
 const _bar = require("bar");
-const _baz = _interopRequireWildcard(require("baz"));
+const _baz = /*#__PURE__*/ _interopRequireWildcard(require("baz"));
 var _default = {
     foo: _foo.default,
     baz: _baz,

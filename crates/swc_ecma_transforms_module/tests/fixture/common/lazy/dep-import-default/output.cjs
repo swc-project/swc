@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 function _foo() {
-    const data = _interopRequireDefault(require("foo"));
+    const data = /*#__PURE__*/ _interopRequireDefault(require("foo"));
     _foo = function() {
         return data;
     };

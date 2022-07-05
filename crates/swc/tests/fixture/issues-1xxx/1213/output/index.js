@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "default", {
-    get: ()=>NotOK,
-    enumerable: true
+    enumerable: true,
+    get: ()=>NotOK
 });
 const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-const _foo = _interopRequireDefault(require("foo"));
+const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
 class OK {
     constructor(){
         console.log(_foo.default);

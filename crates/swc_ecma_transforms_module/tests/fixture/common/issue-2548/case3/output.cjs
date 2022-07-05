@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
@@ -13,4 +13,4 @@ _export(exports, {
     X2: ()=>_z.X2,
     Y: ()=>_z.Y
 });
-const _z = _interopRequireWildcard(_exportStar(require("./Z"), exports));
+const _z = /*#__PURE__*/ _interopRequireWildcard(_exportStar(require("./Z"), exports));

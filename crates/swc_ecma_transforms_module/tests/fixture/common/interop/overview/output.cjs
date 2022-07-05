@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
@@ -15,8 +15,8 @@ _export(exports, {
 require("foo");
 require("foo-bar");
 require("./directory/foo-bar");
-const _foo2 = _interopRequireDefault(require("foo2"));
-const _foo3 = _interopRequireWildcard(require("foo3"));
+const _foo2 = /*#__PURE__*/ _interopRequireDefault(require("foo2"));
+const _foo3 = /*#__PURE__*/ _interopRequireWildcard(require("foo3"));
 const _foo4 = require("foo4");
 const _foo5 = require("foo5");
 var test;

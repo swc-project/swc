@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
@@ -20,4 +20,4 @@ _export(exports, {
     }
 });
 var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _module = _interopRequireWildcard(require("./module"));
+var _module = /*#__PURE__*/ _interopRequireWildcard(require("./module"));

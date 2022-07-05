@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.y = exports.x = exports.default = void 0;
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
@@ -16,7 +16,7 @@ _export(exports, {
 });
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 const _foo = require("foo");
-const _bar = _interopRequireWildcard(require("bar"), true);
+const _bar = /*#__PURE__*/ _interopRequireWildcard(require("bar"), true);
 const x = {
     foo: _foo,
     bar: _bar.default

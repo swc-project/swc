@@ -8,8 +8,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "whatever", {
-        get: ()=>whatever,
-        enumerable: true
+        enumerable: true,
+        get: ()=>whatever
     });
     _exportStar(_anotherModule, exports);
     function whatever(notExportName) {

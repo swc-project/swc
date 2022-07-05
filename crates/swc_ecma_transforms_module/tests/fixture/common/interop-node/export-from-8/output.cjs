@@ -6,8 +6,8 @@ exports.foo98 = exports.foo97 = exports.foo96 = exports.foo95 = exports.foo94 = 
 exports.foo99 = void 0;
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {

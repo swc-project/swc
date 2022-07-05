@@ -8,8 +8,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "X", {
-        get: ()=>_z.default,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_z.default
     });
-    _z = _interopRequireDefault(_exportStar(_z, exports));
+    _z = /*#__PURE__*/ _interopRequireDefault(_exportStar(_z, exports));
 });

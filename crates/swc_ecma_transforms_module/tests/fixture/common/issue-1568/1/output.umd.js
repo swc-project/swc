@@ -10,8 +10,8 @@
         value: true
     });
     Object.defineProperty(exports, "default", {
-        get: ()=>get,
-        enumerable: true
+        enumerable: true,
+        get: ()=>get
     });
     function get(key) {
         console.log(key);

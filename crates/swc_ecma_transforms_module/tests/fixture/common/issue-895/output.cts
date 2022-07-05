@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "setup", {
-    get: ()=>setup,
-    enumerable: true
+    enumerable: true,
+    get: ()=>setup
 });
 const _url = require("./url");
 function setup(url: string, obj: any) {

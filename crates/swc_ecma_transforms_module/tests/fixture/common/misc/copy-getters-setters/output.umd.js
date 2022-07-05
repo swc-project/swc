@@ -12,13 +12,13 @@
     });
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
+            enumerable: true,
+            get: all[name]
         });
     }
     _export(exports, {
-        Foo: ()=>_moduleWithGetter.default,
-        baz: ()=>_moduleWithGetter.baz
+        baz: ()=>_moduleWithGetter.baz,
+        Foo: ()=>_moduleWithGetter.default
     });
-    _moduleWithGetter = _interopRequireWildcard(_moduleWithGetter);
+    _moduleWithGetter = /*#__PURE__*/ _interopRequireWildcard(_moduleWithGetter);
 });

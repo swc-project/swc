@@ -11,13 +11,13 @@
     });
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
+            enumerable: true,
+            get: all[name]
         });
     }
     _export(exports, {
-        Foo: ()=>Foo,
         default: ()=>_default,
+        Foo: ()=>Foo,
         foo: ()=>foo
     });
     class Foo {

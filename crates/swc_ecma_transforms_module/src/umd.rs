@@ -1,6 +1,8 @@
 use anyhow::Context;
 use swc_atoms::JsWord;
-use swc_common::{sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP};
+use swc_common::{
+    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
@@ -22,18 +24,24 @@ use crate::{
 
 mod config;
 
-pub fn umd(
+pub fn umd<C>(
     cm: Lrc<SourceMap>,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-) -> impl Fold + VisitMut {
+    comments: Option<C>,
+) -> impl Fold + VisitMut
+where
+    C: Comments,
+{
     as_folder(Umd {
         config: config.build(cm.clone()),
         unresolved_mark,
         cm,
         resolver: Resolver::Default,
         available_features,
+        comments,
+
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -46,20 +54,26 @@ pub fn umd(
     })
 }
 
-pub fn umd_with_resolver(
+pub fn umd_with_resolver<C>(
     cm: Lrc<SourceMap>,
     resolver: Box<dyn ImportResolver>,
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-) -> impl Fold + VisitMut {
+    comments: Option<C>,
+) -> impl Fold + VisitMut
+where
+    C: Comments,
+{
     as_folder(Umd {
         config: config.build(cm.clone()),
         unresolved_mark,
         cm,
         resolver: Resolver::Real { base, resolver },
         available_features,
+        comments,
+
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
         } else {
@@ -71,12 +85,17 @@ pub fn umd_with_resolver(
     })
 }
 
-pub struct Umd {
+pub struct Umd<C>
+where
+    C: Comments,
+{
     cm: Lrc<SourceMap>,
     unresolved_mark: Mark,
     config: BuiltConfig,
     resolver: Resolver,
     available_features: FeatureFlag,
+    comments: Option<C>,
+
     const_var_kind: VarDeclKind,
 
     dep_list: Vec<(Ident, JsWord, Span)>,
@@ -84,7 +103,10 @@ pub struct Umd {
     exports: Option<Ident>,
 }
 
-impl VisitMut for Umd {
+impl<C> VisitMut for Umd<C>
+where
+    C: Comments,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
@@ -143,6 +165,7 @@ impl VisitMut for Umd {
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record: Default::default(),
+            allow_top_level_this: self.config.config.allow_top_level_this,
             is_global_this: true,
         });
 
@@ -182,7 +205,10 @@ impl VisitMut for Umd {
     }
 }
 
-impl Umd {
+impl<C> Umd<C>
+where
+    C: Comments,
+{
     fn handle_import_export(
         &mut self,
         import_map: &mut ImportMap,
@@ -260,10 +286,13 @@ impl Umd {
                         } else {
                             helper_expr!(interop_require_default, "interopRequireDefault")
                         }
-                        .as_call(DUMMY_SP, vec![import_expr.as_arg()]),
+                        .as_call(self.pure_span(), vec![import_expr.as_arg()]),
                         ImportInterop::Node if link_flag.namespace() => {
                             helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-                                .as_call(DUMMY_SP, vec![import_expr.as_arg(), true.as_arg()])
+                                .as_call(
+                                    self.pure_span(),
+                                    vec![import_expr.as_arg(), true.as_arg()],
+                                )
                         }
                         _ => import_expr,
                     }
@@ -291,7 +320,7 @@ impl Umd {
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+            export_obj_prop_list.sort_by(|a, b| a.1.cmp(&b.1));
 
             let features = self.available_features;
             let exports = self.exports();
@@ -507,5 +536,19 @@ impl Umd {
         };
 
         (adapter_fn_expr, factory_params)
+    }
+
+    fn pure_span(&self) -> Span {
+        let mut span = DUMMY_SP;
+
+        if self.config.config.import_interop().is_none() {
+            return span;
+        }
+
+        if let Some(comments) = &self.comments {
+            span = Span::dummy_with_cmt();
+            comments.add_pure_comment(span.lo);
+        }
+        span
     }
 }

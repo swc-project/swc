@@ -8,13 +8,13 @@ define([
     });
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
+            enumerable: true,
+            get: all[name]
         });
     }
     _export(exports, {
-        bar: ()=>foo,
-        default: ()=>foo
+        default: ()=>foo,
+        bar: ()=>foo
     });
     foo = 1;
     function foo() {}

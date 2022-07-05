@@ -8,7 +8,7 @@
 })(this, function(exports, _foo) {
     "use strict";
     Object.defineProperty(exports, "default", {
-        get: ()=>_foo.default,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_foo.default
     });
 });

@@ -1,7 +1,12 @@
 use anyhow::Context;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
+use swc_common::{
+    comments::{CommentKind, Comments},
+    util::take::Take,
+    FileName, Mark, Span, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
@@ -30,11 +35,15 @@ pub struct Config {
     pub config: InnerConfig,
 }
 
-pub fn amd(
+pub fn amd<C>(
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-) -> impl Fold + VisitMut {
+    comments: Option<C>,
+) -> impl Fold + VisitMut
+where
+    C: Comments,
+{
     let Config { module_id, config } = config;
 
     as_folder(Amd {
@@ -43,6 +52,8 @@ pub fn amd(
         unresolved_mark,
         resolver: Resolver::Default,
         available_features,
+        comments,
+
         support_arrow: caniuse!(available_features.ArrowFunctions),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -58,13 +69,17 @@ pub fn amd(
     })
 }
 
-pub fn amd_with_resolver(
+pub fn amd_with_resolver<C>(
     resolver: Box<dyn ImportResolver>,
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-) -> impl Fold + VisitMut {
+    comments: Option<C>,
+) -> impl Fold + VisitMut
+where
+    C: Comments,
+{
     let Config { module_id, config } = config;
 
     as_folder(Amd {
@@ -72,6 +87,8 @@ pub fn amd_with_resolver(
         config,
         unresolved_mark,
         resolver: Resolver::Real { base, resolver },
+        comments,
+
         available_features,
         support_arrow: caniuse!(available_features.ArrowFunctions),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
@@ -88,11 +105,15 @@ pub fn amd_with_resolver(
     })
 }
 
-pub struct Amd {
+pub struct Amd<C>
+where
+    C: Comments,
+{
     module_id: Option<String>,
     config: InnerConfig,
     unresolved_mark: Mark,
     resolver: Resolver,
+    comments: Option<C>,
 
     available_features: FeatureFlag,
     support_arrow: bool,
@@ -105,10 +126,19 @@ pub struct Amd {
     found_import_meta: bool,
 }
 
-impl VisitMut for Amd {
+impl<C> VisitMut for Amd<C>
+where
+    C: Comments,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        if let Some(first) = n.first() {
+            if self.module_id.is_none() {
+                self.module_id = self.get_amd_module_id_from_comments(first.span());
+            }
+        }
+
         let import_interop = self.config.import_interop();
 
         let mut strip = ModuleDeclStrip::default();
@@ -163,6 +193,7 @@ impl VisitMut for Amd {
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record: Default::default(),
+            allow_top_level_this: self.config.allow_top_level_this,
             is_global_this: true,
         });
 
@@ -261,6 +292,7 @@ impl VisitMut for Amd {
 
                 *n = amd_dynamic_import(
                     *span,
+                    self.pure_span(),
                     args.take(),
                     require,
                     self.config.import_interop(),
@@ -291,7 +323,10 @@ impl VisitMut for Amd {
     }
 }
 
-impl Amd {
+impl<C> Amd<C>
+where
+    C: Comments,
+{
     fn handle_import_export(
         &mut self,
         import_map: &mut ImportMap,
@@ -369,10 +404,13 @@ impl Amd {
                         } else {
                             helper_expr!(interop_require_default, "interopRequireDefault")
                         }
-                        .as_call(DUMMY_SP, vec![import_expr.as_arg()]),
+                        .as_call(self.pure_span(), vec![import_expr.as_arg()]),
                         ImportInterop::Node if link_flag.namespace() => {
                             helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-                                .as_call(DUMMY_SP, vec![import_expr.as_arg(), true.as_arg()])
+                                .as_call(
+                                    self.pure_span(),
+                                    vec![import_expr.as_arg(), true.as_arg()],
+                                )
                         }
                         _ => import_expr,
                     }
@@ -400,7 +438,7 @@ impl Amd {
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
+            export_obj_prop_list.sort_by(|a, b| a.1.cmp(&b.1));
 
             let features = self.available_features;
             let exports = self.exports();
@@ -422,11 +460,51 @@ impl Amd {
             .get_or_insert_with(|| private_ident!("exports"))
             .clone()
     }
+
+    fn pure_span(&self) -> Span {
+        let mut span = DUMMY_SP;
+
+        if self.config.import_interop().is_none() {
+            return span;
+        }
+
+        if let Some(comments) = &self.comments {
+            span = Span::dummy_with_cmt();
+            comments.add_pure_comment(span.lo);
+        }
+        span
+    }
+
+    fn get_amd_module_id_from_comments(&self, span: Span) -> Option<String> {
+        // https://github.com/microsoft/TypeScript/blob/1b9c8a15adc3c9a30e017a7048f98ef5acc0cada/src/compiler/parser.ts#L9648-L9658
+        let amd_module_re = Regex::new(
+            r##"(?i)^/\s*<amd-module.*?name\s*=\s*(?:(?:'([^']*)')|(?:"([^"]*)")).*?/>"##,
+        )
+        .unwrap();
+
+        self.comments.as_ref().and_then(|comments| {
+            comments
+                .get_leading(span.lo)
+                .iter()
+                .flatten()
+                .rev()
+                .find_map(|cmt| {
+                    if cmt.kind != CommentKind::Line {
+                        return None;
+                    }
+                    amd_module_re
+                        .captures(&cmt.text)
+                        .and_then(|cap| cap.get(1).or_else(|| cap.get(2)))
+                })
+                .map(|m| m.as_str().to_string())
+        })
+    }
 }
 
 /// new Promise((resolve, reject) => require([arg], m => resolve(m), reject))
 pub(crate) fn amd_dynamic_import(
     span: Span,
+    pure_span: Span,
     args: Vec<ExprOrSpread>,
     require: Ident,
     import_interop: ImportInterop,
@@ -441,9 +519,9 @@ pub(crate) fn amd_dynamic_import(
     let resolved_module: Expr = match import_interop {
         ImportInterop::None => module.clone().into(),
         ImportInterop::Swc => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-            .as_call(DUMMY_SP, vec![module.clone().as_arg()]),
+            .as_call(pure_span, vec![module.clone().as_arg()]),
         ImportInterop::Node => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-            .as_call(DUMMY_SP, vec![module.clone().as_arg(), true.as_arg()]),
+            .as_call(pure_span, vec![module.clone().as_arg(), true.as_arg()]),
     };
 
     let resolve_callback = resolve

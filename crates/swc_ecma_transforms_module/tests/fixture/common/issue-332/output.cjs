@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "bar", {
-    get: ()=>bar,
-    enumerable: true
+    enumerable: true,
+    get: ()=>bar
 });
-const _foo = _interopRequireDefault(require("foo"));
+const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
 const bar = {
     foo: _foo.default
 };

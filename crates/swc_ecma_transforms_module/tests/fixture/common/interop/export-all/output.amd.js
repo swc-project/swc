@@ -8,9 +8,9 @@ define([
         value: true
     });
     Object.defineProperty(exports, "default", {
-        get: ()=>_default,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_default
     });
-    _react = _interopRequireDefault(_exportStar(_react, exports));
+    _react = /*#__PURE__*/ _interopRequireDefault(_exportStar(_react, exports));
     var _default = _react.default;
 });

@@ -3,15 +3,15 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "default", {
+    enumerable: true,
     get: function() {
         return Foo;
-    },
-    enumerable: true
+    }
 });
 var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
-var _react = _interopRequireDefault(require("react"));
+var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
+var _react = /*#__PURE__*/ _interopRequireDefault(require("react"));
 function Foo() {
     return /*#__PURE__*/ _react.default.createElement("div", {
         onClick: _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee(e) {

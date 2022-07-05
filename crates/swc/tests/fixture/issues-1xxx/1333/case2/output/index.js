@@ -3,14 +3,14 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "Shard", {
-    get: ()=>Shard,
-    enumerable: true
+    enumerable: true,
+    get: ()=>Shard
 });
 const _classPrivateFieldGet = require("@swc/helpers/lib/_class_private_field_get.js").default;
 const _classPrivateFieldInit = require("@swc/helpers/lib/_class_private_field_init.js").default;
 const _classPrivateFieldSet = require("@swc/helpers/lib/_class_private_field_set.js").default;
 const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-const _ws = _interopRequireDefault(require("ws"));
+const _ws = /*#__PURE__*/ _interopRequireDefault(require("ws"));
 const _utils = require("../../utils");
 const _connection = require("./connection");
 const _serialization = require("./serialization");

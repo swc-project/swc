@@ -1130,7 +1130,12 @@ test!(
                 Some(t.comments.clone()),
                 top_level_mark
             ),
-            common_js(unresolved_mark, Default::default(), Default::default())
+            common_js(
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
     },
     include_hook_signature_in_commonjs,
@@ -1150,10 +1155,10 @@ test!(
         value: true
     });
     Object.defineProperty(exports, "default", {
+        enumerable: true,
         get: function() {
             return App;
-        },
-        enumerable: true
+        }
     });
     var _hooks = require("./hooks");
     var _foo = _interopRequireDefault(require("./foo"));

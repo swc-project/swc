@@ -4,20 +4,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
-    create: ()=>create,
-    header: ()=>header,
     node: ()=>_bodyNodesBuilder,
+    create: ()=>create,
+    trustBox: ()=>trustBox,
     opener: ()=>opener,
-    seq: ()=>seq,
+    stage: ()=>stage,
+    header: ()=>header,
     source: ()=>source,
     sources: ()=>sources,
-    stage: ()=>stage,
-    trustBox: ()=>trustBox
+    seq: ()=>seq
 });
 const _classPrivateFieldGet = require("@swc/helpers/lib/_class_private_field_get.js").default;
 const _classPrivateFieldInit = require("@swc/helpers/lib/_class_private_field_init.js").default;
@@ -27,7 +27,7 @@ const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildc
 const _abstractBuilders = require("./AbstractBuilders");
 const _builderUtils = require("./Builder.utils");
 const _elementBuilder = require("./ElementBuilder");
-const _bodyNodesBuilder = _interopRequireWildcard(_exportStar(require("./BodyNodesBuilder"), exports));
+const _bodyNodesBuilder = /*#__PURE__*/ _interopRequireWildcard(_exportStar(require("./BodyNodesBuilder"), exports));
 const create = ()=>new BodyBuilder();
 const trustBox = ()=>new TrustBoxBuilder();
 const opener = ()=>new OpenerBuilder();

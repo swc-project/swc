@@ -585,7 +585,8 @@ test!(
             common_js(
                 Mark::fresh(Mark::root()),
                 Default::default(),
-                Default::default()
+                Default::default(),
+                Some(t.comments.clone())
             ),
         )
     },

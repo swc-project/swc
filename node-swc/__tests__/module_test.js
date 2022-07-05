@@ -9,9 +9,7 @@ it("should emit _interopRequireDefault", () => {
     expect(out.map).toBeFalsy();
 
     expect(out.code).toContain(`function _interopRequireDefault`);
-    expect(out.code).toContain(
-        `var _foo = _interopRequireDefault(require("foo"))`
-    );
+    expect(out.code).toContain(`_interopRequireDefault(require("foo"))`);
 });
 
 it("should emit _interopRequireWildcard", () => {

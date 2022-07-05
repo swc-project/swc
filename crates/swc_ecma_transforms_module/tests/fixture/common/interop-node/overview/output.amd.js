@@ -15,8 +15,8 @@ define([
     });
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
+            enumerable: true,
+            get: all[name]
         });
     }
     _export(exports, {
@@ -24,7 +24,7 @@ define([
         test2: ()=>test2
     });
     _foo2 = _foo2;
-    _foo3 = _interopRequireWildcard(_foo3, true);
+    _foo3 = /*#__PURE__*/ _interopRequireWildcard(_foo3, true);
     var test;
     var test2 = 5;
     _foo4.bar;

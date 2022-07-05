@@ -4,19 +4,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
-        get: all[name],
-        enumerable: true
+        enumerable: true,
+        get: all[name]
     });
 }
 _export(exports, {
+    noop: ()=>noop,
     badIstanbul: ()=>badIstanbul,
-    downloadDocument: ()=>downloadDocument,
-    noop: ()=>noop
+    downloadDocument: ()=>downloadDocument
 });
 const _objectWithoutProperties = require("@swc/helpers/lib/_object_without_properties.js").default;
 //top comment
 const noop = ()=>{};
-var /* istanbul ignore next */ badIstanbul = (test)=>{
+/* istanbul ignore next */ const badIstanbul = (test)=>{
     const { value  } = test, pixelParams = _objectWithoutProperties(test, [
         "value"
     ]);

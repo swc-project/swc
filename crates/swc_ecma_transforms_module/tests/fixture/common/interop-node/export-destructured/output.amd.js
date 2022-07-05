@@ -8,17 +8,17 @@ define([
     });
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
-            get: all[name],
-            enumerable: true
+            enumerable: true,
+            get: all[name]
         });
     }
     _export(exports, {
+        x: ()=>x,
+        y: ()=>y,
         f1: ()=>f1,
         f2: ()=>f2,
         f3: ()=>f3,
-        f4: ()=>f4,
-        x: ()=>x,
-        y: ()=>y
+        f4: ()=>f4
     });
     let x = 0;
     let y = 0;

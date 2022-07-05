@@ -9,8 +9,8 @@ define([
         value: true
     });
     Object.defineProperty(exports, "Scope", {
-        get: ()=>_interfaces.Scope,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_interfaces.Scope
     });
     _exportStar(_http, exports);
 });

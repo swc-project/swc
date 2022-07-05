@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _foo = _interopRequireDefault(require("foo"));
-const _bar = _interopRequireWildcard(require("bar"));
+const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
+const _bar = /*#__PURE__*/ _interopRequireWildcard(require("bar"));
 const _baz = require("baz");
 Foo = 42;
 Bar = 43;

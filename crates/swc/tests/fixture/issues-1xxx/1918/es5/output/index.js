@@ -6,7 +6,7 @@ var _asyncIterator = require("@swc/helpers/lib/_async_iterator.js").default;
 var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
 var _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
+var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
 _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
     var counter, resolve, promise, iterable, res, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, v, oldresolve;
     return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {

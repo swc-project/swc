@@ -11,8 +11,8 @@
         value: true
     });
     Object.defineProperty(exports, "namespace", {
-        get: ()=>_foo,
-        enumerable: true
+        enumerable: true,
+        get: ()=>_foo
     });
-    _foo = _interopRequireWildcard(_foo);
+    _foo = /*#__PURE__*/ _interopRequireWildcard(_foo);
 });

@@ -2,4 +2,4 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _foo = _interopRequireWildcard(require("foo"), true);
+const _foo = /*#__PURE__*/ _interopRequireWildcard(require("foo"), true);
