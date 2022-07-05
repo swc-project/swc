@@ -3570,8 +3570,10 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                         let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
 
                         let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
-                    } else {
+                    } else if ascii_only {
                         let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                    } else {
+                        buf.push(c);
                     }
                 } else if ascii_only {
                     let _ = write!(buf, "\\u{:04X}", c as u16);
