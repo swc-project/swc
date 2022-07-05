@@ -1084,6 +1084,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut(VisitorVariant::WithPath) => q!({
+                #[cfg(feature = "path")]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
 
@@ -1094,6 +1096,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     );
                 }
 
+                #[cfg(feature = "path")]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 impl<V, T> VisitMutWithPath<V> for Box<T>
                 where
                     V: ?Sized + VisitMutAstPath,
@@ -1399,6 +1403,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             impl<V: ?Sized + VisitMutAstPath> VisitMutWithPath<V> for Type {
                                 fn visit_mut_with_path(
                                     &mut self,
