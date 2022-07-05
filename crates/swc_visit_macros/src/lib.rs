@@ -936,6 +936,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
                 #[cfg(feature = "path")]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
                     fn visit_with_path<'ast, 'r>(
                         &'ast self,
@@ -954,6 +955,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
 
                 #[cfg(feature = "path")]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 impl<V, T> VisitWithPath<V> for Box<T>
                 where
                     V: ?Sized + VisitAstPath,
@@ -1223,6 +1225,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 default_body,
                             },
                             {
+                                #[cfg(feature = "path")]
+                                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                                 impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for [elem_ty] {
                                     fn visit_with_path<'ast, 'r>(
                                         &'ast self,
@@ -1248,6 +1252,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ));
 
                         tokens.push_tokens(&q!(Vars { Type: ty }, {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
                                 fn visit_with_path<'ast, 'r>(
                                     &'ast self,
@@ -1278,6 +1284,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 default_body,
                             },
                             {
+                                #[cfg(feature = "path")]
+                                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                                 impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
                                     fn visit_with_path<'ast, 'r>(
                                         &'ast self,
