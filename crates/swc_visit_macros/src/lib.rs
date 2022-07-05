@@ -662,6 +662,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             NodeVariant: ast_enum_variant_name,
                         },
                         {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<V: ?Sized + Trait>(
                                 _visitor: &mut V,
@@ -681,6 +683,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             Trait: Ident::new(mode.trait_name(), call_site()),
                         },
                         {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<V: ?Sized + Trait>(
                                 _visitor: &mut V,
@@ -707,6 +711,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             NodeVariant: ast_enum_variant_name,
                         },
                         {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<V: ?Sized + Trait>(
                                 _visitor: &mut V,
@@ -726,6 +732,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             Trait: Ident::new(mode.trait_name(), call_site()),
                         },
                         {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<V: ?Sized + Trait>(
                                 _visitor: &mut V,
@@ -754,6 +762,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             NodeVariant: ast_enum_variant_name,
                         },
                         {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<'ast, 'r, V: ?Sized + Trait>(
                                 _visitor: &mut V,
@@ -779,6 +789,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             Trait: Ident::new(mode.trait_name(), call_site()),
                         },
                         {
+                            #[cfg(feature = "path")]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             #[allow(unused_variables)]
                             fn fn_name<'ast, 'r, V: ?Sized + Trait>(
                                 _visitor: &mut V,
