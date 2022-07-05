@@ -2505,6 +2505,7 @@ fn skip(ty: &Type) -> bool {
                 || i == "isize"
                 || i == "i128"
         }
+        Type::Reference(r) => skip(&r.elem),
         _ => false,
     }
 }
