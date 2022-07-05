@@ -89,6 +89,8 @@ pub struct MinifyOptions {
     /// Sorting the values of `class`, `rel`, etc. of attributes
     #[serde(default = "true_by_default")]
     pub sort_space_separated_attribute_values: bool,
+    #[serde(default)]
+    pub sort_attributes: bool,
 }
 
 /// Implement default using serde.
