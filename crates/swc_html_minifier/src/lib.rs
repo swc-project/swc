@@ -8,10 +8,9 @@ use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::SingleThreadedComments,
     sync::Lrc,
     FileName, FilePathMapping, Mark, SourceMap,
-    collections::AHashSet, comments::SingleThreadedComments, sync::Lrc, FileName, FilePathMapping,
-    Mark, SourceMap,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
@@ -1510,7 +1509,11 @@ impl Minifier {
                 &fm,
                 options.parser.syntax,
                 options.parser.target,
-                Some(&comments),
+                if options.parser.comments {
+                    Some(&comments)
+                } else {
+                    None
+                },
                 &mut errors,
             ) {
                 Ok(module) => swc_ecma_ast::Program::Module(module),
@@ -1521,7 +1524,11 @@ impl Minifier {
                 &fm,
                 options.parser.syntax,
                 options.parser.target,
-                Some(&comments),
+                if options.parser.comments {
+                    Some(&comments)
+                } else {
+                    None
+                },
                 &mut errors,
             ) {
                 Ok(script) => swc_ecma_ast::Program::Script(script),
@@ -1545,7 +1552,11 @@ impl Minifier {
         let program = swc_ecma_minifier::optimize(
             program,
             cm.clone(),
-            Some(&comments),
+            if options.parser.comments {
+                Some(&comments)
+            } else {
+                None
+            },
             None,
             &options.minifier,
             &swc_ecma_minifier::option::ExtraOptions {
@@ -1569,7 +1580,11 @@ impl Minifier {
             let mut emitter = swc_ecma_codegen::Emitter {
                 cfg: options.codegen,
                 cm,
-                comments: Some(&comments),
+                comments: if options.parser.comments {
+                    Some(&comments)
+                } else {
+                    None
+                },
                 wr,
             };
 
