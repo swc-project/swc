@@ -301,6 +301,12 @@ where
                         }
                     }
 
+                    if usage.ref_count != 1 || !usage.used_as_callee {
+                        if let Expr::Fn(..) | Expr::Arrow(..) = &**init {
+                            return;
+                        }
+                    }
+
                     if usage.used_as_arg && !usage.is_fn_local {
                         if let Expr::Fn(..) | Expr::Arrow(..) = &**init {
                             return;
