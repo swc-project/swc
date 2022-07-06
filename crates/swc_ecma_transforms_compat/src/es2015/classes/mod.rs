@@ -7,8 +7,9 @@ use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, default_constructor, prepend_stmt, private_ident, prop_name_to_expr,
-    quote_expr, quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
+    alias_if_required, default_constructor, is_valid_prop_ident, prepend_stmt, private_ident,
+    prop_name_to_expr, quote_expr, quote_ident, quote_str, ExprFactory, IdentExt, IsDirective,
+    ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -260,17 +261,81 @@ where
         d.visit_mut_children_with(self)
     }
 
+    /// `let { f = class /* f */ {} } = {};`
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        if let Some(value) = &mut n.value {
+            if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **value {
+                c.ident = Some(n.key.clone());
+            }
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
+    /// `let [c = class /* c */ {}] = [];`
+    /// `function foo(bar = class /* bar */ {}) {}`
+    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
+        if let (
+            Pat::Ident(BindingIdent { id, .. }),
+            Expr::Class(c @ ClassExpr { ident: None, .. }),
+        ) = (&*n.left, &mut *n.right)
+        {
+            c.ident = Some(id.clone())
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
+    /// {
+    ///     hello: class {},
+    ///     "foo": class {},
+    ///     ["x"]: class {}
+    /// }
+    fn visit_mut_key_value_prop(&mut self, n: &mut KeyValueProp) {
+        if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut *n.value {
+            match &n.key {
+                PropName::Ident(ident) => {
+                    c.ident = Some(ident.clone().private());
+                }
+                PropName::Str(Str { value, span, .. }) => {
+                    if is_valid_prop_ident(value) {
+                        c.ident = Some(private_ident!(*span, value));
+                    }
+                }
+                PropName::Computed(ComputedPropName { expr, .. }) => {
+                    if let Expr::Lit(Lit::Str(Str { value, span, .. })) = &**expr {
+                        if is_valid_prop_ident(value) {
+                            c.ident = Some(private_ident!(*span, value));
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        n.visit_mut_children_with(self)
+    }
+
     fn visit_mut_assign_expr(&mut self, a: &mut AssignExpr) {
         if let AssignExpr {
-            op: op!("="),
-            left: PatOrExpr::Pat(pat),
+            op: op!("=") | op!("||=") | op!("??="),
+            left,
             right,
             ..
         } = a
         {
-            if let Pat::Ident(i) = &**pat {
-                if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
-                    c.ident = Some(i.id.clone())
+            if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
+                match left {
+                    PatOrExpr::Pat(pat) => {
+                        if let Pat::Ident(i) = &**pat {
+                            c.ident = Some(i.id.clone())
+                        }
+                    }
+                    PatOrExpr::Expr(expr) => {
+                        if let Expr::Ident(ident) = &**expr {
+                            c.ident = Some(ident.clone())
+                        }
+                    }
                 }
             }
         }

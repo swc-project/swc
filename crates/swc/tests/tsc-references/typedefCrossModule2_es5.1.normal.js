@@ -14,9 +14,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     _class_call_check(this, _class);
 };
 /** @typedef {number} Baz */ module.exports = {
-    Baz: function _class() {
+    Baz: function Baz() {
         "use strict";
-        _class_call_check(this, _class);
+        _class_call_check(this, Baz);
     }
 };
 // ok

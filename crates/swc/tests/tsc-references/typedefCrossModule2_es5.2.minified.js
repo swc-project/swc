@@ -7,9 +7,9 @@ exports.Bar = function _class() {
     "use strict";
     _class_call_check(this, _class);
 }, module.exports = {
-    Baz: function _class() {
+    Baz: function Baz() {
         "use strict";
-        _class_call_check(this, _class);
+        _class_call_check(this, Baz);
     }
 }, exports.Quid = 2, module.exports = {
     Quack: 2
