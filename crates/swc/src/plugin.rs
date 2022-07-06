@@ -152,7 +152,7 @@ impl RustPlugins {
 
                 // Plugin transformation is done. Deserialize transformed bytes back
                 // into Program
-                PluginSerializedBytes::deserialize(&serialized)
+                serialized.deserialize()
             },
         )
     }
@@ -197,7 +197,7 @@ impl RustPlugins {
                     }
                 }
 
-                PluginSerializedBytes::deserialize(&serialized)
+                serialized.deserialize()
             },
         )
     }

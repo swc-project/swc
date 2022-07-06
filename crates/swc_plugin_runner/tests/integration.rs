@@ -101,8 +101,9 @@ fn internal() -> Result<(), Error> {
         )
         .expect("Plugin should apply transform");
 
-        let program: Program =
-            PluginSerializedBytes::deserialize(&program_bytes).expect("Should able to deserialize");
+        let program: Program = program_bytes
+            .deserialize()
+            .expect("Should able to deserialize");
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };
@@ -208,7 +209,8 @@ fn internal() -> Result<(), Error> {
         )
         .expect("Plugin should apply transform");
 
-        let program: Program = PluginSerializedBytes::deserialize(&serialized_program)
+        let program: Program = serialized_program
+            .deserialize()
             .expect("Should able to deserialize");
         let mut visitor = TestVisitor {
             plugin_transform_found: false,

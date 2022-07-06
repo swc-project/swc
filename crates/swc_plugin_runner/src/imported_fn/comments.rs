@@ -122,7 +122,9 @@ pub fn add_leading_comment_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_leading(
             byte_pos,
-            PluginSerializedBytes::deserialize(&serialized).expect("Should be able to deserialize"),
+            serialized
+                .deserialize()
+                .expect("Should be able to deserialize"),
         );
     });
 }
@@ -131,7 +133,9 @@ pub fn add_leading_comments_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_leading_comments(
             byte_pos,
-            PluginSerializedBytes::deserialize(&serialized).expect("Should be able to deserialize"),
+            serialized
+                .deserialize()
+                .expect("Should be able to deserialize"),
         );
     });
 }
@@ -213,7 +217,9 @@ pub fn add_trailing_comment_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_trailing(
             byte_pos,
-            PluginSerializedBytes::deserialize(&serialized).expect("Should be able to deserialize"),
+            serialized
+                .deserialize()
+                .expect("Should be able to deserialize"),
         );
     });
 }
@@ -222,7 +228,9 @@ pub fn add_trailing_comments_proxy(env: &CommentHostEnvironment, byte_pos: u32) 
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_trailing_comments(
             byte_pos,
-            PluginSerializedBytes::deserialize(&serialized).expect("Should be able to deserialize"),
+            serialized
+                .deserialize()
+                .expect("Should be able to deserialize"),
         );
     });
 }

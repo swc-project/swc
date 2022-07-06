@@ -82,7 +82,7 @@ impl PluginSerializedBytes {
             })
     }
 
-    pub fn deserialize<W>(bytes: &PluginSerializedBytes) -> Result<W, Error>
+    pub fn deserialize<W>(&self) -> Result<W, Error>
     where
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
@@ -90,8 +90,7 @@ impl PluginSerializedBytes {
         use anyhow::Context;
         use rkyv::Deserialize;
 
-        let bytes = &bytes.field;
-        let archived = unsafe { rkyv::archived_root::<W>(&bytes[..]) };
+        let archived = unsafe { rkyv::archived_root::<W>(&self.field[..]) };
 
         archived
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
@@ -118,7 +117,7 @@ impl PluginSerializedBytes {
         };
 
         let serialized = PluginSerializedBytes::from_slice(raw_ptr_bytes);
-        PluginSerializedBytes::deserialize(&serialized)
+        serialized.deserialize()
     }
 
     /// Deserialize `Fallible` struct from raw ptr. This is similar to
