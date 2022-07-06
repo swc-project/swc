@@ -258,6 +258,8 @@ where
                                     if v_usage.reassigned() {
                                         return;
                                     }
+                                } else {
+                                    return;
                                 }
                             }
                         }
@@ -272,6 +274,8 @@ where
                                     if v_usage.reassigned() {
                                         return;
                                     }
+                                } else {
+                                    return;
                                 }
                             }
                         }
