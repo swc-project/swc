@@ -20,14 +20,11 @@ impl swc_common::errors::Emitter for PluginDiagnosticsEmitter {
     fn emit(&mut self, db: &swc_common::errors::DiagnosticBuilder<'_>) {
         let diag = PluginSerializedBytes::serialize(&*db.diagnostic)
             .expect("Should able to serialize Diagnostic");
-        let diag_ref = diag.as_ref();
-
-        let ptr = diag_ref.as_ptr() as i32;
-        let len = diag_ref.len() as i32;
+        let (ptr, len) = diag.as_ptr();
 
         #[cfg(target_arch = "wasm32")] // Allow testing
         unsafe {
-            __emit_diagnostics(ptr, len);
+            __emit_diagnostics(ptr as i32, len as i32);
         }
     }
 }

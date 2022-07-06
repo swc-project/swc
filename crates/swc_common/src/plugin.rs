@@ -46,7 +46,7 @@ pub enum PluginError {
 /// format struct contains: it is strict implementation detail which can
 /// change anytime.
 pub struct PluginSerializedBytes {
-    field: rkyv::AlignedVec,
+    pub(crate) field: rkyv::AlignedVec,
 }
 
 #[cfg(feature = "plugin-base")]
@@ -74,9 +74,12 @@ impl PluginSerializedBytes {
         PluginSerializedBytes::from_slice(raw_ptr_bytes)
     }
 
-    #[allow(clippy::should_implement_trait)]
-    pub fn as_ref(&self) -> &rkyv::AlignedVec {
-        &self.field
+    pub fn as_slice(&self) -> &[u8] {
+        self.field.as_slice()
+    }
+
+    pub fn as_ptr(&self) -> (*const u8, usize) {
+        (self.field.as_ptr(), self.field.len())
     }
 
     pub fn serialize<W>(t: &W) -> Result<PluginSerializedBytes, Error>
@@ -152,7 +155,7 @@ impl PluginSerializedBytes {
             PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
 
         unsafe {
-            rkyv::from_bytes_unchecked(serialized.as_ref())
+            rkyv::from_bytes_unchecked(&serialized.field)
                 .map_err(|err| Error::msg("Failed to deserialize given ptr"))
         }
     }

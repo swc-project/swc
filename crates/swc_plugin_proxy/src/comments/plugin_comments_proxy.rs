@@ -52,16 +52,15 @@ impl PluginCommentsProxy {
         {
             let serialized = swc_common::plugin::PluginSerializedBytes::serialize(value)
                 .expect("Should able to serialize value");
-            let serialized_comment_ptr_ref = serialized.as_ref();
+            let (serialized_comment_ptr, serialized_comment_ptr_len) = serialized.as_ptr();
             unsafe {
                 // We need to copy PluginCommentProxy's param for add_leading (Comment, or
                 // Vec<Comment>) to the host, before calling proxy to the host. This'll fill in
                 // CommentHostEnvironment's buffer, subsequent proxy call will read &
                 // deserialize it.
                 __copy_comment_to_host_env(
-                    serialized_comment_ptr_ref.as_ptr() as _,
-                    serialized_comment_ptr_ref
-                        .len()
+                    serialized_comment_ptr as i32,
+                    serialized_comment_ptr_len
                         .try_into()
                         .expect("Should able to convert ptr length"),
                 );

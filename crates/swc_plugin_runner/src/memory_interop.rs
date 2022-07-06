@@ -29,8 +29,7 @@ pub fn write_into_memory_view<F>(
 where
     F: Fn(usize) -> i32,
 {
-    let serialized = serialized_bytes.as_ref();
-    let serialized_len = serialized.len();
+    let serialized_len = serialized_bytes.as_ptr().1;
 
     let ptr_start = get_allocated_ptr(serialized_len);
     let ptr_start_size = ptr_start
@@ -52,7 +51,7 @@ where
     // https://github.com/swc-project/swc/blob/1ef8f3749b6454eb7d40a36a5f9366137fa97928/crates/swc_plugin_runner/src/lib.rs#L56-L61
     unsafe {
         view.subarray(ptr_start_size, ptr_start_size + serialized_len_size)
-            .copy_from(serialized);
+            .copy_from(serialized_bytes.as_slice());
     }
 
     (
@@ -73,7 +72,7 @@ pub fn allocate_return_values_into_guest(
     allocated_ret_ptr: i32,
     serialized_bytes: &PluginSerializedBytes,
 ) {
-    let serialized_bytes_len = serialized_bytes.as_ref().len();
+    let serialized_bytes_len = serialized_bytes.as_ptr().1;
 
     let (allocated_ptr, allocated_ptr_len) =
         write_into_memory_view(memory, serialized_bytes, |_| {

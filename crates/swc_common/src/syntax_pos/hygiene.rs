@@ -182,9 +182,7 @@ impl Mark {
         let serialized =
             crate::plugin::PluginSerializedBytes::serialize(&MutableMarkContext(0, 0, 0))
                 .expect("Should be serializable");
-        let serialized_ref = serialized.as_ref();
-        let ptr = serialized_ref.as_ptr();
-        let len = serialized_ref.len();
+        let (ptr, len) = serialized.as_ptr();
 
         // Calling host proxy fn. Inside of host proxy, host will
         // write the result into allocated context in the guest memory space.
@@ -224,9 +222,7 @@ impl Mark {
         let serialized =
             crate::plugin::PluginSerializedBytes::serialize(&MutableMarkContext(0, 0, 0))
                 .expect("Should be serializable");
-        let serialized_ref = serialized.as_ref();
-        let ptr = serialized_ref.as_ptr();
-        let len = serialized_ref.len();
+        let (ptr, len) = serialized.as_ptr();
 
         unsafe {
             __mark_least_ancestor(a.0, b.0, ptr as _);
@@ -390,9 +386,7 @@ impl SyntaxContext {
         let context = MutableMarkContext(0, 0, 0);
         let serialized = crate::plugin::PluginSerializedBytes::serialize(&context)
             .expect("Should be serializable");
-        let serialized_ref = serialized.as_ref();
-        let ptr = serialized_ref.as_ptr();
-        let len = serialized_ref.len();
+        let (ptr, len) = serialized.as_ptr();
 
         unsafe {
             __syntax_context_remove_mark_proxy(self.0, ptr as _);

@@ -23,8 +23,8 @@ where
     let allocated_bytes_ptr = AllocatedBytesPtr(0, 0);
     let serialized_allocated_bytes_ptr = PluginSerializedBytes::serialize(&allocated_bytes_ptr)
         .expect("Should able to serialize AllocatedBytesPtr");
-    let serialized_allocated_bytes_ptr_ref = serialized_allocated_bytes_ptr.as_ref();
-    let serialized_allocated_bytes_raw_ptr = serialized_allocated_bytes_ptr_ref.as_ptr();
+    let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
+        serialized_allocated_bytes_ptr.as_ptr();
 
     #[cfg(target_arch = "wasm32")]
     {
@@ -43,8 +43,7 @@ where
     Some(unsafe {
         PluginSerializedBytes::deserialize_from_ptr(
             serialized_allocated_bytes_raw_ptr,
-            serialized_allocated_bytes_ptr_ref
-                .len()
+            serialized_allocated_bytes_raw_ptr_size
                 .try_into()
                 .expect("Should able to convert ptr length"),
         )
@@ -91,8 +90,8 @@ where
     let allocated_bytes_ptr = AllocatedBytesPtr(0, 0);
     let serialized_allocated_bytes_ptr = PluginSerializedBytes::serialize(&allocated_bytes_ptr)
         .expect("Should able to serialize AllocatedBytesPtr");
-    let serialized_allocated_bytes_ptr_ref = serialized_allocated_bytes_ptr.as_ref();
-    let serialized_allocated_bytes_raw_ptr = serialized_allocated_bytes_ptr_ref.as_ptr();
+    let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
+        serialized_allocated_bytes_ptr.as_ptr();
 
     #[cfg(target_arch = "wasm32")]
     {
@@ -111,8 +110,7 @@ where
     let allocated_returned_value_ptr: AllocatedBytesPtr = unsafe {
         PluginSerializedBytes::deserialize_from_ptr(
             serialized_allocated_bytes_raw_ptr,
-            serialized_allocated_bytes_ptr_ref
-                .len()
+            serialized_allocated_bytes_raw_ptr_size
                 .try_into()
                 .expect("Should able to convert ptr length"),
         )

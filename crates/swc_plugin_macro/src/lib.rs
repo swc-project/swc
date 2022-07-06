@@ -44,11 +44,11 @@ fn handle_func(func: ItemFn) -> TokenStream {
         /// Internal function plugin_macro uses to create ptr to PluginError.
         fn construct_error_ptr(plugin_error: swc_plugin::PluginError) -> i32 {
             let ret = swc_plugin::PluginSerializedBytes::serialize(&plugin_error).expect("Should able to serialize PluginError");
-            let ret_ref = ret.as_ref();
+            let (ptr, len) = ret.as_ptr();
 
             send_transform_result_to_host(
-                ret_ref.as_ptr() as _,
-                std::convert::TryInto::try_into(ret_ref.len()).expect("Should able to convert size of PluginError")
+                ptr as _,
+                len as i32
             );
             1
         }
@@ -120,16 +120,9 @@ fn handle_func(func: ItemFn) -> TokenStream {
             }
 
             let serialized_result = serialized_result.expect("Should be a realized transformed program");
-            let serialized_result = serialized_result.as_ref();
+            let (serialized_result_ptr, serialized_result_ptr_len) = serialized_result.as_ptr();
 
-            let serialized_result_len: Result<i32, std::num::TryFromIntError> = std::convert::TryInto::try_into(serialized_result.len());
-
-            if serialized_result_len.is_err() {
-                let err = swc_plugin::PluginError::SizeInteropFailure("Failed to convert size of transformed AST pointer".to_string());
-                return construct_error_ptr(err);
-            }
-
-            send_transform_result_to_host(serialized_result.as_ptr() as _, serialized_result_len.expect("Should be an i32"));
+            send_transform_result_to_host(serialized_result_ptr as _, serialized_result_ptr_len as i32);
             0
         }
     };
