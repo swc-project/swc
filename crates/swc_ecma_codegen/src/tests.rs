@@ -580,15 +580,21 @@ CONTENT\r
 #[test]
 fn test_get_quoted_utf16() {
     fn es2020(src: &str, expected: &str) {
-        assert_eq!(super::get_quoted_utf16(src, EsVersion::Es2020), expected)
+        assert_eq!(
+            super::get_quoted_utf16(src, true, EsVersion::Es2020),
+            expected
+        )
     }
 
     fn es2020_nonascii(src: &str, expected: &str) {
-        assert_eq!(super::get_quoted_utf16(src, EsVersion::Es2020), expected)
+        assert_eq!(
+            super::get_quoted_utf16(src, true, EsVersion::Es2020),
+            expected
+        )
     }
 
     fn es5(src: &str, expected: &str) {
-        assert_eq!(super::get_quoted_utf16(src, EsVersion::Es5), expected)
+        assert_eq!(super::get_quoted_utf16(src, true, EsVersion::Es5), expected)
     }
 
     es2020("abcde", "\"abcde\"");
@@ -654,7 +660,10 @@ fn issue_1619_2() {
 
 #[test]
 fn issue_1619_3() {
-    assert_eq!(get_quoted_utf16("\x00\x31", EsVersion::Es3), "\"\\x001\"");
+    assert_eq!(
+        get_quoted_utf16("\x00\x31", true, EsVersion::Es3),
+        "\"\\x001\""
+    );
 }
 
 fn check_latest(src: &str, expected: &str) {
@@ -702,7 +711,7 @@ fn issue_2213() {
 }
 
 #[test]
-fn issue3617() {
+fn issue_3617() {
     // Convert characters to es5 compatibility code
     let from = r"// a string of all valid unicode whitespaces
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
@@ -713,6 +722,7 @@ module.exports = "	\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\
     let out = parse_then_emit(
         from,
         Config {
+            ascii_only: true,
             target: EsVersion::Es5,
             ..Default::default()
         },
@@ -729,7 +739,7 @@ module.exports = "	\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\
 }
 
 #[test]
-fn issue3617_1() {
+fn issue_3617_1() {
     // Print characters as is for ECMA target > 5
     let from = r"// a string of all valid unicode whitespaces
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
@@ -800,9 +810,10 @@ fn ascii_only_str_1() {
     test_all(
         "'😊❤️'",
         "'😊❤️';\n",
-        r#""\u{1F60A}\u2764\uFE0F""#,
+        r#""😊❤️""#,
         Config {
             ascii_only: false,
+            target: EsVersion::Es2015,
             ..Default::default()
         },
     );

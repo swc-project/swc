@@ -4270,7 +4270,7 @@
     ReactStrictModeWarnings.recordUnsafeLifecycleWarnings = function(fiber, instance) {
         !didWarnAboutUnsafeLifecycles.has(fiber.type) && ("function" == typeof instance.componentWillMount && !0 !== instance.componentWillMount.__suppressDeprecationWarning && pendingComponentWillMountWarnings.push(fiber), 1 & fiber.mode && "function" == typeof instance.UNSAFE_componentWillMount && pendingUNSAFE_ComponentWillMountWarnings.push(fiber), "function" == typeof instance.componentWillReceiveProps && !0 !== instance.componentWillReceiveProps.__suppressDeprecationWarning && pendingComponentWillReceivePropsWarnings.push(fiber), 1 & fiber.mode && "function" == typeof instance.UNSAFE_componentWillReceiveProps && pendingUNSAFE_ComponentWillReceivePropsWarnings.push(fiber), "function" == typeof instance.componentWillUpdate && !0 !== instance.componentWillUpdate.__suppressDeprecationWarning && pendingComponentWillUpdateWarnings.push(fiber), 1 & fiber.mode && "function" == typeof instance.UNSAFE_componentWillUpdate && pendingUNSAFE_ComponentWillUpdateWarnings.push(fiber));
     }, ReactStrictModeWarnings.flushPendingUnsafeLifecycleWarnings = function() {
-        var sortedNames, _sortedNames, _sortedNames2, _sortedNames3, _sortedNames4, _sortedNames5, componentWillMountUniqueNames = new Set();
+        var componentWillMountUniqueNames = new Set();
         pendingComponentWillMountWarnings.length > 0 && (pendingComponentWillMountWarnings.forEach(function(fiber) {
             componentWillMountUniqueNames.add(getComponentName(fiber.type) || "Component"), didWarnAboutUnsafeLifecycles.add(fiber.type);
         }), pendingComponentWillMountWarnings = []);
@@ -4294,22 +4294,28 @@
         if (pendingUNSAFE_ComponentWillUpdateWarnings.length > 0 && (pendingUNSAFE_ComponentWillUpdateWarnings.forEach(function(fiber) {
             UNSAFE_componentWillUpdateUniqueNames.add(getComponentName(fiber.type) || "Component"), didWarnAboutUnsafeLifecycles.add(fiber.type);
         }), pendingUNSAFE_ComponentWillUpdateWarnings = []), UNSAFE_componentWillMountUniqueNames.size > 0) {
-            error("Using UNSAFE_componentWillMount in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move code with side effects to componentDidMount, and set initial state in the constructor.\n\nPlease update the following components: %s", setToSortedString(UNSAFE_componentWillMountUniqueNames));
+            var sortedNames = setToSortedString(UNSAFE_componentWillMountUniqueNames);
+            error("Using UNSAFE_componentWillMount in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move code with side effects to componentDidMount, and set initial state in the constructor.\n\nPlease update the following components: %s", sortedNames);
         }
         if (UNSAFE_componentWillReceivePropsUniqueNames.size > 0) {
-            error("Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state\n\nPlease update the following components: %s", setToSortedString(UNSAFE_componentWillReceivePropsUniqueNames));
+            var _sortedNames = setToSortedString(UNSAFE_componentWillReceivePropsUniqueNames);
+            error("Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state\n\nPlease update the following components: %s", _sortedNames);
         }
         if (UNSAFE_componentWillUpdateUniqueNames.size > 0) {
-            error("Using UNSAFE_componentWillUpdate in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n\nPlease update the following components: %s", setToSortedString(UNSAFE_componentWillUpdateUniqueNames));
+            var _sortedNames2 = setToSortedString(UNSAFE_componentWillUpdateUniqueNames);
+            error("Using UNSAFE_componentWillUpdate in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n\nPlease update the following components: %s", _sortedNames2);
         }
         if (componentWillMountUniqueNames.size > 0) {
-            warn("componentWillMount has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move code with side effects to componentDidMount, and set initial state in the constructor.\n* Rename componentWillMount to UNSAFE_componentWillMount to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", setToSortedString(componentWillMountUniqueNames));
+            var _sortedNames3 = setToSortedString(componentWillMountUniqueNames);
+            warn("componentWillMount has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move code with side effects to componentDidMount, and set initial state in the constructor.\n* Rename componentWillMount to UNSAFE_componentWillMount to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", _sortedNames3);
         }
         if (componentWillReceivePropsUniqueNames.size > 0) {
-            warn("componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state\n* Rename componentWillReceiveProps to UNSAFE_componentWillReceiveProps to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", setToSortedString(componentWillReceivePropsUniqueNames));
+            var _sortedNames4 = setToSortedString(componentWillReceivePropsUniqueNames);
+            warn("componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state\n* Rename componentWillReceiveProps to UNSAFE_componentWillReceiveProps to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", _sortedNames4);
         }
         if (componentWillUpdateUniqueNames.size > 0) {
-            warn("componentWillUpdate has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* Rename componentWillUpdate to UNSAFE_componentWillUpdate to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", setToSortedString(componentWillUpdateUniqueNames));
+            var _sortedNames5 = setToSortedString(componentWillUpdateUniqueNames);
+            warn("componentWillUpdate has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* Rename componentWillUpdate to UNSAFE_componentWillUpdate to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", _sortedNames5);
         }
     };
     var pendingLegacyContextWarning = new Map(), didWarnAboutLegacyContext = new Set();
@@ -4914,7 +4920,7 @@
                         knownKeys.add(key);
                         break;
                     }
-                    error("Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted \u2014 the behavior is unsupported and could change in a future version.", key);
+                    error("Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.", key);
             }
             return knownKeys;
         }
@@ -5475,7 +5481,7 @@
             source,
             subscribe
         ]), dispatcher.useEffect(function() {
-            var unsubscribe = subscribe(source._source, function() {
+            var handleChange = function() {
                 var latestGetSnapshot = refs.getSnapshot, latestSetSnapshot = refs.setSnapshot;
                 try {
                     latestSetSnapshot(latestGetSnapshot(source._source));
@@ -5486,7 +5492,7 @@
                         throw error;
                     });
                 }
-            });
+            }, unsubscribe = subscribe(source._source, handleChange);
             return "function" != typeof unsubscribe && error("Mutable source subscribe function must return an unsubscribe function."), unsubscribe;
         }, [
             source,
@@ -8882,7 +8888,9 @@
     function detachFiberAfterEffects(fiber) {
         fiber.sibling = null, fiber.stateNode = null;
     }
-    var resolveFamily = null, failedBoundaries = null;
+    var resolveFamily = null, failedBoundaries = null, setRefreshHandler = function(handler) {
+        resolveFamily = handler;
+    };
     function resolveFunctionForHotReloading(type) {
         if (null === resolveFamily) return type;
         var family = resolveFamily(type);
@@ -8938,6 +8946,18 @@
     function markFailedErrorBoundaryForHotReloading(fiber) {
         null !== resolveFamily && "function" == typeof WeakSet && (null === failedBoundaries && (failedBoundaries = new WeakSet()), failedBoundaries.add(fiber));
     }
+    var scheduleRefresh = function(root, update) {
+        if (null !== resolveFamily) {
+            var staleFamilies = update.staleFamilies, updatedFamilies = update.updatedFamilies;
+            flushPassiveEffects(), flushSync(function() {
+                scheduleFibersWithFamiliesRecursively(root.current, updatedFamilies, staleFamilies);
+            });
+        }
+    }, scheduleRoot = function(root, element) {
+        root.context === emptyContextObject && (flushPassiveEffects(), flushSync(function() {
+            updateContainer(element, root, null, null);
+        }));
+    };
     function scheduleFibersWithFamiliesRecursively(fiber, updatedFamilies, staleFamilies) {
         var alternate = fiber.alternate, child = fiber.child, sibling = fiber.sibling, tag = fiber.tag, type = fiber.type, candidateType = null;
         switch(tag){
@@ -8957,6 +8977,12 @@
         }
         null !== failedBoundaries && (failedBoundaries.has(fiber) || null !== alternate && failedBoundaries.has(alternate)) && (needsRemount = !0), needsRemount && (fiber._debugNeedsRemount = !0), (needsRemount || needsRender) && scheduleUpdateOnFiber(fiber, SyncLane, -1), null === child || needsRemount || scheduleFibersWithFamiliesRecursively(child, updatedFamilies, staleFamilies), null !== sibling && scheduleFibersWithFamiliesRecursively(sibling, updatedFamilies, staleFamilies);
     }
+    var findHostInstancesForRefresh = function(root, families) {
+        var hostInstances = new Set(), types = new Set(families.map(function(family) {
+            return family.current;
+        }));
+        return findHostInstancesForMatchingFibersRecursively(root.current, types, hostInstances), hostInstances;
+    };
     function findHostInstancesForMatchingFibersRecursively(fiber, types, hostInstances) {
         var child = fiber.child, sibling = fiber.sibling, tag = fiber.tag, type = fiber.type, candidateType = null;
         switch(tag){
@@ -9545,28 +9571,10 @@
             return null === hostFiber ? null : hostFiber.stateNode;
         },
         findFiberByHostInstance: findFiberByHostInstance || emptyFindFiberByHostInstance,
-        findHostInstancesForRefresh: function(root, families) {
-            var hostInstances = new Set(), types = new Set(families.map(function(family) {
-                return family.current;
-            }));
-            return findHostInstancesForMatchingFibersRecursively(root.current, types, hostInstances), hostInstances;
-        },
-        scheduleRefresh: function(root, update) {
-            if (null !== resolveFamily) {
-                var staleFamilies = update.staleFamilies, updatedFamilies = update.updatedFamilies;
-                flushPassiveEffects(), flushSync(function() {
-                    scheduleFibersWithFamiliesRecursively(root.current, updatedFamilies, staleFamilies);
-                });
-            }
-        },
-        scheduleRoot: function(root, element) {
-            root.context === emptyContextObject && (flushPassiveEffects(), flushSync(function() {
-                updateContainer(element, root, null, null);
-            }));
-        },
-        setRefreshHandler: function(handler) {
-            resolveFamily = handler;
-        },
+        findHostInstancesForRefresh: findHostInstancesForRefresh,
+        scheduleRefresh: scheduleRefresh,
+        scheduleRoot: scheduleRoot,
+        setRefreshHandler: setRefreshHandler,
         getCurrentFiber: getCurrentFiberForDevTools
     }) && canUseDOM && window.top === window.self && (navigator.userAgent.indexOf("Chrome") > -1 && -1 === navigator.userAgent.indexOf("Edge") || navigator.userAgent.indexOf("Firefox") > -1)) {
         var protocol = window.location.protocol;

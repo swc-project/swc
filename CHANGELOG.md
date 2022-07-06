@@ -5,6 +5,49 @@
 
 
 
+- **(es/minifier)** Don't inline a callable expression if it's used as a reference (#5118) ([0e4a03c](https://github.com/swc-project/swc/commit/0e4a03ccc65aaca143873f16643513a922ace6cd))
+
+### Features
+
+
+
+- **(es/typescript)** Follow TypeScript error report (#5114) ([f952a61](https://github.com/swc-project/swc/commit/f952a6161c634fbb430b0befad6f3946c9fbfde5))
+
+### Refactor
+
+
+
+- **(common)** Bikeshed plugin apis (#5120) ([2ba8b39](https://github.com/swc-project/swc/commit/2ba8b39fa0f2ff7e553d74a4c5ef0f04660a8c40))
+
+## [1.2.210] - 2022-07-05
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Fix codegen of some non-ascii characters (#5108) ([b76b499](https://github.com/swc-project/swc/commit/b76b4999cce42fb2e41ca165bd68bbc8f6663bdc))
+
+
+- **(es/fixer)** Preserve parens in opt calls (#5110) ([3e3c44a](https://github.com/swc-project/swc/commit/3e3c44a0b64c55b4d976a4dafbb999000612d14a))
+
+
+- **(es/fixer)** Preserve parens in more opt calls (#5111) ([528d4c5](https://github.com/swc-project/swc/commit/528d4c5aa45f4a7445fcc7b50eb71302d3631190))
+
+
+- **(es/lints)** Allow overload in typescript (#5116) ([bef8aeb](https://github.com/swc-project/swc/commit/bef8aebdeadb4d15b7417af88947bfc905f93628))
+
+### Documentation
+
+
+
+- **(visit)** Generate rustdoc (#5107) ([8ea631c](https://github.com/swc-project/swc/commit/8ea631c7669356905fb7defd6aeb0fb0602ec458))
+
+## [1.2.209] - 2022-07-05
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Emit numeric value for Binary and Octal literals (#5083) ([8df6e04](https://github.com/swc-project/swc/commit/8df6e047cc523088a26a3363fe33f1bc224738b0))
 
 
@@ -23,10 +66,22 @@
 - **(es/modules)** Create an indirect call for a lazy require (#5089) ([0a7ca2f](https://github.com/swc-project/swc/commit/0a7ca2f4bbfaa2573b4da6b25127064cbcfd755f))
 
 
+- **(es/modules)** Support lazy for `export from` (#5103) ([c531e67](https://github.com/swc-project/swc/commit/c531e67a3058bd6d567922d74fe51dc6e393761b))
+
+
 - **(es/react)** Don't panic on invalid react pragma (#5101) ([cc555ef](https://github.com/swc-project/swc/commit/cc555ef225e3299bc17b6e21d67b3a42619abd5a))
 
 
+- **(es/resolver)** Fix handling of block scoped functions (#5092) ([9519e80](https://github.com/swc-project/swc/commit/9519e801ea3bd9a0d7cc4f145323d0a734c83669))
+
+
 - **(html/minifier)** Small fix (#5079) ([5ac5ae2](https://github.com/swc-project/swc/commit/5ac5ae200c3c896f205e7c4567a5a6281d16015b))
+
+
+- **(html/minifier)** Fix bugs of the smart mode (#5093) ([5932a0a](https://github.com/swc-project/swc/commit/5932a0a2ef42ae67f1d2eceebe752b01160ca6fe))
+
+
+- **(node/types)** Add `simplify` (#5105) ([2a29b50](https://github.com/swc-project/swc/commit/2a29b50c5eb7e1441c2735fec9686771c6050053))
 
 ### Features
 
@@ -45,6 +100,9 @@
 
 
 - **(html/minifier)** Remove empty metadata elements (#5085) ([cb845c9](https://github.com/swc-project/swc/commit/cb845c9bf903136b074af269b96a685027599284))
+
+
+- **(visit)** Add path-aware variants (#5073) ([204d742](https://github.com/swc-project/swc/commit/204d742ed6ed5f91612245604b4e9037470bc97a))
 
 ### Testing
 

@@ -258,6 +258,8 @@ where
                                     if v_usage.reassigned() {
                                         return;
                                     }
+                                } else {
+                                    return;
                                 }
                             }
                         }
@@ -272,6 +274,8 @@ where
                                     if v_usage.reassigned() {
                                         return;
                                     }
+                                } else {
+                                    return;
                                 }
                             }
                         }
@@ -294,6 +298,12 @@ where
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    if !usage.used_as_callee {
+                        if let Expr::Fn(..) | Expr::Arrow(..) = &**init {
+                            return;
                         }
                     }
 

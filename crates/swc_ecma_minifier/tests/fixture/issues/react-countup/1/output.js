@@ -772,8 +772,7 @@
                 "containerProps",
                 "children",
                 "style", 
-            ];
-            exports.ZP = function(props) {
+            ], CountUp = function(props) {
                 var className = props.className, redraw = props.redraw, containerProps = props.containerProps, children = props.children, style = props.style, useCountUpProps = _objectWithoutProperties(props, _excluded), containerRef = React__default.default.useRef(null), isInitializedRef = React__default.default.useRef(!1), _useCountUp = useCountUp(_objectSpread2(_objectSpread2({}, useCountUpProps), {}, {
                     ref: containerRef,
                     startOnMount: "function" != typeof children || 0 === props.delay,
@@ -833,6 +832,7 @@
                     style: style
                 }, containerProps));
             };
+            exports.ZP = CountUp;
         }
     }, 
 ]);

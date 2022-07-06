@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>element-details - web component using &lt;template&gt; and &lt;slot&gt;</title>
+    <style>
+        dl { margin-left: 6px; }
+        dt { font-weight: bold; color: #217ac0; font-size: 110% }
+        dt { font-family: Consolas, "Liberation Mono", Courier }
+        dd { margin-left: 16px }
+    </style>
+</head>
+<body>
+<h1>element-details - web component using <code>&lt;template&gt;</code> and <code>&lt;slot&gt;</code></h1>
+
+<template id="element-details-template-1">
+    VALUE: !<slot>?</slot>!
+</template>
+
+<element-details>
+    <span>test</span> <span>foo</span>
+</element-details>
+
+
+<script>
+    customElements.define('element-details',
+        class extends HTMLElement {
+            constructor() {
+                super();
+
+                const template = document
+                    .getElementById('element-details-template-1')
+                    .content;
+                const shadowRoot = this.attachShadow({mode: 'open'})
+                    .appendChild(template.cloneNode(true));
+            }
+        });
+</script>
+</body>
+</html>

@@ -878,7 +878,9 @@
         for(i = 1, res = moments[0]; i < moments.length; ++i)(!moments[i].isValid() || moments[i][fn](res)) && (res = moments[i]);
         return res;
     }
-    var ordering = [
+    var now = function() {
+        return Date.now ? Date.now() : +new Date();
+    }, ordering = [
         "year",
         "quarter",
         "month",
@@ -1837,9 +1839,7 @@
     }, hooks.max = function() {
         var args = [].slice.call(arguments, 0);
         return pickBy("isAfter", args);
-    }, hooks.now = function() {
-        return Date.now ? Date.now() : +new Date();
-    }, hooks.utc = createUTC, hooks.unix = function(input) {
+    }, hooks.now = now, hooks.utc = createUTC, hooks.unix = function(input) {
         return createLocal(1000 * input);
     }, hooks.months = function(format, index) {
         return listMonthsImpl(format, index, "months");

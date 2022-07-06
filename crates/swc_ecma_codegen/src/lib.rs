@@ -536,7 +536,7 @@ where
         let target = self.cfg.target;
 
         if self.cfg.minify {
-            let value = get_quoted_utf16(&node.value, target);
+            let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
             self.wr.write_str_lit(DUMMY_SP, &value)?;
         } else {
@@ -550,7 +550,7 @@ where
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
-                    let value = get_quoted_utf16(&node.value, target);
+                    let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
                 }
@@ -3430,12 +3430,12 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     buf
 }
 
-fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
+fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
-    let mut sq = 0;
-    let mut dq = 0;
+    let mut single_quote_count = 0;
+    let mut double_quote_count = 0;
 
     while let Some(c) = iter.next() {
         match c {
@@ -3527,11 +3527,11 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                 }
             }
             '\'' => {
-                sq += 1;
+                single_quote_count += 1;
                 buf.push('\'');
             }
             '"' => {
-                dq += 1;
+                double_quote_count += 1;
                 buf.push('"');
             }
             '\x01'..='\x0f' => {
@@ -3570,17 +3570,21 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                         let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
 
                         let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
-                    } else {
+                    } else if ascii_only {
                         let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                    } else {
+                        buf.push(c);
                     }
-                } else {
+                } else if ascii_only {
                     let _ = write!(buf, "\\u{:04X}", c as u16);
+                } else {
+                    buf.push(c);
                 }
             }
         }
     }
 
-    if dq > sq {
+    if double_quote_count > single_quote_count {
         format!("'{}'", buf.replace('\'', "\\'"))
     } else {
         format!("\"{}\"", buf.replace('"', "\\\""))

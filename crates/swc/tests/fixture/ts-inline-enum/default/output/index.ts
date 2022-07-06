@@ -7,11 +7,11 @@ var Foo2;
     Foo2["hello"] = "42";
 })(Foo2 || (Foo2 = {}));
 console.log(Foo.hello, Foo2.hello);
-console.log("hello", "\u3053\u3093\u306B\u3061\u306F", "\uC548\uB155\uD558\uC138\uC694", "\u4F60\u597D");
+console.log("hello", "こんにちは", "안녕하세요", "你好");
 var Hello;
 (function(Hello) {
     Hello["en"] = "hello";
-    Hello["ja-JP"] = "\u3053\u3093\u306B\u3061\u306F";
-    Hello["ko-KR"] = "\uC548\uB155\uD558\uC138\uC694";
-    Hello["zh-CN"] = "\u4F60\u597D";
+    Hello["ja-JP"] = "こんにちは";
+    Hello["ko-KR"] = "안녕하세요";
+    Hello["zh-CN"] = "你好";
 })(Hello || (Hello = {}));

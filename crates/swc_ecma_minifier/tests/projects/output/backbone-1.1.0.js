@@ -645,7 +645,8 @@
                 location.replace(href + "#" + fragment);
             } else location.hash = "#" + fragment;
         }
-    }), Backbone.history = new History(), Model.extend = Collection.extend = Router.extend = View.extend = History.extend = function(protoProps, staticProps) {
+    }), Backbone.history = new History();
+    var extend = function(protoProps, staticProps) {
         var child, parent = this;
         child = protoProps && _.has(protoProps, "constructor") ? protoProps.constructor : function() {
             return parent.apply(this, arguments);
@@ -655,6 +656,7 @@
         };
         return Surrogate.prototype = parent.prototype, child.prototype = new Surrogate(), protoProps && _.extend(child.prototype, protoProps), child.__super__ = parent.prototype, child;
     };
+    Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend;
     var urlError = function() {
         throw Error('A "url" property or function must be specified');
     }, wrapError = function(model, options) {

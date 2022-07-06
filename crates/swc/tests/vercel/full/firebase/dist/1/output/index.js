@@ -69,67 +69,67 @@ var a, b = require("@firebase/util"), c = require("tslib"), d = require("@fireba
     }, a;
 }(), i = ((a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", a), j = new b.ErrorFactory("app-compat", "Firebase", i);
 function k() {
-    var a, d, e, f, i = (a = h, d = function(a) {
-        if (a = a || g._DEFAULT_ENTRY_NAME, !b.contains(e, a)) throw j.create("no-app", {
+    var a, d, e, f, i, l, m, n, o = function(a) {
+        b.deepExtend(p, a);
+    }, p = (a = h, d = function(a) {
+        delete m[a];
+    }, e = function(a) {
+        if (a = a || g._DEFAULT_ENTRY_NAME, !b.contains(m, a)) throw j.create("no-app", {
             appName: a
         });
-        return e[a];
-    }, e = {}, (f = {
+        return m[a];
+    }, f = function() {
+        return Object.keys(m).map(function(a) {
+            return m[a];
+        });
+    }, i = function(c) {
+        var d = c.name, f = d.replace("-compat", "");
+        if (g._registerComponent(c) && "PUBLIC" === c.type) {
+            var h = function(a) {
+                if (void 0 === a && (a = e()), "function" != typeof a[f]) throw j.create("invalid-app-argument", {
+                    appName: d
+                });
+                return a[f]();
+            };
+            void 0 !== c.serviceProps && b.deepExtend(h, c.serviceProps), n[f] = h, a.prototype[f] = function() {
+                for(var a = [], b = 0; b < arguments.length; b++)a[b] = arguments[b];
+                return this._getService.bind(this, d).apply(this, c.multipleInstances ? a : []);
+            };
+        }
+        return "PUBLIC" === c.type ? n[f] : null;
+    }, l = function(a, b) {
+        return "serverAuth" === b ? null : b;
+    }, m = {}, (n = {
         __esModule: !0,
         initializeApp: function(c, d) {
             void 0 === d && (d = {});
-            var h = g.initializeApp(c, d);
-            if (b.contains(e, h.name)) return e[h.name];
-            var i = new a(h, f);
-            return e[h.name] = i, i;
+            var e = g.initializeApp(c, d);
+            if (b.contains(m, e.name)) return m[e.name];
+            var f = new a(e, n);
+            return m[e.name] = f, f;
         },
-        app: d,
+        app: e,
         registerVersion: g.registerVersion,
         setLogLevel: g.setLogLevel,
         onLog: g.onLog,
         apps: null,
         SDK_VERSION: g.SDK_VERSION,
         INTERNAL: {
-            registerComponent: function(c) {
-                var e = c.name, h = e.replace("-compat", "");
-                if (g._registerComponent(c) && "PUBLIC" === c.type) {
-                    var i = function(a) {
-                        if (void 0 === a && (a = d()), "function" != typeof a[h]) throw j.create("invalid-app-argument", {
-                            appName: e
-                        });
-                        return a[h]();
-                    };
-                    void 0 !== c.serviceProps && b.deepExtend(i, c.serviceProps), f[h] = i, a.prototype[h] = function() {
-                        for(var a = [], b = 0; b < arguments.length; b++)a[b] = arguments[b];
-                        return this._getService.bind(this, e).apply(this, c.multipleInstances ? a : []);
-                    };
-                }
-                return "PUBLIC" === c.type ? f[h] : null;
-            },
-            removeApp: function(a) {
-                delete e[a];
-            },
-            useAsService: function(a, b) {
-                return "serverAuth" === b ? null : b;
-            },
+            registerComponent: i,
+            removeApp: d,
+            useAsService: l,
             modularAPIs: g
         }
-    }).default = f, Object.defineProperty(f, "apps", {
-        get: function() {
-            return Object.keys(e).map(function(a) {
-                return e[a];
-            });
-        }
-    }), d.App = a, f);
-    return i.INTERNAL = c.__assign(c.__assign({}, i.INTERNAL), {
+    }).default = n, Object.defineProperty(n, "apps", {
+        get: f
+    }), e.App = a, n);
+    return p.INTERNAL = c.__assign(c.__assign({}, p.INTERNAL), {
         createFirebaseNamespace: k,
-        extendNamespace: function(a) {
-            b.deepExtend(i, a);
-        },
+        extendNamespace: o,
         createSubscribe: b.createSubscribe,
         ErrorFactory: b.ErrorFactory,
         deepExtend: b.deepExtend
-    }), i;
+    }), p;
 }
 var l = k(), m = new f.Logger("@firebase/app-compat");
 if (b.isBrowser() && void 0 !== self.firebase) {

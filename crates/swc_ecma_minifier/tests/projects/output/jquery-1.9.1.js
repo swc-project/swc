@@ -533,10 +533,10 @@
         },
         dequeue: function(elem, type) {
             type = type || "fx";
-            var queue = jQuery.queue(elem, type), startLength = queue.length, fn = queue.shift(), hooks = jQuery._queueHooks(elem, type);
-            "inprogress" === fn && (fn = queue.shift(), startLength--), hooks.cur = fn, fn && ("fx" === type && queue.unshift("inprogress"), delete hooks.stop, fn.call(elem, function() {
+            var queue = jQuery.queue(elem, type), startLength = queue.length, fn = queue.shift(), hooks = jQuery._queueHooks(elem, type), next = function() {
                 jQuery.dequeue(elem, type);
-            }, hooks)), !startLength && hooks && hooks.empty.fire();
+            };
+            "inprogress" === fn && (fn = queue.shift(), startLength--), hooks.cur = fn, fn && ("fx" === type && queue.unshift("inprogress"), delete hooks.stop, fn.call(elem, next, hooks)), !startLength && hooks && hooks.empty.fire();
         },
         _queueHooks: function(elem, type) {
             var key = type + "queueHooks";
