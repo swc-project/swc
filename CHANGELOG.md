@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Don't inline a callable expression if it's used as a reference (#5118) ([0e4a03c](https://github.com/swc-project/swc/commit/0e4a03ccc65aaca143873f16643513a922ace6cd))
 
+
+- **(es/parser)** Support type-only export-import declarations (#5122) ([fbfca36](https://github.com/swc-project/swc/commit/fbfca36f58cf393faae132b092d05e9aaa931d55))
+
 ### Features
 
 
