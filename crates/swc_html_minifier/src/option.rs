@@ -1,7 +1,14 @@
 use serde::{Deserialize, Serialize};
 use swc_cached::regex::CachedRegex;
+use swc_css_codegen::CodegenConfig as CssCodegenOptions;
+use swc_css_minifier::options::MinifyOptions as CssMinifyOptions;
+use swc_css_parser::parser::ParserConfig as CssParserOptions;
+use swc_ecma_ast::EsVersion;
+use swc_ecma_codegen::Config as JsCodegenOptions;
+use swc_ecma_minifier::option::MinifyOptions as JsMinifyOptions;
+use swc_ecma_parser::Syntax;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 #[serde(deny_unknown_fields)]
 pub enum MinifierType {
@@ -30,7 +37,72 @@ pub enum CollapseWhitespaces {
     OnlyMetadata,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
+pub enum MinifyJsonOption {
+    Bool(bool),
+    Options(Box<JsonOptions>),
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct JsonOptions {
+    pub pretty: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
+pub enum MinifyJsOption {
+    Bool(bool),
+    Options(Box<JsOptions>),
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct JsOptions {
+    #[serde(default)]
+    pub parser: JsParserOptions,
+    #[serde(default)]
+    pub minifier: JsMinifyOptions,
+    #[serde(default)]
+    pub codegen: JsCodegenOptions,
+}
+
+#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct JsParserOptions {
+    #[serde(default)]
+    pub syntax: Syntax,
+    #[serde(default)]
+    pub target: EsVersion,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
+pub enum MinifyCssOption {
+    Bool(bool),
+    Options(Box<CssOptions>),
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct CssOptions {
+    #[serde(default)]
+    pub parser: CssParserOptions,
+    #[serde(default)]
+    pub minifier: CssMinifyOptions,
+    #[serde(default)]
+    pub codegen: CssCodegenOptions,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct MinifyOptions {
@@ -65,12 +137,12 @@ pub struct MinifyOptions {
     /// attributes
     #[serde(default = "true_by_default")]
     pub normalize_attributes: bool,
-    #[serde(default = "true_by_default")]
-    pub minify_js: bool,
-    #[serde(default = "true_by_default")]
-    pub minify_json: bool,
-    #[serde(default = "true_by_default")]
-    pub minify_css: bool,
+    #[serde(default = "minify_json_by_default")]
+    pub minify_json: MinifyJsonOption,
+    #[serde(default = "minify_js_by_default")]
+    pub minify_js: MinifyJsOption,
+    #[serde(default = "minify_css_by_default")]
+    pub minify_css: MinifyCssOption,
     // Allow to compress value of custom script elements,
     // i.e. `<script type="text/html"><div><!-- text --> <div data-foo="bar> Text </div></script>`
     //
@@ -106,6 +178,18 @@ const fn default_collapse_whitespaces() -> CollapseWhitespaces {
 
 const fn true_by_default() -> bool {
     true
+}
+
+const fn minify_json_by_default() -> MinifyJsonOption {
+    MinifyJsonOption::Bool(true)
+}
+
+const fn minify_js_by_default() -> MinifyJsOption {
+    MinifyJsOption::Bool(true)
+}
+
+const fn minify_css_by_default() -> MinifyCssOption {
+    MinifyCssOption::Bool(true)
 }
 
 fn default_preserve_comments() -> Option<Vec<CachedRegex>> {

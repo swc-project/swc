@@ -3,19 +3,23 @@
 use swc_css_ast::*;
 use swc_css_visit::VisitMutWith;
 
-use self::compress::{
-    alpha_value::compress_alpha_value, angle::compress_angle, at_rule::compress_at_rule,
-    color::compress_color, declaration::compress_declaration,
-    easing_function::compress_easing_function, empty::compress_empty,
-    frequency::compress_frequency, keyframes::compress_keyframes, length::compress_length,
-    selector::compress_selector, time::compress_time,
-    transform_function::compress_transform_function, unicore_range::compress_unicode_range,
-    url::compress_url,
+use self::{
+    compress::{
+        alpha_value::compress_alpha_value, angle::compress_angle, at_rule::compress_at_rule,
+        color::compress_color, declaration::compress_declaration,
+        easing_function::compress_easing_function, empty::compress_empty,
+        frequency::compress_frequency, keyframes::compress_keyframes, length::compress_length,
+        selector::compress_selector, time::compress_time,
+        transform_function::compress_transform_function, unicore_range::compress_unicode_range,
+        url::compress_url,
+    },
+    options::MinifyOptions,
 };
 
 mod compress;
+pub mod options;
 
-pub fn minify(stylesheet: &mut Stylesheet) {
+pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
     stylesheet.visit_mut_with(&mut compress_empty());
     stylesheet.visit_mut_with(&mut compress_alpha_value());
     stylesheet.visit_mut_with(&mut compress_length());

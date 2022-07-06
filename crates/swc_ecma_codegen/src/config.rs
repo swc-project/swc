@@ -1,6 +1,7 @@
+use serde::{Deserialize, Serialize};
 use swc_ecma_ast::EsVersion;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct Config {
     /// The target runtime environment.
     ///

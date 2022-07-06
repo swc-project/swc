@@ -3174,6 +3174,7 @@ version = "0.106.0"
 dependencies = [
  "auto_impl",
  "bitflags",
+ "serde",
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
@@ -3217,6 +3218,7 @@ dependencies = [
 name = "swc_css_minifier"
 version = "0.71.0"
 dependencies = [
+ "serde",
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
@@ -3309,6 +3311,7 @@ dependencies = [
  "num-bigint",
  "once_cell",
  "rustc-hash",
+ "serde",
  "sourcemap",
  "swc_atoms",
  "swc_common",

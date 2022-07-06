@@ -15,7 +15,10 @@ use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
-use crate::option::{CollapseWhitespaces, MinifierType, MinifyOptions};
+use crate::option::{
+    CollapseWhitespaces, CssOptions, JsOptions, JsParserOptions, JsonOptions, MinifierType,
+    MinifyCssOption, MinifyJsOption, MinifyJsonOption, MinifyOptions,
+};
 pub mod option;
 
 static HTML_BOOLEAN_ATTRIBUTES: &[&str] = &[
@@ -333,9 +336,9 @@ struct Minifier {
     remove_redundant_attributes: bool,
     collapse_boolean_attributes: bool,
     normalize_attributes: bool,
-    minify_json: bool,
-    minify_js: bool,
-    minify_css: bool,
+    minify_json: MinifyJsonOption,
+    minify_js: MinifyJsOption,
+    minify_css: MinifyCssOption,
     minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
     minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
 
@@ -1411,15 +1414,70 @@ impl Minifier {
         None
     }
 
+    fn need_minify_json(&self) -> bool {
+        match self.minify_json {
+            MinifyJsonOption::Bool(value) => value,
+            MinifyJsonOption::Options(_) => true,
+        }
+    }
+
+    fn get_json_options(&self) -> JsonOptions {
+        match &self.minify_json {
+            MinifyJsonOption::Bool(_) => JsonOptions { pretty: false },
+            MinifyJsonOption::Options(json_options) => *json_options.clone(),
+        }
+    }
+
     fn minify_json(&self, data: String) -> Option<String> {
         let json = match serde_json::from_str::<Value>(&data) {
             Ok(json) => json,
             _ => return None,
         };
 
-        match serde_json::to_string(&json) {
+        let options = self.get_json_options();
+        let result = match options.pretty {
+            true => serde_json::to_string_pretty(&json),
+            false => serde_json::to_string(&json),
+        };
+
+        match result {
             Ok(minified_json) => Some(minified_json),
             _ => None,
+        }
+    }
+
+    fn need_minify_js(&self) -> bool {
+        match self.minify_js {
+            MinifyJsOption::Bool(value) => value,
+            MinifyJsOption::Options(_) => true,
+        }
+    }
+
+    fn get_js_options(&self) -> JsOptions {
+        let target = swc_ecma_ast::EsVersion::latest();
+
+        match &self.minify_js {
+            MinifyJsOption::Bool(_) => JsOptions {
+                parser: JsParserOptions {
+                    syntax: swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig::default()),
+                    target,
+                },
+                minifier: swc_ecma_minifier::option::MinifyOptions {
+                    compress: Some(swc_ecma_minifier::option::CompressOptions {
+                        ecma: target,
+                        ..Default::default()
+                    }),
+                    mangle: Some(swc_ecma_minifier::option::MangleOptions {
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                codegen: swc_ecma_codegen::Config {
+                    target,
+                    ..Default::default()
+                },
+            },
+            MinifyJsOption::Options(js_options) => *js_options.clone(),
         }
     }
 
@@ -1430,13 +1488,20 @@ impl Minifier {
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
+        let mut options = self.get_js_options();
 
-        let syntax = swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig {
-            allow_return_outside_function: !is_module && is_attribute,
-            ..Default::default()
-        });
+        if let swc_ecma_parser::Syntax::Es(es_config) = &mut options.parser.syntax {
+            es_config.allow_return_outside_function = !is_module && is_attribute;
+        }
 
-        let target = swc_ecma_ast::EsVersion::latest();
+        if let Some(compress_options) = &mut options.minifier.compress {
+            compress_options.module = is_module;
+        }
+
+        options.codegen.minify = true;
+
+        let JsParserOptions { syntax, target } = options.parser;
+
         let mut program = if is_module {
             match swc_ecma_parser::parse_file_as_module(&fm, syntax, target, None, &mut errors) {
                 Ok(module) => swc_ecma_ast::Program::Module(module),
@@ -1462,25 +1527,12 @@ impl Minifier {
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
         );
 
-        let options = swc_ecma_minifier::option::MinifyOptions {
-            compress: Some(swc_ecma_minifier::option::CompressOptions {
-                ecma: target,
-                module: is_module,
-                negate_iife: false,
-                ..Default::default()
-            }),
-            mangle: Some(swc_ecma_minifier::option::MangleOptions {
-                ..Default::default()
-            }),
-            ..Default::default()
-        };
-
         let program = swc_ecma_minifier::optimize(
             program,
             cm.clone(),
             None,
             None,
-            &options,
+            &options.minifier,
             &swc_ecma_minifier::option::ExtraOptions {
                 unresolved_mark,
                 top_level_mark,
@@ -1500,11 +1552,7 @@ impl Minifier {
             wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
 
             let mut emitter = swc_ecma_codegen::Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    minify: true,
-                    target,
-                    ..Default::default()
-                },
+                cfg: options.codegen,
                 cm,
                 comments: None,
                 wr,
@@ -1519,6 +1567,13 @@ impl Minifier {
         };
 
         Some(minified)
+    }
+
+    fn need_minify_css(&self) -> bool {
+        match self.minify_css {
+            MinifyCssOption::Bool(value) => value,
+            MinifyCssOption::Options(_) => true,
+        }
     }
 
     fn minify_sizes(&self, value: &str) -> Option<String> {
@@ -1547,15 +1602,31 @@ impl Minifier {
         Some(minified)
     }
 
+    fn get_css_options(&self) -> CssOptions {
+        match &self.minify_css {
+            MinifyCssOption::Bool(_) => CssOptions {
+                parser: swc_css_parser::parser::ParserConfig::default(),
+                minifier: swc_css_minifier::options::MinifyOptions::default(),
+                codegen: swc_css_codegen::CodegenConfig::default(),
+            },
+            MinifyCssOption::Options(css_options) => *css_options.clone(),
+        }
+    }
+
     fn minify_css(&self, data: String, mode: CssMinificationMode) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
 
+        let mut options = self.get_css_options();
+
+        // Because it is minifier
+        options.codegen.minify = true;
+
         let mut stylesheet = match mode {
             CssMinificationMode::Stylesheet => {
-                match swc_css_parser::parse_file(&fm, Default::default(), &mut errors) {
+                match swc_css_parser::parse_file(&fm, options.parser, &mut errors) {
                     Ok(stylesheet) => stylesheet,
                     _ => return None,
                 }
@@ -1563,7 +1634,7 @@ impl Minifier {
             CssMinificationMode::ListOfDeclarations => {
                 match swc_css_parser::parse_file::<Vec<swc_css_ast::DeclarationOrAtRule>>(
                     &fm,
-                    Default::default(),
+                    options.parser,
                     &mut errors,
                 ) {
                     Ok(list_of_declarations) => {
@@ -1599,7 +1670,7 @@ impl Minifier {
             CssMinificationMode::MediaQueryList => {
                 match swc_css_parser::parse_file::<swc_css_ast::MediaQueryList>(
                     &fm,
-                    Default::default(),
+                    options.parser,
                     &mut errors,
                 ) {
                     Ok(media_query_list) => swc_css_ast::Stylesheet {
@@ -1637,7 +1708,7 @@ impl Minifier {
             return None;
         }
 
-        swc_css_minifier::minify(&mut stylesheet);
+        swc_css_minifier::minify(&mut stylesheet, options.minifier);
 
         let mut minified = String::new();
         let wr = swc_css_codegen::writer::basic::BasicCssWriter::new(
@@ -1645,10 +1716,7 @@ impl Minifier {
             None,
             swc_css_codegen::writer::basic::BasicCssWriterConfig::default(),
         );
-        let mut gen = swc_css_codegen::CodeGenerator::new(
-            wr,
-            swc_css_codegen::CodegenConfig { minify: true },
-        );
+        let mut gen = swc_css_codegen::CodeGenerator::new(wr, options.codegen);
 
         match mode {
             CssMinificationMode::Stylesheet => {
@@ -1756,9 +1824,9 @@ impl Minifier {
             remove_redundant_attributes: self.remove_empty_attributes,
             collapse_boolean_attributes: self.collapse_boolean_attributes,
             normalize_attributes: self.normalize_attributes,
-            minify_js: self.minify_js,
-            minify_json: self.minify_json,
-            minify_css: self.minify_css,
+            minify_js: self.minify_js.clone(),
+            minify_json: self.minify_json.clone(),
+            minify_css: self.minify_css.clone(),
             minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
             minify_additional_attributes: self.minify_additional_attributes.clone(),
             sort_space_separated_attribute_values: self.sort_space_separated_attribute_values,
@@ -2065,13 +2133,13 @@ impl VisitMut for Minifier {
                 Some(minified) => minified,
                 _ => value,
             };
-        } else if self.minify_css && &*n.name == "media" && !value.is_empty() {
+        } else if self.need_minify_css() && &*n.name == "media" && !value.is_empty() {
             if let Some(minified) =
                 self.minify_css(value.clone(), CssMinificationMode::MediaQueryList)
             {
                 value = minified;
             }
-        } else if self.minify_css && &*n.name == "style" && !value.is_empty() {
+        } else if self.need_minify_css() && &*n.name == "style" && !value.is_empty() {
             if let Some(minified) =
                 self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
             {
@@ -2083,25 +2151,25 @@ impl VisitMut for Minifier {
             let minifier_type = self.is_additional_minifier_attribute(&n.name);
 
             match minifier_type {
-                Some(MinifierType::JsScript) if self.minify_js => {
+                Some(MinifierType::JsScript) if self.need_minify_js() => {
                     value = match self.minify_js(value.clone(), false, true) {
                         Some(minified) => minified,
                         _ => value,
                     };
                 }
-                Some(MinifierType::JsModule) if self.minify_js => {
+                Some(MinifierType::JsModule) if self.need_minify_js() => {
                     value = match self.minify_js(value.clone(), true, true) {
                         Some(minified) => minified,
                         _ => value,
                     };
                 }
-                Some(MinifierType::Json) if self.minify_json => {
+                Some(MinifierType::Json) if self.need_minify_json() => {
                     value = match self.minify_json(value.clone()) {
                         Some(minified) => minified,
                         _ => value,
                     };
                 }
-                Some(MinifierType::Css) if self.minify_css => {
+                Some(MinifierType::Css) if self.need_minify_css() => {
                     value = match self
                         .minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
                     {
@@ -2136,7 +2204,7 @@ impl VisitMut for Minifier {
         if let Some(current_element) = &self.current_element {
             match &*current_element.tag_name {
                 "script"
-                    if (self.minify_json || self.minify_js)
+                    if (self.need_minify_json() || self.need_minify_js())
                         && matches!(
                             current_element.namespace,
                             Namespace::HTML | Namespace::SVG
@@ -2151,7 +2219,7 @@ impl VisitMut for Minifier {
                         .map(|v| v.trim().to_ascii_lowercase());
 
                     match type_attribute_value.as_deref() {
-                        Some("module") if self.minify_js => {
+                        Some("module") if self.need_minify_js() => {
                             text_type = Some(MinifierType::JsModule);
                         }
                         Some(
@@ -2163,7 +2231,7 @@ impl VisitMut for Minifier {
                             | "application/ecmascript",
                         )
                         | None
-                            if self.minify_js =>
+                            if self.need_minify_js() =>
                         {
                             text_type = Some(MinifierType::JsScript);
                         }
@@ -2172,7 +2240,7 @@ impl VisitMut for Minifier {
                             | "application/ld+json"
                             | "importmap"
                             | "speculationrules",
-                        ) if self.minify_json => {
+                        ) if self.need_minify_json() => {
                             text_type = Some(MinifierType::Json);
                         }
                         Some(script_type) if self.minify_additional_scripts_content.is_some() => {
@@ -2186,7 +2254,7 @@ impl VisitMut for Minifier {
                     }
                 }
                 "style"
-                    if self.minify_css
+                    if self.need_minify_css()
                         && matches!(
                             current_element.namespace,
                             Namespace::HTML | Namespace::SVG
@@ -2350,9 +2418,9 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         remove_redundant_attributes: options.remove_redundant_attributes,
         normalize_attributes: options.normalize_attributes,
 
-        minify_js: options.minify_js,
-        minify_json: options.minify_json,
-        minify_css: options.minify_css,
+        minify_json: options.minify_json.clone(),
+        minify_js: options.minify_js.clone(),
+        minify_css: options.minify_css.clone(),
         minify_additional_attributes: options.minify_additional_attributes.clone(),
         minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
 

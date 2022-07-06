@@ -1,0 +1,17 @@
+{
+  "minifyJs": {
+    "parser": {
+      "target": "es2022"
+    },
+    "minifier": {
+      "compress": {
+        "drop_debugger": false
+      }
+    },
+    "codegen": {
+      "target": "es2022",
+      "ascii_only": true,
+      "minify": true
+    }
+  }
+}

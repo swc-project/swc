@@ -18,13 +18,13 @@ debug = []
 [dependencies]
 bitflags = "1.2.1"
 lexical = "6.1.0"
+serde = "1.0.127"
 swc_atoms = { version = "0.2.7", path = "../swc_atoms" }
 swc_common = { version = "0.21.0", path = "../swc_common" }
 swc_css_ast = { version = "0.96.0", path = "../swc_css_ast" }
 
 [dev-dependencies]
 criterion = "0.3"
-serde = "1.0.127"
 serde_json = "1.0.66"
 swc_css_visit = { version = "0.95.0", path = "../swc_css_visit" }
 swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
