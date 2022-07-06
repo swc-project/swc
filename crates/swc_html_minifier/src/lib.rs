@@ -1,10 +1,16 @@
 #![deny(clippy::all)]
 
+use std::cmp::Ordering;
+
 use once_cell::sync::Lazy;
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
-use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, Mark, SourceMap};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    sync::Lrc,
+    FileName, FilePathMapping, Mark, SourceMap,
+};
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
 use swc_html_visit::{VisitMut, VisitMutWith};
@@ -334,6 +340,7 @@ struct Minifier {
     minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
 
     sort_space_separated_attribute_values: bool,
+    attribute_name_counter: Option<AHashMap<JsWord, usize>>,
 }
 
 fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
@@ -1755,6 +1762,7 @@ impl Minifier {
             minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
             minify_additional_attributes: self.minify_additional_attributes.clone(),
             sort_space_separated_attribute_values: self.sort_space_separated_attribute_values,
+            sort_attributes: self.attribute_name_counter.is_some(),
         };
 
         match document_or_document_fragment {
@@ -1921,6 +1929,19 @@ impl VisitMut for Minifier {
 
             true
         });
+
+        if let Some(attribute_name_counter) = &self.attribute_name_counter {
+            n.attributes.sort_by(|a, b| {
+                let ordeing = attribute_name_counter
+                    .get(&b.name)
+                    .cmp(&attribute_name_counter.get(&a.name));
+
+                match ordeing {
+                    Ordering::Equal => b.name.cmp(&a.name),
+                    _ => ordeing,
+                }
+            });
+        }
     }
 
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
@@ -2288,6 +2309,18 @@ impl VisitMut for Minifier {
     }
 }
 
+struct AttributeNameCounter {
+    tree: AHashMap<JsWord, usize>,
+}
+
+impl VisitMut for AttributeNameCounter {
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
+        n.visit_mut_children_with(self);
+
+        *self.tree.entry(n.name.clone()).or_insert(0) += 1;
+    }
+}
+
 fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -> Minifier {
     let mut current_element = None;
     let mut is_pre = false;
@@ -2312,10 +2345,9 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         collapse_whitespaces: options.collapse_whitespaces.clone(),
 
         remove_empty_metedata_elements: options.remove_empty_metedata_elements,
-
         remove_empty_attributes: options.remove_empty_attributes,
-        remove_redundant_attributes: options.remove_redundant_attributes,
         collapse_boolean_attributes: options.collapse_boolean_attributes,
+        remove_redundant_attributes: options.remove_redundant_attributes,
         normalize_attributes: options.normalize_attributes,
 
         minify_js: options.minify_js,
@@ -2325,21 +2357,42 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
 
         sort_space_separated_attribute_values: options.sort_space_separated_attribute_values,
+        attribute_name_counter: None,
     }
 }
 
 pub fn minify_document(document: &mut Document, options: &MinifyOptions) {
     let mut minifier = create_minifier(None, options);
 
+    if options.sort_attributes {
+        let mut attribute_name_counter = AttributeNameCounter {
+            tree: Default::default(),
+        };
+
+        document.visit_mut_with(&mut attribute_name_counter);
+
+        minifier.attribute_name_counter = Some(attribute_name_counter.tree);
+    }
+
     document.visit_mut_with(&mut minifier);
 }
 
 pub fn minify_document_fragment(
-    document: &mut DocumentFragment,
+    document_fragment: &mut DocumentFragment,
     context_element: &Element,
     options: &MinifyOptions,
 ) {
     let mut minifier = create_minifier(Some(context_element), options);
 
-    document.visit_mut_with(&mut minifier);
+    if options.sort_attributes {
+        let mut attribute_name_counter = AttributeNameCounter {
+            tree: Default::default(),
+        };
+
+        document_fragment.visit_mut_with(&mut attribute_name_counter);
+
+        minifier.attribute_name_counter = Some(attribute_name_counter.tree);
+    }
+
+    document_fragment.visit_mut_with(&mut minifier);
 }
