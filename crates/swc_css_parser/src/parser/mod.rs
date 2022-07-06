@@ -28,6 +28,7 @@ pub struct ParserConfig {
     ///
     /// This option exists because there are so many css-in-js tools and people
     /// use `//` as a comment because it's javascript file.
+    #[serde(default)]
     pub allow_wrong_line_comments: bool,
 }
 

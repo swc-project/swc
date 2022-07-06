@@ -10,6 +10,8 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     sync::Lrc,
     FileName, FilePathMapping, Mark, SourceMap,
+    collections::AHashSet, comments::SingleThreadedComments, sync::Lrc, FileName, FilePathMapping,
+    Mark, SourceMap,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
@@ -1459,6 +1461,7 @@ impl Minifier {
         match &self.minify_js {
             MinifyJsOption::Bool(_) => JsOptions {
                 parser: JsParserOptions {
+                    comments: false,
                     syntax: swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig::default()),
                     target,
                 },
@@ -1482,7 +1485,6 @@ impl Minifier {
     }
 
     // TODO source map url output for JS and CSS?
-    // TODO allow preserve comments
     fn minify_js(&self, data: String, is_module: bool, is_attribute: bool) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
@@ -1499,16 +1501,29 @@ impl Minifier {
         }
 
         options.codegen.minify = true;
+        options.codegen.target = options.parser.target;
 
-        let JsParserOptions { syntax, target } = options.parser;
+        let comments = SingleThreadedComments::default();
 
         let mut program = if is_module {
-            match swc_ecma_parser::parse_file_as_module(&fm, syntax, target, None, &mut errors) {
+            match swc_ecma_parser::parse_file_as_module(
+                &fm,
+                options.parser.syntax,
+                options.parser.target,
+                Some(&comments),
+                &mut errors,
+            ) {
                 Ok(module) => swc_ecma_ast::Program::Module(module),
                 _ => return None,
             }
         } else {
-            match swc_ecma_parser::parse_file_as_script(&fm, syntax, target, None, &mut errors) {
+            match swc_ecma_parser::parse_file_as_script(
+                &fm,
+                options.parser.syntax,
+                options.parser.target,
+                Some(&comments),
+                &mut errors,
+            ) {
                 Ok(script) => swc_ecma_ast::Program::Script(script),
                 _ => return None,
             }
@@ -1530,7 +1545,7 @@ impl Minifier {
         let program = swc_ecma_minifier::optimize(
             program,
             cm.clone(),
-            None,
+            Some(&comments),
             None,
             &options.minifier,
             &swc_ecma_minifier::option::ExtraOptions {
@@ -1554,7 +1569,7 @@ impl Minifier {
             let mut emitter = swc_ecma_codegen::Emitter {
                 cfg: options.codegen,
                 cm,
-                comments: None,
+                comments: Some(&comments),
                 wr,
             };
 

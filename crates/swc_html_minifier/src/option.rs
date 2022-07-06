@@ -74,9 +74,10 @@ pub struct JsOptions {
 
 #[derive(Default, Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
 pub struct JsParserOptions {
     #[serde(default)]
+    pub comments: bool,
+    #[serde(flatten)]
     pub syntax: Syntax,
     #[serde(default)]
     pub target: EsVersion,

@@ -22,6 +22,7 @@ pub mod writer;
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
 pub struct CodegenConfig {
+    #[serde(default)]
     pub minify: bool,
 }
 #[derive(Debug)]
