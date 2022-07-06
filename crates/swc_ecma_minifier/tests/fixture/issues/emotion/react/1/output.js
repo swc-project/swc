@@ -817,7 +817,7 @@
                     prefetched[href + "%" + as + (curLocale ? "%" + curLocale : "")] = !0;
                 }
             }
-            exports.default = function(props) {
+            var _default = function(props) {
                 var child, p = !1 !== props.prefetch, router = _router1.useRouter(), ref2 = _react.default.useMemo(function() {
                     var ref = _slicedToArray(_router.resolveHref(router, props.href, !0), 2), resolvedHref = ref[0], resolvedAs = ref[1];
                     return {
@@ -872,6 +872,7 @@
                 }
                 return _react.default.cloneElement(child, childProps);
             };
+            exports.default = _default;
         },
         7190: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";

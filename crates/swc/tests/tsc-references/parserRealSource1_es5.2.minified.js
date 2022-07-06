@@ -1,6 +1,51 @@
 var TypeScript;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(TypeScript) {
+    var timeFunction = function(logger, funcDescription, func) {
+        var start = +new Date(), result = func(), end = +new Date();
+        return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
+    }, stringToLiteral = function(value, length) {
+        var result = "", addChar = function(index) {
+            var ch = value.charCodeAt(index);
+            switch(ch){
+                case 0x09:
+                    result += "\\t";
+                    break;
+                case 0x0a:
+                    result += "\\n";
+                    break;
+                case 0x0b:
+                    result += "\\v";
+                    break;
+                case 0x0c:
+                    result += "\\f";
+                    break;
+                case 0x0d:
+                    result += "\\r";
+                    break;
+                case 0x22:
+                    result += '\\"';
+                    break;
+                case 0x27:
+                    result += "\\'";
+                    break;
+                case 0x5c:
+                    result += "\\";
+                    break;
+                default:
+                    result += value.charAt(index);
+            }
+        };
+        if (value.length > length) {
+            for(var mid = length >> 1, i = 0; i < mid; i++)addChar(i);
+            result += "(...)";
+            for(var i = value.length - mid; i < value.length; i++)addChar(i);
+        } else {
+            length = value.length;
+            for(var i = 0; i < length; i++)addChar(i);
+        }
+        return result;
+    };
     !function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
         function Alert(output) {
@@ -72,49 +117,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             this.logContents.push(s);
         }, BufferedLogger;
     }();
-    TypeScript.BufferedLogger = BufferedLogger, TypeScript.timeFunction = function(logger, funcDescription, func) {
-        var start = +new Date(), result = func(), end = +new Date();
-        return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
-    }, TypeScript.stringToLiteral = function(value, length) {
-        var result = "", addChar = function(index) {
-            var ch = value.charCodeAt(index);
-            switch(ch){
-                case 0x09:
-                    result += "\\t";
-                    break;
-                case 0x0a:
-                    result += "\\n";
-                    break;
-                case 0x0b:
-                    result += "\\v";
-                    break;
-                case 0x0c:
-                    result += "\\f";
-                    break;
-                case 0x0d:
-                    result += "\\r";
-                    break;
-                case 0x22:
-                    result += '\\"';
-                    break;
-                case 0x27:
-                    result += "\\'";
-                    break;
-                case 0x5c:
-                    result += "\\";
-                    break;
-                default:
-                    result += value.charAt(index);
-            }
-        };
-        if (value.length > length) {
-            for(var mid = length >> 1, i = 0; i < mid; i++)addChar(i);
-            result += "(...)";
-            for(var i = value.length - mid; i < value.length; i++)addChar(i);
-        } else {
-            length = value.length;
-            for(var i = 0; i < length; i++)addChar(i);
-        }
-        return result;
-    };
+    TypeScript.BufferedLogger = BufferedLogger, TypeScript.timeFunction = timeFunction, TypeScript.stringToLiteral = stringToLiteral;
 }(TypeScript || (TypeScript = {}));

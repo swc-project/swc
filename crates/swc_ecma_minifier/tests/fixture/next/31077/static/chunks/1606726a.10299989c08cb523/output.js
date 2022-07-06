@@ -2148,12 +2148,12 @@
                 this.members = members;
             };
             function mapChildren(oldChildren, newLocal, mapping, node, offset, oldOffset, options) {
-                for(var children = oldChildren.slice(), i = 0; i < mapping.maps.length; i++)mapping.maps[i].forEach(function(oldStart, oldEnd, newStart, newEnd) {
+                for(var children = oldChildren.slice(), shift = function(oldStart, oldEnd, newStart, newEnd) {
                     for(var i = 0; i < children.length; i += 3){
                         var end = children[i + 1], dSize = void 0;
                         -1 != end && !(oldStart > end + oldOffset) && (oldEnd >= children[i] + oldOffset ? children[i + 1] = -1 : newStart >= offset && (dSize = newEnd - newStart - (oldEnd - oldStart)) && (children[i] += dSize, children[i + 1] += dSize));
                     }
-                });
+                }, i = 0; i < mapping.maps.length; i++)mapping.maps[i].forEach(shift);
                 for(var mustRebuild = !1, i$1 = 0; i$1 < children.length; i$1 += 3)if (-1 == children[i$1 + 1]) {
                     var from = mapping.map(oldChildren[i$1] + oldOffset), fromLocal = from - offset;
                     if (fromLocal < 0 || fromLocal >= node.content.size) {

@@ -9,6 +9,4 @@ function error(message) {
     cb();
 }(()=>{
     throw Error();
-}), function(cb) {
-    cb();
-}(()=>error("Error callback"));
+}), error("Error callback");

@@ -24,7 +24,13 @@ var _obj, isMultiIndexContext = function(widget) {
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 export default function createInstantSearchManager(param) {
-    var indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, getMetadata = function(state) {
+    var indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, skipSearch = function() {
+        skip = !0;
+    }, updateClient = function(client) {
+        addAlgoliaAgents(client), helper.setClient(client), search();
+    }, clearCache = function() {
+        helper.clearCache(), search();
+    }, getMetadata = function(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getMetadata);
         }).map(function(widget) {
@@ -106,6 +112,15 @@ export default function createInstantSearchManager(param) {
             error: error,
             searching: !1
         }));
+    }, handleNewSearch = function() {
+        stalledSearchTimer || (stalledSearchTimer = setTimeout(function() {
+            var _ref = store.getState(), partialState = (_ref.resultsFacetValues, swcHelpers.objectWithoutProperties(_ref, [
+                "resultsFacetValues", 
+            ]));
+            store.setState(swcHelpers.objectSpread({}, partialState, {
+                isSearchStalled: !0
+            }));
+        }, stalledSearchDelay));
     }, hydrateSearchClientWithMultiIndexRequest = function(client, results) {
         if (client.transporter) {
             client.transporter.responsesCache.set({
@@ -170,26 +185,57 @@ export default function createInstantSearchManager(param) {
         client.cache = swcHelpers.objectSpread({}, client.cache, swcHelpers.defineProperty({}, key, JSON.stringify({
             results: results.rawResults
         })));
-    }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
-    addAlgoliaAgents(searchClient), helper.on("search", function() {
-        stalledSearchTimer || (stalledSearchTimer = setTimeout(function() {
-            var _ref = store.getState(), partialState = (_ref.resultsFacetValues, swcHelpers.objectWithoutProperties(_ref, [
-                "resultsFacetValues", 
-            ]));
-            store.setState(swcHelpers.objectSpread({}, partialState, {
-                isSearchStalled: !0
-            }));
-        }, stalledSearchDelay));
-    }).on("result", handleSearchSuccess({
-        indexId: indexName
-    })).on("error", handleSearchError);
-    var results, state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(function() {
+    }, onWidgetsUpdate = function() {
         var metadata = getMetadata(store.getState().widgets);
         store.setState(swcHelpers.objectSpread({}, store.getState(), {
             metadata: metadata,
             searching: !0
         })), search();
-    });
+    }, transitionState = function(nextSearchState) {
+        var searchState = store.getState().widgets;
+        return widgetsManager.getWidgets().filter(function(widget) {
+            return Boolean(widget.transitionState);
+        }).reduce(function(res, widget) {
+            return widget.transitionState(searchState, res);
+        }, nextSearchState);
+    }, onExternalStateUpdate = function(nextSearchState) {
+        var metadata = getMetadata(nextSearchState);
+        store.setState(swcHelpers.objectSpread({}, store.getState(), {
+            widgets: nextSearchState,
+            metadata: metadata,
+            searching: !0
+        })), search();
+    }, onSearchForFacetValues = function(param) {
+        var facetName = param.facetName, query = param.query, _maxFacetHits = param.maxFacetHits;
+        store.setState(swcHelpers.objectSpread({}, store.getState(), {
+            searchingForFacetValues: !0
+        })), helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(void 0 === _maxFacetHits ? 10 : _maxFacetHits, 100))).then(function(content) {
+            store.setState(swcHelpers.objectSpread({}, store.getState(), {
+                error: null,
+                searchingForFacetValues: !1,
+                resultsFacetValues: swcHelpers.objectSpread({}, store.getState().resultsFacetValues, (_obj = {}, swcHelpers.defineProperty(_obj, facetName, content.facetHits), swcHelpers.defineProperty(_obj, "query", query), _obj))
+            }));
+        }, function(error) {
+            store.setState(swcHelpers.objectSpread({}, store.getState(), {
+                searchingForFacetValues: !1,
+                error: error
+            }));
+        }).catch(function(error) {
+            setTimeout(function() {
+                throw error;
+            });
+        });
+    }, updateIndex = function(newIndex) {
+        initialSearchParameters = initialSearchParameters.setIndex(newIndex);
+    }, getWidgetsIds = function() {
+        return store.getState().metadata.reduce(function(res, meta) {
+            return void 0 !== meta.id ? res.concat(meta.id) : res;
+        }, []);
+    }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
+    addAlgoliaAgents(searchClient), helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
+        indexId: indexName
+    })).on("error", handleSearchError);
+    var results, state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {
@@ -259,61 +305,15 @@ export default function createInstantSearchManager(param) {
     return {
         store: store,
         widgetsManager: widgetsManager,
-        getWidgetsIds: function() {
-            return store.getState().metadata.reduce(function(res, meta) {
-                return void 0 !== meta.id ? res.concat(meta.id) : res;
-            }, []);
-        },
+        getWidgetsIds: getWidgetsIds,
         getSearchParameters: getSearchParameters,
-        onSearchForFacetValues: function(param) {
-            var facetName = param.facetName, query = param.query, _maxFacetHits = param.maxFacetHits;
-            store.setState(swcHelpers.objectSpread({}, store.getState(), {
-                searchingForFacetValues: !0
-            })), helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(void 0 === _maxFacetHits ? 10 : _maxFacetHits, 100))).then(function(content) {
-                store.setState(swcHelpers.objectSpread({}, store.getState(), {
-                    error: null,
-                    searchingForFacetValues: !1,
-                    resultsFacetValues: swcHelpers.objectSpread({}, store.getState().resultsFacetValues, (_obj = {}, swcHelpers.defineProperty(_obj, facetName, content.facetHits), swcHelpers.defineProperty(_obj, "query", query), _obj))
-                }));
-            }, function(error) {
-                store.setState(swcHelpers.objectSpread({}, store.getState(), {
-                    searchingForFacetValues: !1,
-                    error: error
-                }));
-            }).catch(function(error) {
-                setTimeout(function() {
-                    throw error;
-                });
-            });
-        },
-        onExternalStateUpdate: function(nextSearchState) {
-            var metadata = getMetadata(nextSearchState);
-            store.setState(swcHelpers.objectSpread({}, store.getState(), {
-                widgets: nextSearchState,
-                metadata: metadata,
-                searching: !0
-            })), search();
-        },
-        transitionState: function(nextSearchState) {
-            var searchState = store.getState().widgets;
-            return widgetsManager.getWidgets().filter(function(widget) {
-                return Boolean(widget.transitionState);
-            }).reduce(function(res, widget) {
-                return widget.transitionState(searchState, res);
-            }, nextSearchState);
-        },
-        updateClient: function(client) {
-            addAlgoliaAgents(client), helper.setClient(client), search();
-        },
-        updateIndex: function(newIndex) {
-            initialSearchParameters = initialSearchParameters.setIndex(newIndex);
-        },
-        clearCache: function() {
-            helper.clearCache(), search();
-        },
-        skipSearch: function() {
-            skip = !0;
-        }
+        onSearchForFacetValues: onSearchForFacetValues,
+        onExternalStateUpdate: onExternalStateUpdate,
+        transitionState: transitionState,
+        updateClient: updateClient,
+        updateIndex: updateIndex,
+        clearCache: clearCache,
+        skipSearch: skipSearch
     };
 };
 function hydrateMetadata(resultsState) {
