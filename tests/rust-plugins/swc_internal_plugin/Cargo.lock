@@ -40,7 +40,7 @@ checksum = "84450d0b4a8bd1ba4144ce8ce718fbc5d071358b1e5384bace6536b3d1f2d5b3"
 
 [[package]]
 name = "ast_node"
-version = "0.7.7"
+version = "0.8.1"
 dependencies = [
  "darling",
  "pmutil",
@@ -709,9 +709,11 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc_atoms"
-version = "0.2.12"
+version = "0.2.13"
 dependencies = [
+ "bytecheck",
  "once_cell",
+ "rkyv",
  "rustc-hash",
  "serde",
  "string_cache",
@@ -720,12 +722,13 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.18.9"
+version = "0.20.2"
 dependencies = [
  "ahash",
  "anyhow",
  "ast_node",
  "better_scoped_tls",
+ "bytecheck",
  "cfg-if",
  "debug_unreachable",
  "either",
@@ -737,6 +740,7 @@ dependencies = [
  "serde",
  "siphasher",
  "string_cache",
+ "swc_atoms",
  "swc_eq_ignore_macros",
  "swc_visit",
  "tracing",
@@ -746,9 +750,10 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.79.0"
+version = "0.81.0"
 dependencies = [
  "bitflags",
+ "bytecheck",
  "is-macro",
  "num-bigint",
  "rkyv",
@@ -762,7 +767,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.105.7"
+version = "0.108.1"
 dependencies = [
  "either",
  "enum_kind",
@@ -779,7 +784,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.86.2"
+version = "0.90.0"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -793,7 +798,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.65.0"
+version = "0.67.1"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -805,7 +810,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.167.0"
+version = "0.175.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -843,7 +848,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.63.0"
+version = "0.71.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -863,9 +868,10 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.4.0"
+version = "0.6.0"
 dependencies = [
  "better_scoped_tls",
+ "bytecheck",
  "rkyv",
  "swc_common",
  "swc_ecma_ast",
@@ -873,7 +879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.3.0"
+version = "0.3.2"
 dependencies = [
  "either",
  "swc_visit_macros",
@@ -881,7 +887,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "Inflector",
  "pmutil",

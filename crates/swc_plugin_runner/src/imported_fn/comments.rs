@@ -3,7 +3,7 @@ use std::sync::Arc;
 use parking_lot::Mutex;
 use swc_common::{
     comments::{Comments, SingleThreadedComments},
-    plugin::Serialized,
+    plugin::PluginSerializedBytes,
     BytePos,
 };
 use swc_plugin_proxy::COMMENTS;
@@ -102,19 +102,13 @@ where
 /// Common logics for add_*_comment/comments.
 fn add_comments_inner<F>(env: &CommentHostEnvironment, byte_pos: u32, f: F)
 where
-    F: FnOnce(&SingleThreadedComments, BytePos, Serialized),
+    F: FnOnce(&SingleThreadedComments, BytePos, PluginSerializedBytes),
 {
     unwrap_comments_storage(|comments| {
         let byte_pos = BytePos(byte_pos);
         // PluginCommentProxy in the guest should've copied buffer already
         let comment_byte = &mut (*env.mutable_comment_buffer.lock());
-        let serialized = Serialized::new_for_plugin(
-            comment_byte,
-            comment_byte
-                .len()
-                .try_into()
-                .expect("Should able to convert ptr length"),
-        );
+        let serialized = PluginSerializedBytes::from_slice(comment_byte);
 
         f(comments, byte_pos, serialized);
 
@@ -126,13 +120,23 @@ where
 
 pub fn add_leading_comment_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
-        comments.add_leading(byte_pos, serialized.into());
+        comments.add_leading(
+            byte_pos,
+            serialized
+                .deserialize()
+                .expect("Should be able to deserialize"),
+        );
     });
 }
 
 pub fn add_leading_comments_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
-        comments.add_leading_comments(byte_pos, serialized.into());
+        comments.add_leading_comments(
+            byte_pos,
+            serialized
+                .deserialize()
+                .expect("Should be able to deserialize"),
+        );
     });
 }
 
@@ -157,7 +161,8 @@ pub fn take_leading_comments_proxy(
             let leading_comments = comments.take_leading(BytePos(byte_pos));
             if let Some(leading_comments) = leading_comments {
                 let serialized_leading_comments_vec_bytes =
-                    Serialized::serialize(&leading_comments).expect("Should be serializable");
+                    PluginSerializedBytes::try_serialize(&leading_comments)
+                        .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
                     memory,
@@ -190,7 +195,8 @@ pub fn get_leading_comments_proxy(
             let leading_comments = comments.get_leading(BytePos(byte_pos));
             if let Some(leading_comments) = leading_comments {
                 let serialized_leading_comments_vec_bytes =
-                    Serialized::serialize(&leading_comments).expect("Should be serializable");
+                    PluginSerializedBytes::try_serialize(&leading_comments)
+                        .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
                     memory,
@@ -209,13 +215,23 @@ pub fn get_leading_comments_proxy(
 
 pub fn add_trailing_comment_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
-        comments.add_trailing(byte_pos, serialized.into());
+        comments.add_trailing(
+            byte_pos,
+            serialized
+                .deserialize()
+                .expect("Should be able to deserialize"),
+        );
     });
 }
 
 pub fn add_trailing_comments_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
-        comments.add_trailing_comments(byte_pos, serialized.into());
+        comments.add_trailing_comments(
+            byte_pos,
+            serialized
+                .deserialize()
+                .expect("Should be able to deserialize"),
+        );
     });
 }
 
@@ -243,7 +259,8 @@ pub fn take_trailing_comments_proxy(
             let trailing_comments = comments.take_trailing(BytePos(byte_pos));
             if let Some(leading_comments) = trailing_comments {
                 let serialized_leading_comments_vec_bytes =
-                    Serialized::serialize(&leading_comments).expect("Should be serializable");
+                    PluginSerializedBytes::try_serialize(&leading_comments)
+                        .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
                     memory,
@@ -271,7 +288,8 @@ pub fn get_trailing_comments_proxy(
             let trailing_comments = comments.get_trailing(BytePos(byte_pos));
             if let Some(leading_comments) = trailing_comments {
                 let serialized_leading_comments_vec_bytes =
-                    Serialized::serialize(&leading_comments).expect("Should be serializable");
+                    PluginSerializedBytes::try_serialize(&leading_comments)
+                        .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
                     memory,

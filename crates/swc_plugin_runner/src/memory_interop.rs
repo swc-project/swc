@@ -1,4 +1,4 @@
-use swc_common::plugin::Serialized;
+use swc_common::plugin::PluginSerializedBytes;
 use swc_plugin_proxy::AllocatedBytesPtr;
 use wasmer::{Array, Memory, NativeFunc, WasmPtr};
 
@@ -23,14 +23,13 @@ pub fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32)
 #[tracing::instrument(level = "info", skip_all)]
 pub fn write_into_memory_view<F>(
     memory: &Memory,
-    serialized_bytes: &Serialized,
+    serialized_bytes: &PluginSerializedBytes,
     get_allocated_ptr: F,
 ) -> (i32, i32)
 where
     F: Fn(usize) -> i32,
 {
-    let serialized = serialized_bytes.as_ref();
-    let serialized_len = serialized.len();
+    let serialized_len = serialized_bytes.as_ptr().1;
 
     let ptr_start = get_allocated_ptr(serialized_len);
     let ptr_start_size = ptr_start
@@ -52,7 +51,7 @@ where
     // https://github.com/swc-project/swc/blob/1ef8f3749b6454eb7d40a36a5f9366137fa97928/crates/swc_plugin_runner/src/lib.rs#L56-L61
     unsafe {
         view.subarray(ptr_start_size, ptr_start_size + serialized_len_size)
-            .copy_from(serialized);
+            .copy_from(serialized_bytes.as_slice());
     }
 
     (
@@ -71,9 +70,9 @@ pub fn allocate_return_values_into_guest(
     memory: &Memory,
     alloc_guest_memory: &NativeFunc<u32, i32>,
     allocated_ret_ptr: i32,
-    serialized_bytes: &Serialized,
+    serialized_bytes: &PluginSerializedBytes,
 ) {
-    let serialized_bytes_len = serialized_bytes.as_ref().len();
+    let serialized_bytes_len = serialized_bytes.as_ptr().1;
 
     let (allocated_ptr, allocated_ptr_len) =
         write_into_memory_view(memory, serialized_bytes, |_| {
@@ -95,7 +94,7 @@ pub fn allocate_return_values_into_guest(
 
     // Retuning (allocated_ptr, len) into caller (plugin)
     let comment_ptr_serialized =
-        Serialized::serialize(&AllocatedBytesPtr(allocated_ptr, allocated_ptr_len))
+        PluginSerializedBytes::try_serialize(&AllocatedBytesPtr(allocated_ptr, allocated_ptr_len))
             .expect("Should be serializable");
 
     write_into_memory_view(memory, &comment_ptr_serialized, |_| allocated_ret_ptr);
