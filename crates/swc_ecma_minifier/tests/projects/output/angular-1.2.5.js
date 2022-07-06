@@ -2666,6 +2666,35 @@
                     }), result.promise;
                 }
             };
+        }, when = function(value, callback, errback, progressback) {
+            var done, result = defer(), wrappedCallback = function(value) {
+                try {
+                    return (isFunction(callback) ? callback : defaultCallback)(value);
+                } catch (e) {
+                    return exceptionHandler(e), reject(e);
+                }
+            }, wrappedErrback = function(reason) {
+                try {
+                    return (isFunction(errback) ? errback : defaultErrback)(reason);
+                } catch (e) {
+                    return exceptionHandler(e), reject(e);
+                }
+            }, wrappedProgressback = function(progress) {
+                try {
+                    return (isFunction(progressback) ? progressback : defaultCallback)(progress);
+                } catch (e) {
+                    exceptionHandler(e);
+                }
+            };
+            return nextTick(function() {
+                ref(value).then(function(value) {
+                    done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
+                }, function(reason) {
+                    done || (done = !0, result.resolve(wrappedErrback(reason)));
+                }, function(progress) {
+                    done || result.notify(wrappedProgressback(progress));
+                });
+            }), result.promise;
         };
         function defaultCallback(value) {
             return value;
@@ -2676,36 +2705,7 @@
         return {
             defer: defer,
             reject: reject,
-            when: function(value, callback, errback, progressback) {
-                var done, result = defer(), wrappedCallback = function(value) {
-                    try {
-                        return (isFunction(callback) ? callback : defaultCallback)(value);
-                    } catch (e) {
-                        return exceptionHandler(e), reject(e);
-                    }
-                }, wrappedErrback = function(reason) {
-                    try {
-                        return (isFunction(errback) ? errback : defaultErrback)(reason);
-                    } catch (e) {
-                        return exceptionHandler(e), reject(e);
-                    }
-                }, wrappedProgressback = function(progress) {
-                    try {
-                        return (isFunction(progressback) ? progressback : defaultCallback)(progress);
-                    } catch (e) {
-                        exceptionHandler(e);
-                    }
-                };
-                return nextTick(function() {
-                    ref(value).then(function(value) {
-                        done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
-                    }, function(reason) {
-                        done || (done = !0, result.resolve(wrappedErrback(reason)));
-                    }, function(progress) {
-                        done || result.notify(wrappedProgressback(progress));
-                    });
-                }), result.promise;
-            },
+            when: when,
             all: function(promises) {
                 var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
                 return forEach(promises, function(promise, key) {
@@ -3747,22 +3747,35 @@
         return {
             require: "ngModel",
             link: function(scope, element, attr, ctrl) {
-                var match = /\/(.*)\//.exec(attr.ngList), separator = match && RegExp(match[1]) || attr.ngList || ",";
-                ctrl.$parsers.push(function(viewValue) {
+                var match = /\/(.*)\//.exec(attr.ngList), separator = match && RegExp(match[1]) || attr.ngList || ",", parse = function(viewValue) {
                     if (!isUndefined(viewValue)) {
                         var list = [];
                         return viewValue && forEach(viewValue.split(separator), function(value) {
                             value && list.push(trim(value));
                         }), list;
                     }
-                }), ctrl.$formatters.push(function(value) {
+                };
+                ctrl.$parsers.push(parse), ctrl.$formatters.push(function(value) {
                     if (isArray(value)) return value.join(", ");
                 }), ctrl.$isEmpty = function(value) {
                     return !value || !value.length;
                 };
             }
         };
-    }, CONSTANT_VALUE_REGEXP = /^(true|false|\d+)$/, ngBindDirective = ngDirective(function(scope, element, attr) {
+    }, CONSTANT_VALUE_REGEXP = /^(true|false|\d+)$/, ngValueDirective = function() {
+        return {
+            priority: 100,
+            compile: function(tpl, tplAttr) {
+                return CONSTANT_VALUE_REGEXP.test(tplAttr.ngValue) ? function(scope, elm, attr) {
+                    attr.$set("value", scope.$eval(attr.ngValue));
+                } : function(scope, elm, attr) {
+                    scope.$watch(attr.ngValue, function(value) {
+                        attr.$set("value", value);
+                    });
+                };
+            }
+        };
+    }, ngBindDirective = ngDirective(function(scope, element, attr) {
         element.addClass("ng-binding").data("$binding", attr.ngBind), scope.$watch(attr.ngBind, function(value) {
             element.text(value == undefined ? "" : value);
         });
@@ -4459,20 +4472,7 @@
                     ngChange: ngChangeDirective,
                     required: requiredDirective,
                     ngRequired: requiredDirective,
-                    ngValue: function() {
-                        return {
-                            priority: 100,
-                            compile: function(tpl, tplAttr) {
-                                return CONSTANT_VALUE_REGEXP.test(tplAttr.ngValue) ? function(scope, elm, attr) {
-                                    attr.$set("value", scope.$eval(attr.ngValue));
-                                } : function(scope, elm, attr) {
-                                    scope.$watch(attr.ngValue, function(value) {
-                                        attr.$set("value", value);
-                                    });
-                                };
-                            }
-                        };
-                    }
+                    ngValue: ngValueDirective
                 }).directive({
                     ngInclude: ngIncludeFillContentDirective
                 }).directive(ngAttributeAliasDirectives).directive(ngEventDirectives), $provide.provider({

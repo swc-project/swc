@@ -239,12 +239,12 @@ var TypeScript;
         var bestOffset = 0, pre = (cur, parent, walker)=>(TypeScript.isValidAstNode(cur) && (cur.minChar <= position && (bestOffset = max(bestOffset, cur.minChar)), (cur.minChar > position || cur.limChar < bestOffset) && (walker.options.goChildren = !1)), cur);
         return TypeScript.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, TypeScript1.walkAST = function(ast, callback) {
-        var path = new AstPath();
-        TypeScript.getAstWalkerFactory().walk(ast, function(cur, parent, walker) {
+        var pre = function(cur, parent, walker) {
             var path = walker.state;
             return path.push(cur), callback(path, walker), cur;
-        }, function(cur, parent, walker) {
+        }, post = function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, null, path);
+        }, path = new AstPath();
+        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
     };
 }(TypeScript || (TypeScript = {}));

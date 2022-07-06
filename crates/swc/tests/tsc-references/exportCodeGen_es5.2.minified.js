@@ -1,10 +1,14 @@
 var A, B, C, D, E, F;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-(A || (A = {})).x = 12, B || (B = {}), C || (C = {}), (D || (D = {})).yes = function() {
-    return !0;
-}, function(E) {
-    (Color = E.Color || (E.Color = {}))[Color.Red = 0] = "Red", E.fn = function() {};
-    var Color, C = function() {
+(A || (A = {})).x = 12, B || (B = {}), C || (C = {}), function(D) {
+    var yes = function() {
+        return !0;
+    };
+    D.yes = yes;
+}(D || (D = {})), function(E) {
+    var Color, fn = function() {};
+    (Color = E.Color || (E.Color = {}))[Color.Red = 0] = "Red", E.fn = fn;
+    var C = function() {
         "use strict";
         _class_call_check(this, C);
     };

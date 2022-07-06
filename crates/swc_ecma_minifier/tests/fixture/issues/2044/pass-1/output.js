@@ -9,6 +9,7 @@ createCommonjsModule(function(module, exports) {
 }), createCommonjsModule(function(module) {
     module.exports = {
         findConfig: function(from) {
+            var resolved;
             return function(dir) {
                 throw Error("");
             };

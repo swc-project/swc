@@ -546,7 +546,9 @@
                 "module"
             ], function(require, exports, module) {
                 "use strict";
-                var Range = function(startRow, startColumn, endRow, endColumn) {
+                var comparePoints = function(p1, p2) {
+                    return p1.row - p2.row || p1.column - p2.column;
+                }, Range = function(startRow, startColumn, endRow, endColumn) {
                     this.start = {
                         row: startRow,
                         column: startColumn
@@ -640,9 +642,7 @@
                     };
                 }).call(Range.prototype), Range.fromPoints = function(start, end) {
                     return new Range(start.row, start.column, end.row, end.column);
-                }, Range.comparePoints = function(p1, p2) {
-                    return p1.row - p2.row || p1.column - p2.column;
-                }, Range.comparePoints = function(p1, p2) {
+                }, Range.comparePoints = comparePoints, Range.comparePoints = function(p1, p2) {
                     return p1.row - p2.row || p1.column - p2.column;
                 }, exports.Range = Range;
             }), ace.define("ace/lib/lang", [
@@ -759,8 +759,7 @@
                 "ace/lib/keys", 
             ], function(require, exports, module) {
                 "use strict";
-                var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile;
-                exports.TextInput = function(parentNode, host) {
+                var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile, TextInput = function(parentNode, host) {
                     var closeTimeout, text = dom.createElement("textarea");
                     text.className = "ace_text-input", text.setAttribute("wrap", "off"), text.setAttribute("autocorrect", "off"), text.setAttribute("autocapitalize", "off"), text.setAttribute("spellcheck", !1), text.style.opacity = "0", parentNode.insertBefore(text, parentNode.firstChild);
                     var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = "";
@@ -840,7 +839,15 @@
                         }
                     };
                     this.resetSelection = resetSelection, isFocused && host.onFocus();
-                    var inputHandler = null;
+                    var onSelect = function(e) {
+                        if (!inComposition) {
+                            if (copied) copied = !1;
+                            else {
+                                var text1;
+                                0 === (text1 = text).selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
+                            }
+                        }
+                    }, inputHandler = null;
                     this.setInputHandler = function(cb) {
                         inputHandler = cb;
                     }, this.getInputHandler = function() {
@@ -896,15 +903,7 @@
                         var data = handleClipboardData(e);
                         clipboard.pasteCancelled() || ("string" == typeof data ? (data && host.onPaste(data, e), useragent.isIE && setTimeout(resetSelection), event.preventDefault(e)) : (text.value = "", pasted = !0));
                     };
-                    event.addCommandKeyListener(text, host.onCommandKey.bind(host), host), event.addListener(text, "select", function(e) {
-                        if (!inComposition) {
-                            if (copied) copied = !1;
-                            else {
-                                var text1;
-                                0 === (text1 = text).selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
-                            }
-                        }
-                    }, host), event.addListener(text, "input", onInput, host), event.addListener(text, "cut", onCut, host), event.addListener(text, "copy", onCopy, host), event.addListener(text, "paste", onPaste, host), "oncut" in text && "oncopy" in text && "onpaste" in text || event.addListener(parentNode, "keydown", function(e) {
+                    event.addCommandKeyListener(text, host.onCommandKey.bind(host), host), event.addListener(text, "select", onSelect, host), event.addListener(text, "input", onInput, host), event.addListener(text, "cut", onCut, host), event.addListener(text, "copy", onCopy, host), event.addListener(text, "paste", onPaste, host), "oncut" in text && "oncopy" in text && "onpaste" in text || event.addListener(parentNode, "keydown", function(e) {
                         if ((!useragent.isMac || e.metaKey) && e.ctrlKey) switch(e.keyCode){
                             case 67:
                                 onCopy(e);
@@ -916,7 +915,13 @@
                                 onCut(e);
                         }
                     }, host);
-                    var onCompositionUpdate = function() {
+                    var onCompositionStart = function(e) {
+                        if (!inComposition && host.onCompositionStart && !host.$readOnly && (inComposition = {}, !commandMode)) {
+                            e.data && (inComposition.useTextareaForIME = !1), setTimeout(onCompositionUpdate, 0), host._signal("compositionStart"), host.on("mousedown", cancelComposition);
+                            var range = host.getSelectionRange();
+                            range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text.msGetInputContext && (inComposition.context = text.msGetInputContext()), text.getInputContext && (inComposition.context = text.getInputContext()));
+                        }
+                    }, onCompositionUpdate = function() {
                         if (inComposition && host.onCompositionUpdate && !host.$readOnly) {
                             if (commandMode) return cancelComposition();
                             inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
@@ -933,13 +938,7 @@
                             tempStyle && (text.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
                         }, 0);
                     }
-                    event.addListener(text, "compositionstart", function(e) {
-                        if (!inComposition && host.onCompositionStart && !host.$readOnly && (inComposition = {}, !commandMode)) {
-                            e.data && (inComposition.useTextareaForIME = !1), setTimeout(onCompositionUpdate, 0), host._signal("compositionStart"), host.on("mousedown", cancelComposition);
-                            var range = host.getSelectionRange();
-                            range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text.msGetInputContext && (inComposition.context = text.msGetInputContext()), text.getInputContext && (inComposition.context = text.getInputContext()));
-                        }
-                    }, host), event.addListener(text, "compositionupdate", onCompositionUpdate, host), event.addListener(text, "keyup", function(e) {
+                    event.addListener(text, "compositionstart", onCompositionStart, host), event.addListener(text, "compositionupdate", onCompositionUpdate, host), event.addListener(text, "keyup", function(e) {
                         27 == e.keyCode && text.value.length < text.selectionStart && (inComposition || (lastValue = text.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
                     }, host), event.addListener(text, "keydown", syncComposition, host), event.addListener(text, "compositionend", onCompositionEnd, host), this.getElement = function() {
                         return text;
@@ -985,7 +984,8 @@
                     }, document.addEventListener("selectionchange", detectArrowKeys), host1.on("destroy", function() {
                         document.removeEventListener("selectionchange", detectArrowKeys);
                     }));
-                }, exports.$setUserAgentForTests = function(_isMobile, _isIOS) {
+                };
+                exports.TextInput = TextInput, exports.$setUserAgentForTests = function(_isMobile, _isIOS) {
                     isMobile = _isMobile, isIOS = _isIOS;
                 };
             }), ace.define("ace/mouse/default_handlers", [
@@ -3073,7 +3073,13 @@
                         this.$embeds || (this.$embeds = []), this.$embeds.push(prefix);
                     }, this.getEmbeds = function() {
                         return this.$embeds;
-                    }, this.normalizeRules = function() {
+                    };
+                    var pushState = function(currentState, stack) {
+                        return ("start" != currentState || stack.length) && stack.unshift(this.nextState, currentState), this.nextState;
+                    }, popState = function(currentState, stack) {
+                        return stack.shift(), stack.shift() || "start";
+                    };
+                    this.normalizeRules = function() {
                         var id = 0, rules = this.$rules;
                         function processState(key) {
                             var state = rules[key];
@@ -3091,12 +3097,8 @@
                                 if (next && Array.isArray(next)) {
                                     var stateName = rule.stateName;
                                     !stateName && ("string" != typeof (stateName = rule.token) && (stateName = stateName[0] || ""), rules[stateName] && (stateName += id++)), rules[stateName] = next, rule.next = stateName, processState(stateName);
-                                } else "pop" == next && (rule.next = function(currentState, stack) {
-                                    return stack.shift(), stack.shift() || "start";
-                                });
-                                if (rule.push && (rule.nextState = rule.next || rule.push, rule.next = function(currentState, stack) {
-                                    return ("start" != currentState || stack.length) && stack.unshift(this.nextState, currentState), this.nextState;
-                                }, delete rule.push), rule.rules) for(var r in rule.rules)rules[r] ? rules[r].push && rules[r].push.apply(rules[r], rule.rules[r]) : rules[r] = rule.rules[r];
+                                } else "pop" == next && (rule.next = popState);
+                                if (rule.push && (rule.nextState = rule.next || rule.push, rule.next = pushState, delete rule.push), rule.rules) for(var r in rule.rules)rules[r] ? rules[r].push && rules[r].push.apply(rules[r], rule.rules[r]) : rules[r] = rule.rules[r];
                                 var includeName = "string" == typeof rule ? rule : rule.include;
                                 if (includeName && (toInsert = Array.isArray(includeName) ? includeName.map(function(x) {
                                     return rules[x];
@@ -11167,7 +11169,8 @@ margin: 0 10px;\
                             data: q
                         }));
                     };
-                }).call(WorkerClient.prototype), exports.UIWorkerClient = function(topLevelNamespaces, mod, classname) {
+                }).call(WorkerClient.prototype);
+                var UIWorkerClient = function(topLevelNamespaces, mod, classname) {
                     var main = null, emitSync = !1, sender = Object.create(EventEmitter), messageBuffer = [], workerClient = new WorkerClient({
                         messageBuffer: messageBuffer,
                         terminate: function() {},
@@ -11204,7 +11207,8 @@ margin: 0 10px;\
                     ], function(Main) {
                         for(main = new Main[classname](sender); messageBuffer.length;)processNext();
                     }), workerClient;
-                }, exports.WorkerClient = WorkerClient, exports.createWorker = createWorker;
+                };
+                exports.UIWorkerClient = UIWorkerClient, exports.WorkerClient = WorkerClient, exports.createWorker = createWorker;
             }), ace.define("ace/placeholder", [
                 "require",
                 "exports",

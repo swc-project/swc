@@ -5,6 +5,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         return null === items || 0 === items.length ? null : items[items.length - 1];
     }, max = function(a, b) {
         return a >= b ? a : b;
+    }, min = function(a, b) {
+        return a <= b ? a : b;
     }, isValidAstNode = function(ast) {
         return null !== ast && -1 !== ast.minChar && -1 !== ast.limChar;
     }, getAstPathToPosition = function(script, pos) {
@@ -31,17 +33,15 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         };
         return TypeScript.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, walkAST = function(ast, callback) {
-        var path = new AstPath();
-        TypeScript.getAstWalkerFactory().walk(ast, function(cur, parent, walker) {
+        var pre = function(cur, parent, walker) {
             var path = walker.state;
             return path.push(cur), callback(path, walker), cur;
-        }, function(cur, parent, walker) {
+        }, post = function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, null, path);
+        }, path = new AstPath();
+        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
     };
-    TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = function(a, b) {
-        return a <= b ? a : b;
-    };
+    TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = min;
     var AstPath = function() {
         "use strict";
         function AstPath() {

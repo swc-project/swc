@@ -3457,7 +3457,20 @@
         },
         9996: function(module) {
             "use strict";
+            var isMergeableObject = function(value) {
+                return isNonNullObject(value) && !isSpecial(value);
+            };
+            function isNonNullObject(value) {
+                return !!value && "object" == typeof value;
+            }
+            function isSpecial(value) {
+                var stringValue = Object.prototype.toString.call(value);
+                return "[object RegExp]" === stringValue || "[object Date]" === stringValue || isReactElement(value);
+            }
             var REACT_ELEMENT_TYPE = "function" == typeof Symbol && Symbol.for ? Symbol.for("react.element") : 0xeac7;
+            function isReactElement(value) {
+                return value.$$typeof === REACT_ELEMENT_TYPE;
+            }
             function cloneUnlessOtherwiseSpecified(value, options) {
                 return !1 !== options.clone && options.isMergeableObject(value) ? deepmerge(Array.isArray(value) ? [] : {}, value, options) : value;
             }
@@ -3480,10 +3493,7 @@
                 }
             }
             function deepmerge(target, source, options) {
-                (options = options || {}).arrayMerge = options.arrayMerge || defaultArrayMerge, options.isMergeableObject = options.isMergeableObject || function(value) {
-                    var value1, value2, stringValue;
-                    return !!(value1 = value) && "object" == typeof value1 && (value2 = value, !("[object RegExp]" === (stringValue = Object.prototype.toString.call(value2)) || "[object Date]" === stringValue || value2.$$typeof === REACT_ELEMENT_TYPE));
-                }, options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
+                (options = options || {}).arrayMerge = options.arrayMerge || defaultArrayMerge, options.isMergeableObject = options.isMergeableObject || isMergeableObject, options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
                 var target1, source1, options1, destination, sourceIsArray = Array.isArray(source), targetIsArray = Array.isArray(target);
                 return sourceIsArray !== targetIsArray ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (target1 = target, source1 = source, destination = {}, (options1 = options).isMergeableObject(target1) && getKeys(target1).forEach(function(key) {
                     destination[key] = cloneUnlessOtherwiseSpecified(target1[key], options1);
@@ -5237,14 +5247,14 @@
                 return parsers.forEach(function(parser) {
                     parser && parser.config && object_assign_default()(config, parser.config);
                 }), createParser(config);
+            }, getWidth = function(n, scale) {
+                var n1;
+                return get(scale, n, "number" != typeof (n1 = n) || isNaN(n1) || n > 1 ? n : 100 * n + "%");
             }, layout = system({
                 width: {
                     property: "width",
                     scale: "sizes",
-                    transform: function(n, scale) {
-                        var n1;
-                        return get(scale, n, "number" != typeof (n1 = n) || isNaN(n1) || n > 1 ? n : 100 * n + "%");
-                    }
+                    transform: getWidth
                 },
                 height: {
                     property: "height",
@@ -5902,7 +5912,9 @@
                 }), alias && (config[alias] = config[prop]);
                 var parse = createParser(config);
                 return parse;
-            }, cjs = __webpack_require__(9996), cjs_default = __webpack_require__.n(cjs), lib_esm_sx = (props)=>css_dist_index_esm(props.sx);
+            }, cjs = __webpack_require__(9996), cjs_default = __webpack_require__.n(cjs);
+            const sx = (props)=>css_dist_index_esm(props.sx);
+            var lib_esm_sx = sx;
             const Box = styled_components_browser_esm.div.withConfig({
                 displayName: "Box",
                 componentId: "sc-1gh2r6s-0"
@@ -6359,7 +6371,11 @@
                 }
             }), TYPOGRAPHY = constants_compose(typography, whiteSpace);
             constants_compose(border, shadow);
-            const CounterLabel = styled_components_browser_esm.span.withConfig({
+            const colorStyles = ({ scheme , ...props })=>({
+                    color: "secondary" === scheme ? constants_get("colors.fg.default")(props) : "primary" === scheme ? constants_get("colors.fg.onEmphasis")(props) : constants_get("colors.fg.default")(props)
+                }), bgStyles = ({ scheme , ...props })=>({
+                    backgroundColor: "secondary" === scheme ? constants_get("colors.neutral.muted")(props) : "primary" === scheme ? constants_get("colors.neutral.emphasis")(props) : constants_get("colors.neutral.muted")(props)
+                }), CounterLabel = styled_components_browser_esm.span.withConfig({
                 displayName: "CounterLabel",
                 componentId: "sc-13ceqbg-0"
             })([
@@ -6370,11 +6386,7 @@
                 ";",
                 ";&:empty{display:none;}",
                 ";", 
-            ], constants_get("fontSizes.0"), constants_get("fontWeights.bold"), constants_get("lineHeights.condensedUltra"), ({ scheme , ...props })=>({
-                    color: "secondary" === scheme ? constants_get("colors.fg.default")(props) : "primary" === scheme ? constants_get("colors.fg.onEmphasis")(props) : constants_get("colors.fg.default")(props)
-                }), ({ scheme , ...props })=>({
-                    backgroundColor: "secondary" === scheme ? constants_get("colors.neutral.muted")(props) : "primary" === scheme ? constants_get("colors.neutral.emphasis")(props) : constants_get("colors.neutral.muted")(props)
-                }), lib_esm_sx);
+            ], constants_get("fontSizes.0"), constants_get("fontWeights.bold"), constants_get("lineHeights.condensedUltra"), colorStyles, bgStyles, lib_esm_sx);
             var lib_esm_CounterLabel = CounterLabel;
             function ButtonCounter_extends() {
                 return (ButtonCounter_extends = Object.assign || function(target) {
