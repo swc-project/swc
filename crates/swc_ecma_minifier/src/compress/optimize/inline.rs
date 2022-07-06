@@ -301,7 +301,7 @@ where
                         }
                     }
 
-                    if usage.ref_count != 1 || !usage.used_as_callee {
+                    if !usage.used_as_callee {
                         if let Expr::Fn(..) | Expr::Arrow(..) = &**init {
                             return;
                         }
