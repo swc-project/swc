@@ -52,12 +52,26 @@ pub struct PluginSerializedBytes {
 #[cfg(feature = "plugin-base")]
 impl PluginSerializedBytes {
     /**
-     * Constructs a new `Serialized` instance from raw bytes.
+     * Constructs an instance from already serialized byte
+     * slices.
      */
     pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
         let mut field = rkyv::AlignedVec::new();
         field.extend_from_slice(bytes);
         PluginSerializedBytes { field }
+    }
+
+    /*
+     * Internal fn to constructs an instance from raw bytes ptr.
+     */
+    fn from_raw_ptr(
+        raw_allocated_ptr: *const u8,
+        raw_allocated_ptr_len: usize,
+    ) -> PluginSerializedBytes {
+        let raw_ptr_bytes =
+            unsafe { std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len) };
+
+        PluginSerializedBytes::from_slice(raw_ptr_bytes)
     }
 
     #[allow(clippy::should_implement_trait)]
@@ -111,12 +125,9 @@ impl PluginSerializedBytes {
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
     {
-        // Create serialized bytes slice from ptr
-        let raw_ptr_bytes = unsafe {
-            std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
-        };
+        let serialized =
+            PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
 
-        let serialized = PluginSerializedBytes::from_slice(raw_ptr_bytes);
         serialized.deserialize()
     }
 
@@ -137,12 +148,8 @@ impl PluginSerializedBytes {
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
     {
-        // Create serialized bytes slice from ptr
-        let raw_ptr_bytes = unsafe {
-            std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
-        };
-
-        let serialized = PluginSerializedBytes::from_slice(raw_ptr_bytes);
+        let serialized =
+            PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
 
         unsafe {
             rkyv::from_bytes_unchecked(serialized.as_ref())
