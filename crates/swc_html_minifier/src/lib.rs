@@ -1,6 +1,6 @@
 #![deny(clippy::all)]
 
-use std::{cmp::Ordering, mem::take};
+use std::cmp::Ordering;
 
 use once_cell::sync::Lazy;
 use serde_json::Value;
