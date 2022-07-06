@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use parking_lot::Mutex;
-use swc_common::{plugin::Serialized, BytePos, SourceMap, Span, SyntaxContext};
+use swc_common::{plugin::PluginSerializedBytes, BytePos, SourceMap, Span, SyntaxContext};
 use wasmer::{LazyInit, Memory, NativeFunc};
 
 use crate::memory_interop::{allocate_return_values_into_guest, write_into_memory_view};
@@ -42,7 +42,8 @@ pub fn lookup_char_pos_proxy(
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         let ret = (env.source_map.lock()).lookup_char_pos(BytePos(byte_pos));
-        let serialized_loc_bytes = Serialized::serialize(&ret).expect("Should be serializable");
+        let serialized_loc_bytes =
+            PluginSerializedBytes::serialize(&ret).expect("Should be serializable");
 
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             allocate_return_values_into_guest(
@@ -90,7 +91,8 @@ pub fn merge_spans_proxy(
 
         let ret = (env.source_map.lock()).merge_spans(sp_lhs, sp_rhs);
         if let Some(span) = ret {
-            let serialized_bytes = Serialized::serialize(&span).expect("Should be serializable");
+            let serialized_bytes =
+                PluginSerializedBytes::serialize(&span).expect("Should be serializable");
             write_into_memory_view(memory, &serialized_bytes, |_| allocated_ptr);
             1
         } else {
@@ -116,7 +118,8 @@ pub fn span_to_lines_proxy(
         };
         let ret = (env.source_map.lock()).span_to_lines(span);
 
-        let serialized_loc_bytes = Serialized::serialize(&ret).expect("Should be serializable");
+        let serialized_loc_bytes =
+            PluginSerializedBytes::serialize(&ret).expect("Should be serializable");
 
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             allocate_return_values_into_guest(
@@ -143,7 +146,8 @@ pub fn lookup_byte_offset_proxy(
         let byte_pos = BytePos(byte_pos);
         let ret = (env.source_map.lock()).lookup_byte_offset(byte_pos);
 
-        let serialized_loc_bytes = Serialized::serialize(&ret).expect("Should be serializable");
+        let serialized_loc_bytes =
+            PluginSerializedBytes::serialize(&ret).expect("Should be serializable");
 
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             allocate_return_values_into_guest(
@@ -175,7 +179,8 @@ pub fn span_to_string_proxy(
             ctxt: SyntaxContext::from_u32(span_ctxt),
         };
         let ret = (env.source_map.lock()).span_to_string(span);
-        let serialized_loc_bytes = Serialized::serialize(&ret).expect("Should be serializable");
+        let serialized_loc_bytes =
+            PluginSerializedBytes::serialize(&ret).expect("Should be serializable");
 
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             allocate_return_values_into_guest(
@@ -207,7 +212,8 @@ pub fn span_to_filename_proxy(
             ctxt: SyntaxContext::from_u32(span_ctxt),
         };
         let ret = (env.source_map.lock()).span_to_filename(span);
-        let serialized_loc_bytes = Serialized::serialize(&ret).expect("Should be serializable");
+        let serialized_loc_bytes =
+            PluginSerializedBytes::serialize(&ret).expect("Should be serializable");
 
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             allocate_return_values_into_guest(

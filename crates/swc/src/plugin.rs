@@ -80,7 +80,7 @@ impl RustPlugins {
         use std::{path::PathBuf, sync::Arc};
 
         use anyhow::Context;
-        use swc_common::{plugin::Serialized, FileName};
+        use swc_common::{plugin::PluginSerializedBytes, FileName};
         use swc_ecma_loader::resolve::Resolve;
 
         // swc_plugin_macro will not inject proxy to the comments if comments is empty
@@ -92,7 +92,7 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
-                let mut serialized = Serialized::serialize(&n)?;
+                let mut serialized = PluginSerializedBytes::serialize(&n)?;
 
                 // Run plugin transformation against current program.
                 // We do not serialize / deserialize between each plugin execution but
@@ -111,11 +111,11 @@ impl RustPlugins {
 
                         let config_json = serde_json::to_string(&p.1)
                             .context("Failed to serialize plugin config as json")
-                            .and_then(|value| Serialized::serialize(&value))?;
+                            .and_then(|value| PluginSerializedBytes::serialize(&value))?;
 
                         let context_json = serde_json::to_string(&self.plugin_context)
                             .context("Failed to serialize plugin context as json")
-                            .and_then(|value| Serialized::serialize(&value))?;
+                            .and_then(|value| PluginSerializedBytes::serialize(&value))?;
 
                         let resolved_path = self
                             .resolver
@@ -152,7 +152,7 @@ impl RustPlugins {
 
                 // Plugin transformation is done. Deserialize transformed bytes back
                 // into Program
-                Serialized::deserialize(&serialized)
+                PluginSerializedBytes::deserialize(&serialized)
             },
         )
     }
@@ -162,7 +162,7 @@ impl RustPlugins {
         use std::{path::PathBuf, sync::Arc};
 
         use anyhow::Context;
-        use swc_common::{plugin::Serialized, FileName};
+        use swc_common::{plugin::PluginSerializedBytes, FileName};
         use swc_ecma_loader::resolve::Resolve;
 
         let should_enable_comments_proxy = self.comments.is_some();
@@ -172,17 +172,17 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
-                let mut serialized = Serialized::serialize(&n)?;
+                let mut serialized = PluginSerializedBytes::serialize(&n)?;
 
                 if let Some(plugins) = &self.plugins {
                     for p in plugins {
                         let config_json = serde_json::to_string(&p.1)
                             .context("Failed to serialize plugin config as json")
-                            .and_then(|value| Serialized::serialize(&value))?;
+                            .and_then(|value| PluginSerializedBytes::serialize(&value))?;
 
                         let context_json = serde_json::to_string(&self.plugin_context)
                             .context("Failed to serialize plugin context as json")
-                            .and_then(|value| Serialized::serialize(&value))?;
+                            .and_then(|value| PluginSerializedBytes::serialize(&value))?;
 
                         serialized = swc_plugin_runner::apply_transform_plugin(
                             &p.0,
@@ -197,7 +197,7 @@ impl RustPlugins {
                     }
                 }
 
-                Serialized::deserialize(&serialized)
+                PluginSerializedBytes::deserialize(&serialized)
             },
         )
     }

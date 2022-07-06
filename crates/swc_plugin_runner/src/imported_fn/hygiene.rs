@@ -1,4 +1,4 @@
-use swc_common::{hygiene::MutableMarkContext, plugin::Serialized, Mark, SyntaxContext};
+use swc_common::{hygiene::MutableMarkContext, plugin::PluginSerializedBytes, Mark, SyntaxContext};
 
 use crate::{host_environment::BaseHostEnvironment, memory_interop::write_into_memory_view};
 
@@ -38,7 +38,7 @@ pub fn mark_is_descendant_of_proxy(
     let return_value = self_mark.is_descendant_of(ancestor);
 
     if let Some(memory) = env.memory_ref() {
-        let serialized_bytes = Serialized::serialize(&MutableMarkContext(
+        let serialized_bytes = PluginSerializedBytes::serialize(&MutableMarkContext(
             self_mark.as_u32(),
             0,
             return_value as u32,
@@ -56,9 +56,12 @@ pub fn mark_least_ancestor_proxy(env: &BaseHostEnvironment, a: u32, b: u32, allo
     let return_value = Mark::least_ancestor(a, b).as_u32();
 
     if let Some(memory) = env.memory_ref() {
-        let serialized_bytes =
-            Serialized::serialize(&MutableMarkContext(a.as_u32(), b.as_u32(), return_value))
-                .expect("Should be serializable");
+        let serialized_bytes = PluginSerializedBytes::serialize(&MutableMarkContext(
+            a.as_u32(),
+            b.as_u32(),
+            return_value,
+        ))
+        .expect("Should be serializable");
 
         write_into_memory_view(memory, &serialized_bytes, |_| allocated_ptr);
     }
@@ -80,7 +83,7 @@ pub fn syntax_context_remove_mark_proxy(
     let return_value = self_mark.remove_mark();
 
     if let Some(memory) = env.memory_ref() {
-        let serialized_bytes = Serialized::serialize(&MutableMarkContext(
+        let serialized_bytes = PluginSerializedBytes::serialize(&MutableMarkContext(
             self_mark.as_u32(),
             0,
             return_value.as_u32(),

@@ -3,7 +3,7 @@
 // Reexports
 pub use swc_common::{
     chain,
-    plugin::{PluginError, Serialized},
+    plugin::{PluginError, PluginSerializedBytes},
 };
 
 pub mod comments {

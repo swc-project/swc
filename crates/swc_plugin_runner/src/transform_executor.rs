@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
 use swc_common::{
-    plugin::{PluginError, Serialized},
+    plugin::{PluginError, PluginSerializedBytes},
     SourceMap,
 };
 use wasmer::Instance;
@@ -60,7 +60,7 @@ impl TransformExecutor {
     /// Once transformation completes, host should free allocated memory.
     fn write_bytes_into_guest(
         &mut self,
-        serialized_bytes: &Serialized,
+        serialized_bytes: &PluginSerializedBytes,
     ) -> Result<(i32, i32), Error> {
         let memory = self.instance.exports.get_memory("memory")?;
 
@@ -76,14 +76,18 @@ impl TransformExecutor {
 
     /// Copy guest's memory into host, construct serialized struct from raw
     /// bytes.
-    fn read_bytes_from_guest(&mut self, returned_ptr_result: i32) -> Result<Serialized, Error> {
+    fn read_bytes_from_guest(
+        &mut self,
+        returned_ptr_result: i32,
+    ) -> Result<PluginSerializedBytes, Error> {
         let transformed_result = &(*self.transform_result.lock());
-        let ret = Serialized::from(&transformed_result[..], transformed_result.len() as i32);
+        let ret =
+            PluginSerializedBytes::from(&transformed_result[..], transformed_result.len() as i32);
 
         if returned_ptr_result == 0 {
             Ok(ret)
         } else {
-            let err: PluginError = Serialized::deserialize(&ret)?;
+            let err: PluginError = PluginSerializedBytes::deserialize(&ret)?;
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
                     "Failed to convert pointer size to calculate: {}",
@@ -102,11 +106,11 @@ impl TransformExecutor {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn transform(
         &mut self,
-        program: &Serialized,
-        config: &Serialized,
-        context: &Serialized,
+        program: &PluginSerializedBytes,
+        config: &PluginSerializedBytes,
+        context: &PluginSerializedBytes,
         should_enable_comments_proxy: i32,
-    ) -> Result<Serialized, Error> {
+    ) -> Result<PluginSerializedBytes, Error> {
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
         let context_str_ptr = self.write_bytes_into_guest(context)?;

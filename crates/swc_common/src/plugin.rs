@@ -41,25 +41,26 @@ pub enum PluginError {
     Serialize(String),
 }
 
-/// Wraps internal representation of serialized data. Consumers should not
-/// rely on specific details of byte format struct contains: it is
-/// strictly implementation detail which can change anytime.
-pub struct Serialized {
+/// Wraps internal representation of serialized data for exchanging data between
+/// plugin to the host. Consumers should not rely on specific details of byte
+/// format struct contains: it is strict implementation detail which can
+/// change anytime.
+pub struct PluginSerializedBytes {
     field: rkyv::AlignedVec,
 }
 
 #[cfg(feature = "plugin-base")]
-impl Serialized {
+impl PluginSerializedBytes {
     /**
      * Constructs a new `Serialized` instance from raw bytes.
      */
-    pub fn from(bytes: &[u8], len: i32) -> Serialized {
+    pub fn from(bytes: &[u8], len: i32) -> PluginSerializedBytes {
         let mut vec = rkyv::AlignedVec::with_capacity(
             len.try_into()
                 .expect("Cannot determine size of the serialized bytes"),
         );
         vec.extend_from_slice(bytes);
-        Serialized { field: vec }
+        PluginSerializedBytes { field: vec }
     }
 
     /// Not an actual trait Into impl: simple wrapper to deserialize<T>:expect()
@@ -68,7 +69,7 @@ impl Serialized {
         T: rkyv::Archive,
         T::Archived: rkyv::Deserialize<T, rkyv::de::deserializers::SharedDeserializeMap>,
     {
-        Serialized::deserialize(&self).expect("Should able to deserialize")
+        PluginSerializedBytes::deserialize(&self).expect("Should able to deserialize")
     }
 
     #[allow(clippy::should_implement_trait)]
@@ -76,12 +77,12 @@ impl Serialized {
         &self.field
     }
 
-    pub fn serialize<W>(t: &W) -> Result<Serialized, Error>
+    pub fn serialize<W>(t: &W) -> Result<PluginSerializedBytes, Error>
     where
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
         rkyv::to_bytes::<_, 512>(t)
-            .map(|field| Serialized { field })
+            .map(|field| PluginSerializedBytes { field })
             .map_err(|err| match err {
                 rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
                 rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
@@ -93,7 +94,7 @@ impl Serialized {
             })
     }
 
-    pub fn deserialize<W>(bytes: &Serialized) -> Result<W, Error>
+    pub fn deserialize<W>(bytes: &PluginSerializedBytes) -> Result<W, Error>
     where
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
@@ -128,8 +129,8 @@ impl Serialized {
             std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
         };
 
-        let serialized = Serialized::from(raw_ptr_bytes, raw_allocated_ptr_len);
-        Serialized::deserialize(&serialized)
+        let serialized = PluginSerializedBytes::from(raw_ptr_bytes, raw_allocated_ptr_len);
+        PluginSerializedBytes::deserialize(&serialized)
     }
 
     /// Deserialize `Fallible` struct from raw ptr. This is similar to
@@ -154,7 +155,7 @@ impl Serialized {
             std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
         };
 
-        let serialized = Serialized::from(raw_ptr_bytes, raw_allocated_ptr_len);
+        let serialized = PluginSerializedBytes::from(raw_ptr_bytes, raw_allocated_ptr_len);
 
         unsafe {
             rkyv::from_bytes_unchecked(serialized.as_ref())

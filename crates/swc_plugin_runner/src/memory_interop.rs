@@ -1,4 +1,4 @@
-use swc_common::plugin::Serialized;
+use swc_common::plugin::PluginSerializedBytes;
 use swc_plugin_proxy::AllocatedBytesPtr;
 use wasmer::{Array, Memory, NativeFunc, WasmPtr};
 
@@ -23,7 +23,7 @@ pub fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32)
 #[tracing::instrument(level = "info", skip_all)]
 pub fn write_into_memory_view<F>(
     memory: &Memory,
-    serialized_bytes: &Serialized,
+    serialized_bytes: &PluginSerializedBytes,
     get_allocated_ptr: F,
 ) -> (i32, i32)
 where
@@ -71,7 +71,7 @@ pub fn allocate_return_values_into_guest(
     memory: &Memory,
     alloc_guest_memory: &NativeFunc<u32, i32>,
     allocated_ret_ptr: i32,
-    serialized_bytes: &Serialized,
+    serialized_bytes: &PluginSerializedBytes,
 ) {
     let serialized_bytes_len = serialized_bytes.as_ref().len();
 
@@ -95,7 +95,7 @@ pub fn allocate_return_values_into_guest(
 
     // Retuning (allocated_ptr, len) into caller (plugin)
     let comment_ptr_serialized =
-        Serialized::serialize(&AllocatedBytesPtr(allocated_ptr, allocated_ptr_len))
+        PluginSerializedBytes::serialize(&AllocatedBytesPtr(allocated_ptr, allocated_ptr_len))
             .expect("Should be serializable");
 
     write_into_memory_view(memory, &comment_ptr_serialized, |_| allocated_ret_ptr);

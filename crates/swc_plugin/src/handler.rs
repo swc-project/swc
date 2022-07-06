@@ -1,4 +1,4 @@
-use swc_common::{plugin::Serialized, sync::OnceCell};
+use swc_common::{plugin::PluginSerializedBytes, sync::OnceCell};
 
 use crate::pseudo_scoped_key::PseudoScopedKey;
 
@@ -18,8 +18,8 @@ pub struct PluginDiagnosticsEmitter;
 impl swc_common::errors::Emitter for PluginDiagnosticsEmitter {
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
     fn emit(&mut self, db: &swc_common::errors::DiagnosticBuilder<'_>) {
-        let diag =
-            Serialized::serialize(&*db.diagnostic).expect("Should able to serialize Diagnostic");
+        let diag = PluginSerializedBytes::serialize(&*db.diagnostic)
+            .expect("Should able to serialize Diagnostic");
         let diag_ref = diag.as_ref();
 
         let ptr = diag_ref.as_ptr() as i32;
