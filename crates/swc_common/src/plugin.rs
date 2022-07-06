@@ -54,13 +54,10 @@ impl PluginSerializedBytes {
     /**
      * Constructs a new `Serialized` instance from raw bytes.
      */
-    pub fn from(bytes: &[u8], len: i32) -> PluginSerializedBytes {
-        let mut vec = rkyv::AlignedVec::with_capacity(
-            len.try_into()
-                .expect("Cannot determine size of the serialized bytes"),
-        );
-        vec.extend_from_slice(bytes);
-        PluginSerializedBytes { field: vec }
+    pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
+        let mut field = rkyv::AlignedVec::new();
+        field.extend_from_slice(bytes);
+        PluginSerializedBytes { field }
     }
 
     #[allow(clippy::should_implement_trait)]
@@ -120,7 +117,7 @@ impl PluginSerializedBytes {
             std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
         };
 
-        let serialized = PluginSerializedBytes::from(raw_ptr_bytes, raw_allocated_ptr_len);
+        let serialized = PluginSerializedBytes::from_slice(raw_ptr_bytes);
         PluginSerializedBytes::deserialize(&serialized)
     }
 
@@ -146,7 +143,7 @@ impl PluginSerializedBytes {
             std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
         };
 
-        let serialized = PluginSerializedBytes::from(raw_ptr_bytes, raw_allocated_ptr_len);
+        let serialized = PluginSerializedBytes::from_slice(raw_ptr_bytes);
 
         unsafe {
             rkyv::from_bytes_unchecked(serialized.as_ref())

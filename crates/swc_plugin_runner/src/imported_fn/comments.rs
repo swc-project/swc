@@ -108,13 +108,7 @@ where
         let byte_pos = BytePos(byte_pos);
         // PluginCommentProxy in the guest should've copied buffer already
         let comment_byte = &mut (*env.mutable_comment_buffer.lock());
-        let serialized = PluginSerializedBytes::from(
-            comment_byte,
-            comment_byte
-                .len()
-                .try_into()
-                .expect("Should able to convert ptr length"),
-        );
+        let serialized = PluginSerializedBytes::from_slice(comment_byte);
 
         f(comments, byte_pos, serialized);
 

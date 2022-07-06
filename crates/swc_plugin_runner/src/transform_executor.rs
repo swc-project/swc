@@ -81,8 +81,7 @@ impl TransformExecutor {
         returned_ptr_result: i32,
     ) -> Result<PluginSerializedBytes, Error> {
         let transformed_result = &(*self.transform_result.lock());
-        let ret =
-            PluginSerializedBytes::from(&transformed_result[..], transformed_result.len() as i32);
+        let ret = PluginSerializedBytes::from_slice(&transformed_result[..]);
 
         if returned_ptr_result == 0 {
             Ok(ret)
