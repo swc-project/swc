@@ -48,23 +48,60 @@ export default function o(c) {
         for(var e, f, g = 0, h = b.length, i = c.length; g < h;){
             if (d >= i) return -1;
             if (37 === (e = b.charCodeAt(g++))) {
-                if (!(f = aQ[(e = b.charAt(g++)) in p ? b.charAt(g++) : e]) || (d = f(a, c, d)) < 0) return -1;
+                if (!(f = a8[(e = b.charAt(g++)) in p ? b.charAt(g++) : e]) || (d = f(a, c, d)) < 0) return -1;
             } else if (e != c.charCodeAt(d++)) return -1;
         }
         return d;
-    }, j = c.dateTime, k = c.date, o = c.time, q = c.periods, r = c.days, s = c.shortDays, t = c.months, u = c.shortMonths, aa = v(q), au = w(q), aG = v(r), aH = w(r), aI = v(s), aJ = w(s), aK = v(t), aL = w(t), aM = v(u), aN = w(u), aO = {
-        a: function(a) {
-            return s[a.getDay()];
-        },
-        A: function(a) {
-            return r[a.getDay()];
-        },
-        b: function(a) {
-            return u[a.getMonth()];
-        },
-        B: function(a) {
-            return t[a.getMonth()];
-        },
+    }, j = function(a, b, c) {
+        var d = aY.exec(b.slice(c));
+        return d ? (a.p = aZ.get(d[0].toLowerCase()), c + d[0].length) : -1;
+    }, k = function(a, b, c) {
+        var d = a0.exec(b.slice(c));
+        return d ? (a.w = a1.get(d[0].toLowerCase()), c + d[0].length) : -1;
+    }, o = function(a, b, c) {
+        var d = a$.exec(b.slice(c));
+        return d ? (a.w = a_.get(d[0].toLowerCase()), c + d[0].length) : -1;
+    }, q = function(a, b, c) {
+        var d = a4.exec(b.slice(c));
+        return d ? (a.m = a5.get(d[0].toLowerCase()), c + d[0].length) : -1;
+    }, r = function(a, b, c) {
+        var d = a2.exec(b.slice(c));
+        return d ? (a.m = a3.get(d[0].toLowerCase()), c + d[0].length) : -1;
+    }, s = function(a, b, c) {
+        return h(a, aQ, b, c);
+    }, t = function(a, b, c) {
+        return h(a, aR, b, c);
+    }, u = function(a, b, c) {
+        return h(a, aS, b, c);
+    }, aa = function(a) {
+        return aV[a.getDay()];
+    }, au = function(a) {
+        return aU[a.getDay()];
+    }, aG = function(a) {
+        return aX[a.getMonth()];
+    }, aH = function(a) {
+        return aW[a.getMonth()];
+    }, aI = function(a) {
+        return aT[+(a.getHours() >= 12)];
+    }, aJ = function(a) {
+        return 1 + ~~(a.getMonth() / 3);
+    }, aK = function(a) {
+        return aV[a.getUTCDay()];
+    }, aL = function(a) {
+        return aU[a.getUTCDay()];
+    }, aM = function(a) {
+        return aX[a.getUTCMonth()];
+    }, aN = function(a) {
+        return aW[a.getUTCMonth()];
+    }, aO = function(a) {
+        return aT[+(a.getUTCHours() >= 12)];
+    }, aP = function(a) {
+        return 1 + ~~(a.getUTCMonth() / 3);
+    }, aQ = c.dateTime, aR = c.date, aS = c.time, aT = c.periods, aU = c.days, aV = c.shortDays, aW = c.months, aX = c.shortMonths, aY = v(aT), aZ = w(aT), a$ = v(aU), a_ = w(aU), a0 = v(aV), a1 = w(aV), a2 = v(aW), a3 = w(aW), a4 = v(aX), a5 = w(aX), a6 = {
+        a: aa,
+        A: au,
+        b: aG,
+        B: aH,
         c: null,
         d: R,
         e: R,
@@ -77,12 +114,8 @@ export default function o(c) {
         L: V,
         m: X,
         M: Y,
-        p: function(a) {
-            return q[+(a.getHours() >= 12)];
-        },
-        q: function(a) {
-            return 1 + ~~(a.getMonth() / 3);
-        },
+        p: aI,
+        q: aJ,
         Q: aE,
         s: aF,
         S: Z,
@@ -97,19 +130,11 @@ export default function o(c) {
         Y: ag,
         Z: ai,
         "%": aD
-    }, aP = {
-        a: function(a) {
-            return s[a.getUTCDay()];
-        },
-        A: function(a) {
-            return r[a.getUTCDay()];
-        },
-        b: function(a) {
-            return u[a.getUTCMonth()];
-        },
-        B: function(a) {
-            return t[a.getUTCMonth()];
-        },
+    }, a7 = {
+        a: aK,
+        A: aL,
+        b: aM,
+        B: aN,
         c: null,
         d: aj,
         e: aj,
@@ -122,12 +147,8 @@ export default function o(c) {
         L: an,
         m: ap,
         M: aq,
-        p: function(a) {
-            return q[+(a.getUTCHours() >= 12)];
-        },
-        q: function(a) {
-            return 1 + ~~(a.getUTCMonth() / 3);
-        },
+        p: aO,
+        q: aP,
         Q: aE,
         s: aF,
         S: ar,
@@ -142,26 +163,12 @@ export default function o(c) {
         Y: aA,
         Z: aC,
         "%": aD
-    }, aQ = {
-        a: function(a, b, c) {
-            var d = aI.exec(b.slice(c));
-            return d ? (a.w = aJ.get(d[0].toLowerCase()), c + d[0].length) : -1;
-        },
-        A: function(a, b, c) {
-            var d = aG.exec(b.slice(c));
-            return d ? (a.w = aH.get(d[0].toLowerCase()), c + d[0].length) : -1;
-        },
-        b: function(a, b, c) {
-            var d = aM.exec(b.slice(c));
-            return d ? (a.m = aN.get(d[0].toLowerCase()), c + d[0].length) : -1;
-        },
-        B: function(a, b, c) {
-            var d = aK.exec(b.slice(c));
-            return d ? (a.m = aL.get(d[0].toLowerCase()), c + d[0].length) : -1;
-        },
-        c: function(a, b, c) {
-            return h(a, j, b, c);
-        },
+    }, a8 = {
+        a: k,
+        A: o,
+        b: q,
+        B: r,
+        c: s,
         d: H,
         e: H,
         f: N,
@@ -173,10 +180,7 @@ export default function o(c) {
         L: M,
         m: G,
         M: K,
-        p: function(a, b, c) {
-            var d = aa.exec(b.slice(c));
-            return d ? (a.p = au.get(d[0].toLowerCase()), c + d[0].length) : -1;
-        },
+        p: j,
         q: F,
         Q: P,
         s: Q,
@@ -186,20 +190,16 @@ export default function o(c) {
         V: A,
         w: x,
         W: B,
-        x: function(a, b, c) {
-            return h(a, k, b, c);
-        },
-        X: function(a, b, c) {
-            return h(a, o, b, c);
-        },
+        x: t,
+        X: u,
         y: D,
         Y: C,
         Z: E,
         "%": O
     };
-    return aO.x = e(k, aO), aO.X = e(o, aO), aO.c = e(j, aO), aP.x = e(k, aP), aP.X = e(o, aP), aP.c = e(j, aP), {
+    return a6.x = e(aR, a6), a6.X = e(aS, a6), a6.c = e(aQ, a6), a7.x = e(aR, a7), a7.X = e(aS, a7), a7.c = e(aQ, a7), {
         format: function(a) {
-            var b = e(a += "", aO);
+            var b = e(a += "", a6);
             return b.toString = function() {
                 return a;
             }, b;
@@ -211,7 +211,7 @@ export default function o(c) {
             }, b;
         },
         utcFormat: function(a) {
-            var b = e(a += "", aP);
+            var b = e(a += "", a7);
             return b.toString = function() {
                 return a;
             }, b;

@@ -469,6 +469,7 @@ impl Options {
         );
 
         let import_export_assign_config = match cfg.module {
+            Some(ModuleConfig::Es6) => TsImportExportAssignConfig::EsNext,
             Some(ModuleConfig::CommonJs(..))
             | Some(ModuleConfig::Amd(..))
             | Some(ModuleConfig::Umd(..)) => TsImportExportAssignConfig::Preserve,

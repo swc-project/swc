@@ -30,8 +30,4 @@ var C = function() {
     cb();
 }(function() {
     throw Error();
-}), function(cb) {
-    cb();
-}(function() {
-    return error("Error callback");
-});
+}), error("Error callback");

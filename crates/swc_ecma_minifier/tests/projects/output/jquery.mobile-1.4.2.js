@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, $1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window1, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, doc, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, orig, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, window2, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, $1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window1, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, doc, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, orig, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, window2, $18, $19, $20, defaultGetMaxScrollForTransition, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -323,18 +323,19 @@
             _proto: $3.extend({}, prototype),
             _childConstructors: []
         }), basePrototype = new base(), basePrototype.options = $3.widget.extend({}, basePrototype.options), $3.each(prototype, function(prop, value) {
+            var _super, _superApply;
             if (!$3.isFunction(value)) {
                 proxiedPrototype[prop] = value;
                 return;
             }
-            proxiedPrototype[prop] = function() {
+            proxiedPrototype[prop] = (_super = function() {
+                return base.prototype[prop].apply(this, arguments);
+            }, _superApply = function(args) {
+                return base.prototype[prop].apply(this, args);
+            }, function() {
                 var returnValue, __super = this._super, __superApply = this._superApply;
-                return this._super = function() {
-                    return base.prototype[prop].apply(this, arguments);
-                }, this._superApply = function(args) {
-                    return base.prototype[prop].apply(this, args);
-                }, returnValue = value.apply(this, arguments), this._super = __super, this._superApply = __superApply, returnValue;
-            };
+                return this._super = _super, this._superApply = _superApply, returnValue = value.apply(this, arguments), this._super = __super, this._superApply = __superApply, returnValue;
+            });
         }), constructor.prototype = $3.widget.extend(basePrototype, {
             widgetEventPrefix: existingConstructor && basePrototype.widgetEventPrefix || name
         }, proxiedPrototype, {
@@ -1804,14 +1805,14 @@
         beforeStartOut: function(screenHeight, reverseClass, none) {
             this.doneOut(screenHeight, reverseClass, none);
         }
-    }), $20 = jQuery, $20.mobile.transitionHandlers = {
+    }), $20 = jQuery, defaultGetMaxScrollForTransition = function() {
+        return 3 * $20.mobile.getScreenHeight();
+    }, $20.mobile.transitionHandlers = {
         sequential: $20.mobile.SerialTransition,
         simultaneous: $20.mobile.ConcurrentTransition
     }, $20.mobile.defaultTransitionHandler = $20.mobile.transitionHandlers.sequential, $20.mobile.transitionFallbacks = {}, $20.mobile._maybeDegradeTransition = function(transition) {
         return transition && !$20.support.cssTransform3d && $20.mobile.transitionFallbacks[transition] && (transition = $20.mobile.transitionFallbacks[transition]), transition;
-    }, $20.mobile.getMaxScrollForTransition = $20.mobile.getMaxScrollForTransition || function() {
-        return 3 * $20.mobile.getScreenHeight();
-    }, $21 = jQuery, $21.mobile.transitionFallbacks.flip = "fade", $22 = jQuery, $22.mobile.transitionFallbacks.flow = "fade", $23 = jQuery, $23.mobile.transitionFallbacks.pop = "fade", $24 = jQuery, $24.mobile.transitionHandlers.slide = $24.mobile.transitionHandlers.simultaneous, $24.mobile.transitionFallbacks.slide = "fade", $25 = jQuery, $25.mobile.transitionFallbacks.slidedown = "fade", $26 = jQuery, $26.mobile.transitionFallbacks.slidefade = "fade", $27 = jQuery, $27.mobile.transitionFallbacks.slideup = "fade", $28 = jQuery, $28.mobile.transitionFallbacks.turn = "fade", $29 = jQuery, $29.mobile.degradeInputs = {
+    }, $20.mobile.getMaxScrollForTransition = $20.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, $21 = jQuery, $21.mobile.transitionFallbacks.flip = "fade", $22 = jQuery, $22.mobile.transitionFallbacks.flow = "fade", $23 = jQuery, $23.mobile.transitionFallbacks.pop = "fade", $24 = jQuery, $24.mobile.transitionHandlers.slide = $24.mobile.transitionHandlers.simultaneous, $24.mobile.transitionFallbacks.slide = "fade", $25 = jQuery, $25.mobile.transitionFallbacks.slidedown = "fade", $26 = jQuery, $26.mobile.transitionFallbacks.slidefade = "fade", $27 = jQuery, $27.mobile.transitionFallbacks.slideup = "fade", $28 = jQuery, $28.mobile.transitionFallbacks.turn = "fade", $29 = jQuery, $29.mobile.degradeInputs = {
         color: !1,
         date: !1,
         datetime: !1,
