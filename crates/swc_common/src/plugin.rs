@@ -50,16 +50,15 @@ pub struct Serialized {
 
 #[cfg(feature = "plugin-base")]
 impl Serialized {
-    pub fn new_for_plugin(bytes: &[u8], len: i32) -> Serialized {
+    /**
+     * Constructs a new `Serialized` instance from raw bytes.
+     */
+    pub fn from(bytes: &[u8], len: i32) -> Serialized {
         let mut vec = rkyv::AlignedVec::with_capacity(
             len.try_into()
                 .expect("Cannot determine size of the serialized bytes"),
         );
         vec.extend_from_slice(bytes);
-        Serialized { field: vec }
-    }
-
-    pub fn from(vec: rkyv::AlignedVec) -> Serialized {
         Serialized { field: vec }
     }
 
@@ -82,7 +81,7 @@ impl Serialized {
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
         rkyv::to_bytes::<_, 512>(t)
-            .map(Serialized::from)
+            .map(|field| Serialized { field })
             .map_err(|err| match err {
                 rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
                 rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
@@ -129,7 +128,7 @@ impl Serialized {
             std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
         };
 
-        let serialized = Serialized::new_for_plugin(raw_ptr_bytes, raw_allocated_ptr_len);
+        let serialized = Serialized::from(raw_ptr_bytes, raw_allocated_ptr_len);
         Serialized::deserialize(&serialized)
     }
 
@@ -155,7 +154,7 @@ impl Serialized {
             std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
         };
 
-        let serialized = Serialized::new_for_plugin(raw_ptr_bytes, raw_allocated_ptr_len);
+        let serialized = Serialized::from(raw_ptr_bytes, raw_allocated_ptr_len);
 
         unsafe {
             rkyv::from_bytes_unchecked(serialized.as_ref())

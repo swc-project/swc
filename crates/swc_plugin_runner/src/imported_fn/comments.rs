@@ -108,7 +108,7 @@ where
         let byte_pos = BytePos(byte_pos);
         // PluginCommentProxy in the guest should've copied buffer already
         let comment_byte = &mut (*env.mutable_comment_buffer.lock());
-        let serialized = Serialized::new_for_plugin(
+        let serialized = Serialized::from(
             comment_byte,
             comment_byte
                 .len()

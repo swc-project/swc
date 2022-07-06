@@ -78,8 +78,7 @@ impl TransformExecutor {
     /// bytes.
     fn read_bytes_from_guest(&mut self, returned_ptr_result: i32) -> Result<Serialized, Error> {
         let transformed_result = &(*self.transform_result.lock());
-        let ret =
-            Serialized::new_for_plugin(&transformed_result[..], transformed_result.len() as i32);
+        let ret = Serialized::from(&transformed_result[..], transformed_result.len() as i32);
 
         if returned_ptr_result == 0 {
             Ok(ret)
