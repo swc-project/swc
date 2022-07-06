@@ -302,7 +302,7 @@ impl VisitMut for ModuleDeclStrip {
     /// export = expr;
     /// ```
     fn visit_mut_ts_export_assignment(&mut self, n: &mut TsExportAssignment) {
-        self.export_assign = Some(n.expr.take());
+        self.export_assign.get_or_insert(n.expr.take());
     }
 }
 
@@ -527,6 +527,7 @@ impl From<&ImportSpecifier> for LinkFlag {
 
             ImportSpecifier::Default(ImportDefaultSpecifier { .. })
             | ImportSpecifier::Named(ImportNamedSpecifier {
+                is_type_only: false,
                 imported:
                     Some(ModuleExportName::Ident(Ident {
                         sym: js_word!("default"),
@@ -557,6 +558,7 @@ impl From<&ExportSpecifier> for LinkFlag {
             // https://github.com/tc39/proposal-export-default-from
             ExportSpecifier::Default(..)
             | ExportSpecifier::Named(ExportNamedSpecifier {
+                is_type_only: false,
                 orig:
                     ModuleExportName::Ident(Ident {
                         sym: js_word!("default"),
