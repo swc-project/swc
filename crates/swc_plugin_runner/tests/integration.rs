@@ -80,12 +80,13 @@ fn internal() -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::serialize(&program).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
         let config =
-            PluginSerializedBytes::serialize(&"{}".to_string()).expect("Should serializable");
-        let context =
-            PluginSerializedBytes::serialize(&"{sourceFileName: 'single_plugin_test'}".to_string())
-                .expect("Should serializable");
+            PluginSerializedBytes::try_serialize(&"{}".to_string()).expect("Should serializable");
+        let context = PluginSerializedBytes::try_serialize(
+            &"{sourceFileName: 'single_plugin_test'}".to_string(),
+        )
+        .expect("Should serializable");
 
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
@@ -131,10 +132,10 @@ fn internal() -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::serialize(&program).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
         let config =
-            PluginSerializedBytes::serialize(&"{}".to_string()).expect("Should serializable");
-        let context = PluginSerializedBytes::serialize(
+            PluginSerializedBytes::try_serialize(&"{}".to_string()).expect("Should serializable");
+        let context = PluginSerializedBytes::try_serialize(
             &"{sourceFileName: 'single_plugin_handler_test'}".to_string(),
         )
         .expect("Should serializable");
@@ -175,7 +176,7 @@ fn internal() -> Result<(), Error> {
         .unwrap();
 
         let mut serialized_program =
-            PluginSerializedBytes::serialize(&program).expect("Should serializable");
+            PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         serialized_program = swc_plugin_runner::apply_transform_plugin(
@@ -183,8 +184,8 @@ fn internal() -> Result<(), Error> {
             &path,
             &cache,
             serialized_program,
-            PluginSerializedBytes::serialize(&"{}".to_string()).expect("Should serializable"),
-            PluginSerializedBytes::serialize(
+            PluginSerializedBytes::try_serialize(&"{}".to_string()).expect("Should serializable"),
+            PluginSerializedBytes::try_serialize(
                 &"{sourceFileName: 'multiple_plugin_test'}".to_string(),
             )
             .expect("Should serializable"),
@@ -199,8 +200,8 @@ fn internal() -> Result<(), Error> {
             &path,
             &cache,
             serialized_program,
-            PluginSerializedBytes::serialize(&"{}".to_string()).expect("Should serializable"),
-            PluginSerializedBytes::serialize(
+            PluginSerializedBytes::try_serialize(&"{}".to_string()).expect("Should serializable"),
+            PluginSerializedBytes::try_serialize(
                 &"{sourceFileName: 'multiple_plugin_test2'}".to_string(),
             )
             .expect("Should serializable"),

@@ -61,6 +61,29 @@ impl PluginSerializedBytes {
         PluginSerializedBytes { field }
     }
 
+    /**
+     * Constructs an instance from given struct by serializing it.
+     *
+     * This is sort of mimic TryFrom behavior, since we can't use generic
+     * to implement TryFrom trait
+     */
+    pub fn try_serialize<W>(t: &W) -> Result<Self, Error>
+    where
+        W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
+    {
+        rkyv::to_bytes::<_, 512>(t)
+            .map(|field| PluginSerializedBytes { field })
+            .map_err(|err| match err {
+                rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
+                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
+                    Error::msg("AllocScratchError")
+                }
+                rkyv::ser::serializers::CompositeSerializerError::SharedError(e) => {
+                    Error::msg("SharedSerializeMapError")
+                }
+            })
+    }
+
     /*
      * Internal fn to constructs an instance from raw bytes ptr.
      */
@@ -80,23 +103,6 @@ impl PluginSerializedBytes {
 
     pub fn as_ptr(&self) -> (*const u8, usize) {
         (self.field.as_ptr(), self.field.len())
-    }
-
-    pub fn serialize<W>(t: &W) -> Result<PluginSerializedBytes, Error>
-    where
-        W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
-    {
-        rkyv::to_bytes::<_, 512>(t)
-            .map(|field| PluginSerializedBytes { field })
-            .map_err(|err| match err {
-                rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
-                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
-                    Error::msg("AllocScratchError")
-                }
-                rkyv::ser::serializers::CompositeSerializerError::SharedError(e) => {
-                    Error::msg("SharedSerializeMapError")
-                }
-            })
     }
 
     pub fn deserialize<W>(&self) -> Result<W, Error>

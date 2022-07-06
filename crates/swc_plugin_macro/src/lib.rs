@@ -43,7 +43,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
         /// Internal function plugin_macro uses to create ptr to PluginError.
         fn construct_error_ptr(plugin_error: swc_plugin::PluginError) -> i32 {
-            let ret = swc_plugin::PluginSerializedBytes::serialize(&plugin_error).expect("Should able to serialize PluginError");
+            let ret = swc_plugin::PluginSerializedBytes::try_serialize(&plugin_error).expect("Should able to serialize PluginError");
             let (ptr, len) = ret.as_ptr();
 
             send_transform_result_to_host(
@@ -112,7 +112,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let transformed_program = #ident(program, metadata);
 
             // Serialize transformed result, return back to the host.
-            let serialized_result = swc_plugin::PluginSerializedBytes::serialize(&transformed_program);
+            let serialized_result = swc_plugin::PluginSerializedBytes::try_serialize(&transformed_program);
 
             if serialized_result.is_err() {
                 let err = swc_plugin::PluginError::Serialize("Failed to serialize transformed program".to_string());

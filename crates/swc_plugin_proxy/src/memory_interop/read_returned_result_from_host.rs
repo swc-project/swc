@@ -23,7 +23,7 @@ where
 {
     // Allocate AllocatedBytesPtr to get return value from the host
     let allocated_bytes_ptr = AllocatedBytesPtr(0, 0);
-    let serialized_allocated_bytes_ptr = PluginSerializedBytes::serialize(&allocated_bytes_ptr)
+    let serialized_allocated_bytes_ptr = PluginSerializedBytes::try_serialize(&allocated_bytes_ptr)
         .expect("Should able to serialize AllocatedBytesPtr");
     let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
         serialized_allocated_bytes_ptr.as_ptr();
@@ -90,7 +90,7 @@ where
 {
     // Allocate AllocatedBytesPtr to get return value from the host
     let allocated_bytes_ptr = AllocatedBytesPtr(0, 0);
-    let serialized_allocated_bytes_ptr = PluginSerializedBytes::serialize(&allocated_bytes_ptr)
+    let serialized_allocated_bytes_ptr = PluginSerializedBytes::try_serialize(&allocated_bytes_ptr)
         .expect("Should able to serialize AllocatedBytesPtr");
     let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
         serialized_allocated_bytes_ptr.as_ptr();

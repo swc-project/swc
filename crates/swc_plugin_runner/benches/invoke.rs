@@ -56,7 +56,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         )
         .unwrap();
 
-        let program_ser = PluginSerializedBytes::serialize(&program).unwrap();
+        let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();
 
         let res = swc_plugin_runner::apply_transform_plugin(
             "test",
@@ -67,8 +67,8 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 .join("swc_internal_plugin.wasm"),
             &cache,
             program_ser,
-            PluginSerializedBytes::serialize(&String::from("{}")).unwrap(),
-            PluginSerializedBytes::serialize(&String::from("{}")).unwrap(),
+            PluginSerializedBytes::try_serialize(&String::from("{}")).unwrap(),
+            PluginSerializedBytes::try_serialize(&String::from("{}")).unwrap(),
             true,
             &cm,
         )

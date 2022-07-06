@@ -92,7 +92,7 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
-                let mut serialized = PluginSerializedBytes::serialize(&n)?;
+                let mut serialized = PluginSerializedBytes::try_serialize(&n)?;
 
                 // Run plugin transformation against current program.
                 // We do not serialize / deserialize between each plugin execution but
@@ -111,11 +111,11 @@ impl RustPlugins {
 
                         let config_json = serde_json::to_string(&p.1)
                             .context("Failed to serialize plugin config as json")
-                            .and_then(|value| PluginSerializedBytes::serialize(&value))?;
+                            .and_then(|value| PluginSerializedBytes::try_serialize(&value))?;
 
                         let context_json = serde_json::to_string(&self.plugin_context)
                             .context("Failed to serialize plugin context as json")
-                            .and_then(|value| PluginSerializedBytes::serialize(&value))?;
+                            .and_then(|value| PluginSerializedBytes::try_serialize(&value))?;
 
                         let resolved_path = self
                             .resolver
@@ -172,17 +172,17 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
-                let mut serialized = PluginSerializedBytes::serialize(&n)?;
+                let mut serialized = PluginSerializedBytes::try_serialize(&n)?;
 
                 if let Some(plugins) = &self.plugins {
                     for p in plugins {
                         let config_json = serde_json::to_string(&p.1)
                             .context("Failed to serialize plugin config as json")
-                            .and_then(|value| PluginSerializedBytes::serialize(&value))?;
+                            .and_then(|value| PluginSerializedBytes::try_serialize(&value))?;
 
                         let context_json = serde_json::to_string(&self.plugin_context)
                             .context("Failed to serialize plugin context as json")
-                            .and_then(|value| PluginSerializedBytes::serialize(&value))?;
+                            .and_then(|value| PluginSerializedBytes::try_serialize(&value))?;
 
                         serialized = swc_plugin_runner::apply_transform_plugin(
                             &p.0,

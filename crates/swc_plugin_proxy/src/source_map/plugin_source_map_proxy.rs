@@ -225,7 +225,7 @@ impl SourceMapper for PluginSourceMapProxy {
                 ctxt: swc_common::SyntaxContext::empty(),
             };
 
-            let serialized = swc_common::plugin::PluginSerializedBytes::serialize(&span)
+            let serialized = swc_common::plugin::PluginSerializedBytes::try_serialize(&span)
                 .expect("Should be serializable");
             let (ptr, len) = serialized.as_ptr();
 

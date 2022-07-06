@@ -50,7 +50,7 @@ impl PluginCommentsProxy {
     {
         #[cfg(target_arch = "wasm32")]
         {
-            let serialized = swc_common::plugin::PluginSerializedBytes::serialize(value)
+            let serialized = swc_common::plugin::PluginSerializedBytes::try_serialize(value)
                 .expect("Should able to serialize value");
             let (serialized_comment_ptr, serialized_comment_ptr_len) = serialized.as_ptr();
             unsafe {

@@ -94,7 +94,7 @@ pub fn allocate_return_values_into_guest(
 
     // Retuning (allocated_ptr, len) into caller (plugin)
     let comment_ptr_serialized =
-        PluginSerializedBytes::serialize(&AllocatedBytesPtr(allocated_ptr, allocated_ptr_len))
+        PluginSerializedBytes::try_serialize(&AllocatedBytesPtr(allocated_ptr, allocated_ptr_len))
             .expect("Should be serializable");
 
     write_into_memory_view(memory, &comment_ptr_serialized, |_| allocated_ret_ptr);

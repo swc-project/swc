@@ -18,7 +18,7 @@ pub struct PluginDiagnosticsEmitter;
 impl swc_common::errors::Emitter for PluginDiagnosticsEmitter {
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
     fn emit(&mut self, db: &swc_common::errors::DiagnosticBuilder<'_>) {
-        let diag = PluginSerializedBytes::serialize(&*db.diagnostic)
+        let diag = PluginSerializedBytes::try_serialize(&*db.diagnostic)
             .expect("Should able to serialize Diagnostic");
         let (ptr, len) = diag.as_ptr();
 

@@ -161,7 +161,7 @@ pub fn take_leading_comments_proxy(
             let leading_comments = comments.take_leading(BytePos(byte_pos));
             if let Some(leading_comments) = leading_comments {
                 let serialized_leading_comments_vec_bytes =
-                    PluginSerializedBytes::serialize(&leading_comments)
+                    PluginSerializedBytes::try_serialize(&leading_comments)
                         .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
@@ -195,7 +195,7 @@ pub fn get_leading_comments_proxy(
             let leading_comments = comments.get_leading(BytePos(byte_pos));
             if let Some(leading_comments) = leading_comments {
                 let serialized_leading_comments_vec_bytes =
-                    PluginSerializedBytes::serialize(&leading_comments)
+                    PluginSerializedBytes::try_serialize(&leading_comments)
                         .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
@@ -259,7 +259,7 @@ pub fn take_trailing_comments_proxy(
             let trailing_comments = comments.take_trailing(BytePos(byte_pos));
             if let Some(leading_comments) = trailing_comments {
                 let serialized_leading_comments_vec_bytes =
-                    PluginSerializedBytes::serialize(&leading_comments)
+                    PluginSerializedBytes::try_serialize(&leading_comments)
                         .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
@@ -288,7 +288,7 @@ pub fn get_trailing_comments_proxy(
             let trailing_comments = comments.get_trailing(BytePos(byte_pos));
             if let Some(leading_comments) = trailing_comments {
                 let serialized_leading_comments_vec_bytes =
-                    PluginSerializedBytes::serialize(&leading_comments)
+                    PluginSerializedBytes::try_serialize(&leading_comments)
                         .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
