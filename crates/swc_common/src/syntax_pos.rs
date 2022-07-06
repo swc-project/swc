@@ -130,6 +130,12 @@ pub enum FileName {
     Custom(String),
 }
 
+impl Default for FileName {
+    fn default() -> Self {
+        FileName::Anon
+    }
+}
+
 /// A wrapper that attempts to convert a type to and from UTF-8.
 ///
 /// Types like `OsString` and `PathBuf` aren't guaranteed to be encoded as
@@ -805,7 +811,7 @@ impl Sub<BytePos> for NonNarrowChar {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
     /// originate from files has names between angle brackets by convention,
@@ -998,7 +1004,9 @@ pub trait Pos {
 ///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
 ///
 /// `u32::MAX` is special value used to generate source map entries.
-#[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
+#[derive(
+    Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize, Default,
+)]
 #[serde(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
@@ -1032,7 +1040,7 @@ impl BytePos {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
-#[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Default)]
 pub struct CharPos(pub usize);
 
 // FIXME: Lots of boilerplate in these impls, but so far my attempts to fix
@@ -1128,7 +1136,7 @@ impl Sub for CharPos {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Loc {
     /// Information about the original source
     pub file: Lrc<SourceFile>,
@@ -1169,6 +1177,15 @@ pub struct SourceFileAndBytePos {
     pub pos: BytePos,
 }
 
+impl Default for SourceFileAndBytePos {
+    fn default() -> Self {
+        SourceFileAndBytePos {
+            sf: Lrc::new(SourceFile::default()),
+            pos: Default::default(),
+        }
+    }
+}
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(
     feature = "rkyv",
@@ -1193,6 +1210,7 @@ pub struct LineCol {
     pub col: u32,
 }
 
+#[derive(Default)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -1222,6 +1240,12 @@ pub type FileLinesResult = Result<FileLines, SpanLinesError>;
 pub enum SpanLinesError {
     IllFormedSpan(Span),
     DistinctSources(DistinctSources),
+}
+
+impl Default for SpanLinesError {
+    fn default() -> Self {
+        SpanLinesError::IllFormedSpan(DUMMY_SP)
+    }
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]

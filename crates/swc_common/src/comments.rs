@@ -548,6 +548,16 @@ pub struct Comment {
     pub text: String,
 }
 
+impl Default for Comment {
+    fn default() -> Self {
+        Comment {
+            kind: CommentKind::Line,
+            span: DUMMY_SP,
+            text: "".into(),
+        }
+    }
+}
+
 impl Spanned for Comment {
     fn span(&self) -> Span {
         self.span
