@@ -1,5 +1,7 @@
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-use swc_common::plugin::PluginSerializedBytes;
+use swc_common::plugin::{
+    deserialize_from_ptr, deserialize_from_ptr_into_fallible, PluginSerializedBytes,
+};
 
 /// A struct to exchange allocated data between memory spaces.
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)]
@@ -41,7 +43,7 @@ where
 
     // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated bytes
     Some(unsafe {
-        PluginSerializedBytes::deserialize_from_ptr(
+        deserialize_from_ptr(
             serialized_allocated_bytes_raw_ptr,
             serialized_allocated_bytes_raw_ptr_size
                 .try_into()
@@ -65,7 +67,7 @@ where
 
     // Using AllocatedBytesPtr's value, reconstruct actual return value
     allocated_returned_value_ptr.map(|allocated_returned_value_ptr| unsafe {
-        PluginSerializedBytes::deserialize_from_ptr(
+        deserialize_from_ptr(
             allocated_returned_value_ptr.0 as _,
             allocated_returned_value_ptr.1,
         )
@@ -108,7 +110,7 @@ where
 
     // Now reconstruct AllocatedBytesPtr to reveal ptr to the allocated bytes
     let allocated_returned_value_ptr: AllocatedBytesPtr = unsafe {
-        PluginSerializedBytes::deserialize_from_ptr(
+        deserialize_from_ptr(
             serialized_allocated_bytes_raw_ptr,
             serialized_allocated_bytes_raw_ptr_size
                 .try_into()
@@ -119,7 +121,7 @@ where
 
     // Using AllocatedBytesPtr's value, reconstruct actual return value
     Some(unsafe {
-        PluginSerializedBytes::deserialize_from_ptr_fallible(
+        deserialize_from_ptr_into_fallible(
             allocated_returned_value_ptr.0 as _,
             allocated_returned_value_ptr.1,
         )

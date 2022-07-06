@@ -192,7 +192,7 @@ impl Mark {
 
         // Deserialize result, assign / return values as needed.
         let context: MutableMarkContext = unsafe {
-            crate::plugin::PluginSerializedBytes::deserialize_from_ptr(
+            crate::plugin::deserialize_from_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
@@ -229,7 +229,7 @@ impl Mark {
         }
 
         let context: MutableMarkContext = unsafe {
-            crate::plugin::PluginSerializedBytes::deserialize_from_ptr(
+            crate::plugin::deserialize_from_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
@@ -393,7 +393,7 @@ impl SyntaxContext {
         }
 
         let context: MutableMarkContext = unsafe {
-            crate::plugin::PluginSerializedBytes::deserialize_from_ptr(
+            crate::plugin::deserialize_from_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
