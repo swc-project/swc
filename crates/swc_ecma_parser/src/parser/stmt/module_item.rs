@@ -372,11 +372,15 @@ impl<I: Tokens> Parser<I> {
 
         if self.input.syntax().typescript() {
             if eat!(self, "import") {
+                let is_type_only = is!(self, "type") && peeked_is!(self, IdentRef);
+
+                if is_type_only {
+                    assert_and_bump!(self, "type");
+                }
+
                 // export import A = B
                 return self
-                    .parse_ts_import_equals_decl(
-                        start, /* is_export */ true, /* is_type_only */ false,
-                    )
+                    .parse_ts_import_equals_decl(start, /* is_export */ true, is_type_only)
                     .map(From::from);
             }
 
