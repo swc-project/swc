@@ -1,0 +1,50 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 45,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 1,
+        "end": 45,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": true,
+      "isTypeOnly": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 20,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "React",
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 28,
+          "end": 44,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 36,
+            "end": 43,
+            "ctxt": 0
+          },
+          "value": "react",
+          "raw": "\"react\""
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
