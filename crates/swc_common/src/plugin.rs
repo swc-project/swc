@@ -41,6 +41,12 @@ pub enum PluginError {
     Serialize(String),
 }
 
+impl Default for PluginError {
+    fn default() -> Self {
+        PluginError::Deserialize("Default serialization error".to_string())
+    }
+}
+
 /// Wraps internal representation of serialized data for exchanging data between
 /// plugin to the host. Consumers should not rely on specific details of byte
 /// format struct contains: it is strict implementation detail which can
@@ -62,12 +68,12 @@ impl PluginSerializedBytes {
     }
 
     /**
-     * Constructs an instance from given struct by serializing it.
+     * Constructs an instance from versioned struct by serializing it.
      *
      * This is sort of mimic TryFrom behavior, since we can't use generic
      * to implement TryFrom trait
      */
-    pub fn try_serialize<W>(t: &W) -> Result<Self, Error>
+    pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
@@ -105,7 +111,7 @@ impl PluginSerializedBytes {
         (self.field.as_ptr(), self.field.len())
     }
 
-    pub fn deserialize<W>(&self) -> Result<W, Error>
+    pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
@@ -113,7 +119,7 @@ impl PluginSerializedBytes {
         use anyhow::Context;
         use rkyv::Deserialize;
 
-        let archived = unsafe { rkyv::archived_root::<W>(&self.field[..]) };
+        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
 
         archived
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
@@ -130,7 +136,7 @@ impl PluginSerializedBytes {
 pub unsafe fn deserialize_from_ptr<W>(
     raw_allocated_ptr: *const u8,
     raw_allocated_ptr_len: i32,
-) -> Result<W, Error>
+) -> Result<VersionedSerializable<W>, Error>
 where
     W: rkyv::Archive,
     W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
@@ -153,7 +159,7 @@ where
 pub unsafe fn deserialize_from_ptr_into_fallible<W>(
     raw_allocated_ptr: *const u8,
     raw_allocated_ptr_len: i32,
-) -> Result<W, Error>
+) -> Result<VersionedSerializable<W>, Error>
 where
     W: rkyv::Archive,
     W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
