@@ -263,13 +263,38 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
         };
 
         let ident = Ident::new(&name, ty.span());
+        let ty = process_ast_node_ref_type(unwrap_ref(ty));
+        let second = if let Type::Slice(..) = unwrap_ref(&ty) {
+            Some(Field {
+                attrs: Default::default(),
+                vis: Visibility::Inherited,
+                colon_token: None,
+                ident: None,
+                ty: Type::Path(TypePath {
+                    qself: None,
+                    path: Ident::new("usize", ty.span()).into(),
+                }),
+            })
+        } else {
+            None
+        };
 
         let fields = if !is_ref {
-            Fields::Unit
-        } else {
-            let ty = process_ast_node_ref_type(unwrap_ref(ty));
+            match second {
+                Some(index) => {
+                    let mut fields = Punctuated::new();
+                    fields.push(index);
 
+                    Fields::Unnamed(FieldsUnnamed {
+                        paren_token: def_site(),
+                        unnamed: fields,
+                    })
+                }
+                None => Fields::Unit,
+            }
+        } else {
             let mut fields = Punctuated::new();
+
             fields.push(Field {
                 attrs: Default::default(),
                 vis: Visibility::Inherited,
@@ -292,6 +317,8 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
                     }
                 },
             });
+
+            fields.extend(second);
 
             Fields::Unnamed(FieldsUnnamed {
                 paren_token: def_site(),
