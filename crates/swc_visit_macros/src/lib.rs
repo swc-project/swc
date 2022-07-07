@@ -997,7 +997,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ) where
                         'ast: 'r;
 
-                    /// Visit children nodes of self with `v`
+                    /// Visit children nodes with v and ast path appended
+                    /// AstNodeRef describing `self`. The ast path will
+                    /// be resotred when this method returns.
+                    ///
+                    /// This is the default implementaton of a handler method in
+                    /// [VisitAstPath].
                     fn visit_children_with_path<'ast, 'r>(
                         &'ast self,
                         v: &mut V,
