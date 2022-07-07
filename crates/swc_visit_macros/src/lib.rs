@@ -1468,6 +1468,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 #[doc = "Visit children nodes with v and ast path appended AstKind \
                                          of `self`."]
                                 #[doc = "The ast path will be resotred when this method returns."]
+                                #[doc = ""]
+                                #[doc = "This is the default implementaton of a handler method in \
+                                         [VisitMutAstPath]"]
                                 fn visit_mut_children_with_path(
                                     &mut self,
                                     _visitor: &mut V,
