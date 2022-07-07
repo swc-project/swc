@@ -294,7 +294,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
             style: AttrStyle::Outer,
             bracket_token: def_site(),
             path: q!({ derive }).parse(),
-            tokens: q!({ (Eq) }).into(),
+            tokens: q!({ (Eq, PartialOrd, Ord, Hash) }).into(),
         });
     }
     attrs.push(Attribute {
