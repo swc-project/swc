@@ -10,6 +10,9 @@ version = "0.3.2"
 [lib]
 bench = false
 
+[features]
+path = []
+
 [dependencies]
 either = "1.5.3"
-swc_visit_macros = {version = "0.3.2", path = "../swc_visit_macros"}
+swc_visit_macros = { version = "0.3.2", path = "../swc_visit_macros" }
