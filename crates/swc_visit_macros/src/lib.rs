@@ -959,6 +959,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 pub trait VisitWith<V: ?Sized + Visit> {
+                    /// Calls a visitor method (v.visit_xxx) with self.
                     fn visit_with(&self, v: &mut V);
 
                     /// Visit children nodes of self with `v`
@@ -987,6 +988,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
+                    /// Calls a visitor method (v.visit_xxx) with self and the
+                    /// ast path.
                     fn visit_with_path<'ast, 'r>(
                         &'ast self,
                         v: &mut V,
@@ -1037,6 +1040,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 pub trait VisitAllWith<V: ?Sized + VisitAll> {
+                    /// Calls a visitor method (v.visit_xxx) with self.
                     fn visit_all_with(&self, v: &mut V);
 
                     /// Visit children nodes of self with `v`
@@ -1062,6 +1066,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 pub trait FoldWith<V: ?Sized + Fold> {
+                    /// Calls a visitor method (v.fold_xxx) with self.
                     fn fold_with(self, v: &mut V) -> Self;
 
                     /// Visit children nodes of self with `v`
@@ -1090,7 +1095,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
                     /// Calls a visitor method (v.fold_xxx) with self and the
-                    /// ast path
+                    /// ast path.
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
 
                     /// Visit children nodes with v and ast path appended
@@ -1132,6 +1137,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 pub trait VisitMutWith<V: ?Sized + VisitMut> {
+                    /// Calls a visitor method (v.visit_mut_xxx) with self.
                     fn visit_mut_with(&mut self, v: &mut V);
 
                     fn visit_mut_children_with(&mut self, v: &mut V);
@@ -1158,7 +1164,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
                     /// Calls a visitor method (v.visit_mut_xxx) with self and
-                    /// the ast path
+                    /// the ast path.
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
 
                     /// Visit children nodes with v and ast path appended
