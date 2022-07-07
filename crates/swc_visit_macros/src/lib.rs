@@ -819,10 +819,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             ) where
                                 'ast: 'r,
                             {
-                                let __ast_kind: AstNodeRef<'r> =
+                                let __ast_node_ref: AstNodeRef<'r> =
                                     AstNodeRef::NodeVariant(to_kind_expr);
 
-                                __ast_path.with(__ast_kind, |__ast_path| default_body)
+                                __ast_path.with(__ast_node_ref, |__ast_path| default_body)
                             }
                         }
                     ))
