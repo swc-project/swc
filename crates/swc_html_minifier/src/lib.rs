@@ -319,31 +319,12 @@ pub static CONDITIONAL_COMMENT_START: Lazy<CachedRegex> =
 pub static CONDITIONAL_COMMENT_END: Lazy<CachedRegex> =
     Lazy::new(|| CachedRegex::new("\\[endif]").unwrap());
 
-struct Minifier {
+struct Minifier<'a> {
+    options: &'a MinifyOptions,
+
     current_element: Option<Element>,
     latest_element: Option<Child>,
-
     descendant_of_pre: bool,
-
-    force_set_html5_doctype: bool,
-    collapse_whitespaces: CollapseWhitespaces,
-
-    remove_empty_metedata_elements: bool,
-
-    remove_comments: bool,
-    preserve_comments: Option<Vec<CachedRegex>>,
-    minify_conditional_comments: bool,
-    remove_empty_attributes: bool,
-    remove_redundant_attributes: bool,
-    collapse_boolean_attributes: bool,
-    normalize_attributes: bool,
-    minify_json: MinifyJsonOption,
-    minify_js: MinifyJsOption,
-    minify_css: MinifyCssOption,
-    minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
-    minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
-
-    sort_space_separated_attribute_values: bool,
     attribute_name_counter: Option<AHashMap<JsWord, usize>>,
 }
 
@@ -357,7 +338,7 @@ fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
     }
 }
 
-impl Minifier {
+impl Minifier<'_> {
     fn is_event_handler_attribute(&self, name: &str) -> bool {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
     }
@@ -646,7 +627,7 @@ impl Minifier {
     }
 
     fn is_preserved_comment(&self, data: &str) -> bool {
-        if let Some(preserve_comments) = &self.preserve_comments {
+        if let Some(preserve_comments) = &self.options.preserve_comments {
             return preserve_comments.iter().any(|regex| regex.is_match(data));
         }
 
@@ -662,7 +643,7 @@ impl Minifier {
     }
 
     fn need_collapse_whitespace(&self) -> bool {
-        !matches!(self.collapse_whitespaces, CollapseWhitespaces::None)
+        !matches!(self.options.collapse_whitespaces, CollapseWhitespaces::None)
     }
 
     fn is_custom_element(&self, tag_name: &str) -> bool {
@@ -934,7 +915,7 @@ impl Minifier {
         namespace: Namespace,
         tag_name: &str,
     ) -> WhitespaceMinificationMode {
-        let default_trim = match self.collapse_whitespaces {
+        let default_trim = match self.options.collapse_whitespaces {
             CollapseWhitespaces::All => true,
             CollapseWhitespaces::Smart
             | CollapseWhitespaces::Conservative
@@ -1032,7 +1013,7 @@ impl Minifier {
     }
 
     fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
-        if let Some(minify_additional_attributes) = &self.minify_additional_attributes {
+        if let Some(minify_additional_attributes) = &self.options.minify_additional_attributes {
             for item in minify_additional_attributes {
                 if item.0.is_match(name) {
                     return Some(item.1.clone());
@@ -1068,11 +1049,11 @@ impl Minifier {
 
         let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
             match child {
-                Child::Comment(comment) if self.remove_comments => {
+                Child::Comment(comment) if self.options.remove_comments => {
                     self.is_preserved_comment(&comment.data)
                 }
                 Child::Element(element)
-                    if self.remove_empty_metedata_elements
+                    if self.options.remove_empty_metedata_elements
                         && (!self.is_element_displayed(element.namespace, &element.tag_name)
                             || (matches!(element.namespace, Namespace::HTML | Namespace::SVG)
                                 && &*element.tag_name == "script")
@@ -1097,7 +1078,7 @@ impl Minifier {
                     if !self.descendant_of_pre
                         && get_white_space(namespace, tag_name) == WhiteSpace::Normal
                         && matches!(
-                            self.collapse_whitespaces,
+                            self.options.collapse_whitespaces,
                             CollapseWhitespaces::All
                                 | CollapseWhitespaces::Smart
                                 | CollapseWhitespaces::Conservative
@@ -1106,7 +1087,7 @@ impl Minifier {
                     let mut is_smart_left_trim = false;
                     let mut is_smart_right_trim = false;
 
-                    if self.collapse_whitespaces == CollapseWhitespaces::Smart {
+                    if self.options.collapse_whitespaces == CollapseWhitespaces::Smart {
                         let prev = if index >= 1 {
                             children.get(index - 1)
                         } else {
@@ -1404,7 +1385,9 @@ impl Minifier {
     }
 
     fn is_additional_scripts_content(&self, name: &str) -> Option<MinifierType> {
-        if let Some(minify_additional_scripts_content) = &self.minify_additional_scripts_content {
+        if let Some(minify_additional_scripts_content) =
+            &self.options.minify_additional_scripts_content
+        {
             for item in minify_additional_scripts_content {
                 if item.0.is_match(name) {
                     return Some(item.1.clone());
@@ -1416,14 +1399,14 @@ impl Minifier {
     }
 
     fn need_minify_json(&self) -> bool {
-        match self.minify_json {
+        match self.options.minify_json {
             MinifyJsonOption::Bool(value) => value,
             MinifyJsonOption::Options(_) => true,
         }
     }
 
     fn get_json_options(&self) -> JsonOptions {
-        match &self.minify_json {
+        match &self.options.minify_json {
             MinifyJsonOption::Bool(_) => JsonOptions { pretty: false },
             MinifyJsonOption::Options(json_options) => *json_options.clone(),
         }
@@ -1448,7 +1431,7 @@ impl Minifier {
     }
 
     fn need_minify_js(&self) -> bool {
-        match self.minify_js {
+        match self.options.minify_js {
             MinifyJsOption::Bool(value) => value,
             MinifyJsOption::Options(_) => true,
         }
@@ -1457,7 +1440,7 @@ impl Minifier {
     fn get_js_options(&self) -> JsOptions {
         let target = swc_ecma_ast::EsVersion::latest();
 
-        match &self.minify_js {
+        match &self.options.minify_js {
             MinifyJsOption::Bool(_) => JsOptions {
                 parser: JsParserOptions {
                     comments: false,
@@ -1600,7 +1583,7 @@ impl Minifier {
     }
 
     fn need_minify_css(&self) -> bool {
-        match self.minify_css {
+        match self.options.minify_css {
             MinifyCssOption::Bool(value) => value,
             MinifyCssOption::Options(_) => true,
         }
@@ -1633,7 +1616,7 @@ impl Minifier {
     }
 
     fn get_css_options(&self) -> CssOptions {
-        match &self.minify_css {
+        match &self.options.minify_css {
             MinifyCssOption::Bool(_) => CssOptions {
                 parser: swc_css_parser::parser::ParserConfig::default(),
                 minifier: swc_css_minifier::options::MinifyOptions::default(),
@@ -1843,34 +1826,14 @@ impl Minifier {
             return None;
         }
 
-        let minify_options = MinifyOptions {
-            force_set_html5_doctype: self.force_set_html5_doctype,
-            collapse_whitespaces: self.collapse_whitespaces.clone(),
-            remove_empty_metedata_elements: self.remove_empty_metedata_elements,
-            remove_comments: self.remove_comments,
-            preserve_comments: self.preserve_comments.clone(),
-            minify_conditional_comments: self.minify_conditional_comments,
-            remove_empty_attributes: self.remove_empty_attributes,
-            remove_redundant_attributes: self.remove_empty_attributes,
-            collapse_boolean_attributes: self.collapse_boolean_attributes,
-            normalize_attributes: self.normalize_attributes,
-            minify_js: self.minify_js.clone(),
-            minify_json: self.minify_json.clone(),
-            minify_css: self.minify_css.clone(),
-            minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
-            minify_additional_attributes: self.minify_additional_attributes.clone(),
-            sort_space_separated_attribute_values: self.sort_space_separated_attribute_values,
-            sort_attributes: self.attribute_name_counter.is_some(),
-        };
-
         match document_or_document_fragment {
             HtmlRoot::Document(ref mut document) => {
-                minify_document(document, &minify_options);
+                minify_document(document, self.options);
             }
             HtmlRoot::DocumentFragment(ref mut document_fragment) => minify_document_fragment(
                 document_fragment,
                 context_element.as_ref().unwrap(),
-                &minify_options,
+                self.options,
             ),
         }
 
@@ -1904,12 +1867,12 @@ impl Minifier {
     }
 }
 
-impl VisitMut for Minifier {
+impl VisitMut for Minifier<'_> {
     fn visit_mut_document(&mut self, n: &mut Document) {
         n.visit_mut_children_with(self);
 
         n.children
-            .retain(|child| !matches!(child, Child::Comment(_) if self.remove_comments));
+            .retain(|child| !matches!(child, Child::Comment(_) if self.options.remove_comments));
     }
 
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
@@ -1921,7 +1884,7 @@ impl VisitMut for Minifier {
     fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
         n.visit_mut_children_with(self);
 
-        if !self.force_set_html5_doctype {
+        if !self.options.force_set_html5_doctype {
             return;
         }
 
@@ -1935,7 +1898,7 @@ impl VisitMut for Minifier {
 
         self.current_element = None;
 
-        if self.collapse_whitespaces == CollapseWhitespaces::Smart {
+        if self.options.collapse_whitespaces == CollapseWhitespaces::Smart {
             match n {
                 Child::Text(_) | Child::Element(_) => {
                     self.latest_element = Some(n.clone());
@@ -1992,7 +1955,7 @@ impl VisitMut for Minifier {
                 return true;
             }
 
-            if self.remove_redundant_attributes
+            if self.options.remove_redundant_attributes
                 && self.is_default_attribute_value(
                     n.namespace,
                     &n.tag_name,
@@ -2014,7 +1977,7 @@ impl VisitMut for Minifier {
                 return false;
             }
 
-            if self.remove_empty_attributes {
+            if self.options.remove_empty_attributes {
                 let value = attribute.value.as_ref().unwrap();
 
                 if (matches!(&*attribute.name, "id") && value.is_empty())
@@ -2062,14 +2025,14 @@ impl VisitMut for Minifier {
 
         let current_element = self.current_element.as_ref().unwrap();
 
-        if self.collapse_boolean_attributes
+        if self.options.collapse_boolean_attributes
             && current_element.namespace == Namespace::HTML
             && self.is_boolean_attribute(&n.name)
         {
             n.value = None;
 
             return;
-        } else if self.normalize_attributes {
+        } else if self.options.normalize_attributes {
             if self.is_space_separated_attribute(current_element, &n.name) {
                 value = value.split_whitespace().collect::<Vec<_>>().join(" ");
             } else if self.is_comma_separated_attribute(current_element, &n.name) {
@@ -2150,7 +2113,7 @@ impl VisitMut for Minifier {
             }
         }
 
-        if self.sort_space_separated_attribute_values
+        if self.options.sort_space_separated_attribute_values
             && self.is_attribute_value_unordered_set(current_element, &n.name)
         {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
@@ -2177,7 +2140,7 @@ impl VisitMut for Minifier {
             }
         }
 
-        if self.minify_additional_attributes.is_some() {
+        if self.options.minify_additional_attributes.is_some() {
             let minifier_type = self.is_additional_minifier_attribute(&n.name);
 
             match minifier_type {
@@ -2273,7 +2236,9 @@ impl VisitMut for Minifier {
                         ) if self.need_minify_json() => {
                             text_type = Some(MinifierType::Json);
                         }
-                        Some(script_type) if self.minify_additional_scripts_content.is_some() => {
+                        Some(script_type)
+                            if self.options.minify_additional_scripts_content.is_some() =>
+                        {
                             if let Some(minifier_type) =
                                 self.is_additional_scripts_content(script_type)
                             {
@@ -2369,7 +2334,7 @@ impl VisitMut for Minifier {
     fn visit_mut_comment(&mut self, n: &mut Comment) {
         n.visit_mut_children_with(self);
 
-        if !self.minify_conditional_comments {
+        if !self.options.minify_conditional_comments {
             return;
         }
 
@@ -2419,7 +2384,10 @@ impl VisitMut for AttributeNameCounter {
     }
 }
 
-fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -> Minifier {
+fn create_minifier<'a>(
+    context_element: Option<&Element>,
+    options: &'a MinifyOptions,
+) -> Minifier<'a> {
     let mut current_element = None;
     let mut is_pre = false;
 
@@ -2430,31 +2398,11 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
     }
 
     Minifier {
+        options,
+
         current_element,
         latest_element: None,
-
         descendant_of_pre: is_pre,
-
-        force_set_html5_doctype: options.force_set_html5_doctype,
-        remove_comments: options.remove_comments,
-        preserve_comments: options.preserve_comments.clone(),
-        minify_conditional_comments: options.minify_conditional_comments,
-
-        collapse_whitespaces: options.collapse_whitespaces.clone(),
-
-        remove_empty_metedata_elements: options.remove_empty_metedata_elements,
-        remove_empty_attributes: options.remove_empty_attributes,
-        collapse_boolean_attributes: options.collapse_boolean_attributes,
-        remove_redundant_attributes: options.remove_redundant_attributes,
-        normalize_attributes: options.normalize_attributes,
-
-        minify_json: options.minify_json.clone(),
-        minify_js: options.minify_js.clone(),
-        minify_css: options.minify_css.clone(),
-        minify_additional_attributes: options.minify_additional_attributes.clone(),
-        minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
-
-        sort_space_separated_attribute_values: options.sort_space_separated_attribute_values,
         attribute_name_counter: None,
     }
 }
