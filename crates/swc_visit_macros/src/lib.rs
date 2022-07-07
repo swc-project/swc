@@ -1136,8 +1136,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
+                    #[doc = "Calls v.visit_mut_xxx with self and the ast path"]
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
 
+                    #[doc = "Visit children nodes with v and ast path appended AstKind of `self`."]
+                    #[doc = "The ast path will be resotred when this method returns."]
+                    #[doc = ""]
+                    #[doc = "This is the default implementaton of a handler method in \
+                             [VisitMutAstPath]"]
                     fn visit_mut_children_with_path(
                         &mut self,
                         v: &mut V,
@@ -1456,7 +1462,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                             impl<V: ?Sized + VisitMutAstPath> VisitMutWithPath<V> for Type {
-                                #[doc = "Calls v.visit_mut_xxx with self and the ast path"]
                                 fn visit_mut_with_path(
                                     &mut self,
                                     v: &mut V,
@@ -1465,12 +1470,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     expr
                                 }
 
-                                #[doc = "Visit children nodes with v and ast path appended AstKind \
-                                         of `self`."]
-                                #[doc = "The ast path will be resotred when this method returns."]
-                                #[doc = ""]
-                                #[doc = "This is the default implementaton of a handler method in \
-                                         [VisitMutAstPath]"]
                                 fn visit_mut_children_with_path(
                                     &mut self,
                                     _visitor: &mut V,
