@@ -1897,7 +1897,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             style: AttrStyle::Outer,
             bracket_token: def_site(),
             path: q!({ doc }).parse(),
-            tokens: q!(Vars { doc_str },{ = "" }).into(),
+            tokens: q!({ = "" }).into(),
         });
     }
 
