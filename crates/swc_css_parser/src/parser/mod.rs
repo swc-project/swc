@@ -22,6 +22,7 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(
     Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
 )]
+#[serde(rename_all = "camelCase")]
 pub struct ParserConfig {
     /// If this is `true`, **wrong** comments starting with `//` will be treated
     /// as a comment.

@@ -1570,7 +1570,7 @@ impl Minifier {
         {
             let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                 cm.clone(),
-                "",
+                "\n",
                 &mut buf,
                 None,
             )) as Box<dyn swc_ecma_codegen::text_writer::WriteJs>;

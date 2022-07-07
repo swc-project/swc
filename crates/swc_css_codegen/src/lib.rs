@@ -21,10 +21,12 @@ mod list;
 pub mod writer;
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CodegenConfig {
     #[serde(default)]
     pub minify: bool,
 }
+
 #[derive(Debug)]
 pub struct CodeGenerator<W>
 where

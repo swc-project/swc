@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use swc_ecma_ast::EsVersion;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
     /// The target runtime environment.
     ///

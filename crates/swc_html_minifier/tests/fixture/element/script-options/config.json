@@ -11,7 +11,7 @@
       }
     },
     "codegen": {
-      "ascii_only": true
+      "asciiOnly": true
     }
   }
 }
