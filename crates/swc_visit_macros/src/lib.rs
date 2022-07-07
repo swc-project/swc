@@ -245,10 +245,10 @@ fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
     }
 }
 
-fn unwrap_ref(ty: &Type) -> Type {
+fn unwrap_ref(ty: &Type) -> &Type {
     match ty {
         Type::Reference(t) => unwrap_ref(&t.elem),
-        _ => ty.clone(),
+        _ => ty,
     }
 }
 
@@ -267,6 +267,8 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
         let fields = if !is_ref {
             Fields::Unit
         } else {
+            let ty = process_ast_node_ref_type(unwrap_ref(ty));
+
             let mut fields = Punctuated::new();
             fields.push(Field {
                 attrs: Default::default(),
@@ -274,7 +276,6 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
                 colon_token: None,
                 ident: None,
                 ty: {
-                    let ty = process_ast_node_ref_type(&unwrap_ref(ty));
                     if extract_generic("Option", &ty).is_some() || matches!(ty, Type::Reference(..))
                     {
                         ty
