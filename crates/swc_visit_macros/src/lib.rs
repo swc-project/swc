@@ -1883,9 +1883,20 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
 fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemMethod> {
     let mut attrs = vec![];
 
+    {
+        let doc_str = "This method can be overriden to customize the visitor behavior.";
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ doc }).parse(),
+            tokens: q!(Vars { doc_str },{ = doc_str }).into(),
+        });
+    }
+
     if let Some(trait_name) = mode.name_of_trait_for_ast() {
         let doc_str = format!(
-            "This calls [{}.{}] by default",
+            "This calls [`{}::{}`] on `n` by default",
             trait_name,
             mode.name_of_trait_children_method_for_ast().unwrap()
         );
