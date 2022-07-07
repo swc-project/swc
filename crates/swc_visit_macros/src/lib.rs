@@ -956,6 +956,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         let trait_decl = match mode {
             Mode::Visit(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitWith<V: ?Sized + Visit> {
                     fn visit_with(&self, v: &mut V);
 
@@ -980,6 +982,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }),
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
@@ -1030,6 +1034,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }),
 
             Mode::VisitAll => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitAllWith<V: ?Sized + VisitAll> {
                     fn visit_all_with(&self, v: &mut V);
 
@@ -1053,6 +1059,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait FoldWith<V: ?Sized + Fold> {
                     fn fold_with(self, v: &mut V) -> Self;
 
@@ -1076,7 +1084,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::WithPath) => q!({
-                /// A utility trait implemented for ast nodes.
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
@@ -1120,6 +1129,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitMutWith<V: ?Sized + VisitMut> {
                     fn visit_mut_with(&mut self, v: &mut V);
 
@@ -1141,6 +1152,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
