@@ -1438,29 +1438,15 @@ impl Minifier<'_> {
     }
 
     fn get_js_options(&self) -> JsOptions {
-        let target = swc_ecma_ast::EsVersion::latest();
-
         match &self.options.minify_js {
             MinifyJsOption::Bool(_) => JsOptions {
-                parser: JsParserOptions {
-                    comments: false,
-                    syntax: swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig::default()),
-                    target,
-                },
+                parser: JsParserOptions::default(),
                 minifier: swc_ecma_minifier::option::MinifyOptions {
-                    compress: Some(swc_ecma_minifier::option::CompressOptions {
-                        ecma: target,
-                        ..Default::default()
-                    }),
-                    mangle: Some(swc_ecma_minifier::option::MangleOptions {
-                        ..Default::default()
-                    }),
+                    compress: Some(swc_ecma_minifier::option::CompressOptions::default()),
+                    mangle: Some(swc_ecma_minifier::option::MangleOptions::default()),
                     ..Default::default()
                 },
-                codegen: swc_ecma_codegen::Config {
-                    target,
-                    ..Default::default()
-                },
+                codegen: swc_ecma_codegen::Config::default(),
             },
             MinifyJsOption::Options(js_options) => *js_options.clone(),
         }
@@ -1477,13 +1463,6 @@ impl Minifier<'_> {
         if let swc_ecma_parser::Syntax::Es(es_config) = &mut options.parser.syntax {
             es_config.allow_return_outside_function = !is_module && is_attribute;
         }
-
-        if let Some(compress_options) = &mut options.minifier.compress {
-            compress_options.module = is_module;
-        }
-
-        options.codegen.minify = true;
-        options.codegen.target = options.parser.target;
 
         let comments = SingleThreadedComments::default();
 
@@ -1527,6 +1506,15 @@ impl Minifier<'_> {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
+        if let Some(compress_options) = &mut options.minifier.compress {
+            compress_options.module = is_module;
+        } else {
+            options.minifier.compress = Some(swc_ecma_minifier::option::CompressOptions {
+                ecma: options.parser.target,
+                ..Default::default()
+            });
+        }
+
         swc_ecma_visit::VisitMutWith::visit_mut_with(
             &mut program,
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
@@ -1559,6 +1547,9 @@ impl Minifier<'_> {
             )) as Box<dyn swc_ecma_codegen::text_writer::WriteJs>;
 
             wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+
+            options.codegen.minify = true;
+            options.codegen.target = options.parser.target;
 
             let mut emitter = swc_ecma_codegen::Emitter {
                 cfg: options.codegen,
@@ -1633,9 +1624,6 @@ impl Minifier<'_> {
         let fm = cm.new_source_file(FileName::Anon, data);
 
         let mut options = self.get_css_options();
-
-        // Because it is minifier
-        options.codegen.minify = true;
 
         let mut stylesheet = match mode {
             CssMinificationMode::Stylesheet => {
@@ -1729,6 +1717,9 @@ impl Minifier<'_> {
             None,
             swc_css_codegen::writer::basic::BasicCssWriterConfig::default(),
         );
+
+        options.codegen.minify = true;
+
         let mut gen = swc_css_codegen::CodeGenerator::new(wr, options.codegen);
 
         match mode {
