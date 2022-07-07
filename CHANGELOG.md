@@ -31,6 +31,9 @@
 
 - **(visit)** Implement `Eq` for `AstKind` (#5133) ([46b1b42](https://github.com/swc-project/swc/commit/46b1b42c3c8ceafadfdc30973344eaded5a52bda))
 
+
+- **(visit)** Implement more traits for `AstKind` (#5135) ([f26d59b](https://github.com/swc-project/swc/commit/f26d59b7701f5d7f6cf25055c1ed0e37da6964a1))
+
 ### Refactor
 
 
