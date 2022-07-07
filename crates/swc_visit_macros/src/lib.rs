@@ -1108,7 +1108,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     /// be resotred when this method returns.
                     ///
                     /// This is the default implementaton of a handler method in
-                    /// [FoldAstPath]
+                    /// [FoldAstPath].
                     fn fold_children_with_path(self, v: &mut V, ast_path: &mut AstKindPath)
                         -> Self;
                 }
@@ -1177,7 +1177,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     /// this method returns.
                     ///
                     /// This is the default implementaton of a handler method in
-                    /// [VisitMutAstPath]
+                    /// [VisitMutAstPath].
                     fn visit_mut_children_with_path(
                         &mut self,
                         v: &mut V,
