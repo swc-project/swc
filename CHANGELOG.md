@@ -35,6 +35,9 @@
 - **(html/minifier)** Sort attributes (#4784) ([f813a60](https://github.com/swc-project/swc/commit/f813a60497da416c41041af1d82d7186a6f0cc09))
 
 
+- **(plugin)** Wrap serialized struct with a version (#5128) ([82fbe15](https://github.com/swc-project/swc/commit/82fbe15a57e51ae444c3846fe6a512af297e0087))
+
+
 - **(visit)** Implement `Eq` for `AstKind` (#5133) ([46b1b42](https://github.com/swc-project/swc/commit/46b1b42c3c8ceafadfdc30973344eaded5a52bda))
 
 
