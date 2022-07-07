@@ -620,6 +620,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Default implementation of the method of [Fold].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
                         default_body
@@ -635,6 +636,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Default implementation of the method of [VsiitMut].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
@@ -650,6 +652,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Default implementation of the method of [Visit].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
