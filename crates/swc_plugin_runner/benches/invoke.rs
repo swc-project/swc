@@ -9,7 +9,10 @@ use std::{
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use once_cell::sync::Lazy;
-use swc_common::{plugin::PluginSerializedBytes, FileName, FilePathMapping, SourceMap};
+use swc_common::{
+    plugin::{PluginSerializedBytes, VersionedSerializable},
+    FileName, FilePathMapping, SourceMap,
+};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
 use swc_plugin_runner::cache::PluginModuleCache;
@@ -56,6 +59,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         )
         .unwrap();
 
+        let program = VersionedSerializable::new(program);
         let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();
 
         let res = swc_plugin_runner::apply_transform_plugin(
@@ -67,8 +71,10 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 .join("swc_internal_plugin.wasm"),
             &cache,
             program_ser,
-            PluginSerializedBytes::try_serialize(&String::from("{}")).unwrap(),
-            PluginSerializedBytes::try_serialize(&String::from("{}")).unwrap(),
+            PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from("{}")))
+                .unwrap(),
+            PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from("{}")))
+                .unwrap(),
             true,
             &cm,
         )

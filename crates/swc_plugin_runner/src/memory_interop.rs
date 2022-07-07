@@ -1,4 +1,4 @@
-use swc_common::plugin::PluginSerializedBytes;
+use swc_common::plugin::{PluginSerializedBytes, VersionedSerializable};
 use swc_plugin_proxy::AllocatedBytesPtr;
 use wasmer::{Array, Memory, NativeFunc, WasmPtr};
 
@@ -92,10 +92,11 @@ pub fn allocate_return_values_into_guest(
                 .expect("Should able to allocate memory in the plugin")
         });
 
+    let allocated_bytes =
+        VersionedSerializable::new(AllocatedBytesPtr(allocated_ptr, allocated_ptr_len));
     // Retuning (allocated_ptr, len) into caller (plugin)
     let comment_ptr_serialized =
-        PluginSerializedBytes::try_serialize(&AllocatedBytesPtr(allocated_ptr, allocated_ptr_len))
-            .expect("Should be serializable");
+        PluginSerializedBytes::try_serialize(&allocated_bytes).expect("Should be serializable");
 
     write_into_memory_view(memory, &comment_ptr_serialized, |_| allocated_ret_ptr);
 }
