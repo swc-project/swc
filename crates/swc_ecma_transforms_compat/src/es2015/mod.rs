@@ -61,6 +61,7 @@ where
     chain!(
         regexp(regexp::Config {
             dot_all_regex: false,
+            has_indices: false,
             lookbehind_assertion: false,
             named_capturing_groups_regex: false,
             sticky_regex: true,
