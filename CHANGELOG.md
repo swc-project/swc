@@ -16,6 +16,12 @@
 
 - **(es/parser)** Support type-only export-import declarations (#5122) ([fbfca36](https://github.com/swc-project/swc/commit/fbfca36f58cf393faae132b092d05e9aaa931d55))
 
+### Documentation
+
+
+
+- **(es/parser)** Typo (#5136) ([9d4be11](https://github.com/swc-project/swc/commit/9d4be11f2ef0b9245a1626717f9c75e0220e5dfa))
+
 ### Features
 
 
