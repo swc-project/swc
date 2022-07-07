@@ -1076,16 +1076,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
-                    #[doc = "Calls a visitor method (v.fold_xxx) with self and the ast path"]
+                    /// Calls a visitor method (v.fold_xxx) with self and the
+                    /// ast path
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
 
-                    #[doc = "Visit children nodes with v and ast path appended AstKind of `self`."]
-                    #[doc = "The ast path will be resotred when this method returns."]
-                    #[doc = ""]
-                    #[doc = "This is the default implementaton of a handler method in [FoldAstPath]"]
+                    /// Visit children nodes with v and ast path appended
+                    /// AstKind of `self`. The ast path will
+                    /// be resotred when this method returns.
+                    ///
+                    /// This is the default implementaton of a handler method in
+                    /// [FoldAstPath]
                     fn fold_children_with_path(self, v: &mut V, ast_path: &mut AstKindPath)
                         -> Self;
                 }
