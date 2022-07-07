@@ -55,6 +55,32 @@ impl Mode {
             Mode::VisitAll => None,
         }
     }
+
+    fn name_of_trait_for_ast(self) -> Option<&'static str> {
+        Some(match self {
+            Mode::VisitAll => return None,
+            Mode::Fold(VisitorVariant::Normal) => "FoldWith",
+            Mode::Visit(VisitorVariant::Normal) => "VisitWiht",
+            Mode::VisitMut(VisitorVariant::Normal) => "VisitMutWith",
+            Mode::Visit(VisitorVariant::WithPath) => "VisitWithPath",
+            Mode::VisitMut(VisitorVariant::WithPath) => "VisitMutWithPath",
+            Mode::Fold(VisitorVariant::WithPath) => "FoldWithPath",
+        })
+    }
+
+    fn name_of_trait_children_method_for_ast(self) -> Option<&'static str> {
+        Some(match self {
+            Mode::VisitAll => return None,
+            Mode::Fold(VisitorVariant::Normal) => "fold_children_with",
+            Mode::Fold(VisitorVariant::WithPath) => "fold_children_with_path",
+
+            Mode::Visit(VisitorVariant::Normal) => "visit_children_with",
+            Mode::Visit(VisitorVariant::WithPath) => "visit_children_with_path",
+
+            Mode::VisitMut(VisitorVariant::Normal) => "visit_mut_children_with",
+            Mode::VisitMut(VisitorVariant::WithPath) => "visit_mut_children_with_path",
+        })
+    }
 }
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -620,6 +646,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Visits children of the nodes with the given visitor.
+                    ///
+                    /// This is the default implementation of a method of
+                    /// [Fold].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
                         default_body
@@ -635,6 +665,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Visits children of the nodes with the given visitor.
+                    ///
+                    /// This is the default implementation of a method of
+                    /// [VisitMut].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
@@ -650,6 +684,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Visits children of the nodes with the given visitor.
+                    ///
+                    /// This is the default implementation of a method of
+                    /// [Visit].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
@@ -956,7 +994,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         let trait_decl = match mode {
             Mode::Visit(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitWith<V: ?Sized + Visit> {
+                    /// Calls a visitor method (v.visit_xxx) with self.
                     fn visit_with(&self, v: &mut V);
 
                     /// Visit children nodes of self with `v`
@@ -980,9 +1021,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }),
 
             Mode::Visit(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
+                    /// Calls a visitor method (v.visit_xxx) with self and the
+                    /// ast path.
                     fn visit_with_path<'ast, 'r>(
                         &'ast self,
                         v: &mut V,
@@ -990,7 +1035,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ) where
                         'ast: 'r;
 
-                    /// Visit children nodes of self with `v`
+                    /// Visit children nodes with v and ast path appended
+                    /// [AstNodeRef] describing `self`. The ast path will
+                    /// be resotred when this method returns.
+                    ///
+                    /// This is the default implementaton of a handler method in
+                    /// [VisitAstPath].
                     fn visit_children_with_path<'ast, 'r>(
                         &'ast self,
                         v: &mut V,
@@ -1030,7 +1080,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }),
 
             Mode::VisitAll => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitAllWith<V: ?Sized + VisitAll> {
+                    /// Calls a visitor method (v.visit_xxx) with self.
                     fn visit_all_with(&self, v: &mut V);
 
                     /// Visit children nodes of self with `v`
@@ -1053,7 +1106,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait FoldWith<V: ?Sized + Fold> {
+                    /// Calls a visitor method (v.fold_xxx) with self.
                     fn fold_with(self, v: &mut V) -> Self;
 
                     /// Visit children nodes of self with `v`
@@ -1076,12 +1132,21 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
+                    /// Calls a visitor method (v.fold_xxx) with self and the
+                    /// ast path.
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
 
-                    /// Visit children nodes of self with `v`
+                    /// Visit children nodes with v and ast path appended
+                    /// [AstKind] of `self`. The ast path will
+                    /// be resotred when this method returns.
+                    ///
+                    /// This is the default implementaton of a handler method in
+                    /// [FoldAstPath].
                     fn fold_children_with_path(self, v: &mut V, ast_path: &mut AstKindPath)
                         -> Self;
                 }
@@ -1112,7 +1177,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitMutWith<V: ?Sized + VisitMut> {
+                    /// Calls a visitor method (v.visit_mut_xxx) with self.
                     fn visit_mut_with(&mut self, v: &mut V);
 
                     fn visit_mut_children_with(&mut self, v: &mut V);
@@ -1133,11 +1201,21 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
+                    /// Calls a visitor method (v.visit_mut_xxx) with self and
+                    /// the ast path.
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
 
+                    /// Visit children nodes with v and ast path appended
+                    /// [AstKind] of `self`. The ast path will be resotred when
+                    /// this method returns.
+                    ///
+                    /// This is the default implementaton of a handler method in
+                    /// [VisitMutAstPath].
                     fn visit_mut_children_with_path(
                         &mut self,
                         v: &mut V,
@@ -1147,6 +1225,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                #[doc = "Delegating implementation"]
                 impl<V, T> VisitMutWithPath<V> for Box<T>
                 where
                     V: ?Sized + VisitMutAstPath,
@@ -1802,6 +1881,42 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
 
 /// Returns None if it's skipped.
 fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemMethod> {
+    let mut attrs = vec![];
+
+    {
+        let doc_str = "This method can be overriden to customize the visitor behavior.";
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ doc }).parse(),
+            tokens: q!(Vars { doc_str },{ = doc_str }).into(),
+        });
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ doc }).parse(),
+            tokens: q!(Vars { doc_str },{ = "" }).into(),
+        });
+    }
+
+    if let Some(trait_name) = mode.name_of_trait_for_ast() {
+        let doc_str = format!(
+            "This calls [`{}::{}`] on `n` by default. The default method visit children nodes \
+             with `self`.",
+            trait_name,
+            mode.name_of_trait_children_method_for_ast().unwrap()
+        );
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ doc }).parse(),
+            tokens: q!(Vars { doc_str },{ = doc_str }).into(),
+        });
+    }
+
     Some(match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
@@ -1832,7 +1947,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             let sig = method_sig_from_ident(mode, type_name);
 
             TraitItemMethod {
-                attrs: vec![],
+                attrs,
                 sig,
                 default: Some(block),
                 semi_token: None,
@@ -1891,7 +2006,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             };
 
             TraitItemMethod {
-                attrs: vec![],
+                attrs,
                 sig: method_sig_from_ident(mode, type_name),
                 default: Some(block),
                 semi_token: None,
