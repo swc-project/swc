@@ -1079,9 +1079,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
+                    #[doc = "Calls a visitor method (v.fold_xxx) with self and the ast path"]
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
 
-                    /// Visit children nodes of self with `v`
+                    #[doc = "Visit children nodes with v and ast path appended AstKind of `self`."]
+                    #[doc = "The ast path will be resotred when this method returns."]
+                    #[doc = ""]
+                    #[doc = "This is the default implementaton of a handler method in [FoldAstPath]"]
                     fn fold_children_with_path(self, v: &mut V, ast_path: &mut AstKindPath)
                         -> Self;
                 }
@@ -1136,7 +1140,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
-                    #[doc = "Calls v.visit_mut_xxx with self and the ast path"]
+                    #[doc = "Calls a visitor method (v.visit_mut_xxx) with self and the ast path"]
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
 
                     #[doc = "Visit children nodes with v and ast path appended AstKind of `self`."]
