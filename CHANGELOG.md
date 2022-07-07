@@ -22,6 +22,9 @@
 
 - **(es/parser)** Typo (#5136) ([9d4be11](https://github.com/swc-project/swc/commit/9d4be11f2ef0b9245a1626717f9c75e0220e5dfa))
 
+
+- **(visit)** Add docs for visitors (#5137) ([76de911](https://github.com/swc-project/swc/commit/76de91146661a7b1b72e81f91787e57943040481))
+
 ### Features
 
 
