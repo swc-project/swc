@@ -1885,7 +1885,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
 
     if let Some(trait_name) = mode.name_of_trait_for_ast() {
         let doc_str = format!(
-            "This calls {}.{} by default",
+            "This calls [{}.{}] by default",
             trait_name,
             mode.name_of_trait_children_method_for_ast().unwrap()
         );
