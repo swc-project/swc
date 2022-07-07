@@ -553,7 +553,7 @@ impl Default for Comment {
         Comment {
             kind: CommentKind::Line,
             span: DUMMY_SP,
-            text: "".into(),
+            text: Default::default(),
         }
     }
 }
