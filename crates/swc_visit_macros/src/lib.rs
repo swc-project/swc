@@ -55,6 +55,32 @@ impl Mode {
             Mode::VisitAll => None,
         }
     }
+
+    fn name_of_trait_for_ast(self) -> Option<&'static str> {
+        Some(match self {
+            Mode::VisitAll => return None,
+            Mode::Fold(VisitorVariant::Normal) => "FoldWith",
+            Mode::Visit(VisitorVariant::Normal) => "VisitWiht",
+            Mode::VisitMut(VisitorVariant::Normal) => "VisitMutWith",
+            Mode::Visit(VisitorVariant::WithPath) => "VisitWithPath",
+            Mode::VisitMut(VisitorVariant::WithPath) => "VisitMutWithPath",
+            Mode::Fold(VisitorVariant::WithPath) => "FoldWithPath",
+        })
+    }
+
+    fn name_of_trait_children_method_for_ast(self) -> Option<&'static str> {
+        Some(match self {
+            Mode::VisitAll => return None,
+            Mode::Fold(VisitorVariant::Normal) => "fold_children_with",
+            Mode::Fold(VisitorVariant::WithPath) => "fold_children_with",
+
+            Mode::Visit(VisitorVariant::Normal) => "visit_children_with",
+            Mode::Visit(VisitorVariant::WithPath) => "visit_children_with",
+
+            Mode::VisitMut(VisitorVariant::Normal) => "visit_mut_children_with",
+            Mode::VisitMut(VisitorVariant::WithPath) => "visit_mut_children_with",
+        })
+    }
 }
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -1855,6 +1881,23 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
 
 /// Returns None if it's skipped.
 fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemMethod> {
+    let mut attrs = vec![];
+
+    if let Some(trait_name) = mode.name_of_trait_for_ast() {
+        let doc_str = format!(
+            "This calls {}.{} by default",
+            trait_name,
+            mode.name_of_trait_children_method_for_ast().unwrap()
+        );
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ doc }).parse(),
+            tokens: q!(Vars { doc_str },{ = doc_str }).into(),
+        });
+    }
+
     Some(match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
@@ -1885,7 +1928,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             let sig = method_sig_from_ident(mode, type_name);
 
             TraitItemMethod {
-                attrs: vec![],
+                attrs,
                 sig,
                 default: Some(block),
                 semi_token: None,
@@ -1944,7 +1987,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             };
 
             TraitItemMethod {
-                attrs: vec![],
+                attrs,
                 sig: method_sig_from_ident(mode, type_name),
                 default: Some(block),
                 semi_token: None,
