@@ -307,13 +307,15 @@ where
         &self.kinds
     }
 
-    pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
+    pub fn with<F, Ret>(&mut self, kind: K, node: N, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<K, N>) -> Ret,
     {
+        self.kinds.path.push(kind);
         self.path.push(node);
         let ret = op(self);
         self.path.pop();
+        self.kinds.path.pop();
 
         ret
     }
