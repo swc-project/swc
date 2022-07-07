@@ -72,13 +72,13 @@ impl Mode {
         Some(match self {
             Mode::VisitAll => return None,
             Mode::Fold(VisitorVariant::Normal) => "fold_children_with",
-            Mode::Fold(VisitorVariant::WithPath) => "fold_children_with",
+            Mode::Fold(VisitorVariant::WithPath) => "fold_children_with_path",
 
             Mode::Visit(VisitorVariant::Normal) => "visit_children_with",
-            Mode::Visit(VisitorVariant::WithPath) => "visit_children_with",
+            Mode::Visit(VisitorVariant::WithPath) => "visit_children_with_path",
 
             Mode::VisitMut(VisitorVariant::Normal) => "visit_mut_children_with",
-            Mode::VisitMut(VisitorVariant::WithPath) => "visit_mut_children_with",
+            Mode::VisitMut(VisitorVariant::WithPath) => "visit_mut_children_with_path",
         })
     }
 }
