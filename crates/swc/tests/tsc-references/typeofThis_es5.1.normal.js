@@ -149,24 +149,8 @@ var Tests12 = /*#__PURE__*/ function() {
         for(var dummy in []){}
     };
     _proto.test4 = function test4() {
-        var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-        try {
-            for(var _iterator = [][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-                var dummy = _step.value;
-            }
-        } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-        } finally{
-            try {
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                    _iterator.return();
-                }
-            } finally{
-                if (_didIteratorError) {
-                    throw _iteratorError;
-                }
-            }
+        for(var _i = 0, _iter = []; _i < _iter.length; _i++){
+            var dummy = _iter[_i];
         }
     };
     return Tests12;
