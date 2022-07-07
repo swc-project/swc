@@ -208,13 +208,13 @@ impl Syntax {
         )
     }
 
-    /// Should we pare typescript?
+    /// Should we parse typescript?
     #[cfg(not(feature = "typescript"))]
     pub const fn typescript(self) -> bool {
         false
     }
 
-    /// Should we pare typescript?
+    /// Should we parse typescript?
     #[cfg(feature = "typescript")]
     pub const fn typescript(self) -> bool {
         matches!(self, Syntax::Typescript(..))
