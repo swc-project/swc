@@ -1892,6 +1892,13 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             path: q!({ doc }).parse(),
             tokens: q!(Vars { doc_str },{ = doc_str }).into(),
         });
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ doc }).parse(),
+            tokens: q!(Vars { doc_str },{ = "" }).into(),
+        });
     }
 
     if let Some(trait_name) = mode.name_of_trait_for_ast() {
