@@ -288,6 +288,15 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
         path: q!({ derive }).parse(),
         tokens: q!({ (Debug, Copy, Clone, PartialEq) }).into(),
     });
+    if !is_ref {
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ derive }).parse(),
+            tokens: q!({ (Eq) }).into(),
+        });
+    }
     attrs.push(Attribute {
         pound_token: def_site(),
         style: AttrStyle::Outer,
