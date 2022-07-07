@@ -5,7 +5,7 @@ use swc_common::plugin::{
 };
 
 /// A struct to exchange allocated data between memory spaces.
-#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Default)]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)]
 #[archive_attr(repr(C), derive(bytecheck::CheckBytes))]
 pub struct AllocatedBytesPtr(pub i32, pub i32);
 
@@ -51,7 +51,7 @@ where
                 .expect("Should able to convert ptr length"),
         )
         .expect("Should able to deserialize AllocatedBytesPtr")
-        .take()
+        .into_inner()
     })
 }
 
@@ -62,7 +62,7 @@ where
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(i32) -> i32,
-    R: rkyv::Archive + std::default::Default,
+    R: rkyv::Archive,
     R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>,
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
@@ -74,7 +74,7 @@ where
             allocated_returned_value_ptr.1,
         )
         .expect("Returned value should be serializable")
-        .take()
+        .into_inner()
     })
 }
 
@@ -88,7 +88,7 @@ where
 pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(i32) -> i32,
-    R: rkyv::Archive + std::default::Default,
+    R: rkyv::Archive,
     R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>,
 {
     // Allocate AllocatedBytesPtr to get return value from the host
@@ -118,7 +118,7 @@ where
             serialized_allocated_bytes_raw_ptr_size as i32,
         )
         .expect("Should able to deserialize AllocatedBytesPtr")
-        .take()
+        .into_inner()
     };
 
     // Using AllocatedBytesPtr's value, reconstruct actual return value
@@ -128,6 +128,6 @@ where
             allocated_returned_value_ptr.1,
         )
         .expect("Returned value should be serializable")
-        .take()
+        .into_inner()
     })
 }

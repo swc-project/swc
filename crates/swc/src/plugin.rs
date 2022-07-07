@@ -164,7 +164,7 @@ impl RustPlugins {
 
                 // Plugin transformation is done. Deserialize transformed bytes back
                 // into Program
-                serialized.deserialize().map(|mut v| v.take())
+                serialized.deserialize().map(|v| v.into_inner())
             },
         )
     }
@@ -221,7 +221,7 @@ impl RustPlugins {
                     }
                 }
 
-                serialized.deserialize().map(|mut v| v.take())
+                serialized.deserialize().map(|v| v.into_inner())
             },
         )
     }

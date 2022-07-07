@@ -62,14 +62,14 @@ fn handle_func(func: ItemFn) -> TokenStream {
         pub fn #process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32, context_str_ptr: *const u8, context_str_ptr_len: i32, should_enable_comments_proxy: i32) -> i32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
-            let program = unsafe { swc_plugin::deserialize_from_ptr(ast_ptr, ast_ptr_len).map(|mut v| v.take()) };
+            let program = unsafe { swc_plugin::deserialize_from_ptr(ast_ptr, ast_ptr_len).map(|v| v.into_inner()) };
             if program.is_err() {
                 let err = swc_plugin::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
                 return construct_error_ptr(err);
             }
             let program: Program = program.expect("Should be a program");
 
-            let config = unsafe { swc_plugin::deserialize_from_ptr(config_str_ptr, config_str_ptr_len).map(|mut v| v.take()) };
+            let config = unsafe { swc_plugin::deserialize_from_ptr(config_str_ptr, config_str_ptr_len).map(|v| v.into_inner()) };
             if config.is_err() {
                 let err = swc_plugin::PluginError::Deserialize(
                         "Failed to deserialize config string received from host".to_string()
@@ -78,7 +78,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             }
             let config: String = config.expect("Should be a string");
 
-            let context = unsafe { swc_plugin::deserialize_from_ptr(context_str_ptr, context_str_ptr_len).map(|mut v| v.take()) };
+            let context = unsafe { swc_plugin::deserialize_from_ptr(context_str_ptr, context_str_ptr_len).map(|v| v.into_inner()) };
             if context.is_err() {
                 let err = swc_plugin::PluginError::Deserialize("Failed to deserialize context string received from host".to_string());
                 return construct_error_ptr(err);

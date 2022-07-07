@@ -41,12 +41,6 @@ pub enum PluginError {
     Serialize(String),
 }
 
-impl Default for PluginError {
-    fn default() -> Self {
-        PluginError::Deserialize("Default serialization error".to_string())
-    }
-}
-
 /// Wraps internal representation of serialized data for exchanging data between
 /// plugin to the host. Consumers should not rely on specific details of byte
 /// format struct contains: it is strict implementation detail which can
@@ -200,10 +194,7 @@ impl<T> VersionedSerializable<T> {
         &self.0 .1
     }
 
-    pub fn take(&mut self) -> T
-    where
-        T: Default,
-    {
-        mem::take(&mut self.0 .1)
+    pub fn into_inner(self) -> T {
+        self.0 .1
     }
 }

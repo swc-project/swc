@@ -175,15 +175,11 @@ impl SourceMapper for PluginSourceMapProxy {
 
     fn span_to_lines(&self, sp: Span) -> FileLinesResult {
         #[cfg(target_arch = "wasm32")]
-        todo!(
-            "Need to implement way to take Result<T> from read_returned_result_from_host_fallible"
-        );
-        /*
         return read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
             __span_to_lines_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
         })
         .expect("Host should return FileLinesResult");
-         */
+
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
     }

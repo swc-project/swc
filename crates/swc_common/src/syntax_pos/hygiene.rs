@@ -67,7 +67,6 @@ struct MarkData {
     is_builtin: bool,
 }
 
-#[derive(Default)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -199,7 +198,7 @@ impl Mark {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
-            .take()
+            .into_inner()
         };
         self = Mark::from_u32(context.0);
 
@@ -238,7 +237,7 @@ impl Mark {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
-            .take()
+            .into_inner()
         };
         a = Mark::from_u32(context.0);
         b = Mark::from_u32(context.1);
@@ -403,7 +402,7 @@ impl SyntaxContext {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
-            .take()
+            .into_inner()
         };
 
         *self = SyntaxContext(context.0);

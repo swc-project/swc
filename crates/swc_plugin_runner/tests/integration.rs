@@ -112,7 +112,7 @@ fn internal() -> Result<(), Error> {
         let program: Program = program_bytes
             .deserialize()
             .expect("Should able to deserialize")
-            .take();
+            .into_inner();
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };
@@ -226,7 +226,7 @@ fn internal() -> Result<(), Error> {
         let program: Program = serialized_program
             .deserialize()
             .expect("Should able to deserialize")
-            .take();
+            .into_inner();
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };

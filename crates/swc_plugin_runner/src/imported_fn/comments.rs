@@ -125,7 +125,7 @@ pub fn add_leading_comment_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
             serialized
                 .deserialize()
                 .expect("Should be able to deserialize")
-                .take(),
+                .into_inner(),
         );
     });
 }
@@ -137,7 +137,7 @@ pub fn add_leading_comments_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
             serialized
                 .deserialize()
                 .expect("Should be able to deserialize")
-                .take(),
+                .into_inner(),
         );
     });
 }
@@ -224,7 +224,7 @@ pub fn add_trailing_comment_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
             serialized
                 .deserialize()
                 .expect("Should be able to deserialize")
-                .take(),
+                .into_inner(),
         );
     });
 }
@@ -236,7 +236,7 @@ pub fn add_trailing_comments_proxy(env: &CommentHostEnvironment, byte_pos: u32) 
             serialized
                 .deserialize()
                 .expect("Should be able to deserialize")
-                .take(),
+                .into_inner(),
         );
     });
 }

@@ -36,19 +36,6 @@ pub struct Diagnostic {
     pub suggestions: Vec<CodeSuggestion>,
 }
 
-impl Default for Diagnostic {
-    fn default() -> Self {
-        Diagnostic {
-            level: Level::Bug,
-            message: vec![],
-            code: None,
-            span: MultiSpan::new(),
-            children: vec![],
-            suggestions: vec![],
-        }
-    }
-}
-
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
