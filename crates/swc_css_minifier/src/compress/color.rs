@@ -143,48 +143,17 @@ fn to_rgb255(abc: [f64; 3]) -> [f64; 3] {
 }
 
 macro_rules! make_color {
-    ($span:expr,$r:expr,$g:expr,$b:expr) => {{
-        let hex: u32 = (($r as u32) << 16) | (($g as u32) << 8) | ($b as u32);
+    ($span:expr,$r:expr,$g:expr,$b:expr, $a:expr) => {{
+        let need_alpha_value = $a != 1.0;
 
-        if let Some(name) = get_named_color_by_hex(hex) {
-            Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(Ident {
-                span: $span,
-                value: name.into(),
-                raw: name.into(),
-            }))
-        } else {
-            let compact = get_short_hex(hex);
-            let value = if hex == get_long_hex(compact) {
-                format!("{:03x}", compact)
-            } else {
-                format!("{:06x}", hex)
-            };
+        if need_alpha_value {
+            // TODO improve when we will have browserslist
+            let is_alpha_hex_supported = false;
 
-            Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
-                span: $span,
-                value: value.clone().into(),
-                raw: value.into(),
-            }))
-        }
-    }};
-}
+            if is_alpha_hex_supported {
+                let hex: u32 =
+                    (($r as u32) << 24) | (($g as u32) << 16) | (($b as u32) << 8) | ($a as u32);
 
-macro_rules! make_color_with_alpha {
-    ($span:expr,$r:expr,$g:expr,$b:expr,$a:expr,$t:expr) => {{
-        // TODO improve when we will have browserslist
-        let is_alpha_hex_supported = false;
-
-        if is_alpha_hex_supported {
-            let hex: u32 =
-                (($r as u32) << 24) | (($g as u32) << 16) | (($b as u32) << 8) | ($a as u32);
-
-            if let Some(name) = get_named_color_by_hex(hex) {
-                Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(Ident {
-                    span: $span,
-                    value: name.into(),
-                    raw: name.into(),
-                }))
-            } else {
                 let compact = get_short_hex(hex);
                 let value = if hex == get_long_hex(compact) {
                     format!("{:04x}", compact)
@@ -197,66 +166,73 @@ macro_rules! make_color_with_alpha {
                     value: value.clone().into(),
                     raw: value.into(),
                 }))
+            } else {
+                Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
+                    span: $span,
+                    name: Ident {
+                        span: DUMMY_SP,
+                        value: "rgba".into(),
+                        raw: "rgba".into(),
+                    },
+                    value: vec![
+                        ComponentValue::Number(Number {
+                            span: DUMMY_SP,
+                            value: $r,
+                            raw: $r.to_string().into(),
+                        }),
+                        ComponentValue::Delimiter(Delimiter {
+                            span: DUMMY_SP,
+                            value: DelimiterValue::Comma,
+                        }),
+                        ComponentValue::Number(Number {
+                            span: DUMMY_SP,
+                            value: $g,
+                            raw: $g.to_string().into(),
+                        }),
+                        ComponentValue::Delimiter(Delimiter {
+                            span: DUMMY_SP,
+                            value: DelimiterValue::Comma,
+                        }),
+                        ComponentValue::Number(Number {
+                            span: DUMMY_SP,
+                            value: $b,
+                            raw: $b.to_string().into(),
+                        }),
+                        ComponentValue::Delimiter(Delimiter {
+                            span: DUMMY_SP,
+                            value: DelimiterValue::Comma,
+                        }),
+                        ComponentValue::AlphaValue(AlphaValue::Number(Number {
+                            span: DUMMY_SP,
+                            value: $a,
+                            raw: $a.to_string().into(),
+                        })),
+                    ],
+                }))
             }
         } else {
-            let alpha = match $t {
-                true => ComponentValue::AlphaValue(AlphaValue::Number(Number {
-                    span: DUMMY_SP,
-                    value: $a,
-                    raw: $a.to_string().into(),
-                })),
-                _ => {
-                    let value = $a * 100.0;
+            let hex: u32 = (($r as u32) << 16) | (($g as u32) << 8) | ($b as u32);
 
-                    ComponentValue::AlphaValue(AlphaValue::Percentage(Percentage {
-                        span: DUMMY_SP,
-                        value: Number {
-                            span: DUMMY_SP,
-                            value,
-                            raw: value.to_string().into(),
-                        },
-                    }))
-                }
-            };
+            if let Some(name) = get_named_color_by_hex(hex) {
+                Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(Ident {
+                    span: $span,
+                    value: name.into(),
+                    raw: name.into(),
+                }))
+            } else {
+                let compact = get_short_hex(hex);
+                let value = if hex == get_long_hex(compact) {
+                    format!("{:03x}", compact)
+                } else {
+                    format!("{:06x}", hex)
+                };
 
-            Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
-                span: $span,
-                name: Ident {
-                    span: DUMMY_SP,
-                    value: "rgba".into(),
-                    raw: "rgba".into(),
-                },
-                value: vec![
-                    ComponentValue::Number(Number {
-                        span: DUMMY_SP,
-                        value: $r,
-                        raw: $r.to_string().into(),
-                    }),
-                    ComponentValue::Delimiter(Delimiter {
-                        span: DUMMY_SP,
-                        value: DelimiterValue::Comma,
-                    }),
-                    ComponentValue::Number(Number {
-                        span: DUMMY_SP,
-                        value: $g,
-                        raw: $g.to_string().into(),
-                    }),
-                    ComponentValue::Delimiter(Delimiter {
-                        span: DUMMY_SP,
-                        value: DelimiterValue::Comma,
-                    }),
-                    ComponentValue::Number(Number {
-                        span: DUMMY_SP,
-                        value: $b,
-                        raw: $b.to_string().into(),
-                    }),
-                    ComponentValue::Delimiter(Delimiter {
-                        span: DUMMY_SP,
-                        value: DelimiterValue::Comma,
-                    }),
-                    alpha,
-                ],
-            }))
+                Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
+                    span: $span,
+                    value: value.clone().into(),
+                    raw: value.into(),
+                }))
+            }
         }
     }};
 }
@@ -305,6 +281,17 @@ impl CompressColor {
         };
 
         Some(name)
+    }
+
+    fn get_alpha_value(&self, alpha_value: Option<&&ComponentValue>) -> Option<f64> {
+        match alpha_value {
+            Some(ComponentValue::AlphaValue(AlphaValue::Number(number))) => Some(number.value),
+            Some(ComponentValue::AlphaValue(AlphaValue::Percentage(percentage))) => {
+                Some(percentage.value.value / 100.0)
+            }
+            None => Some(1.0),
+            _ => None,
+        }
     }
 
     fn get_hue(&self, hue: Option<&&ComponentValue>) -> Option<f64> {
@@ -374,11 +361,17 @@ impl VisitMut for CompressColor {
                 ..
             })) => match &*value.to_lowercase() {
                 "transparent" => {
-                    *color = make_color_with_alpha!(*span, 0.0, 0.0, 0.0, 0.0, true);
+                    *color = make_color!(*span, 0.0, 0.0, 0.0, 0.0);
                 }
                 name => {
                     if let Some(value) = NAMED_COLORS.get(name) {
-                        *color = make_color!(*span, value.rgb[0], value.rgb[1], value.rgb[2])
+                        *color = make_color!(
+                            *span,
+                            value.rgb[0] as f64,
+                            value.rgb[1] as f64,
+                            value.rgb[2] as f64,
+                            1.0
+                        )
                     }
                 }
             },
@@ -415,43 +408,23 @@ impl VisitMut for CompressColor {
                     .collect();
 
                 let r = match self.get_number_or_percentage(rgba.get(0)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
                 let g = match self.get_number_or_percentage(rgba.get(1)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
                 let b = match self.get_number_or_percentage(rgba.get(2)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
-                let a = match rgba.get(3) {
-                    Some(ComponentValue::AlphaValue(AlphaValue::Number(number))) => {
-                        if number.value == 1.0 {
-                            None
-                        } else {
-                            Some((number.value, true))
-                        }
-                    }
-                    Some(ComponentValue::AlphaValue(AlphaValue::Percentage(percentage))) => {
-                        if percentage.value.value == 100.0 {
-                            None
-                        } else {
-                            Some((percentage.value.value / 100.0, false))
-                        }
-                    }
-                    None => None,
+                let a = match self.get_alpha_value(rgba.get(3)) {
+                    Some(value) => value,
                     _ => return,
                 };
 
-                if let (Some(r), Some(g), Some(b), a) = (r, g, b, a) {
-                    if let Some(a) = a {
-                        *color = make_color_with_alpha!(*span, r, g, b, a.0, a.1);
-                    } else {
-                        *color = make_color!(*span, r, g, b);
-                    }
-                }
+                *color = make_color!(*span, r, g, b, a);
             }
             Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
                 span,
@@ -473,52 +446,25 @@ impl VisitMut for CompressColor {
                     .collect();
 
                 let h = match self.get_hue(hsla.get(0)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
                 let s = match self.get_percentage(hsla.get(1)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
                 let l = match self.get_percentage(hsla.get(2)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
-                let a = match hsla.get(3) {
-                    Some(ComponentValue::AlphaValue(AlphaValue::Number(number))) => {
-                        if number.value == 1.0 {
-                            None
-                        } else {
-                            Some((number.value, true))
-                        }
-                    }
-                    Some(ComponentValue::AlphaValue(AlphaValue::Percentage(percentage))) => {
-                        if percentage.value.value == 100.0 {
-                            None
-                        } else {
-                            Some((percentage.value.value / 100.0, false))
-                        }
-                    }
-                    None => None,
+                let a = match self.get_alpha_value(hsla.get(3)) {
+                    Some(value) => value,
                     _ => return,
                 };
 
-                if let (Some(h), Some(s), Some(l), a) = (h, s, l, a) {
-                    let rgb = to_rgb255(hsl_to_rgb([h, s, l]));
+                let rgb = to_rgb255(hsl_to_rgb([h, s, l]));
 
-                    if let Some(a) = a {
-                        *color = make_color_with_alpha!(
-                            *span,
-                            rgb[0].round(),
-                            rgb[1].round(),
-                            rgb[2].round(),
-                            a.0,
-                            a.1
-                        );
-                    } else {
-                        *color = make_color!(*span, rgb[0].round(), rgb[1].round(), rgb[2].round());
-                    }
-                }
+                *color = make_color!(*span, rgb[0].round(), rgb[1].round(), rgb[2].round(), a);
             }
             Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
                 span,
@@ -540,52 +486,25 @@ impl VisitMut for CompressColor {
                     .collect();
 
                 let h = match self.get_hue(hsla.get(0)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
                 let w = match self.get_percentage(hsla.get(1)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
                 let b = match self.get_percentage(hsla.get(2)) {
-                    Some(value) => Some(value),
+                    Some(value) => value,
                     _ => return,
                 };
-                let a = match hsla.get(3) {
-                    Some(ComponentValue::AlphaValue(AlphaValue::Number(number))) => {
-                        if number.value == 1.0 {
-                            None
-                        } else {
-                            Some((number.value, true))
-                        }
-                    }
-                    Some(ComponentValue::AlphaValue(AlphaValue::Percentage(percentage))) => {
-                        if percentage.value.value == 100.0 {
-                            None
-                        } else {
-                            Some((percentage.value.value / 100.0, false))
-                        }
-                    }
-                    None => None,
+                let a = match self.get_alpha_value(hsla.get(3)) {
+                    Some(value) => value,
                     _ => return,
                 };
 
-                if let (Some(h), Some(w), Some(b), a) = (h, w, b, a) {
-                    let rgb = to_rgb255(hwb_to_rgb([h, w, b]));
+                let rgb = to_rgb255(hwb_to_rgb([h, w, b]));
 
-                    if let Some(a) = a {
-                        *color = make_color_with_alpha!(
-                            *span,
-                            rgb[0].round(),
-                            rgb[1].round(),
-                            rgb[2].round(),
-                            a.0,
-                            a.1
-                        );
-                    } else {
-                        *color = make_color!(*span, rgb[0].round(), rgb[1].round(), rgb[2].round());
-                    }
-                }
+                *color = make_color!(*span, rgb[0].round(), rgb[1].round(), rgb[2].round(), a);
             }
             _ => {}
         }
