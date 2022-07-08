@@ -2358,13 +2358,27 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         )
                                         .parse(),
 
-                                        Mode::VisitMut(VisitorVariant::WithPath)
-                                        | Mode::Visit(VisitorVariant::WithPath) => q!(
+                                        Mode::VisitMut(VisitorVariant::WithPath) => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
                                                     Some(n) => __ast_path.with(
                                                         AstKind::AstKindVariant,
+                                                        |__ast_path| _visitor.ident(n, __ast_path),
+                                                    ),
+                                                    None => {}
+                                                }
+                                            })
+                                        )
+                                        .parse(),
+
+                                        Mode::Visit(VisitorVariant::WithPath) => q!(
+                                            Vars { ident },
+                                            ({
+                                                match n {
+                                                    Some(n) => __ast_path.with(
+                                                        AstKind::AstKindVariant,
+                                                        AstNodeRef::AstKindVariant(&n),
                                                         |__ast_path| _visitor.ident(n, __ast_path),
                                                     ),
                                                     None => {}
@@ -2493,7 +2507,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     n.iter().enumerate().for_each(|(idx, v)| {
                                         __ast_path.with(
                                             AstKind::AstKindVariant,
-                                            AstNodeRef::AstKindVariantName(&n, idx),
+                                            AstNodeRef::AstKindVariant(&n, idx),
                                             |__ast_path| _visitor.ident(v.as_ref(), __ast_path),
                                         )
                                     })
@@ -2558,10 +2572,11 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 Vars { ident },
                                 ({
                                     n.iter().enumerate().for_each(|(idx, v)| {
-                                        __ast_path
-                                            .with(AstKind::AstKindVariant(idx), |__ast_path| {
-                                                _visitor.ident(v, __ast_path)
-                                            })
+                                        __ast_path.with(
+                                            AstKind::AstKindVariant(idx),
+                                            AstNodeRef::AstKindVariant(&n, idx),
+                                            |__ast_path| _visitor.ident(v, __ast_path),
+                                        )
                                     })
                                 })
                             )
