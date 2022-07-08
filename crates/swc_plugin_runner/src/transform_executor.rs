@@ -40,7 +40,7 @@ impl TransformExecutor {
             exported_plugin_transform: instance
                 .exports
                 .get_native_function::<(i32, i32, i32, i32, i32, i32, i32), i32>(
-                    "__plugin_process_impl",
+                    "__transform_plugin_process_impl",
                 )?,
             exported_plugin_free: instance
                 .exports
