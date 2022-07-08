@@ -2784,9 +2784,26 @@ fn wrap_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprCall, ty: &Ty
     let ast_kind_variant = Ident::new(&ast_kind_variant, ty.span());
 
     match mode {
-        Mode::Visit(_) => {}
+        Mode::Visit(_) => q!(
+            Vars {
+                visit_expr,
+                node,
+                AstKindVariant: ast_kind_variant
+            },
+            ({
+                __ast_path.with(
+                    AstKind::AstKindVariant,
+                    AstNodeRef::AstKindVariant(&node),
+                    |__ast_path| visit_expr,
+                )
+            })
+        )
+        .parse(),
         Mode::VisitMut(_) | Mode::Fold(_) => q!(
-            Vars { visit_expr },
+            Vars {
+                visit_expr,
+                AstKindVariant: ast_kind_variant
+            },
             ({ __ast_path.with(AstKind::AstKindVariant, |__ast_path| visit_expr) })
         )
         .parse(),
