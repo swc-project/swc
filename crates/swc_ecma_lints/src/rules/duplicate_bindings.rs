@@ -277,6 +277,21 @@ impl Visit for DuplicateBindings {
         }
     }
 
+    fn visit_ts_import_equals_decl(&mut self, s: &TsImportEqualsDecl) {
+        s.visit_children_with(self);
+
+        if !s.is_type_only && !self.type_bindings.contains(&s.id.to_id()) {
+            self.add(
+                s.id.sym.clone(),
+                BindingInfo {
+                    span: s.id.span,
+                    unique: true,
+                    is_function: false,
+                },
+            );
+        }
+    }
+
     fn visit_module(&mut self, m: &Module) {
         m.visit_with(&mut TypeCollector {
             type_bindings: &mut self.type_bindings,
