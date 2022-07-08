@@ -2402,25 +2402,29 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     VisitorVariant::WithPath => q!(
                                         Vars { ident },
                                         ({
-                                            n.into_iter().enumerate().map(|(idx, v)| {
-                                                __ast_path.with(
-                                                    AstKind::AstKindVariantForVec(idx),
-                                                    |__ast_path| {
-                                                        __ast_path.with(
-                                                            AstKind::AstKindVariantForBox,
-                                                            |__ast_path| {
-                                                                swc_visit::util::map::Map::map(
-                                                                    v,
-                                                                    |v| {
-                                                                        _visitor
-                                                                            .ident(v, __ast_path)
-                                                                    },
-                                                                )
-                                                            },
-                                                        )
-                                                    },
-                                                )
-                                            })
+                                            n.into_iter()
+                                                .enumerate()
+                                                .map(|(idx, v)| {
+                                                    __ast_path.with(
+                                                        AstKind::AstKindVariantForVec(idx),
+                                                        |__ast_path| {
+                                                            __ast_path.with(
+                                                                AstKind::AstKindVariantForBox,
+                                                                |__ast_path| {
+                                                                    swc_visit::util::map::Map::map(
+                                                                        v,
+                                                                        |v| {
+                                                                            _visitor.ident(
+                                                                                v, __ast_path,
+                                                                            )
+                                                                        },
+                                                                    )
+                                                                },
+                                                            )
+                                                        },
+                                                    )
+                                                })
+                                                .collect()
                                         })
                                     )
                                     .parse(),
@@ -2445,12 +2449,15 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             Mode::Fold(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
                                 ({
-                                    n.into_iter().enumerate().map(|(idx, v)| {
-                                        __ast_path
-                                            .with(AstKind::AstKindVariant(idx), |__ast_path| {
-                                                _visitor.ident(v, __ast_path)
-                                            })
-                                    })
+                                    n.into_iter()
+                                        .enumerate()
+                                        .map(|(idx, v)| {
+                                            __ast_path
+                                                .with(AstKind::AstKindVariant(idx), |__ast_path| {
+                                                    _visitor.ident(v, __ast_path)
+                                                })
+                                        })
+                                        .collect()
                                 })
                             )
                             .parse(),
@@ -2509,12 +2516,15 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             Mode::Fold(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
                                 ({
-                                    n.into_iter().enumerate().map(|(idx, v)| {
-                                        __ast_path
-                                            .with(AstKind::AstKindVariant(idx), |__ast_path| {
-                                                _visitor.ident(v, __ast_path)
-                                            })
-                                    })
+                                    n.into_iter()
+                                        .enumerate()
+                                        .map(|(idx, v)| {
+                                            __ast_path
+                                                .with(AstKind::AstKindVariant(idx), |__ast_path| {
+                                                    _visitor.ident(v, __ast_path)
+                                                })
+                                        })
+                                        .collect()
                                 })
                             )
                             .parse(),
