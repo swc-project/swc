@@ -2187,7 +2187,15 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             Mode::Visit(VisitorVariant::WithPath) => {
                 let visit = method_name(mode, ty);
 
-                return q!(Vars { visit }, ({ _visitor.visit(n, __ast_path) })).parse();
+                return q!(
+                    Vars { visit },
+                    ({
+                        __ast_path.with(AstKind::AstKindVariantName, |__ast_path| {
+                            _visitor.visit(n, __ast_path)
+                        })
+                    })
+                )
+                .parse();
             }
             Mode::VisitMut { .. } => {
                 return Block {
@@ -2283,7 +2291,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                                         n,
                                                                         |n| {
                                                                             __ast_path.with(
-                                                                                __ast_kind_expr,
+                                                                                AstKind::AstKindVariantName,
                                                                                 |__ast_path| {
                                                                                     _visitor.ident(
                                                                                         n,
@@ -2328,33 +2336,29 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             })
                                         )
                                         .parse(),
-                                        Mode::Fold(VisitorVariant::WithPath) => {
-                                            q!(
-                                                Vars { ident },
-                                                ({
-                                                    match n {
-                                                        Some(n) => Some(__ast_path.with(
-                                                            __ast_kind_expr,
-                                                            |__ast_path| {
-                                                                _visitor.ident(n, __ast_path)
-                                                            },
-                                                        )),
-                                                        None => None,
-                                                    }
-                                                })
-                                            )
-                                            .parse()
-                                        }
+                                        Mode::Fold(VisitorVariant::WithPath) => q!(
+                                            Vars { ident },
+                                            ({
+                                                match n {
+                                                    Some(n) => Some(__ast_path.with(
+                                                        AstKind::AstKindVariantName,
+                                                        |__ast_path| _visitor.ident(n, __ast_path),
+                                                    )),
+                                                    None => None,
+                                                }
+                                            })
+                                        )
+                                        .parse(),
 
                                         Mode::VisitMut(VisitorVariant::WithPath)
                                         | Mode::Visit(VisitorVariant::WithPath) => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
-                                                    Some(n) => __ast_path
-                                                        .with(__ast_kind_expr, |__ast_path| {
-                                                            _visitor.ident(n, __ast_path)
-                                                        }),
+                                                    Some(n) => __ast_path.with(
+                                                        AstKind::AstKindVariantName,
+                                                        |__ast_path| _visitor.ident(n, __ast_path),
+                                                    ),
                                                     None => {}
                                                 }
                                             })
@@ -2391,16 +2395,23 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Vars { ident },
                                         ({
                                             n.into_iter().enumerate().map(|(idx, v)| {
-                                                __ast_path.with(__ast_kind_expr_1, |__ast_path| {
-                                                    __ast_path.with(
-                                                        __ast_kind_expr_2,
-                                                        |__ast_path| {
-                                                            swc_visit::util::map::Map::map(v, |v| {
-                                                                _visitor.ident(v, __ast_path)
-                                                            })
-                                                        },
-                                                    )
-                                                })
+                                                __ast_path.with(
+                                                    AstKind::AstKindVariantForVec(idx),
+                                                    |__ast_path| {
+                                                        __ast_path.with(
+                                                            AstKind::AstKindVariantForBox,
+                                                            |__ast_path| {
+                                                                swc_visit::util::map::Map::map(
+                                                                    v,
+                                                                    |v| {
+                                                                        _visitor
+                                                                            .ident(v, __ast_path)
+                                                                    },
+                                                                )
+                                                            },
+                                                        )
+                                                    },
+                                                )
                                             })
                                         })
                                     )
@@ -2427,9 +2438,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 Vars { ident },
                                 ({
                                     n.into_iter().enumerate().map(|(idx, v)| {
-                                        __ast_path.with(__ast_kind_expr, |__ast_path| {
-                                            _visitor.ident(v, __ast_path)
-                                        })
+                                        __ast_path
+                                            .with(AstKind::AstKindVariant(idx), |__ast_path| {
+                                                _visitor.ident(v, __ast_path)
+                                            })
                                     })
                                 })
                             )
@@ -2463,9 +2475,11 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 Vars { ident },
                                 ({
                                     n.iter().enumerate().for_each(|(idx, v)| {
-                                        __ast_path.with(__ast_kind_expr, |__ast_path| {
-                                            _visitor.ident(v.as_ref(), __ast_path)
-                                        })
+                                        __ast_path.with(
+                                            AstKind::AstKindVariantName,
+                                            AstNodeRef::AstKindVariantName(&n, idx),
+                                            |__ast_path| _visitor.ident(v.as_ref(), __ast_path),
+                                        )
                                     })
                                 })
                             )
@@ -2504,7 +2518,14 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             Mode::VisitMut(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
-                                ({ n.iter_mut().for_each(|v| _visitor.ident(v, __ast_path)) })
+                                ({
+                                    n.iter_mut().enumerate().for_each(|(idx, v)| {
+                                        __ast_path
+                                            .with(AstKind::AstKindVariantName(idx), |__ast_path| {
+                                                _visitor.ident(v, __ast_path)
+                                            })
+                                    })
+                                })
                             )
                             .parse(),
 
@@ -2516,7 +2537,14 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             Mode::Visit(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
-                                ({ n.iter().for_each(|v| _visitor.ident(v, __ast_path)) })
+                                ({
+                                    n.iter().enumerate().for_each(|(idx, v)| {
+                                        __ast_path
+                                            .with(AstKind::AstKindVariantName(idx), |__ast_path| {
+                                                _visitor.ident(v, __ast_path)
+                                            })
+                                    })
+                                })
                             )
                             .parse(),
                         }
