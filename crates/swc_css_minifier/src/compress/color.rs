@@ -306,6 +306,61 @@ impl CompressColor {
 
         Some(name)
     }
+
+    fn get_hue(&self, hue: Option<&&ComponentValue>) -> Option<f64> {
+        match hue {
+            Some(ComponentValue::Hue(hue)) => {
+                let mut value = match hue {
+                    Hue::Number(Number { value, .. }) => *value,
+                    Hue::Angle(Angle {
+                        value: Number { value, .. },
+                        unit: Ident { value: unit, .. },
+                        ..
+                    }) => {
+                        let angel_type = match get_angle_type(&unit.to_lowercase()) {
+                            Some(angel_type) => angel_type,
+                            _ => return None,
+                        };
+
+                        to_deg(*value, angel_type)
+                    }
+                };
+
+                value %= 360.0;
+
+                if value < 0.0 {
+                    value += 360.0;
+                }
+
+                Some(value / 360.0)
+            }
+            _ => None,
+        }
+    }
+
+    fn get_percentage(&self, percentage: Option<&&ComponentValue>) -> Option<f64> {
+        match percentage {
+            Some(ComponentValue::Percentage(Percentage {
+                value: Number { value, .. },
+                ..
+            })) => Some(*value / 100.0),
+            _ => None,
+        }
+    }
+
+    fn get_number_or_percentage(
+        &self,
+        number_or_percentage: Option<&&ComponentValue>,
+    ) -> Option<f64> {
+        match number_or_percentage {
+            Some(ComponentValue::Number(Number { value, .. })) => Some(*value),
+            Some(ComponentValue::Percentage(Percentage {
+                value: Number { value, .. },
+                ..
+            })) => Some((2.55 * *value).round()),
+            _ => None,
+        }
+    }
 }
 
 impl VisitMut for CompressColor {
@@ -359,28 +414,16 @@ impl VisitMut for CompressColor {
                     })
                     .collect();
 
-                let r = match rgba.get(0) {
-                    Some(ComponentValue::Number(Number { value, .. })) => Some(*value),
-                    Some(ComponentValue::Percentage(Percentage {
-                        value: Number { value, .. },
-                        ..
-                    })) => Some((2.55 * *value).round()),
+                let r = match self.get_number_or_percentage(rgba.get(0)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
-                let g = match rgba.get(1) {
-                    Some(ComponentValue::Number(Number { value, .. })) => Some(*value),
-                    Some(ComponentValue::Percentage(Percentage {
-                        value: Number { value, .. },
-                        ..
-                    })) => Some((2.55 * *value).round()),
+                let g = match self.get_number_or_percentage(rgba.get(1)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
-                let b = match rgba.get(2) {
-                    Some(ComponentValue::Number(Number { value, .. })) => Some(*value),
-                    Some(ComponentValue::Percentage(Percentage {
-                        value: Number { value, .. },
-                        ..
-                    })) => Some((2.55 * *value).round()),
+                let b = match self.get_number_or_percentage(rgba.get(2)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
                 let a = match rgba.get(3) {
@@ -429,46 +472,16 @@ impl VisitMut for CompressColor {
                     })
                     .collect();
 
-                let h = match hsla.get(0) {
-                    Some(ComponentValue::Hue(hue)) => {
-                        let mut value = match hue {
-                            Hue::Number(Number { value, .. }) => *value,
-                            Hue::Angle(Angle {
-                                value: Number { value, .. },
-                                unit: Ident { value: unit, .. },
-                                ..
-                            }) => {
-                                let angel_type = match get_angle_type(&unit.to_lowercase()) {
-                                    Some(angel_type) => angel_type,
-                                    _ => return,
-                                };
-
-                                to_deg(*value, angel_type)
-                            }
-                        };
-
-                        value %= 360.0;
-
-                        if value < 0.0 {
-                            value += 360.0;
-                        }
-
-                        Some(value / 360.0)
-                    }
+                let h = match self.get_hue(hsla.get(0)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
-                let s = match hsla.get(1) {
-                    Some(ComponentValue::Percentage(Percentage {
-                        value: Number { value, .. },
-                        ..
-                    })) => Some(*value / 100.0),
+                let s = match self.get_percentage(hsla.get(1)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
-                let l = match hsla.get(2) {
-                    Some(ComponentValue::Percentage(Percentage {
-                        value: Number { value, .. },
-                        ..
-                    })) => Some(*value / 100.0),
+                let l = match self.get_percentage(hsla.get(2)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
                 let a = match hsla.get(3) {
@@ -526,46 +539,16 @@ impl VisitMut for CompressColor {
                     })
                     .collect();
 
-                let h = match hsla.get(0) {
-                    Some(ComponentValue::Hue(hue)) => {
-                        let mut value = match hue {
-                            Hue::Number(Number { value, .. }) => *value,
-                            Hue::Angle(Angle {
-                                value: Number { value, .. },
-                                unit: Ident { value: unit, .. },
-                                ..
-                            }) => {
-                                let angel_type = match get_angle_type(&unit.to_lowercase()) {
-                                    Some(angel_type) => angel_type,
-                                    _ => return,
-                                };
-
-                                to_deg(*value, angel_type)
-                            }
-                        };
-
-                        value %= 360.0;
-
-                        if value < 0.0 {
-                            value += 360.0;
-                        }
-
-                        Some(value / 360.0)
-                    }
+                let h = match self.get_hue(hsla.get(0)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
-                let w = match hsla.get(1) {
-                    Some(ComponentValue::Percentage(Percentage {
-                        value: Number { value, .. },
-                        ..
-                    })) => Some(*value / 100.0),
+                let w = match self.get_percentage(hsla.get(1)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
-                let b = match hsla.get(2) {
-                    Some(ComponentValue::Percentage(Percentage {
-                        value: Number { value, .. },
-                        ..
-                    })) => Some(*value / 100.0),
+                let b = match self.get_percentage(hsla.get(2)) {
+                    Some(value) => Some(value),
                     _ => return,
                 };
                 let a = match hsla.get(3) {
