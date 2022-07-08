@@ -3215,7 +3215,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.72.0"
+version = "0.72.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
