@@ -326,12 +326,6 @@ fn verify_document_fragment(
 struct DropSpan;
 
 impl VisitMut for DropSpan {
-    fn visit_mut_text(&mut self, n: &mut Text) {
-        n.visit_mut_children_with(self);
-
-        n.raw = None;
-    }
-
     fn visit_mut_element(&mut self, n: &mut Element) {
         n.visit_mut_children_with(self);
 
