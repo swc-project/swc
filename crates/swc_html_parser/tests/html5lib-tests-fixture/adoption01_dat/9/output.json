@@ -61,7 +61,8 @@
                     "end": 5,
                     "ctxt": 0
                   },
-                  "data": "1"
+                  "data": "1",
+                  "raw": "1"
                 },
                 {
                   "type": "Element",
@@ -94,7 +95,8 @@
                         "end": 16,
                         "ctxt": 0
                       },
-                      "data": "2"
+                      "data": "2",
+                      "raw": "2"
                     },
                     {
                       "type": "Element",
@@ -127,7 +129,8 @@
                             "end": 27,
                             "ctxt": 0
                           },
-                          "data": "3"
+                          "data": "3",
+                          "raw": "3"
                         }
                       ],
                       "content": null,
@@ -196,7 +199,8 @@
                         "end": 32,
                         "ctxt": 0
                       },
-                      "data": "4"
+                      "data": "4",
+                      "raw": "4"
                     }
                   ],
                   "content": null,
@@ -237,7 +241,8 @@
                     "end": 37,
                     "ctxt": 0
                   },
-                  "data": "5"
+                  "data": "5",
+                  "raw": "5"
                 }
               ],
               "content": null,

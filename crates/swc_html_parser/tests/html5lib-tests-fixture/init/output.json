@@ -50,7 +50,8 @@
             "end": 38,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -70,7 +71,8 @@
                 "end": 56,
                 "ctxt": 0
               },
-              "data": "INIT\n"
+              "data": "INIT\n",
+              "raw": "INIT\n"
             }
           ],
           "content": null,

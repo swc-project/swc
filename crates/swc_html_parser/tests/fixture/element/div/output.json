@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -146,7 +151,8 @@
                     "end": 93,
                     "ctxt": 0
                   },
-                  "data": "Test"
+                  "data": "Test",
+                  "raw": "Test"
                 }
               ],
               "content": null,
@@ -159,7 +165,8 @@
                 "end": 100,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -179,7 +186,8 @@
                     "end": 108,
                     "ctxt": 0
                   },
-                  "data": "One"
+                  "data": "One",
+                  "raw": "One"
                 }
               ],
               "content": null,
@@ -203,7 +211,8 @@
                     "end": 122,
                     "ctxt": 0
                   },
-                  "data": "Two"
+                  "data": "Two",
+                  "raw": "Two"
                 }
               ],
               "content": null,
@@ -216,7 +225,8 @@
                 "end": 129,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -247,7 +257,8 @@
                         "end": 144,
                         "ctxt": 0
                       },
-                      "data": "Three"
+                      "data": "Three",
+                      "raw": "Three"
                     }
                   ],
                   "content": null,
@@ -264,7 +275,8 @@
                 "end": 157,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -295,7 +307,8 @@
                         "end": 170,
                         "ctxt": 0
                       },
-                      "data": "Test"
+                      "data": "Test",
+                      "raw": "Test"
                     }
                   ],
                   "content": null,
@@ -312,7 +325,8 @@
                 "end": 190,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

@@ -61,7 +61,8 @@
                     "end": 5,
                     "ctxt": 0
                   },
-                  "data": "1"
+                  "data": "1",
+                  "raw": "1"
                 }
               ],
               "content": null,
@@ -96,7 +97,8 @@
                         "end": 14,
                         "ctxt": 0
                       },
-                      "data": "2"
+                      "data": "2",
+                      "raw": "2"
                     }
                   ],
                   "content": null,
@@ -109,7 +111,8 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "data": "3"
+                  "data": "3",
+                  "raw": "3"
                 }
               ],
               "content": null,

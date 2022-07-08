@@ -72,7 +72,8 @@
                     "end": 40,
                     "ctxt": 0
                   },
-                  "data": "test</body>"
+                  "data": "test</body>",
+                  "raw": "test</body>"
                 }
               ],
               "content": null,

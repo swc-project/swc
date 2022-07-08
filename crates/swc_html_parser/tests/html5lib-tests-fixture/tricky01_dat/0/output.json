@@ -86,7 +86,8 @@
                         "end": 12,
                         "ctxt": 0
                       },
-                      "data": "Bold "
+                      "data": "Bold ",
+                      "raw": "Bold "
                     }
                   ],
                   "content": null,
@@ -99,7 +100,8 @@
                     "end": 25,
                     "ctxt": 0
                   },
-                  "data": " Not bold"
+                  "data": " Not bold",
+                  "raw": " Not bold"
                 }
               ],
               "content": null,
@@ -112,7 +114,8 @@
                 "end": 44,
                 "ctxt": 0
               },
-              "data": "\nAlso not bold."
+              "data": "\nAlso not bold.",
+              "raw": "\nAlso not bold."
             }
           ],
           "content": null,

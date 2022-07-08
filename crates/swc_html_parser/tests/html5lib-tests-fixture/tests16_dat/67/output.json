@@ -58,7 +58,8 @@
                     "end": 67,
                     "ctxt": 0
                   },
-                  "data": "<!--<script></script><script></script>- - >"
+                  "data": "<!--<script></script><script></script>- - >",
+                  "raw": "<!--<script></script><script></script>- - >"
                 }
               ],
               "content": null,

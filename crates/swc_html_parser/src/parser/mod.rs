@@ -488,7 +488,7 @@ where
                     }
                 }
             }
-            Data::Text { data } => {
+            Data::Text { data, raw } => {
                 let span = if let Some(end_span) = node.end_span.take() {
                     swc_common::Span::new(start_span.lo(), end_span.hi(), Default::default())
                 } else {
@@ -498,6 +498,7 @@ where
                 Child::Text(Text {
                     span,
                     data: data.take().into(),
+                    raw: Some(raw.take().into()),
                 })
             }
             Data::Comment { data } => Child::Comment(Comment {
@@ -8189,10 +8190,21 @@ where
                 let children = parent.children.borrow();
 
                 if let Some(last) = children.last() {
-                    if let Data::Text { data } = &last.data {
+                    if let Data::Text {
+                        data,
+                        raw: raw_data,
+                    } = &last.data
+                    {
                         match &token_and_info.token {
-                            Token::Character { value: c, .. } => {
+                            Token::Character {
+                                value: c,
+                                raw: raw_c,
+                            } => {
                                 data.borrow_mut().push(*c);
+
+                                if let Some(raw_c) = raw_c {
+                                    raw_data.borrow_mut().push_str(raw_c);
+                                }
                             }
                             _ => {
                                 unreachable!();
@@ -8213,10 +8225,21 @@ where
                         let children = parent.children.borrow();
 
                         if let Some(previous) = children.get(i - 1) {
-                            if let Data::Text { data } = &previous.data {
+                            if let Data::Text {
+                                data,
+                                raw: raw_data,
+                            } = &previous.data
+                            {
                                 match &token_and_info.token {
-                                    Token::Character { value: c, .. } => {
+                                    Token::Character {
+                                        value: c,
+                                        raw: raw_c,
+                                    } => {
                                         data.borrow_mut().push(*c);
+
+                                        if let Some(raw_c) = raw_c {
+                                            raw_data.borrow_mut().push_str(raw_c);
+                                        }
                                     }
                                     _ => {
                                         unreachable!();
@@ -8239,23 +8262,29 @@ where
         // is the same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
-        let text = Node::new(
-            Data::Text {
-                data: match &token_and_info.token {
-                    Token::Character { value: c, .. } => {
-                        let mut data = String::with_capacity(255);
+        let (data, raw) = match &token_and_info.token {
+            Token::Character {
+                value: c,
+                raw: raw_c,
+            } => {
+                let mut data = String::with_capacity(255);
 
-                        data.push(*c);
+                data.push(*c);
 
-                        RefCell::new(data)
-                    }
-                    _ => {
-                        unreachable!()
-                    }
-                },
-            },
-            token_and_info.span,
-        );
+                let mut raw = String::with_capacity(255);
+
+                if let Some(raw_c) = raw_c {
+                    raw.push_str(raw_c);
+                }
+
+                (RefCell::new(data), RefCell::new(raw))
+            }
+            _ => {
+                unreachable!()
+            }
+        };
+
+        let text = Node::new(Data::Text { data, raw }, token_and_info.span);
 
         self.insert_at_position(adjusted_insertion_location, text);
 

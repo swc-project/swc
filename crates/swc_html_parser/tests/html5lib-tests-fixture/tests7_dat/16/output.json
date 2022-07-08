@@ -61,7 +61,8 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "data": "X"
+              "data": "X",
+              "raw": "X"
             },
             {
               "type": "Element",

@@ -61,7 +61,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Comment",
@@ -79,7 +80,8 @@
                 "end": 57,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -97,7 +99,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -117,7 +120,8 @@
                     "end": 107,
                     "ctxt": 0
                   },
-                  "data": "This is a paragraph."
+                  "data": "This is a paragraph.",
+                  "raw": "This is a paragraph."
                 }
               ],
               "content": null,
@@ -130,7 +134,8 @@
                 "end": 112,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -148,7 +153,8 @@
                 "end": 184,
                 "ctxt": 0
               },
-              "data": "\n\n\n  \n\n\n"
+              "data": "\n\n\n  \n\n\n",
+              "raw": "\n\n\n  \n\n\n"
             }
           ],
           "content": null,

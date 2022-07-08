@@ -107,7 +107,8 @@
                             "end": 72,
                             "ctxt": 0
                           },
-                          "data": "X"
+                          "data": "X",
+                          "raw": "X"
                         }
                       ],
                       "content": null,

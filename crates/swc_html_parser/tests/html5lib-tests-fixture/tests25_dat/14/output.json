@@ -75,7 +75,8 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "data": "AB"
+              "data": "AB",
+              "raw": "AB"
             }
           ],
           "content": null,

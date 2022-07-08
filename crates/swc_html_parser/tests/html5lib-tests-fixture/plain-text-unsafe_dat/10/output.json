@@ -61,7 +61,8 @@
                     "end": 28,
                     "ctxt": 0
                   },
-                  "data": "�filler�text�"
+                  "data": "�filler�text�",
+                  "raw": "\u0000filler\u0000text\u0000"
                 }
               ],
               "content": null,

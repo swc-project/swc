@@ -1,12 +1,12 @@
 
-  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
+  x Eof before tag name
    ,-[$DIR/tests/recovery/element/a/input.html:1:1]
- 1 | <a><p></a></p>
-   : ^^^
+ 1 | <
+   :  ^
    `----
 
-  x End tag "a" violates nesting rules
+  x Non-space characters found without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/a/input.html:1:1]
- 1 | <a><p></a></p>
-   :       ^^^^
+ 1 | <
+   : ^
    `----

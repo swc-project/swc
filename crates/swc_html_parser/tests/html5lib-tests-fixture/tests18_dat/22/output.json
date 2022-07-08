@@ -94,7 +94,8 @@
                             "end": 53,
                             "ctxt": 0
                           },
-                          "data": "a</plaintext>b"
+                          "data": "a</plaintext>b",
+                          "raw": "a</plaintext>b"
                         }
                       ],
                       "content": null,
