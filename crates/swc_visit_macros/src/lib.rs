@@ -8,10 +8,11 @@ use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprMatch, Field, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
-    GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemTrait,
-    Lifetime, LifetimeDef, Member, Path, PathArguments, ReturnType, Signature, Stmt, Token,
-    TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic, Visibility,
+    Expr, ExprBlock, ExprCall, ExprMatch, Field, FieldValue, Fields, FieldsUnnamed, FnArg,
+    GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum,
+    ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Path, PathArguments, ReturnType, Signature,
+    Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic,
+    Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -2765,4 +2766,13 @@ fn feature_path_attrs() -> Vec<Attribute> {
     ]
 }
 
-fn wrap_with_ast_path(mode: Mode, node: &Expr, visit_expr: Expr, ty: &Type) -> Expr {}
+fn wrap_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprCall, ty: &Type) -> Expr {
+    visit_expr.args.push(q!((__ast_path)).parse());
+
+    let ast_kind_variant_name = ast_enum_variant_name(&unwrap_ref(ty), false);
+
+    let ast_kind_variant_name = match ast_kind_variant_name {
+        Some(v) => v,
+        _ => return Expr::Call(visit_expr),
+    };
+}
