@@ -243,7 +243,7 @@ fn issue_4112() {
                 r#""use strict";
 
             export { default as Selection } from "./selection";
-            
+
             export { default as RichTextarea } from "./richTextarea";
             "#
                 .to_string(),
@@ -268,7 +268,7 @@ fn issue_4112() {
                 r#""use strict";
 
             import { React, window } from "easy";
-            
+
             window.assign({
               React
             });
@@ -311,9 +311,13 @@ fn should_work_with_emit_source_map_columns() {
         let fm = cm.new_source_file(
             swc_common::FileName::Real("./app.js".into()),
             r#"import { createElement } from "react";
-      
-  createElement('div', null, {});"#
-                .to_string(),
+
+  createElement('div', null, {});
+  /* 패딩에 대 */ /* 한 더 많은 문자. */ "테스트" + "테스트";
+  function ƒ() {
+  }
+"#
+            .to_string(),
         );
         let result = c.process_js_file(
             fm.clone(),
@@ -333,8 +337,11 @@ fn should_work_with_emit_source_map_columns() {
 
         match result {
             Ok(result) => {
+                eprintln!("{}", result.code); // todo: remove
                 assert!(result.map.is_some());
                 let map = result.map.unwrap();
+
+                // lookup createElement(...) function call
                 let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
                     .expect("failed to deserialize sourcemap");
                 let token = source_map
@@ -344,6 +351,15 @@ fn should_work_with_emit_source_map_columns() {
                 assert_eq!(token.get_dst_col(), 14);
                 assert_eq!(token.get_src_line(), 2);
                 assert_eq!(token.get_src_col(), 16);
+
+                // lookup second string literal
+                let token = source_map
+                    .lookup_token(2, 37)
+                    .expect("failed to find token");
+                assert_eq!(token.get_dst_line(), 2);
+                assert_eq!(token.get_dst_col(), 37);
+                assert_eq!(token.get_src_line(), 3);
+                assert_eq!(token.get_src_col(), 39);
             }
             Err(err) => {
                 panic!("Error: {:#?}", err);

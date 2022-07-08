@@ -1,4 +1,4 @@
-use std::io::{self, Write};
+use std::io::Write;
 
 use rustc_hash::FxHashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
@@ -44,29 +44,27 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
     }
 
-    fn write_indent_string(&mut self) -> io::Result<usize> {
+    fn write_indent_string(&mut self) -> Result {
         const INDENT: &str = "    ";
 
-        let mut cnt = 0;
         for _ in 0..self.indent {
-            cnt += self.raw_write(INDENT)?;
+            self.raw_write(INDENT)?;
         }
 
-        Ok(cnt)
+        Ok(())
     }
 
-    fn raw_write(&mut self, data: &str) -> io::Result<usize> {
+    fn raw_write(&mut self, data: &str) -> Result {
         let written = self.wr.write(data.as_bytes())?;
-        self.line_pos += data[0..written].chars().count();
-        Ok(written)
+        assert_eq!(written, data.len());
+        self.line_pos += data[..written].chars().count();
+        Ok(())
     }
 
-    fn write(&mut self, span: Option<Span>, data: &str) -> io::Result<usize> {
-        let mut cnt = 0;
-
+    fn write(&mut self, span: Option<Span>, data: &str) -> Result {
         if !data.is_empty() {
             if self.line_start {
-                cnt += self.write_indent_string()?;
+                self.write_indent_string()?;
                 self.line_start = false;
 
                 if let Some(pending) = self.pending_srcmap.take() {
@@ -80,7 +78,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
                 }
             }
 
-            cnt += self.raw_write(data)?;
+            self.raw_write(data)?;
 
             if let Some(span) = span {
                 if !span.is_dummy() {
@@ -89,7 +87,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             }
         }
 
-        Ok(cnt)
+        Ok(())
     }
 
     fn srcmap(&mut self, byte_pos: BytePos) {

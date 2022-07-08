@@ -1157,7 +1157,6 @@ impl SourceMap {
 
         let mut cur_file: Option<Lrc<SourceFile>> = None;
 
-        let mut ch_start = 0;
         let mut line_ch_start = 0;
         let mut prev_dst_line = u32::MAX;
 
@@ -1193,7 +1192,6 @@ impl SourceMap {
                     }
 
                     cur_file = Some(f.clone());
-                    ch_start = 0;
                     line_ch_start = 0;
                     &f
                 }
@@ -1228,7 +1226,7 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            let chpos = pos.to_u32() - self.calc_extra_bytes(f, &mut ch_start, pos);
+            let chpos = pos.to_u32() - self.calc_extra_bytes(f, &mut 0, pos);
             let linechpos =
                 linebpos.to_u32() - self.calc_extra_bytes(f, &mut line_ch_start, linebpos);
 
