@@ -338,7 +338,6 @@ fn should_work_with_emit_source_map_columns() {
         match result {
             Ok(result) => {
                 assert!(result.map.is_some());
-                eprintln!("{}", result.code);
                 let map = result.map.unwrap();
 
                 // lookup createElement(...) function call
@@ -363,7 +362,7 @@ fn should_work_with_emit_source_map_columns() {
 
                 // lookup paren after multi-byte identifier
                 let token = source_map
-                    .lookup_token(3, 12)
+                    .lookup_token(3, 10)
                     .expect("failed to find token");
                 assert_eq!(token.get_dst_line(), 3);
                 assert_eq!(token.get_dst_col(), 10);
