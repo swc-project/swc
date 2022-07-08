@@ -57,11 +57,6 @@ fn get_named_color_by_hex(v: u32) -> Option<&'static str> {
     Some(s)
 }
 
-static ONE_THIRD: f64 = 1.0 / 3.0;
-static ONE_SECOND: f64 = 1.0 / 2.0;
-static ONE_SIX: f64 = 1.0 / 6.0;
-static TWO_THIRD: f64 = 2.0 / 3.0;
-
 fn hsl_to_rgb(hsl: [f64; 3]) -> [f64; 3] {
     let [h, s, l] = hsl;
 
@@ -74,40 +69,16 @@ fn hsl_to_rgb(hsl: [f64; 3]) -> [f64; 3] {
         g = l;
         b = l;
     } else {
-        let hue2rgb = |p: f64, q: f64, mut t: f64| -> f64 {
-            if t < 0.0 {
-                t += 1.0;
-            }
+        let f = |n: f64| -> f64 {
+            let k = (n + h / 30.0) % 12.0;
+            let a = s * f64::min(l, 1.0 - l);
 
-            if t > 1.0 {
-                t -= 1.0;
-            }
-
-            if t < ONE_SIX {
-                return p + (q - p) * 6.0 * t;
-            }
-
-            if t < ONE_SECOND {
-                return q;
-            }
-
-            if t < TWO_THIRD {
-                return p + (q - p) * (TWO_THIRD - t) * 6.0;
-            }
-
-            p
+            l - a * f64::max(-1.0, f64::min(f64::min(k - 3.0, 9.0 - k), 1.0))
         };
 
-        let q = if l < 0.5 {
-            l * (1.0 + s)
-        } else {
-            l + s - l * s
-        };
-        let p = 2.0 * l - q;
-
-        r = hue2rgb(p, q, h + ONE_THIRD);
-        g = hue2rgb(p, q, h);
-        b = hue2rgb(p, q, h - ONE_THIRD);
+        r = f(0.0);
+        g = f(8.0);
+        b = f(4.0);
     }
 
     [r, g, b]
@@ -136,7 +107,7 @@ fn to_rgb255(abc: [f64; 3]) -> [f64; 3] {
     let mut abc255 = abc;
 
     for item in &mut abc255 {
-        *item = (*item * 255.0).round();
+        *item *= 255.0;
     }
 
     abc255
@@ -146,13 +117,17 @@ macro_rules! make_color {
     ($span:expr,$r:expr,$g:expr,$b:expr, $a:expr) => {{
         let need_alpha_value = $a != 1.0;
 
+        let r = $r.round();
+        let g = $g.round();
+        let b = $b.round();
+
         if need_alpha_value {
             // TODO improve when we will have browserslist
             let is_alpha_hex_supported = false;
 
             if is_alpha_hex_supported {
                 let hex: u32 =
-                    (($r as u32) << 24) | (($g as u32) << 16) | (($b as u32) << 8) | ($a as u32);
+                    ((r as u32) << 24) | ((g as u32) << 16) | ((b as u32) << 8) | ($a as u32);
 
                 let compact = get_short_hex(hex);
                 let value = if hex == get_long_hex(compact) {
@@ -177,8 +152,8 @@ macro_rules! make_color {
                     value: vec![
                         ComponentValue::Number(Number {
                             span: DUMMY_SP,
-                            value: $r,
-                            raw: $r.to_string().into(),
+                            value: r,
+                            raw: r.to_string().into(),
                         }),
                         ComponentValue::Delimiter(Delimiter {
                             span: DUMMY_SP,
@@ -186,8 +161,8 @@ macro_rules! make_color {
                         }),
                         ComponentValue::Number(Number {
                             span: DUMMY_SP,
-                            value: $g,
-                            raw: $g.to_string().into(),
+                            value: g,
+                            raw: g.to_string().into(),
                         }),
                         ComponentValue::Delimiter(Delimiter {
                             span: DUMMY_SP,
@@ -195,8 +170,8 @@ macro_rules! make_color {
                         }),
                         ComponentValue::Number(Number {
                             span: DUMMY_SP,
-                            value: $b,
-                            raw: $b.to_string().into(),
+                            value: b,
+                            raw: b.to_string().into(),
                         }),
                         ComponentValue::Delimiter(Delimiter {
                             span: DUMMY_SP,
@@ -211,7 +186,7 @@ macro_rules! make_color {
                 }))
             }
         } else {
-            let hex: u32 = (($r as u32) << 16) | (($g as u32) << 8) | ($b as u32);
+            let hex: u32 = ((r as u32) << 16) | ((g as u32) << 8) | (b as u32);
 
             if let Some(name) = get_named_color_by_hex(hex) {
                 Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(Ident {
@@ -341,7 +316,7 @@ impl CompressColor {
                     value += 360.0;
                 }
 
-                Some(value / 360.0)
+                Some(value)
             }
             Some(ComponentValue::Ident(Ident { value, .. }))
                 if &*value.to_lowercase() == "none" =>
@@ -422,7 +397,7 @@ impl VisitMut for CompressColor {
                 ..
             })) => match &*value.to_lowercase() {
                 "transparent" => {
-                    *color = make_color!(*span, 0.0, 0.0, 0.0, 0.0);
+                    *color = make_color!(*span, 0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
                 }
                 name => {
                     if let Some(value) = NAMED_COLORS.get(name) {
