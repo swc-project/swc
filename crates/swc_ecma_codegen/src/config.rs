@@ -13,7 +13,7 @@ pub struct Config {
     /// e.g. `const foo = 1;` with [EsVersion::Es3] will emitted as `const foo =
     /// 1` without verification.
     /// This is because it's not a concern of the code generator.
-    #[serde(default)]
+    #[serde(default = "EsVersion::latest")]
     pub target: EsVersion,
 
     /// Forces the code generator to use only ascii characters.
