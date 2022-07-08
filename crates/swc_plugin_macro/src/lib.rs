@@ -19,7 +19,8 @@ pub fn plugin_transform(
 
 fn handle_func(func: ItemFn) -> TokenStream {
     let ident = func.sig.ident.clone();
-    let process_impl_ident = Ident::new("__plugin_process_impl", Span::call_site());
+    let transform_process_impl_ident =
+        Ident::new("__transform_plugin_process_impl", Span::call_site());
 
     let ret = quote! {
         #func
@@ -59,7 +60,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
         // There are some cases error won't be wrapped up however - for example, we expect
         // serialization of PluginError itself should succeed.
         #[no_mangle]
-        pub fn #process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32, context_str_ptr: *const u8, context_str_ptr_len: i32, should_enable_comments_proxy: i32) -> i32 {
+        pub fn #transform_process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32, context_str_ptr: *const u8, context_str_ptr_len: i32, should_enable_comments_proxy: i32) -> i32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
             let program = unsafe { swc_plugin::deserialize_from_ptr(ast_ptr, ast_ptr_len).map(|v| v.into_inner()) };
