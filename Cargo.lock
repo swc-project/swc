@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.76.0"
+version = "0.76.1"
 dependencies = [
  "anyhow",
  "atty",
@@ -3215,7 +3215,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.72.0"
+version = "0.72.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3601,7 +3601,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.113.0"
+version = "0.113.1"
 dependencies = [
  "ahash",
  "arrayvec",
