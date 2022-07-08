@@ -5,7 +5,16 @@
 
 
 
+- **(cli)** Constructs config file correctly (#5146) ([4f87396](https://github.com/swc-project/swc/commit/4f87396b3b4ca1ec75eff77567f001ea5092598a))
+
+
 - **(es/compat)** Preserve more class names (#5106) ([dd39a79](https://github.com/swc-project/swc/commit/dd39a798ae25dfb44c8a428a4a5c0fb962e78ae4))
+
+
+- **(es/compat)** Optimize `for-of` loops for array literals (#5141) ([9351303](https://github.com/swc-project/swc/commit/93513031b51e6b0b8ac21982ed97bb12e5dec14f))
+
+
+- **(es/compat)** Remove extra `this`/`arguments` capture in arrows (#5152) ([cd8d65b](https://github.com/swc-project/swc/commit/cd8d65b9a75a25ed62ad7daf40a02d6f76067696))
 
 
 - **(es/lints)** Handle import-require duplicate bindings (#5131) ([a0ec370](https://github.com/swc-project/swc/commit/a0ec3705a4dc59709ad388660d8994295fa80074))
@@ -27,6 +36,9 @@
 
 ### Features
 
+
+
+- **(css/minifier)** Compress hsl colors (#5142) ([714ff53](https://github.com/swc-project/swc/commit/714ff5321d415e7ec1bfa211364ca4c8012df31e))
 
 
 - **(es/parser)** Support `d` in regex flag for es2022 (#5127) ([2d94797](https://github.com/swc-project/swc/commit/2d94797975ee162837b24283c8b738f282586a4d))
@@ -51,6 +63,9 @@
 
 
 - **(common)** Bikeshed plugin apis (#5120) ([2ba8b39](https://github.com/swc-project/swc/commit/2ba8b39fa0f2ff7e553d74a4c5ef0f04660a8c40))
+
+
+- **(plugin)** Refactor transform executor (#5147) ([e8214ba](https://github.com/swc-project/swc/commit/e8214babf5ad405c7be1f2391a3be01ab355178f))
 
 ## [1.2.210] - 2022-07-05
 

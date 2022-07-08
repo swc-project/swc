@@ -146,20 +146,18 @@ var h = someOuterFn()("")()();
 h.toExponential();
 // Arrow function used in try/catch/finally in function
 function tryCatchFn() {
+    var _this = this;
     try {
-        var _this = this;
         var x = function() {
             return _this;
         };
     } catch (e) {
-        var _this1 = this;
         var t = function() {
-            return e + _this1;
+            return e + _this;
         };
     } finally{
-        var _this2 = this;
         var m = function() {
-            return _this2 + "";
+            return _this + "";
         };
     }
 }

@@ -62,23 +62,31 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         let program = VersionedSerializable::new(program);
         let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();
 
-        let res = swc_plugin_runner::apply_transform_plugin(
-            "test",
+        let mut transform_plugin_executor = swc_plugin_runner::create_plugin_transform_executor(
             &plugin_dir
                 .join("target")
                 .join("wasm32-unknown-unknown")
                 .join("release")
                 .join("swc_internal_plugin.wasm"),
-            &cache,
-            program_ser,
-            PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from("{}")))
-                .unwrap(),
-            PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from("{}")))
-                .unwrap(),
-            true,
+            &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
             &cm,
         )
         .unwrap();
+
+        let res = transform_plugin_executor
+            .transform(
+                &program_ser,
+                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from(
+                    "{}",
+                )))
+                .unwrap(),
+                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from(
+                    "{}",
+                )))
+                .unwrap(),
+                true,
+            )
+            .unwrap();
 
         let _ = black_box(res);
     })

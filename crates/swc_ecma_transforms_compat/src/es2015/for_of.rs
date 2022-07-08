@@ -84,7 +84,7 @@ impl ForOf {
             ..
         }: ForOfStmt,
     ) -> Stmt {
-        if self.c.assume_array {
+        if right.is_array() || self.c.assume_array {
             // Convert to normal for loop if rhs is array
             //
             // babel's output:

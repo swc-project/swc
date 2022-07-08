@@ -38,9 +38,7 @@ var C5 = /*#__PURE__*/ function() {
             };
         };
         var f4 = function(x) {
-            var _this1 = _this;
             var g = function(y) {
-                var _this = _this1;
                 return function() {
                     return _this;
                 };
