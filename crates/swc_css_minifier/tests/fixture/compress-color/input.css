@@ -242,17 +242,14 @@
 }
 
 .class-39 {
-    /* bug */
     color: rgb(100, 200, 300);
 }
 
 .class-40 {
-    /* bug */
     color: rgb(20, 10, 0, -10);
 }
 
 .class-41 {
-    /* bug */
     color: rgb(100%, 200%, 300%);
 }
 
@@ -382,4 +379,48 @@
 
 .class-72 {
     color: hwb(0 100% 50% / 0);
+}
+
+.class-73 {
+    color: rgb(300, 300, 300);
+}
+
+.class-74 {
+    color: rgb(-300, -300, -300);
+}
+
+.class-75 {
+    color: rgb(121% 121% 121%);
+}
+
+.class-76 {
+    color: rgb(-121% -121% -121%);
+}
+
+.class-77 {
+    color: hsl(360, -100%, -50%);
+}
+
+.class-78 {
+    color: hsl(-720, -100%, -50%);
+}
+
+.class-79 {
+    color: hsl(-720, 121%, 121%);
+}
+
+.class-80 {
+    color: rgba(100, 100, 100, 300);
+}
+
+.class-81 {
+    color: rgba(100, 100, 100, 300%);
+}
+
+.class-82 {
+    color: rgba(100, 100, 100, -300);
+}
+
+.class-83 {
+    color: rgba(100, 100, 100, -300%);
 }

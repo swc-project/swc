@@ -124,9 +124,9 @@ fn hwb_to_rgb(hwb: [f64; 3]) -> [f64; 3] {
 
     let mut rgb = hsl_to_rgb([h, 1.0, 0.5]);
 
-    for i in 0..3 {
-        rgb[i] = rgb[i] * (1.0 - w - b);
-        rgb[i] = rgb[i] + w;
+    for item in &mut rgb {
+        *item *= 1.0 - w - b;
+        *item += w;
     }
 
     [rgb[0], rgb[1], rgb[2]]
@@ -135,8 +135,8 @@ fn hwb_to_rgb(hwb: [f64; 3]) -> [f64; 3] {
 fn to_rgb255(abc: [f64; 3]) -> [f64; 3] {
     let mut abc255 = abc;
 
-    for i in 0..3 {
-        abc255[i] = abc255[i] * 255.0;
+    for item in &mut abc255 {
+        *item *= 255.0;
     }
 
     abc255
@@ -285,9 +285,26 @@ impl CompressColor {
 
     fn get_alpha_value(&self, alpha_value: Option<&&ComponentValue>) -> Option<f64> {
         match alpha_value {
-            Some(ComponentValue::AlphaValue(AlphaValue::Number(number))) => Some(number.value),
-            Some(ComponentValue::AlphaValue(AlphaValue::Percentage(percentage))) => {
-                Some(percentage.value.value / 100.0)
+            Some(ComponentValue::AlphaValue(AlphaValue::Number(Number { value, .. }))) => {
+                if *value > 1.0 {
+                    return Some(1.0);
+                } else if *value < 0.0 {
+                    return Some(0.0);
+                }
+
+                Some(*value)
+            }
+            Some(ComponentValue::AlphaValue(AlphaValue::Percentage(Percentage {
+                value: Number { value, .. },
+                ..
+            }))) => {
+                if *value > 100.0 {
+                    return Some(1.0);
+                } else if *value < 0.0 {
+                    return Some(0.0);
+                }
+
+                Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(Ident { value, .. }))
                 if &*value.to_lowercase() == "none" =>
@@ -340,7 +357,15 @@ impl CompressColor {
             Some(ComponentValue::Percentage(Percentage {
                 value: Number { value, .. },
                 ..
-            })) => Some(*value / 100.0),
+            })) => {
+                if *value > 100.0 {
+                    return Some(1.0);
+                } else if *value < 0.0 {
+                    return Some(0.0);
+                }
+
+                Some(*value / 100.0)
+            }
             Some(ComponentValue::Ident(Ident { value, .. }))
                 if &*value.to_lowercase() == "none" =>
             {
@@ -355,11 +380,27 @@ impl CompressColor {
         number_or_percentage: Option<&&ComponentValue>,
     ) -> Option<f64> {
         match number_or_percentage {
-            Some(ComponentValue::Number(Number { value, .. })) => Some(*value),
+            Some(ComponentValue::Number(Number { value, .. })) => {
+                if *value > 255.0 {
+                    return Some(255.0);
+                } else if *value < 0.0 {
+                    return Some(0.0);
+                }
+
+                Some(*value)
+            }
             Some(ComponentValue::Percentage(Percentage {
                 value: Number { value, .. },
                 ..
-            })) => Some((2.55 * *value).round()),
+            })) => {
+                if *value > 100.0 {
+                    return Some(255.0);
+                } else if *value < 0.0 {
+                    return Some(0.0);
+                }
+
+                Some((2.55 * *value).round())
+            }
             Some(ComponentValue::Ident(Ident { value, .. }))
                 if &*value.to_lowercase() == "none" =>
             {
