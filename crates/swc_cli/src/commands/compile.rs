@@ -1,5 +1,7 @@
 use std::{
-    fs::{self, File},
+    borrow::Cow,
+    collections::HashSet,
+    fs,
     io::{self, BufRead, Write},
     path::{Path, PathBuf},
     sync::Arc,
@@ -12,7 +14,7 @@ use path_absolutize::Absolutize;
 use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc::{
-    config::{Config, Options},
+    config::{Config, ConfigFile, Options},
     try_with_handler, Compiler, HandlerOpts, TransformOutput,
 };
 use swc_common::{
@@ -21,7 +23,7 @@ use swc_common::{
 use swc_trace_macro::swc_trace;
 use walkdir::WalkDir;
 
-use crate::util::trace::init_trace;
+use crate::util::{clap::parse_hash_set, trace::init_trace};
 
 /// Configuration option for transform files.
 #[derive(Parser)]
@@ -77,25 +79,25 @@ pub struct CompileOptions {
     out_dir: Option<PathBuf>,
 
     /// Specify specific file extensions to compile.
-    #[clap(long)]
-    extensions: Option<Vec<String>>,
+    #[clap(long, default_value = "es,es6,js,jsx,mjs,ts,tsx", value_parser = parse_hash_set::<String>)]
+    extensions: HashSet<String>,
 
     /// Files to compile
     #[clap(group = "input")]
     files: Vec<PathBuf>,
 
     /// Use a specific extension for the output files
-    #[clap(long, default_value_t= String::from("js"))]
+    #[clap(long, default_value = "js")]
     out_file_extension: String,
 
     /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
-    #[clap(group = "experimental_trace", long)]
+    #[clap(long, group = "experimental_trace")]
     experimental_trace: bool,
 
     /// Set file name for the trace output. If not specified,
     /// `trace-{unix epoch time}.json` will be used by default.
-    #[clap(group = "experimental_trace", long)]
+    #[clap(long, group = "experimental_trace")]
     trace_out_file: Option<String>,
     /*Flags legacy @swc/cli supports, might need some thoughts if we need support same.
      *log_watch_compilation: bool,
@@ -107,57 +109,8 @@ pub struct CompileOptions {
 
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-
     Arc::new(Compiler::new(cm))
 });
-
-/// List of file extensions supported by default.
-static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "tsx"];
-
-/// Infer list of files to be transformed from cli arguments.
-/// If given input is a directory, it'll traverse it and collect all supported
-/// files.
-#[tracing::instrument(level = "info", skip_all)]
-fn get_files_list(
-    raw_files_input: &[PathBuf],
-    extensions: &[String],
-    ignore_pattern: Option<&str>,
-    _include_dotfiles: bool,
-) -> anyhow::Result<Vec<PathBuf>> {
-    let input_dir = raw_files_input.iter().find(|p| p.is_dir());
-
-    let files = if let Some(input_dir) = input_dir {
-        if raw_files_input.len() > 1 {
-            return Err(anyhow::anyhow!(
-                "Cannot specify multiple files when using a directory as input"
-            ));
-        }
-
-        WalkDir::new(input_dir)
-            .into_iter()
-            .filter_map(|e| e.ok())
-            .map(|e| e.into_path())
-            .filter(|e| {
-                extensions
-                    .iter()
-                    .any(|ext| e.extension().map(|v| v == &**ext).unwrap_or(false))
-            })
-            .collect()
-    } else {
-        raw_files_input.to_owned()
-    };
-
-    if let Some(ignore_pattern) = ignore_pattern {
-        let pattern: Vec<PathBuf> = glob(ignore_pattern)?.filter_map(|p| p.ok()).collect();
-
-        return Ok(files
-            .into_iter()
-            .filter(|file_path| !pattern.iter().any(|p| p.eq(file_path)))
-            .collect());
-    }
-
-    Ok(files)
-}
 
 /// Calculate full, absolute path to the file to emit.
 /// Currently this is quite naive calculation based on assumption input file's
@@ -165,7 +118,7 @@ fn get_files_list(
 fn resolve_output_file_path(
     out_dir: &Path,
     file_path: &Path,
-    file_extension: PathBuf,
+    file_extension: &Path,
 ) -> anyhow::Result<PathBuf> {
     let default = PathBuf::from(".");
     let base = file_path.parent().unwrap_or(&default).display().to_string();
@@ -203,9 +156,9 @@ fn resolve_output_file_path(
 
 fn emit_output(
     output: &TransformOutput,
-    out_dir: &Option<PathBuf>,
+    out_dir: Option<&Path>,
     file_path: &Path,
-    file_extension: PathBuf,
+    file_extension: &Path,
 ) -> anyhow::Result<()> {
     if let Some(out_dir) = out_dir {
         let output_file_path = resolve_output_file_path(out_dir, file_path, file_extension)?;
@@ -214,27 +167,33 @@ fn emit_output(
             .expect("Parent should be available");
 
         if !output_dir.is_dir() {
-            fs::create_dir_all(output_dir)?;
+            fs::create_dir_all(&output_dir).with_context(|| {
+                format!("Failed to create directory '{}'", output_dir.display())
+            })?;
         }
 
-        fs::write(&output_file_path, &output.code)?;
+        fs::write(&output_file_path, &output.code)
+            .with_context(|| format!("Failed to write to '{}'", output_file_path.display()))?;
 
         if let Some(source_map) = &output.map {
             let source_map_path = output_file_path.with_extension("js.map");
-            fs::write(source_map_path, source_map)?;
+            fs::write(&source_map_path, source_map)
+                .with_context(|| format!("Failed to write to '{}'", source_map_path.display()))?;
         }
-    } else {
-        println!(
-            "{}\n{}\n{}",
-            file_path.display(),
-            output.code,
-            output
-                .map
-                .as_ref()
-                .map(|m| m.to_string())
-                .unwrap_or_default()
-        );
-    };
+        return Ok(());
+    }
+
+    println!(
+        "{}\n{}\n{}",
+        file_path.display(),
+        output.code,
+        output
+            .map
+            .as_ref()
+            .map(|m| m.to_string())
+            .unwrap_or_default()
+    );
+
     Ok(())
 }
 
@@ -253,115 +212,96 @@ fn collect_stdin_input() -> Option<String> {
     )
 }
 
-struct InputContext {
+struct InputContext<'a> {
     options: Options,
     fm: Arc<SourceFile>,
     compiler: Arc<Compiler>,
-    file_path: PathBuf,
-    file_extension: PathBuf,
+    file_path: Cow<'a, Path>,
+    file_extension: &'a Path,
 }
 
 #[swc_trace]
 impl CompileOptions {
-    fn build_transform_options(&self, file_path: &Option<&Path>) -> anyhow::Result<Options> {
-        let base_options = Options::default();
+    fn build_transform_options(&self, file_path: Option<&Path>) -> anyhow::Result<Options> {
         let base_config = Config::default();
+        let base_options = Options::default();
 
-        let config_file = if let Some(config_file_path) = &self.config_file {
-            let config_file_contents = fs::read(config_file_path)?;
-            serde_json::from_slice(&config_file_contents).context("Failed to parse config file")?
-        } else {
-            None
-        };
+        let config_file = self
+            .config_file
+            .as_deref()
+            .map(ConfigFile::from_path)
+            .transpose()?;
 
-        let mut ret = Options {
+        let mut options = Options {
             config: Config { ..base_config },
             config_file,
             ..base_options
         };
 
-        if let Some(file_path) = *file_path {
-            ret.filename = file_path.to_str().unwrap_or_default().to_owned();
+        if let Some(file_path) = file_path {
+            options.filename = file_path.to_str().unwrap_or_default().to_owned();
         }
 
         if let Some(env_name) = &self.env_name {
-            ret.env_name = env_name.to_string();
+            options.env_name = env_name.to_string();
         }
 
-        Ok(ret)
+        Ok(options)
     }
 
     /// Create canonical list of inputs to be processed across stdin / single
     /// file / multiple files.
-    fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
-        let compiler = COMPILER.clone();
-
-        let stdin_input = collect_stdin_input();
-        if stdin_input.is_some() && !self.files.is_empty() {
-            anyhow::bail!("Cannot specify inputs from stdin and files at the same time");
-        }
-
-        if let Some(stdin_input) = stdin_input {
-            let options = self.build_transform_options(&self.filename.as_deref())?;
-
-            let fm = compiler.cm.new_source_file(
-                if options.filename.is_empty() {
-                    FileName::Anon
-                } else {
-                    FileName::Real(options.filename.clone().into())
-                },
-                stdin_input,
-            );
-
-            return Ok(vec![InputContext {
-                options,
-                fm,
-                compiler,
-                file_path: self
-                    .filename
-                    .clone()
-                    .unwrap_or_else(|| PathBuf::from("unknown")),
-                file_extension: self.out_file_extension.clone().into(),
-            }]);
-        } else if !self.files.is_empty() {
-            let included_extensions = if let Some(extensions) = &self.extensions {
-                extensions.clone()
-            } else {
-                DEFAULT_EXTENSIONS.iter().map(|v| v.to_string()).collect()
-            };
-
-            return get_files_list(
-                &self.files,
-                &included_extensions,
-                self.ignore.as_deref(),
-                false,
-            )?
-            .iter()
-            .map(|file_path| {
-                self.build_transform_options(&Some(file_path))
-                    .and_then(|options| {
-                        let fm = compiler
-                            .cm
-                            .load_file(file_path)
-                            .context("failed to load file");
-                        fm.map(|fm| InputContext {
-                            options,
-                            fm,
-                            compiler: compiler.clone(),
-                            file_path: file_path.to_path_buf(),
-                            file_extension: self.out_file_extension.clone().into(),
-                        })
+    fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext<'_>>> {
+        match (collect_stdin_input(), &self.files[..]) {
+            (Some(_), files) if !files.is_empty() => {
+                anyhow::bail!("Cannot specify inputs from both stdin and files at the same time");
+            }
+            (Some(stdin_input), _) => {
+                let options = self.build_transform_options(self.filename.as_deref())?;
+                let fm = COMPILER.cm.new_source_file(
+                    if options.filename.is_empty() {
+                        FileName::Anon
+                    } else {
+                        FileName::Real(options.filename.clone().into())
+                    },
+                    stdin_input,
+                );
+                Ok(vec![InputContext {
+                    options,
+                    fm,
+                    compiler: Arc::clone(&*COMPILER),
+                    file_path: self
+                        .filename
+                        .as_deref()
+                        .unwrap_or_else(|| Path::new("unknown"))
+                        .into(),
+                    file_extension: Path::new(self.out_file_extension.as_str()),
+                }])
+            }
+            (None, files) if files.is_empty() => {
+                anyhow::bail!("Input is empty");
+            }
+            (None, _files) => self
+                .get_files_list(false)?
+                .into_iter()
+                .map(|file_path| {
+                    let options = self.build_transform_options(Some(file_path.as_ref()))?;
+                    let fm = COMPILER.cm.load_file(file_path.as_ref()).with_context(|| {
+                        format!("Failed to load file '{}'", file_path.display())
+                    })?;
+                    Ok(InputContext {
+                        options,
+                        fm,
+                        compiler: Arc::clone(&*COMPILER),
+                        file_path,
+                        file_extension: Path::new(self.out_file_extension.as_str()),
                     })
-            })
-            .collect::<anyhow::Result<Vec<InputContext>>>();
+                })
+                .collect(),
         }
-
-        anyhow::bail!("Input is empty");
     }
 
     fn execute_inner(&self) -> anyhow::Result<()> {
-        let inputs = self.collect_inputs()?;
-
         let execute = |compiler: Arc<Compiler>, fm: Arc<SourceFile>, options: Options| {
             try_with_handler(
                 compiler.cm.clone(),
@@ -373,8 +313,10 @@ impl CompileOptions {
             )
         };
 
-        if let Some(single_out_file) = self.out_file.as_ref() {
-            let result: anyhow::Result<Vec<TransformOutput>> = inputs
+        let inputs = self.collect_inputs()?;
+
+        if let Some(path) = self.out_file.as_ref() {
+            let outputs = inputs
                 .into_par_iter()
                 .map(
                     |InputContext {
@@ -384,41 +326,102 @@ impl CompileOptions {
                          ..
                      }| execute(compiler, fm, options),
                 )
-                .collect();
+                .collect::<Result<Vec<_>, _>>()?;
 
-            fs::create_dir_all(
-                single_out_file
-                    .parent()
-                    .expect("Parent should be available"),
-            )?;
-            let mut buf = File::create(single_out_file)?;
+            let parent = path.parent().expect("Parent should be available");
+            fs::create_dir_all(&parent)
+                .with_context(|| format!("Failed to create directory '{}'", parent.display()))?;
 
-            result?
-                .iter()
-                .try_for_each(|r| buf.write(r.code.as_bytes()).and(Ok(())))?;
+            let mut writer = {
+                let f = fs::File::create(&path)?;
+                io::BufWriter::new(f)
+            };
 
-            buf.flush()
-                .context("Failed to write output into single file")
-        } else {
-            inputs.into_par_iter().try_for_each(
-                |InputContext {
-                     compiler,
-                     fm,
-                     options,
-                     file_path,
-                     file_extension,
-                 }| {
-                    let result = execute(compiler, fm, options);
+            outputs.iter().try_for_each(|r| {
+                writer
+                    .write(r.code.as_bytes())
+                    .map(|_| ())
+                    .with_context(|| format!("Failed to write to '{}'", path.display()))
+            })?;
 
-                    match result {
-                        Ok(output) => {
-                            emit_output(&output, &self.out_dir, &file_path, file_extension)
-                        }
-                        Err(e) => Err(e),
-                    }
-                },
-            )
+            writer
+                .flush()
+                .with_context(|| format!("Failed to call flush on '{}'", path.display()))?;
+
+            return Ok(());
         }
+
+        inputs.into_par_iter().try_for_each(
+            |InputContext {
+                 compiler,
+                 fm,
+                 options,
+                 file_path,
+                 file_extension,
+             }| {
+                execute(compiler, fm, options).and_then(|output| {
+                    emit_output(&output, self.out_dir.as_deref(), &file_path, file_extension)
+                })
+            },
+        )
+    }
+
+    /// Infer list of files to be transformed from cli arguments.
+    /// If given input is a directory, it'll traverse it and collect all
+    /// supported files.
+    #[tracing::instrument(level = "info", skip_all)]
+    fn get_files_list(&self, _include_dotfiles: bool) -> anyhow::Result<Vec<Cow<'_, Path>>> {
+        if self.files.is_empty() {
+            return Ok(Vec::new());
+        }
+
+        if self.files.len() > 1 && self.files.iter().any(|path| path.is_dir()) {
+            return Err(anyhow::anyhow!(
+                "Cannot specify multiple files when using a directory as input"
+            ));
+        }
+
+        let paths_to_ignore = self
+            .ignore
+            .as_deref()
+            .map(|pattern| {
+                let paths_to_ignore = glob(pattern)
+                    .with_context(|| format!("Failed to glob the following pattern: {}", pattern))?
+                    .filter_map(|res| res.ok())
+                    .collect::<HashSet<_>>();
+                Ok::<_, anyhow::Error>(paths_to_ignore)
+            })
+            .transpose()?
+            .unwrap_or_default();
+
+        let should_ignore = |path: &Path| paths_to_ignore.contains(path);
+
+        let has_valid_extension = |path: &Path| {
+            path.extension()
+                .and_then(|e| e.to_str())
+                .map(|ext| self.extensions.contains(ext))
+                .unwrap_or_default()
+        };
+
+        let mut output = Vec::new();
+        for path in &self.files {
+            if path.is_dir() {
+                let iter = WalkDir::new(path)
+                    .into_iter()
+                    .filter_map(|entry| entry.ok())
+                    .filter(|entry| has_valid_extension(entry.path()))
+                    .filter(|entry| !should_ignore(entry.path()))
+                    .map(|entry| Cow::from(entry.path().to_path_buf()));
+                output.extend(iter);
+                continue;
+            }
+            if !has_valid_extension(path) || should_ignore(path) {
+                continue;
+            }
+            output.push(path.into());
+        }
+
+        Ok(output)
     }
 }
 
@@ -426,18 +429,14 @@ impl CompileOptions {
 impl super::CommandRunner for CompileOptions {
     fn execute(&self) -> anyhow::Result<()> {
         let guard = if self.experimental_trace {
-            init_trace(&self.trace_out_file)
+            Some(init_trace(self.trace_out_file.as_deref()))
         } else {
             None
         };
-
         let ret = self.execute_inner();
-
         if let Some(guard) = guard {
             guard.flush();
-            drop(guard);
         }
-
         ret
     }
 }

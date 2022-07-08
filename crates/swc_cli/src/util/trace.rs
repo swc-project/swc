@@ -4,11 +4,11 @@ use tracing_subscriber::{
 };
 
 /// Register a tracing subscriber generated event trace format output.
-pub(crate) fn init_trace(out_file: &Option<String>) -> Option<FlushGuard> {
+pub(crate) fn init_trace(out_file: Option<&str>) -> FlushGuard {
     let mut layer = ChromeLayerBuilder::new().include_args(true);
 
     if let Some(trace_out_file) = out_file {
-        layer = layer.file(trace_out_file.clone());
+        layer = layer.file(trace_out_file);
     }
 
     let (chrome_layer, guard) = layer.build();
@@ -19,5 +19,5 @@ pub(crate) fn init_trace(out_file: &Option<String>) -> Option<FlushGuard> {
         .try_init()
         .expect("Should able to register trace");
 
-    Some(guard)
+    guard
 }
