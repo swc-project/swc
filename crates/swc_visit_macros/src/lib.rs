@@ -2769,10 +2769,12 @@ fn feature_path_attrs() -> Vec<Attribute> {
 fn wrap_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprCall, ty: &Type) -> Expr {
     visit_expr.args.push(q!((__ast_path)).parse());
 
-    let ast_kind_variant_name = ast_enum_variant_name(&unwrap_ref(ty), false);
+    let ast_kind_variant = ast_enum_variant_name(&unwrap_ref(ty), false);
 
-    let ast_kind_variant_name = match ast_kind_variant_name {
+    let ast_kind_variant_ = match ast_kind_variant {
         Some(v) => v,
         _ => return Expr::Call(visit_expr),
     };
+
+    let ast_kind_variant = Ident::new(&ast_kind_variant_, ty.span());
 }
