@@ -706,7 +706,7 @@ impl Minifier {
                 | (Namespace::SVG, "line", "y2", "0")
                 | (Namespace::SVG, "linearGradient", "y1", "0")
                 | (Namespace::SVG, "linearGradient", "y2", "0")
-                | (Namespace::SVG, "feDisplacementMap", "yChannelSelector", "A")
+                | (Namespace::SVG, "feDisplacementMap", "yChannelSelector", "a")
                 | (Namespace::SVG, "fePointLight", "z", "1")
                 | (Namespace::SVG, "feSpotLight", "z", "1")
                 | (Namespace::SVG, "svg", "zoomAndPan", "magnify")
