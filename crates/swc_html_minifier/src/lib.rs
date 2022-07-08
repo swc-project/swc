@@ -626,6 +626,9 @@ impl Minifier {
                     "referrerpolicy",
                     "strict-origin-when-cross-origin"
                 )
+                | (Namespace::SVG, "circle", "cx", "0")
+                | (Namespace::SVG, "circle", "cy", "0")
+                | (Namespace::SVG, "circle", "r", "0")
                 | (Namespace::SVG, "circle", "fill", "black")
                 | (Namespace::SVG, "circle", "fill-opacity", "1")
                 | (Namespace::SVG, "path", "fill", "black")
@@ -687,9 +690,30 @@ impl Minifier {
                 | (Namespace::SVG, "ellipse", "fill-opacity", "1")
                 | (Namespace::SVG, "ellipse", "rx", "auto")
                 | (Namespace::SVG, "ellipse", "ry", "auto")
+                | (Namespace::SVG, "ellipse", "cx", "0")
+                | (Namespace::SVG, "ellipse", "cy", "0")
                 | (Namespace::SVG, "rect", "rx", "auto")
                 | (Namespace::SVG, "rect", "ry", "auto")
+                | (Namespace::SVG, "radialGradient", "cx", "50%")
+                | (Namespace::SVG, "radialGradient", "cy", "50%")
                 | (Namespace::SVG, "radialGradient", "fr", "0")
+                | (
+                    Namespace::SVG,
+                    "radialGradient",
+                    "gradientUnits",
+                    "objectBoundingBox"
+                )
+                | (Namespace::SVG, "radialGradient", "r", "50%")
+                | (Namespace::SVG, "radialGradient", "spreadMethod", "pad")
+                | (Namespace::SVG, "linearGradient", "y1", "0")
+                | (Namespace::SVG, "linearGradient", "y2", "0")
+                | (
+                    Namespace::SVG,
+                    "linearGradient",
+                    "gradientUnits",
+                    "objectBoundingBox"
+                )
+                | (Namespace::SVG, "linearGradient", "spreadMethod", "pad")
                 | (Namespace::SVG, "feComposite", "k1", "0")
                 | (Namespace::SVG, "feComposite", "k2", "0")
                 | (Namespace::SVG, "feComposite", "k3", "0")
@@ -704,8 +728,6 @@ impl Minifier {
                 | (Namespace::SVG, "set", "restart", "always")
                 | (Namespace::SVG, "line", "y1", "0")
                 | (Namespace::SVG, "line", "y2", "0")
-                | (Namespace::SVG, "linearGradient", "y1", "0")
-                | (Namespace::SVG, "linearGradient", "y2", "0")
                 | (Namespace::SVG, "feDisplacementMap", "yChannelSelector", "a")
                 | (Namespace::SVG, "fePointLight", "z", "1")
                 | (Namespace::SVG, "feSpotLight", "z", "1")
