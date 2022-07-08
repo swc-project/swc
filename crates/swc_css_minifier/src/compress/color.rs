@@ -110,7 +110,36 @@ fn hsl_to_rgb(hsl: [f64; 3]) -> [f64; 3] {
         b = hue2rgb(p, q, h - ONE_THIRD);
     }
 
-    [r * 255.0, g * 255.0, b * 255.0]
+    [r, g, b]
+}
+
+fn hwb_to_rgb(hwb: [f64; 3]) -> [f64; 3] {
+    let [h, w, b] = hwb;
+
+    if w + b >= 1.0 {
+        let gray = w / (w + b);
+
+        return [gray, gray, gray];
+    }
+
+    let mut rgb = hsl_to_rgb([h, 1.0, 0.5]);
+
+    for i in 0..3 {
+        rgb[i] = rgb[i] * (1.0 - w - b);
+        rgb[i] = rgb[i] + w;
+    }
+
+    [rgb[0], rgb[1], rgb[2]]
+}
+
+fn to_rgb255(abc: [f64; 3]) -> [f64; 3] {
+    let mut abc255 = abc;
+
+    for i in 0..3 {
+        abc255[i] = abc255[i] * 255.0;
+    }
+
+    abc255
 }
 
 macro_rules! make_color {
@@ -462,7 +491,104 @@ impl VisitMut for CompressColor {
                 };
 
                 if let (Some(h), Some(s), Some(l), a) = (h, s, l, a) {
-                    let rgb = hsl_to_rgb([h, s, l]);
+                    let rgb = to_rgb255(hsl_to_rgb([h, s, l]));
+
+                    if let Some(a) = a {
+                        *color = make_color_with_alpha!(
+                            *span,
+                            rgb[0].round(),
+                            rgb[1].round(),
+                            rgb[2].round(),
+                            a.0,
+                            a.1
+                        );
+                    } else {
+                        *color = make_color!(*span, rgb[0].round(), rgb[1].round(), rgb[2].round());
+                    }
+                }
+            }
+            Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
+                span,
+                name,
+                value,
+                ..
+            })) if matches!(&*name.value, "hwb") => {
+                let hsla: Vec<_> = value
+                    .iter()
+                    .filter(|n| {
+                        !matches!(
+                            n,
+                            ComponentValue::Delimiter(Delimiter {
+                                value: DelimiterValue::Comma | DelimiterValue::Solidus,
+                                ..
+                            })
+                        )
+                    })
+                    .collect();
+
+                let h = match hsla.get(0) {
+                    Some(ComponentValue::Hue(hue)) => {
+                        let mut value = match hue {
+                            Hue::Number(Number { value, .. }) => *value,
+                            Hue::Angle(Angle {
+                                value: Number { value, .. },
+                                unit: Ident { value: unit, .. },
+                                ..
+                            }) => {
+                                let angel_type = match get_angle_type(&unit.to_lowercase()) {
+                                    Some(angel_type) => angel_type,
+                                    _ => return,
+                                };
+
+                                to_deg(*value, angel_type)
+                            }
+                        };
+
+                        value %= 360.0;
+
+                        if value < 0.0 {
+                            value += 360.0;
+                        }
+
+                        Some(value / 360.0)
+                    }
+                    _ => return,
+                };
+                let w = match hsla.get(1) {
+                    Some(ComponentValue::Percentage(Percentage {
+                        value: Number { value, .. },
+                        ..
+                    })) => Some(*value / 100.0),
+                    _ => return,
+                };
+                let b = match hsla.get(2) {
+                    Some(ComponentValue::Percentage(Percentage {
+                        value: Number { value, .. },
+                        ..
+                    })) => Some(*value / 100.0),
+                    _ => return,
+                };
+                let a = match hsla.get(3) {
+                    Some(ComponentValue::AlphaValue(AlphaValue::Number(number))) => {
+                        if number.value == 1.0 {
+                            None
+                        } else {
+                            Some((number.value, true))
+                        }
+                    }
+                    Some(ComponentValue::AlphaValue(AlphaValue::Percentage(percentage))) => {
+                        if percentage.value.value == 100.0 {
+                            None
+                        } else {
+                            Some((percentage.value.value / 100.0, false))
+                        }
+                    }
+                    None => None,
+                    _ => return,
+                };
+
+                if let (Some(h), Some(w), Some(b), a) = (h, w, b, a) {
+                    let rgb = to_rgb255(hwb_to_rgb([h, w, b]));
 
                     if let Some(a) = a {
                         *color = make_color_with_alpha!(
