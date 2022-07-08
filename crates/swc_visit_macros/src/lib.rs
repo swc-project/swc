@@ -2390,9 +2390,16 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     VisitorVariant::WithPath => q!(
                                         Vars { ident },
                                         ({
-                                            swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                                swc_visit::util::map::Map::map(v, |v| {
-                                                    _visitor.ident(v, __ast_path)
+                                            n.into_iter().enumerate().map(|(idx, v)| {
+                                                __ast_path.with(__ast_kind_expr_1, |__ast_path| {
+                                                    __ast_path.with(
+                                                        __ast_kind_expr_2,
+                                                        |__ast_path| {
+                                                            swc_visit::util::map::Map::map(v, |v| {
+                                                                _visitor.ident(v, __ast_path)
+                                                            })
+                                                        },
+                                                    )
                                                 })
                                             })
                                         })
