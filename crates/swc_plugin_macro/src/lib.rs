@@ -21,6 +21,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
     let ident = func.sig.ident.clone();
     let transform_process_impl_ident =
         Ident::new("__transform_plugin_process_impl", Span::call_site());
+    let transform_schema_version_ident =
+        Ident::new("__get_transform_plugin_schema_version", Span::call_site());
 
     let ret = quote! {
         #func
@@ -53,6 +55,11 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 len as i32
             );
             1
+        }
+
+        #[no_mangle]
+        pub fn #transform_schema_version_ident() -> u32 {
+            swc_plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION
         }
 
         // Macro to allow compose plugin's transform function without manual pointer operation.
