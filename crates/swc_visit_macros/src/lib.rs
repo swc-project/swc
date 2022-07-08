@@ -2764,3 +2764,5 @@ fn feature_path_attrs() -> Vec<Attribute> {
         },
     ]
 }
+
+fn wrap_with_ast_path(mode: Mode, node: &Expr, visit_expr: Expr, ty: &Type) -> Expr {}
