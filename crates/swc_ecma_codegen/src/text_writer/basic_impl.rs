@@ -178,7 +178,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.chars().count() - line_start_of_s.last().cloned().unwrap_or(0);
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
             }
 
             if !span.is_dummy() {
@@ -195,7 +196,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.chars().count() - line_start_of_s.last().cloned().unwrap_or(0);
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
             }
         }
         Ok(())
@@ -212,7 +214,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.chars().count() - line_start_of_s.last().cloned().unwrap_or(0);
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
             }
 
             if !span.is_dummy() {
