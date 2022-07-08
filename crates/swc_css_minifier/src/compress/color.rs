@@ -136,7 +136,7 @@ fn to_rgb255(abc: [f64; 3]) -> [f64; 3] {
     let mut abc255 = abc;
 
     for item in &mut abc255 {
-        *item *= 255.0;
+        *item = (*item * 255.0).round();
     }
 
     abc255
@@ -525,7 +525,7 @@ impl VisitMut for CompressColor {
 
                 let rgb = to_rgb255(hsl_to_rgb([h, s, l]));
 
-                *color = make_color!(*span, rgb[0].round(), rgb[1].round(), rgb[2].round(), a);
+                *color = make_color!(*span, rgb[0], rgb[1], rgb[2], a);
             }
             Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
                 span,
@@ -565,7 +565,7 @@ impl VisitMut for CompressColor {
 
                 let rgb = to_rgb255(hwb_to_rgb([h, w, b]));
 
-                *color = make_color!(*span, rgb[0].round(), rgb[1].round(), rgb[2].round(), a);
+                *color = make_color!(*span, rgb[0], rgb[1], rgb[2], a);
             }
             _ => {}
         }
