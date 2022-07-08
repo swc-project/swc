@@ -45,7 +45,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn write_indent_string(&mut self) -> io::Result<usize> {
-        const INDENT: &[u8] = b"    ";
+        const INDENT: &str = "    ";
 
         let mut cnt = 0;
         for _ in 0..self.indent {
@@ -55,9 +55,9 @@ impl<'a, W: Write> JsWriter<'a, W> {
         Ok(cnt)
     }
 
-    fn raw_write(&mut self, data: &[u8]) -> io::Result<usize> {
-        let written = self.wr.write(data)?;
-        self.line_pos += written;
+    fn raw_write(&mut self, data: &str) -> io::Result<usize> {
+        let written = self.wr.write(data.as_bytes())?;
+        self.line_pos += data[0..written].chars().count();
         Ok(written)
     }
 
@@ -80,7 +80,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
                 }
             }
 
-            cnt += self.raw_write(data.as_bytes())?;
+            cnt += self.raw_write(data)?;
 
             if let Some(span) = span {
                 if !span.is_dummy() {
@@ -156,7 +156,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn write_line(&mut self) -> Result {
         let pending = self.pending_srcmap.take();
         if !self.line_start {
-            self.raw_write(self.new_line.as_bytes())?;
+            self.raw_write(self.new_line)?;
             self.line_count += 1;
             self.line_pos = 0;
             self.line_start = true;
@@ -180,7 +180,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s.chars().count() - line_start_of_s.last().cloned().unwrap_or(0);
             }
 
             if !span.is_dummy() {
@@ -197,7 +197,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s.chars().count() - line_start_of_s.last().cloned().unwrap_or(0);
             }
         }
         Ok(())
@@ -214,7 +214,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s.chars().count() - line_start_of_s.last().cloned().unwrap_or(0);
             }
 
             if !span.is_dummy() {
