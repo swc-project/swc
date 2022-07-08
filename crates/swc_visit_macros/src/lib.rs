@@ -2776,10 +2776,10 @@ fn wrap_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprCall, ty: &Ty
 
     let ast_kind_variant = ast_enum_variant_name(&unwrap_ref(ty), false);
 
-    let ast_kind_variant_ = match ast_kind_variant {
+    let ast_kind_variant = match ast_kind_variant {
         Some(v) => v,
         _ => return Expr::Call(visit_expr),
     };
 
-    let ast_kind_variant = Ident::new(&ast_kind_variant_, ty.span());
+    let ast_kind_variant = Ident::new(&ast_kind_variant, ty.span());
 }
