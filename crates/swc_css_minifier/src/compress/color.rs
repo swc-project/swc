@@ -289,6 +289,11 @@ impl CompressColor {
             Some(ComponentValue::AlphaValue(AlphaValue::Percentage(percentage))) => {
                 Some(percentage.value.value / 100.0)
             }
+            Some(ComponentValue::Ident(Ident { value, .. }))
+                if &*value.to_lowercase() == "none" =>
+            {
+                Some(0.0)
+            }
             None => Some(1.0),
             _ => None,
         }
@@ -321,6 +326,11 @@ impl CompressColor {
 
                 Some(value / 360.0)
             }
+            Some(ComponentValue::Ident(Ident { value, .. }))
+                if &*value.to_lowercase() == "none" =>
+            {
+                Some(0.0)
+            }
             _ => None,
         }
     }
@@ -331,6 +341,11 @@ impl CompressColor {
                 value: Number { value, .. },
                 ..
             })) => Some(*value / 100.0),
+            Some(ComponentValue::Ident(Ident { value, .. }))
+                if &*value.to_lowercase() == "none" =>
+            {
+                Some(0.0)
+            }
             _ => None,
         }
     }
@@ -345,6 +360,11 @@ impl CompressColor {
                 value: Number { value, .. },
                 ..
             })) => Some((2.55 * *value).round()),
+            Some(ComponentValue::Ident(Ident { value, .. }))
+                if &*value.to_lowercase() == "none" =>
+            {
+                Some(0.0)
+            }
             _ => None,
         }
     }
