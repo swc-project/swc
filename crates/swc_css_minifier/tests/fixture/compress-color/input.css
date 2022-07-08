@@ -216,3 +216,170 @@
     color: hwb(0 100% 50% / 0);
     color: hwb(120 30% 50% / 1);
 }
+
+.class-33 {
+    color: rgb(100%, 0%, 0%);
+}
+
+.class-34 {
+    color: rgba(2, 3, 4, 0.5);
+}
+
+.class-35 {
+    color: rgba(2, 3, 4, 50%);
+}
+
+.class-36 {
+    color: hsl(120, 100%, 50%);
+}
+
+.class-37 {
+    color: hsla(120, 100%, 50%, 0.25);
+}
+
+.class-38 {
+    color: rgb(-2, 3, 4);
+}
+
+.class-39 {
+    /* bug */
+    color: rgb(100, 200, 300);
+}
+
+.class-40 {
+    /* bug */
+    color: rgb(20, 10, 0, -10);
+}
+
+.class-41 {
+    /* bug */
+    color: rgb(100%, 200%, 300%);
+}
+
+.class-41 {
+    color: rgb(none none none);
+}
+
+.class-42 {
+    color: rgb(none none none / none);
+}
+
+.class-43 {
+    color: rgb(128 none none);
+}
+
+.class-44 {
+    color: rgb(128 none none / none);
+}
+
+.class-45 {
+    color: rgb(none none none / .5);
+}
+
+.class-46 {
+    color: rgb(20% none none);
+}
+
+.class-47 {
+    color: rgb(20% none none / none);
+}
+
+.class-48 {
+    color: rgb(none none none / 50%);
+}
+
+.class-49 {
+    color: rgba(none none none);
+}
+
+.class-50 {
+    color: rgba(none none none / none);
+}
+
+.class-51 {
+    color: rgba(128 none none);
+}
+
+.class-52 {
+    color: rgba(128 none none / none);
+}
+
+.class-53 {
+    color: rgba(none none none / .5);
+}
+
+.class-54 {
+    color: rgba(20% none none);
+}
+
+.class-55 {
+    color: rgba(20% none none / none);
+}
+
+.class-56 {
+    color: rgba(none none none / 50%);
+}
+
+.class-57 {
+    color: hsl(120 30% 50%);
+}
+
+.class-58 {
+    color: hwb(120 30% 50% / 0.5);
+}
+
+.class-59 {
+    color: hwb(none none none);
+}
+
+.class-60 {
+    color: hwb(0 0% 0%);
+}
+
+.class-61 {
+    color: hwb(none none none / none);
+}
+
+.class-62 {
+    color: hwb(0 0% 0% / 0);
+}
+
+.class-63 {
+    color: hwb(120 none none);
+}
+
+.class-64 {
+    color: hwb(120 0% 0%);
+}
+
+.class-65 {
+    color: hwb(120 80% none);
+}
+
+.class-66 {
+    color: hwb(120 80% 0%);
+}
+
+.class-67 {
+    color: hwb(120 none 50%);
+}
+
+.class-68 {
+    color: hwb(120 0% 50%);
+}
+
+.class-69 {
+    color: hwb(120 30% 50% / none);
+}
+
+.class-70 {
+    color: hwb(120 30% 50% / 0);
+}
+
+.class-71 {
+    color: hwb(none 100% 50% / none);
+}
+
+.class-72 {
+    color: hwb(0 100% 50% / 0);
+}
