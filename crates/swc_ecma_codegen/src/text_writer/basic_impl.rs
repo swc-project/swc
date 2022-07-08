@@ -55,9 +55,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn raw_write(&mut self, data: &str) -> Result {
-        let written = self.wr.write(data.as_bytes())?;
-        assert_eq!(written, data.len());
-        self.line_pos += data[..written].chars().count();
+        self.wr.write_all(data.as_bytes())?;
+        self.line_pos += data.chars().count();
         Ok(())
     }
 
