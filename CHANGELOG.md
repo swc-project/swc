@@ -8,6 +8,9 @@
 - **(es/compat)** Preserve more class names (#5106) ([dd39a79](https://github.com/swc-project/swc/commit/dd39a798ae25dfb44c8a428a4a5c0fb962e78ae4))
 
 
+- **(es/compat)** Optimize `for-of` loops for array literals (#5141) ([9351303](https://github.com/swc-project/swc/commit/93513031b51e6b0b8ac21982ed97bb12e5dec14f))
+
+
 - **(es/lints)** Handle import-require duplicate bindings (#5131) ([a0ec370](https://github.com/swc-project/swc/commit/a0ec3705a4dc59709ad388660d8994295fa80074))
 
 
