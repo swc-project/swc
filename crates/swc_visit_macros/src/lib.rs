@@ -723,163 +723,72 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::Fold(VisitorVariant::WithPath) => {
-                if let Some(ast_enum_variant_name) = ast_enum_variant_name(arg_ty, false) {
-                    let ast_enum_variant_name = Ident::new(&ast_enum_variant_name, arg_ty.span());
-
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            fn_name,
-                            default_body,
-                            Type: arg_ty,
-                            Trait: Ident::new(mode.trait_name(), call_site()),
-
-                            NodeVariant: ast_enum_variant_name,
-                        },
-                        {
-                            #[cfg(any(feature = "path", docsrs))]
-                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            #[allow(unused_variables)]
-                            fn fn_name<V: ?Sized + Trait>(
-                                _visitor: &mut V,
-                                n: Type,
-                                __ast_path: &mut AstKindPath,
-                            ) -> Type {
-                                __ast_path.with(AstKind::NodeVariant, |__ast_path| default_body)
-                            }
-                        }
-                    ))
-                } else {
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            fn_name,
-                            default_body,
-                            Type: arg_ty,
-                            Trait: Ident::new(mode.trait_name(), call_site()),
-                        },
-                        {
-                            #[cfg(any(feature = "path", docsrs))]
-                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            #[allow(unused_variables)]
-                            fn fn_name<V: ?Sized + Trait>(
-                                _visitor: &mut V,
-                                n: Type,
-                                __ast_path: &mut AstKindPath,
-                            ) -> Type {
-                                default_body
-                            }
-                        }
-                    ))
+            Mode::Fold(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[cfg(any(feature = "path", docsrs))]
+                    #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                    #[allow(unused_variables)]
+                    fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        __ast_path: &mut AstKindPath,
+                    ) -> Type {
+                        default_body
+                    }
                 }
+            )),
+
+            Mode::VisitMut(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[cfg(any(feature = "path", docsrs))]
+                    #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                    #[allow(unused_variables)]
+                    fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        __ast_path: &mut AstKindPath,
+                    ) {
+                        default_body
+                    }
+                }
+            )),
+
+            Mode::Visit(VisitorVariant::WithPath) => {
+                tokens.push_tokens(&q!(
+                    Vars {
+                        fn_name,
+                        default_body,
+                        Type: arg_ty,
+                        Trait: Ident::new(mode.trait_name(), call_site()),
+                    },
+                    {
+                        #[cfg(any(feature = "path", docsrs))]
+                        #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                        #[allow(unused_variables)]
+                        fn fn_name<'ast, 'r, V: ?Sized + Trait>(
+                            _visitor: &mut V,
+                            n: Type,
+                            __ast_path: &mut AstNodePath<'r>,
+                        ) where
+                            'ast: 'r,
+                        {
+                            default_body
+                        }
+                    }
+                ));
             }
-
-            Mode::VisitMut(VisitorVariant::WithPath) => {
-                if let Some(ast_enum_variant_name) = ast_enum_variant_name(arg_ty, false) {
-                    let ast_enum_variant_name = Ident::new(&ast_enum_variant_name, arg_ty.span());
-
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            fn_name,
-                            default_body,
-                            Type: arg_ty,
-                            Trait: Ident::new(mode.trait_name(), call_site()),
-                            NodeVariant: ast_enum_variant_name,
-                        },
-                        {
-                            #[cfg(any(feature = "path", docsrs))]
-                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            #[allow(unused_variables)]
-                            fn fn_name<V: ?Sized + Trait>(
-                                _visitor: &mut V,
-                                n: Type,
-                                __ast_path: &mut AstKindPath,
-                            ) {
-                                __ast_path.with(AstKind::NodeVariant, |__ast_path| default_body)
-                            }
-                        }
-                    ))
-                } else {
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            fn_name,
-                            default_body,
-                            Type: arg_ty,
-                            Trait: Ident::new(mode.trait_name(), call_site()),
-                        },
-                        {
-                            #[cfg(any(feature = "path", docsrs))]
-                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            #[allow(unused_variables)]
-                            fn fn_name<V: ?Sized + Trait>(
-                                _visitor: &mut V,
-                                n: Type,
-                                __ast_path: &mut AstKindPath,
-                            ) {
-                                default_body
-                            }
-                        }
-                    ))
-                }
-            }
-
-            Mode::Visit(VisitorVariant::WithPath) => match ast_enum_variant_name(arg_ty, false) {
-                Some(ast_enum_variant_name) => {
-                    let ast_enum_variant_name = Ident::new(&ast_enum_variant_name, arg_ty.span());
-                    let to_kind_expr = make_to_ast_kind(arg_ty, true);
-
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            fn_name,
-                            default_body,
-                            Type: arg_ty,
-                            Trait: Ident::new(mode.trait_name(), call_site()),
-                            to_kind_expr,
-                            NodeVariant: ast_enum_variant_name,
-                        },
-                        {
-                            #[cfg(any(feature = "path", docsrs))]
-                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            #[allow(unused_variables)]
-                            fn fn_name<'ast, 'r, V: ?Sized + Trait>(
-                                _visitor: &mut V,
-                                n: Type,
-                                __ast_path: &mut AstNodePath<'r>,
-                            ) where
-                                'ast: 'r,
-                            {
-                                let __ast_node_ref: AstNodeRef<'r> =
-                                    AstNodeRef::NodeVariant(to_kind_expr);
-
-                                __ast_path.with(__ast_node_ref, |__ast_path| default_body)
-                            }
-                        }
-                    ))
-                }
-                _ => {
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            fn_name,
-                            default_body,
-                            Type: arg_ty,
-                            Trait: Ident::new(mode.trait_name(), call_site()),
-                        },
-                        {
-                            #[cfg(any(feature = "path", docsrs))]
-                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            #[allow(unused_variables)]
-                            fn fn_name<'ast, 'r, V: ?Sized + Trait>(
-                                _visitor: &mut V,
-                                n: Type,
-                                __ast_path: &mut AstNodePath<'r>,
-                            ) where
-                                'ast: 'r,
-                            {
-                                default_body
-                            }
-                        }
-                    ));
-                }
-            },
 
             Mode::VisitAll => {}
         }
