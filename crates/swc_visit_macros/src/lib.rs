@@ -2230,7 +2230,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 Vars { ident },
                                 ({
                                     swc_visit::util::map::Map::map(n, |n| {
-                                        _visitor.ident(*n, __ast_path)
+                                        __ast_path.with(AstKind::AstKindVariantName, |__ast_path| {
+                                            _visitor.ident(*n, __ast_path)
+                                        })
                                     })
                                 })
                             )
