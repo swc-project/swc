@@ -3601,7 +3601,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.113.1"
+version = "0.113.2"
 dependencies = [
  "ahash",
  "arrayvec",

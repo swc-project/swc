@@ -14,6 +14,9 @@
 - **(es/compat)** Optimize `for-of` loops for array literals (#5141) ([9351303](https://github.com/swc-project/swc/commit/93513031b51e6b0b8ac21982ed97bb12e5dec14f))
 
 
+- **(es/compat)** Remove extra `this`/`arguments` capture in arrows (#5152) ([cd8d65b](https://github.com/swc-project/swc/commit/cd8d65b9a75a25ed62ad7daf40a02d6f76067696))
+
+
 - **(es/lints)** Handle import-require duplicate bindings (#5131) ([a0ec370](https://github.com/swc-project/swc/commit/a0ec3705a4dc59709ad388660d8994295fa80074))
 
 
