@@ -35,6 +35,9 @@
 
 
 
+- **(css/minifier)** Compress hsl colors (#5142) ([714ff53](https://github.com/swc-project/swc/commit/714ff5321d415e7ec1bfa211364ca4c8012df31e))
+
+
 - **(es/parser)** Support `d` in regex flag for es2022 (#5127) ([2d94797](https://github.com/swc-project/swc/commit/2d94797975ee162837b24283c8b738f282586a4d))
 
 
@@ -57,6 +60,9 @@
 
 
 - **(common)** Bikeshed plugin apis (#5120) ([2ba8b39](https://github.com/swc-project/swc/commit/2ba8b39fa0f2ff7e553d74a4c5ef0f04660a8c40))
+
+
+- **(plugin)** Refactor transform executor (#5147) ([e8214ba](https://github.com/swc-project/swc/commit/e8214babf5ad405c7be1f2391a3be01ab355178f))
 
 ## [1.2.210] - 2022-07-05
 

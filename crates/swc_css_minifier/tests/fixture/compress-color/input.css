@@ -122,54 +122,62 @@
     color: rgb(from #FF0000 255 255 255);
 }
 
-.color-31 {
-    color: rgb(from red 255 255 255);
-}
+.class-31 {
+    color: hsl(362deg, 100%, 50%);
+    color: hsl(360, 0%, 50%);
+    color: hsl(360, 100%, 0%);
 
-.color-32 {
-    color: rgb(from #f00 255 255 255);
-}
+    color: hsl(90deg, 100%, 50%);
+    color: hsl(90grad, 100%, 50%);
+    color: hsl(1.0708rad, 100%, 50%);
+    color: hsl(0.25turn, 100%, 50%);
 
-.color-33 {
-    color: rgb(from yellow 255 255 255);
-}
+    color: hsl(0deg, 100%, 50%);
+    color: hsl(360deg, 100%, 50%);
+    color: hsl(720deg, 100%, 50%);
+    color: hsl(161deg, 100%, 50%);
 
-.color-34 {
-    color: rgb(from snow 255 255 255);
-}
+    color: hsl(360, 100%, 50%);
+    color: hsl(315, 100%, 50%);
+    color: hsl(270, 100%, 50%);
+    color: hsl(225, 100%, 50%);
+    color: hsl(180, 100%, 50%);
+    color: hsl(135, 100%, 50%);
+    color: hsl(90, 100%, 50%);
+    color: hsl(45, 100%, 50%);
+    color: hsl(0, 100%, 50%);
 
-.color-35 {
-    color: rgb(from #D2B48C 255 255 255);
-}
+    color: hsl(360, 100%, 50%, 1.0);
+    color: hsl(315, 100%, 50%, 100%);
+    color: hsl(270, 100%, 50%, 0.5);
+    color: hsl(225, 100%, 50%, 0.5);
+    color: hsl(180, 100%, 50%, 0.5);
+    color: hsl(135, 100%, 50%, 0.5);
+    color: hsl(90, 100%, 50%, 0.5);
+    color: hsl(45, 100%, 50%, 0.5);
+    color: hsl(0, 100%, 50%, 0.5);
 
-.color-36 {
-    color: rgb(from #ff0000 255 255 255);
-}
+    color: hsla(360, 100%, 50%);
+    color: hsla(315, 100%, 50%);
+    color: hsla(270, 100%, 50%);
+    color: hsla(225, 100%, 50%);
+    color: hsla(180, 100%, 50%);
+    color: hsla(135, 100%, 50%);
+    color: hsla(90, 100%, 50%);
+    color: hsla(45, 100%, 50%);
+    color: hsla(0, 100%, 50%);
 
-.color-37 {
-    color: rgb(from white 255 255 255);
-}
+    color: hsla(360, 100%, 50%, 1.0);
+    color: hsla(315, 100%, 50%, 100%);
+    color: hsla(270, 100%, 50%, 0.5);
+    color: hsla(225, 100%, 50%, 0.5);
+    color: hsla(180, 100%, 50%, 0.5);
+    color: hsla(135, 100%, 50%, 0.5);
+    color: hsla(90, 100%, 50%, 0.5);
+    color: hsla(45, 100%, 50%, 0.5);
+    color: hsla(0, 100%, 50%, 0.5);
 
-.color-38 {
-    color: rgb(from #ffffff 255 255 255);
-}
-
-.color-39 {
-    color: rgb(from #fff 255 255 255);
-}
-
-.color-40 {
-    color: #ffffff;
-}
-
-.color-41 {
-    color: #fff;
-}
-
-.color-42 {
-    color: #ffffffff;
-}
-
-.color-43 {
-    color: #ffff;
+    color: hsl(361, 100%, 50%);
+    color: hsl(362, 100%, 50%);
+    color: hsl(363, 100%, 50%);
 }
