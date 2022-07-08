@@ -102,14 +102,26 @@ impl TransformExecutor {
         }
     }
 
+    /**
+     * Check compile-time versions of AST schema between the plugin and
+     * the host. Returns true if it's compatible, false otherwise.
+     *
+     * Host should appropriately handle if plugin is not compatible to the
+     * current runtime.
+     */
+    pub fn is_transform_schema_compatible(&self) -> bool {
+        todo!("Not supported yet");
+    }
+
     #[tracing::instrument(level = "info", skip_all)]
     pub fn transform(
         &mut self,
         program: &PluginSerializedBytes,
         config: &PluginSerializedBytes,
         context: &PluginSerializedBytes,
-        should_enable_comments_proxy: i32,
+        should_enable_comments_proxy: bool,
     ) -> Result<PluginSerializedBytes, Error> {
+        let should_enable_comments_proxy = if should_enable_comments_proxy { 1 } else { 0 };
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
         let context_str_ptr = self.write_bytes_into_guest(context)?;
