@@ -2282,8 +2282,14 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                                     swc_visit::util::map::Map::map(
                                                                         n,
                                                                         |n| {
-                                                                            _visitor.ident(
-                                                                                n, __ast_path,
+                                                                            __ast_path.with(
+                                                                                __ast_kind_expr,
+                                                                                |__ast_path| {
+                                                                                    _visitor.ident(
+                                                                                        n,
+                                                                                        __ast_path,
+                                                                                    )
+                                                                                },
                                                                             )
                                                                         },
                                                                     ),
@@ -2322,23 +2328,33 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             })
                                         )
                                         .parse(),
-                                        Mode::Fold(VisitorVariant::WithPath) => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => Some(_visitor.ident(n, __ast_path)),
-                                                    None => None,
-                                                }
-                                            })
-                                        )
-                                        .parse(),
+                                        Mode::Fold(VisitorVariant::WithPath) => {
+                                            q!(
+                                                Vars { ident },
+                                                ({
+                                                    match n {
+                                                        Some(n) => Some(__ast_path.with(
+                                                            __ast_kind_expr,
+                                                            |__ast_path| {
+                                                                _visitor.ident(n, __ast_path)
+                                                            },
+                                                        )),
+                                                        None => None,
+                                                    }
+                                                })
+                                            )
+                                            .parse()
+                                        }
 
                                         Mode::VisitMut(VisitorVariant::WithPath)
                                         | Mode::Visit(VisitorVariant::WithPath) => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
-                                                    Some(n) => _visitor.ident(n, __ast_path),
+                                                    Some(n) => __ast_path
+                                                        .with(__ast_kind_expr, |__ast_path| {
+                                                            _visitor.ident(n, __ast_path)
+                                                        }),
                                                     None => {}
                                                 }
                                             })
