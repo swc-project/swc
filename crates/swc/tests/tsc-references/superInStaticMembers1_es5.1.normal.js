@@ -777,7 +777,6 @@ _Reflect1 = function Reflect() {
 }, __1 = {
     writable: true,
     value: function() {
-        var _this1 = _this, _superprop_get_w1 = ()=>_superprop_get_w();
         var C = /*#__PURE__*/ function(B1) {
             "use strict";
             _inherits(C, B1);
@@ -791,7 +790,7 @@ _Reflect1 = function Reflect() {
         var __ = {
             writable: true,
             value: function() {
-                _superprop_get_w1().call(_this1);
+                _superprop_get_w().call(_this);
             }()
         };
     }()
