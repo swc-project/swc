@@ -22,6 +22,7 @@ quote = ["swc_ecma_quote"]
 swc_atoms = { version = "0.2.0", path = "../swc_atoms" }
 swc_common = { version = "0.22.0", path = "../swc_common", features = [
   "plugin-mode",
+  "plugin-transform-schema-v1"
 ] }
 swc_ecma_quote = { version = "0.24.0", path = "../swc_ecma_quote", optional = true }
 swc_ecmascript = { version = "0.178.0", path = "../swc_ecmascript", features = ["utils", "visit", "rkyv-impl"] }

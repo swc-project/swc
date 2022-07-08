@@ -16,7 +16,10 @@ crate-type = ["cdylib"]
 default = ["swc_v1", "plugin"]
 plugin = [
   "swc/plugin",
+  "swc/plugin-transform-schema-v1",
+  "swc_common/plugin-transform-schema-v1",
   "swc_plugin_runner/default",
+  "swc_plugin_runner/plugin-transform-schema-v1",
   "wasmer/default",
   "wasmer-wasi/default",
 ]

@@ -22,6 +22,10 @@ default = ["es3"]
 es3 = []
 node = ["napi", "napi-derive"]
 plugin = ["swc_plugin_runner", "swc_plugin_proxy/plugin-rt"]
+plugin-transform-schema-v1 = [
+  "swc_common/plugin-transform-schema-v1",
+  "swc_plugin_runner/plugin-transform-schema-v1"
+]
 
 [dependencies]
 ahash = "0.7.4"
