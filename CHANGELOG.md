@@ -61,6 +61,9 @@
 
 - **(common)** Bikeshed plugin apis (#5120) ([2ba8b39](https://github.com/swc-project/swc/commit/2ba8b39fa0f2ff7e553d74a4c5ef0f04660a8c40))
 
+
+- **(plugin)** Refactor transform executor (#5147) ([e8214ba](https://github.com/swc-project/swc/commit/e8214babf5ad405c7be1f2391a3be01ab355178f))
+
 ## [1.2.210] - 2022-07-05
 
 ### Bug Fixes
