@@ -61,7 +61,8 @@
                     "end": 11,
                     "ctxt": 0
                   },
-                  "data": "Hello"
+                  "data": "Hello",
+                  "raw": "Hello"
                 }
               ],
               "content": null,
@@ -74,7 +75,8 @@
                 "end": 18,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -94,7 +96,8 @@
                     "end": 66,
                     "ctxt": 0
                   },
-                  "data": "\nconsole.log(\"FOO<span>BAR</span>BAZ\");\n"
+                  "data": "\nconsole.log(\"FOO<span>BAR</span>BAZ\");\n",
+                  "raw": "\nconsole.log(\"FOO<span>BAR</span>BAZ\");\n"
                 }
               ],
               "content": null,
@@ -107,7 +110,8 @@
                 "end": 76,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -127,7 +131,8 @@
                     "end": 84,
                     "ctxt": 0
                   },
-                  "data": "Bye"
+                  "data": "Bye",
+                  "raw": "Bye"
                 }
               ],
               "content": null,

@@ -102,7 +102,8 @@
                                   "end": 39,
                                   "ctxt": 0
                                 },
-                                "data": "Foo"
+                                "data": "Foo",
+                                "raw": "Foo"
                               }
                             ],
                             "content": null,

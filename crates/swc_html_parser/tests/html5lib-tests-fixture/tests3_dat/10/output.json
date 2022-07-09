@@ -72,7 +72,8 @@
                     "end": 47,
                     "ctxt": 0
                   },
-                  "data": "x"
+                  "data": "x",
+                  "raw": "x"
                 },
                 {
                   "type": "Element",
@@ -92,7 +93,8 @@
                         "end": 54,
                         "ctxt": 0
                       },
-                      "data": "\ny"
+                      "data": "\ny",
+                      "raw": "\ny"
                     }
                   ],
                   "content": null,

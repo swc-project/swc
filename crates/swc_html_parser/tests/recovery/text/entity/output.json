@@ -61,7 +61,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -81,7 +82,8 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "data": "HTML Entity Example"
+                  "data": "HTML Entity Example",
+                  "raw": "HTML Entity Example"
                 }
               ],
               "content": null,
@@ -94,7 +96,8 @@
                 "end": 62,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -114,7 +117,8 @@
                     "end": 71,
                     "ctxt": 0
                   },
-                  "data": "®"
+                  "data": "®",
+                  "raw": "&reg"
                 }
               ],
               "content": null,
@@ -127,7 +131,8 @@
                 "end": 78,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -147,7 +152,8 @@
                     "end": 86,
                     "ctxt": 0
                   },
-                  "data": "reg"
+                  "data": "reg",
+                  "raw": "reg"
                 }
               ],
               "content": null,
@@ -160,7 +166,8 @@
                 "end": 94,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -180,7 +187,8 @@
                     "end": 103,
                     "ctxt": 0
                   },
-                  "data": "&#q;"
+                  "data": "&#q;",
+                  "raw": "&#q;"
                 }
               ],
               "content": null,
@@ -193,7 +201,8 @@
                 "end": 110,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -213,7 +222,8 @@
                     "end": 120,
                     "ctxt": 0
                   },
-                  "data": "&#qq;"
+                  "data": "&#qq;",
+                  "raw": "&#qq;"
                 }
               ],
               "content": null,
@@ -226,7 +236,8 @@
                 "end": 127,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -246,7 +257,8 @@
                     "end": 138,
                     "ctxt": 0
                   },
-                  "data": "&#qqq;"
+                  "data": "&#qqq;",
+                  "raw": "&#qqq;"
                 }
               ],
               "content": null,
@@ -259,7 +271,8 @@
                 "end": 146,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -279,7 +292,8 @@
                     "end": 156,
                     "ctxt": 0
                   },
-                  "data": "&#xq;"
+                  "data": "&#xq;",
+                  "raw": "&#xq;"
                 }
               ],
               "content": null,
@@ -292,7 +306,8 @@
                 "end": 163,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -312,7 +327,8 @@
                     "end": 174,
                     "ctxt": 0
                   },
-                  "data": "&#xqq;"
+                  "data": "&#xqq;",
+                  "raw": "&#xqq;"
                 }
               ],
               "content": null,
@@ -325,7 +341,8 @@
                 "end": 181,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -345,7 +362,8 @@
                     "end": 193,
                     "ctxt": 0
                   },
-                  "data": "&#xqqq;"
+                  "data": "&#xqqq;",
+                  "raw": "&#xqqq;"
                 }
               ],
               "content": null,
@@ -358,7 +376,8 @@
                 "end": 201,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -378,7 +397,8 @@
                     "end": 1552,
                     "ctxt": 0
                   },
-                  "data": "\n    €  0x20AC  EURO SIGN (€)\n    ‚  0x201A  SINGLE LOW-9 QUOTATION MARK (‚)\n    ƒ  0x0192  LATIN SMALL LETTER F WITH HOOK (ƒ)\n    „  0x201E  DOUBLE LOW-9 QUOTATION MARK („)\n    …  0x2026  HORIZONTAL ELLIPSIS (…)\n    †  0x2020  DAGGER (†)\n    ‡  0x2021  DOUBLE DAGGER (‡)\n    ˆ  0x02C6  MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)\n    ‰  0x2030  PER MILLE SIGN (‰)\n    Š  0x0160  LATIN CAPITAL LETTER S WITH CARON (Š)\n    ‹  0x2039  SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)\n    Œ  0x0152  LATIN CAPITAL LIGATURE OE (Œ)\n    Ž  0x017D  LATIN CAPITAL LETTER Z WITH CARON (Ž)\n    ‘  0x2018  LEFT SINGLE QUOTATION MARK (‘)\n    ’  0x2019  RIGHT SINGLE QUOTATION MARK (’)\n    “  0x201C  LEFT DOUBLE QUOTATION MARK (“)\n    ”  0x201D  RIGHT DOUBLE QUOTATION MARK (”)\n    •  0x2022  BULLET (•)\n    –  0x2013  EN DASH (–)\n    —  0x2014  EM DASH (—)\n    ˜  0x02DC  SMALL TILDE (˜)\n    ™  0x2122  TRADE MARK SIGN (™)\n    š  0x0161  LATIN SMALL LETTER S WITH CARON (š)\n    ›  0x203A  SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)\n    œ  0x0153  LATIN SMALL LIGATURE OE (œ)\n    ž  0x017E  LATIN SMALL LETTER Z WITH CARON (ž)\n    Ÿ  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)\n"
+                  "data": "\n    €  0x20AC  EURO SIGN (€)\n    ‚  0x201A  SINGLE LOW-9 QUOTATION MARK (‚)\n    ƒ  0x0192  LATIN SMALL LETTER F WITH HOOK (ƒ)\n    „  0x201E  DOUBLE LOW-9 QUOTATION MARK („)\n    …  0x2026  HORIZONTAL ELLIPSIS (…)\n    †  0x2020  DAGGER (†)\n    ‡  0x2021  DOUBLE DAGGER (‡)\n    ˆ  0x02C6  MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)\n    ‰  0x2030  PER MILLE SIGN (‰)\n    Š  0x0160  LATIN CAPITAL LETTER S WITH CARON (Š)\n    ‹  0x2039  SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)\n    Œ  0x0152  LATIN CAPITAL LIGATURE OE (Œ)\n    Ž  0x017D  LATIN CAPITAL LETTER Z WITH CARON (Ž)\n    ‘  0x2018  LEFT SINGLE QUOTATION MARK (‘)\n    ’  0x2019  RIGHT SINGLE QUOTATION MARK (’)\n    “  0x201C  LEFT DOUBLE QUOTATION MARK (“)\n    ”  0x201D  RIGHT DOUBLE QUOTATION MARK (”)\n    •  0x2022  BULLET (•)\n    –  0x2013  EN DASH (–)\n    —  0x2014  EM DASH (—)\n    ˜  0x02DC  SMALL TILDE (˜)\n    ™  0x2122  TRADE MARK SIGN (™)\n    š  0x0161  LATIN SMALL LETTER S WITH CARON (š)\n    ›  0x203A  SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)\n    œ  0x0153  LATIN SMALL LIGATURE OE (œ)\n    ž  0x017E  LATIN SMALL LETTER Z WITH CARON (ž)\n    Ÿ  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)\n",
+                  "raw": "\n    &#x80;  0x20AC  EURO SIGN (€)\n    &#x82;  0x201A  SINGLE LOW-9 QUOTATION MARK (‚)\n    &#x83;  0x0192  LATIN SMALL LETTER F WITH HOOK (ƒ)\n    &#x84;  0x201E  DOUBLE LOW-9 QUOTATION MARK („)\n    &#x85;  0x2026  HORIZONTAL ELLIPSIS (…)\n    &#x86;  0x2020  DAGGER (†)\n    &#x87;  0x2021  DOUBLE DAGGER (‡)\n    &#x88;  0x02C6  MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)\n    &#x89;  0x2030  PER MILLE SIGN (‰)\n    &#x8A;  0x0160  LATIN CAPITAL LETTER S WITH CARON (Š)\n    &#x8B;  0x2039  SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)\n    &#x8C;  0x0152  LATIN CAPITAL LIGATURE OE (Œ)\n    &#x8E;  0x017D  LATIN CAPITAL LETTER Z WITH CARON (Ž)\n    &#x91;  0x2018  LEFT SINGLE QUOTATION MARK (‘)\n    &#x92;  0x2019  RIGHT SINGLE QUOTATION MARK (’)\n    &#x93;  0x201C  LEFT DOUBLE QUOTATION MARK (“)\n    &#x94;  0x201D  RIGHT DOUBLE QUOTATION MARK (”)\n    &#x95;  0x2022  BULLET (•)\n    &#x96;  0x2013  EN DASH (–)\n    &#x97;  0x2014  EM DASH (—)\n    &#x98;  0x02DC  SMALL TILDE (˜)\n    &#x99;  0x2122  TRADE MARK SIGN (™)\n    &#x9A;  0x0161  LATIN SMALL LETTER S WITH CARON (š)\n    &#x9B;  0x203A  SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)\n    &#x9C;  0x0153  LATIN SMALL LIGATURE OE (œ)\n    &#x9E;  0x017E  LATIN SMALL LETTER Z WITH CARON (ž)\n    &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)\n"
                 }
               ],
               "content": null,
@@ -391,7 +411,8 @@
                 "end": 1595,
                 "ctxt": 0
               },
-              "data": "\n\nFOOºR\nFOO䆺R\nFOOAZOO\n\n"
+              "data": "\n\nFOOºR\nFOO䆺R\nFOOAZOO\n\n",
+              "raw": "\n\nFOO&#xBAR\nFOO&#x41BAR\nFOO&#x41ZOO\n\n"
             },
             {
               "type": "Element",
@@ -427,7 +448,8 @@
                 "end": 1628,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -463,7 +485,8 @@
                 "end": 1660,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -499,7 +522,8 @@
                 "end": 1694,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -535,7 +559,8 @@
                 "end": 1727,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -571,7 +596,8 @@
                 "end": 1760,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -607,7 +633,8 @@
                 "end": 1794,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -643,7 +670,8 @@
                 "end": 1841,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

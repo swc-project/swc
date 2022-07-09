@@ -83,7 +83,8 @@
                         "end": 36,
                         "ctxt": 0
                       },
-                      "data": "foo"
+                      "data": "foo",
+                      "raw": "foo"
                     }
                   ],
                   "content": null,
@@ -107,7 +108,8 @@
                         "end": 56,
                         "ctxt": 0
                       },
-                      "data": "bar"
+                      "data": "bar",
+                      "raw": "bar"
                     }
                   ],
                   "content": null,
@@ -124,7 +126,8 @@
                 "end": 75,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -155,7 +158,8 @@
                         "end": 94,
                         "ctxt": 0
                       },
-                      "data": "foo"
+                      "data": "foo",
+                      "raw": "foo"
                     }
                   ],
                   "content": null,
@@ -179,7 +183,8 @@
                         "end": 105,
                         "ctxt": 0
                       },
-                      "data": "bar"
+                      "data": "bar",
+                      "raw": "bar"
                     }
                   ],
                   "content": null,
@@ -196,7 +201,8 @@
                 "end": 115,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -227,7 +233,8 @@
                         "end": 134,
                         "ctxt": 0
                       },
-                      "data": "foo"
+                      "data": "foo",
+                      "raw": "foo"
                     }
                   ],
                   "content": null,
@@ -244,7 +251,8 @@
                 "end": 144,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -264,7 +272,8 @@
                     "end": 153,
                     "ctxt": 0
                   },
-                  "data": " "
+                  "data": " ",
+                  "raw": " "
                 },
                 {
                   "type": "Element",
@@ -284,7 +293,8 @@
                         "end": 164,
                         "ctxt": 0
                       },
-                      "data": "foo"
+                      "data": "foo",
+                      "raw": "foo"
                     }
                   ],
                   "content": null,
@@ -297,7 +307,8 @@
                     "end": 174,
                     "ctxt": 0
                   },
-                  "data": " "
+                  "data": " ",
+                  "raw": " "
                 },
                 {
                   "type": "Element",
@@ -317,7 +328,8 @@
                         "end": 185,
                         "ctxt": 0
                       },
-                      "data": "bar"
+                      "data": "bar",
+                      "raw": "bar"
                     }
                   ],
                   "content": null,
@@ -341,7 +353,8 @@
                         "end": 205,
                         "ctxt": 0
                       },
-                      "data": "foo"
+                      "data": "foo",
+                      "raw": "foo"
                     }
                   ],
                   "content": null,
@@ -358,7 +371,8 @@
                 "end": 215,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -413,7 +427,8 @@
                             "end": 267,
                             "ctxt": 0
                           },
-                          "data": "Option 1.1"
+                          "data": "Option 1.1",
+                          "raw": "Option 1.1"
                         }
                       ],
                       "content": null,
@@ -430,7 +445,8 @@
                     "end": 288,
                     "ctxt": 0
                   },
-                  "data": " "
+                  "data": " ",
+                  "raw": " "
                 },
                 {
                   "type": "Element",
@@ -474,7 +490,8 @@
                             "end": 332,
                             "ctxt": 0
                           },
-                          "data": "Option 2.1"
+                          "data": "Option 2.1",
+                          "raw": "Option 2.1"
                         }
                       ],
                       "content": null,
@@ -498,7 +515,8 @@
                             "end": 359,
                             "ctxt": 0
                           },
-                          "data": "Option 2.2"
+                          "data": "Option 2.2",
+                          "raw": "Option 2.2"
                         }
                       ],
                       "content": null,

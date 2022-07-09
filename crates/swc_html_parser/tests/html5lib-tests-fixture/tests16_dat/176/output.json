@@ -47,7 +47,8 @@
                     "end": 33,
                     "ctxt": 0
                   },
-                  "data": "...<!--[if IE]><style>..."
+                  "data": "...<!--[if IE]><style>...",
+                  "raw": "...<!--[if IE]><style>..."
                 }
               ],
               "content": null,
@@ -75,7 +76,8 @@
                 "end": 42,
                 "ctxt": 0
               },
-              "data": "X"
+              "data": "X",
+              "raw": "X"
             }
           ],
           "content": null,

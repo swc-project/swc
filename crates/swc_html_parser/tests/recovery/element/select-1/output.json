@@ -61,7 +61,8 @@
                     "end": 14,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -94,7 +95,8 @@
                         "end": 54,
                         "ctxt": 0
                       },
-                      "data": "\n        1\n        "
+                      "data": "\n        1\n        ",
+                      "raw": "\n        1\n        "
                     }
                   ],
                   "content": null,
@@ -131,7 +133,8 @@
                         "end": 100,
                         "ctxt": 0
                       },
-                      "data": "\n            2\n        "
+                      "data": "\n            2\n        ",
+                      "raw": "\n            2\n        "
                     }
                   ],
                   "content": null,
@@ -144,7 +147,8 @@
                     "end": 124,
                     "ctxt": 0
                   },
-                  "data": "\n    \n"
+                  "data": "\n    \n",
+                  "raw": "\n    \n"
                 }
               ],
               "content": null,

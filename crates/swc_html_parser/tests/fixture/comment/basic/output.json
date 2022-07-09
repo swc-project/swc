@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -144,7 +149,8 @@
                 "end": 99,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Comment",
@@ -173,7 +179,8 @@
                     "end": 119,
                     "ctxt": 0
                   },
-                  "data": "baz"
+                  "data": "baz",
+                  "raw": "baz"
                 }
               ],
               "content": null,
@@ -195,7 +202,8 @@
                 "end": 143,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -215,7 +223,8 @@
                     "end": 168,
                     "ctxt": 0
                   },
-                  "data": "<!-- alert(1) -->"
+                  "data": "<!-- alert(1) -->",
+                  "raw": "<!-- alert(1) -->"
                 }
               ],
               "content": null,
@@ -228,7 +237,8 @@
                 "end": 178,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -248,7 +258,8 @@
                     "end": 199,
                     "ctxt": 0
                   },
-                  "data": "alert('<!--')"
+                  "data": "alert('<!--')",
+                  "raw": "alert('<!--')"
                 }
               ],
               "content": null,
@@ -261,7 +272,8 @@
                 "end": 209,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -281,7 +293,8 @@
                     "end": 238,
                     "ctxt": 0
                   },
-                  "data": "alert('<!-- foo -->')"
+                  "data": "alert('<!-- foo -->')",
+                  "raw": "alert('<!-- foo -->')"
                 }
               ],
               "content": null,
@@ -294,7 +307,8 @@
                 "end": 248,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -314,7 +328,8 @@
                     "end": 268,
                     "ctxt": 0
                   },
-                  "data": "alert('-->')"
+                  "data": "alert('-->')",
+                  "raw": "alert('-->')"
                 }
               ],
               "content": null,
@@ -327,7 +342,8 @@
                 "end": 294,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -174,7 +179,8 @@
                 "end": 266,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -222,7 +228,8 @@
                 "end": 315,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -270,7 +277,8 @@
                 "end": 356,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -290,7 +298,8 @@
                     "end": 376,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -347,7 +356,8 @@
                             "end": 427,
                             "ctxt": 0
                           },
-                          "data": "Twitter"
+                          "data": "Twitter",
+                          "raw": "Twitter"
                         }
                       ],
                       "content": null,
@@ -364,7 +374,8 @@
                     "end": 452,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -421,7 +432,8 @@
                             "end": 499,
                             "ctxt": 0
                           },
-                          "data": "Facebook"
+                          "data": "Facebook",
+                          "raw": "Facebook"
                         }
                       ],
                       "content": null,
@@ -438,7 +450,8 @@
                     "end": 524,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -495,7 +508,8 @@
                             "end": 567,
                             "ctxt": 0
                           },
-                          "data": "G+"
+                          "data": "G+",
+                          "raw": "G+"
                         }
                       ],
                       "content": null,
@@ -512,7 +526,8 @@
                     "end": 588,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -525,7 +540,8 @@
                 "end": 606,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -545,7 +561,8 @@
                     "end": 630,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -565,7 +582,8 @@
                         "end": 658,
                         "ctxt": 0
                       },
-                      "data": "I'm an x-foo-with-markup!"
+                      "data": "I'm an x-foo-with-markup!",
+                      "raw": "I'm an x-foo-with-markup!"
                     }
                   ],
                   "content": null,
@@ -578,7 +596,8 @@
                     "end": 663,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -591,7 +610,8 @@
                 "end": 685,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -632,7 +652,8 @@
                       "end": 725,
                       "ctxt": 0
                     },
-                    "data": "\n    "
+                    "data": "\n    ",
+                    "raw": "\n    "
                   },
                   {
                     "type": "Element",
@@ -652,7 +673,8 @@
                           "end": 765,
                           "ctxt": 0
                         },
-                        "data": "\n        p { color: green; }\n    "
+                        "data": "\n        p { color: green; }\n    ",
+                        "raw": "\n        p { color: green; }\n    "
                       }
                     ],
                     "content": null,
@@ -665,7 +687,8 @@
                       "end": 778,
                       "ctxt": 0
                     },
-                    "data": "\n    "
+                    "data": "\n    ",
+                    "raw": "\n    "
                   },
                   {
                     "type": "Element",
@@ -685,7 +708,8 @@
                           "end": 846,
                           "ctxt": 0
                         },
-                        "data": "I'm in Shadow DOM. My markup was stamped from a <template>."
+                        "data": "I'm in Shadow DOM. My markup was stamped from a <template>.",
+                        "raw": "I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;."
                       }
                     ],
                     "content": null,
@@ -698,7 +722,8 @@
                       "end": 851,
                       "ctxt": 0
                     },
-                    "data": "\n"
+                    "data": "\n",
+                    "raw": "\n"
                   }
                 ]
               },
@@ -711,7 +736,8 @@
                 "end": 871,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

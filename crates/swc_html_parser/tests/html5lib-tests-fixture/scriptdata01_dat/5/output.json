@@ -50,7 +50,8 @@
                 "end": 4,
                 "ctxt": 0
               },
-              "data": "FOO"
+              "data": "FOO",
+              "raw": "FOO"
             },
             {
               "type": "Element",
@@ -83,7 +84,8 @@
                     "end": 43,
                     "ctxt": 0
                   },
-                  "data": "</scriptx>BAR"
+                  "data": "</scriptx>BAR",
+                  "raw": "</scriptx>BAR"
                 }
               ],
               "content": null,

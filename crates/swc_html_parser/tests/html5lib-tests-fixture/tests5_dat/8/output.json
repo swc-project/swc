@@ -61,7 +61,8 @@
                     "end": 18,
                     "ctxt": 0
                   },
-                  "data": " <!--- "
+                  "data": " <!--- ",
+                  "raw": " <!--- "
                 }
               ],
               "content": null,
@@ -74,7 +75,8 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "data": "->x --> x"
+              "data": "->x --> x",
+              "raw": "->x --> x"
             }
           ],
           "content": null,

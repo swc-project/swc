@@ -83,7 +83,8 @@
                         "end": 34,
                         "ctxt": 0
                       },
-                      "data": "foo"
+                      "data": "foo",
+                      "raw": "foo"
                     }
                   ],
                   "content": null,
@@ -100,7 +101,8 @@
                 "end": 50,
                 "ctxt": 0
               },
-              "data": "bar"
+              "data": "bar",
+              "raw": "bar"
             }
           ],
           "content": null,

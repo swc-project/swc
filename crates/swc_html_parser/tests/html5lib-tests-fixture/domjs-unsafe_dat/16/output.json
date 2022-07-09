@@ -60,7 +60,8 @@
                     "end": 45,
                     "ctxt": 0
                   },
-                  "data": "<!--<script>--�</script>"
+                  "data": "<!--<script>--�</script>",
+                  "raw": "<!--<script>--\u0000</script>"
                 }
               ],
               "content": null,

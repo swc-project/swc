@@ -58,7 +58,8 @@
                     "end": 27,
                     "ctxt": 0
                   },
-                  "data": " EOF"
+                  "data": " EOF",
+                  "raw": " EOF"
                 }
               ],
               "content": null,

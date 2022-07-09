@@ -60,7 +60,8 @@
                 "end": 41,
                 "ctxt": 0
               },
-              "data": " "
+              "data": " ",
+              "raw": " "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 56,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 65,
                 "ctxt": 0
               },
-              "data": " "
+              "data": " ",
+              "raw": " "
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 73,
             "ctxt": 0
           },
-          "data": " "
+          "data": " ",
+          "raw": " "
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 88,
                 "ctxt": 0
               },
-              "data": "  "
+              "data": "  ",
+              "raw": "  "
             }
           ],
           "content": null,

@@ -47,7 +47,8 @@
                     "end": 16,
                     "ctxt": 0
                   },
-                  "data": "</SCRIP"
+                  "data": "</SCRIP",
+                  "raw": "</SCRIP"
                 }
               ],
               "content": null,
