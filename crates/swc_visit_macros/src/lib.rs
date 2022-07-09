@@ -1654,7 +1654,7 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
     })
 }
 
-fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
+fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fields) -> Arm {
     let mut stmts = vec![];
     let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
 
@@ -1743,7 +1743,10 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
 
     if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
         block = q!(
-            Vars { block },
+            Vars {
+                block,
+                AstKindVariant: type_name,
+            },
             ({ __ast_path.with(AstKind::AstKindVariant, |__ast_path| block) })
         )
         .parse()
@@ -1879,7 +1882,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             }
 
             let block = {
-                let arm = make_arm_from_struct(mode, &s.ident.clone().into(), &s.fields);
+                let arm = make_arm_from_struct(mode, &s.ident, &s.ident.clone().into(), &s.fields);
 
                 let mut match_expr: ExprMatch = q!((match n {})).parse();
                 match_expr.arms.push(arm);
@@ -1926,6 +1929,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
 
                     let arm = make_arm_from_struct(
                         mode,
+                        &e.ident,
                         &q!(
                             Vars {
                                 Enum: &e.ident,
