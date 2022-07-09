@@ -24,7 +24,7 @@
     });
     _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
     _baz = /*#__PURE__*/ _interopRequireWildcard(_baz);
-    var _default = {
+    const _default = {
         foo: _foo.default,
         baz: _baz,
         baz: _baz

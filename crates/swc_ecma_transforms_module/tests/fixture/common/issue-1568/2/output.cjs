@@ -15,4 +15,4 @@ _export(exports, {
 function get(key) {
     console.log(key);
 }
-var _default = a;
+const _default = a;

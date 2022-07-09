@@ -12,5 +12,5 @@ _export(exports, {
     default: ()=>_default,
     Cachier: ()=>Cachier
 });
-var _default = new Cachier();
+const _default = new Cachier();
 function Cachier(databaseName) {}

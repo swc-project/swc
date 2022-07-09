@@ -10,7 +10,7 @@ define([
         enumerable: true,
         get: ()=>_default
     });
-    var _default = {
+    const _default = {
         foo: "bar"
     };
 });

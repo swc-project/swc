@@ -12,5 +12,5 @@ define([
         get: ()=>_default
     });
     _react = _exportStar(_react, exports);
-    var _default = _react;
+    const _default = _react;
 });

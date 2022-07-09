@@ -20,5 +20,5 @@ define([
     var Buffer = moduleExports ? _rootJs.default.Buffer : undefined;
     var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
     var isBuffer = nativeIsBuffer || _stubFalseJs.default;
-    var _default = isBuffer;
+    const _default = isBuffer;
 });

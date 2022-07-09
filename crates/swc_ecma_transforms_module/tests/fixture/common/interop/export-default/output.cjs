@@ -6,4 +6,4 @@ Object.defineProperty(exports, "default", {
     enumerable: true,
     get: ()=>_default
 });
-var _default = 42;
+const _default = 42;

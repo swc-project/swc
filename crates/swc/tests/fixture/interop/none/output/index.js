@@ -17,7 +17,7 @@ const x = {
     bar: _bar.default
 };
 const y = _bar.baz;
-var _default = {
+const _default = {
     x,
     y
 };

@@ -13,7 +13,7 @@
         enumerable: true,
         get: ()=>_default
     });
-    var _default = function() {
+    const _default = function() {
         return "foo";
     }();
 });
