@@ -2495,7 +2495,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     ({
                                         n.iter().enumerate().for_each(|(idx, v)| {
                                             __ast_path.with(
-                                                AstKind::AstKindVariant,
+                                                AstKind::AstKindVariant(idx),
                                                 AstNodeRef::AstKindVariant(&n, idx),
                                                 |__ast_path| _visitor.ident(v.as_ref(), __ast_path),
                                             )
