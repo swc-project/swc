@@ -53,6 +53,9 @@
 - **(html/minifier)** Sort attributes (#4784) ([f813a60](https://github.com/swc-project/swc/commit/f813a60497da416c41041af1d82d7186a6f0cc09))
 
 
+- **(html/minifier)** Compress default attributes for svg (#5150) ([8bc9a40](https://github.com/swc-project/swc/commit/8bc9a40c99268ff5858479b29cf74a30c8c361db))
+
+
 - **(plugin)** Wrap serialized struct with a version (#5128) ([82fbe15](https://github.com/swc-project/swc/commit/82fbe15a57e51ae444c3846fe6a512af297e0087))
 
 
