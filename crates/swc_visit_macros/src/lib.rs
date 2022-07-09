@@ -2574,19 +2574,27 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
-                            Mode::Visit(VisitorVariant::WithPath) => q!(
-                                Vars { ident },
-                                ({
-                                    n.iter().enumerate().for_each(|(idx, v)| {
-                                        __ast_path.with(
-                                            AstKind::AstKindVariant(idx),
-                                            AstNodeRef::AstKindVariant(&n, idx),
-                                            |__ast_path| _visitor.ident(v, __ast_path),
-                                        )
+                            Mode::Visit(VisitorVariant::WithPath) => {
+                                let ast_kind = ast_enum_variant_name(ty, false).unwrap();
+                                let ast_kind = Ident::new(&ast_kind, ty.span());
+
+                                q!(
+                                    Vars {
+                                        ident,
+                                        AstKindVariant: ast_kind,
+                                    },
+                                    ({
+                                        n.iter().enumerate().for_each(|(idx, v)| {
+                                            __ast_path.with(
+                                                AstKind::AstKindVariant(idx),
+                                                AstNodeRef::AstKindVariant(&n, idx),
+                                                |__ast_path| _visitor.ident(v, __ast_path),
+                                            )
+                                        })
                                     })
-                                })
-                            )
-                            .parse(),
+                                )
+                                .parse()
+                            }
                         }
                     };
                 }
