@@ -2227,7 +2227,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             let ident = method_name(mode, arg);
                             let inner = wrap_with_ast_path(
                                 mode,
-                                &q! {n}.parse(),
+                                &q!({ n }).parse(),
                                 q!({ _visitor.ident(*n) }).parse(),
                                 arg,
                             );
