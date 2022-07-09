@@ -2236,12 +2236,12 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             let inner = wrap_call_with_ast_path(
                                 mode,
                                 &q!({ n }).parse(),
-                                q!({ _visitor.ident(*n) }).parse(),
+                                q!(Vars { ident }, { _visitor.ident(*n) }).parse(),
                                 arg,
                             );
 
                             return q!(
-                                Vars { ident, inner },
+                                Vars { inner },
                                 ({ swc_visit::util::map::Map::map(n, |n| inner) })
                             )
                             .parse();
