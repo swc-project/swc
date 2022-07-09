@@ -28,6 +28,9 @@
 
 - **(es/parser)** Support type-only export-import declarations (#5122) ([fbfca36](https://github.com/swc-project/swc/commit/fbfca36f58cf393faae132b092d05e9aaa931d55))
 
+
+- **(sourcemap)** Handle multi-byte characters correctly (#5153) ([bbbe0b6](https://github.com/swc-project/swc/commit/bbbe0b6e94cb230245ead484125da23615f4f6d6))
+
 ### Documentation
 
 
