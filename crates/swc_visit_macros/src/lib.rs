@@ -1742,14 +1742,37 @@ fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fi
     };
 
     if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
-        block = q!(
-            Vars {
-                block,
-                AstKindVariant: type_name,
-            },
-            ({ __ast_path.with(AstKind::AstKindVariant, |__ast_path| block) })
-        )
-        .parse()
+        match mode {
+            Mode::Visit { .. } => {
+                block = q!(
+                    Vars {
+                        block,
+                        AstKindVariant: type_name,
+                    },
+                    ({
+                        __ast_path.with(
+                            AstKind::AstKindVariant,
+                            AstNodeRef::AstKindVariant(n),
+                            |__ast_path| block,
+                        )
+                    })
+                )
+                .parse()
+            }
+
+            Mode::VisitMut { .. } | Mode::Fold { .. } => {
+                block = q!(
+                    Vars {
+                        block,
+                        AstKindVariant: type_name,
+                    },
+                    ({ __ast_path.with(AstKind::AstKindVariant, |__ast_path| block) })
+                )
+                .parse()
+            }
+
+            _ => {}
+        }
     }
 
     Arm {
