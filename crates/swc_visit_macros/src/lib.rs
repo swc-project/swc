@@ -2282,16 +2282,25 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     }
 
                                     return match mode {
-                                        Mode::Fold(VisitorVariant::Normal) => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => Some(_visitor.ident(n)),
-                                                    None => None,
-                                                }
-                                            })
-                                        )
-                                        .parse(),
+                                        Mode::Fold(..) => {
+                                            let inner = wrap_call_with_ast_path(
+                                                mode,
+                                                &q!({ n }).parse(),
+                                                q!(Vars { ident }, { _visitor.ident(n) }).parse(),
+                                                arg,
+                                            );
+
+                                            q!(
+                                                Vars { inner },
+                                                ({
+                                                    match n {
+                                                        Some(n) => Some(inner),
+                                                        None => None,
+                                                    }
+                                                })
+                                            )
+                                            .parse()
+                                        }
 
                                         Mode::VisitMut(VisitorVariant::Normal)
                                         | Mode::Visit(VisitorVariant::Normal)
@@ -2305,20 +2314,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             })
                                         )
                                         .parse(),
-                                        Mode::Fold(VisitorVariant::WithPath) => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => Some(__ast_path.with(
-                                                        AstKind::AstKindVariant,
-                                                        |__ast_path| _visitor.ident(n, __ast_path),
-                                                    )),
-                                                    None => None,
-                                                }
-                                            })
-                                        )
-                                        .parse(),
-
                                         Mode::VisitMut(VisitorVariant::WithPath) => q!(
                                             Vars { ident },
                                             ({
