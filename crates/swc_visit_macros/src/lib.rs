@@ -8,7 +8,7 @@ use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprCall, ExprMatch, Field, FieldValue, Fields, FieldsUnnamed, FnArg,
+    Expr, ExprBlock, ExprMatch, ExprMethodCall, Field, FieldValue, Fields, FieldsUnnamed, FnArg,
     GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum,
     ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Path, PathArguments, ReturnType, Signature,
     Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic,
@@ -2704,10 +2704,15 @@ fn feature_path_attrs() -> Vec<Attribute> {
     ]
 }
 
-fn wrap_call_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprCall, ty: &Type) -> Expr {
+fn wrap_call_with_ast_path(
+    mode: Mode,
+    node: &Expr,
+    mut visit_expr: ExprMethodCall,
+    ty: &Type,
+) -> Expr {
     match mode.visitor_variant() {
         Some(VisitorVariant::WithPath) => {}
-        _ => return Expr::Call(visit_expr),
+        _ => return Expr::MethodCall(visit_expr),
     }
 
     visit_expr.args.push(q!((__ast_path)).parse());
@@ -2716,7 +2721,7 @@ fn wrap_call_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprCall, ty
 
     let ast_kind_variant = match ast_kind_variant {
         Some(v) => v,
-        _ => return Expr::Call(visit_expr),
+        _ => return Expr::MethodCall(visit_expr),
     };
 
     let ast_kind_variant = Ident::new(&ast_kind_variant, ty.span());
