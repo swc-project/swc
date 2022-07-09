@@ -48,7 +48,7 @@ swc_ecma_transforms_base = { version = "0.97.0", path = "../swc_ecma_transforms_
 swc_ecma_transforms_optimization = { version = "0.143.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "0.93.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.70.0", path = "../swc_ecma_visit", features = [
-  "kind",
+  "path",
 ] }
 swc_timer = { version = "0.11.0", path = "../swc_timer" }
 tracing = "0.1.32"
