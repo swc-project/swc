@@ -2302,46 +2302,25 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             .parse()
                                         }
 
-                                        Mode::VisitMut(VisitorVariant::Normal)
-                                        | Mode::Visit(VisitorVariant::Normal)
-                                        | Mode::VisitAll => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => _visitor.ident(n),
-                                                    None => {}
-                                                }
-                                            })
-                                        )
-                                        .parse(),
-                                        Mode::VisitMut(VisitorVariant::WithPath) => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => __ast_path.with(
-                                                        AstKind::AstKindVariant,
-                                                        |__ast_path| _visitor.ident(n, __ast_path),
-                                                    ),
-                                                    None => {}
-                                                }
-                                            })
-                                        )
-                                        .parse(),
+                                        Mode::VisitMut(..) | Mode::Visit(..) | Mode::VisitAll => {
+                                            let inner = wrap_call_with_ast_path(
+                                                mode,
+                                                &q!({ n }).parse(),
+                                                q!(Vars { ident }, { _visitor.ident(n) }).parse(),
+                                                arg,
+                                            );
 
-                                        Mode::Visit(VisitorVariant::WithPath) => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => __ast_path.with(
-                                                        AstKind::AstKindVariant,
-                                                        AstNodeRef::AstKindVariant(&n),
-                                                        |__ast_path| _visitor.ident(n, __ast_path),
-                                                    ),
-                                                    None => {}
-                                                }
-                                            })
-                                        )
-                                        .parse(),
+                                            q!(
+                                                Vars { inner },
+                                                ({
+                                                    match n {
+                                                        Some(n) => inner,
+                                                        None => {}
+                                                    }
+                                                })
+                                            )
+                                            .parse()
+                                        }
                                     };
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
