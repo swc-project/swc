@@ -26,6 +26,9 @@
 - **(es/modules)** Handle top level this (#5159) ([451f346](https://github.com/swc-project/swc/commit/451f346af0116bb26707b38b951a4e74ed2cdc97))
 
 
+- **(es/modules)** Handle top level this, really (#5160) ([2555d71](https://github.com/swc-project/swc/commit/2555d71a6045ef6522323e5ea9b5c40800d4ab12))
+
+
 - **(es/parser)** Support type-only export-import declarations (#5122) ([fbfca36](https://github.com/swc-project/swc/commit/fbfca36f58cf393faae132b092d05e9aaa931d55))
 
 
