@@ -2524,18 +2524,26 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
-                            Mode::VisitMut(VisitorVariant::WithPath) => q!(
-                                Vars { ident },
-                                ({
-                                    n.iter_mut().enumerate().for_each(|(idx, v)| {
-                                        __ast_path
-                                            .with(AstKind::AstKindVariant(idx), |__ast_path| {
-                                                _visitor.ident(v, __ast_path)
-                                            })
+                            Mode::VisitMut(VisitorVariant::WithPath) => {
+                                let ast_kind = ast_enum_variant_name(ty, false).unwrap();
+                                let ast_kind = Ident::new(&ast_kind, ty.span());
+
+                                q!(
+                                    Vars {
+                                        ident,
+                                        AstKindVariant: ast_kind,
+                                    },
+                                    ({
+                                        n.iter_mut().enumerate().for_each(|(idx, v)| {
+                                            __ast_path
+                                                .with(AstKind::AstKindVariant(idx), |__ast_path| {
+                                                    _visitor.ident(v, __ast_path)
+                                                })
+                                        })
                                     })
-                                })
-                            )
-                            .parse(),
+                                )
+                                .parse()
+                            }
 
                             Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
                                 Vars { ident },
@@ -2753,7 +2761,12 @@ fn wrap_call_with_ast_path(
 
     visit_expr.args.push(q!((__ast_path)).parse());
 
-    let ast_kind_variant = ast_enum_variant_name(&unwrap_ref(ty), false);
+    // We don't store vectors
+    if extract_generic("Vec", unwrap_ref(ty)).is_some() {
+        return Expr::MethodCall(visit_expr);
+    }
+
+    let ast_kind_variant = ast_enum_variant_name(unwrap_ref(ty), false);
 
     let ast_kind_variant = match ast_kind_variant {
         Some(v) => v,
