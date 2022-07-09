@@ -2366,7 +2366,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                     match mode {
                         Mode::Fold(v) => {
-                            if let Some(..) = as_box(arg) {
+                            if let Some(boxed) = as_box(arg) {
                                 return match v {
                                     VisitorVariant::Normal => q!(
                                         Vars { ident },
@@ -2379,16 +2379,29 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         })
                                     )
                                     .parse(),
-                                    VisitorVariant::WithPath => q!(
-                                        Vars { ident },
-                                        ({
-                                            n.into_iter()
-                                                .enumerate()
-                                                .map(|(idx, v)| {
-                                                    __ast_path.with(
-                                                        AstKind::AstKindVariantForVec(idx),
-                                                        |__ast_path| {
-                                                            __ast_path.with(
+                                    VisitorVariant::WithPath => {
+                                        let ast_kind_outer =
+                                            ast_enum_variant_name(ty, false).unwrap();
+                                        let ast_kind_outer = Ident::new(&ast_kind_outer, ty.span());
+
+                                        let ast_kind_inner =
+                                            ast_enum_variant_name(boxed, false).unwrap();
+                                        let ast_kind_inner = Ident::new(&ast_kind_inner, ty.span());
+
+                                        q!(
+                                            Vars {
+                                                ident,
+                                                AstKindVariantForVec: ast_kind_outer,
+                                                AstKindVariantForBox: ast_kind_inner,
+                                            },
+                                            ({
+                                                n.into_iter()
+                                                    .enumerate()
+                                                    .map(|(idx, v)| {
+                                                        __ast_path.with(
+                                                            AstKind::AstKindVariantForVec(idx),
+                                                            |__ast_path| {
+                                                                __ast_path.with(
                                                                 AstKind::AstKindVariantForBox,
                                                                 |__ast_path| {
                                                                     swc_visit::util::map::Map::map(
@@ -2401,13 +2414,14 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                                     )
                                                                 },
                                                             )
-                                                        },
-                                                    )
-                                                })
-                                                .collect()
-                                        })
-                                    )
-                                    .parse(),
+                                                            },
+                                                        )
+                                                    })
+                                                    .collect()
+                                            })
+                                        )
+                                        .parse()
+                                    }
                                 };
                             }
                         }
