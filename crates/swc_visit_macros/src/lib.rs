@@ -2188,23 +2188,15 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 fn create_method_body(mode: Mode, ty: &Type) -> Block {
     if let Some(ty) = extract_generic("Arc", ty) {
         match mode {
-            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
+            Mode::Visit(..) | Mode::VisitAll => {
                 let visit = method_name(mode, ty);
 
-                return q!(Vars { visit }, ({ _visitor.visit(n) })).parse();
-            }
-            Mode::Visit(VisitorVariant::WithPath) => {
-                let visit = method_name(mode, ty);
-
-                return q!(
-                    Vars { visit },
-                    ({
-                        __ast_path.with(AstKind::AstKindVariant, |__ast_path| {
-                            _visitor.visit(n, __ast_path)
-                        })
-                    })
-                )
-                .parse();
+                return wrap_with_ast_path(
+                    mode,
+                    &q! {{n}}.parse(),
+                    q!({ _visitor.visit(n) }).parse(),
+                    ty,
+                );
             }
             Mode::VisitMut { .. } => {
                 return Block {
