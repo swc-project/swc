@@ -47,6 +47,9 @@
 - **(css/minifier)** Compress hsl colors (#5142) ([714ff53](https://github.com/swc-project/swc/commit/714ff5321d415e7ec1bfa211364ca4c8012df31e))
 
 
+- **(css/minifier)** Compress `hwb` color (#5155) ([d6a827d](https://github.com/swc-project/swc/commit/d6a827d173a2fcea3143ce3100a2b08d25af0d1f))
+
+
 - **(es/parser)** Support `d` in regex flag for es2022 (#5127) ([2d94797](https://github.com/swc-project/swc/commit/2d94797975ee162837b24283c8b738f282586a4d))
 
 
