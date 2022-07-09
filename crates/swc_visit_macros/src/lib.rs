@@ -2190,13 +2190,17 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
         match mode {
             Mode::Visit(..) | Mode::VisitAll => {
                 let visit = method_name(mode, ty);
-
-                return wrap_call_with_ast_path(
+                let visit = wrap_call_with_ast_path(
                     mode,
                     &q! {{n}}.parse(),
                     q!({ _visitor.visit(n) }).parse(),
                     ty,
                 );
+
+                return Block {
+                    brace_token: Default::default(),
+                    stmts: vec![Stmt::Expr(visit)],
+                };
             }
             Mode::VisitMut { .. } => {
                 return Block {
