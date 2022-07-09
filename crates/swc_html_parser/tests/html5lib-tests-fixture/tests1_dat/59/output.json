@@ -61,7 +61,8 @@
                     "end": 5,
                     "ctxt": 0
                   },
-                  "data": "A"
+                  "data": "A",
+                  "raw": "A"
                 },
                 {
                   "type": "Element",
@@ -81,7 +82,8 @@
                         "end": 12,
                         "ctxt": 0
                       },
-                      "data": "B"
+                      "data": "B",
+                      "raw": "B"
                     },
                     {
                       "type": "Element",
@@ -101,7 +103,8 @@
                             "end": 26,
                             "ctxt": 0
                           },
-                          "data": "CD"
+                          "data": "CD",
+                          "raw": "CD"
                         }
                       ],
                       "content": null,

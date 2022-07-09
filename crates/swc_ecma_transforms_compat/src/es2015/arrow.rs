@@ -170,7 +170,15 @@ impl VisitMut for Arrow {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
+        let old_rep = self.hoister.take();
+
         f.visit_mut_children_with(self);
+
+        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+
+        if let (Some(body), Some(stmt)) = (&mut f.body, decl) {
+            prepend_stmt(&mut body.stmts, stmt);
+        }
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
@@ -183,15 +191,13 @@ impl VisitMut for Arrow {
         }
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let old_rep = self.hoister.take();
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        script.visit_mut_children_with(self);
 
-        stmts.visit_mut_children_with(self);
-
-        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+        let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
-            prepend_stmt(stmts, stmt);
+            prepend_stmt(&mut script.body, stmt);
         }
     }
 }

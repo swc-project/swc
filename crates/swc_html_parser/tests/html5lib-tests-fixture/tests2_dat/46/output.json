@@ -72,7 +72,8 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "data": "X"
+                  "data": "X",
+                  "raw": "X"
                 }
               ],
               "content": null,
@@ -150,7 +151,8 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "data": "\nx { content:\"</style\" } "
+                  "data": "\nx { content:\"</style\" } ",
+                  "raw": "\nx { content:\"</style\" } "
                 }
               ],
               "content": null,

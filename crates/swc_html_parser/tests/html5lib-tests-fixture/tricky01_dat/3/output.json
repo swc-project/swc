@@ -61,7 +61,8 @@
                     "end": 13,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 },
                 {
                   "type": "Element",
@@ -92,7 +93,8 @@
                             "end": 24,
                             "ctxt": 0
                           },
-                          "data": "Boo\n"
+                          "data": "Boo\n",
+                          "raw": "Boo\n"
                         }
                       ],
                       "content": null,
@@ -131,7 +133,8 @@
                             "end": 33,
                             "ctxt": 0
                           },
-                          "data": "Goo?\n"
+                          "data": "Goo?\n",
+                          "raw": "Goo?\n"
                         }
                       ],
                       "content": null,
@@ -163,7 +166,8 @@
                     "end": 39,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,

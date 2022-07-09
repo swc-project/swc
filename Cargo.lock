@@ -200,7 +200,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.210"
+version = "1.2.211"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.202.0"
+version = "0.203.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.76.0"
+version = "0.77.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.22.0"
+version = "0.22.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3215,7 +3215,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.72.0"
+version = "0.72.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3601,7 +3601,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.113.0"
+version = "0.113.2"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3642,7 +3642,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.129.0"
+version = "0.129.2"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3872,7 +3872,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.123.0"
+version = "0.124.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3920,7 +3920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3931,7 +3931,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3942,7 +3942,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3969,7 +3969,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "once_cell",
  "serde",
@@ -3996,7 +3996,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.18.0"
+version = "0.19.0"
 dependencies = [
  "criterion",
  "serde",
@@ -4022,7 +4022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4101,7 +4101,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.74.0"
+version = "0.75.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4122,7 +4122,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
@@ -4133,7 +4133,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.61.0"
+version = "0.62.0"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4187,7 +4187,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "Inflector",
  "pmutil",

@@ -86,7 +86,8 @@
                         "end": 15,
                         "ctxt": 0
                       },
-                      "data": "hello"
+                      "data": "hello",
+                      "raw": "hello"
                     },
                     {
                       "type": "Element",
@@ -106,7 +107,8 @@
                             "end": 23,
                             "ctxt": 0
                           },
-                          "data": "cruel"
+                          "data": "cruel",
+                          "raw": "cruel"
                         }
                       ],
                       "content": null,
@@ -134,7 +136,8 @@
                         "end": 35,
                         "ctxt": 0
                       },
-                      "data": "world"
+                      "data": "world",
+                      "raw": "world"
                     }
                   ],
                   "content": null,

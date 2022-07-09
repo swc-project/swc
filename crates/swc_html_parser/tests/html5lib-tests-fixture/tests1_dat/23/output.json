@@ -86,7 +86,8 @@
                         "end": 15,
                         "ctxt": 0
                       },
-                      "data": "foo"
+                      "data": "foo",
+                      "raw": "foo"
                     }
                   ],
                   "content": null,
@@ -99,7 +100,8 @@
                     "end": 22,
                     "ctxt": 0
                   },
-                  "data": "bar"
+                  "data": "bar",
+                  "raw": "bar"
                 }
               ],
               "content": null,

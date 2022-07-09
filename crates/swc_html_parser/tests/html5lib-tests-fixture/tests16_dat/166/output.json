@@ -47,7 +47,8 @@
                     "end": 35,
                     "ctxt": 0
                   },
-                  "data": "<!--<script>--!></script>X"
+                  "data": "<!--<script>--!></script>X",
+                  "raw": "<!--<script>--!></script>X"
                 }
               ],
               "content": null,

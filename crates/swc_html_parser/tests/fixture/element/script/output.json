@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 73,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -113,7 +116,8 @@
                     "end": 101,
                     "ctxt": 0
                   },
-                  "data": "console.log(\"test\");"
+                  "data": "console.log(\"test\");",
+                  "raw": "console.log(\"test\");"
                 }
               ],
               "content": null,
@@ -126,7 +130,8 @@
                 "end": 111,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -139,7 +144,8 @@
             "end": 119,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -159,7 +165,8 @@
                 "end": 130,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -192,7 +199,8 @@
                     "end": 228,
                     "ctxt": 0
                   },
-                  "data": "\n        <div>\n            test\n        </div>\n        <!-- aa -->\\n\n    "
+                  "data": "\n        <div>\n            test\n        </div>\n        <!-- aa -->\\n\n    ",
+                  "raw": "\n        <div>\n            test\n        </div>\n        <!-- aa -->\\n\n    "
                 }
               ],
               "content": null,
@@ -205,7 +213,8 @@
                 "end": 246,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

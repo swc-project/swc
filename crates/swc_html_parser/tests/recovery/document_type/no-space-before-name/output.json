@@ -61,7 +61,8 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "data": " "
+              "data": " ",
+              "raw": " "
             },
             {
               "type": "Element",
@@ -81,7 +82,8 @@
                     "end": 47,
                     "ctxt": 0
                   },
-                  "data": "This is a paragraph."
+                  "data": "This is a paragraph.",
+                  "raw": "This is a paragraph."
                 }
               ],
               "content": null,
@@ -94,7 +96,8 @@
                 "end": 52,
                 "ctxt": 0
               },
-              "data": " "
+              "data": " ",
+              "raw": " "
             },
             {
               "type": "Element",
@@ -114,7 +117,8 @@
                     "end": 81,
                     "ctxt": 0
                   },
-                  "data": "This is another paragraph."
+                  "data": "This is another paragraph.",
+                  "raw": "This is another paragraph."
                 }
               ],
               "content": null,
@@ -127,7 +131,8 @@
                 "end": 86,
                 "ctxt": 0
               },
-              "data": " "
+              "data": " ",
+              "raw": " "
             },
             {
               "type": "Element",
@@ -147,7 +152,8 @@
                     "end": 95,
                     "ctxt": 0
                   },
-                  "data": "test"
+                  "data": "test",
+                  "raw": "test"
                 }
               ],
               "content": null,

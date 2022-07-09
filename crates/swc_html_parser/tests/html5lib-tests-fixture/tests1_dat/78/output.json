@@ -74,7 +74,8 @@
                     "end": 61,
                     "ctxt": 0
                   },
-                  "data": "abax"
+                  "data": "abax",
+                  "raw": "abax"
                 },
                 {
                   "type": "Element",
@@ -151,7 +152,8 @@
                                         "end": 50,
                                         "ctxt": 0
                                       },
-                                      "data": "br"
+                                      "data": "br",
+                                      "raw": "br"
                                     }
                                   ],
                                   "content": null,
@@ -180,7 +182,8 @@
                     "end": 72,
                     "ctxt": 0
                   },
-                  "data": "aoe"
+                  "data": "aoe",
+                  "raw": "aoe"
                 }
               ],
               "content": null,

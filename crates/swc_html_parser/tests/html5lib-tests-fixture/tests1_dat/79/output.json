@@ -74,7 +74,8 @@
                     "end": 26,
                     "ctxt": 0
                   },
-                  "data": "aba"
+                  "data": "aba",
+                  "raw": "aba"
                 }
               ],
               "content": null,
@@ -111,7 +112,8 @@
                     "end": 61,
                     "ctxt": 0
                   },
-                  "data": "x"
+                  "data": "x",
+                  "raw": "x"
                 }
               ],
               "content": null,
@@ -192,7 +194,8 @@
                                     "end": 50,
                                     "ctxt": 0
                                   },
-                                  "data": "br"
+                                  "data": "br",
+                                  "raw": "br"
                                 }
                               ],
                               "content": null,
@@ -245,7 +248,8 @@
                     "end": 72,
                     "ctxt": 0
                   },
-                  "data": "aoe"
+                  "data": "aoe",
+                  "raw": "aoe"
                 }
               ],
               "content": null,

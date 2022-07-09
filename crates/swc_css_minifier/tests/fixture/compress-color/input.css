@@ -122,54 +122,305 @@
     color: rgb(from #FF0000 255 255 255);
 }
 
-.color-31 {
-    color: rgb(from red 255 255 255);
+.class-31 {
+    color: hsl(362deg, 100%, 50%);
+    color: hsl(360, 0%, 50%);
+    color: hsl(360, 100%, 0%);
+
+    color: hsl(90deg, 100%, 50%);
+    color: hsl(90grad, 100%, 50%);
+    color: hsl(1.0708rad, 100%, 50%);
+    color: hsl(0.25turn, 100%, 50%);
+
+    color: hsl(0deg, 100%, 50%);
+    color: hsl(360deg, 100%, 50%);
+    color: hsl(720deg, 100%, 50%);
+    color: hsl(161deg, 100%, 50%);
+
+    color: hsl(360, 100%, 50%);
+    color: hsl(315, 100%, 50%);
+    color: hsl(270, 100%, 50%);
+    color: hsl(225, 100%, 50%);
+    color: hsl(180, 100%, 50%);
+    color: hsl(135, 100%, 50%);
+    color: hsl(90, 100%, 50%);
+    color: hsl(45, 100%, 50%);
+    color: hsl(0, 100%, 50%);
+
+    color: hsl(360, 100%, 50%, 1.0);
+    color: hsl(315, 100%, 50%, 100%);
+    color: hsl(270, 100%, 50%, 0.5);
+    color: hsl(225, 100%, 50%, 0.5);
+    color: hsl(180, 100%, 50%, 0.5);
+    color: hsl(135, 100%, 50%, 0.5);
+    color: hsl(90, 100%, 50%, 0.5);
+    color: hsl(45, 100%, 50%, 0.5);
+    color: hsl(0, 100%, 50%, 0.5);
+
+    color: hsla(360, 100%, 50%);
+    color: hsla(315, 100%, 50%);
+    color: hsla(270, 100%, 50%);
+    color: hsla(225, 100%, 50%);
+    color: hsla(180, 100%, 50%);
+    color: hsla(135, 100%, 50%);
+    color: hsla(90, 100%, 50%);
+    color: hsla(45, 100%, 50%);
+    color: hsla(0, 100%, 50%);
+
+    color: hsla(360, 100%, 50%, 1.0);
+    color: hsla(315, 100%, 50%, 100%);
+    color: hsla(270, 100%, 50%, 0.5);
+    color: hsla(225, 100%, 50%, 0.5);
+    color: hsla(180, 100%, 50%, 0.5);
+    color: hsla(135, 100%, 50%, 0.5);
+    color: hsla(90, 100%, 50%, 0.5);
+    color: hsla(45, 100%, 50%, 0.5);
+    color: hsla(0, 100%, 50%, 0.5);
+
+    color: hsl(361, 100%, 50%);
+    color: hsl(362, 100%, 50%);
+    color: hsl(363, 100%, 50%);
 }
 
-.color-32 {
-    color: rgb(from #f00 255 255 255);
+.class-32 {
+    color: hwb(0 50% 50%);
+    color: hwb(120 30% 50%);
+    color: hwb(0deg 100% 0%);
+    color: hwb(50 20% 0%);
+    color: hwb(50 20% 20%);
+    color: hwb(120 0% 49.8039%);
+    color: hwb(0 0% 100%);
+    color: hwb(0 100% 100%);
+    color: hwb(120 20% 30%);
+    color: hwb(90deg 50% 50%);
+    color: hwb(90deg 50% 50%);
+    color: hwb(90deg 50% 50%, 0.2);
+    color: hwb(90 50% 50%);
+    color: hwb(90 50% 50% 0.2);
+    color: hwb(90deg 33.75% 50%);
+    color: hwb(120 30% 50%);
+    color: hwb(120 30% 50% / 0.5);
+    color: hwb(none none none);
+    color: hwb(0 0% 0%);
+    color: hwb(none none none / none);
+    color: hwb(0 0% 0% / 0);
+    color: hwb(120 none none);
+    color: hwb(120 0% 0%);
+    color: hwb(120 80% none);
+    color: hwb(120 80% 0%);
+    color: hwb(120 none 50%);
+    color: hwb(120 0% 50%);
+    color: hwb(120 30% 50% / none);
+    color: hwb(120 30% 50% / 0);
+    color: hwb(none 100% 50% / none);
+    color: hwb(0 100% 50% / 0);
+    color: hwb(120 30% 50% / 1);
 }
 
-.color-33 {
-    color: rgb(from yellow 255 255 255);
+.class-33 {
+    color: rgb(100%, 0%, 0%);
 }
 
-.color-34 {
-    color: rgb(from snow 255 255 255);
+.class-34 {
+    color: rgba(2, 3, 4, 0.5);
 }
 
-.color-35 {
-    color: rgb(from #D2B48C 255 255 255);
+.class-35 {
+    color: rgba(2, 3, 4, 50%);
 }
 
-.color-36 {
-    color: rgb(from #ff0000 255 255 255);
+.class-36 {
+    color: hsl(120, 100%, 50%);
 }
 
-.color-37 {
-    color: rgb(from white 255 255 255);
+.class-37 {
+    color: hsla(120, 100%, 50%, 0.25);
 }
 
-.color-38 {
-    color: rgb(from #ffffff 255 255 255);
+.class-38 {
+    color: rgb(-2, 3, 4);
 }
 
-.color-39 {
-    color: rgb(from #fff 255 255 255);
+.class-39 {
+    color: rgb(100, 200, 300);
 }
 
-.color-40 {
-    color: #ffffff;
+.class-40 {
+    color: rgb(20, 10, 0, -10);
 }
 
-.color-41 {
-    color: #fff;
+.class-41 {
+    color: rgb(100%, 200%, 300%);
 }
 
-.color-42 {
-    color: #ffffffff;
+.class-41 {
+    color: rgb(none none none);
 }
 
-.color-43 {
-    color: #ffff;
+.class-42 {
+    color: rgb(none none none / none);
+}
+
+.class-43 {
+    color: rgb(128 none none);
+}
+
+.class-44 {
+    color: rgb(128 none none / none);
+}
+
+.class-45 {
+    color: rgb(none none none / .5);
+}
+
+.class-46 {
+    color: rgb(20% none none);
+}
+
+.class-47 {
+    color: rgb(20% none none / none);
+}
+
+.class-48 {
+    color: rgb(none none none / 50%);
+}
+
+.class-49 {
+    color: rgba(none none none);
+}
+
+.class-50 {
+    color: rgba(none none none / none);
+}
+
+.class-51 {
+    color: rgba(128 none none);
+}
+
+.class-52 {
+    color: rgba(128 none none / none);
+}
+
+.class-53 {
+    color: rgba(none none none / .5);
+}
+
+.class-54 {
+    color: rgba(20% none none);
+}
+
+.class-55 {
+    color: rgba(20% none none / none);
+}
+
+.class-56 {
+    color: rgba(none none none / 50%);
+}
+
+.class-57 {
+    color: hsl(120 30% 50%);
+}
+
+.class-58 {
+    color: hwb(120 30% 50% / 0.5);
+}
+
+.class-59 {
+    color: hwb(none none none);
+}
+
+.class-60 {
+    color: hwb(0 0% 0%);
+}
+
+.class-61 {
+    color: hwb(none none none / none);
+}
+
+.class-62 {
+    color: hwb(0 0% 0% / 0);
+}
+
+.class-63 {
+    color: hwb(120 none none);
+}
+
+.class-64 {
+    color: hwb(120 0% 0%);
+}
+
+.class-65 {
+    color: hwb(120 80% none);
+}
+
+.class-66 {
+    color: hwb(120 80% 0%);
+}
+
+.class-67 {
+    color: hwb(120 none 50%);
+}
+
+.class-68 {
+    color: hwb(120 0% 50%);
+}
+
+.class-69 {
+    color: hwb(120 30% 50% / none);
+}
+
+.class-70 {
+    color: hwb(120 30% 50% / 0);
+}
+
+.class-71 {
+    color: hwb(none 100% 50% / none);
+}
+
+.class-72 {
+    color: hwb(0 100% 50% / 0);
+}
+
+.class-73 {
+    color: rgb(300, 300, 300);
+}
+
+.class-74 {
+    color: rgb(-300, -300, -300);
+}
+
+.class-75 {
+    color: rgb(121% 121% 121%);
+}
+
+.class-76 {
+    color: rgb(-121% -121% -121%);
+}
+
+.class-77 {
+    color: hsl(360, -100%, -50%);
+}
+
+.class-78 {
+    color: hsl(-720, -100%, -50%);
+}
+
+.class-79 {
+    color: hsl(-720, 121%, 121%);
+}
+
+.class-80 {
+    color: rgba(100, 100, 100, 300);
+}
+
+.class-81 {
+    color: rgba(100, 100, 100, 300%);
+}
+
+.class-82 {
+    color: rgba(100, 100, 100, -300);
+}
+
+.class-83 {
+    color: rgba(100, 100, 100, -300%);
 }

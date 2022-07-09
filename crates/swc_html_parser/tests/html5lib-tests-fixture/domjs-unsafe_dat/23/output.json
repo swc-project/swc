@@ -60,7 +60,8 @@
                     "end": 33,
                     "ctxt": 0
                   },
-                  "data": "<!--</scrip>"
+                  "data": "<!--</scrip>",
+                  "raw": "<!--</scrip>"
                 }
               ],
               "content": null,

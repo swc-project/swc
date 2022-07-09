@@ -47,7 +47,8 @@
                 "end": 118,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -95,7 +96,8 @@
                 "end": 190,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -115,7 +117,8 @@
                     "end": 213,
                     "ctxt": 0
                   },
-                  "data": "Тег PLAINTEXT"
+                  "data": "Тег PLAINTEXT",
+                  "raw": "Тег PLAINTEXT"
                 }
               ],
               "content": null,
@@ -128,7 +131,8 @@
                 "end": 222,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -141,7 +145,8 @@
             "end": 230,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -161,7 +166,8 @@
                 "end": 237,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -181,7 +187,8 @@
                     "end": 271,
                     "ctxt": 0
                   },
-                  "data": "Пример программы"
+                  "data": "Пример программы",
+                  "raw": "Пример программы"
                 }
               ],
               "content": null,
@@ -194,7 +201,8 @@
                 "end": 276,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -214,7 +222,8 @@
                     "end": 668,
                     "ctxt": 0
                   },
-                  "data": "\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>"
+                  "data": "\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>",
+                  "raw": "\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>"
                 }
               ],
               "content": null,
