@@ -61,7 +61,8 @@
                     "end": 17,
                     "ctxt": 0
                   },
-                  "data": " "
+                  "data": " ",
+                  "raw": " "
                 },
                 {
                   "type": "Element",
@@ -81,7 +82,8 @@
                         "end": 24,
                         "ctxt": 0
                       },
-                      "data": "a"
+                      "data": "a",
+                      "raw": "a"
                     }
                   ],
                   "content": null,
@@ -123,7 +125,8 @@
                     "end": 40,
                     "ctxt": 0
                   },
-                  "data": " "
+                  "data": " ",
+                  "raw": " "
                 }
               ],
               "content": null,
@@ -147,7 +150,8 @@
                     "end": 34,
                     "ctxt": 0
                   },
-                  "data": " "
+                  "data": " ",
+                  "raw": " "
                 },
                 {
                   "type": "Element",
@@ -189,7 +193,8 @@
                                 "end": 49,
                                 "ctxt": 0
                               },
-                              "data": " "
+                              "data": " ",
+                              "raw": " "
                             }
                           ],
                           "content": null,
@@ -202,7 +207,8 @@
                             "end": 55,
                             "ctxt": 0
                           },
-                          "data": " "
+                          "data": " ",
+                          "raw": " "
                         }
                       ],
                       "content": null,
@@ -215,7 +221,8 @@
                         "end": 61,
                         "ctxt": 0
                       },
-                      "data": " "
+                      "data": " ",
+                      "raw": " "
                     }
                   ],
                   "content": null,

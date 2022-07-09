@@ -47,7 +47,8 @@
                     "end": 24,
                     "ctxt": 0
                   },
-                  "data": "<!--<scr'+'ipt>"
+                  "data": "<!--<scr'+'ipt>",
+                  "raw": "<!--<scr'+'ipt>"
                 }
               ],
               "content": null,
@@ -75,7 +76,8 @@
                 "end": 36,
                 "ctxt": 0
               },
-              "data": "-->"
+              "data": "-->",
+              "raw": "-->"
             }
           ],
           "content": null,

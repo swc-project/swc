@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -239,7 +244,8 @@
                                   "end": 227,
                                   "ctxt": 0
                                 },
-                                "data": "Orphan div content"
+                                "data": "Orphan div content",
+                                "raw": "Orphan div content"
                               }
                             ],
                             "content": null,
@@ -309,7 +315,8 @@
                                               "end": 179,
                                               "ctxt": 0
                                             },
-                                            "data": "Cell 1"
+                                            "data": "Cell 1",
+                                            "raw": "Cell 1"
                                           }
                                         ],
                                         "content": null,
@@ -348,7 +355,8 @@
                                               "end": 247,
                                               "ctxt": 0
                                             },
-                                            "data": "Cell 2"
+                                            "data": "Cell 2",
+                                            "raw": "Cell 2"
                                           }
                                         ],
                                         "content": null,
@@ -385,7 +393,8 @@
                 "end": 297,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

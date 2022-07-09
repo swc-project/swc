@@ -58,7 +58,8 @@
                     "end": 25,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -71,7 +72,8 @@
                 "end": 36,
                 "ctxt": 0
               },
-              "data": "  "
+              "data": "  ",
+              "raw": "  "
             },
             {
               "type": "Element",
@@ -91,7 +93,8 @@
                     "end": 44,
                     "ctxt": 0
                   },
-                  "data": "x"
+                  "data": "x",
+                  "raw": "x"
                 }
               ],
               "content": null,
@@ -104,7 +107,8 @@
                 "end": 54,
                 "ctxt": 0
               },
-              "data": "  "
+              "data": "  ",
+              "raw": "  "
             }
           ],
           "content": null,

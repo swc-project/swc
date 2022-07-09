@@ -50,7 +50,8 @@
                 "end": 26,
                 "ctxt": 0
               },
-              "data": "fillertext"
+              "data": "fillertext",
+              "raw": "fillertext"
             },
             {
               "type": "Element",

@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -96,7 +97,8 @@
                 "end": 72,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -144,7 +146,8 @@
                 "end": 213,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -192,7 +195,8 @@
                 "end": 271,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -212,7 +216,8 @@
                     "end": 286,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -225,7 +230,8 @@
                 "end": 295,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -238,7 +244,8 @@
             "end": 303,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -258,7 +265,8 @@
                 "end": 330,
                 "ctxt": 0
               },
-              "data": "\n    \n\n    "
+              "data": "\n    \n\n    ",
+              "raw": "\n    \n\n    "
             },
             {
               "type": "Element",
@@ -278,7 +286,8 @@
                     "end": 354,
                     "ctxt": 0
                   },
-                  "data": "TestTest"
+                  "data": "TestTest",
+                  "raw": "TestTest"
                 }
               ],
               "content": null,
@@ -291,7 +300,8 @@
                 "end": 373,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

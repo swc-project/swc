@@ -47,7 +47,8 @@
                     "end": 15,
                     "ctxt": 0
                   },
-                  "data": "<!--..."
+                  "data": "<!--...",
+                  "raw": "<!--..."
                 }
               ],
               "content": null,
@@ -80,7 +81,8 @@
                     "end": 49,
                     "ctxt": 0
                   },
-                  "data": "@import ..."
+                  "data": "@import ...",
+                  "raw": "@import ..."
                 }
               ],
               "content": null,

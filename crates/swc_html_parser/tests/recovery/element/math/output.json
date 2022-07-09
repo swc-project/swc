@@ -60,7 +60,8 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 57,
                     "ctxt": 0
                   },
-                  "data": "MathML in HTML5"
+                  "data": "MathML in HTML5",
+                  "raw": "MathML in HTML5"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 66,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 74,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 82,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -146,7 +151,8 @@
                     "end": 93,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -166,7 +172,8 @@
                         "end": 114,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -184,7 +191,8 @@
                         "end": 151,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -204,7 +212,8 @@
                             "end": 170,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -224,7 +233,8 @@
                                 "end": 193,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -244,7 +254,8 @@
                                     "end": 198,
                                     "ctxt": 0
                                   },
-                                  "data": "x"
+                                  "data": "x",
+                                  "raw": "x"
                                 }
                               ],
                               "content": null,
@@ -257,7 +268,8 @@
                                 "end": 220,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -277,7 +289,8 @@
                                     "end": 225,
                                     "ctxt": 0
                                   },
-                                  "data": "2"
+                                  "data": "2",
+                                  "raw": "2"
                                 }
                               ],
                               "content": null,
@@ -290,7 +303,8 @@
                                 "end": 243,
                                 "ctxt": 0
                               },
-                              "data": "\n            "
+                              "data": "\n            ",
+                              "raw": "\n            "
                             }
                           ],
                           "content": null,
@@ -303,7 +317,8 @@
                             "end": 263,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -323,7 +338,8 @@
                                 "end": 268,
                                 "ctxt": 0
                               },
-                              "data": "+"
+                              "data": "+",
+                              "raw": "+"
                             }
                           ],
                           "content": null,
@@ -336,7 +352,8 @@
                             "end": 286,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -356,7 +373,8 @@
                                 "end": 291,
                                 "ctxt": 0
                               },
-                              "data": "y"
+                              "data": "y",
+                              "raw": "y"
                             }
                           ],
                           "content": null,
@@ -369,7 +387,8 @@
                             "end": 305,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         }
                       ],
                       "content": null,
@@ -382,7 +401,8 @@
                         "end": 322,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -400,7 +420,8 @@
                         "end": 354,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -433,7 +454,8 @@
                             "end": 409,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -453,7 +475,8 @@
                                 "end": 433,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -476,7 +499,8 @@
                                 "end": 457,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -496,7 +520,8 @@
                                     "end": 485,
                                     "ctxt": 0
                                   },
-                                  "data": "\n                    "
+                                  "data": "\n                    ",
+                                  "raw": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -519,7 +544,8 @@
                                     "end": 514,
                                     "ctxt": 0
                                   },
-                                  "data": "\n                    "
+                                  "data": "\n                    ",
+                                  "raw": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -539,7 +565,8 @@
                                         "end": 519,
                                         "ctxt": 0
                                       },
-                                      "data": "x"
+                                      "data": "x",
+                                      "raw": "x"
                                     }
                                   ],
                                   "content": null,
@@ -552,7 +579,8 @@
                                     "end": 545,
                                     "ctxt": 0
                                   },
-                                  "data": "\n                    "
+                                  "data": "\n                    ",
+                                  "raw": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -585,7 +613,8 @@
                                         "end": 565,
                                         "ctxt": 0
                                       },
-                                      "data": "2"
+                                      "data": "2",
+                                      "raw": "2"
                                     }
                                   ],
                                   "content": null,
@@ -598,7 +627,8 @@
                                     "end": 587,
                                     "ctxt": 0
                                   },
-                                  "data": "\n                "
+                                  "data": "\n                ",
+                                  "raw": "\n                "
                                 }
                               ],
                               "content": null,
@@ -611,7 +641,8 @@
                                 "end": 612,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -631,7 +662,8 @@
                                     "end": 617,
                                     "ctxt": 0
                                   },
-                                  "data": "y"
+                                  "data": "y",
+                                  "raw": "y"
                                 }
                               ],
                               "content": null,
@@ -644,7 +676,8 @@
                                 "end": 635,
                                 "ctxt": 0
                               },
-                              "data": "\n            "
+                              "data": "\n            ",
+                              "raw": "\n            "
                             }
                           ],
                           "content": null,
@@ -657,7 +690,8 @@
                             "end": 652,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         }
                       ],
                       "content": null,
@@ -670,7 +704,8 @@
                         "end": 679,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -688,7 +723,8 @@
                         "end": 709,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -721,7 +757,8 @@
                             "end": 827,
                             "ctxt": 0
                           },
-                          "data": "\n            \n            "
+                          "data": "\n            \n            ",
+                          "raw": "\n            \n            "
                         },
                         {
                           "type": "Element",
@@ -741,7 +778,8 @@
                                 "end": 856,
                                 "ctxt": 0
                               },
-                              "data": "INNER HTML TITLE"
+                              "data": "INNER HTML TITLE",
+                              "raw": "INNER HTML TITLE"
                             }
                           ],
                           "content": null,
@@ -754,7 +792,8 @@
                             "end": 903,
                             "ctxt": 0
                           },
-                          "data": "\n            \n            "
+                          "data": "\n            \n            ",
+                          "raw": "\n            \n            "
                         },
                         {
                           "type": "Element",
@@ -774,7 +813,8 @@
                                 "end": 964,
                                 "ctxt": 0
                               },
-                              "data": "The base of the natural logarithms, approximately 2.71828."
+                              "data": "The base of the natural logarithms, approximately 2.71828.",
+                              "raw": "The base of the natural logarithms, approximately 2.71828."
                             }
                           ],
                           "content": null,
@@ -787,7 +827,8 @@
                             "end": 1017,
                             "ctxt": 0
                           },
-                          "data": "\n            \n            \n        "
+                          "data": "\n            \n            \n        ",
+                          "raw": "\n            \n            \n        "
                         }
                       ],
                       "content": null,
@@ -800,7 +841,8 @@
                         "end": 1044,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -818,7 +860,8 @@
                         "end": 1079,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -866,7 +909,8 @@
                         "end": 1151,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -884,7 +928,8 @@
                         "end": 1181,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -917,7 +962,8 @@
                             "end": 1253,
                             "ctxt": 0
                           },
-                          "data": "\n            x^{2} + y\n        "
+                          "data": "\n            x^{2} + y\n        ",
+                          "raw": "\n            x^{2} + y\n        "
                         }
                       ],
                       "content": null,
@@ -930,7 +976,8 @@
                         "end": 1272,
                         "ctxt": 0
                       },
-                      "data": "\n\n    "
+                      "data": "\n\n    ",
+                      "raw": "\n\n    "
                     }
                   ],
                   "content": null,
@@ -943,7 +990,8 @@
                     "end": 1285,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -956,7 +1004,8 @@
                 "end": 1310,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

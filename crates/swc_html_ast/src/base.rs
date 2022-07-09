@@ -94,6 +94,7 @@ pub struct Attribute {
 pub struct Text {
     pub span: Span,
     pub data: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 #[ast_node("Comment")]

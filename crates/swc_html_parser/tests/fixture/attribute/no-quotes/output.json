@@ -61,7 +61,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -94,7 +95,8 @@
                     "end": 80,
                     "ctxt": 0
                   },
-                  "data": "This is a link"
+                  "data": "This is a link",
+                  "raw": "This is a link"
                 }
               ],
               "content": null,
@@ -107,7 +109,8 @@
                 "end": 102,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

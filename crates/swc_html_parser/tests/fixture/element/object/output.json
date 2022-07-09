@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -182,7 +187,8 @@
                         "end": 151,
                         "ctxt": 0
                       },
-                      "data": "[fallback image]"
+                      "data": "[fallback image]",
+                      "raw": "[fallback image]"
                     }
                   ],
                   "content": null,
@@ -199,7 +205,8 @@
                 "end": 168,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -232,7 +239,8 @@
                     "end": 198,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -280,7 +288,8 @@
                     "end": 235,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -293,7 +302,8 @@
                 "end": 254,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

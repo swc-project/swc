@@ -70,7 +70,8 @@
                     "end": 36,
                     "ctxt": 0
                   },
-                  "data": "A"
+                  "data": "A",
+                  "raw": "A"
                 }
               ],
               "content": null,
@@ -116,7 +117,8 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "data": "B"
+              "data": "B",
+              "raw": "B"
             }
           ],
           "content": null,
@@ -149,7 +151,8 @@
                 "end": 130,
                 "ctxt": 0
               },
-              "data": "C"
+              "data": "C",
+              "raw": "C"
             }
           ],
           "content": null,

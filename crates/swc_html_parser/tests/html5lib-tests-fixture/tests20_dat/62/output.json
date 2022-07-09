@@ -72,7 +72,8 @@
                         "end": 30,
                         "ctxt": 0
                       },
-                      "data": "x"
+                      "data": "x",
+                      "raw": "x"
                     }
                   ],
                   "content": null,

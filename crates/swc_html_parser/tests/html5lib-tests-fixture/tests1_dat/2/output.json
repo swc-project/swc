@@ -50,7 +50,8 @@
                 "end": 6,
                 "ctxt": 0
               },
-              "data": "Line1"
+              "data": "Line1",
+              "raw": "Line1"
             },
             {
               "type": "Element",
@@ -73,7 +74,8 @@
                 "end": 15,
                 "ctxt": 0
               },
-              "data": "Line2"
+              "data": "Line2",
+              "raw": "Line2"
             },
             {
               "type": "Element",
@@ -96,7 +98,8 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "data": "Line3"
+              "data": "Line3",
+              "raw": "Line3"
             },
             {
               "type": "Element",
@@ -119,7 +122,8 @@
                 "end": 33,
                 "ctxt": 0
               },
-              "data": "Line4"
+              "data": "Line4",
+              "raw": "Line4"
             }
           ],
           "content": null,

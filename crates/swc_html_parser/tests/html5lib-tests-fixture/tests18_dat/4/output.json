@@ -87,7 +87,8 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "data": "</plaintext>"
+                  "data": "</plaintext>",
+                  "raw": "</plaintext>"
                 }
               ],
               "content": null,

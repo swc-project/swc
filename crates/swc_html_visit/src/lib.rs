@@ -72,6 +72,7 @@ define!({
     pub struct Text {
         pub span: Span,
         pub data: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Comment {
