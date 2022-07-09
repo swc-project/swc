@@ -40,7 +40,7 @@ impl TransformExecutor {
             exported_plugin_transform: instance
                 .exports
                 .get_native_function::<(i32, i32, i32, i32, i32, i32, i32), i32>(
-                    "__plugin_process_impl",
+                    "__transform_plugin_process_impl",
                 )?,
             exported_plugin_free: instance
                 .exports
@@ -86,7 +86,7 @@ impl TransformExecutor {
         if returned_ptr_result == 0 {
             Ok(ret)
         } else {
-            let err: PluginError = ret.deserialize()?;
+            let err: PluginError = ret.deserialize()?.into_inner();
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
                     "Failed to convert pointer size to calculate: {}",
@@ -102,14 +102,26 @@ impl TransformExecutor {
         }
     }
 
+    /**
+     * Check compile-time versions of AST schema between the plugin and
+     * the host. Returns true if it's compatible, false otherwise.
+     *
+     * Host should appropriately handle if plugin is not compatible to the
+     * current runtime.
+     */
+    pub fn is_transform_schema_compatible(&self) -> bool {
+        todo!("Not supported yet");
+    }
+
     #[tracing::instrument(level = "info", skip_all)]
     pub fn transform(
         &mut self,
         program: &PluginSerializedBytes,
         config: &PluginSerializedBytes,
         context: &PluginSerializedBytes,
-        should_enable_comments_proxy: i32,
+        should_enable_comments_proxy: bool,
     ) -> Result<PluginSerializedBytes, Error> {
+        let should_enable_comments_proxy = if should_enable_comments_proxy { 1 } else { 0 };
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
         let context_str_ptr = self.write_bytes_into_guest(context)?;

@@ -5,16 +5,46 @@
 
 
 
+- **(cli)** Constructs config file correctly (#5146) ([4f87396](https://github.com/swc-project/swc/commit/4f87396b3b4ca1ec75eff77567f001ea5092598a))
+
+
 - **(es/compat)** Preserve more class names (#5106) ([dd39a79](https://github.com/swc-project/swc/commit/dd39a798ae25dfb44c8a428a4a5c0fb962e78ae4))
+
+
+- **(es/compat)** Optimize `for-of` loops for array literals (#5141) ([9351303](https://github.com/swc-project/swc/commit/93513031b51e6b0b8ac21982ed97bb12e5dec14f))
+
+
+- **(es/compat)** Remove extra `this`/`arguments` capture in arrows (#5152) ([cd8d65b](https://github.com/swc-project/swc/commit/cd8d65b9a75a25ed62ad7daf40a02d6f76067696))
+
+
+- **(es/lints)** Handle import-require duplicate bindings (#5131) ([a0ec370](https://github.com/swc-project/swc/commit/a0ec3705a4dc59709ad388660d8994295fa80074))
 
 
 - **(es/minifier)** Don't inline a callable expression if it's used as a reference (#5118) ([0e4a03c](https://github.com/swc-project/swc/commit/0e4a03ccc65aaca143873f16643513a922ace6cd))
 
 
+- **(es/modules)** Handle top level this (#5159) ([451f346](https://github.com/swc-project/swc/commit/451f346af0116bb26707b38b951a4e74ed2cdc97))
+
+
 - **(es/parser)** Support type-only export-import declarations (#5122) ([fbfca36](https://github.com/swc-project/swc/commit/fbfca36f58cf393faae132b092d05e9aaa931d55))
+
+### Documentation
+
+
+
+- **(es/parser)** Typo (#5136) ([9d4be11](https://github.com/swc-project/swc/commit/9d4be11f2ef0b9245a1626717f9c75e0220e5dfa))
+
+
+- **(visit)** Add docs for visitors (#5137) ([76de911](https://github.com/swc-project/swc/commit/76de91146661a7b1b72e81f91787e57943040481))
 
 ### Features
 
+
+
+- **(css/minifier)** Compress hsl colors (#5142) ([714ff53](https://github.com/swc-project/swc/commit/714ff5321d415e7ec1bfa211364ca4c8012df31e))
+
+
+- **(es/parser)** Support `d` in regex flag for es2022 (#5127) ([2d94797](https://github.com/swc-project/swc/commit/2d94797975ee162837b24283c8b738f282586a4d))
 
 
 - **(es/typescript)** Follow TypeScript error report (#5114) ([f952a61](https://github.com/swc-project/swc/commit/f952a6161c634fbb430b0befad6f3946c9fbfde5))
@@ -22,11 +52,23 @@
 
 - **(html/minifier)** Sort attributes (#4784) ([f813a60](https://github.com/swc-project/swc/commit/f813a60497da416c41041af1d82d7186a6f0cc09))
 
+
+- **(plugin)** Wrap serialized struct with a version (#5128) ([82fbe15](https://github.com/swc-project/swc/commit/82fbe15a57e51ae444c3846fe6a512af297e0087))
+
+
+- **(visit)** Implement `Eq` for `AstKind` (#5133) ([46b1b42](https://github.com/swc-project/swc/commit/46b1b42c3c8ceafadfdc30973344eaded5a52bda))
+
+
+- **(visit)** Implement more traits for `AstKind` (#5135) ([f26d59b](https://github.com/swc-project/swc/commit/f26d59b7701f5d7f6cf25055c1ed0e37da6964a1))
+
 ### Refactor
 
 
 
 - **(common)** Bikeshed plugin apis (#5120) ([2ba8b39](https://github.com/swc-project/swc/commit/2ba8b39fa0f2ff7e553d74a4c5ef0f04660a8c40))
+
+
+- **(plugin)** Refactor transform executor (#5147) ([e8214ba](https://github.com/swc-project/swc/commit/e8214babf5ad405c7be1f2391a3be01ab355178f))
 
 ## [1.2.210] - 2022-07-05
 

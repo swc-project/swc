@@ -99,7 +99,8 @@ where
             Optional::new(
                 regexp(regexp::Config {
                     dot_all_regex: enable_dot_all_regex,
-
+                    // TODO: add Feature:HasIndicesRegex
+                    has_indices: false,
                     // TODO: add Feature::LookbehindAssertion
                     lookbehind_assertion: false,
                     named_capturing_groups_regex: enable_named_capturing_groups_regex,

@@ -233,15 +233,14 @@ function _s() {
         var _this = this, _arguments = arguments;
         let t = function() {
             var _t = _asyncToGenerator(function*(y, a) {
-                var _this1 = _this, _arguments1 = _arguments;
                 let r = function() {
                     var _r = _asyncToGenerator(function*(z, b) {
                         for(var _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
                             innerArgs[_key - 2] = arguments[_key];
                         }
                         yield z;
-                        console.log(_this1, innerArgs, _arguments1);
-                        return _this1.x;
+                        console.log(_this, innerArgs, _arguments);
+                        return _this.x;
                     });
                     function r(z, b) {
                         return _r.apply(this, arguments);
@@ -380,10 +379,9 @@ class Class {
                   return _this1;
               });
               (function() {
-                  var _this = _this1;
                   _this1;
                   (function() {
-                      return _this;
+                      return _this1;
                   });
                   function x() {
                       var _this = this;
