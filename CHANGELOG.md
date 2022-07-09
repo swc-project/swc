@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(visit)** Add index to `AstKind` (#5138) ([ac3a55a](https://github.com/swc-project/swc/commit/ac3a55a4357e8985614128e19b02461de7371185))
+
+## [1.2.211] - 2022-07-09
+
 ### Bug Fixes
 
 
