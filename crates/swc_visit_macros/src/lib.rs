@@ -2197,7 +2197,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                 let visit = wrap_call_with_ast_path(
                     mode,
                     &q! {{n}}.parse(),
-                    q!({ _visitor.visit(n) }).parse(),
+                    q!(Vars { visit }, { _visitor.visit(n) }).parse(),
                     ty,
                 );
 
