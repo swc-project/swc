@@ -2191,7 +2191,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             Mode::Visit(..) | Mode::VisitAll => {
                 let visit = method_name(mode, ty);
 
-                return wrap_with_ast_path(
+                return wrap_call_with_ast_path(
                     mode,
                     &q! {{n}}.parse(),
                     q!({ _visitor.visit(n) }).parse(),
@@ -2225,7 +2225,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     match mode {
                         Mode::Fold(..) => {
                             let ident = method_name(mode, arg);
-                            let inner = wrap_with_ast_path(
+                            let inner = wrap_call_with_ast_path(
                                 mode,
                                 &q!({ n }).parse(),
                                 q!({ _visitor.ident(*n) }).parse(),
@@ -2254,54 +2254,30 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, arg);
 
-                                    if let Mode::Fold(v) = mode {
+                                    if let Mode::Fold(..) = mode {
                                         if let Some(..) = as_box(arg) {
-                                            match v {
-                                                VisitorVariant::Normal => {
-                                                    return q!(
-                                                        Vars { ident },
-                                                        ({
-                                                            match n {
-                                                                Some(n) => Some(
-                                                                    swc_visit::util::map::Map::map(
-                                                                        n,
-                                                                        |n| _visitor.ident(n),
-                                                                    ),
-                                                                ),
-                                                                None => None,
-                                                            }
-                                                        })
-                                                    )
-                                                    .parse();
-                                                }
-                                                VisitorVariant::WithPath => {
-                                                    return q!(
-                                                        Vars { ident },
-                                                        ({
-                                                            match n {
-                                                                Some(n) => Some(
-                                                                    swc_visit::util::map::Map::map(
-                                                                        n,
-                                                                        |n| {
-                                                                            __ast_path.with(
-                                                                                AstKind::AstKindVariant,
-                                                                                |__ast_path| {
-                                                                                    _visitor.ident(
-                                                                                        n,
-                                                                                        __ast_path,
-                                                                                    )
-                                                                                },
-                                                                            )
-                                                                        },
-                                                                    ),
-                                                                ),
-                                                                None => None,
-                                                            }
-                                                        })
-                                                    )
-                                                    .parse();
-                                                }
-                                            }
+                                            let inner = wrap_call_with_ast_path(
+                                                mode,
+                                                &q!({ n }).parse(),
+                                                q!(Vars { ident }, { _visitor.ident(n) }).parse(),
+                                                arg,
+                                            );
+
+                                            return q!(
+                                                Vars { inner },
+                                                ({
+                                                    match n {
+                                                        Some(n) => {
+                                                            Some(swc_visit::util::map::Map::map(
+                                                                n,
+                                                                |n| inner,
+                                                            ))
+                                                        }
+                                                        None => None,
+                                                    }
+                                                })
+                                            )
+                                            .parse();
                                         }
                                     }
 
@@ -2750,7 +2726,7 @@ fn feature_path_attrs() -> Vec<Attribute> {
     ]
 }
 
-fn wrap_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprCall, ty: &Type) -> Expr {
+fn wrap_call_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprCall, ty: &Type) -> Expr {
     match mode.visitor_variant() {
         Some(VisitorVariant::WithPath) => {}
         _ => return Expr::Call(visit_expr),
