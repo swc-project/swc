@@ -3642,7 +3642,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.129.0"
+version = "0.129.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3969,7 +3969,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.33.0"
+version = "0.33.1"
 dependencies = [
  "once_cell",
  "serde",
