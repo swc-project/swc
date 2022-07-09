@@ -61,7 +61,8 @@
                     "end": 20,
                     "ctxt": 0
                   },
-                  "data": "<svg>"
+                  "data": "<svg>",
+                  "raw": "<svg>"
                 },
                 {
                   "type": "Element",

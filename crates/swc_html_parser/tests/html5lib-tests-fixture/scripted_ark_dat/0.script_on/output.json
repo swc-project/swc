@@ -144,7 +144,8 @@
                                     "end": 118,
                                     "ctxt": 0
                                   },
-                                  "data": "document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");"
+                                  "data": "document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");",
+                                  "raw": "document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");"
                                 }
                               ],
                               "content": null,
@@ -283,7 +284,8 @@
                                 "end": 144,
                                 "ctxt": 0
                               },
-                              "data": "X"
+                              "data": "X",
+                              "raw": "X"
                             }
                           ],
                           "content": null,

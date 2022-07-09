@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -149,7 +154,8 @@
                 "end": 96,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -187,7 +193,8 @@
                 "end": 119,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -224,7 +231,8 @@
                 "end": 142,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -247,7 +255,8 @@
                 "end": 147,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -270,7 +279,8 @@
                 "end": 154,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -293,7 +303,8 @@
                 "end": 176,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -329,7 +340,8 @@
                 "end": 192,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -366,7 +378,8 @@
                 "end": 243,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -410,7 +423,8 @@
                         "end": 271,
                         "ctxt": 0
                       },
-                      "data": "hey"
+                      "data": "hey",
+                      "raw": "hey"
                     }
                   ],
                   "content": null,
@@ -427,7 +441,8 @@
                 "end": 282,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -461,7 +476,8 @@
                     "end": 320,
                     "ctxt": 0
                   },
-                  "data": "Hello :)"
+                  "data": "Hello :)",
+                  "raw": "Hello :)"
                 }
               ],
               "content": null,
@@ -474,7 +490,8 @@
                 "end": 327,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -494,7 +511,8 @@
                     "end": 340,
                     "ctxt": 0
                   },
-                  "data": "\n\ntest\n\n"
+                  "data": "\n\ntest\n\n",
+                  "raw": "\n\ntest\n\n"
                 }
               ],
               "content": null,
@@ -507,7 +525,8 @@
                 "end": 348,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -543,7 +562,8 @@
                 "end": 374,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -579,7 +599,8 @@
                 "end": 395,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -615,7 +636,8 @@
                 "end": 415,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -651,7 +673,8 @@
                 "end": 434,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -671,7 +694,8 @@
                     "end": 446,
                     "ctxt": 0
                   },
-                  "data": "\nTest\n"
+                  "data": "\nTest\n",
+                  "raw": "\nTest\n"
                 }
               ],
               "content": null,
@@ -684,7 +708,8 @@
                 "end": 455,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -704,7 +729,8 @@
                     "end": 464,
                     "ctxt": 0
                   },
-                  "data": "test"
+                  "data": "test",
+                  "raw": "test"
                 }
               ],
               "content": null,
@@ -717,7 +743,8 @@
                 "end": 479,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

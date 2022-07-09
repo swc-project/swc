@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.22.0"
+version = "0.22.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3215,7 +3215,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.72.1"
+version = "0.72.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3642,7 +3642,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.129.0"
+version = "0.129.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3920,7 +3920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3931,7 +3931,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3942,7 +3942,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3969,7 +3969,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "once_cell",
  "serde",
@@ -3996,7 +3996,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.18.0"
+version = "0.19.0"
 dependencies = [
  "criterion",
  "serde",
@@ -4022,7 +4022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

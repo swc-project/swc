@@ -61,7 +61,8 @@
                 "end": 19,
                 "ctxt": 0
               },
-              "data": "xxx"
+              "data": "xxx",
+              "raw": "xxx"
             },
             {
               "type": "Element",

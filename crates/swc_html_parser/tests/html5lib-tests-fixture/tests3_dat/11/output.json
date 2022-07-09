@@ -72,7 +72,8 @@
                     "end": 34,
                     "ctxt": 0
                   },
-                  "data": "\nA"
+                  "data": "\nA",
+                  "raw": "&#x0a;A"
                 }
               ],
               "content": null,

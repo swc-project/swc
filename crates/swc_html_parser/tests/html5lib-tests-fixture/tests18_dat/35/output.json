@@ -119,7 +119,8 @@
                                 "end": 41,
                                 "ctxt": 0
                               },
-                              "data": "abc"
+                              "data": "abc",
+                              "raw": "abc"
                             }
                           ],
                           "content": null,

@@ -50,7 +50,8 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "data": "Foo"
+              "data": "Foo",
+              "raw": "Foo"
             },
             {
               "type": "Element",

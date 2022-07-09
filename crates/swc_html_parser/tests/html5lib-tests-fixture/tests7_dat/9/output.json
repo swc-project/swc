@@ -94,7 +94,8 @@
                             "end": 45,
                             "ctxt": 0
                           },
-                          "data": " <tr>x "
+                          "data": " <tr>x ",
+                          "raw": " <tr>x "
                         }
                       ],
                       "content": null,
@@ -107,7 +108,8 @@
                         "end": 55,
                         "ctxt": 0
                       },
-                      "data": " "
+                      "data": " ",
+                      "raw": " "
                     }
                   ],
                   "content": null,

@@ -23,7 +23,13 @@
 - **(es/minifier)** Don't inline a callable expression if it's used as a reference (#5118) ([0e4a03c](https://github.com/swc-project/swc/commit/0e4a03ccc65aaca143873f16643513a922ace6cd))
 
 
+- **(es/modules)** Handle top level this (#5159) ([451f346](https://github.com/swc-project/swc/commit/451f346af0116bb26707b38b951a4e74ed2cdc97))
+
+
 - **(es/parser)** Support type-only export-import declarations (#5122) ([fbfca36](https://github.com/swc-project/swc/commit/fbfca36f58cf393faae132b092d05e9aaa931d55))
+
+
+- **(sourcemap)** Handle multi-byte characters correctly (#5153) ([bbbe0b6](https://github.com/swc-project/swc/commit/bbbe0b6e94cb230245ead484125da23615f4f6d6))
 
 ### Documentation
 
@@ -41,13 +47,22 @@
 - **(css/minifier)** Compress hsl colors (#5142) ([714ff53](https://github.com/swc-project/swc/commit/714ff5321d415e7ec1bfa211364ca4c8012df31e))
 
 
+- **(css/minifier)** Compress `hwb` color (#5155) ([d6a827d](https://github.com/swc-project/swc/commit/d6a827d173a2fcea3143ce3100a2b08d25af0d1f))
+
+
 - **(es/parser)** Support `d` in regex flag for es2022 (#5127) ([2d94797](https://github.com/swc-project/swc/commit/2d94797975ee162837b24283c8b738f282586a4d))
 
 
 - **(es/typescript)** Follow TypeScript error report (#5114) ([f952a61](https://github.com/swc-project/swc/commit/f952a6161c634fbb430b0befad6f3946c9fbfde5))
 
 
+- **(html)** Add `raw` for text (#5148) ([01bfe46](https://github.com/swc-project/swc/commit/01bfe46019ed897a4a3151ac207fd989497621e8))
+
+
 - **(html/minifier)** Sort attributes (#4784) ([f813a60](https://github.com/swc-project/swc/commit/f813a60497da416c41041af1d82d7186a6f0cc09))
+
+
+- **(html/minifier)** Compress default attributes for svg (#5150) ([8bc9a40](https://github.com/swc-project/swc/commit/8bc9a40c99268ff5858479b29cf74a30c8c361db))
 
 
 - **(plugin)** Wrap serialized struct with a version (#5128) ([82fbe15](https://github.com/swc-project/swc/commit/82fbe15a57e51ae444c3846fe6a512af297e0087))

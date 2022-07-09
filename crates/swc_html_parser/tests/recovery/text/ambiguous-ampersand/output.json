@@ -85,7 +85,8 @@
                         "end": 80,
                         "ctxt": 0
                       },
-                      "data": "Link"
+                      "data": "Link",
+                      "raw": "Link"
                     }
                   ],
                   "content": null,
@@ -109,7 +110,8 @@
                         "end": 152,
                         "ctxt": 0
                       },
-                      "data": "Text: ?a=b&c=d&a0b=c©=1¬i=n¬=in¬in=∉¬&;& &"
+                      "data": "Text: ?a=b&c=d&a0b=c©=1¬i=n¬=in¬in=∉¬&;& &",
+                      "raw": "Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &"
                     }
                   ],
                   "content": null,
@@ -126,7 +128,8 @@
                 "end": 163,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
