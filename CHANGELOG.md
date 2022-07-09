@@ -53,6 +53,9 @@
 - **(es/typescript)** Follow TypeScript error report (#5114) ([f952a61](https://github.com/swc-project/swc/commit/f952a6161c634fbb430b0befad6f3946c9fbfde5))
 
 
+- **(html)** Add `raw` for text (#5148) ([01bfe46](https://github.com/swc-project/swc/commit/01bfe46019ed897a4a3151ac207fd989497621e8))
+
+
 - **(html/minifier)** Sort attributes (#4784) ([f813a60](https://github.com/swc-project/swc/commit/f813a60497da416c41041af1d82d7186a6f0cc09))
 
 
