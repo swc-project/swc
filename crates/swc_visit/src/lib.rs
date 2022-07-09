@@ -260,15 +260,18 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct AstNodePath<N>
+pub struct AstNodePath<K, N>
 where
+    K: Copy,
     N: Copy,
 {
+    kinds: AstKindPath<K>,
     path: Vec<N>,
 }
 
-impl<N> std::ops::Deref for AstNodePath<N>
+impl<K, N> std::ops::Deref for AstNodePath<K, N>
 where
+    K: Copy,
     N: Copy,
 {
     type Target = Vec<N>;
@@ -278,32 +281,41 @@ where
     }
 }
 
-impl<N> Default for AstNodePath<N>
+impl<K, N> Default for AstNodePath<K, N>
 where
+    K: Copy,
     N: Copy,
 {
     fn default() -> Self {
         Self {
+            kinds: Default::default(),
             path: Default::default(),
         }
     }
 }
 
-impl<N> AstNodePath<N>
+impl<K, N> AstNodePath<K, N>
 where
+    K: Copy,
     N: Copy,
 {
-    pub fn new(path: Vec<N>) -> Self {
-        Self { path }
+    pub fn new(kinds: AstKindPath<K>, path: Vec<N>) -> Self {
+        Self { kinds, path }
     }
 
-    pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
+    pub fn kinds(&self) -> &AstKindPath<K> {
+        &self.kinds
+    }
+
+    pub fn with<F, Ret>(&mut self, kind: K, node: N, op: F) -> Ret
     where
-        F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
+        F: for<'aa> FnOnce(&'aa mut AstNodePath<K, N>) -> Ret,
     {
+        self.kinds.path.push(kind);
         self.path.push(node);
         let ret = op(self);
         self.path.pop();
+        self.kinds.path.pop();
 
         ret
     }

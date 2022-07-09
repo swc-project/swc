@@ -94,11 +94,11 @@ jobs:
             os: ubuntu-latest
           - crate: better_scoped_tls
             os: ubuntu-latest
-          - crate: swc_nodejs_common
-            os: ubuntu-latest
           - crate: binding_core_node
             os: ubuntu-latest
           - crate: binding_core_wasm
+            os: ubuntu-latest
+          - crate: dbg-swc
             os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
@@ -203,6 +203,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_ecma_quote_macros
             os: ubuntu-latest
+          - crate: swc_ecma_testing
+            os: ubuntu-latest
           - crate: swc_ecma_transforms
             os: ubuntu-latest
             check: |
@@ -243,6 +245,8 @@ jobs:
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_visit
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecmascript
             os: ubuntu-latest
           - crate: swc_eq_ignore_macros
@@ -273,6 +277,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_html_parser
             os: windows-latest
+          - crate: swc_html_utils
+            os: ubuntu-latest
           - crate: swc_html_visit
             os: ubuntu-latest
           - crate: swc_macros_common
@@ -287,6 +293,8 @@ jobs:
           - crate: swc_node_bundler
             os: windows-latest
           - crate: swc_node_comments
+            os: ubuntu-latest
+          - crate: swc_nodejs_common
             os: ubuntu-latest
           - crate: swc_plugin
             os: ubuntu-latest
