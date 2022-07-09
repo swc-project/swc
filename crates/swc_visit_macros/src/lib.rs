@@ -2223,30 +2223,22 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             if !last.arguments.is_empty() {
                 if let Some(arg) = as_box(ty) {
                     match mode {
-                        Mode::Fold(VisitorVariant::Normal) => {
+                        Mode::Fold(..) => {
                             let ident = method_name(mode, arg);
+                            let inner = wrap_with_ast_path(
+                                mode,
+                                &q! {n}.parse(),
+                                q!({ _visitor.ident(*n) }).parse(),
+                                arg,
+                            );
 
                             return q!(
-                                Vars { ident },
-                                ({ swc_visit::util::map::Map::map(n, |n| _visitor.ident(*n)) })
+                                Vars { ident, inner },
+                                ({ swc_visit::util::map::Map::map(n, |n| inner) })
                             )
                             .parse();
                         }
-                        Mode::Fold(VisitorVariant::WithPath) => {
-                            let ident = method_name(mode, arg);
 
-                            return q!(
-                                Vars { ident },
-                                ({
-                                    swc_visit::util::map::Map::map(n, |n| {
-                                        __ast_path.with(AstKind::AstKindVariant, |__ast_path| {
-                                            _visitor.ident(*n, __ast_path)
-                                        })
-                                    })
-                                })
-                            )
-                            .parse();
-                        }
                         Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
                             return create_method_body(mode, arg);
                         }
