@@ -82,6 +82,15 @@
 //! ```
 //!
 //! If you want to allow using path-aware visitor.
+//!
+//!
+//! # Path-aware visitor
+//!
+//! Path-aware visitor is a visitor that can be used to visit AST nodes with
+//! current path from the entrypoint.
+//!
+//! `VisitMutAstPath` and `FoldAstPath` can be used to transform AST nodes with
+//! the path to the node.
 
 pub use either::Either;
 pub use swc_visit_macros::define;

@@ -29,7 +29,7 @@ impl VisitMut for ConsoleOutputReplacer {
 /// as returning ptr back to host.
 ///
 /// It is possible to opt out from macro by writing transform fn manually via
-/// `__plugin_process_impl(
+/// `__transform_plugin_process_impl(
 ///     ast_ptr: *const u8,
 ///     ast_ptr_len: i32,
 ///     config_str_ptr: *const u8,

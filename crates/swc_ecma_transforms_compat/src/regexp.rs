@@ -11,6 +11,8 @@ pub fn regexp(config: Config) -> impl Fold + VisitMut {
 pub struct Config {
     /// [s/dotAll flag for regular expressions](https://tc39.github.io/proposal-regexp-dotall-flag/)
     pub dot_all_regex: bool,
+    /// [RegExp.prototype.hasIndices](https://262.ecma-international.org/13.0/#sec-get-regexp.prototype.hasIndices)
+    pub has_indices: bool,
     /// [RegExp Lookbehind Assertions](https://tc39.es/proposal-regexp-lookbehind/)
     pub lookbehind_assertion: bool,
     /// [Named capture groups in regular expressions](https://tc39.es/proposal-regexp-named-groups/)
@@ -37,6 +39,7 @@ impl VisitMut for RegExp {
             if (self.config.dot_all_regex && regex.flags.contains('s'))
                 || (self.config.sticky_regex && regex.flags.contains('y'))
                 || (self.config.unicode_regex && regex.flags.contains('u'))
+                || (self.config.has_indices && regex.flags.contains('d'))
                 || (self.config.named_capturing_groups_regex && regex.exp.contains("(?<"))
                 || (self.config.lookbehind_assertion && regex.exp.contains("(?<=")
                     || regex.exp.contains("(?<!"))

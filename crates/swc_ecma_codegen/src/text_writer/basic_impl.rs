@@ -1,4 +1,4 @@
-use std::io::{self, Write};
+use std::io::Write;
 
 use rustc_hash::FxHashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
@@ -44,29 +44,26 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
     }
 
-    fn write_indent_string(&mut self) -> io::Result<usize> {
-        const INDENT: &[u8] = b"    ";
+    fn write_indent_string(&mut self) -> Result {
+        const INDENT: &str = "    ";
 
-        let mut cnt = 0;
         for _ in 0..self.indent {
-            cnt += self.raw_write(INDENT)?;
+            self.raw_write(INDENT)?;
         }
 
-        Ok(cnt)
+        Ok(())
     }
 
-    fn raw_write(&mut self, data: &[u8]) -> io::Result<usize> {
-        let written = self.wr.write(data)?;
-        self.line_pos += written;
-        Ok(written)
+    fn raw_write(&mut self, data: &str) -> Result {
+        self.wr.write_all(data.as_bytes())?;
+        self.line_pos += data.chars().count();
+        Ok(())
     }
 
-    fn write(&mut self, span: Option<Span>, data: &str) -> io::Result<usize> {
-        let mut cnt = 0;
-
+    fn write(&mut self, span: Option<Span>, data: &str) -> Result {
         if !data.is_empty() {
             if self.line_start {
-                cnt += self.write_indent_string()?;
+                self.write_indent_string()?;
                 self.line_start = false;
 
                 if let Some(pending) = self.pending_srcmap.take() {
@@ -80,7 +77,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
                 }
             }
 
-            cnt += self.raw_write(data.as_bytes())?;
+            self.raw_write(data)?;
 
             if let Some(span) = span {
                 if !span.is_dummy() {
@@ -89,7 +86,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             }
         }
 
-        Ok(cnt)
+        Ok(())
     }
 
     fn srcmap(&mut self, byte_pos: BytePos) {
@@ -156,7 +153,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn write_line(&mut self) -> Result {
         let pending = self.pending_srcmap.take();
         if !self.line_start {
-            self.raw_write(self.new_line.as_bytes())?;
+            self.raw_write(self.new_line)?;
             self.line_count += 1;
             self.line_pos = 0;
             self.line_start = true;
@@ -180,7 +177,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
             }
 
             if !span.is_dummy() {
@@ -197,7 +195,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
             }
         }
         Ok(())
@@ -214,7 +213,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
             }
 
             if !span.is_dummy() {
