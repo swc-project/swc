@@ -19,6 +19,7 @@ filesystem_cache = ["wasmer-cache"]
 # Supports a cache allow to store wasm module in-memory. This avoids recompilation
 # to the same module in a single procress lifecycle.
 memory_cache = []
+plugin-dev = ["wasmer/default", "wasmer-wasi/default"]
 
 [dependencies]
 anyhow = "1.0.42"
