@@ -9,9 +9,9 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    default: ()=>_default,
     x: ()=>x,
-    y: ()=>y
+    y: ()=>y,
+    default: ()=>_default
 });
 const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;

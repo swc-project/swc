@@ -9,9 +9,9 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    default: ()=>_default,
     Foo: ()=>Foo,
-    foo: ()=>foo
+    foo: ()=>foo,
+    default: ()=>_default
 });
 class Foo {
     [void 0] = this;
