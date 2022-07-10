@@ -1,4 +1,4 @@
-System.register([], function(_export, _context) {
+System.register([], function (_export, _context) {
     "use strict";
     var testProp;
     function testFunc() {
@@ -7,8 +7,8 @@ System.register([], function(_export, _context) {
     _export("testFunc", testFunc);
     return {
         setters: [],
-        execute: function() {
+        execute: function () {
             _export("testProp", testProp = "test property");
-        }
+        },
     };
 });

@@ -1,12 +1,12 @@
 System.register([], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  function foo2(bar) {}
+    function foo2(bar) {}
 
-  _export("foo2", foo2);
+    _export("foo2", foo2);
 
-  return {
-    setters: [],
-    execute: function () {}
-  };
+    return {
+        setters: [],
+        execute: function () {},
+    };
 });

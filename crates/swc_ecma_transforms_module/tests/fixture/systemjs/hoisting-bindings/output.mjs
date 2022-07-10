@@ -1,4 +1,4 @@
-System.register([], function(_export, _context) {
+System.register([], function (_export, _context) {
     "use strict";
     var c;
     function a() {
@@ -12,12 +12,12 @@ System.register([], function(_export, _context) {
         alert("a");
         c++;
     }
-    _export("a", a);
+    _export({ a: a, c: void 0 });
     return {
         setters: [],
-        execute: function() {
+        execute: function () {
             _export("c", c = 5);
             b();
-        }
+        },
     };
 });

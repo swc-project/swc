@@ -1,11 +1,11 @@
 System.register([], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  var foo, bar, baz;
-  return {
-    setters: [],
-    execute: function () {
-      [foo, bar, ...baz] = [], _export("foo", foo), _export("bar", bar), _export("baz", baz);
-    }
-  };
+    var foo, bar, baz;
+    return {
+        setters: [],
+        execute: function () {
+            [foo, bar, ...baz] = [], _export({ foo: foo, bar: bar, baz: baz });
+        },
+    };
 });
