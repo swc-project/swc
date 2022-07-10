@@ -158,8 +158,8 @@ impl VisitMut for ModuleDeclStrip {
                 ExportSpecifier::Namespace(..) => {
                     unreachable!("`export *` without src is invalid")
                 }
-                ExportSpecifier::Default(ExportDefaultSpecifier { exported }) => {
-                    ((js_word!("default"), exported.span), exported)
+                ExportSpecifier::Default(..) => {
+                    unreachable!("`export foo` without src is invalid")
                 }
                 ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
                     let orig = match orig {
