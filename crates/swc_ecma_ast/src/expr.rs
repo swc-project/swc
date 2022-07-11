@@ -1,6 +1,10 @@
 #![allow(clippy::vec_box)]
 use is_macro::Is;
-use serde::{self, Deserialize, Serialize};
+use serde::{
+    self,
+    de::{self, MapAccess, Visitor},
+    Deserialize, Deserializer, Serialize,
+};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
@@ -446,7 +450,24 @@ impl Take for ClassExpr {
         }
     }
 }
-#[ast_node("AssignmentExpression")]
+
+#[derive(Spanned, Clone, Debug, PartialEq, Serialize)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
+#[serde(tag = "type")]
+#[serde(rename_all = "camelCase")]
+#[serde(rename = "AssignmentExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignExpr {
@@ -468,6 +489,102 @@ impl Take for AssignExpr {
             left: Take::dummy(),
             right: Take::dummy(),
         }
+    }
+}
+
+impl<'de> Deserialize<'de> for AssignExpr {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        struct AssignExprVisitor;
+
+        impl<'de> Visitor<'de> for AssignExprVisitor {
+            type Value = AssignExpr;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct AssignExpr")
+            }
+
+            fn visit_map<M>(self, mut map: M) -> Result<Self::Value, M::Error>
+            where
+                M: MapAccess<'de>,
+            {
+                let mut span_field: Option<Span> = None;
+                let mut op_field: Option<AssignOp> = None;
+                let mut left_field: Option<PatOrExpr> = None;
+                let mut right_field: Option<Box<Expr>> = None;
+
+                while let Some(key) = map.next_key::<&str>()? {
+                    match key {
+                        "span" => {
+                            if Option::is_some(&span_field) {
+                                return Err(de::Error::duplicate_field("span"));
+                            }
+                            span_field = Some(map.next_value()?);
+                        }
+                        "operator" => {
+                            if Option::is_some(&op_field) {
+                                return Err(de::Error::duplicate_field("operator"));
+                            }
+                            op_field = Some(map.next_value()?);
+                        }
+                        "left" => {
+                            if Option::is_some(&left_field) {
+                                return Err(de::Error::duplicate_field("left"));
+                            }
+                            left_field = Some(map.next_value()?);
+                        }
+                        "right" => {
+                            if Option::is_some(&right_field) {
+                                return Err(de::Error::duplicate_field("right"));
+                            }
+                            right_field = Some(map.next_value()?);
+                        }
+                        _ => {
+                            let _: de::IgnoredAny = map.next_value()?;
+                        }
+                    }
+                }
+
+                if span_field.is_none() {
+                    return Err(de::Error::missing_field("span"));
+                }
+                if op_field.is_none() {
+                    return Err(de::Error::missing_field("operator"));
+                }
+                if left_field.is_none() {
+                    return Err(de::Error::missing_field("left"));
+                }
+                if right_field.is_none() {
+                    return Err(de::Error::missing_field("right"));
+                }
+
+                let span = span_field.unwrap();
+                let op = op_field.unwrap();
+                let mut left = left_field.unwrap();
+                let right = right_field.unwrap();
+
+                if op != AssignOp::Assign {
+                    left = match left {
+                        PatOrExpr::Pat(pat) => match *pat {
+                            Pat::Ident(ident) => PatOrExpr::Expr(Box::new(Expr::Ident(ident.id))),
+                            pat => PatOrExpr::Pat(Box::new(pat)),
+                        },
+                        left => left,
+                    }
+                }
+
+                Ok(AssignExpr {
+                    span,
+                    op,
+                    left,
+                    right,
+                })
+            }
+        }
+
+        deserializer.deserialize_map(AssignExprVisitor)
     }
 }
 
