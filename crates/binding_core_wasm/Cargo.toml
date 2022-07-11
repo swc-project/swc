@@ -20,6 +20,7 @@ swc_v2 = []
 plugin = [
   "swc/plugin",
   "swc_plugin_runner/memory_cache",
+  "swc_plugin_runner/plugin-transform-schema-v1",
   "wasmer",
   "wasmer-wasi",
   "wasmer/js-default",
