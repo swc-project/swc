@@ -165,63 +165,53 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        if cfg!(target_arch = "wasm32") || cfg!(feature = "debug") {
-            for node in nodes {
-                let mut v = Pure {
-                    expr_ctx: self.expr_ctx.clone(),
-                    changed: false,
-                    ..*self
-                };
-                node.visit_mut_with(&mut v);
-
-                self.changed |= v.changed;
-            }
-        } else {
-            let mut changed = false;
-            if nodes.len() >= *crate::HEAVY_TASK_PARALLELS {
-                GLOBALS.with(|globals| {
-                    changed = nodes
-                        .par_iter_mut()
-                        .map(|node| {
-                            GLOBALS.set(globals, || {
-                                let mut v = Pure {
-                                    expr_ctx: self.expr_ctx.clone(),
-                                    ctx: Ctx {
-                                        par_depth: self.ctx.par_depth + 1,
-                                        ..self.ctx
-                                    },
-                                    changed: false,
-                                    ..*self
-                                };
-                                node.visit_mut_with(&mut v);
-
-                                v.changed
-                            })
-                        })
-                        .reduce(|| false, |a, b| a || b);
-                })
-            } else {
+        let mut changed = false;
+        if !cfg!(target_arch = "wasm32")
+            && (!cfg!(feature = "debug") || !cfg!(debug_assertions))
+            && nodes.len() >= *crate::HEAVY_TASK_PARALLELS
+        {
+            GLOBALS.with(|globals| {
                 changed = nodes
-                    .iter_mut()
+                    .par_iter_mut()
                     .map(|node| {
-                        let mut v = Pure {
-                            expr_ctx: self.expr_ctx.clone(),
-                            ctx: Ctx {
-                                par_depth: self.ctx.par_depth,
-                                ..self.ctx
-                            },
-                            changed: false,
-                            ..*self
-                        };
-                        node.visit_mut_with(&mut v);
+                        GLOBALS.set(globals, || {
+                            let mut v = Pure {
+                                expr_ctx: self.expr_ctx.clone(),
+                                ctx: Ctx {
+                                    par_depth: self.ctx.par_depth + 1,
+                                    ..self.ctx
+                                },
+                                changed: false,
+                                ..*self
+                            };
+                            node.visit_mut_with(&mut v);
 
-                        v.changed
+                            v.changed
+                        })
                     })
-                    .reduce(|a, b| a || b)
-                    .unwrap_or(false);
-            }
-            self.changed |= changed;
+                    .reduce(|| false, |a, b| a || b);
+            })
+        } else {
+            changed = nodes
+                .iter_mut()
+                .map(|node| {
+                    let mut v = Pure {
+                        expr_ctx: self.expr_ctx.clone(),
+                        ctx: Ctx {
+                            par_depth: self.ctx.par_depth,
+                            ..self.ctx
+                        },
+                        changed: false,
+                        ..*self
+                    };
+                    node.visit_mut_with(&mut v);
+
+                    v.changed
+                })
+                .reduce(|a, b| a || b)
+                .unwrap_or(false);
         }
+        self.changed |= changed;
     }
 }
 
