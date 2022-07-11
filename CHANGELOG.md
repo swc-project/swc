@@ -5,6 +5,9 @@
 
 
 
+- **(plugin/macros)** Export new interface for getting plugin schema version (#5166) ([f167198](https://github.com/swc-project/swc/commit/f1671984708e167ab360e1a5e6a43d4a37a8023a))
+
+
 - **(visit)** Add index to `AstKind` (#5138) ([ac3a55a](https://github.com/swc-project/swc/commit/ac3a55a4357e8985614128e19b02461de7371185))
 
 ## [1.2.211] - 2022-07-09
