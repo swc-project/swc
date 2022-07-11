@@ -423,6 +423,14 @@ impl VisitMut for Pure<'_> {
         self.visit_par(exprs);
     }
 
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, exprs: &mut Vec<Option<ExprOrSpread>>) {
+        self.visit_par(exprs);
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, exprs: &mut Vec<ExprOrSpread>) {
+        self.visit_par(exprs);
+    }
+
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         #[cfg(feature = "debug")]
         let _tracing = tracing::span!(
