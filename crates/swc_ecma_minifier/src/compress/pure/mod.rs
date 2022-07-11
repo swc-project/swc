@@ -300,6 +300,10 @@ impl VisitMut for Pure<'_> {
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        if e.is_lit() {
+            return;
+        }
+
         if self.options.unused {
             if let Expr::Unary(UnaryExpr {
                 span,
