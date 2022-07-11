@@ -13,7 +13,7 @@ use self::{ctx::Ctx, misc::DropOpts};
 use crate::debug::dump;
 use crate::{
     analyzer::ProgramData, debug::AssertValid, marks::Marks, maybe_par, option::CompressOptions,
-    util::ModuleItemExt, MAX_PAR_DEPTH,
+    util::ModuleItemExt,
 };
 
 mod arrows;
@@ -165,10 +165,7 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        if self.ctx.par_depth >= MAX_PAR_DEPTH * 2
-            || cfg!(target_arch = "wasm32")
-            || cfg!(feature = "debug")
-        {
+        if cfg!(target_arch = "wasm32") || cfg!(feature = "debug") {
             for node in nodes {
                 let mut v = Pure {
                     expr_ctx: self.expr_ctx.clone(),
