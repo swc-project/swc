@@ -13,7 +13,7 @@ use self::{ctx::Ctx, misc::DropOpts};
 use crate::debug::dump;
 use crate::{
     analyzer::ProgramData, debug::AssertValid, marks::Marks, maybe_par, option::CompressOptions,
-    util::ModuleItemExt, MAX_PAR_DEPTH,
+    util::ModuleItemExt,
 };
 
 mod arrows;
@@ -165,66 +165,53 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        if self.ctx.par_depth >= MAX_PAR_DEPTH * 2
-            || cfg!(target_arch = "wasm32")
-            || cfg!(feature = "debug")
+        let mut changed = false;
+        if !cfg!(target_arch = "wasm32")
+            && (!cfg!(feature = "debug") || !cfg!(debug_assertions))
+            && nodes.len() >= *crate::HEAVY_TASK_PARALLELS
         {
-            for node in nodes {
-                let mut v = Pure {
-                    expr_ctx: self.expr_ctx.clone(),
-                    changed: false,
-                    ..*self
-                };
-                node.visit_mut_with(&mut v);
-
-                self.changed |= v.changed;
-            }
-        } else {
-            let mut changed = false;
-            if nodes.len() >= *crate::HEAVY_TASK_PARALLELS {
-                GLOBALS.with(|globals| {
-                    changed = nodes
-                        .par_iter_mut()
-                        .map(|node| {
-                            GLOBALS.set(globals, || {
-                                let mut v = Pure {
-                                    expr_ctx: self.expr_ctx.clone(),
-                                    ctx: Ctx {
-                                        par_depth: self.ctx.par_depth + 1,
-                                        ..self.ctx
-                                    },
-                                    changed: false,
-                                    ..*self
-                                };
-                                node.visit_mut_with(&mut v);
-
-                                v.changed
-                            })
-                        })
-                        .reduce(|| false, |a, b| a || b);
-                })
-            } else {
+            GLOBALS.with(|globals| {
                 changed = nodes
-                    .iter_mut()
+                    .par_iter_mut()
                     .map(|node| {
-                        let mut v = Pure {
-                            expr_ctx: self.expr_ctx.clone(),
-                            ctx: Ctx {
-                                par_depth: self.ctx.par_depth + 1,
-                                ..self.ctx
-                            },
-                            changed: false,
-                            ..*self
-                        };
-                        node.visit_mut_with(&mut v);
+                        GLOBALS.set(globals, || {
+                            let mut v = Pure {
+                                expr_ctx: self.expr_ctx.clone(),
+                                ctx: Ctx {
+                                    par_depth: self.ctx.par_depth + 1,
+                                    ..self.ctx
+                                },
+                                changed: false,
+                                ..*self
+                            };
+                            node.visit_mut_with(&mut v);
 
-                        v.changed
+                            v.changed
+                        })
                     })
-                    .reduce(|a, b| a || b)
-                    .unwrap_or(false);
-            }
-            self.changed |= changed;
+                    .reduce(|| false, |a, b| a || b);
+            })
+        } else {
+            changed = nodes
+                .iter_mut()
+                .map(|node| {
+                    let mut v = Pure {
+                        expr_ctx: self.expr_ctx.clone(),
+                        ctx: Ctx {
+                            par_depth: self.ctx.par_depth,
+                            ..self.ctx
+                        },
+                        changed: false,
+                        ..*self
+                    };
+                    node.visit_mut_with(&mut v);
+
+                    v.changed
+                })
+                .reduce(|a, b| a || b)
+                .unwrap_or(false);
         }
+        self.changed |= changed;
     }
 }
 
@@ -300,6 +287,10 @@ impl VisitMut for Pure<'_> {
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        if e.is_lit() {
+            return;
+        }
+
         if self.options.unused {
             if let Expr::Unary(UnaryExpr {
                 span,
@@ -329,8 +320,6 @@ impl VisitMut for Pure<'_> {
         self.eval_tpl_as_str(e);
 
         self.eval_str_addition(e);
-
-        self.eval_trivial_values_in_expr(e);
 
         self.remove_invalid(e);
 
@@ -416,6 +405,14 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
+        self.visit_par(exprs);
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, exprs: &mut Vec<Option<ExprOrSpread>>) {
+        self.visit_par(exprs);
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, exprs: &mut Vec<ExprOrSpread>) {
         self.visit_par(exprs);
     }
 
@@ -630,6 +627,8 @@ impl VisitMut for Pure<'_> {
         if e.exprs.is_empty() {
             return;
         }
+
+        self.eval_trivial_values_in_expr(e);
 
         self.merge_seq_call(e);
 

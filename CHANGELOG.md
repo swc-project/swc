@@ -25,6 +25,12 @@
 
 - **(ci)** Fix benchmark action (#5176) ([7d4b496](https://github.com/swc-project/swc/commit/7d4b496e9ec394d8c93ad4cae31434ce74e63a8f))
 
+### Performance
+
+
+
+- **(es/minifier)** Remove wrong logic (#5178) ([d8f57ab](https://github.com/swc-project/swc/commit/d8f57abd26b37aea4f76a069ab091ac33ec1072f))
+
 ## [1.2.211] - 2022-07-09
 
 ### Bug Fixes
