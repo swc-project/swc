@@ -165,13 +165,12 @@ impl<I: Tokens> Parser<I> {
                     {
                         self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
                     }
-                    let is_eval_or_arguments = match *cond {
-                        Expr::Ident(ref i) => {
-                            i.sym == js_word!("eval") || i.sym == js_word!("arguments")
-                        }
-                        _ => false,
-                    };
-                    if self.input.syntax().typescript() && is_eval_or_arguments {
+                    if self.input.syntax().typescript()
+                        && cond
+                            .as_ident()
+                            .map(|i| i.is_reserved_in_strict_bind())
+                            .unwrap_or(false)
+                    {
                         self.emit_strict_mode_err(cond.span(), SyntaxError::TS1100);
                     }
 
@@ -375,7 +374,8 @@ impl<I: Tokens> Parser<I> {
             || (self.input.syntax().typescript() && is_one_of!(self, IdentRef, "await"))
             || is!(self, IdentRef)
         {
-            let id = self.parse_ident_name()?;
+            let ctx = self.ctx();
+            let id = self.parse_ident(!ctx.in_generator, !ctx.in_async)?;
             if id.is_reserved_in_strict_mode(self.ctx().module && !self.ctx().in_declare) {
                 self.emit_strict_mode_err(
                     self.input.prev_span(),
@@ -1931,8 +1931,8 @@ impl<I: Tokens> Parser<I> {
 
         // We follow behavior of tsc
         if self.input.syntax().typescript() && self.syntax().early_errors() {
-            let is_eval_or_arguments = match *expr {
-                Expr::Ident(ref i) => i.sym == js_word!("eval") || i.sym == js_word!("arguments"),
+            let is_eval_or_arguments = match expr {
+                Expr::Ident(i) => i.is_reserved_in_strict_bind(),
                 _ => false,
             };
 
