@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html/minifier)** Allow specifying options for other tools (#5125) ([dada2d7](https://github.com/swc-project/swc/commit/dada2d7d554fa0733a3c65c512777f1548d41a35))
+
+## [1.2.212] - 2022-07-11
+
 ### Bug Fixes
 
 
