@@ -21,6 +21,6 @@ define([
     });
     const foo = 1;
     let bar = 2;
-    var _default = bar;
+    const _default = bar;
     bar = 3;
 });

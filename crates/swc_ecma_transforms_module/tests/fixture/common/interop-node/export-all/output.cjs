@@ -8,4 +8,4 @@ Object.defineProperty(exports, "default", {
     get: ()=>_default
 });
 const _react = _exportStar(require("react"), exports);
-var _default = _react;
+const _default = _react;

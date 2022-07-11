@@ -93,7 +93,7 @@ where
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let import_interop = self.config.import_interop();
 
-        let mut strip = ModuleDeclStrip::default();
+        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
         n.visit_mut_with(&mut strip);
 
         let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 4);

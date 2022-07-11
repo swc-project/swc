@@ -7,4 +7,4 @@ Object.defineProperty(exports, "default", {
     enumerable: true,
     get: ()=>_default
 });
-var _default = foo;
+const _default = foo;

@@ -29,5 +29,5 @@ define([
     }
     const breakpoints = _breakpoints.breakpoinstUtils;
     const styled = _styled.default;
-    var _default = styled;
+    const _default = styled;
 });

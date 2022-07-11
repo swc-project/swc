@@ -19,5 +19,5 @@ define([
     function get(key) {
         console.log(key);
     }
-    var _default = a;
+    const _default = a;
 });

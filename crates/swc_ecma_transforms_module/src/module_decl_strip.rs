@@ -10,9 +10,9 @@ use crate::{module_ref_rewriter::ImportMap, util::ObjPropKeyIdent};
 pub type Link = IndexMap<JsWord, LinkItem>;
 pub type Export = IndexMap<(JsWord, Span), Ident>;
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct ModuleDeclStrip {
-    /// all import/export ordered by path
+    /// all imports/exports collected by path in source text order
     pub link: Link,
 
     /// local exported binding
@@ -28,6 +28,21 @@ pub struct ModuleDeclStrip {
 
     /// `export default expr`
     export_default: Option<Stmt>,
+
+    const_var_kind: VarDeclKind,
+}
+
+impl ModuleDeclStrip {
+    pub fn new(const_var_kind: VarDeclKind) -> Self {
+        Self {
+            link: Default::default(),
+            export: Default::default(),
+            export_assign: Default::default(),
+            has_module_decl: Default::default(),
+            export_default: Default::default(),
+            const_var_kind,
+        }
+    }
 }
 
 impl VisitMut for ModuleDeclStrip {
@@ -238,7 +253,7 @@ impl VisitMut for ModuleDeclStrip {
         self.export_default = Some(Stmt::Decl(
             n.expr
                 .take()
-                .into_var_decl(VarDeclKind::Var, ident.into())
+                .into_var_decl(self.const_var_kind, ident.into())
                 .into(),
         ));
     }

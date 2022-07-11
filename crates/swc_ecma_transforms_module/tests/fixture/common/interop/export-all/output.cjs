@@ -7,4 +7,4 @@ Object.defineProperty(exports, "default", {
     get: ()=>_default
 });
 const _react = /*#__PURE__*/ _interopRequireDefault(_exportStar(require("react"), exports));
-var _default = _react.default;
+const _default = _react.default;
