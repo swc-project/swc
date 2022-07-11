@@ -13,8 +13,8 @@ define([
         });
     }
     _export(exports, {
-        default: ()=>_default,
-        get: ()=>get
+        get: ()=>get,
+        default: ()=>_default
     });
     function get(key) {
         console.log(key);

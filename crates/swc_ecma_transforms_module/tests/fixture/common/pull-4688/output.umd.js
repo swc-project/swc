@@ -16,8 +16,8 @@
         });
     }
     _export(exports, {
-        default: ()=>defaultLocale,
-        format: ()=>format
+        format: ()=>format,
+        default: ()=>defaultLocale
     });
     var format;
     function defaultLocale(definition) {

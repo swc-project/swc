@@ -24,6 +24,14 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         cmd.args(["build", "--target=wasm32-wasi"])
             .stderr(Stdio::inherit());
         cmd.output()?;
+
+        if !cmd
+            .status()
+            .expect("Exit code should be available")
+            .success()
+        {
+            return Err(anyhow!("Failed to build plugin"));
+        }
     }
 
     for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("debug"))? {

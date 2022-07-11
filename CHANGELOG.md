@@ -1,11 +1,26 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/modules)** Add the missing span for `export default` (#5170) ([997240c](https://github.com/swc-project/swc/commit/997240cfe68ff7787d73e93758f2d2304715e249))
+
 ### Features
 
 
 
+- **(plugin/macros)** Export new interface for getting plugin schema version (#5166) ([f167198](https://github.com/swc-project/swc/commit/f1671984708e167ab360e1a5e6a43d4a37a8023a))
+
+
 - **(visit)** Add index to `AstKind` (#5138) ([ac3a55a](https://github.com/swc-project/swc/commit/ac3a55a4357e8985614128e19b02461de7371185))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix benchmark action (#5176) ([7d4b496](https://github.com/swc-project/swc/commit/7d4b496e9ec394d8c93ad4cae31434ce74e63a8f))
 
 ## [1.2.211] - 2022-07-09
 

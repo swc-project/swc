@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.204.0"
+version = "0.205.0"
 
 [lib]
 bench = false
@@ -22,6 +22,10 @@ default = ["es3"]
 es3 = []
 node = ["napi", "napi-derive"]
 plugin = ["swc_plugin_runner", "swc_plugin_proxy/plugin-rt"]
+plugin-transform-schema-v1 = [
+  "swc_common/plugin-transform-schema-v1",
+  "swc_plugin_runner/plugin-transform-schema-v1"
+]
 
 [dependencies]
 ahash = "0.7.4"
@@ -76,8 +80,8 @@ swc_ecma_visit = {version = "0.70.0", path = "../swc_ecma_visit"}
 swc_ecmascript = {version = "0.179.0", path = "../swc_ecmascript"}
 swc_error_reporters = {version = "0.7.0", path = "../swc_error_reporters"}
 swc_node_comments = {version = "0.10.0", path = "../swc_node_comments"}
-swc_plugin_proxy = {version = "0.10.0", path = "../swc_plugin_proxy", optional = true}
-swc_plugin_runner = {version = "0.63.0", path = "../swc_plugin_runner", optional = true, default-features = false}
+swc_plugin_proxy = {version = "0.11.0", path = "../swc_plugin_proxy", optional = true}
+swc_plugin_runner = {version = "0.64.0", path = "../swc_plugin_runner", optional = true, default-features = false}
 swc_timer = {version = "0.11.0", path = "../swc_timer"}
 swc_visit = {version = "0.4.0", path = "../swc_visit"}
 tracing = "0.1.32"
