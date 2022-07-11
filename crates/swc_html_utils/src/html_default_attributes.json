@@ -80,12 +80,12 @@
   },
   "script": {
     "charset": "utf-8",
-    "type": "text/javascript"
-  },
-  "style": {
     "fetchpriority": "auto",
     "language": "javascript",
     "referrerpolicy": "strict-origin-when-cross-origin",
+    "type": "text/javascript"
+  },
+  "style": {
     "type": "text/css"
   },
   "td": {

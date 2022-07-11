@@ -24,3 +24,11 @@ pub static HTML_DEFAULT_ATTRIBUTES: Lazy<AHashMap<String, Element>> = Lazy::new(
 
     default_attributes
 });
+
+pub static SVG_DEFAULT_ATTRIBUTES: Lazy<AHashMap<String, Element>> = Lazy::new(|| {
+    let default_attributes: AHashMap<String, Element> =
+        serde_json::from_str(include_str!("./svg_default_attributes.json"))
+            .expect("failed to parse svg_default_attributes.json for default attributes");
+
+    default_attributes
+});
