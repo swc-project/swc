@@ -16,9 +16,9 @@ macro_rules! write_raw {
     }};
 }
 
-macro_rules! write_str {
+macro_rules! write_multiline_raw {
     ($g:expr,$span:expr,$n:expr) => {{
-        $g.wr.write_str($span, $n)?;
+        $g.wr.write_multiline_raw($span, $n)?;
     }};
 }
 
