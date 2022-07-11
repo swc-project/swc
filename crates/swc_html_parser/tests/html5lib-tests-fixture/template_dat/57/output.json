@@ -80,7 +80,8 @@
                           "end": 26,
                           "ctxt": 0
                         },
-                        "data": "Hello"
+                        "data": "Hello",
+                        "raw": "Hello"
                       }
                     ],
                     "content": null,

@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
 use swc_common::{
-    plugin::{PluginError, PluginSerializedBytes},
+    plugin::{PluginError, PluginSerializedBytes, PLUGIN_TRANSFORM_AST_SCHEMA_VERSION},
     SourceMap,
 };
 use wasmer::Instance;
@@ -14,6 +14,8 @@ use crate::memory_interop::write_into_memory_view;
 pub struct TransformExecutor {
     // Main transform interface plugin exports
     exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32, i32), i32>,
+    // Schema version interface exports
+    exported_plugin_transform_schema_version: wasmer::NativeFunc<(), u32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
     exported_plugin_free: wasmer::NativeFunc<(i32, i32), i32>,
@@ -40,8 +42,11 @@ impl TransformExecutor {
             exported_plugin_transform: instance
                 .exports
                 .get_native_function::<(i32, i32, i32, i32, i32, i32, i32), i32>(
-                    "__plugin_process_impl",
+                    "__transform_plugin_process_impl",
                 )?,
+            exported_plugin_transform_schema_version: instance
+                .exports
+                .get_native_function::<(), u32>("__get_transform_plugin_schema_version")?,
             exported_plugin_free: instance
                 .exports
                 .get_native_function::<(i32, i32), i32>("__free")?,
@@ -86,7 +91,7 @@ impl TransformExecutor {
         if returned_ptr_result == 0 {
             Ok(ret)
         } else {
-            let err: PluginError = ret.deserialize()?;
+            let err: PluginError = ret.deserialize()?.into_inner();
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
                     "Failed to convert pointer size to calculate: {}",
@@ -102,14 +107,40 @@ impl TransformExecutor {
         }
     }
 
+    /**
+     * Check compile-time version of AST schema between the plugin and
+     * the host. Returns true if it's compatible, false otherwise.
+     *
+     * Host should appropriately handle if plugin is not compatible to the
+     * current runtime.
+     */
+    pub fn is_transform_schema_compatible(&self) -> Result<bool, Error> {
+        let plugin_schema_version = self.exported_plugin_transform_schema_version.call();
+
+        match plugin_schema_version {
+            Ok(plugin_schema_version) => {
+                let host_schema_version = PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
+
+                // TODO: this is incomplete
+                if plugin_schema_version == host_schema_version {
+                    Ok(true)
+                } else {
+                    Ok(false)
+                }
+            }
+            Err(e) => Err(anyhow!("Failed to call plugin's schema version: {}", e)),
+        }
+    }
+
     #[tracing::instrument(level = "info", skip_all)]
     pub fn transform(
         &mut self,
         program: &PluginSerializedBytes,
         config: &PluginSerializedBytes,
         context: &PluginSerializedBytes,
-        should_enable_comments_proxy: i32,
+        should_enable_comments_proxy: bool,
     ) -> Result<PluginSerializedBytes, Error> {
+        let should_enable_comments_proxy = if should_enable_comments_proxy { 1 } else { 0 };
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
         let context_str_ptr = self.write_bytes_into_guest(context)?;

@@ -15,5 +15,5 @@
         get: ()=>_default
     });
     _react = /*#__PURE__*/ _interopRequireDefault(_exportStar(_react, exports));
-    var _default = _react.default;
+    const _default = _react.default;
 });

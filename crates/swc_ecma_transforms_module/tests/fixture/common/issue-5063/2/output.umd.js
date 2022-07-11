@@ -16,9 +16,9 @@
         });
     }
     _export(exports, {
-        default: ()=>_default,
         Foo: ()=>Foo,
-        foo: ()=>foo
+        foo: ()=>foo,
+        default: ()=>_default
     });
     class Foo {
         [void 0] = this;
@@ -33,7 +33,7 @@
     function foo(a = this) {
         console.log(a);
     }
-    var _default = {
+    const _default = {
         [void 0]: void 0,
         [void 0] (a, b = this.x) {
             return a + b;

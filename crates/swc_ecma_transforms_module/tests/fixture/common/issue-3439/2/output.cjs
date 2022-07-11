@@ -9,13 +9,13 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    default: ()=>_default,
     bar: ()=>bar,
     foo1: ()=>foo,
     bar2: ()=>bar,
-    foo: ()=>foo
+    foo: ()=>foo,
+    default: ()=>_default
 });
 const foo = 1;
 let bar = 2;
-var _default = bar;
+const _default = bar;
 bar = 3;

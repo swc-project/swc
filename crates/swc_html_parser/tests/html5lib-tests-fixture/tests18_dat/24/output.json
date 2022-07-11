@@ -61,7 +61,8 @@
                 "end": 55,
                 "ctxt": 0
               },
-              "data": "abc"
+              "data": "abc",
+              "raw": "abc"
             },
             {
               "type": "Element",
@@ -114,7 +115,8 @@
                                 "end": 43,
                                 "ctxt": 0
                               },
-                              "data": "</style>"
+                              "data": "</style>",
+                              "raw": "</style>"
                             }
                           ],
                           "content": null,

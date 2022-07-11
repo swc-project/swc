@@ -12,7 +12,7 @@ use path_absolutize::Absolutize;
 use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc::{
-    config::{Config, Options},
+    config::{Config, ConfigFile, Options},
     try_with_handler, Compiler, HandlerOpts, TransformOutput,
 };
 use swc_common::{
@@ -267,12 +267,9 @@ impl CompileOptions {
         let base_options = Options::default();
         let base_config = Config::default();
 
-        let config_file = if let Some(config_file_path) = &self.config_file {
-            let config_file_contents = fs::read(config_file_path)?;
-            serde_json::from_slice(&config_file_contents).context("Failed to parse config file")?
-        } else {
-            None
-        };
+        let config_file = self.config_file.as_ref().map(|config_file_path| {
+            ConfigFile::Str(config_file_path.to_string_lossy().to_string())
+        });
 
         let mut ret = Options {
             config: Config { ..base_config },

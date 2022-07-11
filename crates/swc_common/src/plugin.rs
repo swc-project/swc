@@ -12,6 +12,28 @@ use rkyv::{with::AsBox, Archive, Deserialize, Serialize};
 
 use crate::{syntax_pos::Mark, SyntaxContext};
 
+/**
+ * Compile-time version constant for the AST struct schema's version.
+ *
+ * NOTE: this is for PARTIAL compatibility only, supporting if AST struct
+ * adds new properties without changing / removing existing properties.
+ *
+ * - When adding a new properties to the AST struct:
+ *  1. Create a new feature flag in cargo.toml
+ *  2. Create a new schema version with new feature flag.
+ *  3. Create a new AST struct with compile time feature flag with newly
+ *     added properties. Previous struct should remain with existing feature
+ *     flag, or add previous latest feature flag.
+ *
+ * - When removing, or changing existing properties in the AST struct: TBD
+ */
+#[cfg(feature = "plugin-transform-schema-v1")]
+pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = 1;
+
+// Reserved for the testing purpose.
+#[cfg(feature = "plugin-transform-schema-vtest")]
+pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = u32::MAX - 1;
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
 #[cfg_attr(
@@ -62,12 +84,12 @@ impl PluginSerializedBytes {
     }
 
     /**
-     * Constructs an instance from given struct by serializing it.
+     * Constructs an instance from versioned struct by serializing it.
      *
      * This is sort of mimic TryFrom behavior, since we can't use generic
      * to implement TryFrom trait
      */
-    pub fn try_serialize<W>(t: &W) -> Result<Self, Error>
+    pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
@@ -105,7 +127,7 @@ impl PluginSerializedBytes {
         (self.field.as_ptr(), self.field.len())
     }
 
-    pub fn deserialize<W>(&self) -> Result<W, Error>
+    pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
@@ -113,7 +135,7 @@ impl PluginSerializedBytes {
         use anyhow::Context;
         use rkyv::Deserialize;
 
-        let archived = unsafe { rkyv::archived_root::<W>(&self.field[..]) };
+        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
 
         archived
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
@@ -130,7 +152,7 @@ impl PluginSerializedBytes {
 pub unsafe fn deserialize_from_ptr<W>(
     raw_allocated_ptr: *const u8,
     raw_allocated_ptr_len: i32,
-) -> Result<W, Error>
+) -> Result<VersionedSerializable<W>, Error>
 where
     W: rkyv::Archive,
     W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
@@ -153,7 +175,7 @@ where
 pub unsafe fn deserialize_from_ptr_into_fallible<W>(
     raw_allocated_ptr: *const u8,
     raw_allocated_ptr_len: i32,
-) -> Result<W, Error>
+) -> Result<VersionedSerializable<W>, Error>
 where
     W: rkyv::Archive,
     W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
@@ -194,10 +216,7 @@ impl<T> VersionedSerializable<T> {
         &self.0 .1
     }
 
-    pub fn take(&mut self) -> T
-    where
-        T: Default,
-    {
-        mem::take(&mut self.0 .1)
+    pub fn into_inner(self) -> T {
+        self.0 .1
     }
 }

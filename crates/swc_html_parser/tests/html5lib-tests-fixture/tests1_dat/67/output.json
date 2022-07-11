@@ -61,7 +61,8 @@
                     "end": 11,
                     "ctxt": 0
                   },
-                  "data": " abc "
+                  "data": " abc ",
+                  "raw": " abc "
                 },
                 {
                   "type": "Element",
@@ -81,7 +82,8 @@
                         "end": 19,
                         "ctxt": 0
                       },
-                      "data": " def "
+                      "data": " def ",
+                      "raw": " def "
                     },
                     {
                       "type": "Element",
@@ -101,7 +103,8 @@
                             "end": 26,
                             "ctxt": 0
                           },
-                          "data": " ghi"
+                          "data": " ghi",
+                          "raw": " ghi"
                         }
                       ],
                       "content": null,

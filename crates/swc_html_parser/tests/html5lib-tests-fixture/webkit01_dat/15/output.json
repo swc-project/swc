@@ -50,7 +50,8 @@
                 "end": 5,
                 "ctxt": 0
               },
-              "data": "<"
+              "data": "<",
+              "raw": "&lt;"
             }
           ],
           "content": null,

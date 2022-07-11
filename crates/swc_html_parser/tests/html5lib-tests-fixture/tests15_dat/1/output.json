@@ -142,7 +142,8 @@
                             "end": 18,
                             "ctxt": 0
                           },
-                          "data": "\n"
+                          "data": "\n",
+                          "raw": "\n"
                         },
                         {
                           "type": "Element",
@@ -162,7 +163,8 @@
                                 "end": 22,
                                 "ctxt": 0
                               },
-                              "data": "X"
+                              "data": "X",
+                              "raw": "X"
                             }
                           ],
                           "content": null,

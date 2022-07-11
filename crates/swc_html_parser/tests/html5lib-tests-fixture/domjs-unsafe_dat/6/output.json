@@ -60,7 +60,8 @@
                     "end": 31,
                     "ctxt": 0
                   },
-                  "data": "<!-- foo-�"
+                  "data": "<!-- foo-�",
+                  "raw": "<!-- foo-\u0000"
                 }
               ],
               "content": null,

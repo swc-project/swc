@@ -112,6 +112,24 @@ impl VisitMut for ModuleRefRewriter {
         self.visit_mut_with_non_global_this(&mut n.value);
     }
 
+    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        n.key.visit_mut_with(self);
+
+        self.visit_mut_with_non_global_this(&mut n.value);
+    }
+
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        n.key.visit_mut_with(self);
+
+        self.visit_mut_with_non_global_this(&mut n.body);
+    }
+
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.key.visit_mut_with(self);
+
+        self.visit_mut_with_non_global_this(&mut n.body);
+    }
+
     fn visit_mut_static_block(&mut self, n: &mut StaticBlock) {
         self.visit_mut_with_non_global_this(n);
     }

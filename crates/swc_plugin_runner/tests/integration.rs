@@ -5,7 +5,12 @@ use std::{
 };
 
 use anyhow::{anyhow, Error};
-use swc_common::{errors::HANDLER, plugin::PluginSerializedBytes, sync::Lazy, FileName};
+use swc_common::{
+    errors::HANDLER,
+    plugin::{PluginSerializedBytes, VersionedSerializable},
+    sync::Lazy,
+    FileName,
+};
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
@@ -19,6 +24,14 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         cmd.args(["build", "--target=wasm32-wasi"])
             .stderr(Stdio::inherit());
         cmd.output()?;
+
+        if !cmd
+            .status()
+            .expect("Exit code should be available")
+            .success()
+        {
+            return Err(anyhow!("Failed to build plugin"));
+        }
     }
 
     for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("debug"))? {
@@ -80,31 +93,29 @@ fn internal() -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
+            .expect("Should serializable");
         let config =
-            PluginSerializedBytes::try_serialize(&"{}".to_string()).expect("Should serializable");
-        let context = PluginSerializedBytes::try_serialize(
-            &"{sourceFileName: 'single_plugin_test'}".to_string(),
-        )
+            PluginSerializedBytes::try_serialize(&VersionedSerializable::new("{}".to_string()))
+                .expect("Should serializable");
+        let context = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+            "{sourceFileName: 'single_plugin_test'}".to_string(),
+        ))
         .expect("Should serializable");
 
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
+        let mut plugin_transform_executor =
+            swc_plugin_runner::create_plugin_transform_executor(&path, &cache, &cm)
+                .expect("Should load plugin");
 
-        let program_bytes = swc_plugin_runner::apply_transform_plugin(
-            "internal-test",
-            &path,
-            &cache,
-            program,
-            config,
-            context,
-            false,
-            &cm,
-        )
-        .expect("Plugin should apply transform");
+        let program_bytes = plugin_transform_executor
+            .transform(&program, &config, &context, false)
+            .expect("Plugin should apply transform");
 
         let program: Program = program_bytes
             .deserialize()
-            .expect("Should able to deserialize");
+            .expect("Should able to deserialize")
+            .into_inner();
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };
@@ -132,28 +143,26 @@ fn internal() -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
+            .expect("Should serializable");
         let config =
-            PluginSerializedBytes::try_serialize(&"{}".to_string()).expect("Should serializable");
-        let context = PluginSerializedBytes::try_serialize(
-            &"{sourceFileName: 'single_plugin_handler_test'}".to_string(),
-        )
+            PluginSerializedBytes::try_serialize(&VersionedSerializable::new("{}".to_string()))
+                .expect("Should serializable");
+        let context = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+            "{sourceFileName: 'single_plugin_handler_test'}".to_string(),
+        ))
         .expect("Should serializable");
 
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         let _res = HANDLER.set(&handler, || {
-            swc_plugin_runner::apply_transform_plugin(
-                "internal-test",
-                &path,
-                &cache,
-                program,
-                config,
-                context,
-                false,
-                &cm,
-            )
-            .expect("Plugin should apply transform")
+            let mut plugin_transform_executor =
+                swc_plugin_runner::create_plugin_transform_executor(&path, &cache, &cm)
+                    .expect("Should load plugin");
+
+            plugin_transform_executor
+                .transform(&program, &config, &context, false)
+                .expect("Plugin should apply transform")
         });
 
         Ok(())
@@ -176,43 +185,53 @@ fn internal() -> Result<(), Error> {
         .unwrap();
 
         let mut serialized_program =
-            PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
+            PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
+                .expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
-        serialized_program = swc_plugin_runner::apply_transform_plugin(
-            "internal-test",
-            &path,
-            &cache,
-            serialized_program,
-            PluginSerializedBytes::try_serialize(&"{}".to_string()).expect("Should serializable"),
-            PluginSerializedBytes::try_serialize(
-                &"{sourceFileName: 'multiple_plugin_test'}".to_string(),
+        let mut plugin_transform_executor =
+            swc_plugin_runner::create_plugin_transform_executor(&path, &cache, &cm)
+                .expect("Should load plugin");
+
+        serialized_program = plugin_transform_executor
+            .transform(
+                &serialized_program,
+                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                    "{}".to_string(),
+                ))
+                .expect("Should serializable"),
+                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                    "{sourceFileName: 'multiple_plugin_test'}".to_string(),
+                ))
+                .expect("Should serializable"),
+                false,
             )
-            .expect("Should serializable"),
-            false,
-            &cm,
-        )
-        .expect("Plugin should apply transform");
+            .expect("Plugin should apply transform");
 
         // TODO: we'll need to apply 2 different plugins
-        serialized_program = swc_plugin_runner::apply_transform_plugin(
-            "internal-test",
-            &path,
-            &cache,
-            serialized_program,
-            PluginSerializedBytes::try_serialize(&"{}".to_string()).expect("Should serializable"),
-            PluginSerializedBytes::try_serialize(
-                &"{sourceFileName: 'multiple_plugin_test2'}".to_string(),
+        let mut plugin_transform_executor =
+            swc_plugin_runner::create_plugin_transform_executor(&path, &cache, &cm)
+                .expect("Should load plugin");
+
+        serialized_program = plugin_transform_executor
+            .transform(
+                &serialized_program,
+                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                    "{}".to_string(),
+                ))
+                .expect("Should serializable"),
+                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                    "{sourceFileName: 'multiple_plugin_test2'}".to_string(),
+                ))
+                .expect("Should serializable"),
+                false,
             )
-            .expect("Should serializable"),
-            false,
-            &cm,
-        )
-        .expect("Plugin should apply transform");
+            .expect("Plugin should apply transform");
 
         let program: Program = serialized_program
             .deserialize()
-            .expect("Should able to deserialize");
+            .expect("Should able to deserialize")
+            .into_inner();
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };

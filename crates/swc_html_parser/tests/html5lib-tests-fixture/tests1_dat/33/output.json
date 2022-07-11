@@ -72,7 +72,8 @@
                     "end": 25,
                     "ctxt": 0
                   },
-                  "data": "hello"
+                  "data": "hello",
+                  "raw": "hello"
                 }
               ],
               "content": null,
@@ -96,7 +97,8 @@
                     "end": 34,
                     "ctxt": 0
                   },
-                  "data": "world"
+                  "data": "world",
+                  "raw": "world"
                 },
                 {
                   "type": "Element",
@@ -116,7 +118,8 @@
                         "end": 41,
                         "ctxt": 0
                       },
-                      "data": "how"
+                      "data": "how",
+                      "raw": "how"
                     },
                     {
                       "type": "Element",
@@ -136,7 +139,8 @@
                             "end": 47,
                             "ctxt": 0
                           },
-                          "data": "do"
+                          "data": "do",
+                          "raw": "do"
                         }
                       ],
                       "content": null,
@@ -153,7 +157,8 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "data": "you"
+                  "data": "you",
+                  "raw": "you"
                 }
               ],
               "content": null,

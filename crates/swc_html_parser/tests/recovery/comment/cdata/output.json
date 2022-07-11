@@ -81,7 +81,8 @@
                 "end": 227,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -101,7 +102,8 @@
                     "end": 258,
                     "ctxt": 0
                   },
-                  "data": "XHTML 1.0 Strict Example"
+                  "data": "XHTML 1.0 Strict Example",
+                  "raw": "XHTML 1.0 Strict Example"
                 }
               ],
               "content": null,
@@ -114,7 +116,8 @@
                 "end": 271,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -147,7 +150,8 @@
                     "end": 479,
                     "ctxt": 0
                   },
-                  "data": "\n        <![CDATA[\n        function loadpdf() {\n            document.getElementById(\"pdf-object\").src=\"http://www.w3.org/TR/xhtml1/xhtml1.pdf\";\n        }\n        ]]>\n    "
+                  "data": "\n        <![CDATA[\n        function loadpdf() {\n            document.getElementById(\"pdf-object\").src=\"http://www.w3.org/TR/xhtml1/xhtml1.pdf\";\n        }\n        ]]>\n    ",
+                  "raw": "\n        <![CDATA[\n        function loadpdf() {\n            document.getElementById(\"pdf-object\").src=\"http://www.w3.org/TR/xhtml1/xhtml1.pdf\";\n        }\n        ]]>\n    "
                 }
               ],
               "content": null,
@@ -160,7 +164,8 @@
                 "end": 489,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -173,7 +178,8 @@
             "end": 497,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -206,7 +212,8 @@
                 "end": 523,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -226,7 +233,8 @@
                     "end": 555,
                     "ctxt": 0
                   },
-                  "data": "This is an example of an\n    "
+                  "data": "This is an example of an\n    ",
+                  "raw": "This is an example of an\n    "
                 },
                 {
                   "type": "Element",
@@ -259,7 +267,8 @@
                         "end": 611,
                         "ctxt": 0
                       },
-                      "data": "XHTML"
+                      "data": "XHTML",
+                      "raw": "XHTML"
                     }
                   ],
                   "content": null,
@@ -272,7 +281,8 @@
                     "end": 639,
                     "ctxt": 0
                   },
-                  "data": " 1.0 Strict document."
+                  "data": " 1.0 Strict document.",
+                  "raw": " 1.0 Strict document."
                 },
                 {
                   "type": "Element",
@@ -295,7 +305,8 @@
                     "end": 650,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -369,7 +380,8 @@
                     "end": 779,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -453,7 +465,8 @@
                     "end": 956,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -466,7 +479,8 @@
                 "end": 977,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

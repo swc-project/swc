@@ -6,7 +6,7 @@ license = "Apache-2.0"
 name = "binding_core_wasm"
 publish = false
 repository = "https://github.com/swc-project/swc.git"
-version = "1.2.210"
+version = "1.2.211"
 
 [lib]
 bench = false
@@ -20,6 +20,7 @@ swc_v2 = []
 plugin = [
   "swc/plugin",
   "swc_plugin_runner/memory_cache",
+  "swc_plugin_runner/plugin-transform-schema-v1",
   "wasmer",
   "wasmer-wasi",
   "wasmer/js-default",

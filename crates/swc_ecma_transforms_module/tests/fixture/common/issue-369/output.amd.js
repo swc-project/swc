@@ -13,8 +13,8 @@ define([
         });
     }
     _export(exports, {
-        default: ()=>_default,
-        input: ()=>input
+        input: ()=>input,
+        default: ()=>_default
     });
     function input(name) {
         return `${name}.md?render`;

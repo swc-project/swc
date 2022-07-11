@@ -85,7 +85,8 @@
                         "end": 41,
                         "ctxt": 0
                       },
-                      "data": "Italic and Red"
+                      "data": "Italic and Red",
+                      "raw": "Italic and Red"
                     }
                   ],
                   "content": null,
@@ -148,7 +149,8 @@
                             "end": 59,
                             "ctxt": 0
                           },
-                          "data": "Italic and Red "
+                          "data": "Italic and Red ",
+                          "raw": "Italic and Red "
                         }
                       ],
                       "content": null,
@@ -161,7 +163,8 @@
                         "end": 79,
                         "ctxt": 0
                       },
-                      "data": " Just italic."
+                      "data": " Just italic.",
+                      "raw": " Just italic."
                     }
                   ],
                   "content": null,
@@ -174,7 +177,8 @@
                     "end": 96,
                     "ctxt": 0
                   },
-                  "data": " Italic only."
+                  "data": " Italic only.",
+                  "raw": " Italic only."
                 }
               ],
               "content": null,
@@ -187,7 +191,8 @@
                 "end": 107,
                 "ctxt": 0
               },
-              "data": " Plain\n"
+              "data": " Plain\n",
+              "raw": " Plain\n"
             },
             {
               "type": "Element",
@@ -207,7 +212,8 @@
                     "end": 131,
                     "ctxt": 0
                   },
-                  "data": "I should not be red. "
+                  "data": "I should not be red. ",
+                  "raw": "I should not be red. "
                 },
                 {
                   "type": "Element",
@@ -240,7 +246,8 @@
                         "end": 152,
                         "ctxt": 0
                       },
-                      "data": "Red. "
+                      "data": "Red. ",
+                      "raw": "Red. "
                     },
                     {
                       "type": "Element",
@@ -260,7 +267,8 @@
                             "end": 170,
                             "ctxt": 0
                           },
-                          "data": "Italic and red."
+                          "data": "Italic and red.",
+                          "raw": "Italic and red."
                         }
                       ],
                       "content": null,
@@ -316,7 +324,8 @@
                         "end": 175,
                         "ctxt": 0
                       },
-                      "data": "\n"
+                      "data": "\n",
+                      "raw": "\n"
                     }
                   ],
                   "content": null,
@@ -379,7 +388,8 @@
                             "end": 194,
                             "ctxt": 0
                           },
-                          "data": "Italic and red. "
+                          "data": "Italic and red. ",
+                          "raw": "Italic and red. "
                         }
                       ],
                       "content": null,
@@ -392,7 +402,8 @@
                         "end": 203,
                         "ctxt": 0
                       },
-                      "data": " Red."
+                      "data": " Red.",
+                      "raw": " Red."
                     }
                   ],
                   "content": null,
@@ -405,7 +416,8 @@
                     "end": 231,
                     "ctxt": 0
                   },
-                  "data": " I should not be red."
+                  "data": " I should not be red.",
+                  "raw": " I should not be red."
                 }
               ],
               "content": null,
@@ -418,7 +430,8 @@
                 "end": 236,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -438,7 +451,8 @@
                     "end": 244,
                     "ctxt": 0
                   },
-                  "data": "Bold "
+                  "data": "Bold ",
+                  "raw": "Bold "
                 },
                 {
                   "type": "Element",
@@ -458,7 +472,8 @@
                         "end": 262,
                         "ctxt": 0
                       },
-                      "data": "Bold and italic"
+                      "data": "Bold and italic",
+                      "raw": "Bold and italic"
                     }
                   ],
                   "content": null,
@@ -486,7 +501,8 @@
                     "end": 279,
                     "ctxt": 0
                   },
-                  "data": " Only Italic "
+                  "data": " Only Italic ",
+                  "raw": " Only Italic "
                 }
               ],
               "content": null,
@@ -499,7 +515,8 @@
                 "end": 289,
                 "ctxt": 0
               },
-              "data": " Plain"
+              "data": " Plain",
+              "raw": " Plain"
             }
           ],
           "content": null,

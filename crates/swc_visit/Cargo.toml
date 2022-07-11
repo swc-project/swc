@@ -5,11 +5,14 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_visit"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.3.2"
+version = "0.4.0"
 
 [lib]
 bench = false
 
+[features]
+path = []
+
 [dependencies]
 either = "1.5.3"
-swc_visit_macros = {version = "0.3.2", path = "../swc_visit_macros"}
+swc_visit_macros = { version = "0.4.0", path = "../swc_visit_macros" }

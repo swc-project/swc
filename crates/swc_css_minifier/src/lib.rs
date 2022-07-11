@@ -21,6 +21,7 @@ pub mod options;
 
 pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
     stylesheet.visit_mut_with(&mut compress_empty());
+    stylesheet.visit_mut_with(&mut compress_color());
     stylesheet.visit_mut_with(&mut compress_alpha_value());
     stylesheet.visit_mut_with(&mut compress_length());
     stylesheet.visit_mut_with(&mut compress_angle());
@@ -30,7 +31,6 @@ pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
     stylesheet.visit_mut_with(&mut compress_unicode_range());
     stylesheet.visit_mut_with(&mut compress_easing_function());
     stylesheet.visit_mut_with(&mut compress_transform_function());
-    stylesheet.visit_mut_with(&mut compress_color());
     stylesheet.visit_mut_with(&mut compress_declaration());
     stylesheet.visit_mut_with(&mut compress_selector());
     stylesheet.visit_mut_with(&mut compress_keyframes());

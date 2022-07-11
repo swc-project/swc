@@ -72,7 +72,8 @@
                     "end": 28,
                     "ctxt": 0
                   },
-                  "data": "foo"
+                  "data": "foo",
+                  "raw": "foo"
                 },
                 {
                   "type": "Element",
@@ -114,7 +115,8 @@
                                 "end": 47,
                                 "ctxt": 0
                               },
-                              "data": "baz"
+                              "data": "baz",
+                              "raw": "baz"
                             }
                           ],
                           "content": null,
@@ -175,7 +177,8 @@
                                         "end": 93,
                                         "ctxt": 0
                                       },
-                                      "data": "eggs"
+                                      "data": "eggs",
+                                      "raw": "eggs"
                                     }
                                   ],
                                   "content": null,
@@ -225,7 +228,8 @@
                                             "end": 129,
                                             "ctxt": 0
                                           },
-                                          "data": "spam"
+                                          "data": "spam",
+                                          "raw": "spam"
                                         }
                                       ],
                                       "content": null,
@@ -331,7 +335,8 @@
                                     "end": 189,
                                     "ctxt": 0
                                   },
-                                  "data": "quux"
+                                  "data": "quux",
+                                  "raw": "quux"
                                 }
                               ],
                               "content": null,
@@ -356,7 +361,8 @@
                     "end": 226,
                     "ctxt": 0
                   },
-                  "data": "bar"
+                  "data": "bar",
+                  "raw": "bar"
                 }
               ],
               "content": null,

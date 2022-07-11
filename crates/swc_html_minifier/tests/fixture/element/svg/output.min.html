@@ -49,5 +49,108 @@
     <polygon points="0,100 50,25 50,75 100,0"/>
 
     
-    <polygon points="100,100 150,25 150,75 200,0" fill=black stroke=black />
+    <polygon points="100,100 150,25 150,75 200,0" stroke=black />
+</svg>
+
+<svg viewBox="0 0 200 30">
+    <text y=20>Normal text</text>
+    <text x=100 y=20 font-weight=bold>Bold text</text>
+</svg>
+
+<svg viewBox="0 0 250 30">
+    <text y=20>Normal text</text>
+    <text x=100 y=20 font-variant=small-caps>Small-caps text</text>
+</svg>
+
+<svg viewBox="0 0 250 30">
+    <text y=20>Normal font style</text>
+    <text x=150 y=20 font-style=italic>Italic font style</text>
+</svg>
+
+<svg viewBox="0 0 200 30">
+    <text y=20>smaller</text>
+    <textPath y=20>smaller</textPath>
+    <text x=100 y=20 font-size=2em>2em</text>
+</svg>
+
+<svg viewBox="0 0 300 100">
+    
+    <circle cx=50 cy=50 r=40 fill=pink />
+
+    
+    <defs>
+        <radialGradient id=myGradient>
+            <stop offset=0% stop-color=pink />
+            <stop offset=100% stop-color=black />
+        </radialGradient>
+    </defs>
+
+    <circle cx=150 cy=50 r=40 fill=url(#myGradient) />
+
+    
+    <circle cx=250 cy=50 r=20>
+        <animate attributeType=XML attributeName=r from=0 to=40 dur=5s fill=freeze />
+    </circle>
+</svg>
+
+<svg viewBox="0 0 400 100">
+    
+    <circle cx=50 cy=50 r=40 />
+
+    <circle cx=50 cy=50 r=40 />
+
+    
+    <circle cx=150 cy=50 r=40 fill-opacity=0.7 />
+
+    
+    <circle cx=250 cy=50 r=40 fill-opacity=50% />
+
+    
+    <circle cx=350 cy=50 r=40 style=fill-opacity:.25 />
+</svg>
+
+<svg>
+    <feMorphology/>
+</svg>
+
+<svg viewBox="0 0 420 200">
+    <filter id=composite1 x=0 y=0 width=100% height=100%>
+        <feComposite in2=SourceGraphic operator=arithmetic k1=1 />
+    </filter>
+    <filter id=composite2 x=0 y=0 width=100% height=100%>
+        <feComposite in2=SourceGraphic operator=arithmetic k1=10 k4=0.3 />
+    </filter>
+
+    <image href=mdn.svg x=0 y=0 width=200 height=200 style=filter:url(#composite1) />
+    <image href=mdn.svg x=0 y=0 width=200 height=200 style=filter:url(#composite2);transform:translateX(220px) />
+</svg>
+
+<svg viewBox="0 0 10 10">
+    <line x1=1 x2=9 stroke=red />
+    <line x1=1 x2=9 y1=5 y2=5 stroke=green />
+    <line x1=1 x2=9 y1=5 y2=9 stroke=blue />
+</svg>
+
+<svg viewBox="0 0 440 160">
+    <filter id=displacementFilter>
+        <feImage xlink:href=mdn.svg x=0 y=0 width=100% height=100% result=abc />
+        <feDisplacementMap in2=abc in=SourceGraphic scale=30 />
+    </filter>
+    <filter id=displacementFilter2>
+        <feImage xlink:href=mdn.svg x=0 y=0 width=100% height=100% result=abc />
+        <feDisplacementMap in2=abc in=SourceGraphic scale=30 yChannelSelector=B />
+    </filter>
+
+    <text x=10 y=60 font-size=50 filter=url(#displacementFilter)>Some displaced text</text>
+    <text x=10 y=120 font-size=50 filter=url(#displacementFilter2)>Some displaced text</text>
+</svg>
+
+<svg viewBox="0 0 200 200">
+    <filter id=diffuseLighting x=0 y=0 width=100% height=100%>
+        <feDiffuseLighting in=SourceGraphic zoomAndPan=1>
+            <fePointLight x=60 y=60 z=20 />
+        </feDiffuseLighting>
+    </filter>
+
+    <rect x=0 y=0 width=200 height=200 style=filter:url(#diffuseLighting) />
 </svg>

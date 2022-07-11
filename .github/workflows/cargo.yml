@@ -94,11 +94,11 @@ jobs:
             os: ubuntu-latest
           - crate: better_scoped_tls
             os: ubuntu-latest
-          - crate: swc_nodejs_common
-            os: ubuntu-latest
           - crate: binding_core_node
             os: ubuntu-latest
           - crate: binding_core_wasm
+            os: ubuntu-latest
+          - crate: dbg-swc
             os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
@@ -115,7 +115,7 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin-transform-schema-v1
           - crate: swc
             os: windows-latest
           - crate: swc_atoms
@@ -136,7 +136,7 @@ jobs:
           - crate: swc_common
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin-transform-schema-vtest
           - crate: swc_common
             os: windows-latest
           - crate: swc_config
@@ -203,6 +203,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_ecma_quote_macros
             os: ubuntu-latest
+          - crate: swc_ecma_testing
+            os: ubuntu-latest
           - crate: swc_ecma_transforms
             os: ubuntu-latest
             check: |
@@ -243,6 +245,8 @@ jobs:
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_visit
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecmascript
             os: ubuntu-latest
           - crate: swc_eq_ignore_macros
@@ -273,6 +277,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_html_parser
             os: windows-latest
+          - crate: swc_html_utils
+            os: ubuntu-latest
           - crate: swc_html_visit
             os: ubuntu-latest
           - crate: swc_macros_common
@@ -287,6 +293,8 @@ jobs:
           - crate: swc_node_bundler
             os: windows-latest
           - crate: swc_node_comments
+            os: ubuntu-latest
+          - crate: swc_nodejs_common
             os: ubuntu-latest
           - crate: swc_plugin
             os: ubuntu-latest
@@ -390,8 +398,14 @@ jobs:
             swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
 
       - name: Run cargo test
+        if: matrix.settings.crate != 'swc_plugin_runner'
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }}
+
+      - name: Run cargo test (plugin)
+        if: matrix.settings.crate == 'swc_plugin_runner'
+        run: |
+          cargo test --color always -p swc_plugin_runner --features plugin-transform-schema-v1
 
       - name: Run cargo test (all features)
         if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'

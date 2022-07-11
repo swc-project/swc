@@ -16,8 +16,8 @@
         });
     }
     _export(exports, {
-        default: ()=>foo,
-        bar: ()=>foo
+        bar: ()=>foo,
+        default: ()=>foo
     });
     foo = 1;
     class foo {

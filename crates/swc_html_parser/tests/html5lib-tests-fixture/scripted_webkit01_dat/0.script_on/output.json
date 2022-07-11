@@ -50,7 +50,8 @@
                 "end": 2,
                 "ctxt": 0
               },
-              "data": "1"
+              "data": "1",
+              "raw": "1"
             },
             {
               "type": "Element",
@@ -70,7 +71,8 @@
                     "end": 29,
                     "ctxt": 0
                   },
-                  "data": "document.write(\"2\")"
+                  "data": "document.write(\"2\")",
+                  "raw": "document.write(\"2\")"
                 }
               ],
               "content": null,
@@ -83,7 +85,8 @@
                 "end": 39,
                 "ctxt": 0
               },
-              "data": "3"
+              "data": "3",
+              "raw": "3"
             }
           ],
           "content": null,

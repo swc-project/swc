@@ -61,7 +61,8 @@
                     "end": 10,
                     "ctxt": 0
                   },
-                  "data": "test"
+                  "data": "test",
+                  "raw": "test"
                 }
               ],
               "content": null,
@@ -74,7 +75,8 @@
                 "end": 17,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -107,7 +109,8 @@
                     "end": 24,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 },
                 {
                   "type": "Element",
@@ -127,7 +130,8 @@
                         "end": 33,
                         "ctxt": 0
                       },
-                      "data": "test"
+                      "data": "test",
+                      "raw": "test"
                     }
                   ],
                   "content": null,
@@ -140,7 +144,8 @@
                     "end": 40,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 },
                 {
                   "type": "Element",

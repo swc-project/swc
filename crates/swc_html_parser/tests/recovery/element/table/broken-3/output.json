@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +81,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +95,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +109,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +130,8 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -146,7 +151,8 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 }
               ],
               "content": null,
@@ -170,7 +176,8 @@
                     "end": 113,
                     "ctxt": 0
                   },
-                  "data": "\n        "
+                  "data": "\n        ",
+                  "raw": "\n        "
                 },
                 {
                   "type": "Element",
@@ -201,7 +208,8 @@
                             "end": 130,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -221,7 +229,8 @@
                                 "end": 169,
                                 "ctxt": 0
                               },
-                              "data": "\n                Table\n            "
+                              "data": "\n                Table\n            ",
+                              "raw": "\n                Table\n            "
                             }
                           ],
                           "content": null,
@@ -234,7 +243,8 @@
                             "end": 183,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         }
                       ],
                       "content": null,
@@ -247,7 +257,8 @@
                         "end": 193,
                         "ctxt": 0
                       },
-                      "data": "\n    "
+                      "data": "\n    ",
+                      "raw": "\n    "
                     }
                   ],
                   "content": null,
@@ -264,7 +275,8 @@
                 "end": 220,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

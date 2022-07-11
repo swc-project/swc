@@ -50,7 +50,8 @@
                 "end": 15,
                 "ctxt": 0
               },
-              "data": "FOOƒZOO"
+              "data": "FOOƒZOO",
+              "raw": "FOO&#x0083;ZOO"
             }
           ],
           "content": null,

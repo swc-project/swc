@@ -15,7 +15,7 @@ _export(exports, {
 const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
 const _bar = require("bar");
 const _baz = /*#__PURE__*/ _interopRequireWildcard(require("baz"));
-var _default = {
+const _default = {
     foo: _foo.default,
     baz: _baz,
     baz: _baz

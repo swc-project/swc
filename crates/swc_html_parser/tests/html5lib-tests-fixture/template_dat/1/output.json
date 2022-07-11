@@ -55,7 +55,8 @@
                       "end": 16,
                       "ctxt": 0
                     },
-                    "data": "Hello"
+                    "data": "Hello",
+                    "raw": "Hello"
                   }
                 ]
               },
