@@ -1,1 +1,0 @@
-{"version":3,"sources":["/Users/kdy1/projects/master-swc/tests/srcmap/issue-622/index.js"],"sourcesContent":["function* foo() {\n    try {\n        return yield call();\n    } finally {\n    }\n}"],"names":["foo","call"],"mappings":";sCAAUA,GAAG;SAAHA,GAAG,GAAG,CAAC;4CAAPA,IAAG;;;;;uBAEQC,IAAI;;;;;;;;;;;;;;;;;;AAGzB,CAAC"}
