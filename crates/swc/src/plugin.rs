@@ -127,6 +127,10 @@ impl RustPlugins {
                                 &self.source_map,
                             )?;
 
+                        if !transform_plugin_executor.is_transform_schema_compatible()? {
+                            anyhow::bail!("Cannot execute incompatible plugin {}", &p.0);
+                        }
+
                         let span = tracing::span!(
                             tracing::Level::INFO,
                             "serialize_context",
