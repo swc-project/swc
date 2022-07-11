@@ -7,6 +7,9 @@
 
 - **(es/modules)** Add the missing span for `export default` (#5170) ([997240c](https://github.com/swc-project/swc/commit/997240cfe68ff7787d73e93758f2d2304715e249))
 
+
+- **(es/modules)** Keep TDZ for `export default` if possible (#5164) ([56ad09a](https://github.com/swc-project/swc/commit/56ad09afb245b940a660a394908c1501fa5781ef))
+
 ### Features
 
 
