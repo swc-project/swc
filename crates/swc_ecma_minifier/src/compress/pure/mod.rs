@@ -321,8 +321,6 @@ impl VisitMut for Pure<'_> {
 
         self.eval_str_addition(e);
 
-        self.eval_trivial_values_in_expr(e);
-
         self.remove_invalid(e);
 
         self.drop_console(e);
@@ -629,6 +627,8 @@ impl VisitMut for Pure<'_> {
         if e.exprs.is_empty() {
             return;
         }
+
+        self.eval_trivial_values_in_expr(e);
 
         self.merge_seq_call(e);
 

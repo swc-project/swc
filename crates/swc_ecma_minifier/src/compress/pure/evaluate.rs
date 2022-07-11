@@ -515,26 +515,19 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn eval_trivial_values_in_expr(&mut self, e: &mut Expr) {
-        let exprs = to_trivial_exprs(e);
-
-        self.eval_trivial_exprs(exprs);
-    }
-
-    /// `exprs` - Must follow evaluation order
-    fn eval_trivial_exprs(&mut self, mut exprs: Vec<&mut Expr>) {
-        if exprs.len() < 2 {
+    pub(super) fn eval_trivial_values_in_expr(&mut self, seq: &mut SeqExpr) {
+        if seq.exprs.len() < 2 {
             return;
         }
 
-        'outer: for idx in 0..exprs.len() {
-            let (a, b) = exprs.split_at_mut(idx);
+        'outer: for idx in 0..seq.exprs.len() {
+            let (a, b) = seq.exprs.split_at_mut(idx);
 
             for a in a.iter().rev() {
                 if let Some(b) = b.first_mut() {
                     self.eval_trivial_two(a, b);
 
-                    match b {
+                    match &**b {
                         Expr::Ident(..) | Expr::Lit(..) => {}
                         _ => break 'outer,
                     }
@@ -567,37 +560,6 @@ impl Pure<'_> {
                     }
                 }
             }
-        }
-    }
-}
-
-fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
-    match e {
-        Expr::Array(e) => e
-            .elems
-            .iter_mut()
-            .flatten()
-            .flat_map(|v| to_trivial_exprs(&mut v.expr))
-            .collect(),
-
-        Expr::Seq(e) => e
-            .exprs
-            .iter_mut()
-            .flat_map(|e| to_trivial_exprs(e))
-            .collect(),
-
-        Expr::Bin(BinExpr {
-            left,
-            right,
-            op: op!(bin, "+") | op!(bin, "-") | op!("*") | op!("/") | op!("%"),
-            ..
-        }) => to_trivial_exprs(left)
-            .into_iter()
-            .chain(to_trivial_exprs(right))
-            .collect(),
-
-        _ => {
-            vec![e]
         }
     }
 }
