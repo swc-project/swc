@@ -13,3 +13,14 @@ pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
 
     entities
 });
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Element(pub AHashMap<String, String>);
+
+pub static HTML_DEFAULT_ATTRIBUTES: Lazy<AHashMap<String, Element>> = Lazy::new(|| {
+    let default_attributes: AHashMap<String, Element> =
+        serde_json::from_str(include_str!("./html_default_attributes.json"))
+            .expect("failed to parse html_default_attributes.json for default attributes");
+
+    default_attributes
+});

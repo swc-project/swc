@@ -36,6 +36,7 @@ swc_html_ast = { version = "0.20.0", path = "../swc_html_ast" }
 swc_html_codegen = { version = "0.26.0", path = "../swc_html_codegen" }
 swc_html_visit = { version = "0.20.0", path = "../swc_html_visit" }
 swc_html_parser = { version = "0.23.0", path = "../swc_html_parser" }
+swc_html_utils = { version = "0.6.0", path = "../swc_html_utils" }
 
 [dev-dependencies]
 testing = { version = "0.26.0", path = "../testing" }

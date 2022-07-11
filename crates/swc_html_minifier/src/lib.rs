@@ -14,6 +14,7 @@ use swc_common::{
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
+use swc_html_utils::HTML_DEFAULT_ATTRIBUTES;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{
@@ -470,351 +471,297 @@ impl Minifier<'_> {
         attribute_name: &str,
         attribute_value: &str,
     ) -> bool {
-        matches!(
-            (
-                namespace,
-                tag_name,
-                attribute_name,
-                attribute_value.to_ascii_lowercase().trim()
-            ),
-            (
-                Namespace::HTML,
-                "html",
-                "xmlns",
-                "http://www.w3.org/1999/xhtml"
-            ) | (
-                Namespace::HTML,
-                "html",
-                "xmlns:xlink",
-                "http://www.w3.org/1999/xlink"
-            ) | (Namespace::HTML, "iframe", "height", "150")
-                | (Namespace::HTML, "iframe", "width", "300")
-                | (Namespace::HTML, "iframe", "frameborder", "1")
-                | (Namespace::HTML, "iframe", "loading", "eager")
-                | (Namespace::HTML, "iframe", "fetchpriority", "auto")
-                | (
-                    Namespace::HTML,
-                    "iframe",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
+        match namespace {
+            Namespace::HTML => {
+                // Legacy attributes, not in spec
+                if tag_name == "script" {
+                    match attribute_name {
+                        "type" => {
+                            match &*attribute_value.trim().to_ascii_lowercase() {
+                                // Legacy JavaScript MIME types
+                                "application/javascript"
+                                | "application/ecmascript"
+                                | "application/x-ecmascript"
+                                | "application/x-javascript"
+                                | "text/ecmascript"
+                                | "text/javascript1.0"
+                                | "text/javascript1.1"
+                                | "text/javascript1.2"
+                                | "text/javascript1.3"
+                                | "text/javascript1.4"
+                                | "text/javascript1.5"
+                                | "text/jscript"
+                                | "text/livescript"
+                                | "text/x-ecmascript"
+                                | "text/x-javascript" => return true,
+                                _ => {}
+                            }
+                        }
+                        "language" => match &*attribute_value.trim().to_ascii_lowercase() {
+                            "javascript" | "javascript1.2" | "javascript1.3" | "javascript1.4"
+                            | "javascript1.5" | "javascript1.6" | "javascript1.7" => return true,
+                            _ => {}
+                        },
+                        _ => {}
+                    }
+                }
+
+                let attributes = match HTML_DEFAULT_ATTRIBUTES.get(tag_name) {
+                    Some(element) => element,
+                    None => return false,
+                };
+
+                let default_value = match attributes.0.get(attribute_name) {
+                    Some(default_value) => default_value,
+                    None => return false,
+                };
+
+                let normalized_value = attribute_value.trim().to_ascii_lowercase();
+
+                normalized_value == *default_value
+            }
+            _ => {
+                matches!(
+                    (
+                        namespace,
+                        tag_name,
+                        attribute_name,
+                        attribute_value.to_ascii_lowercase().trim()
+                    ),
+                    (Namespace::SVG, "svg", "xmlns", "http://www.w3.org/2000/svg")
+                        | (
+                            Namespace::SVG,
+                            "svg",
+                            "xlink",
+                            "http://www.w3.org/1999/xlink"
+                        )
+                        | (Namespace::SVG, "style", "type", "text/css")
+                        | (Namespace::SVG, "script", "language", "javascript")
+                        | (Namespace::SVG, "script", "language", "javascript1.2")
+                        | (Namespace::SVG, "script", "language", "javascript1.3")
+                        | (Namespace::SVG, "script", "language", "javascript1.4")
+                        | (Namespace::SVG, "script", "language", "javascript1.5")
+                        | (Namespace::SVG, "script", "language", "javascript1.6")
+                        | (Namespace::SVG, "script", "language", "javascript1.7")
+                        | (Namespace::SVG, "script", "type", "text/javascript")
+                        | (Namespace::SVG, "script", "type", "text/ecmascript")
+                        | (Namespace::SVG, "script", "type", "text/jscript")
+                        | (Namespace::SVG, "script", "type", "application/javascript")
+                        | (Namespace::SVG, "script", "type", "application/x-javascript")
+                        | (Namespace::SVG, "script", "type", "application/ecmascript")
+                        | (Namespace::SVG, "script", "fetchpriority", "auto")
+                        | (
+                            Namespace::SVG,
+                            "script",
+                            "referrerpolicy",
+                            "strict-origin-when-cross-origin"
+                        )
+                        | (Namespace::SVG, "a", "opacity", "1")
+                        | (Namespace::SVG, "altGlyph", "opacity", "1")
+                        | (Namespace::SVG, "altGlyph", "fill", "black")
+                        | (Namespace::SVG, "altGlyph", "fill-opacity", "1")
+                        | (Namespace::SVG, "altGlyph", "fill-rule", "nonzero")
+                        | (Namespace::SVG, "altGlyph", "font-size", "medium")
+                        | (Namespace::SVG, "altGlyph", "font-size-adjust", "none")
+                        | (Namespace::SVG, "altGlyph", "font-stretch", "normal")
+                        | (Namespace::SVG, "altGlyph", "font-style", "normal")
+                        | (Namespace::SVG, "altGlyph", "font-variant", "normal")
+                        | (Namespace::SVG, "altGlyph", "font-weight", "normal")
+                        | (Namespace::SVG, "animate", "begin", "0s")
+                        | (Namespace::SVG, "animate", "dur", "indefinite")
+                        | (Namespace::SVG, "animate", "min", "0")
+                        | (Namespace::SVG, "animate", "opacity", "1")
+                        | (Namespace::SVG, "animate", "rotate", "0")
+                        | (Namespace::SVG, "animate", "restart", "always")
+                        | (Namespace::SVG, "animate", "fill", "remove")
+                        | (Namespace::SVG, "animate", "calcMode", "linear")
+                        | (Namespace::SVG, "animate", "additive", "replace")
+                        | (Namespace::SVG, "animate", "accumulate", "none")
+                        | (Namespace::SVG, "animateColor", "begin", "0s")
+                        | (Namespace::SVG, "animateColor", "dur", "indefinite")
+                        | (Namespace::SVG, "animateColor", "min", "0")
+                        | (Namespace::SVG, "animateColor", "opacity", "1")
+                        | (Namespace::SVG, "animateColor", "restart", "always")
+                        | (Namespace::SVG, "animateColor", "fill", "remove")
+                        | (Namespace::SVG, "animateColor", "calcMode", "linear")
+                        | (Namespace::SVG, "animateColor", "additive", "replace")
+                        | (Namespace::SVG, "animateColor", "accumulate", "none")
+                        | (Namespace::SVG, "animateMotion", "begin", "0s")
+                        | (Namespace::SVG, "animateMotion", "dur", "indefinite")
+                        | (Namespace::SVG, "animateMotion", "min", "0")
+                        | (Namespace::SVG, "animateMotion", "rotate", "0")
+                        | (Namespace::SVG, "animateMotion", "restart", "always")
+                        | (Namespace::SVG, "animateMotion", "fill", "remove")
+                        | (Namespace::SVG, "animateMotion", "calcMode", "linear")
+                        | (Namespace::SVG, "animateMotion", "additive", "replace")
+                        | (Namespace::SVG, "animateMotion", "accumulate", "none")
+                        | (Namespace::SVG, "animateTransform", "begin", "0s")
+                        | (Namespace::SVG, "animateTransform", "dur", "indefinite")
+                        | (Namespace::SVG, "animateTransform", "min", "0")
+                        | (Namespace::SVG, "animateTransform", "restart", "always")
+                        | (Namespace::SVG, "animateTransform", "fill", "remove")
+                        | (Namespace::SVG, "animateTransform", "calcMode", "linear")
+                        | (Namespace::SVG, "animateTransform", "additive", "replace")
+                        | (Namespace::SVG, "animateTransform", "accumulate", "none")
+                        | (Namespace::SVG, "circle", "cx", "0")
+                        | (Namespace::SVG, "circle", "cy", "0")
+                        | (Namespace::SVG, "circle", "r", "0")
+                        | (Namespace::SVG, "circle", "fill", "black")
+                        | (Namespace::SVG, "circle", "fill-opacity", "1")
+                        | (Namespace::SVG, "circle", "opacity", "1")
+                        | (Namespace::SVG, "clipPath", "opacity", "1")
+                        | (Namespace::SVG, "defs", "opacity", "1")
+                        | (Namespace::SVG, "discard", "begin", "0s")
+                        | (Namespace::SVG, "ellipse", "fill", "black")
+                        | (Namespace::SVG, "ellipse", "fill-opacity", "1")
+                        | (Namespace::SVG, "ellipse", "rx", "auto")
+                        | (Namespace::SVG, "ellipse", "ry", "auto")
+                        | (Namespace::SVG, "ellipse", "cx", "0")
+                        | (Namespace::SVG, "ellipse", "cy", "0")
+                        | (Namespace::SVG, "ellipse", "opacity", "1")
+                        | (Namespace::SVG, "feBlend", "opacity", "1")
+                        | (Namespace::SVG, "feColorMatrix", "opacity", "1")
+                        | (Namespace::SVG, "feComponentTransfer", "opacity", "1")
+                        | (Namespace::SVG, "feComposite", "opacity", "1")
+                        | (Namespace::SVG, "feComposite", "k1", "0")
+                        | (Namespace::SVG, "feComposite", "k2", "0")
+                        | (Namespace::SVG, "feComposite", "k3", "0")
+                        | (Namespace::SVG, "feComposite", "k4", "0")
+                        | (Namespace::SVG, "feConvolveMatrix", "opacity", "1")
+                        | (Namespace::SVG, "feDiffuseLighting", "opacity", "1")
+                        | (Namespace::SVG, "feDisplacementMap", "opacity", "1")
+                        | (Namespace::SVG, "feDisplacementMap", "yChannelSelector", "a")
+                        | (Namespace::SVG, "feFlood", "opacity", "1")
+                        | (Namespace::SVG, "feGaussianBlur", "opacity", "1")
+                        | (Namespace::SVG, "feImage", "opacity", "1")
+                        | (Namespace::SVG, "feMerge", "opacity", "1")
+                        | (Namespace::SVG, "feMorphology", "opacity", "1")
+                        | (Namespace::SVG, "feMorphology", "radius", "0")
+                        | (Namespace::SVG, "feOffset", "opacity", "1")
+                        | (Namespace::SVG, "fePointLight", "z", "1")
+                        | (Namespace::SVG, "feSpecularLighting", "opacity", "1")
+                        | (Namespace::SVG, "feSpotLight", "z", "1")
+                        | (Namespace::SVG, "feTile", "opacity", "1")
+                        | (Namespace::SVG, "feTurbulence", "opacity", "1")
+                        | (Namespace::SVG, "filter", "opacity", "1")
+                        | (Namespace::SVG, "font", "opacity", "1")
+                        | (Namespace::SVG, "foreignObject", "opacity", "1")
+                        | (Namespace::SVG, "g", "opacity", "1")
+                        | (Namespace::SVG, "glyph", "opacity", "1")
+                        | (Namespace::SVG, "glyphRef", "opacity", "1")
+                        | (Namespace::SVG, "image", "opacity", "1")
+                        | (Namespace::SVG, "line", "opacity", "1")
+                        | (Namespace::SVG, "line", "y1", "0")
+                        | (Namespace::SVG, "line", "y2", "0")
+                        | (Namespace::SVG, "linearGradient", "opacity", "1")
+                        | (Namespace::SVG, "linearGradient", "y1", "0")
+                        | (Namespace::SVG, "linearGradient", "y2", "0")
+                        | (
+                            Namespace::SVG,
+                            "linearGradient",
+                            "gradientUnits",
+                            "objectBoundingBox"
+                        )
+                        | (Namespace::SVG, "linearGradient", "spreadMethod", "pad")
+                        | (Namespace::SVG, "marker", "opacity", "1")
+                        | (Namespace::SVG, "marker", "refX", "0")
+                        | (Namespace::SVG, "marker", "refY", "0")
+                        | (Namespace::SVG, "mask", "opacity", "1")
+                        | (Namespace::SVG, "missing-glyph", "opacity", "1")
+                        | (Namespace::SVG, "path", "opacity", "1")
+                        | (Namespace::SVG, "path", "fill", "black")
+                        | (Namespace::SVG, "path", "fill-opacity", "1")
+                        | (Namespace::SVG, "path", "fill-rule", "nonzero")
+                        | (Namespace::SVG, "pattern", "opacity", "1")
+                        | (Namespace::SVG, "polygon", "opacity", "1")
+                        | (Namespace::SVG, "polygon", "fill", "black")
+                        | (Namespace::SVG, "polygon", "fill-opacity", "1")
+                        | (Namespace::SVG, "polygon", "fill-rule", "nonzero")
+                        | (Namespace::SVG, "polyline", "opacity", "1")
+                        | (Namespace::SVG, "polyline", "fill", "black")
+                        | (Namespace::SVG, "polyline", "fill-opacity", "1")
+                        | (Namespace::SVG, "polyline", "fill-rule", "nonzero")
+                        | (Namespace::SVG, "radialGradient", "opacity", "1")
+                        | (Namespace::SVG, "radialGradient", "cx", "50%")
+                        | (Namespace::SVG, "radialGradient", "cy", "50%")
+                        | (Namespace::SVG, "radialGradient", "fr", "0")
+                        | (
+                            Namespace::SVG,
+                            "radialGradient",
+                            "gradientUnits",
+                            "objectBoundingBox"
+                        )
+                        | (Namespace::SVG, "radialGradient", "r", "50%")
+                        | (Namespace::SVG, "radialGradient", "spreadMethod", "pad")
+                        | (Namespace::SVG, "rect", "opacity", "1")
+                        | (Namespace::SVG, "rect", "rx", "auto")
+                        | (Namespace::SVG, "rect", "ry", "auto")
+                        | (Namespace::SVG, "set", "begin", "0s")
+                        | (Namespace::SVG, "set", "dur", "indefinite")
+                        | (Namespace::SVG, "set", "min", "0")
+                        | (Namespace::SVG, "set", "restart", "always")
+                        | (Namespace::SVG, "stop", "opacity", "1")
+                        | (Namespace::SVG, "svg", "opacity", "1")
+                        | (Namespace::SVG, "svg", "zoomAndPan", "magnify")
+                        | (Namespace::SVG, "switch", "opacity", "1")
+                        | (Namespace::SVG, "symbol", "opacity", "1")
+                        | (Namespace::SVG, "text", "opacity", "1")
+                        | (Namespace::SVG, "text", "fill", "black")
+                        | (Namespace::SVG, "text", "fill-opacity", "1")
+                        | (Namespace::SVG, "text", "fill-rule", "nonzero")
+                        | (Namespace::SVG, "text", "font-size", "medium")
+                        | (Namespace::SVG, "text", "font-size-adjust", "none")
+                        | (Namespace::SVG, "text", "font-stretch", "normal")
+                        | (Namespace::SVG, "text", "font-style", "normal")
+                        | (Namespace::SVG, "text", "font-variant", "normal")
+                        | (Namespace::SVG, "text", "font-weight", "normal")
+                        | (Namespace::SVG, "textPath", "opacity", "1")
+                        | (Namespace::SVG, "textPath", "fill", "black")
+                        | (Namespace::SVG, "textPath", "fill-opacity", "1")
+                        | (Namespace::SVG, "textPath", "fill-rule", "nonzero")
+                        | (Namespace::SVG, "textPath", "font-size", "medium")
+                        | (Namespace::SVG, "textPath", "font-size-adjust", "none")
+                        | (Namespace::SVG, "textPath", "font-stretch", "normal")
+                        | (Namespace::SVG, "textPath", "font-style", "normal")
+                        | (Namespace::SVG, "textPath", "font-variant", "normal")
+                        | (Namespace::SVG, "textPath", "font-weight", "normal")
+                        | (Namespace::SVG, "tref", "opacity", "1")
+                        | (Namespace::SVG, "tref", "fill", "black")
+                        | (Namespace::SVG, "tref", "fill-opacity", "1")
+                        | (Namespace::SVG, "tref", "fill-rule", "nonzero")
+                        | (Namespace::SVG, "tref", "font-size", "medium")
+                        | (Namespace::SVG, "tref", "font-size-adjust", "none")
+                        | (Namespace::SVG, "tref", "font-weight", "normal")
+                        | (Namespace::SVG, "tref", "font-stretch", "normal")
+                        | (Namespace::SVG, "tref", "font-style", "normal")
+                        | (Namespace::SVG, "tref", "font-variant", "normal")
+                        | (Namespace::SVG, "tspan", "opacity", "1")
+                        | (Namespace::SVG, "tspan", "fill", "black")
+                        | (Namespace::SVG, "tspan", "fill-opacity", "1")
+                        | (Namespace::SVG, "tspan", "fill-rule", "nonzero")
+                        | (Namespace::SVG, "tspan", "font-size", "medium")
+                        | (Namespace::SVG, "tspan", "font-size-adjust", "none")
+                        | (Namespace::SVG, "tspan", "font-stretch", "normal")
+                        | (Namespace::SVG, "tspan", "font-style", "normal")
+                        | (Namespace::SVG, "tspan", "font-variant", "normal")
+                        | (Namespace::SVG, "tspan", "font-weight", "normal")
+                        | (Namespace::SVG, "use", "opacity", "1")
+                        | (Namespace::SVG, "view", "zoomAndPan", "magnify")
+                        | (
+                            Namespace::MATHML,
+                            "math",
+                            "xmlns",
+                            "http://www.w3.org/1998/math/mathml"
+                        )
+                        | (
+                            Namespace::MATHML,
+                            "math",
+                            "xlink",
+                            "http://www.w3.org/1999/xlink"
+                        )
                 )
-                | (
-                    Namespace::HTML,
-                    "a",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "a", "target", "_self")
-                | (Namespace::HTML, "area", "target", "_self")
-                | (Namespace::HTML, "area", "shape", "rect")
-                | (
-                    Namespace::HTML,
-                    "area",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "form", "method", "get")
-                | (Namespace::HTML, "form", "target", "_self")
-                | (
-                    Namespace::HTML,
-                    "form",
-                    "enctype",
-                    "application/x-www-form-urlencoded"
-                )
-                | (Namespace::HTML, "input", "type", "text")
-                | (Namespace::HTML, "input", "size", "20")
-                | (Namespace::HTML, "track", "kind", "subtitles")
-                | (Namespace::HTML, "textarea", "cols", "20")
-                | (Namespace::HTML, "textarea", "rows", "2")
-                | (Namespace::HTML, "textarea", "wrap", "sort")
-                | (Namespace::HTML, "progress", "max", "1")
-                | (Namespace::HTML, "meter", "min", "0")
-                | (Namespace::HTML, "img", "decoding", "auto")
-                | (Namespace::HTML, "img", "fetchpriority", "auto")
-                | (Namespace::HTML, "img", "loading", "eager")
-                | (
-                    Namespace::HTML,
-                    "img",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "link", "type", "text/css")
-                | (Namespace::HTML, "link", "fetchpriority", "auto")
-                | (
-                    Namespace::HTML,
-                    "link",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "style", "type", "text/css")
-                | (Namespace::HTML, "script", "language", "javascript")
-                | (Namespace::HTML, "script", "language", "javascript1.2")
-                | (Namespace::HTML, "script", "language", "javascript1.3")
-                | (Namespace::HTML, "script", "language", "javascript1.4")
-                | (Namespace::HTML, "script", "language", "javascript1.5")
-                | (Namespace::HTML, "script", "language", "javascript1.6")
-                | (Namespace::HTML, "script", "language", "javascript1.7")
-                | (Namespace::HTML, "script", "type", "text/javascript")
-                | (Namespace::HTML, "script", "type", "text/ecmascript")
-                | (Namespace::HTML, "script", "type", "text/jscript")
-                | (Namespace::HTML, "script", "type", "application/javascript")
-                | (
-                    Namespace::HTML,
-                    "script",
-                    "type",
-                    "application/x-javascript"
-                )
-                | (Namespace::HTML, "script", "type", "application/ecmascript")
-                | (Namespace::HTML, "script", "fetchpriority", "auto")
-                | (
-                    Namespace::HTML,
-                    "script",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "ol", "type", "1")
-                | (Namespace::HTML, "base", "target", "_self")
-                | (Namespace::HTML, "canvas", "height", "150")
-                | (Namespace::HTML, "canvas", "width", "300")
-                | (Namespace::HTML, "col", "span", "1")
-                | (Namespace::HTML, "colgroup", "span", "1")
-                | (Namespace::HTML, "td", "colspan", "1")
-                | (Namespace::HTML, "td", "rowspan", "1")
-                | (Namespace::HTML, "th", "colspan", "1")
-                | (Namespace::HTML, "th", "rowspan", "1")
-                | (Namespace::HTML, "button", "type", "submit")
-                | (Namespace::SVG, "svg", "xmlns", "http://www.w3.org/2000/svg")
-                | (
-                    Namespace::SVG,
-                    "svg",
-                    "xlink",
-                    "http://www.w3.org/1999/xlink"
-                )
-                | (Namespace::SVG, "style", "type", "text/css")
-                | (Namespace::SVG, "script", "language", "javascript")
-                | (Namespace::SVG, "script", "language", "javascript1.2")
-                | (Namespace::SVG, "script", "language", "javascript1.3")
-                | (Namespace::SVG, "script", "language", "javascript1.4")
-                | (Namespace::SVG, "script", "language", "javascript1.5")
-                | (Namespace::SVG, "script", "language", "javascript1.6")
-                | (Namespace::SVG, "script", "language", "javascript1.7")
-                | (Namespace::SVG, "script", "type", "text/javascript")
-                | (Namespace::SVG, "script", "type", "text/ecmascript")
-                | (Namespace::SVG, "script", "type", "text/jscript")
-                | (Namespace::SVG, "script", "type", "application/javascript")
-                | (Namespace::SVG, "script", "type", "application/x-javascript")
-                | (Namespace::SVG, "script", "type", "application/ecmascript")
-                | (Namespace::SVG, "script", "fetchpriority", "auto")
-                | (
-                    Namespace::SVG,
-                    "script",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::SVG, "a", "opacity", "1")
-                | (Namespace::SVG, "altGlyph", "opacity", "1")
-                | (Namespace::SVG, "altGlyph", "fill", "black")
-                | (Namespace::SVG, "altGlyph", "fill-opacity", "1")
-                | (Namespace::SVG, "altGlyph", "fill-rule", "nonzero")
-                | (Namespace::SVG, "altGlyph", "font-size", "medium")
-                | (Namespace::SVG, "altGlyph", "font-size-adjust", "none")
-                | (Namespace::SVG, "altGlyph", "font-stretch", "normal")
-                | (Namespace::SVG, "altGlyph", "font-style", "normal")
-                | (Namespace::SVG, "altGlyph", "font-variant", "normal")
-                | (Namespace::SVG, "altGlyph", "font-weight", "normal")
-                | (Namespace::SVG, "animate", "begin", "0s")
-                | (Namespace::SVG, "animate", "dur", "indefinite")
-                | (Namespace::SVG, "animate", "min", "0")
-                | (Namespace::SVG, "animate", "opacity", "1")
-                | (Namespace::SVG, "animate", "rotate", "0")
-                | (Namespace::SVG, "animate", "restart", "always")
-                | (Namespace::SVG, "animate", "fill", "remove")
-                | (Namespace::SVG, "animate", "calcMode", "linear")
-                | (Namespace::SVG, "animate", "additive", "replace")
-                | (Namespace::SVG, "animate", "accumulate", "none")
-                | (Namespace::SVG, "animateColor", "begin", "0s")
-                | (Namespace::SVG, "animateColor", "dur", "indefinite")
-                | (Namespace::SVG, "animateColor", "min", "0")
-                | (Namespace::SVG, "animateColor", "opacity", "1")
-                | (Namespace::SVG, "animateColor", "restart", "always")
-                | (Namespace::SVG, "animateColor", "fill", "remove")
-                | (Namespace::SVG, "animateColor", "calcMode", "linear")
-                | (Namespace::SVG, "animateColor", "additive", "replace")
-                | (Namespace::SVG, "animateColor", "accumulate", "none")
-                | (Namespace::SVG, "animateMotion", "begin", "0s")
-                | (Namespace::SVG, "animateMotion", "dur", "indefinite")
-                | (Namespace::SVG, "animateMotion", "min", "0")
-                | (Namespace::SVG, "animateMotion", "rotate", "0")
-                | (Namespace::SVG, "animateMotion", "restart", "always")
-                | (Namespace::SVG, "animateMotion", "fill", "remove")
-                | (Namespace::SVG, "animateMotion", "calcMode", "linear")
-                | (Namespace::SVG, "animateMotion", "additive", "replace")
-                | (Namespace::SVG, "animateMotion", "accumulate", "none")
-                | (Namespace::SVG, "animateTransform", "begin", "0s")
-                | (Namespace::SVG, "animateTransform", "dur", "indefinite")
-                | (Namespace::SVG, "animateTransform", "min", "0")
-                | (Namespace::SVG, "animateTransform", "restart", "always")
-                | (Namespace::SVG, "animateTransform", "fill", "remove")
-                | (Namespace::SVG, "animateTransform", "calcMode", "linear")
-                | (Namespace::SVG, "animateTransform", "additive", "replace")
-                | (Namespace::SVG, "animateTransform", "accumulate", "none")
-                | (Namespace::SVG, "circle", "cx", "0")
-                | (Namespace::SVG, "circle", "cy", "0")
-                | (Namespace::SVG, "circle", "r", "0")
-                | (Namespace::SVG, "circle", "fill", "black")
-                | (Namespace::SVG, "circle", "fill-opacity", "1")
-                | (Namespace::SVG, "circle", "opacity", "1")
-                | (Namespace::SVG, "clipPath", "opacity", "1")
-                | (Namespace::SVG, "defs", "opacity", "1")
-                | (Namespace::SVG, "discard", "begin", "0s")
-                | (Namespace::SVG, "ellipse", "fill", "black")
-                | (Namespace::SVG, "ellipse", "fill-opacity", "1")
-                | (Namespace::SVG, "ellipse", "rx", "auto")
-                | (Namespace::SVG, "ellipse", "ry", "auto")
-                | (Namespace::SVG, "ellipse", "cx", "0")
-                | (Namespace::SVG, "ellipse", "cy", "0")
-                | (Namespace::SVG, "ellipse", "opacity", "1")
-                | (Namespace::SVG, "feBlend", "opacity", "1")
-                | (Namespace::SVG, "feColorMatrix", "opacity", "1")
-                | (Namespace::SVG, "feComponentTransfer", "opacity", "1")
-                | (Namespace::SVG, "feComposite", "opacity", "1")
-                | (Namespace::SVG, "feComposite", "k1", "0")
-                | (Namespace::SVG, "feComposite", "k2", "0")
-                | (Namespace::SVG, "feComposite", "k3", "0")
-                | (Namespace::SVG, "feComposite", "k4", "0")
-                | (Namespace::SVG, "feConvolveMatrix", "opacity", "1")
-                | (Namespace::SVG, "feDiffuseLighting", "opacity", "1")
-                | (Namespace::SVG, "feDisplacementMap", "opacity", "1")
-                | (Namespace::SVG, "feDisplacementMap", "yChannelSelector", "a")
-                | (Namespace::SVG, "feFlood", "opacity", "1")
-                | (Namespace::SVG, "feGaussianBlur", "opacity", "1")
-                | (Namespace::SVG, "feImage", "opacity", "1")
-                | (Namespace::SVG, "feMerge", "opacity", "1")
-                | (Namespace::SVG, "feMorphology", "opacity", "1")
-                | (Namespace::SVG, "feMorphology", "radius", "0")
-                | (Namespace::SVG, "feOffset", "opacity", "1")
-                | (Namespace::SVG, "fePointLight", "z", "1")
-                | (Namespace::SVG, "feSpecularLighting", "opacity", "1")
-                | (Namespace::SVG, "feSpotLight", "z", "1")
-                | (Namespace::SVG, "feTile", "opacity", "1")
-                | (Namespace::SVG, "feTurbulence", "opacity", "1")
-                | (Namespace::SVG, "filter", "opacity", "1")
-                | (Namespace::SVG, "font", "opacity", "1")
-                | (Namespace::SVG, "foreignObject", "opacity", "1")
-                | (Namespace::SVG, "g", "opacity", "1")
-                | (Namespace::SVG, "glyph", "opacity", "1")
-                | (Namespace::SVG, "glyphRef", "opacity", "1")
-                | (Namespace::SVG, "image", "opacity", "1")
-                | (Namespace::SVG, "line", "opacity", "1")
-                | (Namespace::SVG, "line", "y1", "0")
-                | (Namespace::SVG, "line", "y2", "0")
-                | (Namespace::SVG, "linearGradient", "opacity", "1")
-                | (Namespace::SVG, "linearGradient", "y1", "0")
-                | (Namespace::SVG, "linearGradient", "y2", "0")
-                | (
-                    Namespace::SVG,
-                    "linearGradient",
-                    "gradientUnits",
-                    "objectBoundingBox"
-                )
-                | (Namespace::SVG, "linearGradient", "spreadMethod", "pad")
-                | (Namespace::SVG, "marker", "opacity", "1")
-                | (Namespace::SVG, "marker", "refX", "0")
-                | (Namespace::SVG, "marker", "refY", "0")
-                | (Namespace::SVG, "mask", "opacity", "1")
-                | (Namespace::SVG, "missing-glyph", "opacity", "1")
-                | (Namespace::SVG, "path", "opacity", "1")
-                | (Namespace::SVG, "path", "fill", "black")
-                | (Namespace::SVG, "path", "fill-opacity", "1")
-                | (Namespace::SVG, "path", "fill-rule", "nonzero")
-                | (Namespace::SVG, "pattern", "opacity", "1")
-                | (Namespace::SVG, "polygon", "opacity", "1")
-                | (Namespace::SVG, "polygon", "fill", "black")
-                | (Namespace::SVG, "polygon", "fill-opacity", "1")
-                | (Namespace::SVG, "polygon", "fill-rule", "nonzero")
-                | (Namespace::SVG, "polyline", "opacity", "1")
-                | (Namespace::SVG, "polyline", "fill", "black")
-                | (Namespace::SVG, "polyline", "fill-opacity", "1")
-                | (Namespace::SVG, "polyline", "fill-rule", "nonzero")
-                | (Namespace::SVG, "radialGradient", "opacity", "1")
-                | (Namespace::SVG, "radialGradient", "cx", "50%")
-                | (Namespace::SVG, "radialGradient", "cy", "50%")
-                | (Namespace::SVG, "radialGradient", "fr", "0")
-                | (
-                    Namespace::SVG,
-                    "radialGradient",
-                    "gradientUnits",
-                    "objectBoundingBox"
-                )
-                | (Namespace::SVG, "radialGradient", "r", "50%")
-                | (Namespace::SVG, "radialGradient", "spreadMethod", "pad")
-                | (Namespace::SVG, "rect", "opacity", "1")
-                | (Namespace::SVG, "rect", "rx", "auto")
-                | (Namespace::SVG, "rect", "ry", "auto")
-                | (Namespace::SVG, "set", "begin", "0s")
-                | (Namespace::SVG, "set", "dur", "indefinite")
-                | (Namespace::SVG, "set", "min", "0")
-                | (Namespace::SVG, "set", "restart", "always")
-                | (Namespace::SVG, "stop", "opacity", "1")
-                | (Namespace::SVG, "svg", "opacity", "1")
-                | (Namespace::SVG, "svg", "zoomAndPan", "magnify")
-                | (Namespace::SVG, "switch", "opacity", "1")
-                | (Namespace::SVG, "symbol", "opacity", "1")
-                | (Namespace::SVG, "text", "opacity", "1")
-                | (Namespace::SVG, "text", "fill", "black")
-                | (Namespace::SVG, "text", "fill-opacity", "1")
-                | (Namespace::SVG, "text", "fill-rule", "nonzero")
-                | (Namespace::SVG, "text", "font-size", "medium")
-                | (Namespace::SVG, "text", "font-size-adjust", "none")
-                | (Namespace::SVG, "text", "font-stretch", "normal")
-                | (Namespace::SVG, "text", "font-style", "normal")
-                | (Namespace::SVG, "text", "font-variant", "normal")
-                | (Namespace::SVG, "text", "font-weight", "normal")
-                | (Namespace::SVG, "textPath", "opacity", "1")
-                | (Namespace::SVG, "textPath", "fill", "black")
-                | (Namespace::SVG, "textPath", "fill-opacity", "1")
-                | (Namespace::SVG, "textPath", "fill-rule", "nonzero")
-                | (Namespace::SVG, "textPath", "font-size", "medium")
-                | (Namespace::SVG, "textPath", "font-size-adjust", "none")
-                | (Namespace::SVG, "textPath", "font-stretch", "normal")
-                | (Namespace::SVG, "textPath", "font-style", "normal")
-                | (Namespace::SVG, "textPath", "font-variant", "normal")
-                | (Namespace::SVG, "textPath", "font-weight", "normal")
-                | (Namespace::SVG, "tref", "opacity", "1")
-                | (Namespace::SVG, "tref", "fill", "black")
-                | (Namespace::SVG, "tref", "fill-opacity", "1")
-                | (Namespace::SVG, "tref", "fill-rule", "nonzero")
-                | (Namespace::SVG, "tref", "font-size", "medium")
-                | (Namespace::SVG, "tref", "font-size-adjust", "none")
-                | (Namespace::SVG, "tref", "font-weight", "normal")
-                | (Namespace::SVG, "tref", "font-stretch", "normal")
-                | (Namespace::SVG, "tref", "font-style", "normal")
-                | (Namespace::SVG, "tref", "font-variant", "normal")
-                | (Namespace::SVG, "tspan", "opacity", "1")
-                | (Namespace::SVG, "tspan", "fill", "black")
-                | (Namespace::SVG, "tspan", "fill-opacity", "1")
-                | (Namespace::SVG, "tspan", "fill-rule", "nonzero")
-                | (Namespace::SVG, "tspan", "font-size", "medium")
-                | (Namespace::SVG, "tspan", "font-size-adjust", "none")
-                | (Namespace::SVG, "tspan", "font-stretch", "normal")
-                | (Namespace::SVG, "tspan", "font-style", "normal")
-                | (Namespace::SVG, "tspan", "font-variant", "normal")
-                | (Namespace::SVG, "tspan", "font-weight", "normal")
-                | (Namespace::SVG, "use", "opacity", "1")
-                | (Namespace::SVG, "view", "zoomAndPan", "magnify")
-                | (
-                    Namespace::MATHML,
-                    "math",
-                    "xmlns",
-                    "http://www.w3.org/1998/math/mathml"
-                )
-                | (
-                    Namespace::MATHML,
-                    "math",
-                    "xlink",
-                    "http://www.w3.org/1999/xlink"
-                )
-        )
+            }
+        }
     }
 
     fn is_preserved_comment(&self, data: &str) -> bool {

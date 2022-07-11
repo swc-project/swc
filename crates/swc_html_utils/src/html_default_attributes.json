@@ -1,0 +1,93 @@
+{
+  "a": {
+    "referrerpolicy": "strict-origin-when-cross-origin",
+    "target": "_self"
+  },
+  "area": {
+    "referrerpolicy": "strict-origin-when-cross-origin",
+    "shape": "rect",
+    "target": "_self"
+  },
+  "base": {
+    "target": "_self"
+  },
+  "button": {
+    "type": "submit"
+  },
+  "canvas": {
+    "height": "150",
+    "width": "300"
+  },
+  "col": {
+    "span": "1"
+  },
+  "colgroup": {
+    "span": "1"
+  },
+  "form": {
+    "enctype": "application/x-www-form-urlencoded",
+    "method": "get",
+    "target": "_self"
+  },
+  "html": {
+    "xmlns": "http://www.w3.org/1999/xhtml",
+    "xmlns:xlink": "http://www.w3.org/1999/xlink"
+  },
+  "iframe": {
+    "fetchpriority": "auto",
+    "frameborder": "1",
+    "height": "150",
+    "loading": "eager",
+    "referrerpolicy": "strict-origin-when-cross-origin",
+    "width": "300"
+  },
+  "img": {
+    "decoding": "auto",
+    "fetchpriority": "auto",
+    "loading": "eager",
+    "referrerpolicy": "strict-origin-when-cross-origin"
+  },
+  "input": {
+    "size": "20",
+    "type": "text"
+  },
+  "link": {
+    "fetchpriority": "auto",
+    "referrerpolicy": "strict-origin-when-cross-origin",
+    "type": "text/css"
+  },
+  "meter": {
+    "min": "0"
+  },
+  "ol": {
+    "type": "1"
+  },
+  "progress": {
+    "max": "1"
+  },
+  "script": {
+    "type": "text/javascript"
+  },
+  "style": {
+    "fetchpriority": "auto",
+    "language": "javascript",
+    "referrerpolicy": "strict-origin-when-cross-origin",
+    "type": "text/css"
+  },
+  "td": {
+    "colspan": "1",
+    "rowspan": "1"
+  },
+  "textarea": {
+    "cols": "20",
+    "rows": "2",
+    "wrap": "sort"
+  },
+  "th": {
+    "colspan": "1",
+    "rowspan": "1"
+  },
+  "track": {
+    "kind": "subtitles"
+  }
+}
