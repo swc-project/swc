@@ -210,7 +210,7 @@ impl Pure<'_> {
                         let mut v = Pure {
                             expr_ctx: self.expr_ctx.clone(),
                             ctx: Ctx {
-                                par_depth: self.ctx.par_depth + 1,
+                                par_depth: self.ctx.par_depth,
                                 ..self.ctx
                             },
                             changed: false,
