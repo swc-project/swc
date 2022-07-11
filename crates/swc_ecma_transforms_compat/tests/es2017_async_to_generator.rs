@@ -878,7 +878,6 @@ _coroutine(function* () {
 // regression_t7194
 test!(
     // Optimization
-    ignore,
     syntax(),
     |_| {
         let unresolved_mark = Mark::new();
@@ -919,12 +918,12 @@ function f() {
 
 /*#__PURE__*/
 _asyncToGenerator(function* () {
-  var _this2 = this;
+  var _this = this;
 
   console.log('async wrapper:', this === 'foo');
 
   (function () {
-    console.log('nested arrow:', _this2 === 'foo');
+    console.log('nested arrow:', _this === 'foo');
   })();
 }).call('foo');
 
@@ -1594,7 +1593,6 @@ function _six() {
 
 // async_to_generator_object_method_with_super
 test!(
-    ignore,
     syntax(),
     |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_object_method_with_super_caching,
@@ -1611,13 +1609,12 @@ class Foo extends class {} {
     r#"
 class Foo extends class {} {
   method() {
-    var _superprop_getMethod = () => super.method,
-        _this = this;
+    var _this = this, _superprop_get_method = () => super.method,;
 
     return _asyncToGenerator(function* () {
-      _superprop_getMethod().call(_this);
+      _superprop_get_method().call(_this);
 
-      var arrow = () => _superprop_getMethod().call(_this);
+      var arrow = () => _superprop_get_method().call(_this);
     })();
   }
 
@@ -3245,8 +3242,6 @@ const foo = /*#__PURE__*/ function () {
 );
 
 test!(
-    // TODO: resolve bind issue
-    ignore,
     Syntax::default(),
     |_| async_to_generator(Default::default(), Mark::new()),
     async_wrap_this,
@@ -3256,23 +3251,22 @@ const foo = async (x, y, ...z) => {
 };
 "#,
     r#"
+var _this = this;
+
 const foo = /*#__PURE__*/ function () {
-  var _ref = _asyncToGenerator((function* (x, y, ...z) {
-      return this;
-  }).bind(_this)).bind(_this);
+  var _ref = _asyncToGenerator(function* (x, y, ...z) {
+      return _this;
+  });
   return function foo(x, y) {
       return _ref.apply(this, arguments);
   };
 }();
-var _this = this;
 "#
 );
 
 test!(
-    // TODO: arguments
-    ignore,
     Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
+    |_| with_resolver(),
     async_wrap_arguments,
     r#"
 function foo() {
