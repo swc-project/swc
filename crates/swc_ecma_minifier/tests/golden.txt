@@ -615,7 +615,6 @@ harmony/import_statement/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
 harmony/issue_2676/input.js
-harmony/issue_2794_3/input.js
 harmony/issue_2794_4/input.js
 harmony/issue_2794_5/input.js
 harmony/issue_2794_6/input.js
@@ -640,15 +639,13 @@ hoist_props/direct_access_2/input.js
 hoist_props/direct_access_3/input.js
 hoist_props/does_not_hoist_objects_with_computed_props/input.js
 hoist_props/hoist_function_with_call/input.js
-hoist_props/issue_2377_1/input.js
-hoist_props/issue_2377_2/input.js
-hoist_props/issue_2377_3/input.js
 hoist_props/issue_2462/input.js
 hoist_props/issue_2473_1/input.js
 hoist_props/issue_2473_2/input.js
 hoist_props/issue_2473_3/input.js
 hoist_props/issue_2508_3/input.js
 hoist_props/issue_2508_4/input.js
+hoist_props/issue_3021/input.js
 hoist_props/issue_3071_1/input.js
 hoist_props/issue_3071_2/input.js
 hoist_props/issue_3071_2_toplevel/input.js
@@ -1206,10 +1203,12 @@ reduce_vars/multi_def_3/input.js
 reduce_vars/named_function_with_recursive_ref_reuse/input.js
 reduce_vars/obj_for_2/input.js
 reduce_vars/obj_var_1/input.js
+reduce_vars/perf_1/input.js
 reduce_vars/perf_5/input.js
 reduce_vars/pure_getters_1/input.js
 reduce_vars/recursive_inlining_1/input.js
 reduce_vars/recursive_inlining_2/input.js
+reduce_vars/recursive_inlining_4/input.js
 reduce_vars/recursive_inlining_5/input.js
 reduce_vars/redefine_arguments_1/input.js
 reduce_vars/redefine_arguments_2/input.js
