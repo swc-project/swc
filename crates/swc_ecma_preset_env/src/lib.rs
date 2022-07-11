@@ -179,10 +179,13 @@ where
     let pass = add!(
         pass,
         AsyncToGenerator,
-        es2017::async_to_generator(es2017::async_to_generator::Config {
-            ignore_function_name: loose || assumptions.ignore_function_name,
-            ignore_function_length: loose || assumptions.ignore_function_length,
-        })
+        es2017::async_to_generator(
+            es2017::async_to_generator::Config {
+                ignore_function_name: loose || assumptions.ignore_function_name,
+                ignore_function_length: loose || assumptions.ignore_function_length,
+            },
+            global_mark
+        )
     );
 
     // ES2016
@@ -220,7 +223,7 @@ where
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
     let pass = add!(pass, FunctionName, es2015::function_name());
-    let pass = add!(pass, ArrowFunctions, es2015::arrow());
+    let pass = add!(pass, ArrowFunctions, es2015::arrow(global_mark));
     let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
     let pass = add!(pass, StickyRegex, es2015::sticky_regex());
     // TODO:    InstanceOf,
@@ -262,7 +265,7 @@ where
         es2015::regenerator(Default::default(), global_mark),
         true
     );
-    let pass = add!(pass, BlockScoping, es2015::block_scoping(), true);
+    let pass = add!(pass, BlockScoping, es2015::block_scoping(global_mark), true);
 
     let pass = add!(pass, NewTarget, es2015::new_target(), true);
 
@@ -290,7 +293,7 @@ where
     let pass = add!(
         pass,
         BugfixAsyncArrowsInClass,
-        bugfixes::async_arrows_in_class()
+        bugfixes::async_arrows_in_class(global_mark)
     );
     let pass = add!(
         pass,

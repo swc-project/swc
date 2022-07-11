@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmt;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, InjectVars};
@@ -12,12 +12,16 @@ use crate::es2015::arrow;
 /// converting arrow functions in class methods into equivalent function
 /// expressions. See https://bugs.webkit.org/show_bug.cgi?id=166879
 #[tracing::instrument(level = "info", skip_all)]
-pub fn async_arrows_in_class() -> impl Fold {
-    AsyncArrowsInClass::default()
+pub fn async_arrows_in_class(unresolved_mark: Mark) -> impl Fold {
+    AsyncArrowsInClass {
+        unresolved_mark,
+        ..Default::default()
+    }
 }
 #[derive(Default, Clone)]
 struct AsyncArrowsInClass {
     in_class_method: bool,
+    unresolved_mark: Mark,
     vars: Vec<VarDeclarator>,
 }
 
@@ -49,7 +53,7 @@ impl Fold for AsyncArrowsInClass {
         match n {
             Expr::Arrow(ref a) => {
                 if a.is_async {
-                    let mut v = arrow();
+                    let mut v = arrow(self.unresolved_mark);
                     let n = n.fold_with(&mut v);
                     self.vars.extend(v.take_vars());
                     n
@@ -98,16 +102,17 @@ impl Fold for AsyncArrowsInClass {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{chain, Mark};
+    use swc_common::chain;
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
     use super::*;
 
     fn tr() -> impl Fold {
+        let unresolved = Mark::new();
         chain!(
-            resolver(Mark::new(), Mark::new(), false),
-            async_arrows_in_class()
+            resolver(unresolved, Mark::new(), false),
+            async_arrows_in_class(unresolved)
         )
     }
 

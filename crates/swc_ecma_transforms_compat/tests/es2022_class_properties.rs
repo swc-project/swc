@@ -30,7 +30,7 @@ fn tr(t: &Tester) -> impl Fold {
         function_name(),
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(),
+        block_scoping(unresolved_mark),
         reserved_words(false),
     )
 }
@@ -2867,7 +2867,7 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(Some(t.comments.clone()), Default::default()),
-            block_scoping()
+            block_scoping(unresolved_mark)
         )
     },
     issue_443,
@@ -2896,7 +2896,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default())
+        async_to_generator(Default::default(), Mark::new())
     ),
     public_regression_t7364,
     r#"
@@ -2955,7 +2955,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_regression_t6719,
     r#"
@@ -3042,7 +3042,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_reevaluated,
     r#"
@@ -3106,7 +3106,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_static,
     r#"
@@ -3156,7 +3156,7 @@ test!(
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_destructuring_object_pattern_1,
     r#"
@@ -3196,7 +3196,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_static_inherited,
     r#"
@@ -3305,7 +3305,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_static_undefined,
     r#"
@@ -3348,7 +3348,7 @@ test!(
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_destructuring_array_pattern,
     r#"
@@ -3383,7 +3383,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_regression_t2983,
     r#"
@@ -3419,11 +3419,14 @@ export { _class1 as default }
 // private_regression_t7364
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default()),
-        block_scoping()
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        chain!(
+            class_properties(Some(t.comments.clone()), Default::default()),
+            async_to_generator(Default::default(), unresolved_mark),
+            block_scoping(unresolved_mark)
+        )
+    },
     private_regression_t7364,
     r#"
 class MyClass {
@@ -3493,7 +3496,7 @@ test!(
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_destructuring_array_pattern_1,
     r#"
@@ -3719,7 +3722,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_static_export,
     r#"
@@ -3804,7 +3807,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        arrow()
+        arrow(Mark::new())
     ),
     regression_6153,
     r#"
@@ -3912,7 +3915,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        arrow()
+        arrow(Mark::new())
     ),
     regression_7371,
     r#"
@@ -4184,7 +4187,7 @@ test!(
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_canonical,
     r#"
@@ -4324,7 +4327,7 @@ test!(
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_destructuring_array_pattern_3,
     r#"
@@ -4413,7 +4416,7 @@ test!(
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_destructuring_array_pattern_2,
     r#"
@@ -4447,7 +4450,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_non_block_arrow_func,
     r#"
@@ -4530,7 +4533,7 @@ test!(
         class_properties(Some(t.comments.clone()), Default::default()),
         exponentiation(),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(),
+        block_scoping(Mark::new()),
     ),
     private_instance,
     r#"
@@ -4587,7 +4590,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     public_native_classes,
     r#"
@@ -4614,7 +4617,7 @@ _defineProperty(Foo, "foo", "foo");
 test!(
     // Emitting class properties is not supported yet.
     syntax(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     public_arrow_static_this_without_transform,
     r#"
 class Foo {
@@ -4641,7 +4644,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_static_infer_name,
     r#"
@@ -4700,7 +4703,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     private_native_classes,
     r#"
@@ -4751,7 +4754,7 @@ test!(
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     public_computed_without_block,
     r#"
@@ -4803,7 +4806,7 @@ test!(
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     public_static_super,
     r#"
@@ -5437,7 +5440,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default())
+        async_to_generator(Default::default(), Mark::new())
     ),
     issue_1694_1,
     "
@@ -5468,7 +5471,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default())
+        async_to_generator(Default::default(), Mark::new())
     ),
     issue_1694_2,
     "
@@ -5497,7 +5500,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default())
+        async_to_generator(Default::default(), Mark::new())
     ),
     issue_1702_1,
     "

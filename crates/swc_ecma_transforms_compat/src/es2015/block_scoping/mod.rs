@@ -36,10 +36,11 @@ mod vars;
 /// }
 /// ```
 #[tracing::instrument(level = "info", skip_all)]
-pub fn block_scoping() -> impl VisitMut + Fold {
+pub fn block_scoping(unresolved_mark: Mark) -> impl VisitMut + Fold {
     as_folder(chain!(
         self::vars::block_scoped_vars(),
         BlockScoping {
+            unresolved_mark,
             scope: Default::default(),
             vars: vec![],
             var_decl_kind: VarDeclKind::Var,
@@ -67,6 +68,7 @@ enum ScopeKind {
 }
 
 struct BlockScoping {
+    unresolved_mark: Mark,
     scope: ScopeStack,
     vars: Vec<VarDeclarator>,
     var_decl_kind: VarDeclKind,
@@ -152,7 +154,8 @@ impl BlockScoping {
                 return;
             }
 
-            let mut env_hoister = FnEnvHoister::default();
+            let mut env_hoister =
+                FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
             body_stmt.visit_mut_with(&mut env_hoister);
             self.vars.extend(env_hoister.to_decl());
 

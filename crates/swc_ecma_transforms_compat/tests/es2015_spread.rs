@@ -633,7 +633,17 @@ test!(
     // Cost is too high.
     ignore,
     syntax(),
-    |_| chain!(tr(), block_scoping()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+            spread(Default::default()),
+            block_scoping(unresolved_mark)
+        )
+    },
     spread_known_rest,
     r#"
 function foo(...bar) {

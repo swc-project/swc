@@ -3,7 +3,7 @@ use std::mem;
 use arrayvec::ArrayVec;
 use serde::Deserialize;
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
 // use swc_ecma_transforms_macros::parallel;
@@ -20,6 +20,7 @@ pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Fold {
     as_folder(Params {
         c,
         unresolved_mark,
+        hoister: FnEnvHoister::new(SyntaxContext::empty().apply_mark(unresolved_mark)),
         ..Default::default()
     })
 }
@@ -534,7 +535,7 @@ impl VisitMut for Params {
                     if !self.in_prop {
                         f.visit_mut_children_with(&mut self.hoister)
                     } else {
-                        let mut hoister = FnEnvHoister::default();
+                        let mut hoister = FnEnvHoister::new(self.hoister.unresolved_ctxt);
                         f.visit_mut_children_with(&mut hoister);
                         local_vars = hoister.to_stmt();
                     }

@@ -1,9 +1,18 @@
+use swc_common::{chain, Mark};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_testing::{compare_stdout, test};
+use swc_ecma_visit::Fold;
+
+fn tr() -> impl Fold {
+    let unresolved = Mark::new();
+    let global = Mark::new();
+    chain!(resolver(unresolved, global, false), arrow(unresolved))
+}
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     issue_233,
     "const foo = () => ({ x, ...y }) => y",
     "const foo = function() {
@@ -15,7 +24,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     destructuring,
     r#"let foo = ({bar}) => undefined;"#,
     r#"let foo = function ({bar}) {
@@ -25,7 +34,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     basic,
     r#"let echo = (bar) => bar"#,
     r#"let echo = function(bar) {
@@ -35,7 +44,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     empty_arguments,
     r#"var t = () => 5 + 5;"#,
     r#"var t = function () {
@@ -45,7 +54,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     expression,
     r#"arr.map(x => x * x);"#,
     r#"arr.map(function (x) {
@@ -55,7 +64,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     inside_call,
     r#"arr.map(i => i + 1);"#,
     r#"arr.map(function (i) {
@@ -65,7 +74,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     multiple_arguments,
     r#"var t = (i, x) => i * x;"#,
     r#"var t = function (i, x) {
@@ -74,7 +83,7 @@ test!(
 );
 
 // test!(::swc_ecma_parser::Syntax::default(),
-//     |_| arrow(),
+//     |_| arrow(Mark::new()),
 //     nested,
 //     r#"module.exports = {
 //   init: function () {
@@ -109,7 +118,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     paren_insertion,
     r#"var t = i => i * 5;"#,
     r#"var t = function (i) {
@@ -119,7 +128,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     single_argument,
     r#"var t = (i) => i * 5;"#,
     r#"var t = function (i) {
@@ -129,7 +138,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     statement,
     r#"nums.forEach(v => {
   if (v % 5 === 0) {
@@ -145,7 +154,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     issue_413,
     r#"
 export const getBadgeBorderRadius = (text, color) => {
@@ -161,7 +170,7 @@ export const getBadgeBorderRadius = function(text, color) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| tr(),
     arguments,
     r#"
 function test() {
@@ -178,7 +187,7 @@ function test() {
 
 compare_stdout!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| tr(),
     arguments_nested_arrow,
     "
     function test() {
@@ -197,7 +206,7 @@ compare_stdout!(
 
 compare_stdout!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| tr(),
     arguments_nested_fn,
     "
     function test() {
@@ -218,7 +227,7 @@ compare_stdout!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     arguments_member,
     r#"
   function test() {
@@ -236,7 +245,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     arguments_fn_expr,
     r#"
   function test() {
@@ -254,7 +263,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     issue_2212_1,
     "const foo = () => this",
     "
@@ -267,7 +276,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     issue_2212_2,
     "
     const foo = function (){
@@ -290,7 +299,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     fixture_this,
     r#"
 function b() {
@@ -341,7 +350,7 @@ class Foo extends function () {} {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| tr(),
     fixture_arguments,
     r#"
 function fn() {
@@ -379,7 +388,7 @@ var baz = function () {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| tr(),
     two_arrow,
     r#"
 let foo = () => this;
@@ -406,7 +415,7 @@ let bar1 = function () {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     computed_props,
     r#"
 var a = {
@@ -426,7 +435,7 @@ var a = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| tr(),
     this_in_params,
     r#"
 export const getBadgeBorderRadius = (text = this, color = arguments) => {
@@ -443,7 +452,7 @@ export const getBadgeBorderRadius = function(text = _this, color = _arguments) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     getter_setter,
     r#"
 const a = () => ({
@@ -477,7 +486,7 @@ const a = function () {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     method_computed,
     r#"
 const a = () => ({
@@ -510,7 +519,7 @@ const b = function() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(),
+    |_| arrow(Mark::new()),
     chrome_46,
     "function foo() {
       const a = (a) => new.target

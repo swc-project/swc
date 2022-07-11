@@ -418,6 +418,9 @@ impl<I: Tokens> Parser<I> {
                     type_params: None,
                 })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
+                if self.ctx().strict && id.is_reserved_in_strict_bind() {
+                    self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
+                }
                 let params = vec![id.into()];
                 let body =
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;

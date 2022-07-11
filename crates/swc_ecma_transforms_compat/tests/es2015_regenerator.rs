@@ -22,6 +22,16 @@ fn tr(_: ()) -> impl Fold {
     )
 }
 
+fn tr_with_async() -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+    chain!(
+        resolver(unresolved_mark, top_level_mark, false),
+        async_to_generator(Default::default(), unresolved_mark),
+        regenerator(Default::default(), unresolved_mark)
+    )
+}
+
 // computed_properties_example
 test!(
     syntax(),
@@ -931,15 +941,18 @@ expect(v.next()).toEqual({ done: true });
 
 test_exec!(
     syntax(),
-    |t| chain!(
-        es2017(Default::default()),
-        es2016(),
-        es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        chain!(
+            es2017(Default::default(), unresolved_mark),
+            es2016(),
+            es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            ),
+        )
+    },
     issue_600_full,
     "async function foo(b) {
 	    for (let a of b) {
@@ -950,11 +963,14 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| chain!(
-        async_to_generator(Default::default()),
-        es2015::for_of(Default::default()),
-        es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        chain!(
+            async_to_generator(Default::default(), unresolved_mark),
+            es2015::for_of(Default::default()),
+            es2015::regenerator(Default::default(), unresolved_mark),
+        )
+    },
     issue_600_exact_passes,
     "async function foo(b) {
 	    for (let a of b) {
@@ -1076,7 +1092,7 @@ expect(v.next()).toEqual({ done: false, value: 'Error'});
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     issue_1036_1,
     "
     const x = async function() {
@@ -1159,7 +1175,7 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     issue_1125_1,
     "
     async function test() {
@@ -1207,7 +1223,7 @@ function foo() {
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     hoist_function_in_async_issue_2556_2,
     "
 async function foo() {
@@ -1233,7 +1249,7 @@ return foo()
 
 test!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     hoist_function_in_async_issue_2556_4,
     r#"
 function requester() {
@@ -1301,7 +1317,7 @@ function requester() {
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     hoist_function_in_async_issue_2556_5,
     r#"
 function requester() {
@@ -1323,7 +1339,7 @@ function requester() {
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     issue_2620,
     r#"
 async function main() {
@@ -1379,7 +1395,7 @@ return main().then((results) => {
 
 test!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     hoist_function_in_async_issue_2556_6,
     r#"
 async function foo(a) {
@@ -1453,7 +1469,7 @@ foo(1)
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     hoist_function_in_async_issue_2556_7,
     r#"
 async function foo(a) {
@@ -1474,7 +1490,7 @@ return foo(1)
 
 test!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     hoist_function_in_async_issue_2556_8,
     r#"
 var fib = function fib() {
@@ -1711,7 +1727,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| chain!(async_to_generator(Default::default()), tr(())),
+    |_| tr_with_async(),
     issue_1799_1,
     "
     export default function Foo() {
@@ -1747,7 +1763,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
+            async_to_generator(Default::default(), mark),
             es2015::<SingleThreadedComments>(mark, None, Default::default())
         )
     },
@@ -1786,7 +1802,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
+            async_to_generator(Default::default(), mark),
             es2016(),
             es2015::<SingleThreadedComments>(mark, None, Default::default()),
         )
@@ -1829,7 +1845,7 @@ test!(
             es2022(Some(t.comments.clone()), Default::default()),
             es2021(),
             es2018(Default::default()),
-            es2017(Default::default()),
+            es2017(Default::default(), mark),
             es2016(),
             es2015::<SingleThreadedComments>(mark, None, Default::default()),
         )
@@ -2089,7 +2105,7 @@ test_exec!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
+            async_to_generator(Default::default(), mark),
             es2015::for_of(Default::default()),
             regenerator(Default::default(), mark)
         )
