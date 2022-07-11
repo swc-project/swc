@@ -4,6 +4,7 @@
 pub use std::fmt::Result;
 use std::str::from_utf8;
 
+use serde::{Deserialize, Serialize};
 use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
@@ -19,10 +20,13 @@ mod emit;
 mod list;
 pub mod writer;
 
-#[derive(Debug, Default, Clone, Copy)]
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CodegenConfig {
+    #[serde(default)]
     pub minify: bool,
 }
+
 #[derive(Debug)]
 pub struct CodeGenerator<W>
 where
