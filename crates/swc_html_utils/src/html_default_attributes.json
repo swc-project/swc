@@ -11,6 +11,9 @@
   "base": {
     "target": "_self"
   },
+  "br": {
+    "clear": "none"
+  },
   "button": {
     "type": "submit"
   },
@@ -28,6 +31,10 @@
     "enctype": "application/x-www-form-urlencoded",
     "method": "get",
     "target": "_self"
+  },
+  "hr": {
+    "align": "center",
+    "width": "100%"
   },
   "html": {
     "xmlns": "http://www.w3.org/1999/xhtml",
@@ -53,19 +60,26 @@
   },
   "link": {
     "fetchpriority": "auto",
+    "media": "all",
     "referrerpolicy": "strict-origin-when-cross-origin",
     "type": "text/css"
+  },
+  "marquee": {
+    "scrollamount": "6",
+    "scrolldelay": "85"
   },
   "meter": {
     "min": "0"
   },
   "ol": {
-    "type": "1"
+    "type": "1",
+    "start": "1"
   },
   "progress": {
     "max": "1"
   },
   "script": {
+    "charset": "utf-8",
     "type": "text/javascript"
   },
   "style": {
