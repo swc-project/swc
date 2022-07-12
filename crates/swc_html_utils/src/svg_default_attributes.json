@@ -1,5 +1,12 @@
 {
   "svg": {
+    "baseProfile": "none",
+    "clip": "auto",
+    "clip-path": "none",
+    "clip-rule": "nonzero",
+    "color-interpolation": "sRGB",
+    "contentScriptType": "application/ecmascript",
+    "contentStyleType": "text/css",
     "xmlns":"http://www.w3.org/2000/svg",
     "xlink": "http://www.w3.org/1999/xlink",
     "opacity": "1",
@@ -22,11 +29,17 @@
     "type": "text/css"
   },
   "a": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "enable-background": "accumulate"
   },
   "altGlyph": {
+    "alignment-baseline": "auto",
+    "baseline-shift": "0",
+    "direction": "ltr",
+    "dominant-baseline": "auto",
     "opacity": "1",
     "fill": "black",
     "fill-opacity": "1",
@@ -45,55 +58,63 @@
     "stroke-miterlimit": "4",
     "stroke-opacity": "1",
     "stroke-width": "1px",
+    "text-anchor": "start",
     "kerning": "auto",
     "letter-spacing": "normal",
     "writing-mode": "horizontal-tb"
   },
   "animate": {
+    "accumulate": "none",
+    "additive": "replace",
+    "attributeType": "auto",
     "begin": "0s",
+    "calcMode": "linear",
+    "color-interpolation": "sRGB",
     "dur": "indefinite",
     "min": "0",
     "opacity": "1",
     "rotate": "0",
     "restart": "always",
-    "fill": "remove",
-    "calcMode": "linear",
-    "additive": "replace",
-    "accumulate": "none"
+    "fill": "remove"
   },
   "animateColor": {
+    "accumulate": "none",
+    "additive": "replace",
+    "attributeType": "auto",
     "begin": "0s",
+    "calcMode": "linear",
+    "color-interpolation": "sRGB",
     "dur": "indefinite",
     "min": "0",
     "opacity": "1",
     "restart": "always",
-    "fill": "remove",
-    "calcMode": "linear",
-    "additive": "replace",
-    "accumulate": "none"
+    "fill": "remove"
   },
   "animateMotion": {
+    "additive": "replace",
+    "accumulate": "none",
     "begin": "0s",
+    "calcMode": "linear",
     "dur": "indefinite",
     "min": "0",
     "rotate": "0",
     "restart": "always",
-    "fill": "remove",
-    "calcMode": "linear",
-    "additive": "replace",
-    "accumulate": "none"
+    "fill": "remove"
   },
   "animateTransform": {
+    "accumulate": "none",
+    "additive": "replace",
+    "attributeType": "auto",
     "begin": "0s",
+    "calcMode": "linear",
     "dur": "indefinite",
     "min": "0",
     "restart": "always",
-    "fill": "remove",
-    "calcMode": "linear",
-    "additive": "replace",
-    "accumulate": "none"
+    "fill": "remove"
   },
   "circle": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "cx": "0",
     "cy": "0",
     "r": "0",
@@ -109,10 +130,14 @@
     "stroke-width": "1px"
   },
   "clipPath":  {
+    "clipPathUnits": "userSpaceOnUse",
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted"
   }, 
   "defs": {
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "enable-background": "accumulate"
@@ -121,13 +146,15 @@
     "begin": "0s"
   },
   "ellipse": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
+    "cx": "0",
+    "cy": "0",
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero",
     "rx": "auto",
     "ry": "auto",
-    "cx": "0",
-    "cy": "0",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "stroke": "none",
@@ -137,6 +164,7 @@
     "stroke-width": "1px"
   },
   "feBlend":  {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -144,6 +172,7 @@
     "y": "0%"
   },
   "feColorMatrix":  {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -151,6 +180,7 @@
     "y": "0%"
   },
   "feComponentTransfer":  {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -158,6 +188,7 @@
     "y": "0%"
   },
   "feComposite": {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -169,6 +200,8 @@
     "k4": "0"
   },
   "feConvolveMatrix":  {
+    "bias": "0",
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -176,6 +209,8 @@
     "y": "0%"
   },
   "feDiffuseLighting":  {
+    "color-interpolation-filters": "linearRGB",
+    "diffuseConstant": "1",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -184,6 +219,7 @@
     "y": "0%"
   },
   "feDisplacementMap":  {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -191,17 +227,23 @@
     "x": "0%",
     "y": "0%"
   },
+  "feDistantLight": {
+    "azimuth": "0",
+    "elevation": "0"
+  },
   "feDropShadow":  {
+    "color-interpolation-filters": "linearRGB",
+    "dx": "2",
+    "dy": "2",
     "flood-color": "black",
     "flood-opacity": "1",
     "height": "100%",
     "width": "100%",
-    "dx": "2",
-    "dy": "2",
     "x": "0%",
     "y": "0%"
   },
   "feFlood":  {
+    "color-interpolation-filters": "linearRGB",
     "flood-color": "black",
     "flood-opacity": "1",
     "height": "100%",
@@ -211,22 +253,27 @@
     "y": "0%"
   },
   "feFuncA": {
+    "amplitude": "1",
     "x": "0%",
     "y": "0%"
   },
   "feFuncB": {
+    "amplitude": "1",
     "x": "0%",
     "y": "0%"
   },
   "feFuncG": {
+    "amplitude": "1",
     "x": "0%",
     "y": "0%"
   },
   "feFuncR": {
+    "amplitude": "1",
     "x": "0%",
     "y": "0%"
   },
   "feGaussianBlur":  {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -234,6 +281,7 @@
     "y": "0%"
   },
   "feImage":  {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -241,6 +289,7 @@
     "y": "0%"
   },
   "feMerge":  {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -252,6 +301,7 @@
     "y": "0%"
   },
   "feMorphology": {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -260,6 +310,7 @@
     "y": "0%"
   },
   "feOffset":  {
+    "color-interpolation-filters": "linearRGB",
     "dx": "0",
     "dy": "0",
     "height": "100%",
@@ -274,6 +325,7 @@
     "z": "1"
   },
   "feSpecularLighting":  {
+    "color-interpolation-filters": "linearRGB",
     "opacity": "1",
     "height": "100%",
     "width": "100%",
@@ -283,6 +335,7 @@
     "y": "0%"
   },
   "feSpotLight":  {
+    "color-interpolation-filters": "linearRGB",
     "limitingConeAngle": "0",
     "pointsAtX": "0",
     "pointsAtY": "0",
@@ -293,6 +346,7 @@
     "z": "1"
   },
   "feTile":  {
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -300,6 +354,8 @@
     "y": "0%"
   },
   "feTurbulence":  {
+    "baseFrequency": "0",
+    "color-interpolation-filters": "linearRGB",
     "height": "100%",
     "width": "100%",
     "opacity": "1",
@@ -316,7 +372,12 @@
   "font":  {
     "opacity": "1"
   },
+  "font-face": {
+    "alphabetic": "0"
+  },
   "foreignObject":  {
+    "clip": "auto",
+    "color-interpolation": "sRGB",
     "height": "auto",
     "width": "auto",
     "opacity": "1",
@@ -325,11 +386,16 @@
     "y": "0"
   },
   "g": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "enable-background": "accumulate"
   },
   "glyph": {
+    "arabic-form": "isolated",
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "enable-background": "accumulate"
   },
@@ -339,6 +405,10 @@
     "opacity": "1"
   },
   "image":  {
+    "clip": "auto",
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
+    "color-profile": "auto",
     "height": "auto",
     "width": "auto",
     "opacity": "1",
@@ -347,6 +417,8 @@
     "y": "0"
   },
   "line": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "stroke": "none",
@@ -359,6 +431,7 @@
     "y2": "0"
   },
   "linearGradient": {
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "y1": "0",
     "y2": "0",
@@ -366,6 +439,9 @@
     "spreadMethod": "pad"
   },
   "marker": {
+    "clip": "auto",
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "enable-background": "accumulate",
@@ -373,6 +449,8 @@
     "refY": "0"
   },
   "mask": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "height": "120%",
     "width": "120%",
     "opacity": "1",
@@ -382,10 +460,13 @@
     "y": "-10%"
   },
   "missing-glyph": {
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "enable-background": "accumulate"
   },
   "path": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "fill": "black",
@@ -401,6 +482,9 @@
     "stroke-width": "1px"
   },
   "pattern": {
+    "clip": "auto",
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "height": "0",
     "width": "0",
     "opacity": "1",
@@ -410,6 +494,8 @@
     "y": "0"
   },
   "polygon": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "fill": "black",
@@ -424,6 +510,8 @@
     "stroke-width": "1px"
   },
   "polyline": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "fill": "black",
@@ -439,15 +527,18 @@
     "stroke-width": "1px"
   },
   "radialGradient": {
-   "opacity": "1",
-   "cx": "50%",
-   "cy": "50%",
-   "fr": "0",
-   "gradientUnits": "objectBoundingBox",
-   "r": "50%",
-   "spreadMethod": "pad"
+    "color-interpolation": "sRGB",
+    "opacity": "1",
+    "cx": "50%",
+    "cy": "50%",
+    "fr": "0",
+    "gradientUnits": "objectBoundingBox",
+    "r": "50%",
+    "spreadMethod": "pad"
   },
   "rect": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "height": "auto",
     "width": "auto",
     "opacity": "1",
@@ -465,6 +556,7 @@
     "y": "0"
   },
   "set": {
+    "attributeType": "auto",
     "begin": "0s",
     "dur": "indefinite",
     "min": "0",
@@ -476,16 +568,24 @@
     "stop-opacity": "1"
   },
   "switch": {
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "enable-background": "accumulate"
   },
   "symbol": {
+    "clip": "auto",
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "enable-background": "accumulate"
   }, 
   "text": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
+    "direction": "ltr",
+    "dominant-baseline": "auto",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "fill": "black",
@@ -505,13 +605,21 @@
     "stroke-miterlimit": "4",
     "stroke-opacity": "1",
     "stroke-width": "1px",
+    "text-anchor": "start",
+    "text-rendering": "auto",
     "kerning": "auto",
     "letter-spacing": "normal",
     "writing-mode": "horizontal-tb",
+    "lengthAdjust": "spacing",
     "x": "0",
     "y": "0"
   },
   "textPath": {
+    "alignment-baseline": "auto",
+    "baseline-shift": "0",
+    "color-interpolation": "sRGB",
+    "direction": "ltr",
+    "dominant-baseline": "auto",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "fill": "black",
@@ -531,11 +639,17 @@
     "stroke-miterlimit": "4",
     "stroke-opacity": "1",
     "stroke-width": "1px",
+    "text-anchor": "start",
     "kerning": "auto",
     "letter-spacing": "normal",
-    "writing-mode": "horizontal-tb"
+    "writing-mode": "horizontal-tb",
+    "lengthAdjust": "spacing"
   },
   "tref": {
+    "alignment-baseline": "auto",
+    "baseline-shift": "0",
+    "direction": "ltr",
+    "dominant-baseline": "auto",
     "opacity": "1",
     "fill": "black",
     "fill-opacity": "1",
@@ -554,13 +668,20 @@
     "stroke-miterlimit": "4",
     "stroke-opacity": "1",
     "stroke-width": "1px",
+    "text-anchor": "start",
     "kerning": "auto",
     "letter-spacing": "normal",
     "writing-mode": "horizontal-tb",
+    "lengthAdjust": "spacing",
     "x": "0",
     "y": "0"
   },
   "tspan": {
+    "alignment-baseline": "auto",
+    "baseline-shift": "0",
+    "color-interpolation": "sRGB",
+    "direction": "ltr",
+    "dominant-baseline": "auto",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "fill": "black",
@@ -580,11 +701,15 @@
     "stroke-miterlimit": "4",
     "stroke-opacity": "1",
     "stroke-width": "1px",
+    "text-anchor": "start",
     "kerning": "auto",
     "letter-spacing": "normal",
-    "writing-mode": "horizontal-tb"
+    "writing-mode": "horizontal-tb",
+    "lengthAdjust": "spacing"
   },
   "use": {
+    "clip-path": "none",
+    "color-interpolation": "sRGB",
     "height": "auto",
     "width": "auto",
     "opacity": "1",
