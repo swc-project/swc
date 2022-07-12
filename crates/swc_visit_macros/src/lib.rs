@@ -2490,29 +2490,15 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
-                            Mode::Fold(VisitorVariant::WithPath) => {
-                                let ast_kind = ast_enum_variant_name(ty, false).unwrap();
-                                let ast_kind = Ident::new(&ast_kind, ty.span());
-
-                                q!(
-                                    Vars {
-                                        ident,
-                                        AstKindVariant: ast_kind,
-                                    },
-                                    ({
-                                        n.into_iter()
-                                            .enumerate()
-                                            .map(|(idx, v)| {
-                                                __ast_path.with(
-                                                    AstParentKind::AstKindVariant(idx),
-                                                    |__ast_path| _visitor.ident(v, __ast_path),
-                                                )
-                                            })
-                                            .collect()
+                            Mode::Fold(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                        _visitor.ident(v, __ast_path)
                                     })
-                                )
-                                .parse()
-                            }
+                                })
+                            )
+                            .parse(),
 
                             Mode::VisitMut(VisitorVariant::Normal) => q!(
                                 Vars { ident },
