@@ -8,12 +8,11 @@ use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprMatch, ExprMethodCall, ExprPath, Field, FieldValue, Fields, FieldsUnnamed,
-    FnArg, GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item,
-    ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatPath, PatTuple,
-    PatTupleStruct, PatWild, Path, PathArguments, PathSegment, Receiver, ReturnType, Signature,
-    Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic,
-    Visibility,
+    Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, Field, FieldValue, Fields,
+    FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index,
+    Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatPath, PatTuple,
+    PatTupleStruct, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token,
+    TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -491,6 +490,12 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                         },
                     });
 
+                    let path_expr = Expr::Path(ExprPath {
+                        attrs: Default::default(),
+                        qself: Default::default(),
+                        path: q!(Vars { Name: &name }, (AstParentKind::Name)).parse(),
+                    });
+
                     arms.push(Arm {
                         attrs: Default::default(),
                         pat: Pat::Path(PatPath {
@@ -501,8 +506,21 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                         guard: Default::default(),
                         fat_arrow_token: ty.span().as_token(),
                         body: match extra {
-                            Some(extra) => Box::new(Expr::Call(ExprCall {})),
-                            None => Box::new(Expr::Path(ExprPath {})),
+                            Some(extra) => Box::new(Expr::Call(ExprCall {
+                                attrs: Default::default(),
+                                func: Box::new(path_expr),
+                                paren_token: def_site(),
+                                args: {
+                                    let mut v = Punctuated::new();
+                                    v.push(Expr::Path(ExprPath {
+                                        attrs: Default::default(),
+                                        qself: None,
+                                        path: extra.clone(),
+                                    }));
+                                    v
+                                },
+                            })),
+                            None => Box::new(path_expr),
                         },
                         comma: Some(ty.span().as_token()),
                     });
