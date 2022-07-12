@@ -236,6 +236,8 @@ fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
 }
 
 fn make_field_enum(item: &Item) -> Option<ItemEnum> {
+    let mut attrs = vec![];
+
     let (type_name, variants) = match item {
         Item::Struct(s) => {
             let mut v = Punctuated::new();
@@ -255,11 +257,21 @@ fn make_field_enum(item: &Item) -> Option<ItemEnum> {
         _ => return None,
     };
 
+    attrs.push(Attribute {
+        pound_token: def_site(),
+        style: AttrStyle::Outer,
+        bracket_token: def_site(),
+        path: q!({ derive }).parse(),
+        tokens: q!({ (Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash) }).into(),
+    });
+
+    attrs.push(make_doc_attr(&format!(
+        "This enum represents fields of [{type_name}](crate::{type_name})",
+        type_name = type_name,
+    )));
+
     Some(ItemEnum {
-        attrs: vec![make_doc_attr(&format!(
-            "This enum represents fields of [{type_name}](crate::{type_name})",
-            type_name = type_name,
-        ))],
+        attrs,
         vis: Visibility::Public(VisPublic {
             pub_token: def_site(),
         }),
