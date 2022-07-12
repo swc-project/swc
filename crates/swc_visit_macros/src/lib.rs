@@ -111,7 +111,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
     }));
 
-    let mut kinds = Quote::new_call_site();
+    let mut field_module = Quote::new_call_site();
     {
         let mut types = vec![];
 
@@ -120,6 +120,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 Stmt::Item(item) => item,
                 _ => unimplemented!("error reporting for something other than Item"),
             };
+
+            field_module.push_tokens(&make_field_enum(item));
 
             make_method(Mode::VisitMut(VisitorVariant::Normal), item, &mut types);
         }
