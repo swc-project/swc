@@ -216,14 +216,14 @@ where
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AstKindPath<K>
 where
-    K: Copy,
+    K: ParentKind,
 {
     path: Vec<K>,
 }
 
 impl<K> std::ops::Deref for AstKindPath<K>
 where
-    K: Copy,
+    K: ParentKind,
 {
     type Target = Vec<K>;
 
@@ -234,7 +234,7 @@ where
 
 impl<K> Default for AstKindPath<K>
 where
-    K: Copy,
+    K: ParentKind,
 {
     fn default() -> Self {
         Self {
@@ -245,7 +245,7 @@ where
 
 impl<K> AstKindPath<K>
 where
-    K: Copy,
+    K: ParentKind,
 {
     pub fn new(path: Vec<K>) -> Self {
         Self { path }
@@ -258,7 +258,12 @@ where
         ret
     }
 
-    pub fn with_index<Ret>(&mut self, path: usize, op: impl FnOnce(&mut Self) -> Ret) -> Ret {}
+    pub fn with_index<Ret>(&mut self, index: usize, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
+        self.path.last_mut().unwrap().set_index(index);
+        let res = op(self);
+        self.path.last_mut().unwrap().set_index(usize::MAX);
+        res
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -320,15 +325,29 @@ where
         ret
     }
 
-    pub fn with_index<F, Ret>(&mut self, idx: usize, op: F) -> Ret
+    pub fn with_index<F, Ret>(&mut self, index: usize, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
     {
+        self.kinds.path.last_mut().unwrap().set_index(index);
+        self.path.last_mut().unwrap().set_index(index);
+
+        let res = op(self);
+
+        self.path.last_mut().unwrap().set_index(usize::MAX);
+        self.kinds.path.last_mut().unwrap().set_index(usize::MAX);
+        res
     }
 }
 
 pub trait NodeRef: Copy {
-    type ParentKind: Copy;
+    type ParentKind: ParentKind;
 
     fn kind(&self) -> Self::ParentKind;
+
+    fn set_index(&mut self, index: usize);
+}
+
+pub trait ParentKind: Copy {
+    fn set_index(&mut self, index: usize);
 }
