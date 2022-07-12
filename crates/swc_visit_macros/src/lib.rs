@@ -572,25 +572,6 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
     })
 }
 
-fn process_ast_node_ref_type(ty: &Type) -> Type {
-    if let Type::Reference(ty) = ty {
-        if extract_generic("Option", &ty.elem).is_some() {
-            return process_ast_node_ref_type(&ty.elem);
-        }
-    }
-
-    if let Some(inner) = extract_vec(ty) {
-        return q!(Vars { ty: &inner }, (&'ast [ty])).parse();
-    }
-
-    if let Some(inner) = extract_generic("Option", ty) {
-        let inner = process_ast_node_ref_type(inner);
-        return q!(Vars { ty: &inner }, (Option<ty>)).parse();
-    }
-
-    ty.clone()
-}
-
 fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     let mut types = vec![];
     let mut methods = vec![];
