@@ -80,7 +80,7 @@ pub fn doc_str(attr: &Attribute) -> Option<String> {
 }
 
 /// Creates a doc comment.
-pub fn doc(s: &str) -> Attribute {
+pub fn make_doc_attr(s: &str) -> Attribute {
     Attribute {
         pound_token: def_site(),
         style: AttrStyle::Outer,

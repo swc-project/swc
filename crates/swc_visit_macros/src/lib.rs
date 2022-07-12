@@ -5,7 +5,7 @@ use std::{collections::HashSet, iter::once, mem::replace};
 use inflector::Inflector;
 use pmutil::{q, Quote, SpanExt};
 use proc_macro2::Ident;
-use swc_macros_common::{call_site, def_site};
+use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
@@ -154,12 +154,14 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     q.push_tokens(&make(Mode::VisitAll, &block.stmts));
 
     q.push_tokens(&ItemMod {
-        attrs: Default::default(),
+        attrs: vec![make_doc_attr(
+            "This module contains enums representing fields of each types",
+        )],
         vis: Visibility::Public(VisPublic {
             pub_token: def_site(),
         }),
         mod_token: def_site(),
-        ident: Ident::new("feilds", call_site()),
+        ident: Ident::new("fields", call_site()),
         content: Some((def_site(), field_module_body)),
         semi: None,
     });
@@ -2028,21 +2030,10 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
     let mut attrs = vec![];
 
     {
-        let doc_str = "This method can be overriden to customize the visitor behavior.";
-        attrs.push(Attribute {
-            pound_token: def_site(),
-            style: AttrStyle::Outer,
-            bracket_token: def_site(),
-            path: q!({ doc }).parse(),
-            tokens: q!(Vars { doc_str },{ = doc_str }).into(),
-        });
-        attrs.push(Attribute {
-            pound_token: def_site(),
-            style: AttrStyle::Outer,
-            bracket_token: def_site(),
-            path: q!({ doc }).parse(),
-            tokens: q!({ = "" }).into(),
-        });
+        attrs.push(make_doc_attr(
+            "This method can be overriden to customize the visitor behavior.",
+        ));
+        attrs.push(make_doc_attr(""));
     }
 
     if let Some(trait_name) = mode.name_of_trait_for_ast() {
@@ -2052,13 +2043,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             trait_name,
             mode.name_of_trait_children_method_for_ast().unwrap()
         );
-        attrs.push(Attribute {
-            pound_token: def_site(),
-            style: AttrStyle::Outer,
-            bracket_token: def_site(),
-            path: q!({ doc }).parse(),
-            tokens: q!(Vars { doc_str },{ = doc_str }).into(),
-        });
+        attrs.push(make_doc_attr(&doc_str));
     }
 
     Some(match e {
