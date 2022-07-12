@@ -22,6 +22,12 @@
 
 - **(html/minifier)** Allow specifying options for other tools (#5125) ([dada2d7](https://github.com/swc-project/swc/commit/dada2d7d554fa0733a3c65c512777f1548d41a35))
 
+### Testing
+
+
+
+- **(node)** Refactor tests (#5187) ([a4b14c3](https://github.com/swc-project/swc/commit/a4b14c38065cba3a244118c3eaf74e8ebb0d938d))
+
 ## [1.2.212] - 2022-07-11
 
 ### Bug Fixes
