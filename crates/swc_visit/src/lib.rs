@@ -320,3 +320,9 @@ where
         ret
     }
 }
+
+pub trait NodeRef: Copy {
+    type Kind: Copy;
+
+    fn kind(&self) -> Self::Kind;
+}
