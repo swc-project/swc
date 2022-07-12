@@ -37,7 +37,17 @@
     "font-style": "normal",
     "font-variant": "normal",
     "font-weight": "normal",
-    "stroke": "none"
+    "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linecap": "butt",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px",
+    "kerning": "auto",
+    "letter-spacing": "normal",
+    "writing-mode": "horizontal-tb"
   },
   "animate": {
     "begin": "0s",
@@ -92,7 +102,11 @@
     "fill-rule": "nonzero",
     "opacity": "1",
     "pointer-events": "visiblePainted",
-    "stroke": "none"
+    "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-opacity": "1",
+    "stroke-width": "1px"
   },
   "clipPath":  {
     "opacity": "1",
@@ -116,7 +130,11 @@
     "cy": "0",
     "opacity": "1",
     "pointer-events": "visiblePainted",
-    "stroke": "none"
+    "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-opacity": "1",
+    "stroke-width": "1px"
   },
   "feBlend":  {
     "height": "100%",
@@ -332,6 +350,11 @@
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linecap": "butt",
+    "stroke-opacity": "1",
+    "stroke-width": "1px",
     "y1": "0",
     "y2": "0"
   },
@@ -368,7 +391,14 @@
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero",
-    "stroke": "none"
+    "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linecap": "butt",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px"
   },
   "pattern": {
     "height": "0",
@@ -385,7 +415,13 @@
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero",
-    "stroke": "none"
+    "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px"
   },
   "polyline": {
     "opacity": "1",
@@ -393,7 +429,14 @@
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero",
-    "stroke": "none"
+    "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linecap": "butt",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px"
   },
   "radialGradient": {
    "opacity": "1",
@@ -410,6 +453,12 @@
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px",
     "rx": "auto",
     "ry": "auto",
     "x": "0",
@@ -449,6 +498,16 @@
     "font-variant": "normal",
     "font-weight": "normal",
     "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linecap": "butt",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px",
+    "kerning": "auto",
+    "letter-spacing": "normal",
+    "writing-mode": "horizontal-tb",
     "x": "0",
     "y": "0"
   },
@@ -464,7 +523,17 @@
     "font-style": "normal",
     "font-variant": "normal",
     "font-weight": "normal",
-    "stroke": "none"
+    "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linecap": "butt",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px",
+    "kerning": "auto",
+    "letter-spacing": "normal",
+    "writing-mode": "horizontal-tb"
   },
   "tref": {
     "opacity": "1",
@@ -478,6 +547,16 @@
     "font-style": "normal",
     "font-variant": "normal",
     "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linecap": "butt",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px",
+    "kerning": "auto",
+    "letter-spacing": "normal",
+    "writing-mode": "horizontal-tb",
     "x": "0",
     "y": "0"
   },
@@ -493,7 +572,17 @@
     "font-style": "normal",
     "font-variant": "normal",
     "font-weight": "normal",
-    "stroke": "none"
+    "stroke": "none",
+    "stroke-dasharray": "none",
+    "stroke-dashoffset": "0",
+    "stroke-linecap": "butt",
+    "stroke-linejoin": "miter",
+    "stroke-miterlimit": "4",
+    "stroke-opacity": "1",
+    "stroke-width": "1px",
+    "kerning": "auto",
+    "letter-spacing": "normal",
+    "writing-mode": "horizontal-tb"
   },
   "use": {
     "height": "auto",
