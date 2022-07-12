@@ -2461,51 +2461,17 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         })
                                     )
                                     .parse(),
-                                    VisitorVariant::WithPath => {
-                                        let ast_kind_outer =
-                                            ast_enum_variant_name(ty, false).unwrap();
-                                        let ast_kind_outer = Ident::new(&ast_kind_outer, ty.span());
-
-                                        let ast_kind_inner =
-                                            ast_enum_variant_name(boxed, false).unwrap();
-                                        let ast_kind_inner = Ident::new(&ast_kind_inner, ty.span());
-
-                                        q!(
-                                            Vars {
-                                                ident,
-                                                AstKindVariantForVec: ast_kind_outer,
-                                                AstKindVariantForBox: ast_kind_inner,
-                                            },
-                                            ({
-                                                n.into_iter()
-                                                    .enumerate()
-                                                    .map(|(idx, v)| {
-                                                        __ast_path.with(
-                                                            AstParentKind::AstKindVariantForVec(
-                                                                idx,
-                                                            ),
-                                                            |__ast_path| {
-                                                                __ast_path.with(
-                                                                AstParentKind::AstKindVariantForBox,
-                                                                |__ast_path| {
-                                                                    swc_visit::util::map::Map::map(
-                                                                        v,
-                                                                        |v| {
-                                                                            _visitor.ident(
-                                                                                v, __ast_path,
-                                                                            )
-                                                                        },
-                                                                    )
-                                                                },
-                                                            )
-                                                            },
-                                                        )
-                                                    })
-                                                    .collect()
+                                    VisitorVariant::WithPath => q!(
+                                        Vars { ident },
+                                        ({
+                                            swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                                swc_visit::util::map::Map::map(v, |v| {
+                                                    _visitor.ident(v, __ast_path)
+                                                })
                                             })
-                                        )
-                                        .parse()
-                                    }
+                                        })
+                                    )
+                                    .parse(),
                                 };
                             }
                         }
