@@ -11,9 +11,9 @@ use syn::{
     Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
     Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
     ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, Lifetime,
-    LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatWild, Path, PathArguments,
-    Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
-    TypeReference, UnOp, Variant, VisPublic, Visibility,
+    LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
+    PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type,
+    TypePath, TypeReference, UnOp, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -646,6 +646,18 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                     mutability: None,
                     self_token: def_site(),
                 }));
+                v.push(FnArg::Typed(PatType {
+                    attrs: Default::default(),
+                    colon_token: def_site(),
+                    ty: q!({ usize }).parse(),
+                    pat: Box::new(Pat::Ident(PatIdent {
+                        attrs: Default::default(),
+                        by_ref: Default::default(),
+                        mutability: Default::default(),
+                        ident: Ident::new("index", call_site()),
+                        subpat: Default::default(),
+                    })),
+                }));
 
                 v
             },
@@ -710,7 +722,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                         pat,
                         guard: Default::default(),
                         fat_arrow_token: stmt.span().as_token(),
-                        body: q!({ __field_kind.set_index(__index) }).parse(),
+                        body: q!({ __field_kind.set_index(index) }).parse(),
                         comma: Some(stmt.span().as_token()),
                     });
                 }
