@@ -1885,13 +1885,7 @@ fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fi
                         block,
                         AstKindVariant: type_name,
                     },
-                    ({
-                        __ast_path.with(
-                            AstParentKind::AstKindVariant,
-                            AstNodeRef::AstKindVariant(n),
-                            |__ast_path| block,
-                        )
-                    })
+                    ({ __ast_path.with(AstNodeRef::AstKindVariant(n), |__ast_path| block,) })
                 )
                 .parse()
             }
@@ -2647,7 +2641,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     ({
                                         n.iter().enumerate().for_each(|(idx, v)| {
                                             __ast_path.with(
-                                                AstParentKind::AstKindVariant(idx),
                                                 AstNodeRef::AstKindVariant(&n, idx),
                                                 |__ast_path| _visitor.ident(v.as_ref(), __ast_path),
                                             )
@@ -2738,7 +2731,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     ({
                                         n.iter().enumerate().for_each(|(idx, v)| {
                                             __ast_path.with(
-                                                AstParentKind::AstKindVariant(idx),
                                                 AstNodeRef::AstKindVariant(&n, idx),
                                                 |__ast_path| _visitor.ident(v, __ast_path),
                                             )
@@ -2965,13 +2957,7 @@ fn wrap_call_with_ast_path(
                 node,
                 AstKindVariant: ast_kind_variant
             },
-            ({
-                __ast_path.with(
-                    AstParentKind::AstKindVariant,
-                    AstNodeRef::AstKindVariant(&node),
-                    |__ast_path| visit_expr,
-                )
-            })
+            ({ __ast_path.with(AstNodeRef::AstKindVariant(&node), |__ast_path| visit_expr,) })
         )
         .parse(),
         Mode::VisitMut(_) | Mode::Fold(_) => q!(
