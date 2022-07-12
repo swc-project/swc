@@ -295,7 +295,7 @@ fn make_field_enum(item: &Item) -> Option<ItemEnum> {
 
     Some(ItemEnum {
         attrs: vec![make_doc_attr(&format!(
-            "This enum represents a field of [{type_name}](crate::{type_name})",
+            "This enum represents fields of [{type_name}](crate::{type_name})",
             type_name = type_name,
         ))],
         vis: Visibility::Public(VisPublic {
