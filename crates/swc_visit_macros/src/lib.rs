@@ -99,9 +99,9 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let mut q = Quote::new_call_site();
     q.push_tokens(&q!({
         pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
-        pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstNodeRef<'ast>>;
+        pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
 
-        impl swc_visit::NodeRef for AstNodeRef<'_> {
+        impl swc_visit::NodeRef for AstParentNodeRef<'_> {
             type ParentKind = AstParentKind;
 
             #[inline]
@@ -375,7 +375,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         }),
         enum_token: def_site(),
         ident: if is_ref {
-            Ident::new("AstNodeRef", call_site())
+            Ident::new("AstParentNodeRef", call_site())
         } else {
             Ident::new("AstParentKind", call_site())
         },
@@ -546,7 +546,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         impl_token: def_site(),
         generics: Default::default(),
         trait_: None,
-        self_ty: q!({ AstNodeRef<'_> }).parse(),
+        self_ty: q!({ AstParentNodeRef<'_> }).parse(),
         brace_token: def_site(),
         items: vec![kind_method_item],
     })
@@ -1110,7 +1110,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         'ast: 'r;
 
                     /// Visit children nodes with v and ast path appended
-                    /// [AstNodeRef] describing `self`. The ast path will
+                    /// [AstParentNodeRef] describing `self`. The ast path will
                     /// be resotred when this method returns.
                     ///
                     /// This is the default implementaton of a handler method in
@@ -1774,7 +1774,7 @@ fn visit_expr(
                                     FieldType: field_type_name,
                                     FieldName: field_name,
                                 },
-                                (AstNodeRef::VariantName(
+                                (AstParentNodeRef::VariantName(
                                     n,
                                     self::fields::FieldType::FieldName(usize::MAX)
                                 ))
@@ -1787,7 +1787,10 @@ fn visit_expr(
                                     FieldType: field_type_name,
                                     FieldName: field_name,
                                 },
-                                (AstNodeRef::VariantName(n, self::fields::FieldType::FieldName))
+                                (AstParentNodeRef::VariantName(
+                                    n,
+                                    self::fields::FieldType::FieldName
+                                ))
                             )
                             .parse()
                         }
