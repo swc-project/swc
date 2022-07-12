@@ -10,10 +10,9 @@ use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, Field, FieldValue, Fields,
     FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index,
-    Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatPath, PatReference,
-    PatTuple, PatTupleStruct, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt,
-    Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic,
-    Visibility,
+    Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatIdent, PatTuple,
+    PatTupleStruct, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token,
+    TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -458,7 +457,7 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                     let name = Ident::new(&name, ty.span());
 
                     let extra = if let Type::Slice(..) = unwrap_ref(&ty) {
-                        Some(q!({ idx }).parse::<Path>())
+                        Some(q!({ idx }).parse::<Ident>())
                     } else {
                         None
                     };
@@ -479,15 +478,12 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                                 }));
 
                                 if let Some(extra) = &extra {
-                                    v.push(Pat::Reference(PatReference {
+                                    v.push(Pat::Ident(PatIdent {
                                         attrs: Default::default(),
-                                        and_token: def_site(),
+                                        ident: extra.clone(),
+                                        subpat: None,
+                                        by_ref: Some(def_site()),
                                         mutability: Default::default(),
-                                        pat: Box::new(Pat::Path(PatPath {
-                                            attrs: Default::default(),
-                                            qself: None,
-                                            path: extra.clone(),
-                                        })),
                                     }));
                                 }
 
@@ -517,7 +513,7 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                                     v.push(Expr::Path(ExprPath {
                                         attrs: Default::default(),
                                         qself: None,
-                                        path: extra.clone(),
+                                        path: extra.clone().into(),
                                     }));
                                     v
                                 },
