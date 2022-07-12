@@ -10,9 +10,10 @@ use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, Field, FieldValue, Fields,
     FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index,
-    Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatPath, PatTuple,
-    PatTupleStruct, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token,
-    TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic, Visibility,
+    Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatPath, PatReference,
+    PatTuple, PatTupleStruct, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt,
+    Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic,
+    Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -478,10 +479,15 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                                 }));
 
                                 if let Some(extra) = &extra {
-                                    v.push(Pat::Path(PatPath {
+                                    v.push(Pat::Reference(PatReference {
                                         attrs: Default::default(),
-                                        qself: None,
-                                        path: extra.clone(),
+                                        and_token: def_site(),
+                                        mutability: Default::default(),
+                                        pat: Box::new(Pat::Path(PatPath {
+                                            attrs: Default::default(),
+                                            qself: None,
+                                            path: extra.clone(),
+                                        })),
                                     }));
                                 }
 
