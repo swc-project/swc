@@ -539,6 +539,109 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         },
     });
 
+    let set_index_item = ImplItem::Method(ImplItemMethod {
+        attrs: Default::default(),
+        vis: Visibility::Inherited,
+        defaultness: Default::default(),
+        sig: Signature {
+            constness: Default::default(),
+            asyncness: Default::default(),
+            unsafety: Default::default(),
+            abi: Default::default(),
+            fn_token: def_site(),
+            ident: Ident::new("set_index", call_site()),
+            generics: Default::default(),
+            paren_token: def_site(),
+            inputs: {
+                let mut v = Punctuated::new();
+                v.push(FnArg::Receiver(Receiver {
+                    attrs: Default::default(),
+                    reference: Some((def_site(), None)),
+                    mutability: None,
+                    self_token: def_site(),
+                }));
+
+                v
+            },
+            variadic: Default::default(),
+            output: ReturnType::Default,
+        },
+        block: Block {
+            brace_token: def_site(),
+            stmts: {
+                let mut arms = vec![];
+
+                for stmt in stmts {
+                    let item = match stmt {
+                        Stmt::Item(item) => item,
+                        _ => continue,
+                    };
+                    let name = match item {
+                        Item::Enum(ItemEnum {
+                            ident, variants, ..
+                        }) => {
+                            if variants.iter().all(|v| v.fields.is_empty()) {
+                                continue;
+                            }
+                            ident
+                        }
+                        Item::Struct(ItemStruct { ident, .. }) => ident,
+                        _ => continue,
+                    };
+
+                    let field_kind = Ident::new("__field_kind", item.span());
+
+                    let pat = Pat::TupleStruct(PatTupleStruct {
+                        attrs: Default::default(),
+                        path: q!(Vars { Name: &name }, (Self::Name)).parse(),
+                        pat: PatTuple {
+                            attrs: Default::default(),
+                            paren_token: def_site(),
+                            elems: {
+                                let mut v = Punctuated::new();
+
+                                // Ignore node ref itself
+                                v.push(Pat::Wild(PatWild {
+                                    attrs: Default::default(),
+                                    underscore_token: stmt.span().as_token(),
+                                }));
+
+                                v.push(Pat::Ident(PatIdent {
+                                    attrs: Default::default(),
+                                    ident: field_kind.clone(),
+                                    subpat: None,
+                                    by_ref: Default::default(),
+                                    mutability: Default::default(),
+                                }));
+
+                                v
+                            },
+                        },
+                    });
+
+                    arms.push(Arm {
+                        attrs: Default::default(),
+                        pat,
+                        guard: Default::default(),
+                        fat_arrow_token: stmt.span().as_token(),
+                        body: q!({ __field_kind.set_index(__index) }).parse(),
+                        comma: Some(stmt.span().as_token()),
+                    });
+                }
+
+                let match_expr = Expr::Match(ExprMatch {
+                    attrs: Default::default(),
+                    match_token: def_site(),
+                    expr: q!({ self }).parse(),
+                    brace_token: def_site(),
+                    arms,
+                });
+
+                vec![Stmt::Expr(match_expr)]
+            },
+        },
+    });
+
     Some(ItemImpl {
         attrs: Default::default(),
         defaultness: Default::default(),
