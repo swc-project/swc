@@ -113,8 +113,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let mut field_module_body = vec![];
     {
-        let mut types = vec![];
-
         for stmts in block.stmts.iter() {
             let item = match stmts {
                 Stmt::Item(item) => item,
@@ -122,23 +120,14 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             };
 
             field_module_body.extend(make_field_enum(item).map(Item::Enum));
-
-            make_method(Mode::VisitMut(VisitorVariant::Normal), item, &mut types);
         }
-        let mut types = types
-            .into_iter()
-            .flat_map(expand_visitor_types)
-            .collect::<Vec<_>>();
 
-        types.retain(|ty| ast_enum_variant_name(ty, true).is_some());
-        types.sort_by_cached_key(|ty| ast_enum_variant_name(ty, true));
-        types.dedup_by_key(|ty| ast_enum_variant_name(ty, true));
+        q.push_tokens(&make_ast_enum(&block.stmts, true));
+        q.push_tokens(&make_ast_enum(&block.stmts, false));
 
-        q.push_tokens(&make_ast_enum(&types, true));
-        q.push_tokens(&make_ast_enum(&types, false));
-
-        q.push_tokens(&make_impl_kind_for_node_ref(&types));
+        q.push_tokens(&make_impl_kind_for_node_ref(&block.stmts));
     }
+
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
     q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
 
@@ -321,7 +310,7 @@ fn unwrap_ref(ty: &Type) -> &Type {
     }
 }
 
-fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
+fn make_ast_enum(items: &[Stmt], is_ref: bool) -> Item {
     let mut variants = Punctuated::new();
 
     for ty in types {
@@ -465,7 +454,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     })
 }
 
-fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
+fn make_impl_kind_for_node_ref(types: &[Stmt]) -> Option<ItemImpl> {
     let kind_type = Type::Path(TypePath {
         qself: None,
         path: Ident::new("AstParentKind", call_site()).into(),
@@ -598,7 +587,7 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
         },
     });
 
-    ItemImpl {
+    Some(ItemImpl {
         attrs: Default::default(),
         defaultness: Default::default(),
         unsafety: Default::default(),
@@ -608,7 +597,7 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
         self_ty: q!({ AstNodeRef<'_> }).parse(),
         brace_token: def_site(),
         items: vec![kind_method_item],
-    }
+    })
 }
 
 fn process_ast_node_ref_type(ty: &Type) -> Type {
