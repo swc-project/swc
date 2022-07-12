@@ -1752,12 +1752,28 @@ fn visit_expr(
         Mode::Fold(VisitorVariant::WithPath)
         | Mode::VisitMut(VisitorVariant::WithPath)
         | Mode::Visit(VisitorVariant::WithPath) => {
-            if let Some((type_name, variant_name_base)) = ast_path {
+            if let Some((type_name, field_name)) = ast_path {
+                let field_type_name = Ident::new(&format!("{}Field", type_name), type_name.span());
+
+                let field_name =
+                    Ident::new(&field_name.to_string().to_pascal_case(), field_name.span());
+
+                let ast_path_expr = q!(
+                    Vars {
+                        VariantName: type_name,
+                        FieldType: field_type_name,
+                        FieldName: field_name,
+                    },
+                    (AstKind::VariantName(self::fields::FieldType::FieldName))
+                )
+                .parse::<Expr>();
+
                 q!(
                     Vars {
                         visitor,
                         expr,
-                        visit_name
+                        visit_name,
+                        ast_path_expr,
                     },
                     {
                         __ast_path.with(ast_path_expr, |__ast_path| {
