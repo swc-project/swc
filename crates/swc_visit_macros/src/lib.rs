@@ -2297,7 +2297,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
         match mode {
             Mode::Visit(..) | Mode::VisitAll => {
                 let visit = method_name(mode, ty);
-                let visit = wrap_call_with_ast_path(
+                let visit = inject_ast_path_arg_if_required(
                     mode,
                     q!(Vars { visit }, { _visitor.visit(n) }).parse(),
                 );
@@ -2334,7 +2334,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     match mode {
                         Mode::Fold(..) => {
                             let ident = method_name(mode, arg);
-                            let inner = wrap_call_with_ast_path(
+                            let inner = inject_ast_path_arg_if_required(
                                 mode,
                                 q!(Vars { ident }, { _visitor.ident(*n) }).parse(),
                             );
@@ -2363,7 +2363,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                                     if let Mode::Fold(..) = mode {
                                         if let Some(..) = as_box(arg) {
-                                            let inner = wrap_call_with_ast_path(
+                                            let inner = inject_ast_path_arg_if_required(
                                                 mode,
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
                                             );
@@ -2388,7 +2388,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                                     return match mode {
                                         Mode::Fold(..) => {
-                                            let inner = wrap_call_with_ast_path(
+                                            let inner = inject_ast_path_arg_if_required(
                                                 mode,
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
                                             );
@@ -2406,7 +2406,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         }
 
                                         Mode::VisitMut(..) | Mode::Visit(..) | Mode::VisitAll => {
-                                            let inner = wrap_call_with_ast_path(
+                                            let inner = inject_ast_path_arg_if_required(
                                                 mode,
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
                                             );
@@ -2744,7 +2744,7 @@ fn feature_path_attrs() -> Vec<Attribute> {
     ]
 }
 
-fn wrap_call_with_ast_path(mode: Mode, mut visit_expr: ExprMethodCall) -> Expr {
+fn inject_ast_path_arg_if_required(mode: Mode, mut visit_expr: ExprMethodCall) -> Expr {
     match mode.visitor_variant() {
         Some(VisitorVariant::WithPath) => {}
         _ => return Expr::MethodCall(visit_expr),
