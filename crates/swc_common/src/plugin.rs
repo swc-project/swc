@@ -27,7 +27,7 @@ use crate::{syntax_pos::Mark, SyntaxContext};
  *
  * - When removing, or changing existing properties in the AST struct: TBD
  */
-#[cfg(feature = "plugin-transform-schema-v1")]
+#[cfg(feature = "plugin_transform_schema_v1")]
 pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = 1;
 
 // Reserved for the testing purpose.

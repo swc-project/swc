@@ -19,8 +19,8 @@ filesystem_cache = ["wasmer-cache"]
 # Supports a cache allow to store wasm module in-memory. This avoids recompilation
 # to the same module in a single procress lifecycle.
 memory_cache = []
-plugin-transform-schema-v1 = [
-  "swc_common/plugin-transform-schema-v1"
+plugin_transform_schema_v1 = [
+  "swc_common/plugin_transform_schema_v1"
 ]
 
 [dependencies]

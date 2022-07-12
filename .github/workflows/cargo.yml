@@ -115,7 +115,7 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin-transform-schema-v1
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1
           - crate: swc
             os: windows-latest
           - crate: swc_atoms
@@ -405,7 +405,7 @@ jobs:
       - name: Run cargo test (plugin)
         if: matrix.settings.crate == 'swc_plugin_runner'
         run: |
-          cargo test --color always -p swc_plugin_runner --features plugin-transform-schema-v1
+          cargo test --color always -p swc_plugin_runner --features plugin_transform_schema_v1
 
       - name: Run cargo test (all features)
         if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'
