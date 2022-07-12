@@ -9,10 +9,10 @@ use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprMatch, ExprMethodCall, Field, FieldValue, Fields, FieldsUnnamed, FnArg,
-    GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum,
-    ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Path, PathArguments, ReturnType, Signature,
-    Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic,
-    Visibility,
+    GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, ImplItemType, Index, Item,
+    ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Path, PathArguments, ReturnType,
+    Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant,
+    VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -400,9 +400,45 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
 }
 
 fn make_impl_node_ref(types: &[Type]) -> ItemImpl {
-    let kind_type_item = ImplItem::Type();
+    let kind_type = Type::Path(TypePath {
+        qself: None,
+        path: Ident::new("AstParentKind", call_site()).into(),
+    });
 
-    let kind_method_item = ImplItem::Method();
+    let kind_type_item = ImplItem::Type(ImplItemType {
+        attrs: Default::default(),
+        vis: Visibility::Inherited,
+        defaultness: Default::default(),
+        type_token: def_site(),
+        ident: Ident::new("Kind", call_site()),
+        generics: Default::default(),
+        eq_token: def_site(),
+        ty: kind_type.clone(),
+        semi_token: def_site(),
+    });
+
+    let kind_method_item = ImplItem::Method(ImplItemMethod {
+        attrs: Default::default(),
+        vis: Visibility::Inherited,
+        defaultness: Default::default(),
+        sig: Signature {
+            constness: Default::default(),
+            asyncness: Default::default(),
+            unsafety: Default::default(),
+            abi: Default::default(),
+            fn_token: def_site(),
+            ident: Ident::new("kind", call_site()),
+            generics: Default::default(),
+            paren_token: def_site(),
+            inputs: Punctuated::new(),
+            variadic: Default::default(),
+            output: ReturnType::Type(def_site(), Box::new(kind_type)),
+        },
+        block: Block {
+            brace_token: def_site(),
+            stmts: Default::default(),
+        },
+    });
 
     ItemImpl {
         attrs: Default::default(),
@@ -411,10 +447,7 @@ fn make_impl_node_ref(types: &[Type]) -> ItemImpl {
         impl_token: def_site(),
         generics: Default::default(),
         trait_: Some((None, q!({ swc_visit::NodeRef }).parse(), def_site())),
-        self_ty: Box::new(Type::Path(TypePath {
-            qself: None,
-            path: q!({ AstNodeRef<'_> }).parse(),
-        })),
+        self_ty: q!({ AstNodeRef<'_> }).parse(),
         brace_token: def_site(),
         items: vec![kind_type_item, kind_method_item],
     }
