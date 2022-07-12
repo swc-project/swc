@@ -286,7 +286,7 @@ fn make_field_enum(item: &Item) -> Option<ItemEnum> {
             pub_token: def_site(),
         }),
         enum_token: def_site(),
-        ident: todo!(),
+        ident: Ident::new(&format!("{}Field", type_name), type_name.span()),
         generics: Default::default(),
         brace_token: def_site(),
         variants,
