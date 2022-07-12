@@ -1765,15 +1765,58 @@ fn visit_expr(
                 let field_name =
                     Ident::new(&field_name.to_string().to_pascal_case(), field_name.span());
 
-                let ast_path_expr = q!(
-                    Vars {
-                        VariantName: type_name,
-                        FieldType: field_type_name,
-                        FieldName: field_name,
-                    },
-                    (AstParentKind::VariantName(self::fields::FieldType::FieldName))
-                )
-                .parse::<Expr>();
+                let ast_path_expr: Expr = match mode {
+                    Mode::Visit(..) => {
+                        if let Some(..) = extract_generic("Vec", ty) {
+                            q!(
+                                Vars {
+                                    VariantName: type_name,
+                                    FieldType: field_type_name,
+                                    FieldName: field_name,
+                                },
+                                (AstNodeRef::VariantName(self::fields::FieldType::FieldName(
+                                    usize::MAX
+                                )))
+                            )
+                            .parse()
+                        } else {
+                            q!(
+                                Vars {
+                                    VariantName: type_name,
+                                    FieldType: field_type_name,
+                                    FieldName: field_name,
+                                },
+                                (AstNodeRef::VariantName(self::fields::FieldType::FieldName(expr)))
+                            )
+                            .parse()
+                        }
+                    }
+                    _ => {
+                        if let Some(..) = extract_generic("Vec", ty) {
+                            q!(
+                                Vars {
+                                    VariantName: type_name,
+                                    FieldType: field_type_name,
+                                    FieldName: field_name,
+                                },
+                                (AstParentKind::VariantName(self::fields::FieldType::FieldName(
+                                    usize::MAX
+                                )))
+                            )
+                            .parse()
+                        } else {
+                            q!(
+                                Vars {
+                                    VariantName: type_name,
+                                    FieldType: field_type_name,
+                                    FieldName: field_name,
+                                },
+                                (AstParentKind::VariantName(self::fields::FieldType::FieldName))
+                            )
+                            .parse()
+                        }
+                    }
+                };
 
                 q!(
                     Vars {
