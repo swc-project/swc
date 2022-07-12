@@ -103,12 +103,19 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
 
+        /// Not a public API
+        #[doc(hidden)]
         impl swc_visit::NodeRef for AstParentNodeRef<'_> {
             type ParentKind = AstParentKind;
 
             #[inline]
             fn kind(&self) -> Self::ParentKind {
                 self.kind()
+            }
+
+            #[inline]
+            fn set_index(&mut self, index: usize) {
+                self.set_index(index)
             }
         }
     }));
@@ -432,7 +439,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                 v.push(FnArg::Receiver(Receiver {
                     attrs: Default::default(),
                     reference: Some((def_site(), None)),
-                    mutability: None,
+                    mutability: Some(def_site()),
                     self_token: def_site(),
                 }));
                 v.push(FnArg::Typed(PatType {
