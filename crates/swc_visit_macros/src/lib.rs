@@ -1,6 +1,6 @@
 extern crate proc_macro;
 
-use std::{collections::HashSet, iter::once, mem::replace};
+use std::{collections::HashSet, mem::replace};
 
 use inflector::Inflector;
 use pmutil::{q, Quote, SpanExt};
@@ -158,38 +158,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     proc_macro2::TokenStream::from(q).into()
 }
 
-fn expand_visitor_types(ty: Type) -> Vec<Type> {
-    if let Some(inner) = extract_vec(&ty) {
-        let new = q!(Vars { ty: &inner }, ([ty])).parse();
-        return expand_visitor_types(inner.clone())
-            .into_iter()
-            .chain(once(ty))
-            .chain(once(new))
-            .collect();
-    }
-
-    if let Some(inner) = extract_generic("Arc", &ty) {
-        let new = q!(Vars { ty: &inner }, (&'ast ty)).parse();
-        return expand_visitor_types(inner.clone())
-            .into_iter()
-            .chain(once(ty))
-            .chain(once(new))
-            .collect();
-    }
-
-    if let Some(inner) = extract_generic("Option", &ty) {
-        let new: Type = q!(Vars { ty: &inner }, (Option<&'ast ty>)).parse();
-        return once(new)
-            .into_iter()
-            .chain(expand_visitor_types(inner.clone()))
-            .into_iter()
-            .chain(once(ty))
-            .collect();
-    }
-
-    vec![ty]
-}
-
 fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
     if skip(t) {
         return None;
@@ -310,47 +278,23 @@ fn unwrap_ref(ty: &Type) -> &Type {
     }
 }
 
-fn make_ast_enum(items: &[Stmt], is_ref: bool) -> Item {
+fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
     let mut variants = Punctuated::new();
 
-    for ty in types {
-        let name = ast_enum_variant_name(ty, true);
-        let name = match name {
-            Some(name) => name,
-            None => continue,
+    for stmt in stmts {
+        let item = match stmt {
+            Stmt::Item(item) => item,
+            _ => continue,
+        };
+        let name = match item {
+            Item::Enum(ItemEnum { ident, .. }) => ident,
+            Item::Struct(ItemStruct { ident, .. }) => ident,
+            _ => continue,
         };
 
-        let ident = Ident::new(&name, ty.span());
-        let ty = process_ast_node_ref_type(unwrap_ref(ty));
-        let second = if let Type::Slice(..) = unwrap_ref(&ty) {
-            Some(Field {
-                attrs: Default::default(),
-                vis: Visibility::Inherited,
-                colon_token: None,
-                ident: None,
-                ty: Type::Path(TypePath {
-                    qself: None,
-                    path: Ident::new("usize", ty.span()).into(),
-                }),
-            })
-        } else {
-            None
-        };
+        let field_type_name = Ident::new(&format!("{}Fields", name), name.span());
 
-        let fields = if !is_ref {
-            match second {
-                Some(index) => {
-                    let mut fields = Punctuated::new();
-                    fields.push(index);
-
-                    Fields::Unnamed(FieldsUnnamed {
-                        paren_token: def_site(),
-                        unnamed: fields,
-                    })
-                }
-                None => Fields::Unit,
-            }
-        } else {
+        let fields = {
             let mut fields = Punctuated::new();
 
             fields.push(Field {
@@ -358,25 +302,17 @@ fn make_ast_enum(items: &[Stmt], is_ref: bool) -> Item {
                 vis: Visibility::Inherited,
                 colon_token: None,
                 ident: None,
-                ty: {
-                    if extract_generic("Option", &ty).is_some() || matches!(ty, Type::Reference(..))
-                    {
-                        ty
-                    } else {
-                        Type::Reference(TypeReference {
-                            and_token: ty.span().as_token(),
-                            lifetime: Some(Lifetime {
-                                apostrophe: call_site(),
-                                ident: Ident::new("ast", ty.span()),
-                            }),
-                            mutability: Default::default(),
-                            elem: Box::new(ty),
-                        })
-                    }
-                },
+                ty: Type::Path(TypePath {
+                    qself: Default::default(),
+                    path: q!(
+                        Vars {
+                            field_type_name: &field_type_name,
+                        },
+                        (self::fields::field_type_name)
+                    )
+                    .parse(),
+                }),
             });
-
-            fields.extend(second);
 
             Fields::Unnamed(FieldsUnnamed {
                 paren_token: def_site(),
@@ -386,7 +322,7 @@ fn make_ast_enum(items: &[Stmt], is_ref: bool) -> Item {
 
         variants.push(Variant {
             attrs: Default::default(),
-            ident,
+            ident: name.clone(),
             fields,
             discriminant: None,
         });
