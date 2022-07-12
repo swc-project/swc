@@ -211,11 +211,11 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
         _ => return vec![],
     };
 
-    let type_name = Ident::new(&format!("{}Field", name), name.span());
+    let name = Ident::new(&format!("{}Field", name), name.span());
     {
         let mut attrs = vec![];
 
-        let (type_name, variants) = match item {
+        let variants = match item {
             Item::Struct(s) => {
                 let mut v = Punctuated::new();
 
@@ -227,7 +227,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                     v.push(make_field_enum_variant_from_named_field(&s.ident, f))
                 }
 
-                (s.ident.clone(), v)
+                v
             }
             Item::Enum(e) => {
                 let mut variants = Punctuated::new();
@@ -252,7 +252,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                     })
                 }
 
-                (e.ident.clone(), variants)
+                variants
             }
             _ => return vec![],
         };
@@ -267,7 +267,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
         attrs.push(make_doc_attr(&format!(
             "This enum represents fields of [{type_name}](crate::{type_name})",
-            type_name = type_name,
+            type_name = name,
         )));
 
         items.push(Item::Enum(ItemEnum {
@@ -276,7 +276,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                 pub_token: def_site(),
             }),
             enum_token: def_site(),
-            ident: type_name,
+            ident: name.clone(),
             generics: Default::default(),
             brace_token: def_site(),
             variants,
@@ -297,10 +297,10 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                 asyncness: Default::default(),
                 unsafety: Default::default(),
                 abi: Default::default(),
-                fn_token: type_name.span().as_token(),
-                ident: Ident::new("set_index", type_name.span()),
+                fn_token: name.span().as_token(),
+                ident: Ident::new("set_index", name.span()),
                 generics: Default::default(),
-                paren_token: type_name.span().as_token(),
+                paren_token: name.span().as_token(),
                 inputs: {
                     let mut v = Punctuated::new();
                     v.push(FnArg::Receiver(Receiver {
@@ -332,9 +332,9 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
                 let expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
-                    match_token: type_name.span().as_token(),
+                    match_token: name.span().as_token(),
                     expr: q!({ self }).parse(),
-                    brace_token: type_name.span().as_token(),
+                    brace_token: name.span().as_token(),
                     arms,
                 });
 
@@ -352,7 +352,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             impl_token: def_site(),
             generics: Default::default(),
             trait_: Default::default(),
-            self_ty: q!(Vars { Type: &type_name }, { Type }).parse(),
+            self_ty: q!(Vars { Type: &name }, { Type }).parse(),
             brace_token: def_site(),
             items: methods,
         }));
