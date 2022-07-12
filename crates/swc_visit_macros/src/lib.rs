@@ -369,7 +369,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
         ident: if is_ref {
             Ident::new("AstNodeRef", call_site())
         } else {
-            Ident::new("AstKind", call_site())
+            Ident::new("AstParentKind", call_site())
         },
         generics: if is_ref {
             let mut g = Punctuated::new();
