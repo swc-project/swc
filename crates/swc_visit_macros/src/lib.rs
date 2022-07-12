@@ -207,7 +207,14 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
     let name = match item {
         Item::Struct(s) => s.ident.clone(),
-        Item::Enum(e) => e.ident.clone(),
+        Item::Enum(e) => {
+            // Skip C-like enums
+            if e.variants.iter().all(|v| v.fields.is_empty()) {
+                return vec![];
+            }
+
+            e.ident.clone()
+        }
         _ => return vec![],
     };
 
@@ -231,11 +238,6 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             }
             Item::Enum(e) => {
                 let mut variants = Punctuated::new();
-
-                // Skip C-like enums
-                if e.variants.iter().all(|v| v.fields.is_empty()) {
-                    return vec![];
-                }
 
                 for v in e.variants.iter() {
                     let doc_attr = make_doc_attr(&format!(
