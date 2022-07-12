@@ -989,7 +989,8 @@ where
 
     #[emitter]
     fn emit_important_flag(&mut self, n: &ImportantFlag) -> Result {
-        let mut value = String::new();
+        // `!` + `important`
+        let mut value = String::with_capacity(10);
 
         value.push('!');
 
@@ -1133,7 +1134,7 @@ where
 
     #[emitter]
     fn emit_hex_color(&mut self, n: &HexColor) -> Result {
-        let mut hex_color = String::new();
+        let mut hex_color = String::with_capacity(5);
 
         hex_color.push('#');
 
@@ -1245,7 +1246,7 @@ where
 
         match &n.token {
             Token::AtKeyword { raw, .. } => {
-                let mut at_keyword = String::new();
+                let mut at_keyword = String::with_capacity(1 + raw.len());
 
                 at_keyword.push('@');
                 at_keyword.push_str(raw);
@@ -1271,7 +1272,7 @@ where
                 write_raw!(self, span, raw);
             }
             Token::Percentage { raw, .. } => {
-                let mut percentage = String::new();
+                let mut percentage = String::with_capacity(raw.len() + 1);
 
                 percentage.push_str(raw);
                 percentage.push('%');
@@ -1283,7 +1284,7 @@ where
                 raw_unit,
                 ..
             } => {
-                let mut dimension = String::new();
+                let mut dimension = String::with_capacity(raw_value.len() + raw_unit.len());
 
                 dimension.push_str(raw_value);
                 dimension.push_str(raw_unit);
@@ -1294,7 +1295,7 @@ where
                 write_raw!(self, span, raw);
             }
             Token::Function { raw, .. } => {
-                let mut function = String::new();
+                let mut function = String::with_capacity(raw.len() + 1);
 
                 function.push_str(raw);
                 function.push('(');
@@ -1314,7 +1315,9 @@ where
                 after,
                 ..
             } => {
-                let mut url = String::new();
+                let mut url = String::with_capacity(
+                    raw_name.len() + before.len() + raw_value.len() + after.len() + 2,
+                );
 
                 url.push_str(raw_name);
                 url.push('(');
@@ -1330,7 +1333,7 @@ where
                 raw_value,
                 ..
             } => {
-                let mut bad_url = String::new();
+                let mut bad_url = String::with_capacity(raw_name.len() + raw_value.len() + 2);
 
                 bad_url.push_str(raw_name);
                 bad_url.push('(');
@@ -1355,7 +1358,7 @@ where
                 write_raw!(self, span, ":");
             }
             Token::Hash { raw, .. } => {
-                let mut hash = String::new();
+                let mut hash = String::with_capacity(raw.len() + 1);
 
                 hash.push('#');
                 hash.push_str(raw);
@@ -1381,7 +1384,7 @@ where
 
             match token {
                 Token::AtKeyword { raw, .. } => {
-                    let mut at_keyword = String::new();
+                    let mut at_keyword = String::with_capacity(raw.len() + 1);
 
                     at_keyword.push('@');
                     at_keyword.push_str(raw);
@@ -1407,7 +1410,7 @@ where
                     write_raw!(self, span, raw);
                 }
                 Token::Percentage { raw, .. } => {
-                    let mut percentage = String::new();
+                    let mut percentage = String::with_capacity(raw.len() + 1);
 
                     percentage.push_str(raw);
                     percentage.push('%');
@@ -1419,7 +1422,7 @@ where
                     raw_unit,
                     ..
                 } => {
-                    let mut dimension = String::new();
+                    let mut dimension = String::with_capacity(raw_value.len() + raw_unit.len());
 
                     dimension.push_str(raw_value);
                     dimension.push_str(raw_unit);
@@ -1430,7 +1433,7 @@ where
                     write_raw!(self, span, raw);
                 }
                 Token::Function { raw, .. } => {
-                    let mut function = String::new();
+                    let mut function = String::with_capacity(raw.len() + 1);
 
                     function.push_str(raw);
                     function.push('(');
@@ -1450,7 +1453,9 @@ where
                     after,
                     ..
                 } => {
-                    let mut url = String::new();
+                    let mut url = String::with_capacity(
+                        raw_name.len() + before.len() + raw_value.len() + after.len() + 2,
+                    );
 
                     url.push_str(raw_name);
                     url.push('(');
@@ -1466,7 +1471,7 @@ where
                     raw_value,
                     ..
                 } => {
-                    let mut bad_url = String::new();
+                    let mut bad_url = String::with_capacity(raw_name.len() + raw_value.len() + 2);
 
                     bad_url.push_str(raw_name);
                     bad_url.push('(');
@@ -1491,7 +1496,7 @@ where
                     write_raw!(self, span, ":");
                 }
                 Token::Hash { raw, .. } => {
-                    let mut hash = String::new();
+                    let mut hash = String::with_capacity(raw.len() + 1);
 
                     hash.push('#');
                     hash.push_str(raw);
@@ -1543,23 +1548,21 @@ where
 
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
-        let mut url = String::new();
-
-        if !self.config.minify {
-            url.push_str(&n.before);
-        }
-
         if self.config.minify {
+            let mut url = String::with_capacity(n.value.len());
+
             url.push_str(&n.value);
+
+            write_str!(self, n.span, &url);
         } else {
+            let mut url = String::with_capacity(n.before.len() + n.raw.len() + n.after.len());
+
+            url.push_str(&n.before);
             url.push_str(&n.raw);
-        }
-
-        if !self.config.minify {
             url.push_str(&n.after);
-        }
 
-        write_str!(self, n.span, &url);
+            write_str!(self, n.span, &url);
+        }
     }
 
     #[emitter]
@@ -1572,7 +1575,15 @@ where
 
     #[emitter]
     fn emit_unicode_range(&mut self, n: &UnicodeRange) -> Result {
-        let mut value = String::new();
+        let mut value = String::with_capacity(
+            n.start.len()
+                + if let Some(end) = &n.end {
+                    end.len() + 1
+                } else {
+                    0
+                }
+                + 2,
+        );
 
         value.push(n.prefix);
         value.push('+');
@@ -1785,7 +1796,7 @@ where
     #[emitter]
     fn emit_an_plus_b_notation(&mut self, n: &AnPlusBNotation) -> Result {
         if self.config.minify {
-            let mut an_plus_b_minified = String::new();
+            let mut an_plus_b_minified = String::with_capacity(4);
 
             if let Some(a) = &n.a {
                 if *a == -1 {
@@ -1807,7 +1818,7 @@ where
 
             write_raw!(self, n.span, &an_plus_b_minified);
         } else {
-            let mut an_plus_b = String::new();
+            let mut an_plus_b = String::with_capacity(4);
 
             if let Some(a_raw) = &n.a_raw {
                 an_plus_b.push_str(a_raw);
@@ -2021,7 +2032,7 @@ fn minify_hex_color(value: &str) -> String {
         if chars[0] == chars[1] && chars[2] == chars[3] && chars[4] == chars[5] {
             // 6 -> 3 or 8 -> 3
             if length == 6 || chars[6] == b'f' && chars[7] == b'f' {
-                let mut minified = String::new();
+                let mut minified = String::with_capacity(3);
 
                 minified.push((chars[0] as char).to_ascii_lowercase());
                 minified.push((chars[2] as char).to_ascii_lowercase());
@@ -2031,7 +2042,7 @@ fn minify_hex_color(value: &str) -> String {
             }
             // 8 -> 4
             else if length == 8 && chars[6] == chars[7] {
-                let mut minified = String::new();
+                let mut minified = String::with_capacity(4);
 
                 minified.push((chars[0] as char).to_ascii_lowercase());
                 minified.push((chars[2] as char).to_ascii_lowercase());
@@ -2047,7 +2058,7 @@ fn minify_hex_color(value: &str) -> String {
 }
 
 fn minify_string(value: &str) -> String {
-    let mut minified = String::new();
+    let mut minified = String::with_capacity(value.len());
 
     let mut dq = 0;
     let mut sq = 0;
