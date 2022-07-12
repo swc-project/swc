@@ -1336,7 +1336,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }
             names.insert(s);
 
-            let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse(), false);
+            let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse(), None);
 
             match mode {
                 Mode::Visit(VisitorVariant::Normal) => {
@@ -1726,7 +1726,13 @@ where
 ///
 /// - `Box<Expr>` => visit(&node) or Box::new(visit(*node))
 /// - `Vec<Expr>` => &*node or
-fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr, with_path: bool) -> Expr {
+fn visit_expr(
+    mode: Mode,
+    ty: &Type,
+    visitor: &Expr,
+    expr: Expr,
+    ast_path: Option<(Ident, Ident)>,
+) -> Expr {
     let visit_name = method_name(mode, ty);
 
     adjust_expr(mode, ty, expr, |expr| match mode {
@@ -1746,7 +1752,7 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr, with_path: bool
         Mode::Fold(VisitorVariant::WithPath)
         | Mode::VisitMut(VisitorVariant::WithPath)
         | Mode::Visit(VisitorVariant::WithPath) => {
-            if with_path {
+            if let Some((type_name, variant_name_base)) = ast_path {
                 q!(
                     Vars {
                         visitor,
@@ -1775,7 +1781,13 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr, with_path: bool
     })
 }
 
-fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fields) -> Arm {
+fn make_arm_from_struct(
+    mode: Mode,
+    type_name: &Ident,
+    path: &Path,
+    variant_name: Option<&Ident>,
+    variant: &Fields,
+) -> Arm {
     let mut stmts = vec![];
     let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
 
@@ -1796,7 +1808,19 @@ fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fi
             )
             .parse();
 
-            let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, true);
+            let expr = visit_expr(
+                mode,
+                ty,
+                &q!({ _visitor }).parse(),
+                expr,
+                Some((
+                    type_name.clone(),
+                    field
+                        .ident
+                        .clone()
+                        .unwrap_or_else(|| variant_name.cloned().unwrap()),
+                )),
+            );
             stmts.push(match mode {
                 Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
                     Stmt::Semi(expr, call_site())
@@ -1975,7 +1999,8 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             }
 
             let block = {
-                let arm = make_arm_from_struct(mode, &s.ident, &s.ident.clone().into(), &s.fields);
+                let arm =
+                    make_arm_from_struct(mode, &s.ident, &s.ident.clone().into(), None, &s.fields);
 
                 let mut match_expr: ExprMatch = q!((match n {})).parse();
                 match_expr.arms.push(arm);
@@ -2031,6 +2056,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
                             { Enum::Variant }
                         )
                         .parse(),
+                        Some(&variant.ident),
                         &variant.fields,
                     );
                     arms.push(arm);
