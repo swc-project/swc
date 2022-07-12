@@ -105,7 +105,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             type ParentKind = AstParentKind;
 
             #[inline]
-            fn parent_kind(&self) -> Self::ParentKind {
+            fn kind(&self) -> Self::ParentKind {
                 self.kind()
             }
         }
