@@ -19,7 +19,7 @@ struct SuperField {
 
 #[derive(Default)]
 pub struct FnEnvHoister {
-    pub unresolved_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     this: Option<Ident>,
     args: Option<Ident>,
     new_target: Option<Ident>,
