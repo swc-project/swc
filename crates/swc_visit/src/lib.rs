@@ -257,6 +257,12 @@ where
         self.path.pop();
         ret
     }
+
+    /// Not a public API
+    #[doc(hidden)]
+    pub fn last_mut(&mut self) -> Option<&mut K> {
+        self.path.last_mut()
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -316,6 +322,15 @@ where
         self.kinds.path.pop();
 
         ret
+    }
+
+    /// Not a public API
+    #[doc(hidden)]
+    pub fn last_mut(&mut self) -> Option<(&mut N, &mut N::ParentKind)> {
+        let last_kind = self.kinds.path.last_mut()?;
+        let last_ref = self.path.last_mut()?;
+
+        Some((last_ref, last_kind))
     }
 }
 
