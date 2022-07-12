@@ -20,6 +20,9 @@
 
 
 
+- **(es/codegen)** Emit comments in `emit_module` (#5132) ([1ef541e](https://github.com/swc-project/swc/commit/1ef541eec4a98dc23bef706f881fac9dddd196ca))
+
+
 - **(html/minifier)** Allow specifying options for other tools (#5125) ([dada2d7](https://github.com/swc-project/swc/commit/dada2d7d554fa0733a3c65c512777f1548d41a35))
 
 
