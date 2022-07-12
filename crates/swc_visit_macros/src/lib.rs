@@ -288,6 +288,11 @@ fn make_field_enum(item: &Item) -> Option<ItemEnum> {
         Item::Enum(e) => {
             let mut v = Punctuated::new();
 
+            // Skip C-like enums
+            if e.variants.iter().all(|v| v.fields.is_empty()) {
+                return None;
+            }
+
             (e.ident.clone(), v)
         }
         _ => return None,
