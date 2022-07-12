@@ -3,6 +3,7 @@
     "xmlns":"http://www.w3.org/2000/svg",
     "xlink": "http://www.w3.org/1999/xlink",
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "zoomAndPan": "magnify",
     "height": "auto",
     "width": "auto",
@@ -20,7 +21,8 @@
     "type": "text/css"
   },
   "a": {
-    "opacity": "1"
+    "opacity": "1",
+    "pointer-events": "visiblePainted"
   },
   "altGlyph": {
     "opacity": "1",
@@ -85,13 +87,16 @@
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero",
-    "opacity": "1"
+    "opacity": "1",
+    "pointer-events": "visiblePainted"
   },
   "clipPath":  {
-    "opacity": "1"
+    "opacity": "1",
+    "pointer-events": "visiblePainted"
   }, 
   "defs": {
-    "opacity": "1"
+    "opacity": "1",
+    "pointer-events": "visiblePainted"
   },
   "discard": {
     "begin": "0s"
@@ -104,7 +109,8 @@
     "ry": "auto",
     "cx": "0",
     "cy": "0",
-    "opacity": "1"
+    "opacity": "1",
+    "pointer-events": "visiblePainted"
   },
   "feBlend":  {
     "height": "100%",
@@ -284,11 +290,13 @@
     "height": "auto",
     "width": "auto",
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "x": "0",
     "y": "0"
   },
   "g": {
-    "opacity": "1"
+    "opacity": "1",
+    "pointer-events": "visiblePainted"
   },
   "glyph": {
     "opacity": "1"
@@ -302,11 +310,13 @@
     "height": "auto",
     "width": "auto",
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "x": "0",
     "y": "0"
   },
   "line": {
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "y1": "0",
     "y2": "0"
   },
@@ -319,6 +329,7 @@
   },
   "marker": {
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "refX": "0",
     "refY": "0"
   },
@@ -326,6 +337,7 @@
     "height": "120%",
     "width": "120%",
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "x": "-10%",
     "y": "-10%"
   },
@@ -334,6 +346,7 @@
   },
   "path": {
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero"
@@ -342,17 +355,20 @@
     "height": "0",
     "width": "0",
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "x": "0",
     "y": "0"
   },
   "polygon": {
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero"
   },
   "polyline": {
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero"
@@ -370,6 +386,7 @@
     "height": "auto",
     "width": "auto",
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "rx": "auto",
     "ry": "auto",
     "x": "0",
@@ -385,13 +402,16 @@
     "opacity": "1"
   },
   "switch": {
-    "opacity": "1"
+    "opacity": "1",
+    "pointer-events": "visiblePainted"
   },
   "symbol": {
-    "opacity": "1"
+    "opacity": "1",
+    "pointer-events": "visiblePainted"
   }, 
   "text": {
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero",
@@ -405,16 +425,17 @@
     "y": "0"
   },
   "textPath": {
-     "opacity": "1",
-     "fill": "black",
-     "fill-opacity": "1",
-     "fill-rule": "nonzero",
-     "font-size": "medium",
-     "font-size-adjust": "none",
-     "font-stretch": "normal",
-     "font-style": "normal",
-     "font-variant": "normal",
-     "font-weight": "normal"
+    "opacity": "1",
+    "pointer-events": "visiblePainted",
+    "fill": "black",
+    "fill-opacity": "1",
+    "fill-rule": "nonzero",
+    "font-size": "medium",
+    "font-size-adjust": "none",
+    "font-stretch": "normal",
+    "font-style": "normal",
+    "font-variant": "normal",
+    "font-weight": "normal"
   },
   "tref": {
     "opacity": "1",
@@ -432,6 +453,7 @@
   },
   "tspan": {
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "fill": "black",
     "fill-opacity": "1",
     "fill-rule": "nonzero",
@@ -446,6 +468,7 @@
     "height": "auto",
     "width": "auto",
     "opacity": "1",
+    "pointer-events": "visiblePainted",
     "x": "0",
     "y": "0"
   },
