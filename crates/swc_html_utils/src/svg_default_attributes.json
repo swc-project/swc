@@ -4,6 +4,8 @@
     "xlink": "http://www.w3.org/1999/xlink",
     "opacity": "1",
     "zoomAndPan": "magnify",
+    "height": "auto",
+    "width": "auto",
     "x": "0",
     "y": "0"
   },
@@ -105,21 +107,29 @@
     "opacity": "1"
   },
   "feBlend":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "feColorMatrix":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "feComponentTransfer":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "feComposite": {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%",
@@ -129,26 +139,38 @@
     "k4": "0"
   },
   "feConvolveMatrix":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "feDiffuseLighting":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "feDisplacementMap":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "yChannelSelector": "a",
     "x": "0%",
     "y": "0%"
   },
   "feDropShadow":  {
+    "height": "100%",
+    "width": "100%",
+    "dx": "2",
+    "dy": "2",
     "x": "0%",
     "y": "0%"
   },
   "feFlood":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
@@ -170,16 +192,22 @@
     "y": "0%"
   },
   "feGaussianBlur":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "feImage":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "feMerge":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
@@ -189,12 +217,18 @@
     "y": "0%"
   },
   "feMorphology": {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "radius": "0",
     "x": "0%",
     "y": "0%"
   },
   "feOffset":  {
+    "dx": "0",
+    "dy": "0",
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
@@ -206,6 +240,8 @@
   },
   "feSpecularLighting":  {
     "opacity": "1",
+    "height": "100%",
+    "width": "100%",
     "specularExponent": "0",
     "x": "0%",
     "y": "0%"
@@ -221,16 +257,22 @@
     "z": "1"
   },
   "feTile":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "feTurbulence":  {
+    "height": "100%",
+    "width": "100%",
     "opacity": "1",
     "x": "0%",
     "y": "0%"
   },
   "filter":  {
+    "height": "120%",
+    "width": "120%",
     "opacity": "1",
     "x": "-10%",
     "y": "-10%"
@@ -239,6 +281,8 @@
     "opacity": "1"
   },
   "foreignObject":  {
+    "height": "auto",
+    "width": "auto",
     "opacity": "1",
     "x": "0",
     "y": "0"
@@ -250,9 +294,13 @@
     "opacity": "1"
   },
   "glyphRef": {
+    "dx": "0",
+    "dy": "0",
     "opacity": "1"
   },
   "image":  {
+    "height": "auto",
+    "width": "auto",
     "opacity": "1",
     "x": "0",
     "y": "0"
@@ -270,11 +318,13 @@
     "spreadMethod": "pad"
   },
   "marker": {
-   "opacity": "1",
-   "refX": "0",
-   "refY": "0"
+    "opacity": "1",
+    "refX": "0",
+    "refY": "0"
   },
   "mask": {
+    "height": "120%",
+    "width": "120%",
     "opacity": "1",
     "x": "-10%",
     "y": "-10%"
@@ -289,6 +339,8 @@
     "fill-rule": "nonzero"
   },
   "pattern": {
+    "height": "0",
+    "width": "0",
     "opacity": "1",
     "x": "0",
     "y": "0"
@@ -315,6 +367,8 @@
    "spreadMethod": "pad"
   },
   "rect": {
+    "height": "auto",
+    "width": "auto",
     "opacity": "1",
     "rx": "auto",
     "ry": "auto",
@@ -389,6 +443,8 @@
     "font-weight": "normal"
   },
   "use": {
+    "height": "auto",
+    "width": "auto",
     "opacity": "1",
     "x": "0",
     "y": "0"
