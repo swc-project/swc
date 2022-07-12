@@ -1336,7 +1336,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }
             names.insert(s);
 
-            let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
+            let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse(), false);
 
             match mode {
                 Mode::Visit(VisitorVariant::Normal) => {
@@ -1726,7 +1726,7 @@ where
 ///
 /// - `Box<Expr>` => visit(&node) or Box::new(visit(*node))
 /// - `Vec<Expr>` => &*node or
-fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
+fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr, with_path: bool) -> Expr {
     let visit_name = method_name(mode, ty);
 
     adjust_expr(mode, ty, expr, |expr| match mode {
@@ -1745,15 +1745,33 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
 
         Mode::Fold(VisitorVariant::WithPath)
         | Mode::VisitMut(VisitorVariant::WithPath)
-        | Mode::Visit(VisitorVariant::WithPath) => q!(
-            Vars {
-                visitor,
-                expr,
-                visit_name
-            },
-            { visitor.visit_name(expr, __ast_path) }
-        )
-        .parse(),
+        | Mode::Visit(VisitorVariant::WithPath) => {
+            if with_path {
+                q!(
+                    Vars {
+                        visitor,
+                        expr,
+                        visit_name
+                    },
+                    {
+                        __ast_path.with(ast_path_expr, |__ast_path| {
+                            visitor.visit_name(expr, __ast_path)
+                        })
+                    }
+                )
+                .parse()
+            } else {
+                q!(
+                    Vars {
+                        visitor,
+                        expr,
+                        visit_name
+                    },
+                    { visitor.visit_name(expr, __ast_path) }
+                )
+                .parse()
+            }
+        }
     })
 }
 
@@ -1778,7 +1796,7 @@ fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fi
             )
             .parse();
 
-            let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr);
+            let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, true);
             stmts.push(match mode {
                 Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
                     Stmt::Semi(expr, call_site())
