@@ -111,6 +111,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
     }));
 
+    let mut kinds = Quote::new_call_site();
     {
         let mut types = vec![];
 
@@ -260,6 +261,34 @@ fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
         )),
         _ => unimplemented!("Type: {:?}", t),
     }
+}
+
+fn make_field_enum(item: &Item) -> Option<ItemEnum> {
+    let (type_name, variants) = match item {
+        Item::Struct(s) => {
+            let mut v = Punctuated::new();
+
+            (s.ident.clone(), v)
+        }
+        Item::Enum(e) => {
+            let mut v = Punctuated::new();
+
+            (e.ident.clone(), v)
+        }
+        _ => return None,
+    };
+
+    Some(ItemEnum {
+        attrs: Default::default(),
+        vis: Visibility::Public(VisPublic {
+            pub_token: def_site(),
+        }),
+        enum_token: def_site(),
+        ident: todo!(),
+        generics: Default::default(),
+        brace_token: def_site(),
+        variants,
+    })
 }
 
 fn unwrap_ref(ty: &Type) -> &Type {
