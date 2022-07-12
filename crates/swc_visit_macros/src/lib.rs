@@ -451,7 +451,14 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                         _ => continue,
                     };
                     let name = match item {
-                        Item::Enum(ItemEnum { ident, .. }) => ident,
+                        Item::Enum(ItemEnum {
+                            ident, variants, ..
+                        }) => {
+                            if variants.iter().all(|v| v.fields.is_empty()) {
+                                continue;
+                            }
+                            ident
+                        }
                         Item::Struct(ItemStruct { ident, .. }) => ident,
                         _ => continue,
                     };
