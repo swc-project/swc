@@ -2563,26 +2563,11 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
-                            Mode::VisitMut(VisitorVariant::WithPath) => {
-                                let ast_kind = ast_enum_variant_name(ty, false).unwrap();
-                                let ast_kind = Ident::new(&ast_kind, ty.span());
-
-                                q!(
-                                    Vars {
-                                        ident,
-                                        AstKindVariant: ast_kind,
-                                    },
-                                    ({
-                                        n.iter_mut().enumerate().for_each(|(idx, v)| {
-                                            __ast_path.with(
-                                                AstParentKind::AstKindVariant(idx),
-                                                |__ast_path| _visitor.ident(v, __ast_path),
-                                            )
-                                        })
-                                    })
-                                )
-                                .parse()
-                            }
+                            Mode::VisitMut(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({ n.iter_mut().for_each(|v| _visitor.ident(v, __ast_path)) })
+                            )
+                            .parse(),
 
                             Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
                                 Vars { ident },
@@ -2590,26 +2575,11 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
-                            Mode::Visit(VisitorVariant::WithPath) => {
-                                let ast_kind = ast_enum_variant_name(ty, false).unwrap();
-                                let ast_kind = Ident::new(&ast_kind, ty.span());
-
-                                q!(
-                                    Vars {
-                                        ident,
-                                        AstKindVariant: ast_kind,
-                                    },
-                                    ({
-                                        n.iter().enumerate().for_each(|(idx, v)| {
-                                            __ast_path.with(
-                                                AstNodeRef::AstKindVariant(&n, idx),
-                                                |__ast_path| _visitor.ident(v, __ast_path),
-                                            )
-                                        })
-                                    })
-                                )
-                                .parse()
-                            }
+                            Mode::Visit(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({ n.iter().for_each(|v| _visitor.ident(v, __ast_path)) })
+                            )
+                            .parse(),
                         }
                     };
                 }
