@@ -1857,38 +1857,10 @@ fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fi
         Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {}
     }
 
-    let mut block = Block {
+    let block = Block {
         brace_token: def_site(),
         stmts,
     };
-
-    if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
-        match mode {
-            Mode::Visit { .. } => {
-                block = q!(
-                    Vars {
-                        block,
-                        AstKindVariant: type_name,
-                    },
-                    ({ __ast_path.with(AstNodeRef::AstKindVariant(n), |__ast_path| block,) })
-                )
-                .parse()
-            }
-
-            Mode::VisitMut { .. } | Mode::Fold { .. } => {
-                block = q!(
-                    Vars {
-                        block,
-                        AstKindVariant: type_name,
-                    },
-                    ({ __ast_path.with(AstParentKind::AstKindVariant, |__ast_path| block) })
-                )
-                .parse()
-            }
-
-            _ => {}
-        }
-    }
 
     Arm {
         attrs: vec![],
