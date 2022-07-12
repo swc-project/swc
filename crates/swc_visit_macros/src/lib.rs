@@ -2308,7 +2308,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     mode,
                     &q! {{n}}.parse(),
                     q!(Vars { visit }, { _visitor.visit(n) }).parse(),
-                    ty,
                 );
 
                 return Block {
@@ -2347,7 +2346,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 mode,
                                 &q!({ n }).parse(),
                                 q!(Vars { ident }, { _visitor.ident(*n) }).parse(),
-                                arg,
                             );
 
                             return q!(
@@ -2378,7 +2376,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 mode,
                                                 &q!({ n }).parse(),
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
-                                                arg,
                                             );
 
                                             return q!(
@@ -2405,7 +2402,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 mode,
                                                 &q!({ n }).parse(),
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
-                                                arg,
                                             );
 
                                             q!(
@@ -2425,7 +2421,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 mode,
                                                 &q!({ n }).parse(),
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
-                                                arg,
                                             );
 
                                             q!(
