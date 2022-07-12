@@ -10,10 +10,10 @@ use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
     Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
-    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat,
-    PatIdent, PatTuple, PatTupleStruct, PatWild, Path, PathArguments, Receiver, ReturnType,
-    Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, UnOp,
-    Variant, VisPublic, Visibility,
+    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemTrait, Lifetime, LifetimeDef,
+    Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatWild, Path, PathArguments, Receiver,
+    ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference,
+    UnOp, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -111,7 +111,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
     }));
 
-    let mut field_module = Quote::new_call_site();
+    let mut field_module_body = vec![];
     {
         let mut types = vec![];
 
@@ -121,7 +121,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 _ => unimplemented!("error reporting for something other than Item"),
             };
 
-            field_module.push_tokens(&make_field_enum(item));
+            field_module_body.extend(make_field_enum(item).map(Item::Enum));
 
             make_method(Mode::VisitMut(VisitorVariant::Normal), item, &mut types);
         }
@@ -152,6 +152,17 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     q.push_tokens(&make(Mode::VisitMut(VisitorVariant::Normal), &block.stmts));
 
     q.push_tokens(&make(Mode::VisitAll, &block.stmts));
+
+    q.push_tokens(&ItemMod {
+        attrs: Default::default(),
+        vis: Visibility::Public(VisPublic {
+            pub_token: def_site(),
+        }),
+        mod_token: def_site(),
+        ident: Ident::new("feilds", call_site()),
+        content: Some((def_site(), field_module_body)),
+        semi: None,
+    });
 
     proc_macro2::TokenStream::from(q).into()
 }
