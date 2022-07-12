@@ -706,9 +706,7 @@ where
     fn parse(&mut self) -> PResult<Declaration> {
         let span = self.input.cur_span()?;
 
-        self.input.skip_ws()?;
-
-        // 1. Consume the next input token. Create a new declaration with its name set
+        // Consume the next input token. Create a new declaration with its name set
         // to the value of the current input token and its value initially set to an
         // empty list.
         let is_dashed_ident = match cur!(self) {
@@ -784,6 +782,10 @@ where
             }
         }
 
+        // 5. If the last two non-<whitespace-token>s in the declaration’s value are a
+        // <delim-token> with the value "!" followed by an <ident-token> with a value
+        // that is an ASCII case-insensitive match for "important", remove them from the
+        // declaration’s value and set the declaration’s important flag to true.
         self.input.skip_ws()?;
 
         let important = if is!(self, "!") {
@@ -796,8 +798,11 @@ where
             None
         };
 
+        // 6. While the last token in the declaration’s value is a <whitespace-token>,
+        // remove that token.
         self.input.skip_ws()?;
 
+        // 7. Return the declaration.
         Ok(Declaration {
             span: Span::new(span.lo, end, Default::default()),
             name,

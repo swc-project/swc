@@ -3170,10 +3170,11 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.108.0"
+version = "0.108.1"
 dependencies = [
  "auto_impl",
  "bitflags",
+ "rustc-hash",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -3231,7 +3232,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.107.0"
+version = "0.107.1"
 dependencies = [
  "bitflags",
  "criterion",
