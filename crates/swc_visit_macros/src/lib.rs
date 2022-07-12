@@ -1775,10 +1775,10 @@ fn visit_expr(
                                     FieldName: field_name,
                                     expr: &expr,
                                 },
-                                (AstNodeRef::VariantName(self::fields::FieldType::FieldName(
+                                (AstNodeRef::VariantName(
                                     expr,
-                                    usize::MAX
-                                )))
+                                    self::fields::FieldType::FieldName(usize::MAX)
+                                ))
                             )
                             .parse()
                         } else {
@@ -1789,7 +1789,7 @@ fn visit_expr(
                                     FieldName: field_name,
                                     expr: &expr,
                                 },
-                                (AstNodeRef::VariantName(self::fields::FieldType::FieldName(expr)))
+                                (AstNodeRef::VariantName(expr, self::fields::FieldType::FieldName))
                             )
                             .parse()
                         }
