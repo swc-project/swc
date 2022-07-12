@@ -1725,7 +1725,7 @@ fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fi
                     },
                     ({
                         __ast_path.with(
-                            AstKind::AstKindVariant,
+                            AstParentKind::AstKindVariant,
                             AstNodeRef::AstKindVariant(n),
                             |__ast_path| block,
                         )
@@ -1740,7 +1740,7 @@ fn make_arm_from_struct(mode: Mode, type_name: &Ident, path: &Path, variant: &Fi
                         block,
                         AstKindVariant: type_name,
                     },
-                    ({ __ast_path.with(AstKind::AstKindVariant, |__ast_path| block) })
+                    ({ __ast_path.with(AstParentKind::AstKindVariant, |__ast_path| block) })
                 )
                 .parse()
             }
@@ -2373,10 +2373,12 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                     .enumerate()
                                                     .map(|(idx, v)| {
                                                         __ast_path.with(
-                                                            AstKind::AstKindVariantForVec(idx),
+                                                            AstParentKind::AstKindVariantForVec(
+                                                                idx,
+                                                            ),
                                                             |__ast_path| {
                                                                 __ast_path.with(
-                                                                AstKind::AstKindVariantForBox,
+                                                                AstParentKind::AstKindVariantForBox,
                                                                 |__ast_path| {
                                                                     swc_visit::util::map::Map::map(
                                                                         v,
@@ -2428,7 +2430,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             .enumerate()
                                             .map(|(idx, v)| {
                                                 __ast_path.with(
-                                                    AstKind::AstKindVariant(idx),
+                                                    AstParentKind::AstKindVariant(idx),
                                                     |__ast_path| _visitor.ident(v, __ast_path),
                                                 )
                                             })
@@ -2455,10 +2457,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     },
                                     ({
                                         n.iter_mut().enumerate().for_each(|(idx, v)| {
-                                            __ast_path
-                                                .with(AstKind::AstKindVariant(idx), |__ast_path| {
-                                                    _visitor.ident(v, __ast_path)
-                                                })
+                                            __ast_path.with(
+                                                AstParentKind::AstKindVariant(idx),
+                                                |__ast_path| _visitor.ident(v, __ast_path),
+                                            )
                                         })
                                     })
                                 )
@@ -2483,7 +2485,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     ({
                                         n.iter().enumerate().for_each(|(idx, v)| {
                                             __ast_path.with(
-                                                AstKind::AstKindVariant(idx),
+                                                AstParentKind::AstKindVariant(idx),
                                                 AstNodeRef::AstKindVariant(&n, idx),
                                                 |__ast_path| _visitor.ident(v.as_ref(), __ast_path),
                                             )
@@ -2519,7 +2521,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             .enumerate()
                                             .map(|(idx, v)| {
                                                 __ast_path.with(
-                                                    AstKind::AstKindVariant(idx),
+                                                    AstParentKind::AstKindVariant(idx),
                                                     |__ast_path| _visitor.ident(v, __ast_path),
                                                 )
                                             })
@@ -2546,10 +2548,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     },
                                     ({
                                         n.iter_mut().enumerate().for_each(|(idx, v)| {
-                                            __ast_path
-                                                .with(AstKind::AstKindVariant(idx), |__ast_path| {
-                                                    _visitor.ident(v, __ast_path)
-                                                })
+                                            __ast_path.with(
+                                                AstParentKind::AstKindVariant(idx),
+                                                |__ast_path| _visitor.ident(v, __ast_path),
+                                            )
                                         })
                                     })
                                 )
@@ -2574,7 +2576,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     ({
                                         n.iter().enumerate().for_each(|(idx, v)| {
                                             __ast_path.with(
-                                                AstKind::AstKindVariant(idx),
+                                                AstParentKind::AstKindVariant(idx),
                                                 AstNodeRef::AstKindVariant(&n, idx),
                                                 |__ast_path| _visitor.ident(v, __ast_path),
                                             )
@@ -2803,7 +2805,7 @@ fn wrap_call_with_ast_path(
             },
             ({
                 __ast_path.with(
-                    AstKind::AstKindVariant,
+                    AstParentKind::AstKindVariant,
                     AstNodeRef::AstKindVariant(&node),
                     |__ast_path| visit_expr,
                 )
@@ -2815,7 +2817,7 @@ fn wrap_call_with_ast_path(
                 visit_expr,
                 AstKindVariant: ast_kind_variant
             },
-            ({ __ast_path.with(AstKind::AstKindVariant, |__ast_path| visit_expr) })
+            ({ __ast_path.with(AstParentKind::AstKindVariant, |__ast_path| visit_expr) })
         )
         .parse(),
         _ => {
