@@ -13,7 +13,7 @@ use syn::{
     ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, Lifetime,
     LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
     PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type,
-    TypePath, TypeReference, UnOp, Variant, VisCrate, VisPublic, Visibility,
+    TypePath, TypeReference, UnOp, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
