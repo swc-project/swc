@@ -287,14 +287,29 @@ fn make_field_enum(item: &Item) -> Option<ItemEnum> {
             (s.ident.clone(), v)
         }
         Item::Enum(e) => {
-            let mut v = Punctuated::new();
+            let mut variants = Punctuated::new();
 
             // Skip C-like enums
             if e.variants.iter().all(|v| v.fields.is_empty()) {
                 return None;
             }
 
-            (e.ident.clone(), v)
+            for v in e.variants.iter() {
+                let doc_attr = make_doc_attr(&format!(
+                    "This represents [{variant_name}](`crate::{type_name}::{variant_name}`)",
+                    type_name = e.ident,
+                    variant_name = v.ident,
+                ));
+
+                variants.push(Variant {
+                    attrs: vec![doc_attr],
+                    ident: Ident::new(&v.ident.to_string().to_pascal_case(), v.ident.span()),
+                    discriminant: Default::default(),
+                    fields: Fields::Unit,
+                })
+            }
+
+            (e.ident.clone(), variants)
         }
         _ => return None,
     };
