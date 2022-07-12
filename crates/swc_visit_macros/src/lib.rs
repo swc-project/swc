@@ -435,6 +435,18 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                     mutability: None,
                     self_token: def_site(),
                 }));
+                v.push(FnArg::Typed(PatType {
+                    attrs: Default::default(),
+                    colon_token: def_site(),
+                    ty: q!({ usize }).parse(),
+                    pat: Box::new(Pat::Ident(PatIdent {
+                        attrs: Default::default(),
+                        by_ref: Default::default(),
+                        mutability: Default::default(),
+                        ident: Ident::new("index", call_site()),
+                        subpat: Default::default(),
+                    })),
+                }));
 
                 v
             },
