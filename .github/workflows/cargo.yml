@@ -136,7 +136,7 @@ jobs:
           - crate: swc_common
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin-transform-schema-vtest
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest
           - crate: swc_common
             os: windows-latest
           - crate: swc_config

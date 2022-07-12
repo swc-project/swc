@@ -13,15 +13,22 @@ bench = false
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1", "plugin",]
+default = ["swc_v1", "plugin", "plugin_transform_schema_v1"]
 plugin = [
   "swc/plugin",
-  "swc/plugin_transform_schema_v1",
-  "swc_common/plugin_transform_schema_v1",
   "swc_plugin_runner/default",
-  "swc_plugin_runner/plugin_transform_schema_v1",
   "wasmer/default",
   "wasmer-wasi/default",
+]
+plugin_transform_schema_v1 = [
+  "swc/plugin_transform_schema_v1",
+  "swc_common/plugin_transform_schema_v1",
+  "swc_plugin_runner/plugin_transform_schema_v1",
+]
+plugin_transform_schema_vtest = [
+  "swc/plugin_transform_schema_vtest",
+  "swc_common/plugin_transform_schema_vtest",
+  "swc_plugin_runner/plugin_transform_schema_vtest",
 ]
 swc_v1 = ["swc_node_bundler/swc_v1"]
 swc_v2 = ["swc_node_bundler/swc_v2"]

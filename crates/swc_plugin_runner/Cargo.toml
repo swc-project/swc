@@ -22,6 +22,9 @@ memory_cache = []
 plugin_transform_schema_v1 = [
   "swc_common/plugin_transform_schema_v1"
 ]
+plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest",
+]
 
 [dependencies]
 anyhow = "1.0.42"

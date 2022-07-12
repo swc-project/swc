@@ -31,7 +31,7 @@ use crate::{syntax_pos::Mark, SyntaxContext};
 pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = 1;
 
 // Reserved for the testing purpose.
-#[cfg(feature = "plugin-transform-schema-vtest")]
+#[cfg(feature = "plugin_transform_schema_vtest")]
 pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = u32::MAX - 1;
 
 #[derive(Debug, Clone, PartialEq, Eq)]

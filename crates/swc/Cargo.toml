@@ -26,6 +26,10 @@ plugin_transform_schema_v1 = [
   "swc_common/plugin_transform_schema_v1",
   "swc_plugin_runner/plugin_transform_schema_v1"
 ]
+plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest",
+  "swc_plugin_runner/plugin_transform_schema_vtest"
+]
 
 [dependencies]
 ahash = "0.7.4"

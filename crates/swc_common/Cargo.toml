@@ -27,7 +27,7 @@ plugin-rt = ["plugin-base"]
 rkyv-impl = ["rkyv", "bytecheck"]
 tty-emitter = ["atty", "termcolor"]
 plugin_transform_schema_v1 = []
-plugin-transform-schema-vtest = []
+plugin_transform_schema_vtest = []
 
 [dependencies]
 ahash = "0.7.4"
