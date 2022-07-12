@@ -22,8 +22,8 @@ module.exports = {
         /* Integration tests requires a fixture setup to run tests, like plugins */
         {
             displayName: "e2e tests",
-            testMatch: ["**/node-swc/e2e/**/?(*.)+(spec|test).[jt]s?(x)"],
-            globalSetup: "./node-swc/e2e/global_setup.js",
+            testMatch: ["**/e2e/**/?(*.)+(spec|test).[jt]s?(x)"],
+            globalSetup: "./e2e/global_setup.js",
         },
     ],
 };

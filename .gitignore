@@ -1,6 +1,6 @@
 # Built files
 /*.js
-!jest.config.js
+!node-swc/jest.config.js
 /*.map
 /*.d.ts
 native/artifacts.json
