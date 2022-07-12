@@ -235,12 +235,51 @@ fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
     }
 }
 
+fn make_field_enum_variant_from_named_field(f: &Field) -> Variant {
+    let fields = if let Some(..) = extract_generic("Vec", &f.ty) {
+        let mut v = Punctuated::new();
+
+        v.push(Field {
+            attrs: Default::default(),
+            vis: Visibility::Inherited,
+            ident: None,
+            colon_token: None,
+            ty: q!({ usize }).parse(),
+        });
+
+        Fields::Unnamed(FieldsUnnamed {
+            paren_token: f.span().as_token(),
+            unnamed: v,
+        })
+    } else {
+        Fields::Unit
+    };
+
+    Variant {
+        attrs: Default::default(),
+        ident: Ident::new(
+            &f.ident.as_ref().unwrap().to_string().to_pascal_case(),
+            f.ident.span(),
+        ),
+        discriminant: Default::default(),
+        fields,
+    }
+}
+
 fn make_field_enum(item: &Item) -> Option<ItemEnum> {
     let mut attrs = vec![];
 
     let (type_name, variants) = match item {
         Item::Struct(s) => {
             let mut v = Punctuated::new();
+
+            for f in s.fields.iter() {
+                if f.ident.is_none() {
+                    continue;
+                }
+
+                v.push(make_field_enum_variant_from_named_field(f))
+            }
 
             (s.ident.clone(), v)
         }
