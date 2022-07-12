@@ -397,6 +397,8 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     })
 }
 
+fn make_impl_node_ref(types: &[Type], is_ref: bool) -> ItemImpl {}
+
 fn process_ast_node_ref_type(ty: &Type) -> Type {
     if let Type::Reference(ty) = ty {
         if extract_generic("Option", &ty.elem).is_some() {
