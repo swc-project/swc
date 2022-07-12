@@ -2616,10 +2616,11 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             Mode::Visit(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
                                 ({
-                                    // TODO
-
-                                    n.iter()
-                                        .for_each(|v| _visitor.ident(v.as_ref(), __ast_path))
+                                    n.iter().enumerate().for_each(|(idx, v)| {
+                                        __ast_path.with_index(idx, |__ast_path| {
+                                            _visitor.ident(v.as_ref(), __ast_path)
+                                        })
+                                    })
                                 })
                             )
                             .parse(),
