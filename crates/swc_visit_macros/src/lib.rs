@@ -289,7 +289,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
         let mut methods = vec![];
 
         methods.push(ImplItem::Method(ImplItemMethod {
-            attrs: Default::default(),
+            attrs: vec![make_doc_attr("This is not consdered as a public API")],
             vis: Visibility::Public(VisPublic {
                 pub_token: def_site(),
             }),
