@@ -332,6 +332,58 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             block: {
                 let mut arms = vec![];
 
+                if let Item::Struct(s) = item {
+                    for f in s.fields.iter() {
+                        if f.ident.is_none() {
+                            continue;
+                        }
+
+                        let variant_name = Ident::new(
+                            &f.ident.as_ref().unwrap().to_string().to_pascal_case(),
+                            f.ident.span(),
+                        );
+
+                        if let Some(..) = extract_generic("Vec", &f.ty) {
+                            arms.push(Arm {
+                                attrs: Default::default(),
+                                pat: Pat::TupleStruct(PatTupleStruct {
+                                    attrs: Default::default(),
+                                    path: q!(
+                                        Vars {
+                                            VariantName: &variant_name
+                                        },
+                                        { Self::VariantName }
+                                    )
+                                    .parse(),
+                                    pat: PatTuple {
+                                        attrs: Default::default(),
+                                        paren_token: name.span().as_token(),
+                                        elems: {
+                                            let mut v = Punctuated::new();
+
+                                            v.push(q!({ idx }).parse());
+
+                                            v
+                                        },
+                                    },
+                                }),
+                                guard: Default::default(),
+                                fat_arrow_token: name.span().as_token(),
+                                body: q!({
+                                    debug_assert!(
+                                        *idx == usize::MAX || index == usize::MAX,
+                                        "Should be usize::MAX"
+                                    );
+                                })
+                                .parse(),
+                                comma: Some(name.span().as_token()),
+                            });
+                        }
+                    }
+                };
+
+                arms.push(q!({ _ => {} }).parse());
+
                 let expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
                     match_token: name.span().as_token(),
