@@ -2944,7 +2944,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 .enumerate()
                                                 .map(|(idx, v)| {
                                                     __ast_path.with_index(idx, |__ast_path| {
-                                                        _visitor.ident(v, __ast_path)
+                                                        swc_visit::util::map::Map::map(v, |v| {
+                                                            _visitor.ident(v, __ast_path)
+                                                        })
                                                     })
                                                 })
                                                 .collect()
