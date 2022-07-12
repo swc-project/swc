@@ -8,11 +8,12 @@ use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprMatch, ExprMethodCall, Field, FieldValue, Fields, FieldsUnnamed, FnArg,
-    GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum,
-    ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatPath, PatTuple, PatTupleStruct,
-    PatWild, Path, PathArguments, PathSegment, Receiver, ReturnType, Signature, Stmt, Token,
-    TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic, Visibility,
+    Expr, ExprBlock, ExprMatch, ExprMethodCall, ExprPath, Field, FieldValue, Fields, FieldsUnnamed,
+    FnArg, GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item,
+    ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatPath, PatTuple,
+    PatTupleStruct, PatWild, Path, PathArguments, PathSegment, Receiver, ReturnType, Signature,
+    Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic,
+    Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -500,8 +501,8 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                         guard: Default::default(),
                         fat_arrow_token: ty.span().as_token(),
                         body: match extra {
-                            Some(extra) => {}
-                            None => {}
+                            Some(extra) => Box::new(Expr::Call(ExprCall {})),
+                            None => Box::new(Expr::Path(ExprPath {})),
                         },
                         comma: Some(ty.span().as_token()),
                     });
