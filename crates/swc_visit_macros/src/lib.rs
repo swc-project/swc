@@ -11,9 +11,9 @@ use syn::{
     Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
     Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
     ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat,
-    PatIdent, PatPath, PatReference, PatTuple, PatTupleStruct, PatWild, Path, PathArguments,
-    Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
-    TypeReference, UnOp, Variant, VisPublic, Visibility,
+    PatIdent, PatTuple, PatTupleStruct, PatWild, Path, PathArguments, Receiver, ReturnType,
+    Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, UnOp,
+    Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
