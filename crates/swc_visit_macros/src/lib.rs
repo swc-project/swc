@@ -1803,6 +1803,7 @@ fn make_arm_from_struct(
     path: &Path,
     variant_name: Option<&Ident>,
     variant: &Fields,
+    use_ast_path: bool,
 ) -> Arm {
     let mut stmts = vec![];
     let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
@@ -1824,9 +1825,7 @@ fn make_arm_from_struct(
             )
             .parse();
 
-            let ast_path = if variant.is_empty() {
-                None
-            } else {
+            let ast_path = if use_ast_path {
                 Some((
                     type_name.clone(),
                     field
@@ -1834,6 +1833,8 @@ fn make_arm_from_struct(
                         .clone()
                         .unwrap_or_else(|| variant_name.cloned().unwrap()),
                 ))
+            } else {
+                None
             };
 
             let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, ast_path);
@@ -2015,8 +2016,14 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             }
 
             let block = {
-                let arm =
-                    make_arm_from_struct(mode, &s.ident, &s.ident.clone().into(), None, &s.fields);
+                let arm = make_arm_from_struct(
+                    mode,
+                    &s.ident,
+                    &s.ident.clone().into(),
+                    None,
+                    &s.fields,
+                    true,
+                );
 
                 let mut match_expr: ExprMatch = q!((match n {})).parse();
                 match_expr.arms.push(arm);
@@ -2053,6 +2060,8 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             let block = {
                 let mut arms = vec![];
 
+                let skip_ast_path = e.variants.iter().all(|v| v.fields.is_empty());
+
                 for variant in &e.variants {
                     for f in &variant.fields {
                         if skip(&f.ty) {
@@ -2074,7 +2083,9 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
                         .parse(),
                         Some(&variant.ident),
                         &variant.fields,
+                        !skip_ast_path,
                     );
+
                     arms.push(arm);
                 }
 
