@@ -1773,10 +1773,9 @@ fn visit_expr(
                                     VariantName: type_name,
                                     FieldType: field_type_name,
                                     FieldName: field_name,
-                                    expr: &expr,
                                 },
                                 (AstNodeRef::VariantName(
-                                    expr,
+                                    n,
                                     self::fields::FieldType::FieldName(usize::MAX)
                                 ))
                             )
@@ -1787,9 +1786,8 @@ fn visit_expr(
                                     VariantName: type_name,
                                     FieldType: field_type_name,
                                     FieldName: field_name,
-                                    expr: &expr,
                                 },
-                                (AstNodeRef::VariantName(expr, self::fields::FieldType::FieldName))
+                                (AstNodeRef::VariantName(n, self::fields::FieldType::FieldName))
                             )
                             .parse()
                         }
