@@ -457,7 +457,7 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                     };
                     let name = Ident::new(&name, ty.span());
 
-                    let extra = if let Type::Slice(..) = unwrap_ref(&ty) {
+                    let extra = if let Type::Slice(..) = unwrap_ref(ty) {
                         Some(q!({ idx }).parse::<Ident>())
                     } else {
                         None
