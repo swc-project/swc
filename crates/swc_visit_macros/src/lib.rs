@@ -369,12 +369,13 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                 }),
                                 guard: Default::default(),
                                 fat_arrow_token: name.span().as_token(),
-                                body: q!({
+                                body: q!(({
                                     debug_assert!(
                                         *idx == usize::MAX || index == usize::MAX,
                                         "Should be usize::MAX"
                                     );
-                                })
+                                    *idx = index;
+                                }))
                                 .parse(),
                                 comma: Some(name.span().as_token()),
                             });
