@@ -263,13 +263,6 @@ fn make_field_enum(item: &Item) -> Option<ItemEnum> {
     })
 }
 
-fn unwrap_ref(ty: &Type) -> &Type {
-    match ty {
-        Type::Reference(t) => unwrap_ref(&t.elem),
-        _ => ty,
-    }
-}
-
 fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
     let mut variants = Punctuated::new();
 
@@ -2306,7 +2299,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                 let visit = method_name(mode, ty);
                 let visit = wrap_call_with_ast_path(
                     mode,
-                    &q! {{n}}.parse(),
                     q!(Vars { visit }, { _visitor.visit(n) }).parse(),
                 );
 
@@ -2344,7 +2336,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             let ident = method_name(mode, arg);
                             let inner = wrap_call_with_ast_path(
                                 mode,
-                                &q!({ n }).parse(),
                                 q!(Vars { ident }, { _visitor.ident(*n) }).parse(),
                             );
 
@@ -2374,7 +2365,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         if let Some(..) = as_box(arg) {
                                             let inner = wrap_call_with_ast_path(
                                                 mode,
-                                                &q!({ n }).parse(),
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
                                             );
 
@@ -2400,7 +2390,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Mode::Fold(..) => {
                                             let inner = wrap_call_with_ast_path(
                                                 mode,
-                                                &q!({ n }).parse(),
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
                                             );
 
@@ -2419,7 +2408,6 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Mode::VisitMut(..) | Mode::Visit(..) | Mode::VisitAll => {
                                             let inner = wrap_call_with_ast_path(
                                                 mode,
-                                                &q!({ n }).parse(),
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
                                             );
 
@@ -2448,7 +2436,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                     match mode {
                         Mode::Fold(v) => {
-                            if let Some(boxed) = as_box(arg) {
+                            if let Some(..) = as_box(arg) {
                                 return match v {
                                     VisitorVariant::Normal => q!(
                                         Vars { ident },
@@ -2756,7 +2744,7 @@ fn feature_path_attrs() -> Vec<Attribute> {
     ]
 }
 
-fn wrap_call_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprMethodCall) -> Expr {
+fn wrap_call_with_ast_path(mode: Mode, mut visit_expr: ExprMethodCall) -> Expr {
     match mode.visitor_variant() {
         Some(VisitorVariant::WithPath) => {}
         _ => return Expr::MethodCall(visit_expr),
