@@ -10,9 +10,9 @@ use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprMatch, ExprMethodCall, Field, FieldValue, Fields, FieldsUnnamed, FnArg,
     GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum,
-    ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Path, PathArguments, Receiver, ReturnType,
-    Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant,
-    VisPublic, Visibility,
+    ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatPath, PatTuple, PatTupleStruct,
+    PatWild, Path, PathArguments, PathSegment, Receiver, ReturnType, Signature, Stmt, Token,
+    TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -448,7 +448,64 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
             stmts: {
                 let mut arms = vec![];
 
-                for ty in types {}
+                for ty in types {
+                    let name = ast_enum_variant_name(ty, true);
+                    let name = match name {
+                        Some(name) => name,
+                        None => continue,
+                    };
+                    let name = Ident::new(&name, ty.span());
+
+                    let extra = if let Type::Slice(..) = unwrap_ref(&ty) {
+                        Some(q!({ idx }).parse::<Path>())
+                    } else {
+                        None
+                    };
+
+                    let pat = Pat::TupleStruct(PatTupleStruct {
+                        attrs: Default::default(),
+                        path: q!(Vars { Name: &name }, (Self::Name)).parse(),
+                        pat: PatTuple {
+                            attrs: Default::default(),
+                            paren_token: def_site(),
+                            elems: {
+                                let mut v = Punctuated::new();
+
+                                // Ignore node ref itself
+                                v.push(Pat::Wild(PatWild {
+                                    attrs: Default::default(),
+                                    underscore_token: ty.span().as_token(),
+                                }));
+
+                                if let Some(extra) = &extra {
+                                    v.push(Pat::Path(PatPath {
+                                        attrs: Default::default(),
+                                        qself: None,
+                                        path: extra.clone(),
+                                    }));
+                                }
+
+                                v
+                            },
+                        },
+                    });
+
+                    arms.push(Arm {
+                        attrs: Default::default(),
+                        pat: Pat::Path(PatPath {
+                            attrs: Default::default(),
+                            qself: None,
+                            path: q!(Vars { Name: &name }, (Self::Name)).parse(),
+                        }),
+                        guard: Default::default(),
+                        fat_arrow_token: ty.span().as_token(),
+                        body: match extra {
+                            Some(extra) => {}
+                            None => {}
+                        },
+                        comma: Some(ty.span().as_token()),
+                    });
+                }
 
                 let expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
