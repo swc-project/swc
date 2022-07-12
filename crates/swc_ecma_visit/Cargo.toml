@@ -17,7 +17,6 @@ bench = false
 
 [features]
 debug = []
-default = ["path"]
 path = []
 
 [dependencies]
