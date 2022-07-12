@@ -13,7 +13,7 @@ use syn::{
     ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, Lifetime,
     LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
     PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type,
-    TypePath, TypeReference, UnOp, Variant, VisPublic, Visibility,
+    TypePath, TypeReference, UnOp, Variant, VisCrate, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -205,6 +205,13 @@ fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Var
 fn make_field_enum(item: &Item) -> Vec<Item> {
     let mut items = vec![];
 
+    let name = match item {
+        Item::Struct(s) => s.ident.clone(),
+        Item::Enum(e) => e.ident.clone(),
+        _ => return vec![],
+    };
+
+    let type_name = Ident::new(&format!("{}Field", name), name.span());
     {
         let mut attrs = vec![];
 
@@ -269,10 +276,85 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                 pub_token: def_site(),
             }),
             enum_token: def_site(),
-            ident: Ident::new(&format!("{}Field", type_name), type_name.span()),
+            ident: type_name,
             generics: Default::default(),
             brace_token: def_site(),
             variants,
+        }));
+    }
+
+    {
+        let mut methods = vec![];
+
+        methods.push(ImplItem::Method(ImplItemMethod {
+            attrs: Default::default(),
+            vis: Visibility::Crate(VisCrate {
+                crate_token: def_site(),
+            }),
+            defaultness: Default::default(),
+            sig: Signature {
+                constness: Default::default(),
+                asyncness: Default::default(),
+                unsafety: Default::default(),
+                abi: Default::default(),
+                fn_token: type_name.span().as_token(),
+                ident: Ident::new("set_index", type_name.span()),
+                generics: Default::default(),
+                paren_token: type_name.span().as_token(),
+                inputs: {
+                    let mut v = Punctuated::new();
+                    v.push(FnArg::Receiver(Receiver {
+                        attrs: Default::default(),
+                        reference: Some((def_site(), None)),
+                        mutability: Some(def_site()),
+                        self_token: def_site(),
+                    }));
+                    v.push(FnArg::Typed(PatType {
+                        attrs: Default::default(),
+                        colon_token: def_site(),
+                        ty: q!({ usize }).parse(),
+                        pat: Box::new(Pat::Ident(PatIdent {
+                            attrs: Default::default(),
+                            by_ref: Default::default(),
+                            mutability: Default::default(),
+                            ident: Ident::new("index", call_site()),
+                            subpat: Default::default(),
+                        })),
+                    }));
+
+                    v
+                },
+                variadic: Default::default(),
+                output: ReturnType::Default,
+            },
+            block: {
+                let mut arms = vec![];
+
+                let expr = Expr::Match(ExprMatch {
+                    attrs: Default::default(),
+                    match_token: type_name.span().as_token(),
+                    expr: q!({ self }).parse(),
+                    brace_token: type_name.span().as_token(),
+                    arms,
+                });
+
+                Block {
+                    brace_token: def_site(),
+                    stmts: vec![Stmt::Expr(expr)],
+                }
+            },
+        }));
+
+        items.push(Item::Impl(ItemImpl {
+            attrs: Default::default(),
+            defaultness: Default::default(),
+            unsafety: Default::default(),
+            impl_token: def_site(),
+            generics: Default::default(),
+            trait_: Default::default(),
+            self_ty: q!(Vars { Type: &type_name }, { Type }).parse(),
+            brace_token: def_site(),
+            items: methods,
         }));
     }
 
