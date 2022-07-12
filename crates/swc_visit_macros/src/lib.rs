@@ -235,7 +235,7 @@ fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
     }
 }
 
-fn make_field_enum_variant_from_named_field(f: &Field) -> Variant {
+fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Variant {
     let fields = if let Some(..) = extract_generic("Vec", &f.ty) {
         let mut v = Punctuated::new();
 
@@ -255,12 +255,15 @@ fn make_field_enum_variant_from_named_field(f: &Field) -> Variant {
         Fields::Unit
     };
 
+    let field_name = f.ident.as_ref().unwrap();
+    let doc_attr = make_doc_attr(&format!(
+        "This represents [{field_name}](`crate::{type_name}::{field_name}`)",
+        type_name = type_name,
+        field_name = field_name,
+    ));
     Variant {
-        attrs: Default::default(),
-        ident: Ident::new(
-            &f.ident.as_ref().unwrap().to_string().to_pascal_case(),
-            f.ident.span(),
-        ),
+        attrs: vec![doc_attr],
+        ident: Ident::new(&field_name.to_string().to_pascal_case(), f.ident.span()),
         discriminant: Default::default(),
         fields,
     }
@@ -278,7 +281,7 @@ fn make_field_enum(item: &Item) -> Option<ItemEnum> {
                     continue;
                 }
 
-                v.push(make_field_enum_variant_from_named_field(f))
+                v.push(make_field_enum_variant_from_named_field(&s.ident, f))
             }
 
             (s.ident.clone(), v)
