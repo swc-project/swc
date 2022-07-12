@@ -1,3 +1,4 @@
+// https://github.com/microsoft/TypeScript/issues/34579
 var b1 = {
     value: su === null || su === void 0 ? void 0 : su.length
 };

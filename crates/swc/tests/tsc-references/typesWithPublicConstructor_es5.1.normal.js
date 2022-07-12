@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // public is allowed on a constructor but is not meaningful
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

@@ -1,11 +1,11 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
 // @outDir: ./out
 // @declaration: true
 // @filename: source.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 var Handler = /*#__PURE__*/ function() {
     "use strict";
     function Handler() {

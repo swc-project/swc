@@ -1,3 +1,4 @@
+// @strict: true
 var a1 = x.a;
 var tmp = x.a, a2 = tmp === void 0 ? 0 : tmp;
 var tmp1 = x.a, a3 = tmp1 === void 0 ? 2 : tmp1;

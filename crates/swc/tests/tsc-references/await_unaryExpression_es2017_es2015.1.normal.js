@@ -1,10 +1,10 @@
+// @target: es2017
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 function bar() {
     return _bar.apply(this, arguments);
 }
 function _bar() {
-    _bar = // @target: es2017
-    _async_to_generator(function*() {
+    _bar = _async_to_generator(function*() {
         !(yield 42); // OK
     });
     return _bar.apply(this, arguments);

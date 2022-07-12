@@ -1,3 +1,4 @@
+// @target: es6
 import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
@@ -8,7 +9,6 @@ function _templateObject() {
     };
     return data;
 }
-// @target: es6
 function f() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
         x[_key] = arguments[_key];

@@ -1,6 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -9,6 +6,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @filename: index.js
 // Pretty much all of this should be an error, (since index signatures and generics are forbidden in js),
 // but we should be able to synthesize declarations from the symbols regardless
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 export var M = function M() {
     "use strict";
     _class_call_check(this, M);

@@ -1,6 +1,6 @@
+//@target: ES3
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    //@target: ES3
     for(var _iterator = ""[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         var v = _step.value;
     }

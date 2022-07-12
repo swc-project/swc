@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 //@sourcemap: true
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 for(var _i = 0, _iter = [
     2,
     3

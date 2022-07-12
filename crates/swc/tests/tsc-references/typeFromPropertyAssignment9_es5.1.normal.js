@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @target: es6
 // @Filename: a.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var my = my || {};
 /** @param {number} n */ my.method = function(n) {
     return n + 1;

@@ -1,3 +1,4 @@
+// @strict: true
 var validate = function(x) {
     return x === "yes" || x === "no" ? x : "idk";
 }; // No error

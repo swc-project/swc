@@ -1,3 +1,4 @@
+// @target: es6
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 function f(x) {}
 var _obj;

@@ -1,3 +1,4 @@
+// @strict: true
 if (typeof config["works"] !== "boolean") {
     config.works.prop = "test"; // ok
     config["works"].prop = "test"; // error, config['works']: boolean | { 'prop': string }

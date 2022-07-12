@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: preserve
 class Button {
     render() {
         return /*#__PURE__*/ React.createElement("div", null, "My Button");

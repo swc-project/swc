@@ -1,5 +1,5 @@
-var //@target: ES6
-E;
+//@target: ES6
+var E;
 (function(E) {})(E || (E = {}));
 var x;
 x;

@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @strict: true
 // @declaration: true
 // Narrowing by aliased conditional expressions
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function f10(x) {
     var isString = typeof x === "string";
     if (isString) {

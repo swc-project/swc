@@ -1,8 +1,8 @@
+// @target: es6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_name_tdz_error from "@swc/helpers/src/_class_name_tdz_error.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 var _staticProp = (_class_name_tdz_error("C"), C).staticProp, _staticProp1 = (_class_name_tdz_error("C"), C).staticProp, _staticProp2 = (_class_name_tdz_error("C"), C).staticProp;
-// @target: es6
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

@@ -1,3 +1,6 @@
+// @target: esnext
+// @strict: true
+// @noEmit: true
 import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";

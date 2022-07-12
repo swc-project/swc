@@ -1,7 +1,7 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @target: ES6
 // @module: commonjs
 // @filename: a.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 const x = new Promise((resolve, reject)=>{
     resolve({});
 });

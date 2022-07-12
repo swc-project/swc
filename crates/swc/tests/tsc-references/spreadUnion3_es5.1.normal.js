@@ -1,5 +1,5 @@
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 // @strictNullChecks: true
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 function f(x) {
     return _object_spread({
         y: 123

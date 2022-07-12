@@ -1,8 +1,8 @@
-// @filename: main.ts
-import hello from "./t4";
 // @module: commonjs
 // @target: ES5
 // @filename: t1.ts
+// @filename: main.ts
+import hello from "./t4";
 export var x = 1;
 export var y = 2;
 // @filename: t2.ts

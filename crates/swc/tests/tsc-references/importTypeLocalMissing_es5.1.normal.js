@@ -1,3 +1,6 @@
+// @declaration: true
+// @lib: es6
+// @filename: foo.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Bar = function Bar(input) {
     "use strict";

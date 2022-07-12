@@ -1,3 +1,4 @@
+// @noImplicitAny: true
 function f({ show =(v)=>v.toString()  }) {}
 function f2({ "show": showRename = (v)=>v.toString()  }) {}
 function f3({ ["show"]: showRename = (v)=>v.toString()  }) {}

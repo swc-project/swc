@@ -1,9 +1,9 @@
-// @Filename: use.js
-import * as s from './mod';
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @Filename: mod.js
+// @Filename: use.js
+import * as s from './mod';
 module.exports.n = {};
 module.exports.n.K = function C() {
     this.x = 10;

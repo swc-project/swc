@@ -1,9 +1,9 @@
+// @strict: true
+// @target: es6
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 var _prop = /*#__PURE__*/ new WeakMap(), _roProp = /*#__PURE__*/ new WeakMap();
-// @strict: true
-// @target: es6
 class A1 {
     constructor(name){
         _class_private_field_init(this, _prop, {

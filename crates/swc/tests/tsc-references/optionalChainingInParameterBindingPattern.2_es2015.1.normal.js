@@ -1,8 +1,8 @@
-var ref, ref1;
 // @target: esnext,es2015,es5
 // @noTypesAndSymbols: true
 // @noEmit: true
 // https://github.com/microsoft/TypeScript/issues/36295
+var ref, ref1;
 const a = ()=>undefined;
 (({ [(ref = a()) === null || ref === void 0 ? void 0 : ref.d]: c = ""  })=>{
     var a1;

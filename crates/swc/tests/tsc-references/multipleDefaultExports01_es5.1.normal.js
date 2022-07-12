@@ -1,3 +1,6 @@
+// @module: commonjs
+// @target: ES5
+// @filename: m1.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: m2.ts
 import Entity from "./m1";

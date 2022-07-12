@@ -1,3 +1,6 @@
+//@jsx: react
+//@module: commonjs
+//@filename: modules.d.ts
 import _extends from "@swc/helpers/src/_extends.mjs";
 //@filename: app.tsx
 import Main from "mod";

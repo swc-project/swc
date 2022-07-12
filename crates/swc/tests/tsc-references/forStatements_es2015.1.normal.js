@@ -1,3 +1,4 @@
+// @allowUnreachableCode: true
 class C {
 }
 class D {

@@ -1,3 +1,5 @@
+// @target: esnext
+// @noImplicitOverride: true
 class Context {
 }
 class A {

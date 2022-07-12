@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: preserve
 // Error
 /*#__PURE__*/ React.createElement("test1", {
     "data-foo": 32

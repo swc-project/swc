@@ -1,3 +1,4 @@
+// @declaration: true
 var hello;
 var world;
 var helloOrWorld;

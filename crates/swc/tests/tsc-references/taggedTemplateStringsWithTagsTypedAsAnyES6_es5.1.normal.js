@@ -1,3 +1,4 @@
+// @target: ES6
 import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
@@ -121,7 +122,6 @@ function _templateObject11() {
     };
     return data;
 }
-// @target: ES6
 var f;
 f(_templateObject());
 f(_templateObject1(), 1, 2);

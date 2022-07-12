@@ -1,6 +1,6 @@
-var // @module: amd
+// @module: amd
 // @Filename: foo_0.ts
-foo;
+var foo;
 (function(foo) {
     foo[foo["red"] = 0] = "red";
     foo[foo["green"] = 1] = "green";

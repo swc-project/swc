@@ -1,9 +1,9 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @module: umd
 // @target: es5
 // @skipLibCheck: true
 // @lib: es6
 // @filename: foo.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 export default "./foo";
 function foo() {
     return _foo.apply(this, arguments);

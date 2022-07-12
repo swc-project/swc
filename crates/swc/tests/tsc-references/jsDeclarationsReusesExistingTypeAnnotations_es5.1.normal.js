@@ -1,5 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: esnext
@@ -7,6 +5,8 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
 // @declaration: true
 // @filename: index.js
 // @outDir: /out
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 var С1 = function С1() {
     "use strict";
     _class_call_check(this, С1);

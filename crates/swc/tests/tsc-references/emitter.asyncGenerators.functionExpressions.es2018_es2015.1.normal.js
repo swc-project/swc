@@ -1,10 +1,10 @@
+// @target: es2018
+// @lib: esnext
+// @filename: F1.ts
 import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-// @target: es2018
-// @lib: esnext
-// @filename: F1.ts
 const f1 = function() {
     var _ref = _wrap_async_generator(function*() {});
     return function f1() {

@@ -1,7 +1,7 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @module: umd
 // @target: es6
 // @filename: test.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 export function fn() {
     return _fn.apply(this, arguments);
 }

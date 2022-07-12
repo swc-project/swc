@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Note that type guards affect types of variables and parameters only and 
 // have no effect on members of objects such as properties. 
 // Note that the class's property must be copied to a local variable for
 // the type guard to have an effect
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var D = /*#__PURE__*/ function() {
     "use strict";
     function D() {

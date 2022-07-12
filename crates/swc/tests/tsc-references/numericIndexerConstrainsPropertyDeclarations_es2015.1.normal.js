@@ -1,3 +1,4 @@
+// String indexer types constrain the types of named properties in their containing type
 class C {
     get X() {
         return '';

@@ -1,5 +1,5 @@
-import _throw from "@swc/helpers/src/_throw.mjs";
 // @declaration: true
+import _throw from "@swc/helpers/src/_throw.mjs";
 function f() {
     var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         a: 1,

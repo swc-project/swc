@@ -1,10 +1,10 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @out: output.js
 // @allowJs: true
 // @checkJs: true
 // @noImplicitAny: true
 // @strictNullChecks: true
 // @filename: a.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

@@ -1,3 +1,5 @@
+// @target: es5
+// @module: es2015
 class C {
     method() {}
     constructor(){
@@ -5,6 +7,4 @@ class C {
     }
 }
 C.s = 0;
-// @target: es5
-// @module: es2015
 export { C as default };

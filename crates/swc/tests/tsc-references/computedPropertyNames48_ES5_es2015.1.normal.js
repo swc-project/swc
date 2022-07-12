@@ -1,3 +1,4 @@
+// @target: es5
 var E;
 (function(E) {
     E[E["x"] = 0] = "x";

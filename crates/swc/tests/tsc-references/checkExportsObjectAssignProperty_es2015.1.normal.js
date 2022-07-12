@@ -1,10 +1,10 @@
-// @filename: validator.ts
-import "./";
 // @allowJs: true
 // @noEmit: true
 // @strict: true
 // @checkJs: true
 // @filename: mod1.js
+// @filename: validator.ts
+import "./";
 Object.defineProperty(exports, "thing", {
     value: 42,
     writable: true

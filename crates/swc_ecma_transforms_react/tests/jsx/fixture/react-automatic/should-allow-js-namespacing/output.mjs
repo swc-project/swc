@@ -1,4 +1,2 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-
-/*#__PURE__*/
+/*#__PURE__*/ import { jsx as _jsx } from "react/jsx-runtime";
 _jsx(Namespace.Component, {});

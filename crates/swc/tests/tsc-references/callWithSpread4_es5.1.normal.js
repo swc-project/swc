@@ -1,3 +1,5 @@
+// @strict: true
+// @target: esnext
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 pli.apply(void 0, [
     reads

@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -7,7 +6,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
  * @callback Id
  * @param {T} t
  * @returns {T} Maybe just return 120 and cast it?
- */ var x = 1;
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var x = 1;
 /** @type {Id<string>} I actually wanted to write `const "120"` */ var one_twenty = function(s) {
     return "120";
 };

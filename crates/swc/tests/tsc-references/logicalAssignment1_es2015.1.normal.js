@@ -1,3 +1,5 @@
+// @strict: true
+// @target: esnext, es2021, es2020, es2015
 a && (a = "foo");
 b || (b = "foo");
 c !== null && c !== void 0 ? c : c = "foo";

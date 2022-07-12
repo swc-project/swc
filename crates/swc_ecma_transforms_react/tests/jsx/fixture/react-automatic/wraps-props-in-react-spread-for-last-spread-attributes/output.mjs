@@ -1,8 +1,6 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-
-/*#__PURE__*/
+/*#__PURE__*/ import { jsx as _jsx } from "react/jsx-runtime";
 _jsx(Component, {
-  y: 2,
-  z: true,
-  ...x
+    y: 2,
+    z: true,
+    ...x
 });

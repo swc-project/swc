@@ -1,3 +1,8 @@
+// @allowJs: true
+// @checkJs: true
+// @outDir: ./out
+// @declaration: true
+// @filename: index.js
 /**
  * @typedef {string | number | symbol} PropName 
  */ /**
@@ -41,9 +46,4 @@ class LocalThing {
         this.y = "ok";
     }
 }
-// @allowJs: true
-// @checkJs: true
-// @outDir: ./out
-// @declaration: true
-// @filename: index.js
 export { };

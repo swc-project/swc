@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @module: commonjs, es2015, es2020, es2022, UMD, AMD, System, esnext
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var C = function C() {
     "use strict";
     _class_call_check(this, C);

@@ -1,3 +1,4 @@
+// @strict: true
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 var x1 = f1(); // string
 var ref = _sliced_to_array(f2(), 1), x2 = ref[0]; // string

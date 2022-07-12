@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 // additional optional properties do not cause errors
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var S = function S() {
     "use strict";
     _class_call_check(this, S);

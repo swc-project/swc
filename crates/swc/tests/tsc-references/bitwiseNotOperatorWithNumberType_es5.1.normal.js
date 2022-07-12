@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowUnreachableCode: true
 // ~ operator on number type
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var NUMBER;
 var NUMBER1 = [
     1,

@@ -1,14 +1,14 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
-// @filename: index4.js
-import Fab from "./index3";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
 // @outDir: ./out
 // @declaration: true
 // @filename: index1.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+// @filename: index4.js
+import Fab from "./index3";
 export default 12;
 // @filename: index2.js
 export default function foo() {
@@ -47,3 +47,6 @@ export default 12;
  */ // @filename: index6.js
 // merge type alias and function (OK)
 export default function func() {};
+ /**
+ * @typedef {string | number} default
+ */ 

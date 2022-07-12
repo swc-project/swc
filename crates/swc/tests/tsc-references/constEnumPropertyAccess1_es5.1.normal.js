@@ -1,11 +1,11 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
-var // @declaration: true
+// @declaration: true
 // @target: es6
 // constant enum declarations are completely erased in the emitted JavaScript code.
 // it is an error to reference a constant enum object in any other context
 // than a property access that selects one of the enum's members
-G;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+var G;
 (function(G) {
     G[G["A"] = 1] = "A";
     G[G["B"] = 2] = "B";

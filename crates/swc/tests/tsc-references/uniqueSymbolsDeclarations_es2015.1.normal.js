@@ -1,10 +1,10 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 // @target: esnext
 // @lib: esnext
 // @declaration: true
 // @useDefineForClassFields: false
 // declarations with call initializer
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const constCall = Symbol();
 let letCall = Symbol();
 var varCall = Symbol();

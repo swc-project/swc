@@ -1,5 +1,5 @@
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 // @strict: true
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 function f0(obj) {
     obj.b;
 }

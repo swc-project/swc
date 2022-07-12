@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: preserve
 var Obj1;
 /*#__PURE__*/ React.createElement(Obj1, null); // Error, return type is not an object type
 var Obj2;

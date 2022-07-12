@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: es2015
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var foo = "";
 function f1() {
     var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;

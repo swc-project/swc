@@ -1,3 +1,4 @@
+// Interface
 // Module
 var Shapes;
 (function(Shapes) {

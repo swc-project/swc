@@ -1,5 +1,5 @@
-var // @target: es5,esnext
-K;
+// @target: es5,esnext
+var K;
 (function(K) {
     K["a"] = "a";
     K["b"] = "b";

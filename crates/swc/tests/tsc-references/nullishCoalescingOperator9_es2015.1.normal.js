@@ -1,3 +1,4 @@
+// @strict: true
 let g = f || ((abc)=>{
     void abc.toLowerCase();
 });

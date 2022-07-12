@@ -1,7 +1,7 @@
-import _type_of from "@swc/helpers/src/_type_of.mjs";
-var // @allowUnusedLabels: true
+// @allowUnusedLabels: true
 // typeof  operator on enum type
-ENUM;
+import _type_of from "@swc/helpers/src/_type_of.mjs";
+var ENUM;
 (function(ENUM) {})(ENUM || (ENUM = {}));
 var ENUM1;
 (function(ENUM1) {

@@ -1,11 +1,11 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _define_property from "@swc/helpers/src/_define_property.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @target: es5
 // @lib: esnext, dom
 // @downlevelIteration: true
 // https://github.com/Microsoft/TypeScript/issues/24722
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

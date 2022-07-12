@@ -1,3 +1,6 @@
+// @strict: true
+// @declaration: true
+// @target: es2015
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f10(param) {
     var kind = param.kind, payload = param.payload;

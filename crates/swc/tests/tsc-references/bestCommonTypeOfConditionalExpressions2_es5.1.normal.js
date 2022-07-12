@@ -1,8 +1,8 @@
+// conditional expressions return the best common type of the branches plus contextual type (using the first candidate if multiple BCTs exist)
+// these are errors
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-// conditional expressions return the best common type of the branches plus contextual type (using the first candidate if multiple BCTs exist)
-// these are errors
 var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);

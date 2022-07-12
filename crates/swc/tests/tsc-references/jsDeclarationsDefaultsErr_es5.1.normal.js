@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -6,6 +5,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @declaration: true
 // @filename: index1.js
 // merge type alias and alias (should error, see #32367)
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Cls = function Cls() {
     "use strict";
     _class_call_check(this, Cls);

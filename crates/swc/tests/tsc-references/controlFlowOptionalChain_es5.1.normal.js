@@ -1,3 +1,6 @@
+// @strict: true
+// @allowUnreachableCode: false
+// assignments in shortcutting chain
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 import _type_of from "@swc/helpers/src/_type_of.mjs";
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;

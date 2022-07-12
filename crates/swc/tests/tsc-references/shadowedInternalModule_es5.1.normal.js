@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // all errors imported modules conflict with local variables
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
 (function(A) {
     var Point = A.Point = {

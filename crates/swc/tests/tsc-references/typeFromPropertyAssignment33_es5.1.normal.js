@@ -1,3 +1,4 @@
+// @Filename: ns.ts
 (function(ExpandoMerge) {
     var p3 = ExpandoMerge.p3 = 333;
     var p4 = ExpandoMerge.p4 = 4;

@@ -1,3 +1,5 @@
+// @jsx: preserve
+// @declaration: true
 var FooComponent = function(props) {
     return /*#__PURE__*/ React.createElement("span", null, props.foo);
 };

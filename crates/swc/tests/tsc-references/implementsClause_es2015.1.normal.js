@@ -1,6 +1,6 @@
+// @Filename: types.ts
 class C {
 }
 class D {
 }
-// @Filename: types.ts
 export { };

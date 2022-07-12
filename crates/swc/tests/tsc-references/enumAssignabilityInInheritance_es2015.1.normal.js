@@ -1,5 +1,5 @@
-var // enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
-E;
+// enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
 })(E || (E = {}));

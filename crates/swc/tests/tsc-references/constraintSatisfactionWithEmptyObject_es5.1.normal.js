@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // valid uses of a basic object constraint, no errors expected
 // Object constraint
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function foo(x) {}
 var r = foo({});
 var a = {};

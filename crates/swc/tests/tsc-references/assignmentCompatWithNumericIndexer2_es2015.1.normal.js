@@ -1,3 +1,4 @@
+// Derived type indexer must be subtype of base type indexer
 var a;
 var b;
 a = b;

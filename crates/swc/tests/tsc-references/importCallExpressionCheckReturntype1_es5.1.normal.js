@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @module: commonjs
 // @target: es6
 // @noImplicitAny: true
 // @filename: anotherModule.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var D = function D() {
     "use strict";
     _class_call_check(this, D);

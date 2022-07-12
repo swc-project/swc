@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @Filename: test.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function f(x) {}
 f(); // Always been ok
 var C = /*#__PURE__*/ function() {

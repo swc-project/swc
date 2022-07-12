@@ -1,3 +1,6 @@
+//@jsx: preserve
+//@module: amd
+//@filename: react.d.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@filename: file.tsx
 export var MyComponent = /*#__PURE__*/ function() {

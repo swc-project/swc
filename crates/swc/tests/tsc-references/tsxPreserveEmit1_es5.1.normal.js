@@ -1,3 +1,7 @@
+//@module: amd
+//@jsx: preserve
+//@target: ES5
+//@Filename: react.d.ts
 //@Filename: test.tsx
 // Should emit 'react-router' in the AMD dependency list
 var React = require("react");
@@ -13,8 +17,4 @@ var M;
     // Should emit 'M.X' in both opening and closing tags
     var y = /*#__PURE__*/ React.createElement(X, null);
 })(M || (M = {}));
-//@module: amd
-//@jsx: preserve
-//@target: ES5
-//@Filename: react.d.ts
 export { };

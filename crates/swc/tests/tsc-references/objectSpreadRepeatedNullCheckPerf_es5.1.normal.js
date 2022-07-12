@@ -1,3 +1,4 @@
+// @strict: true
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 function parseWithSpread(config) {
     return _object_spread({}, config.a !== undefined && {

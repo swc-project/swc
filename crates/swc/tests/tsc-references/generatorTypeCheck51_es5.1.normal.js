@@ -1,7 +1,7 @@
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
 //@target: ES6
 //@noImplicitAny: true
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = regeneratorRuntime.mark(g);
 function g() {
     var h;
     return regeneratorRuntime.wrap(function g$(_ctx) {

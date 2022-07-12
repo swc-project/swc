@@ -1,3 +1,6 @@
+// @target: es5, es2015, es2021, es2022, esnext
+// @noTypesAndSymbols: true
+// @filename: external.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
@@ -5,9 +8,6 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 var _this = this, _superprop_get_w = ()=>super.w;
 var _Reflect, __, _Reflect1, __1;
-// @target: es5, es2015, es2021, es2022, esnext
-// @noTypesAndSymbols: true
-// @filename: external.ts
 export var Reflect = function Reflect() {
     "use strict";
     _class_call_check(this, Reflect);

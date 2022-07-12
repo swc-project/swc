@@ -1,12 +1,12 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @target: es2017
 // @filename: file.js
 // Error (good)
-/** @type {function(): string} */ var a = function() {
+/** @type {function(): string} */ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var a = function() {
     return 0;
 };
 // Error (good)

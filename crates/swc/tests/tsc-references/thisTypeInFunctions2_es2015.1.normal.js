@@ -1,3 +1,5 @@
+// @noImplicitAny: true
+// @noImplicitThis: true
 extend1({
     init () {
         this // this: IndexedWithThis because of contextual typing.

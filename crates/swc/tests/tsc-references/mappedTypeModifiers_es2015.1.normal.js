@@ -1,3 +1,5 @@
+// @strictNullChecks: true
+// @noimplicitany: true
 var v00;
 var v00;
 var v00;

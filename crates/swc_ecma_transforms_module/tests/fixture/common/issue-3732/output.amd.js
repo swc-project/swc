@@ -1,3 +1,4 @@
+// index.ts
 define([
     "require",
     "exports",

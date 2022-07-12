@@ -1,9 +1,9 @@
-// @Filename: b.ts
-import { D } from "./a";
 // @preserveValueImports: true
 // @isolatedModules: true,false
 // @module: esnext
 // @Filename: a.ts
+// @Filename: b.ts
+import { D } from "./a";
 export default {};
 export const b = 0;
 export const c = 1;

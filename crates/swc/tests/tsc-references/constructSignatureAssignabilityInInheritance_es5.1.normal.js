@@ -1,3 +1,4 @@
+// Checking basic subtype relations with construct signatures
 var MemberWithConstructSignature;
 (function(MemberWithConstructSignature) {
     var b;

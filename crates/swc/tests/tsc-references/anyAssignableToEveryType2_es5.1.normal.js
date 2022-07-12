@@ -1,3 +1,4 @@
+// any is not a subtype of any other types, but is assignable, all the below should work
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A = function A() {
     "use strict";

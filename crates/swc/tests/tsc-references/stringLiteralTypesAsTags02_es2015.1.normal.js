@@ -1,3 +1,4 @@
+// @declaration: true
 function hasKind(entity, kind) {
     return entity.kind === kind;
 }

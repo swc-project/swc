@@ -1,5 +1,5 @@
-var _this = this;
 // @target:es6
+var _this = this;
 var f1 = function() {
     _this.age = 10;
 };

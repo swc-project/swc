@@ -1,5 +1,5 @@
-import regeneratorRuntime from "regenerator-runtime";
 // @target: es6
+import regeneratorRuntime from "regenerator-runtime";
 var v = {
     foo: regeneratorRuntime.mark(function foo() {
         return regeneratorRuntime.wrap(function foo$(_ctx) {

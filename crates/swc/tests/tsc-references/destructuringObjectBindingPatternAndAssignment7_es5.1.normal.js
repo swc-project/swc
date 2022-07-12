@@ -1,6 +1,6 @@
+// @target: es5,esnext
 import _define_property from "@swc/helpers/src/_define_property.mjs";
-var // @target: es5,esnext
-K;
+var K;
 (function(K) {
     K["a"] = "a";
     K["b"] = "b";

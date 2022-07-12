@@ -1,6 +1,6 @@
+// https://github.com/microsoft/TypeScript/issues/44872
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var _Foo, __, __1, __2;
-// https://github.com/microsoft/TypeScript/issues/44872
 void (_Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);

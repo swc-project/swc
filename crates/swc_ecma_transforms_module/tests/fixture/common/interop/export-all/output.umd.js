@@ -1,3 +1,6 @@
+// The fact that this exports both a normal default, and all of the names via
+// re-export is an edge case that is important not to miss. See
+// https://github.com/babel/babel/issues/8306 as an example.
 (function(global, factory) {
     if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("react"));
     else if (typeof define === "function" && define.amd) define([
