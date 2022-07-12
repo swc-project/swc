@@ -1,6 +1,21 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css/codegen)** Fix sourcemap of multibyte characters (#5183) ([5b70233](https://github.com/swc-project/swc/commit/5b70233400a5b67cf51650bebbd59dcd0699ba78))
+
+
+- **(css/parser)** Avoid skipping whitespaces if not required (#5181) ([7b28521](https://github.com/swc-project/swc/commit/7b28521d72776a33f5d51c8ac9fdc674268fa418))
+
+
+- **(html/codegen)** Fix source map generation (#5184) ([60ca553](https://github.com/swc-project/swc/commit/60ca5538f9c658a5f9bb7b9dd83d1795ed18bde3))
+
+
+- **(node/types)** Fix AST type definitions (#5175) ([afd5171](https://github.com/swc-project/swc/commit/afd5171240835c6c2dbd5e06584409796ba08501))
+
 ### Features
 
 

@@ -108,7 +108,25 @@ where
 
     #[emitter]
     fn emit_document_doctype(&mut self, n: &DocumentType) -> Result {
-        let mut doctype = String::new();
+        let mut doctype = String::with_capacity(
+            10 + if let Some(name) = &n.name {
+                name.len() + 1
+            } else {
+                0
+            } + if let Some(public_id) = &n.public_id {
+                let mut len = public_id.len() + 10;
+
+                if let Some(system_id) = &n.system_id {
+                    len += system_id.len() + 3
+                }
+
+                len
+            } else if let Some(system_id) = &n.system_id {
+                system_id.len() + 10
+            } else {
+                0
+            },
+        );
 
         doctype.push('<');
         doctype.push('!');
@@ -159,9 +177,10 @@ where
                 doctype.push_str("SYSTEM");
             }
 
+            doctype.push(' ');
+
             let system_id_quote = if system_id.contains('"') { '\'' } else { '"' };
 
-            doctype.push(' ');
             doctype.push(system_id_quote);
             doctype.push_str(system_id);
             doctype.push(system_id_quote);
@@ -781,7 +800,7 @@ where
             }
         }
 
-        write_str!(self, n.span, &attribute);
+        write_multiline_raw!(self, n.span, &attribute);
     }
 
     #[emitter]
@@ -795,9 +814,9 @@ where
                 data.push_str(&escape_string(&n.data, false));
             }
 
-            write_str!(self, n.span, &data);
+            write_multiline_raw!(self, n.span, &data);
         } else {
-            write_str!(self, n.span, &n.data);
+            write_multiline_raw!(self, n.span, &n.data);
         }
     }
 
@@ -809,7 +828,7 @@ where
         comment.push_str(&n.data);
         comment.push_str("-->");
 
-        write_str!(self, n.span, &comment);
+        write_multiline_raw!(self, n.span, &comment);
     }
 
     fn create_context_for_element(&self, n: &Element) -> Ctx {
