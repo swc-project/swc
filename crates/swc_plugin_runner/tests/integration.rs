@@ -71,10 +71,8 @@ impl Visit for TestVisitor {
 fn internal() -> Result<(), Error> {
     let path = build_plugin(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
-            .join("..")
-            .join("..")
             .join("tests")
-            .join("rust-plugins")
+            .join("fixture")
             .join("swc_internal_plugin"),
     )?;
 
