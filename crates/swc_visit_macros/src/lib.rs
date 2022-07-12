@@ -1771,7 +1771,7 @@ fn visit_expr(
                         FieldType: field_type_name,
                         FieldName: field_name,
                     },
-                    (AstKind::VariantName(self::fields::FieldType::FieldName))
+                    (AstParentKind::VariantName(self::fields::FieldType::FieldName))
                 )
                 .parse::<Expr>();
 
