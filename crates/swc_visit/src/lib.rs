@@ -264,7 +264,7 @@ pub struct AstNodePath<N>
 where
     N: NodeRef,
 {
-    kinds: AstKindPath<N::Kind>,
+    kinds: AstKindPath<N::ParentKind>,
     path: Vec<N>,
 }
 
@@ -295,11 +295,11 @@ impl<N> AstNodePath<N>
 where
     N: NodeRef,
 {
-    pub fn new(kinds: AstKindPath<N::Kind>, path: Vec<N>) -> Self {
+    pub fn new(kinds: AstKindPath<N::ParentKind>, path: Vec<N>) -> Self {
         Self { kinds, path }
     }
 
-    pub fn kinds(&self) -> &AstKindPath<N::Kind> {
+    pub fn kinds(&self) -> &AstKindPath<N::ParentKind> {
         &self.kinds
     }
 
@@ -307,7 +307,7 @@ where
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
     {
-        let kind = node.kind();
+        let kind = node.parent_kind();
 
         self.kinds.path.push(kind);
         self.path.push(node);
@@ -320,7 +320,7 @@ where
 }
 
 pub trait NodeRef: Copy {
-    type Kind: Copy;
+    type ParentKind: Copy;
 
-    fn kind(&self) -> Self::Kind;
+    fn parent_kind(&self) -> Self::ParentKind;
 }

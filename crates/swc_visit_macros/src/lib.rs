@@ -99,6 +99,15 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     q.push_tokens(&q!({
         pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstNodeRef<'ast>>;
+
+        impl swc_visit::NodeRef for AstNodeRef<'_> {
+            type ParentKind = AstParentKind;
+
+            #[inline]
+            fn parent_kind(&self) -> Self::ParentKind {
+                self.kind()
+            }
+        }
     }));
 
     {
@@ -124,7 +133,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         q.push_tokens(&make_ast_enum(&types, true));
         q.push_tokens(&make_ast_enum(&types, false));
 
-        q.push_tokens(&make_impl_node_ref(&types));
+        q.push_tokens(&make_impl_kind_for_node_ref(&types));
     }
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
     q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
@@ -399,7 +408,7 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     })
 }
 
-fn make_impl_node_ref(types: &[Type]) -> ItemImpl {
+fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
     let kind_type = Type::Path(TypePath {
         qself: None,
         path: Ident::new("AstParentKind", call_site()).into(),
@@ -446,7 +455,21 @@ fn make_impl_node_ref(types: &[Type]) -> ItemImpl {
         },
         block: Block {
             brace_token: def_site(),
-            stmts: Default::default(),
+            stmts: {
+                let mut arms = vec![];
+
+                for ty in types {}
+
+                let expr = Expr::Match(ExprMatch {
+                    attrs: Default::default(),
+                    match_token: def_site(),
+                    expr: q!({ self }).parse(),
+                    brace_token: def_site(),
+                    arms,
+                });
+
+                vec![Stmt::Expr(expr)]
+            },
         },
     });
 
