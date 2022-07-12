@@ -98,6 +98,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let mut q = Quote::new_call_site();
     q.push_tokens(&q!({
+        use swc_visit::ParentKind;
+
         pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
 
@@ -126,6 +128,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         q.push_tokens(&make_ast_enum(&block.stmts, false));
 
         q.push_tokens(&make_impl_kind_for_node_ref(&block.stmts));
+        q.push_tokens(&make_impl_parent_kind(&block.stmts));
     }
 
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
@@ -403,6 +406,89 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         brace_token: def_site(),
         variants,
     })
+}
+
+fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
+    let kind_type = Type::Path(TypePath {
+        qself: None,
+        path: Ident::new("AstParentKind", call_site()).into(),
+    });
+
+    let set_index_item = ImplItem::Method(ImplItemMethod {
+        attrs: Default::default(),
+        vis: Visibility::Inherited,
+        defaultness: Default::default(),
+        sig: Signature {
+            constness: Default::default(),
+            asyncness: Default::default(),
+            unsafety: Default::default(),
+            abi: Default::default(),
+            fn_token: def_site(),
+            ident: Ident::new("set_index", call_site()),
+            generics: Default::default(),
+            paren_token: def_site(),
+            inputs: {
+                let mut v = Punctuated::new();
+                v.push(FnArg::Receiver(Receiver {
+                    attrs: Default::default(),
+                    reference: Some((def_site(), None)),
+                    mutability: None,
+                    self_token: def_site(),
+                }));
+
+                v
+            },
+            variadic: Default::default(),
+            output: ReturnType::Default,
+        },
+        block: Block {
+            brace_token: def_site(),
+            stmts: {
+                let mut arms = vec![];
+
+                for stmt in stmts {
+                    let item = match stmt {
+                        Stmt::Item(item) => item,
+                        _ => continue,
+                    };
+                    let name = match item {
+                        Item::Enum(ItemEnum {
+                            ident, variants, ..
+                        }) => {
+                            if variants.iter().all(|v| v.fields.is_empty()) {
+                                continue;
+                            }
+                            ident
+                        }
+                        Item::Struct(ItemStruct { ident, .. }) => ident,
+                        _ => continue,
+                    };
+                }
+
+                let match_expr = Expr::Match(ExprMatch {
+                    attrs: Default::default(),
+                    match_token: def_site(),
+                    expr: q!({ self }).parse(),
+                    brace_token: def_site(),
+                    arms,
+                });
+
+                vec![Stmt::Expr(match_expr)]
+            },
+        },
+    });
+
+    ItemImpl {
+        attrs: Default::default(),
+        defaultness: Default::default(),
+        unsafety: Default::default(),
+        impl_token: def_site(),
+        generics: Default::default(),
+        trait_: Some((None, q!((ParentKind)).parse(), def_site())),
+        self_ty: Box::new(kind_type),
+        brace_token: def_site(),
+        items: vec![set_index_item],
+    }
 }
 
 fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
