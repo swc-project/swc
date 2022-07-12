@@ -13,7 +13,7 @@ pub trait HtmlWriter {
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result;
 
-    fn write_str(&mut self, span: Span, s: &str) -> Result;
+    fn write_multiline_raw(&mut self, span: Span, s: &str) -> Result;
 
     fn increase_indent(&mut self);
 

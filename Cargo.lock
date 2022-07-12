@@ -3950,6 +3950,7 @@ version = "0.22.0"
 dependencies = [
  "auto_impl",
  "bitflags",
+ "rustc-hash",
  "swc_atoms",
  "swc_common",
  "swc_html_ast",
