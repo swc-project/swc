@@ -8,11 +8,12 @@ use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, Field, FieldValue, Fields,
-    FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index,
-    Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat, PatIdent, PatTuple,
-    PatTupleStruct, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token,
-    TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant, VisPublic, Visibility,
+    Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
+    Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
+    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Pat,
+    PatIdent, PatPath, PatReference, PatTuple, PatTupleStruct, PatWild, Path, PathArguments,
+    Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
+    TypeReference, UnOp, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -482,7 +483,7 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                                         attrs: Default::default(),
                                         ident: extra.clone(),
                                         subpat: None,
-                                        by_ref: Some(def_site()),
+                                        by_ref: Default::default(),
                                         mutability: Default::default(),
                                     }));
                                 }
@@ -510,10 +511,14 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
                                 paren_token: def_site(),
                                 args: {
                                     let mut v = Punctuated::new();
-                                    v.push(Expr::Path(ExprPath {
+                                    v.push(Expr::Unary(ExprUnary {
                                         attrs: Default::default(),
-                                        qself: None,
-                                        path: extra.clone().into(),
+                                        op: UnOp::Deref(def_site()),
+                                        expr: Box::new(Expr::Path(ExprPath {
+                                            attrs: Default::default(),
+                                            qself: None,
+                                            path: extra.clone().into(),
+                                        })),
                                     }));
                                     v
                                 },
