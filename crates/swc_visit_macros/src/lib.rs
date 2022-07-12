@@ -292,7 +292,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             _ => continue,
         };
 
-        let field_type_name = Ident::new(&format!("{}Fields", name), name.span());
+        let field_type_name = Ident::new(&format!("{}Field", name), name.span());
 
         let fields = {
             let mut fields = Punctuated::new();
