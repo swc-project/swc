@@ -10,10 +10,10 @@ use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
     Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
-    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemTrait, Lifetime, LifetimeDef,
-    Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatWild, Path, PathArguments, Receiver,
-    ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference,
-    UnOp, Variant, VisPublic, Visibility,
+    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, Lifetime,
+    LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatWild, Path, PathArguments,
+    Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
+    TypeReference, UnOp, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -454,7 +454,7 @@ fn make_ast_enum(items: &[Stmt], is_ref: bool) -> Item {
     })
 }
 
-fn make_impl_kind_for_node_ref(types: &[Stmt]) -> Option<ItemImpl> {
+fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
     let kind_type = Type::Path(TypePath {
         qself: None,
         path: Ident::new("AstParentKind", call_site()).into(),
@@ -494,19 +494,18 @@ fn make_impl_kind_for_node_ref(types: &[Stmt]) -> Option<ItemImpl> {
             stmts: {
                 let mut arms = vec![];
 
-                for ty in types {
-                    let name = ast_enum_variant_name(ty, true);
-                    let name = match name {
-                        Some(name) => name,
-                        None => continue,
+                for stmt in stmts {
+                    let item = match stmt {
+                        Stmt::Item(item) => item,
+                        _ => continue,
                     };
-                    let name = Ident::new(&name, ty.span());
+                    let name = match item {
+                        Item::Enum(ItemEnum { ident, .. }) => ident,
+                        Item::Struct(ItemStruct { ident, .. }) => ident,
+                        _ => continue,
+                    };
 
-                    let extra = if let Type::Slice(..) = unwrap_ref(ty) {
-                        Some(q!({ idx }).parse::<Ident>())
-                    } else {
-                        None
-                    };
+                    let field_kind = Ident::new("__field_kind", item.span());
 
                     let pat = Pat::TupleStruct(PatTupleStruct {
                         attrs: Default::default(),
@@ -520,18 +519,16 @@ fn make_impl_kind_for_node_ref(types: &[Stmt]) -> Option<ItemImpl> {
                                 // Ignore node ref itself
                                 v.push(Pat::Wild(PatWild {
                                     attrs: Default::default(),
-                                    underscore_token: ty.span().as_token(),
+                                    underscore_token: stmt.span().as_token(),
                                 }));
 
-                                if let Some(extra) = &extra {
-                                    v.push(Pat::Ident(PatIdent {
-                                        attrs: Default::default(),
-                                        ident: extra.clone(),
-                                        subpat: None,
-                                        by_ref: Default::default(),
-                                        mutability: Default::default(),
-                                    }));
-                                }
+                                v.push(Pat::Ident(PatIdent {
+                                    attrs: Default::default(),
+                                    ident: field_kind.clone(),
+                                    subpat: None,
+                                    by_ref: Default::default(),
+                                    mutability: Default::default(),
+                                }));
 
                                 v
                             },
@@ -548,29 +545,26 @@ fn make_impl_kind_for_node_ref(types: &[Stmt]) -> Option<ItemImpl> {
                         attrs: Default::default(),
                         pat,
                         guard: Default::default(),
-                        fat_arrow_token: ty.span().as_token(),
-                        body: match extra {
-                            Some(extra) => Box::new(Expr::Call(ExprCall {
-                                attrs: Default::default(),
-                                func: Box::new(path_expr),
-                                paren_token: def_site(),
-                                args: {
-                                    let mut v = Punctuated::new();
-                                    v.push(Expr::Unary(ExprUnary {
+                        fat_arrow_token: stmt.span().as_token(),
+                        body: Box::new(Expr::Call(ExprCall {
+                            attrs: Default::default(),
+                            func: Box::new(path_expr),
+                            paren_token: def_site(),
+                            args: {
+                                let mut v = Punctuated::new();
+                                v.push(Expr::Unary(ExprUnary {
+                                    attrs: Default::default(),
+                                    op: UnOp::Deref(def_site()),
+                                    expr: Box::new(Expr::Path(ExprPath {
                                         attrs: Default::default(),
-                                        op: UnOp::Deref(def_site()),
-                                        expr: Box::new(Expr::Path(ExprPath {
-                                            attrs: Default::default(),
-                                            qself: None,
-                                            path: extra.clone().into(),
-                                        })),
-                                    }));
-                                    v
-                                },
-                            })),
-                            None => Box::new(path_expr),
-                        },
-                        comma: Some(ty.span().as_token()),
+                                        qself: None,
+                                        path: field_kind.clone().into(),
+                                    })),
+                                }));
+                                v
+                            },
+                        })),
+                        comma: Some(stmt.span().as_token()),
                     });
                 }
 
