@@ -1824,19 +1824,19 @@ fn make_arm_from_struct(
             )
             .parse();
 
-            let expr = visit_expr(
-                mode,
-                ty,
-                &q!({ _visitor }).parse(),
-                expr,
+            let ast_path = if variant.is_empty() {
+                None
+            } else {
                 Some((
                     type_name.clone(),
                     field
                         .ident
                         .clone()
                         .unwrap_or_else(|| variant_name.cloned().unwrap()),
-                )),
-            );
+                ))
+            };
+
+            let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, ast_path);
             stmts.push(match mode {
                 Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
                     Stmt::Semi(expr, call_site())
