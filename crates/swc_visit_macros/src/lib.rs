@@ -288,8 +288,8 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
         methods.push(ImplItem::Method(ImplItemMethod {
             attrs: Default::default(),
-            vis: Visibility::Crate(VisCrate {
-                crate_token: def_site(),
+            vis: Visibility::Public(VisPublic {
+                pub_token: def_site(),
             }),
             defaultness: Default::default(),
             sig: Signature {
