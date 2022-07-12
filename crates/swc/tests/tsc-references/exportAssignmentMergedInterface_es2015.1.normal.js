@@ -1,3 +1,5 @@
+// @module: amd
+// @Filename: foo_0.ts
 // @Filename: foo_1.ts
 const foo = require("./foo_0");
 var x;
@@ -11,6 +13,4 @@ var z = {
 };
 z = x.d;
 module.exports = Foo;
-// @module: amd
-// @Filename: foo_0.ts
 export { };

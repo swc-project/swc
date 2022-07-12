@@ -1,7 +1,7 @@
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 // @strict: true
 // @target: es6
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 function Field() {
     var _foo = /*#__PURE__*/ new WeakMap(), _foo = /*#__PURE__*/ new WeakMap();
     // Error

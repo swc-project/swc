@@ -1,8 +1,8 @@
-import * as _ns from './0';
 // @declaration: true
 // @target: es2015
 // @module: es2015, commonjs, esnext
 // @filename: 0.ts
+import * as _ns from './0';
 export const a = 1;
 export const b = 2;
 export { a, b } from './0';

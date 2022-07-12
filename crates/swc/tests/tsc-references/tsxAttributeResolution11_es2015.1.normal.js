@@ -1,3 +1,6 @@
+//@jsx: preserve
+//@module: amd
+//@filename: react.d.ts
 //@filename: file.tsx
 class MyComponent {
     render() {}

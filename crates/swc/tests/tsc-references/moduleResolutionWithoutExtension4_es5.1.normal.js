@@ -5,3 +5,4 @@
 export function foo() {
     return "";
 }
+ // should error, suggest adding ".js"

@@ -1,10 +1,10 @@
-// @Filename: use.js
-import * as debug from "./mod";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @Filename: mod.js
 // Based on a pattern from adonis
+// @Filename: use.js
+import * as debug from "./mod";
 exports.formatters = {};
 // @Filename: first.js
 exports = require("./mod");

@@ -1,3 +1,5 @@
+// @module: amd
+// @Filename: foo_0.ts
 export var E1;
 (function(E1) {
     E1[E1["A"] = 0] = "A";

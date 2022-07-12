@@ -1,5 +1,5 @@
-let _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
 //@target: ES6
+let _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
 class C {
     [_toPrimitive]() {}
     get [_toStringTag]() {

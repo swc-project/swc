@@ -1,3 +1,5 @@
+// @target: esnext
+// @declaration: true
 class AbstractBase {
 }
 function Mixin2(baseClass) {

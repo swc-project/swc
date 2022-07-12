@@ -1,11 +1,11 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
-var _B;
 // @target: ES5
 // @lib: es5,es2015.promise
 // @noEmitHelpers: true
 // https://github.com/Microsoft/TypeScript/issues/20744
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _B;
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

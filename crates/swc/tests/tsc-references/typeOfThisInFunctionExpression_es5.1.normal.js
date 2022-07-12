@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // type of 'this' in FunctionExpression is Any
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function fn() {
     var p = this;
     var p;

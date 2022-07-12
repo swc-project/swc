@@ -1,3 +1,9 @@
+// @allowJs: true
+// @checkJs: true
+// @strict: true
+// @target: es6
+// @outDir: ./out
+// @filename: privateNamesIncompatibleModifiersJs.js
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var /**
@@ -13,12 +19,6 @@ var /**
      */ _bMethod = /*#__PURE__*/ new WeakSet(), /**
      * @protected
      */ _cMethod = /*#__PURE__*/ new WeakSet(), _aProp = /*#__PURE__*/ new WeakMap(), _bProp = /*#__PURE__*/ new WeakMap(), _cProp = /*#__PURE__*/ new WeakMap();
-// @allowJs: true
-// @checkJs: true
-// @strict: true
-// @target: es6
-// @outDir: ./out
-// @filename: privateNamesIncompatibleModifiersJs.js
 class A {
     constructor(){
         _class_private_method_init(this, _aMethod);

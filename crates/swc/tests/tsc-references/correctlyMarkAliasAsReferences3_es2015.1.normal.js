@@ -1,3 +1,10 @@
+// @target: es2017
+// @jsx: react
+// @moduleResolution: node
+// @noImplicitAny: true
+// @skipLibCheck: true
+// @libFiles: react.d.ts,lib.d.ts
+// @filename: declaration.d.ts
 import _extends from "@swc/helpers/src/_extends.mjs";
 // @filename: 0.tsx
 ///<reference path="declaration.d.ts" />

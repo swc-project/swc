@@ -1,3 +1,9 @@
+// @allowJs: true
+// @checkJs: true
+// @target: es5
+// @outDir: ./out
+// @declaration: true
+// @filename: interface.ts
 // @filename: lib.js
 /**
  * @template T

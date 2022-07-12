@@ -1,9 +1,9 @@
+//@target: ES6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-//@target: ES6
 function fun() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];

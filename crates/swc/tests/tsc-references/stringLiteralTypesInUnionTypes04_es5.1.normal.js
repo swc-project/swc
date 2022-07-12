@@ -1,3 +1,4 @@
+// @declaration: true
 var x = undefined;
 var y = undefined;
 if (x === "") {

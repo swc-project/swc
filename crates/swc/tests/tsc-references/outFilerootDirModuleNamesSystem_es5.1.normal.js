@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: ES6
 // @module: system
 // @rootDir: tests/cases/conformance/es6/moduleExportsSystem/src
 // @outFile: output.js
 // @filename: src/a.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import foo from "./b";
 // @filename: src/b.ts
 import Foo from "./a";

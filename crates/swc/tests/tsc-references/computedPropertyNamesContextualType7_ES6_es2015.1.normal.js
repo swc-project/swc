@@ -1,3 +1,4 @@
+// @target: es6
 foo({
     0: ()=>{},
     ["hi" + "bye"]: true,

@@ -1,7 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _wrap_native_super from "@swc/helpers/src/_wrap_native_super.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -10,7 +6,11 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 /**
  * @template T
  * @extends {Set<T>} Should prefer this Set<T>, not the Set in the heritage clause
- */ var My = /*#__PURE__*/ function(Set1) {
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _wrap_native_super from "@swc/helpers/src/_wrap_native_super.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+var My = /*#__PURE__*/ function(Set1) {
     "use strict";
     _inherits(My, Set1);
     var _super = _create_super(My);

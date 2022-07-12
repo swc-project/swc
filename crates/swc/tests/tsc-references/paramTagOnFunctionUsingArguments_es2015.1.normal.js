@@ -1,3 +1,8 @@
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @strict: true
+// @Filename: decls.d.ts
 // @Filename: a.js
 /**
  * @param {string} first

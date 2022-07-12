@@ -1,4 +1,8 @@
-import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
+// @target: ES6
+// Contextual typing for parenthesized substitution expressions in tagged templates.
+/**
+ * tempFun - Can't have fun for too long.
+ */ import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
         "",

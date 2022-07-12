@@ -1,3 +1,6 @@
+// @strict: true
+// @target: es2015
+// Repro from #31204
 export var AppType;
 (function(AppType) {
     AppType["HeaderDetail"] = "HeaderDetail";

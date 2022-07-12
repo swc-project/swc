@@ -1,1 +1,2 @@
+// @strictNullChecks: true
 const {} = v;

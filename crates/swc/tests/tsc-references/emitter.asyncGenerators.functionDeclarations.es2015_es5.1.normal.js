@@ -1,3 +1,6 @@
+// @target: es2015
+// @lib: esnext
+// @filename: F1.ts
 import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
@@ -7,10 +10,7 @@ function f1() {
     return _f1.apply(this, arguments);
 }
 function _f1() {
-    _f1 = // @target: es2015
-    // @lib: esnext
-    // @filename: F1.ts
-    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _f1 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

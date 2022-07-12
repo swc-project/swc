@@ -1,6 +1,6 @@
+// @declaration: true
+// @declaration: true
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-// @declaration: true
-// @declaration: true
 function g() {
     var _C;
     var x = (_C = /*#__PURE__*/ function() {

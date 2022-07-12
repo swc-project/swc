@@ -1,10 +1,10 @@
+// @target: es2019
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 var _bar, _baz, _qux, _class;
-// @target: es2019
 const C = (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), _qux = /*#__PURE__*/ new WeakSet(), _class = class {
     foo() {
         var _this = this;

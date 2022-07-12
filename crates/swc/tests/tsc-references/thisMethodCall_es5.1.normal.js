@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @strict: true
 // @target: es6
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

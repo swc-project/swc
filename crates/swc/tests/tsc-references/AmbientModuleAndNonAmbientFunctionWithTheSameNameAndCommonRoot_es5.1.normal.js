@@ -1,3 +1,4 @@
+// @filename: module.d.ts
 // @filename: function.ts
 function Point() {
     return {

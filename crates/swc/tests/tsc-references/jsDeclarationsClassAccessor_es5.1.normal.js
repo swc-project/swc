@@ -1,3 +1,9 @@
+// @allowJs: true
+// @checkJs: true
+// @target: es2019
+// @outDir: ./out
+// @declaration: true
+// @filename: supplement.d.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";

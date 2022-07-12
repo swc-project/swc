@@ -1,6 +1,6 @@
+// @target: es2015
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 var _class, _Foo;
-// @target: es2015
 class B {
     m() {
         console.log(_class_static_private_field_spec_get(B, B, _foo).test);

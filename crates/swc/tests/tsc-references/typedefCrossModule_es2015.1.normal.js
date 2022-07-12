@@ -1,3 +1,7 @@
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @Filename: commonjs.d.ts
 // @Filename: mod1.js
 /// <reference path="./commonjs.d.ts"/>
 /** @typedef {{ type: "a", x: 1 }} A */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ module.exports = C;

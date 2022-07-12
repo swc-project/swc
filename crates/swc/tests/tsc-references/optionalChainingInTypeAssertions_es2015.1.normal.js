@@ -1,5 +1,5 @@
-var ref, ref1, /*a1*/ ref2, /*b1*/ ref3;
 // @target: es2015, esnext
+var ref, ref1, /*a1*/ ref2, /*b1*/ ref3;
 class Foo {
     m() {}
 }

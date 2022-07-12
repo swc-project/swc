@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @out: output.js
 // @allowJs: true
 // @filename: a.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var variable = {};
 variable.a = 0;
 var C = function C() {

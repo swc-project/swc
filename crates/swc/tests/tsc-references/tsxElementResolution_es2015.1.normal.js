@@ -1,3 +1,4 @@
+//@jsx: preserve
 class foundFirst {
 }
 class Other {

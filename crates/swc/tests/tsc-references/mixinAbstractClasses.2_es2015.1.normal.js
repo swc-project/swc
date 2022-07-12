@@ -1,3 +1,5 @@
+// @target: esnext
+// @declaration: true
 function Mixin(baseClass) {
     // error expected: A mixin class that extends from a type variable containing an abstract construct signature must also be declared 'abstract'.
     class MixinClass extends baseClass {

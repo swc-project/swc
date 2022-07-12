@@ -1,3 +1,4 @@
+// @Filename: declarations.d.ts
 // @Filename: reExportUser.ts
 import { x } from "./reExportX";
 import * as $ from "./reExportAll";

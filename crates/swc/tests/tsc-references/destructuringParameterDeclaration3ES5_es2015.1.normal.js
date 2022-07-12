@@ -1,3 +1,8 @@
+// @target: es6
+// If the parameter is a rest parameter, the parameter type is any[]
+// A type annotation for a rest parameter must denote an array type.
+// RestParameter:
+//     ...   Identifier   TypeAnnotation(opt)
 function a1(...x) {}
 function a2(...a) {}
 function a3(...a) {}

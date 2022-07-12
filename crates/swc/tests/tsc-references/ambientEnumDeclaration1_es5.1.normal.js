@@ -1,5 +1,5 @@
-var // In ambient enum declarations, all values specified in enum member declarations must be classified as constant enum expressions.
-E;
+// In ambient enum declarations, all values specified in enum member declarations must be classified as constant enum expressions.
+var E;
 (function(E) {
     E[E["a"] = 10] = "a";
     E[E["b"] = 11] = "b";

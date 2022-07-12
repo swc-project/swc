@@ -1,9 +1,9 @@
-var _class, _class1;
 // @target: esnext
 // @noTypesAndSymbols: true
 // @noEmit: true
 // @useDefineForClassFields: true
 // https://github.com/microsoft/TypeScript/issues/36295
+var _class, _class1;
 class C {
 }
 (({ [(_class = class extends C {

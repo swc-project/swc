@@ -1,5 +1,5 @@
-var // @noImplicitAny: true
-E;
+// @noImplicitAny: true
+var E;
 (function(E) {
     E["A"] = "a";
     E["B"] = "b";

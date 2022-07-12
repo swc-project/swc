@@ -1,3 +1,5 @@
+// @noImplicitAny: true
+// @noImplicitThis: true
 class C {
     explicitThis(m) {
         return this.n + m;

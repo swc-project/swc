@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: esnext,es2016
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/34952#issuecomment-552025027
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

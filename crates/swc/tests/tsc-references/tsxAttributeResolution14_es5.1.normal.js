@@ -1,3 +1,6 @@
+//@jsx: preserve
+//@module: amd
+//@filename: react.d.ts
 function VerticalNavMenuItem(prop) {
     return /*#__PURE__*/ React.createElement("div", null, "props.primaryText");
 }

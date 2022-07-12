@@ -1,3 +1,6 @@
+// @noImplicitAny: true
+// @noImplicitThis: true
+// @target: es5
 const explicit = {
     n: 12,
     get x () {

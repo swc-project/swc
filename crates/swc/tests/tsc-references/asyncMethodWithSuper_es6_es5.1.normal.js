@@ -1,3 +1,6 @@
+// @target: ES6
+// @lib: esnext
+// @noEmitHelpers: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -7,9 +10,6 @@ import _set from "@swc/helpers/src/_set.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-// @target: ES6
-// @lib: esnext
-// @noEmitHelpers: true
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {

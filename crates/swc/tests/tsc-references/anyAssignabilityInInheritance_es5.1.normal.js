@@ -1,3 +1,4 @@
+// any is not a subtype of any other types, errors expected on all the below derived classes unless otherwise noted
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var a;
 var r3 = foo2(a); // any, not a subtype of number so it skips that overload, is a subtype of itself so it picks second (if truly ambiguous it would pick first overload)

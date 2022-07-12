@@ -1,3 +1,4 @@
+// @strict: true
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var f00 = foo.bind(undefined);
 var f01 = foo.bind(undefined, 10);

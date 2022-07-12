@@ -1,6 +1,6 @@
+// @target: es6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-// @target: es6
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

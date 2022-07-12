@@ -1,3 +1,5 @@
+// @declaration: true
+// @noImplicitOverride: true
 class DB extends B {
     foo() {}
     bar() {}

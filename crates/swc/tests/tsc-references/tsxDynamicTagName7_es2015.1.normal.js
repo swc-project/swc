@@ -1,3 +1,5 @@
+// @jsx: preserve
+//@filename: react.d.ts
 //@filename: app.tsx
 import * as React from 'react';
 export class Text extends React.Component {

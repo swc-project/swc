@@ -1,3 +1,6 @@
+// @module: commonjs
+// @target: es6
+// @noImplicitAny: true
 import regeneratorRuntime from "regenerator-runtime";
 export function strategy(stratName, gen) {
     return regeneratorRuntime.mark(function _callee(state) {

@@ -1,3 +1,5 @@
+// @strictNullChecks: true
+// @declaration: true
 let x1 = f1();
 let x2 = f2();
 let x3 = f3();

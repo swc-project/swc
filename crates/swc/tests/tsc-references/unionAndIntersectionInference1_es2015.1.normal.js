@@ -1,3 +1,5 @@
+// @target: es2015
+// Repro from #2264
 var y = undefined;
 function destructure(something, haveValue, haveY) {
     return something === y ? haveY(y) : haveValue(something);

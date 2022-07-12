@@ -1,3 +1,6 @@
+//@filename: file.tsx
+//@jsx: preserve
+//@sourceMap: true
 var M;
 (function(M) {
     class Foo1 {

@@ -1,3 +1,5 @@
+// @jsx: react,react-jsx
+// @target: es2015,es5
 import _extends from "@swc/helpers/src/_extends.mjs";
 function Todo(prop) {
     return /*#__PURE__*/ React.createElement("div", null, prop.key.toString() + prop.todo);

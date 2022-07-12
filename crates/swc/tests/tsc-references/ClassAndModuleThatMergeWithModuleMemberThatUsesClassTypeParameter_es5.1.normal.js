@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // all expected to be errors
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var clodule1 = function clodule1() {
     "use strict";
     _class_call_check(this, clodule1);

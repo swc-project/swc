@@ -1,3 +1,6 @@
+// @strict: true
+// @target: esnext
+// @filename: enum.ts
 export var Foo;
 (function(Foo) {
     Foo[Foo["A"] = 0] = "A";

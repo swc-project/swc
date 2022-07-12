@@ -1,3 +1,7 @@
+// @checkJs: true
+// @outdir: foo
+// @declaration: true
+// @filename: declarations.d.ts
 // @filename: linkTagEmit1.js
 /** @typedef {number} N */ /**
  * @typedef {Object} D1

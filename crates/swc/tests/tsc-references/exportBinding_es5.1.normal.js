@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: exportConsts.ts
 // @strict: true
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export { x };
 export { x as xx };
 export default x;

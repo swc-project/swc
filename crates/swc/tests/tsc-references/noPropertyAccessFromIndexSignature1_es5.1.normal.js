@@ -1,3 +1,4 @@
+// @noPropertyAccessFromIndexSignature: true
 // access property
 a.foo;
 a["foo"];

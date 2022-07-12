@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowUnreachableCode: true
 // ~ operator on boolean type
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var BOOLEAN;
 function foo() {
     return true;

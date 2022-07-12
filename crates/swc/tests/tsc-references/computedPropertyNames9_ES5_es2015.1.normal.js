@@ -1,3 +1,4 @@
+// @target: es5
 function f(x) {}
 var v = {
     [f("")]: 0,

@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Duplicate parameter names are always an error
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function foo(x, x) {}
 var f = function foo(x, x) {};
 var f2 = function f2(x, x) {};

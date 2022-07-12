@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @target: esnext
 // @Filename: a.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var my = my !== null && my !== void 0 ? my : {};
 /** @param {number} n */ my.method = function(n) {
     return n + 1;

@@ -1,5 +1,5 @@
-var // string can add every type, and result string cannot be assigned to below types
-E;
+// string can add every type, and result string cannot be assigned to below types
+var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";

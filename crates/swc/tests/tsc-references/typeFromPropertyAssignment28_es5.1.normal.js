@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @Filename: a.js
 // mixed prototype-assignment+class declaration
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

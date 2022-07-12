@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -9,7 +8,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
  * Foos a bar together using an `a` and a `b`
  * @param {number} a
  * @param {string} b
- */ export function foo(a, b) {}
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+export function foo(a, b) {}
 /**
  * Legacy - DO NOT USE
  */ export var Aleph = /*#__PURE__*/ function() {

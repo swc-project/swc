@@ -1,4 +1,3 @@
-import _define_property from "@swc/helpers/src/_define_property.mjs";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -6,6 +5,7 @@ import _define_property from "@swc/helpers/src/_define_property.mjs";
 // @target: es6
 // @filename: lateBoundAssignmentDeclarationSupport5.js
 // currently unsupported
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var _sym = Symbol();
 var _str = "my-fake-sym";
 function F() {}

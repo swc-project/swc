@@ -1,3 +1,6 @@
+// @importsNotUsedAsValues: error
+// @noUnusedLocals: true
+// @Filename: /a.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var _default = function _default() {
     "use strict";

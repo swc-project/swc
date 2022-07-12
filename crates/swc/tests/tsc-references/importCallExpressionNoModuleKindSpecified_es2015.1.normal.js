@@ -1,6 +1,6 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @lib: es5
 // @filename: 0.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 export class B {
     print() {
         return "I am B";

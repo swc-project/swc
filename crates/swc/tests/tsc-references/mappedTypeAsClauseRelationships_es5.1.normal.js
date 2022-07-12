@@ -1,3 +1,4 @@
+// From original issue #45212:
 function fun(val) {
     var x = val; // Ok
     var y = val; // Error

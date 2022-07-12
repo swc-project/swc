@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 var x1 = f1(function(x) {
     return x;
 }); // {}

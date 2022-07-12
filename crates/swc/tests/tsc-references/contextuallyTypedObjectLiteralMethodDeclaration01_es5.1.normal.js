@@ -1,3 +1,4 @@
+// @noImplicitAny: true
 function getFoo1() {
     return {
         method1: function method1(arg) {

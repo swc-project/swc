@@ -1,4 +1,3 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -6,7 +5,8 @@ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 /**
  * @callback FunctionReturningPromise
  * @returns {Promise<number>}
- */ /** @type {FunctionReturningPromise} */ function testPromise1() {
+ */ /** @type {FunctionReturningPromise} */ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+function testPromise1() {
     console.log("Nope");
 }
 function testPromise2() {

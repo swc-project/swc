@@ -1,3 +1,5 @@
+// @strictNullChecks: true
+// @declaration: true
 function boxify(obj) {
     if (typeof obj === "object") {
         var result = {};

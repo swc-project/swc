@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 // no errors expected
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var SimpleTypes;
 (function(SimpleTypes) {
     var S = function S() {

@@ -1,9 +1,9 @@
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-var _Reflect, __, _Reflect1, __1;
 // @target: es5, es2015, es2021, es2022, esnext
 // @noTypesAndSymbols: true
 // @filename: external.ts
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+var _Reflect, __, _Reflect1, __1;
 export class Reflect {
 }
 export var Baz;

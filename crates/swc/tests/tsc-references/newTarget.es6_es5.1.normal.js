@@ -1,8 +1,8 @@
+// @target: es6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-// @target: es6
 var A = function A() {
     "use strict";
     var _newtarget = _instanceof(this, A) ? this.constructor : void 0;

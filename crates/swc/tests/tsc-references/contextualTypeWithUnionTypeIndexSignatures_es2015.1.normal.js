@@ -1,3 +1,5 @@
+//When used as a contextual type, a union type U has those members that are present in any of 
+// its constituent types, with types that are unions of the respective members in the constituent types. 
 // When an object literal is contextually typed by a type that includes a string index signature, 
 // the resulting type of the object literal includes a string index signature with the union type of 
 // the types of the properties declared in the object literal, or the Undefined type if the object literal 

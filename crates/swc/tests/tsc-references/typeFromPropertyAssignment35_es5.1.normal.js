@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @Filename: bug26877.js
-/** @param {Emu.D} x */ function ollKorrect(x) {
+/** @param {Emu.D} x */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+function ollKorrect(x) {
     x._model;
     var y = new Emu.D();
     var z = Emu.D._wrapperInstance;

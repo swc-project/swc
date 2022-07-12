@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @target: esnext
 // @Filename: module.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Outer = Outer !== null && Outer !== void 0 ? Outer : {};
 var _app;
 Outer.app = (_app = Outer.app) !== null && _app !== void 0 ? _app : {};

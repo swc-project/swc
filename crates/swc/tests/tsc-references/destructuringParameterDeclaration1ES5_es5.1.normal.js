@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 // A parameter declaration may specify either an identifier or a binding pattern.
 // The identifiers specified in parameter declarations and binding patterns
 // in a parameter list must be unique within that parameter list.
 // If the declaration includes a type annotation, the parameter is of that type
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function a1(param) {
     var _param = _sliced_to_array(param, 3), a = _param[0], b = _param[1], ref = _sliced_to_array(_param[2], 1), ref1 = _sliced_to_array(ref[0], 1), c = ref1[0];
 }

@@ -1,3 +1,4 @@
+// @jsx: preserve
 const t = {
     tag: 'h1'
 };

@@ -1,3 +1,9 @@
+// @target: es5
+// @importHelpers: true
+// @isolatedModules: true
+// @noTypesAndSymbols: true
+// @noEmit: true
+// @filename: main.ts
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 var k = [
     1,
@@ -9,10 +15,4 @@ var o = [
 ].concat(_to_consumable_array(k), [
     4
 ]);
-// @target: es5
-// @importHelpers: true
-// @isolatedModules: true
-// @noTypesAndSymbols: true
-// @noEmit: true
-// @filename: main.ts
 export { };

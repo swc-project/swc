@@ -1,8 +1,8 @@
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 // @target: es5, es2015, esnext
 // @noEmit: true
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/36295
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 function a() {}
 function b() {
     var _param = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a();

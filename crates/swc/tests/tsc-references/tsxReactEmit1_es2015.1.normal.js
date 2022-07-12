@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: react
 var p;
 var selfClosed1 = /*#__PURE__*/ React.createElement("div", null);
 var selfClosed2 = /*#__PURE__*/ React.createElement("div", {

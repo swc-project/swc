@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @strictNullChecks: true
 // @declaration: true
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function f1(x, y) {
     var obj;
     obj = x;

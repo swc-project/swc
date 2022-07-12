@@ -1,3 +1,11 @@
+// In this file:
+//  Assign to a module
+//  Assign to a class
+//  Assign to an enum
+//  Assign to a function
+//  Assign to a variable
+//  Assign to a parameter
+//  Assign to an interface
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 M = null; // Error
 var C = function C() {

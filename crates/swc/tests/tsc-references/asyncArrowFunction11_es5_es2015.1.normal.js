@@ -1,8 +1,8 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @target: es5
 // @lib: esnext, dom
 // @downlevelIteration: true
 // https://github.com/Microsoft/TypeScript/issues/24722
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 class A {
     constructor(){
         var _this = this;

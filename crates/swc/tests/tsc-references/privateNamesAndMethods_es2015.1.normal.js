@@ -1,3 +1,6 @@
+// @target: esnext, es2022
+// @lib: esnext, es2022
+// @useDefineForClassFields: false
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
@@ -7,9 +10,6 @@ import _class_private_method_get from "@swc/helpers/src/_class_private_method_ge
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 var _foo = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), __quux = /*#__PURE__*/ new WeakMap(), _quux = /*#__PURE__*/ new WeakMap();
-// @target: esnext, es2022
-// @lib: esnext, es2022
-// @useDefineForClassFields: false
 class A {
     constructor(){
         _class_private_method_init(this, _foo);

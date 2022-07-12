@@ -1,3 +1,4 @@
+//@target: ES6
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g1);
 function g1() {

@@ -1,3 +1,5 @@
+// @strict: true
+// @target: es2020
 const aa1 = a1 !== null && a1 !== void 0 ? a1 : 'whatever';
 const aa2 = a2 !== null && a2 !== void 0 ? a2 : 'whatever';
 const aa3 = a3 !== null && a3 !== void 0 ? a3 : 'whatever';

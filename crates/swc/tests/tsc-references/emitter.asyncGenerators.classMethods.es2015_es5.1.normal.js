@@ -1,3 +1,6 @@
+// @target: es2015
+// @lib: esnext
+// @filename: C1.ts
 import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
@@ -8,9 +11,6 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-// @target: es2015
-// @lib: esnext
-// @filename: C1.ts
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {

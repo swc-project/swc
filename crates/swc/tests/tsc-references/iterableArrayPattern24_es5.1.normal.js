@@ -1,5 +1,5 @@
-import _to_array from "@swc/helpers/src/_to_array.mjs";
 //@target: ES6
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 var a, b;
 var ref;
 ref = _to_array({

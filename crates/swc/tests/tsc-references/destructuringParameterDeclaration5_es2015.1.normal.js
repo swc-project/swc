@@ -1,3 +1,4 @@
+// Parameter Declaration with generic
 class Class {
     constructor(){}
 }

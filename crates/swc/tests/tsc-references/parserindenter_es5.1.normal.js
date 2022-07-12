@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //﻿
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 // 
@@ -14,6 +13,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // limitations under the License.
 //
 ///<reference path='formatting.ts' />
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Formatting;
 (function(Formatting) {
     var Indenter = /*#__PURE__*/ function() {

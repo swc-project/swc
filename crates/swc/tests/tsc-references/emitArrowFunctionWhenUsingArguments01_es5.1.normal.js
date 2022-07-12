@@ -1,5 +1,5 @@
-var _arguments = arguments;
 // @target: es5
+var _arguments = arguments;
 var a = function() {
     var arg = _arguments[0]; // error
 };

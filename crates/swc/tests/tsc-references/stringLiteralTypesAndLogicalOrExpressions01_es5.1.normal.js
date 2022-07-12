@@ -1,3 +1,4 @@
+// @declaration: true
 var a = "foo";
 var b = a || "foo";
 var c = b;

@@ -1,3 +1,5 @@
+// @strict: true
+// Repro from #19316
 foo({
     props: {
         x: 10,

@@ -1,3 +1,6 @@
+// @strict: true
+// Test cases for parameter variances affected by conditional types.
+// Repro from #30047
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var foo = {
     prop: true

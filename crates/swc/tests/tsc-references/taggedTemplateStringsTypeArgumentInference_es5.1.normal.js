@@ -1,3 +1,4 @@
+// Generic tag with one parameter
 import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
 function _templateObject() {
     var data = _tagged_template_literal([
@@ -307,7 +308,6 @@ function _templateObject27() {
     };
     return data;
 }
-// Generic tag with one parameter
 function noParams(n) {}
 noParams(_templateObject());
 // Generic tag with parameter which does not use type parameter
