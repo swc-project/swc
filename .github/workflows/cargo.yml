@@ -380,7 +380,7 @@ jobs:
       - name: Verify dependencies
         shell: bash
         run: |
-          jest -v && mocha --version
+          jest --version && mocha --version
 
       - name: Configure execution cache
         shell: bash
