@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css/parser)** Avoid skipping whitespaces if not required (#5181) ([7b28521](https://github.com/swc-project/swc/commit/7b28521d72776a33f5d51c8ac9fdc674268fa418))
+
 ### Features
 
 
