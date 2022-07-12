@@ -3,7 +3,9 @@
     "xmlns":"http://www.w3.org/2000/svg",
     "xlink": "http://www.w3.org/1999/xlink",
     "opacity": "1",
-    "zoomAndPan": "magnify"
+    "zoomAndPan": "magnify",
+    "x": "0",
+    "y": "0"
   },
   "script": {
     "charset": "utf8",
@@ -80,6 +82,7 @@
     "r": "0",
     "fill": "black",
     "fill-opacity": "1",
+    "fill-rule": "nonzero",
     "opacity": "1"
   },
   "clipPath":  {
@@ -94,6 +97,7 @@
   "ellipse": {
     "fill": "black",
     "fill-opacity": "1",
+    "fill-rule": "nonzero",
     "rx": "auto",
     "ry": "auto",
     "cx": "0",
@@ -101,73 +105,143 @@
     "opacity": "1"
   },
   "feBlend":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "feColorMatrix":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "feComponentTransfer":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "feComposite": {
     "opacity": "1",
+    "x": "0%",
+    "y": "0%",
     "k1": "0",
     "k2": "0",
     "k3": "0",
     "k4": "0"
   },
   "feConvolveMatrix":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "feDiffuseLighting":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "feDisplacementMap":  {
     "opacity": "1",
-    "yChannelSelector": "a"
+    "yChannelSelector": "a",
+    "x": "0%",
+    "y": "0%"
+  },
+  "feDropShadow":  {
+    "x": "0%",
+    "y": "0%"
   },
   "feFlood":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
+  },
+  "feFuncA": {
+    "x": "0%",
+    "y": "0%"
+  },
+  "feFuncB": {
+    "x": "0%",
+    "y": "0%"
+  },
+  "feFuncG": {
+    "x": "0%",
+    "y": "0%"
+  },
+  "feFuncR": {
+    "x": "0%",
+    "y": "0%"
   },
   "feGaussianBlur":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "feImage":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "feMerge":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
+  },
+  "feMergeNode": {
+    "x": "0%",
+    "y": "0%"
   },
   "feMorphology": {
     "opacity": "1",
-    "radius": "0"
+    "radius": "0",
+    "x": "0%",
+    "y": "0%"
   },
   "feOffset":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "fePointLight":  {
+    "x": "0",
+    "y": "0",
     "z": "1"
   },
   "feSpecularLighting":  {
-    "opacity": "1"
+    "opacity": "1",
+    "specularExponent": "0",
+    "x": "0%",
+    "y": "0%"
   },
   "feSpotLight":  {
+    "limitingConeAngle": "0",
+    "pointsAtX": "0",
+    "pointsAtY": "0",
+    "pointsAtZ": "0",
+    "specularExponent": "0",
+    "x": "0",
+    "y": "0",
     "z": "1"
   },
   "feTile":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "feTurbulence":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0%",
+    "y": "0%"
   },
   "filter":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "-10%",
+    "y": "-10%"
   },
   "font":  {
     "opacity": "1"
   },
   "foreignObject":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0",
+    "y": "0"
   },
   "g": {
     "opacity": "1"
@@ -179,7 +253,9 @@
     "opacity": "1"
   },
   "image":  {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0",
+    "y": "0"
   },
   "line": {
     "opacity": "1",
@@ -199,7 +275,9 @@
    "refY": "0"
   },
   "mask": {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "-10%",
+    "y": "-10%"
   },
   "missing-glyph": {
     "opacity": "1"
@@ -211,7 +289,9 @@
     "fill-rule": "nonzero"
   },
   "pattern": {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0",
+    "y": "0"
   },
   "polygon": {
     "opacity": "1",
@@ -237,7 +317,9 @@
   "rect": {
     "opacity": "1",
     "rx": "auto",
-    "ry": "auto"
+    "ry": "auto",
+    "x": "0",
+    "y": "0"
   },
   "set": {
     "begin": "0s",
@@ -264,7 +346,9 @@
     "font-stretch": "normal",
     "font-style": "normal",
     "font-variant": "normal",
-    "font-weight": "normal"
+    "font-weight": "normal",
+    "x": "0",
+    "y": "0"
   },
   "textPath": {
      "opacity": "1",
@@ -288,7 +372,9 @@
     "font-weight": "normal",
     "font-stretch": "normal",
     "font-style": "normal",
-    "font-variant": "normal"
+    "font-variant": "normal",
+    "x": "0",
+    "y": "0"
   },
   "tspan": {
     "opacity": "1",
@@ -303,7 +389,9 @@
     "font-weight": "normal"
   },
   "use": {
-    "opacity": "1"
+    "opacity": "1",
+    "x": "0",
+    "y": "0"
   },
   "view": {
     "zoomAndPan": "magnify"
