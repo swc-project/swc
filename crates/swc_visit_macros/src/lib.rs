@@ -123,6 +123,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
         q.push_tokens(&make_ast_enum(&types, true));
         q.push_tokens(&make_ast_enum(&types, false));
+
+        q.push_tokens(&make_impl_node_ref(&types));
     }
     q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
     q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
@@ -397,7 +399,26 @@ fn make_ast_enum(types: &[Type], is_ref: bool) -> Item {
     })
 }
 
-fn make_impl_node_ref(types: &[Type], is_ref: bool) -> ItemImpl {}
+fn make_impl_node_ref(types: &[Type]) -> ItemImpl {
+    let kind_type_item = ImplItem::Type();
+
+    let kind_method_item = ImplItem::Method();
+
+    ItemImpl {
+        attrs: Default::default(),
+        defaultness: Default::default(),
+        unsafety: Default::default(),
+        impl_token: def_site(),
+        generics: Default::default(),
+        trait_: Some((None, q!({ swc_visit::NodeRef }).parse(), def_site())),
+        self_ty: Box::new(Type::Path(TypePath {
+            qself: None,
+            path: q!({ AstNodeRef<'_> }).parse(),
+        })),
+        brace_token: def_site(),
+        items: vec![kind_type_item, kind_method_item],
+    }
+}
 
 fn process_ast_node_ref_type(ty: &Type) -> Type {
     if let Type::Reference(ty) = ty {
