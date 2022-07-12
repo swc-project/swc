@@ -2656,7 +2656,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 if let Some(arg) = extract_generic("Option", ty) {
                     let ident = method_name(mode, ty);
 
-                    if let Some(item) = extract_vec(arg) {
+                    if let Some(item) = extract_generic("Vec", arg) {
                         match mode {
                             Mode::Fold { .. } => {
                                 return mk_exact(
@@ -3161,13 +3161,9 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
     None
 }
 
-fn extract_vec(ty: &Type) -> Option<&Type> {
-    extract_generic("Vec", ty)
-}
-
 fn is_opt_vec(ty: &Type) -> bool {
     if let Some(inner) = extract_generic("Option", ty) {
-        extract_vec(inner).is_some()
+        extract_generic("Vec", inner).is_some()
     } else {
         false
     }
