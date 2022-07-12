@@ -482,6 +482,34 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                         Item::Struct(ItemStruct { ident, .. }) => ident,
                         _ => continue,
                     };
+
+                    arms.push(Arm {
+                        attrs: Default::default(),
+                        pat: Pat::TupleStruct(PatTupleStruct {
+                            attrs: Default::default(),
+                            path: q!(Vars { name }, { Self::name }).parse(),
+                            pat: PatTuple {
+                                attrs: Default::default(),
+                                paren_token: def_site(),
+                                elems: {
+                                    let mut v = Punctuated::new();
+                                    v.push(Pat::Ident(PatIdent {
+                                        attrs: Default::default(),
+                                        by_ref: Default::default(),
+                                        mutability: Default::default(),
+                                        ident: Ident::new("v", name.span()),
+                                        subpat: Default::default(),
+                                    }));
+
+                                    v
+                                },
+                            },
+                        }),
+                        guard: Default::default(),
+                        fat_arrow_token: name.span().as_token(),
+                        body: q!({ v.set_index(index) }).parse(),
+                        comma: Some(name.span().as_token()),
+                    })
                 }
 
                 let match_expr = Expr::Match(ExprMatch {
