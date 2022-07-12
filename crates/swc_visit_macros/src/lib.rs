@@ -498,11 +498,7 @@ fn make_impl_kind_for_node_ref(types: &[Type]) -> ItemImpl {
 
                     arms.push(Arm {
                         attrs: Default::default(),
-                        pat: Pat::Path(PatPath {
-                            attrs: Default::default(),
-                            qself: None,
-                            path: q!(Vars { Name: &name }, (Self::Name)).parse(),
-                        }),
+                        pat,
                         guard: Default::default(),
                         fat_arrow_token: ty.span().as_token(),
                         body: match extra {
