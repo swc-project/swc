@@ -128,7 +128,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 _ => unimplemented!("error reporting for something other than Item"),
             };
 
-            field_module_body.extend(make_field_enum(item).map(Item::Enum));
+            field_module_body.extend(make_field_enum(item));
         }
 
         q.push_tokens(&make_ast_enum(&block.stmts, true));
@@ -202,75 +202,81 @@ fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Var
     }
 }
 
-fn make_field_enum(item: &Item) -> Option<ItemEnum> {
-    let mut attrs = vec![];
+fn make_field_enum(item: &Item) -> Vec<Item> {
+    let mut items = vec![];
 
-    let (type_name, variants) = match item {
-        Item::Struct(s) => {
-            let mut v = Punctuated::new();
+    {
+        let mut attrs = vec![];
 
-            for f in s.fields.iter() {
-                if f.ident.is_none() {
-                    continue;
+        let (type_name, variants) = match item {
+            Item::Struct(s) => {
+                let mut v = Punctuated::new();
+
+                for f in s.fields.iter() {
+                    if f.ident.is_none() {
+                        continue;
+                    }
+
+                    v.push(make_field_enum_variant_from_named_field(&s.ident, f))
                 }
 
-                v.push(make_field_enum_variant_from_named_field(&s.ident, f))
+                (s.ident.clone(), v)
             }
+            Item::Enum(e) => {
+                let mut variants = Punctuated::new();
 
-            (s.ident.clone(), v)
-        }
-        Item::Enum(e) => {
-            let mut variants = Punctuated::new();
+                // Skip C-like enums
+                if e.variants.iter().all(|v| v.fields.is_empty()) {
+                    return vec![];
+                }
 
-            // Skip C-like enums
-            if e.variants.iter().all(|v| v.fields.is_empty()) {
-                return None;
+                for v in e.variants.iter() {
+                    let doc_attr = make_doc_attr(&format!(
+                        "This represents [{variant_name}](`crate::{type_name}::{variant_name}`)",
+                        type_name = e.ident,
+                        variant_name = v.ident,
+                    ));
+
+                    variants.push(Variant {
+                        attrs: vec![doc_attr],
+                        ident: Ident::new(&v.ident.to_string().to_pascal_case(), v.ident.span()),
+                        discriminant: Default::default(),
+                        fields: Fields::Unit,
+                    })
+                }
+
+                (e.ident.clone(), variants)
             }
+            _ => return vec![],
+        };
 
-            for v in e.variants.iter() {
-                let doc_attr = make_doc_attr(&format!(
-                    "This represents [{variant_name}](`crate::{type_name}::{variant_name}`)",
-                    type_name = e.ident,
-                    variant_name = v.ident,
-                ));
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ derive }).parse(),
+            tokens: q!({ (Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash) }).into(),
+        });
 
-                variants.push(Variant {
-                    attrs: vec![doc_attr],
-                    ident: Ident::new(&v.ident.to_string().to_pascal_case(), v.ident.span()),
-                    discriminant: Default::default(),
-                    fields: Fields::Unit,
-                })
-            }
+        attrs.push(make_doc_attr(&format!(
+            "This enum represents fields of [{type_name}](crate::{type_name})",
+            type_name = type_name,
+        )));
 
-            (e.ident.clone(), variants)
-        }
-        _ => return None,
-    };
+        items.push(Item::Enum(ItemEnum {
+            attrs,
+            vis: Visibility::Public(VisPublic {
+                pub_token: def_site(),
+            }),
+            enum_token: def_site(),
+            ident: Ident::new(&format!("{}Field", type_name), type_name.span()),
+            generics: Default::default(),
+            brace_token: def_site(),
+            variants,
+        }));
+    }
 
-    attrs.push(Attribute {
-        pound_token: def_site(),
-        style: AttrStyle::Outer,
-        bracket_token: def_site(),
-        path: q!({ derive }).parse(),
-        tokens: q!({ (Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash) }).into(),
-    });
-
-    attrs.push(make_doc_attr(&format!(
-        "This enum represents fields of [{type_name}](crate::{type_name})",
-        type_name = type_name,
-    )));
-
-    Some(ItemEnum {
-        attrs,
-        vis: Visibility::Public(VisPublic {
-            pub_token: def_site(),
-        }),
-        enum_token: def_site(),
-        ident: Ident::new(&format!("{}Field", type_name), type_name.span()),
-        generics: Default::default(),
-        brace_token: def_site(),
-        variants,
-    })
+    items
 }
 
 fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
