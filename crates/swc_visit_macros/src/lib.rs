@@ -198,6 +198,10 @@ fn ast_enum_variant_name(t: &Type, exclude_useless: bool) -> Option<String> {
     }
 
     if let Some(inner) = extract_generic("Option", t) {
+        if exclude_useless {
+            return None;
+        }
+
         if let Some(inner) = extract_generic("Vec", inner) {
             return Some(format!(
                 "OptVec{}",
