@@ -307,7 +307,7 @@ where
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
     {
-        let kind = node.parent_kind();
+        let kind = node.kind();
 
         self.kinds.path.push(kind);
         self.path.push(node);
@@ -322,5 +322,5 @@ where
 pub trait NodeRef: Copy {
     type ParentKind: Copy;
 
-    fn parent_kind(&self) -> Self::ParentKind;
+    fn kind(&self) -> Self::ParentKind;
 }
