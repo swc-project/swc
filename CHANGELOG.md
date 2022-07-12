@@ -22,6 +22,9 @@
 
 - **(html/minifier)** Allow specifying options for other tools (#5125) ([dada2d7](https://github.com/swc-project/swc/commit/dada2d7d554fa0733a3c65c512777f1548d41a35))
 
+
+- **(visit)** Improve API (#5185) ([4744d43](https://github.com/swc-project/swc/commit/4744d438a9cf44d59dc899ea054ae5e65f6490c8))
+
 ### Testing
 
 
