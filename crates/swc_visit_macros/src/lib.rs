@@ -2579,11 +2579,14 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             Mode::Fold(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
                                 ({
-                                    // TODO
-
-                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                        _visitor.ident(v, __ast_path)
-                                    })
+                                    n.into_iter()
+                                        .enumerate()
+                                        .map(|(idx, v)| {
+                                            __ast_path.with_index(idx, |__ast_path| {
+                                                _visitor.ident(v, __ast_path)
+                                            })
+                                        })
+                                        .collect()
                                 })
                             )
                             .parse(),
