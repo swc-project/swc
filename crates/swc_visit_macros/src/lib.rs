@@ -662,7 +662,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                 v.push(FnArg::Receiver(Receiver {
                     attrs: Default::default(),
                     reference: Some((def_site(), None)),
-                    mutability: None,
+                    mutability: Some(def_site()),
                     self_token: def_site(),
                 }));
                 v.push(FnArg::Typed(PatType {
