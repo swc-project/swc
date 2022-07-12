@@ -411,7 +411,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         path: Ident::new("AstParentKind", call_site()).into(),
     });
 
-    let kind_method_item = ImplItem::Method(ImplItemMethod {
+    let kind_item = ImplItem::Method(ImplItemMethod {
         attrs: Default::default(),
         vis: Visibility::Public(VisPublic {
             pub_token: def_site(),
@@ -651,7 +651,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         trait_: None,
         self_ty: q!({ AstParentNodeRef<'_> }).parse(),
         brace_token: def_site(),
-        items: vec![kind_method_item],
+        items: vec![kind_item, set_index_item],
     })
 }
 
