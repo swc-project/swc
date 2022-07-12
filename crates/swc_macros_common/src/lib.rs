@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 #[cfg(procmacro2_semver_exempt)]
 use pmutil::SpanExt;
-use pmutil::{synom_ext::FromSpan, Quote, SpanExt};
+use pmutil::{q, synom_ext::FromSpan, Quote, SpanExt};
 use proc_macro2::Span;
 use quote::ToTokens;
 use syn::*;
@@ -77,6 +77,17 @@ pub fn doc_str(attr: &Attribute) -> Option<String> {
     }
 
     Some(parse_tts(attr))
+}
+
+/// Creates a doc comment.
+pub fn doc(s: &str) -> Attribute {
+    Attribute {
+        pound_token: def_site(),
+        style: AttrStyle::Outer,
+        bracket_token: def_site(),
+        path: Ident::new("doc", def_site()).into(),
+        tokens: q!(Vars { s },{ = s }).into(),
+    }
 }
 
 pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
