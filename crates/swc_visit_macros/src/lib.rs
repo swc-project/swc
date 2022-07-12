@@ -10,9 +10,9 @@ use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprMatch, ExprMethodCall, Field, FieldValue, Fields, FieldsUnnamed, FnArg,
     GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, ImplItemType, Index, Item,
-    ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Path, PathArguments, ReturnType,
-    Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, Variant,
-    VisPublic, Visibility,
+    ItemEnum, ItemImpl, ItemTrait, Lifetime, LifetimeDef, Member, Path, PathArguments, Receiver,
+    ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference,
+    Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -430,7 +430,17 @@ fn make_impl_node_ref(types: &[Type]) -> ItemImpl {
             ident: Ident::new("kind", call_site()),
             generics: Default::default(),
             paren_token: def_site(),
-            inputs: Punctuated::new(),
+            inputs: {
+                let mut v = Punctuated::new();
+                v.push(FnArg::Receiver(Receiver {
+                    attrs: Default::default(),
+                    reference: Some((def_site(), None)),
+                    mutability: None,
+                    self_token: def_site(),
+                }));
+
+                v
+            },
             variadic: Default::default(),
             output: ReturnType::Type(def_site(), Box::new(kind_type)),
         },
