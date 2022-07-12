@@ -309,6 +309,27 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         let fields = {
             let mut fields = Punctuated::new();
 
+            if is_ref {
+                fields.push(Field {
+                    attrs: Default::default(),
+                    vis: Visibility::Inherited,
+                    colon_token: None,
+                    ident: None,
+                    ty: Type::Reference(TypeReference {
+                        and_token: name.span().as_token(),
+                        lifetime: Some(Lifetime {
+                            apostrophe: call_site(),
+                            ident: Ident::new("ast", name.span()),
+                        }),
+                        mutability: Default::default(),
+                        elem: Box::new(Type::Path(TypePath {
+                            qself: Default::default(),
+                            path: name.clone().into(),
+                        })),
+                    }),
+                });
+            }
+
             fields.push(Field {
                 attrs: Default::default(),
                 vis: Visibility::Inherited,
