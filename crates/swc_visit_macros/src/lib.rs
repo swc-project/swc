@@ -2880,12 +2880,7 @@ fn feature_path_attrs() -> Vec<Attribute> {
     ]
 }
 
-fn wrap_call_with_ast_path(
-    mode: Mode,
-    node: &Expr,
-    mut visit_expr: ExprMethodCall,
-    ty: &Type,
-) -> Expr {
+fn wrap_call_with_ast_path(mode: Mode, node: &Expr, mut visit_expr: ExprMethodCall) -> Expr {
     match mode.visitor_variant() {
         Some(VisitorVariant::WithPath) => {}
         _ => return Expr::MethodCall(visit_expr),
@@ -2893,40 +2888,5 @@ fn wrap_call_with_ast_path(
 
     visit_expr.args.push(q!((__ast_path)).parse());
 
-    // We don't store vectors
-    if extract_generic("Vec", unwrap_ref(ty)).is_some() {
-        return Expr::MethodCall(visit_expr);
-    }
-
-    let ast_kind_variant = ast_enum_variant_name(unwrap_ref(ty), false);
-
-    let ast_kind_variant = match ast_kind_variant {
-        Some(v) => v,
-        _ => return Expr::MethodCall(visit_expr),
-    };
-
-    let ast_kind_variant = Ident::new(&ast_kind_variant, ty.span());
-
-    match mode {
-        Mode::Visit(_) => q!(
-            Vars {
-                visit_expr,
-                node,
-                AstKindVariant: ast_kind_variant
-            },
-            ({ __ast_path.with(AstNodeRef::AstKindVariant(&node), |__ast_path| visit_expr,) })
-        )
-        .parse(),
-        Mode::VisitMut(_) | Mode::Fold(_) => q!(
-            Vars {
-                visit_expr,
-                AstKindVariant: ast_kind_variant
-            },
-            ({ __ast_path.with(AstParentKind::AstKindVariant, |__ast_path| visit_expr) })
-        )
-        .parse(),
-        _ => {
-            unreachable!();
-        }
-    }
+    Expr::MethodCall(visit_expr)
 }
