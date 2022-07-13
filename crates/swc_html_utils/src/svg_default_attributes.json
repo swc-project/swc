@@ -137,6 +137,8 @@
       "inherited": false
     }
   },
+  "altGlyphDef": {},
+  "altGlyphItem": {},
   "animate": {
     "accumulate": {
       "initial": "none",
@@ -333,12 +335,8 @@
       "inherited": false
     }
   },
-  "cursor": {
-    "xlink:type": {
-      "initial": "simple",
-      "inherited": false
-    }
-  },
+  "audio": {},
+  "canvas": {},
   "circle": {
     "clip-path": {
       "initial": "none",
@@ -435,6 +433,13 @@
       "inherited": false
     }
   },
+  "color-profile": {},
+  "cursor": {
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
+  },
   "defs": {
     "color-interpolation": {
       "initial": "sRGB",
@@ -453,6 +458,7 @@
       "inherited": false
     }
   },
+  "desc": {},
   "discard": {
     "begin": {
       "initial": "0s",
@@ -1359,6 +1365,9 @@
       "inherited": false
     }
   },
+  "font-face-format": {},
+  "font-face-name": {},
+  "font-face-src": {},
   "font-face-uri": {
     "xlink:type": {
       "initial": "simple",
@@ -1473,6 +1482,15 @@
       "inherited": false
     }
   },
+  "handler": {},
+  "hkern": {
+    "g1": {},
+    "g2": {},
+    "k": {},
+    "u1": {},
+    "u2": {}
+  },
+  "iframe": {},
   "image": {
     "clip": {
       "initial": "auto",
@@ -1631,6 +1649,7 @@
       "inherited": false
     }
   },
+  "listener": {},
   "marker": {
     "clip": {
       "initial": "auto",
@@ -1739,6 +1758,7 @@
       "inherited": false
     }
   },
+  "metadata": {},
   "missing-glyph": {
     "color-interpolation": {
       "initial": "sRGB",
@@ -1995,6 +2015,7 @@
       "inherited": false
     }
   },
+  "prefetch": {},
   "radialGradient": {
     "color-interpolation": {
       "initial": "sRGB",
@@ -2155,6 +2176,7 @@
       "inherited": false
     }
   },
+  "solidColor" : {},
   "stop": {
     "opacity": {
       "initial": "1",
@@ -2325,6 +2347,7 @@
       "inherited": false
     }
   },
+  "tbreak": {},
   "text": {
     "clip-path": {
       "initial": "none",
@@ -2447,6 +2470,7 @@
       "inherited": false
     }
   },
+  "textArea": {},
   "textPath": {
     "alignment-baseline": {
       "initial": "auto",
@@ -2573,6 +2597,7 @@
       "inherited": false
     }
   },
+  "title": {},
   "tref": {
     "alignment-baseline": {
       "initial": "auto",
@@ -2847,6 +2872,7 @@
       "inherited": false
     }
   },
+  "video": {},
   "view": {
     "externalResourcesRequired": {
       "initial": "false"
@@ -2859,5 +2885,12 @@
     "zoomAndPan": {
       "initial": "magnify"
     }
+  },
+  "vkern": {
+    "g1": {},
+    "g2": {},
+    "k": {},
+    "u1": {},
+    "u2": {}
   }
 }
