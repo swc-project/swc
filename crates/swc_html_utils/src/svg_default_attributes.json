@@ -792,17 +792,11 @@
     }
   },
   "feDropShadow": {
-    "color-interpolation-filters": {
-      "initial": "linearRGB",
-      "inherited": false
-    },
     "dx": {
-      "initial": "2",
-      "inherited": false
+      "initial": "2"
     },
     "dy": {
-      "initial": "2",
-      "inherited": false
+      "initial": "2"
     },
     "flood-color": {
       "initial": "black",
@@ -816,6 +810,7 @@
       "initial": "100%",
       "inherited": false
     },
+    "stdDeviation": {"initial": "2"},
     "width": {
       "initial": "100%",
       "inherited": false
@@ -1044,14 +1039,7 @@
     }
   },
   "feMergeNode": {
-    "x": {
-      "initial": "0%",
-      "inherited": false
-    },
-    "y": {
-      "initial": "0%",
-      "inherited": false
-    }
+    "in": {}
   },
   "feMorphology": {
     "color-interpolation-filters": {
@@ -1123,16 +1111,13 @@
   },
   "fePointLight": {
     "x": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
     "y": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
     "z": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     }
   },
   "feSpecularLighting": {
@@ -1178,41 +1163,29 @@
     }
   },
   "feSpotLight": {
-    "color-interpolation-filters": {
-      "initial": "linearRGB",
-      "inherited": false
-    },
     "limitingConeAngle": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
     "pointsAtX": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
     "pointsAtY": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
     "pointsAtZ": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
     "specularExponent": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "x": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
     "y": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
     "z": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     }
   },
   "feTile": {
