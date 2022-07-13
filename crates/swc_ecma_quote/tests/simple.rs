@@ -29,10 +29,19 @@ fn quote_example() {
 }
 
 #[test]
-fn quote_var_type() {
+fn quote_var_type_expr() {
     let _stmt = quote!(
         "const $name = $val;" as Stmt,
         name = Ident::new("ref".into(), DUMMY_SP),
         val: Expr = 4.into(),
+    );
+}
+
+#[test]
+fn quote_var_type_pat() {
+    let _stmt = quote!(
+        "const $name = $val;" as Stmt,
+        name: Pat = Ident::new("ref".into(), DUMMY_SP).into(),
+        val: Ident = Ident::new("val".into(), DUMMY_SP),
     );
 }
