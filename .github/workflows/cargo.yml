@@ -115,7 +115,7 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest
           - crate: swc
             os: windows-latest
           - crate: swc_atoms
