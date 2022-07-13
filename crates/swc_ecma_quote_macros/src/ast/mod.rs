@@ -44,6 +44,8 @@ macro_rules! impl_enum {
     ($E:ident, [ $($v:ident),* ], true) => {
         impl crate::ast::ToCode for $E {
             fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
+
+
                 impl_enum_body!($E, self, cx, [ $($v),* ])
             }
         }
@@ -132,7 +134,11 @@ impl ToCode for Span {
 
 impl_enum!(ModuleItem, [ModuleDecl, Stmt]);
 
-impl_enum!(Pat, [Ident, Array, Rest, Object, Assign, Invalid, Expr]);
+impl_enum!(
+    Pat,
+    [Ident, Array, Rest, Object, Assign, Invalid, Expr],
+    true
+);
 impl_enum!(Lit, [Str, Bool, Null, Num, BigInt, Regex, JSXText]);
 impl_enum!(
     ClassMember,
