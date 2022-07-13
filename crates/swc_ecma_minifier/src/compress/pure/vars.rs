@@ -405,6 +405,8 @@ impl VisitMut for VarMover {
 
         *d = new;
     }
+
+    fn visit_mut_module_decl(&mut self, _: &mut ModuleDecl) {}
 }
 
 pub(super) struct VarPrepender {
@@ -443,4 +445,6 @@ impl VisitMut for VarPrepender {
             v.decls = decls;
         }
     }
+
+    fn visit_mut_module_decl(&mut self, _: &mut ModuleDecl) {}
 }
