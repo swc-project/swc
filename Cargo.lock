@@ -3278,6 +3278,7 @@ dependencies = [
 name = "swc_css_visit"
 version = "0.98.0"
 dependencies = [
+ "serde",
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
@@ -3820,6 +3821,7 @@ name = "swc_ecma_visit"
 version = "0.71.0"
 dependencies = [
  "num-bigint",
+ "serde",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
