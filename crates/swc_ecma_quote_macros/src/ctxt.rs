@@ -4,7 +4,8 @@ use std::cell::RefCell;
 
 use pmutil::q;
 use swc_common::collections::AHashMap;
-use syn::{parse_quote, punctuated::Punctuated, ExprPath, ExprReference, Token};
+use swc_macros_common::call_site;
+use syn::{parse_quote, punctuated::Punctuated, ExprPath, ExprReference, Ident, Token};
 
 use crate::{ast::ToCode, input::QuoteVar};
 
@@ -28,6 +29,7 @@ pub enum VarPos {
 
 #[derive(Debug)]
 pub struct VarData {
+    pos: VarPos,
     is_counting: bool,
 
     /// How many times this variable should be cloned. 0 for variables used only
@@ -119,6 +121,7 @@ pub(super) fn prepare_vars(
         let old = init_map.entry(pos).or_default().insert(
             ident_str.clone(),
             VarData {
+                pos,
                 is_counting: true,
                 clone: Default::default(),
                 ident: var_ident.clone(),
@@ -129,8 +132,16 @@ pub(super) fn prepare_vars(
             panic!("Duplicate variable name: {}", ident_str);
         }
 
+        let type_name = Ident::new(
+            match pos {
+                VarPos::Ident => "Ident",
+                VarPos::Expr => "Expr",
+                VarPos::Pat => "Pat",
+            },
+            call_site(),
+        );
         stmts.push(parse_quote! {
-            let #var_ident = #value;
+            let #var_ident: swc_ecma_quote::swc_ecma_ast::#type_name = #value;
         });
     }
 
