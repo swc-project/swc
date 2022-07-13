@@ -15,21 +15,36 @@ macro_rules! fail_todo {
     };
 }
 
+macro_rules! impl_enum_body {
+    ($E:ident, $s:expr, $cx:expr,[ $($v:ident),* ]) => {
+        match $s {
+            $(
+                $E::$v(inner) => pmutil::q!(
+                    Vars {
+                        val: crate::ast::ToCode::to_code(inner, $cx),
+                    },
+                    { swc_ecma_quote::swc_ecma_ast::$E::$v(val) }
+                )
+                .parse(),
+            )*
+        }
+    };
+}
+
 macro_rules! impl_enum {
     ($E:ident, [ $($v:ident),* ]) => {
         impl crate::ast::ToCode for $E {
             fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
-                match self {
-                    $(
-                        $E::$v(inner) => pmutil::q!(
-                            Vars {
-                                val: crate::ast::ToCode::to_code(inner, cx),
-                            },
-                            { swc_ecma_quote::swc_ecma_ast::$E::$v(val) }
-                        )
-                        .parse(),
-                    )*
-                }
+                impl_enum_body!($E, self, cx, [ $($v),* ])
+            }
+        }
+    };
+
+
+    ($E:ident, [ $($v:ident),* ], true) => {
+        impl crate::ast::ToCode for $E {
+            fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
+                impl_enum_body!($E, self, cx, [ $($v),* ])
             }
         }
     };
