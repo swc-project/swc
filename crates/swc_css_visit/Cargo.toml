@@ -16,10 +16,11 @@ rustdoc-args = ["--cfg", "docsrs"]
 bench = false
 
 [features]
+default = ["serde"]
 path = []
 
 [dependencies]
-serde = "1"
+serde = {version = "1", optional = true}
 swc_atoms = {version = "0.2.7", path = "../swc_atoms"}
 swc_common = {version = "0.24.0", path = "../swc_common"}
 swc_css_ast = {version = "0.99.0", path = "../swc_css_ast"}
