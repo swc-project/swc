@@ -1645,6 +1645,67 @@ let x = 4";
     }
 
     #[test]
+    #[should_panic(expected = "Expected 'from', got ','")]
+    fn issue_4369_1() {
+        test_parser(
+            r#"export * as foo, { bar } from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: false,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    fn issue_4369_2() {
+        test_parser(
+            r#"export foo, * as bar, { baz } from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    fn issue_4369_3() {
+        test_parser(
+            r#"export foo, * as bar from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    fn issue_4369_4() {
+        test_parser(
+            r#"export * as bar, { baz } from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    fn issue_4369_5() {
+        test_parser(
+            r#"export foo, { baz } from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
     fn issue_257_var() {
         test_parser(
             "
