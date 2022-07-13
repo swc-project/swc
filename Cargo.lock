@@ -4029,6 +4029,7 @@ dependencies = [
 name = "swc_html_visit"
 version = "0.18.0"
 dependencies = [
+ "serde",
  "swc_atoms",
  "swc_common",
  "swc_html_ast",
