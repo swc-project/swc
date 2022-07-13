@@ -3276,7 +3276,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.98.0"
+version = "0.98.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3818,7 +3818,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.71.0"
+version = "0.71.1"
 dependencies = [
  "num-bigint",
  "serde",
@@ -4029,7 +4029,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.18.0"
+version = "0.18.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4195,7 +4195,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "Inflector",
  "pmutil",
