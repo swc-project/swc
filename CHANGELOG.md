@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(quote)** Support different types for variables (#5194) ([c91abb2](https://github.com/swc-project/swc/commit/c91abb2ca75ff98e8fad7a4740b6feccec62cd54))
+
+### Testing
+
+
+
+- **(plugin)** Setup e2e fixture testing for plugins (#5192) ([2fa51ec](https://github.com/swc-project/swc/commit/2fa51ecd7819b460837467d2a9093730671dd3fc))
+
+## [1.2.213] - 2022-07-13
+
 ### Bug Fixes
 
 
@@ -9,6 +23,9 @@
 
 
 - **(css/parser)** Avoid skipping whitespaces if not required (#5181) ([7b28521](https://github.com/swc-project/swc/commit/7b28521d72776a33f5d51c8ac9fdc674268fa418))
+
+
+- **(es/minifier)** Don't merge exported declarations (#5193) ([16ece4d](https://github.com/swc-project/swc/commit/16ece4dce0acdbb0e368b085dc1fcbeec3017789))
 
 
 - **(html/codegen)** Fix source map generation (#5184) ([60ca553](https://github.com/swc-project/swc/commit/60ca5538f9c658a5f9bb7b9dd83d1795ed18bde3))
@@ -27,6 +44,9 @@
 
 
 - **(visit)** Improve API (#5185) ([4744d43](https://github.com/swc-project/swc/commit/4744d438a9cf44d59dc899ea054ae5e65f6490c8))
+
+
+- **(visit)** Implement serde for `AstParentKind` (#5191) ([d1418ee](https://github.com/swc-project/swc/commit/d1418ee977428597b3f9833b8cee6ca434186ae4))
 
 ### Testing
 
