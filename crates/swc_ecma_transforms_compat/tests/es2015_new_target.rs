@@ -1,7 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use serde::Deserialize;
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::pass::noop;
 use swc_ecma_transforms_compat::{
@@ -80,7 +80,7 @@ fn fixture(input: PathBuf) {
                     }
 
                     "transform-arrow-functions" => {
-                        pass = Box::new(chain!(pass, arrow()));
+                        pass = Box::new(chain!(pass, arrow(Mark::new())));
                     }
 
                     _ => {

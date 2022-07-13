@@ -28,7 +28,7 @@ fn tr() -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         function_name(),
-        block_scoping()
+        block_scoping(unresolved_mark)
     )
 }
 
@@ -246,7 +246,7 @@ export const y = function y() {};
 test!(
     ignore,
     syntax(),
-    |_| chain!(arrow(), function_name()),
+    |_| chain!(arrow(Mark::new()), function_name()),
     function_name_with_arrow_functions_transform,
     r#"
 const x = () => x;
@@ -381,17 +381,20 @@ var g = function g() {
 test!(
     ignore,
     syntax(),
-    |t| chain!(
-        arrow(),
-        shorthand(),
-        function_name(),
-        common_js(
-            Mark::fresh(Mark::root()),
-            Default::default(),
-            Default::default(),
-            Some(t.comments.clone())
+    |t| {
+        let unresolved_mark = Mark::new();
+        chain!(
+            arrow(unresolved_mark),
+            shorthand(),
+            function_name(),
+            common_js(
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
-    ),
+    },
     function_name_export_default_arrow_renaming,
     r#"
 export default (a) => {
@@ -557,7 +560,7 @@ _f = null;
 test!(
     ignore,
     syntax(),
-    |_| chain!(arrow(), function_name()),
+    |_| chain!(arrow(Mark::new()), function_name()),
     function_name_with_arrow_functions_transform_spec,
     r#"
 // These are actually handled by transform-arrow-functions
@@ -625,7 +628,7 @@ test!(
 test!(
     ignore,
     syntax(),
-    |_| chain!(arrow(), shorthand(), function_name()),
+    |_| chain!(arrow(Mark::new()), shorthand(), function_name()),
     function_name_export_default_arrow_renaming_module_es6,
     r#"
 export default (a) => {

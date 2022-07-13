@@ -1,6 +1,8 @@
+use std::mem;
+
 use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -17,6 +19,7 @@ struct SuperField {
 
 #[derive(Default)]
 pub struct FnEnvHoister {
+    unresolved_ctxt: SyntaxContext,
     this: Option<Ident>,
     args: Option<Ident>,
     new_target: Option<Ident>,
@@ -28,6 +31,24 @@ pub struct FnEnvHoister {
 }
 
 impl FnEnvHoister {
+    pub fn new(unresolved_ctxt: SyntaxContext) -> Self {
+        Self {
+            unresolved_ctxt,
+            ..Default::default()
+        }
+    }
+
+    pub fn take(&mut self) -> Self {
+        let mut new = Self {
+            unresolved_ctxt: self.unresolved_ctxt,
+            ..Default::default()
+        };
+
+        mem::swap(self, &mut new);
+
+        new
+    }
+
     pub fn to_decl(self) -> Vec<VarDeclarator> {
         let Self {
             this,
@@ -188,18 +209,14 @@ impl FnEnvHoister {
     }
 }
 
-impl Take for FnEnvHoister {
-    fn dummy() -> Self {
-        Self::default()
-    }
-}
-
 impl VisitMut for FnEnvHoister {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
-            Expr::Ident(id) if id.sym == js_word!("arguments") => {
+            Expr::Ident(Ident { span, sym, .. })
+                if *sym == js_word!("arguments") && span.ctxt == self.unresolved_ctxt =>
+            {
                 let arguments = self
                     .args
                     .get_or_insert_with(|| private_ident!("_arguments"));

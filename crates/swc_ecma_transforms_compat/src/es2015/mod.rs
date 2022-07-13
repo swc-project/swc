@@ -34,9 +34,9 @@ pub mod template_literal;
 mod typeof_symbol;
 
 #[tracing::instrument(level = "info", skip_all)]
-fn exprs() -> impl Fold {
+fn exprs(unresolved_mark: Mark) -> impl Fold {
     chain!(
-        arrow(),
+        arrow(unresolved_mark),
         duplicate_keys(),
         sticky_regex(),
         instance_of(),
@@ -77,14 +77,14 @@ where
         Optional::new(object_super(), !c.typescript),
         shorthand(),
         function_name(),
-        exprs(),
+        exprs(unresolved_mark),
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(c.parameters, unresolved_mark),
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
-        block_scoping(),
+        block_scoping(unresolved_mark),
         regenerator(c.regenerator, unresolved_mark),
     )
 }
