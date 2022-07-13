@@ -132,6 +132,12 @@ struct Attribute {
     raw_value: Option<String>,
 }
 
+#[derive(PartialEq, Eq, Clone, Debug)]
+struct Comment {
+    data: String,
+    raw: String,
+}
+
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
 // TODO improve `raw` for all tokens (linting + better codegen)
@@ -151,7 +157,7 @@ where
     last_start_tag_name: Option<JsWord>,
     pending_tokens: VecDeque<TokenAndSpan>,
     current_doctype_token: Option<Doctype>,
-    current_comment_token: Option<String>,
+    current_comment_token: Option<Comment>,
     current_tag_token: Option<Tag>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
@@ -756,37 +762,62 @@ where
         }
     }
 
-    fn create_comment_token(&mut self, new_data: Option<String>) {
+    fn create_comment_token(&mut self, new_data: Option<String>, raw_start: &str) {
         let mut data = String::with_capacity(32);
+        let mut raw = String::with_capacity(38);
+
+        raw.push_str(raw_start);
 
         if let Some(new_data) = new_data {
             data.push_str(&new_data);
+            raw.push_str(&new_data);
         };
 
-        self.current_comment_token = Some(data);
+        self.current_comment_token = Some(Comment { data, raw });
     }
 
-    fn append_to_comment_token(&mut self, c: char, _raw_c: Option<char>) {
-        if let Some(current_comment_token) = &mut self.current_comment_token {
-            let mut normalized_c = c;
-            let is_cr = c == '\r';
-
-            if is_cr {
-                normalized_c = '\n';
-
-                if self.input.cur() == Some('\n') {
-                    self.input.bump();
-                }
-            }
-
-            current_comment_token.push(normalized_c);
+    fn append_to_comment_token(&mut self, c: char, raw_c: char) {
+        if let Some(Comment { data, raw }) = &mut self.current_comment_token {
+            data.push(c);
+            raw.push(raw_c);
         }
     }
 
-    fn emit_comment_token(&mut self) {
-        let data = self.current_comment_token.take().unwrap();
+    fn handle_raw_and_append_to_comment_token(&mut self, c: char) {
+        if let Some(Comment { data, raw }) = &mut self.current_comment_token {
+            let is_cr = c == '\r';
 
-        self.emit_token(Token::Comment { data: data.into() });
+            if is_cr {
+                let mut raw_c = String::with_capacity(2);
+
+                raw_c.push(c);
+
+                if self.input.cur() == Some('\n') {
+                    self.input.bump();
+
+                    raw_c.push('\n');
+                }
+
+                data.push('\n');
+                raw.push_str(&raw_c);
+            } else {
+                data.push(c);
+                raw.push(c);
+            }
+        }
+    }
+
+    fn emit_comment_token(&mut self, raw_end: Option<&str>) {
+        let mut comment = self.current_comment_token.take().unwrap();
+
+        if let Some(raw_end) = raw_end {
+            comment.raw.push_str(raw_end);
+        }
+
+        self.emit_token(Token::Comment {
+            data: comment.data.into(),
+            raw: comment.raw.into(),
+        });
     }
 
     fn handle_raw_and_emit_character_token(&mut self, c: char) {
@@ -1035,7 +1066,7 @@ where
                     // bogus comment state.
                     Some('?') => {
                         self.emit_error(ErrorKind::UnexpectedQuestionMarkInsteadOfTagName);
-                        self.create_comment_token(None);
+                        self.create_comment_token(None, "<");
                         self.reconsume_in_state(State::BogusComment);
                     }
                     // EOF
@@ -1093,7 +1124,7 @@ where
                     // comment state.
                     _ => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.create_comment_token(None);
+                        self.create_comment_token(None, "</");
                         self.reconsume_in_state(State::BogusComment);
                     }
                 }
@@ -2517,12 +2548,12 @@ where
                     // Switch to the data state. Emit the current comment token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_comment_token();
+                        self.emit_comment_token(Some(">"));
                     }
                     // EOF
                     // Emit the comment. Emit an end-of-file token.
                     None => {
-                        self.emit_comment_token();
+                        self.emit_comment_token(None);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2532,13 +2563,13 @@ where
                     // REPLACEMENT CHARACTER character to the comment token's data.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_comment_token(REPLACEMENT_CHARACTER, Some(c));
+                        self.append_to_comment_token(REPLACEMENT_CHARACTER, c);
                     }
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_comment_token(c, Some(c));
+                        self.handle_raw_and_append_to_comment_token(c);
                     }
                 }
             }
@@ -2547,7 +2578,7 @@ where
                 let cur_pos = self.input.cur_pos();
                 let anything_else = |lexer: &mut Lexer<I>| {
                     lexer.emit_error(ErrorKind::IncorrectlyOpenedComment);
-                    lexer.create_comment_token(None);
+                    lexer.create_comment_token(None, "<!");
                     lexer.state = State::BogusComment;
                     lexer.cur_pos = cur_pos;
                     // We don't validate input here because we reset position
@@ -2561,7 +2592,7 @@ where
                     // is the empty string, and switch to the comment start state.
                     Some('-') => match self.consume_next_char() {
                         Some('-') => {
-                            self.create_comment_token(None);
+                            self.create_comment_token(None, "<!--");
                             self.state = State::CommentStart;
                         }
                         _ => {
@@ -2646,7 +2677,7 @@ where
                                                         data.push(a2);
                                                         data.push('[');
 
-                                                        self.create_comment_token(Some(data));
+                                                        self.create_comment_token(Some(data), "<!");
                                                         self.state = State::BogusComment;
                                                     }
                                                 }
@@ -2699,7 +2730,7 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptClosingOfEmptyComment);
                         self.state = State::Data;
-                        self.emit_comment_token();
+                        self.emit_comment_token(Some(">"));
                     }
                     // Anything else
                     // Reconsume in the comment state.
@@ -2723,14 +2754,14 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptClosingOfEmptyComment);
                         self.state = State::Data;
-                        self.emit_comment_token();
+                        self.emit_comment_token(Some("->"));
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_comment_token();
+                        self.emit_comment_token(None);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2739,7 +2770,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     // Reconsume in the comment state.
                     _ => {
-                        self.append_to_comment_token('-', None);
+                        self.append_to_comment_token('-', '-');
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -2752,7 +2783,7 @@ where
                     // Append the current input character to the comment token's data. Switch to
                     // the comment less-than sign state.
                     Some(c @ '<') => {
-                        self.append_to_comment_token(c, Some(c));
+                        self.append_to_comment_token(c, c);
                         self.state = State::CommentLessThanSign;
                     }
                     // U+002D HYPHEN-MINUS (-)
@@ -2765,14 +2796,14 @@ where
                     // REPLACEMENT CHARACTER character to the comment token's data.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_comment_token(REPLACEMENT_CHARACTER, Some(c));
+                        self.append_to_comment_token(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_comment_token();
+                        self.emit_comment_token(None);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2781,7 +2812,7 @@ where
                     // Append the current input character to the comment token's data.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_comment_token(c, Some(c));
+                        self.handle_raw_and_append_to_comment_token(c);
                     }
                 }
             }
@@ -2793,13 +2824,13 @@ where
                     // Append the current input character to the comment token's data. Switch to
                     // the comment less-than sign bang state.
                     Some(c @ '!') => {
-                        self.append_to_comment_token(c, Some(c));
+                        self.append_to_comment_token(c, c);
                         self.state = State::CommentLessThanSignBang;
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Append the current input character to the comment token's data.
                     Some(c @ '<') => {
-                        self.append_to_comment_token(c, Some(c));
+                        self.append_to_comment_token(c, c);
                     }
                     // Anything else
                     // Reconsume in the comment state.
@@ -2872,7 +2903,7 @@ where
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_comment_token();
+                        self.emit_comment_token(None);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2881,7 +2912,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     // Reconsume in the comment state.
                     _ => {
-                        self.append_to_comment_token('-', None);
+                        self.append_to_comment_token('-', '-');
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -2894,7 +2925,7 @@ where
                     // Switch to the data state. Emit the current comment token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_comment_token();
+                        self.emit_comment_token(Some("-->"));
                     }
                     // U+0021 EXCLAMATION MARK (!)
                     // Switch to the comment end bang state.
@@ -2904,14 +2935,14 @@ where
                     // U+002D HYPHEN-MINUS (-)
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     Some(c @ '-') => {
-                        self.append_to_comment_token(c, Some(c));
+                        self.append_to_comment_token(c, c);
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_comment_token();
+                        self.emit_comment_token(None);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2920,8 +2951,8 @@ where
                     // Append two U+002D HYPHEN-MINUS characters (-) to the comment token's
                     // data. Reconsume in the comment state.
                     _ => {
-                        self.append_to_comment_token('-', None);
-                        self.append_to_comment_token('-', None);
+                        self.append_to_comment_token('-', '-');
+                        self.append_to_comment_token('-', '-');
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -2935,9 +2966,9 @@ where
                     // MARK character (!) to the comment token's data. Switch to the comment end
                     // dash state.
                     Some(c @ '-') => {
-                        self.append_to_comment_token(c, Some(c));
-                        self.append_to_comment_token('-', None);
-                        self.append_to_comment_token('!', None);
+                        self.append_to_comment_token(c, c);
+                        self.append_to_comment_token('-', '-');
+                        self.append_to_comment_token('!', '!');
                         self.state = State::CommentEndDash;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2946,14 +2977,14 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::IncorrectlyClosedComment);
                         self.state = State::Data;
-                        self.emit_comment_token();
+                        self.emit_comment_token(Some(">"));
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_comment_token();
+                        self.emit_comment_token(None);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2963,9 +2994,9 @@ where
                     // MARK character (!) to the comment token's data. Reconsume in the comment
                     // state.
                     _ => {
-                        self.append_to_comment_token('-', None);
-                        self.append_to_comment_token('-', None);
-                        self.append_to_comment_token('!', None);
+                        self.append_to_comment_token('-', '-');
+                        self.append_to_comment_token('-', '-');
+                        self.append_to_comment_token('!', '!');
                         self.reconsume_in_state(State::Comment);
                     }
                 }

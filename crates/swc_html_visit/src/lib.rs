@@ -78,6 +78,7 @@ define!({
     pub struct Comment {
         pub span: Span,
         pub data: JsWord,
+        pub raw: Option<JsWord>,
     }
 });
 

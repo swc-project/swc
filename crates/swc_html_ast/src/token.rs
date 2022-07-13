@@ -61,6 +61,7 @@ pub enum Token {
     },
     Comment {
         data: JsWord,
+        raw: JsWord,
     },
     Character {
         value: char,

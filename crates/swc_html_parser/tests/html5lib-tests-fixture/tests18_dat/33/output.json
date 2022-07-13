@@ -93,7 +93,8 @@
         "end": 78,
         "ctxt": 0
       },
-      "data": "abc"
+      "data": "abc",
+      "raw": "<!--abc-->"
     }
   ]
 }
