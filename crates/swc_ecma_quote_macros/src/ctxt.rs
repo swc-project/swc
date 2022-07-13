@@ -15,7 +15,7 @@ pub(crate) struct Ctx {
 
 impl Ctx {
     pub fn var(&self, ty: VarPos, var_name: &str) -> Option<&VarData> {
-        self.vars.get(ty)?.get(var_name)
+        self.vars.get(&ty)?.get(var_name)
     }
 }
 
@@ -78,7 +78,7 @@ pub type Vars = AHashMap<String, VarData>;
 pub(super) fn prepare_vars(
     src: &dyn ToCode,
     vars: Punctuated<QuoteVar, Token![,]>,
-) -> (Vec<syn::Stmt>, AHashMap<&'static str, Vars>) {
+) -> (Vec<syn::Stmt>, AHashMap<VarPos, Vars>) {
     let mut stmts = vec![];
     let mut init_map = AHashMap::default();
 
