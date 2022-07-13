@@ -2,39 +2,6 @@
   "*": {
     "xml:space": "default"
   },
-  "svg": {
-    "baseProfile": "none",
-    "clip": "auto",
-    "clip-path": "none",
-    "clip-rule": "nonzero",
-    "color-interpolation": "sRGB",
-    "contentScriptType": "application/ecmascript",
-    "contentStyleType": "text/css",
-    "enable-background": "accumulate",
-    "filter": "none",
-    "height": "auto",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "preserveAspectRatio": "xMidYMid meet",
-    "width": "auto",
-    "x": "0",
-    "xmlns":"http://www.w3.org/2000/svg",
-    "xmlns:xlink": "http://www.w3.org/1999/xlink",
-    "y": "0",
-    "zoomAndPan": "magnify"
-  },
-  "script": {
-    "charset": "utf8",
-    "fetchpriority": "auto",
-    "language": "javascript",
-    "referrerpolicy": "strict-origin-when-cross-origin",
-    "type": "text/javascript",
-    "xlink:type": "simple"
-  },
-  "style": {
-    "type": "text/css",
-    "media": "all"
-  },
   "a": {
     "clip-path": "none",
     "color-interpolation": "sRGB",
@@ -685,6 +652,14 @@
     "x": "0",
     "y": "0"
   },
+  "script": {
+    "charset": "utf8",
+    "fetchpriority": "auto",
+    "language": "javascript",
+    "referrerpolicy": "strict-origin-when-cross-origin",
+    "type": "text/javascript",
+    "xlink:type": "simple"
+  },
   "set": {
     "attributeType": "auto",
     "begin": "0s",
@@ -697,6 +672,34 @@
     "opacity": "1",
     "stop-color": "black",
     "stop-opacity": "1"
+  },
+  "style": {
+    "type": "text/css",
+    "media": "all"
+  },
+  "svg": {
+    "baseProfile": "none",
+    "clip": "auto",
+    "clip-path": "none",
+    "clip-rule": "nonzero",
+    "color-interpolation": "sRGB",
+    "contentScriptType": "application/ecmascript",
+    "contentStyleType": "text/css",
+    "enable-background": "accumulate",
+    "filter": "none",
+    "height": "auto",
+    "opacity": "1",
+    "pointer-events": "visiblePainted",
+    "preserveAspectRatio": "xMidYMid meet",
+    "syncBehavior": "default",
+    "syncMaster": "false",
+    "syncTolerance": "default",
+    "width": "auto",
+    "x": "0",
+    "xmlns":"http://www.w3.org/2000/svg",
+    "xmlns:xlink": "http://www.w3.org/1999/xlink",
+    "y": "0",
+    "zoomAndPan": "magnify"
   },
   "switch": {
     "color-interpolation": "sRGB",
@@ -870,15 +873,19 @@
     "clip-path": "none",
     "color-interpolation": "sRGB",
     "height": "auto",
-    "width": "auto",
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "vector-effect": "none",
+    "syncBehavior": "default",
+    "syncMaster": "false",
+    "syncTolerance": "default",
     "xlink:type": "simple",
+    "width": "auto",
     "x": "0",
     "y": "0"
   },
   "view": {
+    "externalResourcesRequired": "false",
     "preserveAspectRatio": "xMidYMid meet",
     "zoomAndPan": "magnify"
   }
