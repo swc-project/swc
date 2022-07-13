@@ -13,6 +13,12 @@ pub(crate) struct Ctx {
     pub(crate) vars: AHashMap<&'static str, Vars>,
 }
 
+impl Ctx {
+    pub fn var(&self, ty: &'static str, var_name: &str) -> Option<&VarData> {
+        self.vars.get(ty)?.get(var_name)
+    }
+}
+
 #[derive(Debug)]
 pub struct VarData {
     is_counting: bool,
