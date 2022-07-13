@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": "-//WAPFORUM//DTD XHTML Mobile 1.0//EN",
-      "systemId": "http://www.wapforum.org/DTD/xhtml-mobile10.dtd"
+      "systemId": "http://www.wapforum.org/DTD/xhtml-mobile10.dtd",
+      "raw": "<!DOCTYPE html PUBLIC\n  \"-//WAPFORUM//DTD XHTML Mobile 1.0//EN\"\n    \"http://www.wapforum.org/DTD/xhtml-mobile10.dtd\">"
     },
     {
       "type": "Element",

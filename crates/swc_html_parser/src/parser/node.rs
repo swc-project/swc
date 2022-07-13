@@ -24,6 +24,7 @@ pub enum Data {
         name: Option<JsWord>,
         public_id: Option<JsWord>,
         system_id: Option<JsWord>,
+        raw: Option<JsWord>,
     },
     Element {
         namespace: Namespace,

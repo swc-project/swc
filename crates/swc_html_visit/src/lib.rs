@@ -40,6 +40,7 @@ define!({
         pub name: Option<JsWord>,
         pub public_id: Option<JsWord>,
         pub system_id: Option<JsWord>,
+        pub raw: Option<JsWord>,
     }
 
     pub enum Namespace {

@@ -327,6 +327,7 @@ struct DropSpan;
 
 impl VisitMut for DropSpan {
     fn visit_mut_comment(&mut self, n: &mut Comment) {
+    fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
         n.visit_mut_children_with(self);
 
         n.raw = None;

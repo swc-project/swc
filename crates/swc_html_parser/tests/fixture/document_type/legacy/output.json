@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": "about:legacy-compat"
+      "systemId": "about:legacy-compat",
+      "raw": "<!DOCTYPE html SYSTEM \"about:legacy-compat\">"
     },
     {
       "type": "Element",

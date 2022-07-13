@@ -96,15 +96,9 @@ pub enum State {
 
 #[derive(PartialEq, Eq, Clone, Debug)]
 struct Doctype {
-    raw_keyword: Option<String>,
     name: Option<String>,
-    raw_name: Option<String>,
     force_quirks: bool,
-    raw_public_keyword: Option<String>,
-    public_quote: Option<char>,
     public_id: Option<String>,
-    raw_system_keyword: Option<String>,
-    system_quote: Option<char>,
     system_id: Option<String>,
 }
 
@@ -158,12 +152,13 @@ where
     pending_tokens: VecDeque<TokenAndSpan>,
     current_doctype_token: Option<Doctype>,
     current_comment_token: Option<Comment>,
+    doctype_raw: Option<String>,
+    current_comment_token: Option<String>,
     current_tag_token: Option<Tag>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: String,
     is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
-    doctype_keyword: Option<String>,
 }
 
 impl<I> Lexer<I>
@@ -185,6 +180,7 @@ where
             last_start_tag_name: None,
             pending_tokens: VecDeque::new(),
             current_doctype_token: None,
+            doctype_raw: None,
             current_comment_token: None,
             current_tag_token: None,
             attribute_start_position: None,
@@ -192,7 +188,6 @@ where
             // Do this without a new allocation.
             temporary_buffer: String::with_capacity(33),
             is_adjusted_current_node_is_element_in_html_namespace: None,
-            doctype_keyword: None,
         };
 
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
@@ -427,62 +422,60 @@ where
         }
     }
 
-    fn create_doctype_token(&mut self, keyword: Option<String>, name_c: Option<(char, char)>) {
+    fn create_doctype_token(&mut self, name_c: Option<char>) {
         let mut new_name = None;
-        let mut new_raw_name = None;
 
         if let Some(name_c) = name_c {
             let mut name = String::with_capacity(4);
-            let mut raw_name = String::with_capacity(4);
 
-            name.push(name_c.0);
-            raw_name.push(name_c.1);
-
+            name.push(name_c);
             new_name = Some(name);
-            new_raw_name = Some(raw_name);
         }
 
         self.current_doctype_token = Some(Doctype {
-            raw_keyword: keyword,
             name: new_name,
-            raw_name: new_raw_name,
             force_quirks: false,
-            public_quote: None,
-            raw_public_keyword: None,
             public_id: None,
-            system_quote: None,
-            raw_system_keyword: None,
             system_id: None,
         });
     }
 
+    fn append_raw_to_doctype_token(&mut self, c: char) {
+        if let Some(doctype_raw) = &mut self.doctype_raw {
+            let is_cr = c == '\r';
+
+            if is_cr {
+                let mut raw = String::with_capacity(2);
+
+                raw.push(c);
+
+                if self.input.cur() == Some('\n') {
+                    self.input.bump();
+
+                    raw.push('\n');
+                }
+
+                doctype_raw.push_str(&raw);
+            } else {
+                doctype_raw.push(c);
+            }
+        }
+    }
+
     fn append_to_doctype_token(
         &mut self,
-        raw_keyword: Option<String>,
-        name: Option<(char, char)>,
-        public_id: Option<(char, char)>,
-        system_id: Option<(char, char)>,
+        name: Option<char>,
+        public_id: Option<char>,
+        system_id: Option<char>,
     ) {
         if let Some(ref mut token) = self.current_doctype_token {
-            if let Some(raw_keyword) = raw_keyword {
-                if let Doctype {
-                    raw_keyword: Some(old_raw_keyword),
-                    ..
-                } = token
-                {
-                    *old_raw_keyword = raw_keyword;
-                }
-            }
-
             if let Some(name) = name {
                 if let Doctype {
                     name: Some(old_name),
-                    raw_name: Some(old_raw_name),
                     ..
                 } = token
                 {
-                    old_name.push(name.0);
-                    old_raw_name.push(name.1);
+                    old_name.push(name);
                 }
             }
 
@@ -492,7 +485,7 @@ where
                     ..
                 } = token
                 {
-                    old_public_id.push(public_id.0);
+                    old_public_id.push(public_id);
                 }
             }
 
@@ -502,7 +495,7 @@ where
                     ..
                 } = token
                 {
-                    old_system_id.push(system_id.0);
+                    old_system_id.push(system_id);
                 }
             }
         }
@@ -514,46 +507,37 @@ where
         }
     }
 
-    fn set_doctype_token_public_id(&mut self, quote: char) {
-        if let Some(Doctype {
-            public_id,
-            public_quote,
-            ..
-        }) = &mut self.current_doctype_token
-        {
+    fn set_doctype_token_public_id(&mut self) {
+        if let Some(Doctype { public_id, .. }) = &mut self.current_doctype_token {
             // The Longest public id is `-//softquad software//dtd hotmetal pro
             // 6.0::19990601::extensions to html 4.0//`
             *public_id = Some(String::with_capacity(78));
-            *public_quote = Some(quote);
         }
     }
 
-    fn set_doctype_token_system_id(&mut self, quote: char) {
-        if let Some(Doctype {
-            system_id,
-            system_quote,
-            ..
-        }) = &mut self.current_doctype_token
-        {
+    fn set_doctype_token_system_id(&mut self) {
+        if let Some(Doctype { system_id, .. }) = &mut self.current_doctype_token {
             // The Longest system id is `http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`
             *system_id = Some(String::with_capacity(58));
-            *system_quote = Some(quote);
         }
     }
 
     fn emit_doctype_token(&mut self) {
         let current_doctype_token = self.current_doctype_token.take().unwrap();
+
+        let raw = match self.doctype_raw.take() {
+            Some(raw) => raw,
+            _ => {
+                unreachable!();
+            }
+        };
+
         let token = Token::Doctype {
-            raw_keyword: current_doctype_token.raw_keyword.map(JsWord::from),
             name: current_doctype_token.name.map(JsWord::from),
-            raw_name: current_doctype_token.raw_name.map(JsWord::from),
             force_quirks: current_doctype_token.force_quirks,
-            raw_public_keyword: current_doctype_token.raw_public_keyword.map(JsWord::from),
-            public_quote: current_doctype_token.public_quote,
             public_id: current_doctype_token.public_id.map(JsWord::from),
-            raw_system_keyword: current_doctype_token.raw_system_keyword.map(JsWord::from),
-            system_quote: current_doctype_token.system_quote,
             system_id: current_doctype_token.system_id.map(JsWord::from),
+            raw: Some(JsWord::from(raw)),
         };
 
         self.emit_token(token);
@@ -843,7 +827,7 @@ where
                 value: c,
                 raw: Some(String::from(c).into()),
             });
-        };
+        }
     }
 
     #[inline(always)]
@@ -2610,8 +2594,10 @@ where
                                             Some(e @ 'e' | e @ 'E') => {
                                                 self.state = State::Doctype;
 
-                                                let mut raw_keyword = String::with_capacity(7);
+                                                let mut raw_keyword = String::with_capacity(9);
 
+                                                raw_keyword.push('<');
+                                                raw_keyword.push('!');
                                                 raw_keyword.push(d);
                                                 raw_keyword.push(o);
                                                 raw_keyword.push(c);
@@ -2620,7 +2606,7 @@ where
                                                 raw_keyword.push(p);
                                                 raw_keyword.push(e);
 
-                                                self.doctype_keyword = Some(raw_keyword);
+                                                self.doctype_raw = Some(raw_keyword);
                                             }
                                             _ => {
                                                 anything_else(self);
@@ -3011,8 +2997,7 @@ where
                     // U+0020 SPACE
                     // Switch to the before DOCTYPE name state.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
-
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3026,10 +3011,7 @@ where
                     // token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        let doctype_keyword = self.doctype_keyword.take();
-
-                        self.create_doctype_token(doctype_keyword, None);
+                        self.create_doctype_token(None);
                         self.set_force_quirks();
                         self.emit_doctype_token();
                         self.emit_token(Token::Eof);
@@ -3055,19 +3037,15 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                     }
                     // ASCII upper alpha
                     // Create a new DOCTYPE token. Set the token's name to the lowercase version
                     // of the current input character (add 0x0020 to the character's code
                     // point). Switch to the DOCTYPE name state.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        let doctype_keyword = self.doctype_keyword.take();
-
-                        self.create_doctype_token(
-                            doctype_keyword,
-                            Some((c.to_ascii_lowercase(), c)),
-                        );
+                        self.append_raw_to_doctype_token(c);
+                        self.create_doctype_token(Some(c.to_ascii_lowercase()));
                         self.state = State::DoctypeName;
                     }
                     // U+0000 NULL
@@ -3075,23 +3053,19 @@ where
                     // token. Set the token's name to a U+FFFD REPLACEMENT CHARACTER character.
                     // Switch to the DOCTYPE name state.
                     Some(c @ '\x00') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        let doctype_keyword = self.doctype_keyword.take();
-
-                        self.create_doctype_token(
-                            doctype_keyword,
-                            Some((REPLACEMENT_CHARACTER, c)),
-                        );
+                        self.create_doctype_token(Some(REPLACEMENT_CHARACTER));
                         self.state = State::DoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is a missing-doctype-name parse error. Create a new DOCTYPE token.
                     // Set its force-quirks flag to on. Switch to the data state. Emit the
                     // current token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingDoctypeName);
-                        self.create_doctype_token(None, None);
+                        self.create_doctype_token(None);
                         self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_doctype_token();
@@ -3102,7 +3076,7 @@ where
                     // token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-                        self.create_doctype_token(None, None);
+                        self.create_doctype_token(None);
                         self.set_force_quirks();
                         self.emit_doctype_token();
                         self.emit_token(Token::Eof);
@@ -3114,10 +3088,8 @@ where
                     // character. Switch to the DOCTYPE name state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-
-                        let doctype_keyword = self.doctype_keyword.take();
-
-                        self.create_doctype_token(doctype_keyword, Some((c, c)));
+                        self.append_raw_to_doctype_token(c);
+                        self.create_doctype_token(Some(c));
                         self.state = State::DoctypeName;
                     }
                 }
@@ -3132,12 +3104,13 @@ where
                     // U+0020 SPACE
                     // Switch to the after DOCTYPE name state.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
@@ -3145,24 +3118,16 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current DOCTYPE token's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_doctype_token(
-                            None,
-                            Some((c.to_ascii_lowercase(), c)),
-                            None,
-                            None,
-                        );
+                        self.append_raw_to_doctype_token(c);
+                        self.append_to_doctype_token(Some(c.to_ascii_lowercase()), None, None);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's name.
                     Some(c @ '\x00') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(
-                            None,
-                            Some((REPLACEMENT_CHARACTER, c)),
-                            None,
-                            None,
-                        );
+                        self.append_to_doctype_token(Some(REPLACEMENT_CHARACTER), None, None);
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3180,7 +3145,8 @@ where
                     // Append the current input character to the current DOCTYPE token's name.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_doctype_token(None, Some((c, c)), None, None);
+                        self.append_raw_to_doctype_token(c);
+                        self.append_to_doctype_token(Some(c), None, None);
                     }
                 }
             }
@@ -3196,11 +3162,12 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
@@ -3248,21 +3215,17 @@ where
                         match &*first_six_chars.to_lowercase() {
                             "public" => {
                                 self.state = State::AfterDoctypePublicKeyword;
-                                self.append_to_doctype_token(
-                                    Some(first_six_chars),
-                                    None,
-                                    None,
-                                    None,
-                                );
+
+                                if let Some(doctype_raw) = &mut self.doctype_raw {
+                                    doctype_raw.push_str(&first_six_chars);
+                                }
                             }
                             "system" => {
                                 self.state = State::AfterDoctypeSystemKeyword;
-                                self.append_to_doctype_token(
-                                    Some(first_six_chars),
-                                    None,
-                                    None,
-                                    None,
-                                );
+
+                                if let Some(doctype_raw) = &mut self.doctype_raw {
+                                    doctype_raw.push_str(&first_six_chars);
+                                }
                             }
                             _ => {
                                 self.cur_pos = cur_pos;
@@ -3287,7 +3250,7 @@ where
                     // U+0020 SPACE
                     // Switch to the before DOCTYPE public identifier state.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypePublicIdentifier;
                     }
                     // U+0022 QUOTATION MARK (")
@@ -3295,9 +3258,10 @@ where
                     // Set the current DOCTYPE token's public identifier to the empty string
                     // (not missing), then switch to the DOCTYPE public identifier
                     // (double-quoted) state.
-                    Some('"') => {
+                    Some(c @ '"') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
-                        self.set_doctype_token_public_id('"');
+                        self.set_doctype_token_public_id();
                         self.state = State::DoctypePublicIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3305,16 +3269,18 @@ where
                     // Set the current DOCTYPE token's public identifier to the empty string
                     // (not missing), then switch to the DOCTYPE public identifier
                     // (single-quoted) state.
-                    Some('\'') => {
+                    Some(c @ '\'') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
-                        self.set_doctype_token_public_id('\'');
+                        self.set_doctype_token_public_id();
                         self.state = State::DoctypePublicIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is a missing-doctype-public-identifier parse error. Set the current
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3353,29 +3319,32 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                     }
                     // U+0022 QUOTATION MARK (")
                     // Set the current DOCTYPE token's public identifier to the empty string
                     // (not missing), then switch to the DOCTYPE public identifier
                     // (double-quoted) state.
-                    Some('"') => {
-                        self.set_doctype_token_public_id('"');
+                    Some(c @ '"') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.set_doctype_token_public_id();
                         self.state = State::DoctypePublicIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
                     // Set the current DOCTYPE token's public identifier to the empty string
                     // (not missing), then switch to the DOCTYPE public identifier
                     // (single-quoted) state.
-                    Some('\'') => {
-                        self.set_doctype_token_public_id('\'');
+                    Some(c @ '\'') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.set_doctype_token_public_id();
                         self.state = State::DoctypePublicIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is a missing-doctype-public-identifier parse error. Set the current
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3410,7 +3379,8 @@ where
                 match self.consume_next_char() {
                     // U+0022 QUOTATION MARK (")
                     // Switch to the after DOCTYPE public identifier state.
-                    Some('"') => {
+                    Some(c @ '"') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypePublicIdentifier;
                     }
                     // U+0000 NULL
@@ -3418,19 +3388,16 @@ where
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's public
                     // identifier.
                     Some(c @ '\x00') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(
-                            None,
-                            None,
-                            Some((REPLACEMENT_CHARACTER, c)),
-                            None,
-                        );
+                        self.append_to_doctype_token(None, Some(REPLACEMENT_CHARACTER), None);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3453,7 +3420,8 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_doctype_token(None, None, Some((c, c)), None);
+                        self.append_raw_to_doctype_token(c);
+                        self.append_to_doctype_token(None, Some(c), None);
                     }
                 }
             }
@@ -3463,7 +3431,8 @@ where
                 match self.consume_next_char() {
                     // U+0027 APOSTROPHE (')
                     // Switch to the after DOCTYPE public identifier state.
-                    Some('\'') => {
+                    Some(c @ '\'') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypePublicIdentifier;
                     }
                     // U+0000 NULL
@@ -3471,19 +3440,16 @@ where
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's public
                     // identifier.
                     Some(c @ '\x00') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(
-                            None,
-                            None,
-                            Some((REPLACEMENT_CHARACTER, c)),
-                            None,
-                        );
+                        self.append_to_doctype_token(None, Some(REPLACEMENT_CHARACTER), None);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3506,7 +3472,8 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_doctype_token(None, None, Some((c, c)), None);
+                        self.append_raw_to_doctype_token(c);
+                        self.append_to_doctype_token(None, Some(c), None);
                     }
                 }
             }
@@ -3520,12 +3487,13 @@ where
                     // U+0020 SPACE
                     // Switch to the between DOCTYPE public and system identifiers state.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::BetweenDoctypePublicAndSystemIdentifiers;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
@@ -3534,11 +3502,12 @@ where
                     // parse error. Set the current DOCTYPE token's system
                     // identifier to the empty string (not missing), then switch
                     // to the DOCTYPE system identifier (double-quoted) state.
-                    Some('"') => {
+                    Some(c @ '"') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(
                             ErrorKind::MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers,
                         );
-                        self.set_doctype_token_system_id('"');
+                        self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3546,11 +3515,12 @@ where
                     // parse error. Set the current DOCTYPE token's system
                     // identifier to the empty string (not missing), then switch
                     // to the DOCTYPE system identifier (single-quoted) state.
-                    Some('\'') => {
+                    Some(c @ '\'') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(
                             ErrorKind::MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers,
                         );
-                        self.set_doctype_token_system_id('\'');
+                        self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // EOF
@@ -3586,11 +3556,12 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
@@ -3598,16 +3569,18 @@ where
                     // Set the current DOCTYPE token's system identifier to the empty string
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (double-quoted) state.
-                    Some('"') => {
-                        self.set_doctype_token_system_id('"');
+                    Some(c @ '"') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
                     // Set the current DOCTYPE token's system identifier to the empty string
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (single-quoted) state.
-                    Some('\'') => {
-                        self.set_doctype_token_system_id('\'');
+                    Some(c @ '\'') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // EOF
@@ -3643,7 +3616,7 @@ where
                     // U+0020 SPACE
                     // Switch to the before DOCTYPE system identifier state.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypeSystemIdentifier;
                     }
                     // U+0022 QUOTATION MARK (")
@@ -3651,9 +3624,10 @@ where
                     // Set the current DOCTYPE token's system identifier to the empty string
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (double-quoted) state.
-                    Some('"') => {
+                    Some(c @ '"') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
-                        self.set_doctype_token_system_id('"');
+                        self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3661,16 +3635,18 @@ where
                     // Set the current DOCTYPE token's system identifier to the empty string
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (single-quoted) state.
-                    Some('\'') => {
+                    Some(c @ '\'') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
-                        self.set_doctype_token_system_id('\'');
+                        self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is a missing-doctype-system-identifier parse error. Set the current
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3709,29 +3685,32 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                     }
                     // U+0022 QUOTATION MARK (")
                     // Set the current DOCTYPE token's system identifier to the empty string
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (double-quoted) state.
-                    Some('"') => {
-                        self.set_doctype_token_system_id('"');
+                    Some(c @ '"') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
                     // Set the current DOCTYPE token's system identifier to the empty string
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (single-quoted) state.
-                    Some('\'') => {
-                        self.set_doctype_token_system_id('\'');
+                    Some(c @ '\'') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is a missing-doctype-system-identifier parse error. Set the current
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3766,7 +3745,8 @@ where
                 match self.consume_next_char() {
                     // U+0027 APOSTROPHE (')
                     // Switch to the after DOCTYPE system identifier state.
-                    Some('"') => {
+                    Some(c @ '"') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypeSystemIdentifier;
                     }
                     // U+0000 NULL
@@ -3774,19 +3754,16 @@ where
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's system
                     // identifier.
                     Some(c @ '\x00') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(
-                            None,
-                            None,
-                            None,
-                            Some((REPLACEMENT_CHARACTER, c)),
-                        );
+                        self.append_to_doctype_token(None, None, Some(REPLACEMENT_CHARACTER));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3809,7 +3786,8 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_doctype_token(None, None, None, Some((c, c)));
+                        self.append_raw_to_doctype_token(c);
+                        self.append_to_doctype_token(None, None, Some(c));
                     }
                 }
             }
@@ -3819,7 +3797,8 @@ where
                 match self.consume_next_char() {
                     // U+0027 APOSTROPHE (')
                     // Switch to the after DOCTYPE system identifier state.
-                    Some('\'') => {
+                    Some(c @ '\'') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypeSystemIdentifier;
                     }
                     // U+0000 NULL
@@ -3827,19 +3806,16 @@ where
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's system
                     // identifier.
                     Some(c @ '\x00') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(
-                            None,
-                            None,
-                            None,
-                            Some((REPLACEMENT_CHARACTER, c)),
-                        );
+                        self.append_to_doctype_token(None, None, Some(REPLACEMENT_CHARACTER));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3862,7 +3838,8 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_doctype_token(None, None, None, Some((c, c)));
+                        self.append_raw_to_doctype_token(c);
+                        self.append_to_doctype_token(None, None, Some(c));
                     }
                 }
             }
@@ -3876,11 +3853,12 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
@@ -3912,13 +3890,15 @@ where
                 match self.consume_next_char() {
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the DOCTYPE token.
-                    Some('>') => {
+                    Some(c @ '>') => {
+                        self.append_raw_to_doctype_token(c);
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Ignore the character.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
+                        self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                     }
                     // EOF
@@ -3933,6 +3913,7 @@ where
                     // Ignore the character.
                     Some(c) => {
                         self.validate_input_stream_character(c);
+                        self.append_raw_to_doctype_token(c);
                     }
                 }
             }

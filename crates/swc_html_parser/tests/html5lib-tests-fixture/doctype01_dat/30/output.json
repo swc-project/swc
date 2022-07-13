@@ -16,7 +16,8 @@
       },
       "name": "root-element",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE root-element [SYSTEM OR PUBLIC FPI] \"uri\" [ \n<!-- internal declarations -->"
     },
     {
       "type": "Element",

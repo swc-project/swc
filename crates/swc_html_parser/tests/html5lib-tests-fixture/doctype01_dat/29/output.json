@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": "-//W3C//DTD XHTML 1.0 Frameset//EN",
-      "systemId": "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"
+      "systemId": "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd",
+      "raw": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">"
     },
     {
       "type": "Element",

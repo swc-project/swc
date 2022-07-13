@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": "-//W3C//DTD HTML 4.01 Frameset//EN",
-      "systemId": "http://www.w3.org/TR/html4/frameset.dtd"
+      "systemId": "http://www.w3.org/TR/html4/frameset.dtd",
+      "raw": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"\n        \"http://www.w3.org/TR/html4/frameset.dtd\">"
     },
     {
       "type": "Element",

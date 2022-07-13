@@ -385,11 +385,13 @@ where
                 name,
                 public_id,
                 system_id,
+                raw,
             } => Child::DocumentType(DocumentType {
                 span: start_span,
                 name,
                 public_id,
                 system_id,
+                raw,
             }),
             Data::Element {
                 namespace,
@@ -1312,6 +1314,7 @@ where
                         public_id,
                         system_id,
                         force_quirks,
+                        raw,
                         ..
                     } => {
                         let is_html_name = matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"));
@@ -1332,6 +1335,7 @@ where
                                 name: name.clone(),
                                 public_id: public_id.clone(),
                                 system_id: system_id.clone(),
+                                raw: raw.clone(),
                             },
                             token_and_info.span,
                         );

@@ -48,6 +48,7 @@ pub struct DocumentType {
     pub name: Option<JsWord>,
     pub public_id: Option<JsWord>,
     pub system_id: Option<JsWord>,
+    pub raw: Option<JsWord>,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
