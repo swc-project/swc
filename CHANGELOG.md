@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(plugin)** Setup e2e fixture testing for plugins (#5192) ([2fa51ec](https://github.com/swc-project/swc/commit/2fa51ecd7819b460837467d2a9093730671dd3fc))
+
+## [1.2.213] - 2022-07-13
+
 ### Bug Fixes
 
 
