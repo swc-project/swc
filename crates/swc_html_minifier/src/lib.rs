@@ -468,16 +468,23 @@ impl Minifier<'_> {
         &self,
         namespace: Namespace,
         tag_name: &str,
-        attribute_name: &str,
-        attribute_value: &str,
+        attribute: &Attribute,
     ) -> bool {
+        let attribute_value = attribute.value.as_ref().unwrap();
+
         match namespace {
             Namespace::HTML | Namespace::SVG => {
                 // Legacy attributes, not in spec
                 if tag_name == "script" {
-                    match attribute_name {
+                    match &*attribute.name {
                         "type" => {
-                            match &*attribute_value.trim().to_ascii_lowercase() {
+                            let value = if let Some(next) = attribute_value.split(';').next() {
+                                next
+                            } else {
+                                attribute_value
+                            };
+
+                            match value {
                                 // Legacy JavaScript MIME types
                                 "application/javascript"
                                 | "application/ecmascript"
@@ -512,17 +519,37 @@ impl Minifier<'_> {
                     &SVG_DEFAULT_ATTRIBUTES
                 };
 
+                let attribute_name = if let Some(prefix) = &attribute.prefix {
+                    let mut with_namespace =
+                        String::with_capacity(prefix.len() + 1 + attribute.name.len());
+
+                    with_namespace.push_str(prefix);
+                    with_namespace.push(':');
+                    with_namespace.push_str(&attribute.name);
+
+                    with_namespace
+                } else {
+                    attribute.name.to_string()
+                };
+                let normalized_value = attribute_value.trim();
+
+                if let Some(global_attributes) = default_attributes.get("*") {
+                    if let Some(default_value) = global_attributes.0.get(&attribute_name) {
+                        if normalized_value == *default_value {
+                            return true;
+                        }
+                    };
+                }
+
                 let attributes = match default_attributes.get(tag_name) {
                     Some(element) => element,
                     None => return false,
                 };
 
-                let default_value = match attributes.0.get(attribute_name) {
+                let default_value = match attributes.0.get(&attribute_name) {
                     Some(default_value) => default_value,
                     None => return false,
                 };
-
-                let normalized_value = attribute_value.trim();
 
                 normalized_value == *default_value
             }
@@ -531,7 +558,7 @@ impl Minifier<'_> {
                     (
                         namespace,
                         tag_name,
-                        attribute_name,
+                        &*attribute.name,
                         attribute_value.to_ascii_lowercase().trim()
                     ),
                     |(Namespace::MATHML, "math", "xmlns", "http://www.w3.org/1998/math/mathml")| (
@@ -1866,23 +1893,7 @@ impl VisitMut for Minifier<'_> {
             }
 
             if self.options.remove_redundant_attributes
-                && self.is_default_attribute_value(
-                    n.namespace,
-                    &n.tag_name,
-                    &attribute.name,
-                    match &*n.tag_name {
-                        "script" if matches!(n.namespace, Namespace::HTML | Namespace::SVG) => {
-                            let original_value = attribute.value.as_ref().unwrap();
-
-                            if let Some(next) = original_value.split(';').next() {
-                                next
-                            } else {
-                                original_value
-                            }
-                        }
-                        _ => attribute.value.as_ref().unwrap(),
-                    },
-                )
+                && self.is_default_attribute_value(n.namespace, &n.tag_name, attribute)
             {
                 return false;
             }

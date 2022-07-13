@@ -1,4 +1,7 @@
 {
+  "*": {
+    "xml:space": "default"
+  },
   "svg": {
     "baseProfile": "none",
     "clip": "auto",
@@ -16,7 +19,7 @@
     "width": "auto",
     "x": "0",
     "xmlns":"http://www.w3.org/2000/svg",
-    "xlink": "http://www.w3.org/1999/xlink",
+    "xmlns:xlink": "http://www.w3.org/1999/xlink",
     "y": "0",
     "zoomAndPan": "magnify"
   },
@@ -25,7 +28,8 @@
     "fetchpriority": "auto",
     "language": "javascript",
     "referrerpolicy": "strict-origin-when-cross-origin",
-    "type": "text/javascript"
+    "type": "text/javascript",
+    "xlink:type": "simple"
   },
   "style": {
     "type": "text/css",
@@ -37,7 +41,9 @@
     "enable-background": "accumulate",
     "opacity": "1",
     "pointer-events": "visiblePainted",
-    "target": "_self"
+    "target": "_self",
+    "xlink:show": "replace",
+    "xlink:type": "simple"
   },
   "altGlyph": {
     "alignment-baseline": "auto",
@@ -69,7 +75,8 @@
     "text-anchor": "start",
     "unicode-bidi": "none",
     "word-spacing": "normal",
-    "writing-mode": "horizontal-tb"
+    "writing-mode": "horizontal-tb",
+    "xlink:type": "simple"
   },
   "animate": {
     "accumulate": "none",
@@ -83,7 +90,8 @@
     "min": "0",
     "opacity": "1",
     "restart": "always",
-    "rotate": "0"
+    "rotate": "0",
+    "xlink:type": "simple"
   },
   "animateColor": {
     "accumulate": "none",
@@ -96,7 +104,8 @@
     "fill": "remove",
     "min": "0",
     "opacity": "1",
-    "restart": "always"
+    "restart": "always",
+    "xlink:type": "simple"
   },
   "animateMotion": {
     "additive": "replace",
@@ -108,7 +117,8 @@
     "min": "0",
     "origin": "default",
     "restart": "always",
-    "rotate": "0"
+    "rotate": "0",
+    "xlink:type": "simple"
   },
   "animateTransform": {
     "accumulate": "none",
@@ -120,7 +130,11 @@
     "fill": "remove",
     "min": "0",
     "restart": "always",
-    "type": "translate"
+    "type": "translate",
+    "xlink:type": "simple"
+  },
+  "cursor": {
+    "xlink:type": "simple"
   },
   "circle": {
     "clip-path": "none",
@@ -329,6 +343,7 @@
     "width": "100%",
     "opacity": "1",
     "preserveAspectRatio": "xMidYMid meet",
+    "xlink:type": "simple",
     "x": "0%",
     "y": "0%"
   },
@@ -418,6 +433,7 @@
     "opacity": "1",
     "primitiveUnits": "userSpaceOnUse",
     "width": "120%",
+    "xlink:type": "simple",
     "x": "-10%",
     "y": "-10%"
   },
@@ -430,6 +446,9 @@
     "panose-1": "0 0 0 0 0 0 0 0 0 0",
     "slope": "0",
     "units-per-em": "1000"
+  },
+  "font-face-uri": {
+    "xlink:type": "simple"
   },
   "foreignObject":  {
     "clip": "auto",
@@ -459,7 +478,8 @@
   "glyphRef": {
     "dx": "0",
     "dy": "0",
-    "opacity": "1"
+    "opacity": "1",
+    "xlink:type": "simple"
   },
   "image":  {
     "clip": "auto",
@@ -472,6 +492,7 @@
     "pointer-events": "visiblePainted",
     "preserveAspectRatio": "xMidYMid meet",
     "vector-effect": "none",
+    "xlink:type": "simple",
     "x": "0",
     "y": "0"
   },
@@ -502,6 +523,7 @@
     "gradientUnits": "objectBoundingBox",
     "opacity": "1",
     "spreadMethod": "pad",
+    "xlink:type": "simple",
     "x1": "0%",
     "x2": "100%",
     "y1": "0%",
@@ -540,6 +562,9 @@
     "enable-background": "accumulate",
     "opacity": "1"
   },
+  "mpath": {
+    "xlink:type": "simple"
+  },
   "path": {
     "clip-path": "none",
     "color-interpolation": "sRGB",
@@ -575,6 +600,7 @@
     "pointer-events": "visiblePainted",
     "preserveAspectRatio": "xMidYMid meet",
     "width": "0",
+    "xlink:type": "simple",
     "x": "0",
     "y": "0"
   },
@@ -631,7 +657,8 @@
     "fr": "0",
     "gradientUnits": "objectBoundingBox",
     "r": "50%",
-    "spreadMethod": "pad"
+    "spreadMethod": "pad",
+    "xlink:type": "simple"
   },
   "rect": {
     "clip-path": "none",
@@ -663,7 +690,8 @@
     "begin": "0s",
     "dur": "indefinite",
     "min": "0",
-    "restart": "always"
+    "restart": "always",
+    "xlink:type": "simple"
   },
   "stop": {
     "opacity": "1",
@@ -762,7 +790,8 @@
     "unicode-bidi": "none",
     "vector-effect": "none",
     "word-spacing": "normal",
-    "writing-mode": "horizontal-tb"
+    "writing-mode": "horizontal-tb",
+    "xlink:type": "simple"
   },
   "tref": {
     "alignment-baseline": "auto",
@@ -796,6 +825,7 @@
     "unicode-bidi": "none",
     "word-spacing": "normal",
     "writing-mode": "horizontal-tb",
+    "xlink:type": "simple",
     "x": "0",
     "y": "0"
   },
@@ -844,6 +874,7 @@
     "opacity": "1",
     "pointer-events": "visiblePainted",
     "vector-effect": "none",
+    "xlink:type": "simple",
     "x": "0",
     "y": "0"
   },
