@@ -10,13 +10,20 @@ use crate::{ast::ToCode, input::QuoteVar};
 
 #[derive(Debug)]
 pub(crate) struct Ctx {
-    pub(crate) vars: AHashMap<&'static str, Vars>,
+    pub(crate) vars: AHashMap<VarPos, Vars>,
 }
 
 impl Ctx {
-    pub fn var(&self, ty: &'static str, var_name: &str) -> Option<&VarData> {
+    pub fn var(&self, ty: VarPos, var_name: &str) -> Option<&VarData> {
         self.vars.get(ty)?.get(var_name)
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum VarPos {
+    Ident,
+    Expr,
+    Pat,
 }
 
 #[derive(Debug)]
@@ -71,9 +78,9 @@ pub type Vars = AHashMap<String, VarData>;
 pub(super) fn prepare_vars(
     src: &dyn ToCode,
     vars: Punctuated<QuoteVar, Token![,]>,
-) -> (Vec<syn::Stmt>, Vars) {
+) -> (Vec<syn::Stmt>, AHashMap<&'static str, Vars>) {
     let mut stmts = vec![];
-    let mut init_map = Vars::default();
+    let mut init_map = AHashMap::default();
 
     for var in vars {
         let value = var.value;
@@ -107,7 +114,9 @@ pub(super) fn prepare_vars(
     src.to_code(&cx);
 
     // We are done
-    cx.vars.iter_mut().for_each(|(k, v)| v.is_counting = false);
+    cx.vars
+        .iter_mut()
+        .for_each(|(k, v)| v.iter_mut().for_each(|(_, v)| v.is_counting = false));
 
     (stmts, cx.vars)
 }
