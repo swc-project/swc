@@ -10,9 +10,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -24,7 +28,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "target": {
       "initial": "_self",
@@ -54,19 +58,19 @@
     },
     "dominant-baseline": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "font-size": {
       "initial": "medium",
@@ -156,7 +160,7 @@
     },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "dur": {
       "initial": "indefinite",
@@ -210,7 +214,7 @@
     },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "dur": {
       "initial": "indefinite",
@@ -340,9 +344,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "cx": {
       "initial": "0",
@@ -354,27 +362,27 @@
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "marker-end": {
       "initial": "0",
-      "inherited": false
+      "inherited": true
     },
     "marker-mid": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "marker-start": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -382,11 +390,11 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "r": {
       "initial": "0",
@@ -394,7 +402,7 @@
     },
     "shape-rendering": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
@@ -410,9 +418,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -426,7 +438,7 @@
   "defs": {
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -434,7 +446,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -452,9 +464,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "cx": {
       "initial": "0",
@@ -466,27 +482,27 @@
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "marker-end": {
       "initial": "0",
-      "inherited": false
+      "inherited": true
     },
     "marker-mid": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "marker-start": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -494,11 +510,11 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "rx": {
       "initial": "auto",
@@ -510,7 +526,7 @@
     },
     "shape-rendering": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
@@ -659,7 +675,7 @@
       "inherited": false
     },
     "edgeMode": {
-      "initial": "duplicate",
+      "initial": "none",
       "inherited": false
     },
     "height": {
@@ -951,13 +967,14 @@
       "inherited": false
     },
     "edgeMode": {
-      "initial": "duplicate",
+      "initial": "none",
       "inherited": false
     },
     "height": {
       "initial": "100%",
       "inherited": false
     },
+    "in": {},
     "width": {
       "initial": "100%",
       "inherited": false
@@ -966,6 +983,7 @@
       "initial": "1",
       "inherited": false
     },
+    "result": {},
     "stdDeviation": {
       "initial": "0",
       "inherited": false
@@ -1354,7 +1372,7 @@
     },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "height": {
       "initial": "auto",
@@ -1370,7 +1388,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
@@ -1390,9 +1408,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -1416,9 +1438,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -1456,9 +1482,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "color-profile": {
       "initial": "auto",
@@ -1478,7 +1508,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "preserveAspectRatio": {
       "initial": "xMidYMid meet",
@@ -1506,21 +1536,25 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "marker-end": {
       "initial": "0",
-      "inherited": false
+      "inherited": true
     },
     "marker-mid": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "marker-start": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -1528,15 +1562,15 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "shape-rendering": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
@@ -1562,7 +1596,7 @@
   "linearGradient": {
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "gradientUnits": {
       "initial": "objectBoundingBox",
@@ -1606,9 +1640,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -1636,7 +1674,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "preserveAspectRatio": {
       "initial": "xMidYMid meet",
@@ -1656,9 +1694,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -1686,7 +1728,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "x": {
       "initial": "-10%",
@@ -1700,7 +1742,7 @@
   "missing-glyph": {
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -1722,33 +1764,37 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "marker-end": {
       "initial": "0",
-      "inherited": false
+      "inherited": true
     },
     "marker-mid": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "marker-start": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -1756,15 +1802,15 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "shape-rendering": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
@@ -1780,9 +1826,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -1806,7 +1856,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "preserveAspectRatio": {
       "initial": "xMidYMid meet",
@@ -1834,33 +1884,37 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "marker-end": {
       "initial": "0",
-      "inherited": false
+      "inherited": true
     },
     "marker-mid": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "marker-start": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -1868,15 +1922,15 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "shape-rendering": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
@@ -1888,33 +1942,37 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "marker-end": {
       "initial": "0",
-      "inherited": false
+      "inherited": true
     },
     "marker-mid": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "marker-start": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -1922,15 +1980,15 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "shape-rendering": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
@@ -1940,7 +1998,7 @@
   "radialGradient": {
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -1980,9 +2038,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "height": {
       "initial": "auto",
@@ -1990,15 +2052,15 @@
     },
     "marker-end": {
       "initial": "0",
-      "inherited": false
+      "inherited": true
     },
     "marker-mid": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "marker-start": {
       "initial": "none",
-      "inherited": false
+      "inherited": true
     },
     "opacity": {
       "initial": "1",
@@ -2006,11 +2068,11 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "rx": {
       "initial": "auto",
@@ -2022,7 +2084,7 @@
     },
     "shape-rendering": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
@@ -2132,11 +2194,15 @@
     },
     "clip-rule": {
       "initial": "nonzero",
+      "inherited": true
+    },
+    "clip-rule": {
+      "initial": "nonzero",
       "inherited": false
     },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "contentScriptType": {
       "initial": "application/ecmascript",
@@ -2164,7 +2230,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "preserveAspectRatio": {
       "initial": "xMidYMid meet",
@@ -2210,7 +2276,7 @@
   "switch": {
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -2234,9 +2300,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "enable-background": {
       "initial": "accumulate",
@@ -2248,7 +2318,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "preserveAspectRatio": {
       "initial": "xMidYMid meet",
@@ -2260,9 +2330,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "direction": {
       "initial": "ltr",
@@ -2270,19 +2344,19 @@
     },
     "dominant-baseline": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "font-size": {
       "initial": "medium",
@@ -2334,11 +2408,11 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "text-anchor": {
       "initial": "start",
@@ -2384,7 +2458,7 @@
     },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "direction": {
       "initial": "ltr",
@@ -2392,19 +2466,19 @@
     },
     "dominant-baseline": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "font-size": {
       "initial": "medium",
@@ -2456,11 +2530,11 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "method": {
       "initial": "align",
@@ -2514,19 +2588,19 @@
     },
     "dominant-baseline": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "font-size": {
       "initial": "medium",
@@ -2616,7 +2690,7 @@
     },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "direction": {
       "initial": "ltr",
@@ -2624,19 +2698,19 @@
     },
     "dominant-baseline": {
       "initial": "auto",
-      "inherited": false
+      "inherited": true
     },
     "fill": {
       "initial": "black",
-      "inherited": false
+      "inherited": true
     },
     "fill-opacity": {
       "initial": "1",
-      "inherited": false
+      "inherited": true
     },
     "fill-rule": {
       "initial": "nonzero",
-      "inherited": false
+      "inherited": true
     },
     "font-size": {
       "initial": "medium",
@@ -2688,11 +2762,11 @@
     },
     "paint-order": {
       "initial": "normal",
-      "inherited": false
+      "inherited": true
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "text-anchor": {
       "initial": "start",
@@ -2720,9 +2794,13 @@
       "initial": "none",
       "inherited": false
     },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": true
+    },
     "color-interpolation": {
       "initial": "sRGB",
-      "inherited": false
+      "inherited": true
     },
     "height": {
       "initial": "auto",
@@ -2734,7 +2812,7 @@
     },
     "pointer-events": {
       "initial": "visiblePainted",
-      "inherited": false
+      "inherited": true
     },
     "vector-effect": {
       "initial": "none",
