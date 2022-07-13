@@ -44,7 +44,13 @@ macro_rules! impl_enum {
     ($E:ident, [ $($v:ident),* ], true) => {
         impl crate::ast::ToCode for $E {
             fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
-
+                if let Self::Ident(i) = self {
+                    if let Some(var_name) = i.sym.strip_prefix('$') {
+                        if let Some(var) = cx.vars.get(var_name) {
+                            return var.get_expr();
+                        }
+                    }
+                }
 
                 impl_enum_body!($E, self, cx, [ $($v),* ])
             }
