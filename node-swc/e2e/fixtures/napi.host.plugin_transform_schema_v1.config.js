@@ -1,6 +1,6 @@
 module.exports = {
     napi: {
-        name: "swc_host_transform_schema_v1",
+        name: "swc_host_plugin_transform_schema_v1",
         triples: {
             defaults: true,
             additional: [
