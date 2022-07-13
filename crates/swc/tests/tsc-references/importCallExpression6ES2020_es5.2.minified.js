@@ -1,5 +1,5 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-export var specify, B = function() {
+export var B = function() {
     "use strict";
     function B() {
         _class_call_check(this, B);
