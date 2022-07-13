@@ -18,6 +18,8 @@ pub(super) struct QuoteVar {
     #[allow(unused)]
     pub eq_token: Token![=],
     pub value: syn::Expr,
+    /// Defaults to `swc_ecma_ast::Ident`
+    pub ty: Option<syn::Type>,
 }
 
 impl Parse for QuoteInput {
