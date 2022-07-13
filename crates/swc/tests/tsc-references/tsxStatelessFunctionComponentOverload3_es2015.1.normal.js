@@ -1,3 +1,9 @@
+// @filename: file.tsx
+// @jsx: preserve
+// @module: amd
+// @noLib: true
+// @skipLibCheck: true
+// @libFiles: react.d.ts,lib.d.ts
 import _extends from "@swc/helpers/src/_extends.mjs";
 let obj2;
 // OK

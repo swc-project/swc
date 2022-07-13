@@ -1,10 +1,10 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @Filename: mod1.js
 // error
-/** @typedef {number} Foo */ var Foo = function Foo() {
+/** @typedef {number} Foo */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
 } // should error

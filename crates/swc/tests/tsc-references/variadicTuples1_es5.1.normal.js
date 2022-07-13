@@ -1,3 +1,6 @@
+// @strict: true
+// @declaration: true
+// Variadics in tuple types
 import _to_array from "@swc/helpers/src/_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // Variadics in array literals

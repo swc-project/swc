@@ -1,9 +1,9 @@
-import _extends from "@swc/helpers/src/_extends.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 // @target: es5,es2015
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/39205
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 let trace = [];
 let order = (n)=>trace.push(n);
 // order(0) should evaluate before order(1) because the first element is undefined

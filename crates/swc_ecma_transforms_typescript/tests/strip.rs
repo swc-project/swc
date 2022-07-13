@@ -96,7 +96,7 @@ test!(
                 unresolved_mark
             ),
             destructuring(destructuring::Config { loose: false }),
-            block_scoping(),
+            block_scoping(unresolved_mark),
         )
     },
     fn_len_default_assignment_with_types,
@@ -3252,7 +3252,20 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(tr(), async_to_generator(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        let config = strip::Config {
+            no_empty_export: true,
+            ..Default::default()
+        };
+        chain!(
+            Optional::new(decorators(Default::default()), false,),
+            resolver(unresolved_mark, top_level_mark, true),
+            strip_with_config(config, top_level_mark),
+            async_to_generator(Default::default(), unresolved_mark)
+        )
+    },
     issue_1235_1,
     "
     class Service {

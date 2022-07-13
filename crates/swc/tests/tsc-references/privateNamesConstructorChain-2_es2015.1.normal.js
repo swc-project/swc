@@ -1,8 +1,8 @@
+// @target: es2015
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 var _foo = /*#__PURE__*/ new WeakMap();
-// @target: es2015
 class Parent {
     accessChildProps() {
         var _ref;

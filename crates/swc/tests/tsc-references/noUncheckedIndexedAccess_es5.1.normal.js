@@ -1,3 +1,5 @@
+// @strict: true
+// @noUncheckedIndexedAccess: true
 var NumericEnum1;
 (function(NumericEnum1) {
     NumericEnum1[NumericEnum1["A"] = 0] = "A";

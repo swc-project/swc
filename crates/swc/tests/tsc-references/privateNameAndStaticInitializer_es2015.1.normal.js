@@ -1,6 +1,6 @@
+// @target: esnext, es2022, es2015
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 var _foo = /*#__PURE__*/ new WeakMap(), _prop = /*#__PURE__*/ new WeakMap();
-// @target: esnext, es2022, es2015
 class A {
     constructor(){
         _class_private_field_init(this, _foo, {

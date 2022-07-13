@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: esnext, es2022
 // @declaration: true
 // @declarationMap: true
 // @sourceMap: true
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var a = 1;
 var b = 2;
 var C = function C() {

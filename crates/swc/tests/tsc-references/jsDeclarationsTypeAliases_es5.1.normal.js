@@ -1,3 +1,8 @@
+// @allowJs: true
+// @checkJs: true
+// @outDir: ./out
+// @declaration: true
+// @filename: index.js
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 /**
  * @typedef {string | number | symbol} PropName 
@@ -42,9 +47,4 @@ var LocalThing = function LocalThing() {
     _class_call_check(this, LocalThing);
     this.y = "ok";
 };
-// @allowJs: true
-// @checkJs: true
-// @outDir: ./out
-// @declaration: true
-// @filename: index.js
 export { };

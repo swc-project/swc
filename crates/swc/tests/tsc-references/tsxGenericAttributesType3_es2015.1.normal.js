@@ -1,9 +1,9 @@
-import _extends from "@swc/helpers/src/_extends.mjs";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
+import _extends from "@swc/helpers/src/_extends.mjs";
 const React = require('react');
 class B1 extends React.Component {
     render() {

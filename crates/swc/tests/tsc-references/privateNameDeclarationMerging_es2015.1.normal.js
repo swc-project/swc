@@ -1,6 +1,6 @@
+// @target: es6
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-// @target: es6
 class D {
 }
 var _x = /*#__PURE__*/ new WeakMap();

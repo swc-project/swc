@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // void  operator on string type
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var STRING;
 var STRING1 = [
     "",

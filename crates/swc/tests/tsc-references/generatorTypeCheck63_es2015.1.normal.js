@@ -1,3 +1,6 @@
+// @module: commonjs
+// @target: es6
+// @noImplicitAny: true
 export function strategy(stratName, gen) {
     return function*(state) {
         for (const next of gen(state)){

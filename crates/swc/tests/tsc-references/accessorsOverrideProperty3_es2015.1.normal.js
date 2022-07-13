@@ -1,3 +1,5 @@
+// @target: esnext
+// @useDefineForClassFields: true
 class Lion extends Animal {
     get sound() {
         return this._sound;

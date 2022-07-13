@@ -1,4 +1,3 @@
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -7,7 +6,8 @@ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @filename: source.js
 /**
  * @param {number} len
- */ export function Vec(len) {
+ */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+export function Vec(len) {
     /**
      * @type {number[]}
      */ this.storage = new Array(len);

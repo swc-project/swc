@@ -1,3 +1,4 @@
+// #31995
 class SomeClass {
     method() {
         while(0){}

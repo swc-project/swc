@@ -4,7 +4,7 @@ export class C1 {
 C1.staticProp = 0;
 export function F1() {}
 F1.staticProp = 0;
-export var n, C2 = class {
+export var C2 = class {
 };
 C2.staticProp = 0;
 export let F2 = function() {};

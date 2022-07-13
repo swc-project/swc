@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Generic functions used as arguments for function typed parameters are not used to make inferences from
 // Using function arguments, no errors expected
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var ImmediatelyFix;
 (function(ImmediatelyFix) {
     var C = /*#__PURE__*/ function() {

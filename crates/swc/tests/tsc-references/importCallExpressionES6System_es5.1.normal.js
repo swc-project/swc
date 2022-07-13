@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @module: system
 // @target: es6
 // @filename: 0.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export function foo() {
     return "foo";
 }

@@ -1,2 +1,2 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-/*#__PURE__*/ _jsx("f:image", {});
+/*#__PURE__*/ import { jsx as _jsx } from "react/jsx-runtime";
+_jsx("f:image", {});

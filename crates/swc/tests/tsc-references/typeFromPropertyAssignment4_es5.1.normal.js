@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @Filename: def.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Outer = {};
 // @Filename: a.js
 Outer.Inner = function _class() {

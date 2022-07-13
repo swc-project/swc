@@ -1,3 +1,4 @@
+// @declaration: true
 let hello;
 let world;
 let helloOrWorld;

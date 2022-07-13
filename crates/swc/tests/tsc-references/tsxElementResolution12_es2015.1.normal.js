@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: preserve
 import _extends from "@swc/helpers/src/_extends.mjs";
 var Obj1;
 /*#__PURE__*/ React.createElement(Obj1, {

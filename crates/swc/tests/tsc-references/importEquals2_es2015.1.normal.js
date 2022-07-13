@@ -1,7 +1,7 @@
-// @Filename: /b.ts
-import * as a from './a';
 // @esModuleInterop: true
 // @Filename: /a.ts
+// @Filename: /b.ts
+import * as a from './a';
 class A {
 }
 // @Filename: /c.ts

@@ -1,5 +1,5 @@
-var // operands of an enum type are treated as having the primitive type Number.
-E;
+// operands of an enum type are treated as having the primitive type Number.
+var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";

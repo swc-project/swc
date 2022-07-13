@@ -1,3 +1,4 @@
+// Repro from #25559
 call(function(x, y) {
     return x + y;
 });

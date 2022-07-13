@@ -1,3 +1,5 @@
+// @strict: true
+// Repros from #23800
 let a = {
     a: 0
 };

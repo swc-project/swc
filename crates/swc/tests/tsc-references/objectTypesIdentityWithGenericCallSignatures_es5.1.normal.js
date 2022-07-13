@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // object types are identical structurally
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {

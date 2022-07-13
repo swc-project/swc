@@ -1,3 +1,4 @@
+// @target: es2015
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
@@ -6,7 +7,6 @@ import _extends from "@swc/helpers/src/_extends.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import _class_private_field_destructure from "@swc/helpers/src/_class_private_field_destructure.mjs";
 var _value = /*#__PURE__*/ new WeakMap(), _valueRest = /*#__PURE__*/ new WeakMap(), _valueOne = /*#__PURE__*/ new WeakMap(), _valueCompound = /*#__PURE__*/ new WeakMap();
-// @target: es2015
 var Test = /*#__PURE__*/ function() {
     "use strict";
     function Test() {

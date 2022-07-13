@@ -1,3 +1,5 @@
+// @target: esnext
+// @useDefineForClassFields: false
 class Sizz extends Mup {
     // ok, because Mup is an interface
     get size() {

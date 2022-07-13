@@ -1,3 +1,4 @@
+// @strictNullChecks: true
 function f1(obj) {
     if (isX(obj) || isY(obj) || isZ(obj)) {
         obj;

@@ -1,3 +1,7 @@
+// @preserveValueImports: true
+// @isolatedModules: true,false
+// @module: esnext
+// @Filename: a.ts
 import { A } from "./a";
 // @Filename: e.ts
 import { BB } from "./d";

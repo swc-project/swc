@@ -1,6 +1,6 @@
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 // @strict: true
 // @declaration: true
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 function f1(a) {
     return _object_spread({}, a); // Error
 }

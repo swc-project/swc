@@ -1,10 +1,10 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 // The resulting type an array literal expression is determined as follows:
 // If the array literal is empty, the resulting type is an array type with the element type Undefined.
 // Otherwise, if the array literal is contextually typed by a type that has a property with the numeric name ‘0’, the resulting type is a tuple type constructed from the types of the element expressions.
 // Otherwise, the resulting type is an array type with an element type that is the union of the types of the element expressions.
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var arr1 = [
     1,
     2

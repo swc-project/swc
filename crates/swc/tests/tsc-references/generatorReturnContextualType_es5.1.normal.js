@@ -1,9 +1,9 @@
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(f1);
 // @target: esnext
 // @strict: true
 // #35995
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = regeneratorRuntime.mark(f1);
 function f1() {
     return regeneratorRuntime.wrap(function f1$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

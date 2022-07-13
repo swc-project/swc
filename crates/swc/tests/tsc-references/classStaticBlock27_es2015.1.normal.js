@@ -1,5 +1,5 @@
-var _Foo, __, __1, __2;
 // https://github.com/microsoft/TypeScript/issues/44872
+var _Foo, __, __1, __2;
 void (_Foo = class Foo {
 }, _Foo.prop = 1, __ = {
     writable: true,

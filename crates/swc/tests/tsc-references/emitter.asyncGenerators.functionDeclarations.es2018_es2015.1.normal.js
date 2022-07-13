@@ -1,3 +1,6 @@
+// @target: es2018
+// @lib: esnext
+// @filename: F1.ts
 import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
@@ -6,10 +9,7 @@ function f1() {
     return _f1.apply(this, arguments);
 }
 function _f1() {
-    _f1 = // @target: es2018
-    // @lib: esnext
-    // @filename: F1.ts
-    _wrap_async_generator(function*() {});
+    _f1 = _wrap_async_generator(function*() {});
     return _f1.apply(this, arguments);
 }
 function f2() {

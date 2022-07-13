@@ -1,7 +1,7 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _throw from "@swc/helpers/src/_throw.mjs";
 // @target: es5
 // @downlevelIteration: true
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _throw from "@swc/helpers/src/_throw.mjs";
 (function() {
     var f = function f() {
         var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref1 = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref2 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = ref2.p, ref3 = tmp === void 0 ? a : tmp, ref3 = ref3 !== null ? ref3 : _throw(new TypeError("Cannot destructure undefined"));

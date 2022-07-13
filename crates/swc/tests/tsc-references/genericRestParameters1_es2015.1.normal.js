@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 f1 = f2;
 f2 = f1;
 f1(42, "hello", true);

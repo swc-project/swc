@@ -1,3 +1,5 @@
+// @target: ES5
+// @lib: es5,es2015.promise
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 function f0() {
     return _f0.apply(this, arguments);

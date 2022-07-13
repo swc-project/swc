@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // none of these should work, since non are actually modules
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var V = 12;
 var C = function C() {
     "use strict";

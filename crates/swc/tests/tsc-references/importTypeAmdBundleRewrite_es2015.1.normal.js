@@ -1,3 +1,7 @@
+// @declaration: true
+// @module: amd
+// @outFile: bundle.js
+// @filename: a/b/c.ts
 // @filename: a/inner.ts
 const c = {
     x: 12

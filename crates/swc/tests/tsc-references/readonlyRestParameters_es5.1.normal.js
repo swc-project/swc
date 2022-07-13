@@ -1,6 +1,6 @@
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // @strict: true
 // @declaration: true
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function f0(a, b) {
     f0(a, b);
     f1(a, b);

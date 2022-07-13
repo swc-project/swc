@@ -4,17 +4,32 @@ use std::cell::RefCell;
 
 use pmutil::q;
 use swc_common::collections::AHashMap;
-use syn::{parse_quote, punctuated::Punctuated, ExprPath, ExprReference, Token};
+use swc_macros_common::call_site;
+use syn::{parse_quote, punctuated::Punctuated, ExprPath, ExprReference, Ident, Token};
 
 use crate::{ast::ToCode, input::QuoteVar};
 
 #[derive(Debug)]
 pub(crate) struct Ctx {
-    pub(crate) vars: Vars,
+    pub(crate) vars: AHashMap<VarPos, Vars>,
+}
+
+impl Ctx {
+    pub fn var(&self, ty: VarPos, var_name: &str) -> Option<&VarData> {
+        self.vars.get(&ty)?.get(var_name)
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum VarPos {
+    Ident,
+    Expr,
+    Pat,
 }
 
 #[derive(Debug)]
 pub struct VarData {
+    pos: VarPos,
     is_counting: bool,
 
     /// How many times this variable should be cloned. 0 for variables used only
@@ -65,9 +80,9 @@ pub type Vars = AHashMap<String, VarData>;
 pub(super) fn prepare_vars(
     src: &dyn ToCode,
     vars: Punctuated<QuoteVar, Token![,]>,
-) -> (Vec<syn::Stmt>, Vars) {
+) -> (Vec<syn::Stmt>, AHashMap<VarPos, Vars>) {
     let mut stmts = vec![];
-    let mut init_map = Vars::default();
+    let mut init_map = AHashMap::<_, Vars>::default();
 
     for var in vars {
         let value = var.value;
@@ -75,11 +90,38 @@ pub(super) fn prepare_vars(
         let ident = var.name.clone();
         let ident_str = ident.to_string();
 
+        let pos = match var.ty {
+            Some(syn::Type::Path(syn::TypePath {
+                qself: None,
+                path:
+                    syn::Path {
+                        leading_colon: None,
+                        segments,
+                    },
+            })) => {
+                let segment = segments.first().unwrap();
+                match segment.ident.to_string().as_str() {
+                    "Ident" => VarPos::Ident,
+                    "Expr" => VarPos::Expr,
+                    "Pat" => VarPos::Pat,
+                    _ => panic!("Invalid type: {}", segment.ident),
+                }
+            }
+            None => VarPos::Ident,
+            _ => {
+                panic!(
+                    "Var type should be one of: Ident, Expr, Pat; got {:?}",
+                    var.ty
+                )
+            }
+        };
+
         let var_ident = syn::Ident::new(&format!("quote_var_{}", ident), ident.span());
 
-        let old = init_map.insert(
+        let old = init_map.entry(pos).or_default().insert(
             ident_str.clone(),
             VarData {
+                pos,
                 is_counting: true,
                 clone: Default::default(),
                 ident: var_ident.clone(),
@@ -90,8 +132,16 @@ pub(super) fn prepare_vars(
             panic!("Duplicate variable name: {}", ident_str);
         }
 
+        let type_name = Ident::new(
+            match pos {
+                VarPos::Ident => "Ident",
+                VarPos::Expr => "Expr",
+                VarPos::Pat => "Pat",
+            },
+            call_site(),
+        );
         stmts.push(parse_quote! {
-            let #var_ident = #value;
+            let #var_ident: swc_ecma_quote::swc_ecma_ast::#type_name = #value;
         });
     }
 
@@ -101,7 +151,9 @@ pub(super) fn prepare_vars(
     src.to_code(&cx);
 
     // We are done
-    cx.vars.iter_mut().for_each(|(k, v)| v.is_counting = false);
+    cx.vars
+        .iter_mut()
+        .for_each(|(k, v)| v.iter_mut().for_each(|(_, v)| v.is_counting = false));
 
     (stmts, cx.vars)
 }

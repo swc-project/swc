@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @Filename: webpackLibNormalModule.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(x) {

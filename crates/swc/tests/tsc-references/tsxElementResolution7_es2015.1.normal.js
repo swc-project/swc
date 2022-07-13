@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: preserve
 var my;
 (function(my) {
     var div;

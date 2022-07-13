@@ -1,3 +1,7 @@
+// @jsx: react
+// @jsxFactory: createElement
+// @jsxFragmentFactory: Fragment
+// @filename: react.d.ts
 // @filename: preacty.tsx
 /**
  * @jsx h

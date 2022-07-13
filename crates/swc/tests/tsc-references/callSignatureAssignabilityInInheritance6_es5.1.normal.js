@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 // checking subtype relations for function types as it relates to contextual signature instantiation
 // same as subtypingWithCallSignatures4 but using class type parameters instead of generic signatures
 // all are errors
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);

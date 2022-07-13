@@ -1,14 +1,14 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _possible_constructor_return from "@swc/helpers/src/_possible_constructor_return.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
 // @outDir: ./out
 // @declaration: true
 // @filename: index.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _possible_constructor_return from "@swc/helpers/src/_possible_constructor_return.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 export var A = function A() {
     "use strict";
     _class_call_check(this, A);

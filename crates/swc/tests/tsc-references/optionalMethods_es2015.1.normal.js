@@ -1,3 +1,5 @@
+// @strictNullChecks: true
+// @declaration: true
 function test1(x) {
     x.a;
     x.b;

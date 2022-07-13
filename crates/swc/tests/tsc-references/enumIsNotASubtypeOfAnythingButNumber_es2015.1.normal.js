@@ -1,5 +1,5 @@
-var // enums are only subtypes of number, any and no other types
-E;
+// enums are only subtypes of number, any and no other types
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
 })(E || (E = {}));

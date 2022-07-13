@@ -1,3 +1,4 @@
+// interfaces that merge must not have members that conflict
 var b;
 var r = b.foo(true); // returns Date
 var c;

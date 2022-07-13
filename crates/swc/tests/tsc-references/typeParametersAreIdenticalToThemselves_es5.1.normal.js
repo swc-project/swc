@@ -1,3 +1,4 @@
+// type parameters from the same declaration are identical to themself
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function foo1(x) {}
 function foo2(x) {}

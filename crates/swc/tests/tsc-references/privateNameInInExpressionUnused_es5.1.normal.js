@@ -1,10 +1,10 @@
+// @strict: true
+// @noUnusedLocals: true
+// @target: esnext, es2022
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 var _brand_check_brand = new WeakSet();
 var _unused = /*#__PURE__*/ new WeakMap(), _brand = /*#__PURE__*/ new WeakMap();
-// @strict: true
-// @noUnusedLocals: true
-// @target: esnext, es2022
 var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {

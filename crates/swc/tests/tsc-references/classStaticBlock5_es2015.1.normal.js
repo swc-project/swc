@@ -1,6 +1,6 @@
+// @target: esnext, es2022, es2015, es5
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-// @target: esnext, es2022, es2015, es5
 class B {
 }
 B.a = 1;

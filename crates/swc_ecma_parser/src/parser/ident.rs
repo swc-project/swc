@@ -132,7 +132,6 @@ impl<I: Tokens> Parser<I> {
             // Spec:
             // It is a Syntax Error if StringValue of IdentifierName is the same String
             // value as the StringValue of any ReservedWord except for yield or await.
-
             match w {
                 Word::Keyword(Keyword::Await) if p.input.syntax().typescript() => {
                     Ok(js_word!("await"))
@@ -147,7 +146,12 @@ impl<I: Tokens> Parser<I> {
                     Ok(js_word!("this"))
                 }
                 Word::Keyword(Keyword::Let) => Ok(js_word!("let")),
-                Word::Ident(ident) => Ok(ident),
+                Word::Ident(ident) => {
+                    if ident == js_word!("arguments") && p.ctx().in_class_field {
+                        p.emit_err(p.input.prev_span(), SyntaxError::ArgumentsInClassField)
+                    }
+                    Ok(ident)
+                }
                 Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
                 Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {

@@ -1,3 +1,9 @@
+// @target: es2015
+// @module: commonjs
+// @esModuleInterop: true
+// @filename: intersectionsAndEmptyObjects.ts
+// Empty object type literals are removed from intersections types
+// that contain other object types
 let x01;
 let x02;
 let x03;
@@ -35,10 +41,4 @@ var myChoicesAndEmpty;
 var unknownChoices;
 var unknownChoicesAndEmpty;
 mock(import('./ex'));
-// @target: es2015
-// @module: commonjs
-// @esModuleInterop: true
-// @filename: intersectionsAndEmptyObjects.ts
-// Empty object type literals are removed from intersections types
-// that contain other object types
 export { };

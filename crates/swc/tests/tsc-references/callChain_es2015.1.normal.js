@@ -1,3 +1,4 @@
+// @strict: true
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12;
 o1 === null || o1 === void 0 ? void 0 : o1();
 o1 === null || o1 === void 0 ? void 0 : o1(1);

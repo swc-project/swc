@@ -249,9 +249,9 @@ pub(super) trait ExprExt {
 
     /// "IsValidSimpleAssignmentTarget" from spec.
     fn is_valid_simple_assignment_target(&self, strict: bool) -> bool {
-        match *self.as_expr() {
-            Expr::Ident(Ident { ref sym, .. }) => {
-                if strict && (sym == "arguments" || sym == "eval") {
+        match self.as_expr() {
+            Expr::Ident(ident) => {
+                if strict && ident.is_reserved_in_strict_bind() {
                     return false;
                 }
                 true
@@ -265,11 +265,9 @@ pub(super) trait ExprExt {
             | Expr::Class(..)
             | Expr::Tpl(..)
             | Expr::TaggedTpl(..) => false,
-            Expr::Paren(ParenExpr { ref expr, .. }) => {
-                expr.is_valid_simple_assignment_target(strict)
-            }
+            Expr::Paren(ParenExpr { expr, .. }) => expr.is_valid_simple_assignment_target(strict),
 
-            Expr::Member(MemberExpr { ref obj, .. }) => match obj.as_ref() {
+            Expr::Member(MemberExpr { obj, .. }) => match obj.as_ref() {
                 Expr::Member(..) => obj.is_valid_simple_assignment_target(strict),
                 Expr::OptChain(..) => false,
                 _ => true,

@@ -1,6 +1,6 @@
+// @target: es2015
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
-// @target: es2015
 const array = [];
 for(let i = 0; i < 10; ++i){
     var _myField, _method, _accessor, _C;

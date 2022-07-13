@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @strict: true
 // From #4260
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var X = /*#__PURE__*/ function() {
     "use strict";
     function X() {

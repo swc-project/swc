@@ -1,3 +1,4 @@
+// @declaration: true
 function getFalsyPrimitive(x) {
     if (x === "string") {
         return "";

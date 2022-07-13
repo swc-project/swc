@@ -1,4 +1,4 @@
-class c1 {
+/** i1 is interface with properties*/ class c1 {
     i1_f1() {}
     i1_nc_f1() {}
     /** c1_f1*/ f1() {}

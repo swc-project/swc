@@ -1,3 +1,4 @@
+// @strict: true
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f1(t1, t2, t3, t4, x) {
     var _t1 = _sliced_to_array(t1, 3), d10 = _t1[0], d11 = _t1[1], d12 = _t1[2]; // string, number

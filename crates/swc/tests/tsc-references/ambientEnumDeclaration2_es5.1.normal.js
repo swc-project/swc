@@ -1,6 +1,6 @@
-var // In ambient enum declarations that specify no const modifier, enum member declarations
+// In ambient enum declarations that specify no const modifier, enum member declarations
 // that omit a value are considered computed members (as opposed to having auto- incremented values assigned).
-E;
+var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";

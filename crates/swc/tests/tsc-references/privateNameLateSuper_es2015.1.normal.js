@@ -1,5 +1,5 @@
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 // @target: es2015
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 class B {
 }
 var _x = /*#__PURE__*/ new WeakMap();

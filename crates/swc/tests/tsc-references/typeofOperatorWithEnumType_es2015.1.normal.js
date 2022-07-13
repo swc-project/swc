@@ -1,6 +1,6 @@
-var // @allowUnusedLabels: true
+// @allowUnusedLabels: true
 // typeof  operator on enum type
-ENUM;
+var ENUM;
 (function(ENUM) {})(ENUM || (ENUM = {}));
 var ENUM1;
 (function(ENUM1) {

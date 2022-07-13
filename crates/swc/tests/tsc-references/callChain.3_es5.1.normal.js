@@ -1,3 +1,4 @@
+// @strict: true
 var ref, ref1, ref2, ref3, ref4;
 var n1 = a === null || a === void 0 ? void 0 : (ref = a.m) === null || ref === void 0 ? void 0 : ref.call(a, {
     x: 12

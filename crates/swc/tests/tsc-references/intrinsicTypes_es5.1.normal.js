@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 function foo1(s, x, y) {
     s = x;
     s = y;

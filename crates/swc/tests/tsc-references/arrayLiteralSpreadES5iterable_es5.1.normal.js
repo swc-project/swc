@@ -1,5 +1,5 @@
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // @downlevelIteration: true
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function f0() {
     var a = [
         1,

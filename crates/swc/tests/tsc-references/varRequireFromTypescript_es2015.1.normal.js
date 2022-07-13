@@ -1,3 +1,8 @@
+// @allowJs: true
+// @checkJs: true
+// @strict: true
+// @noEmit: true
+// @Filename: ex.d.ts
 export class Crunch {
 }
 // @Filename: use.js

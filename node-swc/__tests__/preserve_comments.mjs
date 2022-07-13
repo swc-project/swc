@@ -25,7 +25,7 @@ describe("Should preserve comments", () => {
 
         const {code} = swc.transformFileSync(filename);
 
-        expect(code).toContain("/* input 1 comment 1 */ var tail =")
+        expect(code).toContain("/* input 1 comment 1 */ \"use strict\"")
         expect(code).toContain(`// input 1 comment 2\nvar saysHello =`)
     });
 

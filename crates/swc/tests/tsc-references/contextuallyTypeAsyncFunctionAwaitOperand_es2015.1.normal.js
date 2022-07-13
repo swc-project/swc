@@ -1,3 +1,6 @@
+// @target: esnext
+// @noImplicitAny: true
+// @noEmit: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 function fn1() {
     return _fn1.apply(this, arguments);

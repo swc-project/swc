@@ -1,3 +1,5 @@
+//When used as a contextual type, a union type U has those members that are present in any of 
+// its constituent types, with types that are unions of the respective members in the constituent types. 
 // Let S be the set of types in U that has a property P.
 // If S is not empty, U has a property P of a union type of the types of P from each type in S.
 var i1;

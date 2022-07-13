@@ -1,3 +1,5 @@
+// @strict: true
+// @target: esnext
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(f1);
 function f1() {

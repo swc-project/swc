@@ -1,3 +1,4 @@
+// @strictNullChecks: true
 var result;
 var result2;
 if (!(result instanceof RegExp)) {

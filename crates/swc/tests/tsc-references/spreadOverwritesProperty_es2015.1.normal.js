@@ -1,3 +1,4 @@
+// without strict null checks, none of these should be an error
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 var unused1 = _object_spread({
     b: 1

@@ -1,3 +1,4 @@
+// @jsx: preserve
 // didn't work
 /*#__PURE__*/ React.createElement("div", null, ()=>/*#__PURE__*/ React.createElement("div", {
         text: "wat"

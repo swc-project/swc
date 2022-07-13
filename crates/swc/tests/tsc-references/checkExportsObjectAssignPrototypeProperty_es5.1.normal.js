@@ -1,5 +1,3 @@
-// @filename: validator.ts
-import "./";
 // @allowJs: true
 // @noEmit: true
 // @strict: true
@@ -8,7 +6,9 @@ import "./";
 /**
  * @constructor
  * @param {string} name
- */ function Person(name) {
+ */ // @filename: validator.ts
+import "./";
+function Person(name) {
     this.name = name;
 }
 Person.prototype.describe = function() {

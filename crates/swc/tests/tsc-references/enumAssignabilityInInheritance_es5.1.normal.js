@@ -1,6 +1,6 @@
+// enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var // enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
-E;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
 })(E || (E = {}));

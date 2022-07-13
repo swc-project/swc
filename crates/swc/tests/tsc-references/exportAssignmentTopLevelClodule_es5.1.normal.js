@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @module: amd
 // @Filename: foo_0.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);

@@ -1,3 +1,7 @@
+// @strict: true
+// @exactOptionalPropertyTypes: true
+// @declaration: true
+// Repro from #44438
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 let a1 = _object_spread({
     a: 123

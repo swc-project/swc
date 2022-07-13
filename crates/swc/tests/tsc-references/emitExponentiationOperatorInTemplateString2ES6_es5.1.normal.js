@@ -1,5 +1,5 @@
-import _type_of from "@swc/helpers/src/_type_of.mjs";
 // @target: es6
+import _type_of from "@swc/helpers/src/_type_of.mjs";
 var t1 = 10;
 var t2 = 10;
 var s;

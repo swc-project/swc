@@ -1,3 +1,4 @@
+// Derived type indexer must be subtype of base type indexer
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var B = function B() {
     "use strict";

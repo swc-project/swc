@@ -1,6 +1,6 @@
-var // these operators require their operands to be of type Any, the Number primitive type, or
+// these operators require their operands to be of type Any, the Number primitive type, or
 // an enum type
-E;
+var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";

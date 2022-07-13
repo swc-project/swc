@@ -1,9 +1,9 @@
-import _extends from "@swc/helpers/src/_extends.mjs";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
+import _extends from "@swc/helpers/src/_extends.mjs";
 var React = require("react");
 export default function Component(props) {
     return(// Error: missing property

@@ -1,3 +1,4 @@
+// @strict: true
 ab.kind; // Error
 let a = x;
 // Repro from #31663

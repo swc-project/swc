@@ -1,8 +1,8 @@
+// @filename: a.ts
 // @filename: b.tsx
 // @jsx: react
 // @libFiles: react.d.ts,lib.d.ts
 import * as React from "react";
-// @filename: a.ts
 export const texts = [];
 /**
  @ts-ignore */ texts.push(100);

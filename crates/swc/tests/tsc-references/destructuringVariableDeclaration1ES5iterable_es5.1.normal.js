@@ -1,8 +1,8 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // @downlevelIteration: true
 // The type T associated with a destructuring variable declaration is determined as follows:
 //      If the declaration includes a type annotation, T is that type.
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 var ref = {
     a1: 10,
     a2: "world"

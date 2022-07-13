@@ -1,8 +1,8 @@
-// @filename: t3.ts
-import { I, T } from "./t1";
 // @target: es6
 // @module: commonjs
 // @filename: t1.ts
+// @filename: t3.ts
+import { I, T } from "./t1";
 var v = 1;
 function f() {}
 class C {

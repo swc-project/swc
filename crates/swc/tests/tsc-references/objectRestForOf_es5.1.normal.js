@@ -1,7 +1,7 @@
+// @target: es2015
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-// @target: es2015
 var array;
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {

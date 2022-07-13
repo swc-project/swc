@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @checkJs: true
 // @allowJs: true
 // @Filename: usage.js
 // note that usage is first in the compilation
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 Outer.Inner.Message = function() {};
 var y = new Outer.Inner();
 y.name;

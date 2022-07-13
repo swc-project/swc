@@ -1,5 +1,5 @@
-"use strict";
 ///<AmD-moDulE nAme='NamedModule'/>
+"use strict";
 class Foo {
     x: number;
     constructor(){

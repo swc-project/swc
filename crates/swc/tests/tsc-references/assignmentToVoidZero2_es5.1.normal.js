@@ -1,5 +1,3 @@
-// @filename: importer.js
-import { j, k } from "./assignmentToVoidZero2";
 // @filename: assignmentToVoidZero2.js
 // @declaration: true
 // @module: commonjs
@@ -7,6 +5,8 @@ import { j, k } from "./assignmentToVoidZero2";
 // @checkJs: true
 // @allowJs: true
 // @noImplicitAny: true
+// @filename: importer.js
+import { j, k } from "./assignmentToVoidZero2";
 exports.j = 1;
 exports.k = void 0;
 var o = {};

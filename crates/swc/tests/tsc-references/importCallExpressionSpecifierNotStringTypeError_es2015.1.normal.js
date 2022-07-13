@@ -1,3 +1,6 @@
+// @module: commonjs
+// @target: es6
+// @noImplicitAny: false
 // Error specifier is not assignable to string
 import(getSpecifier());
 var p1 = import(getSpecifier());
