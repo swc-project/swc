@@ -522,7 +522,7 @@ impl Minifier<'_> {
                     None => return false,
                 };
 
-                let normalized_value = attribute_value.trim().to_ascii_lowercase();
+                let normalized_value = attribute_value.trim();
 
                 normalized_value == *default_value
             }
@@ -2020,6 +2020,14 @@ impl VisitMut for Minifier<'_> {
                     Some(minified) => minified,
                     _ => value,
                 };
+            } else if matches!(current_element.namespace, Namespace::HTML | Namespace::SVG)
+                && matches!(
+                    &*current_element.tag_name,
+                    "style" | "link" | "script" | "input"
+                )
+                && &n.name == "type"
+            {
+                value = value.trim().to_ascii_lowercase();
             }
         }
 
