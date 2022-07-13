@@ -11,6 +11,9 @@
 - **(css/parser)** Avoid skipping whitespaces if not required (#5181) ([7b28521](https://github.com/swc-project/swc/commit/7b28521d72776a33f5d51c8ac9fdc674268fa418))
 
 
+- **(es/minifier)** Don't merge exported declarations (#5193) ([16ece4d](https://github.com/swc-project/swc/commit/16ece4dce0acdbb0e368b085dc1fcbeec3017789))
+
+
 - **(html/codegen)** Fix source map generation (#5184) ([60ca553](https://github.com/swc-project/swc/commit/60ca5538f9c658a5f9bb7b9dd83d1795ed18bde3))
 
 
