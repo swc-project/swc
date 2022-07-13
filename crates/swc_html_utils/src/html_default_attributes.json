@@ -1,107 +1,217 @@
 {
   "a": {
-    "referrerpolicy": "strict-origin-when-cross-origin",
-    "target": "_self"
+    "referrerpolicy": {
+      "initial": "strict-origin-when-cross-origin"
+    },
+    "target": {
+      "initial": "_self"
+    }
   },
   "area": {
-    "referrerpolicy": "strict-origin-when-cross-origin",
-    "shape": "rect",
-    "target": "_self"
+    "referrerpolicy": {
+      "initial": "strict-origin-when-cross-origin"
+    },
+    "shape": {
+      "initial": "rect"
+    },
+    "target": {
+      "initial": "_self"
+    }
   },
   "base": {
-    "target": "_self"
+    "target": {
+      "initial": "_self"
+    }
   },
   "br": {
-    "clear": "none"
+    "clear": {
+      "initial": "none"
+    }
   },
   "button": {
-    "type": "submit"
+    "type": {
+      "initial": "submit"
+    }
   },
   "canvas": {
-    "height": "150",
-    "width": "300"
+    "height": {
+      "initial": "150"
+    },
+    "width": {
+      "initial": "300"
+    }
   },
   "col": {
-    "span": "1"
+    "span": {
+      "initial": "1"
+    }
   },
   "colgroup": {
-    "span": "1"
+    "span": {
+      "initial": "1"
+    }
   },
   "form": {
-    "enctype": "application/x-www-form-urlencoded",
-    "method": "get",
-    "target": "_self"
+    "enctype": {
+      "initial": "application/x-www-form-urlencoded"
+    },
+    "method": {
+      "initial": "get"
+    },
+    "target": {
+      "initial": "_self"
+    }
   },
   "hr": {
-    "align": "center",
-    "width": "100%"
+    "align": {
+      "initial": "center"
+    },
+    "width": {
+      "initial": "100%"
+    }
   },
   "html": {
-    "xmlns": "http://www.w3.org/1999/xhtml",
-    "xmlns:xlink": "http://www.w3.org/1999/xlink"
+    "xmlns": {
+      "initial": "http://www.w3.org/1999/xhtml"
+    },
+    "xmlns:xlink": {
+      "initial": "http://www.w3.org/1999/xlink"
+    }
   },
   "iframe": {
-    "fetchpriority": "auto",
-    "frameborder": "1",
-    "height": "150",
-    "loading": "eager",
-    "referrerpolicy": "strict-origin-when-cross-origin",
-    "width": "300"
+    "fetchpriority": {
+      "initial": "auto"
+    },
+    "frameborder": {
+      "initial": "1"
+    },
+    "height": {
+      "initial": "150"
+    },
+    "loading": {
+      "initial": "eager"
+    },
+    "referrerpolicy": {
+      "initial": "strict-origin-when-cross-origin"
+    },
+    "width": {
+      "initial": "300"
+    }
   },
   "img": {
-    "decoding": "auto",
-    "fetchpriority": "auto",
-    "loading": "eager",
-    "referrerpolicy": "strict-origin-when-cross-origin"
+    "decoding": {
+      "initial": "auto"
+    },
+    "fetchpriority": {
+      "initial": "auto"
+    },
+    "loading": {
+      "initial": "eager"
+    },
+    "referrerpolicy": {
+      "initial": "strict-origin-when-cross-origin"
+    }
   },
   "input": {
-    "size": "20",
-    "type": "text"
+    "size": {
+      "initial": "20"
+    },
+    "type": {
+      "initial": "text"
+    }
   },
   "link": {
-    "fetchpriority": "auto",
-    "media": "all",
-    "referrerpolicy": "strict-origin-when-cross-origin",
-    "type": "text/css"
+    "fetchpriority": {
+      "initial": "auto"
+    },
+    "media": {
+      "initial": "all"
+    },
+    "referrerpolicy": {
+      "initial": "strict-origin-when-cross-origin"
+    },
+    "type": {
+      "initial": "text/css"
+    }
   },
   "marquee": {
-    "scrollamount": "6",
-    "scrolldelay": "85"
+    "scrollamount": {
+      "initial": "6"
+    },
+    "scrolldelay": {
+      "initial": "85"
+    }
   },
   "meter": {
-    "min": "0"
+    "min": {
+      "initial": "0"
+    }
   },
   "ol": {
-    "type": "1",
-    "start": "1"
+    "type": {
+      "initial": "1"
+    },
+    "start": {
+      "initial": "1"
+    }
   },
   "progress": {
-    "max": "1"
+    "max": {
+      "initial": "1"
+    }
   },
   "script": {
-    "charset": "utf-8",
-    "fetchpriority": "auto",
-    "language": "javascript",
-    "referrerpolicy": "strict-origin-when-cross-origin",
-    "type": "text/javascript"
+    "charset": {
+      "initial": "utf-8"
+    },
+    "fetchpriority": {
+      "initial": "auto"
+    },
+    "language": {
+      "initial": "javascript"
+    },
+    "referrerpolicy": {
+      "initial": "strict-origin-when-cross-origin"
+    },
+    "type": {
+      "initial": "text/javascript"
+    }
   },
   "style": {
-    "type": "text/css"
+    "type": {
+      "initial": "text/css"
+    }
   },
   "td": {
-    "colspan": "1",
-    "rowspan": "1"
+    "colspan": {
+      "initial": "1"
+    },
+    "rowspan": {
+      "initial": "1"
+    }
   },
   "textarea": {
-    "cols": "20",
-    "rows": "2",
-    "wrap": "sort"
+    "cols": {
+      "initial": "20"
+    },
+    "rows": {
+      "initial": "2"
+    },
+    "wrap": {
+      "initial": "sort"
+    }
   },
   "th": {
-    "colspan": "1",
-    "rowspan": "1"
+    "colspan": {
+      "initial": "1"
+    },
+    "rowspan": {
+      "initial": "1"
+    }
   },
   "track": {
-    "kind": "subtitles"
+    "kind": {
+      "initial": "subtitles"
+    }
   }
 }

@@ -15,7 +15,16 @@ pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
 });
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Element(pub AHashMap<String, String>);
+#[serde(rename_all = "camelCase")]
+pub struct AttributeMetaData {
+    #[serde(default)]
+    pub initial: Option<String>,
+    #[serde(default)]
+    pub inherited: Option<bool>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Element(pub AHashMap<String, AttributeMetaData>);
 
 pub static HTML_DEFAULT_ATTRIBUTES: Lazy<AHashMap<String, Element>> = Lazy::new(|| {
     let default_attributes: AHashMap<String, Element> =

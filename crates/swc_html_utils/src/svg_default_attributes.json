@@ -1,806 +1,2785 @@
 {
   "*": {
-    "xml:space": "default"
+    "xml:space": {
+      "initial": "default",
+      "inherited": false
+    }
   },
   "a": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "target": "_self",
-    "xlink:show": "replace",
-    "xlink:type": "simple"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "target": {
+      "initial": "_self",
+      "inherited": false
+    },
+    "xlink:show": {
+      "initial": "replace",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "altGlyph": {
-    "alignment-baseline": "auto",
-    "baseline-shift": "0",
-    "direction": "ltr",
-    "dominant-baseline": "auto",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "font-size": "medium",
-    "font-size-adjust": "none",
-    "font-stretch": "normal",
-    "font-style": "normal",
-    "font-variant": "normal",
-    "font-weight": "normal",
-    "glyph-orientation-horizontal": "0deg",
-    "glyph-orientation-vertical": "auto",
-    "kerning": "auto",
-    "letter-spacing": "normal",
-    "opacity": "1",
-    "text-anchor": "start",
-    "unicode-bidi": "normal",
-    "word-spacing": "normal",
-    "writing-mode": "horizontal-tb",
-    "xlink:type": "simple"
+    "alignment-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "baseline-shift": {
+      "initial": "0",
+      "inherited": false
+    },
+    "direction": {
+      "initial": "ltr",
+      "inherited": false
+    },
+    "dominant-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "font-size": {
+      "initial": "medium",
+      "inherited": false
+    },
+    "font-size-adjust": {
+      "initial": "none",
+      "inherited": false
+    },
+    "font-stretch": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-style": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-variant": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-weight": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "glyph-orientation-horizontal": {
+      "initial": "0deg",
+      "inherited": false
+    },
+    "glyph-orientation-vertical": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "kerning": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "letter-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "text-anchor": {
+      "initial": "start",
+      "inherited": false
+    },
+    "unicode-bidi": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "word-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "writing-mode": {
+      "initial": "horizontal-tb",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "animate": {
-    "accumulate": "none",
-    "additive": "replace",
-    "attributeType": "auto",
-    "begin": "0s",
-    "calcMode": "linear",
-    "color-interpolation": "sRGB",
-    "dur": "indefinite",
-    "fill": "remove",
-    "min": "0",
-    "opacity": "1",
-    "restart": "always",
-    "rotate": "0",
-    "xlink:type": "simple"
+    "accumulate": {
+      "initial": "none",
+      "inherited": false
+    },
+    "additive": {
+      "initial": "replace",
+      "inherited": false
+    },
+    "attributeType": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "begin": {
+      "initial": "0s",
+      "inherited": false
+    },
+    "calcMode": {
+      "initial": "linear",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "dur": {
+      "initial": "indefinite",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "remove",
+      "inherited": false
+    },
+    "min": {
+      "initial": "0",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "restart": {
+      "initial": "always",
+      "inherited": false
+    },
+    "rotate": {
+      "initial": "0",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "animateColor": {
-    "accumulate": "none",
-    "additive": "replace",
-    "attributeType": "auto",
-    "begin": "0s",
-    "calcMode": "linear",
-    "color-interpolation": "sRGB",
-    "dur": "indefinite",
-    "fill": "remove",
-    "min": "0",
-    "opacity": "1",
-    "restart": "always",
-    "xlink:type": "simple"
+    "accumulate": {
+      "initial": "none",
+      "inherited": false
+    },
+    "additive": {
+      "initial": "replace",
+      "inherited": false
+    },
+    "attributeType": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "begin": {
+      "initial": "0s",
+      "inherited": false
+    },
+    "calcMode": {
+      "initial": "linear",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "dur": {
+      "initial": "indefinite",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "remove",
+      "inherited": false
+    },
+    "min": {
+      "initial": "0",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "restart": {
+      "initial": "always",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "animateMotion": {
-    "additive": "replace",
-    "accumulate": "none",
-    "begin": "0s",
-    "calcMode": "linear",
-    "dur": "indefinite",
-    "fill": "remove",
-    "min": "0",
-    "origin": "default",
-    "restart": "always",
-    "rotate": "0",
-    "xlink:type": "simple"
+    "additive": {
+      "initial": "replace",
+      "inherited": false
+    },
+    "accumulate": {
+      "initial": "none",
+      "inherited": false
+    },
+    "begin": {
+      "initial": "0s",
+      "inherited": false
+    },
+    "calcMode": {
+      "initial": "linear",
+      "inherited": false
+    },
+    "dur": {
+      "initial": "indefinite",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "remove",
+      "inherited": false
+    },
+    "min": {
+      "initial": "0",
+      "inherited": false
+    },
+    "origin": {
+      "initial": "default",
+      "inherited": false
+    },
+    "restart": {
+      "initial": "always",
+      "inherited": false
+    },
+    "rotate": {
+      "initial": "0",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "animateTransform": {
-    "accumulate": "none",
-    "additive": "replace",
-    "attributeType": "auto",
-    "begin": "0s",
-    "calcMode": "linear",
-    "dur": "indefinite",
-    "fill": "remove",
-    "min": "0",
-    "restart": "always",
-    "type": "translate",
-    "xlink:type": "simple"
+    "accumulate": {
+      "initial": "none",
+      "inherited": false
+    },
+    "additive": {
+      "initial": "replace",
+      "inherited": false
+    },
+    "attributeType": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "begin": {
+      "initial": "0s",
+      "inherited": false
+    },
+    "calcMode": {
+      "initial": "linear",
+      "inherited": false
+    },
+    "dur": {
+      "initial": "indefinite",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "remove",
+      "inherited": false
+    },
+    "min": {
+      "initial": "0",
+      "inherited": false
+    },
+    "restart": {
+      "initial": "always",
+      "inherited": false
+    },
+    "type": {
+      "initial": "translate",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "cursor": {
-    "xlink:type": "simple"
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "circle": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "cx": "0",
-    "cy": "0",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "marker-end": "0",
-    "marker-mid": "none",
-    "marker-start": "none",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "r": "0",
-    "shape-rendering": "auto",
-    "vector-effect": "none"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "cx": {
+      "initial": "0",
+      "inherited": false
+    },
+    "cy": {
+      "initial": "0",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "marker-end": {
+      "initial": "0",
+      "inherited": false
+    },
+    "marker-mid": {
+      "initial": "none",
+      "inherited": false
+    },
+    "marker-start": {
+      "initial": "none",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "r": {
+      "initial": "0",
+      "inherited": false
+    },
+    "shape-rendering": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    }
   },
-  "clipPath":  {
-    "clipPathUnits": "userSpaceOnUse",
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "opacity": "1",
-    "pointer-events": "visiblePainted"
+  "clipPath": {
+    "clipPathUnits": {
+      "initial": "userSpaceOnUse",
+      "inherited": false
+    },
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    }
   },
   "defs": {
-    "color-interpolation": "sRGB",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "enable-background": "accumulate"
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    }
   },
   "discard": {
-    "begin": "0s"
+    "begin": {
+      "initial": "0s",
+      "inherited": false
+    }
   },
   "ellipse": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "cx": "0",
-    "cy": "0",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "marker-end": "0",
-    "marker-mid": "none",
-    "marker-start": "none",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "rx": "auto",
-    "ry": "auto",
-    "shape-rendering": "auto",
-    "vector-effect": "none"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "cx": {
+      "initial": "0",
+      "inherited": false
+    },
+    "cy": {
+      "initial": "0",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "marker-end": {
+      "initial": "0",
+      "inherited": false
+    },
+    "marker-mid": {
+      "initial": "none",
+      "inherited": false
+    },
+    "marker-start": {
+      "initial": "none",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "rx": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "ry": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "shape-rendering": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    }
   },
-  "feBlend":  {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "mode": "normal",
-    "width": "100%",
-    "opacity": "1",
-    "x": "0%",
-    "y": "0%"
+  "feBlend": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "mode": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feColorMatrix":  {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "type": "translate",
-    "x": "0%",
-    "y": "0%"
+  "feColorMatrix": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "type": {
+      "initial": "translate",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feComponentTransfer":  {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "x": "0%",
-    "y": "0%"
+  "feComponentTransfer": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
   "feComposite": {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "k1": "0",
-    "k2": "0",
-    "k3": "0",
-    "k4": "0",
-    "opacity": "1",
-    "operator": "over",
-    "width": "100%",
-    "x": "0%",
-    "y": "0%"
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "k1": {
+      "initial": "0",
+      "inherited": false
+    },
+    "k2": {
+      "initial": "0",
+      "inherited": false
+    },
+    "k3": {
+      "initial": "0",
+      "inherited": false
+    },
+    "k4": {
+      "initial": "0",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "operator": {
+      "initial": "over",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feConvolveMatrix":  {
-    "bias": "0",
-    "color-interpolation-filters": "linearRGB",
-    "edgeMode": "duplicate",
-    "height": "100%",
-    "opacity": "1",
-    "order": "3",
-    "preserveAlpha": "false",
-    "width": "100%",
-    "x": "0%",
-    "y": "0%"
+  "feConvolveMatrix": {
+    "bias": {
+      "initial": "0",
+      "inherited": false
+    },
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "edgeMode": {
+      "initial": "duplicate",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "order": {
+      "initial": "3",
+      "inherited": false
+    },
+    "preserveAlpha": {
+      "initial": "false",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feDiffuseLighting":  {
-    "color-interpolation-filters": "linearRGB",
-    "diffuseConstant": "1",
-    "height": "100%",
-    "lighting-color": "white",
-    "width": "100%",
-    "opacity": "1",
-    "surfaceScale": "1",
-    "x": "0%",
-    "y": "0%"
+  "feDiffuseLighting": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "diffuseConstant": {
+      "initial": "1",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "lighting-color": {
+      "initial": "white",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "surfaceScale": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feDisplacementMap":  {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "x": "0%",
-    "y": "0%",
-    "yChannelSelector": "A"
+  "feDisplacementMap": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "yChannelSelector": {
+      "initial": "A",
+      "inherited": false
+    }
   },
   "feDistantLight": {
-    "azimuth": "0",
-    "elevation": "0"
+    "azimuth": {
+      "initial": "0",
+      "inherited": false
+    },
+    "elevation": {
+      "initial": "0",
+      "inherited": false
+    }
   },
-  "feDropShadow":  {
-    "color-interpolation-filters": "linearRGB",
-    "dx": "2",
-    "dy": "2",
-    "flood-color": "black",
-    "flood-opacity": "1",
-    "height": "100%",
-    "width": "100%",
-    "x": "0%",
-    "y": "0%"
+  "feDropShadow": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "dx": {
+      "initial": "2",
+      "inherited": false
+    },
+    "dy": {
+      "initial": "2",
+      "inherited": false
+    },
+    "flood-color": {
+      "initial": "black",
+      "inherited": false
+    },
+    "flood-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feFlood":  {
-    "color-interpolation-filters": "linearRGB",
-    "flood-color": "black",
-    "flood-opacity": "1",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "x": "0%",
-    "y": "0%"
+  "feFlood": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "flood-color": {
+      "initial": "black",
+      "inherited": false
+    },
+    "flood-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
   "feFuncA": {
-    "amplitude": "1",
-    "exponent": "1",
-    "intercept": "0",
-    "type": "translate",
-    "x": "0%",
-    "y": "0%"
+    "amplitude": {
+      "initial": "1",
+      "inherited": false
+    },
+    "exponent": {
+      "initial": "1",
+      "inherited": false
+    },
+    "intercept": {
+      "initial": "0",
+      "inherited": false
+    },
+    "type": {
+      "initial": "translate",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
   "feFuncB": {
-    "amplitude": "1",
-    "exponent": "1",
-    "intercept": "0",
-    "type": "translate",
-    "x": "0%",
-    "y": "0%"
+    "amplitude": {
+      "initial": "1",
+      "inherited": false
+    },
+    "exponent": {
+      "initial": "1",
+      "inherited": false
+    },
+    "intercept": {
+      "initial": "0",
+      "inherited": false
+    },
+    "type": {
+      "initial": "translate",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
   "feFuncG": {
-    "amplitude": "1",
-    "exponent": "1",
-    "intercept": "0",
-    "type": "translate",
-    "x": "0%",
-    "y": "0%"
+    "amplitude": {
+      "initial": "1",
+      "inherited": false
+    },
+    "exponent": {
+      "initial": "1",
+      "inherited": false
+    },
+    "intercept": {
+      "initial": "0",
+      "inherited": false
+    },
+    "type": {
+      "initial": "translate",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
   "feFuncR": {
-    "amplitude": "1",
-    "exponent": "1",
-    "intercept": "0",
-    "type": "translate",
-    "x": "0%",
-    "y": "0%"
+    "amplitude": {
+      "initial": "1",
+      "inherited": false
+    },
+    "exponent": {
+      "initial": "1",
+      "inherited": false
+    },
+    "intercept": {
+      "initial": "0",
+      "inherited": false
+    },
+    "type": {
+      "initial": "translate",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feGaussianBlur":  {
-    "color-interpolation-filters": "linearRGB",
-    "edgeMode": "duplicate",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "stdDeviation": "0",
-    "x": "0%",
-    "y": "0%"
+  "feGaussianBlur": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "edgeMode": {
+      "initial": "duplicate",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "stdDeviation": {
+      "initial": "0",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feImage":  {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "preserveAspectRatio": "xMidYMid meet",
-    "xlink:type": "simple",
-    "x": "0%",
-    "y": "0%"
+  "feImage": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "preserveAspectRatio": {
+      "initial": "xMidYMid meet",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feMerge":  {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "x": "0%",
-    "y": "0%"
+  "feMerge": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
   "feMergeNode": {
-    "x": "0%",
-    "y": "0%"
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
   "feMorphology": {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "opacity": "1",
-    "operator": "erode",
-    "radius": "0",
-    "width": "100%",
-    "x": "0%",
-    "y": "0%"
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "operator": {
+      "initial": "erode",
+      "inherited": false
+    },
+    "radius": {
+      "initial": "0",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feOffset":  {
-    "color-interpolation-filters": "linearRGB",
-    "dx": "0",
-    "dy": "0",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "x": "0%",
-    "y": "0%"
+  "feOffset": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "dx": {
+      "initial": "0",
+      "inherited": false
+    },
+    "dy": {
+      "initial": "0",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "fePointLight":  {
-    "x": "0",
-    "y": "0",
-    "z": "1"
+  "fePointLight": {
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    },
+    "z": {
+      "initial": "1",
+      "inherited": false
+    }
   },
-  "feSpecularLighting":  {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "lighting-color": "white",
-    "opacity": "1",
-    "width": "100%",
-    "specularConstant": "1",
-    "specularExponent": "1",
-    "surfaceScale": "1",
-    "x": "0%",
-    "y": "0%"
+  "feSpecularLighting": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "lighting-color": {
+      "initial": "white",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "specularConstant": {
+      "initial": "1",
+      "inherited": false
+    },
+    "specularExponent": {
+      "initial": "1",
+      "inherited": false
+    },
+    "surfaceScale": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feSpotLight":  {
-    "color-interpolation-filters": "linearRGB",
-    "limitingConeAngle": "0",
-    "pointsAtX": "0",
-    "pointsAtY": "0",
-    "pointsAtZ": "0",
-    "specularExponent": "1",
-    "x": "0",
-    "y": "0",
-    "z": "1"
+  "feSpotLight": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "limitingConeAngle": {
+      "initial": "0",
+      "inherited": false
+    },
+    "pointsAtX": {
+      "initial": "0",
+      "inherited": false
+    },
+    "pointsAtY": {
+      "initial": "0",
+      "inherited": false
+    },
+    "pointsAtZ": {
+      "initial": "0",
+      "inherited": false
+    },
+    "specularExponent": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    },
+    "z": {
+      "initial": "1",
+      "inherited": false
+    }
   },
-  "feTile":  {
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "width": "100%",
-    "opacity": "1",
-    "x": "0%",
-    "y": "0%"
+  "feTile": {
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "feTurbulence":  {
-    "baseFrequency": "0",
-    "color-interpolation-filters": "linearRGB",
-    "height": "100%",
-    "numOctaves": "1",
-    "opacity": "1",
-    "width": "100%",
-    "seed": "0",
-    "stitchTiles": "noStitch",
-    "type": "translate",
-    "x": "0%",
-    "y": "0%"
+  "feTurbulence": {
+    "baseFrequency": {
+      "initial": "0",
+      "inherited": false
+    },
+    "color-interpolation-filters": {
+      "initial": "linearRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "numOctaves": {
+      "initial": "1",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "width": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "seed": {
+      "initial": "0",
+      "inherited": false
+    },
+    "stitchTiles": {
+      "initial": "noStitch",
+      "inherited": false
+    },
+    "type": {
+      "initial": "translate",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
-  "filter":  {
-    "height": "120%",
-    "opacity": "1",
-    "primitiveUnits": "userSpaceOnUse",
-    "width": "120%",
-    "xlink:type": "simple",
-    "x": "-10%",
-    "y": "-10%"
+  "filter": {
+    "height": {
+      "initial": "120%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "primitiveUnits": {
+      "initial": "userSpaceOnUse",
+      "inherited": false
+    },
+    "width": {
+      "initial": "120%",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    },
+    "x": {
+      "initial": "-10%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "-10%",
+      "inherited": false
+    }
   },
-  "font":  {
-    "horiz-origin-x": "0",
-    "opacity": "1"
+  "font": {
+    "horiz-origin-x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    }
   },
   "font-face": {
-    "alphabetic": "0",
-    "panose-1": "0 0 0 0 0 0 0 0 0 0",
-    "slope": "0",
-    "units-per-em": "1000"
+    "alphabetic": {
+      "initial": "0",
+      "inherited": false
+    },
+    "panose-1": {
+      "initial": "0 0 0 0 0 0 0 0 0 0",
+      "inherited": false
+    },
+    "slope": {
+      "initial": "0",
+      "inherited": false
+    },
+    "units-per-em": {
+      "initial": "1000",
+      "inherited": false
+    }
   },
   "font-face-uri": {
-    "xlink:type": "simple"
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
-  "foreignObject":  {
-    "clip": "auto",
-    "color-interpolation": "sRGB",
-    "height": "auto",
-    "width": "auto",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "vector-effect": "none",
-    "x": "0",
-    "y": "0"
+  "foreignObject": {
+    "clip": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "width": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "g": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "opacity": "1",
-    "pointer-events": "visiblePainted"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    }
   },
   "glyph": {
-    "arabic-form": "isolated",
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "opacity": "1"
+    "arabic-form": {
+      "initial": "isolated",
+      "inherited": false
+    },
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    }
   },
   "glyphRef": {
-    "dx": "0",
-    "dy": "0",
-    "opacity": "1",
-    "xlink:type": "simple"
+    "dx": {
+      "initial": "0",
+      "inherited": false
+    },
+    "dy": {
+      "initial": "0",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
-  "image":  {
-    "clip": "auto",
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "color-profile": "auto",
-    "height": "auto",
-    "width": "auto",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "preserveAspectRatio": "xMidYMid meet",
-    "vector-effect": "none",
-    "xlink:type": "simple",
-    "x": "0",
-    "y": "0"
+  "image": {
+    "clip": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "color-profile": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "height": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "width": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "preserveAspectRatio": {
+      "initial": "xMidYMid meet",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "line": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "marker-end": "0",
-    "marker-mid": "none",
-    "marker-start": "none",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "shape-rendering": "auto",
-    "vector-effect": "none",
-    "x1": "0",
-    "x2": "0",
-    "y1": "0",
-    "y2": "0"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "marker-end": {
+      "initial": "0",
+      "inherited": false
+    },
+    "marker-mid": {
+      "initial": "none",
+      "inherited": false
+    },
+    "marker-start": {
+      "initial": "none",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "shape-rendering": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    },
+    "x1": {
+      "initial": "0",
+      "inherited": false
+    },
+    "x2": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y1": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y2": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "linearGradient": {
-    "color-interpolation": "sRGB",
-    "gradientUnits": "objectBoundingBox",
-    "opacity": "1",
-    "spreadMethod": "pad",
-    "xlink:type": "simple",
-    "x1": "0%",
-    "x2": "100%",
-    "y1": "0%",
-    "y2": "0%"
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "gradientUnits": {
+      "initial": "objectBoundingBox",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "spreadMethod": {
+      "initial": "pad",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    },
+    "x1": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "x2": {
+      "initial": "100%",
+      "inherited": false
+    },
+    "y1": {
+      "initial": "0%",
+      "inherited": false
+    },
+    "y2": {
+      "initial": "0%",
+      "inherited": false
+    }
   },
   "marker": {
-    "clip": "auto",
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "markerHeight": "3",
-    "markerUnits": "strokeWidth",
-    "markerWidth": "3",
-    "opacity": "1",
-    "orient": "0",
-    "pointer-events": "visiblePainted",
-    "preserveAspectRatio": "xMidYMid meet",
-    "refX": "0",
-    "refY": "0"
+    "clip": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "markerHeight": {
+      "initial": "3",
+      "inherited": false
+    },
+    "markerUnits": {
+      "initial": "strokeWidth",
+      "inherited": false
+    },
+    "markerWidth": {
+      "initial": "3",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "orient": {
+      "initial": "0",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "preserveAspectRatio": {
+      "initial": "xMidYMid meet",
+      "inherited": false
+    },
+    "refX": {
+      "initial": "0",
+      "inherited": false
+    },
+    "refY": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "mask": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "height": "120%",
-    "maskContentUnits": "userSpaceOnUse",
-    "maskUnits": "objectBoundingBox",
-    "width": "120%",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "x": "-10%",
-    "y": "-10%"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "height": {
+      "initial": "120%",
+      "inherited": false
+    },
+    "maskContentUnits": {
+      "initial": "userSpaceOnUse",
+      "inherited": false
+    },
+    "maskUnits": {
+      "initial": "objectBoundingBox",
+      "inherited": false
+    },
+    "width": {
+      "initial": "120%",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "x": {
+      "initial": "-10%",
+      "inherited": false
+    },
+    "y": {
+      "initial": "-10%",
+      "inherited": false
+    }
   },
   "missing-glyph": {
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "opacity": "1"
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    }
   },
   "mpath": {
-    "xlink:type": "simple"
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "path": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "marker-end": "0",
-    "marker-mid": "none",
-    "marker-start": "none",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "shape-rendering": "auto",
-    "vector-effect": "none"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "marker-end": {
+      "initial": "0",
+      "inherited": false
+    },
+    "marker-mid": {
+      "initial": "none",
+      "inherited": false
+    },
+    "marker-start": {
+      "initial": "none",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "shape-rendering": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    }
   },
   "pattern": {
-    "clip": "auto",
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "height": "0",
-    "opacity": "1",
-    "patternContentUnits": "userSpaceOnUse",
-    "patternUnits": "objectBoundingBox",
-    "pointer-events": "visiblePainted",
-    "preserveAspectRatio": "xMidYMid meet",
-    "width": "0",
-    "xlink:type": "simple",
-    "x": "0",
-    "y": "0"
+    "clip": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "height": {
+      "initial": "0",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "patternContentUnits": {
+      "initial": "userSpaceOnUse",
+      "inherited": false
+    },
+    "patternUnits": {
+      "initial": "objectBoundingBox",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "preserveAspectRatio": {
+      "initial": "xMidYMid meet",
+      "inherited": false
+    },
+    "width": {
+      "initial": "0",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "polygon": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "marker-end": "0",
-    "marker-mid": "none",
-    "marker-start": "none",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "shape-rendering": "auto",
-    "vector-effect": "none"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "marker-end": {
+      "initial": "0",
+      "inherited": false
+    },
+    "marker-mid": {
+      "initial": "none",
+      "inherited": false
+    },
+    "marker-start": {
+      "initial": "none",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "shape-rendering": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    }
   },
   "polyline": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "marker-end": "0",
-    "marker-mid": "none",
-    "marker-start": "none",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "shape-rendering": "auto",
-    "vector-effect": "none"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "marker-end": {
+      "initial": "0",
+      "inherited": false
+    },
+    "marker-mid": {
+      "initial": "none",
+      "inherited": false
+    },
+    "marker-start": {
+      "initial": "none",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "shape-rendering": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    }
   },
   "radialGradient": {
-    "color-interpolation": "sRGB",
-    "opacity": "1",
-    "cx": "50%",
-    "cy": "50%",
-    "fr": "0",
-    "gradientUnits": "objectBoundingBox",
-    "r": "50%",
-    "spreadMethod": "pad",
-    "xlink:type": "simple"
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "cx": {
+      "initial": "50%",
+      "inherited": false
+    },
+    "cy": {
+      "initial": "50%",
+      "inherited": false
+    },
+    "fr": {
+      "initial": "0",
+      "inherited": false
+    },
+    "gradientUnits": {
+      "initial": "objectBoundingBox",
+      "inherited": false
+    },
+    "r": {
+      "initial": "50%",
+      "inherited": false
+    },
+    "spreadMethod": {
+      "initial": "pad",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "rect": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "height": "auto",
-    "marker-end": "0",
-    "marker-mid": "none",
-    "marker-start": "none",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "rx": "auto",
-    "ry": "auto",
-    "shape-rendering": "auto",
-    "vector-effect": "none",
-    "width": "auto",
-    "x": "0",
-    "y": "0"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "marker-end": {
+      "initial": "0",
+      "inherited": false
+    },
+    "marker-mid": {
+      "initial": "none",
+      "inherited": false
+    },
+    "marker-start": {
+      "initial": "none",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "rx": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "ry": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "shape-rendering": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    },
+    "width": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "script": {
-    "charset": "utf8",
-    "fetchpriority": "auto",
-    "language": "javascript",
-    "referrerpolicy": "strict-origin-when-cross-origin",
-    "type": "text/javascript",
-    "xlink:type": "simple"
+    "charset": {
+      "initial": "utf8",
+      "inherited": false
+    },
+    "fetchpriority": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "language": {
+      "initial": "javascript",
+      "inherited": false
+    },
+    "referrerpolicy": {
+      "initial": "strict-origin-when-cross-origin",
+      "inherited": false
+    },
+    "type": {
+      "initial": "text/javascript",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "set": {
-    "attributeType": "auto",
-    "begin": "0s",
-    "dur": "indefinite",
-    "min": "0",
-    "restart": "always",
-    "xlink:type": "simple"
+    "attributeType": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "begin": {
+      "initial": "0s",
+      "inherited": false
+    },
+    "dur": {
+      "initial": "indefinite",
+      "inherited": false
+    },
+    "min": {
+      "initial": "0",
+      "inherited": false
+    },
+    "restart": {
+      "initial": "always",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "stop": {
-    "opacity": "1",
-    "stop-color": "black",
-    "stop-opacity": "1"
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "stop-color": {
+      "initial": "black",
+      "inherited": false
+    },
+    "stop-opacity": {
+      "initial": "1",
+      "inherited": false
+    }
   },
   "style": {
-    "type": "text/css",
-    "media": "all"
+    "type": {
+      "initial": "text/css",
+      "inherited": false
+    },
+    "media": {
+      "initial": "all",
+      "inherited": false
+    }
   },
   "svg": {
-    "baseProfile": "none",
-    "clip": "auto",
-    "clip-path": "none",
-    "clip-rule": "nonzero",
-    "color-interpolation": "sRGB",
-    "contentScriptType": "application/ecmascript",
-    "contentStyleType": "text/css",
-    "enable-background": "accumulate",
-    "filter": "none",
-    "height": "auto",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "preserveAspectRatio": "xMidYMid meet",
-    "syncBehavior": "default",
-    "syncMaster": "false",
-    "syncTolerance": "default",
-    "width": "auto",
-    "x": "0",
-    "xmlns":"http://www.w3.org/2000/svg",
-    "xmlns:xlink": "http://www.w3.org/1999/xlink",
-    "y": "0",
-    "zoomAndPan": "magnify"
+    "baseProfile": {
+      "initial": "none",
+      "inherited": false
+    },
+    "clip": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "clip-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "contentScriptType": {
+      "initial": "application/ecmascript",
+      "inherited": false
+    },
+    "contentStyleType": {
+      "initial": "text/css",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "filter": {
+      "initial": "none",
+      "inherited": false
+    },
+    "height": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "preserveAspectRatio": {
+      "initial": "xMidYMid meet",
+      "inherited": false
+    },
+    "syncBehavior": {
+      "initial": "default",
+      "inherited": false
+    },
+    "syncMaster": {
+      "initial": "false",
+      "inherited": false
+    },
+    "syncTolerance": {
+      "initial": "default",
+      "inherited": false
+    },
+    "width": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "xmlns": {
+      "initial": "http://www.w3.org/2000/svg",
+      "inherited": false
+    },
+    "xmlns:xlink": {
+      "initial": "http://www.w3.org/1999/xlink",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    },
+    "zoomAndPan": {
+      "initial": "magnify",
+      "inherited": false
+    }
   },
   "switch": {
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "opacity": "1",
-    "pointer-events": "visiblePainted"
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    }
   },
   "symbol": {
-    "clip": "auto",
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "enable-background": "accumulate",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "preserveAspectRatio": "xMidYMid meet"
+    "clip": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "enable-background": {
+      "initial": "accumulate",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "preserveAspectRatio": {
+      "initial": "xMidYMid meet",
+      "inherited": false
+    }
   },
   "text": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "direction": "ltr",
-    "dominant-baseline": "auto",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "font-size": "medium",
-    "font-size-adjust": "none",
-    "font-stretch": "normal",
-    "font-style": "normal",
-    "font-variant": "normal",
-    "font-weight": "normal",
-    "glyph-orientation-horizontal": "0deg",
-    "glyph-orientation-vertical": "auto",
-    "kerning": "auto",
-    "lengthAdjust": "spacing",
-    "letter-spacing": "normal",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "text-anchor": "start",
-    "text-rendering": "auto",
-    "unicode-bidi": "normal",
-    "vector-effect": "none",
-    "word-spacing": "normal",
-    "writing-mode": "horizontal-tb",
-    "x": "0",
-    "y": "0"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "direction": {
+      "initial": "ltr",
+      "inherited": false
+    },
+    "dominant-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "font-size": {
+      "initial": "medium",
+      "inherited": false
+    },
+    "font-size-adjust": {
+      "initial": "none",
+      "inherited": false
+    },
+    "font-stretch": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-style": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-variant": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-weight": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "glyph-orientation-horizontal": {
+      "initial": "0deg",
+      "inherited": false
+    },
+    "glyph-orientation-vertical": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "kerning": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "lengthAdjust": {
+      "initial": "spacing",
+      "inherited": false
+    },
+    "letter-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "text-anchor": {
+      "initial": "start",
+      "inherited": false
+    },
+    "text-rendering": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "unicode-bidi": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    },
+    "word-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "writing-mode": {
+      "initial": "horizontal-tb",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "textPath": {
-    "alignment-baseline": "auto",
-    "baseline-shift": "0",
-    "color-interpolation": "sRGB",
-    "direction": "ltr",
-    "dominant-baseline": "auto",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "font-size": "medium",
-    "font-size-adjust": "none",
-    "font-stretch": "normal",
-    "font-style": "normal",
-    "font-variant": "normal",
-    "font-weight": "normal",
-    "glyph-orientation-horizontal": "0deg",
-    "glyph-orientation-vertical": "auto",
-    "kerning": "auto",
-    "lengthAdjust": "spacing",
-    "letter-spacing": "normal",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "method": "align",
-    "spacing": "exact",
-    "startOffset": "0",
-    "text-anchor": "start",
-    "unicode-bidi": "normal",
-    "vector-effect": "none",
-    "word-spacing": "normal",
-    "writing-mode": "horizontal-tb",
-    "xlink:type": "simple"
+    "alignment-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "baseline-shift": {
+      "initial": "0",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "direction": {
+      "initial": "ltr",
+      "inherited": false
+    },
+    "dominant-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "font-size": {
+      "initial": "medium",
+      "inherited": false
+    },
+    "font-size-adjust": {
+      "initial": "none",
+      "inherited": false
+    },
+    "font-stretch": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-style": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-variant": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-weight": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "glyph-orientation-horizontal": {
+      "initial": "0deg",
+      "inherited": false
+    },
+    "glyph-orientation-vertical": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "kerning": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "lengthAdjust": {
+      "initial": "spacing",
+      "inherited": false
+    },
+    "letter-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "method": {
+      "initial": "align",
+      "inherited": false
+    },
+    "spacing": {
+      "initial": "exact",
+      "inherited": false
+    },
+    "startOffset": {
+      "initial": "0",
+      "inherited": false
+    },
+    "text-anchor": {
+      "initial": "start",
+      "inherited": false
+    },
+    "unicode-bidi": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    },
+    "word-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "writing-mode": {
+      "initial": "horizontal-tb",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    }
   },
   "tref": {
-    "alignment-baseline": "auto",
-    "baseline-shift": "0",
-    "direction": "ltr",
-    "dominant-baseline": "auto",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "font-size": "medium",
-    "font-size-adjust": "none",
-    "font-weight": "normal",
-    "font-stretch": "normal",
-    "font-style": "normal",
-    "font-variant": "normal",
-    "glyph-orientation-horizontal": "0deg",
-    "glyph-orientation-vertical": "auto",
-    "kerning": "auto",
-    "lengthAdjust": "spacing",
-    "letter-spacing": "normal",
-    "opacity": "1",
-    "text-anchor": "start",
-    "unicode-bidi": "normal",
-    "word-spacing": "normal",
-    "writing-mode": "horizontal-tb",
-    "xlink:type": "simple",
-    "x": "0",
-    "y": "0"
+    "alignment-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "baseline-shift": {
+      "initial": "0",
+      "inherited": false
+    },
+    "direction": {
+      "initial": "ltr",
+      "inherited": false
+    },
+    "dominant-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "font-size": {
+      "initial": "medium",
+      "inherited": false
+    },
+    "font-size-adjust": {
+      "initial": "none",
+      "inherited": false
+    },
+    "font-weight": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-stretch": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-style": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-variant": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "glyph-orientation-horizontal": {
+      "initial": "0deg",
+      "inherited": false
+    },
+    "glyph-orientation-vertical": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "kerning": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "lengthAdjust": {
+      "initial": "spacing",
+      "inherited": false
+    },
+    "letter-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "text-anchor": {
+      "initial": "start",
+      "inherited": false
+    },
+    "unicode-bidi": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "word-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "writing-mode": {
+      "initial": "horizontal-tb",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "tspan": {
-    "alignment-baseline": "auto",
-    "baseline-shift": "0",
-    "color-interpolation": "sRGB",
-    "direction": "ltr",
-    "dominant-baseline": "auto",
-    "fill": "black",
-    "fill-opacity": "1",
-    "fill-rule": "nonzero",
-    "font-size": "medium",
-    "font-size-adjust": "none",
-    "font-stretch": "normal",
-    "font-style": "normal",
-    "font-variant": "normal",
-    "font-weight": "normal",
-    "glyph-orientation-horizontal": "0deg",
-    "glyph-orientation-vertical": "auto",
-    "kerning": "auto",
-    "lengthAdjust": "spacing",
-    "letter-spacing": "normal",
-    "opacity": "1",
-    "paint-order": "normal",
-    "pointer-events": "visiblePainted",
-    "text-anchor": "start",
-    "unicode-bidi": "normal",
-    "vector-effect": "none",
-    "word-spacing": "normal",
-    "writing-mode": "horizontal-tb"
+    "alignment-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "baseline-shift": {
+      "initial": "0",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "direction": {
+      "initial": "ltr",
+      "inherited": false
+    },
+    "dominant-baseline": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "fill": {
+      "initial": "black",
+      "inherited": false
+    },
+    "fill-opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "fill-rule": {
+      "initial": "nonzero",
+      "inherited": false
+    },
+    "font-size": {
+      "initial": "medium",
+      "inherited": false
+    },
+    "font-size-adjust": {
+      "initial": "none",
+      "inherited": false
+    },
+    "font-stretch": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-style": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-variant": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "font-weight": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "glyph-orientation-horizontal": {
+      "initial": "0deg",
+      "inherited": false
+    },
+    "glyph-orientation-vertical": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "kerning": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "lengthAdjust": {
+      "initial": "spacing",
+      "inherited": false
+    },
+    "letter-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "paint-order": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "text-anchor": {
+      "initial": "start",
+      "inherited": false
+    },
+    "unicode-bidi": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    },
+    "word-spacing": {
+      "initial": "normal",
+      "inherited": false
+    },
+    "writing-mode": {
+      "initial": "horizontal-tb",
+      "inherited": false
+    }
   },
   "use": {
-    "clip-path": "none",
-    "color-interpolation": "sRGB",
-    "height": "auto",
-    "opacity": "1",
-    "pointer-events": "visiblePainted",
-    "vector-effect": "none",
-    "syncBehavior": "default",
-    "syncMaster": "false",
-    "syncTolerance": "default",
-    "xlink:type": "simple",
-    "width": "auto",
-    "x": "0",
-    "y": "0"
+    "clip-path": {
+      "initial": "none",
+      "inherited": false
+    },
+    "color-interpolation": {
+      "initial": "sRGB",
+      "inherited": false
+    },
+    "height": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "opacity": {
+      "initial": "1",
+      "inherited": false
+    },
+    "pointer-events": {
+      "initial": "visiblePainted",
+      "inherited": false
+    },
+    "vector-effect": {
+      "initial": "none",
+      "inherited": false
+    },
+    "syncBehavior": {
+      "initial": "default",
+      "inherited": false
+    },
+    "syncMaster": {
+      "initial": "false",
+      "inherited": false
+    },
+    "syncTolerance": {
+      "initial": "default",
+      "inherited": false
+    },
+    "xlink:type": {
+      "initial": "simple",
+      "inherited": false
+    },
+    "width": {
+      "initial": "auto",
+      "inherited": false
+    },
+    "x": {
+      "initial": "0",
+      "inherited": false
+    },
+    "y": {
+      "initial": "0",
+      "inherited": false
+    }
   },
   "view": {
-    "externalResourcesRequired": "false",
-    "preserveAspectRatio": "xMidYMid meet",
-    "zoomAndPan": "magnify"
+    "externalResourcesRequired": {
+      "initial": "false"
+    },
+    "preserveAspectRatio": {
+      "initial": "xMidYMid meet"
+    },
+    "viewBox": {},
+    "viewTarget": {},
+    "zoomAndPan": {
+      "initial": "magnify"
+    }
   }
 }

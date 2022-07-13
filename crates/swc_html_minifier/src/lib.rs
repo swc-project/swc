@@ -534,9 +534,12 @@ impl Minifier<'_> {
                 let normalized_value = attribute_value.trim();
 
                 if let Some(global_attributes) = default_attributes.get("*") {
-                    if let Some(default_value) = global_attributes.0.get(&attribute_name) {
-                        if normalized_value == *default_value {
-                            return true;
+                    if let Some(attribute_meta_data) = global_attributes.0.get(&attribute_name) {
+                        match (attribute_meta_data.inherited, &attribute_meta_data.initial) {
+                            (None, Some(initial)) | (Some(false), Some(initial)) => {
+                                return initial == normalized_value
+                            }
+                            _ => {}
                         }
                     };
                 }
@@ -546,12 +549,17 @@ impl Minifier<'_> {
                     None => return false,
                 };
 
-                let default_value = match attributes.0.get(&attribute_name) {
-                    Some(default_value) => default_value,
+                let attribute_meta_data = match attributes.0.get(&attribute_name) {
+                    Some(attribute_meta_data) => attribute_meta_data,
                     None => return false,
                 };
 
-                normalized_value == *default_value
+                match (attribute_meta_data.inherited, &attribute_meta_data.initial) {
+                    (None, Some(initial)) | (Some(false), Some(initial)) => {
+                        initial == normalized_value
+                    }
+                    _ => false,
+                }
             }
             _ => {
                 matches!(
