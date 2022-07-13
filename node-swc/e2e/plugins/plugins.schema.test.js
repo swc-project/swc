@@ -12,6 +12,8 @@ const buildHost = async (feature) => {
         "-p",
         "binding_core_node",
         `--cargo-flags=--no-default-features --features swc_v1 --features plugin --features ${feature}`,
+        "--config",
+        `./node-swc/e2e/fixtures/napi.host.${feature}.config.js`,
     ];
 
     const proc = spawn("napi", args, { cwd: getPkgRoot(), stdio: "inherit" });
