@@ -865,106 +865,86 @@
   },
   "feFuncA": {
     "amplitude": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "exponent": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "intercept": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
+    "offset": {
+      "initial": "0"
+    },
+    "slope": {
+      "initial": "1"
+    },
+    "tableValues": {},
     "type": {
-      "initial": "translate",
-      "inherited": false
-    },
-    "x": {
-      "initial": "0%",
-      "inherited": false
-    },
-    "y": {
-      "initial": "0%",
-      "inherited": false
+      "initial": "identity"
     }
   },
   "feFuncB": {
     "amplitude": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "exponent": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "intercept": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
+    "offset": {
+      "initial": "0"
+    },
+    "slope": {
+      "initial": "1"
+    },
+    "tableValues": {},
     "type": {
-      "initial": "translate",
-      "inherited": false
-    },
-    "x": {
-      "initial": "0%",
-      "inherited": false
-    },
-    "y": {
-      "initial": "0%",
-      "inherited": false
+      "initial": "identity"
     }
   },
   "feFuncG": {
     "amplitude": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "exponent": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "intercept": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
+    "offset": {
+      "initial": "0"
+    },
+    "slope": {
+      "initial": "1"
+    },
+    "tableValues": {},
     "type": {
-      "initial": "translate",
-      "inherited": false
-    },
-    "x": {
-      "initial": "0%",
-      "inherited": false
-    },
-    "y": {
-      "initial": "0%",
-      "inherited": false
+      "initial": "identity"
     }
   },
   "feFuncR": {
     "amplitude": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "exponent": {
-      "initial": "1",
-      "inherited": false
+      "initial": "1"
     },
     "intercept": {
-      "initial": "0",
-      "inherited": false
+      "initial": "0"
     },
+    "offset": {
+      "initial": "0"
+    },
+    "slope": {
+      "initial": "1"
+    },
+    "tableValues": {},
     "type": {
-      "initial": "translate",
-      "inherited": false
-    },
-    "x": {
-      "initial": "0%",
-      "inherited": false
-    },
-    "y": {
-      "initial": "0%",
-      "inherited": false
+      "initial": "identity"
     }
   },
   "feGaussianBlur": {
