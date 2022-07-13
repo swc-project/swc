@@ -55,20 +55,19 @@ mod clone;
 ///
 /// You can use it like
 ///
-/// /// ```rust
+/// ```rust
 /// use swc_common::DUMMY_SP;
 /// use swc_ecma_ast::Ident;
 /// use swc_ecma_quote::quote;
 ///
 /// // This will return ast for `const ref = 4;`
-/// let _stmt = quote!("const $name = $val;" as Stmt,
-///                 name  = Ident::new("ref".into(), DUMMY_SP),
+/// let _stmt = quote!(
+///                 "const $name = $val;" as Stmt,
+///                 name = Ident::new("ref".into(), DUMMY_SP),
 ///                 val: Expr = 4.into(),
 ///             );
-///
-/// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
-/// 
+///
 /// # Examples
 ///
 /// ## Quote a variable declaration
