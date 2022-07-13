@@ -10,7 +10,7 @@ use crate::{ast::ToCode, input::QuoteVar};
 
 #[derive(Debug)]
 pub(crate) struct Ctx {
-    pub(crate) vars: Vars,
+    pub(crate) vars: AHashMap<&'static str, Vars>,
 }
 
 #[derive(Debug)]
