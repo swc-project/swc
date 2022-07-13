@@ -5,7 +5,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_plugin_proxy"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.12.0"
+version = "0.12.1"
 
 [lib]
 bench = false
@@ -20,7 +20,7 @@ plugin-mode = []
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
 bytecheck = "0.6.8"
 rkyv = "0.7.39"
-swc_common = { version = "0.24.0", path = "../swc_common", features = [
+swc_common = { version = "0.24.1", path = "../swc_common", features = [
   "plugin-base",
 ] }
 swc_ecma_ast = {version = "0.85.0", path = "../swc_ecma_ast"}
