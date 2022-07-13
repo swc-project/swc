@@ -80,7 +80,7 @@ pub(super) fn prepare_vars(
     vars: Punctuated<QuoteVar, Token![,]>,
 ) -> (Vec<syn::Stmt>, AHashMap<VarPos, Vars>) {
     let mut stmts = vec![];
-    let mut init_map = AHashMap::default();
+    let mut init_map = AHashMap::<_, Vars>::default();
 
     for var in vars {
         let value = var.value;
@@ -88,9 +88,35 @@ pub(super) fn prepare_vars(
         let ident = var.name.clone();
         let ident_str = ident.to_string();
 
+        let pos = match var.ty {
+            Some(syn::Type::Path(syn::TypePath {
+                qself: None,
+                path:
+                    syn::Path {
+                        leading_colon: None,
+                        segments,
+                    },
+            })) => {
+                let segment = segments.first().unwrap();
+                match segment.ident.to_string().as_str() {
+                    "Ident" => VarPos::Ident,
+                    "Expr" => VarPos::Expr,
+                    "Pat" => VarPos::Pat,
+                    _ => panic!("Invalid type: {}", segment.ident),
+                }
+            }
+            None => VarPos::Ident,
+            _ => {
+                panic!(
+                    "Var type should be one of: Ident, Expr, Pat; got {:?}",
+                    var.ty
+                )
+            }
+        };
+
         let var_ident = syn::Ident::new(&format!("quote_var_{}", ident), ident.span());
 
-        let old = init_map.insert(
+        let old = init_map.entry(pos).or_default().insert(
             ident_str.clone(),
             VarData {
                 is_counting: true,
