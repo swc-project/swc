@@ -43,10 +43,17 @@ mod clone;
 /// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
 ///
+/// ## Typed variables
 ///
-/// # Examples
+/// As this macro generates static AST, it can't substitute variables if an
+/// ideitifier is not allowed in such position. In other words, this macro only
+/// supports substituting
 ///
-/// ## Quote a variable declaration
+///  - Ident
+///  - Expr
+///  - Pat
+///
+/// You can use it like
 ///
 /// ```rust
 /// use swc_common::DUMMY_SP;
@@ -54,7 +61,24 @@ mod clone;
 /// use swc_ecma_quote::quote;
 ///
 /// // This will return ast for `const ref = 4;`
-/// let _stmt = quote!("const $name = 4;" as Stmt, name = Ident::new("ref".into(), DUMMY_SP));
+/// let _stmt = quote!(
+///                 "const $name = $val;" as Stmt,
+///                 name = Ident::new("ref".into(), DUMMY_SP),
+///                 val: Expr = 4.into(),
+///             );
+/// ```
+///
+/// # Examples
+///
+/// ## Quote a variable declaration
+/// ```rust
+/// use swc_common::DUMMY_SP;
+/// use swc_ecma_ast::Ident;
+/// use swc_ecma_quote::quote;
+///
+/// // This will return ast for `const ref = 4;`
+/// let _stmt = quote!("const $name = 4;" as Stmt, name =
+/// Ident::new("ref".into(), DUMMY_SP));
 ///
 /// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
