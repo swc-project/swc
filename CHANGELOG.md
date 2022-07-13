@@ -7,6 +7,9 @@
 
 - **(es)** Check the syntax context of `arguments` (#5174) ([375774d](https://github.com/swc-project/swc/commit/375774d31e690142faeb8422fed4cc996bf1de16))
 
+
+- **(es/parser)** Fix parsing of export specifiers (#5190) ([ec93783](https://github.com/swc-project/swc/commit/ec9378370dd870c304143219afed04624075141f))
+
 ### Features
 
 
