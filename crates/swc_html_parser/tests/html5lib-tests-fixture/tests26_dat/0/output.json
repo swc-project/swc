@@ -74,7 +74,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "#1"
+                  "rawName": "href",
+                  "value": "#1",
+                  "rawValue": "'#1'"
                 }
               ],
               "children": [
@@ -166,7 +168,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "href",
-                      "value": "#2"
+                      "rawName": "href",
+                      "value": "#2",
+                      "rawValue": "'#2'"
                     }
                   ],
                   "children": [],
@@ -197,7 +201,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "#2"
+                  "rawName": "href",
+                  "value": "#2",
+                  "rawValue": "'#2'"
                 }
               ],
               "children": [
@@ -289,7 +295,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "href",
-                      "value": "#3"
+                      "rawName": "href",
+                      "value": "#3",
+                      "rawValue": "'#3'"
                     }
                   ],
                   "children": [],
@@ -320,7 +328,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "#3"
+                  "rawName": "href",
+                  "value": "#3",
+                  "rawValue": "'#3'"
                 }
               ],
               "children": [

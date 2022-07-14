@@ -60,7 +60,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "text/javascript"
+                  "rawName": "type",
+                  "value": "text/javascript",
+                  "rawValue": "\"text/javascript\""
                 }
               ],
               "children": [

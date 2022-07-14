@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "test",
-          "value": "test"
+          "rawName": "test",
+          "value": "test",
+          "rawValue": "\"test\""
         }
       ],
       "children": [

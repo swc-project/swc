@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "bar",
-                  "value": "baz"
+                  "rawName": "bar",
+                  "value": "baz",
+                  "rawValue": "\"baz\""
                 }
               ],
               "children": [
@@ -87,7 +89,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "quack",
-                      "value": "duck"
+                      "rawName": "quack",
+                      "value": "duck",
+                      "rawValue": "\"duck\""
                     }
                   ],
                   "children": [],

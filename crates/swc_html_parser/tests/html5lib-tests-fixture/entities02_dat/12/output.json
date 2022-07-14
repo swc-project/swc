@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "bar",
-                  "value": "ZZ>"
+                  "rawName": "bar",
+                  "value": "ZZ>",
+                  "rawValue": "ZZ>"
                 }
               ],
               "children": [],

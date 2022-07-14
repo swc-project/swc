@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "encoding",
-                      "value": "Text/htmL"
+                      "rawName": "encoding",
+                      "value": "Text/htmL",
+                      "rawValue": "\"Text/htmL\""
                     }
                   ],
                   "children": [

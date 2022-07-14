@@ -73,7 +73,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "text/plain"
+                  "rawName": "type",
+                  "value": "text/plain",
+                  "rawValue": "\"text/plain\""
                 }
               ],
               "children": [

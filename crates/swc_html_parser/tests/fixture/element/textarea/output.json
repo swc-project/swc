@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "for",
-                  "value": "story"
+                  "rawName": "for",
+                  "value": "story",
+                  "rawValue": "\"story\""
                 }
               ],
               "children": [
@@ -201,7 +205,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "story"
+                  "rawName": "id",
+                  "value": "story",
+                  "rawValue": "\"story\""
                 },
                 {
                   "type": "Attribute",
@@ -213,7 +219,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "name",
-                  "value": "story"
+                  "rawName": "name",
+                  "value": "story",
+                  "rawValue": "\"story\""
                 },
                 {
                   "type": "Attribute",
@@ -225,7 +233,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "rows",
-                  "value": "5"
+                  "rawName": "rows",
+                  "value": "5",
+                  "rawValue": "\"5\""
                 },
                 {
                   "type": "Attribute",
@@ -237,7 +247,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "cols",
-                  "value": "33"
+                  "rawName": "cols",
+                  "value": "33",
+                  "rawValue": "\"33\""
                 }
               ],
               "children": [

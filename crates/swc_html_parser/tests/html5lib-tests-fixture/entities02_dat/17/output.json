@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "bar",
-                  "value": "ZZ&pound=23"
+                  "rawName": "bar",
+                  "value": "ZZ&pound=23",
+                  "rawValue": "\"ZZ&pound=23\""
                 }
               ],
               "children": [],
