@@ -45,12 +45,21 @@ fn tr() -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         ParenRemover,
-        arrow(),
+        arrow(unresolved_mark),
         parameters(Default::default(), unresolved_mark),
         destructuring(destructuring::Config { loose: false }),
         function_name(),
-        async_to_generator(Default::default()),
+        async_to_generator(Default::default(), unresolved_mark),
         fixer(None)
+    )
+}
+
+fn with_resolver() -> impl Fold {
+    let unresolved = Mark::new();
+    let top_level = Mark::new();
+    chain!(
+        resolver(unresolved, top_level, false),
+        async_to_generator(Default::default(), unresolved)
     )
 }
 
@@ -690,7 +699,7 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_400_2,
     "class A {
     constructor() {
@@ -720,14 +729,17 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |t| chain!(
-        async_to_generator(Default::default()),
-        es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
+    |t| {
+        let unresolved_mark = Mark::new();
+        chain!(
+            async_to_generator(Default::default(), unresolved_mark),
+            es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            )
         )
-    ),
+    },
     issue_400_3,
     "class A {
     constructor() {
@@ -782,7 +794,7 @@ return (new A()).print();"
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_named_expression,
     r#"
 var foo = async function bar() {
@@ -815,7 +827,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_async_lone_export,
     r#"
 export async function foo () { }
@@ -845,7 +857,7 @@ function _foo() {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_arrow_function,
     r#"
 (async () => { await foo(); })()
@@ -866,9 +878,14 @@ _coroutine(function* () {
 // regression_t7194
 test!(
     // Optimization
-    ignore,
     syntax(),
-    |_| chain!(async_to_generator(Default::default()), arrow()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        chain!(
+            async_to_generator(Default::default(), unresolved_mark),
+            arrow(unresolved_mark)
+        )
+    },
     regression_t7194,
     r#"
 function f() {
@@ -901,12 +918,12 @@ function f() {
 
 /*#__PURE__*/
 _asyncToGenerator(function* () {
-  var _this2 = this;
+  var _this = this;
 
   console.log('async wrapper:', this === 'foo');
 
   (function () {
-    console.log('nested arrow:', _this2 === 'foo');
+    console.log('nested arrow:', _this === 'foo');
   })();
 }).call('foo');
 
@@ -918,15 +935,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        chain!(
-            resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default())
-        )
-    },
+    |_| with_resolver(),
     async_to_generator_shadowed_promise,
     r#"
 let Promise;
@@ -957,7 +966,7 @@ function foo() {
 // async_to_generator_object_method_with_arrows
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_object_method_with_arrows,
     r#"
 class Class {
@@ -1023,7 +1032,7 @@ class Class {
 // async_to_generator_object_method
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_object_method,
     r#"
 let obj = {
@@ -1053,7 +1062,7 @@ let obj = {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_class,
     r#"
 class Foo {
@@ -1082,11 +1091,14 @@ class Foo {
 test!(
     ignore,
     syntax(),
-    |_| chain!(
-        async_to_generator(Default::default()),
-        //regenerator(),
-        arrow(),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        chain!(
+            async_to_generator(Default::default(), unresolved_mark),
+            //regenerator(),
+            arrow(unresolved_mark),
+        )
+    },
     async_to_generator_async_iife_with_regenerator,
     r#"
 (async function() { await 'ok' })();
@@ -1243,7 +1255,7 @@ regeneratorRuntime.mark(function _callee4() {
 // async_to_generator_named_expression
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_named_expression,
     r#"
 var foo = async function bar() {
@@ -1365,7 +1377,7 @@ function () {
 // async_to_generator_async_arrow_in_method
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_async_arrow_in_method,
     r#"
 let TestClass = {
@@ -1404,7 +1416,7 @@ let TestClass = {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_statement,
     r#"
 async function foo() {
@@ -1437,7 +1449,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default()),
+            async_to_generator(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(destructuring::Config { loose: false }),
         )
@@ -1484,7 +1496,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_async_default_arrow_export,
     r#"
 export default async () => { return await foo(); }
@@ -1512,7 +1524,7 @@ exports.default = _default;
 // async_to_generator_function_arity
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_function_arity,
     r#"
 async function one(a, b = 1) {}
@@ -1581,9 +1593,8 @@ function _six() {
 
 // async_to_generator_object_method_with_super
 test!(
-    ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_object_method_with_super_caching,
     r#"
 class Foo extends class {} {
@@ -1598,13 +1609,12 @@ class Foo extends class {} {
     r#"
 class Foo extends class {} {
   method() {
-    var _superprop_getMethod = () => super.method,
-        _this = this;
+    var _this = this, _superprop_get_method = () => super.method,;
 
     return _asyncToGenerator(function* () {
-      _superprop_getMethod().call(_this);
+      _superprop_get_method().call(_this);
 
-      var arrow = () => _superprop_getMethod().call(_this);
+      var arrow = () => _superprop_get_method().call(_this);
     })();
   }
 
@@ -1618,7 +1628,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_async_default_export,
     r#"
 export default async function myFunc() {}
@@ -1647,7 +1657,7 @@ function _myFunc() {
 // async_to_generator_async
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_async,
     r#"
 class Foo {
@@ -1673,7 +1683,7 @@ class Foo {
 // regression_8783
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_8783,
     r#"
 (async function poll() {
@@ -1701,7 +1711,7 @@ test!(
 // async_to_generator_deeply_nested_asyncs
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| with_resolver(),
     async_to_generator_deeply_nested_asyncs,
     r#"
 async function s(x, ...args) {
@@ -1766,7 +1776,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_async_import_and_export,
     r#"
 import bar from 'bar';
@@ -1801,15 +1811,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        chain!(
-            resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default())
-        )
-    },
+    |_| with_resolver(),
     async_to_generator_shadowed_promise_nested,
     r#"
 let Promise;
@@ -1861,7 +1863,7 @@ function foo() {
 // regression_4599
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_4599,
     r#"
 async () => await promise
@@ -1886,7 +1888,7 @@ _asyncToGenerator(function* () {
 // regression_4943_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_4943_exec,
     r#"
 "use strict";
@@ -1909,7 +1911,7 @@ return foo().then(() => {
 // regression_8783_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_8783_exec,
     r#"
 let log = [];
@@ -1934,7 +1936,7 @@ return main.then(() => {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_expression,
     r#"
 var foo = async function () {
@@ -1963,7 +1965,7 @@ function () {
 // async_to_generator_expression
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_expression,
     r#"
 var foo = async function () {
@@ -2020,7 +2022,7 @@ function () {
 // async_to_generator_statement
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_statement,
     r#"
 async function foo() {
@@ -2046,15 +2048,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        chain!(
-            resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default())
-        )
-    },
+    |_| with_resolver(),
     async_to_generator_shadowed_promise_import,
     r#"
 import Promise from 'somewhere';
@@ -2084,7 +2078,7 @@ function foo() {
 // async_to_generator_parameters
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_parameters,
     r#"
 async function foo(bar) {
@@ -2108,7 +2102,7 @@ function _foo() {
 // regression_t6882_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_t6882_exec,
     r#"
 foo();
@@ -2121,7 +2115,7 @@ async function foo() {}
 // async_to_generator_parameters
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_600,
     r#"
 async function foo() {
@@ -2144,7 +2138,7 @@ function _foo() {
 
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1036_1,
     "
     const x = async function() {
@@ -2187,7 +2181,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1036_2,
     "
     const x = async function() {
@@ -2203,7 +2197,7 @@ test_exec!(
 
 test!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1216_1,
     "
     const source = Math.random() < 2 ? 'matilda' : 'fred';
@@ -2250,7 +2244,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1125_1,
     "
 async function test() {
@@ -2283,7 +2277,7 @@ test()
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1341_1,
     "
     class A {
@@ -2325,7 +2319,7 @@ test_exec!(
     Syntax::default(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default())
+        async_to_generator(Default::default(), Mark::new())
     ),
     issue_1341_1_exec,
     "
@@ -2347,7 +2341,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1341_2,
     "
   class A {
@@ -2381,7 +2375,7 @@ test_exec!(
     Syntax::default(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default())
+        async_to_generator(Default::default(), Mark::new())
     ),
     issue_1341_2_exec,
     "
@@ -2399,7 +2393,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1455_1,
     "
     const obj = {
@@ -2442,7 +2436,7 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1575_1,
     "
   const obj = {
@@ -2460,7 +2454,7 @@ test_exec!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
+            async_to_generator(Default::default(), mark),
             regenerator(Default::default(), mark)
         )
     },
@@ -2478,7 +2472,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1722_1,
     "
     (async function main() {
@@ -2502,7 +2496,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1721_1,
     "
     async function main() {
@@ -2549,7 +2543,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1721_2_async_generator,
     "
     async function* lol() {
@@ -2573,7 +2567,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1684_1,
     "
     const cache = {}
@@ -2610,10 +2604,10 @@ test!(
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
-            regenerator(Default::default(), top_level_mark)
+            async_to_generator(Default::default(), unresolved_mark),
+            regenerator(Default::default(), unresolved_mark)
         )
     },
     issue_1684_2,
@@ -2671,7 +2665,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1752_1,
     "
     async function* generate() {
@@ -2699,7 +2693,7 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1918_1,
     "
     let counter = 0;
@@ -2739,7 +2733,7 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_2402_1,
     "
 function MyClass(item) {
@@ -2761,10 +2755,10 @@ expect(tmp.fun()).resolves.toEqual({ foo: 'bar' });
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
-            regenerator(Default::default(), top_level_mark)
+            async_to_generator(Default::default(), unresolved_mark),
+            regenerator(Default::default(), unresolved_mark)
         )
     },
     issue_2402_2,
@@ -2820,7 +2814,7 @@ tmp.fun().then((res)=>{
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_2305_1,
     "
     function MyClass () {}
@@ -2853,10 +2847,10 @@ expect(myclass.init(2)).resolves.toEqual(true);
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
-            regenerator(Default::default(), top_level_mark)
+            async_to_generator(Default::default(), unresolved_mark),
+            regenerator(Default::default(), unresolved_mark)
         )
     },
     issue_2305_2,
@@ -2928,10 +2922,10 @@ myclass.handle();
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
-            regenerator(Default::default(), top_level_mark)
+            async_to_generator(Default::default(), unresolved_mark),
+            regenerator(Default::default(), unresolved_mark)
         )
     },
     issue_2677_1,
@@ -3006,10 +3000,10 @@ function _someCall() {
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
-            regenerator(Default::default(), top_level_mark)
+            async_to_generator(Default::default(), unresolved_mark),
+            regenerator(Default::default(), unresolved_mark)
         )
     },
     issue_2677_2,
@@ -3061,7 +3055,7 @@ export default async function() {
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_parameters,
     "
 class A {
@@ -3084,7 +3078,7 @@ expect(a.doTest()).resolves.toEqual(3);
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_1,
     r#"
 async function foo(x, y, ...z) {
@@ -3106,7 +3100,7 @@ function _foo() {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_2,
     r#"
 async function* foo(x, y, ...z) {
@@ -3128,7 +3122,7 @@ function _foo() {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_3,
     r#"
 const foo = async function (x, y, ...z) {
@@ -3149,7 +3143,7 @@ const foo = /*#__PURE__*/ function () {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_4,
     r#"
 const foo = async function* (x, y, ...z) {
@@ -3170,7 +3164,7 @@ const foo = /*#__PURE__*/ function () {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_5,
     r#"
 const foo = async function foo(x, y, ...z) {
@@ -3198,7 +3192,7 @@ const foo = function () {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_6,
     r#"
 const foo = async function* foo(x, y, ...z) {
@@ -3226,7 +3220,7 @@ const foo = function () {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_7,
     r#"
 const foo = async (x, y, ...z) => {
@@ -3248,10 +3242,8 @@ const foo = /*#__PURE__*/ function () {
 );
 
 test!(
-    // TODO: resolve bind issue
-    ignore,
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_wrap_this,
     r#"
 const foo = async (x, y, ...z) => {
@@ -3259,23 +3251,22 @@ const foo = async (x, y, ...z) => {
 };
 "#,
     r#"
+var _this = this;
+
 const foo = /*#__PURE__*/ function () {
-  var _ref = _asyncToGenerator((function* (x, y, ...z) {
-      return this;
-  }).bind(_this)).bind(_this);
+  var _ref = _asyncToGenerator(function* (x, y, ...z) {
+      return _this;
+  });
   return function foo(x, y) {
       return _ref.apply(this, arguments);
   };
 }();
-var _this = this;
 "#
 );
 
 test!(
-    // TODO: arguments
-    ignore,
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| with_resolver(),
     async_wrap_arguments,
     r#"
 function foo() {
@@ -3302,10 +3293,8 @@ function foo() {
 );
 
 test!(
-    // TODO: super and new.target
-    ignore,
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| with_resolver(),
     async_wrap_super_and_new_target,
     r#"
 class Foo {
@@ -3339,16 +3328,15 @@ class Foo {
     }
 
     hello() {
-        var _superprop_getHello = () => super.hello,
-            _this = this;
+        var _this = this, _superprop_get_hello = () => super.hello;
 
         const world = /*#__PURE__*/ function () {
-            var _ref2 = _asyncToGenerator(function* () {
-                return _superprop_getHello().call(_this);
+            var _ref = _asyncToGenerator(function* () {
+                return _superprop_get_hello().call(_this);
             });
 
             return function world() {
-                return _ref2.apply(this, arguments);
+                return _ref.apply(this, arguments);
             };
         }();
     }
@@ -3358,7 +3346,7 @@ class Foo {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_default_async_nested_1,
     "
 export default async function foo(x) {
@@ -3390,7 +3378,7 @@ function _foo() {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_default_async_nested_2,
     "
 export default async function (x) {
@@ -3429,7 +3417,7 @@ function _ref() {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_with_optional_params,
     "
 (async function (a = 10, ...rest) {})();
@@ -3443,7 +3431,7 @@ _asyncToGenerator(function*(a = 10, ...rest) {})();
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| with_resolver(),
     issue_2895,
     "
 export class Quirk {
@@ -3473,7 +3461,7 @@ export class Quirk {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     super_field_update,
     "
 class Foo {
@@ -3503,7 +3491,7 @@ class Foo {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     microbundle_835,
     "
 class A extends B {
@@ -3528,7 +3516,7 @@ class A extends B {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     super_update,
     "
 class A extends B {
@@ -3568,7 +3556,7 @@ class A extends B {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_with_optional_params_2,
     "
 const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
@@ -3591,7 +3579,7 @@ const p = Z((f)=>_asyncToGenerator(function*(n = 0) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(Default::default()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_4208,
     "
     function foo() {
@@ -3627,7 +3615,7 @@ fn exec(input: PathBuf) {
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(Some(t.comments.clone()), Default::default()),
-                async_to_generator(Default::default())
+                async_to_generator(Default::default(), unresolved_mark)
             )
         },
         &input,
@@ -3646,9 +3634,9 @@ fn exec_regenerator(input: PathBuf) {
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(Some(t.comments.clone()), Default::default()),
-                async_to_generator(Default::default()),
+                async_to_generator(Default::default(), unresolved_mark),
                 es2015::for_of(Default::default()),
-                block_scoping(),
+                block_scoping(unresolved_mark),
                 regenerator(Default::default(), unresolved_mark)
             )
         },

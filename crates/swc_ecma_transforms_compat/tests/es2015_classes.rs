@@ -21,13 +21,14 @@ fn tr(tester: &Tester) -> impl Fold {
 }
 
 fn spec_tr(tester: &Tester) -> impl Fold {
+    let unresolved_mark = Mark::new();
     chain!(
-        resolver(Mark::new(), Mark::new(), false),
+        resolver(unresolved_mark, Mark::new(), false),
         classes(Some(tester.comments.clone()), Default::default()),
         spread(spread::Config {
             ..Default::default()
         }),
-        block_scoping(),
+        block_scoping(unresolved_mark),
     )
 }
 
@@ -566,7 +567,7 @@ expect(constructor).toBe(CustomElement);
 // regression_5817
 test!(
     syntax(),
-    |t| chain!(tr(t), arrow()),
+    |t| chain!(tr(t), arrow(Mark::new())),
     regression_5817,
     r#"
 class A extends B {
@@ -5251,7 +5252,7 @@ test_exec!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     extend_builtins_imported_babel_plugin_transform_builtin_classes_exec,
     r#"
@@ -5555,7 +5556,7 @@ test_exec!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     extend_builtins_spec_exec,
     r#"
@@ -5806,7 +5807,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |t| chain!(tr(t), block_scoping()),
+    |t| chain!(tr(t), block_scoping(Mark::new())),
     regression_t7010,
     r#"
 class Foo {
@@ -6095,7 +6096,7 @@ test_exec!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     extend_builtins_builtin_objects_throw_when_wrapped_exec,
     r#"
@@ -6147,7 +6148,7 @@ test_exec!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     extend_builtins_overwritten_null_exec,
     r#"
@@ -6171,7 +6172,7 @@ test_exec!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     extend_builtins_super_called_exec,
     r#"
@@ -6543,15 +6544,15 @@ test!(
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
 
         chain!(
             es2022::es2022(Some(t.comments.clone()), Default::default()),
             es2018::es2018(Default::default()),
-            es2017::es2017(Default::default()),
+            es2017::es2017(Default::default(), unresolved_mark),
             es2016::es2016(),
             es2015::es2015(
-                global_mark,
+                unresolved_mark,
                 Some(t.comments.clone()),
                 es2015::Config {
                     ..Default::default()
@@ -7350,7 +7351,7 @@ test!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()), Default::default()),
-        block_scoping()
+        block_scoping(Mark::new())
     ),
     issue_5102,
     r#"

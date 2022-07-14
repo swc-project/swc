@@ -3,7 +3,7 @@ use std::mem;
 use arrayvec::ArrayVec;
 use serde::Deserialize;
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
 // use swc_ecma_transforms_macros::parallel;
@@ -17,9 +17,11 @@ use tracing::trace;
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Fold {
+    let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
     as_folder(Params {
         c,
-        unresolved_mark,
+        unresolved_ctxt,
+        hoister: FnEnvHoister::new(unresolved_ctxt),
         ..Default::default()
     })
 }
@@ -29,7 +31,7 @@ struct Params {
     /// Used to store `this, in case if `arguments` is used and we should
     /// transform an arrow expression to a function expression.
     hoister: FnEnvHoister,
-    unresolved_mark: Mark,
+    unresolved_ctxt: SyntaxContext,
     in_subclass: bool,
     in_prop: bool,
     c: Config,
@@ -302,7 +304,7 @@ impl Params {
                                         span,
                                         callee: Box::new(
                                             quote_ident!(
-                                                DUMMY_SP.apply_mark(self.unresolved_mark),
+                                                DUMMY_SP.with_ctxt(self.unresolved_ctxt),
                                                 "Array"
                                             )
                                             .into(),
@@ -534,7 +536,7 @@ impl VisitMut for Params {
                     if !self.in_prop {
                         f.visit_mut_children_with(&mut self.hoister)
                     } else {
-                        let mut hoister = FnEnvHoister::default();
+                        let mut hoister = FnEnvHoister::new(self.unresolved_ctxt);
                         f.visit_mut_children_with(&mut hoister);
                         local_vars = hoister.to_stmt();
                     }

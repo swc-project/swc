@@ -160,6 +160,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             return self
                 .with_ctx(Context {
                     allow_direct_super: true,
+                    in_class_field: false,
                     ..self.ctx()
                 })
                 .parse_fn_args_body(
@@ -216,6 +217,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             return self
                 .with_ctx(Context {
                     allow_direct_super: true,
+                    in_class_field: false,
                     ..self.ctx()
                 })
                 .parse_fn_args_body(
@@ -276,6 +278,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 let key_span = key.span();
                 self.with_ctx(Context {
                     allow_direct_super: true,
+                    in_class_field: false,
                     ..self.ctx()
                 })
                 .parse_with(|parser| {

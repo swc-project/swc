@@ -1,6 +1,6 @@
 use std::mem;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
@@ -58,8 +58,11 @@ use swc_trace_macro::swc_trace;
 /// console.log(bob.printFriends());
 /// ```
 #[tracing::instrument(level = "info", skip_all)]
-pub fn arrow() -> impl Fold + VisitMut + InjectVars {
-    as_folder(Arrow::default())
+pub fn arrow(unresolved_mark: Mark) -> impl Fold + VisitMut + InjectVars {
+    as_folder(Arrow {
+        in_subclass: false,
+        hoister: FnEnvHoister::new(SyntaxContext::empty().apply_mark(unresolved_mark)),
+    })
 }
 
 #[derive(Default)]

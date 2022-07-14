@@ -45,7 +45,7 @@ export { x, y as w } from "mod";
 );
 
 test!(
-    syntax_namespace(),
+    syntax_default(),
     |_| tr(),
     namespace_compound_es6,
     r"export * as foo, { bar } from 'bar';",

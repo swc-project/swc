@@ -272,6 +272,20 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             type_name = name,
         )));
 
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg_attr }).parse(),
+            tokens: q!({
+                (
+                    feature = "serde",
+                    derive(serde::Serialize, serde::Deserialize),
+                )
+            })
+            .into(),
+        });
+
         items.push(Item::Enum(ItemEnum {
             attrs,
             vis: Visibility::Public(VisPublic {
@@ -511,6 +525,20 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             bracket_token: def_site(),
             path: q!({ derive }).parse(),
             tokens: q!({ (Eq, PartialOrd, Ord, Hash) }).into(),
+        });
+
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg_attr }).parse(),
+            tokens: q!({
+                (
+                    feature = "serde",
+                    derive(serde::Serialize, serde::Deserialize),
+                )
+            })
+            .into(),
         });
     }
     attrs.push(Attribute {

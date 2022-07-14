@@ -18,7 +18,7 @@ default = []
 plugin = [
   "swc/plugin",
   "swc_plugin_runner/filesystem_cache",
-  "swc_plugin_runner/plugin-transform-schema-v1",
+  "swc_plugin_runner/plugin_transform_schema_v1",
   "wasmer/default",
   "wasmer-wasi/default",
 ]

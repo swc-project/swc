@@ -572,7 +572,7 @@ test!(
             class_properties(Some(t.comments.clone()), Default::default()),
             simplifier(unresolved_mark, Default::default()),
             es2018(Default::default()),
-            es2017(Default::default()),
+            es2017(Default::default(), unresolved_mark),
             es2016(),
             es2015(
                 unresolved_mark,

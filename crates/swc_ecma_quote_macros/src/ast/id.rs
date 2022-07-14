@@ -6,10 +6,8 @@ use crate::ctxt::Ctx;
 
 impl ToCode for swc_ecma_ast::Ident {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        // TODO: Check for variables.
-
         if let Some(var_name) = self.sym.strip_prefix('$') {
-            if let Some(var) = cx.vars.get(var_name) {
+            if let Some(var) = cx.var(crate::ctxt::VarPos::Ident, var_name) {
                 return var.get_expr();
             }
         }

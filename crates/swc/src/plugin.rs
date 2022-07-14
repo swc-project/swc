@@ -74,9 +74,21 @@ struct RustPlugins {
 }
 
 impl RustPlugins {
+    #[cfg(feature = "plugin")]
+    fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+        use anyhow::Context;
+
+        self.apply_inner(n).with_context(|| {
+            format!(
+                "failed to invoke plugin on '{:?}'",
+                self.plugin_context.filename
+            )
+        })
+    }
+
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
     #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
-    fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+    fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 
         use anyhow::Context;
@@ -188,7 +200,7 @@ impl RustPlugins {
     }
 
     #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
-    fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+    fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 
         use anyhow::Context;

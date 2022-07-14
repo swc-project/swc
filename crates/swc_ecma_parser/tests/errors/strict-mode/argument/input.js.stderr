@@ -1,0 +1,12 @@
+
+  x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+   ,-[$DIR/tests/errors/strict-mode/argument/input.js:2:5]
+ 2 | return Array.from(arguments, arguments => arguments + 1, (arguments, b) => arguments + b);
+   :                              ^^^^^^^^^
+   `----
+
+  x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+   ,-[$DIR/tests/errors/strict-mode/argument/input.js:2:5]
+ 2 | return Array.from(arguments, arguments => arguments + 1, (arguments, b) => arguments + b);
+   :                                                           ^^^^^^^^^
+   `----
