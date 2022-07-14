@@ -780,7 +780,9 @@ where
         } else if let Some(raw) = &n.raw {
             write_str!(self, n.span, raw);
         } else {
-            write_str!(self, n.span, &n.value);
+            let value = serialize_string(&*n.value);
+
+            write_str!(self, n.span, &value);
         }
     }
 
@@ -2087,6 +2089,58 @@ fn minify_hex_color(value: &str) -> String {
     }
 
     value.to_ascii_lowercase()
+}
+
+fn serialize_string(value: &str) -> String {
+    let mut minified = String::with_capacity(value.len());
+
+    for c in value.chars() {
+        match c {
+            // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
+            '\0' => {
+                minified.push('\u{FFFD}');
+            }
+            // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, the
+            // character escaped as code point.
+            '\x01'..='\x1F' | '\x7F' => {
+                static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
+
+                let b3;
+                let b4;
+                let char_as_u8 = c as u8;
+
+                let bytes = if char_as_u8 > 0x0f {
+                    let high = (char_as_u8 >> 4) as usize;
+                    let low = (char_as_u8 & 0x0f) as usize;
+
+                    b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
+
+                    &b4[..]
+                } else {
+                    b3 = [b'\\', HEX_DIGITS[c as usize], b' '];
+
+                    &b3[..]
+                };
+
+                minified.push_str(from_utf8(bytes).unwrap());
+            }
+            // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
+            // We avoid escaping `"` to better string compression - we count the quantity of
+            // quotes to choose the best default quotes
+            '\\' => {
+                minified.push_str("\\\\");
+            }
+            '"' => {
+                minified.push_str("\\\"");
+            }
+            // Otherwise, the character itself.
+            _ => {
+                minified.push(c);
+            }
+        };
+    }
+
+    format!("\"{}\"", minified.replace('"', "\\\""))
 }
 
 fn minify_string(value: &str) -> String {

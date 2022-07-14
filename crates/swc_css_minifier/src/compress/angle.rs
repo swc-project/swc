@@ -72,7 +72,7 @@ impl VisitMut for CompressAngle {
                     *component_value = ComponentValue::Number(Number {
                         span: *span,
                         value: 0.0,
-                        raw: "0".into(),
+                        raw: None,
                     });
                 }
                 _ => {}
@@ -102,14 +102,14 @@ impl VisitMut for CompressAngle {
 
         angle.value = Number {
             value: deg,
-            raw: deg.to_string().into(),
+            raw: None,
             span: angle.span,
         };
 
         angle.unit = Ident {
             span: angle.unit.span,
             value: "deg".into(),
-            raw: "deg".into(),
+            raw: None,
         };
     }
 }
