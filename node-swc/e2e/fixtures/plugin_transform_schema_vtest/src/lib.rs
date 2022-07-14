@@ -1,6 +1,4 @@
-use swc_plugin::{
-    ast::*, errors::HANDLER, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata,
-};
+use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata};
 
 struct ConsoleOutputReplacer;
 
