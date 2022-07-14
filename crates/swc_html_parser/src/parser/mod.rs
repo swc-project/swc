@@ -993,7 +993,7 @@ where
             Token::EndTag { tag_name, .. } if tag_name == "script" => {
                 let popped = self.open_elements_stack.pop();
 
-                self.update_end_tag_span(popped.as_ref(), token_and_info);
+                self.update_end_tag_span(popped.as_ref(), token_and_info.span);
 
                 // No need to handle other steps
             }
@@ -1059,7 +1059,7 @@ where
                             let clone = inner_node.clone();
                             let popped = self.open_elements_stack.pop_until_node(&clone);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
 
                             return Ok(());
                         }
@@ -1817,7 +1817,7 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "head" => {
                         let popped = self.open_elements_stack.pop();
 
-                        self.update_end_tag_span(popped.as_ref(), token_and_info);
+                        self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         self.insertion_mode = InsertionMode::AfterHead;
                     }
                     // An end tag whose tag name is one of: "body", "html", "br"
@@ -1891,7 +1891,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["template"]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.template_insertion_mode_stack.pop();
                             self.reset_insertion_mode();
@@ -1993,7 +1993,7 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "noscript" => {
                         let popped = self.open_elements_stack.pop();
 
-                        self.update_end_tag_span(popped.as_ref(), token_and_info);
+                        self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         self.insertion_mode = InsertionMode::InHead;
                     }
                     // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
@@ -2552,7 +2552,7 @@ where
                         } else {
                             self.update_end_tag_span(
                                 self.open_elements_stack.items.get(1),
-                                token_and_info,
+                                token_and_info.span,
                             );
                         }
 
@@ -2614,7 +2614,7 @@ where
                         } else {
                             self.update_end_tag_span(
                                 self.open_elements_stack.items.get(0),
-                                token_and_info,
+                                token_and_info.span,
                             );
                         }
 
@@ -3111,7 +3111,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         }
                     }
                     // An end tag whose tag name is "form"
@@ -3187,7 +3187,7 @@ where
                                     ErrorKind::UnclosedElements(tag_name.clone()),
                                 ));
                             } else {
-                                self.update_end_tag_span(Some(&node), token_and_info);
+                                self.update_end_tag_span(Some(&node), token_and_info.span);
                             }
 
                             self.open_elements_stack.remove(&node);
@@ -3217,7 +3217,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["form"]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         }
                     }
                     // An end tag whose tag name is "p"
@@ -3278,7 +3278,7 @@ where
                             let popped =
                                 self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         }
                     }
                     // An end tag whose tag name is one of: "dd", "dt"
@@ -3321,7 +3321,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         }
                     }
                     // An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
@@ -3364,7 +3364,7 @@ where
                                         ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 } else {
-                                    self.update_end_tag_span(Some(node), token_and_info);
+                                    self.update_end_tag_span(Some(node), token_and_info.span);
                                 }
                             }
 
@@ -3585,7 +3585,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.active_formatting_elements.clear_to_last_marker();
                         }
                     }
@@ -3628,7 +3628,8 @@ where
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(
-                            &mut self.create_fake_token_and_info("br", Some(token_and_info.span)),
+                            &mut self
+                                .create_fake_token_and_info(tag_name, Some(token_and_info.span)),
                         )?;
                         self.open_elements_stack.pop();
 
@@ -4343,7 +4344,7 @@ where
                         // More things can be implemented to intercept script execution
                         let popped = self.open_elements_stack.pop();
 
-                        self.update_end_tag_span(popped.as_ref(), token_and_info);
+                        self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
                     // Any other end tag
@@ -4355,7 +4356,7 @@ where
                         if let Token::EndTag { .. } = token {
                             self.update_end_tag_span(
                                 self.open_elements_stack.items.last(),
-                                token_and_info,
+                                token_and_info.span,
                             );
                         }
 
@@ -4534,7 +4535,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["table"]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.reset_insertion_mode();
                         }
                     }
@@ -4789,7 +4790,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["caption"]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -4986,7 +4987,7 @@ where
                             _ => {
                                 let popped = self.open_elements_stack.pop();
 
-                                self.update_end_tag_span(popped.as_ref(), token_and_info);
+                                self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                                 self.insertion_mode = InsertionMode::InTable;
                             }
                         }
@@ -5111,7 +5112,7 @@ where
                             self.open_elements_stack.clear_back_to_table_body_context();
                             self.update_end_tag_span(
                                 self.open_elements_stack.items.last(),
-                                token_and_info,
+                                token_and_info.span,
                             );
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
@@ -5235,7 +5236,7 @@ where
                             self.open_elements_stack.clear_back_to_table_row_context();
                             self.update_end_tag_span(
                                 self.open_elements_stack.items.last(),
-                                token_and_info,
+                                token_and_info.span,
                             );
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
@@ -5394,7 +5395,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InRow;
                         }
@@ -5591,7 +5592,10 @@ where
                                     Some(node) if is_html_element!(node, "optgroup") => {
                                         let popped = self.open_elements_stack.pop();
 
-                                        self.update_end_tag_span(popped.as_ref(), token_and_info);
+                                        self.update_end_tag_span(
+                                            popped.as_ref(),
+                                            token_and_info.span,
+                                        );
                                     }
                                     _ => {}
                                 }
@@ -5603,7 +5607,7 @@ where
                             Some(node) if is_html_element!(node, "optgroup") => {
                                 let popped = self.open_elements_stack.pop();
 
-                                self.update_end_tag_span(popped.as_ref(), token_and_info);
+                                self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5620,7 +5624,7 @@ where
                             Some(node) if is_html_element!(node, "option") => {
                                 let popped = self.open_elements_stack.pop();
 
-                                self.update_end_tag_span(popped.as_ref(), token_and_info);
+                                self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5650,7 +5654,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["select"]);
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.reset_insertion_mode();
                         }
                     }
@@ -6056,7 +6060,7 @@ where
                         } else {
                             self.update_end_tag_span(
                                 self.open_elements_stack.items.get(0),
-                                token_and_info,
+                                token_and_info.span,
                             );
                             self.insertion_mode = InsertionMode::AfterAfterBody;
                         }
@@ -6172,7 +6176,7 @@ where
                         } else {
                             let popped = self.open_elements_stack.pop();
 
-                            self.update_end_tag_span(popped.as_ref(), token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info.span);
 
                             if !self.is_fragment_case {
                                 match self.open_elements_stack.items.last() {
@@ -6302,7 +6306,7 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
                         self.update_end_tag_span(
                             self.open_elements_stack.items.last(),
-                            token_and_info,
+                            token_and_info.span,
                         );
                         self.insertion_mode = InsertionMode::AfterAfterFrameset;
                     }
@@ -6617,7 +6621,7 @@ where
         } else {
             let node = self.open_elements_stack.items.last();
 
-            self.update_end_tag_span(node, token_and_info);
+            self.update_end_tag_span(node, token_and_info.span);
         }
 
         // 2.- 3.
@@ -7055,7 +7059,7 @@ where
                 let popped = self.open_elements_stack.pop();
 
                 if is_closing {
-                    self.update_end_tag_span(popped.as_ref(), token_and_info);
+                    self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                 }
 
                 return Ok(());
@@ -7164,7 +7168,7 @@ where
                 while let Some(node) = self.open_elements_stack.pop() {
                     if is_same_node(&node, &formatting_element.1) {
                         if is_closing {
-                            self.update_end_tag_span(Some(&node), token_and_info);
+                            self.update_end_tag_span(Some(&node), token_and_info.span);
                         }
 
                         break;
@@ -7552,7 +7556,7 @@ where
         let popped = self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
 
         if is_close_p {
-            self.update_end_tag_span(popped.as_ref(), token_and_info)
+            self.update_end_tag_span(popped.as_ref(), token_and_info.span)
         }
     }
 
@@ -8385,7 +8389,7 @@ where
         }
     }
 
-    fn update_end_tag_span(&self, node: Option<&RcNode>, token_and_info: &TokenAndInfo) {
+    fn update_end_tag_span(&self, node: Option<&RcNode>, span: Span) {
         if let Some(node) = node {
             if node.start_span.borrow().is_dummy() {
                 return;
@@ -8393,7 +8397,7 @@ where
 
             let mut end_tag_span = node.end_span.borrow_mut();
 
-            *end_tag_span = Some(token_and_info.span);
+            *end_tag_span = Some(span);
         }
     }
 }
