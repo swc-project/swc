@@ -122,7 +122,7 @@ impl TransformExecutor {
                 let host_schema_version = PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
 
                 // TODO: this is incomplete
-                if plugin_schema_version == host_schema_version {
+                if host_schema_version >= plugin_schema_version {
                     Ok(true)
                 } else {
                     Ok(false)
