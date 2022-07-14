@@ -6,6 +6,7 @@ env:
   MACOSX_DEPLOYMENT_TARGET: "10.13"
   CARGO_INCREMENTAL: 0
   CI: "1"
+  DISABLE_PLUGIN_E2E_TESTS: true
 
 on:
   push:
