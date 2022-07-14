@@ -2286,7 +2286,8 @@
                     "end": 3255,
                     "ctxt": 0
                   },
-                  "data": " Common use case: embed HTML text into SVG "
+                  "data": " Common use case: embed HTML text into SVG ",
+                  "raw": "<!-- Common use case: embed HTML text into SVG -->"
                 },
                 {
                   "type": "Text",
@@ -2375,7 +2376,8 @@
                         "end": 3513,
                         "ctxt": 0
                       },
-                      "data": "\n          In the context of SVG embedded in an HTML document, the XHTML\n          namespace could be omitted, but it is mandatory in the\n          context of an SVG document\n        "
+                      "data": "\n          In the context of SVG embedded in an HTML document, the XHTML\n          namespace could be omitted, but it is mandatory in the\n          context of an SVG document\n        ",
+                      "raw": "<!--\n          In the context of SVG embedded in an HTML document, the XHTML\n          namespace could be omitted, but it is mandatory in the\n          context of an SVG document\n        -->"
                     },
                     {
                       "type": "Text",

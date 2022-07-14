@@ -14,7 +14,8 @@
         "end": 39,
         "ctxt": 0
       },
-      "data": "?xml version=\"1.0\" encoding=\"UTF-8\"?"
+      "data": "?xml version=\"1.0\" encoding=\"UTF-8\"?",
+      "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
     },
     {
       "type": "DocumentType",
