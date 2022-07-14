@@ -60,43 +60,43 @@ define!({
     pub struct Ident {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct CustomIdent {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct CustomPropertyName {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct DashedIdent {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Integer {
         pub span: Span,
         pub value: i64,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Number {
         pub span: Span,
         pub value: f64,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Declaration {
@@ -172,7 +172,7 @@ define!({
     pub struct HexColor {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub enum AlphaValue {
@@ -271,7 +271,7 @@ define!({
         pub before: JsWord,
         pub after: JsWord,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub enum UrlModifier {

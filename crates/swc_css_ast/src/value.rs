@@ -15,7 +15,7 @@ use crate::Function;
 pub struct Ident {
     pub span: Span,
     pub value: JsWord,
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 impl EqIgnoreSpan for Ident {
@@ -29,7 +29,7 @@ impl EqIgnoreSpan for Ident {
 pub struct CustomIdent {
     pub span: Span,
     pub value: JsWord,
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 impl EqIgnoreSpan for CustomIdent {
@@ -43,7 +43,7 @@ impl EqIgnoreSpan for CustomIdent {
 pub struct DashedIdent {
     pub span: Span,
     pub value: JsWord,
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 impl EqIgnoreSpan for DashedIdent {
@@ -57,7 +57,7 @@ impl EqIgnoreSpan for DashedIdent {
 pub struct CustomPropertyName {
     pub span: Span,
     pub value: JsWord,
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 impl EqIgnoreSpan for CustomPropertyName {
@@ -72,7 +72,7 @@ impl EqIgnoreSpan for CustomPropertyName {
 pub struct Str {
     pub span: Span,
     pub value: JsWord,
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 impl EqIgnoreSpan for Str {
@@ -131,7 +131,7 @@ pub struct HexColor {
     /// Does **not** include `#`
     pub value: JsWord,
     /// Does **not** include `#`
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 #[ast_node]
@@ -256,7 +256,7 @@ pub struct Percentage {
 pub struct Integer {
     pub span: Span,
     pub value: i64,
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 impl EqIgnoreSpan for Integer {
@@ -269,7 +269,7 @@ impl EqIgnoreSpan for Integer {
 pub struct Number {
     pub span: Span,
     pub value: f64,
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 impl Eq for Number {}
@@ -348,7 +348,7 @@ pub struct UrlValueRaw {
     pub before: JsWord,
     pub after: JsWord,
     pub value: JsWord,
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 #[ast_node]
