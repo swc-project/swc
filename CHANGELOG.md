@@ -5,24 +5,9 @@
 
 
 
-- **(es/fixer)** Handle invalid numeric literals (#5201) ([436f620](https://github.com/swc-project/swc/commit/436f6200bc05d1d88c9b3fb991f793ed308f607b))
+- **(es/codegen)** Mark bigint as an item starting with number (#5207) ([387d5e4](https://github.com/swc-project/swc/commit/387d5e41db260893297b65d0fd9084f60c71443a))
 
-### Features
-
-
-
-- **(es)** Add quote to `swc_ecmascript` (#5199) ([fbfa59b](https://github.com/swc-project/swc/commit/fbfa59b5b78ed76350be246eecba86f8fe8b4234))
-
-
-- **(html/parser)** Add `raw` to comments (#5196) ([dead719](https://github.com/swc-project/swc/commit/dead719550b1ac3024e07f77905ce7b064f102c4))
-
-### Testing
-
-
-
-- **(css/codegen)** Add tests (#5195) ([fa4c2de](https://github.com/swc-project/swc/commit/fa4c2de7064a213eb70cc7712b50d4a41d2bfdfe))
-
-## [1.2.214] - 2022-07-14
+## [1.2.215] - 2022-07-14
 
 ### Bug Fixes
 
@@ -31,19 +16,40 @@
 - **(es)** Check the syntax context of `arguments` (#5174) ([375774d](https://github.com/swc-project/swc/commit/375774d31e690142faeb8422fed4cc996bf1de16))
 
 
+- **(es/fixer)** Handle invalid numeric literals (#5201) ([436f620](https://github.com/swc-project/swc/commit/436f6200bc05d1d88c9b3fb991f793ed308f607b))
+
+
 - **(es/parser)** Fix parsing of export specifiers (#5190) ([ec93783](https://github.com/swc-project/swc/commit/ec9378370dd870c304143219afed04624075141f))
 
 ### Features
 
 
 
+- **(es)** Add quote to `swc_ecmascript` (#5199) ([fbfa59b](https://github.com/swc-project/swc/commit/fbfa59b5b78ed76350be246eecba86f8fe8b4234))
+
+
 - **(es/plugin)** Print filename on failure (#5200) ([f69dee7](https://github.com/swc-project/swc/commit/f69dee75f208a6385b64fa79147eef57bd24944e))
+
+
+- **(html/parser)** Add `raw` to comments (#5196) ([dead719](https://github.com/swc-project/swc/commit/dead719550b1ac3024e07f77905ce7b064f102c4))
 
 
 - **(quote)** Support different types for variables (#5194) ([c91abb2](https://github.com/swc-project/swc/commit/c91abb2ca75ff98e8fad7a4740b6feccec62cd54))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Skip plugin e2e tests for unsupported targets (#5203) ([6b6b582](https://github.com/swc-project/swc/commit/6b6b5825438bf05ac959e932a798db72dab79c69))
+
+
+- **(ci)** Disable plugin tests while publishing ([31bbf2d](https://github.com/swc-project/swc/commit/31bbf2ddbbd2babd5f2431ed39a6bcb464dbb7c4))
+
 ### Testing
 
+
+
+- **(css/codegen)** Add tests (#5195) ([fa4c2de](https://github.com/swc-project/swc/commit/fa4c2de7064a213eb70cc7712b50d4a41d2bfdfe))
 
 
 - **(plugin)** Setup e2e fixture testing for plugins (#5192) ([2fa51ec](https://github.com/swc-project/swc/commit/2fa51ecd7819b460837467d2a9093730671dd3fc))
