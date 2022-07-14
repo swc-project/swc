@@ -200,7 +200,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.213"
+version = "1.2.214"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.206.0"
+version = "0.206.1"
 dependencies = [
  "ahash",
  "ansi_term",
