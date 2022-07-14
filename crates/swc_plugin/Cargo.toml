@@ -16,13 +16,19 @@ rustdoc-args = ["--cfg", "docsrs"]
 bench = false
 
 [features]
+default = ["plugin_transform_schema_v1"]
 quote = ["swc_ecma_quote"]
+plugin_transform_schema_v1 = [
+  "swc_common/plugin_transform_schema_v1"
+]
+plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest",
+]
 
 [dependencies]
 swc_atoms = { version = "0.2.0", path = "../swc_atoms" }
 swc_common = { version = "0.24.1", path = "../swc_common", features = [
   "plugin-mode",
-  "plugin_transform_schema_v1"
 ] }
 swc_ecma_quote = { version = "0.26.2", path = "../swc_ecma_quote", optional = true }
 swc_ecmascript = { version = "0.181.0", path = "../swc_ecmascript", features = ["utils", "visit", "rkyv-impl"] }
