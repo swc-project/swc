@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/fixer)** Handle invalid numeric literals (#5201) ([436f620](https://github.com/swc-project/swc/commit/436f6200bc05d1d88c9b3fb991f793ed308f607b))
+
 ### Features
 
 
