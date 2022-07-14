@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html/parser)** Add `raw` to comments (#5196) ([dead719](https://github.com/swc-project/swc/commit/dead719550b1ac3024e07f77905ce7b064f102c4))
+
+### Testing
+
+
+
+- **(css/codegen)** Add tests (#5195) ([fa4c2de](https://github.com/swc-project/swc/commit/fa4c2de7064a213eb70cc7712b50d4a41d2bfdfe))
+
+## [1.2.214] - 2022-07-14
+
 ### Bug Fixes
 
 
@@ -12,6 +26,9 @@
 
 ### Features
 
+
+
+- **(es/plugin)** Print filename on failure (#5200) ([f69dee7](https://github.com/swc-project/swc/commit/f69dee75f208a6385b64fa79147eef57bd24944e))
 
 
 - **(quote)** Support different types for variables (#5194) ([c91abb2](https://github.com/swc-project/swc/commit/c91abb2ca75ff98e8fad7a4740b6feccec62cd54))

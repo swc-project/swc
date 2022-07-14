@@ -25,3 +25,18 @@ a {
 }
 .foo {
   color: red !ie;}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}

@@ -60,7 +60,8 @@
                 "end": 36,
                 "ctxt": 0
               },
-              "data": " BAR -- <QUX> -- MUX -- >BAZ"
+              "data": " BAR -- <QUX> -- MUX -- >BAZ",
+              "raw": "<!-- BAR -- <QUX> -- MUX -- >BAZ"
             }
           ],
           "content": null,
