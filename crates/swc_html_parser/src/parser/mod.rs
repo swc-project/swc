@@ -6081,6 +6081,10 @@ where
                     //
                     // Stop parsing.
                     Token::Eof => {
+                        self.update_end_tag_span(
+                            self.open_elements_stack.items.last(),
+                            token_and_info.span,
+                        );
                         self.stopped = true;
                     }
                     // Anything else
@@ -6482,7 +6486,6 @@ where
                             self.open_elements_stack.items.last(),
                             token_and_info.span,
                         );
-
                         self.stopped = true;
                     }
                     // A start tag whose tag name is "noframes"
