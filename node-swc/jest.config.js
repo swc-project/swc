@@ -6,7 +6,7 @@ module.exports = {
             testMatch: [
                 "**/__tests__/**/*.[jt]s?(x)",
                 "**/__tests__/**/*.m[jt]s?(x)",
-                "**/?(*.)+(spec|test).[jt]s?(x)",
+                "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)",
             ],
             transform: {},
             // transform: {
@@ -20,9 +20,11 @@ module.exports = {
             moduleFileExtensions: ["js", "jsx", "mjs"],
         },
         /* Integration tests requires a fixture setup to run tests, like plugins */
-        {
-            displayName: "e2e tests",
-            testMatch: ["**/e2e/**/?(*.)+(spec|test).[jt]s?(x)"],
-        },
-    ],
+        !!process.env.DISABLE_PLUGIN_E2E_TESTS
+            ? undefined
+            : {
+                  displayName: "e2e tests",
+                  testMatch: ["**/e2e/**/?(*.)+(spec|test).[jt]s?(x)"],
+              },
+    ].filter(Boolean),
 };
