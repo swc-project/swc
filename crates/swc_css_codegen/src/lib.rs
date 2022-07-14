@@ -777,8 +777,10 @@ where
             let minified = minify_string(&*n.value);
 
             write_str!(self, n.span, &minified);
+        } else if let Some(raw) = &n.raw {
+            write_str!(self, n.span, raw);
         } else {
-            write_str!(self, n.span, &n.raw);
+            write_str!(self, n.span, &n.value);
         }
     }
 
@@ -996,8 +998,10 @@ where
 
         if self.config.minify {
             value.push_str(&n.value.value.to_lowercase());
+        } else if let Some(raw) = &n.value.raw {
+            value.push_str(raw);
         } else {
-            value.push_str(&n.value.raw);
+            value.push_str("important");
         }
 
         write_raw!(self, n.span, &value);
@@ -1005,22 +1009,38 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
-        write_raw!(self, n.span, &n.raw);
+        if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            write_raw!(self, n.span, &n.value);
+        }
     }
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
-        write_raw!(self, n.span, &n.raw);
+        if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            write_raw!(self, n.span, &n.value);
+        }
     }
 
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
-        write_raw!(self, n.span, &n.raw);
+        if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            write_raw!(self, n.span, &n.value);
+        }
     }
 
     #[emitter]
     fn emit_custom_property_name(&mut self, n: &CustomPropertyName) -> Result {
-        write_raw!(self, n.span, &n.raw);
+        if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            write_raw!(self, n.span, &n.value);
+        }
     }
 
     #[emitter]
@@ -1088,8 +1108,10 @@ where
     fn emit_integer(&mut self, n: &Integer) -> Result {
         if self.config.minify {
             write_raw!(self, n.span, &n.value.to_string());
+        } else if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.raw);
+            write_raw!(self, n.span, &n.value.to_string());
         }
     }
 
@@ -1099,8 +1121,10 @@ where
             let minified = minify_numeric(n.value);
 
             write_raw!(self, n.span, &minified);
+        } else if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.raw);
+            write_raw!(self, n.span, &n.value.to_string());
         }
     }
 
@@ -1134,7 +1158,7 @@ where
 
     #[emitter]
     fn emit_hex_color(&mut self, n: &HexColor) -> Result {
-        let mut hex_color = String::with_capacity(5);
+        let mut hex_color = String::with_capacity(9);
 
         hex_color.push('#');
 
@@ -1142,8 +1166,10 @@ where
             let minified = minify_hex_color(&n.value);
 
             hex_color.push_str(&minified);
+        } else if let Some(raw) = &n.raw {
+            hex_color.push_str(raw);
         } else {
-            hex_color.push_str(&n.raw);
+            hex_color.push_str(&n.value);
         }
 
         write_raw!(self, n.span, &hex_color);
@@ -1554,12 +1580,18 @@ where
             url.push_str(&n.value);
 
             write_str!(self, n.span, &url);
-        } else {
-            let mut url = String::with_capacity(n.before.len() + n.raw.len() + n.after.len());
+        } else if let (Some(before), Some(raw), Some(after)) = (&n.before, &n.raw, &n.after) {
+            let mut url = String::with_capacity(before.len() + raw.len() + after.len());
 
-            url.push_str(&n.before);
-            url.push_str(&n.raw);
-            url.push_str(&n.after);
+            url.push_str(before);
+            url.push_str(raw);
+            url.push_str(after);
+
+            write_str!(self, n.span, &url);
+        } else {
+            let mut url = String::with_capacity(n.value.len());
+
+            url.push_str(&n.value);
 
             write_str!(self, n.span, &url);
         }

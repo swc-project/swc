@@ -345,10 +345,10 @@ pub enum UrlValue {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UrlValueRaw {
     pub span: Span,
-    pub before: JsWord,
-    pub after: JsWord,
     pub value: JsWord,
+    pub before: Option<JsWord>,
     pub raw: Option<JsWord>,
+    pub after: Option<JsWord>,
 }
 
 #[ast_node]

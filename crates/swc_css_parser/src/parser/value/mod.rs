@@ -2207,10 +2207,10 @@ where
                         span.hi - BytePos(1),
                         Default::default(),
                     ),
-                    before,
-                    after,
                     value,
+                    before: Some(before),
                     raw: Some(raw_value),
+                    after: Some(after),
                 }));
 
                 Ok(Url {

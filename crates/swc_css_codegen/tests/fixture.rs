@@ -120,14 +120,14 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         n.value = "fff".into();
-        n.raw = "fff".into();
+        n.raw = None;
     }
 
     fn visit_mut_important_flag(&mut self, n: &mut ImportantFlag) {
         n.visit_mut_children_with(self);
 
         n.value.value = n.value.value.to_lowercase().into();
-        n.value.raw = n.value.raw.to_lowercase().into();
+        n.value.raw = None;
     }
 
     // TODO - we should parse only some properties as `<integer>`, but it requires
@@ -140,7 +140,7 @@ impl VisitMut for NormalizeTest {
                 *n = ComponentValue::Integer(Integer {
                     span: Default::default(),
                     value: value.round() as i64,
-                    raw: "".into(),
+                    raw: None,
                 })
             }
             _ => {}
@@ -150,38 +150,38 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_integer(&mut self, n: &mut Integer) {
         n.visit_mut_children_with(self);
 
-        n.raw = "".into();
+        n.raw = None;
     }
 
     fn visit_mut_number(&mut self, n: &mut Number) {
         n.visit_mut_children_with(self);
 
-        n.raw = "".into();
+        n.raw = None;
     }
 
     fn visit_mut_str(&mut self, n: &mut Str) {
         n.visit_mut_children_with(self);
 
-        n.raw = "".into();
+        n.raw = None;
     }
 
     fn visit_mut_url_value_raw(&mut self, n: &mut UrlValueRaw) {
         n.visit_mut_children_with(self);
 
-        n.before = "".into();
-        n.after = "".into();
-        n.raw = "".into();
+        n.before = None;
+        n.after = None;
+        n.raw = None;
     }
 
     fn visit_mut_an_plus_b_notation(&mut self, n: &mut AnPlusBNotation) {
         n.visit_mut_children_with(self);
 
         if n.a_raw.is_some() {
-            n.a_raw = Some("".into());
+            n.a_raw = None;
         }
 
         if n.b_raw.is_some() {
-            n.b_raw = Some("".into());
+            n.b_raw = None;
         }
     }
 
