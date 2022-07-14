@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 150,
+    "end": 139,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 18,
-        "end": 150,
+        "start": 17,
+        "end": 139,
         "ctxt": 0
       },
       "tagName": "html",
@@ -32,8 +32,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 26,
-            "end": 83,
+            "start": 24,
+            "end": 79,
             "ctxt": 0
           },
           "tagName": "head",
@@ -43,18 +43,18 @@
             {
               "type": "Text",
               "span": {
-                "start": 32,
-                "end": 38,
+                "start": 30,
+                "end": 35,
                 "ctxt": 0
               },
               "data": "\n    ",
-              "raw": "\r\n    "
+              "raw": "\n    "
             },
             {
               "type": "Element",
               "span": {
-                "start": 38,
-                "end": 74,
+                "start": 35,
+                "end": 71,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -64,8 +64,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 45,
-                    "end": 66,
+                    "start": 42,
+                    "end": 63,
                     "ctxt": 0
                   },
                   "data": "Title of the document",
@@ -78,12 +78,12 @@
             {
               "type": "Text",
               "span": {
-                "start": 74,
-                "end": 76,
+                "start": 71,
+                "end": 72,
                 "ctxt": 0
               },
               "data": "\n",
-              "raw": "\r\n"
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -92,18 +92,18 @@
         {
           "type": "Text",
           "span": {
-            "start": 83,
-            "end": 87,
+            "start": 79,
+            "end": 81,
             "ctxt": 0
           },
           "data": "\n\n",
-          "raw": "\r\n\r\n"
+          "raw": "\n\n"
         },
         {
           "type": "Element",
           "span": {
-            "start": 87,
-            "end": 150,
+            "start": 81,
+            "end": 139,
             "ctxt": 0
           },
           "tagName": "body",
@@ -113,12 +113,12 @@
             {
               "type": "Text",
               "span": {
-                "start": 93,
-                "end": 150,
+                "start": 87,
+                "end": 139,
                 "ctxt": 0
               },
               "data": "\nThe content of the document......\n\n\n\n",
-              "raw": "\r\nThe content of the document......\r\n\r\n\r\n\r\n"
+              "raw": "\nThe content of the document......\n\n\n\n"
             }
           ],
           "content": null,
