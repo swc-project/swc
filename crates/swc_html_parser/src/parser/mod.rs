@@ -4260,7 +4260,10 @@ where
                     Token::Eof => {
                         self.errors
                             .push(Error::new(token_and_info.span, ErrorKind::EofInText));
-                        self.open_elements_stack.pop();
+
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         self.insertion_mode = self.original_insertion_mode.clone();
                         self.process_token(token_and_info, None)?;
                     }
