@@ -153,7 +153,6 @@ where
     current_doctype_token: Option<Doctype>,
     current_comment_token: Option<Comment>,
     doctype_raw: Option<String>,
-    current_comment_token: Option<String>,
     current_tag_token: Option<Tag>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
