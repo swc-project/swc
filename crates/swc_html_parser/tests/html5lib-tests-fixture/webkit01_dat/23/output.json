@@ -60,7 +60,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": " Hi there "
+              "data": " Hi there ",
+              "raw": "<!-- Hi there -->"
             }
           ],
           "content": null,

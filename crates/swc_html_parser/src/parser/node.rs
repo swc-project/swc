@@ -37,6 +37,7 @@ pub enum Data {
     },
     Comment {
         data: JsWord,
+        raw: Option<JsWord>,
     },
 }
 

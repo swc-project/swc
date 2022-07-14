@@ -60,7 +60,8 @@
                 "end": 33,
                 "ctxt": 0
               },
-              "data": " BAR -- <QUX> -- MUX "
+              "data": " BAR -- <QUX> -- MUX ",
+              "raw": "<!-- BAR -- <QUX> -- MUX >"
             },
             {
               "type": "Text",

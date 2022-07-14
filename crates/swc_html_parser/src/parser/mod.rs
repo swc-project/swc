@@ -501,9 +501,10 @@ where
                     raw: Some(raw.take().into()),
                 })
             }
-            Data::Comment { data } => Child::Comment(Comment {
+            Data::Comment { data, raw } => Child::Comment(Comment {
                 span: start_span,
                 data,
+                raw,
             }),
             _ => {
                 unreachable!();
@@ -8098,17 +8099,14 @@ where
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        let comment = Node::new(
-            Data::Comment {
-                data: match &token_and_info.token {
-                    Token::Comment { data } => data.clone(),
-                    _ => {
-                        unreachable!()
-                    }
-                },
-            },
-            token_and_info.span,
-        );
+        let (data, raw) = match &token_and_info.token {
+            Token::Comment { data, raw } => (data.clone(), Some(raw.clone())),
+            _ => {
+                unreachable!()
+            }
+        };
+
+        let comment = Node::new(Data::Comment { data, raw }, token_and_info.span);
 
         // Insert the newly created node at the adjusted insertion location.
         self.insert_at_position(adjusted_insertion_location, comment);
@@ -8120,17 +8118,14 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let comment = Node::new(
-            Data::Comment {
-                data: match &token_and_info.token {
-                    Token::Comment { data } => data.clone(),
-                    _ => {
-                        unreachable!()
-                    }
-                },
-            },
-            token_and_info.span,
-        );
+        let (data, raw) = match &token_and_info.token {
+            Token::Comment { data, raw } => (data.clone(), Some(raw.clone())),
+            _ => {
+                unreachable!()
+            }
+        };
+
+        let comment = Node::new(Data::Comment { data, raw }, token_and_info.span);
 
         if let Some(document) = &self.document {
             self.append_node(document, comment);
@@ -8143,17 +8138,14 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let comment = Node::new(
-            Data::Comment {
-                data: match &token_and_info.token {
-                    Token::Comment { data } => data.clone(),
-                    _ => {
-                        unreachable!()
-                    }
-                },
-            },
-            token_and_info.span,
-        );
+        let (data, raw) = match &token_and_info.token {
+            Token::Comment { data, raw } => (data.clone(), Some(raw.clone())),
+            _ => {
+                unreachable!()
+            }
+        };
+
+        let comment = Node::new(Data::Comment { data, raw }, token_and_info.span);
 
         if let Some(html) = &self.open_elements_stack.items.get(0) {
             self.append_node(html, comment);

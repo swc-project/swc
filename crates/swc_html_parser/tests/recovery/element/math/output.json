@@ -182,7 +182,8 @@
                         "end": 142,
                         "ctxt": 0
                       },
-                      "data": " Presentation MathML "
+                      "data": " Presentation MathML ",
+                      "raw": "<!-- Presentation MathML -->"
                     },
                     {
                       "type": "Text",
@@ -411,7 +412,8 @@
                         "end": 345,
                         "ctxt": 0
                       },
-                      "data": " Content MathML "
+                      "data": " Content MathML ",
+                      "raw": "<!-- Content MathML -->"
                     },
                     {
                       "type": "Text",
@@ -714,7 +716,8 @@
                         "end": 700,
                         "ctxt": 0
                       },
-                      "data": " Content HTML "
+                      "data": " Content HTML ",
+                      "raw": "<!-- Content HTML -->"
                     },
                     {
                       "type": "Text",
@@ -851,7 +854,8 @@
                         "end": 1070,
                         "ctxt": 0
                       },
-                      "data": " annotate an image "
+                      "data": " annotate an image ",
+                      "raw": "<!-- annotate an image -->"
                     },
                     {
                       "type": "Text",
@@ -919,7 +923,8 @@
                         "end": 1172,
                         "ctxt": 0
                       },
-                      "data": " annotate TeX "
+                      "data": " annotate TeX ",
+                      "raw": "<!-- annotate TeX -->"
                     },
                     {
                       "type": "Text",

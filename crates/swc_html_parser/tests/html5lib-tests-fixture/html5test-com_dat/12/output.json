@@ -14,7 +14,8 @@
         "end": 16,
         "ctxt": 0
       },
-      "data": "foo--bar"
+      "data": "foo--bar",
+      "raw": "<!--foo--bar-->"
     },
     {
       "type": "Element",

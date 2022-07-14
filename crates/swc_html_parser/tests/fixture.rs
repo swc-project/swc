@@ -7,7 +7,7 @@
 use std::{fs, mem::take, path::PathBuf};
 
 use serde_json::Value;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::AHashSet,
     errors::Handler,
@@ -647,6 +647,9 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     Token::Character { ref mut raw, .. } => {
                         *raw = None;
                     }
+                    Token::Comment { ref mut raw, .. } => {
+                        *raw = js_word!("");
+                    }
                     _ => {}
                 }
 
@@ -793,7 +796,10 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                         };
                                     }
 
-                                    vec![Token::Comment { data: data.into() }]
+                                    vec![Token::Comment {
+                                        data: data.into(),
+                                        raw: js_word!(""),
+                                    }]
                                 }
                                 _ => {
                                     unreachable!("unknown token {}", token_parts[0])

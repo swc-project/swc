@@ -39,7 +39,8 @@
             "end": 22,
             "ctxt": 0
           },
-          "data": " "
+          "data": " ",
+          "raw": "<!-- -->"
         },
         {
           "type": "Element",
@@ -83,7 +84,8 @@
                 "end": 46,
                 "ctxt": 0
               },
-              "data": " "
+              "data": " ",
+              "raw": "<!-- -->"
             },
             {
               "type": "Element",

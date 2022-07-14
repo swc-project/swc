@@ -14,7 +14,8 @@
         "end": 4,
         "ctxt": 0
       },
-      "data": "#"
+      "data": "#",
+      "raw": "<!#"
     },
     {
       "type": "Element",
