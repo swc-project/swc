@@ -47,7 +47,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 24,
+                "end": 32,
                 "ctxt": 0
               },
               "tagName": "dummy",

@@ -2496,6 +2496,11 @@ where
                             return Ok(());
                         }
 
+                        self.update_end_tag_span(
+                            self.open_elements_stack.items.last(),
+                            token_and_info.span,
+                        );
+
                         for node in &self.open_elements_stack.items {
                             if !is_html_element!(
                                 node,

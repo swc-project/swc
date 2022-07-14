@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 19,
+        "end": 23,
         "ctxt": 0
       },
       "tagName": "math",
@@ -21,7 +21,7 @@
           "type": "Element",
           "span": {
             "start": 7,
-            "end": 19,
+            "end": 23,
             "ctxt": 0
           },
           "tagName": "tr",
@@ -32,7 +32,7 @@
               "type": "Element",
               "span": {
                 "start": 11,
-                "end": 19,
+                "end": 23,
                 "ctxt": 0
               },
               "tagName": "td",
@@ -43,7 +43,7 @@
                   "type": "Element",
                   "span": {
                     "start": 15,
-                    "end": 19,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "tagName": "mo",

@@ -58,7 +58,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 20,
+                "end": 30,
                 "ctxt": 0
               },
               "tagName": "dt",
