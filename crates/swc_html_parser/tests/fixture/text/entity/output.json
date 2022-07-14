@@ -1206,7 +1206,7 @@
                   "name": "href",
                   "rawName": "href",
                   "value": "http://lmgtfy.com/?l=1&q=rick+roll",
-                  "rawValue": "\"http://lmgtfy.com/?l=1&q=rick+roll\""
+                  "rawValue": "\"http://lmgtfy.com/?l=1&amp;q=rick+roll\""
                 }
               ],
               "children": [
@@ -1270,7 +1270,7 @@
                   "name": "onclick",
                   "rawName": "onclick",
                   "value": "window.location='?l=1&q=rick+roll';return false",
-                  "rawValue": "\"window.location='?l=1&q=rick+roll';return false\""
+                  "rawValue": "\"window.location='?l=1&amp;q=rick+roll';return false\""
                 }
               ],
               "children": [
@@ -1670,7 +1670,7 @@
                   "name": "href",
                   "rawName": "href",
                   "value": "test⋹̸test",
-                  "rawValue": "\"test⋹̸test\""
+                  "rawValue": "\"test&notinE;test\""
                 }
               ],
               "children": [
@@ -1820,7 +1820,7 @@
                   "name": "href",
                   "rawName": "href",
                   "value": "test&",
-                  "rawValue": "\"test&\""
+                  "rawValue": "\"test&amp;\""
                 }
               ],
               "children": [

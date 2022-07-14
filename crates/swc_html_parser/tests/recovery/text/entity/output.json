@@ -514,7 +514,7 @@
                   "name": "data-test",
                   "rawName": "data-test",
                   "value": "&amp;",
-                  "rawValue": "\"&amp;\""
+                  "rawValue": "\"&amp;amp;\""
                 }
               ],
               "children": [],
@@ -553,7 +553,7 @@
                   "name": "data-test",
                   "rawName": "data-test",
                   "value": "&amp",
-                  "rawValue": "\"&amp\""
+                  "rawValue": "\"&amp;amp\""
                 }
               ],
               "children": [],
@@ -592,7 +592,7 @@
                   "name": "data-test",
                   "rawName": "data-test",
                   "value": "&#36",
-                  "rawValue": "\"&#36\""
+                  "rawValue": "\"&amp;#36\""
                 }
               ],
               "children": [],
@@ -631,7 +631,7 @@
                   "name": "data-test",
                   "rawName": "data-test",
                   "value": "&#x36",
-                  "rawValue": "\"&#x36\""
+                  "rawValue": "\"&amp;#x36\""
                 }
               ],
               "children": [],
@@ -670,7 +670,7 @@
                   "name": "data-test",
                   "rawName": "data-test",
                   "value": "6",
-                  "rawValue": "\"6\""
+                  "rawValue": "\"&#x36\""
                 }
               ],
               "children": [],
