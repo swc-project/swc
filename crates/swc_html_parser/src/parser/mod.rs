@@ -6001,6 +6001,10 @@ where
                         if !self.open_elements_stack.contains_template_element() {
                             self.stopped = true;
                         } else {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info.span,
+                            );
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::EofWithUnclosedElements,
