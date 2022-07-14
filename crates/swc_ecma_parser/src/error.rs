@@ -98,6 +98,7 @@ pub enum SyntaxError {
     InvalidIdentInStrict,
     /// 'eval' and 'arguments' are invalid identifier in strict mode.
     EvalAndArgumentsInStrict,
+    ArgumentsInClassField,
     IllegalLanguageModeDirective,
     UnaryInExp {
         left: String,
@@ -325,6 +326,9 @@ impl SyntaxError {
             SyntaxError::EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a \
                                                       binding identifier in strict mode"
                 .into(),
+            SyntaxError::ArgumentsInClassField => {
+                "'arguments' is only allowed in functions and class methods".into()
+            }
             SyntaxError::IllegalLanguageModeDirective => {
                 "Illegal 'use strict' directive in function with non-simple parameter list.".into()
             }

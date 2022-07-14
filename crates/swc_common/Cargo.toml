@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.24.0"
+version = "0.24.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -26,8 +26,8 @@ plugin-mode = ["plugin-base"]
 plugin-rt = ["plugin-base"]
 rkyv-impl = ["rkyv", "bytecheck"]
 tty-emitter = ["atty", "termcolor"]
-plugin-transform-schema-v1 = []
-plugin-transform-schema-vtest = []
+plugin_transform_schema_v1 = []
+plugin_transform_schema_vtest = []
 
 [dependencies]
 ahash = "0.7.4"

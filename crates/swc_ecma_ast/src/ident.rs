@@ -36,6 +36,14 @@ pub struct BindingIdent {
     pub type_ann: Option<TsTypeAnn>,
 }
 
+impl std::ops::Deref for BindingIdent {
+    type Target = Ident;
+
+    fn deref(&self) -> &Self::Target {
+        &self.id
+    }
+}
+
 impl BindingIdent {
     /// See [Ident#to_id] for documentation.
     pub fn to_id(&self) -> Id {
