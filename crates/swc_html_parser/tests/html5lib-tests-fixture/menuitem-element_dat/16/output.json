@@ -59,7 +59,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 26,
+                "end": 33,
                 "ctxt": 0
               },
               "tagName": "menuitem",

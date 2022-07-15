@@ -5,15 +5,39 @@
 
 
 
-- **(es/codegen)** Mark bigint as an item starting with number (#5207) ([387d5e4](https://github.com/swc-project/swc/commit/387d5e41db260893297b65d0fd9084f60c71443a))
+- **(cli)** Emit sourcemap with file inputs (#5213) ([3e3be80](https://github.com/swc-project/swc/commit/3e3be80efda09ae494f8962947562b4411874061))
 
-## [1.2.215] - 2022-07-14
+
+- **(html/parser)** Fix span  (#5209) ([b4daa30](https://github.com/swc-project/swc/commit/b4daa3005803be23676bec666bb8f8791f2472b3))
+
+### Features
+
+
+
+- **(html/ast)** Add `raw` to attributes (#5208) ([64237fa](https://github.com/swc-project/swc/commit/64237fa7fb9c95030f92892143f476c2573bed75))
+
+
+- **(plugin)** Pass `unresolved_mark` to plugins (#5212) ([92c0153](https://github.com/swc-project/swc/commit/92c0153cb56a6b3b7d6503216a14d5ed78df71dc))
+
+### Testing
+
+
+
+- **(es/plugin)** Build plugins for e2e testing (#5210) ([cd94f0a](https://github.com/swc-project/swc/commit/cd94f0a2e9a7331073d20638031ae86d3308760e))
+
+
+- **(plugin)** Fix e2e tests on windows (#5216) ([f1ba332](https://github.com/swc-project/swc/commit/f1ba3327cfcc37534484362293cfac19587110da))
+
+## [1.2.216] - 2022-07-14
 
 ### Bug Fixes
 
 
 
 - **(es)** Check the syntax context of `arguments` (#5174) ([375774d](https://github.com/swc-project/swc/commit/375774d31e690142faeb8422fed4cc996bf1de16))
+
+
+- **(es/codegen)** Mark bigint as an item starting with number (#5207) ([387d5e4](https://github.com/swc-project/swc/commit/387d5e41db260893297b65d0fd9084f60c71443a))
 
 
 - **(es/fixer)** Handle invalid numeric literals (#5201) ([436f620](https://github.com/swc-project/swc/commit/436f6200bc05d1d88c9b3fb991f793ed308f607b))
@@ -44,6 +68,9 @@
 
 
 - **(ci)** Disable plugin tests while publishing ([31bbf2d](https://github.com/swc-project/swc/commit/31bbf2ddbbd2babd5f2431ed39a6bcb464dbb7c4))
+
+
+- **(ci)** Disable some tests ([ff949b0](https://github.com/swc-project/swc/commit/ff949b0bc7df790a6d1df11f2129d589b0dd46b8))
 
 ### Testing
 

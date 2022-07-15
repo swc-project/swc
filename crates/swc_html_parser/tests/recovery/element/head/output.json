@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -119,7 +121,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "charset",
-                  "value": "UTF-8"
+                  "rawName": "charset",
+                  "value": "UTF-8",
+                  "rawValue": "\"UTF-8\""
                 }
               ],
               "children": [],

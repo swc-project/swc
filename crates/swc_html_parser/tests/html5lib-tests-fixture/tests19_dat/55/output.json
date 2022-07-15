@@ -59,7 +59,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 24,
+                "end": 34,
                 "ctxt": 0
               },
               "tagName": "applet",

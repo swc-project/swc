@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "encoding",
-                      "value": "aPPlication/xhtmL+xMl"
+                      "rawName": "encoding",
+                      "value": "aPPlication/xhtmL+xMl",
+                      "rawValue": "\"aPPlication/xhtmL+xMl\""
                     }
                   ],
                   "children": [

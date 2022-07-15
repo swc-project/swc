@@ -23,7 +23,7 @@
       "type": "Element",
       "span": {
         "start": 16,
-        "end": 28,
+        "end": 39,
         "ctxt": 0
       },
       "tagName": "html",
@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "id",
-          "value": "x"
+          "rawName": "id",
+          "value": "x",
+          "rawValue": "x"
         }
       ],
       "children": [
@@ -61,7 +63,7 @@
           "type": "Element",
           "span": {
             "start": 22,
-            "end": 28,
+            "end": 39,
             "ctxt": 0
           },
           "tagName": "body",

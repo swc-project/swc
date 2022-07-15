@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "id",
-          "value": "x"
+          "rawName": "id",
+          "value": "x",
+          "rawValue": "x"
         }
       ],
       "children": [

@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -170,7 +172,7 @@
                       "type": "Element",
                       "span": {
                         "start": 96,
-                        "end": 175,
+                        "end": 182,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -191,7 +193,7 @@
                           "type": "Element",
                           "span": {
                             "start": 109,
-                            "end": 175,
+                            "end": 182,
                             "ctxt": 0
                           },
                           "tagName": "td",

@@ -71,7 +71,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "http-equiv",
-                  "value": "Content-Type"
+                  "rawName": "http-equiv",
+                  "value": "Content-Type",
+                  "rawValue": "\"Content-Type\""
                 },
                 {
                   "type": "Attribute",
@@ -83,7 +85,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "content",
-                  "value": "text/html; charset=utf-8"
+                  "rawName": "content",
+                  "value": "text/html; charset=utf-8",
+                  "rawValue": "\"text/html; charset=utf-8\""
                 }
               ],
               "children": [],

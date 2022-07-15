@@ -61,7 +61,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "charset",
-                  "value": "ascii"
+                  "rawName": "charset",
+                  "value": "ascii",
+                  "rawValue": "\"ascii\""
                 }
               ],
               "children": [],

@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 499,
+    "end": 921,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -23,7 +23,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 499,
+        "end": 921,
         "ctxt": 0
       },
       "tagName": "html",
@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -117,7 +119,7 @@
           "type": "Element",
           "span": {
             "start": 77,
-            "end": 499,
+            "end": 921,
             "ctxt": 0
           },
           "tagName": "body",
@@ -154,7 +156,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "0",
-                  "value": null
+                  "rawName": "0",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -166,7 +170,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "1",
-                  "value": null
+                  "rawName": "1",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -178,7 +184,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "2",
-                  "value": null
+                  "rawName": "2",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -190,7 +198,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "3",
-                  "value": null
+                  "rawName": "3",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -202,7 +212,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "4",
-                  "value": null
+                  "rawName": "4",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -214,7 +226,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "5",
-                  "value": null
+                  "rawName": "5",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -226,7 +240,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "6",
-                  "value": null
+                  "rawName": "6",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -238,7 +254,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "7",
-                  "value": null
+                  "rawName": "7",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -250,7 +268,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "8",
-                  "value": null
+                  "rawName": "8",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -262,7 +282,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "9",
-                  "value": null
+                  "rawName": "9",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -274,7 +296,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "a",
-                  "value": null
+                  "rawName": "a",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -286,7 +310,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "b",
-                  "value": null
+                  "rawName": "b",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -298,7 +324,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "c",
-                  "value": null
+                  "rawName": "c",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -310,7 +338,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "d",
-                  "value": null
+                  "rawName": "d",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -322,7 +352,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "e",
-                  "value": null
+                  "rawName": "e",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -334,7 +366,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "f",
-                  "value": null
+                  "rawName": "f",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -346,7 +380,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "g",
-                  "value": null
+                  "rawName": "g",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -358,7 +394,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "h",
-                  "value": null
+                  "rawName": "h",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -370,7 +408,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "i",
-                  "value": null
+                  "rawName": "i",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -382,7 +422,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "j",
-                  "value": null
+                  "rawName": "j",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -394,7 +436,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "k",
-                  "value": null
+                  "rawName": "k",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -406,7 +450,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "l",
-                  "value": null
+                  "rawName": "l",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -418,7 +464,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "m",
-                  "value": null
+                  "rawName": "m",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -430,7 +478,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "n",
-                  "value": null
+                  "rawName": "n",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -442,7 +492,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "o",
-                  "value": null
+                  "rawName": "o",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -454,7 +506,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "p",
-                  "value": null
+                  "rawName": "p",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -466,7 +520,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "q",
-                  "value": null
+                  "rawName": "q",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -478,7 +534,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "r",
-                  "value": null
+                  "rawName": "r",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -490,7 +548,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "s",
-                  "value": null
+                  "rawName": "s",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -502,7 +562,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "t",
-                  "value": null
+                  "rawName": "t",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -514,7 +576,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "u",
-                  "value": null
+                  "rawName": "u",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -526,7 +590,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "v",
-                  "value": null
+                  "rawName": "v",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -538,7 +604,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "w",
-                  "value": null
+                  "rawName": "w",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -550,7 +618,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "x",
-                  "value": null
+                  "rawName": "x",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -562,7 +632,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "y",
-                  "value": null
+                  "rawName": "y",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -574,7 +646,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "z",
-                  "value": null
+                  "rawName": "z",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -611,7 +685,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "title",
-                  "value": " <![CDATA[ \\n\\n foobar baz ]]> "
+                  "rawName": "title",
+                  "value": " <![CDATA[ \\n\\n foobar baz ]]> ",
+                  "rawValue": "\" <![CDATA[ \\n\\n foobar baz ]]> \""
                 }
               ],
               "children": [
@@ -659,7 +735,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "title",
-                  "value": " <!-- hello world --> "
+                  "rawName": "title",
+                  "value": " <!-- hello world --> ",
+                  "rawValue": "\" <!-- hello world --> \""
                 }
               ],
               "children": [
@@ -707,7 +785,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "v-ref:vm_pv",
-                  "value": null
+                  "rawName": "v-ref:vm_pv",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -719,7 +799,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": ":imgs",
-                  "value": " objpicsurl_ "
+                  "rawName": ":imgs",
+                  "value": " objpicsurl_ ",
+                  "rawValue": "\" objpicsurl_ \""
                 }
               ],
               "children": [],
@@ -756,7 +838,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "a",
-                  "value": "\\u00A0"
+                  "rawName": "a",
+                  "value": "\\u00A0",
+                  "rawValue": "\\u00A0"
                 },
                 {
                   "type": "Attribute",
@@ -768,7 +852,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "b",
-                  "value": " "
+                  "rawName": "b",
+                  "value": " ",
+                  "rawValue": "\"&nbsp;\""
                 },
                 {
                   "type": "Attribute",
@@ -780,7 +866,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "c",
-                  "value": "\\u00A0"
+                  "rawName": "c",
+                  "value": "\\u00A0",
+                  "rawValue": "\"\\u00A0\""
                 }
               ],
               "children": [],
@@ -817,7 +905,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "test"
+                  "rawName": "src",
+                  "value": "test",
+                  "rawValue": "\"test\""
                 }
               ],
               "children": [],
@@ -854,7 +944,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "test.jpg"
+                  "rawName": "src",
+                  "value": "test.jpg",
+                  "rawValue": "test.jpg"
                 }
               ],
               "children": [],
@@ -891,7 +983,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "test.jpg"
+                  "rawName": "src",
+                  "value": "test.jpg",
+                  "rawValue": "test.jpg"
                 },
                 {
                   "type": "Attribute",
@@ -903,7 +997,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-src",
-                  "value": "test.jpg"
+                  "rawName": "data-src",
+                  "value": "test.jpg",
+                  "rawValue": "test.jpg"
                 }
               ],
               "children": [],
@@ -940,7 +1036,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "disabled",
-                  "value": null
+                  "rawName": "disabled",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -951,7 +1049,469 @@
               "type": "Text",
               "span": {
                 "start": 481,
-                "end": 499,
+                "end": 483,
+                "ctxt": 0
+              },
+              "data": "\n\n",
+              "raw": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 483,
+                "end": 507,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 488,
+                    "end": 500,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "class",
+                  "rawName": "CLASS",
+                  "value": "TEST",
+                  "rawValue": "\"TEST\""
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 507,
+                "end": 508,
+                "ctxt": 0
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 508,
+                "end": 532,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 513,
+                    "end": 525,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "class",
+                  "rawName": "CLASS",
+                  "value": "TEST",
+                  "rawValue": "'TEST'"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 532,
+                "end": 533,
+                "ctxt": 0
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 533,
+                "end": 555,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 538,
+                    "end": 548,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "class",
+                  "rawName": "CLASS",
+                  "value": "TEST",
+                  "rawValue": "TEST"
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 555,
+                "end": 557,
+                "ctxt": 0
+              },
+              "data": "\n\n",
+              "raw": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 557,
+                "end": 814,
+                "ctxt": 0
+              },
+              "tagName": "svg",
+              "namespace": "http://www.w3.org/2000/svg",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 562,
+                    "end": 582,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "viewBox",
+                  "rawName": "viewBox",
+                  "value": "0 0 140 50",
+                  "rawValue": "\"0 0 140 50\""
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 583,
+                    "end": 617,
+                    "ctxt": 0
+                  },
+                  "namespace": "http://www.w3.org/2000/xmlns/",
+                  "prefix": null,
+                  "name": "xmlns",
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/2000/svg",
+                  "rawValue": "\"http://www.w3.org/2000/svg\""
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 618,
+                    "end": 623,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 623,
+                    "end": 680,
+                    "ctxt": 0
+                  },
+                  "tagName": "text",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 629,
+                        "end": 635,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "y",
+                      "rawName": "y",
+                      "value": "20",
+                      "rawValue": "\"20\""
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 636,
+                        "end": 655,
+                        "ctxt": 0
+                      },
+                      "namespace": "http://www.w3.org/XML/1998/namespace",
+                      "prefix": "xml",
+                      "name": "space",
+                      "rawName": "xml:space",
+                      "value": "default",
+                      "rawValue": "\"default\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 656,
+                        "end": 673,
+                        "ctxt": 0
+                      },
+                      "data": "Default   spacing",
+                      "raw": "Default   spacing"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 680,
+                    "end": 685,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 685,
+                    "end": 742,
+                    "ctxt": 0
+                  },
+                  "tagName": "text",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 691,
+                        "end": 697,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "y",
+                      "rawName": "y",
+                      "value": "20",
+                      "rawValue": "\"20\""
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 698,
+                        "end": 717,
+                        "ctxt": 0
+                      },
+                      "namespace": "http://www.w3.org/XML/1998/namespace",
+                      "prefix": "xml",
+                      "name": "space",
+                      "rawName": "XML:SPACE",
+                      "value": "default",
+                      "rawValue": "\"default\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 718,
+                        "end": 735,
+                        "ctxt": 0
+                      },
+                      "data": "Default   spacing",
+                      "raw": "Default   spacing"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 742,
+                    "end": 747,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 747,
+                    "end": 807,
+                    "ctxt": 0
+                  },
+                  "tagName": "text",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 753,
+                        "end": 759,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "y",
+                      "rawName": "y",
+                      "value": "40",
+                      "rawValue": "\"40\""
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 760,
+                        "end": 780,
+                        "ctxt": 0
+                      },
+                      "namespace": "http://www.w3.org/XML/1998/namespace",
+                      "prefix": "xml",
+                      "name": "space",
+                      "rawName": "xml:space",
+                      "value": "preserve",
+                      "rawValue": "\"preserve\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 781,
+                        "end": 800,
+                        "ctxt": 0
+                      },
+                      "data": "Preserved   spacing",
+                      "raw": "Preserved   spacing"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 807,
+                    "end": 808,
+                    "ctxt": 0
+                  },
+                  "data": "\n",
+                  "raw": "\n"
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 814,
+                "end": 816,
+                "ctxt": 0
+              },
+              "data": "\n\n",
+              "raw": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 816,
+                "end": 859,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 821,
+                    "end": 852,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "id",
+                  "rawName": "id",
+                  "value": "John \" & Harry ",
+                  "rawValue": "\"John &quot; &amp; Harry \""
+                }
+              ],
+              "children": [],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 859,
+                "end": 860,
+                "ctxt": 0
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 860,
+                "end": 903,
+                "ctxt": 0
+              },
+              "tagName": "a",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 863,
+                    "end": 894,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "href",
+                  "rawName": "href",
+                  "value": "http://host/?x=1&y=2",
+                  "rawValue": "\"http://host/?x=1&#38;y=2\""
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 895,
+                    "end": 899,
+                    "ctxt": 0
+                  },
+                  "data": "test",
+                  "raw": "test"
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 903,
+                "end": 921,
                 "ctxt": 0
               },
               "data": "\n\n\n\n",

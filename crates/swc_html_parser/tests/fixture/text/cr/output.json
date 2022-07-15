@@ -225,7 +225,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "test",
-                  "value": "test"
+                  "rawName": "test",
+                  "value": "test",
+                  "rawValue": "\"test\""
                 }
               ],
               "children": [
@@ -273,7 +275,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-q",
-                  "value": "test"
+                  "rawName": "data-q",
+                  "value": "test",
+                  "rawValue": "\"test\""
                 }
               ],
               "children": [
@@ -321,7 +325,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-q",
-                  "value": "test"
+                  "rawName": "data-q",
+                  "value": "test",
+                  "rawValue": "'test'"
                 }
               ],
               "children": [
@@ -369,7 +375,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-q",
-                  "value": "test"
+                  "rawName": "data-q",
+                  "value": "test",
+                  "rawValue": "test"
                 }
               ],
               "children": [

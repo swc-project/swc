@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "status"
+                  "rawName": "id",
+                  "value": "status",
+                  "rawValue": "\"status\""
                 }
               ],
               "children": [

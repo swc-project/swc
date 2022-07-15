@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "color",
-                  "value": "red"
+                  "rawName": "color",
+                  "value": "red",
+                  "rawValue": "red"
                 }
               ],
               "children": [
@@ -138,7 +140,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "color",
-                          "value": "red"
+                          "rawName": "color",
+                          "value": "red",
+                          "rawValue": "red"
                         }
                       ],
                       "children": [
@@ -235,7 +239,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "color",
-                      "value": "red"
+                      "rawName": "color",
+                      "value": "red",
+                      "rawValue": "red"
                     }
                   ],
                   "children": [
@@ -302,7 +308,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "color",
-                  "value": "red"
+                  "rawName": "color",
+                  "value": "red",
+                  "rawValue": "red"
                 }
               ],
               "children": [
@@ -366,7 +374,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "color",
-                      "value": "red"
+                      "rawName": "color",
+                      "value": "red",
+                      "rawValue": "red"
                     }
                   ],
                   "children": [

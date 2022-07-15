@@ -27,7 +27,9 @@
           "namespace": null,
           "prefix": null,
           "name": "class",
-          "value": "foo"
+          "rawName": "class",
+          "value": "foo",
+          "rawValue": "\"foo\""
         }
       ],
       "children": [

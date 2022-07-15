@@ -71,7 +71,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "charset",
-                  "value": "utf8"
+                  "rawName": "charset",
+                  "value": "utf8",
+                  "rawValue": "\"utf8\""
                 }
               ],
               "children": [],

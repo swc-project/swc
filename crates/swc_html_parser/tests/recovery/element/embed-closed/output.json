@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -154,7 +156,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "vide/webm"
+                  "rawName": "type",
+                  "value": "vide/webm",
+                  "rawValue": "\"vide/webm\""
                 },
                 {
                   "type": "Attribute",
@@ -166,7 +170,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "/media/examples/flower.mp4"
+                  "rawName": "src",
+                  "value": "/media/examples/flower.mp4",
+                  "rawValue": "\"/media/examples/flower.mp4\""
                 },
                 {
                   "type": "Attribute",
@@ -178,7 +184,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "200"
+                  "rawName": "width",
+                  "value": "200",
+                  "rawValue": "\"200\""
                 },
                 {
                   "type": "Attribute",
@@ -190,7 +198,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "200"
+                  "rawName": "height",
+                  "value": "200",
+                  "rawValue": "\"200\""
                 }
               ],
               "children": [],

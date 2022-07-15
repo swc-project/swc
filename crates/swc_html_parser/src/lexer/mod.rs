@@ -371,6 +371,11 @@ where
         if self.is_consumed_as_part_of_an_attribute() {
             if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
                 if let Some(attribute) = attributes.last_mut() {
+                    // When the length of raw is more than the length of temporary buffer we emit a
+                    // raw character in the first character token
+                    let mut once_raw = raw;
+                    let mut once_emitted = false;
+
                     for c in self.temporary_buffer.clone().chars() {
                         if let Some(old_value) = &mut attribute.value {
                             old_value.push(c);
@@ -382,14 +387,30 @@ where
                             attribute.value = Some(new_value);
                         }
 
-                        if let Some(raw_value) = &mut attribute.raw_value {
-                            raw_value.push(c);
-                        } else {
-                            let mut raw_new_value = String::with_capacity(255);
+                        let raw = match once_raw {
+                            Some(_) => {
+                                once_emitted = true;
+                                once_raw.take()
+                            }
+                            _ => {
+                                if once_emitted {
+                                    None
+                                } else {
+                                    Some(String::from(c))
+                                }
+                            }
+                        };
 
-                            raw_new_value.push(c);
+                        if let Some(raw) = raw {
+                            if let Some(raw_value) = &mut attribute.raw_value {
+                                raw_value.push_str(&raw);
+                            } else {
+                                let mut raw_new_value = String::with_capacity(255);
 
-                            attribute.raw_value = Some(raw_new_value);
+                                raw_new_value.push_str(&raw);
+
+                                attribute.raw_value = Some(raw_new_value);
+                            }
                         }
                     }
                 }
@@ -4082,7 +4103,11 @@ where
                             && !is_last_semicolon
                             && is_next_equals_sign_or_ascii_alphanumeric
                         {
-                            self.flush_code_points_consumed_as_character_reference(None);
+                            let old_temporary_buffer = self.temporary_buffer.clone();
+
+                            self.flush_code_points_consumed_as_character_reference(Some(
+                                old_temporary_buffer,
+                            ));
                             self.state = self.return_state.clone();
                         }
                         // Otherwise:

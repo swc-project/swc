@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "abc:def",
-          "value": "gh"
+          "rawName": "abc:def",
+          "value": "gh",
+          "rawValue": "gh"
         }
       ],
       "children": [

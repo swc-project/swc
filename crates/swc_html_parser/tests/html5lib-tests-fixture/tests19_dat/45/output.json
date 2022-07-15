@@ -48,7 +48,7 @@
           "type": "Element",
           "span": {
             "start": 16,
-            "end": 22,
+            "end": 32,
             "ctxt": 0
           },
           "tagName": "body",

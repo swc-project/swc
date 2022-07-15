@@ -56,7 +56,9 @@
                     "namespace": null,
                     "prefix": null,
                     "name": "name",
-                    "value": "q"
+                    "rawName": "name",
+                    "value": "q",
+                    "rawValue": "\"q\""
                   }
                 ],
                 "children": [],

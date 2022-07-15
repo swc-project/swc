@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -84,7 +86,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "charset",
-                  "value": "UTF-8"
+                  "rawName": "charset",
+                  "value": "UTF-8",
+                  "rawValue": "\"UTF-8\""
                 }
               ],
               "children": [],
@@ -121,7 +125,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "name",
-                  "value": "viewport"
+                  "rawName": "name",
+                  "value": "viewport",
+                  "rawValue": "\"viewport\""
                 },
                 {
                   "type": "Attribute",
@@ -133,7 +139,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "content",
-                  "value": "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+                  "rawName": "content",
+                  "value": "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0",
+                  "rawValue": "\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\""
                 }
               ],
               "children": [],
@@ -170,7 +178,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "http-equiv",
-                  "value": "X-UA-Compatible"
+                  "rawName": "http-equiv",
+                  "value": "X-UA-Compatible",
+                  "rawValue": "\"X-UA-Compatible\""
                 },
                 {
                   "type": "Attribute",
@@ -182,7 +192,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "content",
-                  "value": "ie=edge"
+                  "rawName": "content",
+                  "value": "ie=edge",
+                  "rawValue": "\"ie=edge\""
                 }
               ],
               "children": [],
@@ -1592,7 +1604,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "colspan",
-                              "value": "2"
+                              "rawName": "colspan",
+                              "value": "2",
+                              "rawValue": "\"2\""
                             }
                           ],
                           "children": [
@@ -2025,7 +2039,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "colspan",
-                              "value": "2"
+                              "rawName": "colspan",
+                              "value": "2",
+                              "rawValue": "\"2\""
                             }
                           ],
                           "children": [
@@ -2248,7 +2264,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "colspan",
-                              "value": "2"
+                              "rawName": "colspan",
+                              "value": "2",
+                              "rawValue": "\"2\""
                             }
                           ],
                           "children": [

@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "bar",
-                  "value": "ZZ&gt=YY"
+                  "rawName": "bar",
+                  "value": "ZZ&gt=YY",
+                  "rawValue": "\"ZZ&gt=YY\""
                 }
               ],
               "children": [],

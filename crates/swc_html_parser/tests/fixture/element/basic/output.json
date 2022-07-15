@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -327,7 +329,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "⚡",
-                  "value": null
+                  "rawName": "⚡",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -402,7 +406,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "test.html"
+                  "rawName": "href",
+                  "value": "test.html",
+                  "rawValue": "\"test.html\""
                 }
               ],
               "children": [
@@ -549,7 +555,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "a"
+                  "rawName": "data-test",
+                  "value": "a",
+                  "rawValue": "\"a\""
                 }
               ],
               "children": [],
@@ -586,7 +594,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "a"
+                  "rawName": "data-test",
+                  "value": "a",
+                  "rawValue": "\"a\""
                 }
               ],
               "children": [],
@@ -623,7 +633,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "a"
+                  "rawName": "data-test",
+                  "value": "a",
+                  "rawValue": "\"a\""
                 }
               ],
               "children": [],
@@ -660,7 +672,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "a"
+                  "rawName": "data-test",
+                  "value": "a",
+                  "rawValue": "\"a\""
                 }
               ],
               "children": [],

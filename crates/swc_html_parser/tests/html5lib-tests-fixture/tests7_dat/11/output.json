@@ -86,7 +86,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "application/x-non-existant-plugin"
+                      "rawName": "type",
+                      "value": "application/x-non-existant-plugin",
+                      "rawValue": "\"application/x-non-existant-plugin\""
                     }
                   ],
                   "children": [

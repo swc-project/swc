@@ -39,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "xmlns",
-          "value": "http://www.w3.org/1999/xhtml"
+          "rawName": "xmlns",
+          "value": "http://www.w3.org/1999/xhtml",
+          "rawValue": "\"http://www.w3.org/1999/xhtml\""
         }
       ],
       "children": [
@@ -203,7 +205,9 @@
               "namespace": null,
               "prefix": null,
               "name": "id",
-              "value": "body"
+              "rawName": "id",
+              "value": "body",
+              "rawValue": "\"body\""
             },
             {
               "type": "Attribute",
@@ -215,7 +219,9 @@
               "namespace": null,
               "prefix": null,
               "name": "style",
-              "value": "position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;"
+              "rawName": "style",
+              "value": "position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;",
+              "rawValue": "\"position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;\""
             }
           ],
           "children": [
@@ -372,7 +378,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "type",
-                              "value": "text"
+                              "rawName": "type",
+                              "value": "text",
+                              "rawValue": "\"text\""
                             }
                           ],
                           "children": [],
@@ -409,7 +417,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "id",
-                              "value": "err"
+                              "rawName": "id",
+                              "value": "err",
+                              "rawValue": "\"err\""
                             }
                           ],
                           "children": [
@@ -472,7 +482,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "type",
-                              "value": "button"
+                              "rawName": "type",
+                              "value": "button",
+                              "rawValue": "\"button\""
                             },
                             {
                               "type": "Attribute",
@@ -484,7 +496,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "value",
-                              "value": "Activate!"
+                              "rawName": "value",
+                              "value": "Activate!",
+                              "rawValue": "\"Activate!\""
                             },
                             {
                               "type": "Attribute",
@@ -496,7 +510,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "onclick",
-                              "value": "signalError();"
+                              "rawName": "onclick",
+                              "value": "signalError();",
+                              "rawValue": "\"signalError();\""
                             }
                           ],
                           "children": [],
@@ -565,7 +581,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/2000/svg"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/2000/svg",
+                  "rawValue": "\"http://www.w3.org/2000/svg\""
                 },
                 {
                   "type": "Attribute",
@@ -577,7 +595,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "version",
-                  "value": "1.1"
+                  "rawName": "version",
+                  "value": "1.1",
+                  "rawValue": "\"1.1\""
                 },
                 {
                   "type": "Attribute",
@@ -589,7 +609,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewBox",
-                  "value": "0 0 100 100"
+                  "rawName": "viewBox",
+                  "value": "0 0 100 100",
+                  "rawValue": "\"0 0 100 100\""
                 },
                 {
                   "type": "Attribute",
@@ -601,7 +623,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "preserveAspectRatio",
-                  "value": "xMidYMid slice"
+                  "rawName": "preserveAspectRatio",
+                  "value": "xMidYMid slice",
+                  "rawValue": "\"xMidYMid slice\""
                 },
                 {
                   "type": "Attribute",
@@ -613,7 +637,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "style",
-                  "value": "width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;"
+                  "rawName": "style",
+                  "value": "width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;",
+                  "rawValue": "\"width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;\""
                 },
                 {
                   "type": "Attribute",
@@ -625,7 +651,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "baseProfile",
-                  "value": "test"
+                  "rawName": "baseProfile",
+                  "value": "test",
+                  "rawValue": "\"test\""
                 }
               ],
               "children": [
@@ -659,7 +687,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "gradient"
+                      "rawName": "id",
+                      "value": "gradient",
+                      "rawValue": "\"gradient\""
                     }
                   ],
                   "children": [
@@ -693,7 +723,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "class",
-                          "value": "begin"
+                          "rawName": "class",
+                          "value": "begin",
+                          "rawValue": "\"begin\""
                         },
                         {
                           "type": "Attribute",
@@ -705,7 +737,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "offset",
-                          "value": "0%"
+                          "rawName": "offset",
+                          "value": "0%",
+                          "rawValue": "\"0%\""
                         }
                       ],
                       "children": [],
@@ -742,7 +776,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "class",
-                          "value": "end"
+                          "rawName": "class",
+                          "value": "end",
+                          "rawValue": "\"end\""
                         },
                         {
                           "type": "Attribute",
@@ -754,7 +790,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "offset",
-                          "value": "100%"
+                          "rawName": "offset",
+                          "value": "100%",
+                          "rawValue": "\"100%\""
                         }
                       ],
                       "children": [],
@@ -805,7 +843,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "x",
-                      "value": "0"
+                      "rawName": "x",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -817,7 +857,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "0"
+                      "rawName": "y",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -829,7 +871,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "width",
-                      "value": "100"
+                      "rawName": "width",
+                      "value": "100",
+                      "rawValue": "\"100\""
                     },
                     {
                       "type": "Attribute",
@@ -841,7 +885,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "height",
-                      "value": "100"
+                      "rawName": "height",
+                      "value": "100",
+                      "rawValue": "\"100\""
                     },
                     {
                       "type": "Attribute",
@@ -853,7 +899,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "style",
-                      "value": "fill:url(#gradient)"
+                      "rawName": "style",
+                      "value": "fill:url(#gradient)",
+                      "rawValue": "\"fill:url(#gradient)\""
                     }
                   ],
                   "children": [],
@@ -890,7 +938,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "cx",
-                      "value": "50"
+                      "rawName": "cx",
+                      "value": "50",
+                      "rawValue": "\"50\""
                     },
                     {
                       "type": "Attribute",
@@ -902,7 +952,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "cy",
-                      "value": "50"
+                      "rawName": "cy",
+                      "value": "50",
+                      "rawValue": "\"50\""
                     },
                     {
                       "type": "Attribute",
@@ -914,7 +966,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "r",
-                      "value": "30"
+                      "rawName": "r",
+                      "value": "30",
+                      "rawValue": "\"30\""
                     },
                     {
                       "type": "Attribute",
@@ -926,7 +980,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "style",
-                      "value": "fill:url(#gradient)"
+                      "rawName": "style",
+                      "value": "fill:url(#gradient)",
+                      "rawValue": "\"fill:url(#gradient)\""
                     }
                   ],
                   "children": [],
@@ -977,7 +1033,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewBox",
-                  "value": "0 0 420 200"
+                  "rawName": "viewBox",
+                  "value": "0 0 420 200",
+                  "rawValue": "\"0 0 420 200\""
                 },
                 {
                   "type": "Attribute",
@@ -989,7 +1047,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/2000/svg"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/2000/svg",
+                  "rawValue": "\"http://www.w3.org/2000/svg\""
                 }
               ],
               "children": [
@@ -1023,7 +1083,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "noise1"
+                      "rawName": "id",
+                      "value": "noise1",
+                      "rawValue": "\"noise1\""
                     },
                     {
                       "type": "Attribute",
@@ -1035,7 +1097,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "x",
-                      "value": "0"
+                      "rawName": "x",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -1047,7 +1111,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "0"
+                      "rawName": "y",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -1059,7 +1125,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "width",
-                      "value": "100%"
+                      "rawName": "width",
+                      "value": "100%",
+                      "rawValue": "\"100%\""
                     },
                     {
                       "type": "Attribute",
@@ -1071,7 +1139,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "height",
-                      "value": "100%"
+                      "rawName": "height",
+                      "value": "100%",
+                      "rawValue": "\"100%\""
                     }
                   ],
                   "children": [
@@ -1105,7 +1175,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "baseFrequency",
-                          "value": "0.025"
+                          "rawName": "baseFrequency",
+                          "value": "0.025",
+                          "rawValue": "\"0.025\""
                         }
                       ],
                       "children": [],
@@ -1156,7 +1228,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "noise2"
+                      "rawName": "id",
+                      "value": "noise2",
+                      "rawValue": "\"noise2\""
                     },
                     {
                       "type": "Attribute",
@@ -1168,7 +1242,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "x",
-                      "value": "0"
+                      "rawName": "x",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -1180,7 +1256,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "0"
+                      "rawName": "y",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -1192,7 +1270,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "width",
-                      "value": "100%"
+                      "rawName": "width",
+                      "value": "100%",
+                      "rawValue": "\"100%\""
                     },
                     {
                       "type": "Attribute",
@@ -1204,7 +1284,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "height",
-                      "value": "100%"
+                      "rawName": "height",
+                      "value": "100%",
+                      "rawValue": "\"100%\""
                     }
                   ],
                   "children": [
@@ -1238,7 +1320,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "baseFrequency",
-                          "value": "0.05"
+                          "rawName": "baseFrequency",
+                          "value": "0.05",
+                          "rawValue": "\"0.05\""
                         }
                       ],
                       "children": [],
@@ -1289,7 +1373,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "x",
-                      "value": "0"
+                      "rawName": "x",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -1301,7 +1387,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "0"
+                      "rawName": "y",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -1313,7 +1401,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "width",
-                      "value": "200"
+                      "rawName": "width",
+                      "value": "200",
+                      "rawValue": "\"200\""
                     },
                     {
                       "type": "Attribute",
@@ -1325,7 +1415,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "height",
-                      "value": "200"
+                      "rawName": "height",
+                      "value": "200",
+                      "rawValue": "\"200\""
                     },
                     {
                       "type": "Attribute",
@@ -1337,7 +1429,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "style",
-                      "value": "filter: url(#noise1);"
+                      "rawName": "style",
+                      "value": "filter: url(#noise1);",
+                      "rawValue": "\"filter: url(#noise1);\""
                     }
                   ],
                   "children": [],
@@ -1374,7 +1468,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "x",
-                      "value": "0"
+                      "rawName": "x",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -1386,7 +1482,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "0"
+                      "rawName": "y",
+                      "value": "0",
+                      "rawValue": "\"0\""
                     },
                     {
                       "type": "Attribute",
@@ -1398,7 +1496,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "width",
-                      "value": "200"
+                      "rawName": "width",
+                      "value": "200",
+                      "rawValue": "\"200\""
                     },
                     {
                       "type": "Attribute",
@@ -1410,7 +1510,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "height",
-                      "value": "200"
+                      "rawName": "height",
+                      "value": "200",
+                      "rawValue": "\"200\""
                     },
                     {
                       "type": "Attribute",
@@ -1422,7 +1524,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "style",
-                      "value": "filter: url(#noise2); transform: translateX(220px);"
+                      "rawName": "style",
+                      "value": "filter: url(#noise2); transform: translateX(220px);",
+                      "rawValue": "\"filter: url(#noise2); transform: translateX(220px);\""
                     }
                   ],
                   "children": [],
@@ -1473,7 +1577,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewBox",
-                  "value": "0 0 200 100"
+                  "rawName": "viewBox",
+                  "value": "0 0 200 100",
+                  "rawValue": "\"0 0 200 100\""
                 },
                 {
                   "type": "Attribute",
@@ -1485,7 +1591,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/2000/svg"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/2000/svg",
+                  "rawValue": "\"http://www.w3.org/2000/svg\""
                 }
               ],
               "children": [
@@ -1519,7 +1627,9 @@
                       "namespace": "http://www.w3.org/XML/1998/namespace",
                       "prefix": "xml",
                       "name": "lang",
-                      "value": "en-US"
+                      "rawName": "xml:lang",
+                      "value": "en-US",
+                      "rawValue": "\"en-US\""
                     }
                   ],
                   "children": [
@@ -1581,7 +1691,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "version",
-                  "value": "1.1"
+                  "rawName": "version",
+                  "value": "1.1",
+                  "rawValue": "\"1.1\""
                 },
                 {
                   "type": "Attribute",
@@ -1593,7 +1705,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/2000/svg"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/2000/svg",
+                  "rawValue": "\"http://www.w3.org/2000/svg\""
                 },
                 {
                   "type": "Attribute",
@@ -1605,7 +1719,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": "xmlns",
                   "name": "xlink",
-                  "value": "http://www.w3.org/1999/xlink"
+                  "rawName": "xmlns:xlink",
+                  "value": "http://www.w3.org/1999/xlink",
+                  "rawValue": "\"http://www.w3.org/1999/xlink\""
                 },
                 {
                   "type": "Attribute",
@@ -1617,7 +1733,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "200"
+                  "rawName": "width",
+                  "value": "200",
+                  "rawValue": "\"200\""
                 },
                 {
                   "type": "Attribute",
@@ -1629,7 +1747,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "200"
+                  "rawName": "height",
+                  "value": "200",
+                  "rawValue": "\"200\""
                 }
               ],
               "children": [
@@ -1663,7 +1783,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "x",
-                      "value": "90"
+                      "rawName": "x",
+                      "value": "90",
+                      "rawValue": "\"90\""
                     },
                     {
                       "type": "Attribute",
@@ -1675,7 +1797,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "-65"
+                      "rawName": "y",
+                      "value": "-65",
+                      "rawValue": "\"-65\""
                     },
                     {
                       "type": "Attribute",
@@ -1687,7 +1811,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "width",
-                      "value": "128"
+                      "rawName": "width",
+                      "value": "128",
+                      "rawValue": "\"128\""
                     },
                     {
                       "type": "Attribute",
@@ -1699,7 +1825,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "height",
-                      "value": "146"
+                      "rawName": "height",
+                      "value": "146",
+                      "rawValue": "\"146\""
                     },
                     {
                       "type": "Attribute",
@@ -1711,7 +1839,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "transform",
-                      "value": "rotate(45)"
+                      "rawName": "transform",
+                      "value": "rotate(45)",
+                      "rawValue": "\"rotate(45)\""
                     },
                     {
                       "type": "Attribute",
@@ -1723,7 +1853,9 @@
                       "namespace": "http://www.w3.org/1999/xlink",
                       "prefix": "xlink",
                       "name": "href",
-                      "value": "https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"
+                      "rawName": "xlink:href",
+                      "value": "https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png",
+                      "rawValue": "\"https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png\""
                     }
                   ],
                   "children": [],
@@ -1774,7 +1906,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewBox",
-                  "value": "0 0 140 50"
+                  "rawName": "viewBox",
+                  "value": "0 0 140 50",
+                  "rawValue": "\"0 0 140 50\""
                 },
                 {
                   "type": "Attribute",
@@ -1786,7 +1920,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/2000/svg"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/2000/svg",
+                  "rawValue": "\"http://www.w3.org/2000/svg\""
                 }
               ],
               "children": [
@@ -1820,7 +1956,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "20"
+                      "rawName": "y",
+                      "value": "20",
+                      "rawValue": "\"20\""
                     },
                     {
                       "type": "Attribute",
@@ -1832,7 +1970,9 @@
                       "namespace": "http://www.w3.org/XML/1998/namespace",
                       "prefix": "xml",
                       "name": "space",
-                      "value": "default"
+                      "rawName": "xml:space",
+                      "value": "default",
+                      "rawValue": "\"default\""
                     }
                   ],
                   "children": [
@@ -1880,7 +2020,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "40"
+                      "rawName": "y",
+                      "value": "40",
+                      "rawValue": "\"40\""
                     },
                     {
                       "type": "Attribute",
@@ -1892,7 +2034,9 @@
                       "namespace": "http://www.w3.org/XML/1998/namespace",
                       "prefix": "xml",
                       "name": "space",
-                      "value": "preserve"
+                      "rawName": "xml:space",
+                      "value": "preserve",
+                      "rawValue": "\"preserve\""
                     }
                   ],
                   "children": [
@@ -1954,7 +2098,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewBox",
-                  "value": "0 0 200 100"
+                  "rawName": "viewBox",
+                  "value": "0 0 200 100",
+                  "rawValue": "\"0 0 200 100\""
                 },
                 {
                   "type": "Attribute",
@@ -1966,7 +2112,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/2000/svg"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/2000/svg",
+                  "rawValue": "\"http://www.w3.org/2000/svg\""
                 }
               ],
               "children": [
@@ -2000,7 +2148,9 @@
                       "namespace": "http://www.w3.org/XML/1998/namespace",
                       "prefix": "xml",
                       "name": "lang",
-                      "value": "en-US"
+                      "rawName": "xml:lang",
+                      "value": "en-US",
+                      "rawValue": "\"en-US\""
                     }
                   ],
                   "children": [
@@ -2048,7 +2198,9 @@
                       "namespace": "http://www.w3.org/1999/xlink",
                       "prefix": "xlink",
                       "name": "href",
-                      "value": "http://example.com/link/"
+                      "rawName": "xlink:href",
+                      "value": "http://example.com/link/",
+                      "rawValue": "\"http://example.com/link/\""
                     },
                     {
                       "type": "Attribute",
@@ -2060,7 +2212,9 @@
                       "namespace": "http://www.w3.org/1999/xlink",
                       "prefix": "xlink",
                       "name": "title",
-                      "value": "The link leads to an example page that is of little interest"
+                      "rawName": "xlink:title",
+                      "value": "The link leads to an example page that is of little interest",
+                      "rawValue": "\"The link leads to an example page that is of little interest\""
                     }
                   ],
                   "children": [
@@ -2094,7 +2248,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "x",
-                          "value": "10"
+                          "rawName": "x",
+                          "value": "10",
+                          "rawValue": "\"10\""
                         },
                         {
                           "type": "Attribute",
@@ -2106,7 +2262,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "y",
-                          "value": "25"
+                          "rawName": "y",
+                          "value": "25",
+                          "rawValue": "\"25\""
                         }
                       ],
                       "children": [
@@ -2182,7 +2340,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewBox",
-                  "value": "0 0 200 200"
+                  "rawName": "viewBox",
+                  "value": "0 0 200 200",
+                  "rawValue": "\"0 0 200 200\""
                 },
                 {
                   "type": "Attribute",
@@ -2194,7 +2354,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/2000/svg"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/2000/svg",
+                  "rawValue": "\"http://www.w3.org/2000/svg\""
                 }
               ],
               "children": [
@@ -2263,7 +2425,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "points",
-                      "value": "5,5 195,10 185,185 10,195"
+                      "rawName": "points",
+                      "value": "5,5 195,10 185,185 10,195",
+                      "rawValue": "\"5,5 195,10 185,185 10,195\""
                     }
                   ],
                   "children": [],
@@ -2320,7 +2484,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "x",
-                      "value": "20"
+                      "rawName": "x",
+                      "value": "20",
+                      "rawValue": "\"20\""
                     },
                     {
                       "type": "Attribute",
@@ -2332,7 +2498,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "y",
-                      "value": "20"
+                      "rawName": "y",
+                      "value": "20",
+                      "rawValue": "\"20\""
                     },
                     {
                       "type": "Attribute",
@@ -2344,7 +2512,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "width",
-                      "value": "160"
+                      "rawName": "width",
+                      "value": "160",
+                      "rawValue": "\"160\""
                     },
                     {
                       "type": "Attribute",
@@ -2356,7 +2526,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "height",
-                      "value": "160"
+                      "rawName": "height",
+                      "value": "160",
+                      "rawValue": "\"160\""
                     }
                   ],
                   "children": [
@@ -2410,7 +2582,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "xmlns",
-                          "value": "http://www.w3.org/1999/xhtml"
+                          "rawName": "xmlns",
+                          "value": "http://www.w3.org/1999/xhtml",
+                          "rawValue": "\"http://www.w3.org/1999/xhtml\""
                         }
                       ],
                       "children": [
@@ -2486,7 +2660,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "style",
-                  "value": "font-size: 20px"
+                  "rawName": "style",
+                  "value": "font-size: 20px",
+                  "rawValue": "\"font-size: 20px\""
                 },
                 {
                   "type": "Attribute",
@@ -2498,7 +2674,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "400px"
+                  "rawName": "width",
+                  "value": "400px",
+                  "rawValue": "\"400px\""
                 },
                 {
                   "type": "Attribute",
@@ -2510,7 +2688,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "220px"
+                  "rawName": "height",
+                  "value": "220px",
+                  "rawValue": "\"220px\""
                 },
                 {
                   "type": "Attribute",
@@ -2522,7 +2702,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewBox",
-                  "value": "0 0 200 110"
+                  "rawName": "viewBox",
+                  "value": "0 0 200 110",
+                  "rawValue": "\"0 0 200 110\""
                 }
               ],
               "children": [
@@ -2556,7 +2738,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "transform",
-                      "value": "translate(10,80)"
+                      "rawName": "transform",
+                      "value": "translate(10,80)",
+                      "rawValue": "\"translate(10,80)\""
                     }
                   ],
                   "children": [
@@ -2590,7 +2774,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "d",
-                          "value": "M 0 0 L 150 0 A 75 75 0 0 0 0 0\n             M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+                          "rawName": "d",
+                          "value": "M 0 0 L 150 0 A 75 75 0 0 0 0 0\n             M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0",
+                          "rawValue": "\"M 0 0 L 150 0 A 75 75 0 0 0 0 0\n             M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0\""
                         },
                         {
                           "type": "Attribute",
@@ -2602,7 +2788,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "fill",
-                          "value": "none"
+                          "rawName": "fill",
+                          "value": "none",
+                          "rawValue": "\"none\""
                         },
                         {
                           "type": "Attribute",
@@ -2614,7 +2802,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "stroke",
-                          "value": "black"
+                          "rawName": "stroke",
+                          "value": "black",
+                          "rawValue": "\"black\""
                         }
                       ],
                       "children": [],
@@ -2651,7 +2841,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "transform",
-                          "value": "translate(10,20)"
+                          "rawName": "transform",
+                          "value": "translate(10,20)",
+                          "rawValue": "\"translate(10,20)\""
                         }
                       ],
                       "children": [
@@ -2699,7 +2891,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "transform",
-                          "value": "translate(35,-40)"
+                          "rawName": "transform",
+                          "value": "translate(35,-40)",
+                          "rawValue": "\"translate(35,-40)\""
                         }
                       ],
                       "children": [
@@ -2733,7 +2927,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "width",
-                              "value": "200"
+                              "rawName": "width",
+                              "value": "200",
+                              "rawValue": "\"200\""
                             },
                             {
                               "type": "Attribute",
@@ -2745,7 +2941,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "height",
-                              "value": "50"
+                              "rawName": "height",
+                              "value": "50",
+                              "rawValue": "\"50\""
                             },
                             {
                               "type": "Attribute",
@@ -2757,7 +2955,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "requiredExtensions",
-                              "value": "http://www.w3.org/1998/Math/MathML"
+                              "rawName": "requiredExtensions",
+                              "value": "http://www.w3.org/1998/Math/MathML",
+                              "rawValue": "\"http://www.w3.org/1998/Math/MathML\""
                             }
                           ],
                           "children": [

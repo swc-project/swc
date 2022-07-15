@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "a"
+                  "rawName": "href",
+                  "value": "a",
+                  "rawValue": "a"
                 }
               ],
               "children": [
@@ -118,7 +120,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "href",
-                          "value": "b"
+                          "rawName": "href",
+                          "value": "b",
+                          "rawValue": "b"
                         }
                       ],
                       "children": [
