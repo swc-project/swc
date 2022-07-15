@@ -81,6 +81,7 @@ pub struct TransformPluginProgramMetadata {
     /// This is readonly. Changing value in plugin doesn't affect host's
     /// behavior.
     pub plugin_config: String,
+    pub unresolved_mark: crate::syntax_pos::Mark,
     /// Stringified JSON value for relative context while running transform,
     /// like filenames.
     /// /// This is readonly. Changing value in plugin doesn't affect host's

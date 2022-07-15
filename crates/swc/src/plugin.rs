@@ -48,6 +48,7 @@ pub fn plugins(
     source_map: std::sync::Arc<swc_common::SourceMap>,
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
+    unresolved_mark: swc_common::Mark,
 ) -> impl Fold {
     {
         RustPlugins {
@@ -56,6 +57,7 @@ pub fn plugins(
             source_map,
             plugins: config.plugins,
             plugin_context,
+            unresolved_mark,
         }
     }
 }
@@ -71,6 +73,7 @@ struct RustPlugins {
     plugins: Option<Vec<PluginConfig>>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     plugin_context: PluginContext,
+    unresolved_mark: swc_common::Mark,
 }
 
 impl RustPlugins {
@@ -179,6 +182,7 @@ impl RustPlugins {
                                 &serialized_program,
                                 &serialized_config_json,
                                 &serialized_context_json,
+                                self.unresolved_mark,
                                 should_enable_comments_proxy,
                             )
                             .with_context(|| {
@@ -250,6 +254,7 @@ impl RustPlugins {
                                 &serialized_program,
                                 &serialized_config_json,
                                 &serialized_context_json,
+                                self.unresolved_mark,
                                 should_enable_comments_proxy,
                             )
                             .with_context(|| {

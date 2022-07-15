@@ -9,7 +9,7 @@ use swc_common::{
     errors::HANDLER,
     plugin::{PluginSerializedBytes, VersionedSerializable},
     sync::Lazy,
-    FileName,
+    FileName, Mark,
 };
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax};
@@ -107,7 +107,7 @@ fn internal() -> Result<(), Error> {
                 .expect("Should load plugin");
 
         let program_bytes = plugin_transform_executor
-            .transform(&program, &config, &context, false)
+            .transform(&program, &config, &context, Mark::new(), false)
             .expect("Plugin should apply transform");
 
         let program: Program = program_bytes
@@ -159,7 +159,7 @@ fn internal() -> Result<(), Error> {
                     .expect("Should load plugin");
 
             plugin_transform_executor
-                .transform(&program, &config, &context, false)
+                .transform(&program, &config, &context, Mark::new(), false)
                 .expect("Plugin should apply transform")
         });
 
@@ -202,6 +202,7 @@ fn internal() -> Result<(), Error> {
                     "{sourceFileName: 'multiple_plugin_test'}".to_string(),
                 ))
                 .expect("Should serializable"),
+                Mark::new(),
                 false,
             )
             .expect("Plugin should apply transform");
@@ -222,6 +223,7 @@ fn internal() -> Result<(), Error> {
                     "{sourceFileName: 'multiple_plugin_test2'}".to_string(),
                 ))
                 .expect("Should serializable"),
+                Mark::new(),
                 false,
             )
             .expect("Plugin should apply transform");
