@@ -13079,6 +13079,9 @@
     },
     "xmlns:xlink": {
       "initial": "http://www.w3.org/1999/xlink"
+    },
+    "zoomAndPan": {
+      "initial": "magnify"
     }
   },
   "switch": {
@@ -15467,6 +15470,9 @@
     "viewBox": {},
     "preserveAspectRatio": {
       "initial": "xMidYMid meet"
+    },
+    "zoomAndPan": {
+      "initial": "magnify"
     }
   },
   "vkern": {
