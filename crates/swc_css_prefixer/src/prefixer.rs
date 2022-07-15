@@ -109,14 +109,14 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
                 ComponentValue::Number(Number {
                     span: DUMMY_SP,
                     value: transparency_value,
-                    raw: transparency_value.to_string().into(),
+                    raw: None,
                 }),
             ]);
 
             n.value = new_value;
 
             n.name.value = self.to.into();
-            n.name.raw = self.to.into();
+            n.name.raw = None;
         }
     }
 }
@@ -142,18 +142,18 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
             return;
         }
 
-        if let ComponentValue::Str(Str { value, raw, span }) = n {
+        if let ComponentValue::Str(Str { span, value, .. }) = n {
             *n = ComponentValue::Url(Url {
                 span: *span,
                 name: Ident {
                     span: DUMMY_SP,
                     value: "url".into(),
-                    raw: "url".into(),
+                    raw: None,
                 },
                 value: Some(UrlValue::Str(Str {
                     span: DUMMY_SP,
                     value: value.as_ref().into(),
-                    raw: raw.as_ref().into(),
+                    raw: None,
                 })),
                 modifiers: Some(vec![]),
             })
@@ -169,7 +169,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
 
         if &*n.name.value.to_lowercase() == self.from {
             n.name.value = self.to.into();
-            n.name.raw = self.to.into();
+            n.name.raw = None;
         }
 
         self.in_function = old_in_function;
@@ -200,7 +200,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
 
         if &*n.name.value.to_lowercase() == self.from {
             n.name.value = self.to.into();
-            n.name.raw = self.to.into();
+            n.name.raw = None;
 
             let first = n.value.get(0);
 
@@ -239,12 +239,12 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                                     ComponentValue::Ident(Ident {
                                         span: *first_span,
                                         value: new_first_direction.into(),
-                                        raw: new_first_direction.into(),
+                                        raw: None,
                                     }),
                                     ComponentValue::Ident(Ident {
                                         span: *second_span,
                                         value: new_second_direction.into(),
-                                        raw: new_second_direction.into(),
+                                        raw: None,
                                     }),
                                 ];
 
@@ -256,7 +256,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                                 let new_value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
                                     value: new_direction.into(),
-                                    raw: new_direction.into(),
+                                    raw: None,
                                 })];
 
                                 n.value.splice(0..2, new_value);
@@ -285,25 +285,25 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                         n.value[0] = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "bottom".into(),
-                            raw: "bottom".into(),
+                            raw: None,
                         });
                     } else if angle == 90.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "left".into(),
-                            raw: "left".into(),
+                            raw: None,
                         });
                     } else if angle == 180.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "top".into(),
-                            raw: "top".into(),
+                            raw: None,
                         });
                     } else if angle == 270.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "right".into(),
-                            raw: "right".into(),
+                            raw: None,
                         });
                     } else {
                         let new_value = ((450.0 - angle).abs() % 360.0 * 1000.0).round() / 1000.0;
@@ -313,12 +313,12 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                             value: Number {
                                 span: value.span,
                                 value: new_value,
-                                raw: new_value.to_string().into(),
+                                raw: None,
                             },
                             unit: Ident {
                                 span: unit.span,
                                 value: "deg".into(),
-                                raw: "deg".into(),
+                                raw: None,
                             },
                         }));
                     }
@@ -394,7 +394,7 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                 n.name = MediaFeatureName::Ident(Ident {
                     span: *feature_name_span,
                     value: self.to.into(),
-                    raw: self.to.into(),
+                    raw: None,
                 });
 
                 let left = match &*resolution_unit.value.to_lowercase() {
@@ -408,7 +408,7 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                     left: Number {
                         span: resolution_value.span,
                         value: left,
-                        raw: left.to_string().into(),
+                        raw: None,
                     },
                     right: None,
                 });
@@ -429,7 +429,7 @@ macro_rules! str_to_ident {
         ComponentValue::Ident(Ident {
             span: DUMMY_SP,
             value: $val.into(),
-            raw: $val.into(),
+            raw: None,
         })
     }};
 }
@@ -499,7 +499,7 @@ impl VisitMut for Prefixer {
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
                         value: "-ms-viewport".into(),
-                        raw: "-ms-viewport".into(),
+                        raw: None,
                     }),
                     prelude: n.prelude.clone(),
                     block: original_simple_block.clone(),
@@ -510,7 +510,7 @@ impl VisitMut for Prefixer {
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
                         value: "-o-viewport".into(),
-                        raw: "-o-viewport".into(),
+                        raw: None,
                     }),
                     prelude: n.prelude.clone(),
                     block: original_simple_block,
@@ -534,7 +534,7 @@ impl VisitMut for Prefixer {
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
                         value: "-webkit-keyframes".into(),
-                        raw: "-webkit-keyframes".into(),
+                        raw: None,
                     }),
                     prelude: n.prelude.clone(),
                     block: original_simple_block.clone(),
@@ -545,7 +545,7 @@ impl VisitMut for Prefixer {
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
                         value: "-moz-keyframes".into(),
-                        raw: "-moz-keyframes".into(),
+                        raw: None,
                     }),
                     prelude: n.prelude.clone(),
                     block: original_simple_block.clone(),
@@ -556,7 +556,7 @@ impl VisitMut for Prefixer {
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
                         value: "-o-keyframes".into(),
-                        raw: "-o-keyframes".into(),
+                        raw: None,
                     }),
                     prelude: n.prelude.clone(),
                     block: original_simple_block,
@@ -1111,7 +1111,7 @@ impl VisitMut for Prefixer {
                         let name = DeclarationName::Ident(Ident {
                             span: DUMMY_SP,
                             value: $name.into(),
-                            raw: $name.into(),
+                            raw: None,
                         });
                         let new_value = match $prefix {
                             Prefix::Webkit => webkit_value.clone(),
@@ -1139,7 +1139,7 @@ impl VisitMut for Prefixer {
                         let name = DeclarationName::Ident(Ident {
                             span: DUMMY_SP,
                             value: $name.into(),
-                            raw: $name.into(),
+                            raw: None,
                         });
 
                         self.added_declarations.push(Declaration {
@@ -1370,7 +1370,7 @@ impl VisitMut for Prefixer {
                         Some(ComponentValue::Integer(Integer {
                             span: *span,
                             value: 0,
-                            raw: "0".into(),
+                            raw: None,
                         }))
                     }
                     Some(ComponentValue::Ident(Ident { value, span, .. }))
@@ -1379,7 +1379,7 @@ impl VisitMut for Prefixer {
                         Some(ComponentValue::Integer(Integer {
                             span: *span,
                             value: 1,
-                            raw: "1".into(),
+                            raw: None,
                         }))
                     }
                     Some(any) => Some(any.clone()),
@@ -1415,12 +1415,12 @@ impl VisitMut for Prefixer {
                             value: Number {
                                 span: DUMMY_SP,
                                 value: 0.0,
-                                raw: "0".into(),
+                                raw: None,
                             },
                             unit: Ident {
                                 span: DUMMY_SP,
                                 value: "px".into(),
-                                raw: "px".into(),
+                                raw: None,
                             },
                         }));
                     }

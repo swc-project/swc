@@ -34,31 +34,31 @@ impl VisitMut for CompressEasingFunction {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "linear".into(),
-                            raw: "linear".into(),
+                            raw: None,
                         })
                     } else if *first == 0.25 && *second == 0.1 && *third == 0.25 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "easy".into(),
-                            raw: "easy".into(),
+                            raw: None,
                         })
                     } else if *first == 0.42 && *second == 0.0 && *third == 1.0 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "ease-in".into(),
-                            raw: "ease-in".into(),
+                            raw: None,
                         })
                     } else if *first == 0.0 && *second == 0.0 && *third == 0.58 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "ease-out".into(),
-                            raw: "ease-out".into(),
+                            raw: None,
                         })
                     } else if *first == 0.42 && *second == 0.0 && *third == 0.58 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "ease-in-out".into(),
-                            raw: "ease-in-out".into(),
+                            raw: None,
                         })
                     }
                 }
@@ -82,14 +82,14 @@ impl VisitMut for CompressEasingFunction {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
                                 value: "step-start".into(),
-                                raw: "step-start".into(),
+                                raw: None,
                             })
                         }
                         "end" | "jump-end" => {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
                                 value: "step-end".into(),
-                                raw: "step-end".into(),
+                                raw: None,
                             })
                         }
                         _ => {}
@@ -103,7 +103,7 @@ impl VisitMut for CompressEasingFunction {
                         function_value[2] = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "start".into(),
-                            raw: "start".into(),
+                            raw: None,
                         })
                     }
                     (

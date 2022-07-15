@@ -1624,7 +1624,7 @@ impl Minifier<'_> {
                             name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                 span: Default::default(),
                                 value: "media".into(),
-                                raw: "media".into(),
+                                raw: None,
                             }),
                             prelude: Some(swc_css_ast::AtRulePrelude::MediaPrelude(
                                 media_query_list,
@@ -1637,7 +1637,7 @@ impl Minifier<'_> {
                                 value: vec![swc_css_ast::ComponentValue::Str(swc_css_ast::Str {
                                     span: Default::default(),
                                     value: "placeholder".into(),
-                                    raw: "placeholder".into(),
+                                    raw: None,
                                 })],
                             }),
                         })],

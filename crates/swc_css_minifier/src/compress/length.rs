@@ -136,7 +136,7 @@ impl VisitMut for CompressLength {
                 *component_value = ComponentValue::Number(Number {
                     span: *span,
                     value: 0.0,
-                    raw: "0".into(),
+                    raw: None,
                 });
             }
             _ => {}
@@ -157,12 +157,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "in".into(),
-                        raw: "in".into(),
+                        raw: None,
                     };
                 } else if value <= 0.1 {
                     let new_value = self.convert(value, from, "mm");
@@ -170,12 +170,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "mm".into(),
-                        raw: "mm".into(),
+                        raw: None,
                     };
                 }
             }
@@ -186,12 +186,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "in".into(),
-                        raw: "in".into(),
+                        raw: None,
                     };
                 } else if value % 10.0 == 0.0 {
                     let new_value = self.convert(value, from, "cm");
@@ -199,12 +199,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "cm".into(),
-                        raw: "cm".into(),
+                        raw: None,
                     };
                 }
             }
@@ -215,12 +215,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "cm".into(),
-                        raw: "cm".into(),
+                        raw: None,
                     };
                 } else if value % 101.6 == 0.0 {
                     let new_value = self.convert(value, from, "in");
@@ -228,12 +228,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "in".into(),
-                        raw: "in".into(),
+                        raw: None,
                     };
                 }
             }
@@ -244,12 +244,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "in".into(),
-                        raw: "in".into(),
+                        raw: None,
                     };
                 }
             }
@@ -260,12 +260,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "in".into(),
-                        raw: "in".into(),
+                        raw: None,
                     };
                 } else if value % 12.0 == 0.0 {
                     let new_value = self.convert(value, from, "pc");
@@ -273,12 +273,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "pc".into(),
-                        raw: "pc".into(),
+                        raw: None,
                     };
                 } else if value % 0.75 == 0.0 {
                     let new_value = self.convert(value, from, "px");
@@ -286,12 +286,12 @@ impl VisitMut for CompressLength {
                     length.value = Number {
                         span: length.value.span,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     };
                     length.unit = Ident {
                         span: length.unit.span,
                         value: "px".into(),
-                        raw: "px".into(),
+                        raw: None,
                     };
                 }
             }

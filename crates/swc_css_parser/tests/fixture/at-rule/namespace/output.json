@@ -140,10 +140,10 @@
               "end": 80,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "http://www.w3.org/1999/xhtml",
-            "raw": "http://www.w3.org/1999/xhtml"
+            "before": "",
+            "raw": "http://www.w3.org/1999/xhtml",
+            "after": ""
           },
           "modifiers": null
         }
@@ -265,10 +265,10 @@
               "end": 176,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "http://www.w3.org/2000/svg",
-            "raw": "http://www.w3.org/2000/svg"
+            "before": "",
+            "raw": "http://www.w3.org/2000/svg",
+            "after": ""
           },
           "modifiers": null
         }

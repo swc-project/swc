@@ -39,7 +39,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "translateY".into(),
-                            raw: "translateY".into(),
+                            raw: None,
                         };
                         *function_value = vec![second.clone()];
                     }
@@ -70,7 +70,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "translateZ".into(),
-                            raw: "translateZ".into(),
+                            raw: None,
                         };
                         *function_value = vec![third.clone()];
                     }
@@ -107,7 +107,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "scaleX".into(),
-                            raw: "scaleX".into(),
+                            raw: None,
                         };
                         *function_value = vec![first.clone()];
                     }
@@ -121,7 +121,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "scaleY".into(),
-                            raw: "scaleY".into(),
+                            raw: None,
                         };
                         *function_value = vec![second.clone()];
                     }
@@ -152,7 +152,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "scaleX".into(),
-                            raw: "scaleX".into(),
+                            raw: None,
                         };
                         *function_value = vec![first.clone()];
                     }
@@ -170,7 +170,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "scaleY".into(),
-                            raw: "scaleY".into(),
+                            raw: None,
                         };
                         *function_value = vec![second.clone()];
                     }
@@ -188,7 +188,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "scaleZ".into(),
-                            raw: "scaleZ".into(),
+                            raw: None,
                         };
                         *function_value = vec![third.clone()];
                     }
@@ -289,7 +289,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "matrix".into(),
-                            raw: "matrix".into(),
+                            raw: None,
                         };
                         *function_value = vec![
                             first.clone(),
@@ -337,7 +337,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "rotateX".into(),
-                            raw: "rotateX".into(),
+                            raw: None,
                         };
                         *function_value = vec![fourth_value.clone()];
                     }
@@ -359,7 +359,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "rotateY".into(),
-                            raw: "rotateY".into(),
+                            raw: None,
                         };
                         *function_value = vec![fourth_value.clone()];
                     }
@@ -381,7 +381,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "rotate".into(),
-                            raw: "rotate".into(),
+                            raw: None,
                         };
                         *function_value = vec![fourth_value.clone()];
                     }
@@ -396,7 +396,7 @@ impl VisitMut for CompressTransformFunction {
                 *name = Ident {
                     span: name.span,
                     value: "rotate".into(),
-                    raw: "rotate".into(),
+                    raw: None,
                 };
             }
 
@@ -416,7 +416,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "skewX".into(),
-                            raw: "skewX".into(),
+                            raw: None,
                         };
                         *function_value = vec![first.clone()];
                     }
@@ -431,7 +431,7 @@ impl VisitMut for CompressTransformFunction {
                         *name = Ident {
                             span: name.span,
                             value: "skewY".into(),
-                            raw: "skewY".into(),
+                            raw: None,
                         };
                         *function_value = vec![second.clone()];
                     }

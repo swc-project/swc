@@ -121,10 +121,10 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": ",",
-                  "raw": "\\2c"
+                  "before": "",
+                  "raw": "\\2c",
+                  "after": ""
                 },
                 "modifiers": null
               }

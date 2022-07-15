@@ -777,8 +777,12 @@ where
             let minified = minify_string(&*n.value);
 
             write_str!(self, n.span, &minified);
+        } else if let Some(raw) = &n.raw {
+            write_str!(self, n.span, raw);
         } else {
-            write_str!(self, n.span, &n.raw);
+            let value = serialize_string(&*n.value);
+
+            write_str!(self, n.span, &value);
         }
     }
 
@@ -996,8 +1000,10 @@ where
 
         if self.config.minify {
             value.push_str(&n.value.value.to_lowercase());
+        } else if let Some(raw) = &n.value.raw {
+            value.push_str(raw);
         } else {
-            value.push_str(&n.value.raw);
+            value.push_str("important");
         }
 
         write_raw!(self, n.span, &value);
@@ -1005,22 +1011,38 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
-        write_raw!(self, n.span, &n.raw);
+        if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            write_raw!(self, n.span, &n.value);
+        }
     }
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
-        write_raw!(self, n.span, &n.raw);
+        if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            write_raw!(self, n.span, &n.value);
+        }
     }
 
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
-        write_raw!(self, n.span, &n.raw);
+        if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            write_raw!(self, n.span, &n.value);
+        }
     }
 
     #[emitter]
     fn emit_custom_property_name(&mut self, n: &CustomPropertyName) -> Result {
-        write_raw!(self, n.span, &n.raw);
+        if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            write_raw!(self, n.span, &n.value);
+        }
     }
 
     #[emitter]
@@ -1088,8 +1110,10 @@ where
     fn emit_integer(&mut self, n: &Integer) -> Result {
         if self.config.minify {
             write_raw!(self, n.span, &n.value.to_string());
+        } else if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.raw);
+            write_raw!(self, n.span, &n.value.to_string());
         }
     }
 
@@ -1099,8 +1123,10 @@ where
             let minified = minify_numeric(n.value);
 
             write_raw!(self, n.span, &minified);
+        } else if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.raw);
+            write_raw!(self, n.span, &n.value.to_string());
         }
     }
 
@@ -1134,7 +1160,7 @@ where
 
     #[emitter]
     fn emit_hex_color(&mut self, n: &HexColor) -> Result {
-        let mut hex_color = String::with_capacity(5);
+        let mut hex_color = String::with_capacity(9);
 
         hex_color.push('#');
 
@@ -1142,8 +1168,10 @@ where
             let minified = minify_hex_color(&n.value);
 
             hex_color.push_str(&minified);
+        } else if let Some(raw) = &n.raw {
+            hex_color.push_str(raw);
         } else {
-            hex_color.push_str(&n.raw);
+            hex_color.push_str(&n.value);
         }
 
         write_raw!(self, n.span, &hex_color);
@@ -1554,12 +1582,18 @@ where
             url.push_str(&n.value);
 
             write_str!(self, n.span, &url);
-        } else {
-            let mut url = String::with_capacity(n.before.len() + n.raw.len() + n.after.len());
+        } else if let (Some(before), Some(raw), Some(after)) = (&n.before, &n.raw, &n.after) {
+            let mut url = String::with_capacity(before.len() + raw.len() + after.len());
 
-            url.push_str(&n.before);
-            url.push_str(&n.raw);
-            url.push_str(&n.after);
+            url.push_str(before);
+            url.push_str(raw);
+            url.push_str(after);
+
+            write_str!(self, n.span, &url);
+        } else {
+            let mut url = String::with_capacity(n.value.len());
+
+            url.push_str(&n.value);
 
             write_str!(self, n.span, &url);
         }
@@ -2055,6 +2089,58 @@ fn minify_hex_color(value: &str) -> String {
     }
 
     value.to_ascii_lowercase()
+}
+
+fn serialize_string(value: &str) -> String {
+    let mut minified = String::with_capacity(value.len());
+
+    for c in value.chars() {
+        match c {
+            // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
+            '\0' => {
+                minified.push('\u{FFFD}');
+            }
+            // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, the
+            // character escaped as code point.
+            '\x01'..='\x1F' | '\x7F' => {
+                static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
+
+                let b3;
+                let b4;
+                let char_as_u8 = c as u8;
+
+                let bytes = if char_as_u8 > 0x0f {
+                    let high = (char_as_u8 >> 4) as usize;
+                    let low = (char_as_u8 & 0x0f) as usize;
+
+                    b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
+
+                    &b4[..]
+                } else {
+                    b3 = [b'\\', HEX_DIGITS[c as usize], b' '];
+
+                    &b3[..]
+                };
+
+                minified.push_str(from_utf8(bytes).unwrap());
+            }
+            // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
+            // We avoid escaping `"` to better string compression - we count the quantity of
+            // quotes to choose the best default quotes
+            '\\' => {
+                minified.push_str("\\\\");
+            }
+            '"' => {
+                minified.push_str("\\\"");
+            }
+            // Otherwise, the character itself.
+            _ => {
+                minified.push(c);
+            }
+        };
+    }
+
+    format!("\"{}\"", minified.replace('"', "\\\""))
 }
 
 fn minify_string(value: &str) -> String {

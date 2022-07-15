@@ -117,7 +117,7 @@ impl VisitMut for CompressAtRule {
             *import_href = ImportPreludeHref::Str(Str {
                 span: *span,
                 value: (&*new_value).into(),
-                raw: (&*new_value).into(),
+                raw: None,
             });
         }
     }

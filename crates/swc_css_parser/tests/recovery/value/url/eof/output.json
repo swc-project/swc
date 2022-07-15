@@ -121,10 +121,10 @@
                     "end": 21,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "foo.png",
-                  "raw": "foo.png"
+                  "before": "",
+                  "raw": "foo.png",
+                  "after": ""
                 },
                 "modifiers": null
               }
