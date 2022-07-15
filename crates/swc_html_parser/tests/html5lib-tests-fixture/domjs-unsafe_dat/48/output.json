@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "font",
-                      "value": "sans"
+                      "rawName": "font",
+                      "value": "sans",
+                      "rawValue": "sans"
                     }
                   ],
                   "children": [],

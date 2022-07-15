@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "image/svg+xml"
+                  "rawName": "type",
+                  "value": "image/svg+xml",
+                  "rawValue": "\"image/svg+xml\""
                 },
                 {
                   "type": "Attribute",
@@ -165,7 +169,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data",
-                  "value": "image.svg"
+                  "rawName": "data",
+                  "value": "image.svg",
+                  "rawValue": "\"image.svg\""
                 }
               ],
               "children": [
@@ -228,7 +234,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data",
-                  "value": "horse.wav"
+                  "rawName": "data",
+                  "value": "horse.wav",
+                  "rawValue": "\"horse.wav\""
                 }
               ],
               "children": [
@@ -262,7 +270,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "name",
-                      "value": "autoplay"
+                      "rawName": "name",
+                      "value": "autoplay",
+                      "rawValue": "\"autoplay\""
                     },
                     {
                       "type": "Attribute",
@@ -274,7 +284,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "value",
-                      "value": "true"
+                      "rawName": "value",
+                      "value": "true",
+                      "rawValue": "\"true\""
                     }
                   ],
                   "children": [],

@@ -63,7 +63,9 @@
               "namespace": null,
               "prefix": null,
               "name": "t1",
-              "value": "1"
+              "rawName": "t1",
+              "value": "1",
+              "rawValue": "1"
             },
             {
               "type": "Attribute",
@@ -75,7 +77,9 @@
               "namespace": null,
               "prefix": null,
               "name": "t2",
-              "value": "2"
+              "rawName": "t2",
+              "value": "2",
+              "rawValue": "2"
             },
             {
               "type": "Attribute",
@@ -87,7 +91,9 @@
               "namespace": null,
               "prefix": null,
               "name": "t3",
-              "value": "3"
+              "rawName": "t3",
+              "value": "3",
+              "rawValue": "3"
             },
             {
               "type": "Attribute",
@@ -99,7 +105,9 @@
               "namespace": null,
               "prefix": null,
               "name": "t4",
-              "value": "4"
+              "rawName": "t4",
+              "value": "4",
+              "rawValue": "4"
             }
           ],
           "children": [],

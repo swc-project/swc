@@ -1204,7 +1204,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "http://lmgtfy.com/?l=1&q=rick+roll"
+                  "rawName": "href",
+                  "value": "http://lmgtfy.com/?l=1&q=rick+roll",
+                  "rawValue": "\"http://lmgtfy.com/?l=1&amp;q=rick+roll\""
                 }
               ],
               "children": [
@@ -1252,7 +1254,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "#"
+                  "rawName": "href",
+                  "value": "#",
+                  "rawValue": "\"#\""
                 },
                 {
                   "type": "Attribute",
@@ -1264,7 +1268,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "onclick",
-                  "value": "window.location='?l=1&q=rick+roll';return false"
+                  "rawName": "onclick",
+                  "value": "window.location='?l=1&q=rick+roll';return false",
+                  "rawValue": "\"window.location='?l=1&amp;q=rick+roll';return false\""
                 }
               ],
               "children": [
@@ -1662,7 +1668,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "test⋹̸test"
+                  "rawName": "href",
+                  "value": "test⋹̸test",
+                  "rawValue": "\"test&notinE;test\""
                 }
               ],
               "children": [
@@ -1710,7 +1718,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "test&notinEtest"
+                  "rawName": "href",
+                  "value": "test&notinEtest",
+                  "rawValue": "\"test&notinEtest\""
                 }
               ],
               "children": [
@@ -1758,7 +1768,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "test&notinEtest"
+                  "rawName": "href",
+                  "value": "test&notinEtest",
+                  "rawValue": "\"test&notinEtest\""
                 }
               ],
               "children": [
@@ -1806,7 +1818,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "test&"
+                  "rawName": "href",
+                  "value": "test&",
+                  "rawValue": "\"test&amp;\""
                 }
               ],
               "children": [

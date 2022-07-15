@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "encoding",
-                      "value": " text/html "
+                      "rawName": "encoding",
+                      "value": " text/html ",
+                      "rawValue": "\" text/html \""
                     }
                   ],
                   "children": [],

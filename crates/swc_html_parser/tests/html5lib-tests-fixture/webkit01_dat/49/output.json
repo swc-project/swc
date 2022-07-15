@@ -74,7 +74,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "button"
+                  "rawName": "type",
+                  "value": "button",
+                  "rawValue": "\"button\""
                 }
               ],
               "children": [],

@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "a"
+                  "rawName": "id",
+                  "value": "a",
+                  "rawValue": "a"
                 }
               ],
               "children": [
@@ -98,7 +100,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "b"
+                          "rawName": "id",
+                          "value": "b",
+                          "rawValue": "b"
                         }
                       ],
                       "children": [],

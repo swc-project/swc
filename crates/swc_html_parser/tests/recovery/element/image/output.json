@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "test.png"
+                  "rawName": "src",
+                  "value": "test.png",
+                  "rawValue": "\"test.png\""
                 }
               ],
               "children": [],

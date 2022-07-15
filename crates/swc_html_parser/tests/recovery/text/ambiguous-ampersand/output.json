@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "href",
-                      "value": "?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=∉¬&;& &"
+                      "rawName": "href",
+                      "value": "?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=∉¬&;& &",
+                      "rawValue": "'?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'"
                     }
                   ],
                   "children": [

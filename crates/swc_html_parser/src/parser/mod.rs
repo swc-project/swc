@@ -1478,12 +1478,14 @@ where
                                 attributes: RefCell::new(
                                     attributes
                                         .iter()
-                                        .map(|attribute| Attribute {
-                                            span: attribute.span,
+                                        .map(|token_attribute| Attribute {
+                                            span: token_attribute.span,
                                             namespace: None,
                                             prefix: None,
-                                            name: attribute.name.clone(),
-                                            value: attribute.value.clone(),
+                                            name: token_attribute.name.clone(),
+                                            raw_name: token_attribute.raw_name.clone(),
+                                            value: token_attribute.value.clone(),
+                                            raw_value: token_attribute.raw_value.clone(),
                                         })
                                         .collect(),
                                 ),
@@ -2318,7 +2320,9 @@ where
                                         namespace: None,
                                         prefix: None,
                                         name: token_attribute.name.clone(),
+                                        raw_name: token_attribute.raw_name.clone(),
                                         value: token_attribute.value.clone(),
+                                        raw_value: token_attribute.raw_value.clone(),
                                     });
                                 }
                             }
@@ -2410,7 +2414,9 @@ where
                                         namespace: None,
                                         prefix: None,
                                         name: token_attribute.name.clone(),
+                                        raw_name: token_attribute.raw_name.clone(),
                                         value: token_attribute.value.clone(),
+                                        raw_value: token_attribute.raw_value.clone(),
                                     });
                                 }
                             }
@@ -6915,7 +6921,9 @@ where
                             namespace: None,
                             prefix: None,
                             name: attribute_token.name,
+                            raw_name: attribute_token.raw_name,
                             value: attribute_token.value,
+                            raw_value: attribute_token.raw_value,
                         };
 
                         match adjust_attributes {

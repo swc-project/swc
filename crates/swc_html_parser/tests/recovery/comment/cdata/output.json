@@ -48,7 +48,9 @@
           "namespace": null,
           "prefix": null,
           "name": "xmlns",
-          "value": "http://www.w3.org/1999/xhtml"
+          "rawName": "xmlns",
+          "value": "http://www.w3.org/1999/xhtml",
+          "rawValue": "\"http://www.w3.org/1999/xhtml\""
         },
         {
           "type": "Attribute",
@@ -60,7 +62,9 @@
           "namespace": null,
           "prefix": null,
           "name": "xml:lang",
-          "value": "en"
+          "rawName": "xml:lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -140,7 +144,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "application/javascript"
+                  "rawName": "type",
+                  "value": "application/javascript",
+                  "rawValue": "\"application/javascript\""
                 }
               ],
               "children": [
@@ -202,7 +208,9 @@
               "namespace": null,
               "prefix": null,
               "name": "onload",
-              "value": "loadpdf()"
+              "rawName": "onload",
+              "value": "loadpdf()",
+              "rawValue": "\"loadpdf()\""
             }
           ],
           "children": [
@@ -257,7 +265,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "title",
-                      "value": "Extensible HyperText Markup Language"
+                      "rawName": "title",
+                      "value": "Extensible HyperText Markup Language",
+                      "rawValue": "\"Extensible HyperText Markup Language\""
                     }
                   ],
                   "children": [
@@ -329,7 +339,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "validation-icon"
+                      "rawName": "id",
+                      "value": "validation-icon",
+                      "rawValue": "\"validation-icon\""
                     },
                     {
                       "type": "Attribute",
@@ -341,7 +353,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "src",
-                      "value": "http://www.w3.org/Icons/valid-xhtml10"
+                      "rawName": "src",
+                      "value": "http://www.w3.org/Icons/valid-xhtml10",
+                      "rawValue": "\"http://www.w3.org/Icons/valid-xhtml10\""
                     },
                     {
                       "type": "Attribute",
@@ -353,7 +367,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "alt",
-                      "value": "Valid XHTML 1.0 Strict"
+                      "rawName": "alt",
+                      "value": "Valid XHTML 1.0 Strict",
+                      "rawValue": "\"Valid XHTML 1.0 Strict\""
                     }
                   ],
                   "children": [],
@@ -404,7 +420,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "pdf-object"
+                      "rawName": "id",
+                      "value": "pdf-object",
+                      "rawValue": "\"pdf-object\""
                     },
                     {
                       "type": "Attribute",
@@ -416,7 +434,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "application/pdf"
+                      "rawName": "type",
+                      "value": "application/pdf",
+                      "rawValue": "\"application/pdf\""
                     },
                     {
                       "type": "Attribute",
@@ -428,7 +448,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "data",
-                      "value": "http://www.w3.org/TR/xhtml1/xhtml1.pdf"
+                      "rawName": "data",
+                      "value": "http://www.w3.org/TR/xhtml1/xhtml1.pdf",
+                      "rawValue": "\"http://www.w3.org/TR/xhtml1/xhtml1.pdf\""
                     },
                     {
                       "type": "Attribute",
@@ -440,7 +462,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "width",
-                      "value": "100%"
+                      "rawName": "width",
+                      "value": "100%",
+                      "rawValue": "\"100%\""
                     },
                     {
                       "type": "Attribute",
@@ -452,7 +476,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "height",
-                      "value": "500"
+                      "rawName": "height",
+                      "value": "500",
+                      "rawValue": "\"500\""
                     }
                   ],
                   "children": [],

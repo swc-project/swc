@@ -52,7 +52,9 @@
               "namespace": null,
               "prefix": null,
               "name": "foo",
-              "value": "bar"
+              "rawName": "foo",
+              "value": "bar",
+              "rawValue": "'bar'"
             },
             {
               "type": "Attribute",
@@ -64,7 +66,9 @@
               "namespace": null,
               "prefix": null,
               "name": "yo",
-              "value": "mama"
+              "rawName": "yo",
+              "value": "mama",
+              "rawValue": "'mama'"
             }
           ],
           "children": [],

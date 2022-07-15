@@ -93,6 +93,55 @@
 |       disabled=""
 |     "
 
+"
+|     <div>
+|       class="TEST"
+|     "
+"
+|     <div>
+|       class="TEST"
+|     "
+"
+|     <div>
+|       class="TEST"
+|     "
+
+"
+|     <svg svg>
+|       viewBox="0 0 140 50"
+|       xmlns="http://www.w3.org/2000/svg"
+|       "
+    "
+|       <svg text>
+|         xml space="default"
+|         y="20"
+|         "Default   spacing"
+|       "
+    "
+|       <svg text>
+|         xml space="default"
+|         y="20"
+|         "Default   spacing"
+|       "
+    "
+|       <svg text>
+|         xml space="preserve"
+|         y="40"
+|         "Preserved   spacing"
+|       "
+"
+|     "
+
+"
+|     <div>
+|       id="John " & Harry "
+|     "
+"
+|     <a>
+|       href="http://host/?x=1&y=2"
+|       "test"
+|     "
+
 
 
 "

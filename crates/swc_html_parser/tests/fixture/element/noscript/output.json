@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -194,7 +196,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "href",
-                      "value": "https://www.mozilla.org/"
+                      "rawName": "href",
+                      "value": "https://www.mozilla.org/",
+                      "rawValue": "\"https://www.mozilla.org/\""
                     }
                   ],
                   "children": [
@@ -256,7 +260,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "https://www.mozilla.org/"
+                  "rawName": "href",
+                  "value": "https://www.mozilla.org/",
+                  "rawValue": "\"https://www.mozilla.org/\""
                 }
               ],
               "children": [

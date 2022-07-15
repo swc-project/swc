@@ -60,7 +60,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "text/x-foobar;baz"
+                  "rawName": "type",
+                  "value": "text/x-foobar;baz",
+                  "rawValue": "text/x-foobar;baz"
                 }
               ],
               "children": [
