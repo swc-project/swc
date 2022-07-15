@@ -12,6 +12,25 @@ pub enum Program {
     Module(Module),
     #[tag("Script")]
     Script(Script),
+    #[tag("TestDummy")]
+    TestDummy(TestDummy),
+}
+
+#[ast_node("TestDummy")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct TestDummy {
+    pub span: Span,
+    pub body: Option<Vec<ModuleItem>>,
+}
+
+#[cfg(feature = "arbitrary")]
+#[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
+impl<'a> arbitrary::Arbitrary<'a> for TestDummy {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let body = u.arbitrary()?;
+        Ok(Self { span, body })
+    }
 }
 
 #[ast_node("Module")]

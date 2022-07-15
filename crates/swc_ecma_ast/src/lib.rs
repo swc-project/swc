@@ -37,7 +37,7 @@ pub use self::{
     },
     list::ListFormat,
     lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
-    module::{Module, ModuleItem, Program, Script},
+    module::{Module, ModuleItem, Program, Script, TestDummy},
     module_decl::{
         DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
         ExportDefaultSpecifier, ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier,
