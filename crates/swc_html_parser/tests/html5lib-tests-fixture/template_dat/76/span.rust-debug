@@ -12,31 +12,31 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat/76/input.html:1:1]
  1 | <body><template><col>Hello
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat/76/input.html:1:1]
  1 | <body><template><col>Hello
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat/76/input.html:1:1]
  1 | <body><template><col>Hello
-   :       ^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat/76/input.html:1:1]
  1 | <body><template><col>Hello
-   :       ^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DocumentFragment
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat/76/input.html:1:1]
  1 | <body><template><col>Hello
-   :       ^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
