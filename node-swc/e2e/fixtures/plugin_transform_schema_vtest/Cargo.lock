@@ -844,7 +844,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.80.2"
+version = "0.81.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -864,7 +864,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.12.1"
+version = "0.13.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",

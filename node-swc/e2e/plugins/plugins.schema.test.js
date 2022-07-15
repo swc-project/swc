@@ -35,7 +35,12 @@ const buildHost = async (feature) => {
         `./node-swc/e2e/fixtures/napi.host.${feature}.config.js`,
     ];
 
-    const proc = spawn("napi", args, { cwd: getPkgRoot(), stdio: "inherit" });
+    const options = { cwd: getPkgRoot(), stdio: "inherit" };
+
+    const proc =
+        process.platform == "win32"
+            ? spawn("cmd", ["/s", "/c", "napi", ...args], options)
+            : spawn("napi", args, options);
     await waitProcessAsync(proc);
 };
 
@@ -48,7 +53,12 @@ const buildPlugin = async (feature) => {
         "wasm32-wasi",
     ];
 
-    const proc = spawn("cargo", args, { cwd: getPkgRoot(), stdio: "inherit" });
+    const options = { cwd: getPkgRoot(), stdio: "inherit" };
+
+    const proc =
+        process.platform == "win32"
+            ? spawn("cmd", ["/s", "/c", "cargo", ...args], options)
+            : spawn("cargo", args, options);
     await waitProcessAsync(proc);
 };
 
