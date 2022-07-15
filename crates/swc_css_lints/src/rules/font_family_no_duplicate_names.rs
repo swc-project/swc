@@ -56,7 +56,11 @@ impl FontFamilyNoDuplicateNames {
                         (fonts, Some((value.to_string(), *span)))
                     }
                 }
-                ComponentValue::Str(Str { raw, span, .. }) => {
+                ComponentValue::Str(Str {
+                    raw: Some(raw),
+                    span,
+                    ..
+                }) => {
                     fonts.push((FontNameKind::from(raw), *span));
                     (fonts, None)
                 }
