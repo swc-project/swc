@@ -3998,6 +3998,7 @@ dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
  "swc_html_parser",
+ "swc_html_utils",
  "swc_html_visit",
  "testing",
 ]
