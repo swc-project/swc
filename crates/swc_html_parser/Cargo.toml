@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license = "Apache-2.0"
 name = "swc_html_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.23.0"
+version = "0.24.0"
 
 [lib]
 bench = false
@@ -22,7 +22,7 @@ debug = []
 swc_atoms = { version = "0.2.7", path = "../swc_atoms" }
 swc_common = { version = "0.24.0", path = "../swc_common" }
 swc_html_ast = { version = "0.20.0", path = "../swc_html_ast" }
-swc_html_utils = { version = "0.7.0", path = "../swc_html_utils" }
+swc_html_utils = { version = "0.8.0", path = "../swc_html_utils" }
 
 [dev-dependencies]
 criterion = "0.3"
