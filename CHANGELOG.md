@@ -16,6 +16,12 @@
 
 - **(plugin)** Pass `unresolved_mark` to plugins (#5212) ([92c0153](https://github.com/swc-project/swc/commit/92c0153cb56a6b3b7d6503216a14d5ed78df71dc))
 
+### Testing
+
+
+
+- **(es/plugin)** Build plugins for e2e testing (#5210) ([cd94f0a](https://github.com/swc-project/swc/commit/cd94f0a2e9a7331073d20638031ae86d3308760e))
+
 ## [1.2.216] - 2022-07-14
 
 ### Bug Fixes
