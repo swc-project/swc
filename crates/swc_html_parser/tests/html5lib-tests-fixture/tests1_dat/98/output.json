@@ -76,7 +76,7 @@
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 25,
+                "end": 35,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -87,7 +87,7 @@
                   "type": "Element",
                   "span": {
                     "start": 4,
-                    "end": 25,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -98,7 +98,7 @@
                       "type": "Element",
                       "span": {
                         "start": 12,
-                        "end": 25,
+                        "end": 35,
                         "ctxt": 0
                       },
                       "tagName": "marquee",

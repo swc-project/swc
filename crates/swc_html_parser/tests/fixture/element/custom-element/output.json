@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "img",
-                  "value": "img/alt.png"
+                  "rawName": "img",
+                  "value": "img/alt.png",
+                  "rawValue": "\"img/alt.png\""
                 },
                 {
                   "type": "Attribute",
@@ -165,7 +169,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-text",
-                  "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
+                  "rawName": "data-text",
+                  "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card.",
+                  "rawValue": "\"Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card.\""
                 }
               ],
               "children": [],
@@ -202,7 +208,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "l",
-                  "value": "100"
+                  "rawName": "l",
+                  "value": "100",
+                  "rawValue": "\"100\""
                 },
                 {
                   "type": "Attribute",
@@ -214,7 +222,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "c",
-                  "value": "red"
+                  "rawName": "c",
+                  "value": "red",
+                  "rawValue": "\"red\""
                 }
               ],
               "children": [],
@@ -251,7 +261,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "open",
-                  "value": null
+                  "rawName": "open",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -263,7 +275,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "disabled",
-                  "value": null
+                  "rawName": "disabled",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -321,7 +335,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "twitter"
+                      "rawName": "type",
+                      "value": "twitter",
+                      "rawValue": "\"twitter\""
                     }
                   ],
                   "children": [
@@ -345,7 +361,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "href",
-                          "value": "..."
+                          "rawName": "href",
+                          "value": "...",
+                          "rawValue": "\"...\""
                         }
                       ],
                       "children": [
@@ -397,7 +415,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "fb"
+                      "rawName": "type",
+                      "value": "fb",
+                      "rawValue": "\"fb\""
                     }
                   ],
                   "children": [
@@ -421,7 +441,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "href",
-                          "value": "..."
+                          "rawName": "href",
+                          "value": "...",
+                          "rawValue": "\"...\""
                         }
                       ],
                       "children": [
@@ -473,7 +495,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "plus"
+                      "rawName": "type",
+                      "value": "plus",
+                      "rawValue": "\"plus\""
                     }
                   ],
                   "children": [
@@ -497,7 +521,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "href",
-                          "value": "..."
+                          "rawName": "href",
+                          "value": "...",
+                          "rawValue": "\"...\""
                         }
                       ],
                       "children": [
@@ -633,7 +659,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "x-foo-from-template"
+                  "rawName": "id",
+                  "value": "x-foo-from-template",
+                  "rawValue": "\"x-foo-from-template\""
                 }
               ],
               "children": [],

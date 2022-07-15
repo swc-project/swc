@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "test"
+                  "rawName": "class",
+                  "value": "test",
+                  "rawValue": "\"test\""
                 },
                 {
                   "type": "Attribute",
@@ -165,7 +169,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "test-1"
+                  "rawName": "class",
+                  "value": "test-1",
+                  "rawValue": "\"test-1\""
                 },
                 {
                   "type": "Attribute",
@@ -177,7 +183,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "test-2"
+                  "rawName": "class",
+                  "value": "test-2",
+                  "rawValue": "\"test-2\""
                 }
               ],
               "children": [],

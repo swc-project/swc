@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "element-details-template"
+                  "rawName": "id",
+                  "value": "element-details-template",
+                  "rawValue": "\"element-details-template\""
                 }
               ],
               "children": [],
@@ -272,7 +276,9 @@
                                 "namespace": null,
                                 "prefix": null,
                                 "name": "class",
-                                "value": "name"
+                                "rawName": "class",
+                                "value": "name",
+                                "rawValue": "\"name\""
                               }
                             ],
                             "children": [
@@ -306,7 +312,9 @@
                                     "namespace": null,
                                     "prefix": null,
                                     "name": "name",
-                                    "value": "element-name"
+                                    "rawName": "name",
+                                    "value": "element-name",
+                                    "rawValue": "\"element-name\""
                                   }
                                 ],
                                 "children": [
@@ -368,7 +376,9 @@
                                 "namespace": null,
                                 "prefix": null,
                                 "name": "class",
-                                "value": "desc"
+                                "rawName": "class",
+                                "value": "desc",
+                                "rawValue": "\"desc\""
                               }
                             ],
                             "children": [
@@ -392,7 +402,9 @@
                                     "namespace": null,
                                     "prefix": null,
                                     "name": "name",
-                                    "value": "description"
+                                    "rawName": "name",
+                                    "value": "description",
+                                    "rawValue": "\"description\""
                                   }
                                 ],
                                 "children": [
@@ -458,7 +470,9 @@
                             "namespace": null,
                             "prefix": null,
                             "name": "class",
-                            "value": "attributes"
+                            "rawName": "class",
+                            "value": "attributes",
+                            "rawValue": "\"attributes\""
                           }
                         ],
                         "children": [
@@ -527,7 +541,9 @@
                                 "namespace": null,
                                 "prefix": null,
                                 "name": "name",
-                                "value": "attributes"
+                                "rawName": "name",
+                                "value": "attributes",
+                                "rawValue": "\"attributes\""
                               }
                             ],
                             "children": [
@@ -656,7 +672,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "tmpl1"
+                  "rawName": "id",
+                  "value": "tmpl1",
+                  "rawValue": "\"tmpl1\""
                 }
               ],
               "children": [],
@@ -698,7 +716,9 @@
                         "namespace": null,
                         "prefix": null,
                         "name": "id",
-                        "value": "div1"
+                        "rawName": "id",
+                        "value": "div1",
+                        "rawValue": "\"div1\""
                       }
                     ],
                     "children": [
@@ -746,7 +766,9 @@
                         "namespace": null,
                         "prefix": null,
                         "name": "id",
-                        "value": "div2"
+                        "rawName": "id",
+                        "value": "div2",
+                        "rawValue": "\"div2\""
                       }
                     ],
                     "children": [
@@ -794,7 +816,9 @@
                         "namespace": null,
                         "prefix": null,
                         "name": "id",
-                        "value": "tmpl2"
+                        "rawName": "id",
+                        "value": "tmpl2",
+                        "rawValue": "\"tmpl2\""
                       }
                     ],
                     "children": [],
@@ -826,7 +850,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "id",
-                              "value": "div3"
+                              "rawName": "id",
+                              "value": "div3",
+                              "rawValue": "\"div3\""
                             }
                           ],
                           "children": [
@@ -874,7 +900,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "id",
-                              "value": "div4"
+                              "rawName": "id",
+                              "value": "div4",
+                              "rawValue": "\"div4\""
                             }
                           ],
                           "children": [

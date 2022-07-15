@@ -47,7 +47,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 11,
+                "end": 15,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -72,7 +72,7 @@
                   "type": "Element",
                   "span": {
                     "start": 4,
-                    "end": 11,
+                    "end": 15,
                     "ctxt": 0
                   },
                   "tagName": "table",

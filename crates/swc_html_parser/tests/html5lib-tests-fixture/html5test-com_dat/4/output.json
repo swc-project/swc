@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "\\nbar"
+                  "rawName": "href",
+                  "value": "\\nbar",
+                  "rawValue": "'\\nbar'"
                 }
               ],
               "children": [],

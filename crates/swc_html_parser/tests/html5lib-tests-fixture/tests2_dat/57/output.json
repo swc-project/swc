@@ -84,7 +84,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "x",
-                  "value": null
+                  "rawName": "x",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -96,7 +98,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "y",
-                  "value": null
+                  "rawName": "y",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -108,7 +112,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "z",
-                  "value": null
+                  "rawName": "z",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],

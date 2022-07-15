@@ -84,7 +84,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "A"
+                      "rawName": "id",
+                      "value": "A",
+                      "rawValue": "\"A\""
                     }
                   ],
                   "children": [
@@ -118,7 +120,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "B"
+                          "rawName": "id",
+                          "value": "B",
+                          "rawValue": "\"B\""
                         }
                       ],
                       "children": [
@@ -164,7 +168,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "A"
+                  "rawName": "id",
+                  "value": "A",
+                  "rawValue": "\"A\""
                 }
               ],
               "children": [
@@ -188,7 +194,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "B"
+                      "rawName": "id",
+                      "value": "B",
+                      "rawValue": "\"B\""
                     }
                   ],
                   "children": [
@@ -230,7 +238,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "B"
+                  "rawName": "id",
+                  "value": "B",
+                  "rawValue": "\"B\""
                 }
               ],
               "children": [

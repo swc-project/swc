@@ -47,7 +47,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 20,
+                "end": 27,
                 "ctxt": 0
               },
               "tagName": "bdy",
@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "foo",
-                      "value": "bar"
+                      "rawName": "foo",
+                      "value": "bar",
+                      "rawValue": "\"bar\""
                     }
                   ],
                   "children": [],

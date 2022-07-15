@@ -84,7 +84,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "test"
+                  "rawName": "data-test",
+                  "value": "test",
+                  "rawValue": "\"test\""
                 }
               ],
               "children": [

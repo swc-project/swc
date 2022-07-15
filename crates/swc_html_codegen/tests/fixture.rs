@@ -346,6 +346,13 @@ impl VisitMut for DropSpan {
         n.is_self_closing = Default::default();
     }
 
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
+        n.visit_mut_children_with(self);
+
+        n.raw_name = None;
+        n.raw_value = None;
+    }
+
     fn visit_mut_span(&mut self, n: &mut Span) {
         *n = Default::default()
     }

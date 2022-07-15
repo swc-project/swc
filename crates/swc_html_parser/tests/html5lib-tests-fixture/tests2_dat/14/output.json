@@ -90,7 +90,7 @@
                       "type": "Element",
                       "span": {
                         "start": 23,
-                        "end": 27,
+                        "end": 31,
                         "ctxt": 0
                       },
                       "tagName": "tr",

@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 20,
+        "end": 28,
         "ctxt": 0
       },
       "tagName": "svg",
@@ -21,7 +21,7 @@
           "type": "Element",
           "span": {
             "start": 6,
-            "end": 20,
+            "end": 28,
             "ctxt": 0
           },
           "tagName": "tbody",
@@ -32,7 +32,7 @@
               "type": "Element",
               "span": {
                 "start": 13,
-                "end": 20,
+                "end": 28,
                 "ctxt": 0
               },
               "tagName": "title",

@@ -84,7 +84,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "size",
-                      "value": "7"
+                      "rawName": "size",
+                      "value": "7",
+                      "rawValue": "\"7\""
                     }
                   ],
                   "children": [
@@ -126,7 +128,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "size",
-                  "value": "7"
+                  "rawName": "size",
+                  "value": "7",
+                  "rawValue": "\"7\""
                 }
               ],
               "children": [

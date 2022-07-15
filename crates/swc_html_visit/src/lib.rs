@@ -66,7 +66,9 @@ define!({
         pub namespace: Option<Namespace>,
         pub prefix: Option<JsWord>,
         pub name: JsWord,
+        pub raw_name: Option<JsWord>,
         pub value: Option<JsWord>,
+        pub raw_value: Option<JsWord>,
     }
 
     pub struct Text {
