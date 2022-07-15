@@ -3927,7 +3927,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.43.0"
+version = "0.44.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3938,7 +3938,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.19.0"
+version = "0.20.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3949,7 +3949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.25.0"
+version = "0.26.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3977,7 +3977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.40.0"
+version = "0.41.0"
 dependencies = [
  "once_cell",
  "serde",
@@ -4004,7 +4004,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.22.1"
+version = "0.23.0"
 dependencies = [
  "criterion",
  "serde",
@@ -4030,7 +4030,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.19.0"
+version = "0.20.0"
 dependencies = [
  "serde",
  "swc_atoms",

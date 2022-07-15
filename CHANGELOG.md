@@ -14,6 +14,9 @@
 
 
 
+- **(html/ast)** Add `raw` to attributes (#5208) ([64237fa](https://github.com/swc-project/swc/commit/64237fa7fb9c95030f92892143f476c2573bed75))
+
+
 - **(plugin)** Pass `unresolved_mark` to plugins (#5212) ([92c0153](https://github.com/swc-project/swc/commit/92c0153cb56a6b3b7d6503216a14d5ed78df71dc))
 
 ### Testing
