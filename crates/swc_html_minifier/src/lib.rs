@@ -14,7 +14,7 @@ use swc_common::{
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
-use swc_html_utils::{HTML_DEFAULT_ATTRIBUTES, SVG_DEFAULT_ATTRIBUTES};
+use swc_html_utils::{HTML_DEFAULT_ATTRIBUTES, SVG_ELEMENTS_AND_ATTRIBUTES};
 use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{
@@ -516,7 +516,7 @@ impl Minifier<'_> {
                 let default_attributes = if namespace == Namespace::HTML {
                     &HTML_DEFAULT_ATTRIBUTES
                 } else {
-                    &SVG_DEFAULT_ATTRIBUTES
+                    &SVG_ELEMENTS_AND_ATTRIBUTES
                 };
 
                 let attribute_name = if let Some(prefix) = &attribute.prefix {
@@ -533,28 +533,17 @@ impl Minifier<'_> {
                 };
                 let normalized_value = attribute_value.trim();
 
-                if let Some(global_attributes) = default_attributes.get("*") {
-                    if let Some(attribute_meta_data) = global_attributes.0.get(&attribute_name) {
-                        match (attribute_meta_data.inherited, &attribute_meta_data.initial) {
-                            (None, Some(initial)) | (Some(false), Some(initial)) => {
-                                return initial == normalized_value
-                            }
-                            _ => {}
-                        }
-                    };
-                }
-
                 let attributes = match default_attributes.get(tag_name) {
                     Some(element) => element,
                     None => return false,
                 };
 
-                let attribute_meta_data = match attributes.0.get(&attribute_name) {
-                    Some(attribute_meta_data) => attribute_meta_data,
+                let attribute_info = match attributes.other.get(&attribute_name) {
+                    Some(attribute_info) => attribute_info,
                     None => return false,
                 };
 
-                match (attribute_meta_data.inherited, &attribute_meta_data.initial) {
+                match (attribute_info.inherited, &attribute_info.initial) {
                     (None, Some(initial)) | (Some(false), Some(initial)) => {
                         initial == normalized_value
                     }

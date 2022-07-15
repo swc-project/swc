@@ -14,9 +14,9 @@ pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
     entities
 });
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-pub struct AttributeMetaData {
+pub struct AttributeInfo {
     #[serde(default)]
     pub initial: Option<String>,
     #[serde(default)]
@@ -24,7 +24,11 @@ pub struct AttributeMetaData {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Element(pub AHashMap<String, AttributeMetaData>);
+pub struct Element {
+    _extends: Option<Vec<String>>,
+    #[serde(flatten)]
+    pub other: AHashMap<String, AttributeInfo>,
+}
 
 pub static HTML_DEFAULT_ATTRIBUTES: Lazy<AHashMap<String, Element>> = Lazy::new(|| {
     let default_attributes: AHashMap<String, Element> =
@@ -34,10 +38,10 @@ pub static HTML_DEFAULT_ATTRIBUTES: Lazy<AHashMap<String, Element>> = Lazy::new(
     default_attributes
 });
 
-pub static SVG_DEFAULT_ATTRIBUTES: Lazy<AHashMap<String, Element>> = Lazy::new(|| {
-    let default_attributes: AHashMap<String, Element> =
-        serde_json::from_str(include_str!("./svg_default_attributes.json"))
-            .expect("failed to parse svg_default_attributes.json for default attributes");
+pub static SVG_ELEMENTS_AND_ATTRIBUTES: Lazy<AHashMap<String, Element>> = Lazy::new(|| {
+    let svg_elements_and_attributes: AHashMap<String, Element> =
+        serde_json::from_str(include_str!("./svg_elements_and_attributes.json"))
+            .expect("failed to parse svg_elements_and_attributes.json for default attributes");
 
-    default_attributes
+    svg_elements_and_attributes
 });
