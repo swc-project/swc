@@ -11,7 +11,7 @@ use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use once_cell::sync::Lazy;
 use swc_common::{
     plugin::{PluginSerializedBytes, VersionedSerializable},
-    FileName, FilePathMapping, SourceMap,
+    FileName, FilePathMapping, Mark, SourceMap,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
@@ -84,6 +84,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                     "{}",
                 )))
                 .unwrap(),
+                Mark::new(),
                 true,
             )
             .unwrap();

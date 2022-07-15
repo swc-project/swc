@@ -67,7 +67,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
         // There are some cases error won't be wrapped up however - for example, we expect
         // serialization of PluginError itself should succeed.
         #[no_mangle]
-        pub fn #transform_process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32, context_str_ptr: *const u8, context_str_ptr_len: i32, should_enable_comments_proxy: i32) -> i32 {
+        pub fn #transform_process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32, context_str_ptr: *const u8, context_str_ptr_len: i32, unresolved_mark: u32, should_enable_comments_proxy: i32) -> i32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
             let program = unsafe { swc_plugin::deserialize_from_ptr(ast_ptr, ast_ptr_len).map(|v| v.into_inner()) };
@@ -114,6 +114,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 comments: plugin_comments_proxy,
                 source_map: swc_plugin::source_map::PluginSourceMapProxy,
                 plugin_config: config,
+                unresolved_mark: swc_plugin::syntax_pos::Mark::from_u32(unresolved_mark),
                 transform_context: context
             };
 
