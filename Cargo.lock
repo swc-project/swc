@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.206.1"
+version = "0.207.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.80.1"
+version = "0.81.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.128.0"
+version = "0.129.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4110,7 +4110,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.80.2"
+version = "0.81.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4131,7 +4131,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.12.1"
+version = "0.13.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
@@ -4142,7 +4142,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "anyhow",
  "criterion",
