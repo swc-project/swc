@@ -12,23 +12,23 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/27/input.html:1:1]
  1 | <table><colgroup></col>
-   : ^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/27/input.html:1:1]
  1 | <table><colgroup></col>
-   : ^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/27/input.html:1:1]
  1 | <table><colgroup></col>
-   :        ^^^^^^^^^^
+   :        ^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/27/input.html:1:1]
  1 | <table><colgroup></col>
-   :        ^^^^^^^^^^
+   :        ^^^^^^^^^^^^^^^^
    `----

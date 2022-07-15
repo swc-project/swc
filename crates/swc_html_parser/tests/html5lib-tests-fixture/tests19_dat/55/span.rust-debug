@@ -24,11 +24,11 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/55/input.html:1:1]
  1 | <!doctype html><applet><frameset>
-   :                ^^^^^^^^
+   :                ^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/55/input.html:1:1]
  1 | <!doctype html><applet><frameset>
-   :                ^^^^^^^^
+   :                ^^^^^^^^^^^^^^^^^^
    `----
