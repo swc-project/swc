@@ -556,10 +556,10 @@
                 "end": 340,
                 "ctxt": 0
               },
-              "before": "",
-              "after": "",
               "value": "https://www.example.com/",
-              "raw": "https://www.example.com/"
+              "before": "",
+              "raw": "https://www.example.com/",
+              "after": ""
             },
             "modifiers": null
           }
