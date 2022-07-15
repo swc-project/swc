@@ -7,6 +7,9 @@
 
 - **(cli)** Emit sourcemap with file inputs (#5213) ([3e3be80](https://github.com/swc-project/swc/commit/3e3be80efda09ae494f8962947562b4411874061))
 
+
+- **(html/parser)** Fix span  (#5209) ([b4daa30](https://github.com/swc-project/swc/commit/b4daa3005803be23676bec666bb8f8791f2472b3))
+
 ### Features
 
 
