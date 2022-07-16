@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.208.0"
+version = "0.208.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3542,7 +3542,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.177.0"
+version = "0.177.1"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3802,7 +3802,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "indexmap",
  "once_cell",
