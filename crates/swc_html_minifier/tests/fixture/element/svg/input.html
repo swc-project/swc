@@ -519,5 +519,54 @@ big
        " />
 </svg>
 
+<svg width="120" height="120"  viewBox="0 0 120 120"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!-- animated rectangles -->
+    <rect x="10" y="35" height="15" width="0">
+        <animate attributeType="XML" attributeName="width" to="50"
+                 id="first"
+                 begin="
+                 0s;
+
+                 third.end
+
+                "
+                end="
+                 0s;
+
+                 third.end
+
+                "
+                dur="4s" />
+    </rect>
+
+    <rect x="60" y="60" height="15" width="0">
+        <animate attributeType="XML" attributeName="width" to="25"
+                 id="second" begin="first.end" dur="2s" />
+    </rect>
+
+    <rect x="85" y="85" height="15" width="0">
+        <animate attributeType="XML" attributeName="width" to="25"
+                 id="third" begin="second.end" dur="2s" />
+    </rect>
+
+    <!-- grid -->
+    <text x="10" y="20" text-anchor="middle">0s</text>
+    <line x1="10" y1="25" x2="10" y2="105" stroke="grey" stroke-width=".5" />
+    <text x="35" y="20" text-anchor="middle">2s</text>
+    <line x1="35" y1="25" x2="35" y2="105" stroke="grey" stroke-width=".5" />
+    <text x="60" y="20" text-anchor="middle">4s</text>
+    <line x1="60" y1="25" x2="60" y2="105" stroke="grey" stroke-width=".5" />
+    <text x="85" y="20" text-anchor="middle">6s</text>
+    <line x1="85" y1="25" x2="85" y2="105" stroke="grey" stroke-width=".5" />
+    <text x="110" y="20" text-anchor="middle">8s</text>
+    <line x1="110" y1="25" x2="110" y2="105" stroke="grey" stroke-width=".5" />
+
+    <line x1="10" y1="30" x2="110" y2="30" stroke="grey" stroke-width=".5" />
+    <line x1="10" y1="105" x2="110" y2="105" stroke="grey" stroke-width=".5" />
+</svg>
+
 </body>
 </html>
