@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.207.0"
+version = "0.207.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.81.0"
+version = "0.81.1"
 dependencies = [
  "anyhow",
  "atty",
