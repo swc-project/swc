@@ -294,6 +294,9 @@ static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
     ("feFuncB", "tableValues"),
     ("feFuncG", "tableValues"),
     ("feFuncR", "tableValues"),
+    ("linearGradient", "gradientTransform"),
+    ("radialGradient", "gradientTransform"),
+    ("font-face", "panose-1"),
 ];
 
 static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
@@ -475,7 +478,9 @@ impl Minifier<'_> {
             }
             Namespace::SVG => {
                 match attribute_name {
-                    "stroke-dasharray" | "clip-path" => return true,
+                    "transform" | "stroke-dasharray" | "clip-path" | "requiredFeatures" => {
+                        return true
+                    }
                     _ => {}
                 }
 

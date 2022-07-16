@@ -725,5 +725,49 @@ big
           style="filter: url(#componentTransfer2); transform: translateX(220px);" />
 </svg>
 
+<svg width="450" height="1170" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Testing : http://www.w3.org/TR/SVG11/feature#SVG -->
+    <rect class="ko" x="10" y="10" height="25" width="430" />
+    <rect class="ok" x="10" y="10" height="25" width="430"
+          requiredFeatures="
+          http://www.w3.org/TR/SVG11/feature#SVG http://www.w3.org/TR/SVG11/feature#SVG
+" />
+</svg>
+
+<svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+    <radialGradient id="gradient1" gradientUnits="userSpaceOnUse"
+                    cx="100" cy="100" r="100" fx="100" fy="100">
+        <stop offset="0%" stop-color="darkblue" />
+        <stop offset="50%" stop-color="skyblue" />
+        <stop offset="100%" stop-color="darkblue" />
+    </radialGradient>
+    <radialGradient id="gradient2" gradientUnits="userSpaceOnUse"
+                    cx="100" cy="100" r="100" fx="100" fy="100"
+                    gradientTransform="
+                    skewX(20)
+                    translate(-35, 0)
+">
+        <stop offset="0%" stop-color="darkblue" />
+        <stop offset="50%" stop-color="skyblue" />
+        <stop offset="100%" stop-color="darkblue" />
+    </radialGradient>
+
+    <rect x="0" y="0" width="200" height="200" fill="url(#gradient1)" />
+    <rect x="0" y="0" width="200" height="200" fill="url(#gradient2)" style="transform: translateX(220px);" />
+</svg>
+
+<svg viewBox="-40 0 150 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g fill="grey"
+       transform="rotate(-10   50    100)
+                translate(-36   45.5)
+                skewX(40)
+                scale(1 0.5)">
+        <path id="heart" d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z" />
+    </g>
+
+    <use xlink:href="#heart" fill="none" stroke="red"/>
+</svg>
+
 </body>
 </html>
