@@ -168,6 +168,9 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onvisibilitychange",
     "onshow",
     "onsort",
+    "onbegin",
+    "onend",
+    "onrepeat",
 ];
 
 static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["style", "tabindex", "itemid"];
@@ -271,6 +274,21 @@ static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
     ("feImage", "preserveAspectRatio"),
     ("pattern", "preserveAspectRatio"),
     ("view", "preserveAspectRatio"),
+];
+
+static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("animate", "keyTimes"),
+    ("animate", "keySplines"),
+    ("animate", "values"),
+    ("animateColor", "keyTimes"),
+    ("animateColor", "keySplines"),
+    ("animateColor", "values"),
+    ("animateMotion", "keyTimes"),
+    ("animateMotion", "keySplines"),
+    ("animateMotion", "values"),
+    ("animateTransform", "keyTimes"),
+    ("animateTransform", "keySplines"),
+    ("animateTransform", "values"),
 ];
 
 enum CssMinificationMode {
@@ -430,6 +448,17 @@ impl Minifier<'_> {
             _ => false,
         }
     }
+
+    fn is_semicolon_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        match element.namespace {
+            Namespace::SVG => {
+                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            _ => false,
+        }
+    }
+
+    // SEMI_SEPARATED_SVG_ATTRIBUTES
 
     fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &str) -> bool {
         if matches!(
@@ -1996,6 +2025,12 @@ impl VisitMut for Minifier<'_> {
                 value = new_values.join(",");
             } else if self.is_trimable_separated_attribute(current_element, &n.name) {
                 value = value.trim().to_string();
+            } else if self.is_semicolon_separated_attribute(current_element, &n.name) {
+                value = value
+                    .split(';')
+                    .map(|x| self.collapse_whitespace(x.trim()))
+                    .collect::<Vec<_>>()
+                    .join(";");
             } else if current_element.namespace == Namespace::HTML
                 && &n.name == "contenteditable"
                 && value == "true"
