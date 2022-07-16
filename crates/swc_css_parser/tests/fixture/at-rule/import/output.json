@@ -172,10 +172,10 @@
               "end": 80,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "./style.css",
-            "raw": "./style.css"
+            "before": "",
+            "raw": "./style.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -372,10 +372,10 @@
               "end": 180,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "./style.css",
-            "raw": "./style.css"
+            "before": "",
+            "raw": "./style.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -1677,10 +1677,10 @@
               "end": 850,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -1856,10 +1856,10 @@
               "end": 923,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -1917,10 +1917,10 @@
               "end": 946,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -1978,10 +1978,10 @@
               "end": 970,
               "ctxt": 0
             },
-            "before": "",
-            "after": " ",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": " "
           },
           "modifiers": null
         },
@@ -2039,10 +2039,10 @@
               "end": 994,
               "ctxt": 0
             },
-            "before": " ",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": " ",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -2100,10 +2100,10 @@
               "end": 1019,
               "ctxt": 0
             },
-            "before": " ",
-            "after": " ",
             "value": "test.css",
-            "raw": "test.css"
+            "before": " ",
+            "raw": "test.css",
+            "after": " "
           },
           "modifiers": null
         },
@@ -2161,10 +2161,10 @@
               "end": 1044,
               "ctxt": 0
             },
-            "before": "\n",
-            "after": "\n",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "\n",
+            "raw": "test.css",
+            "after": "\n"
           },
           "modifiers": null
         },
@@ -2222,10 +2222,10 @@
               "end": 1059,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "",
-            "raw": ""
+            "before": "",
+            "raw": "",
+            "after": ""
           },
           "modifiers": null
         },
@@ -2641,10 +2641,10 @@
               "end": 1201,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "",
-            "raw": ""
+            "before": "",
+            "raw": "",
+            "after": ""
           },
           "modifiers": null
         },
@@ -2820,10 +2820,10 @@
               "end": 1258,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -2957,10 +2957,10 @@
               "end": 1316,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -3094,10 +3094,10 @@
               "end": 1375,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -3231,10 +3231,10 @@
               "end": 1432,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -3368,10 +3368,10 @@
               "end": 1511,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -3564,10 +3564,10 @@
               "end": 1618,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "~package/test.css",
-            "raw": "~package/test.css"
+            "before": "",
+            "raw": "~package/test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -3920,10 +3920,10 @@
               "end": 1933,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "~package/tilde.css",
-            "raw": "~package/tilde.css"
+            "before": "",
+            "raw": "~package/tilde.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -3981,10 +3981,10 @@
               "end": 1972,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "~aliasesImport/alias.css",
-            "raw": "~aliasesImport/alias.css"
+            "before": "",
+            "raw": "~aliasesImport/alias.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -4101,10 +4101,10 @@
               "end": 2024,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "./test.css",
-            "raw": "./test.css"
+            "before": "",
+            "raw": "./test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -5053,10 +5053,10 @@
               "end": 2584,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "./test test.css",
-            "raw": "./test\\ test.css"
+            "before": "",
+            "raw": "./test\\ test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -5114,10 +5114,10 @@
               "end": 2618,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "./test%20test.css",
-            "raw": "./t\\65st%20test.css"
+            "before": "",
+            "raw": "./t\\65st%20test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -5373,10 +5373,10 @@
               "end": 2814,
               "ctxt": 0
             },
-            "before": "                 ",
-            "after": "                      ",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "                 ",
+            "raw": "test.css",
+            "after": "                      "
           },
           "modifiers": null
         },
@@ -5533,10 +5533,10 @@
               "end": 2947,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css?foo=bar",
-            "raw": "test.css?foo=bar"
+            "before": "",
+            "raw": "test.css?foo=bar",
+            "after": ""
           },
           "modifiers": null
         },
@@ -5594,10 +5594,10 @@
               "end": 2983,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css?foo=bar#hash",
-            "raw": "test.css?foo=bar#hash"
+            "before": "",
+            "raw": "test.css?foo=bar#hash",
+            "after": ""
           },
           "modifiers": null
         },
@@ -5655,10 +5655,10 @@
               "end": 3012,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css?#hash",
-            "raw": "test.css?#hash"
+            "before": "",
+            "raw": "test.css?#hash",
+            "after": ""
           },
           "modifiers": null
         },
@@ -6177,10 +6177,10 @@
               "end": 3305,
               "ctxt": 0
             },
-            "before": "   ",
-            "after": "   ",
             "value": "./test.css",
-            "raw": "./test.css"
+            "before": "   ",
+            "raw": "./test.css",
+            "after": "   "
           },
           "modifiers": null
         },
@@ -6455,10 +6455,10 @@
               "end": 3639,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D",
-            "raw": "data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D"
+            "before": "",
+            "raw": "data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D",
+            "after": ""
           },
           "modifiers": null
         },
@@ -6516,10 +6516,10 @@
               "end": 3672,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "package/first.css",
-            "raw": "package/first.css"
+            "before": "",
+            "raw": "package/first.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -6577,10 +6577,10 @@
               "end": 3705,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "package/second.css",
-            "raw": "package/second.css"
+            "before": "",
+            "raw": "package/second.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -9038,10 +9038,10 @@
               "end": 5196,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -9099,10 +9099,10 @@
               "end": 5247,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -9160,10 +9160,10 @@
               "end": 5284,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },
@@ -9297,10 +9297,10 @@
               "end": 5369,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "test.css",
-            "raw": "test.css"
+            "before": "",
+            "raw": "test.css",
+            "after": ""
           },
           "modifiers": null
         },

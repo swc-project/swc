@@ -18,12 +18,12 @@ impl VisitMut for CompressFrequency {
                 frequency.value = Number {
                     span: frequency.value.span,
                     value: new_value,
-                    raw: new_value.to_string().into(),
+                    raw: None,
                 };
                 frequency.unit = Ident {
                     span: frequency.unit.span,
                     value: "khz".into(),
-                    raw: "khz".into(),
+                    raw: None,
                 };
             }
             "khz"
@@ -34,13 +34,13 @@ impl VisitMut for CompressFrequency {
 
                 frequency.value = Number {
                     value: new_value,
-                    raw: new_value.to_string().into(),
+                    raw: None,
                     span: frequency.span,
                 };
                 frequency.unit = Ident {
                     span: frequency.unit.span,
                     value: "hz".into(),
-                    raw: "hz".into(),
+                    raw: None,
                 };
             }
             _ => {}

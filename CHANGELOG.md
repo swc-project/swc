@@ -8,13 +8,22 @@
 - **(cli)** Emit sourcemap with file inputs (#5213) ([3e3be80](https://github.com/swc-project/swc/commit/3e3be80efda09ae494f8962947562b4411874061))
 
 
+- **(es/modules)** Preserve order for ts import equals (#5215) ([6b1ce09](https://github.com/swc-project/swc/commit/6b1ce09b6f59e53a750a71e447a148aedcef8468))
+
+
 - **(html/parser)** Fix span  (#5209) ([b4daa30](https://github.com/swc-project/swc/commit/b4daa3005803be23676bec666bb8f8791f2472b3))
 
 ### Features
 
 
 
+- **(css/ast)** Make `raw` optional (#5211) ([b65a16c](https://github.com/swc-project/swc/commit/b65a16c7aa58bca57ad861ca015867f89fb80a79))
+
+
 - **(html/ast)** Add `raw` to attributes (#5208) ([64237fa](https://github.com/swc-project/swc/commit/64237fa7fb9c95030f92892143f476c2573bed75))
+
+
+- **(html/minifier)** Compress more default attributes (#5182) ([625fc18](https://github.com/swc-project/swc/commit/625fc18da01643d81af535eefd4c636e5a632af0))
 
 
 - **(plugin)** Pass `unresolved_mark` to plugins (#5212) ([92c0153](https://github.com/swc-project/swc/commit/92c0153cb56a6b3b7d6503216a14d5ed78df71dc))

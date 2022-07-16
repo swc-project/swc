@@ -2,15 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: all[name]
-    });
-}
-_export(exports, {
-    "$": ()=>_jquery,
-    jquery: ()=>_jquery
+Object.defineProperty(exports, "jquery", {
+    enumerable: true,
+    get: ()=>exports["$"]
 });
-const _jquery = require("jquery");
-_jquery(".hello");
+exports["$"] = require("jquery");
+(0, exports["$"])(".hello");

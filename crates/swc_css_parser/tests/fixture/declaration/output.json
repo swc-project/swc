@@ -749,10 +749,10 @@
                     "end": 315,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "value",
-                  "raw": "value"
+                  "before": "",
+                  "raw": "value",
+                  "after": ""
                 },
                 "modifiers": null
               },
@@ -780,10 +780,10 @@
                     "end": 325,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "value",
-                  "raw": "value"
+                  "before": "",
+                  "raw": "value",
+                  "after": ""
                 },
                 "modifiers": null
               }

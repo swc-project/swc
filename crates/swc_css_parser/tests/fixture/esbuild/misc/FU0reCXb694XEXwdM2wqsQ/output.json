@@ -54,10 +54,10 @@
               "end": 20,
               "ctxt": 0
             },
-            "before": "",
-            "after": "",
             "value": "foo.css",
-            "raw": "foo.css"
+            "before": "",
+            "raw": "foo.css",
+            "after": ""
           },
           "modifiers": null
         },

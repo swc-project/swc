@@ -221,10 +221,10 @@
                     "end": 125,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png�",
-                  "raw": "image.png\\999999"
+                  "before": "",
+                  "raw": "image.png\\999999",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -273,10 +273,10 @@
                     "end": 159,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png�",
-                  "raw": "image.png\\0"
+                  "before": "",
+                  "raw": "image.png\\0",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -325,10 +325,10 @@
                     "end": 196,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png�",
-                  "raw": "image.png\\D800"
+                  "before": "",
+                  "raw": "image.png\\D800",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -377,10 +377,10 @@
                     "end": 233,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png�",
-                  "raw": "image.png\\DFFF"
+                  "before": "",
+                  "raw": "image.png\\DFFF",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -429,10 +429,10 @@
                     "end": 272,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png�",
-                  "raw": "image.png\\11FFFF"
+                  "before": "",
+                  "raw": "image.png\\11FFFF",
+                  "after": ""
                 },
                 "modifiers": null
               }

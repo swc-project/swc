@@ -121,10 +121,10 @@
                     "end": 109,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-                  "raw": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                  "before": "",
+                  "raw": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -523,10 +523,10 @@
                     "end": 488,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "",
-                  "raw": ""
+                  "before": "",
+                  "raw": "",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -575,10 +575,10 @@
                     "end": 520,
                     "ctxt": 0
                   },
-                  "before": "   ",
-                  "after": "",
                   "value": "",
-                  "raw": ""
+                  "before": "   ",
+                  "raw": "",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -877,10 +877,10 @@
                     "end": 734,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "./image.png",
-                  "raw": "./image.png"
+                  "before": "",
+                  "raw": "./image.png",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -929,10 +929,10 @@
                     "end": 780,
                     "ctxt": 0
                   },
-                  "before": "   ",
-                  "after": "   ",
                   "value": "./image.png",
-                  "raw": "./image.png"
+                  "before": "   ",
+                  "raw": "./image.png",
+                  "after": "   "
                 },
                 "modifiers": null
               }
@@ -981,10 +981,10 @@
                     "end": 829,
                     "ctxt": 0
                   },
-                  "before": "   ",
-                  "after": "   ",
                   "value": "./image2.png",
-                  "raw": "./image\\32.png"
+                  "before": "   ",
+                  "raw": "./image\\32.png",
+                  "after": "   "
                 },
                 "modifiers": null
               }
@@ -1033,10 +1033,10 @@
                     "end": 888,
                     "ctxt": 0
                   },
-                  "before": "   \n    ",
-                  "after": "   \n    ",
                   "value": "./image2.png",
-                  "raw": "./image\\32.png"
+                  "before": "   \n    ",
+                  "raw": "./image\\32.png",
+                  "after": "   \n    "
                 },
                 "modifiers": null
               }
@@ -1085,10 +1085,10 @@
                     "end": 974,
                     "ctxt": 0
                   },
-                  "before": "\n    \n    \n    \n       ",
-                  "after": "\n    \n    \n    \n    ",
                   "value": "./image2.png",
-                  "raw": "./image\\32.png"
+                  "before": "\n    \n    \n    \n       ",
+                  "raw": "./image\\32.png",
+                  "after": "\n    \n    \n    \n    "
                 },
                 "modifiers": null
               }
@@ -1137,10 +1137,10 @@
                     "end": 1039,
                     "ctxt": 0
                   },
-                  "before": "   \n\n\n\n    ",
-                  "after": "\n\n\n\n       ",
                   "value": "./image2.png",
-                  "raw": "./image\\32.png"
+                  "before": "   \n\n\n\n    ",
+                  "raw": "./image\\32.png",
+                  "after": "\n\n\n\n       "
                 },
                 "modifiers": null
               }
@@ -1189,10 +1189,10 @@
                     "end": 1076,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png\u0001",
-                  "raw": "image.png\\0001"
+                  "before": "",
+                  "raw": "image.png\\0001",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -1241,10 +1241,10 @@
                     "end": 1110,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png\u0001",
-                  "raw": "image.png\\1"
+                  "before": "",
+                  "raw": "image.png\\1",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -1293,10 +1293,10 @@
                     "end": 1147,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png힙",
-                  "raw": "image.png\\D799"
+                  "before": "",
+                  "raw": "image.png\\D799",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -1345,10 +1345,10 @@
                     "end": 1184,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png",
-                  "raw": "image.png\\E000"
+                  "before": "",
+                  "raw": "image.png\\E000",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -1397,10 +1397,10 @@
                     "end": 1223,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "image.png􏿿",
-                  "raw": "image.png\\10FFFF"
+                  "before": "",
+                  "raw": "image.png\\10FFFF",
+                  "after": ""
                 },
                 "modifiers": null
               }
@@ -1449,10 +1449,10 @@
                     "end": 1248,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "18",
-                  "raw": "18"
+                  "before": "",
+                  "raw": "18",
+                  "after": ""
                 },
                 "modifiers": null
               }

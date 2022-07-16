@@ -139,10 +139,10 @@
                         "end": 38,
                         "ctxt": 0
                       },
-                      "before": "",
-                      "after": "",
                       "value": "foo.jpg",
-                      "raw": "foo.jpg"
+                      "before": "",
+                      "raw": "foo.jpg",
+                      "after": ""
                     },
                     "modifiers": null
                   },

@@ -23,7 +23,7 @@ impl VisitMut for CompressKeyframes {
                     KeyframesName::CustomIdent(CustomIdent {
                         span: string.span,
                         value: string.value.to_string().into(),
-                        raw: string.raw[1..string.raw.len() - 1].to_string().into(),
+                        raw: None,
                     }),
                 ));
             }
@@ -41,7 +41,7 @@ impl VisitMut for CompressKeyframes {
                     value: Number {
                         span: DUMMY_SP,
                         value: 0.0,
-                        raw: "0%".into(),
+                        raw: None,
                     },
                 })
             }
@@ -49,7 +49,7 @@ impl VisitMut for CompressKeyframes {
                 *keyframe_selector = KeyframeSelector::Ident(Ident {
                     span: i.span,
                     value: "to".into(),
-                    raw: "to".into(),
+                    raw: None,
                 })
             }
             _ => {}
