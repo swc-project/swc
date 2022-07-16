@@ -277,11 +277,19 @@ static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
     ("marker", "preserveAspectRatio"),
     ("pattern", "preserveAspectRatio"),
     ("pattern", "viewBox"),
+    ("pattern", "patternTransform"),
     ("view", "preserveAspectRatio"),
     ("view", "viewBox"),
     ("path", "d"),
+    // TODO improve me more
+    ("textPath", "path"),
+    ("animateMotion", "path"),
     ("glyph", "d"),
     ("missing-glyph", "d"),
+    ("feColorMatrix", "values"),
+    ("feConvolveMatrix", "kernelMatrix"),
+    ("text", "rotate"),
+    ("tspan", "rotate"),
 ];
 
 static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
@@ -980,7 +988,6 @@ impl Minifier<'_> {
                         | "textpath"
                         | "tspan"
                         | "use"
-                        | "symbol’"
                 ) =>
                 {
                     WhitespaceMinificationMode {

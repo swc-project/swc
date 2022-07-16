@@ -360,3 +360,49 @@
     <line x1=10 y1=30 x2=110 y2=30 stroke=grey stroke-width=.5 />
     <line x1=10 y1=105 x2=110 y2=105 stroke=grey stroke-width=.5 />
 </svg>
+
+<svg>
+    <filter id=colorMeTheSame>
+        <feColorMatrix in=SourceGraphic values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/>
+    </filter>
+</svg>
+
+<svg viewBox="0 0 420 200">
+    <filter id=convolveMatrix1 x=0 y=0 width=100% height=100%>
+        <feConvolveMatrix kernelMatrix="1 1 0 0 0 0 0 0 -1"/>
+    </filter>
+    <filter id=convolveMatrix2 x=0 y=0 width=100% height=100%>
+        <feConvolveMatrix kernelMatrix="-1 0 0 0 0 0 0 0 1"/>
+    </filter>
+
+    <image xlink:href=//developer.mozilla.org/files/6457/mdn_logo_only_color.png width=200 height=200 style=filter:url(#convolveMatrix1) />
+    <image xlink:href=//developer.mozilla.org/files/6457/mdn_logo_only_color.png width=200 height=200 style=filter:url(#convolveMatrix2);transform:translateX(220px) />
+</svg>
+
+<svg viewBox="0 0 100 100">
+    
+    <pattern id=p1 width=.25 height=.25 patternTransform="rotate(20) skewX(30) scale(1 0.5)">
+        <circle cx=10 cy=10 r=10 />
+    </pattern>
+
+    
+    <rect x=10 y=10 width=80 height=80 fill=url(#p1) />
+</svg>
+
+<svg xml:lang=en viewBox="0 0 200 500">
+    <title>Scream—Comic Book text</title>
+    <style>@font-face{font-family:"SequentialistBB";src:url(fonts/SequentialistBB.woff2)format("woff2"),url(fonts/SequentialistBB.woff)format("woff");font-style:normal;font-weight:400}text{font-family:SequentialistBB,Papyrus-condensed,Impact,sans-serif-condensed,sans-serif;font-stretch:condensed;writing-mode:tb;glyph-orientation-vertical:0;writing-mode:vertical-rl;text-orientation:upright;font-size:28px}tspan{font-size:75%}path{fill:#fff;stroke:#000;stroke-width:2}</style>
+    <path d="M175,495 L140,465 C30,500 40,400 30,200 S70,10 100,10 S170,0 170,200 S170,400 150,450 Z"/>
+    <text x=100 y=12 rotate="0 15 30 45 60 75 90 105 120 135 150 165 180 195 210 225 240 255 270 285 300 315 330 345 360" textLength=450>
+        AAAaaaa<tspan>aaaa<tspan>aaaa<tspan>aahhh!</tspan>!</tspan>!</tspan>!</text>
+</svg>
+
+<svg viewBox="0 0 100 100">
+    <path id=MyPath fill=none stroke=silver d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50"/>
+
+    <text>
+        <textPath path="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50">
+            Quick brown fox jumps over the lazy dog.
+        </textPath>
+    </text>
+</svg>
