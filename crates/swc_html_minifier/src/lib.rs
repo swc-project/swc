@@ -91,6 +91,7 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "ondrag",
     "ondragend",
     "ondragenter",
+    "ondragexit",
     "ondragleave",
     "ondragover",
     "ondragstart",
@@ -444,6 +445,10 @@ impl Minifier<'_> {
                 {
                     true
                 }
+                _ => false,
+            },
+            Namespace::SVG => match &*element.tag_name {
+                "a" if attribute_name == "rel" => true,
                 _ => false,
             },
             _ => false,
