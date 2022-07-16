@@ -227,7 +227,11 @@ static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "media"),
 ];
 
-static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[("style", "media")];
+static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("style", "media"),
+    ("polyline", "points"),
+    ("polygon", "points"),
+];
 
 static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
     "class",
@@ -258,6 +262,15 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("input", "autocomplete"),
     ("form", "rel"),
     ("form", "autocomplete"),
+];
+
+static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("svg", "preserveAspectRatio"),
+    ("symbol", "preserveAspectRatio"),
+    ("image", "preserveAspectRatio"),
+    ("feImage", "preserveAspectRatio"),
+    ("pattern", "preserveAspectRatio"),
+    ("view", "preserveAspectRatio"),
 ];
 
 enum CssMinificationMode {
@@ -411,6 +424,9 @@ impl Minifier<'_> {
             Namespace::HTML => {
                 SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
             }
+            Namespace::SVG => {
+                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
             _ => false,
         }
     }
@@ -447,10 +463,7 @@ impl Minifier<'_> {
                 }
                 _ => false,
             },
-            Namespace::SVG => match &*element.tag_name {
-                "a" if attribute_name == "rel" => true,
-                _ => false,
-            },
+            Namespace::SVG => matches!(&*element.tag_name, "a" if attribute_name == "rel"),
             _ => false,
         }
     }
@@ -1959,12 +1972,10 @@ impl VisitMut for Minifier<'_> {
             if self.is_space_separated_attribute(current_element, &n.name) {
                 value = value.split_whitespace().collect::<Vec<_>>().join(" ");
             } else if self.is_comma_separated_attribute(current_element, &n.name) {
-                let is_sizes = matches!(&*n.name, "sizes" | "imagesizes");
-
                 let mut new_values = vec![];
 
                 for value in value.trim().split(',') {
-                    if is_sizes {
+                    if matches!(&*n.name, "sizes" | "imagesizes") {
                         let trimmed = value.trim();
 
                         match self.minify_sizes(trimmed) {
@@ -1975,6 +1986,8 @@ impl VisitMut for Minifier<'_> {
                                 new_values.push(trimmed.to_string());
                             }
                         };
+                    } else if matches!(&*n.name, "points") {
+                        new_values.push(self.collapse_whitespace(value.trim()));
                     } else {
                         new_values.push(value.trim().to_string());
                     }
