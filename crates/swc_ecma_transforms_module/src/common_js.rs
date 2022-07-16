@@ -93,6 +93,21 @@ where
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let import_interop = self.config.import_interop();
 
+        let mut module_map = Default::default();
+
+        let mut has_ts_import_equals = false;
+
+        // handle `import foo = require("mod")`
+        n.iter_mut().for_each(|item| {
+            if let ModuleItem::ModuleDecl(module_decl) = item {
+                *item = self.handle_ts_import_equals(
+                    module_decl.take(),
+                    &mut module_map,
+                    &mut has_ts_import_equals,
+                );
+            }
+        });
+
         let mut strip = ModuleDeclStrip::new(self.const_var_kind);
         n.visit_mut_with(&mut strip);
 
@@ -111,20 +126,21 @@ where
             ..
         } = strip;
 
+        let has_module_decl = has_module_decl || has_ts_import_equals;
+
         let is_export_assign = export_assign.is_some();
 
         if has_module_decl && !import_interop.is_none() && !is_export_assign {
             stmts.push(define_es_module(self.exports()).into())
         }
 
-        let mut import_map = Default::default();
         let mut lazy_record = Default::default();
 
         // `import` -> `require`
         // `export` -> `_export(exports, {});`
         stmts.extend(
             self.handle_import_export(
-                &mut import_map,
+                &mut module_map,
                 &mut lazy_record,
                 link,
                 export,
@@ -157,7 +173,7 @@ where
         }
 
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
-            import_map,
+            import_map: module_map,
             lazy_record,
             allow_top_level_this: self.config.allow_top_level_this,
             is_global_this: true,
@@ -268,9 +284,6 @@ where
                 }
 
                 let mod_ident = private_ident!(local_name_for_src(&src));
-                let raw_mod_ident = link_flag
-                    .need_raw_import()
-                    .then(|| private_ident!(local_name_for_src(&src)));
 
                 let mut decl_mod_ident = false;
 
@@ -278,7 +291,7 @@ where
                     import_map,
                     &mut export_obj_prop_list,
                     &mod_ident,
-                    &raw_mod_ident,
+                    &None,
                     &mut decl_mod_ident,
                     is_swc_default_helper || is_node_default,
                 );
@@ -288,9 +301,6 @@ where
 
                 if is_lazy {
                     lazy_record.insert(mod_ident.to_id());
-                    if let Some(raw_mod_ident) = &raw_mod_ident {
-                        lazy_record.insert(raw_mod_ident.to_id());
-                    }
                 }
 
                 // require("mod");
@@ -303,21 +313,6 @@ where
                 } else {
                     import_expr
                 };
-
-                let import_assign = raw_mod_ident.map(|raw_mod_ident| {
-                    let import_expr = import_expr.clone();
-                    if is_lazy {
-                        Stmt::Decl(Decl::Fn(lazy_require(
-                            import_expr,
-                            raw_mod_ident,
-                            self.const_var_kind,
-                        )))
-                    } else {
-                        Stmt::Decl(Decl::Var(
-                            import_expr.into_var_decl(self.const_var_kind, raw_mod_ident.into()),
-                        ))
-                    }
-                });
 
                 // _exportStar(require("mod"), exports);
                 let import_expr = if link_flag.export_star() {
@@ -364,10 +359,6 @@ where
                         )
                     };
 
-                    if let Some(import_assign) = import_assign {
-                        stmts.push(import_assign);
-                    }
-
                     stmts.push(stmt);
                 } else {
                     stmts.push(import_expr.into_stmt());
@@ -391,6 +382,61 @@ where
         }
 
         export_stmts.into_iter().chain(stmts)
+    }
+
+    fn handle_ts_import_equals(
+        &self,
+        module_decl: ModuleDecl,
+        module_map: &mut ImportMap,
+        has_ts_import_equals: &mut bool,
+    ) -> ModuleItem {
+        if let ModuleDecl::TsImportEquals(TsImportEqualsDecl {
+            span,
+            declare: false,
+            is_export,
+            is_type_only: false,
+            id,
+            module_ref:
+                TsModuleRef::TsExternalModuleRef(TsExternalModuleRef {
+                    expr:
+                        Str {
+                            span: src_span,
+                            value: src,
+                            ..
+                        },
+                    ..
+                }),
+        }) = module_decl
+        {
+            *has_ts_import_equals = true;
+
+            let require = self
+                .resolver
+                .make_require_call(self.unresolved_mark, src, src_span);
+
+            if is_export {
+                // exports.foo = require("mod")
+                module_map.insert(id.to_id(), (self.exports(), Some(id.sym.clone())));
+
+                let assign_expr = AssignExpr {
+                    span,
+                    op: op!("="),
+                    left: id.as_pat_or_expr(),
+                    right: Box::new(require),
+                };
+
+                assign_expr.into_stmt()
+            } else {
+                // const foo = require("mod")
+                let mut var_decl = require.into_var_decl(self.const_var_kind, id.into());
+                var_decl.span = span;
+
+                Stmt::Decl(var_decl.into())
+            }
+            .into()
+        } else {
+            module_decl.into()
+        }
     }
 
     fn exports(&self) -> Ident {
