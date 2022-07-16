@@ -269,11 +269,16 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
 
 static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
     ("svg", "preserveAspectRatio"),
+    ("svg", "viewBox"),
     ("symbol", "preserveAspectRatio"),
+    ("symbol", "viewBox"),
     ("image", "preserveAspectRatio"),
     ("feImage", "preserveAspectRatio"),
+    ("marker", "preserveAspectRatio"),
     ("pattern", "preserveAspectRatio"),
+    ("pattern", "viewBox"),
     ("view", "preserveAspectRatio"),
+    ("view", "viewBox"),
 ];
 
 static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
@@ -443,6 +448,11 @@ impl Minifier<'_> {
                 SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
             }
             Namespace::SVG => {
+                match attribute_name {
+                    "stroke-dasharray" | "clip-path" => return true,
+                    _ => {}
+                }
+
                 SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
             }
             _ => false,
@@ -457,8 +467,6 @@ impl Minifier<'_> {
             _ => false,
         }
     }
-
-    // SEMI_SEPARATED_SVG_ATTRIBUTES
 
     fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &str) -> bool {
         if matches!(

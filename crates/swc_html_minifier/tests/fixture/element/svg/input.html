@@ -463,5 +463,51 @@ big
     </circle>
 </svg>
 
+<svg viewBox="
+-5
+-5
+10
+10
+" xmlns="http://www.w3.org/2000/svg">
+    <!--
+    The point of coordinate 0,0 is now in the center of the viewport,
+    and 100% is still resolve to a width or height of 10 user units so
+    the rectangle looks shifted to the bottom/right corner of the viewport
+    -->
+    <rect x="0" y="0" width="100%" height="100%"/>
+
+    <!--
+    With the point of coordinate 0,0 in the center of the viewport the
+    value 50% is resolve to 5 which means the center of the circle is
+    in the bottom/right corner of the viewport.
+    -->
+    <circle cx="50%" cy="50%" r="4" fill="white"/>
+</svg>
+
+<svg viewBox="0 0 30 10" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dashes and gaps of various sizes with an even number of values -->
+    <line x1="0" y1="9" x2="30" y2="9" stroke="black"
+          stroke-dasharray="
+
+          4
+
+          1
+
+          2
+
+          3
+
+" />
+    <rect x="11" y="1" width="8" height="8" stroke="green"
+          clip-path="
+
+          circle()
+
+
+          fill-box
+
+    " />
+</svg>
+
 </body>
 </html>
