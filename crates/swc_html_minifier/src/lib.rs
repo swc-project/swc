@@ -290,6 +290,10 @@ static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
     ("feConvolveMatrix", "kernelMatrix"),
     ("text", "rotate"),
     ("tspan", "rotate"),
+    ("feFuncA", "tableValues"),
+    ("feFuncB", "tableValues"),
+    ("feFuncG", "tableValues"),
+    ("feFuncR", "tableValues"),
 ];
 
 static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
