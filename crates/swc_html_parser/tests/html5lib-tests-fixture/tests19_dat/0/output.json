@@ -85,7 +85,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "definitionURL",
-                      "value": "foo"
+                      "rawName": "DefinitionUrl",
+                      "value": "foo",
+                      "rawValue": "\"foo\""
                     }
                   ],
                   "children": [],

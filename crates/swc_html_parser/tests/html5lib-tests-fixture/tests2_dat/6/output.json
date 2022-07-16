@@ -47,7 +47,7 @@
           "type": "Element",
           "span": {
             "start": 16,
-            "end": 30,
+            "end": 32,
             "ctxt": 0
           },
           "tagName": "frameset",

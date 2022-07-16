@@ -121,10 +121,10 @@
                     "end": 21,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "aج",
-                  "raw": "a\\62c"
+                  "before": "",
+                  "raw": "a\\62c",
+                  "after": ""
                 },
                 "modifiers": null
               }

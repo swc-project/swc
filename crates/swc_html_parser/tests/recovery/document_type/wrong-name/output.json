@@ -84,7 +84,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "https://www.w3schools.com"
+                  "rawName": "href",
+                  "value": "https://www.w3schools.com",
+                  "rawValue": "https://www.w3schools.com"
                 }
               ],
               "children": [

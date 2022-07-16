@@ -29,7 +29,7 @@ impl VisitMut for CompressSelector {
                 *an_plus_b = AnPlusB::Ident(Ident {
                     span: *span,
                     value: "odd".into(),
-                    raw: "odd".into(),
+                    raw: None,
                 });
             }
             // `2n-0`, `2n-2`, `2n-4`, etc => `2n`
@@ -128,7 +128,7 @@ impl VisitMut for CompressSelector {
                             name: Ident {
                                 span: DUMMY_SP,
                                 value: "first-child".into(),
-                                raw: "first-child".into(),
+                                raw: None,
                             },
                             children: None,
                         })
@@ -155,7 +155,7 @@ impl VisitMut for CompressSelector {
                             name: Ident {
                                 span: DUMMY_SP,
                                 value: "last-child".into(),
-                                raw: "last-child".into(),
+                                raw: None,
                             },
                             children: None,
                         })
@@ -182,7 +182,7 @@ impl VisitMut for CompressSelector {
                             name: Ident {
                                 span: DUMMY_SP,
                                 value: "first-of-type".into(),
-                                raw: "first-of-type".into(),
+                                raw: None,
                             },
                             children: None,
                         })
@@ -209,7 +209,7 @@ impl VisitMut for CompressSelector {
                             name: Ident {
                                 span: DUMMY_SP,
                                 value: "last-of-type".into(),
-                                raw: "last-of-type".into(),
+                                raw: None,
                             },
                             children: None,
                         })
@@ -297,7 +297,7 @@ impl VisitMut for CompressSelector {
             attribute_selector.value = Some(AttributeSelectorValue::Ident(Ident {
                 span: *span,
                 value: value.clone(),
-                raw: value.clone(),
+                raw: None,
             }));
         }
     }

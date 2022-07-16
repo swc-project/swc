@@ -630,7 +630,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/1998/Math/MathML"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/1998/Math/MathML",
+                  "rawValue": "\"http://www.w3.org/1998/Math/MathML\""
                 }
               ],
               "children": [
@@ -1133,7 +1135,9 @@
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
                   "name": "xmlns",
-                  "value": "http://www.w3.org/1998/Math/MathML"
+                  "rawName": "xmlns",
+                  "value": "http://www.w3.org/1998/Math/MathML",
+                  "rawValue": "\"http://www.w3.org/1998/Math/MathML\""
                 }
               ],
               "children": [
@@ -1497,7 +1501,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "MathML-Content"
+                          "rawName": "encoding",
+                          "value": "MathML-Content",
+                          "rawValue": "\"MathML-Content\""
                         }
                       ],
                       "children": [
@@ -1656,7 +1662,9 @@
                                       "namespace": null,
                                       "prefix": null,
                                       "name": "type",
-                                      "value": "integer"
+                                      "rawName": "type",
+                                      "value": "integer",
+                                      "rawValue": "\"integer\""
                                     }
                                   ],
                                   "children": [
@@ -1801,7 +1809,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "image/png"
+                          "rawName": "encoding",
+                          "value": "image/png",
+                          "rawValue": "\"image/png\""
                         },
                         {
                           "type": "Attribute",
@@ -1813,7 +1823,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "src",
-                          "value": "some/path/formula.png"
+                          "rawName": "src",
+                          "value": "some/path/formula.png",
+                          "rawValue": "\"some/path/formula.png\""
                         }
                       ],
                       "children": [],
@@ -1870,7 +1882,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "application/x-tex"
+                          "rawName": "encoding",
+                          "value": "application/x-tex",
+                          "rawValue": "\"application/x-tex\""
                         }
                       ],
                       "children": [
@@ -1988,7 +2002,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "groupalign",
-                          "value": "{left}"
+                          "rawName": "groupalign",
+                          "value": "{left}",
+                          "rawValue": "\"{left}\""
                         }
                       ],
                       "children": [
@@ -3212,7 +3228,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "edge",
-                              "value": "right"
+                              "rawName": "edge",
+                              "value": "right",
+                              "rawValue": "\"right\""
                             }
                           ],
                           "children": [],
@@ -3368,7 +3386,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "style",
-                          "value": "font-size: 20px"
+                          "rawName": "style",
+                          "value": "font-size: 20px",
+                          "rawValue": "\"font-size: 20px\""
                         },
                         {
                           "type": "Attribute",
@@ -3380,7 +3400,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "width",
-                          "value": "400px"
+                          "rawName": "width",
+                          "value": "400px",
+                          "rawValue": "\"400px\""
                         },
                         {
                           "type": "Attribute",
@@ -3392,7 +3414,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "height",
-                          "value": "220px"
+                          "rawName": "height",
+                          "value": "220px",
+                          "rawValue": "\"220px\""
                         },
                         {
                           "type": "Attribute",
@@ -3404,7 +3428,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "viewBox",
-                          "value": "0 0 200 110"
+                          "rawName": "viewBox",
+                          "value": "0 0 200 110",
+                          "rawValue": "\"0 0 200 110\""
                         }
                       ],
                       "children": [
@@ -3438,7 +3464,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "transform",
-                              "value": "translate(10,80)"
+                              "rawName": "transform",
+                              "value": "translate(10,80)",
+                              "rawValue": "\"translate(10,80)\""
                             }
                           ],
                           "children": [
@@ -3472,7 +3500,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "d",
-                                  "value": "M 0 0 L 150 0 A 75 75 0 0 0 0 0\n             M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+                                  "rawName": "d",
+                                  "value": "M 0 0 L 150 0 A 75 75 0 0 0 0 0\n             M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0",
+                                  "rawValue": "\"M 0 0 L 150 0 A 75 75 0 0 0 0 0\n             M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0\""
                                 },
                                 {
                                   "type": "Attribute",
@@ -3484,7 +3514,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "fill",
-                                  "value": "none"
+                                  "rawName": "fill",
+                                  "value": "none",
+                                  "rawValue": "\"none\""
                                 },
                                 {
                                   "type": "Attribute",
@@ -3496,7 +3528,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "stroke",
-                                  "value": "black"
+                                  "rawName": "stroke",
+                                  "value": "black",
+                                  "rawValue": "\"black\""
                                 }
                               ],
                               "children": [],
@@ -3533,7 +3567,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "transform",
-                                  "value": "translate(10,20)"
+                                  "rawName": "transform",
+                                  "value": "translate(10,20)",
+                                  "rawValue": "\"translate(10,20)\""
                                 }
                               ],
                               "children": [
@@ -3581,7 +3617,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "transform",
-                                  "value": "translate(35,-40)"
+                                  "rawName": "transform",
+                                  "value": "translate(35,-40)",
+                                  "rawValue": "\"translate(35,-40)\""
                                 }
                               ],
                               "children": [
@@ -3615,7 +3653,9 @@
                                       "namespace": null,
                                       "prefix": null,
                                       "name": "width",
-                                      "value": "200"
+                                      "rawName": "width",
+                                      "value": "200",
+                                      "rawValue": "\"200\""
                                     },
                                     {
                                       "type": "Attribute",
@@ -3627,7 +3667,9 @@
                                       "namespace": null,
                                       "prefix": null,
                                       "name": "height",
-                                      "value": "50"
+                                      "rawName": "height",
+                                      "value": "50",
+                                      "rawValue": "\"50\""
                                     },
                                     {
                                       "type": "Attribute",
@@ -3639,7 +3681,9 @@
                                       "namespace": null,
                                       "prefix": null,
                                       "name": "requiredExtensions",
-                                      "value": "http://www.w3.org/1998/Math/MathML"
+                                      "rawName": "requiredExtensions",
+                                      "value": "http://www.w3.org/1998/Math/MathML",
+                                      "rawValue": "\"http://www.w3.org/1998/Math/MathML\""
                                     }
                                   ],
                                   "children": [

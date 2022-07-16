@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "tmplParent"
+                  "rawName": "id",
+                  "value": "tmplParent",
+                  "rawValue": "\"tmplParent\""
                 }
               ],
               "children": [
@@ -177,7 +181,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "tmpl1"
+                      "rawName": "id",
+                      "value": "tmpl1",
+                      "rawValue": "\"tmpl1\""
                     }
                   ],
                   "children": [],
@@ -249,7 +255,9 @@
                             "namespace": null,
                             "prefix": null,
                             "name": "id",
-                            "value": "orphanDiv"
+                            "rawName": "id",
+                            "value": "orphanDiv",
+                            "rawValue": "\"orphanDiv\""
                           }
                         ],
                         "children": [

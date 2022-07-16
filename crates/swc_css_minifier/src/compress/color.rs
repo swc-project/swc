@@ -139,7 +139,7 @@ macro_rules! make_color {
                 Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                     span: $span,
                     value: value.clone().into(),
-                    raw: value.into(),
+                    raw: None,
                 }))
             } else {
                 Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
@@ -147,13 +147,13 @@ macro_rules! make_color {
                     name: Ident {
                         span: DUMMY_SP,
                         value: "rgba".into(),
-                        raw: "rgba".into(),
+                        raw: None,
                     },
                     value: vec![
                         ComponentValue::Number(Number {
                             span: DUMMY_SP,
                             value: r,
-                            raw: r.to_string().into(),
+                            raw: None,
                         }),
                         ComponentValue::Delimiter(Delimiter {
                             span: DUMMY_SP,
@@ -162,7 +162,7 @@ macro_rules! make_color {
                         ComponentValue::Number(Number {
                             span: DUMMY_SP,
                             value: g,
-                            raw: g.to_string().into(),
+                            raw: None,
                         }),
                         ComponentValue::Delimiter(Delimiter {
                             span: DUMMY_SP,
@@ -171,7 +171,7 @@ macro_rules! make_color {
                         ComponentValue::Number(Number {
                             span: DUMMY_SP,
                             value: b,
-                            raw: b.to_string().into(),
+                            raw: None,
                         }),
                         ComponentValue::Delimiter(Delimiter {
                             span: DUMMY_SP,
@@ -180,7 +180,7 @@ macro_rules! make_color {
                         ComponentValue::AlphaValue(AlphaValue::Number(Number {
                             span: DUMMY_SP,
                             value: $a,
-                            raw: $a.to_string().into(),
+                            raw: None,
                         })),
                     ],
                 }))
@@ -192,7 +192,7 @@ macro_rules! make_color {
                 Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(Ident {
                     span: $span,
                     value: name.into(),
-                    raw: name.into(),
+                    raw: None,
                 }))
             } else {
                 let compact = get_short_hex(hex);
@@ -205,7 +205,7 @@ macro_rules! make_color {
                 Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                     span: $span,
                     value: value.clone().into(),
-                    raw: value.into(),
+                    raw: None,
                 }))
             }
         }
@@ -419,7 +419,7 @@ impl VisitMut for CompressColor {
                         Ident {
                             span: *span,
                             value: value.into(),
-                            raw: value.into(),
+                            raw: None,
                         },
                     ));
                 }

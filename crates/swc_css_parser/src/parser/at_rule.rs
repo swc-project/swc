@@ -32,7 +32,7 @@ where
                     Default::default(),
                 ),
                 value: at_keyword_name.0,
-                raw: at_keyword_name.1,
+                raw: Some(at_keyword_name.1),
             })
         } else {
             AtRuleName::Ident(Ident {
@@ -42,7 +42,7 @@ where
                     Default::default(),
                 ),
                 value: at_keyword_name.0,
-                raw: at_keyword_name.1,
+                raw: Some(at_keyword_name.1),
             })
         };
         let mut at_rule = AtRule {
@@ -719,7 +719,7 @@ where
                 if &*custom_ident.value.to_ascii_lowercase() == "none" {
                     return Err(Error::new(
                         custom_ident.span,
-                        ErrorKind::InvalidCustomIdent(custom_ident.raw),
+                        ErrorKind::InvalidCustomIdent(custom_ident.value),
                     ));
                 }
 
@@ -1785,7 +1785,11 @@ where
             let span = self.input.cur_span()?;
             let token = bump!(self);
             let ident = match token {
-                Token::Ident { value, raw } => Ident { span, value, raw },
+                Token::Ident { value, raw } => Ident {
+                    span,
+                    value,
+                    raw: Some(raw),
+                },
                 _ => {
                     unreachable!();
                 }

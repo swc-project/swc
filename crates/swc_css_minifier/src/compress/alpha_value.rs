@@ -25,7 +25,7 @@ impl VisitMut for CompressAlphaValue {
                 *alpha_value = AlphaValue::Number(Number {
                     span: *span,
                     value: new_value,
-                    raw: new_value.to_string().into(),
+                    raw: None,
                 });
             }
             AlphaValue::Number(Number { value, span, .. }) if *value < 0.1 => {
@@ -36,7 +36,7 @@ impl VisitMut for CompressAlphaValue {
                     value: Number {
                         span: DUMMY_SP,
                         value: new_value,
-                        raw: new_value.to_string().into(),
+                        raw: None,
                     },
                 });
             }
@@ -82,7 +82,7 @@ impl VisitMut for CompressAlphaValue {
                 *component_value = ComponentValue::Number(Number {
                     span: *span,
                     value: new_value,
-                    raw: new_value.to_string().into(),
+                    raw: None,
                 });
             }
             _ => {}
