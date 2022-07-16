@@ -279,6 +279,9 @@ static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
     ("pattern", "viewBox"),
     ("view", "preserveAspectRatio"),
     ("view", "viewBox"),
+    ("path", "d"),
+    ("glyph", "d"),
+    ("missing-glyph", "d"),
 ];
 
 static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
@@ -2009,34 +2012,30 @@ impl VisitMut for Minifier<'_> {
             if self.is_space_separated_attribute(current_element, &n.name) {
                 value = value.split_whitespace().collect::<Vec<_>>().join(" ");
             } else if self.is_comma_separated_attribute(current_element, &n.name) {
-                let mut new_values = vec![];
+                value = value
+                    .split(',')
+                    .map(|value| {
+                        if matches!(&*n.name, "sizes" | "imagesizes") {
+                            let trimmed = value.trim();
 
-                for value in value.trim().split(',') {
-                    if matches!(&*n.name, "sizes" | "imagesizes") {
-                        let trimmed = value.trim();
-
-                        match self.minify_sizes(trimmed) {
-                            Some(minified) => {
-                                new_values.push(minified);
+                            match self.minify_sizes(trimmed) {
+                                Some(minified) => minified,
+                                _ => trimmed.to_string(),
                             }
-                            _ => {
-                                new_values.push(trimmed.to_string());
-                            }
-                        };
-                    } else if matches!(&*n.name, "points") {
-                        new_values.push(self.collapse_whitespace(value.trim()));
-                    } else {
-                        new_values.push(value.trim().to_string());
-                    }
-                }
-
-                value = new_values.join(",");
+                        } else if matches!(&*n.name, "points") {
+                            self.collapse_whitespace(value.trim())
+                        } else {
+                            value.trim().to_string()
+                        }
+                    })
+                    .collect::<Vec<_>>()
+                    .join(",");
             } else if self.is_trimable_separated_attribute(current_element, &n.name) {
                 value = value.trim().to_string();
             } else if self.is_semicolon_separated_attribute(current_element, &n.name) {
                 value = value
                     .split(';')
-                    .map(|x| self.collapse_whitespace(x.trim()))
+                    .map(|value| self.collapse_whitespace(value.trim()))
                     .collect::<Vec<_>>()
                     .join(";");
             } else if current_element.namespace == Namespace::HTML
