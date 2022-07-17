@@ -1,10 +1,10 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @lib: es2020
 // @module: es2020
 // @target: es2020
 // @filename: 0.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 export var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {

@@ -1,7 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), exports.default = void 0;
+}), Object.defineProperty(exports, "default", {
+    enumerable: !0,
+    get: function() {
+        return i;
+    }
+});
 var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@swc/helpers/lib/_inherits.js").default, c = require("@swc/helpers/lib/_interop_require_wildcard.js").default, d = require("@swc/helpers/lib/_object_spread.js").default, e = require("@swc/helpers/lib/_object_spread_props.js").default, f = require("@swc/helpers/lib/_create_super.js").default, g = require("react/jsx-runtime"), h = c(require("react")), i = function(c) {
     "use strict";
     b(i, c);
@@ -19,7 +24,7 @@ var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@
         ]);
     }, j.render = function() {
         var a = this, b = this.props, c = b.items, f = b.itemProps, h = b.renderItem, i = b.renderItemData, j = b.sectionIndex, k = b.highlightedItemIndex, l = b.getItemId, m = b.theme, n = b.keyPrefix, o = null === j ? n : "".concat(n, "section-").concat(j, "-"), p = "function" == typeof f;
-        return g.jsx("ul", e(d({
+        return (0, g.jsx)("ul", e(d({
             role: "listbox"
         }, m("".concat(o, "items-list"), "itemsList")), {
             children: c.map(function(b, c) {
@@ -30,7 +35,7 @@ var a = require("@swc/helpers/lib/_class_call_check.js").default, b = require("@
                     id: l(j, c),
                     "aria-selected": n
                 }, m(q, "item", 0 === c && "itemFirst", n && "itemHighlighted"), r);
-                return n && (s.ref = a.storeHighlightedItemReference), g.jsx(Item, e(d({}, s), {
+                return n && (s.ref = a.storeHighlightedItemReference), (0, g.jsx)(Item, e(d({}, s), {
                     sectionIndex: j,
                     isHighlighted: n,
                     itemIndex: c,
@@ -46,4 +51,4 @@ i.propTypes = {
     items: 500
 }, i.defaultProps = {
     sectionIndex: null
-}, new i(), exports.default = i;
+}, new i();

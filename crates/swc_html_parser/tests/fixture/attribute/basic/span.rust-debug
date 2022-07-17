@@ -24,8 +24,21 @@
  21 | |   
  22 | |   <button disabled></button>
  23 | |   
- 24 | |   </body>
- 25 | `-> </html>
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
     `----
 
   x Child
@@ -64,8 +77,21 @@
  21 | |   
  22 | |   <button disabled></button>
  23 | |   
- 24 | |   </body>
- 25 | `-> </html>
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
     `----
 
   x Element
@@ -92,8 +118,21 @@
  21 | |   
  22 | |   <button disabled></button>
  23 | |   
- 24 | |   </body>
- 25 | `-> </html>
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
     `----
 
   x Attribute
@@ -200,8 +239,21 @@
  21 | |   
  22 | |   <button disabled></button>
  23 | |   
- 24 | |   </body>
- 25 | `-> </html>
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
     `----
 
   x Element
@@ -224,8 +276,21 @@
  21 | |   
  22 | |   <button disabled></button>
  23 | |   
- 24 | |   </body>
- 25 | `-> </html>
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
     `----
 
   x Child
@@ -784,15 +849,389 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
  22 | ,-> <button disabled></button>
- 23 | |   
- 24 | |   </body>
- 25 | `-> </html>
+ 23 | `-> 
+ 24 |     <div CLASS="TEST"></div>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
  22 | ,-> <button disabled></button>
- 23 | |   
- 24 | |   </body>
- 25 | `-> </html>
+ 23 | `-> 
+ 24 |     <div CLASS="TEST"></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+ 24 | <div CLASS="TEST"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+ 24 | <div CLASS="TEST"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+ 24 | <div CLASS="TEST"></div>
+    :      ^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+ 24 | <div CLASS="TEST"></div>
+    :                         ^
+ 25 | <div CLASS='TEST'></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+ 24 | <div CLASS="TEST"></div>
+    :                         ^
+ 25 | <div CLASS='TEST'></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+ 25 | <div CLASS='TEST'></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+ 25 | <div CLASS='TEST'></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+ 25 | <div CLASS='TEST'></div>
+    :      ^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+ 25 | <div CLASS='TEST'></div>
+    :                         ^
+ 26 | <div CLASS=TEST></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+ 25 | <div CLASS='TEST'></div>
+    :                         ^
+ 26 | <div CLASS=TEST></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+ 26 | <div CLASS=TEST></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+ 26 | <div CLASS=TEST></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+ 26 | <div CLASS=TEST></div>
+    :      ^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+ 26 | ,-> <div CLASS=TEST></div>
+ 27 | `-> 
+ 28 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+ 26 | ,-> <div CLASS=TEST></div>
+ 27 | `-> 
+ 28 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+ 28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | `-> </svg>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+ 28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | `-> </svg>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+ 28 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+    :      ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+ 28 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+    :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+ 28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | `->     <text y="20" xml:space="default">Default   spacing</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+ 28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | `->     <text y="20" xml:space="default">Default   spacing</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    :       ^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    :              ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | ,-> <text y="20" xml:space="default">Default   spacing</text>
+ 30 | `->     <text y="20" XML:SPACE="default">Default   spacing</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | ,-> <text y="20" xml:space="default">Default   spacing</text>
+ 30 | `->     <text y="20" XML:SPACE="default">Default   spacing</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    :       ^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    :              ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | ,-> <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | ,-> <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :       ^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :              ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                   ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                   ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                                             ^
+ 32 | </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                                             ^
+ 32 | </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:32:1]
+ 32 | ,-> </svg>
+ 33 | `-> 
+ 34 |     <div id = "John &quot; &amp; Harry "></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:32:1]
+ 32 | ,-> </svg>
+ 33 | `-> 
+ 34 |     <div id = "John &quot; &amp; Harry "></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+ 34 | <div id = "John &quot; &amp; Harry "></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+ 34 | <div id = "John &quot; &amp; Harry "></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+ 34 | <div id = "John &quot; &amp; Harry "></div>
+    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+ 34 | <div id = "John &quot; &amp; Harry "></div>
+    :                                            ^
+ 35 | <a href="http://host/?x=1&#38;y=2">test</a>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+ 34 | <div id = "John &quot; &amp; Harry "></div>
+    :                                            ^
+ 35 | <a href="http://host/?x=1&#38;y=2">test</a>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 35 | <a href="http://host/?x=1&#38;y=2">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 35 | <a href="http://host/?x=1&#38;y=2">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 35 | <a href="http://host/?x=1&#38;y=2">test</a>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 35 | <a href="http://host/?x=1&#38;y=2">test</a>
+    :                                    ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 35 | <a href="http://host/?x=1&#38;y=2">test</a>
+    :                                    ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 35 | ,-> <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 35 | ,-> <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
     `----

@@ -14,6 +14,7 @@ pub fn duplicate_exports() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct DuplicateExports {
     exports: AHashMap<JsWord, Span>,
+    export_assign: Option<Span>,
 }
 
 impl DuplicateExports {
@@ -40,6 +41,37 @@ impl DuplicateExports {
             }
             Entry::Vacant(e) => {
                 e.insert(id.span);
+            }
+        }
+
+        self.check_no_coexist();
+    }
+
+    fn add_export_assign(&mut self, span: Span) {
+        if let Some(prev_span) = self.export_assign {
+            // TS2300
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(span, "multiple `export =` found")
+                    .span_label(prev_span, "previous `export =` declared here")
+                    .emit()
+            });
+        }
+
+        self.export_assign = Some(span);
+
+        self.check_no_coexist();
+    }
+
+    fn check_no_coexist(&self) {
+        if let Some(span) = self.export_assign {
+            if !self.exports.is_empty() {
+                // TS2309
+                HANDLER.with(|handler| {
+                    handler
+                        .struct_span_err(span, r#"An export assignment cannot be used in a module with other exported elements."#)
+                        .emit()
+                });
             }
         }
     }
@@ -102,5 +134,9 @@ impl Visit for DuplicateExports {
             ModuleExportName::Ident(name) => self.add(name),
             ModuleExportName::Str(..) => {}
         };
+    }
+
+    fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
+        self.add_export_assign(n.span);
     }
 }

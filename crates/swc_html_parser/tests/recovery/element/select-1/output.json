@@ -61,7 +61,8 @@
                     "end": 14,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -83,7 +84,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "value",
-                      "value": "test"
+                      "rawName": "value",
+                      "value": "test",
+                      "rawValue": "\"test\""
                     }
                   ],
                   "children": [
@@ -94,7 +97,8 @@
                         "end": 54,
                         "ctxt": 0
                       },
-                      "data": "\n        1\n        "
+                      "data": "\n        1\n        ",
+                      "raw": "\n        1\n        "
                     }
                   ],
                   "content": null,
@@ -120,7 +124,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "value",
-                      "value": "test-2"
+                      "rawName": "value",
+                      "value": "test-2",
+                      "rawValue": "\"test-2\""
                     }
                   ],
                   "children": [
@@ -131,7 +137,8 @@
                         "end": 100,
                         "ctxt": 0
                       },
-                      "data": "\n            2\n        "
+                      "data": "\n            2\n        ",
+                      "raw": "\n            2\n        "
                     }
                   ],
                   "content": null,
@@ -144,7 +151,8 @@
                     "end": 124,
                     "ctxt": 0
                   },
-                  "data": "\n    \n"
+                  "data": "\n    \n",
+                  "raw": "\n    \n"
                 }
               ],
               "content": null,

@@ -1,3 +1,6 @@
+// @target: esnext
+// @strict: true
+// @noEmit: true
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 f1(function*() {
     const a = yield 0;

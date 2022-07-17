@@ -1,5 +1,5 @@
-var // #37859
-TerrestrialAnimalTypes;
+// #37859
+var TerrestrialAnimalTypes;
 (function(TerrestrialAnimalTypes) {
     TerrestrialAnimalTypes["CAT"] = "cat";
     TerrestrialAnimalTypes["DOG"] = "dog";

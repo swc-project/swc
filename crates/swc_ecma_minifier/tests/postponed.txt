@@ -316,7 +316,6 @@ hoist_props/issue_2508_2/input.js
 hoist_props/issue_2508_5/input.js
 hoist_props/issue_2508_6/input.js
 hoist_props/issue_2519/input.js
-hoist_props/issue_3021/input.js
 hoist_props/issue_3046/input.js
 hoist_props/issue_851_hoist_to_conflicting_name/input.js
 hoist_props/name_collision_1/input.js
@@ -629,13 +628,11 @@ reduce_vars/obj_arg_2/input.js
 reduce_vars/obj_for_1/input.js
 reduce_vars/obj_var_2/input.js
 reduce_vars/passes/input.js
-reduce_vars/perf_1/input.js
 reduce_vars/perf_3/input.js
 reduce_vars/perf_7/input.js
 reduce_vars/pure_getters_2/input.js
 reduce_vars/pure_getters_3/input.js
 reduce_vars/recursive_inlining_3/input.js
-reduce_vars/recursive_inlining_4/input.js
 reduce_vars/redefine_farg_1/input.js
 reduce_vars/redefine_farg_2/input.js
 reduce_vars/redefine_farg_3/input.js

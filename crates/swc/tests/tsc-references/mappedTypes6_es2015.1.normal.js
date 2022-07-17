@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 function f1(x, y, z) {
     x = x;
     x = y; // Error

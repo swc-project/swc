@@ -4,3 +4,9 @@
  2 | background: url(image".png);
    :             ^^^^^^^^^^^^^^^
    `----
+
+  x Unexpected character in url
+   ,-[$DIR/tests/recovery/bad-url-token/double-quotes/input.css:2:5]
+ 2 | background: url(image".png);
+   :                      ^
+   `----

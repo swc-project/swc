@@ -1,6 +1,3 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_array from "@swc/helpers/src/_to_array.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 /* AssignmentPattern:
  *      ObjectAssignmentPattern
  *      ArrayAssignmentPattern
@@ -20,6 +17,9 @@ import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // An expression of type S is considered assignable to an assignment target V if one of the following is true
 // V is an array assignment pattern, S is the type Any or an array-like type (section 3.3.2), and, for each assignment element E in V,
 //      S is the type Any, or
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 var _undefined = _sliced_to_array(undefined, 2), a0 = _undefined[0], a1 = _undefined[1];
 var _undefined1 = _sliced_to_array(undefined, 2), tmp = _undefined1[0], a2 = tmp === void 0 ? false : tmp, tmp1 = _undefined1[1], a3 = tmp1 === void 0 ? 1 : tmp1;
 // V is an array assignment pattern, S is the type Any or an array-like type (section 3.3.2), and, for each assignment element E in V,

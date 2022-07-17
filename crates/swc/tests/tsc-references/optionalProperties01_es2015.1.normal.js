@@ -1,3 +1,5 @@
+// @strictNullChecks: true
+// @declaration: true
 const foo1 = {
     required1: "hello"
 };

@@ -50,7 +50,8 @@
                 "end": 23,
                 "ctxt": 0
               },
-              "data": "I'm ∉ I tell you"
+              "data": "I'm ∉ I tell you",
+              "raw": "I'm &notin; I tell you"
             }
           ],
           "content": null,

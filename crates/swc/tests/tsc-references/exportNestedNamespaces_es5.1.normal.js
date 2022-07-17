@@ -1,10 +1,10 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-// @Filename: use.js
-import * as s from "./mod";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @Filename: mod.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+// @Filename: use.js
+import * as s from "./mod";
 exports.n = {};
 exports.n.K = function() {
     this.x = 10;

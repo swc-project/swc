@@ -1,2 +1,5 @@
 "use strict";
-var _config = require("../config");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _config = require("../config");

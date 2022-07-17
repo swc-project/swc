@@ -1,4 +1,4 @@
-use std::{fmt::Write, num::FpCategory};
+use std::{fmt::Write, iter::once, num::FpCategory};
 
 use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
@@ -688,6 +688,20 @@ impl Pure<'_> {
 
                 let new =
                     self.make_ignored_expr(args.take().into_iter().flatten().map(|arg| arg.expr));
+
+                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                return;
+            }
+
+            Expr::Member(MemberExpr {
+                span, obj, prop, ..
+            }) if span.has_mark(self.marks.pure) => {
+                report_change!("ignore_return_value: Dropping a pure member expression");
+                self.changed = true;
+
+                let new = self.make_ignored_expr(
+                    once(obj.take()).chain(prop.take().computed().map(|v| v.expr)),
+                );
 
                 *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
                 return;

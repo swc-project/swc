@@ -1,3 +1,9 @@
+// @allowJs: true
+// @checkJs: true
+// @target: es5
+// @outDir: ./out
+// @declaration: true
+// @filename: cls.js
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: usage.js
 import { default as Fooa } from "./cls";

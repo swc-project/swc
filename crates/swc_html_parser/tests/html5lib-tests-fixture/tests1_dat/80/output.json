@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "a"
+                  "rawName": "href",
+                  "value": "a",
+                  "rawValue": "a"
                 }
               ],
               "children": [
@@ -74,7 +76,8 @@
                     "end": 13,
                     "ctxt": 0
                   },
-                  "data": "aa"
+                  "data": "aa",
+                  "raw": "aa"
                 },
                 {
                   "type": "Element",
@@ -94,7 +97,8 @@
                         "end": 24,
                         "ctxt": 0
                       },
-                      "data": "aa"
+                      "data": "aa",
+                      "raw": "aa"
                     },
                     {
                       "type": "Element",
@@ -116,7 +120,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "href",
-                          "value": "b"
+                          "rawName": "href",
+                          "value": "b",
+                          "rawValue": "b"
                         }
                       ],
                       "children": [
@@ -127,7 +133,8 @@
                             "end": 36,
                             "ctxt": 0
                           },
-                          "data": "bb"
+                          "data": "bb",
+                          "raw": "bb"
                         }
                       ],
                       "content": null,
@@ -144,7 +151,8 @@
                     "end": 48,
                     "ctxt": 0
                   },
-                  "data": "aa"
+                  "data": "aa",
+                  "raw": "aa"
                 }
               ],
               "content": null,

@@ -14,9 +14,13 @@ export var C;
 var a = A;
 console.log(a, b);
 var c = 1, d = 1;
-console.log(c, d), console.log(c, d), require("./h"), console.log({}), require("./h"), function(K) {
+console.log(c, d), console.log(c, d);
+var H = require("./h");
+console.log({});
+var H = require("./h");
+!function(K) {
     K[K.One = 0] = "One", K[K.Two = 1] = "Two";
 }(K || (K = {}));
 var K = require("./k");
-module.exports = K;
+module.exports = H;
 export { _default as default };

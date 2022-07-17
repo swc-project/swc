@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "size",
-                      "value": "4"
+                      "rawName": "size",
+                      "value": "4",
+                      "rawValue": "4"
                     },
                     {
                       "type": "Attribute",
@@ -86,7 +88,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "a"
+                      "rawName": "id",
+                      "value": "a",
+                      "rawValue": "a"
                     }
                   ],
                   "children": [
@@ -110,7 +114,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "size",
-                          "value": "4"
+                          "rawName": "size",
+                          "value": "4",
+                          "rawValue": "4"
                         },
                         {
                           "type": "Attribute",
@@ -122,7 +128,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "b"
+                          "rawName": "id",
+                          "value": "b",
+                          "rawValue": "b"
                         }
                       ],
                       "children": [
@@ -146,7 +154,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "size",
-                              "value": "4"
+                              "rawName": "size",
+                              "value": "4",
+                              "rawValue": "4"
                             }
                           ],
                           "children": [
@@ -170,7 +180,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "size",
-                                  "value": "4"
+                                  "rawName": "size",
+                                  "value": "4",
+                                  "rawValue": "4"
                                 }
                               ],
                               "children": [],
@@ -224,7 +236,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "size",
-                      "value": "4"
+                      "rawName": "size",
+                      "value": "4",
+                      "rawValue": "4"
                     },
                     {
                       "type": "Attribute",
@@ -236,7 +250,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "a"
+                      "rawName": "id",
+                      "value": "a",
+                      "rawValue": "a"
                     }
                   ],
                   "children": [
@@ -260,7 +276,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "size",
-                          "value": "4"
+                          "rawName": "size",
+                          "value": "4",
+                          "rawValue": "4"
                         },
                         {
                           "type": "Attribute",
@@ -272,7 +290,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "b"
+                          "rawName": "id",
+                          "value": "b",
+                          "rawValue": "b"
                         }
                       ],
                       "children": [
@@ -296,7 +316,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "size",
-                              "value": "4"
+                              "rawName": "size",
+                              "value": "4",
+                              "rawValue": "4"
                             }
                           ],
                           "children": [
@@ -320,7 +342,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "size",
-                                  "value": "4"
+                                  "rawName": "size",
+                                  "value": "4",
+                                  "rawValue": "4"
                                 }
                               ],
                               "children": [
@@ -331,7 +355,8 @@
                                     "end": 70,
                                     "ctxt": 0
                                   },
-                                  "data": "X"
+                                  "data": "X",
+                                  "raw": "X"
                                 }
                               ],
                               "content": null,

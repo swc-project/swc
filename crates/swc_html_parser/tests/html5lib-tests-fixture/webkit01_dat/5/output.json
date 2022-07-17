@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "foo",
-                  "value": "bar"
+                  "rawName": "foo",
+                  "value": "bar",
+                  "rawValue": "\"bar\""
                 }
               ],
               "children": [
@@ -74,7 +76,8 @@
                     "end": 21,
                     "ctxt": 0
                   },
-                  "data": "Hello"
+                  "data": "Hello",
+                  "raw": "Hello"
                 }
               ],
               "content": null,

@@ -1,6 +1,6 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 // @target: es6
 // @declaration: true
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 var a;
 var ref;
 ref = a, ref;

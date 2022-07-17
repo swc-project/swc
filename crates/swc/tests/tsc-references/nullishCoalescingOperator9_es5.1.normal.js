@@ -1,3 +1,4 @@
+// @strict: true
 var g = f || function(abc) {
     void abc.toLowerCase();
 };

@@ -74,7 +74,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": " hidden"
+                  "rawName": "type",
+                  "value": " hidden",
+                  "rawValue": "\" hidden\""
                 }
               ],
               "children": [],
@@ -112,7 +114,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "hidDEN"
+                      "rawName": "type",
+                      "value": "hidDEN",
+                      "rawValue": "hidDEN"
                     }
                   ],
                   "children": [],

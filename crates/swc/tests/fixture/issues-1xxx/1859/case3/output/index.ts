@@ -1,4 +1,7 @@
 "use strict";
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var lib = _interop_require_wildcard(require("./lib"));
-console.log(lib);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _lib = /*#__PURE__*/ _interopRequireWildcard(require("./lib"));
+console.log(_lib);

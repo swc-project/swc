@@ -607,6 +607,20 @@
     try {
         Object.freeze({});
     } catch (e) {}
+    var cloneElement$1 = function(element, props, children) {
+        for(var newElement = cloneElement.apply(this, arguments), i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], newElement.type);
+        return validatePropTypes(newElement), newElement;
+    }, createFactory = function(type) {
+        var validatedFactory = createElementWithValidation.bind(null, type);
+        return validatedFactory.type = type, didWarnAboutDeprecatedCreateFactory || (didWarnAboutDeprecatedCreateFactory = !0, warn("React.createFactory() is deprecated and will be removed in a future major release. Consider using JSX or use React.createElement() directly instead.")), Object.defineProperty(validatedFactory, "type", {
+            enumerable: !1,
+            get: function() {
+                return warn("Factory.type is deprecated. Access the class directly before passing it to createFactory."), Object.defineProperty(this, "type", {
+                    value: type
+                }), type;
+            }
+        }), validatedFactory;
+    };
     exports.Children = {
         map: mapChildren,
         forEach: function(children, forEachFunc, forEachContext) {
@@ -629,10 +643,7 @@
             if (!isValidElement(children)) throw Error("React.Children.only expected to receive a single React element child.");
             return children;
         }
-    }, exports.Component = Component, exports.PureComponent = PureComponent, exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals, exports.cloneElement = function(element, props, children) {
-        for(var newElement = cloneElement.apply(this, arguments), i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], newElement.type);
-        return validatePropTypes(newElement), newElement;
-    }, exports.createContext = function(defaultValue, calculateChangedBits) {
+    }, exports.Component = Component, exports.PureComponent = PureComponent, exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals, exports.cloneElement = cloneElement$1, exports.createContext = function(defaultValue, calculateChangedBits) {
         void 0 === calculateChangedBits ? calculateChangedBits = null : null !== calculateChangedBits && "function" != typeof calculateChangedBits && error("createContext: Expected the optional second argument to be a function. Instead received: %s", calculateChangedBits);
         var context = {
             $$typeof: REACT_CONTEXT_TYPE,
@@ -699,17 +710,7 @@
                 }
             }
         }), context.Consumer = Consumer, context._currentRenderer = null, context._currentRenderer2 = null, context;
-    }, exports.createElement = createElementWithValidation, exports.createFactory = function(type) {
-        var validatedFactory = createElementWithValidation.bind(null, type);
-        return validatedFactory.type = type, didWarnAboutDeprecatedCreateFactory || (didWarnAboutDeprecatedCreateFactory = !0, warn("React.createFactory() is deprecated and will be removed in a future major release. Consider using JSX or use React.createElement() directly instead.")), Object.defineProperty(validatedFactory, "type", {
-            enumerable: !1,
-            get: function() {
-                return warn("Factory.type is deprecated. Access the class directly before passing it to createFactory."), Object.defineProperty(this, "type", {
-                    value: type
-                }), type;
-            }
-        }), validatedFactory;
-    }, exports.createRef = function() {
+    }, exports.createElement = createElementWithValidation, exports.createFactory = createFactory, exports.createRef = function() {
         var refObject = {
             current: null
         };

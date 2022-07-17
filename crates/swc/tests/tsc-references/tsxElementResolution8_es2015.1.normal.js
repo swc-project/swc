@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: preserve
 // Error
 var Div = 3;
 /*#__PURE__*/ React.createElement(Div, null);

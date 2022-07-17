@@ -1,3 +1,6 @@
+// @noImplicitAny: true
+// @noImplicitThis: true
+// @target: es5
 var mismatch = {
     n: 13,
     get x () {

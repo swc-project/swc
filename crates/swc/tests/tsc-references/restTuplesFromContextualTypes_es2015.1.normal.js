@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 (function(a, b, c) {})(...t1);
 (function(...x) {})(...t1);
 (function(a, ...x) {})(...t1);

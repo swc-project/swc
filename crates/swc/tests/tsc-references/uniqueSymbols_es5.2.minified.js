@@ -123,3 +123,15 @@ regeneratorRuntime.mark(function method4() {
         }
     }, method4);
 });
+var ce0 = function() {
+    "use strict";
+    function ce0() {
+        _class_call_check(this, ce0);
+    }
+    var _proto = ce0.prototype;
+    return _proto.method1 = function(p) {
+        return p;
+    }, _proto.method2 = function(p) {
+        return p;
+    }, ce0;
+}();

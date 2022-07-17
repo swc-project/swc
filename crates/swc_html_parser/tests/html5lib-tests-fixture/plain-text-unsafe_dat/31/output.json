@@ -83,7 +83,8 @@
                         "end": 29,
                         "ctxt": 0
                       },
-                      "data": "ab"
+                      "data": "ab",
+                      "raw": "ab"
                     }
                   ],
                   "content": null,

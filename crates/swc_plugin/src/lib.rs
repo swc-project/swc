@@ -3,7 +3,10 @@
 // Reexports
 pub use swc_common::{
     chain,
-    plugin::{PluginError, Serialized},
+    plugin::{
+        deserialize_from_ptr, PluginError, PluginSerializedBytes, VersionedSerializable,
+        PLUGIN_TRANSFORM_AST_SCHEMA_VERSION,
+    },
 };
 
 pub mod comments {
@@ -78,6 +81,7 @@ pub struct TransformPluginProgramMetadata {
     /// This is readonly. Changing value in plugin doesn't affect host's
     /// behavior.
     pub plugin_config: String,
+    pub unresolved_mark: crate::syntax_pos::Mark,
     /// Stringified JSON value for relative context while running transform,
     /// like filenames.
     /// /// This is readonly. Changing value in plugin doesn't affect host's

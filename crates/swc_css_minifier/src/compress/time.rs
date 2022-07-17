@@ -18,12 +18,12 @@ impl VisitMut for CompressTime {
                 time.value = Number {
                     span: time.value.span,
                     value: new_value,
-                    raw: new_value.to_string().into(),
+                    raw: None,
                 };
                 time.unit = Ident {
                     span: time.unit.span,
                     value: "s".into(),
-                    raw: "s".into(),
+                    raw: None,
                 };
             }
             "s" if time.value.value > 0.0 && time.value.value < 0.1 => {
@@ -31,13 +31,13 @@ impl VisitMut for CompressTime {
 
                 time.value = Number {
                     value: new_value,
-                    raw: new_value.to_string().into(),
+                    raw: None,
                     span: time.span,
                 };
                 time.unit = Ident {
                     span: time.unit.span,
                     value: "ms".into(),
-                    raw: "ms".into(),
+                    raw: None,
                 };
             }
             _ => {}

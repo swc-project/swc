@@ -7,19 +7,19 @@ var M, N, C = function() {
     _class_call_check(this, D);
 };
 !function(M) {
-    var A = function() {
+    var _$F2 = function(x) {
+        return x.toString();
+    }, A = function() {
         "use strict";
         _class_call_check(this, A);
     };
-    M.A = A, M.F2 = function(x) {
-        return x.toString();
-    };
+    M.A = A, M.F2 = _$F2;
 }(M || (M = {})), function(N) {
-    var A = function() {
+    var _$F2 = function(x) {
+        return x.toString();
+    }, A = function() {
         "use strict";
         _class_call_check(this, A);
     };
-    N.A = A, N.F2 = function(x) {
-        return x.toString();
-    };
+    N.A = A, N.F2 = _$F2;
 }(N || (N = {})), new D(), new D(), new C(), new C(), new N.A();

@@ -34,6 +34,7 @@ use crate::collections::AHashMap;
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct SyntaxContext(#[cfg_attr(feature = "rkyv", omit_bounds)] u32);
 
 #[cfg(feature = "arbitrary")]
@@ -70,6 +71,7 @@ struct MarkData {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct MutableMarkContext(pub u32, pub u32, pub u32);
 
 // List of proxy calls injected by the host in the plugin's runtime context.
@@ -177,11 +179,11 @@ impl Mark {
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
         // This code path executed inside of the guest memory context.
         // In here, preallocate memory for the context.
-        let serialized = crate::plugin::Serialized::serialize(&MutableMarkContext(0, 0, 0))
-            .expect("Should be serializable");
-        let serialized_ref = serialized.as_ref();
-        let ptr = serialized_ref.as_ptr();
-        let len = serialized_ref.len();
+        let serialized = crate::plugin::PluginSerializedBytes::try_serialize(
+            &crate::plugin::VersionedSerializable::new(MutableMarkContext(0, 0, 0)),
+        )
+        .expect("Should be serializable");
+        let (ptr, len) = serialized.as_ptr();
 
         // Calling host proxy fn. Inside of host proxy, host will
         // write the result into allocated context in the guest memory space.
@@ -191,11 +193,12 @@ impl Mark {
 
         // Deserialize result, assign / return values as needed.
         let context: MutableMarkContext = unsafe {
-            crate::plugin::Serialized::deserialize_from_ptr(
+            crate::plugin::deserialize_from_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
+            .into_inner()
         };
         self = Mark::from_u32(context.0);
 
@@ -218,22 +221,23 @@ impl Mark {
     #[allow(unused_mut, unused_assignments)]
     #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
-        let serialized = crate::plugin::Serialized::serialize(&MutableMarkContext(0, 0, 0))
-            .expect("Should be serializable");
-        let serialized_ref = serialized.as_ref();
-        let ptr = serialized_ref.as_ptr();
-        let len = serialized_ref.len();
+        let serialized = crate::plugin::PluginSerializedBytes::try_serialize(
+            &crate::plugin::VersionedSerializable::new(MutableMarkContext(0, 0, 0)),
+        )
+        .expect("Should be serializable");
+        let (ptr, len) = serialized.as_ptr();
 
         unsafe {
             __mark_least_ancestor(a.0, b.0, ptr as _);
         }
 
         let context: MutableMarkContext = unsafe {
-            crate::plugin::Serialized::deserialize_from_ptr(
+            crate::plugin::deserialize_from_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
+            .into_inner()
         };
         a = Mark::from_u32(context.0);
         b = Mark::from_u32(context.1);
@@ -383,23 +387,22 @@ impl SyntaxContext {
 
     #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
     pub fn remove_mark(&mut self) -> Mark {
-        let context = MutableMarkContext(0, 0, 0);
-        let serialized =
-            crate::plugin::Serialized::serialize(&context).expect("Should be serializable");
-        let serialized_ref = serialized.as_ref();
-        let ptr = serialized_ref.as_ptr();
-        let len = serialized_ref.len();
+        let context = crate::plugin::VersionedSerializable::new(MutableMarkContext(0, 0, 0));
+        let serialized = crate::plugin::PluginSerializedBytes::try_serialize(&context)
+            .expect("Should be serializable");
+        let (ptr, len) = serialized.as_ptr();
 
         unsafe {
             __syntax_context_remove_mark_proxy(self.0, ptr as _);
         }
 
         let context: MutableMarkContext = unsafe {
-            crate::plugin::Serialized::deserialize_from_ptr(
+            crate::plugin::deserialize_from_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
+            .into_inner()
         };
 
         *self = SyntaxContext(context.0);

@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: esnext
@@ -6,6 +5,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @declaration: true
 // @outDir: out
 // @Filename: jsDeclarationsClassMethod.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function C1() {
     /**
      * A comment prop

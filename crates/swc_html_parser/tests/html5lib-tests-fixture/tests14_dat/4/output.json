@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "123",
-          "value": "456"
+          "rawName": "123",
+          "value": "456",
+          "rawValue": "456"
         }
       ],
       "children": [

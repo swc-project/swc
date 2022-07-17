@@ -774,8 +774,7 @@
         },
         779: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            var url_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9945), url_toolkit__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(url_toolkit__WEBPACK_IMPORTED_MODULE_0__), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), DEFAULT_LOCATION = "http://example.com";
-            __webpack_exports__.Z = function(baseUrl, relativeUrl) {
+            var url_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9945), url_toolkit__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(url_toolkit__WEBPACK_IMPORTED_MODULE_0__), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), DEFAULT_LOCATION = "http://example.com", resolveUrl = function(baseUrl, relativeUrl) {
                 if (/^[a-z]+:/i.test(relativeUrl)) return relativeUrl;
                 /^data:/.test(baseUrl) && (baseUrl = global_window__WEBPACK_IMPORTED_MODULE_1___default().location && global_window__WEBPACK_IMPORTED_MODULE_1___default().location.href || "");
                 var nativeURL = "function" == typeof global_window__WEBPACK_IMPORTED_MODULE_1___default().URL, protocolLess = /^\/\//.test(baseUrl), removeLocation = !global_window__WEBPACK_IMPORTED_MODULE_1___default().location && !/\/\//i.test(baseUrl);
@@ -785,11 +784,11 @@
                 }
                 return url_toolkit__WEBPACK_IMPORTED_MODULE_0___default().buildAbsoluteURL(baseUrl, relativeUrl);
             };
+            __webpack_exports__.Z = resolveUrl;
         },
         3490: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var window1 = __webpack_require__(8908);
-            module.exports = function(callback, decodeResponseBody) {
+            var window1 = __webpack_require__(8908), httpResponseHandler = function(callback, decodeResponseBody) {
                 return void 0 === decodeResponseBody && (decodeResponseBody = !1), function(err, response, responseBody) {
                     if (err) {
                         callback(err);
@@ -799,10 +798,7 @@
                         var cause = responseBody;
                         if (decodeResponseBody) {
                             if (window1.TextDecoder) {
-                                var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
-                                    var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
-                                    return "charset" === type.trim() ? value.trim() : charset;
-                                }, "utf-8"));
+                                var charset = getCharset(response.headers && response.headers["content-type"]);
                                 try {
                                     cause = new TextDecoder(charset).decode(responseBody);
                                 } catch (e) {}
@@ -816,6 +812,13 @@
                     callback(null, responseBody);
                 };
             };
+            function getCharset(contentTypeHeader) {
+                return void 0 === contentTypeHeader && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
+                    var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
+                    return "charset" === type.trim() ? value.trim() : charset;
+                }, "utf-8");
+            }
+            module.exports = httpResponseHandler;
         },
         9603: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -2679,10 +2682,10 @@
                         }), !0;
                     });
                 }, _proto.addTagMapper = function(_ref2) {
-                    var expression = _ref2.expression, map = _ref2.map;
-                    this.tagMappers.push(function(line) {
+                    var expression = _ref2.expression, map = _ref2.map, mapFn = function(line) {
                         return expression.test(line) ? map(line) : line;
-                    });
+                    };
+                    this.tagMappers.push(mapFn);
                 }, ParseStream;
             }(Stream), camelCase = function(str) {
                 return str.toLowerCase().replace(/-(\w)/g, function(a) {
@@ -3634,7 +3637,7 @@
             };
         },
         4221: function(module) {
-            module.exports = function(data) {
+            var parseSidx = function(data) {
                 var view = new DataView(data.buffer, data.byteOffset, data.byteLength), result = {
                     version: data[0],
                     flags: new Uint8Array(data.subarray(1, 4)),
@@ -3654,6 +3657,7 @@
                 });
                 return result;
             };
+            module.exports = parseSidx;
         },
         1489: function(module) {
             var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds;
@@ -3699,7 +3703,7 @@
             });
             var jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), Home_module = __webpack_require__(214), Home_module_default = __webpack_require__.n(Home_module), video_es = __webpack_require__(5215);
             __webpack_require__(3512);
-            var components_VideoJS = function(props) {
+            var VideoJS = function(props) {
                 var videoRef = react.useRef(null), playerRef = react.useRef(null), options = props.options, onReady = props.onReady;
                 return react.useEffect(function() {
                     if (!playerRef.current) {
@@ -3726,9 +3730,15 @@
                         className: "video-js vjs-big-play-centered"
                     })
                 });
-            };
+            }, components_VideoJS = VideoJS;
             function Home() {
-                var playerRef = (0, react.useRef)(null);
+                var playerRef = (0, react.useRef)(null), handlePlayerReady = function(player) {
+                    playerRef.current = player, player.on("waiting", function() {
+                        console.log("player is waiting");
+                    }), player.on("dispose", function() {
+                        console.log("player will dispose");
+                    });
+                };
                 return (0, jsx_runtime.jsx)("div", {
                     className: Home_module_default().container,
                     children: (0, jsx_runtime.jsx)("main", {
@@ -3746,13 +3756,7 @@
                                     }, 
                                 ]
                             },
-                            onReady: function(player) {
-                                playerRef.current = player, player.on("waiting", function() {
-                                    console.log("player is waiting");
-                                }), player.on("dispose", function() {
-                                    console.log("player will dispose");
-                                });
-                            }
+                            onReady: handlePlayerReady
                         })
                     })
                 });

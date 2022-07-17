@@ -1,3 +1,5 @@
+//@jsx: preserve
+//@filename: react.d.ts
 // Errors correctly
 var T = TestMod.Test;
 var t1 = /*#__PURE__*/ React.createElement(T, null);

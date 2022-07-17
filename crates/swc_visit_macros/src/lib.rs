@@ -3,41 +3,85 @@ extern crate proc_macro;
 use std::{collections::HashSet, mem::replace};
 
 use inflector::Inflector;
-use pmutil::{q, Quote};
+use pmutil::{q, Quote, SpanExt};
 use proc_macro2::Ident;
-use swc_macros_common::{call_site, def_site};
+use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprMatch, FieldValue, Fields, FnArg, GenericArgument, ImplItem,
-    ImplItemMethod, Index, Item, ItemImpl, ItemTrait, Member, Path, PathArguments, ReturnType,
-    Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, VisPublic,
-    Visibility,
+    Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
+    Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
+    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, Lifetime,
+    LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
+    PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type,
+    TypePath, TypeReference, UnOp, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum VisitorVariant {
+    Normal,
+    WithPath,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Mode {
-    Visit,
     VisitAll,
-    VisitMut,
-    Fold,
+    Visit(VisitorVariant),
+    VisitMut(VisitorVariant),
+    Fold(VisitorVariant),
 }
 
 impl Mode {
     fn trait_name(self) -> &'static str {
         match self {
-            Mode::Fold => "Fold",
             Mode::VisitAll => "VisitAll",
-            Mode::Visit => "Visit",
-            Mode::VisitMut => "VisitMut",
+            Mode::Fold(VisitorVariant::Normal) => "Fold",
+            Mode::Visit(VisitorVariant::Normal) => "Visit",
+            Mode::VisitMut(VisitorVariant::Normal) => "VisitMut",
+            Mode::Visit(VisitorVariant::WithPath) => "VisitAstPath",
+            Mode::VisitMut(VisitorVariant::WithPath) => "VisitMutAstPath",
+            Mode::Fold(VisitorVariant::WithPath) => "FoldAstPath",
         }
     }
 
     fn prefix(self) -> &'static str {
         match self {
-            Mode::Fold => "fold",
-            Mode::Visit | Mode::VisitAll => "visit",
-            Mode::VisitMut => "visit_mut",
+            Mode::Fold { .. } => "fold",
+            Mode::Visit { .. } | Mode::VisitAll => "visit",
+            Mode::VisitMut { .. } => "visit_mut",
         }
+    }
+
+    fn visitor_variant(self) -> Option<VisitorVariant> {
+        match self {
+            Mode::Fold(v) | Mode::Visit(v) | Mode::VisitMut(v) => Some(v),
+            Mode::VisitAll => None,
+        }
+    }
+
+    fn name_of_trait_for_ast(self) -> Option<&'static str> {
+        Some(match self {
+            Mode::VisitAll => return None,
+            Mode::Fold(VisitorVariant::Normal) => "FoldWith",
+            Mode::Visit(VisitorVariant::Normal) => "VisitWiht",
+            Mode::VisitMut(VisitorVariant::Normal) => "VisitMutWith",
+            Mode::Visit(VisitorVariant::WithPath) => "VisitWithPath",
+            Mode::VisitMut(VisitorVariant::WithPath) => "VisitMutWithPath",
+            Mode::Fold(VisitorVariant::WithPath) => "FoldWithPath",
+        })
+    }
+
+    fn name_of_trait_children_method_for_ast(self) -> Option<&'static str> {
+        Some(match self {
+            Mode::VisitAll => return None,
+            Mode::Fold(VisitorVariant::Normal) => "fold_children_with",
+            Mode::Fold(VisitorVariant::WithPath) => "fold_children_with_path",
+
+            Mode::Visit(VisitorVariant::Normal) => "visit_children_with",
+            Mode::Visit(VisitorVariant::WithPath) => "visit_children_with_path",
+
+            Mode::VisitMut(VisitorVariant::Normal) => "visit_mut_children_with",
+            Mode::VisitMut(VisitorVariant::WithPath) => "visit_mut_children_with_path",
+        })
     }
 }
 
@@ -53,12 +97,878 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
-    q.push_tokens(&make(Mode::Fold, &block.stmts));
-    q.push_tokens(&make(Mode::Visit, &block.stmts));
+    q.push_tokens(&q!({
+        use swc_visit::ParentKind;
+
+        pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
+        pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
+
+        /// Not a public API
+        #[doc(hidden)]
+        impl swc_visit::NodeRef for AstParentNodeRef<'_> {
+            type ParentKind = AstParentKind;
+
+            #[inline]
+            fn kind(&self) -> Self::ParentKind {
+                self.kind()
+            }
+
+            #[inline]
+            fn set_index(&mut self, index: usize) {
+                self.set_index(index)
+            }
+        }
+    }));
+
+    let mut field_module_body = vec![];
+    {
+        for stmts in block.stmts.iter() {
+            let item = match stmts {
+                Stmt::Item(item) => item,
+                _ => unimplemented!("error reporting for something other than Item"),
+            };
+
+            field_module_body.extend(make_field_enum(item));
+        }
+
+        q.push_tokens(&make_ast_enum(&block.stmts, true));
+        q.push_tokens(&make_ast_enum(&block.stmts, false));
+
+        q.push_tokens(&make_impl_kind_for_node_ref(&block.stmts));
+        q.push_tokens(&make_impl_parent_kind(&block.stmts));
+    }
+
+    q.push_tokens(&make(Mode::Fold(VisitorVariant::WithPath), &block.stmts));
+    q.push_tokens(&make(Mode::Fold(VisitorVariant::Normal), &block.stmts));
+
+    q.push_tokens(&make(Mode::Visit(VisitorVariant::WithPath), &block.stmts));
+    q.push_tokens(&make(Mode::Visit(VisitorVariant::Normal), &block.stmts));
+
+    q.push_tokens(&make(
+        Mode::VisitMut(VisitorVariant::WithPath),
+        &block.stmts,
+    ));
+    q.push_tokens(&make(Mode::VisitMut(VisitorVariant::Normal), &block.stmts));
+
     q.push_tokens(&make(Mode::VisitAll, &block.stmts));
-    q.push_tokens(&make(Mode::VisitMut, &block.stmts));
+
+    q.push_tokens(&ItemMod {
+        attrs: vec![make_doc_attr(
+            "This module contains enums representing fields of each types",
+        )],
+        vis: Visibility::Public(VisPublic {
+            pub_token: def_site(),
+        }),
+        mod_token: def_site(),
+        ident: Ident::new("fields", call_site()),
+        content: Some((def_site(), field_module_body)),
+        semi: None,
+    });
 
     proc_macro2::TokenStream::from(q).into()
+}
+
+fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Variant {
+    let fields = if let Some(..) = extract_generic("Vec", &f.ty) {
+        let mut v = Punctuated::new();
+
+        v.push(Field {
+            attrs: Default::default(),
+            vis: Visibility::Inherited,
+            ident: None,
+            colon_token: None,
+            ty: q!({ usize }).parse(),
+        });
+
+        Fields::Unnamed(FieldsUnnamed {
+            paren_token: f.span().as_token(),
+            unnamed: v,
+        })
+    } else {
+        Fields::Unit
+    };
+
+    let field_name = f.ident.as_ref().unwrap();
+    let doc_attr = make_doc_attr(&format!(
+        "This represents [{field_name}](`crate::{type_name}::{field_name}`)",
+        type_name = type_name,
+        field_name = field_name,
+    ));
+    Variant {
+        attrs: vec![doc_attr],
+        ident: Ident::new(&field_name.to_string().to_pascal_case(), f.ident.span()),
+        discriminant: Default::default(),
+        fields,
+    }
+}
+
+fn make_field_enum(item: &Item) -> Vec<Item> {
+    let mut items = vec![];
+
+    let name = match item {
+        Item::Struct(s) => s.ident.clone(),
+        Item::Enum(e) => {
+            // Skip C-like enums
+            if e.variants.iter().all(|v| v.fields.is_empty()) {
+                return vec![];
+            }
+
+            e.ident.clone()
+        }
+        _ => return vec![],
+    };
+
+    let name = Ident::new(&format!("{}Field", name), name.span());
+    {
+        let mut attrs = vec![];
+
+        let variants = match item {
+            Item::Struct(s) => {
+                let mut v = Punctuated::new();
+
+                for f in s.fields.iter() {
+                    if f.ident.is_none() {
+                        continue;
+                    }
+
+                    v.push(make_field_enum_variant_from_named_field(&s.ident, f))
+                }
+
+                v
+            }
+            Item::Enum(e) => {
+                let mut variants = Punctuated::new();
+
+                for v in e.variants.iter() {
+                    let doc_attr = make_doc_attr(&format!(
+                        "This represents [{variant_name}](`crate::{type_name}::{variant_name}`)",
+                        type_name = e.ident,
+                        variant_name = v.ident,
+                    ));
+
+                    variants.push(Variant {
+                        attrs: vec![doc_attr],
+                        ident: Ident::new(&v.ident.to_string().to_pascal_case(), v.ident.span()),
+                        discriminant: Default::default(),
+                        fields: Fields::Unit,
+                    })
+                }
+
+                variants
+            }
+            _ => return vec![],
+        };
+
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ derive }).parse(),
+            tokens: q!({ (Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash) }).into(),
+        });
+
+        attrs.push(make_doc_attr(&format!(
+            "This enum represents fields of [{type_name}](crate::{type_name})",
+            type_name = name,
+        )));
+
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg_attr }).parse(),
+            tokens: q!({
+                (
+                    feature = "serde",
+                    derive(serde::Serialize, serde::Deserialize),
+                )
+            })
+            .into(),
+        });
+
+        items.push(Item::Enum(ItemEnum {
+            attrs,
+            vis: Visibility::Public(VisPublic {
+                pub_token: def_site(),
+            }),
+            enum_token: def_site(),
+            ident: name.clone(),
+            generics: Default::default(),
+            brace_token: def_site(),
+            variants,
+        }));
+    }
+
+    {
+        let mut methods = vec![];
+
+        methods.push(ImplItem::Method(ImplItemMethod {
+            attrs: vec![make_doc_attr("This is not consdered as a public API")],
+            vis: Visibility::Public(VisPublic {
+                pub_token: def_site(),
+            }),
+            defaultness: Default::default(),
+            sig: Signature {
+                constness: Default::default(),
+                asyncness: Default::default(),
+                unsafety: Default::default(),
+                abi: Default::default(),
+                fn_token: name.span().as_token(),
+                ident: Ident::new("set_index", name.span()),
+                generics: Default::default(),
+                paren_token: name.span().as_token(),
+                inputs: {
+                    let mut v = Punctuated::new();
+                    v.push(FnArg::Receiver(Receiver {
+                        attrs: Default::default(),
+                        reference: Some((def_site(), None)),
+                        mutability: Some(def_site()),
+                        self_token: def_site(),
+                    }));
+                    v.push(FnArg::Typed(PatType {
+                        attrs: Default::default(),
+                        colon_token: def_site(),
+                        ty: q!({ usize }).parse(),
+                        pat: Box::new(Pat::Ident(PatIdent {
+                            attrs: Default::default(),
+                            by_ref: Default::default(),
+                            mutability: Default::default(),
+                            ident: Ident::new("index", call_site()),
+                            subpat: Default::default(),
+                        })),
+                    }));
+
+                    v
+                },
+                variadic: Default::default(),
+                output: ReturnType::Default,
+            },
+            block: {
+                let mut arms = vec![];
+
+                if let Item::Struct(s) = item {
+                    for f in s.fields.iter() {
+                        if f.ident.is_none() {
+                            continue;
+                        }
+
+                        let variant_name = Ident::new(
+                            &f.ident.as_ref().unwrap().to_string().to_pascal_case(),
+                            f.ident.span(),
+                        );
+
+                        if let Some(..) = extract_generic("Vec", &f.ty) {
+                            arms.push(Arm {
+                                attrs: Default::default(),
+                                pat: Pat::TupleStruct(PatTupleStruct {
+                                    attrs: Default::default(),
+                                    path: q!(
+                                        Vars {
+                                            VariantName: &variant_name
+                                        },
+                                        { Self::VariantName }
+                                    )
+                                    .parse(),
+                                    pat: PatTuple {
+                                        attrs: Default::default(),
+                                        paren_token: name.span().as_token(),
+                                        elems: {
+                                            let mut v = Punctuated::new();
+
+                                            v.push(q!({ idx }).parse());
+
+                                            v
+                                        },
+                                    },
+                                }),
+                                guard: Default::default(),
+                                fat_arrow_token: name.span().as_token(),
+                                body: q!(({
+                                    debug_assert!(
+                                        *idx == usize::MAX || index == usize::MAX,
+                                        "Should be usize::MAX"
+                                    );
+                                    *idx = index;
+                                }))
+                                .parse(),
+                                comma: Some(name.span().as_token()),
+                            });
+                        }
+                    }
+                };
+
+                arms.push(q!({ _ => {} }).parse());
+
+                let expr = Expr::Match(ExprMatch {
+                    attrs: Default::default(),
+                    match_token: name.span().as_token(),
+                    expr: q!({ self }).parse(),
+                    brace_token: name.span().as_token(),
+                    arms,
+                });
+
+                Block {
+                    brace_token: def_site(),
+                    stmts: vec![Stmt::Expr(expr)],
+                }
+            },
+        }));
+
+        items.push(Item::Impl(ItemImpl {
+            attrs: Default::default(),
+            defaultness: Default::default(),
+            unsafety: Default::default(),
+            impl_token: def_site(),
+            generics: Default::default(),
+            trait_: Default::default(),
+            self_ty: q!(Vars { Type: &name }, { Type }).parse(),
+            brace_token: def_site(),
+            items: methods,
+        }));
+    }
+
+    items
+}
+
+fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
+    let mut variants = Punctuated::new();
+
+    for stmt in stmts {
+        let item = match stmt {
+            Stmt::Item(item) => item,
+            _ => continue,
+        };
+        let name = match item {
+            Item::Enum(ItemEnum {
+                ident, variants, ..
+            }) => {
+                // Skip C-like enums
+                if variants.iter().all(|v| v.fields.is_empty()) {
+                    continue;
+                }
+
+                ident
+            }
+            Item::Struct(ItemStruct { ident, .. }) => ident,
+            _ => continue,
+        };
+
+        let field_type_name = Ident::new(&format!("{}Field", name), name.span());
+
+        let fields = {
+            let mut fields = Punctuated::new();
+
+            if is_ref {
+                fields.push(Field {
+                    attrs: Default::default(),
+                    vis: Visibility::Inherited,
+                    colon_token: None,
+                    ident: None,
+                    ty: Type::Reference(TypeReference {
+                        and_token: name.span().as_token(),
+                        lifetime: Some(Lifetime {
+                            apostrophe: call_site(),
+                            ident: Ident::new("ast", name.span()),
+                        }),
+                        mutability: Default::default(),
+                        elem: Box::new(Type::Path(TypePath {
+                            qself: Default::default(),
+                            path: name.clone().into(),
+                        })),
+                    }),
+                });
+            }
+
+            fields.push(Field {
+                attrs: Default::default(),
+                vis: Visibility::Inherited,
+                colon_token: None,
+                ident: None,
+                ty: Type::Path(TypePath {
+                    qself: Default::default(),
+                    path: q!(
+                        Vars {
+                            field_type_name: &field_type_name,
+                        },
+                        (self::fields::field_type_name)
+                    )
+                    .parse(),
+                }),
+            });
+
+            Fields::Unnamed(FieldsUnnamed {
+                paren_token: def_site(),
+                unnamed: fields,
+            })
+        };
+
+        variants.push(Variant {
+            attrs: Default::default(),
+            ident: name.clone(),
+            fields,
+            discriminant: None,
+        });
+    }
+    let mut attrs = vec![];
+
+    attrs.push(Attribute {
+        pound_token: def_site(),
+        style: AttrStyle::Outer,
+        bracket_token: def_site(),
+        path: q!({ derive }).parse(),
+        tokens: q!({ (Debug, Copy, Clone, PartialEq) }).into(),
+    });
+    if !is_ref {
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ derive }).parse(),
+            tokens: q!({ (Eq, PartialOrd, Ord, Hash) }).into(),
+        });
+
+        attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg_attr }).parse(),
+            tokens: q!({
+                (
+                    feature = "serde",
+                    derive(serde::Serialize, serde::Deserialize),
+                )
+            })
+            .into(),
+        });
+    }
+    attrs.push(Attribute {
+        pound_token: def_site(),
+        style: AttrStyle::Outer,
+        bracket_token: def_site(),
+        path: q!({ allow }).parse(),
+        tokens: q!({ (clippy::derive_partial_eq_without_eq) }).into(),
+    });
+
+    Item::Enum(ItemEnum {
+        attrs,
+        vis: Visibility::Public(VisPublic {
+            pub_token: def_site(),
+        }),
+        enum_token: def_site(),
+        ident: if is_ref {
+            Ident::new("AstParentNodeRef", call_site())
+        } else {
+            Ident::new("AstParentKind", call_site())
+        },
+        generics: if is_ref {
+            let mut g = Punctuated::new();
+            g.push(GenericParam::Lifetime(LifetimeDef {
+                attrs: Default::default(),
+                lifetime: Lifetime {
+                    apostrophe: call_site(),
+                    ident: Ident::new("ast", def_site()),
+                },
+                colon_token: Default::default(),
+                bounds: Default::default(),
+            }));
+
+            Generics {
+                lt_token: Some(def_site()),
+                params: g,
+                gt_token: Some(def_site()),
+                where_clause: None,
+            }
+        } else {
+            Default::default()
+        },
+        brace_token: def_site(),
+        variants,
+    })
+}
+
+fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
+    let kind_type = Type::Path(TypePath {
+        qself: None,
+        path: Ident::new("AstParentKind", call_site()).into(),
+    });
+
+    let set_index_item = ImplItem::Method(ImplItemMethod {
+        attrs: Default::default(),
+        vis: Visibility::Inherited,
+        defaultness: Default::default(),
+        sig: Signature {
+            constness: Default::default(),
+            asyncness: Default::default(),
+            unsafety: Default::default(),
+            abi: Default::default(),
+            fn_token: def_site(),
+            ident: Ident::new("set_index", call_site()),
+            generics: Default::default(),
+            paren_token: def_site(),
+            inputs: {
+                let mut v = Punctuated::new();
+                v.push(FnArg::Receiver(Receiver {
+                    attrs: Default::default(),
+                    reference: Some((def_site(), None)),
+                    mutability: Some(def_site()),
+                    self_token: def_site(),
+                }));
+                v.push(FnArg::Typed(PatType {
+                    attrs: Default::default(),
+                    colon_token: def_site(),
+                    ty: q!({ usize }).parse(),
+                    pat: Box::new(Pat::Ident(PatIdent {
+                        attrs: Default::default(),
+                        by_ref: Default::default(),
+                        mutability: Default::default(),
+                        ident: Ident::new("index", call_site()),
+                        subpat: Default::default(),
+                    })),
+                }));
+
+                v
+            },
+            variadic: Default::default(),
+            output: ReturnType::Default,
+        },
+        block: Block {
+            brace_token: def_site(),
+            stmts: {
+                let mut arms = vec![];
+
+                for stmt in stmts {
+                    let item = match stmt {
+                        Stmt::Item(item) => item,
+                        _ => continue,
+                    };
+                    let name = match item {
+                        Item::Enum(ItemEnum {
+                            ident, variants, ..
+                        }) => {
+                            if variants.iter().all(|v| v.fields.is_empty()) {
+                                continue;
+                            }
+                            ident
+                        }
+                        Item::Struct(ItemStruct { ident, .. }) => ident,
+                        _ => continue,
+                    };
+
+                    arms.push(Arm {
+                        attrs: Default::default(),
+                        pat: Pat::TupleStruct(PatTupleStruct {
+                            attrs: Default::default(),
+                            path: q!(Vars { name }, { Self::name }).parse(),
+                            pat: PatTuple {
+                                attrs: Default::default(),
+                                paren_token: def_site(),
+                                elems: {
+                                    let mut v = Punctuated::new();
+                                    v.push(Pat::Ident(PatIdent {
+                                        attrs: Default::default(),
+                                        by_ref: Default::default(),
+                                        mutability: Default::default(),
+                                        ident: Ident::new("v", name.span()),
+                                        subpat: Default::default(),
+                                    }));
+
+                                    v
+                                },
+                            },
+                        }),
+                        guard: Default::default(),
+                        fat_arrow_token: name.span().as_token(),
+                        body: q!({ v.set_index(index) }).parse(),
+                        comma: Some(name.span().as_token()),
+                    })
+                }
+
+                let match_expr = Expr::Match(ExprMatch {
+                    attrs: Default::default(),
+                    match_token: def_site(),
+                    expr: q!({ self }).parse(),
+                    brace_token: def_site(),
+                    arms,
+                });
+
+                vec![Stmt::Expr(match_expr)]
+            },
+        },
+    });
+
+    ItemImpl {
+        attrs: Default::default(),
+        defaultness: Default::default(),
+        unsafety: Default::default(),
+        impl_token: def_site(),
+        generics: Default::default(),
+        trait_: Some((None, q!((ParentKind)).parse(), def_site())),
+        self_ty: Box::new(kind_type),
+        brace_token: def_site(),
+        items: vec![set_index_item],
+    }
+}
+
+fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
+    let kind_type = Type::Path(TypePath {
+        qself: None,
+        path: Ident::new("AstParentKind", call_site()).into(),
+    });
+
+    let kind_item = ImplItem::Method(ImplItemMethod {
+        attrs: Default::default(),
+        vis: Visibility::Public(VisPublic {
+            pub_token: def_site(),
+        }),
+        defaultness: Default::default(),
+        sig: Signature {
+            constness: Default::default(),
+            asyncness: Default::default(),
+            unsafety: Default::default(),
+            abi: Default::default(),
+            fn_token: def_site(),
+            ident: Ident::new("kind", call_site()),
+            generics: Default::default(),
+            paren_token: def_site(),
+            inputs: {
+                let mut v = Punctuated::new();
+                v.push(FnArg::Receiver(Receiver {
+                    attrs: Default::default(),
+                    reference: Some((def_site(), None)),
+                    mutability: None,
+                    self_token: def_site(),
+                }));
+
+                v
+            },
+            variadic: Default::default(),
+            output: ReturnType::Type(def_site(), Box::new(kind_type)),
+        },
+        block: Block {
+            brace_token: def_site(),
+            stmts: {
+                let mut arms = vec![];
+
+                for stmt in stmts {
+                    let item = match stmt {
+                        Stmt::Item(item) => item,
+                        _ => continue,
+                    };
+                    let name = match item {
+                        Item::Enum(ItemEnum {
+                            ident, variants, ..
+                        }) => {
+                            if variants.iter().all(|v| v.fields.is_empty()) {
+                                continue;
+                            }
+                            ident
+                        }
+                        Item::Struct(ItemStruct { ident, .. }) => ident,
+                        _ => continue,
+                    };
+
+                    let field_kind = Ident::new("__field_kind", item.span());
+
+                    let pat = Pat::TupleStruct(PatTupleStruct {
+                        attrs: Default::default(),
+                        path: q!(Vars { Name: &name }, (Self::Name)).parse(),
+                        pat: PatTuple {
+                            attrs: Default::default(),
+                            paren_token: def_site(),
+                            elems: {
+                                let mut v = Punctuated::new();
+
+                                // Ignore node ref itself
+                                v.push(Pat::Wild(PatWild {
+                                    attrs: Default::default(),
+                                    underscore_token: stmt.span().as_token(),
+                                }));
+
+                                v.push(Pat::Ident(PatIdent {
+                                    attrs: Default::default(),
+                                    ident: field_kind.clone(),
+                                    subpat: None,
+                                    by_ref: Default::default(),
+                                    mutability: Default::default(),
+                                }));
+
+                                v
+                            },
+                        },
+                    });
+
+                    let path_expr = Expr::Path(ExprPath {
+                        attrs: Default::default(),
+                        qself: Default::default(),
+                        path: q!(Vars { Name: &name }, (AstParentKind::Name)).parse(),
+                    });
+
+                    arms.push(Arm {
+                        attrs: Default::default(),
+                        pat,
+                        guard: Default::default(),
+                        fat_arrow_token: stmt.span().as_token(),
+                        body: Box::new(Expr::Call(ExprCall {
+                            attrs: Default::default(),
+                            func: Box::new(path_expr),
+                            paren_token: def_site(),
+                            args: {
+                                let mut v = Punctuated::new();
+                                v.push(Expr::Unary(ExprUnary {
+                                    attrs: Default::default(),
+                                    op: UnOp::Deref(def_site()),
+                                    expr: Box::new(Expr::Path(ExprPath {
+                                        attrs: Default::default(),
+                                        qself: None,
+                                        path: field_kind.clone().into(),
+                                    })),
+                                }));
+                                v
+                            },
+                        })),
+                        comma: Some(stmt.span().as_token()),
+                    });
+                }
+
+                let expr = Expr::Match(ExprMatch {
+                    attrs: Default::default(),
+                    match_token: def_site(),
+                    expr: q!({ self }).parse(),
+                    brace_token: def_site(),
+                    arms,
+                });
+
+                vec![Stmt::Expr(expr)]
+            },
+        },
+    });
+
+    let set_index_item = ImplItem::Method(ImplItemMethod {
+        attrs: Default::default(),
+        vis: Visibility::Inherited,
+        defaultness: Default::default(),
+        sig: Signature {
+            constness: Default::default(),
+            asyncness: Default::default(),
+            unsafety: Default::default(),
+            abi: Default::default(),
+            fn_token: def_site(),
+            ident: Ident::new("set_index", call_site()),
+            generics: Default::default(),
+            paren_token: def_site(),
+            inputs: {
+                let mut v = Punctuated::new();
+                v.push(FnArg::Receiver(Receiver {
+                    attrs: Default::default(),
+                    reference: Some((def_site(), None)),
+                    mutability: Some(def_site()),
+                    self_token: def_site(),
+                }));
+                v.push(FnArg::Typed(PatType {
+                    attrs: Default::default(),
+                    colon_token: def_site(),
+                    ty: q!({ usize }).parse(),
+                    pat: Box::new(Pat::Ident(PatIdent {
+                        attrs: Default::default(),
+                        by_ref: Default::default(),
+                        mutability: Default::default(),
+                        ident: Ident::new("index", call_site()),
+                        subpat: Default::default(),
+                    })),
+                }));
+
+                v
+            },
+            variadic: Default::default(),
+            output: ReturnType::Default,
+        },
+        block: Block {
+            brace_token: def_site(),
+            stmts: {
+                let mut arms = vec![];
+
+                for stmt in stmts {
+                    let item = match stmt {
+                        Stmt::Item(item) => item,
+                        _ => continue,
+                    };
+                    let name = match item {
+                        Item::Enum(ItemEnum {
+                            ident, variants, ..
+                        }) => {
+                            if variants.iter().all(|v| v.fields.is_empty()) {
+                                continue;
+                            }
+                            ident
+                        }
+                        Item::Struct(ItemStruct { ident, .. }) => ident,
+                        _ => continue,
+                    };
+
+                    let field_kind = Ident::new("__field_kind", item.span());
+
+                    let pat = Pat::TupleStruct(PatTupleStruct {
+                        attrs: Default::default(),
+                        path: q!(Vars { Name: &name }, (Self::Name)).parse(),
+                        pat: PatTuple {
+                            attrs: Default::default(),
+                            paren_token: def_site(),
+                            elems: {
+                                let mut v = Punctuated::new();
+
+                                // Ignore node ref itself
+                                v.push(Pat::Wild(PatWild {
+                                    attrs: Default::default(),
+                                    underscore_token: stmt.span().as_token(),
+                                }));
+
+                                v.push(Pat::Ident(PatIdent {
+                                    attrs: Default::default(),
+                                    ident: field_kind.clone(),
+                                    subpat: None,
+                                    by_ref: Default::default(),
+                                    mutability: Default::default(),
+                                }));
+
+                                v
+                            },
+                        },
+                    });
+
+                    arms.push(Arm {
+                        attrs: Default::default(),
+                        pat,
+                        guard: Default::default(),
+                        fat_arrow_token: stmt.span().as_token(),
+                        body: q!({ __field_kind.set_index(index) }).parse(),
+                        comma: Some(stmt.span().as_token()),
+                    });
+                }
+
+                let match_expr = Expr::Match(ExprMatch {
+                    attrs: Default::default(),
+                    match_token: def_site(),
+                    expr: q!({ self }).parse(),
+                    brace_token: def_site(),
+                    arms,
+                });
+
+                vec![Stmt::Expr(match_expr)]
+            },
+        },
+    });
+
+    Some(ItemImpl {
+        attrs: Default::default(),
+        defaultness: Default::default(),
+        unsafety: Default::default(),
+        impl_token: def_site(),
+        generics: Default::default(),
+        trait_: None,
+        self_ty: q!({ AstParentNodeRef<'_> }).parse(),
+        brace_token: def_site(),
+        items: vec![kind_item, set_index_item],
+    })
 }
 
 fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
@@ -127,12 +1037,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         {
             // &'_ mut V, Box<V>
-            let block = match mode {
-                Mode::Visit | Mode::VisitAll => {
+            let block = match mode.visitor_variant() {
+                Some(VisitorVariant::Normal) | None => {
                     q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse()
                 }
-                Mode::Fold | Mode::VisitMut => {
-                    q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse()
+                Some(VisitorVariant::WithPath) => {
+                    q!(Vars { visit: &name }, ({ (**self).visit(n, __ast_path) })).parse()
                 }
             };
 
@@ -153,8 +1063,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
-                block: match mode {
-                    Mode::Visit | Mode::VisitAll => q!(
+                block: match mode.visitor_variant() {
+                    Some(VisitorVariant::Normal) | None => q!(
                         Vars { visit: &name },
                         ({
                             match self {
@@ -164,12 +1074,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         })
                     )
                     .parse(),
-                    Mode::Fold | Mode::VisitMut => q!(
-                        Vars { fold: &name },
+                    Some(VisitorVariant::WithPath) => q!(
+                        Vars { visit: &name },
                         ({
                             match self {
-                                swc_visit::Either::Left(v) => v.fold(n),
-                                swc_visit::Either::Right(v) => v.fold(n),
+                                swc_visit::Either::Left(v) => v.visit(n, __ast_path),
+                                swc_visit::Either::Right(v) => v.visit(n, __ast_path),
                             }
                         })
                     )
@@ -187,7 +1097,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 defaultness: None,
                 sig: sig.clone(),
                 block: match mode {
-                    Mode::VisitAll | Mode::Visit => q!(
+                    Mode::VisitAll
+                    | Mode::Visit(VisitorVariant::Normal)
+                    | Mode::VisitMut(VisitorVariant::Normal) => q!(
                         Vars { visit: &name },
                         ({
                             if self.enabled {
@@ -196,20 +1108,35 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         })
                     )
                     .parse(),
-                    Mode::VisitMut => q!(
+
+                    Mode::Visit(VisitorVariant::WithPath)
+                    | Mode::VisitMut(VisitorVariant::WithPath) => q!(
                         Vars { visit: &name },
                         ({
                             if self.enabled {
-                                self.visitor.visit(n)
+                                self.visitor.visit(n, __ast_path)
                             }
                         })
                     )
                     .parse(),
-                    Mode::Fold => q!(
+
+                    Mode::Fold(VisitorVariant::Normal) => q!(
                         Vars { fold: &name },
                         ({
                             if self.enabled {
                                 self.visitor.fold(n)
+                            } else {
+                                n
+                            }
+                        })
+                    )
+                    .parse(),
+
+                    Mode::Fold(VisitorVariant::WithPath) => q!(
+                        Vars { fold: &name },
+                        ({
+                            if self.enabled {
+                                self.visitor.fold(n, __ast_path)
                             } else {
                                 n
                             }
@@ -249,22 +1176,33 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             tokens: q!({ (unused_variables) }).parse(),
         });
 
-        let fn_name = v.sig.ident.clone();
+        let mut fn_name = v.sig.ident.clone();
+
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            fn_name = Ident::new(&format!("{}_with_path", fn_name), def_site());
+        }
+
         let default_body = replace(
             &mut v.default,
             Some(match mode {
-                Mode::Fold | Mode::VisitMut => q!(Vars { fn_name: &fn_name }, {
+                Mode::Fold(VisitorVariant::Normal)
+                | Mode::VisitMut(VisitorVariant::Normal)
+                | Mode::Visit(VisitorVariant::Normal) => q!(Vars { fn_name: &fn_name }, {
                     {
                         fn_name(self, n)
                     }
                 })
                 .parse(),
-                Mode::Visit => q!(Vars { fn_name: &fn_name }, {
+
+                Mode::Fold(VisitorVariant::WithPath)
+                | Mode::VisitMut(VisitorVariant::WithPath)
+                | Mode::Visit(VisitorVariant::WithPath) => q!(Vars { fn_name: &fn_name }, {
                     {
-                        fn_name(self, n)
+                        fn_name(self, n, __ast_path)
                     }
                 })
                 .parse(),
+
                 Mode::VisitAll => Block {
                     brace_token: def_site(),
                     stmts: Default::default(),
@@ -284,7 +1222,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             .unwrap();
 
         match mode {
-            Mode::Fold => tokens.push_tokens(&q!(
+            Mode::Fold(VisitorVariant::Normal) => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -292,6 +1230,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Visits children of the nodes with the given visitor.
+                    ///
+                    /// This is the default implementation of a method of
+                    /// [Fold].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
                         default_body
@@ -299,7 +1241,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::VisitMut => tokens.push_tokens(&q!(
+            Mode::VisitMut(VisitorVariant::Normal) => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -307,6 +1249,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Visits children of the nodes with the given visitor.
+                    ///
+                    /// This is the default implementation of a method of
+                    /// [VisitMut].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
@@ -314,7 +1260,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::Visit => tokens.push_tokens(&q!(
+            Mode::Visit(VisitorVariant::Normal) => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -322,19 +1268,96 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Trait: Ident::new(mode.trait_name(), call_site()),
                 },
                 {
+                    /// Visits children of the nodes with the given visitor.
+                    ///
+                    /// This is the default implementation of a method of
+                    /// [Visit].
                     #[allow(unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
                     }
                 }
             )),
+
+            Mode::Fold(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[cfg(any(feature = "path", docsrs))]
+                    #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                    #[allow(unused_variables)]
+                    fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        __ast_path: &mut AstKindPath,
+                    ) -> Type {
+                        default_body
+                    }
+                }
+            )),
+
+            Mode::VisitMut(VisitorVariant::WithPath) => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[cfg(any(feature = "path", docsrs))]
+                    #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                    #[allow(unused_variables)]
+                    fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        __ast_path: &mut AstKindPath,
+                    ) {
+                        default_body
+                    }
+                }
+            )),
+
+            Mode::Visit(VisitorVariant::WithPath) => {
+                tokens.push_tokens(&q!(
+                    Vars {
+                        fn_name,
+                        default_body,
+                        Type: arg_ty,
+                        Trait: Ident::new(mode.trait_name(), call_site()),
+                    },
+                    {
+                        #[cfg(any(feature = "path", docsrs))]
+                        #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                        #[allow(unused_variables)]
+                        fn fn_name<'ast, 'r, V: ?Sized + Trait>(
+                            _visitor: &mut V,
+                            n: Type,
+                            __ast_path: &mut AstNodePath<'r>,
+                        ) where
+                            'ast: 'r,
+                        {
+                            default_body
+                        }
+                    }
+                ));
+            }
 
             Mode::VisitAll => {}
         }
     });
 
+    let mut attrs = vec![];
+
+    if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+        attrs.extend(feature_path_attrs())
+    }
+
     tokens.push_tokens(&ItemTrait {
-        attrs: vec![],
+        attrs,
         vis: Visibility::Public(VisPublic {
             pub_token: def_site(),
         }),
@@ -364,6 +1387,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         item.items
             .extend(ref_methods.clone().into_iter().map(ImplItem::Method));
+
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            item.attrs.extend(feature_path_attrs())
+        }
+
         tokens.push_tokens(&item);
     }
     {
@@ -381,6 +1409,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         item.items
             .extend(ref_methods.into_iter().map(ImplItem::Method));
+
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            item.attrs.extend(feature_path_attrs())
+        }
+
         tokens.push_tokens(&item);
     }
 
@@ -398,6 +1431,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         item.items
             .extend(optional_methods.into_iter().map(ImplItem::Method));
+
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            item.attrs.extend(feature_path_attrs())
+        }
 
         tokens.push_tokens(&item);
     }
@@ -422,6 +1459,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         item.items
             .extend(either_methods.into_iter().map(ImplItem::Method));
 
+        if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+            item.attrs.extend(feature_path_attrs())
+        }
+
         tokens.push_tokens(&item);
     }
 
@@ -445,8 +1486,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         // Add FoldWith, VisitWith
 
         let trait_decl = match mode {
-            Mode::Visit => q!({
+            Mode::Visit(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitWith<V: ?Sized + Visit> {
+                    /// Calls a visitor method (v.visit_xxx) with self.
                     fn visit_with(&self, v: &mut V);
 
                     /// Visit children nodes of self with `v`
@@ -468,8 +1512,71 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
+
+            Mode::Visit(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
+                #[cfg(any(feature = "path", docsrs))]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                pub trait VisitWithPath<V: ?Sized + VisitAstPath> {
+                    /// Calls a visitor method (v.visit_xxx) with self and the
+                    /// ast path.
+                    fn visit_with_path<'ast, 'r>(
+                        &'ast self,
+                        v: &mut V,
+                        ast_path: &mut AstNodePath<'r>,
+                    ) where
+                        'ast: 'r;
+
+                    /// Visit children nodes with v and ast path appended
+                    /// [AstParentNodeRef] describing `self`. The ast path will
+                    /// be resotred when this method returns.
+                    ///
+                    /// This is the default implementaton of a handler method in
+                    /// [VisitAstPath].
+                    fn visit_children_with_path<'ast, 'r>(
+                        &'ast self,
+                        v: &mut V,
+                        ast_path: &mut AstNodePath<'r>,
+                    ) where
+                        'ast: 'r;
+                }
+
+                #[cfg(any(feature = "path", docsrs))]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                impl<V, T> VisitWithPath<V> for Box<T>
+                where
+                    V: ?Sized + VisitAstPath,
+                    T: 'static + VisitWithPath<V>,
+                {
+                    fn visit_with_path<'ast, 'r>(
+                        &'ast self,
+                        v: &mut V,
+                        ast_path: &mut AstNodePath<'r>,
+                    ) where
+                        'ast: 'r,
+                    {
+                        (**self).visit_with_path(v, ast_path)
+                    }
+
+                    /// Visit children nodes of self with `v`
+                    fn visit_children_with_path<'ast, 'r>(
+                        &'ast self,
+                        v: &mut V,
+                        ast_path: &mut AstNodePath<'r>,
+                    ) where
+                        'ast: 'r,
+                    {
+                        (**self).visit_children_with_path(v, ast_path)
+                    }
+                }
+            }),
+
             Mode::VisitAll => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitAllWith<V: ?Sized + VisitAll> {
+                    /// Calls a visitor method (v.visit_xxx) with self.
                     fn visit_all_with(&self, v: &mut V);
 
                     /// Visit children nodes of self with `v`
@@ -491,8 +1598,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
-            Mode::Fold => q!({
+            Mode::Fold(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait FoldWith<V: ?Sized + Fold> {
+                    /// Calls a visitor method (v.fold_xxx) with self.
                     fn fold_with(self, v: &mut V) -> Self;
 
                     /// Visit children nodes of self with `v`
@@ -514,8 +1624,56 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
-            Mode::VisitMut => q!({
+            Mode::Fold(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
+                #[cfg(any(feature = "path", docsrs))]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                pub trait FoldWithPath<V: ?Sized + FoldAstPath> {
+                    /// Calls a visitor method (v.fold_xxx) with self and the
+                    /// ast path.
+                    fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
+
+                    /// Visit children nodes with v and ast path appended
+                    /// [AstKind] of `self`. The ast path will
+                    /// be resotred when this method returns.
+                    ///
+                    /// This is the default implementaton of a handler method in
+                    /// [FoldAstPath].
+                    fn fold_children_with_path(self, v: &mut V, ast_path: &mut AstKindPath)
+                        -> Self;
+                }
+
+                #[cfg(any(feature = "path", docsrs))]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                impl<V, T> FoldWithPath<V> for Box<T>
+                where
+                    V: ?Sized + FoldAstPath,
+                    T: 'static + FoldWithPath<V>,
+                {
+                    fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self {
+                        swc_visit::util::map::Map::map(self, |value| {
+                            value.fold_with_path(v, ast_path)
+                        })
+                    }
+
+                    /// Visit children nodes of self with `v`
+                    fn fold_children_with_path(
+                        self,
+                        v: &mut V,
+                        ast_path: &mut AstKindPath,
+                    ) -> Self {
+                        swc_visit::util::map::Map::map(self, |value| {
+                            value.fold_children_with_path(v, ast_path)
+                        })
+                    }
+                }
+            }),
+            Mode::VisitMut(VisitorVariant::Normal) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
                 pub trait VisitMutWith<V: ?Sized + VisitMut> {
+                    /// Calls a visitor method (v.visit_mut_xxx) with self.
                     fn visit_mut_with(&mut self, v: &mut V);
 
                     fn visit_mut_children_with(&mut self, v: &mut V);
@@ -535,6 +1693,50 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
+            Mode::VisitMut(VisitorVariant::WithPath) => q!({
+                /// A utility trait implemented for ast nodes, and allow to
+                /// visit them with a visitor.
+                #[cfg(any(feature = "path", docsrs))]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                pub trait VisitMutWithPath<V: ?Sized + VisitMutAstPath> {
+                    /// Calls a visitor method (v.visit_mut_xxx) with self and
+                    /// the ast path.
+                    fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
+
+                    /// Visit children nodes with v and ast path appended
+                    /// [AstKind] of `self`. The ast path will be resotred when
+                    /// this method returns.
+                    ///
+                    /// This is the default implementaton of a handler method in
+                    /// [VisitMutAstPath].
+                    fn visit_mut_children_with_path(
+                        &mut self,
+                        v: &mut V,
+                        ast_path: &mut AstKindPath,
+                    );
+                }
+
+                #[cfg(any(feature = "path", docsrs))]
+                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                #[doc = "Delegating implementation"]
+                impl<V, T> VisitMutWithPath<V> for Box<T>
+                where
+                    V: ?Sized + VisitMutAstPath,
+                    T: 'static + VisitMutWithPath<V>,
+                {
+                    fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath) {
+                        (**self).visit_mut_with_path(v, ast_path);
+                    }
+
+                    fn visit_mut_children_with_path(
+                        &mut self,
+                        v: &mut V,
+                        ast_path: &mut AstKindPath,
+                    ) {
+                        (**self).visit_mut_children_with_path(v, ast_path);
+                    }
+                }
+            }),
         };
         tokens.push_tokens(&trait_decl);
 
@@ -547,7 +1749,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             // Signature of visit_item / fold_item
             let method_sig = method_sig(mode, ty);
-            let method_name = method_sig.ident;
+            let mut method_name = method_sig.ident;
+
+            if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+                method_name = Ident::new(&format!("{}_with_path", method_name), def_site());
+            }
 
             // Prevent duplicate implementations.
             let s = method_name.to_string();
@@ -556,10 +1762,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }
             names.insert(s);
 
-            let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
+            let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse(), None);
 
             match mode {
-                Mode::Visit => {
+                Mode::Visit(VisitorVariant::Normal) => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -624,6 +1830,113 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
 
+                Mode::Visit(VisitorVariant::WithPath) => {
+                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                        q!(
+                            Vars {
+                                expr,
+                                method_name: &method_name
+                            },
+                            { method_name(_visitor, expr, __ast_path) }
+                        )
+                        .parse()
+                    });
+
+                    if let Some(elem_ty) = extract_generic("Vec", ty) {
+                        tokens.push_tokens(&q!(
+                            Vars {
+                                elem_ty,
+                                expr,
+                                default_body,
+                            },
+                            {
+                                #[cfg(any(feature = "path", docsrs))]
+                                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                                impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for [elem_ty] {
+                                    fn visit_with_path<'ast, 'r>(
+                                        &'ast self,
+                                        v: &mut V,
+                                        __ast_path: &mut AstNodePath<'r>,
+                                    ) where
+                                        'ast: 'r,
+                                    {
+                                        expr
+                                    }
+
+                                    fn visit_children_with_path<'ast, 'r>(
+                                        &'ast self,
+                                        _visitor: &mut V,
+                                        __ast_path: &mut AstNodePath<'r>,
+                                    ) where
+                                        'ast: 'r,
+                                    {
+                                        default_body
+                                    }
+                                }
+                            }
+                        ));
+
+                        tokens.push_tokens(&q!(Vars { Type: ty }, {
+                            #[cfg(any(feature = "path", docsrs))]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                            impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
+                                fn visit_with_path<'ast, 'r>(
+                                    &'ast self,
+                                    v: &mut V,
+                                    __ast_path: &mut AstNodePath<'r>,
+                                ) where
+                                    'ast: 'r,
+                                {
+                                    (**self).visit_with_path(v, __ast_path)
+                                }
+
+                                fn visit_children_with_path<'ast, 'r>(
+                                    &'ast self,
+                                    _visitor: &mut V,
+                                    __ast_path: &mut AstNodePath<'r>,
+                                ) where
+                                    'ast: 'r,
+                                {
+                                    (**self).visit_children_with_path(_visitor, __ast_path)
+                                }
+                            }
+                        }));
+                    } else {
+                        tokens.push_tokens(&q!(
+                            Vars {
+                                Type: ty,
+                                expr,
+                                default_body,
+                            },
+                            {
+                                #[cfg(any(feature = "path", docsrs))]
+                                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                                impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
+                                    fn visit_with_path<'ast, 'r>(
+                                        &'ast self,
+                                        v: &mut V,
+                                        __ast_path: &mut AstNodePath<'r>,
+                                    ) where
+                                        'ast: 'r,
+                                    {
+                                        expr
+                                    }
+
+                                    fn visit_children_with_path<'ast, 'r>(
+                                        &'ast self,
+                                        _visitor: &mut V,
+                                        __ast_path: &mut AstNodePath<'r>,
+                                    ) where
+                                        'ast: 'r,
+                                    {
+                                        default_body
+                                    }
+                                }
+                            }
+                        ));
+                    }
+                }
+
                 Mode::VisitAll => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
@@ -660,7 +1973,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ));
                 }
 
-                Mode::VisitMut => {
+                Mode::VisitMut(VisitorVariant::Normal) => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -692,7 +2005,49 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ));
                 }
 
-                Mode::Fold => {
+                Mode::VisitMut(VisitorVariant::WithPath) => {
+                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                        q!(
+                            Vars {
+                                expr,
+                                method_name: &method_name
+                            },
+                            { method_name(_visitor, expr, __ast_path) }
+                        )
+                        .parse()
+                    });
+
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            default_body,
+                            Type: ty,
+                            expr,
+                        },
+                        {
+                            #[cfg(any(feature = "path", docsrs))]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                            impl<V: ?Sized + VisitMutAstPath> VisitMutWithPath<V> for Type {
+                                fn visit_mut_with_path(
+                                    &mut self,
+                                    v: &mut V,
+                                    __ast_path: &mut AstKindPath,
+                                ) {
+                                    expr
+                                }
+
+                                fn visit_mut_children_with_path(
+                                    &mut self,
+                                    _visitor: &mut V,
+                                    __ast_path: &mut AstKindPath,
+                                ) {
+                                    default_body
+                                }
+                            }
+                        }
+                    ));
+                }
+
+                Mode::Fold(VisitorVariant::Normal) => {
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
@@ -712,6 +2067,37 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         }
                     ));
                 }
+
+                Mode::Fold(VisitorVariant::WithPath) => {
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            method_name,
+                            Type: ty,
+                            expr,
+                        },
+                        {
+                            #[cfg(any(feature = "path", docsrs))]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                            impl<V: ?Sized + FoldAstPath> FoldWithPath<V> for Type {
+                                fn fold_with_path(
+                                    self,
+                                    v: &mut V,
+                                    __ast_path: &mut AstKindPath,
+                                ) -> Self {
+                                    expr
+                                }
+
+                                fn fold_children_with_path(
+                                    self,
+                                    v: &mut V,
+                                    __ast_path: &mut AstKindPath,
+                                ) -> Self {
+                                    method_name(v, self, __ast_path)
+                                }
+                            }
+                        }
+                    ));
+                }
             }
         }
     }
@@ -726,29 +2112,26 @@ where
     if is_option(ty) {
         expr = if is_opt_vec(ty) {
             match mode {
-                Mode::Fold => expr,
-                Mode::VisitMut => expr,
-                Mode::Visit | Mode::VisitAll => {
+                Mode::Fold { .. } => expr,
+                Mode::VisitMut { .. } => expr,
+                Mode::Visit { .. } | Mode::VisitAll => {
                     q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse()
                 }
             }
         } else {
             match mode {
-                Mode::Fold => expr,
-                Mode::VisitMut => expr,
-                Mode::Visit | Mode::VisitAll => q!(Vars { expr }, { expr.as_ref() }).parse(),
+                Mode::Fold { .. } => expr,
+                Mode::VisitMut { .. } => expr,
+                Mode::Visit { .. } | Mode::VisitAll => q!(Vars { expr }, { expr.as_ref() }).parse(),
             }
         };
     }
 
     if as_box(ty).is_some() {
         expr = match mode {
-            Mode::Visit | Mode::VisitAll => expr,
-            Mode::VisitMut => {
-                // TODO
-                expr
-            }
-            Mode::Fold => q!(Vars { expr }, { *expr }).parse(),
+            Mode::Visit { .. } | Mode::VisitAll => expr,
+            Mode::VisitMut { .. } => expr,
+            Mode::Fold { .. } => q!(Vars { expr }, { *expr }).parse(),
         };
     }
 
@@ -756,12 +2139,9 @@ where
 
     if as_box(ty).is_some() {
         expr = match mode {
-            Mode::Visit | Mode::VisitAll => expr,
-            Mode::VisitMut => {
-                // TODO
-                expr
-            }
-            Mode::Fold => q!(Vars { expr }, { Box::new(expr) }).parse(),
+            Mode::Visit { .. } | Mode::VisitAll => expr,
+            Mode::VisitMut { .. } => expr,
+            Mode::Fold { .. } => q!(Vars { expr }, { Box::new(expr) }).parse(),
         };
     }
 
@@ -772,11 +2152,20 @@ where
 ///
 /// - `Box<Expr>` => visit(&node) or Box::new(visit(*node))
 /// - `Vec<Expr>` => &*node or
-fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
+fn visit_expr(
+    mode: Mode,
+    ty: &Type,
+    visitor: &Expr,
+    expr: Expr,
+    ast_path: Option<(Ident, Ident)>,
+) -> Expr {
     let visit_name = method_name(mode, ty);
 
     adjust_expr(mode, ty, expr, |expr| match mode {
-        Mode::Fold | Mode::VisitMut => q!(
+        Mode::Fold(VisitorVariant::Normal)
+        | Mode::VisitMut(VisitorVariant::Normal)
+        | Mode::Visit(VisitorVariant::Normal)
+        | Mode::VisitAll => q!(
             Vars {
                 visitor,
                 expr,
@@ -786,19 +2175,109 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
         )
         .parse(),
 
-        Mode::Visit | Mode::VisitAll => q!(
-            Vars {
-                visitor,
-                expr,
-                visit_name
-            },
-            { visitor.visit_name(expr) }
-        )
-        .parse(),
+        Mode::Fold(VisitorVariant::WithPath)
+        | Mode::VisitMut(VisitorVariant::WithPath)
+        | Mode::Visit(VisitorVariant::WithPath) => {
+            if let Some((type_name, field_name)) = ast_path {
+                let field_type_name = Ident::new(&format!("{}Field", type_name), type_name.span());
+
+                let field_name =
+                    Ident::new(&field_name.to_string().to_pascal_case(), field_name.span());
+
+                let ast_path_expr: Expr = match mode {
+                    Mode::Visit(..) => {
+                        if let Some(..) = extract_generic("Vec", ty) {
+                            q!(
+                                Vars {
+                                    VariantName: type_name,
+                                    FieldType: field_type_name,
+                                    FieldName: field_name,
+                                },
+                                (AstParentNodeRef::VariantName(
+                                    n,
+                                    self::fields::FieldType::FieldName(usize::MAX)
+                                ))
+                            )
+                            .parse()
+                        } else {
+                            q!(
+                                Vars {
+                                    VariantName: type_name,
+                                    FieldType: field_type_name,
+                                    FieldName: field_name,
+                                },
+                                (AstParentNodeRef::VariantName(
+                                    n,
+                                    self::fields::FieldType::FieldName
+                                ))
+                            )
+                            .parse()
+                        }
+                    }
+                    _ => {
+                        if let Some(..) = extract_generic("Vec", ty) {
+                            q!(
+                                Vars {
+                                    VariantName: type_name,
+                                    FieldType: field_type_name,
+                                    FieldName: field_name,
+                                },
+                                (AstParentKind::VariantName(self::fields::FieldType::FieldName(
+                                    usize::MAX
+                                )))
+                            )
+                            .parse()
+                        } else {
+                            q!(
+                                Vars {
+                                    VariantName: type_name,
+                                    FieldType: field_type_name,
+                                    FieldName: field_name,
+                                },
+                                (AstParentKind::VariantName(self::fields::FieldType::FieldName))
+                            )
+                            .parse()
+                        }
+                    }
+                };
+
+                q!(
+                    Vars {
+                        visitor,
+                        expr,
+                        visit_name,
+                        ast_path_expr,
+                    },
+                    {
+                        __ast_path.with(ast_path_expr, |__ast_path| {
+                            visitor.visit_name(expr, __ast_path)
+                        })
+                    }
+                )
+                .parse()
+            } else {
+                q!(
+                    Vars {
+                        visitor,
+                        expr,
+                        visit_name
+                    },
+                    { visitor.visit_name(expr, __ast_path) }
+                )
+                .parse()
+            }
+        }
     })
 }
 
-fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
+fn make_arm_from_struct(
+    mode: Mode,
+    type_name: &Ident,
+    path: &Path,
+    variant_name: Option<&Ident>,
+    variant: &Fields,
+    use_ast_path: bool,
+) -> Arm {
     let mut stmts = vec![];
     let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
 
@@ -819,10 +2298,24 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
             )
             .parse();
 
-            let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr);
+            let ast_path = if use_ast_path {
+                Some((
+                    type_name.clone(),
+                    field
+                        .ident
+                        .clone()
+                        .unwrap_or_else(|| variant_name.cloned().unwrap()),
+                ))
+            } else {
+                None
+            };
+
+            let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, ast_path);
             stmts.push(match mode {
-                Mode::VisitAll | Mode::Visit | Mode::VisitMut => Stmt::Semi(expr, call_site()),
-                Mode::Fold => q!(
+                Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
+                    Stmt::Semi(expr, call_site())
+                }
+                Mode::Fold { .. } => q!(
                     Vars {
                         name: &binding_ident,
                         expr
@@ -859,7 +2352,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
     }
 
     match mode {
-        Mode::Fold => {
+        Mode::Fold { .. } => {
             // Append return statement
             stmts.push(
                 q!(
@@ -875,7 +2368,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                 .parse(),
             )
         }
-        Mode::VisitAll | Mode::Visit | Mode::VisitMut => {}
+        Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {}
     }
 
     let block = Block {
@@ -905,31 +2398,45 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
         abi: None,
         fn_token: def_site(),
         ident: method_name(mode, ty),
-        generics: Default::default(),
+        generics: if let Mode::Visit(VisitorVariant::WithPath) = mode {
+            q!({<'ast: 'r, 'r>}).parse()
+        } else {
+            Default::default()
+        },
         paren_token: def_site(),
         inputs: {
             let mut p = Punctuated::default();
             p.push_value(q!(Vars {}, { &mut self }).parse());
             p.push_punct(def_site());
             match mode {
-                Mode::Fold => {
+                Mode::Fold { .. } => {
                     p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
                 }
 
-                Mode::VisitMut => {
+                Mode::VisitMut { .. } => {
                     p.push_value(q!(Vars { Type: ty }, { n: &mut Type }).parse());
                 }
 
-                Mode::Visit | Mode::VisitAll => {
+                Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
                     p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
                 }
+
+                Mode::Visit(VisitorVariant::WithPath) => {
+                    p.push_value(q!(Vars { Type: ty }, { n: &'ast Type }).parse());
+                }
+            }
+
+            if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+                p.push_punct(def_site());
+                let ty = ast_path_type(mode);
+                p.push_value(q!(Vars { Type: ty }, { __ast_path: Type }).parse());
             }
 
             p
         },
         variadic: None,
         output: match mode {
-            Mode::Fold => q!(Vars { ty }, { -> ty }).parse(),
+            Mode::Fold { .. } => q!(Vars { ty }, { -> ty }).parse(),
             _ => ReturnType::Default,
         },
     }
@@ -947,6 +2454,25 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
 
 /// Returns None if it's skipped.
 fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemMethod> {
+    let mut attrs = vec![];
+
+    {
+        attrs.push(make_doc_attr(
+            "This method can be overriden to customize the visitor behavior.",
+        ));
+        attrs.push(make_doc_attr(""));
+    }
+
+    if let Some(trait_name) = mode.name_of_trait_for_ast() {
+        let doc_str = format!(
+            "This calls [`{}::{}`] on `n` by default. The default method visit children nodes \
+             with `self`.",
+            trait_name,
+            mode.name_of_trait_children_method_for_ast().unwrap()
+        );
+        attrs.push(make_doc_attr(&doc_str));
+    }
+
     Some(match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
@@ -963,7 +2489,14 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             }
 
             let block = {
-                let arm = make_arm_from_struct(mode, &s.ident.clone().into(), &s.fields);
+                let arm = make_arm_from_struct(
+                    mode,
+                    &s.ident,
+                    &s.ident.clone().into(),
+                    None,
+                    &s.fields,
+                    true,
+                );
 
                 let mut match_expr: ExprMatch = q!((match n {})).parse();
                 match_expr.arms.push(arm);
@@ -977,7 +2510,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             let sig = method_sig_from_ident(mode, type_name);
 
             TraitItemMethod {
-                attrs: vec![],
+                attrs,
                 sig,
                 default: Some(block),
                 semi_token: None,
@@ -1000,6 +2533,8 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             let block = {
                 let mut arms = vec![];
 
+                let skip_ast_path = e.variants.iter().all(|v| v.fields.is_empty());
+
                 for variant in &e.variants {
                     for f in &variant.fields {
                         if skip(&f.ty) {
@@ -1010,6 +2545,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
 
                     let arm = make_arm_from_struct(
                         mode,
+                        &e.ident,
                         &q!(
                             Vars {
                                 Enum: &e.ident,
@@ -1018,8 +2554,11 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
                             { Enum::Variant }
                         )
                         .parse(),
+                        Some(&variant.ident),
                         &variant.fields,
+                        !skip_ast_path,
                     );
+
                     arms.push(arm);
                 }
 
@@ -1036,7 +2575,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
             };
 
             TraitItemMethod {
-                attrs: vec![],
+                attrs,
                 sig: method_sig_from_ident(mode, type_name),
                 default: Some(block),
                 semi_token: None,
@@ -1059,7 +2598,11 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             abi: None,
             fn_token: def_site(),
             ident,
-            generics: Default::default(),
+            generics: if let Mode::Visit(VisitorVariant::WithPath) = mode {
+                q!({<'ast: 'r, 'r>}).parse()
+            } else {
+                Default::default()
+            },
             paren_token: def_site(),
             inputs: {
                 let mut p = Punctuated::default();
@@ -1067,17 +2610,34 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 p.push_punct(def_site());
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
 
+                if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
+                    p.push_punct(def_site());
+                    p.push_value(
+                        q!(
+                            Vars {
+                                Type: ast_path_type(mode)
+                            },
+                            { __ast_path: Type }
+                        )
+                        .parse(),
+                    );
+                }
+
                 p
             },
             variadic: None,
             output: match mode {
-                Mode::Fold => q!(Vars { ty }, { -> ty }).parse(),
+                Mode::Fold { .. } => q!(Vars { ty }, { -> ty }).parse(),
                 _ => ReturnType::Default,
             },
         }
     }
 
     fn mk_ref(mode: Mode, ident: Ident, ty: &Type, mutable: bool) -> Signature {
+        if let Mode::Visit(VisitorVariant::WithPath) = mode {
+            return mk_exact(mode, ident, &q!(Vars { ty }, (&'ast ty)).parse());
+        }
+
         mk_exact(
             mode,
             ident,
@@ -1107,15 +2667,15 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 if let Some(arg) = as_box(ty) {
                     let ident = method_name(mode, arg);
                     match mode {
-                        Mode::Fold => {
+                        Mode::Fold { .. } => {
                             return mk_exact(mode, ident, arg);
                         }
 
-                        Mode::VisitMut => {
+                        Mode::VisitMut { .. } => {
                             return mk_ref(mode, ident, arg, true);
                         }
 
-                        Mode::Visit | Mode::VisitAll => {
+                        Mode::Visit { .. } | Mode::VisitAll => {
                             return mk_ref(mode, ident, arg, false);
                         }
                     }
@@ -1124,52 +2684,66 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 if let Some(arg) = extract_generic("Option", ty) {
                     let ident = method_name(mode, ty);
 
-                    if let Some(item) = extract_vec(arg) {
+                    if let Some(item) = extract_generic("Vec", arg) {
                         match mode {
-                            Mode::Fold => {
+                            Mode::Fold { .. } => {
                                 return mk_exact(
                                     mode,
                                     ident,
                                     &q!(Vars { item }, { Option<Vec<item>> }).parse(),
                                 );
                             }
-                            Mode::VisitMut => {
+                            Mode::VisitMut { .. } => {
                                 return mk_exact(
                                     mode,
                                     ident,
                                     &q!(Vars { item }, { &mut Option<Vec<item>> }).parse(),
                                 );
                             }
-                            Mode::Visit | Mode::VisitAll => {
+                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
                                 return mk_exact(
                                     mode,
                                     ident,
-                                    &q!(Vars { item }, { Option<&[item]> }).parse(),
+                                    &q!(Vars { item }, { Option<& [item]> }).parse(),
+                                );
+                            }
+                            Mode::Visit(VisitorVariant::WithPath) => {
+                                return mk_exact(
+                                    mode,
+                                    ident,
+                                    &q!(Vars { item }, { Option<&'ast [item]> }).parse(),
                                 );
                             }
                         }
                     }
 
                     match mode {
-                        Mode::Fold => {
+                        Mode::Fold { .. } => {
                             return mk_exact(
                                 mode,
                                 ident,
                                 &q!(Vars { arg }, { Option<arg> }).parse(),
                             );
                         }
-                        Mode::VisitMut => {
+                        Mode::VisitMut { .. } => {
                             return mk_exact(
                                 mode,
                                 ident,
                                 &q!(Vars { arg }, { &mut Option<arg> }).parse(),
                             );
                         }
-                        Mode::Visit | Mode::VisitAll => {
+                        Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
                             return mk_exact(
                                 mode,
                                 ident,
-                                &q!(Vars { arg }, { Option<&arg> }).parse(),
+                                &q!(Vars { arg }, { Option<& arg> }).parse(),
+                            );
+                        }
+                        Mode::Visit(VisitorVariant::WithPath) => {
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &q!(Vars { arg }, { Option<&'ast arg> }).parse(),
                             );
                         }
                     }
@@ -1185,14 +2759,14 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                     let ident = method_name(mode, ty);
 
                                     match mode {
-                                        Mode::Fold => {
+                                        Mode::Fold { .. } => {
                                             return mk_exact(
                                                 mode,
                                                 ident,
                                                 &q!(Vars { arg }, { Vec<arg> }).parse(),
                                             );
                                         }
-                                        Mode::VisitMut => {
+                                        Mode::VisitMut { .. } => {
                                             return mk_ref(
                                                 mode,
                                                 ident,
@@ -1200,7 +2774,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                                 true,
                                             );
                                         }
-                                        Mode::Visit | Mode::VisitAll => {
+                                        Mode::Visit { .. } | Mode::VisitAll => {
                                             return mk_ref(
                                                 mode,
                                                 ident,
@@ -1219,9 +2793,9 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             }
 
             match mode {
-                Mode::Fold => mk_exact(mode, ident, ty),
-                Mode::VisitMut => mk_ref(mode, ident, ty, true),
-                Mode::Visit | Mode::VisitAll => mk_ref(mode, ident, ty, false),
+                Mode::Fold { .. } => mk_exact(mode, ident, ty),
+                Mode::VisitMut { .. } => mk_ref(mode, ident, ty, true),
+                Mode::Visit { .. } | Mode::VisitAll => mk_ref(mode, ident, ty, false),
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
@@ -1237,18 +2811,25 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 fn create_method_body(mode: Mode, ty: &Type) -> Block {
     if let Some(ty) = extract_generic("Arc", ty) {
         match mode {
-            Mode::Visit | Mode::VisitAll => {
+            Mode::Visit(..) | Mode::VisitAll => {
                 let visit = method_name(mode, ty);
+                let visit = inject_ast_path_arg_if_required(
+                    mode,
+                    q!(Vars { visit }, { _visitor.visit(n) }).parse(),
+                );
 
-                return q!(Vars { visit }, ({ _visitor.visit(n) })).parse();
+                return Block {
+                    brace_token: Default::default(),
+                    stmts: vec![Stmt::Expr(visit)],
+                };
             }
-            Mode::VisitMut => {
+            Mode::VisitMut { .. } => {
                 return Block {
                     brace_token: def_site(),
                     stmts: vec![],
                 }
             }
-            Mode::Fold => return q!(({ n })).parse(),
+            Mode::Fold { .. } => return q!(({ n })).parse(),
         }
     }
 
@@ -1267,16 +2848,21 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             if !last.arguments.is_empty() {
                 if let Some(arg) = as_box(ty) {
                     match mode {
-                        Mode::Fold => {
+                        Mode::Fold(..) => {
                             let ident = method_name(mode, arg);
+                            let inner = inject_ast_path_arg_if_required(
+                                mode,
+                                q!(Vars { ident }, { _visitor.ident(*n) }).parse(),
+                            );
 
                             return q!(
-                                Vars { ident },
-                                ({ swc_visit::util::map::Map::map(n, |n| _visitor.ident(*n)) })
+                                Vars { inner },
+                                ({ swc_visit::util::map::Map::map(n, |n| inner) })
                             )
                             .parse();
                         }
-                        Mode::VisitAll | Mode::Visit | Mode::VisitMut => {
+
+                        Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
                             return create_method_body(mode, arg);
                         }
                     }
@@ -1291,16 +2877,21 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, arg);
 
-                                    if mode == Mode::Fold {
+                                    if let Mode::Fold(..) = mode {
                                         if let Some(..) = as_box(arg) {
+                                            let inner = inject_ast_path_arg_if_required(
+                                                mode,
+                                                q!(Vars { ident }, { _visitor.ident(n) }).parse(),
+                                            );
+
                                             return q!(
-                                                Vars { ident },
+                                                Vars { inner },
                                                 ({
                                                     match n {
                                                         Some(n) => {
                                                             Some(swc_visit::util::map::Map::map(
                                                                 n,
-                                                                |n| _visitor.ident(n),
+                                                                |n| inner,
                                                             ))
                                                         }
                                                         None => None,
@@ -1312,38 +2903,41 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     }
 
                                     return match mode {
-                                        Mode::Fold => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => Some(_visitor.ident(n)),
-                                                    None => None,
-                                                }
-                                            })
-                                        )
-                                        .parse(),
+                                        Mode::Fold(..) => {
+                                            let inner = inject_ast_path_arg_if_required(
+                                                mode,
+                                                q!(Vars { ident }, { _visitor.ident(n) }).parse(),
+                                            );
 
-                                        Mode::VisitMut => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => _visitor.ident(n),
-                                                    None => {}
-                                                }
-                                            })
-                                        )
-                                        .parse(),
+                                            q!(
+                                                Vars { inner },
+                                                ({
+                                                    match n {
+                                                        Some(n) => Some(inner),
+                                                        None => None,
+                                                    }
+                                                })
+                                            )
+                                            .parse()
+                                        }
 
-                                        Mode::Visit | Mode::VisitAll => q!(
-                                            Vars { ident },
-                                            ({
-                                                match n {
-                                                    Some(n) => _visitor.ident(n),
-                                                    None => {}
-                                                }
-                                            })
-                                        )
-                                        .parse(),
+                                        Mode::VisitMut(..) | Mode::Visit(..) | Mode::VisitAll => {
+                                            let inner = inject_ast_path_arg_if_required(
+                                                mode,
+                                                q!(Vars { ident }, { _visitor.ident(n) }).parse(),
+                                            );
+
+                                            q!(
+                                                Vars { inner },
+                                                ({
+                                                    match n {
+                                                        Some(n) => inner,
+                                                        None => {}
+                                                    }
+                                                })
+                                            )
+                                            .parse()
+                                        }
                                     };
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
@@ -1353,98 +2947,179 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     }
                 }
 
-                if last.ident == "Vec" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
+                if let Some(arg) = extract_generic("Vec", ty) {
+                    let ident = method_name(mode, arg);
 
-                            match arg {
-                                GenericArgument::Type(arg) => {
-                                    let ident = method_name(mode, arg);
-
-                                    match mode {
-                                        Mode::Fold => {
-                                            if let Some(..) = as_box(arg) {
-                                                return q!(
-                                                    Vars { ident },
-                                                    ({
-                                                        swc_visit::util::move_map::MoveMap::move_map(
-                                                            n,
-                                                            |v| swc_visit::util::map::Map::map(v, |v|_visitor.ident(v)),
-                                                        )
+                    match mode {
+                        Mode::Fold(v) => {
+                            if let Some(..) = as_box(arg) {
+                                return match v {
+                                    VisitorVariant::Normal => q!(
+                                        Vars { ident },
+                                        ({
+                                            swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                                swc_visit::util::map::Map::map(v, |v| {
+                                                    _visitor.ident(v)
+                                                })
+                                            })
+                                        })
+                                    )
+                                    .parse(),
+                                    VisitorVariant::WithPath => q!(
+                                        Vars { ident },
+                                        ({
+                                            n.into_iter()
+                                                .enumerate()
+                                                .map(|(idx, v)| {
+                                                    __ast_path.with_index(idx, |__ast_path| {
+                                                        swc_visit::util::map::Map::map(v, |v| {
+                                                            _visitor.ident(v, __ast_path)
+                                                        })
                                                     })
-                                                )
-                                                .parse();
-                                            }
-                                        }
-                                        Mode::Visit | Mode::VisitAll => {}
-                                        Mode::VisitMut => {}
-                                    }
-
-                                    return if is_option(arg) {
-                                        match mode {
-                                            Mode::Fold => q!(
-                                                Vars { ident },
-                                                ({
-                                                    swc_visit::util::move_map::MoveMap::move_map(
-                                                        n,
-                                                        |v| _visitor.ident(v),
-                                                    )
                                                 })
-                                            )
-                                            .parse(),
-                                            Mode::VisitMut => q!(
-                                                Vars { ident },
-                                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
-                                            )
-                                            .parse(),
-                                            Mode::Visit | Mode::VisitAll => q!(
-                                                Vars { ident },
-                                                ({
-                                                    n.iter()
-                                                        .for_each(|v| _visitor.ident(v.as_ref()))
-                                                })
-                                            )
-                                            .parse(),
-                                        }
-                                    } else {
-                                        match mode {
-                                            Mode::Fold => q!(
-                                                Vars { ident },
-                                                ({
-                                                    swc_visit::util::move_map::MoveMap::move_map(
-                                                        n,
-                                                        |v| _visitor.ident(v),
-                                                    )
-                                                })
-                                            )
-                                            .parse(),
-
-                                            Mode::VisitMut => q!(
-                                                Vars { ident },
-                                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
-                                            )
-                                            .parse(),
-
-                                            Mode::Visit | Mode::VisitAll => q!(
-                                                Vars { ident },
-                                                ({ n.iter().for_each(|v| _visitor.ident(v,)) })
-                                            )
-                                            .parse(),
-                                        }
-                                    };
-                                }
-                                _ => unimplemented!("generic parameter other than type"),
+                                                .collect()
+                                        })
+                                    )
+                                    .parse(),
+                                };
                             }
                         }
-                        _ => unimplemented!("Vec() -> Ret or Vec without a type parameter"),
+                        Mode::Visit { .. } | Mode::VisitAll | Mode::VisitMut { .. } => {}
                     }
+
+                    return if is_option(arg) {
+                        match mode {
+                            Mode::Fold(VisitorVariant::Normal) => q!(
+                                Vars { ident },
+                                ({
+                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                        _visitor.ident(v)
+                                    })
+                                })
+                            )
+                            .parse(),
+
+                            Mode::Fold(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    n.into_iter()
+                                        .enumerate()
+                                        .map(|(idx, v)| {
+                                            __ast_path.with_index(idx, |__ast_path| {
+                                                _visitor.ident(v, __ast_path)
+                                            })
+                                        })
+                                        .collect()
+                                })
+                            )
+                            .parse(),
+
+                            Mode::VisitMut(VisitorVariant::Normal) => q!(
+                                Vars { ident },
+                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
+                            )
+                            .parse(),
+
+                            Mode::VisitMut(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    n.iter_mut().enumerate().for_each(|(idx, v)| {
+                                        __ast_path.with_index(idx, |__ast_path| {
+                                            _visitor.ident(v, __ast_path)
+                                        })
+                                    })
+                                })
+                            )
+                            .parse(),
+
+                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
+                                Vars { ident },
+                                ({ n.iter().for_each(|v| _visitor.ident(v.as_ref())) })
+                            )
+                            .parse(),
+
+                            Mode::Visit(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    n.iter().enumerate().for_each(|(idx, v)| {
+                                        __ast_path.with_index(idx, |__ast_path| {
+                                            _visitor.ident(v.as_ref(), __ast_path)
+                                        })
+                                    })
+                                })
+                            )
+                            .parse(),
+                        }
+                    } else {
+                        match mode {
+                            Mode::Fold(VisitorVariant::Normal) => q!(
+                                Vars { ident },
+                                ({
+                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                        _visitor.ident(v)
+                                    })
+                                })
+                            )
+                            .parse(),
+
+                            Mode::Fold(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    n.into_iter()
+                                        .enumerate()
+                                        .map(|(idx, v)| {
+                                            __ast_path.with_index(idx, |__ast_path| {
+                                                _visitor.ident(v, __ast_path)
+                                            })
+                                        })
+                                        .collect()
+                                })
+                            )
+                            .parse(),
+
+                            Mode::VisitMut(VisitorVariant::Normal) => q!(
+                                Vars { ident },
+                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
+                            )
+                            .parse(),
+
+                            Mode::VisitMut(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    n.iter_mut().enumerate().for_each(|(idx, v)| {
+                                        __ast_path.with_index(idx, |__ast_path| {
+                                            _visitor.ident(v, __ast_path)
+                                        })
+                                    })
+                                })
+                            )
+                            .parse(),
+
+                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
+                                Vars { ident },
+                                ({ n.iter().for_each(|v| _visitor.ident(v)) })
+                            )
+                            .parse(),
+
+                            Mode::Visit(VisitorVariant::WithPath) => q!(
+                                Vars { ident },
+                                ({
+                                    n.iter().enumerate().for_each(|(idx, v)| {
+                                        __ast_path.with_index(idx, |__ast_path| {
+                                            _visitor.ident(v, __ast_path)
+                                        })
+                                    })
+                                })
+                            )
+                            .parse(),
+                        }
+                    };
                 }
             }
 
             match mode {
-                Mode::Fold => q!(({ return n })).parse(),
-                Mode::VisitAll | Mode::Visit | Mode::VisitMut => q!(({})).parse(),
+                Mode::Fold { .. } => q!(({ return n })).parse(),
+                Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => q!(({})).parse(),
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
@@ -1509,16 +3184,16 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
         }
     }
 
-    None
-}
+    if let Type::Reference(r) = ty {
+        return extract_generic(name, &r.elem);
+    }
 
-fn extract_vec(ty: &Type) -> Option<&Type> {
-    extract_generic("Vec", ty)
+    None
 }
 
 fn is_opt_vec(ty: &Type) -> bool {
     if let Some(inner) = extract_generic("Option", ty) {
-        extract_vec(inner).is_some()
+        extract_generic("Vec", inner).is_some()
     } else {
         false
     }
@@ -1552,6 +3227,14 @@ fn method_name_as_str(mode: Mode, ty: &Type) -> String {
     format!("{}_{}", mode.prefix(), suffix(ty))
 }
 
+fn ast_path_type(mode: Mode) -> Type {
+    match mode {
+        Mode::Visit(_) => q!((&mut AstNodePath<'r>)).parse(),
+        Mode::VisitMut(_) | Mode::Fold(_) => q!((&mut AstKindPath)).parse(),
+        _ => unreachable!(),
+    }
+}
+
 fn method_name(mode: Mode, ty: &Type) -> Ident {
     let span = ty.span();
     Ident::new(&method_name_as_str(mode, ty), span)
@@ -1577,7 +3260,45 @@ fn skip(ty: &Type) -> bool {
                 || i == "u8"
                 || i == "isize"
                 || i == "i128"
+                || i == "i64"
+                || i == "i32"
+                || i == "i16"
+                || i == "i8"
+                || i == "char"
+                || i == "f32"
+                || i == "f64"
         }
+        Type::Reference(r) => skip(&r.elem),
         _ => false,
     }
+}
+
+fn feature_path_attrs() -> Vec<Attribute> {
+    vec![
+        Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg }).parse(),
+            tokens: q!({ (any(feature = "path", docsrs)) }).into(),
+        },
+        Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ cfg_attr }).parse(),
+            tokens: q!({ (docsrs, doc(cfg(feature = "path"))) }).into(),
+        },
+    ]
+}
+
+fn inject_ast_path_arg_if_required(mode: Mode, mut visit_expr: ExprMethodCall) -> Expr {
+    match mode.visitor_variant() {
+        Some(VisitorVariant::WithPath) => {}
+        _ => return Expr::MethodCall(visit_expr),
+    }
+
+    visit_expr.args.push(q!((__ast_path)).parse());
+
+    Expr::MethodCall(visit_expr)
 }

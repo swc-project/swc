@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+/** 등록된 계좌+회원의 정보  */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
 import _ts_metadata from "@swc/helpers/src/_ts_metadata.mjs";
 export var AccountMemberView = function AccountMemberView() {

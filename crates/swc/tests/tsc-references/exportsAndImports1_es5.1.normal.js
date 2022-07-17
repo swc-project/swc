@@ -1,8 +1,8 @@
+// @module: commonjs
+// @filename: t1.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: t3.ts
 import { I, T } from "./t1";
-// @module: commonjs
-// @filename: t1.ts
 var v = 1;
 function f() {}
 var C = function C() {

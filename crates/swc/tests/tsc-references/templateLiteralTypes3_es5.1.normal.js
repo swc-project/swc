@@ -1,3 +1,6 @@
+// @strict: true
+// @declaration: true
+// Inference from template literal type to template literal type
 function f1(s, n, b, t) {
     var x1 = foo1("hello"); // Error
     var x2 = foo1("*hello*");

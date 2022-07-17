@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @declaration: true
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function ExpandoDecl(n) {
     return n.toString();
 }
@@ -77,9 +77,9 @@ ExpandoClass.m = function(n) {
 };
 var n = ExpandoClass.prop + ExpandoClass.m(12) + new ExpandoClass().n;
 // Class expressions shouldn't work in typescript either
-var ExpandoExpr3 = function _class() {
+var ExpandoExpr3 = function ExpandoExpr3() {
     "use strict";
-    _class_call_check(this, _class);
+    _class_call_check(this, ExpandoExpr3);
     this.n = 10001;
 };
 ExpandoExpr3.prop = 3;

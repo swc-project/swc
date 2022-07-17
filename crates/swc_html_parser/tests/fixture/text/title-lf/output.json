@@ -47,7 +47,8 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -67,7 +68,8 @@
                     "end": 62,
                     "ctxt": 0
                   },
-                  "data": "\n\n        Test\n\n    "
+                  "data": "\n\n        Test\n\n    ",
+                  "raw": "\n\n        Test\n\n    "
                 }
               ],
               "content": null,
@@ -80,7 +82,8 @@
                 "end": 71,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -93,7 +96,8 @@
             "end": 79,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -113,7 +117,8 @@
                 "end": 87,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -133,7 +138,8 @@
                     "end": 110,
                     "ctxt": 0
                   },
-                  "data": "This is a paragraph."
+                  "data": "This is a paragraph.",
+                  "raw": "This is a paragraph."
                 }
               ],
               "content": null,
@@ -146,7 +152,8 @@
                 "end": 115,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -166,7 +173,8 @@
                     "end": 144,
                     "ctxt": 0
                   },
-                  "data": "This is another paragraph."
+                  "data": "This is another paragraph.",
+                  "raw": "This is another paragraph."
                 }
               ],
               "content": null,
@@ -179,7 +187,8 @@
                 "end": 166,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

@@ -1,11 +1,11 @@
+// @strict: true
+// @target: esnext, es2022
+// @useDefineForClassFields: false
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _p1 = /*#__PURE__*/ new WeakMap();
-// @strict: true
-// @target: esnext, es2022
-// @useDefineForClassFields: false
 class Foo {
     m1(v) {
         _class_private_field_get(this, _p1).call(this, v);

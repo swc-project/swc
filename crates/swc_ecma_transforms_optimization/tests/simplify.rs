@@ -2,15 +2,11 @@
 
 #![deny(warnings)]
 
-use std::{cell::RefCell, rc::Rc};
-
 use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{helpers::inject_helpers, resolver};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
-use swc_ecma_transforms_module::{
-    common_js::common_js, import_analysis::import_analyzer, util::Scope,
-};
+use swc_ecma_transforms_module::{common_js::common_js, import_analysis::import_analyzer};
 use swc_ecma_transforms_optimization::simplify::{
     dce::dce, dead_branch_remover, expr_simplifier, inlining::inlining, simplifier,
 };
@@ -569,7 +565,6 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             decorators(Default::default()),
             resolver(unresolved_mark, top_level_mark, false),
@@ -577,7 +572,7 @@ test!(
             class_properties(Some(t.comments.clone()), Default::default()),
             simplifier(unresolved_mark, Default::default()),
             es2018(Default::default()),
-            es2017(Default::default()),
+            es2017(Default::default(), unresolved_mark),
             es2016(),
             es2015(
                 unresolved_mark,
@@ -585,9 +580,14 @@ test!(
                 Default::default()
             ),
             es3(true),
-            import_analyzer(Rc::clone(&scope)),
+            import_analyzer(false.into(), false),
             inject_helpers(),
-            common_js(Mark::fresh(Mark::root()), Default::default(), Some(scope)),
+            common_js(
+                Mark::fresh(Mark::root()),
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            ),
         )
     },
     issue_389_3,
@@ -597,6 +597,9 @@ Foo.bar = true;
 ",
     "
 \"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
+    value: true
+});
 var _foo = _interopRequireDefault(require(\"foo\"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {

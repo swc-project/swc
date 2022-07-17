@@ -1,3 +1,9 @@
+// @strictNullChecks: true
+// @filename: file.tsx
+// @jsx: preserve
+// @noLib: true
+// @skipLibCheck: true
+// @libFiles: lib.d.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";

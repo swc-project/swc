@@ -2,13 +2,14 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getPackage = getPackage;
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _path = require("path");
+Object.defineProperty(exports, "getPackage", {
+    enumerable: true,
+    get: ()=>getPackage
+});
+const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _path = require("path");
 async function getPackage() {
-    const pkg = await Promise.resolve(`${(0, _path).join(process.cwd(), "package.json")}`).then(function(s) {
-        return _interop_require_wildcard(require(s));
-    });
+    const pkg = await Promise.resolve((0, _path.join)(process.cwd(), "package.json")).then((p)=>/*#__PURE__*/ _interopRequireWildcard(require(p)));
     return pkg.default || pkg;
 }
 (async function() {

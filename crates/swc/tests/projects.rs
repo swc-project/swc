@@ -231,7 +231,7 @@ fn issue_225() {
     println!("{}", s);
 
     assert!(s.contains("function _interopRequireDefault"));
-    assert!(s.contains("var _foo = _interopRequireDefault(require(\"foo\"))"));
+    assert!(s.contains("_interopRequireDefault(require(\"foo\"))"));
 }
 
 /// should handle exportNamespaceFrom configured by .swcrc
@@ -412,7 +412,7 @@ fn issue_605() {
     let f = file("tests/projects/issue-605/input.js").unwrap();
     println!("{}", f);
 
-    assert!(f.contains("Object.keys(_c)"));
+    assert!(f.contains(r#"_exportStar(require("c"), exports);"#));
 }
 
 #[test]
@@ -597,7 +597,7 @@ fn issue_895() {
     println!("{}", f);
 
     assert!(f.contains("_url ="));
-    assert!(f.contains("(0, _url).queryString"));
+    assert!(f.contains("(0, _url.queryString)"));
     let s = f.replace("_url =", "").replace("_url.queryString", "");
 
     assert!(!s.contains("_url."));

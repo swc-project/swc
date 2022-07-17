@@ -1,3 +1,6 @@
+// @target: es2018
+// @lib: esnext
+// @noEmit: true
 import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
@@ -7,10 +10,7 @@ function inferReturnType1() {
     return _inferReturnType1.apply(this, arguments);
 }
 function _inferReturnType1() {
-    _inferReturnType1 = // @target: es2018
-    // @lib: esnext
-    // @noEmit: true
-    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _inferReturnType1 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

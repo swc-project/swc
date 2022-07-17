@@ -14,7 +14,8 @@
         "end": 48,
         "ctxt": 0
       },
-      "data": "?import namespace=\"foo\" implementation=\"#bar\""
+      "data": "?import namespace=\"foo\" implementation=\"#bar\"",
+      "raw": "<?import namespace=\"foo\" implementation=\"#bar\">"
     },
     {
       "type": "Element",

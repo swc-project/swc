@@ -49,7 +49,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "data"
+                  "rawName": "type",
+                  "value": "data",
+                  "rawValue": "\"data\""
                 }
               ],
               "children": [
@@ -60,7 +62,8 @@
                     "end": 50,
                     "ctxt": 0
                   },
-                  "data": "<!--<script></scrip></SCRIPT>"
+                  "data": "<!--<script></scrip></SCRIPT>",
+                  "raw": "<!--<script></scrip></SCRIPT>"
                 }
               ],
               "content": null,

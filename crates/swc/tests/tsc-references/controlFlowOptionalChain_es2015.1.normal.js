@@ -1,3 +1,6 @@
+// @strict: true
+// @allowUnreachableCode: false
+// assignments in shortcutting chain
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
 let a;
 o === null || o === void 0 ? void 0 : o[a = 1];

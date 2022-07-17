@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // any is not a valid type argument unless there is no constraint, or the constraint is any
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function foo(x) {
     return null;
 }

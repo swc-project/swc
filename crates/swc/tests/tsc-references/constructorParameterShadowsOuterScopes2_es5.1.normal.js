@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: esnext
 // @useDefineForClassFields: true
 // With useDefineForClassFields: true and ESNext target, initializer
@@ -10,6 +9,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // the constructor body.
 // Note that when class fields are accepted in the ECMAScript
 // standard, the target will become that year's ES20xx
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var x = 1;
 var C = function C(x1) {
     "use strict";

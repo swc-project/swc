@@ -40,9 +40,9 @@
 </ul>
 
 <p>
-      Hey, I <em>just</em> found
-      out about this <strong>cool</strong> website!
-      <sup>[1]</sup>
+    Hey, I <em>just</em> found
+    out about this <strong>cool</strong> website!
+    <sup>[1]</sup>
 </p>
 
 <pre>
@@ -68,7 +68,7 @@
 
 
 
-bar</div>
+    bar</div>
 
 <textarea>
 
@@ -110,7 +110,7 @@ bar</div>
     </a>
 </svg>
 
-<script>
+<script data-test="test">
 
 
 
@@ -136,6 +136,310 @@ bar</div>
 <div>
     foo <img src="https://prettier.io/icon.png" />
 </div>
+
+<div>
+    text <img src="https://colourlex.com/wp-content/uploads/2021/02/vine-black-painted-swatch.jpg" alt="test"> test
+</div>
+
+<span>test<script>console.log("test")</script>test</span>
+<span>test <script>console.log("test")</script> test</span>
+
+<div>
+
+    <p>blah</p>
+
+</div>
+
+<div>test  <br>  test</div>
+<div>test  <wbr>  test</div>
+<div> a <input><!-- b --> c </div>
+
+<div> <div>a</div> <div>b</div> </div>
+
+<div><span> a </span> <span>b</span></div>
+<div><div>test</div> <span>test</span></div>
+<div>
+    <div>test</div>
+    <span>test</span>
+</div>
+<div>
+    <span>test</span>
+    <div>test</div>
+</div>
+<div>
+    <span>test</span>
+    <span>test</span>
+</div>
+<div>
+    <div>test</div>
+    <div>test</div>
+</div>
+
+<div>
+    <span>test</span>
+    <p>test</p>
+    <p>test</p>
+    <p>test</p>
+</div>
+
+<div>
+    <p>test</p>
+    <p>test</p>
+    <p>test</p>
+    <span>test</span>
+</div>
+
+<div>
+    <a href="test">
+        test
+    </a>
+    <a href="test">test</a>
+</div>
+
+<div>
+    <a href="test">test</a><a href="test">test</a>
+</div>
+
+<div>
+
+    <p>blah</p>
+
+</div>
+
+<div>test <button>test</button></div>
+<div><button>test</button> <button>test</button></div>
+<div>foo <button>test</button> foo</div>
+<div>foo<button>test</button>foo</div>
+<div>foo <button>test</button>foo</div>
+<div>foo<button>test</button> foo</div>
+<div>foo<button> test </button>foo</div>
+<div>foo <button> test </button>foo</div>
+<div>foo<button> test </button> foo</div>
+
+<div><span> foo </span></div>
+<p>foo <img> bar</p>
+<p>foo<img>bar</p>
+<p>foo <img>bar</p>
+<p>foo<img> bar</p>
+<p>foo <wbr> bar</p>
+<p>foo <br> bar</p>
+<p>foo <nobr>a</nobr> bar</p>
+<div>&nbsp;fo&nbsp;o&nbsp;</div>
+<div>&#8202;fo&#8202;o&#8202;</div>
+<p><!-- test --></p>
+<p>a <!-- test --> b</p>
+
+<div class="leaveAlone"></div><div> foo  bar </div>
+<div class="leaveAlone"><div></div><span> </span> foo  bar</div>
+<div class="leaveAlone"><span> </span> foo  bar</div>
+<p>foo <span></span></p>
+<p>foo<span></span></p>
+
+<div>foo <button> test </button> foo</div>
+<div>foo <button> test </button> foo <button> test </button> foo</div>
+<div> foo <span>foo</span> foo</div>
+<div> foo<span> foo</span>foo </div>
+
+<div> <span>a </span> b<span> c</span> </div>
+<div> <span>a </span> b <span> c</span> </div>
+<div> <span>a </span> b <span>c</span> </div>
+
+<div>foo <span> baz</span></div>
+<div>foo <span>baz</span></div>
+<div>foo<span> baz</span></div>
+<div>foo<span>baz</span></div>
+
+<span>test </span><span><span><span><span>foo <span>baz</span></span></span></span></span>
+<span><span><span><span>foo <span>baz</span></span></span></span></span><span>test </span>
+
+<div>test </div><span><span><span><span>foo <span>baz</span></span></span></span></span>
+<span><span><span><span>foo <span>baz</span></span></span></span></span><div>test </div>
+
+<div><div>
+
+<!--test-->
+
+</div></div>
+
+<pre>
+    foo
+    <!-- bar -->
+    baz
+</pre>
+
+<div> a <input> c </div>
+
+<div>Empty <!-- NOT --> </div>
+
+<!--[if lte IE 6]>
+    <span>A</span> <span title=" sigificant     whitespace   ">blah blah</span>
+<![endif]-->
+
+<div> <a href="#"> <span> <b> foo </b> <i> bar </i> </span> </a> </div>
+
+<div>a <!-- text --><!-- text --> b</div>
+
+<div>a <!-- text --> b <!-- text --> c  <!-- text -->  d</div>
+
+<div> <!-- test --> text <!-- test --></div>
+
+<span> <!-- test --> text </span>
+<span> text <!-- test --> </span>
+
+<div>
+    <span>test</span>
+    <base>
+    <span>test</span>
+</div>
+
+<div>
+    <span>test</span>
+    <command>test</command>
+    <span>test</span>
+</div>
+
+<div>
+    <span>test</span>
+    <link rel="stylesheet" href="">
+    <span>test</span>
+</div>
+
+<div>
+    <span>test</span>
+    <meta name="content">
+    <span>test</span>
+</div>
+
+<div>
+    <span>test</span>
+    <script>console.log("test")</script>
+    <span>test</span>
+</div>
+
+<div>
+    <span>test</span>
+    <style>a { color: red; }</style>
+    <span>test</span>
+</div>
+
+<div>
+    <span>test</span>
+    <title>test</title>
+    <span>test</span>
+</div>
+
+<div>
+    <meta name="test">
+    <meta name="test">
+</div>
+
+<div>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="">
+</div>
+
+<div>
+    <script>console.log("test")</script>
+    <script>console.log("test")</script>
+</div>
+
+<div>
+    <script>console.log("test")</script>
+    <span>test</span>
+    <script>console.log("test")</script>
+</div>
+
+<div>
+    <style>a { color: red; }</style>
+    <style>a { color: red; }</style>
+</div>
+
+<div>
+    <script>console.log("test")</script>
+    <style>a { color: red; }</style>
+</div>
+
+<div>
+    <span itemscope><meta itemprop="name" content="The Castle">test</span>
+    <span>test</span>
+</div>
+
+<div>     <meta name="test">       </div>
+<div>     <style>a { color: red; }</style>       </div>
+
+<div>
+    <meta name="test">
+    <div>test</div>
+    <meta name="test">
+</div>
+
+<div>
+    <meta name="test">
+    <span>test</span>
+    <meta name="test">
+</div>
+
+<svg>
+    <title>test</title>
+    <metadata>test</metadata>
+    <desc>test</desc>
+</svg>
+
+<svg>
+    <a>test</a>
+    <a>test</a>
+</svg>
+
+<svg xmlns="http://www.w3.org/2000/svg">
+    <text x="20" y="35">
+        <tspan font-weight="bold" fill="red">This is bold and red</tspan>
+        <tspan font-weight="bold" fill="red">This is bold and red</tspan>
+    </text>
+</svg>
+
+<svg>
+    <tspan>test</tspan>
+    <foreignObject>test</foreignObject>
+</svg>
+
+<svg xmlns="http://www.w3.org/2000/svg">
+    <text x="20" y="35">
+        <tspan font-weight="bold" fill="red">This is bold and red</tspan>
+        <tspan font-weight="bold" fill="red">This is bold and red</tspan>
+    </text>
+</svg>
+
+<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
+    style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;">
+    <linearGradient id="gradient">
+        <stop class="begin" offset="0%"/>
+        <stop class="end" offset="100%"/>
+    </linearGradient>
+    <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+</svg>
+
+<svg>
+    <script>
+        console.log(   "test"   );
+    </script>
+</svg>
+
+
+<svg>
+    <style>
+        a { color: red; }
+    </style>
+</svg>
+
+<div>
+    <span>test</span> a   <!-- test -->b   <span>test</span>
+    <span>test</span> a<!-- test -->   b   <span>test</span>
+    <span>test</span> a   <!-- test -->   b   <span>test</span>
+</div>
+
+<div><foo-bar> <span>test</span> </foo-bar> <foo-bar> <span>test</span> </foo-bar></div>
+<div><svg> <linearGradient id=gradient /> </svg> <span>a</span></div>
 
 </body>
 </html>

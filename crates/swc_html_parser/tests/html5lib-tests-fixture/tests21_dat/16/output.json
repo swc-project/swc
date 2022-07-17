@@ -47,7 +47,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 20,
+                "end": 23,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -61,7 +61,8 @@
                     "end": 20,
                     "ctxt": 0
                   },
-                  "data": "<svg>"
+                  "data": "<svg>",
+                  "raw": "<svg>"
                 }
               ],
               "content": null,

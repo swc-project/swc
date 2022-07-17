@@ -1,3 +1,4 @@
+// duplicate property names are an error in all types
 class C {
     bar(x) {}
     bar(x) {}

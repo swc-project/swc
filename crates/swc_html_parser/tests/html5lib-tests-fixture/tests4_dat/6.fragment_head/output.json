@@ -24,7 +24,8 @@
             "end": 32,
             "ctxt": 0
           },
-          "data": "setting head's innerHTML"
+          "data": "setting head's innerHTML",
+          "raw": "setting head's innerHTML"
         }
       ],
       "content": null,

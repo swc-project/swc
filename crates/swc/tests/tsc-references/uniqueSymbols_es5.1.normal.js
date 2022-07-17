@@ -1,3 +1,8 @@
+// @target: esnext
+// @lib: esnext
+// @declaration: false
+// @useDefineForClassFields: false
+// declarations with call initializer
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _define_property from "@swc/helpers/src/_define_property.mjs";
@@ -7,11 +12,6 @@ var _marked = regeneratorRuntime.mark(genFuncYieldConstCallWithTypeQuery);
 var _marked1 = regeneratorRuntime.mark(genFuncYieldVarCall);
 var _marked2 = regeneratorRuntime.mark(genFuncYieldLetCall);
 var _marked3 = regeneratorRuntime.mark(genFuncYieldConstCall);
-// @target: esnext
-// @lib: esnext
-// @declaration: false
-// @useDefineForClassFields: false
-// declarations with call initializer
 var constCall = Symbol();
 var letCall = Symbol();
 var varCall = Symbol();
@@ -465,17 +465,17 @@ var o4 = {
 };
 var ce0 = /*#__PURE__*/ function() {
     "use strict";
-    function _class() {
-        _class_call_check(this, _class);
+    function ce0() {
+        _class_call_check(this, ce0);
     }
-    var _proto = _class.prototype;
+    var _proto = ce0.prototype;
     _proto.method1 = function method1(p) {
         return p;
     };
     _proto.method2 = function method2(p) {
         return p;
     };
-    return _class;
+    return ce0;
 }();
 function funcInferredReturnType(obj) {
     return obj;

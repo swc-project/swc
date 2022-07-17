@@ -1794,10 +1794,10 @@
                     "end": 613,
                     "ctxt": 0
                   },
-                  "before": "",
-                  "after": "",
                   "value": "path/to.png",
-                  "raw": "path/to.png"
+                  "before": "",
+                  "raw": "path/to.png",
+                  "after": ""
                 },
                 "modifiers": null
               },

@@ -61,7 +61,8 @@
                     "end": 7,
                     "ctxt": 0
                   },
-                  "data": "One"
+                  "data": "One",
+                  "raw": "One"
                 }
               ],
               "content": null,
@@ -85,7 +86,8 @@
                     "end": 13,
                     "ctxt": 0
                   },
-                  "data": "Two"
+                  "data": "Two",
+                  "raw": "Two"
                 }
               ],
               "content": null,

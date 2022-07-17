@@ -47,7 +47,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 11,
+                "end": 17,
                 "ctxt": 0
               },
               "tagName": "foo",
@@ -61,13 +61,14 @@
                     "end": 7,
                     "ctxt": 0
                   },
-                  "data": "1"
+                  "data": "1",
+                  "raw": "1"
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 11,
+                    "end": 17,
                     "ctxt": 0
                   },
                   "tagName": "p",
@@ -81,7 +82,8 @@
                         "end": 11,
                         "ctxt": 0
                       },
-                      "data": "2"
+                      "data": "2",
+                      "raw": "2"
                     }
                   ],
                   "content": null,

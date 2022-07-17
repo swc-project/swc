@@ -1,13 +1,13 @@
+// @target: ES5
+// @lib: es5,es2015.promise
+// @noEmitHelpers: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 function _await() {
     return _await1.apply(this, arguments);
 }
 function _await1() {
-    _await1 = // @target: ES5
-    // @lib: es5,es2015.promise
-    // @noEmitHelpers: true
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _await1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

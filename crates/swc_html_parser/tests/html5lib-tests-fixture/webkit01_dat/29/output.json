@@ -72,7 +72,8 @@
                         "end": 18,
                         "ctxt": 0
                       },
-                      "data": "A"
+                      "data": "A",
+                      "raw": "A"
                     }
                   ],
                   "content": null,
@@ -100,7 +101,8 @@
                     "end": 35,
                     "ctxt": 0
                   },
-                  "data": "B"
+                  "data": "B",
+                  "raw": "B"
                 },
                 {
                   "type": "Element",
@@ -131,7 +133,8 @@
                             "end": 52,
                             "ctxt": 0
                           },
-                          "data": "C"
+                          "data": "C",
+                          "raw": "C"
                         }
                       ],
                       "content": null,
@@ -163,7 +166,8 @@
                     "end": 69,
                     "ctxt": 0
                   },
-                  "data": "D"
+                  "data": "D",
+                  "raw": "D"
                 },
                 {
                   "type": "Element",
@@ -194,7 +198,8 @@
                             "end": 86,
                             "ctxt": 0
                           },
-                          "data": "E"
+                          "data": "E",
+                          "raw": "E"
                         }
                       ],
                       "content": null,
@@ -212,7 +217,7 @@
               "type": "Element",
               "span": {
                 "start": 94,
-                "end": 120,
+                "end": 128,
                 "ctxt": 0
               },
               "tagName": "option",
@@ -226,7 +231,8 @@
                     "end": 103,
                     "ctxt": 0
                   },
-                  "data": "F"
+                  "data": "F",
+                  "raw": "F"
                 },
                 {
                   "type": "Element",
@@ -257,7 +263,8 @@
                             "end": 120,
                             "ctxt": 0
                           },
-                          "data": "G"
+                          "data": "G",
+                          "raw": "G"
                         }
                       ],
                       "content": null,

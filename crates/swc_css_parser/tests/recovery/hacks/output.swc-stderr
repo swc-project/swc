@@ -1,4 +1,28 @@
 
+  x Expected '--' at the start of custom property name
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :            ^^^^^
+     `----
+
+  x Expected Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :          ^
+     `----
+
+  x Expected function or ident tokens
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :           ^
+     `----
+
+  x Expected important
+     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
+ 180 | .selector { property: value !ie; }
+     :                             ^
+     `----
+
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
@@ -35,18 +59,6 @@
      : ^
      `----
 
-  x Expected function or ident tokens
-     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
- 112 | &property: value;
-     :           ^
-     `----
-
-  x Unexpected character `';'`
-     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
- 112 | &property: value;
-     :                 ^
-     `----
-
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:116:5]
  116 | *property: value;
@@ -75,18 +87,6 @@
      ,-[$DIR/tests/recovery/hacks/input.css:132:5]
  132 | +property: value;
      : ^
-     `----
-
-  x Expected Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
- 136 | @property: value;
-     :          ^
-     `----
-
-  x Expected '--' at the start of custom property name
-     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
- 136 | @property: value;
-     :            ^^^^^
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
@@ -147,12 +147,6 @@
      ,-[$DIR/tests/recovery/hacks/input.css:176:5]
  176 | |property: value;
      : ^
-     `----
-
-  x Expected important
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
- 180 | .selector { property: value !ie; }
-     :                             ^
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
@@ -219,4 +213,10 @@
      ,-[$DIR/tests/recovery/hacks/input.css:250:1]
  250 | a{*b:c}
      :   ^
+     `----
+
+  x Unexpected character `';'`
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :                 ^
      `----

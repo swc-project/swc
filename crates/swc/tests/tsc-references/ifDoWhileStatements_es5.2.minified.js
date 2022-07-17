@@ -17,21 +17,21 @@ var M, N, C = function() {
     _class_call_check(this, D);
 };
 for(!function(M) {
-    var A = function() {
+    var F2 = function(x) {
+        return x.toString();
+    }, A = function() {
         "use strict";
         _class_call_check(this, A);
     };
-    M.A = A, M.F2 = function(x) {
-        return x.toString();
-    };
+    M.A = A, M.F2 = F2;
 }(M || (M = {})), function(N) {
-    var A = function() {
+    var F2 = function(x) {
+        return x.toString();
+    }, A = function() {
         "use strict";
         _class_call_check(this, A);
     };
-    N.A = A, N.F2 = function(x) {
-        return x.toString();
-    };
+    N.A = A, N.F2 = F2;
 }(N || (N = {}));;);
 for(;;);
 for(;;);

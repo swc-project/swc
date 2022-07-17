@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 f10(42, "hello");
 f10(42, "hello", true);
 f10(42, "hello", true, false);

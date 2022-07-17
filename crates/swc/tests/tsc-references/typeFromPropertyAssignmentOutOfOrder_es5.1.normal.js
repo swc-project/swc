@@ -1,11 +1,11 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @target: es3
 // @filename: index.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 First.Item = function I() {
     "use strict";
     _class_call_check(this, I);

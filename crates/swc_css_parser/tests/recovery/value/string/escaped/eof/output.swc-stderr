@@ -1,12 +1,12 @@
 
-  x Expected Declaration value
+  x An invalid escape
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
  2 | color: \
    :        ^
    `----
 
-  x Unexpected end of file
+  x Expected Declaration value
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
  2 | color: \
-   :         ^
+   :        ^
    `----

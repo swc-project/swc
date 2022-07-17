@@ -1,8 +1,8 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @target: ES6
 // @module: commonjs
 // @filename: a.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var x = new Promise(function(resolve, reject) {
     resolve({});
 });

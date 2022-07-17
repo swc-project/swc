@@ -60,7 +60,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "text/javascript"
+                  "rawName": "type",
+                  "value": "text/javascript",
+                  "rawValue": "\"text/javascript\""
                 }
               ],
               "children": [
@@ -71,7 +73,8 @@
                     "end": 88,
                     "ctxt": 0
                   },
-                  "data": "\n//<![CDATA[\ndocument.write(\"<\");\n//]]>\n"
+                  "data": "\n//<![CDATA[\ndocument.write(\"<\");\n//]]>\n",
+                  "raw": "\n//<![CDATA[\ndocument.write(\"<\");\n//]]>\n"
                 }
               ],
               "content": null,
@@ -84,7 +87,8 @@
                 "end": 98,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -104,7 +108,8 @@
                     "end": 163,
                     "ctxt": 0
                   },
-                  "data": "\n    let foo = \"<!--<script>-->\";\n\n    console.log(foo);\n"
+                  "data": "\n    let foo = \"<!--<script>-->\";\n\n    console.log(foo);\n",
+                  "raw": "\n    let foo = \"<!--<script>-->\";\n\n    console.log(foo);\n"
                 }
               ],
               "content": null,

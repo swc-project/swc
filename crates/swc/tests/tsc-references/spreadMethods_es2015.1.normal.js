@@ -1,6 +1,6 @@
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 // @target: esnext
 // @useDefineForClassFields: false
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 class K {
     m() {}
     get g() {

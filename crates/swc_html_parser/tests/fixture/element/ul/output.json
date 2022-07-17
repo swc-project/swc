@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -157,7 +164,8 @@
                         "end": 96,
                         "ctxt": 0
                       },
-                      "data": "test"
+                      "data": "test",
+                      "raw": "test"
                     }
                   ],
                   "content": null,
@@ -170,7 +178,8 @@
                     "end": 102,
                     "ctxt": 0
                   },
-                  "data": " "
+                  "data": " ",
+                  "raw": " "
                 },
                 {
                   "type": "Element",
@@ -190,7 +199,8 @@
                         "end": 110,
                         "ctxt": 0
                       },
-                      "data": "test"
+                      "data": "test",
+                      "raw": "test"
                     }
                   ],
                   "content": null,
@@ -214,7 +224,8 @@
                         "end": 123,
                         "ctxt": 0
                       },
-                      "data": "Test"
+                      "data": "Test",
+                      "raw": "Test"
                     }
                   ],
                   "content": null,
@@ -231,7 +242,8 @@
                 "end": 137,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

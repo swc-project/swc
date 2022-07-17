@@ -1,3 +1,7 @@
+// @strict: true
+// @target: esnext, es2022
+// @lib: esnext, es2022
+// @useDefineForClassFields: false
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
@@ -8,10 +12,6 @@ import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-// @strict: true
-// @target: esnext, es2022
-// @lib: esnext, es2022
-// @useDefineForClassFields: false
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

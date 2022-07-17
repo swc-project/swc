@@ -1,0 +1,6 @@
+
+  x Incorrectly opened comment
+   ,-[$DIR/tests/recovery/comment/bogus-7/input.html:2:1]
+ 2 | <! -->
+   :   ^
+   `----

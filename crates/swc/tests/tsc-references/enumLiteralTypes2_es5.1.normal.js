@@ -1,5 +1,5 @@
-var // @strictNullChecks: true
-Choice;
+// @strictNullChecks: true
+var Choice;
 (function(Choice) {
     Choice[Choice["Unknown"] = 0] = "Unknown";
     Choice[Choice["Yes"] = 1] = "Yes";

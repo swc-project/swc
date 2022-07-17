@@ -61,7 +61,8 @@
                     "end": 10,
                     "ctxt": 0
                   },
-                  "data": "Hello"
+                  "data": "Hello",
+                  "raw": "Hello"
                 }
               ],
               "content": null,
@@ -85,7 +86,8 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "data": "World"
+                  "data": "World",
+                  "raw": "World"
                 }
               ],
               "content": null,

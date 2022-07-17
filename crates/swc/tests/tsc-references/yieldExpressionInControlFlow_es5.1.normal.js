@@ -1,12 +1,12 @@
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
-var _marked1 = regeneratorRuntime.mark(f);
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @noImplicitAny: true
 // @lib: esnext
 // @Filename: bug25149.js
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = regeneratorRuntime.mark(g);
+var _marked1 = regeneratorRuntime.mark(f);
 function f() {
     var o;
     return regeneratorRuntime.wrap(function f$(_ctx) {

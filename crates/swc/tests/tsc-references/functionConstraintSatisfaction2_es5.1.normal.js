@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // satisfaction of a constraint to Function, all of these invocations are errors unless otherwise noted
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function foo(x) {
     return x;
 }

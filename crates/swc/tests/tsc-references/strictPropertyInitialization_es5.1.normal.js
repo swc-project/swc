@@ -1,12 +1,12 @@
+// @strict: true
+// @target:es2015
+// @declaration: true
+// Properties with non-undefined types require initialization
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 var _f = /*#__PURE__*/ new WeakMap(), _g = /*#__PURE__*/ new WeakMap(), _h = /*#__PURE__*/ new WeakMap(), _i = /*#__PURE__*/ new WeakMap();
-// @strict: true
-// @target:es2015
-// @declaration: true
-// Properties with non-undefined types require initialization
 var C1 = function C1() {
     "use strict";
     _class_call_check(this, C1);

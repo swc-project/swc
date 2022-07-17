@@ -50,7 +50,8 @@
                 "end": 4,
                 "ctxt": 0
               },
-              "data": "FOO"
+              "data": "FOO",
+              "raw": "FOO"
             },
             {
               "type": "Comment",
@@ -59,7 +60,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": " BAR -- <QUX> -- MUX "
+              "data": " BAR -- <QUX> -- MUX ",
+              "raw": "<!-- BAR -- <QUX> -- MUX -->"
             },
             {
               "type": "Text",
@@ -68,7 +70,8 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "data": "BAZ"
+              "data": "BAZ",
+              "raw": "BAZ"
             }
           ],
           "content": null,

@@ -1,10 +1,10 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
 // @outDir: ./out
 // @declaration: true
 // @filename: bar.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var Z = /*#__PURE__*/ function() {
     "use strict";
     function Z() {

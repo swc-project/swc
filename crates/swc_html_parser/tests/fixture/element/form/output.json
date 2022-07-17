@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -148,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "action",
-                  "value": ""
+                  "rawName": "action",
+                  "value": "",
+                  "rawValue": "\"\""
                 },
                 {
                   "type": "Attribute",
@@ -160,7 +169,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "method",
-                  "value": "get"
+                  "rawName": "method",
+                  "value": "get",
+                  "rawValue": "\"get\""
                 },
                 {
                   "type": "Attribute",
@@ -172,7 +183,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "form-example"
+                  "rawName": "class",
+                  "value": "form-example",
+                  "rawValue": "\"form-example\""
                 }
               ],
               "children": [
@@ -183,7 +196,8 @@
                     "end": 140,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -205,7 +219,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "class",
-                      "value": "form-example"
+                      "rawName": "class",
+                      "value": "form-example",
+                      "rawValue": "\"form-example\""
                     }
                   ],
                   "children": [
@@ -216,7 +232,8 @@
                         "end": 175,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -238,7 +255,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "for",
-                          "value": "name"
+                          "rawName": "for",
+                          "value": "name",
+                          "rawValue": "\"name\""
                         }
                       ],
                       "children": [
@@ -249,7 +268,8 @@
                             "end": 210,
                             "ctxt": 0
                           },
-                          "data": "Enter your name: "
+                          "data": "Enter your name: ",
+                          "raw": "Enter your name: "
                         }
                       ],
                       "content": null,
@@ -262,7 +282,8 @@
                         "end": 227,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -284,7 +305,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "type",
-                          "value": "text"
+                          "rawName": "type",
+                          "value": "text",
+                          "rawValue": "\"text\""
                         },
                         {
                           "type": "Attribute",
@@ -296,7 +319,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "name",
-                          "value": "name"
+                          "rawName": "name",
+                          "value": "name",
+                          "rawValue": "\"name\""
                         },
                         {
                           "type": "Attribute",
@@ -308,7 +333,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "name"
+                          "rawName": "id",
+                          "value": "name",
+                          "rawValue": "\"name\""
                         },
                         {
                           "type": "Attribute",
@@ -320,7 +347,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "required",
-                          "value": null
+                          "rawName": "required",
+                          "value": null,
+                          "rawValue": null
                         }
                       ],
                       "children": [],
@@ -334,7 +363,8 @@
                         "end": 282,
                         "ctxt": 0
                       },
-                      "data": "\n    "
+                      "data": "\n    ",
+                      "raw": "\n    "
                     }
                   ],
                   "content": null,
@@ -347,7 +377,8 @@
                     "end": 293,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -369,7 +400,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "class",
-                      "value": "form-example"
+                      "rawName": "class",
+                      "value": "form-example",
+                      "rawValue": "\"form-example\""
                     }
                   ],
                   "children": [
@@ -380,7 +413,8 @@
                         "end": 328,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -402,7 +436,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "for",
-                          "value": "email"
+                          "rawName": "for",
+                          "value": "email",
+                          "rawValue": "\"email\""
                         }
                       ],
                       "children": [
@@ -413,7 +449,8 @@
                             "end": 365,
                             "ctxt": 0
                           },
-                          "data": "Enter your email: "
+                          "data": "Enter your email: ",
+                          "raw": "Enter your email: "
                         }
                       ],
                       "content": null,
@@ -426,7 +463,8 @@
                         "end": 382,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -448,7 +486,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "type",
-                          "value": "email"
+                          "rawName": "type",
+                          "value": "email",
+                          "rawValue": "\"email\""
                         },
                         {
                           "type": "Attribute",
@@ -460,7 +500,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "name",
-                          "value": "email"
+                          "rawName": "name",
+                          "value": "email",
+                          "rawValue": "\"email\""
                         },
                         {
                           "type": "Attribute",
@@ -472,7 +514,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "email"
+                          "rawName": "id",
+                          "value": "email",
+                          "rawValue": "\"email\""
                         },
                         {
                           "type": "Attribute",
@@ -484,7 +528,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "required",
-                          "value": null
+                          "rawName": "required",
+                          "value": null,
+                          "rawValue": null
                         }
                       ],
                       "children": [],
@@ -498,7 +544,8 @@
                         "end": 440,
                         "ctxt": 0
                       },
-                      "data": "\n    "
+                      "data": "\n    ",
+                      "raw": "\n    "
                     }
                   ],
                   "content": null,
@@ -511,7 +558,8 @@
                     "end": 451,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -533,7 +581,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "class",
-                      "value": "form-example"
+                      "rawName": "class",
+                      "value": "form-example",
+                      "rawValue": "\"form-example\""
                     }
                   ],
                   "children": [
@@ -544,7 +594,8 @@
                         "end": 486,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -566,7 +617,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "type",
-                          "value": "submit"
+                          "rawName": "type",
+                          "value": "submit",
+                          "rawValue": "\"submit\""
                         },
                         {
                           "type": "Attribute",
@@ -578,7 +631,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "value",
-                          "value": "Subscribe!"
+                          "rawName": "value",
+                          "value": "Subscribe!",
+                          "rawValue": "\"Subscribe!\""
                         }
                       ],
                       "children": [],
@@ -592,7 +647,8 @@
                         "end": 531,
                         "ctxt": 0
                       },
-                      "data": "\n    "
+                      "data": "\n    ",
+                      "raw": "\n    "
                     }
                   ],
                   "content": null,
@@ -605,7 +661,8 @@
                     "end": 538,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -618,7 +675,8 @@
                 "end": 547,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -640,7 +698,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "method",
-                  "value": "post"
+                  "rawName": "method",
+                  "value": "post",
+                  "rawValue": "\"post\""
                 }
               ],
               "children": [
@@ -651,7 +711,8 @@
                     "end": 572,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -671,7 +732,8 @@
                         "end": 591,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -691,7 +753,8 @@
                             "end": 604,
                             "ctxt": 0
                           },
-                          "data": "Title"
+                          "data": "Title",
+                          "raw": "Title"
                         }
                       ],
                       "content": null,
@@ -704,7 +767,8 @@
                         "end": 622,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -737,7 +801,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "type",
-                              "value": "radio"
+                              "rawName": "type",
+                              "value": "radio",
+                              "rawValue": "\"radio\""
                             },
                             {
                               "type": "Attribute",
@@ -749,7 +815,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "name",
-                              "value": "radio"
+                              "rawName": "name",
+                              "value": "radio",
+                              "rawValue": "\"radio\""
                             }
                           ],
                           "children": [],
@@ -763,7 +831,8 @@
                             "end": 672,
                             "ctxt": 0
                           },
-                          "data": " Select me"
+                          "data": " Select me",
+                          "raw": " Select me"
                         }
                       ],
                       "content": null,
@@ -776,7 +845,8 @@
                         "end": 685,
                         "ctxt": 0
                       },
-                      "data": "\n    "
+                      "data": "\n    ",
+                      "raw": "\n    "
                     }
                   ],
                   "content": null,
@@ -789,7 +859,8 @@
                     "end": 697,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -802,7 +873,8 @@
                 "end": 714,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

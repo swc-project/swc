@@ -50,7 +50,8 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "data": "Foo"
+              "data": "Foo",
+              "raw": "Foo"
             },
             {
               "type": "Element",
@@ -78,7 +79,7 @@
                       "type": "Element",
                       "span": {
                         "start": 14,
-                        "end": 57,
+                        "end": 60,
                         "ctxt": 0
                       },
                       "tagName": "tr",

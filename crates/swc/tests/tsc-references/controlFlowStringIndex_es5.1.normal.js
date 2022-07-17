@@ -1,3 +1,4 @@
+// @strict: true
 if (value.foo !== null) {
     value.foo.toExponential();
     value.other // should still be number | null

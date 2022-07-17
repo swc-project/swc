@@ -1,9 +1,9 @@
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-var _brand_check_brand = new WeakSet();
-var _unused = /*#__PURE__*/ new WeakMap(), _brand = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @noUnusedLocals: true
 // @target: esnext, es2022
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+var _brand_check_brand = new WeakSet();
+var _unused = /*#__PURE__*/ new WeakMap(), _brand = /*#__PURE__*/ new WeakMap();
 class Foo {
     isFoo(v) {
         // This should count as using/reading '#brand'

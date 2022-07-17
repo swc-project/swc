@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -71,7 +73,8 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -110,7 +113,8 @@
                     "end": 83,
                     "ctxt": 0
                   },
-                  "data": "test"
+                  "data": "test",
+                  "raw": "test"
                 }
               ],
               "content": null,
@@ -134,7 +138,8 @@
                     "end": 96,
                     "ctxt": 0
                   },
-                  "data": "test"
+                  "data": "test",
+                  "raw": "test"
                 }
               ],
               "content": null,
@@ -158,7 +163,8 @@
                     "end": 107,
                     "ctxt": 0
                   },
-                  "data": "Test"
+                  "data": "Test",
+                  "raw": "Test"
                 }
               ],
               "content": null,

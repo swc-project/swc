@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 var f00 = list;
 var f01 = function(x) {
     return [

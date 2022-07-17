@@ -64,7 +64,8 @@
                 "end": 13,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -102,7 +103,8 @@
                 "end": 36,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -139,7 +141,8 @@
                 "end": 59,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -162,7 +165,8 @@
                 "end": 64,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -185,7 +189,8 @@
                 "end": 71,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -208,7 +213,8 @@
                 "end": 93,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -230,7 +236,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "⚡",
-                  "value": null
+                  "rawName": "⚡",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -244,7 +252,8 @@
                 "end": 109,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -281,7 +290,8 @@
                 "end": 160,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -303,7 +313,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "test.html"
+                  "rawName": "href",
+                  "value": "test.html",
+                  "rawValue": "\"test.html\""
                 }
               ],
               "children": [
@@ -325,7 +337,8 @@
                         "end": 188,
                         "ctxt": 0
                       },
-                      "data": "hey"
+                      "data": "hey",
+                      "raw": "hey"
                     }
                   ],
                   "content": null,
@@ -342,7 +355,8 @@
                 "end": 199,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -376,7 +390,8 @@
                     "end": 237,
                     "ctxt": 0
                   },
-                  "data": "Hello :)"
+                  "data": "Hello :)",
+                  "raw": "Hello :)"
                 }
               ],
               "content": null,
@@ -389,7 +404,8 @@
                 "end": 244,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -409,7 +425,8 @@
                     "end": 257,
                     "ctxt": 0
                   },
-                  "data": "\n\ntest\n\n"
+                  "data": "\n\ntest\n\n",
+                  "raw": "\n\ntest\n\n"
                 }
               ],
               "content": null,
@@ -422,7 +439,8 @@
                 "end": 265,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -445,7 +463,8 @@
                 "end": 286,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -467,7 +486,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "a"
+                  "rawName": "data-test",
+                  "value": "a",
+                  "rawValue": "\"a\""
                 }
               ],
               "children": [],
@@ -481,7 +502,8 @@
                 "end": 326,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -503,7 +525,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "a"
+                  "rawName": "data-test",
+                  "value": "a",
+                  "rawValue": "\"a\""
                 }
               ],
               "children": [],
@@ -517,7 +541,8 @@
                 "end": 347,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -539,7 +564,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "a"
+                  "rawName": "data-test",
+                  "value": "a",
+                  "rawValue": "\"a\""
                 }
               ],
               "children": [],
@@ -553,7 +580,8 @@
                 "end": 367,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -575,7 +603,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-test",
-                  "value": "a"
+                  "rawName": "data-test",
+                  "value": "a",
+                  "rawValue": "\"a\""
                 }
               ],
               "children": [],
@@ -589,7 +619,8 @@
                 "end": 386,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -609,7 +640,8 @@
                     "end": 398,
                     "ctxt": 0
                   },
-                  "data": "\nTest\n"
+                  "data": "\nTest\n",
+                  "raw": "\nTest\n"
                 }
               ],
               "content": null,
@@ -622,7 +654,8 @@
                 "end": 407,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -642,7 +675,8 @@
                     "end": 416,
                     "ctxt": 0
                   },
-                  "data": "test"
+                  "data": "test",
+                  "raw": "test"
                 }
               ],
               "content": null,
@@ -655,7 +689,8 @@
                 "end": 435,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -675,7 +710,8 @@
                     "end": 444,
                     "ctxt": 0
                   },
-                  "data": "test"
+                  "data": "test",
+                  "raw": "test"
                 }
               ],
               "content": null,

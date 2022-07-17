@@ -1,6 +1,9 @@
 "use strict";
-var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
-var _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;
 function MyDecorator(klass) {
     return ()=>{
         // do something
@@ -9,8 +12,8 @@ function MyDecorator(klass) {
 }
 class MyClass {
 }
-_ts_decorate([
+_tsDecorate([
     MyDecorator(MyClass),
-    _ts_metadata("design:type", String)
+    _tsMetadata("design:type", String)
 ], MyClass.prototype, "prop", void 0);
 console.log(new MyClass());

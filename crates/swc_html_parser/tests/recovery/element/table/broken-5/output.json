@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "text"
+                  "rawName": "type",
+                  "value": "text",
+                  "rawValue": "\"text\""
                 }
               ],
               "children": [],

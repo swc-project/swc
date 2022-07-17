@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // all of these are valid
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var x;
 var a = x;
 var b = x;

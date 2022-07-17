@@ -60,7 +60,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "text/x-foobar;baz"
+                  "rawName": "type",
+                  "value": "text/x-foobar;baz",
+                  "rawValue": "text/x-foobar;baz"
                 }
               ],
               "children": [
@@ -71,7 +73,8 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "data": "X</SCRipt"
+                  "data": "X</SCRipt",
+                  "raw": "X</SCRipt"
                 }
               ],
               "content": null,

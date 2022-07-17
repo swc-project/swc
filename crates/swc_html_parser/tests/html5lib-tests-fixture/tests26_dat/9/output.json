@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "x<",
-                      "value": null
+                      "rawName": "x<",
+                      "value": null,
+                      "rawValue": null
                     },
                     {
                       "type": "Attribute",
@@ -86,7 +88,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "code",
-                      "value": null
+                      "rawName": "code",
+                      "value": null,
+                      "rawValue": null
                     }
                   ],
                   "children": [],
@@ -117,7 +121,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "x<",
-                  "value": null
+                  "rawName": "x<",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -129,7 +135,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "code",
-                  "value": null
+                  "rawName": "code",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [
@@ -140,7 +148,8 @@
                     "end": 23,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,

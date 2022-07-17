@@ -1,6 +1,6 @@
-import * as a1 from "./a";
 // @module: commonjs
 // @filename: a.ts
+import * as a1 from "./a";
 export var x = 1;
 var y = 1;
 export { y };

@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@target: ES5
 // In ES3/5, you cannot for...of over an arbitrary iterable.
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var StringIterator = /*#__PURE__*/ function() {
     "use strict";
     function StringIterator() {

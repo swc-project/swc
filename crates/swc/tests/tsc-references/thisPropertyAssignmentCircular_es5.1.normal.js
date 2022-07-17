@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @declaration: true
 // @emitDeclarationOnly: true
 // @filename: thisPropertyAssignmentCircular.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {

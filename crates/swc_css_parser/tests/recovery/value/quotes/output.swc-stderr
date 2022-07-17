@@ -10,3 +10,17 @@
  3 | t";
    :  ^^
    `----
+
+  x Newline in string
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   :              ^
+ 3 |     t";
+   `----
+
+  x Newline in string
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
+   :    ^
+ 4 | }
+   `----

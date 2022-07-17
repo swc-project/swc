@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -82,7 +85,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "charset",
-                  "value": "UTF-8"
+                  "rawName": "charset",
+                  "value": "UTF-8",
+                  "rawValue": "\"UTF-8\""
                 }
               ],
               "children": [],
@@ -96,7 +101,8 @@
                 "end": 72,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -118,7 +124,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "name",
-                  "value": "viewport"
+                  "rawName": "name",
+                  "value": "viewport",
+                  "rawValue": "\"viewport\""
                 },
                 {
                   "type": "Attribute",
@@ -130,7 +138,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "content",
-                  "value": "width=device-width, initial-scale=1.0"
+                  "rawName": "content",
+                  "value": "width=device-width, initial-scale=1.0",
+                  "rawValue": "\"width=device-width, initial-scale=1.0\""
                 }
               ],
               "children": [],
@@ -144,7 +154,8 @@
                 "end": 147,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -164,7 +175,8 @@
                     "end": 162,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -177,7 +189,8 @@
                 "end": 171,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -190,7 +203,8 @@
             "end": 179,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -210,7 +224,8 @@
                 "end": 186,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -230,7 +245,8 @@
                     "end": 196,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Comment",
@@ -239,7 +255,8 @@
                     "end": 203,
                     "ctxt": 0
                   },
-                  "data": "?test"
+                  "data": "?test",
+                  "raw": "<?test>"
                 },
                 {
                   "type": "Text",
@@ -248,7 +265,8 @@
                     "end": 208,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -270,7 +288,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "=\"test\"",
-                      "value": null
+                      "rawName": "=\"test\"",
+                      "value": null,
+                      "rawValue": null
                     }
                   ],
                   "children": [],
@@ -284,7 +304,8 @@
                     "end": 228,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -297,7 +318,8 @@
                 "end": 243,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

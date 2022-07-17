@@ -1,9 +1,9 @@
-import _extends from "@swc/helpers/src/_extends.mjs";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
+import _extends from "@swc/helpers/src/_extends.mjs";
 var React = require("react");
 var decorator = function decorator(props) {
     return /*#__PURE__*/ React.createElement(Component, _extends({}, props));

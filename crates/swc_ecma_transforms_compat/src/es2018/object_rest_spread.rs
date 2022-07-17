@@ -288,19 +288,16 @@ impl VisitMut for ObjectRest {
                 span,
                 decl: Decl::Var(var_decl),
                 ..
-            }) => {
+            }) if var_decl.decls.iter().any(|v| v.name.is_object()) => {
                 let specifiers = {
-                    let mut found = vec![];
+                    let mut found: Vec<Ident> = vec![];
                     let mut finder = VarCollector { to: &mut found };
                     var_decl.visit_with(&mut finder);
                     found
                         .into_iter()
-                        .map(|(sym, ctxt)| ExportNamedSpecifier {
+                        .map(|ident| ExportNamedSpecifier {
                             span: DUMMY_SP,
-                            orig: ModuleExportName::Ident(Ident::new(
-                                sym,
-                                DUMMY_SP.with_ctxt(ctxt),
-                            )),
+                            orig: ident.into(),
                             exported: None,
                             is_type_only: false,
                         })

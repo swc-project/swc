@@ -1,7 +1,7 @@
+// Derived member is not optional but base member is, should be ok
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-// Derived member is not optional but base member is, should be ok
 var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);

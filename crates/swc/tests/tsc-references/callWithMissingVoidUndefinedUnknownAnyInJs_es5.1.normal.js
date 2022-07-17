@@ -1,3 +1,8 @@
+// @strict: *
+// @checkJS: true
+// @allowJS: true
+// @noEmit: true
+// @filename: defs.d.ts
 // @filename: jsfile.js
 // current behavior: treat trailing `void` as optional
 f1();

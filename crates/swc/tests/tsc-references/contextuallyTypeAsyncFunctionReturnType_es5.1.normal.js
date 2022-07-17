@@ -1,3 +1,6 @@
+// @target: esnext
+// @noImplicitAny: true
+// @noEmit: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 function fn1() {

@@ -1,3 +1,9 @@
+// @allowJs: true
+// @checkJs: true
+// @target: es5
+// @outDir: ./out
+// @declaration: true
+// @filename: cls.js
 // @filename: includeAll.js
 import "./cjs4";
 import "./cjs3";
@@ -9,12 +15,6 @@ import "./bat";
 import "./baz";
 import "./bar";
 import "./bar2";
-// @allowJs: true
-// @checkJs: true
-// @target: es5
-// @outDir: ./out
-// @declaration: true
-// @filename: cls.js
 export class Foo {
 }
 // @filename: func.js

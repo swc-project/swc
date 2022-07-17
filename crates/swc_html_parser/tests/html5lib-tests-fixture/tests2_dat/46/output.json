@@ -72,7 +72,8 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "data": "X"
+                  "data": "X",
+                  "raw": "X"
                 }
               ],
               "content": null,
@@ -98,7 +99,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "name",
-                  "value": "z"
+                  "rawName": "name",
+                  "value": "z",
+                  "rawValue": "z"
                 }
               ],
               "children": [],
@@ -125,7 +128,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "rel",
-                  "value": "foo"
+                  "rawName": "rel",
+                  "value": "foo",
+                  "rawValue": "foo"
                 }
               ],
               "children": [],
@@ -150,7 +155,8 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "data": "\nx { content:\"</style\" } "
+                  "data": "\nx { content:\"</style\" } ",
+                  "raw": "\nx { content:\"</style\" } "
                 }
               ],
               "content": null,

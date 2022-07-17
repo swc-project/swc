@@ -1,6 +1,6 @@
-import regeneratorRuntime from "regenerator-runtime";
 //@target: ES6
 //@declaration: true
+import regeneratorRuntime from "regenerator-runtime";
 var M;
 (function(M) {
     var generator = regeneratorRuntime.mark(function generator() {

@@ -58,7 +58,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 21,
+                "end": 38,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -79,7 +79,8 @@
             "end": 38,
             "ctxt": 0
           },
-          "data": "foo"
+          "data": "foo",
+          "raw": "<!--foo-->"
         }
       ],
       "content": null,

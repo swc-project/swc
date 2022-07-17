@@ -91,6 +91,7 @@ where
 
     #[emitter]
     pub fn emit_module(&mut self, node: &Module) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
         srcmap!(node, true);
 
         if let Some(ref shebang) = node.shebang {
@@ -103,6 +104,7 @@ where
         }
 
         srcmap!(node, false);
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
     #[emitter]
@@ -536,7 +538,7 @@ where
         let target = self.cfg.target;
 
         if self.cfg.minify {
-            let value = get_quoted_utf16(&node.value, target);
+            let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
             self.wr.write_str_lit(DUMMY_SP, &value)?;
         } else {
@@ -550,7 +552,7 @@ where
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
-                    let value = get_quoted_utf16(&node.value, target);
+                    let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
                 }
@@ -562,6 +564,16 @@ where
 
     #[emitter]
     fn emit_num_lit(&mut self, num: &Number) -> Result {
+        self.emit_num_lit_internal(num, false)?;
+    }
+
+    /// `1.toString` is an invalid property access,
+    /// should emit a dot after the literal if return true
+    fn emit_num_lit_internal(
+        &mut self,
+        num: &Number,
+        detect_dot: bool,
+    ) -> std::result::Result<bool, io::Error> {
         self.emit_leading_comments_of_span(num.span(), false)?;
 
         // Handle infinity
@@ -570,24 +582,78 @@ where
                 self.wr.write_str_lit(num.span, "-")?;
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
-        } else if self.cfg.minify {
-            let minified = minify_number(num.value);
 
-            self.wr.write_str_lit(num.span, &minified)?;
+            return Ok(false);
+        }
+
+        let mut striped_raw = None;
+        let mut value = String::default();
+
+        if self.cfg.minify {
+            value = minify_number(num.value);
+            self.wr.write_str_lit(num.span, &value)?;
         } else {
             match &num.raw {
                 Some(raw) => {
-                    if self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
-                        self.wr.write_str_lit(num.span, &raw.replace('_', ""))?;
+                    if raw.len() > 2 && self.cfg.target < EsVersion::Es2015 && {
+                        let slice = &raw.as_bytes()[..2];
+                        slice == b"0b" || slice == b"0o" || slice == b"0B" || slice == b"0O"
+                    } {
+                        value = num.value.to_string();
+                        self.wr.write_str_lit(num.span, &value)?;
+                    } else if raw.len() > 2
+                        && self.cfg.target < EsVersion::Es2021
+                        && raw.contains('_')
+                    {
+                        let value = raw.replace('_', "");
+                        self.wr.write_str_lit(num.span, &value)?;
+
+                        striped_raw = Some(value);
                     } else {
                         self.wr.write_str_lit(num.span, raw)?;
+
+                        if !detect_dot {
+                            return Ok(false);
+                        }
+
+                        striped_raw = Some(raw.replace('_', ""));
                     }
                 }
                 _ => {
-                    self.wr.write_str_lit(num.span, &num.value.to_string())?;
+                    value = num.value.to_string();
+                    self.wr.write_str_lit(num.span, &value)?;
                 }
             }
         }
+
+        // fast return
+        if !detect_dot {
+            return Ok(false);
+        }
+
+        Ok(striped_raw
+            .map(|raw| {
+                if raw.bytes().all(|c| c.is_ascii_digit()) {
+                    // Legacy octal contains only digits, but `value` and `raw` are
+                    // different
+                    if !num.value.to_string().eq(&raw) {
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                false
+            })
+            .unwrap_or_else(|| {
+                let bytes = value.as_bytes();
+
+                if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
+                    return true;
+                }
+
+                false
+            }))
     }
 
     #[emitter]
@@ -600,7 +666,7 @@ where
         } else {
             match &v.raw {
                 Some(raw) => {
-                    if self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
+                    if raw.len() > 2 && self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
                         self.wr.write_str_lit(v.span, &raw.replace('_', ""))?;
                     } else {
                         self.wr.write_str_lit(v.span, raw)?;
@@ -814,16 +880,24 @@ where
 
         srcmap!(node, true);
 
-        if let Expr::New(new) = &*node.obj {
-            self.emit_new(new, false)?;
-        } else {
-            emit!(node.obj);
+        let mut needs_2dots_for_property_access = false;
+
+        match &*node.obj {
+            Expr::New(new) => {
+                self.emit_new(new, false)?;
+            }
+            Expr::Lit(Lit::Num(num)) => {
+                needs_2dots_for_property_access = self.emit_num_lit_internal(num, true)?;
+            }
+            _ => {
+                emit!(node.obj);
+            }
         }
 
         match &node.prop {
             MemberProp::Computed(computed) => emit!(computed),
             MemberProp::Ident(ident) => {
-                if self.needs_2dots_for_property_access(&node.obj) {
+                if needs_2dots_for_property_access {
                     if node.prop.span().lo() >= BytePos(2) {
                         self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
                     }
@@ -836,7 +910,7 @@ where
                 emit!(ident);
             }
             MemberProp::PrivateName(private) => {
-                if self.needs_2dots_for_property_access(&node.obj) {
+                if needs_2dots_for_property_access {
                     if node.prop.span().lo() >= BytePos(2) {
                         self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
                     }
@@ -851,55 +925,6 @@ where
         }
 
         srcmap!(node, false);
-    }
-
-    /// `1..toString` is a valid property access, emit a dot after the literal
-    pub fn needs_2dots_for_property_access(&self, expr: &Expr) -> bool {
-        if let Expr::Lit(Lit::Num(Number { span, value, raw })) = expr {
-            // TODO we store `NaN` in `swc_ecma_minifier`, but we should not do it
-            if value.is_nan() || value.is_infinite() {
-                return false;
-            }
-
-            if self.cfg.minify {
-                let s = minify_number(*value);
-                let bytes = s.as_bytes();
-
-                if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
-                    return true;
-                }
-
-                false
-            } else {
-                match raw {
-                    Some(raw) => {
-                        if raw.bytes().all(|c| c.is_ascii_digit()) {
-                            // Legacy octal contains only digits, but `value` and `raw` are
-                            // different
-                            if !value.to_string().eq(raw.as_ref()) {
-                                return false;
-                            }
-
-                            return true;
-                        }
-
-                        false
-                    }
-                    _ => {
-                        let s = value.to_string();
-                        let bytes = s.as_bytes();
-
-                        if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
-                            return true;
-                        }
-
-                        false
-                    }
-                }
-            }
-        } else {
-            false
-        }
     }
 
     #[emitter]
@@ -3407,12 +3432,12 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     buf
 }
 
-fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
+fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
-    let mut sq = 0;
-    let mut dq = 0;
+    let mut single_quote_count = 0;
+    let mut double_quote_count = 0;
 
     while let Some(c) = iter.next() {
         match c {
@@ -3504,11 +3529,11 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                 }
             }
             '\'' => {
-                sq += 1;
+                single_quote_count += 1;
                 buf.push('\'');
             }
             '"' => {
-                dq += 1;
+                double_quote_count += 1;
                 buf.push('"');
             }
             '\x01'..='\x0f' => {
@@ -3547,17 +3572,21 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                         let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
 
                         let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
-                    } else {
+                    } else if ascii_only {
                         let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                    } else {
+                        buf.push(c);
                     }
-                } else {
+                } else if ascii_only {
                     let _ = write!(buf, "\\u{:04X}", c as u16);
+                } else {
+                    buf.push(c);
                 }
             }
         }
     }
 
-    if dq > sq {
+    if double_quote_count > single_quote_count {
         format!("'{}'", buf.replace('\'', "\\'"))
     } else {
         format!("\"{}\"", buf.replace('"', "\\\""))

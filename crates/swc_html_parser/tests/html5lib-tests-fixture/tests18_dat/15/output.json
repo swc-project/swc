@@ -77,7 +77,8 @@
                           "end": 50,
                           "ctxt": 0
                         },
-                        "data": "a</template>b"
+                        "data": "a</template>b",
+                        "raw": "a</template>b"
                       }
                     ],
                     "content": null,

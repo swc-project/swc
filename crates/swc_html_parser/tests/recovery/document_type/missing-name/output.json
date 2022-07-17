@@ -61,7 +61,8 @@
                 "end": 27,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -83,7 +84,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "https://www.w3schools.com"
+                  "rawName": "href",
+                  "value": "https://www.w3schools.com",
+                  "rawValue": "https://www.w3schools.com"
                 }
               ],
               "children": [
@@ -94,7 +97,8 @@
                     "end": 75,
                     "ctxt": 0
                   },
-                  "data": "This is a link"
+                  "data": "This is a link",
+                  "raw": "This is a link"
                 }
               ],
               "content": null,
@@ -107,7 +111,8 @@
                 "end": 89,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

@@ -1,7 +1,7 @@
+// subclassing is not transitive when you can remove required parameters and add optional parameters on protected members
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-// subclassing is not transitive when you can remove required parameters and add optional parameters on protected members
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

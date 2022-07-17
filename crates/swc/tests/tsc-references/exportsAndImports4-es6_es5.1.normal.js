@@ -1,3 +1,6 @@
+// @target: es6
+// @module: commonjs
+// @filename: t1.ts
 import b from "./t1";
 import * as c from "./t1";
 import { default as d } from "./t1";
@@ -9,9 +12,6 @@ import * as c from "./t1";
 import { default as d } from "./t1";
 import e1, * as e2 from "./t1";
 import f1, { default as f2 } from "./t1";
-// @target: es6
-// @module: commonjs
-// @filename: t1.ts
 export default "hello";
 // @filename: t2.ts
 var a = require("./t1");

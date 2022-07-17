@@ -1,3 +1,6 @@
+// @jsx: react
+// @noUnusedLocals: true
+// @filename: renderer.d.ts
 // @filename: preacty.tsx
 /**
  * @jsx h

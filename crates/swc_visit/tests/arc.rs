@@ -4,10 +4,12 @@ use std::sync::Arc;
 
 use swc_visit::define;
 
+#[derive(Debug, PartialEq)]
 pub struct Item {
     pub item: Option<Arc<Item>>,
     pub ref_to_enum: Option<Arc<Enum>>,
 }
+#[derive(Debug, PartialEq)]
 pub enum Enum {
     Item(Arc<Item>),
     Items(Arc<Vec<Item>>),

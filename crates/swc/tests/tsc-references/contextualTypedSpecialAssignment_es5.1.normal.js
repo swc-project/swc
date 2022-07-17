@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @checkJs: true
 // @allowJs: true
 // @noEmit: true
@@ -8,6 +7,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     status: 'done'
     m(n: number): void
 }} DoneStatus */ // property assignment
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var ns = {};
 /** @type {DoneStatus} */ ns.x = {
     status: "done",

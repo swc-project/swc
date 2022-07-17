@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 var y10 = unboxify(x10);
 var y11 = unboxify(x11);
 var y12 = unboxify(x12);
@@ -17,3 +19,4 @@ function f2(a) {
 function acceptMappedArray(arr) {
     acceptArray(mapArray(arr));
 }
+ // string | number | boolean

@@ -1,2 +1,2 @@
-export var foo, x = 42;
+export var x = 42;
 require("./test/foo").x;

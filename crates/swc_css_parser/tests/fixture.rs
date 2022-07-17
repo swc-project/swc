@@ -124,7 +124,9 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
         let mut parser = Parser::new(lexer, config);
         let stylesheet = parser.parse_all();
-        let errors = parser.take_errors();
+        let mut errors = parser.take_errors();
+
+        errors.sort_by(|a, b| a.message().cmp(&b.message()));
 
         for err in &errors {
             err.to_diagnostics(&handler).emit();
@@ -180,7 +182,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
-        let mut errors = vec![];
+        let mut lexer_errors = vec![];
         let tokens = {
             let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
             let mut tokens = vec![];
@@ -189,7 +191,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
                 tokens.push(token_and_span);
             }
 
-            errors.extend(lexer.take_errors());
+            lexer_errors.extend(lexer.take_errors());
 
             Tokens {
                 span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
@@ -197,13 +199,18 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
             }
         };
 
-        let stylesheet: PResult<Stylesheet> = parse_tokens(&tokens, config, &mut errors);
+        let mut parser_errors = vec![];
 
-        for err in &errors {
+        let stylesheet: PResult<Stylesheet> = parse_tokens(&tokens, config, &mut parser_errors);
+
+        parser_errors.extend(lexer_errors);
+        parser_errors.sort_by(|a, b| a.message().cmp(&b.message()));
+
+        for err in &parser_errors {
             err.to_diagnostics(&handler).emit();
         }
 
-        if !errors.is_empty() {
+        if !parser_errors.is_empty() {
             recovered = true;
         }
 

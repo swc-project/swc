@@ -1,5 +1,3 @@
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
-import _type_of from "@swc/helpers/src/_type_of.mjs";
 /*
  Copyright (c) 2018-2020 Xiamen Yaji Software Co., Ltd.
 
@@ -26,7 +24,9 @@ import _type_of from "@swc/helpers/src/_type_of.mjs";
 */ /**
  * @packageDocumentation
  * @module core/math
- */ import { CCClass } from "../data/class";
+ */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
+import { CCClass } from "../data/class";
 import { Mat3 } from "./mat3";
 import { Quat } from "./quat";
 import { enumerableProps, EPSILON } from "./utils";

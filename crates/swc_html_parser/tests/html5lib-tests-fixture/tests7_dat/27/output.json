@@ -75,7 +75,8 @@
                     "end": 35,
                     "ctxt": 0
                   },
-                  "data": "bbb"
+                  "data": "bbb",
+                  "raw": "bbb"
                 }
               ],
               "content": null,
@@ -132,7 +133,8 @@
                                 "end": 22,
                                 "ctxt": 0
                               },
-                              "data": "aaa"
+                              "data": "aaa",
+                              "raw": "aaa"
                             }
                           ],
                           "content": null,
@@ -168,7 +170,8 @@
                     "end": 46,
                     "ctxt": 0
                   },
-                  "data": "ccc"
+                  "data": "ccc",
+                  "raw": "ccc"
                 }
               ],
               "content": null,

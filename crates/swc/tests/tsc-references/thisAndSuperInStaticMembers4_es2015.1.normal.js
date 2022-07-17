@@ -1,3 +1,6 @@
+// @target: es5
+// @useDefineForClassFields: false
+// @noTypesAndSymbols: true
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {

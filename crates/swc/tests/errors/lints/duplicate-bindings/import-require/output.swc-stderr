@@ -1,0 +1,20 @@
+
+  x the name `x` is defined multiple times
+    ,-[9:1]
+  9 | import x = require("x");
+    :        |
+    :        `-- previous definition of `x` here
+ 10 | const x = "x";
+    :       |
+    :       `-- `x` redefined here
+    `----
+
+  x the name `y` is defined multiple times
+    ,-[12:1]
+ 12 | export import y = require("y");
+    :               |
+    :               `-- previous definition of `y` here
+ 13 | import y from "y";
+    :        |
+    :        `-- `y` redefined here
+    `----

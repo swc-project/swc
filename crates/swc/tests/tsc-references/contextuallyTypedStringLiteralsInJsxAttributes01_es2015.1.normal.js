@@ -1,3 +1,5 @@
+// @jsx: preserve
+// @declaration: true
 const FooComponent = (props)=>/*#__PURE__*/ React.createElement("span", null, props.foo);
 /*#__PURE__*/ React.createElement(FooComponent, {
     foo: "A"

@@ -12,6 +12,7 @@ pub fn es2018(c: Config) -> impl Fold {
     chain!(
         regexp(regexp::Config {
             dot_all_regex: true,
+            has_indices: false,
             lookbehind_assertion: true,
             named_capturing_groups_regex: true,
             sticky_regex: false,

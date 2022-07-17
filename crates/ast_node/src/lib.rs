@@ -215,8 +215,13 @@ pub fn ast_node(
                 )]
                 #[cfg_attr(
                     feature = "rkyv",
+                    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
+                )]
+                #[cfg_attr(
+                    feature = "rkyv",
                     archive(bound(
-                        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"
+                        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
+                        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
                     ))
                 )]
                 #[serde(untagged)]
@@ -267,7 +272,16 @@ pub fn ast_node(
                     )]
                     #[cfg_attr(
                         feature = "rkyv",
-                        archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+                        archive(
+                            bound(
+                                serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
+                                deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+                            )
+                        )
+                    )]
+                    #[cfg_attr(
+                        feature = "rkyv",
+                        archive_attr(repr(C), derive(bytecheck::CheckBytes))
                     )]
                     serde_tag
                     #[serde(rename_all = "camelCase")]

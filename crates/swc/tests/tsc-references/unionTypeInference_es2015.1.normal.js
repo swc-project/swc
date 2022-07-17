@@ -1,3 +1,5 @@
+// @strict: true
+// @target: esnext
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 const a1 = f1(1, 2); // 1 | 2
 const a2 = f1(1, "hello"); // 1
@@ -39,6 +41,4 @@ function _fun() {
     return _fun.apply(this, arguments);
 }
 baz(xx);
-// @strict: true
-// @target: esnext
 export { };

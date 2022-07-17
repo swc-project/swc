@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 // @strict: true
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f1(obj) {
     if (obj.a) {
         obj = {};

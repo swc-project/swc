@@ -28,7 +28,7 @@ fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
         ),
         display_name(),
         classes(Some(t.comments.clone()), Default::default()),
-        arrow(),
+        arrow(unresolved_mark),
     )
 }
 
@@ -1235,7 +1235,12 @@ test!(
                 },
                 top_level_mark
             ),
-            common_js(top_level_mark, Default::default(), None)
+            common_js(
+                top_level_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
     },
     issue_351,
@@ -1243,6 +1248,9 @@ test!(
 
 <div />;",
     "\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
+    value: true
+});
 var _react = _interopRequireDefault(require(\"react\"));
 _react.default.createElement(\"div\", null);"
 );
@@ -1282,13 +1290,21 @@ test!(
                 },
                 top_level_mark
             ),
-            common_js(Mark::fresh(Mark::root()), Default::default(), None)
+            common_js(
+                Mark::fresh(Mark::root()),
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
     },
     issue_517,
     "import React from 'react';
 <div style='white-space: pre'>Hello World</div>;",
     "\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
+    value: true
+});
 var _react = _interopRequireDefault(require(\"react\"));
 _react.default.createElement(\"div\", {
     style: \"white-space: pre\"

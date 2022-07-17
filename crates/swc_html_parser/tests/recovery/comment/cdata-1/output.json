@@ -14,7 +14,8 @@
         "end": 348,
         "ctxt": 0
       },
-      "data": "[CDATA[\nWithin this Character Data block I can\nuse double dashes as much as I want (along with <, &, ', and \")\n*and* %MyParamEntity; will be expanded to the text\n\"Has been expanded\" ... however, I can't use\nthe CEND sequence. If I need to use CEND I must escape one of the\nbrackets or the greater-than sign using concatenated CDATA sections.\n]]"
+      "data": "[CDATA[\nWithin this Character Data block I can\nuse double dashes as much as I want (along with <, &, ', and \")\n*and* %MyParamEntity; will be expanded to the text\n\"Has been expanded\" ... however, I can't use\nthe CEND sequence. If I need to use CEND I must escape one of the\nbrackets or the greater-than sign using concatenated CDATA sections.\n]]",
+      "raw": "<![CDATA[\nWithin this Character Data block I can\nuse double dashes as much as I want (along with <, &, ', and \")\n*and* %MyParamEntity; will be expanded to the text\n\"Has been expanded\" ... however, I can't use\nthe CEND sequence. If I need to use CEND I must escape one of the\nbrackets or the greater-than sign using concatenated CDATA sections.\n]]>"
     },
     {
       "type": "Element",
@@ -70,7 +71,8 @@
                     "end": 358,
                     "ctxt": 0
                   },
-                  "data": "test"
+                  "data": "test",
+                  "raw": "test"
                 }
               ],
               "content": null,
@@ -83,7 +85,8 @@
                 "end": 365,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -92,7 +95,8 @@
                 "end": 712,
                 "ctxt": 0
               },
-              "data": "[cdata[\nWithin this Character Data block I can\nuse double dashes as much as I want (along with <, &, ', and \")\n*and* %MyParamEntity; will be expanded to the text\n\"Has been expanded\" ... however, I can't use\nthe CEND sequence. If I need to use CEND I must escape one of the\nbrackets or the greater-than sign using concatenated CDATA sections.\n]]"
+              "data": "[cdata[\nWithin this Character Data block I can\nuse double dashes as much as I want (along with <, &, ', and \")\n*and* %MyParamEntity; will be expanded to the text\n\"Has been expanded\" ... however, I can't use\nthe CEND sequence. If I need to use CEND I must escape one of the\nbrackets or the greater-than sign using concatenated CDATA sections.\n]]",
+              "raw": "<![cdata[\nWithin this Character Data block I can\nuse double dashes as much as I want (along with <, &, ', and \")\n*and* %MyParamEntity; will be expanded to the text\n\"Has been expanded\" ... however, I can't use\nthe CEND sequence. If I need to use CEND I must escape one of the\nbrackets or the greater-than sign using concatenated CDATA sections.\n]]>"
             }
           ],
           "content": null,

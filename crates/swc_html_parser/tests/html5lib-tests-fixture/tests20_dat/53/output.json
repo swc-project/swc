@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "encoding",
-                      "value": "application/svg+xml"
+                      "rawName": "encoding",
+                      "value": "application/svg+xml",
+                      "rawValue": "\"application/svg+xml\""
                     }
                   ],
                   "children": [],

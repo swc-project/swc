@@ -1,3 +1,4 @@
+// @noImplicitAny: true
 function f(param) {
     var tmp = param.show, showRename = tmp === void 0 ? function(v) {
         return v;

@@ -41,6 +41,7 @@ jobs:
 
       - name: Prepare
         run: |
+          rustup target add wasm32-wasi
           yarn
 
           yarn build:dev
@@ -94,7 +95,7 @@ jobs:
           # Download three.js
           git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 tests/integration/three-js/repo
 
-          swc -C isModule=unknown --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
+          swc -C isModule=unknown -C test=\".*.js$\" -C module.type=commonjs --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
 
           (cd tests/integration/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
 

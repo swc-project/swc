@@ -1,7 +1,7 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @target: ES6
 // @noEmitHelpers: true
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var foo = function() {
     var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var v;

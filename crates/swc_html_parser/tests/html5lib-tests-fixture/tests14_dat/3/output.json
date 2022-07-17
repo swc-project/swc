@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "xml:lang",
-          "value": "bar"
+          "rawName": "xml:lang",
+          "value": "bar",
+          "rawValue": "bar"
         }
       ],
       "children": [

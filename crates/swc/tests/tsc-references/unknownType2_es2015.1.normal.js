@@ -1,3 +1,4 @@
+// @strict: true
 let validate = (x)=>x === 'yes' || x === 'no' ? x : 'idk'; // No error
 const u = undefined;
 if (u === 5) {

@@ -61,7 +61,8 @@
                 "end": 54,
                 "ctxt": 0
               },
-              "data": "abc"
+              "data": "abc",
+              "raw": "abc"
             },
             {
               "type": "Element",
@@ -89,7 +90,7 @@
                       "type": "Element",
                       "span": {
                         "start": 23,
-                        "end": 51,
+                        "end": 54,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -114,7 +115,8 @@
                                 "end": 43,
                                 "ctxt": 0
                               },
-                              "data": "</script>"
+                              "data": "</script>",
+                              "raw": "</script>"
                             }
                           ],
                           "content": null,

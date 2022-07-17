@@ -1,3 +1,4 @@
+// @declaration: true
 function fun1(x, y) {
     return randBool() ? x : y;
 }

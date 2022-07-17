@@ -2,23 +2,22 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-Object.defineProperty(exports, "X", {
-    enumerable: true,
-    get: function() {
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+_export(exports, {
+    X: function() {
         return _module.default;
-    }
-});
-Object.defineProperty(exports, "Y", {
-    enumerable: true,
-    get: function() {
+    },
+    Y: function() {
         return _module.Y;
-    }
-});
-Object.defineProperty(exports, "Z", {
-    enumerable: true,
-    get: function() {
+    },
+    Z: function() {
         return _module.Z;
     }
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _module = _interop_require_wildcard(require("./module"));
+var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _module = /*#__PURE__*/ _interopRequireWildcard(require("./module"));

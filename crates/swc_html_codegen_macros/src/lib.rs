@@ -59,7 +59,7 @@ fn (&mut self, node: Node) -> Result;
                 },
                 {
                     {
-                        impl<W> crate::Emit<NodeType> for crate::CodeGenerator<W>
+                        impl<W> crate::Emit<NodeType> for crate::CodeGenerator<'_, W>
                         where
                             W: crate::writer::HtmlWriter,
                         {

@@ -1,3 +1,5 @@
+// @declaration: true
+// @module: commonjs
 export const obj = {
     m () {
         let dis = this;

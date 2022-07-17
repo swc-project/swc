@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "encoding",
-                      "value": "application/xhtml+xml"
+                      "rawName": "encoding",
+                      "value": "application/xhtml+xml",
+                      "rawValue": "\"application/xhtml+xml\""
                     }
                   ],
                   "children": [

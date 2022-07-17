@@ -30,12 +30,13 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
 /// An interned string.
 ///
-/// Use [AtomGenerator] and [LocalAtomGenerator] to create [Atom]s.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+/// Use [AtomGenerator] to create [Atom]s.
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct Atom(Arc<str>);
 
 impl Atom {
@@ -95,6 +96,12 @@ impl Borrow<str> for Atom {
     }
 }
 
+impl fmt::Debug for Atom {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        fmt::Debug::fmt(&*self.0, f)
+    }
+}
+
 impl Display for Atom {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Display::fmt(&self.0, f)
@@ -110,8 +117,13 @@ pub struct AtomGenerator {
 }
 
 impl AtomGenerator {
-    pub fn gen(&mut self, s: &str) -> Atom {
-        if let Some(v) = self.inner.get(s).cloned() {
+    pub fn gen<S>(&mut self, s: S) -> Atom
+    where
+        Arc<str>: From<S>,
+        S: Eq + Hash,
+        S: AsRef<str>,
+    {
+        if let Some(v) = self.inner.get(s.as_ref()).cloned() {
             return v;
         }
 
@@ -147,6 +159,20 @@ macro_rules! atom {
         static CACHE: $crate::once_cell::sync::Lazy<$crate::Atom> =
             $crate::once_cell::sync::Lazy::new(|| $crate::Atom::new_bad($s));
 
-        $crate::Atom::clone(*CACHE)
+        $crate::Atom::clone(&*CACHE)
     }};
+}
+
+#[test]
+fn _assert() {
+    let mut g = AtomGenerator::default();
+
+    g.gen("str");
+    g.gen(String::new());
+}
+
+impl PartialEq<Atom> for str {
+    fn eq(&self, other: &Atom) -> bool {
+        *self == **other
+    }
 }

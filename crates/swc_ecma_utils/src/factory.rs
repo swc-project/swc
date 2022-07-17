@@ -43,6 +43,11 @@ pub trait ExprFactory: Into<Expr> {
         }
     }
 
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn as_pat_or_expr(self) -> PatOrExpr {
+        PatOrExpr::Expr(Box::new(self.into()))
+    }
+
     /// Creates an expression statement with `self`.
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_stmt(self) -> Stmt {
@@ -50,6 +55,15 @@ pub trait ExprFactory: Into<Expr> {
             span: DUMMY_SP,
             expr: Box::new(self.into()),
         })
+    }
+
+    /// Creates a statement whcih return `self`.
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_return_stmt(self) -> ReturnStmt {
+        ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(self.into())),
+        }
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
@@ -64,6 +78,80 @@ pub trait ExprFactory: Into<Expr> {
             callee: self.as_callee(),
             args: Default::default(),
             type_args: Default::default(),
+        }
+    }
+
+    /// create a ArrowExpr which return self
+    /// - `(params) => $self`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_lazy_arrow(self, params: Vec<Pat>) -> ArrowExpr {
+        ArrowExpr {
+            span: DUMMY_SP,
+            params,
+            body: BlockStmtOrExpr::from(self),
+            is_async: false,
+            is_generator: false,
+            type_params: None,
+            return_type: None,
+        }
+    }
+
+    /// create a Function which return self
+    /// - `function(params) { return $self; }`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_lazy_fn(self, params: Vec<Param>) -> Function {
+        Function {
+            params,
+            decorators: Default::default(),
+            span: DUMMY_SP,
+            body: Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![self.into_return_stmt().into()],
+            }),
+            is_generator: false,
+            is_async: false,
+            type_params: None,
+            return_type: None,
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_lazy_auto(self, params: Vec<Pat>, support_arrow: bool) -> Expr {
+        if support_arrow {
+            self.into_lazy_arrow(params).into()
+        } else {
+            self.into_lazy_fn(params.into_iter().map(Into::into).collect())
+                .into_fn_expr(None)
+                .into()
+        }
+    }
+
+    /// create a var declartor using self as init
+    /// - `var name = expr`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_var_decl(self, kind: VarDeclKind, name: Pat) -> VarDecl {
+        let var_declarator = VarDeclarator {
+            span: DUMMY_SP,
+            name,
+            init: Some(Box::new(self.into())),
+            definite: false,
+        };
+
+        VarDecl {
+            span: DUMMY_SP,
+            kind,
+            declare: false,
+            decls: vec![var_declarator],
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_new_expr(self, span: Span, args: Option<Vec<ExprOrSpread>>) -> NewExpr {
+        NewExpr {
+            span,
+            callee: Box::new(self.into()),
+            args,
+            type_args: None,
         }
     }
 
@@ -102,6 +190,36 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
+    fn as_fn_decl(self) -> Option<FnDecl> {
+        match self.into() {
+            Expr::Fn(FnExpr {
+                ident: Some(ident),
+                function,
+            }) => Some(FnDecl {
+                ident,
+                declare: false,
+                function,
+            }),
+            _ => None,
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn as_class_decl(self) -> Option<ClassDecl> {
+        match self.into() {
+            Expr::Class(ClassExpr {
+                ident: Some(ident),
+                class,
+            }) => Some(ClassDecl {
+                ident,
+                declare: false,
+                class,
+            }),
+            _ => None,
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn wrap_with_paren(self) -> Expr {
         let expr = Box::new(self.into());
         let span = expr.span();
@@ -128,6 +246,19 @@ pub trait ExprFactory: Into<Expr> {
         Expr::Bin(BinExpr {
             span: DUMMY_SP,
             left: Box::new(self.into()),
+            op,
+            right,
+        })
+    }
+
+    /// Creates a assign expr `$lhs $op $self`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn make_assign_to(self, op: AssignOp, left: PatOrExpr) -> Expr {
+        let right = Box::new(self.into());
+
+        Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            left,
             op,
             right,
         })
@@ -163,18 +294,63 @@ pub trait ExprFactory: Into<Expr> {
 
 impl<T: Into<Expr>> ExprFactory for T {}
 
-pub trait IntoIndirectCall: Into<CallExpr> {
+pub trait IntoIndirectCall
+where
+    Self: std::marker::Sized,
+{
+    type Item;
+    fn into_indirect(self) -> Self::Item;
+}
+
+impl IntoIndirectCall for CallExpr {
+    type Item = CallExpr;
+
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_indirect(self) -> CallExpr {
-        let s = self.into();
+        let callee = self.callee.into_indirect();
 
-        let callee = Callee::Expr(Box::new(Expr::Seq(SeqExpr {
-            span: DUMMY_SP,
-            exprs: vec![0f64.into(), s.callee.expect_expr()],
-        })));
-
-        CallExpr { callee, ..s }
+        CallExpr { callee, ..self }
     }
 }
 
-impl<T: Into<CallExpr>> IntoIndirectCall for T {}
+impl IntoIndirectCall for Callee {
+    type Item = Callee;
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_indirect(self) -> Callee {
+        SeqExpr {
+            span: DUMMY_SP,
+            exprs: vec![0f64.into(), self.expect_expr()],
+        }
+        .as_callee()
+    }
+}
+
+pub trait FunctionFactory: Into<Function> {
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_fn_expr(self, ident: Option<Ident>) -> FnExpr {
+        FnExpr {
+            ident,
+            function: self.into(),
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_fn_decl(self, ident: Ident) -> FnDecl {
+        FnDecl {
+            ident,
+            declare: false,
+            function: self.into(),
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_method_prop(self, key: PropName) -> MethodProp {
+        MethodProp {
+            key,
+            function: self.into(),
+        }
+    }
+}
+
+impl<T: Into<Function>> FunctionFactory for T {}

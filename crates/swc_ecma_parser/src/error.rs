@@ -98,6 +98,7 @@ pub enum SyntaxError {
     InvalidIdentInStrict,
     /// 'eval' and 'arguments' are invalid identifier in strict mode.
     EvalAndArgumentsInStrict,
+    ArgumentsInClassField,
     IllegalLanguageModeDirective,
     UnaryInExp {
         left: String,
@@ -148,7 +149,8 @@ pub enum SyntaxError {
     ReturnNotAllowed,
     TooManyVarInForInHead,
     VarInitializerInForInHead,
-    LabelledGenerator,
+    LabelledGeneratorOrAsync,
+    LabelledFunctionInStrict,
     YieldParamInGen,
 
     AwaitForStmt,
@@ -324,6 +326,9 @@ impl SyntaxError {
             SyntaxError::EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a \
                                                       binding identifier in strict mode"
                 .into(),
+            SyntaxError::ArgumentsInClassField => {
+                "'arguments' is only allowed in functions and class methods".into()
+            }
             SyntaxError::IllegalLanguageModeDirective => {
                 "Illegal 'use strict' directive in function with non-simple parameter list.".into()
             }
@@ -393,7 +398,12 @@ impl SyntaxError {
             SyntaxError::VarInitializerInForInHead => {
                 "Unexpected initializer in for in/of loop".into()
             }
-            SyntaxError::LabelledGenerator => "Generator cannot be labelled".into(),
+            SyntaxError::LabelledGeneratorOrAsync => {
+                "Generator or async function cannot be labelled".into()
+            }
+            SyntaxError::LabelledFunctionInStrict => {
+                "Function cannot be labelled in strict mode".into()
+            }
             SyntaxError::YieldParamInGen => {
                 "'yield' cannot be used as a parameter within generator".into()
             }

@@ -33,7 +33,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 28,
+                "end": 31,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -44,7 +44,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 1,
-                  "end": 28,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "children": [
@@ -52,7 +52,7 @@
                     "type": "Element",
                     "span": {
                       "start": 11,
-                      "end": 28,
+                      "end": 31,
                       "ctxt": 0
                     },
                     "tagName": "template",
@@ -63,7 +63,7 @@
                       "type": "DocumentFragment",
                       "span": {
                         "start": 11,
-                        "end": 28,
+                        "end": 31,
                         "ctxt": 0
                       },
                       "children": [
@@ -74,13 +74,14 @@
                             "end": 31,
                             "ctxt": 0
                           },
-                          "data": "Foo"
+                          "data": "Foo",
+                          "raw": "Foo"
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 21,
-                            "end": 28,
+                            "end": 31,
                             "ctxt": 0
                           },
                           "tagName": "table",

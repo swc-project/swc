@@ -74,7 +74,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "A"
+                      "rawName": "id",
+                      "value": "A",
+                      "rawValue": "\"A\""
                     }
                   ],
                   "children": [
@@ -96,7 +98,8 @@
                             "end": 59,
                             "ctxt": 0
                           },
-                          "data": "document.getElementById(\"A\").id = \"B\""
+                          "data": "document.getElementById(\"A\").id = \"B\"",
+                          "raw": "document.getElementById(\"A\").id = \"B\""
                         }
                       ],
                       "content": null,
@@ -130,7 +133,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "A"
+                  "rawName": "id",
+                  "value": "A",
+                  "rawValue": "\"A\""
                 }
               ],
               "children": [
@@ -141,7 +146,8 @@
                     "end": 76,
                     "ctxt": 0
                   },
-                  "data": "TEXT"
+                  "data": "TEXT",
+                  "raw": "TEXT"
                 }
               ],
               "content": null,

@@ -63,7 +63,9 @@
               "namespace": null,
               "prefix": null,
               "name": "xlink:href",
-              "value": "foo"
+              "rawName": "xlink:href",
+              "value": "foo",
+              "rawValue": "foo"
             }
           ],
           "children": [
@@ -87,7 +89,9 @@
                   "namespace": "http://www.w3.org/1999/xlink",
                   "prefix": "xlink",
                   "name": "href",
-                  "value": "foo"
+                  "rawName": "xlink:href",
+                  "value": "foo",
+                  "rawValue": "foo"
                 }
               ],
               "children": [],

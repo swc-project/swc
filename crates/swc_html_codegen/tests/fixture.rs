@@ -127,7 +127,9 @@ fn print_document_fragment(
         let mut errors = vec![];
         let mut document_fragment = parse_file_as_document_fragment(
             &fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             parser_config,
             &mut errors,
         )
@@ -152,7 +154,9 @@ fn print_document_fragment(
         let mut errors = vec![];
         let mut document_fragment_parsed_again = parse_file_as_document_fragment(
             &fm_output,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             parser_config,
             &mut errors,
         )
@@ -259,7 +263,7 @@ fn verify_document_fragment(
         _ => CodegenConfig::default(),
     };
 
-    codegen_config.context_element = Some(context_element.clone());
+    codegen_config.context_element = Some(&context_element);
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
@@ -267,7 +271,9 @@ fn verify_document_fragment(
 
         let mut document_fragment = parse_file_as_document_fragment(
             &fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             parser_config,
             &mut errors,
         )
@@ -291,7 +297,9 @@ fn verify_document_fragment(
         let mut parsed_errors = vec![];
         let mut document_fragment_parsed_again = parse_file_as_document_fragment(
             &new_fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             parser_config,
             &mut parsed_errors,
         )
@@ -318,12 +326,31 @@ fn verify_document_fragment(
 struct DropSpan;
 
 impl VisitMut for DropSpan {
+    fn visit_mut_comment(&mut self, n: &mut Comment) {
+        n.visit_mut_children_with(self);
+
+        n.raw = None;
+    }
+
+    fn visit_mut_text(&mut self, n: &mut Text) {
+        n.visit_mut_children_with(self);
+
+        n.raw = None;
+    }
+
     fn visit_mut_element(&mut self, n: &mut Element) {
         n.visit_mut_children_with(self);
 
         // In normal output we respect `is_self_closing`
         // In minified output we always avoid end tag for SVG and MathML namespace
         n.is_self_closing = Default::default();
+    }
+
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
+        n.visit_mut_children_with(self);
+
+        n.raw_name = None;
+        n.raw_value = None;
     }
 
     fn visit_mut_span(&mut self, n: &mut Span) {

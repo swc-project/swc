@@ -48,6 +48,7 @@ pub fn plugins(
     source_map: std::sync::Arc<swc_common::SourceMap>,
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
+    unresolved_mark: swc_common::Mark,
 ) -> impl Fold {
     {
         RustPlugins {
@@ -56,6 +57,7 @@ pub fn plugins(
             source_map,
             plugins: config.plugins,
             plugin_context,
+            unresolved_mark,
         }
     }
 }
@@ -71,16 +73,32 @@ struct RustPlugins {
     plugins: Option<Vec<PluginConfig>>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     plugin_context: PluginContext,
+    unresolved_mark: swc_common::Mark,
 }
 
 impl RustPlugins {
+    #[cfg(feature = "plugin")]
+    fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+        use anyhow::Context;
+
+        self.apply_inner(n).with_context(|| {
+            format!(
+                "failed to invoke plugin on '{:?}'",
+                self.plugin_context.filename
+            )
+        })
+    }
+
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
     #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
-    fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+    fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 
         use anyhow::Context;
-        use swc_common::{plugin::Serialized, FileName};
+        use swc_common::{
+            plugin::{PluginSerializedBytes, VersionedSerializable},
+            FileName,
+        };
         use swc_ecma_loader::resolve::Resolve;
 
         // swc_plugin_macro will not inject proxy to the comments if comments is empty
@@ -92,7 +110,10 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
-                let mut serialized = Serialized::serialize(&n)?;
+                let span = tracing::span!(tracing::Level::INFO, "serialize_program").entered();
+                let program = VersionedSerializable::new(n);
+                let mut serialized_program = PluginSerializedBytes::try_serialize(&program)?;
+                drop(span);
 
                 // Run plugin transformation against current program.
                 // We do not serialize / deserialize between each plugin execution but
@@ -102,21 +123,6 @@ impl RustPlugins {
                 // transform.
                 if let Some(plugins) = &self.plugins {
                     for p in plugins {
-                        let span = tracing::span!(
-                            tracing::Level::INFO,
-                            "serialize_context",
-                            plugin_module = p.0.as_str()
-                        );
-                        let context_span_guard = span.enter();
-
-                        let config_json = serde_json::to_string(&p.1)
-                            .context("Failed to serialize plugin config as json")
-                            .and_then(|value| Serialized::serialize(&value))?;
-
-                        let context_json = serde_json::to_string(&self.plugin_context)
-                            .context("Failed to serialize plugin context as json")
-                            .and_then(|value| Serialized::serialize(&value))?;
-
                         let resolved_path = self
                             .resolver
                             .as_ref()
@@ -128,41 +134,84 @@ impl RustPlugins {
                         } else {
                             anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
                         };
+
+                        let mut transform_plugin_executor =
+                            swc_plugin_runner::create_plugin_transform_executor(
+                                &path,
+                                &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
+                                &self.source_map,
+                            )?;
+
+                        if !transform_plugin_executor.is_transform_schema_compatible()? {
+                            anyhow::bail!("Cannot execute incompatible plugin {}", &p.0);
+                        }
+
+                        let span = tracing::span!(
+                            tracing::Level::INFO,
+                            "serialize_context",
+                            plugin_module = p.0.as_str()
+                        );
+                        let context_span_guard = span.enter();
+
+                        let serialized_config_json = serde_json::to_string(&p.1)
+                            .context("Failed to serialize plugin config as json")
+                            .and_then(|value| {
+                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                                    value,
+                                ))
+                            })?;
+
+                        let serialized_context_json = serde_json::to_string(&self.plugin_context)
+                            .context("Failed to serialize plugin context as json")
+                            .and_then(|value| {
+                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                                    value,
+                                ))
+                            })?;
                         drop(context_span_guard);
 
                         let span = tracing::span!(
                             tracing::Level::INFO,
                             "execute_plugin_runner",
                             plugin_module = p.0.as_str()
-                        );
-                        let transform_span_guard = span.enter();
-                        serialized = swc_plugin_runner::apply_transform_plugin(
-                            &p.0,
-                            &path,
-                            &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
-                            serialized,
-                            config_json,
-                            context_json,
-                            should_enable_comments_proxy,
-                            &self.source_map,
-                        )?;
-                        drop(transform_span_guard);
+                        )
+                        .entered();
+
+                        serialized_program = transform_plugin_executor
+                            .transform(
+                                &serialized_program,
+                                &serialized_config_json,
+                                &serialized_context_json,
+                                self.unresolved_mark,
+                                should_enable_comments_proxy,
+                            )
+                            .with_context(|| {
+                                format!(
+                                    "failed to invoke `{}` as js transform plugin at {}",
+                                    &p.0,
+                                    path.display()
+                                )
+                            })?;
+                        drop(span);
                     }
                 }
 
                 // Plugin transformation is done. Deserialize transformed bytes back
                 // into Program
-                Serialized::deserialize(&serialized)
+                serialized_program.deserialize().map(|v| v.into_inner())
             },
         )
     }
 
     #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
-    fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+    fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 
         use anyhow::Context;
-        use swc_common::{plugin::Serialized, FileName};
+        use swc_common::{
+            plugin::{PluginSerializedBytes, VersionedSerializable},
+            FileName,
+        };
         use swc_ecma_loader::resolve::Resolve;
 
         let should_enable_comments_proxy = self.comments.is_some();
@@ -172,32 +221,49 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
-                let mut serialized = Serialized::serialize(&n)?;
+                let program = VersionedSerializable::new(n);
+                let mut serialized_program = PluginSerializedBytes::try_serialize(&program)?;
 
                 if let Some(plugins) = &self.plugins {
                     for p in plugins {
-                        let config_json = serde_json::to_string(&p.1)
+                        let serialized_config_json = serde_json::to_string(&p.1)
                             .context("Failed to serialize plugin config as json")
-                            .and_then(|value| Serialized::serialize(&value))?;
+                            .and_then(|value| {
+                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                                    value,
+                                ))
+                            })?;
 
-                        let context_json = serde_json::to_string(&self.plugin_context)
+                        let serialized_context_json = serde_json::to_string(&self.plugin_context)
                             .context("Failed to serialize plugin context as json")
-                            .and_then(|value| Serialized::serialize(&value))?;
+                            .and_then(|value| {
+                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                                    value,
+                                ))
+                            })?;
 
-                        serialized = swc_plugin_runner::apply_transform_plugin(
-                            &p.0,
-                            &PathBuf::from(&p.0),
-                            &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
-                            serialized,
-                            config_json,
-                            context_json,
-                            should_enable_comments_proxy,
-                            &self.source_map,
-                        )?;
+                        let mut transform_plugin_executor =
+                            swc_plugin_runner::create_plugin_transform_executor(
+                                &PathBuf::from(&p.0),
+                                &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
+                                &self.source_map,
+                            )?;
+
+                        serialized_program = transform_plugin_executor
+                            .transform(
+                                &serialized_program,
+                                &serialized_config_json,
+                                &serialized_context_json,
+                                self.unresolved_mark,
+                                should_enable_comments_proxy,
+                            )
+                            .with_context(|| {
+                                format!("failed to invoke `{}` as js transform plugin", &p.0)
+                            })?;
                     }
                 }
 
-                Serialized::deserialize(&serialized)
+                serialized_program.deserialize().map(|v| v.into_inner())
             },
         )
     }

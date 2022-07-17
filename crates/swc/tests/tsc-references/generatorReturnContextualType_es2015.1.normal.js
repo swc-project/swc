@@ -1,7 +1,7 @@
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 // @target: esnext
 // @strict: true
 // #35995
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 function* f1() {
     return {
         x: 'x'

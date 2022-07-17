@@ -2,5 +2,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.test = test;
+Object.defineProperty(exports, "test", {
+    enumerable: true,
+    get: ()=>test
+});
 function test() {}

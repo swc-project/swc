@@ -1,0 +1,18 @@
+
+  x multiple `export =` found
+   ,-[1:1]
+ 1 | export = 1;
+   : ^^^^^|^^^^^
+   :      `-- previous `export =` declared here
+ 2 | export = 2;
+   : ^^^^^^^^^^^
+   `----
+
+  x multiple `export =` found
+   ,-[2:1]
+ 2 | export = 2;
+   : ^^^^^|^^^^^
+   :      `-- previous `export =` declared here
+ 3 | export = 3;
+   : ^^^^^^^^^^^
+   `----

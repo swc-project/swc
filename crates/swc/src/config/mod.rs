@@ -1,10 +1,8 @@
 #![cfg_attr(any(not(feature = "plugin"), target_arch = "wasm32"), allow(unused))]
 use std::{
-    cell::RefCell,
     collections::{HashMap, HashSet},
     env, fmt,
     path::{Path, PathBuf},
-    rc::Rc as RustRc,
     sync::Arc,
     usize,
 };
@@ -50,16 +48,15 @@ use swc_ecma_minifier::option::{
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    feature::FeatureFlag,
     hygiene, modules,
-    modules::{
-        hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
-    },
+    modules::{path::NodeImportResolver, rewriter::import_rewriter},
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
     react::{self, default_pragma, default_pragma_frag},
     resolver,
-    typescript::{self, TSEnumConfig},
+    typescript::{self, TsEnumConfig, TsImportExportAssignConfig},
     Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
@@ -471,7 +468,15 @@ impl Options {
             json_parse_pass
         );
 
-        let preserve_import_export_assign = matches!(&cfg.module, Some(ModuleConfig::Amd(..)));
+        let import_export_assign_config = match cfg.module {
+            Some(ModuleConfig::Es6) => TsImportExportAssignConfig::EsNext,
+            Some(ModuleConfig::CommonJs(..))
+            | Some(ModuleConfig::Amd(..))
+            | Some(ModuleConfig::Umd(..)) => TsImportExportAssignConfig::Preserve,
+            Some(ModuleConfig::NodeNext) => TsImportExportAssignConfig::NodeNext,
+            // TODO: should Preserve for SystemJS
+            _ => TsImportExportAssignConfig::Classic,
+        };
 
         let pass = PassBuilder::new(
             cm,
@@ -537,6 +542,7 @@ impl Options {
                 source_map,
                 experimental,
                 plugin_context,
+                unresolved_mark,
             )
         };
 
@@ -560,7 +566,14 @@ impl Options {
             swc_plugin_runner::cache::init_plugin_module_cache_once();
             let comments = comments.cloned();
             let source_map = cm.clone();
-            crate::plugin::plugins(None, comments, source_map, experimental, plugin_context)
+            crate::plugin::plugins(
+                None,
+                comments,
+                source_map,
+                experimental,
+                plugin_context,
+                unresolved_mark,
+            )
         };
 
         #[cfg(not(feature = "plugin"))]
@@ -605,14 +618,14 @@ impl Options {
                                 .clone()
                                 .unwrap_or_else(default_pragma_frag)
                         ),
-                        ts_enum_config: TSEnumConfig {
+                        ts_enum_config: TsEnumConfig {
                             treat_const_enum_as_enum: transform
                                 .treat_const_enum_as_enum
                                 .into_bool(),
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
                         use_define_for_class_fields: !assumptions.set_public_class_fields,
-                        preserve_import_export_assign,
+                        import_export_assign_config,
                         ..Default::default()
                     },
                     comments,
@@ -1260,18 +1273,21 @@ pub enum ModuleConfig {
     SystemJs(modules::system_js::Config),
     #[serde(rename = "es6")]
     Es6,
+    #[serde(rename = "nodenext")]
+    NodeNext,
 }
 
 impl ModuleConfig {
-    pub fn build(
+    pub fn build<'cmt>(
         cm: Arc<SourceMap>,
+        comments: Option<&'cmt SingleThreadedComments>,
         base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
         unresolved_mark: Mark,
         config: Option<ModuleConfig>,
-        scope: RustRc<RefCell<Scope>>,
-    ) -> Box<dyn swc_ecma_visit::Fold> {
+        available_features: FeatureFlag,
+    ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
         let base = match base {
             FileName::Real(v) if !paths.is_empty() => {
                 FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
@@ -1280,7 +1296,7 @@ impl ModuleConfig {
         };
 
         match config {
-            None | Some(ModuleConfig::Es6) => {
+            None | Some(ModuleConfig::Es6) | Some(ModuleConfig::NodeNext) => {
                 if paths.is_empty() {
                     Box::new(noop())
                 } else {
@@ -1290,60 +1306,66 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::CommonJs(config)) => {
-                let base_pass = module_hoister();
                 if paths.is_empty() {
-                    Box::new(chain!(
-                        base_pass,
-                        modules::common_js::common_js(unresolved_mark, config, Some(scope),)
+                    Box::new(modules::common_js::common_js(
+                        unresolved_mark,
+                        config,
+                        available_features,
+                        comments,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
-                    Box::new(chain!(
-                        base_pass,
-                        modules::common_js::common_js_with_resolver(
-                            resolver,
-                            base,
-                            unresolved_mark,
-                            config,
-                            Some(scope),
-                        )
+                    Box::new(modules::common_js::common_js_with_resolver(
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
+                        available_features,
+                        comments,
                     ))
                 }
             }
             Some(ModuleConfig::Umd(config)) => {
-                let base_pass = module_hoister();
-
                 if paths.is_empty() {
-                    Box::new(chain!(
-                        base_pass,
-                        modules::umd::umd(cm, unresolved_mark, config)
+                    Box::new(modules::umd::umd(
+                        cm,
+                        unresolved_mark,
+                        config,
+                        available_features,
+                        comments,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(chain!(
-                        base_pass,
-                        modules::umd::umd_with_resolver(
-                            resolver,
-                            base,
-                            cm,
-                            unresolved_mark,
-                            config,
-                        )
+                    Box::new(modules::umd::umd_with_resolver(
+                        cm,
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
+                        available_features,
+                        comments,
                     ))
                 }
             }
             Some(ModuleConfig::Amd(config)) => {
-                let base_pass = module_hoister();
-
                 if paths.is_empty() {
-                    Box::new(chain!(base_pass, modules::amd::amd(config)))
+                    Box::new(modules::amd::amd(
+                        unresolved_mark,
+                        config,
+                        available_features,
+                        comments,
+                    ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(chain!(
-                        base_pass,
-                        modules::amd::amd_with_resolver(resolver, base, config)
+                    Box::new(modules::amd::amd_with_resolver(
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
+                        available_features,
+                        comments,
                     ))
                 }
             }

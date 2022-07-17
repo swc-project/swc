@@ -2,6 +2,7 @@
 #![allow(unused_variables)]
 #[cfg(feature = "plugin-mode")]
 use swc_common::{
+    plugin::VersionedSerializable,
     source_map::{
         DistinctSources, FileLinesResult, MalformedSourceMapPositions, Pos, SpanSnippetError,
     },
@@ -225,11 +226,11 @@ impl SourceMapper for PluginSourceMapProxy {
                 ctxt: swc_common::SyntaxContext::empty(),
             };
 
-            let serialized =
-                swc_common::plugin::Serialized::serialize(&span).expect("Should be serializable");
-            let serialized_ref = serialized.as_ref();
-            let ptr = serialized_ref.as_ptr();
-            let len = serialized_ref.len();
+            let serialized = swc_common::plugin::PluginSerializedBytes::try_serialize(
+                &VersionedSerializable::new(span),
+            )
+            .expect("Should be serializable");
+            let (ptr, len) = serialized.as_ptr();
 
             let ret = __merge_spans_proxy(
                 sp_lhs.lo.0,

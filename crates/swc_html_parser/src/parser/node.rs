@@ -33,9 +33,11 @@ pub enum Data {
     },
     Text {
         data: RefCell<String>,
+        raw: RefCell<String>,
     },
     Comment {
         data: JsWord,
+        raw: Option<JsWord>,
     },
 }
 

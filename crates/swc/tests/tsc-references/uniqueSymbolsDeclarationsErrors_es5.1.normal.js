@@ -1,3 +1,8 @@
+// @target: esnext
+// @lib: esnext
+// @module: commonjs
+// @declaration: true
+// @useDefineForClassFields: false
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 // not allowed when emitting declarations
@@ -11,17 +16,17 @@ export var obj = {
 };
 export var classExpression = /*#__PURE__*/ function() {
     "use strict";
-    function _class() {
-        _class_call_check(this, _class);
+    function classExpression() {
+        _class_call_check(this, classExpression);
     }
-    var _proto = _class.prototype;
+    var _proto = classExpression.prototype;
     _proto.method1 = function method1(p) {
         return p;
     };
     _proto.method2 = function method2(p) {
         return p;
     };
-    return _class;
+    return classExpression;
 }();
 export function funcInferredReturnType(obj) {
     return obj;

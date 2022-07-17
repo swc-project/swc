@@ -1,11 +1,11 @@
+// @target: es5,es2015
+// @noTypesAndSymbols: true
+// https://github.com/microsoft/TypeScript/issues/39205
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _throw from "@swc/helpers/src/_throw.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
-// @target: es5,es2015
-// @noTypesAndSymbols: true
-// https://github.com/microsoft/TypeScript/issues/39205
 var trace = [];
 var order = function(n) {
     return trace.push(n);

@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @filename: index.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 function C1() {
     if (!_instanceof(this, C1)) return new C1();
     this.x = 1;
@@ -30,9 +30,9 @@ var c5_v1;
 c5_v1 = function f() {};
 new c5_v1();
 var c5_v2;
-c5_v2 = function _class() {
+c5_v2 = function c5_v2() {
     "use strict";
-    _class_call_check(this, _class);
+    _class_call_check(this, c5_v2);
 };
 new c5_v2();
 /** @class */ function C6() {

@@ -1,7 +1,7 @@
+//@target: ES5
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _construct from "@swc/helpers/src/_construct.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-//@target: ES5
 function f(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         z[_key - 2] = arguments[_key];

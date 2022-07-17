@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
 use swc_common::{
-    plugin::{PluginError, Serialized},
+    plugin::{PluginError, PluginSerializedBytes, PLUGIN_TRANSFORM_AST_SCHEMA_VERSION},
     SourceMap,
 };
 use wasmer::Instance;
@@ -13,7 +13,9 @@ use crate::memory_interop::write_into_memory_view;
 /// A struct encapsule executing a plugin's transform interop to its teardown
 pub struct TransformExecutor {
     // Main transform interface plugin exports
-    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32, i32), i32>,
+    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32, u32, i32), i32>,
+    // Schema version interface exports
+    exported_plugin_transform_schema_version: wasmer::NativeFunc<(), u32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
     exported_plugin_free: wasmer::NativeFunc<(i32, i32), i32>,
@@ -39,9 +41,12 @@ impl TransformExecutor {
         let tracker = TransformExecutor {
             exported_plugin_transform: instance
                 .exports
-                .get_native_function::<(i32, i32, i32, i32, i32, i32, i32), i32>(
-                    "__plugin_process_impl",
+                .get_native_function::<(i32, i32, i32, i32, i32, i32, u32, i32), i32>(
+                    "__transform_plugin_process_impl",
                 )?,
+            exported_plugin_transform_schema_version: instance
+                .exports
+                .get_native_function::<(), u32>("__get_transform_plugin_schema_version")?,
             exported_plugin_free: instance
                 .exports
                 .get_native_function::<(i32, i32), i32>("__free")?,
@@ -60,7 +65,7 @@ impl TransformExecutor {
     /// Once transformation completes, host should free allocated memory.
     fn write_bytes_into_guest(
         &mut self,
-        serialized_bytes: &Serialized,
+        serialized_bytes: &PluginSerializedBytes,
     ) -> Result<(i32, i32), Error> {
         let memory = self.instance.exports.get_memory("memory")?;
 
@@ -76,15 +81,17 @@ impl TransformExecutor {
 
     /// Copy guest's memory into host, construct serialized struct from raw
     /// bytes.
-    fn read_bytes_from_guest(&mut self, returned_ptr_result: i32) -> Result<Serialized, Error> {
+    fn read_bytes_from_guest(
+        &mut self,
+        returned_ptr_result: i32,
+    ) -> Result<PluginSerializedBytes, Error> {
         let transformed_result = &(*self.transform_result.lock());
-        let ret =
-            Serialized::new_for_plugin(&transformed_result[..], transformed_result.len() as i32);
+        let ret = PluginSerializedBytes::from_slice(&transformed_result[..]);
 
         if returned_ptr_result == 0 {
             Ok(ret)
         } else {
-            let err: PluginError = Serialized::deserialize(&ret)?;
+            let err: PluginError = ret.deserialize()?.into_inner();
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
                     "Failed to convert pointer size to calculate: {}",
@@ -100,14 +107,41 @@ impl TransformExecutor {
         }
     }
 
+    /**
+     * Check compile-time version of AST schema between the plugin and
+     * the host. Returns true if it's compatible, false otherwise.
+     *
+     * Host should appropriately handle if plugin is not compatible to the
+     * current runtime.
+     */
+    pub fn is_transform_schema_compatible(&self) -> Result<bool, Error> {
+        let plugin_schema_version = self.exported_plugin_transform_schema_version.call();
+
+        match plugin_schema_version {
+            Ok(plugin_schema_version) => {
+                let host_schema_version = PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
+
+                // TODO: this is incomplete
+                if host_schema_version >= plugin_schema_version {
+                    Ok(true)
+                } else {
+                    Ok(false)
+                }
+            }
+            Err(e) => Err(anyhow!("Failed to call plugin's schema version: {}", e)),
+        }
+    }
+
     #[tracing::instrument(level = "info", skip_all)]
     pub fn transform(
         &mut self,
-        program: &Serialized,
-        config: &Serialized,
-        context: &Serialized,
-        should_enable_comments_proxy: i32,
-    ) -> Result<Serialized, Error> {
+        program: &PluginSerializedBytes,
+        config: &PluginSerializedBytes,
+        context: &PluginSerializedBytes,
+        unresolved_mark: swc_common::Mark,
+        should_enable_comments_proxy: bool,
+    ) -> Result<PluginSerializedBytes, Error> {
+        let should_enable_comments_proxy = if should_enable_comments_proxy { 1 } else { 0 };
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
         let context_str_ptr = self.write_bytes_into_guest(context)?;
@@ -119,6 +153,7 @@ impl TransformExecutor {
             config_str_ptr.1,
             context_str_ptr.0,
             context_str_ptr.1,
+            unresolved_mark.as_u32(),
             should_enable_comments_proxy,
         )?;
 

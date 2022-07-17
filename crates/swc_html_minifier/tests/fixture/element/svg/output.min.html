@@ -1,5 +1,4 @@
-<!doctype html><body>
-<svg width=120 height=220 viewport="0 0 120 120" version=1.1>
+<!doctype html><svg width=120 height=220 viewport="0 0 120 120" version=1.1>
 
     <style>rect.rectClass{stroke:#006;fill:#0c0}circle.circleClass{stroke:#060;fill:#c00}</style>
 
@@ -53,4 +52,226 @@
     <polygon points="100,100 150,25 150,75 200,0" fill=black stroke=black />
 </svg>
 
+<svg viewBox="0 0 200 30">
+    <text y=20 font-weight=normal>Normal text</text>
+    <text x=100 y=20 font-weight=bold>Bold text</text>
+</svg>
 
+<svg viewBox="0 0 250 30">
+    <text y=20 font-variant=normal>Normal text</text>
+    <text x=100 y=20 font-variant=small-caps>Small-caps text</text>
+</svg>
+
+<svg viewBox="0 0 250 30">
+    <text y=20 font-style=normal>Normal font style</text>
+    <text x=150 y=20 font-style=italic>Italic font style</text>
+</svg>
+
+<svg viewBox="0 0 200 30">
+    <text y=20 font-size=medium>smaller</text>
+    <textPath y=20 font-size=medium>smaller</textPath>
+    <text x=100 y=20 font-size=2em>2em</text>
+</svg>
+
+<svg viewBox="0 0 300 100">
+    
+    <circle cx=50 cy=50 r=40 fill=pink />
+
+    
+    <defs>
+        <radialGradient id=myGradient>
+            <stop offset=0% stop-color=pink />
+            <stop offset=100% />
+        </radialGradient>
+    </defs>
+
+    <circle cx=150 cy=50 r=40 fill=url(#myGradient) />
+
+    
+    <circle cx=250 cy=50 r=20>
+        <animate attributeType=XML attributeName=r from=0 to=40 dur=5s fill=freeze />
+    </circle>
+</svg>
+
+<svg viewBox="0 0 400 100">
+    
+    <circle cx=50 cy=50 r=40 fill-opacity=1 />
+
+    <circle cx=50 cy=50 r=40 />
+
+    
+    <circle cx=150 cy=50 r=40 fill-opacity=0.7 />
+
+    
+    <circle cx=250 cy=50 r=40 fill-opacity=50% />
+
+    
+    <circle cx=350 cy=50 r=40 style=fill-opacity:.25 />
+</svg>
+
+<svg>
+    <feMorphology/>
+</svg>
+
+<svg viewBox="0 0 420 200">
+    <filter id=composite1 x=0 y=0 width=100% height=100%>
+        <feComposite in2=SourceGraphic operator=arithmetic k1=1 />
+    </filter>
+    <filter id=composite2 x=0 y=0 width=100% height=100%>
+        <feComposite in2=SourceGraphic operator=arithmetic k1=10 k4=0.3 />
+    </filter>
+
+    <image href=mdn.svg width=200 height=200 style=filter:url(#composite1) />
+    <image href=mdn.svg width=200 height=200 style=filter:url(#composite2);transform:translateX(220px) />
+</svg>
+
+<svg viewBox="0 0 10 10">
+    <line x1=1 x2=9 stroke=red />
+    <line x1=1 x2=9 y1=5 y2=5 stroke=green />
+    <line x1=1 x2=9 y1=5 y2=9 stroke=blue />
+</svg>
+
+<svg viewBox="0 0 440 160">
+    <filter id=displacementFilter>
+        <feImage xlink:href=mdn.svg x=0 y=0 result=abc />
+        <feDisplacementMap in2=abc in=SourceGraphic scale=30 />
+    </filter>
+    <filter id=displacementFilter2>
+        <feImage xlink:href=mdn.svg x=0 y=0 result=abc />
+        <feDisplacementMap in2=abc in=SourceGraphic scale=30 yChannelSelector=B />
+    </filter>
+
+    <text x=10 y=60 font-size=50 filter=url(#displacementFilter)>Some displaced text</text>
+    <text x=10 y=120 font-size=50 filter=url(#displacementFilter2)>Some displaced text</text>
+</svg>
+
+<svg viewBox="0 0 200 200">
+    <filter id=diffuseLighting x=0 y=0 width=100% height=100%>
+        <feDiffuseLighting in=SourceGraphic zoomAndPan=1>
+            <fePointLight x=60 y=60 z=20 />
+        </feDiffuseLighting>
+    </filter>
+
+    <rect width=200 height=200 style=filter:url(#diffuseLighting) />
+</svg>
+
+<svg viewBox="-1 -1 162 92">
+    <defs>
+        <path id=smiley d="M50,10 A40,40,1,1,1,50,90 A40,40,1,1,1,50,10 M30,40 Q36,35,42,40 M58,40 Q64,35,70,40 M30,60 Q50,75,70,60 Q50,75,30,60"/>
+    </defs>
+
+    
+    <rect width=20 height=10>
+        <title>xMidYMid meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=20 height=10>
+        <use href=#smiley />
+    </svg>
+
+    <rect x=25 width=20 height=10>
+        <title>xMinYMid meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=20 height=10 preserveAspectRatio="xMinYMid meet" x=25>
+        <use href=#smiley />
+    </svg>
+
+    <rect x=50 width=20 height=10>
+        <title>xMaxYMid meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=20 height=10 preserveAspectRatio="xMaxYMid meet" x=50>
+        <use href=#smiley />
+    </svg>
+
+    
+    <rect y=15 width=20 height=10>
+        <title>xMidYMin slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=20 height=10 preserveAspectRatio="xMidYMin slice" y=15>
+        <use href=#smiley />
+    </svg>
+
+    <rect x=25 y=15 width=20 height=10>
+        <title>xMidYMid slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=20 height=10 preserveAspectRatio="xMidYMid slice" x=25 y=15>
+        <use href=#smiley />
+    </svg>
+
+    <rect x=50 y=15 width=20 height=10>
+        <title>xMidYMax slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=20 height=10 preserveAspectRatio="xMidYMax slice" x=50 y=15>
+        <use href=#smiley />
+    </svg>
+
+    
+    <rect x=75 width=10 height=25>
+        <title>xMidYMin meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=10 height=25 preserveAspectRatio="xMidYMin meet" x=75>
+        <use href=#smiley />
+    </svg>
+
+    <rect x=90 width=10 height=25>
+        <title>xMidYMid meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=10 height=25 x=90>
+        <use href=#smiley />
+    </svg>
+
+    <rect x=105 width=10 height=25>
+        <title>xMidYMax meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=10 height=25 preserveAspectRatio="xMidYMax meet" x=105>
+        <use href=#smiley />
+    </svg>
+
+    
+    <rect x=120 width=10 height=25>
+        <title>xMinYMid slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=10 height=25 preserveAspectRatio="xMinYMid slice" x=120>
+        <use href=#smiley />
+    </svg>
+
+    <rect x=135 width=10 height=25>
+        <title>xMidYMid slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=10 height=25 preserveAspectRatio="xMidYMid slice" x=135>
+        <use href=#smiley />
+    </svg>
+
+    <rect x=150 width=10 height=25>
+        <title>xMaxYMid slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=10 height=25 preserveAspectRatio="xMaxYMid slice" x=150>
+        <use href=#smiley />
+    </svg>
+
+    
+    <rect y=30 width=160 height=60>
+        <title>none</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width=160 height=60 preserveAspectRatio=none y=30>
+        <use href=#smiley />
+    </svg>
+</svg>
+
+<svg viewBox="0 0 400 100">
+    
+    <circle cx=50 cy=50 r=40 fill-opacity=1 />
+
+    
+    <circle cx=150 cy=50 r=40 fill-opacity=0.7 />
+
+    
+    <circle cx=250 cy=50 r=40 fill-opacity=50% />
+
+    
+    <circle cx=350 cy=50 r=40 style=fill-opacity:.25 />
+</svg>
+
+<svg viewBox="0 0 140 50">
+    <text y=20>Default   spacing</text>
+    <text y=40 xml:space=preserve>Preserved   spacing</text>
+</svg>

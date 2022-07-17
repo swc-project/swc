@@ -1,3 +1,7 @@
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @Filename: types.d.ts
 // @Filename: minimatch.js
 /// <reference path='./types.d.ts'/>
 module.exports = minimatch;

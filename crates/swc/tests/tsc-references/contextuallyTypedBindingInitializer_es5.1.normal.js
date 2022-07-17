@@ -1,3 +1,4 @@
+// @noImplicitAny: true
 function f(param) {
     var _show = param.show, show = _show === void 0 ? function(v) {
         return v.toString();

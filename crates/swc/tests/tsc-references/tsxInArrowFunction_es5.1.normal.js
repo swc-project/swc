@@ -1,3 +1,4 @@
+// @jsx: preserve
 // didn't work
 /*#__PURE__*/ React.createElement("div", null, function() {
     return /*#__PURE__*/ React.createElement("div", {

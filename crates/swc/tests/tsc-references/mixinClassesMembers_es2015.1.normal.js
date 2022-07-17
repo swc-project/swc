@@ -1,3 +1,4 @@
+// @declaration: true
 function f1() {
     let x1 = new Mixed1("hello");
     let x2 = new Mixed1(42);

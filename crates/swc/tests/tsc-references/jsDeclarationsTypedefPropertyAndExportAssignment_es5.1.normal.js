@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -12,7 +11,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
  * @property {string[]} traceEventNames
  */ /**
  * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
- */ var taskGroups = {
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var taskGroups = {
     parseHTML: {
         id: "parseHTML",
         label: "Parse HTML & CSS"

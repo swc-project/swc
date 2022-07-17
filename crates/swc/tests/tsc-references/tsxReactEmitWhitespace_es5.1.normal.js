@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: react
 // THIS FILE HAS TEST-SIGNIFICANT LEADING/TRAILING
 // WHITESPACE, DO NOT RUN 'FORMAT DOCUMENT' ON IT
 var p = 0;

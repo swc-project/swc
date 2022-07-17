@@ -1,7 +1,7 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @module: commonjs
 // @target: esnext
 // @filename: 0.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 export function foo() {
     return "foo";
 }

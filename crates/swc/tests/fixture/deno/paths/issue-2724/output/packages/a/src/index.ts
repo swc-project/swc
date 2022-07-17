@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.displayA = displayA;
+Object.defineProperty(exports, "displayA", {
+    enumerable: true,
+    get: ()=>displayA
+});
 function displayA() {
     return "Display A";
 }

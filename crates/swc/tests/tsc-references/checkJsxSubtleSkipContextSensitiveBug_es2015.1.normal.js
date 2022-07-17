@@ -1,9 +1,9 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @strict: true
 // @jsx: react
 // @lib: es6
 // @skipLibCheck: true
 /// <reference path="/.lib/react16.d.ts" />
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import * as React from "react";
 class AsyncLoader extends React.Component {
     render() {

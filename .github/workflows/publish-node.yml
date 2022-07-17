@@ -6,6 +6,7 @@ env:
   MACOSX_DEPLOYMENT_TARGET: "10.13"
   CARGO_INCREMENTAL: 0
   CI: "1"
+  DISABLE_PLUGIN_E2E_TESTS: true
 
 on:
   push:
@@ -38,6 +39,7 @@ jobs:
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_LTO=false
               cargo build -p swc_cli --release --target i686-pc-windows-msvc
               cp target/i686-pc-windows-msvc/release/swc .
@@ -96,6 +98,7 @@ jobs:
               sudo apt-get update
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
               cargo build -p swc_cli --release --target=armv7-unknown-linux-gnueabihf
               cp ./target/armv7-unknown-linux-gnueabihf/release/swc .
               chmod +x ./swc
@@ -120,6 +123,7 @@ jobs:
           - host: ubuntu-latest
             target: armv7-linux-androideabi
             build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
               export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
               export CXX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang++"
@@ -149,6 +153,7 @@ jobs:
             target: aarch64-pc-windows-msvc
             # Disable `LTO` and increase `codegen-units` to avoid llvm `OOM` on GitHub Actions.
             build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
               cargo build -p swc_cli --release --target aarch64-pc-windows-msvc
@@ -303,6 +308,7 @@ jobs:
             yarn --version
           run: |
             export PATH="/usr/local/cargo/bin:$PATH"
+            export DISABLE_PLUGIN_E2E_TESTS=true
             pwd
             ls -lah
             whoami

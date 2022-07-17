@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "a"
+                  "rawName": "id",
+                  "value": "a",
+                  "rawValue": "a"
                 }
               ],
               "children": [
@@ -105,7 +107,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "b"
+                  "rawName": "id",
+                  "value": "b",
+                  "rawValue": "b"
                 }
               ],
               "children": [
@@ -116,7 +120,8 @@
                     "end": 28,
                     "ctxt": 0
                   },
-                  "data": "TEST"
+                  "data": "TEST",
+                  "raw": "TEST"
                 }
               ],
               "content": null,

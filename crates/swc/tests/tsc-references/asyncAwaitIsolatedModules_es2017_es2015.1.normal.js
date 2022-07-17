@@ -1,3 +1,5 @@
+// @target: es2017
+// @isolatedModules: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 function f0() {
     return _f0.apply(this, arguments);
@@ -130,6 +132,4 @@ var M;
     }
     M.f1 = f1;
 })(M || (M = {}));
-// @target: es2017
-// @isolatedModules: true
 export { };

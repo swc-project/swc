@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @Filename: foo1.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var x = 10;
 var y = 20;
 // @Filename: foo2.ts
@@ -25,5 +25,5 @@ function y() {
 var x = 5;
 var y = "test";
 var z = {};
-module.exports = z;
+module.exports = x;
 export { };

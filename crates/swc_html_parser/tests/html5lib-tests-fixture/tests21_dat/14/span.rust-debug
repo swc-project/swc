@@ -24,13 +24,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat/14/input.html:1:1]
  1 | <!DOCTYPE html><svg><![CDATA[foo]]]]]>
-   :                ^^^^^^^^^^^^^^^^^^^^^^
+   :                ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat/14/input.html:1:1]
  1 | <!DOCTYPE html><svg><![CDATA[foo]]]]]>
-   :                ^^^^^^^^^^^^^^^^^^^^^^
+   :                ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

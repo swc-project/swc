@@ -1,3 +1,5 @@
+//@Filename: decls.ts
+// Ambient external module with export assignment
 // Ambient external import declaration referencing ambient external module using top level module name
 //@Filename: consumer.ts
 /// <reference path="decls.ts" />
@@ -6,6 +8,4 @@ var imp1 = require("equ");
 var imp3 = require("equ2");
 var n = imp3.x;
 var n;
-//@Filename: decls.ts
-// Ambient external module with export assignment
 export { };

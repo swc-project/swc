@@ -2,11 +2,10 @@ define([
     "require",
     "exports",
     "vs/workbench/contrib/welcomeGettingStarted/browser/gettingStartedIcons"
-], function(require, _exports, _gettingStartedIcons) {
+], function(require, exports, _gettingStartedIcons) {
     "use strict";
-    Object.defineProperty(_exports, "__esModule", {
-        value: true
+    Object.defineProperty(exports, "icons", {
+        enumerable: true,
+        get: ()=>_gettingStartedIcons
     });
-    _exports.icons = void 0;
-    _exports.icons = _gettingStartedIcons;
 });

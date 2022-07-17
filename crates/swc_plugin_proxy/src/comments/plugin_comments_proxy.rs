@@ -44,24 +44,24 @@ impl PluginCommentsProxy {
     /// comment_buffer as serialized to pass param from guest to the host for
     /// the fn like add_leading*.
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-    fn allocate_comments_buffer_to_host<T>(&self, value: &T)
+    fn allocate_comments_buffer_to_host<T>(&self, value: T)
     where
         T: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
         #[cfg(target_arch = "wasm32")]
         {
-            let serialized = swc_common::plugin::Serialized::serialize(value)
+            let value = swc_common::plugin::VersionedSerializable::new(value);
+            let serialized = swc_common::plugin::PluginSerializedBytes::try_serialize(&value)
                 .expect("Should able to serialize value");
-            let serialized_comment_ptr_ref = serialized.as_ref();
+            let (serialized_comment_ptr, serialized_comment_ptr_len) = serialized.as_ptr();
             unsafe {
                 // We need to copy PluginCommentProxy's param for add_leading (Comment, or
                 // Vec<Comment>) to the host, before calling proxy to the host. This'll fill in
                 // CommentHostEnvironment's buffer, subsequent proxy call will read &
                 // deserialize it.
                 __copy_comment_to_host_env(
-                    serialized_comment_ptr_ref.as_ptr() as _,
-                    serialized_comment_ptr_ref
-                        .len()
+                    serialized_comment_ptr as i32,
+                    serialized_comment_ptr_len
                         .try_into()
                         .expect("Should able to convert ptr length"),
                 );
@@ -74,7 +74,7 @@ impl PluginCommentsProxy {
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 impl Comments for PluginCommentsProxy {
     fn add_leading(&self, pos: BytePos, cmt: Comment) {
-        self.allocate_comments_buffer_to_host(&cmt);
+        self.allocate_comments_buffer_to_host(cmt);
         #[cfg(target_arch = "wasm32")]
         unsafe {
             __add_leading_comment_proxy(pos.0);
@@ -82,7 +82,7 @@ impl Comments for PluginCommentsProxy {
     }
 
     fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
-        self.allocate_comments_buffer_to_host(&comments);
+        self.allocate_comments_buffer_to_host(comments);
         #[cfg(target_arch = "wasm32")]
         unsafe {
             __add_leading_comments_proxy(pos.0);
@@ -130,7 +130,7 @@ impl Comments for PluginCommentsProxy {
     }
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
-        self.allocate_comments_buffer_to_host(&cmt);
+        self.allocate_comments_buffer_to_host(cmt);
         #[cfg(target_arch = "wasm32")]
         unsafe {
             __add_trailing_comment_proxy(pos.0);
@@ -138,7 +138,7 @@ impl Comments for PluginCommentsProxy {
     }
 
     fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
-        self.allocate_comments_buffer_to_host(&comments);
+        self.allocate_comments_buffer_to_host(comments);
         #[cfg(target_arch = "wasm32")]
         unsafe {
             __add_trailing_comments_proxy(pos.0);

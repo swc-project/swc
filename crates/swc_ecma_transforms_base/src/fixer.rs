@@ -350,7 +350,7 @@ impl VisitMut for Fixer<'_> {
         body.visit_mut_children_with(self);
 
         match body {
-            BlockStmtOrExpr::Expr(ref mut expr) if expr.is_object() => {
+            BlockStmtOrExpr::Expr(expr) if expr.is_object() => {
                 self.wrap(&mut **expr);
             }
 
@@ -380,7 +380,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
         match &mut node.super_class {
-            Some(ref mut e)
+            Some(e)
                 if e.is_seq()
                     || e.is_await_expr()
                     || e.is_bin()
@@ -648,10 +648,12 @@ impl VisitMut for Fixer<'_> {
                 right,
                 ..
             }) if n.op == op!(unary, "-")
-                && matches!(
-                    (&**left, &**right),
-                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..)))
-                ) => {}
+                && match (&**left, &**right) {
+                    (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(..))) => {
+                        !l.value.is_sign_negative()
+                    }
+                    _ => false,
+                } => {}
 
             Expr::Assign(..)
             | Expr::Bin(..)
@@ -725,8 +727,8 @@ impl Fixer<'_> {
                     for (i, expr) in exprs.iter_mut().enumerate() {
                         let is_last = i + 1 == exprs_len;
 
-                        match **expr {
-                            Expr::Seq(SeqExpr { ref mut exprs, .. }) => {
+                        match &mut **expr {
+                            Expr::Seq(SeqExpr { exprs, .. }) => {
                                 let exprs = exprs.take();
                                 if !is_last {
                                     buf.extend(exprs.into_iter().filter_map(|expr| {
@@ -811,7 +813,11 @@ impl Fixer<'_> {
             }
 
             Expr::Call(CallExpr {
-                callee: Callee::Expr(ref mut callee),
+                callee: Callee::Expr(callee),
+                ..
+            })
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(OptCall { callee, .. }),
                 ..
             }) if callee.is_seq() => {
                 *callee = Box::new(Expr::Paren(ParenExpr {
@@ -821,15 +827,23 @@ impl Fixer<'_> {
             }
 
             Expr::Call(CallExpr {
-                callee: Callee::Expr(ref mut callee),
+                callee: Callee::Expr(callee),
                 ..
-            }) if callee.is_arrow() || callee.is_await_expr() => {
+            })
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(OptCall { callee, .. }),
+                ..
+            }) if callee.is_arrow() || callee.is_await_expr() || callee.is_assign() => {
                 self.wrap(&mut **callee);
             }
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
-                callee: Callee::Expr(ref mut callee),
+                callee: Callee::Expr(callee),
+                ..
+            })
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(OptCall { callee, .. }),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
                 Context::ForcedExpr | Context::FreeExpr => {}
@@ -838,10 +852,6 @@ impl Fixer<'_> {
 
                 _ => self.wrap(&mut **callee),
             },
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(ref mut callee),
-                ..
-            }) if callee.is_assign() => self.wrap(&mut **callee),
             _ => {}
         }
     }
@@ -881,14 +891,14 @@ impl Fixer<'_> {
         }
 
         match e {
-            Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
+            Expr::Seq(SeqExpr { exprs, .. }) if exprs.len() == 1 => {
                 self.unwrap_expr(exprs.last_mut().unwrap());
                 *e = *exprs.last_mut().unwrap().take();
             }
 
             Expr::Paren(ParenExpr {
                 span: paren_span,
-                ref mut expr,
+                expr,
                 ..
             }) => {
                 match &**expr {
@@ -1608,4 +1618,8 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_4761, "x = { ...(0, foo) }");
 
     identical!(issue_4914, "(a ?? b)?.()");
+
+    identical!(issue_5109_1, "(0, b)?.()");
+    identical!(issue_5109_2, "1 + (0, b)?.()");
+    identical!(issue_5109_3, "(0, a)() ? undefined : (0, b)?.()");
 }

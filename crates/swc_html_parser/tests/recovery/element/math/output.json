@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "xmlns",
-          "value": "http://www.w3.org/1999/xhtml"
+          "rawName": "xmlns",
+          "value": "http://www.w3.org/1999/xhtml",
+          "rawValue": "\"http://www.w3.org/1999/xhtml\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 57,
                     "ctxt": 0
                   },
-                  "data": "MathML in HTML5"
+                  "data": "MathML in HTML5",
+                  "raw": "MathML in HTML5"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 66,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 74,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 82,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -146,7 +153,8 @@
                     "end": 93,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -166,7 +174,8 @@
                         "end": 114,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -175,7 +184,8 @@
                         "end": 142,
                         "ctxt": 0
                       },
-                      "data": " Presentation MathML "
+                      "data": " Presentation MathML ",
+                      "raw": "<!-- Presentation MathML -->"
                     },
                     {
                       "type": "Text",
@@ -184,7 +194,8 @@
                         "end": 151,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -204,7 +215,8 @@
                             "end": 170,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -224,7 +236,8 @@
                                 "end": 193,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -244,7 +257,8 @@
                                     "end": 198,
                                     "ctxt": 0
                                   },
-                                  "data": "x"
+                                  "data": "x",
+                                  "raw": "x"
                                 }
                               ],
                               "content": null,
@@ -257,7 +271,8 @@
                                 "end": 220,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -277,7 +292,8 @@
                                     "end": 225,
                                     "ctxt": 0
                                   },
-                                  "data": "2"
+                                  "data": "2",
+                                  "raw": "2"
                                 }
                               ],
                               "content": null,
@@ -290,7 +306,8 @@
                                 "end": 243,
                                 "ctxt": 0
                               },
-                              "data": "\n            "
+                              "data": "\n            ",
+                              "raw": "\n            "
                             }
                           ],
                           "content": null,
@@ -303,7 +320,8 @@
                             "end": 263,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -323,7 +341,8 @@
                                 "end": 268,
                                 "ctxt": 0
                               },
-                              "data": "+"
+                              "data": "+",
+                              "raw": "+"
                             }
                           ],
                           "content": null,
@@ -336,7 +355,8 @@
                             "end": 286,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -356,7 +376,8 @@
                                 "end": 291,
                                 "ctxt": 0
                               },
-                              "data": "y"
+                              "data": "y",
+                              "raw": "y"
                             }
                           ],
                           "content": null,
@@ -369,7 +390,8 @@
                             "end": 305,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         }
                       ],
                       "content": null,
@@ -382,7 +404,8 @@
                         "end": 322,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -391,7 +414,8 @@
                         "end": 345,
                         "ctxt": 0
                       },
-                      "data": " Content MathML "
+                      "data": " Content MathML ",
+                      "raw": "<!-- Content MathML -->"
                     },
                     {
                       "type": "Text",
@@ -400,7 +424,8 @@
                         "end": 354,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -422,7 +447,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "MathML-Content"
+                          "rawName": "encoding",
+                          "value": "MathML-Content",
+                          "rawValue": "\"MathML-Content\""
                         }
                       ],
                       "children": [
@@ -433,7 +460,8 @@
                             "end": 409,
                             "ctxt": 0
                           },
-                          "data": "\n            "
+                          "data": "\n            ",
+                          "raw": "\n            "
                         },
                         {
                           "type": "Element",
@@ -453,7 +481,8 @@
                                 "end": 433,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -476,7 +505,8 @@
                                 "end": 457,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -496,7 +526,8 @@
                                     "end": 485,
                                     "ctxt": 0
                                   },
-                                  "data": "\n                    "
+                                  "data": "\n                    ",
+                                  "raw": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -519,7 +550,8 @@
                                     "end": 514,
                                     "ctxt": 0
                                   },
-                                  "data": "\n                    "
+                                  "data": "\n                    ",
+                                  "raw": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -539,7 +571,8 @@
                                         "end": 519,
                                         "ctxt": 0
                                       },
-                                      "data": "x"
+                                      "data": "x",
+                                      "raw": "x"
                                     }
                                   ],
                                   "content": null,
@@ -552,7 +585,8 @@
                                     "end": 545,
                                     "ctxt": 0
                                   },
-                                  "data": "\n                    "
+                                  "data": "\n                    ",
+                                  "raw": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -574,7 +608,9 @@
                                       "namespace": null,
                                       "prefix": null,
                                       "name": "type",
-                                      "value": "integer"
+                                      "rawName": "type",
+                                      "value": "integer",
+                                      "rawValue": "\"integer\""
                                     }
                                   ],
                                   "children": [
@@ -585,7 +621,8 @@
                                         "end": 565,
                                         "ctxt": 0
                                       },
-                                      "data": "2"
+                                      "data": "2",
+                                      "raw": "2"
                                     }
                                   ],
                                   "content": null,
@@ -598,7 +635,8 @@
                                     "end": 587,
                                     "ctxt": 0
                                   },
-                                  "data": "\n                "
+                                  "data": "\n                ",
+                                  "raw": "\n                "
                                 }
                               ],
                               "content": null,
@@ -611,7 +649,8 @@
                                 "end": 612,
                                 "ctxt": 0
                               },
-                              "data": "\n                "
+                              "data": "\n                ",
+                              "raw": "\n                "
                             },
                             {
                               "type": "Element",
@@ -631,7 +670,8 @@
                                     "end": 617,
                                     "ctxt": 0
                                   },
-                                  "data": "y"
+                                  "data": "y",
+                                  "raw": "y"
                                 }
                               ],
                               "content": null,
@@ -644,7 +684,8 @@
                                 "end": 635,
                                 "ctxt": 0
                               },
-                              "data": "\n            "
+                              "data": "\n            ",
+                              "raw": "\n            "
                             }
                           ],
                           "content": null,
@@ -657,7 +698,8 @@
                             "end": 652,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         }
                       ],
                       "content": null,
@@ -670,7 +712,8 @@
                         "end": 679,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -679,7 +722,8 @@
                         "end": 700,
                         "ctxt": 0
                       },
-                      "data": " Content HTML "
+                      "data": " Content HTML ",
+                      "raw": "<!-- Content HTML -->"
                     },
                     {
                       "type": "Text",
@@ -688,7 +732,8 @@
                         "end": 709,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -710,7 +755,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "application/xhtml+xml"
+                          "rawName": "encoding",
+                          "value": "application/xhtml+xml",
+                          "rawValue": "\"application/xhtml+xml\""
                         }
                       ],
                       "children": [
@@ -721,7 +768,8 @@
                             "end": 827,
                             "ctxt": 0
                           },
-                          "data": "\n            \n            "
+                          "data": "\n            \n            ",
+                          "raw": "\n            \n            "
                         },
                         {
                           "type": "Element",
@@ -741,7 +789,8 @@
                                 "end": 856,
                                 "ctxt": 0
                               },
-                              "data": "INNER HTML TITLE"
+                              "data": "INNER HTML TITLE",
+                              "raw": "INNER HTML TITLE"
                             }
                           ],
                           "content": null,
@@ -754,7 +803,8 @@
                             "end": 903,
                             "ctxt": 0
                           },
-                          "data": "\n            \n            "
+                          "data": "\n            \n            ",
+                          "raw": "\n            \n            "
                         },
                         {
                           "type": "Element",
@@ -774,7 +824,8 @@
                                 "end": 964,
                                 "ctxt": 0
                               },
-                              "data": "The base of the natural logarithms, approximately 2.71828."
+                              "data": "The base of the natural logarithms, approximately 2.71828.",
+                              "raw": "The base of the natural logarithms, approximately 2.71828."
                             }
                           ],
                           "content": null,
@@ -787,7 +838,8 @@
                             "end": 1017,
                             "ctxt": 0
                           },
-                          "data": "\n            \n            \n        "
+                          "data": "\n            \n            \n        ",
+                          "raw": "\n            \n            \n        "
                         }
                       ],
                       "content": null,
@@ -800,7 +852,8 @@
                         "end": 1044,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -809,7 +862,8 @@
                         "end": 1070,
                         "ctxt": 0
                       },
-                      "data": " annotate an image "
+                      "data": " annotate an image ",
+                      "raw": "<!-- annotate an image -->"
                     },
                     {
                       "type": "Text",
@@ -818,7 +872,8 @@
                         "end": 1079,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -840,7 +895,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "image/png"
+                          "rawName": "encoding",
+                          "value": "image/png",
+                          "rawValue": "\"image/png\""
                         },
                         {
                           "type": "Attribute",
@@ -852,7 +909,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "src",
-                          "value": "some/path/formula.png"
+                          "rawName": "src",
+                          "value": "some/path/formula.png",
+                          "rawValue": "\"some/path/formula.png\""
                         }
                       ],
                       "children": [],
@@ -866,7 +925,8 @@
                         "end": 1151,
                         "ctxt": 0
                       },
-                      "data": "\n\n        "
+                      "data": "\n\n        ",
+                      "raw": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -875,7 +935,8 @@
                         "end": 1172,
                         "ctxt": 0
                       },
-                      "data": " annotate TeX "
+                      "data": " annotate TeX ",
+                      "raw": "<!-- annotate TeX -->"
                     },
                     {
                       "type": "Text",
@@ -884,7 +945,8 @@
                         "end": 1181,
                         "ctxt": 0
                       },
-                      "data": "\n        "
+                      "data": "\n        ",
+                      "raw": "\n        "
                     },
                     {
                       "type": "Element",
@@ -906,7 +968,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "application/x-tex"
+                          "rawName": "encoding",
+                          "value": "application/x-tex",
+                          "rawValue": "\"application/x-tex\""
                         }
                       ],
                       "children": [
@@ -917,7 +981,8 @@
                             "end": 1253,
                             "ctxt": 0
                           },
-                          "data": "\n            x^{2} + y\n        "
+                          "data": "\n            x^{2} + y\n        ",
+                          "raw": "\n            x^{2} + y\n        "
                         }
                       ],
                       "content": null,
@@ -930,7 +995,8 @@
                         "end": 1272,
                         "ctxt": 0
                       },
-                      "data": "\n\n    "
+                      "data": "\n\n    ",
+                      "raw": "\n\n    "
                     }
                   ],
                   "content": null,
@@ -943,7 +1009,8 @@
                     "end": 1285,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -956,7 +1023,8 @@
                 "end": 1310,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

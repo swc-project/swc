@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -146,7 +153,8 @@
                     "end": 91,
                     "ctxt": 0
                   },
-                  "data": "Test"
+                  "data": "Test",
+                  "raw": "Test"
                 }
               ],
               "content": null,
@@ -159,7 +167,8 @@
                 "end": 96,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -179,7 +188,8 @@
                     "end": 118,
                     "ctxt": 0
                   },
-                  "data": "\n    Test\n    Test\n"
+                  "data": "\n    Test\n    Test\n",
+                  "raw": "\n    Test\n    Test\n"
                 }
               ],
               "content": null,
@@ -192,7 +202,8 @@
                 "end": 123,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -212,7 +223,8 @@
                     "end": 130,
                     "ctxt": 0
                   },
-                  "data": "One\n"
+                  "data": "One\n",
+                  "raw": "One\n"
                 }
               ],
               "content": null,
@@ -236,7 +248,8 @@
                     "end": 138,
                     "ctxt": 0
                   },
-                  "data": "Two\n\n"
+                  "data": "Two\n\n",
+                  "raw": "Two\n\n"
                 }
               ],
               "content": null,
@@ -320,7 +333,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "href",
-                                  "value": "/"
+                                  "rawName": "href",
+                                  "value": "/",
+                                  "rawValue": "\"/\""
                                 }
                               ],
                               "children": [
@@ -331,7 +346,8 @@
                                     "end": 184,
                                     "ctxt": 0
                                   },
-                                  "data": "Apples"
+                                  "data": "Apples",
+                                  "raw": "Apples"
                                 }
                               ],
                               "content": null,
@@ -360,7 +376,8 @@
                 "end": 223,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

@@ -1,3 +1,4 @@
+// @strictNullChecks: true
 function f1() {
     let x = foo();
     if (x) {

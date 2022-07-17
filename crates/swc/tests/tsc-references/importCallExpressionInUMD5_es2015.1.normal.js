@@ -1,7 +1,7 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @module: umd
 // @target: es2015
 // @filename: 0.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 export function foo() {
     return "foo";
 }

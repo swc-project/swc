@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 f1("foo", "abc");
 f1("foo", 10, true);
 f1("foo", ...t1);

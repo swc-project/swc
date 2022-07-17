@@ -301,6 +301,12 @@ pub enum PropOrSpread {
     Prop(Box<Prop>),
 }
 
+impl From<Prop> for PropOrSpread {
+    fn from(p: Prop) -> Self {
+        Self::Prop(Box::new(p))
+    }
+}
+
 #[ast_node("SpreadElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -707,6 +713,10 @@ pub struct MetaPropExpr {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(
+    feature = "rkyv",
+    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
+)]
 pub enum MetaPropKind {
     /// `new.target`
     NewTarget,
@@ -890,9 +900,14 @@ impl Take for Import {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 #[cfg_attr(
     feature = "rkyv",
-    archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
 )]
 pub struct ExprOrSpread {
     #[serde(default)]
@@ -948,6 +963,15 @@ pub enum BlockStmtOrExpr {
     Expr(Box<Expr>),
 }
 
+impl<T> From<T> for BlockStmtOrExpr
+where
+    T: Into<Expr>,
+{
+    fn from(e: T) -> Self {
+        Self::Expr(Box::new(e.into()))
+    }
+}
+
 impl Take for BlockStmtOrExpr {
     fn dummy() -> Self {
         BlockStmtOrExpr::Expr(Take::dummy())
@@ -999,6 +1023,18 @@ pub enum PatOrExpr {
     Expr(Box<Expr>),
     #[tag("*")]
     Pat(Box<Pat>),
+}
+
+impl From<Pat> for PatOrExpr {
+    fn from(p: Pat) -> Self {
+        Self::Pat(Box::new(p))
+    }
+}
+
+impl From<Expr> for PatOrExpr {
+    fn from(e: Expr) -> Self {
+        Self::Expr(Box::new(e))
+    }
 }
 
 impl PatOrExpr {

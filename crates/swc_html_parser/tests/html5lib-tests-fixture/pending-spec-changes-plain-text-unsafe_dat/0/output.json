@@ -36,7 +36,7 @@
           "type": "Element",
           "span": {
             "start": 1,
-            "end": 14,
+            "end": 27,
             "ctxt": 0
           },
           "tagName": "body",
@@ -50,13 +50,14 @@
                 "end": 26,
                 "ctxt": 0
               },
-              "data": "fillertext"
+              "data": "fillertext",
+              "raw": "fillertext"
             },
             {
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 14,
+                "end": 27,
                 "ctxt": 0
               },
               "tagName": "table",

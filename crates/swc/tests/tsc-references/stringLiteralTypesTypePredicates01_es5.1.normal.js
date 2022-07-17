@@ -1,3 +1,4 @@
+// @declaration: true
 function kindIs(kind, is) {
     return kind === is;
 }

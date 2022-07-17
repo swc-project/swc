@@ -1,19 +1,19 @@
+// @target: esnext
+// @noImplicitOverride: true
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-// @target: esnext
-// @noImplicitOverride: true
 var Foo = /*#__PURE__*/ function() {
     "use strict";
-    function _class() {
-        _class_call_check(this, _class);
+    function Foo() {
+        _class_call_check(this, Foo);
     }
-    var _proto = _class.prototype;
+    var _proto = Foo.prototype;
     _proto.m1 = function m1() {};
     _proto.m2 = function m2() {};
-    return _class;
+    return Foo;
 }();
 export var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";

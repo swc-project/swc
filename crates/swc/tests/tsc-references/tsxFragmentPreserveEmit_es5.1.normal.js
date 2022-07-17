@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: preserve
 /*#__PURE__*/ React.createElement(React.Fragment, null); // no whitespace
 /*#__PURE__*/ React.createElement(React.Fragment, null); // lots of whitespace
 /*#__PURE__*/ React.createElement(React.Fragment, null); // comments in the tags

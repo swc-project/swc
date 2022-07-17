@@ -1,11 +1,11 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @target: es2017
 // @filename: file.js
 // Error (good)
-/** @type {function(): string} */ const a = ()=>0;
+/** @type {function(): string} */ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+const a = ()=>0;
 // Error (good)
 /** @type {function(): string} */ const b = function() {
     var _ref = _async_to_generator(function*() {

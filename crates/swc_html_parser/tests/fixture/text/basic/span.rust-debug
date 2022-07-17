@@ -16,7 +16,13 @@
  13 | |   <div>Text
  14 | |   
  15 | |   
- 16 | `-> Text</div>
+ 16 | |   Text</div>
+ 17 | |   
+ 18 | |   Test &amp; Test &#38; Test &Afr; Test &Kscr; & test
+ 19 | |   &testtesttest &#1234; &#x1234; &#x2014; &#X2014;
+ 20 | |   FOO&#x0078;ZOO
+ 21 | |   &#x2014;
+ 22 | `-> &ThickSpace;
     `----
 
   x Child
@@ -217,12 +223,22 @@
 
   x Child
     ,-[$DIR/tests/fixture/text/basic/input.html:16:1]
- 16 | Text</div>
-    :           ^
+ 16 | ,-> Text</div>
+ 17 | |   
+ 18 | |   Test &amp; Test &#38; Test &Afr; Test &Kscr; & test
+ 19 | |   &testtesttest &#1234; &#x1234; &#x2014; &#X2014;
+ 20 | |   FOO&#x0078;ZOO
+ 21 | |   &#x2014;
+ 22 | `-> &ThickSpace;
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/basic/input.html:16:1]
- 16 | Text</div>
-    :           ^
+ 16 | ,-> Text</div>
+ 17 | |   
+ 18 | |   Test &amp; Test &#38; Test &Afr; Test &Kscr; & test
+ 19 | |   &testtesttest &#1234; &#x1234; &#x2014; &#X2014;
+ 20 | |   FOO&#x0078;ZOO
+ 21 | |   &#x2014;
+ 22 | `-> &ThickSpace;
     `----

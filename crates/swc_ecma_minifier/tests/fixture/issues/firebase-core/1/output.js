@@ -2414,15 +2414,15 @@
                 [LogLevel.INFO]: "info",
                 [LogLevel.WARN]: "warn",
                 [LogLevel.ERROR]: "error"
+            }, defaultLogHandler = (instance, logType, ...args)=>{
+                if (logType < instance.logLevel) return;
+                const now = new Date().toISOString(), method = ConsoleMethod[logType];
+                if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
+                else throw Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
             };
             class Logger {
                 constructor(name){
-                    this.name = name, this._logLevel = defaultLogLevel, this._logHandler = (instance, logType, ...args)=>{
-                        if (logType < instance.logLevel) return;
-                        const now = new Date().toISOString(), method = ConsoleMethod[logType];
-                        if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
-                        else throw Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
-                    }, this._userLogHandler = null, [].push(this);
+                    this.name = name, this._logLevel = defaultLogLevel, this._logHandler = defaultLogHandler, this._userLogHandler = null, [].push(this);
                 }
                 get logLevel() {
                     return this._logLevel;

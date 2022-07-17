@@ -1,18 +1,19 @@
 use std::collections::hash_map::Entry;
 
+use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     errors::HANDLER,
     Span,
 };
 use swc_ecma_ast::*;
+use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::{visitor_rule, Rule};
 
 pub fn duplicate_bindings() -> Box<dyn Rule> {
     visitor_rule(DuplicateBindings {
-        top_level: true,
         ..Default::default()
     })
 }
@@ -21,6 +22,7 @@ pub fn duplicate_bindings() -> Box<dyn Rule> {
 struct BindingInfo {
     span: Span,
     unique: bool,
+    is_function: bool,
 }
 
 #[derive(Debug, Default)]
@@ -31,47 +33,29 @@ struct DuplicateBindings {
     var_decl_kind: Option<VarDeclKind>,
     is_pat_decl: bool,
 
-    is_module: bool,
-
-    top_level: bool,
+    /// at the top level of script of function, function behaves like var
+    /// in other scope it behaves like let
+    lexical_function: bool,
 }
 
 impl DuplicateBindings {
     /// Add a binding.
-    fn add(&mut self, id: &Ident, unique: bool) {
-        match self.bindings.entry(id.to_id()) {
+    fn add(&mut self, id: JsWord, info: BindingInfo) {
+        match self.bindings.entry((id.clone(), info.span.ctxt())) {
             Entry::Occupied(mut prev) => {
-                if unique || prev.get().unique {
-                    let name = &id.sym;
-
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                id.span,
-                                &format!("the name `{}` is defined multiple times", name),
-                            )
-                            .span_label(
-                                prev.get().span,
-                                &format!("previous definition of `{}` here", name),
-                            )
-                            .span_label(id.span, &format!("`{}` redefined here", name))
-                            .emit();
-                    });
+                if !(info.is_function && prev.get().is_function)
+                    && (info.unique || prev.get().unique)
+                {
+                    emit_error(&id, info.span, prev.get().span);
                 }
 
                 // Next span.
-                if unique || !prev.get().unique {
-                    *prev.get_mut() = BindingInfo {
-                        span: id.span,
-                        unique,
-                    }
+                if info.unique || !prev.get().unique {
+                    *prev.get_mut() = info
                 }
             }
             Entry::Vacant(e) => {
-                e.insert(BindingInfo {
-                    span: id.span,
-                    unique,
-                });
+                e.insert(info);
             }
         }
     }
@@ -97,11 +81,39 @@ impl DuplicateBindings {
         self.var_decl_kind = old_var_decl_kind;
     }
 
-    fn visit_with_fn_scope<V: VisitWith<Self>>(&mut self, e: &V) {
-        let top_level = self.top_level;
-        self.top_level = false;
-        e.visit_children_with(self);
-        self.top_level = top_level;
+    // this is for the wired case:
+    // in non strict mode, function in non top level or function scope
+    // is hoisted, while still error when collides with same level lexical var
+    fn visit_with_stmt_like<T: StmtLike + VisitWith<Self>>(&mut self, s: &[T]) {
+        let mut fn_name = AHashMap::default();
+        for s in s {
+            if let Some(Stmt::Decl(Decl::Fn(FnDecl {
+                ident,
+                function: Function { body: Some(_), .. },
+                ..
+            }))) = s.as_stmt()
+            {
+                if let Some(prev) = fn_name.get(&ident.sym) {
+                    emit_error(&ident.sym, ident.span, *prev)
+                } else {
+                    fn_name.insert(ident.sym.clone(), ident.span);
+                }
+            }
+
+            s.visit_with(self);
+        }
+    }
+
+    fn visit_with_stmts(&mut self, s: &[Stmt], lexical_function: bool) {
+        let old = self.lexical_function;
+        self.lexical_function = lexical_function;
+
+        if lexical_function {
+            self.visit_with_stmt_like(s);
+        } else {
+            s.visit_children_with(self);
+        }
+        self.lexical_function = old;
     }
 }
 
@@ -112,20 +124,59 @@ impl Visit for DuplicateBindings {
         p.visit_children_with(self);
 
         if self.is_pat_decl {
-            self.add(&p.key, self.is_unique_var_kind());
+            self.add(
+                p.key.sym.clone(),
+                BindingInfo {
+                    span: p.key.span,
+                    unique: self.is_unique_var_kind(),
+                    is_function: false,
+                },
+            );
         }
     }
 
     fn visit_function(&mut self, f: &Function) {
-        self.visit_with_fn_scope(f)
+        // in case any new parts is added
+        let Function {
+            body,
+            params,
+            decorators,
+            span: _,
+            is_generator: _,
+            is_async: _,
+            type_params: _,
+            return_type: _,
+        } = f;
+        params.visit_with(self);
+        decorators.visit_with(self);
+        if let Some(body) = body {
+            self.visit_with_stmts(&body.stmts, false)
+        }
     }
 
     fn visit_arrow_expr(&mut self, a: &ArrowExpr) {
-        self.visit_with_fn_scope(a)
+        let ArrowExpr {
+            params,
+            body,
+            span: _,
+            is_async: _,
+            is_generator: _,
+            type_params: _,
+            return_type: _,
+        } = a;
+        params.visit_with(self);
+        if let BlockStmtOrExpr::BlockStmt(b) = body {
+            self.visit_with_stmts(&b.stmts, false)
+        }
     }
 
-    fn visit_class(&mut self, c: &Class) {
-        self.visit_with_fn_scope(c)
+    fn visit_static_block(&mut self, c: &StaticBlock) {
+        self.visit_with_stmts(&c.body.stmts, false)
+    }
+
+    // block stmt and case block
+    fn visit_stmts(&mut self, b: &[Stmt]) {
+        self.visit_with_stmts(b, true)
     }
 
     fn visit_catch_clause(&mut self, c: &CatchClause) {
@@ -133,7 +184,14 @@ impl Visit for DuplicateBindings {
     }
 
     fn visit_class_decl(&mut self, d: &ClassDecl) {
-        self.add(&d.ident, true);
+        self.add(
+            d.ident.sym.clone(),
+            BindingInfo {
+                span: d.ident.span,
+                unique: true,
+                is_function: false,
+            },
+        );
 
         d.visit_children_with(self);
     }
@@ -153,7 +211,14 @@ impl Visit for DuplicateBindings {
 
     fn visit_fn_decl(&mut self, d: &FnDecl) {
         if d.function.body.is_some() {
-            self.add(&d.ident, self.is_module && self.top_level);
+            self.add(
+                d.ident.sym.clone(),
+                BindingInfo {
+                    span: d.ident.span,
+                    unique: self.lexical_function,
+                    is_function: true,
+                },
+            );
         }
 
         d.visit_children_with(self);
@@ -171,7 +236,14 @@ impl Visit for DuplicateBindings {
         s.visit_children_with(self);
 
         if !self.type_bindings.contains(&s.local.to_id()) {
-            self.add(&s.local, true);
+            self.add(
+                s.local.sym.clone(),
+                BindingInfo {
+                    span: s.local.span,
+                    unique: true,
+                    is_function: false,
+                },
+            );
         }
     }
 
@@ -179,7 +251,14 @@ impl Visit for DuplicateBindings {
         s.visit_children_with(self);
 
         if !s.is_type_only && !self.type_bindings.contains(&s.local.to_id()) {
-            self.add(&s.local, true);
+            self.add(
+                s.local.sym.clone(),
+                BindingInfo {
+                    span: s.local.span,
+                    unique: true,
+                    is_function: false,
+                },
+            );
         }
     }
 
@@ -187,7 +266,29 @@ impl Visit for DuplicateBindings {
         s.visit_children_with(self);
 
         if !self.type_bindings.contains(&s.local.to_id()) {
-            self.add(&s.local, true);
+            self.add(
+                s.local.sym.clone(),
+                BindingInfo {
+                    span: s.local.span,
+                    unique: true,
+                    is_function: false,
+                },
+            );
+        }
+    }
+
+    fn visit_ts_import_equals_decl(&mut self, s: &TsImportEqualsDecl) {
+        s.visit_children_with(self);
+
+        if !s.is_type_only && !self.type_bindings.contains(&s.id.to_id()) {
+            self.add(
+                s.id.sym.clone(),
+                BindingInfo {
+                    span: s.id.span,
+                    unique: true,
+                    is_function: false,
+                },
+            );
         }
     }
 
@@ -196,8 +297,9 @@ impl Visit for DuplicateBindings {
             type_bindings: &mut self.type_bindings,
         });
 
-        self.is_module = true;
-        m.visit_children_with(self);
+        self.lexical_function = true;
+
+        self.visit_with_stmt_like(&m.body);
     }
 
     fn visit_pat(&mut self, p: &Pat) {
@@ -205,7 +307,14 @@ impl Visit for DuplicateBindings {
 
         if let Pat::Ident(p) = p {
             if self.is_pat_decl {
-                self.add(&p.id, self.is_unique_var_kind());
+                self.add(
+                    p.id.sym.clone(),
+                    BindingInfo {
+                        span: p.id.span,
+                        unique: self.is_unique_var_kind(),
+                        is_function: false,
+                    },
+                );
             }
         }
     }
@@ -215,7 +324,7 @@ impl Visit for DuplicateBindings {
             type_bindings: &mut self.type_bindings,
         });
 
-        s.visit_children_with(self);
+        s.body.visit_children_with(self);
     }
 
     fn visit_var_decl(&mut self, d: &VarDecl) {
@@ -239,4 +348,20 @@ impl Visit for TypeCollector<'_> {
             self.type_bindings.insert(ident.to_id());
         }
     }
+}
+
+fn emit_error(name: &str, span: Span, prev_span: Span) {
+    HANDLER.with(|handler| {
+        handler
+            .struct_span_err(
+                span,
+                &format!("the name `{}` is defined multiple times", name),
+            )
+            .span_label(
+                prev_span,
+                &format!("previous definition of `{}` here", name),
+            )
+            .span_label(span, &format!("`{}` redefined here", name))
+            .emit();
+    });
 }

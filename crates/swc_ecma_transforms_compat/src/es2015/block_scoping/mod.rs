@@ -10,8 +10,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_pat_ids, prepend_stmt, private_ident, quote_ident,
-    quote_str, undefined, var::VarCollector, ExprFactory, StmtLike,
+    find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str,
+    undefined, var::VarCollector, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
@@ -36,10 +36,11 @@ mod vars;
 /// }
 /// ```
 #[tracing::instrument(level = "info", skip_all)]
-pub fn block_scoping() -> impl VisitMut + Fold {
+pub fn block_scoping(unresolved_mark: Mark) -> impl VisitMut + Fold {
     as_folder(chain!(
         self::vars::block_scoped_vars(),
         BlockScoping {
+            unresolved_mark,
             scope: Default::default(),
             vars: vec![],
             var_decl_kind: VarDeclKind::Var,
@@ -67,6 +68,7 @@ enum ScopeKind {
 }
 
 struct BlockScoping {
+    unresolved_mark: Mark,
     scope: ScopeStack,
     vars: Vec<VarDeclarator>,
     var_decl_kind: VarDeclKind,
@@ -151,31 +153,11 @@ impl BlockScoping {
             if used.is_empty() {
                 return;
             }
-            let this = if contains_this_expr(body_stmt) {
-                let ident = private_ident!("_this");
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ident.clone().into(),
-                    init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
-                    definite: false,
-                });
-                Some(ident)
-            } else {
-                None
-            };
 
-            let arguments = if contains_arguments(body_stmt) {
-                let ident = private_ident!("_arguments");
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ident.clone().into(),
-                    init: Some(Box::new(Expr::Ident(quote_ident!("arguments")))),
-                    definite: false,
-                });
-                Some(ident)
-            } else {
-                None
-            };
+            let mut env_hoister =
+                FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
+            body_stmt.visit_mut_with(&mut env_hoister);
+            self.vars.extend(env_hoister.to_decl());
 
             let mut flow_helper = FlowHelper {
                 all: &args,
@@ -198,13 +180,11 @@ impl BlockScoping {
                 },
             };
 
-            if !flow_helper.mutated.is_empty() || this.is_some() || arguments.is_some() {
+            if !flow_helper.mutated.is_empty() {
                 let no_modification = flow_helper.mutated.is_empty();
                 let mut v = MutationHandler {
                     map: &mut flow_helper.mutated,
                     in_function: false,
-                    this,
-                    arguments,
                 };
 
                 // Modifies identifiers, and add reassignments to break / continue / return
@@ -604,7 +584,7 @@ impl BlockScoping {
 
 fn find_vars<T>(node: &T) -> Vec<Id>
 where
-    T: for<'any> VisitWith<VarCollector<'any>>,
+    T: for<'any> VisitWith<VarCollector<'any, Id>>,
 {
     let mut vars = vec![];
     let mut v = VarCollector { to: &mut vars };
@@ -911,8 +891,6 @@ impl VisitMut for FlowHelper<'_> {
 struct MutationHandler<'a> {
     map: &'a mut AHashMap<Id, SyntaxContext>,
     in_function: bool,
-    this: Option<Ident>,
-    arguments: Option<Ident>,
 }
 
 impl MutationHandler<'_> {
@@ -958,36 +936,13 @@ impl VisitMut for MutationHandler<'_> {
         self.in_function = old;
     }
 
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            Expr::This(this) => {
-                if let Some(remapped) = &self.this {
-                    *n = Expr::Ident(Ident::new(
-                        remapped.sym.clone(),
-                        this.span.with_ctxt(remapped.span.ctxt),
-                    ))
-                }
-            }
-            Expr::Ident(id) if id.sym == js_word!("arguments") => {
-                if let Some(arguments) = &self.arguments {
-                    *n = Expr::Ident(arguments.clone())
-                }
-            }
-            _ => {}
-        }
-    }
-
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old = self.in_function;
-        let arguments = self.arguments.take();
         self.in_function = true;
 
         n.visit_mut_children_with(self);
 
         self.in_function = old;
-        self.arguments = arguments;
     }
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {

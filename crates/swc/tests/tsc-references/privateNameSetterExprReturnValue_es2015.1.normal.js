@@ -1,7 +1,7 @@
+// @target: es2019
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 var _foo = /*#__PURE__*/ new WeakMap();
-// @target: es2019
 class C {
     bar() {
         let x = _class_private_field_set(this, _foo, 42 * 2);

@@ -1,3 +1,5 @@
+// @target: esnext
+// @useDefineForClassFields: true
 class B {
 }
 class C extends B {

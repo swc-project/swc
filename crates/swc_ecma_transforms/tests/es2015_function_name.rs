@@ -28,7 +28,7 @@ fn tr() -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         function_name(),
-        block_scoping()
+        block_scoping(unresolved_mark)
     )
 }
 
@@ -246,7 +246,7 @@ export const y = function y() {};
 test!(
     ignore,
     syntax(),
-    |_| chain!(arrow(), function_name()),
+    |_| chain!(arrow(Mark::new()), function_name()),
     function_name_with_arrow_functions_transform,
     r#"
 const x = () => x;
@@ -287,7 +287,12 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            common_js(unresolved_mark, Default::default(), None)
+            common_js(
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
     },
     function_name_modules_3,
@@ -307,7 +312,13 @@ export default class Login extends React.Component {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function() {
+      return Login;
+  }
+});
 
 var _store = require("./store");
 
@@ -325,13 +336,11 @@ function (_Component) {
   _createClass(Login, [{
     key: "getForm",
     value: function getForm() {
-      return (0, _store).getForm().toJS();
+      return (0, _store.getForm)().toJS();
     }
   }]);
   return Login;
 }(React.Component);
-
-exports.default = Login;
 
 "#
 );
@@ -372,12 +381,20 @@ var g = function g() {
 test!(
     ignore,
     syntax(),
-    |_| chain!(
-        arrow(),
-        shorthand(),
-        function_name(),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None)
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        chain!(
+            arrow(unresolved_mark),
+            shorthand(),
+            function_name(),
+            common_js(
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
+        )
+    },
     function_name_export_default_arrow_renaming,
     r#"
 export default (a) => {
@@ -543,7 +560,7 @@ _f = null;
 test!(
     ignore,
     syntax(),
-    |_| chain!(arrow(), function_name()),
+    |_| chain!(arrow(Mark::new()), function_name()),
     function_name_with_arrow_functions_transform_spec,
     r#"
 // These are actually handled by transform-arrow-functions
@@ -611,7 +628,7 @@ test!(
 test!(
     ignore,
     syntax(),
-    |_| chain!(arrow(), shorthand(), function_name()),
+    |_| chain!(arrow(Mark::new()), shorthand(), function_name()),
     function_name_export_default_arrow_renaming_module_es6,
     r#"
 export default (a) => {
@@ -907,7 +924,12 @@ test!(
             }),
             classes(Some(t.comments.clone()), Default::default()),
             function_name(),
-            common_js(unresolved_mark, Default::default(), None)
+            common_js(
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+                Some(t.comments.clone())
+            )
         )
     },
     function_name_modules_2,

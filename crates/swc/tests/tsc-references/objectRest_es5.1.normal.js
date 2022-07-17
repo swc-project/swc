@@ -1,9 +1,9 @@
+// @target: es2015
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
-// @target: es2015
 var o = {
     a: 1,
     b: "no"

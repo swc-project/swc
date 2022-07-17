@@ -1,9 +1,9 @@
-import _define_property from "@swc/helpers/src/_define_property.mjs";
 // @allowJS: true
 // @suppressOutputPathCheck: true
 // @strictNullChecks: true
 // @filename: 0.js
 // @ts-check
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var lol = "hello Lol";
 var _obj;
 var obj = (_obj = {

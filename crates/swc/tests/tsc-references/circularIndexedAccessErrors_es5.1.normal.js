@@ -1,3 +1,4 @@
+// @declaration: true
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var x2x = x2.x;
 var C1 = function C1() {

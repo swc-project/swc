@@ -1,7 +1,7 @@
 use std::iter;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -36,8 +36,11 @@ use swc_trace_macro::swc_trace;
 /// });
 /// ```
 #[tracing::instrument(level = "info", skip_all)]
-pub fn async_to_generator(c: Config) -> impl Fold + VisitMut {
-    as_folder(AsyncToGenerator { c })
+pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
+    as_folder(AsyncToGenerator {
+        c,
+        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+    })
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -52,11 +55,13 @@ pub struct Config {
 #[derive(Default, Clone)]
 struct AsyncToGenerator {
     c: Config,
+    unresolved_ctxt: SyntaxContext,
 }
 
 struct Actual {
     c: Config,
 
+    unresolved_ctxt: SyntaxContext,
     extra_stmts: Vec<Stmt>,
     hoist_stmts: Vec<Stmt>,
 }
@@ -87,6 +92,7 @@ impl AsyncToGenerator {
         for mut stmt in stmts.drain(..) {
             let mut actual = Actual {
                 c: self.c,
+                unresolved_ctxt: self.unresolved_ctxt,
                 extra_stmts: vec![],
                 hoist_stmts: vec![],
             };
@@ -116,7 +122,7 @@ impl VisitMut for Actual {
         }
         let params = m.function.params.clone();
 
-        let mut visitor = FnEnvHoister::default();
+        let mut visitor = FnEnvHoister::new(self.unresolved_ctxt);
         m.function.params.clear();
 
         m.function.body.visit_mut_with(&mut visitor);
@@ -307,7 +313,7 @@ impl Actual {
 
         match expr {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
-                let mut state = FnEnvHoister::default();
+                let mut state = FnEnvHoister::new(self.unresolved_ctxt);
 
                 arrow_expr.visit_mut_with(&mut state);
 

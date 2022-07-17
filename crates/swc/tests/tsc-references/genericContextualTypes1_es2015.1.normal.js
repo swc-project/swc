@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 const f00 = list;
 const f01 = (x)=>[
         x

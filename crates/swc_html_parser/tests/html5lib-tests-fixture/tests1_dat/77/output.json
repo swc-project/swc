@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "blah"
+                  "rawName": "href",
+                  "value": "blah",
+                  "rawValue": "\"blah\""
                 }
               ],
               "children": [
@@ -74,7 +76,8 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "data": "aba"
+                  "data": "aba",
+                  "raw": "aba"
                 },
                 {
                   "type": "Element",
@@ -96,7 +99,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "href",
-                      "value": "foo"
+                      "rawName": "href",
+                      "value": "foo",
+                      "rawValue": "\"foo\""
                     }
                   ],
                   "children": [
@@ -107,7 +112,8 @@
                         "end": 42,
                         "ctxt": 0
                       },
-                      "data": "br"
+                      "data": "br",
+                      "raw": "br"
                     }
                   ],
                   "content": null,
@@ -133,7 +139,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "href",
-                      "value": "foo"
+                      "rawName": "href",
+                      "value": "foo",
+                      "rawValue": "\"foo\""
                     }
                   ],
                   "children": [
@@ -144,7 +152,8 @@
                         "end": 61,
                         "ctxt": 0
                       },
-                      "data": "x"
+                      "data": "x",
+                      "raw": "x"
                     }
                   ],
                   "content": null,
@@ -233,7 +242,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "foo"
+                  "rawName": "href",
+                  "value": "foo",
+                  "rawValue": "\"foo\""
                 }
               ],
               "children": [
@@ -244,7 +255,8 @@
                     "end": 72,
                     "ctxt": 0
                   },
-                  "data": "aoe"
+                  "data": "aoe",
+                  "raw": "aoe"
                 }
               ],
               "content": null,

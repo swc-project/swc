@@ -5,7 +5,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_html_ast::{Document, DocumentFragment, Element, Namespace};
+use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
 use swc_html_codegen::{
     writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
@@ -73,7 +73,7 @@ fn test_minify_document(input: PathBuf) {
             gen.emit(&document).unwrap();
         }
 
-        NormalizedOutput::from(html_str)
+        NormalizedOutput::new_raw(html_str)
             .compare_to_file(&output)
             .unwrap();
 
@@ -140,7 +140,9 @@ fn test_minify_document_fragment(input: PathBuf) {
         let mut errors = vec![];
         let result: Result<DocumentFragment, _> = parse_file_as_document_fragment(
             &fm,
-            context_element.clone(),
+            &context_element,
+            DocumentMode::NoQuirks,
+            None,
             Default::default(),
             &mut errors,
         );
@@ -160,7 +162,7 @@ fn test_minify_document_fragment(input: PathBuf) {
         };
 
         // Apply transforms
-        minify_document_fragment(&mut document_fragment, context_element, &config);
+        minify_document_fragment(&mut document_fragment, &context_element, &config);
 
         let mut html_str = String::new();
         {
@@ -177,7 +179,7 @@ fn test_minify_document_fragment(input: PathBuf) {
             gen.emit(&document_fragment).unwrap();
         }
 
-        NormalizedOutput::from(html_str)
+        NormalizedOutput::new_raw(html_str)
             .compare_to_file(&output)
             .unwrap();
 
@@ -235,7 +237,7 @@ fn test_minify_recovery(input: PathBuf) {
             gen.emit(&document).unwrap();
         }
 
-        NormalizedOutput::from(html_str)
+        NormalizedOutput::new_raw(html_str)
             .compare_to_file(&output)
             .unwrap();
 

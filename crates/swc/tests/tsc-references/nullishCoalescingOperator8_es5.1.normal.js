@@ -1,3 +1,4 @@
+// @strict: true
 var _p;
 var n1 = (_p = a.p) !== null && _p !== void 0 ? _p : "default";
 var ref;

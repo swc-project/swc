@@ -1,6 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @esModuleInterop: true
 // @Filename: /a.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+// @Filename: /b.ts
+import * as a from "./a";
 var A = function A() {
     "use strict";
     _class_call_check(this, A);
@@ -9,4 +11,3 @@ var A = function A() {
 var a = require("./b");
 new a.A(); // Error
 module.exports = a;
-export { };

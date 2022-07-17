@@ -1,0 +1,17 @@
+{
+  "minifyJs": {
+    "parser": {
+      "comments": true,
+      "syntax": "ecmascript",
+      "target": "es2022"
+    },
+    "minifier": {
+      "compress": {
+        "drop_debugger": false
+      }
+    },
+    "codegen": {
+      "asciiOnly": true
+    }
+  }
+}

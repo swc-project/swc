@@ -1,8 +1,8 @@
+// @target: es2015
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 var _foo = /*#__PURE__*/ new WeakMap();
-// @target: es2015
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

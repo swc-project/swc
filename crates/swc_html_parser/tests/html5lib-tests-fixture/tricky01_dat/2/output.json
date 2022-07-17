@@ -50,7 +50,8 @@
                 "end": 14,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -83,7 +84,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "size",
-                      "value": "7"
+                      "rawName": "size",
+                      "value": "7",
+                      "rawValue": "\"7\""
                     }
                   ],
                   "children": [
@@ -94,7 +97,8 @@
                         "end": 48,
                         "ctxt": 0
                       },
-                      "data": "First paragraph."
+                      "data": "First paragraph.",
+                      "raw": "First paragraph."
                     }
                   ],
                   "content": null,
@@ -124,7 +128,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "size",
-                  "value": "7"
+                  "rawName": "size",
+                  "value": "7",
+                  "rawValue": "\"7\""
                 }
               ],
               "children": [
@@ -135,7 +141,8 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 },
                 {
                   "type": "Element",
@@ -155,7 +162,8 @@
                         "end": 73,
                         "ctxt": 0
                       },
-                      "data": "Second paragraph."
+                      "data": "Second paragraph.",
+                      "raw": "Second paragraph."
                     }
                   ],
                   "content": null,
@@ -172,7 +180,8 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -228,7 +237,8 @@
                             "end": 109,
                             "ctxt": 0
                           },
-                          "data": "Bold and Italic"
+                          "data": "Bold and Italic",
+                          "raw": "Bold and Italic"
                         }
                       ],
                       "content": null,
@@ -256,7 +266,8 @@
                         "end": 120,
                         "ctxt": 0
                       },
-                      "data": " Italic"
+                      "data": " Italic",
+                      "raw": " Italic"
                     }
                   ],
                   "content": null,

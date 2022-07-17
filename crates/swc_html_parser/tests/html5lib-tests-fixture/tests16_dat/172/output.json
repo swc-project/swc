@@ -47,7 +47,8 @@
                     "end": 83,
                     "ctxt": 0
                   },
-                  "data": "<!--<br><html xmlns:v=\"urn:schemas-microsoft-com:vml\"><!--[if !mso]><style>"
+                  "data": "<!--<br><html xmlns:v=\"urn:schemas-microsoft-com:vml\"><!--[if !mso]><style>",
+                  "raw": "<!--<br><html xmlns:v=\"urn:schemas-microsoft-com:vml\"><!--[if !mso]><style>"
                 }
               ],
               "content": null,
@@ -75,7 +76,8 @@
                 "end": 92,
                 "ctxt": 0
               },
-              "data": "X"
+              "data": "X",
+              "raw": "X"
             }
           ],
           "content": null,

@@ -562,7 +562,7 @@ impl<'a, I: Tokens> Parser<I> {
             }))
         });
 
-        if !self.ctx().in_function {
+        if !self.ctx().in_function && !self.input.syntax().allow_return_outside_function() {
             self.emit_err(span!(self, start), SyntaxError::ReturnNotAllowed);
         }
 
@@ -1030,13 +1030,19 @@ impl<'a, I: Tokens> Parser<I> {
                     function:
                         Function {
                             span,
-                            is_generator: true,
+                            is_generator,
+                            is_async,
                             ..
                         },
                     ..
                 }) = f
                 {
-                    syntax_error!(p, span, SyntaxError::LabelledGenerator)
+                    if p.ctx().strict {
+                        p.emit_err(span, SyntaxError::LabelledFunctionInStrict)
+                    }
+                    if is_generator || is_async {
+                        p.emit_err(span, SyntaxError::LabelledGeneratorOrAsync)
+                    }
                 }
 
                 f.into()
@@ -1130,7 +1136,7 @@ impl<'a, I: Tokens> Parser<I> {
                         self.emit_err(d.name.span(), SyntaxError::TooManyVarInForInHead);
                     }
                 } else {
-                    if decl.decls[0].init.is_some() {
+                    if (self.ctx().strict || is!(self, "of")) && decl.decls[0].init.is_some() {
                         self.emit_err(
                             decl.decls[0].name.span(),
                             SyntaxError::VarInitializerInForInHead,
@@ -1630,6 +1636,67 @@ let x = 4";
     fn issue_226() {
         test_parser(
             "export * as Foo from 'bar';",
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "Expected 'from', got ','")]
+    fn issue_4369_1() {
+        test_parser(
+            r#"export * as foo, { bar } from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: false,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    fn issue_4369_2() {
+        test_parser(
+            r#"export foo, * as bar, { baz } from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    fn issue_4369_3() {
+        test_parser(
+            r#"export foo, * as bar from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    fn issue_4369_4() {
+        test_parser(
+            r#"export * as bar, { baz } from "mod""#,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    fn issue_4369_5() {
+        test_parser(
+            r#"export foo, { baz } from "mod""#,
             Syntax::Es(EsConfig {
                 export_default_from: true,
                 ..Default::default()

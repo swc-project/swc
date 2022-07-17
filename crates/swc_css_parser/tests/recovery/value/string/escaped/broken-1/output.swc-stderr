@@ -4,3 +4,9 @@
  3 | }
    :  ^
    `----
+
+  x Unterminated string
+   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:3:1]
+ 3 | }
+   :  ^
+   `----

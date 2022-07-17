@@ -1,5 +1,8 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>", "Alexander Akait <sheo13666q@gmail.com>"]
+authors = [
+  "강동윤 <kdy1997.dev@gmail.com>",
+  "Alexander Akait <sheo13666q@gmail.com>",
+]
 description = "HTML code generator for the swc project"
 documentation = "https://rustdoc.swc.rs/swc_html_codegen/"
 edition = "2021"
@@ -7,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_html_codegen"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.14.1"
+version = "0.27.0"
 
 [lib]
 bench = false
@@ -15,16 +18,17 @@ bench = false
 [dependencies]
 auto_impl = "0.5.0"
 bitflags = "1.3.2"
-swc_atoms = {version = "0.2.7", path = "../swc_atoms"}
-swc_common = { version = "0.18.0", path = "../swc_common"}
-swc_html_ast = {version = "0.10.0", path = "../swc_html_ast"}
-swc_html_codegen_macros = {version = "0.1.0", path = "../swc_html_codegen_macros"}
-swc_html_utils = { version = "0.1.0", path = "../swc_html_utils" }
+rustc-hash = "1.1.0"
+swc_atoms = { version = "0.2.7", path = "../swc_atoms" }
+swc_common = { version = "0.24.0", path = "../swc_common" }
+swc_html_ast = { version = "0.20.0", path = "../swc_html_ast" }
+swc_html_codegen_macros = { version = "0.2.0", path = "../swc_html_codegen_macros" }
+swc_html_utils = { version = "0.8.0", path = "../swc_html_utils" }
 
 [dev-dependencies]
-swc_common = { version = "0.18.0", path = "../swc_common", features = [
+swc_common = { version = "0.24.0", path = "../swc_common", features = [
   "sourcemap",
-]}
-swc_html_parser = {version = "0.13.0", path = "../swc_html_parser"}
-swc_html_visit = {version = "0.10.0", path = "../swc_html_visit"}
-testing = {version = "0.20.0", path = "../testing"}
+] }
+swc_html_parser = { version = "0.24.0", path = "../swc_html_parser" }
+swc_html_visit = { version = "0.20.0", path = "../swc_html_visit" }
+testing = { version = "0.26.0", path = "../testing" }

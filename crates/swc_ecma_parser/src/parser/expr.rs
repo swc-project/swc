@@ -165,13 +165,12 @@ impl<I: Tokens> Parser<I> {
                     {
                         self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
                     }
-                    let is_eval_or_arguments = match *cond {
-                        Expr::Ident(ref i) => {
-                            i.sym == js_word!("eval") || i.sym == js_word!("arguments")
-                        }
-                        _ => false,
-                    };
-                    if self.input.syntax().typescript() && is_eval_or_arguments {
+                    if self.input.syntax().typescript()
+                        && cond
+                            .as_ident()
+                            .map(|i| i.is_reserved_in_strict_bind())
+                            .unwrap_or(false)
+                    {
                         self.emit_strict_mode_err(cond.span(), SyntaxError::TS1100);
                     }
 
@@ -334,7 +333,7 @@ impl<I: Tokens> Parser<I> {
                             AHashMap::<char, usize>::default(),
                             |mut map, flag| {
                                 let key = match flag {
-                                    'g' | 'i' | 'm' | 's' | 'u' | 'y' => flag,
+                                    'g' | 'i' | 'm' | 's' | 'u' | 'y' | 'd' => flag,
                                     _ => '\u{0000}', // special marker for unknown flags
                                 };
                                 map.entry(key).and_modify(|count| *count += 1).or_insert(1);
@@ -375,7 +374,8 @@ impl<I: Tokens> Parser<I> {
             || (self.input.syntax().typescript() && is_one_of!(self, IdentRef, "await"))
             || is!(self, IdentRef)
         {
-            let id = self.parse_ident_name()?;
+            let ctx = self.ctx();
+            let id = self.parse_ident(!ctx.in_generator, !ctx.in_async)?;
             if id.is_reserved_in_strict_mode(self.ctx().module && !self.ctx().in_declare) {
                 self.emit_strict_mode_err(
                     self.input.prev_span(),
@@ -418,6 +418,9 @@ impl<I: Tokens> Parser<I> {
                     type_params: None,
                 })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
+                if self.ctx().strict && id.is_reserved_in_strict_bind() {
+                    self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
+                }
                 let params = vec![id.into()];
                 let body =
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
@@ -1928,8 +1931,8 @@ impl<I: Tokens> Parser<I> {
 
         // We follow behavior of tsc
         if self.input.syntax().typescript() && self.syntax().early_errors() {
-            let is_eval_or_arguments = match *expr {
-                Expr::Ident(ref i) => i.sym == js_word!("eval") || i.sym == js_word!("arguments"),
+            let is_eval_or_arguments = match expr {
+                Expr::Ident(i) => i.is_reserved_in_strict_bind(),
                 _ => false,
             };
 

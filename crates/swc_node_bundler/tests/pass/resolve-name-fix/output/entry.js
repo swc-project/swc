@@ -1229,7 +1229,7 @@ var load77 = __swcpack_require__.bind(void 0, function(module, exports) {
     });
 });
 var load78 = __swcpack_require__.bind(void 0, function(module, exports) {
-    module.exports = "	\n\v\f\r \xa0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF";
+    module.exports = "	\n\v\f\r \xa0 ᠎             　\u2028\u2029\uFEFF";
 });
 var load79 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $export = load20();

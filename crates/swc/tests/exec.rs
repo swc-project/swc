@@ -174,7 +174,11 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                         },
                         ..Default::default()
                     },
-                    module: Some(ModuleConfig::CommonJs(Default::default())),
+                    module: if entry.extension().unwrap() == "mjs" {
+                        Some(ModuleConfig::Es6)
+                    } else {
+                        Some(ModuleConfig::CommonJs(Default::default()))
+                    },
                     minify: minify.into(),
                     ..Default::default()
                 },

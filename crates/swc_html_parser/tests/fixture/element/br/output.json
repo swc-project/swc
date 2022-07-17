@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -146,7 +153,8 @@
                     "end": 110,
                     "ctxt": 0
                   },
-                  "data": " O'er all the hilltops"
+                  "data": " O'er all the hilltops",
+                  "raw": " O'er all the hilltops"
                 },
                 {
                   "type": "Element",
@@ -169,7 +177,8 @@
                     "end": 132,
                     "ctxt": 0
                   },
-                  "data": "\n    Is quiet now,"
+                  "data": "\n    Is quiet now,",
+                  "raw": "\n    Is quiet now,"
                 },
                 {
                   "type": "Element",
@@ -192,7 +201,8 @@
                     "end": 160,
                     "ctxt": 0
                   },
-                  "data": "\n    In all the treetops"
+                  "data": "\n    In all the treetops",
+                  "raw": "\n    In all the treetops"
                 },
                 {
                   "type": "Element",
@@ -215,7 +225,8 @@
                     "end": 181,
                     "ctxt": 0
                   },
-                  "data": "\n    Hearest thou"
+                  "data": "\n    Hearest thou",
+                  "raw": "\n    Hearest thou"
                 },
                 {
                   "type": "Element",
@@ -238,7 +249,8 @@
                     "end": 206,
                     "ctxt": 0
                   },
-                  "data": "\n    Hardly a breath;"
+                  "data": "\n    Hardly a breath;",
+                  "raw": "\n    Hardly a breath;"
                 },
                 {
                   "type": "Element",
@@ -261,7 +273,8 @@
                     "end": 249,
                     "ctxt": 0
                   },
-                  "data": "\n    The birds are asleep in the trees:"
+                  "data": "\n    The birds are asleep in the trees:",
+                  "raw": "\n    The birds are asleep in the trees:"
                 },
                 {
                   "type": "Element",
@@ -284,7 +297,8 @@
                     "end": 279,
                     "ctxt": 0
                   },
-                  "data": "\n    Wait, soon like these"
+                  "data": "\n    Wait, soon like these",
+                  "raw": "\n    Wait, soon like these"
                 },
                 {
                   "type": "Element",
@@ -307,7 +321,8 @@
                     "end": 308,
                     "ctxt": 0
                   },
-                  "data": "\n    Thou too shalt rest."
+                  "data": "\n    Thou too shalt rest.",
+                  "raw": "\n    Thou too shalt rest."
                 },
                 {
                   "type": "Element",
@@ -330,7 +345,8 @@
                     "end": 314,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -343,7 +359,8 @@
                 "end": 328,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

@@ -1,0 +1,6 @@
+
+  x Function cannot be labelled in strict mode
+   ,-[$DIR/tests/errors/label/input.js:2:1]
+ 2 | a: function b() {}
+   :    ^^^^^^^^^^^^^^^
+   `----

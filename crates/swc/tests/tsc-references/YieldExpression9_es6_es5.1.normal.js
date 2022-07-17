@@ -1,5 +1,5 @@
-import regeneratorRuntime from "regenerator-runtime";
 // @target: es6
+import regeneratorRuntime from "regenerator-runtime";
 var v = regeneratorRuntime.mark(function v() {
     return regeneratorRuntime.wrap(function v$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

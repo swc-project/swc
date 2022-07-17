@@ -1,3 +1,4 @@
+// @target: ES6
 function foo(x, y, ...z) {}
 var a;
 var z;

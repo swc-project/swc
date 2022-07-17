@@ -519,7 +519,12 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_static_block(&mut self, start: BytePos) -> PResult<ClassMember> {
-        let body = self.parse_block(false)?;
+        let body = self
+            .with_ctx(Context {
+                in_class_field: true,
+                ..self.ctx()
+            })
+            .parse_block(false)?;
 
         let span = span!(self, start);
         Ok(StaticBlock { span, body }.into())
@@ -991,6 +996,7 @@ impl<I: Tokens> Parser<I> {
 
         let ctx = Context {
             include_in_expr: true,
+            in_class_field: true,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
@@ -1082,6 +1088,7 @@ impl<I: Tokens> Parser<I> {
                 in_async: is_async,
                 in_generator: is_generator,
                 allow_direct_super: false,
+                in_class_field: false,
                 ..self.ctx()
             })
             .parse_maybe_opt_binding_ident(is_ident_required)?
@@ -1089,6 +1096,7 @@ impl<I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.with_ctx(Context {
                 allow_direct_super: false,
+                in_class_field: false,
                 ..self.ctx()
             })
             .parse_maybe_opt_binding_ident(is_ident_required)?
@@ -1096,6 +1104,7 @@ impl<I: Tokens> Parser<I> {
 
         self.with_ctx(Context {
             allow_direct_super: false,
+            in_class_field: false,
             ..self.ctx()
         })
         .parse_with(|p| {

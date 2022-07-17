@@ -20,10 +20,11 @@ use swc_ecma_visit::{
     Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
+use unicode_id::UnicodeID;
 
 #[allow(deprecated)]
 pub use self::{
-    factory::{ExprFactory, IntoIndirectCall},
+    factory::{ExprFactory, FunctionFactory, IntoIndirectCall},
     value::{
         Type::{
             self, Bool as BoolType, Null as NullType, Num as NumberType, Obj as ObjectType,
@@ -2029,6 +2030,10 @@ pub fn is_valid_ident(s: &JsWord) -> bool {
     }
 
     Ident::verify_symbol(s).is_ok()
+}
+
+pub fn is_valid_prop_ident(s: &str) -> bool {
+    s.starts_with(|c: char| c.is_id_start()) && s.chars().all(|c: char| c.is_id_continue())
 }
 
 pub fn drop_span<T>(mut t: T) -> T

@@ -11,7 +11,7 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
-use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
+use swc_ecma_transforms_typescript::{strip, strip::strip_with_config, TsImportExportAssignConfig};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
@@ -83,14 +83,22 @@ macro_rules! test_with_config {
 
 test!(
     Syntax::Typescript(Default::default()),
-    |_| chain!(
-        tr(),
-        parameters(parameters::Config {
-            ignore_function_length: true
-        }),
-        destructuring(destructuring::Config { loose: false }),
-        block_scoping(),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            tr(),
+            parameters(
+                parameters::Config {
+                    ignore_function_length: true
+                },
+                unresolved_mark
+            ),
+            destructuring(destructuring::Config { loose: false }),
+            block_scoping(unresolved_mark),
+        )
+    },
     fn_len_default_assignment_with_types,
     "export function transformFileSync(
       filename: string,
@@ -3244,7 +3252,20 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(tr(), async_to_generator(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        let config = strip::Config {
+            no_empty_export: true,
+            ..Default::default()
+        };
+        chain!(
+            Optional::new(decorators(Default::default()), false,),
+            resolver(unresolved_mark, top_level_mark, true),
+            strip_with_config(config, top_level_mark),
+            async_to_generator(Default::default(), unresolved_mark)
+        )
+    },
     issue_1235_1,
     "
     class Service {
@@ -4549,4 +4570,69 @@ let b = (_key = console.log(456), class {
     }
 });
 "
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |_| tr_config(None, None),
+    export_import_assign,
+    r#"
+    export import foo = require("foo");
+
+    foo();
+    "#,
+    r#"
+    const foo = require("foo");
+    exports.foo = foo;
+    foo();
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |_| tr_config(
+        Some(strip::Config {
+            import_export_assign_config: TsImportExportAssignConfig::NodeNext,
+            ..Default::default()
+        }),
+        None
+    ),
+    node_next_1,
+    r#"
+    import foo = require("foo");
+
+    foo();
+    "#,
+    r#"
+    import { createRequire as _createRequire } from "module";
+    const __require = _createRequire(import.meta.url);
+    const foo = __require("foo");
+    
+    foo();
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |_| tr_config(
+        Some(strip::Config {
+            import_export_assign_config: TsImportExportAssignConfig::NodeNext,
+            ..Default::default()
+        }),
+        None
+    ),
+    node_next_2,
+    r#"
+    export import foo = require("foo");
+
+    foo();
+    "#,
+    r#"
+    import { createRequire as _createRequire } from "module";
+    const __require = _createRequire(import.meta.url);
+    const foo = __require("foo");
+    export { foo };
+
+    foo();
+    "#
 );

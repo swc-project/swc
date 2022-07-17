@@ -1,3 +1,6 @@
+// @strict: true
+// @declaration: true
+// Mapped type 'as N' clauses
 const e1 = {
     foo: "hello"
 };

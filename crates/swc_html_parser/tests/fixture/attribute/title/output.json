@@ -61,7 +61,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -83,7 +84,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "title",
-                  "value": "I'm a header"
+                  "rawName": "title",
+                  "value": "I'm a header",
+                  "rawValue": "\"I'm a header\""
                 }
               ],
               "children": [
@@ -94,7 +97,8 @@
                     "end": 76,
                     "ctxt": 0
                   },
-                  "data": "The title Attribute"
+                  "data": "The title Attribute",
+                  "raw": "The title Attribute"
                 }
               ],
               "content": null,
@@ -107,7 +111,8 @@
                 "end": 83,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -129,7 +134,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "title",
-                  "value": "I'm a tooltip"
+                  "rawName": "title",
+                  "value": "I'm a tooltip",
+                  "rawValue": "\"I'm a tooltip\""
                 }
               ],
               "children": [
@@ -140,7 +147,8 @@
                     "end": 179,
                     "ctxt": 0
                   },
-                  "data": "Mouse over this paragraph, to display the title attribute as a tooltip."
+                  "data": "Mouse over this paragraph, to display the title attribute as a tooltip.",
+                  "raw": "Mouse over this paragraph, to display the title attribute as a tooltip."
                 }
               ],
               "content": null,
@@ -153,7 +161,8 @@
                 "end": 201,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,
