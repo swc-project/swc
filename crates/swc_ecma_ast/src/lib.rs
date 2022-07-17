@@ -14,6 +14,8 @@
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
+#[cfg(feature = "plugin_transform_schema_vtest")]
+pub use self::module::TestDummy;
 pub use self::{
     class::{
         Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, MethodKind,
@@ -37,7 +39,7 @@ pub use self::{
     },
     list::ListFormat,
     lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
-    module::{Module, ModuleItem, Program, Script, TestDummy},
+    module::{Module, ModuleItem, Program, Script},
     module_decl::{
         DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
         ExportDefaultSpecifier, ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier,

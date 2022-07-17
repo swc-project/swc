@@ -12,10 +12,12 @@ pub enum Program {
     Module(Module),
     #[tag("Script")]
     Script(Script),
+    #[cfg(feature = "plugin_transform_schema_vtest")]
     #[tag("TestDummy")]
     TestDummy(TestDummy),
 }
 
+#[cfg(feature = "plugin_transform_schema_vtest")]
 #[ast_node("TestDummy")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct TestDummy {
@@ -23,7 +25,7 @@ pub struct TestDummy {
     pub body: Option<Vec<ModuleItem>>,
 }
 
-#[cfg(feature = "arbitrary")]
+#[cfg(all(feature = "arbitrary", feature = "plugin_transform_schema_vtest"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for TestDummy {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
