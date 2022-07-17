@@ -28,7 +28,7 @@ pub fn hygiene() -> impl Fold + VisitMut + 'static {
 ///
 /// This document exists For curious people and potential contributors.
 ///
-/// `hygiene` consists of four phases.
+/// `hygiene` consists of three phases.
 ///
 /// ## First phase
 ///
