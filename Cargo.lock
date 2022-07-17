@@ -3251,6 +3251,7 @@ dependencies = [
 name = "swc_css_prefixer"
 version = "0.109.0"
 dependencies = [
+ "preset_env_base",
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
