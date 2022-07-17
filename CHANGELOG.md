@@ -14,7 +14,9 @@
 - **(es/modules)** Preserve order for ts import equals (#5215) ([6b1ce09](https://github.com/swc-project/swc/commit/6b1ce09b6f59e53a750a71e447a148aedcef8468))
 
 
-- **(html/parser)** Fix span  (#5209) ([b4daa30](https://github.com/swc-project/swc/commit/b4daa3005803be23676bec666bb8f8791f2472b3))
+- **(html/parser)** Fix span  (#5209) ([b4daa30](https://github.com/swc-project/swc/commit/b4daa3005803be23676bec666bb8f8791f2472b3))- **general**: Fix(es/lints: Handle ts export import equals (#5225)
+
+ ([04de455](https://github.com/swc-project/swc/commit/04de455a9a34dbcbb193bffc9ab504c0e30e8706))
 
 ### Features
 
