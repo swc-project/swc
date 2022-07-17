@@ -49,6 +49,9 @@
 
 
 
+- **(css/parser)** Add a test (#5228) ([8e5efb6](https://github.com/swc-project/swc/commit/8e5efb65d55706883663a25a0e281a4ef013001b))
+
+
 - **(es/plugin)** Build plugins for e2e testing (#5210) ([cd94f0a](https://github.com/swc-project/swc/commit/cd94f0a2e9a7331073d20638031ae86d3308760e))
 
 
