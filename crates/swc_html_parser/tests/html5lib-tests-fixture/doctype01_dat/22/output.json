@@ -16,7 +16,8 @@
       },
       "name": "potato",
       "publicId": "go'of",
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE potato PUBLIC \"go'of\">"
     },
     {
       "type": "Element",

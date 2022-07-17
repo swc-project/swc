@@ -23,29 +23,16 @@ pub struct AttributeToken {
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
 pub enum Token {
     Doctype {
-        // DOCTYPE keyword
-        raw_keyword: Option<JsWord>,
-
         // Name
         name: Option<JsWord>,
-        raw_name: Option<JsWord>,
-
         // Is force quirks?
         force_quirks: bool,
-
-        // PUBLIC keyword
-        raw_public_keyword: Option<JsWord>,
-        // Quotes around public identifier
-        public_quote: Option<char>,
         // Public identifier
         public_id: Option<JsWord>,
-
-        // SYSTEM keyword
-        raw_system_keyword: Option<JsWord>,
-        // Quotes around system identifier
-        system_quote: Option<char>,
         // System identifier
         system_id: Option<JsWord>,
+        // Raw value
+        raw: Option<JsWord>,
     },
     StartTag {
         tag_name: JsWord,

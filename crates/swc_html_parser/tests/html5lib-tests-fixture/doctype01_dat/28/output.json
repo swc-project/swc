@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": "-//W3C//DTD XHTML 1.0 Transitional//EN",
-      "systemId": "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+      "systemId": "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd",
+      "raw": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
     },
     {
       "type": "Element",
