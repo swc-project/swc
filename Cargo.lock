@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.208.1"
+version = "0.208.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3363,7 +3363,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.53.0"
+version = "0.53.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3677,7 +3677,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.146.0"
+version = "0.146.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3977,7 +3977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "once_cell",
  "serde",
@@ -4005,7 +4005,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.24.0"
+version = "0.24.1"
 dependencies = [
  "criterion",
  "serde",
@@ -4197,7 +4197,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.5.1"
+version = "0.5.2"
 dependencies = [
  "Inflector",
  "pmutil",

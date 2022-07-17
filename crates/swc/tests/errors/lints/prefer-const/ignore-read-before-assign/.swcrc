@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "lints": {
+            "prefer-const": [
+                "error",
+                {
+                    "ignoreReadBeforeAssign": true
+                }
+            ]
+        }
+    }
+}
