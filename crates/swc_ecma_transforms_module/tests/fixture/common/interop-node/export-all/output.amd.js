@@ -1,3 +1,6 @@
+// The fact that this exports both a normal default, and all of the names via
+// re-export is an edge case that is important not to miss. See
+// https://github.com/babel/babel/issues/8306 as an example.
 define([
     "require",
     "exports",
@@ -12,5 +15,5 @@ define([
         get: ()=>_default
     });
     _react = _exportStar(_react, exports);
-    var _default = _react;
+    const _default = _react;
 });

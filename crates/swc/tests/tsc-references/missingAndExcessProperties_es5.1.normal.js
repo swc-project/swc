@@ -1,5 +1,5 @@
-import _throw from "@swc/helpers/src/_throw.mjs";
 // Missing properties
+import _throw from "@swc/helpers/src/_throw.mjs";
 function f1() {
     var ref = {}, x = ref.x, y = ref.y;
     var ref1 = {}, _x = ref1.x, x = _x === void 0 ? 1 : _x, y = ref1.y;

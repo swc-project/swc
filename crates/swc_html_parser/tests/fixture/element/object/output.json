@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -148,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "image/svg+xml"
+                  "rawName": "type",
+                  "value": "image/svg+xml",
+                  "rawValue": "\"image/svg+xml\""
                 },
                 {
                   "type": "Attribute",
@@ -160,7 +169,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data",
-                  "value": "image.svg"
+                  "rawName": "data",
+                  "value": "image.svg",
+                  "rawValue": "\"image.svg\""
                 }
               ],
               "children": [
@@ -182,7 +193,8 @@
                         "end": 151,
                         "ctxt": 0
                       },
-                      "data": "[fallback image]"
+                      "data": "[fallback image]",
+                      "raw": "[fallback image]"
                     }
                   ],
                   "content": null,
@@ -199,7 +211,8 @@
                 "end": 168,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -221,7 +234,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data",
-                  "value": "horse.wav"
+                  "rawName": "data",
+                  "value": "horse.wav",
+                  "rawValue": "\"horse.wav\""
                 }
               ],
               "children": [
@@ -232,7 +247,8 @@
                     "end": 198,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -254,7 +270,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "name",
-                      "value": "autoplay"
+                      "rawName": "name",
+                      "value": "autoplay",
+                      "rawValue": "\"autoplay\""
                     },
                     {
                       "type": "Attribute",
@@ -266,7 +284,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "value",
-                      "value": "true"
+                      "rawName": "value",
+                      "value": "true",
+                      "rawValue": "\"true\""
                     }
                   ],
                   "children": [],
@@ -280,7 +300,8 @@
                     "end": 235,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -293,7 +314,8 @@
                 "end": 254,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

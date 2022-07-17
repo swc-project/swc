@@ -1,4 +1,3 @@
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -7,7 +6,8 @@ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @filename: timer.js
 /**
  * @param {number} timeout
- */ function Timer(timeout) {
+ */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+function Timer(timeout) {
     this.timeout = timeout;
 }
 module.exports = Timer;

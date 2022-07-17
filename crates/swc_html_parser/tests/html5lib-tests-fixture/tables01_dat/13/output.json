@@ -46,8 +46,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 1,
+                "start": 1,
+                "end": 70,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -94,7 +94,8 @@
                                 "end": 70,
                                 "ctxt": 0
                               },
-                              "data": "foo"
+                              "data": "foo",
+                              "raw": "foo"
                             }
                           ],
                           "content": null,

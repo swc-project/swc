@@ -1,7 +1,7 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // V is an array assignment pattern, S is the type Any or an array-like type (section 3.3.2), and, for each assignment element E in V,
 //      S is the type Any, or
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 var ref // Error
  = [], ref1 = _sliced_to_array(ref[0], 1), a0 = ref1[0], ref2 = _sliced_to_array(ref[1], 1), ref3 = _sliced_to_array(ref2[0], 1), a1 = ref3[0];
 var _undefined // Error

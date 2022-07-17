@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -146,7 +153,8 @@
                     "end": 96,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -166,7 +174,8 @@
                         "end": 129,
                         "ctxt": 0
                       },
-                      "data": "Superheros and sidekicks"
+                      "data": "Superheros and sidekicks",
+                      "raw": "Superheros and sidekicks"
                     }
                   ],
                   "content": null,
@@ -179,7 +188,8 @@
                     "end": 144,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -226,7 +236,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "span",
-                          "value": "2"
+                          "rawName": "span",
+                          "value": "2",
+                          "rawValue": "\"2\""
                         },
                         {
                           "type": "Attribute",
@@ -238,7 +250,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "class",
-                          "value": "batman"
+                          "rawName": "class",
+                          "value": "batman",
+                          "rawValue": "\"batman\""
                         }
                       ],
                       "children": [],
@@ -265,7 +279,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "span",
-                          "value": "2"
+                          "rawName": "span",
+                          "value": "2",
+                          "rawValue": "\"2\""
                         },
                         {
                           "type": "Attribute",
@@ -277,7 +293,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "class",
-                          "value": "flash"
+                          "rawName": "class",
+                          "value": "flash",
+                          "rawValue": "\"flash\""
                         }
                       ],
                       "children": [],
@@ -295,7 +313,8 @@
                     "end": 232,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -326,7 +345,8 @@
                             "end": 245,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         },
                         {
                           "type": "Element",
@@ -346,7 +366,8 @@
                                 "end": 251,
                                 "ctxt": 0
                               },
-                              "data": " "
+                              "data": " ",
+                              "raw": " "
                             }
                           ],
                           "content": null,
@@ -359,7 +380,8 @@
                             "end": 265,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         },
                         {
                           "type": "Element",
@@ -381,7 +403,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "scope",
-                              "value": "col"
+                              "rawName": "scope",
+                              "value": "col",
+                              "rawValue": "\"col\""
                             }
                           ],
                           "children": [
@@ -392,7 +416,8 @@
                                 "end": 287,
                                 "ctxt": 0
                               },
-                              "data": "Batman"
+                              "data": "Batman",
+                              "raw": "Batman"
                             }
                           ],
                           "content": null,
@@ -405,7 +430,8 @@
                             "end": 301,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         },
                         {
                           "type": "Element",
@@ -427,7 +453,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "scope",
-                              "value": "col"
+                              "rawName": "scope",
+                              "value": "col",
+                              "rawValue": "\"col\""
                             }
                           ],
                           "children": [
@@ -438,7 +466,8 @@
                                 "end": 322,
                                 "ctxt": 0
                               },
-                              "data": "Robin"
+                              "data": "Robin",
+                              "raw": "Robin"
                             }
                           ],
                           "content": null,
@@ -451,7 +480,8 @@
                             "end": 336,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         },
                         {
                           "type": "Element",
@@ -473,7 +503,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "scope",
-                              "value": "col"
+                              "rawName": "scope",
+                              "value": "col",
+                              "rawValue": "\"col\""
                             }
                           ],
                           "children": [
@@ -484,7 +516,8 @@
                                 "end": 361,
                                 "ctxt": 0
                               },
-                              "data": "The Flash"
+                              "data": "The Flash",
+                              "raw": "The Flash"
                             }
                           ],
                           "content": null,
@@ -497,7 +530,8 @@
                             "end": 375,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         },
                         {
                           "type": "Element",
@@ -519,7 +553,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "scope",
-                              "value": "col"
+                              "rawName": "scope",
+                              "value": "col",
+                              "rawValue": "\"col\""
                             }
                           ],
                           "children": [
@@ -530,7 +566,8 @@
                                 "end": 400,
                                 "ctxt": 0
                               },
-                              "data": "Kid Flash"
+                              "data": "Kid Flash",
+                              "raw": "Kid Flash"
                             }
                           ],
                           "content": null,
@@ -543,7 +580,8 @@
                             "end": 410,
                             "ctxt": 0
                           },
-                          "data": "\n    "
+                          "data": "\n    ",
+                          "raw": "\n    "
                         }
                       ],
                       "content": null,
@@ -556,7 +594,8 @@
                         "end": 416,
                         "ctxt": 0
                       },
-                      "data": "\n"
+                      "data": "\n",
+                      "raw": "\n"
                     }
                   ],
                   "content": null,
@@ -573,7 +612,8 @@
                 "end": 433,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

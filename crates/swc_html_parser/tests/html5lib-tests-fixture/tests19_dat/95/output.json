@@ -72,7 +72,8 @@
                     "end": 27,
                     "ctxt": 0
                   },
-                  "data": "a"
+                  "data": "a",
+                  "raw": "a"
                 },
                 {
                   "type": "Element",
@@ -92,7 +93,8 @@
                         "end": 33,
                         "ctxt": 0
                       },
-                      "data": "b"
+                      "data": "b",
+                      "raw": "b"
                     }
                   ],
                   "content": null,
@@ -120,7 +122,8 @@
                     "end": 38,
                     "ctxt": 0
                   },
-                  "data": "c"
+                  "data": "c",
+                  "raw": "c"
                 },
                 {
                   "type": "Element",
@@ -140,7 +143,8 @@
                         "end": 42,
                         "ctxt": 0
                       },
-                      "data": "d"
+                      "data": "d",
+                      "raw": "d"
                     }
                   ],
                   "content": null,
@@ -168,7 +172,8 @@
                     "end": 47,
                     "ctxt": 0
                   },
-                  "data": "e"
+                  "data": "e",
+                  "raw": "e"
                 }
               ],
               "content": null,
@@ -177,8 +182,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 16,
+                "start": 16,
+                "end": 37,
                 "ctxt": 0
               },
               "tagName": "table",

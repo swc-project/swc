@@ -648,10 +648,12 @@ impl VisitMut for Fixer<'_> {
                 right,
                 ..
             }) if n.op == op!(unary, "-")
-                && matches!(
-                    (&**left, &**right),
-                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..)))
-                ) => {}
+                && match (&**left, &**right) {
+                    (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(..))) => {
+                        !l.value.is_sign_negative()
+                    }
+                    _ => false,
+                } => {}
 
             Expr::Assign(..)
             | Expr::Bin(..)

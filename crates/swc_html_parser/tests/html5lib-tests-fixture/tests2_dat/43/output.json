@@ -25,7 +25,8 @@
         "end": 40,
         "ctxt": 0
       },
-      "data": " XXX - XXX - XXX "
+      "data": " XXX - XXX - XXX ",
+      "raw": "<!-- XXX - XXX - XXX -->"
     },
     {
       "type": "Element",

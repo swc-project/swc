@@ -1,5 +1,3 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -7,7 +5,9 @@ import regeneratorRuntime from "regenerator-runtime";
 /**
  * @callback FunctionReturningPromise
  * @returns {Promise<number>}
- */ /** @type {FunctionReturningPromise} */ function testPromise1() {
+ */ /** @type {FunctionReturningPromise} */ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+function testPromise1() {
     console.log("Nope");
 }
 function testPromise2() {

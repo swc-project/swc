@@ -1,3 +1,5 @@
+// @strictNullChecks: true
+// @target: ES2017
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 function f1() {
     let x = getStringOrNumber();

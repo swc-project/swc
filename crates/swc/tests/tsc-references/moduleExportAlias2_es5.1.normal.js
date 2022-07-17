@@ -1,3 +1,7 @@
+// @checkJs: true
+// @allowJS: true
+// @noEmit: true
+// @Filename: node.d.ts
 // @Filename: semver.js
 /// <reference path='node.d.ts' />
 exports = module.exports = C;

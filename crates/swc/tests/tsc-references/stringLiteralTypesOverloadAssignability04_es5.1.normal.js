@@ -1,3 +1,4 @@
+// @declaration: true
 function f(x) {
     return 0;
 }

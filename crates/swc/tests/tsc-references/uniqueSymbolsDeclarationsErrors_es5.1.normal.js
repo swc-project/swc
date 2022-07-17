@@ -1,3 +1,8 @@
+// @target: esnext
+// @lib: esnext
+// @module: commonjs
+// @declaration: true
+// @useDefineForClassFields: false
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 // not allowed when emitting declarations

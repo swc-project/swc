@@ -1,3 +1,8 @@
+// @allowJs: true
+// @checkJs: true
+// @noEmit: true
+// @module: commonjs
+// @filename: node.d.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: a-ext.js
 exports.A = function() {

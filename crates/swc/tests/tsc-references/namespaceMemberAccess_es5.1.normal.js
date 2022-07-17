@@ -1,7 +1,7 @@
+// @Filename: /a.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @Filename: /b.ts
 import * as types from "./a";
-// @Filename: /a.ts
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

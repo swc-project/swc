@@ -1,3 +1,6 @@
+//@module: commonjs
+//@target: ES3
+// @filename: m1.ts
 export function _() {
     console.log("_");
 }

@@ -1,9 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
-var _value = /*#__PURE__*/ new WeakMap();
 // @target: esnext
 // @lib: esnext
 // @declaration: true
@@ -13,7 +7,13 @@ var _value = /*#__PURE__*/ new WeakMap();
 // @out: genericSetterInClassTypeJsDoc-out.js
 /**
  * @template T
- */ var Box = /*#__PURE__*/ function() {
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+var _value = /*#__PURE__*/ new WeakMap();
+var Box = /*#__PURE__*/ function() {
     "use strict";
     function Box(initialValue) {
         _class_call_check(this, Box);

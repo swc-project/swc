@@ -12,7 +12,7 @@ use path_absolutize::Absolutize;
 use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc::{
-    config::{Config, Options},
+    config::{Config, ConfigFile, Options},
     try_with_handler, Compiler, HandlerOpts, TransformOutput,
 };
 use swc_common::{
@@ -54,7 +54,7 @@ pub struct CompileOptions {
 
     /// Define the file for the source map.
     #[clap(long)]
-    source_maps_target: Option<String>,
+    source_map_target: Option<String>,
 
     /// Set sources[0] on returned source map
     #[clap(long)]
@@ -267,12 +267,9 @@ impl CompileOptions {
         let base_options = Options::default();
         let base_config = Config::default();
 
-        let config_file = if let Some(config_file_path) = &self.config_file {
-            let config_file_contents = fs::read(config_file_path)?;
-            serde_json::from_slice(&config_file_contents).context("Failed to parse config file")?
-        } else {
-            None
-        };
+        let config_file = self.config_file.as_ref().map(|config_file_path| {
+            ConfigFile::Str(config_file_path.to_string_lossy().to_string())
+        });
 
         let mut ret = Options {
             config: Config { ..base_config },
@@ -343,7 +340,7 @@ impl CompileOptions {
                         let fm = compiler
                             .cm
                             .load_file(file_path)
-                            .context("failed to load file");
+                            .context(format!("Failed to open file {}", file_path.display()));
                         fm.map(|fm| InputContext {
                             options,
                             fm,
@@ -392,10 +389,39 @@ impl CompileOptions {
                     .expect("Parent should be available"),
             )?;
             let mut buf = File::create(single_out_file)?;
+            let mut buf_srcmap = None;
 
-            result?
-                .iter()
-                .try_for_each(|r| buf.write(r.code.as_bytes()).and(Ok(())))?;
+            // write all transformed files to single output buf
+            result?.iter().try_for_each(|r| {
+                if let Some(src_map) = r.map.as_ref() {
+                    if buf_srcmap.is_none() {
+                        // we'll init buf lazily as we don't read ./.swcrc directly to determine if
+                        // sourcemap would be generated or not
+                        let srcmap_buf_name =
+                            if let Some(source_map_target) = &self.source_map_target {
+                                File::create(source_map_target)?
+                            } else {
+                                File::create(single_out_file.with_extension(format!(
+                                    "{}map",
+                                    if let Some(ext) = single_out_file.extension() {
+                                        format!("{}.", ext.to_string_lossy())
+                                    } else {
+                                        "".to_string()
+                                    }
+                                )))?
+                            };
+                        buf_srcmap = Some(srcmap_buf_name);
+                    }
+
+                    buf_srcmap
+                        .as_ref()
+                        .expect("Srcmap buffer should be available")
+                        .write(src_map.as_bytes())
+                        .and(Ok(()))?;
+                }
+
+                buf.write(r.code.as_bytes()).and(Ok(()))
+            })?;
 
             buf.flush()
                 .context("Failed to write output into single file")

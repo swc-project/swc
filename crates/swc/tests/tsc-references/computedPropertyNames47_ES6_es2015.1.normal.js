@@ -1,5 +1,5 @@
-var // @target: es6
-E1;
+// @target: es6
+var E1;
 (function(E1) {
     E1[E1["x"] = 0] = "x";
 })(E1 || (E1 = {}));

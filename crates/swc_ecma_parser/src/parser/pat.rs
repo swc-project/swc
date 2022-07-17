@@ -33,7 +33,7 @@ impl<I: Tokens> Parser<I> {
 
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
-        if ident.sym == js_word!("arguments") || ident.sym == js_word!("eval") {
+        if ident.is_reserved_in_strict_bind() {
             self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
         }
         if self.ctx().in_async && ident.sym == js_word!("await") {
@@ -867,7 +867,52 @@ impl<I: Tokens> Parser<I> {
         };
         params.push(last);
 
+        if self.ctx().strict {
+            for param in params.iter() {
+                self.pat_is_valid_argument_in_strict(param)
+            }
+        }
+
         Ok(params)
+    }
+
+    /// argument of arrow is pattern, although idents in pattern is already
+    /// checked if is a keyword, it should also be checked if is arguments or
+    /// eval
+    fn pat_is_valid_argument_in_strict(&self, pat: &Pat) {
+        match pat {
+            Pat::Ident(i) => {
+                if i.id.is_reserved_in_strict_bind() {
+                    self.emit_strict_mode_err(i.id.span, SyntaxError::EvalAndArgumentsInStrict)
+                }
+            }
+            Pat::Array(arr) => {
+                for pat in arr.elems.iter().flatten() {
+                    self.pat_is_valid_argument_in_strict(pat)
+                }
+            }
+            Pat::Rest(r) => self.pat_is_valid_argument_in_strict(&*r.arg),
+            Pat::Object(obj) => {
+                for prop in obj.props.iter() {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
+                        | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
+                            self.pat_is_valid_argument_in_strict(&**value)
+                        }
+                        ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                            if key.is_reserved_in_strict_bind() {
+                                self.emit_strict_mode_err(
+                                    key.span,
+                                    SyntaxError::EvalAndArgumentsInStrict,
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            Pat::Assign(a) => self.pat_is_valid_argument_in_strict(&*a.left),
+            Pat::Invalid(_) | Pat::Expr(_) => (),
+        }
     }
 }
 

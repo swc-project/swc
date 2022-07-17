@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var _C__1;
 var C = function C() {
     "use strict";

@@ -5,3 +5,26 @@
 #broken# {
   color: red;
 }
+$bad{
+  color: red;
+}
+$bad {
+  color: red;
+}
+$bad foo{
+  color: red;
+}
+$bad foo {
+  color: red;
+}
+$bad: rule;
+a {
+  div.major { color: blue }
+color: red }
+a {
+  div: hover {color:blue} color:red;
+}
+a {
+  div: hover {color:blue};
+  color: red;
+}

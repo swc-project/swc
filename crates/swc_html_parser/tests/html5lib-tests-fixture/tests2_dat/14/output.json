@@ -61,13 +61,14 @@
                 "end": 31,
                 "ctxt": 0
               },
-              "data": "TEST"
+              "data": "TEST",
+              "raw": "TEST"
             },
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 16,
+                "start": 16,
+                "end": 31,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -89,7 +90,7 @@
                       "type": "Element",
                       "span": {
                         "start": 23,
-                        "end": 27,
+                        "end": 31,
                         "ctxt": 0
                       },
                       "tagName": "tr",

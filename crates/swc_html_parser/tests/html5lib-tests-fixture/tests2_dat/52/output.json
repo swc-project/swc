@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "id",
-          "value": "x"
+          "rawName": "id",
+          "value": "x",
+          "rawValue": "\"x\""
         }
       ],
       "children": [
@@ -74,7 +76,8 @@
                 "end": 17,
                 "ctxt": 0
               },
-              "data": "X"
+              "data": "X",
+              "raw": "X"
             }
           ],
           "content": null,

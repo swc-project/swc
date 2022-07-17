@@ -1,11 +1,12 @@
 # Built files
 /*.js
-!jest.config.js
+!node-swc/jest.config.js
 /*.map
 /*.d.ts
 native/artifacts.json
 artifacts.json
 *.node
+*.tmp_node_swc_fixture_test
 /scripts/npm/**/swc
 /scripts/npm/**/swc.exe
 
@@ -61,3 +62,4 @@ pkg/
 
 # Used by scripts
 *.tmp.txt
+swc-core-*.tgz

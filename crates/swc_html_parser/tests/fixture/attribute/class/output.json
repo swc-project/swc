@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 88,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -148,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"
+                  "rawName": "class",
+                  "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z",
+                  "rawValue": "\"0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z\""
                 }
               ],
               "children": [],
@@ -162,7 +171,8 @@
                 "end": 180,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -184,7 +194,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "add sort keys createSorter"
+                  "rawName": "class",
+                  "value": "add sort keys createSorter",
+                  "rawValue": "\"add sort keys createSorter\""
                 }
               ],
               "children": [],
@@ -198,7 +210,8 @@
                 "end": 227,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -220,7 +233,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "sprite sprite-{{sprite}}"
+                  "rawName": "class",
+                  "value": "sprite sprite-{{sprite}}",
+                  "rawValue": "\"sprite sprite-{{sprite}}\""
                 }
               ],
               "children": [],
@@ -234,7 +249,8 @@
                 "end": 278,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -256,7 +272,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "{{sprite}}-sprite sprite"
+                  "rawName": "class",
+                  "value": "{{sprite}}-sprite sprite",
+                  "rawValue": "\"{{sprite}}-sprite sprite\""
                 }
               ],
               "children": [],
@@ -270,7 +288,8 @@
                 "end": 329,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -292,7 +311,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "sprite-{{sprite}}-sprite"
+                  "rawName": "class",
+                  "value": "sprite-{{sprite}}-sprite",
+                  "rawValue": "\"sprite-{{sprite}}-sprite\""
                 }
               ],
               "children": [],
@@ -306,7 +327,8 @@
                 "end": 380,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -328,7 +350,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "{{sprite}}"
+                  "rawName": "class",
+                  "value": "{{sprite}}",
+                  "rawValue": "\"{{sprite}}\""
                 }
               ],
               "children": [],
@@ -342,7 +366,8 @@
                 "end": 417,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -364,7 +389,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "{{sprite}}"
+                  "rawName": "class",
+                  "value": "{{sprite}}",
+                  "rawValue": "{{sprite}}"
                 }
               ],
               "children": [],
@@ -378,7 +405,8 @@
                 "end": 452,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -400,7 +428,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": null
+                  "rawName": "class",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -414,7 +444,8 @@
                 "end": 474,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -436,7 +467,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
+                  "rawName": "class",
+                  "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar",
+                  "rawValue": "\"nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar\""
                 }
               ],
               "children": [],
@@ -450,7 +483,8 @@
                 "end": 568,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -472,7 +506,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
+                  "rawName": "class",
+                  "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz",
+                  "rawValue": "\"moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz\""
                 }
               ],
               "children": [],
@@ -486,7 +522,8 @@
                 "end": 650,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -508,7 +545,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "="
+                  "rawName": "class",
+                  "value": "=",
+                  "rawValue": "\"=\""
                 }
               ],
               "children": [],
@@ -522,7 +561,8 @@
                 "end": 676,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -544,7 +584,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "= = = ="
+                  "rawName": "class",
+                  "value": "= = = =",
+                  "rawValue": "\"= = = =\""
                 }
               ],
               "children": [],
@@ -558,7 +600,8 @@
                 "end": 720,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

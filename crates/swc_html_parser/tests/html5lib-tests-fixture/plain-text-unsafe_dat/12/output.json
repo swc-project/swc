@@ -50,7 +50,8 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "data": "�filler�text"
+              "data": "�filler�text",
+              "raw": "<!\u0000filler\u0000text>"
             }
           ],
           "content": null,

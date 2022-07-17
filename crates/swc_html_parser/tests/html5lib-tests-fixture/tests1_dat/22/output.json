@@ -86,7 +86,8 @@
                         "end": 8,
                         "ctxt": 0
                       },
-                      "data": "X"
+                      "data": "X",
+                      "raw": "X"
                     }
                   ],
                   "content": null,
@@ -110,7 +111,8 @@
                         "end": 12,
                         "ctxt": 0
                       },
-                      "data": "Y"
+                      "data": "Y",
+                      "raw": "Y"
                     }
                   ],
                   "content": null,
@@ -123,7 +125,8 @@
                     "end": 17,
                     "ctxt": 0
                   },
-                  "data": "Z"
+                  "data": "Z",
+                  "raw": "Z"
                 }
               ],
               "content": null,

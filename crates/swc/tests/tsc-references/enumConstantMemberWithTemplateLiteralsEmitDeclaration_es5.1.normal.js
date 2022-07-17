@@ -1,5 +1,5 @@
-var // @declaration: true
-T1;
+// @declaration: true
+var T1;
 (function(T1) {
     T1["a"] = "1";
 })(T1 || (T1 = {}));

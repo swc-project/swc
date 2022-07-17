@@ -1,3 +1,8 @@
+// @allowJs: true
+// @checkJs: true
+// @strict: true
+// @noEmit: true
+// @Filename: ex.d.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var Crunch = function Crunch() {
     "use strict";

@@ -1,5 +1,5 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-export var c2, i2, x = 1;
+export var x = 1;
 export var r1;
 export var y = {
     foo: ""

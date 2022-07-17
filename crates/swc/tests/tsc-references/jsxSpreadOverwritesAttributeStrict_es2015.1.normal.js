@@ -1,10 +1,10 @@
-import _extends from "@swc/helpers/src/_extends.mjs";
 // @filename: file.tsx
 // @jsx: preserve
 // @strict: true
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
+import _extends from "@swc/helpers/src/_extends.mjs";
 const React = require('react');
 const props = {
     a: 1,

@@ -1,4 +1,4 @@
+// @filename: types.ts
 ohno.a // oh no
 ;
-// @filename: types.ts
 export { };

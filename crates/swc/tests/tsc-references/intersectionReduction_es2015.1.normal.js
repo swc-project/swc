@@ -1,3 +1,4 @@
+// @strict: false
 ab.kind; // Error
 let a = x;
 let r1 = f10(a1); // unknown

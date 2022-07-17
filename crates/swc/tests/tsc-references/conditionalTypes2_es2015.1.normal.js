@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 function f1(a, b) {
     a = b;
     b = a; // Error
@@ -70,3 +72,4 @@ const w = {
 };
 exportCommand(save);
 gg(ff);
+ // true

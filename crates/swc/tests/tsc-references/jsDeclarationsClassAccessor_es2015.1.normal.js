@@ -1,3 +1,9 @@
+// @allowJs: true
+// @checkJs: true
+// @target: es2019
+// @outDir: ./out
+// @declaration: true
+// @filename: supplement.d.ts
 // @filename: base.js
 export class Base {
     toJSON() {

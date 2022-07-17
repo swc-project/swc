@@ -1,3 +1,4 @@
+// call signatures in derived types must have the same or fewer optional parameters as the target for assignment
 var a; // ok, same number of required params
 a = ()=>1; // ok, same number of required params
 a = (...args)=>1; // ok, same number of required params

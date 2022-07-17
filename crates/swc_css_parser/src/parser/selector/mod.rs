@@ -393,7 +393,11 @@ where
             let value: JsWord = "*".into();
             let raw = value.clone();
 
-            prefix = Some(Ident { span, value, raw });
+            prefix = Some(Ident {
+                span,
+                value,
+                raw: Some(raw),
+            });
         }
 
         expect!(self, "|");
@@ -486,7 +490,11 @@ where
                     ));
                 }
 
-                Ident { span, value, raw }
+                Ident {
+                    span,
+                    value,
+                    raw: Some(raw),
+                }
             }
             _ => {
                 unreachable!()
@@ -875,7 +883,7 @@ where
                 name: Ident {
                     span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
                     value: names.0,
-                    raw: names.1,
+                    raw: Some(names.1),
                 },
                 children: Some(children),
             })
@@ -985,7 +993,7 @@ where
                 name: Ident {
                     span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
                     value: names.0,
-                    raw: names.1,
+                    raw: Some(names.1),
                 },
                 children: Some(children),
             })

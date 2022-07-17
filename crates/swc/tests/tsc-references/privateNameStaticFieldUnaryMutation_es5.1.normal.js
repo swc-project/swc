@@ -1,8 +1,8 @@
+// @target: es2015
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
 import _class_static_private_field_update from "@swc/helpers/src/_class_static_private_field_update.mjs";
-// @target: es2015
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

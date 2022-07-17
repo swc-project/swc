@@ -361,6 +361,8 @@ pub struct Context {
 
     in_class: bool,
 
+    in_class_field: bool,
+
     in_function: bool,
 
     /// This indicates current scope or the scope out of arrow function is

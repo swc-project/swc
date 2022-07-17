@@ -1,3 +1,7 @@
+// @target: esnext
+// @strictNullChecks: false
+// @noImplicitReturns: true
+// @noImplicitAny: true
 function* g000() {}
 // 'yield' iteration type inference
 function* g001() {

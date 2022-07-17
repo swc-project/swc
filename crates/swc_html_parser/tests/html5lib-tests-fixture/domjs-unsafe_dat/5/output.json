@@ -49,7 +49,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "data"
+                  "rawName": "type",
+                  "value": "data",
+                  "rawValue": "\"data\""
                 }
               ],
               "children": [
@@ -60,7 +62,8 @@
                     "end": 29,
                     "ctxt": 0
                   },
-                  "data": "<!--foo�"
+                  "data": "<!--foo�",
+                  "raw": "<!--foo\u0000"
                 }
               ],
               "content": null,

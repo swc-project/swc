@@ -1,8 +1,8 @@
+// @strict: true
+// @target: es6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
-// @strict: true
-// @target: es6
 function Field() {
     var foo = function foo() {};
     var get_foo = function get_foo() {

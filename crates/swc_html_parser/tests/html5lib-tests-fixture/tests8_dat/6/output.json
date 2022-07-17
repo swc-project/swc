@@ -50,13 +50,14 @@
                 "end": 10,
                 "ctxt": 0
               },
-              "data": "xx"
+              "data": "xx",
+              "raw": "xx"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2,
-                "end": 9,
+                "end": 10,
                 "ctxt": 0
               },
               "tagName": "table",

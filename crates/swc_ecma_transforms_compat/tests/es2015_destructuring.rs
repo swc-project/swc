@@ -123,7 +123,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -977,7 +977,7 @@ test!(
     |_| chain!(
         spread(Default::default()),
         destructuring(Default::default()),
-        block_scoping(),
+        block_scoping(Mark::new()),
         object_rest_spread(Default::default()),
     ),
     destructuring_for_of,
@@ -1016,7 +1016,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1046,7 +1046,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1075,7 +1075,7 @@ test_exec!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1106,7 +1106,7 @@ test_exec!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1131,7 +1131,7 @@ test_exec!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1160,7 +1160,7 @@ test_exec!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
         )
     },
     destructuring_object_rest_impure_computed_keys_exec,
@@ -1215,7 +1215,7 @@ test_exec!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1246,7 +1246,7 @@ test_exec!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1335,7 +1335,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1406,7 +1406,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1491,7 +1491,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1522,7 +1522,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1587,7 +1587,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
         )
     },
     destructuring_assignment_expression_pattern,
@@ -1615,7 +1615,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
         )
     },
     destructuring_object_advanced,
@@ -1653,7 +1653,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
         )
     },
     destructuring_spread,
@@ -1693,7 +1693,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
         )
     },
     destructuring_mixed,
@@ -1721,7 +1721,7 @@ test!(
     |_| chain!(
         destructuring(Default::default()),
         spread(Default::default()),
-        block_scoping(),
+        block_scoping(Mark::new()),
         object_rest_spread(Default::default())
     ),
     destructuring_assignment_statement_no_loose,
@@ -1742,7 +1742,7 @@ test!(
         spread(spread::Config {
             ..Default::default()
         }),
-        block_scoping(),
+        block_scoping(Mark::new()),
         object_rest_spread(Default::default())
     ),
     destructuring_assignment_statement,
@@ -1767,7 +1767,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1805,7 +1805,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1833,7 +1833,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1896,7 +1896,7 @@ test!(
     |_| chain!(
         spread(Default::default()),
         destructuring(Default::default()),
-        block_scoping(),
+        block_scoping(Mark::new()),
         object_rest_spread(Default::default()),
     ),
     destructuring_for_in,
@@ -1930,7 +1930,7 @@ test!(
             ..Default::default()
         }),
         destructuring(Config { loose: true }),
-        block_scoping(),
+        block_scoping(Mark::new()),
         object_rest_spread(Default::default()),
     ),
     destructuring_for_in_loose,
@@ -1968,7 +1968,7 @@ test!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },
@@ -1996,7 +1996,7 @@ test_exec!(
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
-            block_scoping(),
+            block_scoping(unresolved_mark),
             object_rest_spread(Default::default()),
         )
     },

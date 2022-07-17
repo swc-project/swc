@@ -46,8 +46,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 1,
+                "start": 1,
+                "end": 81,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -149,7 +149,8 @@
                                     "end": 73,
                                     "ctxt": 0
                                   },
-                                  "data": "\nA BC"
+                                  "data": "\nA BC",
+                                  "raw": "\nA BC"
                                 },
                                 {
                                   "type": "Element",
@@ -194,7 +195,8 @@
                                             "end": 67,
                                             "ctxt": 0
                                           },
-                                          "data": " "
+                                          "data": " ",
+                                          "raw": " "
                                         }
                                       ],
                                       "content": null,

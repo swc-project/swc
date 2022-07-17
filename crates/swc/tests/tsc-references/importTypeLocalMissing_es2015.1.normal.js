@@ -1,3 +1,6 @@
+// @declaration: true
+// @lib: es6
+// @filename: foo.ts
 class Bar {
     constructor(input){}
 }

@@ -1,10 +1,10 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es6
 // @outDir: ./out
 // @declaration: true
 // @filename: file.js
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 class X {
     /**
       * Cancels the request, sending a cancellation to the other party

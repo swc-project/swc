@@ -20,11 +20,11 @@
         });
     }
     _export(exports, {
-        default: ()=>_default,
         cx: ()=>_css.cx,
         clsx: ()=>_css.cx,
         keyframes: ()=>_css.keyframes,
-        breakpoints: ()=>breakpoints
+        breakpoints: ()=>breakpoints,
+        default: ()=>_default
     });
     _styled = /*#__PURE__*/ _interopRequireDefault(_styled);
     interface IStyledProp {
@@ -32,5 +32,5 @@
     }
     const breakpoints = _breakpoints.breakpoinstUtils;
     const styled = _styled.default;
-    var _default = styled;
+    const _default = styled;
 });

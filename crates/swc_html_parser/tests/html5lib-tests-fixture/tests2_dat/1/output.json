@@ -61,7 +61,8 @@
                     "end": 25,
                     "ctxt": 0
                   },
-                  "data": "test</div>test"
+                  "data": "test</div>test",
+                  "raw": "test</div>test"
                 }
               ],
               "content": null,

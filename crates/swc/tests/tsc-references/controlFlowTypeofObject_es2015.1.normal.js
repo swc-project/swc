@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 function f1(x) {
     if (!x) {
         return;

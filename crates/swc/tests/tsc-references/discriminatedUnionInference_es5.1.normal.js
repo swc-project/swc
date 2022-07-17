@@ -1,3 +1,5 @@
+// @strict: true
+// Repro from #28862
 var x1 = foo({
     kind: "a",
     data: 42

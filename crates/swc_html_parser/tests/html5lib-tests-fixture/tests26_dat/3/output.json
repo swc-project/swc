@@ -47,7 +47,7 @@
           "type": "Element",
           "span": {
             "start": 16,
-            "end": 32,
+            "end": 78,
             "ctxt": 0
           },
           "tagName": "body",
@@ -58,7 +58,7 @@
               "type": "Element",
               "span": {
                 "start": 22,
-                "end": 32,
+                "end": 78,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -69,7 +69,7 @@
                   "type": "Element",
                   "span": {
                     "start": 25,
-                    "end": 32,
+                    "end": 78,
                     "ctxt": 0
                   },
                   "tagName": "nobr",
@@ -83,13 +83,14 @@
                         "end": 32,
                         "ctxt": 0
                       },
-                      "data": "1"
+                      "data": "1",
+                      "raw": "1"
                     },
                     {
                       "type": "Element",
                       "span": {
-                        "start": 0,
-                        "end": 32,
+                        "start": 32,
+                        "end": 78,
                         "ctxt": 0
                       },
                       "tagName": "table",
@@ -187,7 +188,8 @@
                                                 "end": 67,
                                                 "ctxt": 0
                                               },
-                                              "data": "2"
+                                              "data": "2",
+                                              "raw": "2"
                                             }
                                           ],
                                           "content": null,
@@ -229,7 +231,8 @@
                                             "end": 78,
                                             "ctxt": 0
                                           },
-                                          "data": "3"
+                                          "data": "3",
+                                          "raw": "3"
                                         }
                                       ],
                                       "content": null,

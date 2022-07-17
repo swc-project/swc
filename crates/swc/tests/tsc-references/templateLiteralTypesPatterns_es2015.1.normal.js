@@ -1,3 +1,4 @@
+// @strict: true
 // ok
 const a = "/bin";
 // not ok

@@ -1,3 +1,7 @@
+// @target: esnext
+// @strictNullChecks: false
+// @noImplicitReturns: true
+// @noImplicitAny: true
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g311);

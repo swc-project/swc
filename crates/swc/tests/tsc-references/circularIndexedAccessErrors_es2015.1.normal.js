@@ -1,3 +1,4 @@
+// @declaration: true
 let x2x = x2.x;
 class C1 {
 }

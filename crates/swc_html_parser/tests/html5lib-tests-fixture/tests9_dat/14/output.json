@@ -105,7 +105,8 @@
                                 "end": 51,
                                 "ctxt": 0
                               },
-                              "data": "foo"
+                              "data": "foo",
+                              "raw": "foo"
                             }
                           ],
                           "content": null,
@@ -129,7 +130,8 @@
                                 "end": 63,
                                 "ctxt": 0
                               },
-                              "data": "bar"
+                              "data": "bar",
+                              "raw": "bar"
                             }
                           ],
                           "content": null,
@@ -157,7 +159,8 @@
                             "end": 74,
                             "ctxt": 0
                           },
-                          "data": "baz"
+                          "data": "baz",
+                          "raw": "baz"
                         }
                       ],
                       "content": null,
@@ -189,7 +192,8 @@
                     "end": 89,
                     "ctxt": 0
                   },
-                  "data": "quux"
+                  "data": "quux",
+                  "raw": "quux"
                 }
               ],
               "content": null,

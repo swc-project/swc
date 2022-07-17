@@ -1,10 +1,10 @@
-// @filename: main.js
-import A from './mod1';
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @esModuleInterop: true
 // @filename: mod1.js
+// @filename: main.js
+import A from './mod1';
 class Alias {
     bar() {
         return 1;

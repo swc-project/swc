@@ -1,3 +1,5 @@
+// @declaration: true
+// @Filename: file1.ts
 class C3 {
 }
 class C4 {

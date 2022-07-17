@@ -1,11 +1,11 @@
+// @target: es2017
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 function bar() {
     return _bar.apply(this, arguments);
 }
 function _bar() {
-    _bar = // @target: es2017
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _bar = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

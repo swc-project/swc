@@ -1,13 +1,13 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @strict: true
 // @jsx: react
 // @lib: es6
 // @skipLibCheck: true
 /// <reference path="/.lib/react16.d.ts" />
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 import * as React from "react";
 var AsyncLoader = /*#__PURE__*/ function(_Component) {
     "use strict";

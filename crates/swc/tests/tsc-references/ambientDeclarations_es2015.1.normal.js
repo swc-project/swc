@@ -1,3 +1,4 @@
+// Ambient variable without type annotation
 var // Ambient enum
 E1;
 (function(E1) {

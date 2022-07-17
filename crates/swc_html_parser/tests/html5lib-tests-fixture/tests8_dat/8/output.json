@@ -61,7 +61,8 @@
                     "end": 5,
                     "ctxt": 0
                   },
-                  "data": "a"
+                  "data": "a",
+                  "raw": "a"
                 },
                 {
                   "type": "Element",
@@ -113,7 +114,8 @@
                     "end": 26,
                     "ctxt": 0
                   },
-                  "data": "y"
+                  "data": "y",
+                  "raw": "y"
                 }
               ],
               "content": null,

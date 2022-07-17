@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // valid uses of arrays of function types
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var x = [
     function() {
         return 1;

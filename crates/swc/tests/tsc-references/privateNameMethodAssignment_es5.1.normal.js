@@ -1,3 +1,4 @@
+// @target: es2015
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _class_private_field_update from "@swc/helpers/src/_class_private_field_update.mjs";
@@ -5,7 +6,6 @@ import _class_private_method_get from "@swc/helpers/src/_class_private_method_ge
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 import _class_private_field_destructure from "@swc/helpers/src/_class_private_field_destructure.mjs";
 var _method = /*#__PURE__*/ new WeakSet();
-// @target: es2015
 var A3 = function A3(a, b) {
     "use strict";
     _class_call_check(this, A3);

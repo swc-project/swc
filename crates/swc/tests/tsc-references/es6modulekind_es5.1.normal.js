@@ -1,3 +1,7 @@
+// @target: ES6
+// @sourcemap: false
+// @declaration: false
+// @module: es6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A = /*#__PURE__*/ function() {
     "use strict";
@@ -10,8 +14,4 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-// @target: ES6
-// @sourcemap: false
-// @declaration: false
-// @module: es6
 export { A as default };

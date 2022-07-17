@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/44113
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {

@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // should replace all refs to 'x' in the body,
 // with fully qualified
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
 (function(A) {
     var lt12 = function lt12() {

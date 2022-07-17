@@ -1,8 +1,8 @@
-// @filename: t3.ts
-import { I, T } from "./t1";
 // @module: amd
 // @target: ES5
 // @filename: t1.ts
+// @filename: t3.ts
+import { I, T } from "./t1";
 var v = 1;
 function f() {}
 class C {

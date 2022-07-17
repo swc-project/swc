@@ -1,3 +1,5 @@
+// @jsx: react
+// @filename: renderer.d.ts
 // @filename: component.tsx
 /** @jsx predom */ import { predom } from "./renderer2";
 import prerendered from "./component";

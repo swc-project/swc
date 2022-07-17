@@ -1,3 +1,3 @@
 "use strict";
-const _foo = require("foo");
-module.exports = _foo;
+const foo = require("foo");
+module.exports = foo;

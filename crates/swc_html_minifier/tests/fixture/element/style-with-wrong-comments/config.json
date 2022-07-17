@@ -1,0 +1,7 @@
+{
+  "minifyCss": {
+    "parser": {
+      "allowWrongLineComments": true
+    }
+  }
+}

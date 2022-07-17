@@ -1,3 +1,4 @@
+//@target: ES6
 import regeneratorRuntime from "regenerator-runtime";
 foo("", regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {

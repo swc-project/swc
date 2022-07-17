@@ -1,3 +1,4 @@
+// @declaration: true
 function foo(x) {}
 class C {
     foo(x) {}

@@ -1,6 +1,6 @@
+//@target: ES6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-//@target: ES6
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
     function SymbolIterator() {

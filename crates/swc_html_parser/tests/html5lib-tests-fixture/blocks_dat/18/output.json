@@ -72,7 +72,8 @@
                     "end": 22,
                     "ctxt": 0
                   },
-                  "data": "foo"
+                  "data": "foo",
+                  "raw": "foo"
                 }
               ],
               "content": null,
@@ -96,7 +97,8 @@
                     "end": 29,
                     "ctxt": 0
                   },
-                  "data": "bar"
+                  "data": "bar",
+                  "raw": "bar"
                 },
                 {
                   "type": "Element",
@@ -116,7 +118,8 @@
                         "end": 35,
                         "ctxt": 0
                       },
-                      "data": "baz"
+                      "data": "baz",
+                      "raw": "baz"
                     }
                   ],
                   "content": null,

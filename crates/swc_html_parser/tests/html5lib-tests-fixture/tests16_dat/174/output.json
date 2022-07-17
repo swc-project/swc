@@ -47,7 +47,8 @@
                     "end": 15,
                     "ctxt": 0
                   },
-                  "data": "<!--..."
+                  "data": "<!--...",
+                  "raw": "<!--..."
                 }
               ],
               "content": null,
@@ -60,7 +61,8 @@
                 "end": 31,
                 "ctxt": 0
               },
-              "data": " "
+              "data": " ",
+              "raw": "<!-- -->"
             },
             {
               "type": "Element",
@@ -80,7 +82,8 @@
                     "end": 49,
                     "ctxt": 0
                   },
-                  "data": "@import ..."
+                  "data": "@import ...",
+                  "raw": "@import ..."
                 }
               ],
               "content": null,

@@ -1,3 +1,6 @@
+//@filename: file.tsx
+//@jsx: react
+//@reactNamespace: vdom
 // A simple render function with nesting and control statements
 var render = function(ctrl, model) {
     return /*#__PURE__*/ React.createElement("section", {

@@ -1,0 +1,14 @@
+[workspace]
+
+[package]
+edition = "2021"
+name = "plugin_transform_schema_v1"
+publish = false
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+serde = "1"
+swc_plugin = { path = "../../../../crates/swc_plugin", default-features = false, features = ["plugin_transform_schema_v1"] }

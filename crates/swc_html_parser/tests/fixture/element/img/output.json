@@ -61,7 +61,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -81,7 +82,8 @@
                     "end": 47,
                     "ctxt": 0
                   },
-                  "data": "HTML Images"
+                  "data": "HTML Images",
+                  "raw": "HTML Images"
                 }
               ],
               "content": null,
@@ -94,7 +96,8 @@
                 "end": 53,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -114,7 +117,8 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "data": "HTML images are defined with the img tag:"
+                  "data": "HTML images are defined with the img tag:",
+                  "raw": "HTML images are defined with the img tag:"
                 }
               ],
               "content": null,
@@ -127,7 +131,8 @@
                 "end": 103,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -149,7 +154,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "w3schools.jpg"
+                  "rawName": "src",
+                  "value": "w3schools.jpg",
+                  "rawValue": "\"w3schools.jpg\""
                 },
                 {
                   "type": "Attribute",
@@ -161,7 +168,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "alt",
-                  "value": "W3Schools.com"
+                  "rawName": "alt",
+                  "value": "W3Schools.com",
+                  "rawValue": "\"W3Schools.com\""
                 },
                 {
                   "type": "Attribute",
@@ -173,7 +182,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "104"
+                  "rawName": "width",
+                  "value": "104",
+                  "rawValue": "\"104\""
                 },
                 {
                   "type": "Attribute",
@@ -185,7 +196,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "142"
+                  "rawName": "height",
+                  "value": "142",
+                  "rawValue": "\"142\""
                 }
               ],
               "children": [],
@@ -199,7 +212,8 @@
                 "end": 191,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

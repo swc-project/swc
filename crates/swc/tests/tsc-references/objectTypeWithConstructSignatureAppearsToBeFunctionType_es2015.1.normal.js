@@ -1,3 +1,4 @@
+// no errors expected below 
 var i;
 var r2 = i();
 var r2b = new i();

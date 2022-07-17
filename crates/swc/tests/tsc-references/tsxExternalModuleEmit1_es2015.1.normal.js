@@ -1,3 +1,6 @@
+//@jsx: preserve
+//@module: commonjs
+//@filename: react.d.ts
 //@filename: app.tsx
 import * as React from 'react';
 //@filename: button.tsx

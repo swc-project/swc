@@ -1,3 +1,4 @@
+// @declaration: true
 class Private {
     constructor(...args){}
 }

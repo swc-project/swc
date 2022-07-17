@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 141,
+        "end": 149,
         "ctxt": 0
       },
       "tagName": "html",
@@ -50,7 +50,8 @@
                 "end": 25,
                 "ctxt": 0
               },
-              "data": "1"
+              "data": "1",
+              "raw": "<!--1-->"
             },
             {
               "type": "Element",
@@ -70,7 +71,8 @@
                     "end": 36,
                     "ctxt": 0
                   },
-                  "data": "A"
+                  "data": "A",
+                  "raw": "A"
                 }
               ],
               "content": null,
@@ -83,7 +85,8 @@
                 "end": 55,
                 "ctxt": 0
               },
-              "data": "2"
+              "data": "2",
+              "raw": "<!--2-->"
             }
           ],
           "content": null,
@@ -96,7 +99,8 @@
             "end": 74,
             "ctxt": 0
           },
-          "data": "3"
+          "data": "3",
+          "raw": "<!--3-->"
         },
         {
           "type": "Element",
@@ -116,7 +120,8 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "data": "B"
+              "data": "B",
+              "raw": "B"
             }
           ],
           "content": null,
@@ -129,7 +134,8 @@
             "end": 104,
             "ctxt": 0
           },
-          "data": "4"
+          "data": "4",
+          "raw": "<!--4-->"
         },
         {
           "type": "Element",
@@ -149,7 +155,8 @@
                 "end": 130,
                 "ctxt": 0
               },
-              "data": "C"
+              "data": "C",
+              "raw": "C"
             }
           ],
           "content": null,
@@ -166,7 +173,8 @@
         "end": 119,
         "ctxt": 0
       },
-      "data": "5"
+      "data": "5",
+      "raw": "<!--5-->"
     },
     {
       "type": "Comment",
@@ -175,7 +183,8 @@
         "end": 149,
         "ctxt": 0
       },
-      "data": "6"
+      "data": "6",
+      "raw": "<!--6-->"
     }
   ]
 }

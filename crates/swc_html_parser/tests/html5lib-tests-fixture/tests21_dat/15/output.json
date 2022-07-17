@@ -83,7 +83,8 @@
                             "end": 41,
                             "ctxt": 0
                           },
-                          "data": "[CDATA[foo]]"
+                          "data": "[CDATA[foo]]",
+                          "raw": "<![CDATA[foo]]>"
                         }
                       ],
                       "content": null,

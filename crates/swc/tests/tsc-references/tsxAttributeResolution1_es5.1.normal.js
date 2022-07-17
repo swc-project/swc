@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: preserve
 // OK
 /*#__PURE__*/ React.createElement("test1", {
     x: 0

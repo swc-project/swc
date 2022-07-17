@@ -1,3 +1,8 @@
+// @allowJs: true
+// @checkJs: true
+// @noEmit: true
+// @module: commonjs
+// @filename: node.d.ts
 // @filename: index.js
 var A = require("./other");
 var a = new A().id;

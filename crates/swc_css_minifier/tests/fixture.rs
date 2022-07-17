@@ -32,7 +32,7 @@ fn minify_fixtures(input: PathBuf) {
         let mut ss = res.unwrap();
 
         // Apply transforms
-        minify(&mut ss);
+        minify(&mut ss, Default::default());
 
         let mut css_str = String::new();
         {

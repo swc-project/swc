@@ -61,7 +61,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Comment",
@@ -70,7 +71,8 @@
                 "end": 56,
                 "ctxt": 0
               },
-              "data": "This is a comment"
+              "data": "This is a comment",
+              "raw": "<!--This is a comment-->"
             },
             {
               "type": "Text",
@@ -79,7 +81,8 @@
                 "end": 57,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -88,7 +91,8 @@
                 "end": 83,
                 "ctxt": 0
               },
-              "data": " This is a comment "
+              "data": " This is a comment ",
+              "raw": "<!-- This is a comment -->"
             },
             {
               "type": "Text",
@@ -97,7 +101,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -117,7 +122,8 @@
                     "end": 107,
                     "ctxt": 0
                   },
-                  "data": "This is a paragraph."
+                  "data": "This is a paragraph.",
+                  "raw": "This is a paragraph."
                 }
               ],
               "content": null,
@@ -130,7 +136,8 @@
                 "end": 112,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -139,7 +146,8 @@
                 "end": 162,
                 "ctxt": 0
               },
-              "data": " Comments are not displayed in the browser "
+              "data": " Comments are not displayed in the browser ",
+              "raw": "<!-- Comments are not displayed in the browser -->"
             },
             {
               "type": "Text",
@@ -148,7 +156,8 @@
                 "end": 184,
                 "ctxt": 0
               },
-              "data": "\n\n\n  \n\n\n"
+              "data": "\n\n\n  \n\n\n",
+              "raw": "\n\n\n  \n\n\n"
             }
           ],
           "content": null,

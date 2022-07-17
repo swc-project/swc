@@ -1,10 +1,10 @@
-var // @declaration: true
+// @declaration: true
 // An enum type where each member has no initializer or an initializer that specififes
 // a numeric literal, a string literal, or a single identifier naming another member in
 // the enum type is classified as a literal enum type. An enum type that doesn't adhere
 // to this pattern is classified as a numeric enum type.
 // Examples of literal enum types
-E01;
+var E01;
 (function(E01) {
     E01[E01["A"] = 0] = "A";
 })(E01 || (E01 = {}));

@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // call signatures in derived types must have the same or fewer optional parameters as the target for assignment
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var ClassTypeParam;
 (function(ClassTypeParam) {
     var Base = function Base() {

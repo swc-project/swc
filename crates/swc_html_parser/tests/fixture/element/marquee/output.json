@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -146,7 +153,8 @@
                     "end": 133,
                     "ctxt": 0
                   },
-                  "data": "This text will scroll from right to left"
+                  "data": "This text will scroll from right to left",
+                  "raw": "This text will scroll from right to left"
                 }
               ],
               "content": null,
@@ -159,7 +167,8 @@
                 "end": 145,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -181,7 +190,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "direction",
-                  "value": "up"
+                  "rawName": "direction",
+                  "value": "up",
+                  "rawValue": "\"up\""
                 }
               ],
               "children": [
@@ -192,7 +203,8 @@
                     "end": 209,
                     "ctxt": 0
                   },
-                  "data": "This text will scroll from bottom to top"
+                  "data": "This text will scroll from bottom to top",
+                  "raw": "This text will scroll from bottom to top"
                 }
               ],
               "content": null,
@@ -205,7 +217,8 @@
                 "end": 221,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -227,7 +240,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "direction",
-                  "value": "down"
+                  "rawName": "direction",
+                  "value": "down",
+                  "rawValue": "\"down\""
                 },
                 {
                   "type": "Attribute",
@@ -239,7 +254,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "250"
+                  "rawName": "width",
+                  "value": "250",
+                  "rawValue": "\"250\""
                 },
                 {
                   "type": "Attribute",
@@ -251,7 +268,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "200"
+                  "rawName": "height",
+                  "value": "200",
+                  "rawValue": "\"200\""
                 },
                 {
                   "type": "Attribute",
@@ -263,7 +282,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "behavior",
-                  "value": "alternate"
+                  "rawName": "behavior",
+                  "value": "alternate",
+                  "rawValue": "\"alternate\""
                 },
                 {
                   "type": "Attribute",
@@ -275,7 +296,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "style",
-                  "value": "border:solid"
+                  "rawName": "style",
+                  "value": "border:solid",
+                  "rawValue": "\"border:solid\""
                 }
               ],
               "children": [
@@ -286,7 +309,8 @@
                     "end": 319,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -308,7 +332,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "behavior",
-                      "value": "alternate"
+                      "rawName": "behavior",
+                      "value": "alternate",
+                      "rawValue": "\"alternate\""
                     }
                   ],
                   "children": [
@@ -319,7 +345,8 @@
                         "end": 384,
                         "ctxt": 0
                       },
-                      "data": "\n        This text will bounce\n    "
+                      "data": "\n        This text will bounce\n    ",
+                      "raw": "\n        This text will bounce\n    "
                     }
                   ],
                   "content": null,
@@ -332,7 +359,8 @@
                     "end": 395,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -345,7 +373,8 @@
                 "end": 414,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

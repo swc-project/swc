@@ -1,7 +1,7 @@
+// @target: es2015
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 var _class, _Foo;
 var _foo = /*#__PURE__*/ new WeakMap(), _foo2 = /*#__PURE__*/ new WeakMap();
-// @target: es2015
 class B {
     constructor(){
         _class_private_field_init(this, _foo, {

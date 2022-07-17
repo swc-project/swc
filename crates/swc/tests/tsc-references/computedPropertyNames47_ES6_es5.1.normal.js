@@ -1,6 +1,6 @@
+// @target: es6
 import _define_property from "@swc/helpers/src/_define_property.mjs";
-var // @target: es6
-E1;
+var E1;
 (function(E1) {
     E1[E1["x"] = 0] = "x";
 })(E1 || (E1 = {}));

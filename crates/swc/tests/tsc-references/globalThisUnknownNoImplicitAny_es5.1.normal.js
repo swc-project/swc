@@ -1,3 +1,4 @@
+// @noImplicitAny: true
 // all accesses should be errors
 win.hi;
 this.hi;

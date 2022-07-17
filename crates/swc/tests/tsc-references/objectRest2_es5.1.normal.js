@@ -1,3 +1,6 @@
+// @lib: es2015
+// @target: es2015
+// test for #12203
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 import regeneratorRuntime from "regenerator-runtime";

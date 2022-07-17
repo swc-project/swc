@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -148,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "for",
-                  "value": "story"
+                  "rawName": "for",
+                  "value": "story",
+                  "rawValue": "\"story\""
                 }
               ],
               "children": [
@@ -159,7 +168,8 @@
                     "end": 123,
                     "ctxt": 0
                   },
-                  "data": "Tell us your story:"
+                  "data": "Tell us your story:",
+                  "raw": "Tell us your story:"
                 }
               ],
               "content": null,
@@ -172,7 +182,8 @@
                 "end": 133,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -194,7 +205,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "story"
+                  "rawName": "id",
+                  "value": "story",
+                  "rawValue": "\"story\""
                 },
                 {
                   "type": "Attribute",
@@ -206,7 +219,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "name",
-                  "value": "story"
+                  "rawName": "name",
+                  "value": "story",
+                  "rawValue": "\"story\""
                 },
                 {
                   "type": "Attribute",
@@ -218,7 +233,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "rows",
-                  "value": "5"
+                  "rawName": "rows",
+                  "value": "5",
+                  "rawValue": "\"5\""
                 },
                 {
                   "type": "Attribute",
@@ -230,7 +247,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "cols",
-                  "value": "33"
+                  "rawName": "cols",
+                  "value": "33",
+                  "rawValue": "\"33\""
                 }
               ],
               "children": [
@@ -241,7 +260,8 @@
                     "end": 230,
                     "ctxt": 0
                   },
-                  "data": "\n\n\n    test\n    test\n    test\n\n\n\n"
+                  "data": "\n\n\n    test\n    test\n    test\n\n\n\n",
+                  "raw": "\n\n\n    test\n    test\n    test\n\n\n\n"
                 }
               ],
               "content": null,
@@ -254,7 +274,8 @@
                 "end": 251,
                 "ctxt": 0
               },
-              "data": "\n\n\n"
+              "data": "\n\n\n",
+              "raw": "\n\n\n"
             }
           ],
           "content": null,

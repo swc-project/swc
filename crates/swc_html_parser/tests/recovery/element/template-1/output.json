@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -148,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "tmplParent"
+                  "rawName": "id",
+                  "value": "tmplParent",
+                  "rawValue": "\"tmplParent\""
                 }
               ],
               "children": [
@@ -172,7 +181,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "tmpl1"
+                      "rawName": "id",
+                      "value": "tmpl1",
+                      "rawValue": "\"tmpl1\""
                     }
                   ],
                   "children": [],
@@ -213,7 +224,8 @@
                                   "end": 140,
                                   "ctxt": 0
                                 },
-                                "data": "Cell 1"
+                                "data": "Cell 1",
+                                "raw": "Cell 1"
                               }
                             ],
                             "content": null,
@@ -243,7 +255,9 @@
                             "namespace": null,
                             "prefix": null,
                             "name": "id",
-                            "value": "orphanDiv"
+                            "rawName": "id",
+                            "value": "orphanDiv",
+                            "rawValue": "\"orphanDiv\""
                           }
                         ],
                         "children": [
@@ -254,7 +268,8 @@
                               "end": 188,
                               "ctxt": 0
                             },
-                            "data": "Orphan div content"
+                            "data": "Orphan div content",
+                            "raw": "Orphan div content"
                           }
                         ],
                         "content": null,
@@ -289,7 +304,8 @@
                                   "end": 208,
                                   "ctxt": 0
                                 },
-                                "data": "Cell 2"
+                                "data": "Cell 2",
+                                "raw": "Cell 2"
                               }
                             ],
                             "content": null,
@@ -314,7 +330,8 @@
                 "end": 244,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

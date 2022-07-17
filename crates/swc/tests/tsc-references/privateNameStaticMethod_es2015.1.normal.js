@@ -1,6 +1,6 @@
-import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 // @strict: true
 // @target: es6
+import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 class A1 {
     constructor(){
         _class_static_private_method_get(A1, A1, method).call(A1, "");

@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -148,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "img",
-                  "value": "img/alt.png"
+                  "rawName": "img",
+                  "value": "img/alt.png",
+                  "rawValue": "\"img/alt.png\""
                 },
                 {
                   "type": "Attribute",
@@ -160,7 +169,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "data-text",
-                  "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
+                  "rawName": "data-text",
+                  "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card.",
+                  "rawValue": "\"Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card.\""
                 }
               ],
               "children": [],
@@ -174,7 +185,8 @@
                 "end": 266,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -196,7 +208,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "l",
-                  "value": "100"
+                  "rawName": "l",
+                  "value": "100",
+                  "rawValue": "\"100\""
                 },
                 {
                   "type": "Attribute",
@@ -208,7 +222,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "c",
-                  "value": "red"
+                  "rawName": "c",
+                  "value": "red",
+                  "rawValue": "\"red\""
                 }
               ],
               "children": [],
@@ -222,7 +238,8 @@
                 "end": 315,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -244,7 +261,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "open",
-                  "value": null
+                  "rawName": "open",
+                  "value": null,
+                  "rawValue": null
                 },
                 {
                   "type": "Attribute",
@@ -256,7 +275,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "disabled",
-                  "value": null
+                  "rawName": "disabled",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -270,7 +291,8 @@
                 "end": 356,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -290,7 +312,8 @@
                     "end": 376,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -312,7 +335,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "twitter"
+                      "rawName": "type",
+                      "value": "twitter",
+                      "rawValue": "\"twitter\""
                     }
                   ],
                   "children": [
@@ -336,7 +361,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "href",
-                          "value": "..."
+                          "rawName": "href",
+                          "value": "...",
+                          "rawValue": "\"...\""
                         }
                       ],
                       "children": [
@@ -347,7 +374,8 @@
                             "end": 427,
                             "ctxt": 0
                           },
-                          "data": "Twitter"
+                          "data": "Twitter",
+                          "raw": "Twitter"
                         }
                       ],
                       "content": null,
@@ -364,7 +392,8 @@
                     "end": 452,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -386,7 +415,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "fb"
+                      "rawName": "type",
+                      "value": "fb",
+                      "rawValue": "\"fb\""
                     }
                   ],
                   "children": [
@@ -410,7 +441,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "href",
-                          "value": "..."
+                          "rawName": "href",
+                          "value": "...",
+                          "rawValue": "\"...\""
                         }
                       ],
                       "children": [
@@ -421,7 +454,8 @@
                             "end": 499,
                             "ctxt": 0
                           },
-                          "data": "Facebook"
+                          "data": "Facebook",
+                          "raw": "Facebook"
                         }
                       ],
                       "content": null,
@@ -438,7 +472,8 @@
                     "end": 524,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -460,7 +495,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "plus"
+                      "rawName": "type",
+                      "value": "plus",
+                      "rawValue": "\"plus\""
                     }
                   ],
                   "children": [
@@ -484,7 +521,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "href",
-                          "value": "..."
+                          "rawName": "href",
+                          "value": "...",
+                          "rawValue": "\"...\""
                         }
                       ],
                       "children": [
@@ -495,7 +534,8 @@
                             "end": 567,
                             "ctxt": 0
                           },
-                          "data": "G+"
+                          "data": "G+",
+                          "raw": "G+"
                         }
                       ],
                       "content": null,
@@ -512,7 +552,8 @@
                     "end": 588,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -525,7 +566,8 @@
                 "end": 606,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -545,7 +587,8 @@
                     "end": 630,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -565,7 +608,8 @@
                         "end": 658,
                         "ctxt": 0
                       },
-                      "data": "I'm an x-foo-with-markup!"
+                      "data": "I'm an x-foo-with-markup!",
+                      "raw": "I'm an x-foo-with-markup!"
                     }
                   ],
                   "content": null,
@@ -578,7 +622,8 @@
                     "end": 663,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -591,7 +636,8 @@
                 "end": 685,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -613,7 +659,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "id",
-                  "value": "x-foo-from-template"
+                  "rawName": "id",
+                  "value": "x-foo-from-template",
+                  "rawValue": "\"x-foo-from-template\""
                 }
               ],
               "children": [],
@@ -632,7 +680,8 @@
                       "end": 725,
                       "ctxt": 0
                     },
-                    "data": "\n    "
+                    "data": "\n    ",
+                    "raw": "\n    "
                   },
                   {
                     "type": "Element",
@@ -652,7 +701,8 @@
                           "end": 765,
                           "ctxt": 0
                         },
-                        "data": "\n        p { color: green; }\n    "
+                        "data": "\n        p { color: green; }\n    ",
+                        "raw": "\n        p { color: green; }\n    "
                       }
                     ],
                     "content": null,
@@ -665,7 +715,8 @@
                       "end": 778,
                       "ctxt": 0
                     },
-                    "data": "\n    "
+                    "data": "\n    ",
+                    "raw": "\n    "
                   },
                   {
                     "type": "Element",
@@ -685,7 +736,8 @@
                           "end": 846,
                           "ctxt": 0
                         },
-                        "data": "I'm in Shadow DOM. My markup was stamped from a <template>."
+                        "data": "I'm in Shadow DOM. My markup was stamped from a <template>.",
+                        "raw": "I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;."
                       }
                     ],
                     "content": null,
@@ -698,7 +750,8 @@
                       "end": 851,
                       "ctxt": 0
                     },
-                    "data": "\n"
+                    "data": "\n",
+                    "raw": "\n"
                   }
                 ]
               },
@@ -711,7 +764,8 @@
                 "end": 871,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

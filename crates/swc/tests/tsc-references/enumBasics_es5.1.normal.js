@@ -1,5 +1,5 @@
-var // Enum without initializers have first member = 0 and successive members = N + 1
-E1;
+// Enum without initializers have first member = 0 and successive members = N + 1
+var E1;
 (function(E1) {
     E1[E1["A"] = 0] = "A";
     E1[E1["B"] = 1] = "B";

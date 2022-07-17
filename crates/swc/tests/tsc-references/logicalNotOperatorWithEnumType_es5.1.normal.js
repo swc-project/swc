@@ -1,5 +1,5 @@
-var // ! operator on enum type
-ENUM;
+// ! operator on enum type
+var ENUM;
 (function(ENUM) {
     ENUM[ENUM["A"] = 0] = "A";
     ENUM[ENUM["B"] = 1] = "B";

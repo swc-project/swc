@@ -1,3 +1,4 @@
+// @target: es2015
 import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
@@ -6,7 +7,6 @@ import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 var _foo = /*#__PURE__*/ new WeakMap();
-// @target: es2015
 var Parent = /*#__PURE__*/ function() {
     "use strict";
     function Parent() {

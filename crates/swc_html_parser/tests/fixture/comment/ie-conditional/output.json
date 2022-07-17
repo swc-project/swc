@@ -61,7 +61,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Comment",
@@ -70,7 +71,8 @@
                 "end": 74,
                 "ctxt": 0
               },
-              "data": "[if IE 5]>This is IE 5<br><![endif]"
+              "data": "[if IE 5]>This is IE 5<br><![endif]",
+              "raw": "<!--[if IE 5]>This is IE 5<br><![endif]-->"
             },
             {
               "type": "Text",
@@ -79,7 +81,8 @@
                 "end": 75,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -88,7 +91,8 @@
                 "end": 117,
                 "ctxt": 0
               },
-              "data": "[if IE 6]>This is IE 6<br><![endif]"
+              "data": "[if IE 6]>This is IE 6<br><![endif]",
+              "raw": "<!--[if IE 6]>This is IE 6<br><![endif]-->"
             },
             {
               "type": "Text",
@@ -97,7 +101,8 @@
                 "end": 118,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -106,7 +111,8 @@
                 "end": 160,
                 "ctxt": 0
               },
-              "data": "[if IE 7]>This is IE 7<br><![endif]"
+              "data": "[if IE 7]>This is IE 7<br><![endif]",
+              "raw": "<!--[if IE 7]>This is IE 7<br><![endif]-->"
             },
             {
               "type": "Text",
@@ -115,7 +121,8 @@
                 "end": 161,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -124,7 +131,8 @@
                 "end": 203,
                 "ctxt": 0
               },
-              "data": "[if IE 8]>This is IE 8<br><![endif]"
+              "data": "[if IE 8]>This is IE 8<br><![endif]",
+              "raw": "<!--[if IE 8]>This is IE 8<br><![endif]-->"
             },
             {
               "type": "Text",
@@ -133,7 +141,8 @@
                 "end": 204,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -142,7 +151,8 @@
                 "end": 246,
                 "ctxt": 0
               },
-              "data": "[if IE 9]>This is IE 9<br><![endif]"
+              "data": "[if IE 9]>This is IE 9<br><![endif]",
+              "raw": "<!--[if IE 9]>This is IE 9<br><![endif]-->"
             },
             {
               "type": "Text",
@@ -151,7 +161,8 @@
                 "end": 264,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

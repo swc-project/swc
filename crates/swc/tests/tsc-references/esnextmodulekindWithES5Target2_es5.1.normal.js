@@ -1,3 +1,5 @@
+// @target: es5
+// @module: esnext
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
@@ -10,6 +12,4 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 C.s = 0;
-// @target: es5
-// @module: esnext
 export { C as default };

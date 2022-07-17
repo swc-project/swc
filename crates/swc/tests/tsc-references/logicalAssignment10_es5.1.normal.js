@@ -1,5 +1,5 @@
-var _obj, _ref, _ref1, _ref2;
 // @target: esnext, es2021, es2020, es2015
+var _obj, _ref, _ref1, _ref2;
 var count = 0;
 var obj = {};
 function incr() {

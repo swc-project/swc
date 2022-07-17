@@ -1,3 +1,6 @@
+// @target: ES5
+// @lib: es5,es2015.promise
+// @isolatedModules: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
@@ -322,7 +325,4 @@ var M;
     }
     M.f1 = f1;
 })(M || (M = {}));
-// @target: ES5
-// @lib: es5,es2015.promise
-// @isolatedModules: true
 export { };

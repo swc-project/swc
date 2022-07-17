@@ -1,3 +1,4 @@
+// @target: es6
 export var Animals;
 (function(Animals) {
     Animals[Animals["Cat"] = 1] = "Cat";

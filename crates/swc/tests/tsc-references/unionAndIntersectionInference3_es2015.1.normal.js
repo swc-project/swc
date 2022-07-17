@@ -1,3 +1,6 @@
+// @strict: true
+// @target: esnext
+// Repro from #30720
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 concatMaybe([
     1,
@@ -23,7 +26,4 @@ let x2 = foo2(sa); // unknown
 let y2 = foo2(sx); // { extra: number }
 withRouter(MyComponent);
 let z = foo(ab); // [AB<string>, string]
-// @strict: true
-// @target: esnext
-// Repro from #30720
 export { };

@@ -47,7 +47,8 @@
                     "end": 14,
                     "ctxt": 0
                   },
-                  "data": "<meta>"
+                  "data": "<meta>",
+                  "raw": "<meta>"
                 }
               ],
               "content": null,
@@ -85,7 +86,8 @@
                     "end": 41,
                     "ctxt": 0
                   },
-                  "data": "<meta>"
+                  "data": "<meta>",
+                  "raw": "<meta>"
                 }
               ],
               "content": null,

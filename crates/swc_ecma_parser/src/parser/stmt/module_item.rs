@@ -409,43 +409,14 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let mut has_star = false;
-        let mut export_ns = None;
         let ns_export_specifier_start = cur_pos!(self);
 
         let type_only = self.input.syntax().typescript() && eat!(self, "type");
 
-        if eat!(self, '*') {
-            has_star = true;
-            if self.input.syntax().typescript() && type_only {
-                // export type * from "mod";
-                // or
-                // export type * as foo from "mod";
-                self.emit_err(span!(self, start), SyntaxError::TS1383)
-            }
-            if is!(self, "from") {
-                let (src, asserts) = self.parse_from_clause_and_semi()?;
-                return Ok(ModuleDecl::ExportAll(ExportAll {
-                    span: span!(self, start),
-                    src,
-                    asserts,
-                }));
-            }
-            if eat!(self, "as") {
-                let _ = cur!(self, false);
-
-                let name = self.parse_module_export_name()?;
-                export_ns = Some(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
-                    span: span!(self, ns_export_specifier_start),
-                    name,
-                }));
-            }
-        }
-
         // Some("default") if default is exported from 'src'
         let mut export_default = None;
 
-        if !type_only && export_ns.is_none() && eat!(self, "default") {
+        if !type_only && eat!(self, "default") {
             if self.input.syntax().typescript() {
                 if is!(self, "abstract")
                     && peeked_is!(self, "class")
@@ -492,7 +463,8 @@ impl<I: Tokens> Parser<I> {
                 let decl = self.parse_default_fn(start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if self.input.syntax().export_default_from()
-                && (is!(self, "from") || (is!(self, ',') && peeked_is!(self, '{')))
+                && (is!(self, "from")
+                    || (is!(self, ',') && (peeked_is!(self, '{') || peeked_is!(self, '*'))))
             {
                 export_default = Some(Ident::new("default".into(), self.input.prev_span()))
             } else {
@@ -547,22 +519,20 @@ impl<I: Tokens> Parser<I> {
         {
             self.parse_var_stmt(false).map(Decl::Var)?
         } else {
-            // export {};
-            // export {} from '';
+            // ```javascript
+            // export foo, * as bar, { baz } from "mod"; // *
+            // export      * as bar, { baz } from "mod"; // *
+            // export foo,           { baz } from "mod"; // *
+            // export foo, * as bar          from "mod"; // *
+            // export foo                    from "mod"; // *
+            // export      * as bar          from "mod"; //
+            // export                { baz } from "mod"; //
+            // export                { baz }           ; //
+            // export      *                 from "mod"; //
+            // ```
 
-            if is!(self, "from") {
-                if let Some(s) = export_ns {
-                    let (src, asserts) = self.parse_from_clause_and_semi()?;
-                    return Ok(ModuleDecl::ExportNamed(NamedExport {
-                        span: span!(self, start),
-                        specifiers: vec![s],
-                        src: Some(src),
-                        type_only,
-                        asserts,
-                    }));
-                }
-            }
-
+            // export default
+            // export foo
             let default = match export_default {
                 Some(default) => Some(default),
                 None => {
@@ -574,47 +544,78 @@ impl<I: Tokens> Parser<I> {
                 }
             };
 
-            if is!(self, "from") {
-                if let Some(default) = default {
-                    let (src, asserts) = self.parse_from_clause_and_semi()?;
-                    return Ok(ModuleDecl::ExportNamed(NamedExport {
-                        span: span!(self, start),
-                        specifiers: vec![ExportSpecifier::Default(ExportDefaultSpecifier {
-                            exported: default,
-                        })],
-                        src: Some(src),
-                        type_only,
-                        asserts,
-                    }));
-                }
+            if self.input.syntax().typescript() && type_only && !is!(self, '{') {
+                self.emit_err(span!(self, start), SyntaxError::TS1383)
             }
 
-            if has_star && export_ns.is_none() {
+            if default.is_none() && is!(self, '*') && !peeked_is!(self, "as") {
+                assert_and_bump!(self, '*');
+
                 // improve error message for `export * from foo`
                 let (src, asserts) = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
-                    span: Span::new(start, src.span.hi(), Default::default()),
+                    span: span!(self, start),
                     src,
                     asserts,
                 }));
             }
 
-            let has_ns = export_ns.is_some();
-            let has_default = default.is_some();
-            if has_ns || has_default {
-                expect!(self, ',')
-            }
-
-            expect!(self, '{');
             let mut specifiers = vec![];
-            if let Some(s) = export_ns {
-                specifiers.push(s)
-            }
+
+            let mut has_default = false;
+            let mut has_ns = false;
+
             if let Some(default) = default {
+                has_default = true;
+
                 specifiers.push(ExportSpecifier::Default(ExportDefaultSpecifier {
                     exported: default,
                 }))
             }
+
+            // export foo, * as bar
+            //           ^
+            if !specifiers.is_empty() && is!(self, ',') && peeked_is!(self, '*') {
+                assert_and_bump!(self, ',');
+
+                has_ns = true;
+            }
+            // export     * as bar
+            //            ^
+            else if specifiers.is_empty() && is!(self, '*') {
+                has_ns = true;
+            }
+
+            if has_ns {
+                assert_and_bump!(self, '*');
+                expect!(self, "as");
+                let name = self.parse_module_export_name()?;
+                specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                    span: span!(self, ns_export_specifier_start),
+                    name,
+                }));
+            }
+
+            if has_default || has_ns {
+                if is!(self, "from") {
+                    let (src, asserts) = self.parse_from_clause_and_semi()?;
+                    return Ok(ModuleDecl::ExportNamed(NamedExport {
+                        span: span!(self, start),
+                        specifiers,
+                        src: Some(src),
+                        type_only,
+                        asserts,
+                    }));
+                } else if !self.input.syntax().export_default_from() {
+                    // emit error
+                    expect!(self, "from");
+                }
+
+                expect!(self, ',');
+            }
+
+            expect!(self, '{');
+
             let mut string_export_binding_span = None;
             while !eof!(self) && !is!(self, '}') {
                 let specifier = self.parse_named_export_specifier(type_only)?;

@@ -51,10 +51,10 @@ impl VisitMut for CompressUrl {
 
             url.value = Some(UrlValue::Raw(UrlValueRaw {
                 span: *span,
-                before: "".into(),
-                after: "".into(),
                 value: escaped.clone().into(),
-                raw: escaped.clone().into(),
+                before: None,
+                raw: None,
+                after: None,
             }));
         }
     }

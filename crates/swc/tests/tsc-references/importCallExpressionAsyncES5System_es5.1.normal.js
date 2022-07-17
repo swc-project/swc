@@ -1,10 +1,10 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @module: system
 // @target: es5
 // @lib: es6
 // @filename: test.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 export function fn() {
     return _fn.apply(this, arguments);
 }

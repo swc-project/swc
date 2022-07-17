@@ -61,7 +61,8 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -81,7 +82,8 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "data": "This is a paragraph."
+                  "data": "This is a paragraph.",
+                  "raw": "This is a paragraph."
                 }
               ],
               "content": null,
@@ -94,7 +96,8 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Comment",
@@ -103,7 +106,8 @@
                 "end": 151,
                 "ctxt": 0
               },
-              "data": "\n<p>Look at this cool image:</p>\n<img border=\"0\" src=\"pic_trulli.jpg\" alt=\"Trulli\">\n"
+              "data": "\n<p>Look at this cool image:</p>\n<img border=\"0\" src=\"pic_trulli.jpg\" alt=\"Trulli\">\n",
+              "raw": "<!--\n<p>Look at this cool image:</p>\n<img border=\"0\" src=\"pic_trulli.jpg\" alt=\"Trulli\">\n-->"
             },
             {
               "type": "Text",
@@ -112,7 +116,8 @@
                 "end": 152,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -132,7 +137,8 @@
                     "end": 179,
                     "ctxt": 0
                   },
-                  "data": "This is a paragraph too."
+                  "data": "This is a paragraph too.",
+                  "raw": "This is a paragraph too."
                 }
               ],
               "content": null,
@@ -145,7 +151,8 @@
                 "end": 201,
                 "ctxt": 0
               },
-              "data": "\n\n\n\n"
+              "data": "\n\n\n\n",
+              "raw": "\n\n\n\n"
             }
           ],
           "content": null,

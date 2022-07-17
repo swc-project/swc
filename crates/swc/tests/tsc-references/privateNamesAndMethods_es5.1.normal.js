@@ -1,3 +1,6 @@
+// @target: esnext, es2022
+// @lib: esnext, es2022
+// @useDefineForClassFields: false
 import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -12,9 +15,6 @@ import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _foo = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), __quux = /*#__PURE__*/ new WeakMap(), _quux = /*#__PURE__*/ new WeakMap();
-// @target: esnext, es2022
-// @lib: esnext, es2022
-// @useDefineForClassFields: false
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

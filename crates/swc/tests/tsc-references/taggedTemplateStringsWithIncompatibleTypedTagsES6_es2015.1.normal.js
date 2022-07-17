@@ -1,3 +1,4 @@
+// @target: ES6
 var f;
 f`abc`;
 f`abc${1}def${2}ghi`;

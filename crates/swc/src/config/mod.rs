@@ -542,6 +542,7 @@ impl Options {
                 source_map,
                 experimental,
                 plugin_context,
+                unresolved_mark,
             )
         };
 
@@ -565,7 +566,14 @@ impl Options {
             swc_plugin_runner::cache::init_plugin_module_cache_once();
             let comments = comments.cloned();
             let source_map = cm.clone();
-            crate::plugin::plugins(None, comments, source_map, experimental, plugin_context)
+            crate::plugin::plugins(
+                None,
+                comments,
+                source_map,
+                experimental,
+                plugin_context,
+                unresolved_mark,
+            )
         };
 
         #[cfg(not(feature = "plugin"))]
@@ -1664,7 +1672,7 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResol
 
     let r = {
         let r = TsConfigResolver::new(
-            NodeModulesResolver::default(),
+            NodeModulesResolver::new(Default::default(), Default::default(), true),
             base_url.clone(),
             paths.clone(),
         );

@@ -22,7 +22,7 @@ fn tr(c: Config) -> impl Fold {
         resolver(unresolved_mark, top_level_mark, false),
         parameters(c, unresolved_mark),
         destructuring(destructuring::Config { loose: false }),
-        block_scoping(),
+        block_scoping(unresolved_mark),
     )
 }
 
@@ -763,7 +763,18 @@ function () {
 
 test!(
     syntax(),
-    |_| chain!(arrow(), tr(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            arrow(unresolved_mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            parameters(Default::default(), unresolved_mark),
+            destructuring(destructuring::Config { loose: false }),
+            block_scoping(unresolved_mark),
+        )
+    },
     rest_binding_deoptimisation,
     r#"const deepAssign = (...args) => args = [];
 "#,
@@ -1561,8 +1572,8 @@ test!(
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default()),
-            arrow(),
+            async_to_generator(Default::default(), unresolved_mark),
+            arrow(unresolved_mark),
             parameters(Default::default(), unresolved_mark),
         )
     },
@@ -1597,8 +1608,8 @@ test!(
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default()),
-            arrow(),
+            async_to_generator(Default::default(), unresolved_mark),
+            arrow(unresolved_mark),
             parameters(Default::default(), unresolved_mark),
         )
     },
@@ -1673,7 +1684,7 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
-            block_scoping()
+            block_scoping(unresolved_mark)
         )
     },
     parameters_regression_4333,

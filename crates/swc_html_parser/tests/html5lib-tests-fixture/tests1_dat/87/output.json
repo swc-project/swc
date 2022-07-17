@@ -103,7 +103,8 @@
                     "end": 41,
                     "ctxt": 0
                   },
-                  "data": "<p>"
+                  "data": "<p>",
+                  "raw": "<p>"
                 }
               ],
               "content": null,
@@ -113,7 +114,7 @@
               "type": "Element",
               "span": {
                 "start": 55,
-                "end": 58,
+                "end": 65,
                 "ctxt": 0
               },
               "tagName": "p",

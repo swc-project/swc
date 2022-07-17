@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -82,7 +85,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "http-equiv",
-                  "value": "Content-Type"
+                  "rawName": "http-equiv",
+                  "value": "Content-Type",
+                  "rawValue": "\"Content-Type\""
                 },
                 {
                   "type": "Attribute",
@@ -94,7 +99,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "content",
-                  "value": "charset=\"windows-1251"
+                  "rawName": "content",
+                  "value": "charset=\"windows-1251",
+                  "rawValue": "'charset=\"windows-1251'"
                 }
               ],
               "children": [],
@@ -108,7 +115,8 @@
                 "end": 114,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -128,7 +136,8 @@
                     "end": 129,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -141,7 +150,8 @@
                 "end": 138,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -154,7 +164,8 @@
             "end": 146,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -174,7 +185,8 @@
                 "end": 166,
                 "ctxt": 0
               },
-              "data": "\ntest\n\n"
+              "data": "\ntest\n\n",
+              "raw": "\ntest\n\n"
             }
           ],
           "content": null,

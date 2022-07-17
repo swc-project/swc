@@ -1,3 +1,4 @@
+// @strict: true
 let { a: a1  } = x;
 let { a: a2 = 0  } = x;
 let { a: a3 = 2  } = x;

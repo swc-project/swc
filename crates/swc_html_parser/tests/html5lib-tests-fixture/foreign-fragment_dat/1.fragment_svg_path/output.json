@@ -26,7 +26,9 @@
           "namespace": null,
           "prefix": null,
           "name": "color",
-          "value": null
+          "rawName": "color",
+          "value": null,
+          "rawValue": null
         }
       ],
       "children": [],
@@ -40,7 +42,8 @@
         "end": 21,
         "ctxt": 0
       },
-      "data": "X"
+      "data": "X",
+      "raw": "X"
     }
   ]
 }

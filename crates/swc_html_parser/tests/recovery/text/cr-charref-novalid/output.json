@@ -60,7 +60,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "charset",
-                  "value": "utf-8"
+                  "rawName": "charset",
+                  "value": "utf-8",
+                  "rawValue": "utf-8"
                 }
               ],
               "children": [],
@@ -85,7 +87,8 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "data": "&#x0d;"
+                  "data": "&#x0d;",
+                  "raw": "&amp;#x0d;"
                 }
               ],
               "content": null,
@@ -124,7 +127,8 @@
                     "end": 95,
                     "ctxt": 0
                   },
-                  "data": "There should be an error.\r"
+                  "data": "There should be an error.\r",
+                  "raw": "There should be an error.&#x0d;"
                 }
               ],
               "content": null,

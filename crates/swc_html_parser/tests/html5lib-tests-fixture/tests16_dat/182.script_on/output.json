@@ -47,7 +47,8 @@
                     "end": 15,
                     "ctxt": 0
                   },
-                  "data": "<!--"
+                  "data": "<!--",
+                  "raw": "<!--"
                 }
               ],
               "content": null,
@@ -75,7 +76,8 @@
                 "end": 27,
                 "ctxt": 0
               },
-              "data": "X"
+              "data": "X",
+              "raw": "X"
             },
             {
               "type": "Element",
@@ -95,7 +97,8 @@
                     "end": 40,
                     "ctxt": 0
                   },
-                  "data": "-->"
+                  "data": "-->",
+                  "raw": "-->"
                 }
               ],
               "content": null,

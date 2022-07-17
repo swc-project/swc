@@ -6,9 +6,9 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    default: ()=>_default,
     x: ()=>x,
-    y: ()=>y
+    y: ()=>y,
+    default: ()=>_default
 });
 const _foo = require("foo");
 const _bar = require("bar");
@@ -17,7 +17,7 @@ const x = {
     bar: _bar.default
 };
 const y = _bar.baz;
-var _default = {
+const _default = {
     x,
     y
 };

@@ -72,7 +72,7 @@ impl VisitMut for CompressAngle {
                     *component_value = ComponentValue::Number(Number {
                         span: *span,
                         value: 0.0,
-                        raw: "0".into(),
+                        raw: None,
                     });
                 }
                 _ => {}
@@ -87,12 +87,9 @@ impl VisitMut for CompressAngle {
             return;
         }
 
-        let from = match &*angle.unit.value.to_lowercase() {
-            "deg" => AngleType::Deg,
-            "grad" => AngleType::Grad,
-            "rad" => AngleType::Rad,
-            "turn" => AngleType::Turn,
-            _ => return,
+        let from = match get_angle_type(&*angle.unit.value.to_lowercase()) {
+            Some(angel_type) => angel_type,
+            None => return,
         };
 
         let deg = to_deg(angle.value.value, from);
@@ -105,31 +102,41 @@ impl VisitMut for CompressAngle {
 
         angle.value = Number {
             value: deg,
-            raw: deg.to_string().into(),
+            raw: None,
             span: angle.span,
         };
 
         angle.unit = Ident {
             span: angle.unit.span,
             value: "deg".into(),
-            raw: "deg".into(),
+            raw: None,
         };
     }
 }
 
-enum AngleType {
+pub(crate) enum AngleType {
     Deg,
     Grad,
     Rad,
     Turn,
 }
 
-fn to_deg(value: f64, from: AngleType) -> f64 {
+pub(crate) fn to_deg(value: f64, from: AngleType) -> f64 {
     match from {
         AngleType::Deg => value,
         AngleType::Grad => value * 180.0 / 200.0,
         AngleType::Turn => value * 360.0,
         AngleType::Rad => value * 180.0 / PI,
+    }
+}
+
+pub(crate) fn get_angle_type(unit: &str) -> Option<AngleType> {
+    match unit {
+        "deg" => Some(AngleType::Deg),
+        "grad" => Some(AngleType::Grad),
+        "rad" => Some(AngleType::Rad),
+        "turn" => Some(AngleType::Turn),
+        _ => None,
     }
 }
 

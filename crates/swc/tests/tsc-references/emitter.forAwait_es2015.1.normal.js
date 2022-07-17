@@ -1,3 +1,6 @@
+// @target: es2018,es2017,es2015,es5
+// @lib: esnext
+// @filename: file1.ts
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
@@ -6,10 +9,7 @@ function f1() {
     return _f1.apply(this, arguments);
 }
 function _f1() {
-    _f1 = // @target: es2018,es2017,es2015,es5
-    // @lib: esnext
-    // @filename: file1.ts
-    _async_to_generator(function*() {
+    _f1 = _async_to_generator(function*() {
         let y;
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;

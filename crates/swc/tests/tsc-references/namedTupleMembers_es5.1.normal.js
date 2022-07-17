@@ -1,3 +1,4 @@
+// @declaration: true
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 a = b;

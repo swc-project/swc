@@ -1,3 +1,8 @@
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @noImplicitAny: true
+// @Filename: types.d.ts
 // @Filename: mod.js
 /// <reference path='./types.d.ts'/>
 var A = function A() {

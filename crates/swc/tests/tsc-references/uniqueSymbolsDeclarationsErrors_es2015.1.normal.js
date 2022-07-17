@@ -1,3 +1,8 @@
+// @target: esnext
+// @lib: esnext
+// @module: commonjs
+// @declaration: true
+// @useDefineForClassFields: false
 // not allowed when emitting declarations
 export const obj = {
     method1 (p) {

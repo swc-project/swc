@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: react
 /*#__PURE__*/ React.createElement("div", null, "Dot goes here: \xb7 &notAnEntity; ");
 /*#__PURE__*/ React.createElement("div", null, 'Be careful of "-ed strings!');
 /*#__PURE__*/ React.createElement("div", null, "{{braces}}");

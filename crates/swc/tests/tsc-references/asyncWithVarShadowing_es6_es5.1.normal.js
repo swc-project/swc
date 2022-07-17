@@ -1,3 +1,6 @@
+// @target: es2015
+// @noEmitHelpers: true
+// https://github.com/Microsoft/TypeScript/issues/20461
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";

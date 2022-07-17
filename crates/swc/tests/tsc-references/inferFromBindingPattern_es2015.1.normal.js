@@ -1,3 +1,4 @@
+// @strict: true
 let x1 = f1(); // string
 let [x2] = f2(); // string
 let { x: x3  } = f3(); // string

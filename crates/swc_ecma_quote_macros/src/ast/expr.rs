@@ -41,7 +41,8 @@ impl_enum!(
         PrivateName,
         OptChain,
         Invalid
-    ]
+    ],
+    true
 );
 
 impl_struct!(ThisExpr, [span]);

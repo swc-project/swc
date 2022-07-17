@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 84,
+        "end": 182,
         "ctxt": 0
       },
       "tagName": "html",
@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,13 +111,14 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
           "span": {
             "start": 77,
-            "end": 84,
+            "end": 182,
             "ctxt": 0
           },
           "tagName": "body",
@@ -126,13 +132,14 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 84,
+                "start": 84,
+                "end": 182,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -146,7 +153,8 @@
                     "end": 96,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -163,7 +171,7 @@
                       "type": "Element",
                       "span": {
                         "start": 96,
-                        "end": 175,
+                        "end": 182,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -177,13 +185,14 @@
                             "end": 109,
                             "ctxt": 0
                           },
-                          "data": "\n        "
+                          "data": "\n        ",
+                          "raw": "\n        "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 109,
-                            "end": 175,
+                            "end": 182,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -197,7 +206,8 @@
                                 "end": 126,
                                 "ctxt": 0
                               },
-                              "data": "\n            "
+                              "data": "\n            ",
+                              "raw": "\n            "
                             },
                             {
                               "type": "Element",
@@ -217,7 +227,8 @@
                                     "end": 158,
                                     "ctxt": 0
                                   },
-                                  "data": "\n        \n    \n"
+                                  "data": "\n        \n    \n",
+                                  "raw": "\n        \n    \n"
                                 }
                               ],
                               "content": null,
@@ -230,7 +241,8 @@
                                 "end": 175,
                                 "ctxt": 0
                               },
-                              "data": "\n\n"
+                              "data": "\n\n",
+                              "raw": "\n\n"
                             }
                           ],
                           "content": null,

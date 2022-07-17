@@ -1,3 +1,6 @@
+// @jsx: react
+// @jsxFactory: p
+// @filename: renderer.d.ts
 // @filename: reacty.tsx
 /** @jsx dom */ import { dom } from "./renderer";
 // @filename: index.tsx

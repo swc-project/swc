@@ -1,3 +1,7 @@
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @Filename: requires.d.ts
 // @Filename: mod1.js
 /// <reference path='./requires.d.ts' />
 module.exports = 1;

@@ -44,7 +44,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 45,
+                "end": 54,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -58,7 +58,8 @@
                     "end": 45,
                     "ctxt": 0
                   },
-                  "data": "<!--<script </script "
+                  "data": "<!--<script </script ",
+                  "raw": "<!--<script </script "
                 }
               ],
               "content": null,

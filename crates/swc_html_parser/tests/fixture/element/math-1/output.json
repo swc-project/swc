@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -148,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "style",
-                  "value": "display:none"
+                  "rawName": "style",
+                  "value": "display:none",
+                  "rawValue": "\"display:none\""
                 }
               ],
               "children": [
@@ -159,7 +168,8 @@
                     "end": 115,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -192,7 +202,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m1"
+                          "rawName": "id",
+                          "value": "m1",
+                          "rawValue": "\"m1\""
                         }
                       ],
                       "children": [
@@ -225,7 +237,8 @@
                     "end": 160,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -247,7 +260,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d1"
+                      "rawName": "id",
+                      "value": "d1",
+                      "rawValue": "\"d1\""
                     }
                   ],
                   "children": [
@@ -305,7 +320,8 @@
                     "end": 209,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -327,7 +343,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d2"
+                      "rawName": "id",
+                      "value": "d2",
+                      "rawValue": "\"d2\""
                     }
                   ],
                   "children": [
@@ -382,7 +400,8 @@
                                         "end": 245,
                                         "ctxt": 0
                                       },
-                                      "data": "1"
+                                      "data": "1",
+                                      "raw": "1"
                                     }
                                   ],
                                   "content": null,
@@ -410,7 +429,8 @@
                                     "end": 262,
                                     "ctxt": 0
                                   },
-                                  "data": "a"
+                                  "data": "a",
+                                  "raw": "a"
                                 }
                               ],
                               "content": null,
@@ -435,7 +455,8 @@
                     "end": 292,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -457,7 +478,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d3"
+                      "rawName": "id",
+                      "value": "d3",
+                      "rawValue": "\"d3\""
                     }
                   ],
                   "children": [
@@ -468,7 +491,8 @@
                         "end": 317,
                         "ctxt": 0
                       },
-                      "data": "⟨⟩"
+                      "data": "⟨⟩",
+                      "raw": "&lang;&rang;"
                     }
                   ],
                   "content": null,
@@ -481,7 +505,8 @@
                     "end": 328,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -503,7 +528,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d4"
+                      "rawName": "id",
+                      "value": "d4",
+                      "rawValue": "\"d4\""
                     }
                   ],
                   "children": [
@@ -514,7 +541,8 @@
                         "end": 347,
                         "ctxt": 0
                       },
-                      "data": "𝕂"
+                      "data": "𝕂",
+                      "raw": "&Kopf;"
                     }
                   ],
                   "content": null,
@@ -527,7 +555,8 @@
                     "end": 358,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -549,7 +578,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d5"
+                      "rawName": "id",
+                      "value": "d5",
+                      "rawValue": "\"d5\""
                     }
                   ],
                   "children": [
@@ -593,7 +624,8 @@
                                     "end": 393,
                                     "ctxt": 0
                                   },
-                                  "data": "a"
+                                  "data": "a",
+                                  "raw": "a"
                                 }
                               ],
                               "content": null,
@@ -661,7 +693,8 @@
                     "end": 473,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -683,7 +716,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d6"
+                      "rawName": "id",
+                      "value": "d6",
+                      "rawValue": "\"d6\""
                     }
                   ],
                   "children": [
@@ -727,7 +762,8 @@
                                     "end": 508,
                                     "ctxt": 0
                                   },
-                                  "data": "a"
+                                  "data": "a",
+                                  "raw": "a"
                                 }
                               ],
                               "content": null,
@@ -753,7 +789,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "encoding",
-                                  "value": "text/html"
+                                  "rawName": "encoding",
+                                  "value": "text/html",
+                                  "rawValue": "\"text/html\""
                                 }
                               ],
                               "children": [
@@ -808,7 +846,8 @@
                     "end": 609,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -821,7 +860,8 @@
                 "end": 617,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -841,7 +881,8 @@
                     "end": 627,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -874,7 +915,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m1"
+                          "rawName": "id",
+                          "value": "m1",
+                          "rawValue": "\"m1\""
                         }
                       ],
                       "children": [
@@ -907,7 +950,8 @@
                     "end": 672,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -929,7 +973,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d1"
+                      "rawName": "id",
+                      "value": "d1",
+                      "rawValue": "\"d1\""
                     }
                   ],
                   "children": [
@@ -964,7 +1010,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "mathvariant",
-                              "value": "BOLD"
+                              "rawName": "MATHVARIANT",
+                              "value": "BOLD",
+                              "rawValue": "\"BOLD\""
                             }
                           ],
                           "children": [],
@@ -986,7 +1034,8 @@
                     "end": 734,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1008,7 +1057,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d2"
+                      "rawName": "id",
+                      "value": "d2",
+                      "rawValue": "\"d2\""
                     }
                   ],
                   "children": [
@@ -1043,7 +1094,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "definitionURL",
-                              "value": "www.example.org/FOO"
+                              "rawName": "DEFINITIONurl",
+                              "value": "www.example.org/FOO",
+                              "rawValue": "\"www.example.org/FOO\""
                             }
                           ],
                           "children": [
@@ -1065,7 +1118,8 @@
                                     "end": 805,
                                     "ctxt": 0
                                   },
-                                  "data": "a"
+                                  "data": "a",
+                                  "raw": "a"
                                 }
                               ],
                               "content": null,
@@ -1133,7 +1187,8 @@
                     "end": 885,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1166,7 +1221,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m3span-mtext"
+                          "rawName": "id",
+                          "value": "m3span-mtext",
+                          "rawValue": "\"m3span-mtext\""
                         }
                       ],
                       "children": [
@@ -1199,7 +1256,8 @@
                                     "end": 928,
                                     "ctxt": 0
                                   },
-                                  "data": "x"
+                                  "data": "x",
+                                  "raw": "x"
                                 }
                               ],
                               "content": null,
@@ -1224,7 +1282,8 @@
                     "end": 961,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1257,7 +1316,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m3span-mi"
+                          "rawName": "id",
+                          "value": "m3span-mi",
+                          "rawValue": "\"m3span-mi\""
                         }
                       ],
                       "children": [
@@ -1290,7 +1351,8 @@
                                     "end": 998,
                                     "ctxt": 0
                                   },
-                                  "data": "x"
+                                  "data": "x",
+                                  "raw": "x"
                                 }
                               ],
                               "content": null,
@@ -1315,7 +1377,8 @@
                     "end": 1028,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1348,7 +1411,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m3p-mtext"
+                          "rawName": "id",
+                          "value": "m3p-mtext",
+                          "rawValue": "\"m3p-mtext\""
                         }
                       ],
                       "children": [
@@ -1381,7 +1446,8 @@
                                     "end": 1065,
                                     "ctxt": 0
                                   },
-                                  "data": "x"
+                                  "data": "x",
+                                  "raw": "x"
                                 }
                               ],
                               "content": null,
@@ -1406,7 +1472,8 @@
                     "end": 1095,
                     "ctxt": 0
                   },
-                  "data": "\n    "
+                  "data": "\n    ",
+                  "raw": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1439,7 +1506,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m3p-mi"
+                          "rawName": "id",
+                          "value": "m3p-mi",
+                          "rawValue": "\"m3p-mi\""
                         }
                       ],
                       "children": [
@@ -1472,7 +1541,8 @@
                                     "end": 1126,
                                     "ctxt": 0
                                   },
-                                  "data": "x"
+                                  "data": "x",
+                                  "raw": "x"
                                 }
                               ],
                               "content": null,
@@ -1497,7 +1567,8 @@
                     "end": 1149,
                     "ctxt": 0
                   },
-                  "data": "\n"
+                  "data": "\n",
+                  "raw": "\n"
                 }
               ],
               "content": null,
@@ -1510,7 +1581,8 @@
                 "end": 1164,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

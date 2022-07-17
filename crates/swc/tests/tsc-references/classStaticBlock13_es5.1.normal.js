@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

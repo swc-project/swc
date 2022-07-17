@@ -118,7 +118,7 @@ where
 
         let module_items = &mut module.body;
 
-        let mut strip = ModuleDeclStrip::default();
+        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
         module_items.visit_mut_with(&mut strip);
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(module_items.len() + 4);

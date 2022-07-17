@@ -38,7 +38,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -60,7 +62,8 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "data": "\n    "
+              "data": "\n    ",
+              "raw": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +83,8 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "data": "Document"
+                  "data": "Document",
+                  "raw": "Document"
                 }
               ],
               "content": null,
@@ -93,7 +97,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             }
           ],
           "content": null,
@@ -106,7 +111,8 @@
             "end": 77,
             "ctxt": 0
           },
-          "data": "\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
@@ -126,7 +132,8 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "data": "\n"
+              "data": "\n",
+              "raw": "\n"
             },
             {
               "type": "Element",
@@ -148,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "test.html"
+                  "rawName": "src",
+                  "value": "test.html",
+                  "rawValue": "\"test.html\""
                 },
                 {
                   "type": "Attribute",
@@ -160,7 +169,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "frameborder",
-                  "value": "0"
+                  "rawName": "frameborder",
+                  "value": "0",
+                  "rawValue": "\"0\""
                 }
               ],
               "children": [],
@@ -174,7 +185,8 @@
                 "end": 135,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             },
             {
               "type": "Element",
@@ -196,7 +208,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "banner.html"
+                  "rawName": "src",
+                  "value": "banner.html",
+                  "rawValue": "\"banner.html\""
                 },
                 {
                   "type": "Attribute",
@@ -208,7 +222,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "468"
+                  "rawName": "width",
+                  "value": "468",
+                  "rawValue": "\"468\""
                 },
                 {
                   "type": "Attribute",
@@ -220,7 +236,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "60"
+                  "rawName": "height",
+                  "value": "60",
+                  "rawValue": "\"60\""
                 },
                 {
                   "type": "Attribute",
@@ -232,7 +250,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "align",
-                  "value": "left"
+                  "rawName": "align",
+                  "value": "left",
+                  "rawValue": "\"left\""
                 }
               ],
               "children": [
@@ -243,7 +263,8 @@
                     "end": 208,
                     "ctxt": 0
                   },
-                  "data": "   Text   "
+                  "data": "   Text   ",
+                  "raw": "   Text   "
                 }
               ],
               "content": null,
@@ -256,7 +277,8 @@
                 "end": 226,
                 "ctxt": 0
               },
-              "data": "\n\n"
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

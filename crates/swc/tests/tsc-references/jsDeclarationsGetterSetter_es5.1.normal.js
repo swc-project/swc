@@ -1,11 +1,11 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
 // @target: es6
 // @declaration: true
 // @filename: index.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
 export var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {

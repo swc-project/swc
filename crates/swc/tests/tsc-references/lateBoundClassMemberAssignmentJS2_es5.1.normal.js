@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @emitDeclarationOnly: true
@@ -6,6 +5,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: es6
 // @declaration: true
 // @filename: lateBoundClassMemberAssignmentJS2.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var _sym = "my-fake-sym";
 export var MyClass = /*#__PURE__*/ function() {
     "use strict";

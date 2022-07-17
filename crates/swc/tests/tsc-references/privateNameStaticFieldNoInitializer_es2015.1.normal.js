@@ -1,5 +1,5 @@
-var _class, _x;
 // @target: es2015, es2022, esnext
+var _class, _x;
 const C = (_class = class {
 }, _x = {
     writable: true,

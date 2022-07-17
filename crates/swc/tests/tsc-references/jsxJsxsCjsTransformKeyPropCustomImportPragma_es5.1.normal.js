@@ -1,16 +1,16 @@
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+// @jsx: react-jsx,react-jsxdev
+// @strict: true
+// @module: commonjs
+// @filename: preact.tsx
+/// <reference path="/.lib/react16.d.ts" />
+/* @jsxImportSource preact */ import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 import { jsx as _jsx } from "preact/jsx-runtime";
 import { createElement as _createElement } from "react";
 // @filename: react.tsx
 /// <reference path="/.lib/react16.d.ts" />
 /* @jsxImportSource react */ import "./preact";
-// @jsx: react-jsx,react-jsxdev
-// @strict: true
-// @module: commonjs
-// @filename: preact.tsx
-/// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource preact */ var props = {
+var props = {
     answer: 42
 };
 var a = /*#__PURE__*/ _jsx("div", _object_spread_props(_object_spread({}, props), {

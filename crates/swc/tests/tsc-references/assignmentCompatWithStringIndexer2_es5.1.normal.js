@@ -1,3 +1,4 @@
+// index signatures must be compatible in assignments
 var a;
 var b;
 a = b; // ok

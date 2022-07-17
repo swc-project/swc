@@ -1,3 +1,4 @@
+// @declaration: true
 class Base {
     constructor(x, y){
         this.x = x;

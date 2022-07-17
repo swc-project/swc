@@ -1,3 +1,4 @@
+// every type is a subtype of any, no errors expected
 class A {
 }
 class A2 {

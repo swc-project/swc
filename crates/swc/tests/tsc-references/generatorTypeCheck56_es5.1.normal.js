@@ -1,7 +1,7 @@
+//@target: ES6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g);
-//@target: ES6
 function g() {
     var x;
     return regeneratorRuntime.wrap(function g$(_ctx) {

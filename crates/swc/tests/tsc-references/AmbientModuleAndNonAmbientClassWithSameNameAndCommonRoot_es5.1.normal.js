@@ -1,3 +1,4 @@
+// @filename: module.d.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: classPoint.ts
 var A;

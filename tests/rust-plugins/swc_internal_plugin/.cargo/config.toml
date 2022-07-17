@@ -1,3 +1,0 @@
-[build]
-# Do not enable this config until https://github.com/rust-lang/rust/issues/73755 stablized
-# rustflags = ["-C", "target-feature=+multivalue"]

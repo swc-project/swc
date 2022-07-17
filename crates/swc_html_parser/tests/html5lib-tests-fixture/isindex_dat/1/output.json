@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "name",
-                  "value": "A"
+                  "rawName": "name",
+                  "value": "A",
+                  "rawValue": "\"A\""
                 },
                 {
                   "type": "Attribute",
@@ -75,7 +77,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "action",
-                  "value": "B"
+                  "rawName": "action",
+                  "value": "B",
+                  "rawValue": "\"B\""
                 },
                 {
                   "type": "Attribute",
@@ -87,7 +91,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "prompt",
-                  "value": "C"
+                  "rawName": "prompt",
+                  "value": "C",
+                  "rawValue": "\"C\""
                 },
                 {
                   "type": "Attribute",
@@ -99,7 +105,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "foo",
-                  "value": "D"
+                  "rawName": "foo",
+                  "value": "D",
+                  "rawValue": "\"D\""
                 }
               ],
               "children": [],

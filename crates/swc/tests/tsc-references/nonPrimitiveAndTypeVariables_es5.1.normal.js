@@ -1,3 +1,5 @@
+// @strict: true
+// Repros from #23800
 var a = {
     a: 0
 };

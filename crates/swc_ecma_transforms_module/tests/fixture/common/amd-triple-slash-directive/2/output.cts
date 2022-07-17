@@ -1,6 +1,6 @@
-"use strict";
 ///<amd-module name='FirstModuleName'/>
 ///<amd-module name='SecondModuleName'/>
+"use strict";
 class Foo {
     x: number;
     constructor(){

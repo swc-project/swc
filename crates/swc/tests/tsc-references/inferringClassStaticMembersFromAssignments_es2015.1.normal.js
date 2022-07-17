@@ -1,8 +1,8 @@
-// @filename: b.ts
-import * as a from "./a";
 // @noEmit: true
 // @allowJs: true
 // @filename: a.js
+// @filename: b.ts
+import * as a from "./a";
 export class C1 {
 }
 C1.staticProp = 0;

@@ -74,7 +74,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "attributeName",
-                  "value": ""
+                  "rawName": "attributename",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -86,7 +88,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "attributeType",
-                  "value": ""
+                  "rawName": "attributetype",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -98,7 +102,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "baseFrequency",
-                  "value": ""
+                  "rawName": "basefrequency",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -110,7 +116,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "baseProfile",
-                  "value": ""
+                  "rawName": "baseprofile",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -122,7 +130,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "calcMode",
-                  "value": ""
+                  "rawName": "calcmode",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -134,7 +144,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "clipPathUnits",
-                  "value": ""
+                  "rawName": "clippathunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -146,7 +158,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "diffuseConstant",
-                  "value": ""
+                  "rawName": "diffuseconstant",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -158,7 +172,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "edgeMode",
-                  "value": ""
+                  "rawName": "edgemode",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -170,7 +186,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "filterUnits",
-                  "value": ""
+                  "rawName": "filterunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -182,7 +200,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "filterres",
-                  "value": ""
+                  "rawName": "filterres",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -194,7 +214,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "glyphRef",
-                  "value": ""
+                  "rawName": "glyphref",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -206,7 +228,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "gradientTransform",
-                  "value": ""
+                  "rawName": "gradienttransform",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -218,7 +242,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "gradientUnits",
-                  "value": ""
+                  "rawName": "gradientunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -230,7 +256,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "kernelMatrix",
-                  "value": ""
+                  "rawName": "kernelmatrix",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -242,7 +270,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "kernelUnitLength",
-                  "value": ""
+                  "rawName": "kernelunitlength",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -254,7 +284,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "keyPoints",
-                  "value": ""
+                  "rawName": "keypoints",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -266,7 +298,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "keySplines",
-                  "value": ""
+                  "rawName": "keysplines",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -278,7 +312,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "keyTimes",
-                  "value": ""
+                  "rawName": "keytimes",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -290,7 +326,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "lengthAdjust",
-                  "value": ""
+                  "rawName": "lengthadjust",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -302,7 +340,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "limitingConeAngle",
-                  "value": ""
+                  "rawName": "limitingconeangle",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -314,7 +354,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "markerHeight",
-                  "value": ""
+                  "rawName": "markerheight",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -326,7 +368,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "markerUnits",
-                  "value": ""
+                  "rawName": "markerunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -338,7 +382,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "markerWidth",
-                  "value": ""
+                  "rawName": "markerwidth",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -350,7 +396,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "maskContentUnits",
-                  "value": ""
+                  "rawName": "maskcontentunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -362,7 +410,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "maskUnits",
-                  "value": ""
+                  "rawName": "maskunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -374,7 +424,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "numOctaves",
-                  "value": ""
+                  "rawName": "numoctaves",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -386,7 +438,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "pathLength",
-                  "value": ""
+                  "rawName": "pathlength",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -398,7 +452,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "patternContentUnits",
-                  "value": ""
+                  "rawName": "patterncontentunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -410,7 +466,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "patternTransform",
-                  "value": ""
+                  "rawName": "patterntransform",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -422,7 +480,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "patternUnits",
-                  "value": ""
+                  "rawName": "patternunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -434,7 +494,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "pointsAtX",
-                  "value": ""
+                  "rawName": "pointsatx",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -446,7 +508,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "pointsAtY",
-                  "value": ""
+                  "rawName": "pointsaty",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -458,7 +522,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "pointsAtZ",
-                  "value": ""
+                  "rawName": "pointsatz",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -470,7 +536,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "preserveAlpha",
-                  "value": ""
+                  "rawName": "preservealpha",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -482,7 +550,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "preserveAspectRatio",
-                  "value": ""
+                  "rawName": "preserveaspectratio",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -494,7 +564,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "primitiveUnits",
-                  "value": ""
+                  "rawName": "primitiveunits",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -506,7 +578,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "refX",
-                  "value": ""
+                  "rawName": "refx",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -518,7 +592,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "refY",
-                  "value": ""
+                  "rawName": "refy",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -530,7 +606,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "repeatCount",
-                  "value": ""
+                  "rawName": "repeatcount",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -542,7 +620,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "repeatDur",
-                  "value": ""
+                  "rawName": "repeatdur",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -554,7 +634,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "requiredExtensions",
-                  "value": ""
+                  "rawName": "requiredextensions",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -566,7 +648,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "requiredFeatures",
-                  "value": ""
+                  "rawName": "requiredfeatures",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -578,7 +662,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "specularConstant",
-                  "value": ""
+                  "rawName": "specularconstant",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -590,7 +676,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "specularExponent",
-                  "value": ""
+                  "rawName": "specularexponent",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -602,7 +690,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "spreadMethod",
-                  "value": ""
+                  "rawName": "spreadmethod",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -614,7 +704,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "startOffset",
-                  "value": ""
+                  "rawName": "startoffset",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -626,7 +718,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "stdDeviation",
-                  "value": ""
+                  "rawName": "stddeviation",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -638,7 +732,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "stitchTiles",
-                  "value": ""
+                  "rawName": "stitchtiles",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -650,7 +746,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "surfaceScale",
-                  "value": ""
+                  "rawName": "surfacescale",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -662,7 +760,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "systemLanguage",
-                  "value": ""
+                  "rawName": "systemlanguage",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -674,7 +774,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "tableValues",
-                  "value": ""
+                  "rawName": "tablevalues",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -686,7 +788,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "targetX",
-                  "value": ""
+                  "rawName": "targetx",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -698,7 +802,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "targetY",
-                  "value": ""
+                  "rawName": "targety",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -710,7 +816,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "textLength",
-                  "value": ""
+                  "rawName": "textlength",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -722,7 +830,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewBox",
-                  "value": ""
+                  "rawName": "viewbox",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -734,7 +844,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "viewTarget",
-                  "value": ""
+                  "rawName": "viewtarget",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -746,7 +858,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "xChannelSelector",
-                  "value": ""
+                  "rawName": "xchannelselector",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -758,7 +872,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "yChannelSelector",
-                  "value": ""
+                  "rawName": "ychannelselector",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -770,7 +886,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "zoomAndPan",
-                  "value": ""
+                  "rawName": "zoomandpan",
+                  "value": "",
+                  "rawValue": "''"
                 }
               ],
               "children": [],

@@ -1,3 +1,4 @@
+// @Filename: declarations.d.ts
 // @Filename: user.ts
 ///<reference path="declarations.d.ts" />
 import { foo, baz } from "foobarbaz";

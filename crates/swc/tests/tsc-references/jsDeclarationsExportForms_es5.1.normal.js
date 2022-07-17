@@ -1,3 +1,9 @@
+// @allowJs: true
+// @checkJs: true
+// @target: es5
+// @outDir: ./out
+// @declaration: true
+// @filename: cls.js
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: includeAll.js
 import "./cjs4";
@@ -10,12 +16,6 @@ import "./bat";
 import "./baz";
 import "./bar";
 import "./bar2";
-// @allowJs: true
-// @checkJs: true
-// @target: es5
-// @outDir: ./out
-// @declaration: true
-// @filename: cls.js
 export var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
