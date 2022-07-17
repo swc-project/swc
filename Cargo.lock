@@ -4005,7 +4005,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.24.0"
+version = "0.24.1"
 dependencies = [
  "criterion",
  "serde",
