@@ -876,8 +876,9 @@ impl SimplifyExpr {
                 } else {
                     let new_len = format!("{}", $value).len();
                     if right.span().hi() > left.span().lo() {
-                        let orig_len = right.span().hi() - left.span().lo();
-                        if new_len <= orig_len.0 as usize {
+                        let orig_len = right.span().hi() - right.span().lo() + left.span().hi()
+                            - left.span().lo();
+                        if new_len <= orig_len.0 as usize + 1 {
                             Known($value)
                         } else {
                             Unknown

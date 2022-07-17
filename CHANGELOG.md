@@ -11,13 +11,22 @@
 - **(es)** Fix resolving of symlinks (#5222) ([27cc45d](https://github.com/swc-project/swc/commit/27cc45d50fa035fbb7bbab307752ec55c8d5ed0c))
 
 
+- **(es/lints)** Disallow duplicate export functions (#5234) ([c68d484](https://github.com/swc-project/swc/commit/c68d484305d3dfac3e14e45682c9d5ec10b49a45))
+
+
+- **(es/minifier)** Fix size calculation of numbers (#5232) ([2e9c9be](https://github.com/swc-project/swc/commit/2e9c9bea1ad5c95a1e4867eba2f9bbe53c466fc7))
+
+
 - **(es/modules)** Preserve order for ts import equals (#5215) ([6b1ce09](https://github.com/swc-project/swc/commit/6b1ce09b6f59e53a750a71e447a148aedcef8468))
 
 
 - **(html/parser)** Fix span  (#5209) ([b4daa30](https://github.com/swc-project/swc/commit/b4daa3005803be23676bec666bb8f8791f2472b3))
 
 
-- **(html/parser)** Improve span (#5230) ([0f7646c](https://github.com/swc-project/swc/commit/0f7646cc4763f2d79d0b3cb4529a0c7ec7df94e8))- **general**: Fix(es/lints: Handle ts export import equals (#5225)
+- **(html/parser)** Improve span (#5230) ([0f7646c](https://github.com/swc-project/swc/commit/0f7646cc4763f2d79d0b3cb4529a0c7ec7df94e8))
+
+
+- **(testing)** Allow space in file names (#5237) ([de76868](https://github.com/swc-project/swc/commit/de76868cad88b9afe103a60331c1456a3f02e37e))- **general**: Fix(es/lints: Handle ts export import equals (#5225)
 
  ([04de455](https://github.com/swc-project/swc/commit/04de455a9a34dbcbb193bffc9ab504c0e30e8706))
 
@@ -34,10 +43,16 @@
 - **(html/ast)** Add `raw` to attributes (#5208) ([64237fa](https://github.com/swc-project/swc/commit/64237fa7fb9c95030f92892143f476c2573bed75))
 
 
+- **(html/ast)** Add `raw` to doctype (#5198) ([945510a](https://github.com/swc-project/swc/commit/945510a6954db87f78dcffa888f49b630f4eb74d))
+
+
 - **(html/minifier)** Compress more default attributes (#5182) ([625fc18](https://github.com/swc-project/swc/commit/625fc18da01643d81af535eefd4c636e5a632af0))
 
 
 - **(html/minifier)** Improve minifier (#5227) ([1da6016](https://github.com/swc-project/swc/commit/1da6016da7db783a4207cfff480b057ea911006c))
+
+
+- **(node)** Use wasm as a fallback (#5233) ([1cebf62](https://github.com/swc-project/swc/commit/1cebf626e66b52f0fe325f679443d8243ab9eba3))
 
 
 - **(plugin)** Pass `unresolved_mark` to plugins (#5212) ([92c0153](https://github.com/swc-project/swc/commit/92c0153cb56a6b3b7d6503216a14d5ed78df71dc))

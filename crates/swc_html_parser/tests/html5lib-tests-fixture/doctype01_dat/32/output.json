@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": "http://www.w3.org/DTD/HTML4-strict.dtd"
+      "systemId": "http://www.w3.org/DTD/HTML4-strict.dtd",
+      "raw": "<!DOCTYPE HTML SYSTEM \"http://www.w3.org/DTD/HTML4-strict.dtd\">"
     },
     {
       "type": "Element",

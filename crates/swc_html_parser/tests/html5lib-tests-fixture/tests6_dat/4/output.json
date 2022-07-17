@@ -16,7 +16,8 @@
       },
       "name": null,
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype>"
     },
     {
       "type": "Element",

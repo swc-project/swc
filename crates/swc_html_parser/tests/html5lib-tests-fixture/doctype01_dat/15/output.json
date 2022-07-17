@@ -16,7 +16,8 @@
       },
       "name": "potato",
       "publicId": null,
-      "systemId": "tai'co"
+      "systemId": "tai'co",
+      "raw": "<!DOCTYPE potato SYSTEM \"tai'co\">"
     },
     {
       "type": "Element",

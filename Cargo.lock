@@ -3363,7 +3363,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.53.2"
+version = "0.53.3"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3677,7 +3677,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.146.0"
+version = "0.146.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3927,7 +3927,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.47.0"
+version = "0.48.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3938,7 +3938,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3949,7 +3949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.27.0"
+version = "0.28.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3977,7 +3977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.44.1"
+version = "0.45.0"
 dependencies = [
  "once_cell",
  "serde",
@@ -4005,7 +4005,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.24.1"
+version = "0.25.0"
 dependencies = [
  "criterion",
  "serde",
@@ -4031,7 +4031,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4286,7 +4286,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "0.2.5"
+version = "0.2.6"
 dependencies = [
  "anyhow",
  "glob",

@@ -586,21 +586,8 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 let mut new_token = token_and_span.unwrap().token.clone();
 
                 match new_token {
-                    Token::Doctype {
-                        ref mut raw_keyword,
-                        ref mut raw_name,
-                        ref mut public_quote,
-                        ref mut raw_public_keyword,
-                        ref mut system_quote,
-                        ref mut raw_system_keyword,
-                        ..
-                    } => {
-                        *raw_keyword = None;
-                        *raw_name = None;
-                        *public_quote = None;
-                        *raw_public_keyword = None;
-                        *system_quote = None;
-                        *raw_system_keyword = None;
+                    Token::Doctype { ref mut raw, .. } => {
+                        *raw = None;
                     }
                     Token::StartTag {
                         ref mut raw_tag_name,
@@ -678,16 +665,11 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                             .expect("failed to deserialize");
 
                                     vec![Token::Doctype {
-                                        raw_keyword: None,
                                         name: name.map(|v| v.into()),
-                                        raw_name: None,
                                         force_quirks: !correctness,
-                                        raw_public_keyword: None,
-                                        public_quote: None,
                                         public_id: public_id.map(|v| v.into()),
-                                        raw_system_keyword: None,
-                                        system_quote: None,
                                         system_id: system_id.map(|v| v.into()),
+                                        raw: None,
                                     }]
                                 }
                                 "StartTag" => {

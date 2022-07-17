@@ -16,7 +16,8 @@
       },
       "name": "potato",
       "publicId": "go:hh   of",
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE potato PUBLIC 'go:hh   of' >"
     },
     {
       "type": "Element",
