@@ -147,6 +147,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 .replace('/', "__")
                 .replace('.', "_")
                 .replace('-', "_")
+                .replace(' ', "_")
         )
         .replace("___", "__");
         let test_ident = Ident::new(&test_name, Span::call_site());
