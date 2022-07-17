@@ -43,6 +43,9 @@
 - **(html/ast)** Add `raw` to attributes (#5208) ([64237fa](https://github.com/swc-project/swc/commit/64237fa7fb9c95030f92892143f476c2573bed75))
 
 
+- **(html/ast)** Add `raw` to doctype (#5198) ([945510a](https://github.com/swc-project/swc/commit/945510a6954db87f78dcffa888f49b630f4eb74d))
+
+
 - **(html/minifier)** Compress more default attributes (#5182) ([625fc18](https://github.com/swc-project/swc/commit/625fc18da01643d81af535eefd4c636e5a632af0))
 
 
