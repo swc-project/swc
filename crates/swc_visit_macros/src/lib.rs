@@ -62,7 +62,7 @@ impl Mode {
         Some(match self {
             Mode::VisitAll => return None,
             Mode::Fold(VisitorVariant::Normal) => "FoldWith",
-            Mode::Visit(VisitorVariant::Normal) => "VisitWiht",
+            Mode::Visit(VisitorVariant::Normal) => "VisitWith",
             Mode::VisitMut(VisitorVariant::Normal) => "VisitMutWith",
             Mode::Visit(VisitorVariant::WithPath) => "VisitWithPath",
             Mode::VisitMut(VisitorVariant::WithPath) => "VisitMutWithPath",
