@@ -10,8 +10,16 @@
   x Element
 
   x Child
+   ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]
+ 1 | <table><td><div
+   : ^^^^^^^^^^^^^^^
+   `----
 
   x Element
+   ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]
+ 1 | <table><td><div
+   : ^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]

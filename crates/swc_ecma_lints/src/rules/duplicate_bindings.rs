@@ -7,7 +7,6 @@ use swc_common::{
     Span,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::{visitor_rule, Rule};
@@ -84,15 +83,14 @@ impl DuplicateBindings {
     // this is for the wired case:
     // in non strict mode, function in non top level or function scope
     // is hoisted, while still error when collides with same level lexical var
-    fn visit_with_stmt_like<T: StmtLike + VisitWith<Self>>(&mut self, s: &[T]) {
+    fn visit_with_stmt_like<T: VisitWith<Self>, F: Fn(&T) -> Option<Ident>>(
+        &mut self,
+        s: &[T],
+        get_fn_ident: F,
+    ) {
         let mut fn_name = AHashMap::default();
         for s in s {
-            if let Some(Stmt::Decl(Decl::Fn(FnDecl {
-                ident,
-                function: Function { body: Some(_), .. },
-                ..
-            }))) = s.as_stmt()
-            {
+            if let Some(ident) = get_fn_ident(s) {
                 if let Some(prev) = fn_name.get(&ident.sym) {
                     emit_error(&ident.sym, ident.span, *prev)
                 } else {
@@ -109,7 +107,18 @@ impl DuplicateBindings {
         self.lexical_function = lexical_function;
 
         if lexical_function {
-            self.visit_with_stmt_like(s);
+            self.visit_with_stmt_like(s, |s| {
+                if let Stmt::Decl(Decl::Fn(FnDecl {
+                    ident,
+                    function: Function { body: Some(_), .. },
+                    ..
+                })) = s
+                {
+                    Some(ident.clone())
+                } else {
+                    None
+                }
+            });
         } else {
             s.visit_children_with(self);
         }
@@ -299,7 +308,37 @@ impl Visit for DuplicateBindings {
 
         self.lexical_function = true;
 
-        self.visit_with_stmt_like(&m.body);
+        self.visit_with_stmt_like(&m.body, |s| {
+            if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                ident,
+                function: Function { body: Some(_), .. },
+                ..
+            })))
+            | ModuleItem::ModuleDecl(
+                ModuleDecl::ExportDecl(ExportDecl {
+                    decl:
+                        Decl::Fn(FnDecl {
+                            ident,
+                            function: Function { body: Some(_), .. },
+                            ..
+                        }),
+                    ..
+                })
+                | ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl:
+                        DefaultDecl::Fn(FnExpr {
+                            ident: Some(ident),
+                            function: Function { body: Some(..), .. },
+                        }),
+                    ..
+                }),
+            ) = s
+            {
+                Some(ident.clone())
+            } else {
+                None
+            }
+        });
     }
 
     fn visit_pat(&mut self, p: &Pat) {

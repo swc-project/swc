@@ -72,8 +72,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 16,
+                "start": 16,
+                "end": 39,
                 "ctxt": 0
               },
               "tagName": "table",

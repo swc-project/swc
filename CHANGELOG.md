@@ -8,10 +8,27 @@
 - **(cli)** Emit sourcemap with file inputs (#5213) ([3e3be80](https://github.com/swc-project/swc/commit/3e3be80efda09ae494f8962947562b4411874061))
 
 
+- **(es)** Fix resolving of symlinks (#5222) ([27cc45d](https://github.com/swc-project/swc/commit/27cc45d50fa035fbb7bbab307752ec55c8d5ed0c))
+
+
+- **(es/lints)** Disallow duplicate export functions (#5234) ([c68d484](https://github.com/swc-project/swc/commit/c68d484305d3dfac3e14e45682c9d5ec10b49a45))
+
+
+- **(es/minifier)** Fix size calculation of numbers (#5232) ([2e9c9be](https://github.com/swc-project/swc/commit/2e9c9bea1ad5c95a1e4867eba2f9bbe53c466fc7))
+
+
 - **(es/modules)** Preserve order for ts import equals (#5215) ([6b1ce09](https://github.com/swc-project/swc/commit/6b1ce09b6f59e53a750a71e447a148aedcef8468))
 
 
 - **(html/parser)** Fix span  (#5209) ([b4daa30](https://github.com/swc-project/swc/commit/b4daa3005803be23676bec666bb8f8791f2472b3))
+
+
+- **(html/parser)** Improve span (#5230) ([0f7646c](https://github.com/swc-project/swc/commit/0f7646cc4763f2d79d0b3cb4529a0c7ec7df94e8))
+
+
+- **(testing)** Allow space in file names (#5237) ([de76868](https://github.com/swc-project/swc/commit/de76868cad88b9afe103a60331c1456a3f02e37e))- **general**: Fix(es/lints: Handle ts export import equals (#5225)
+
+ ([04de455](https://github.com/swc-project/swc/commit/04de455a9a34dbcbb193bffc9ab504c0e30e8706))
 
 ### Features
 
@@ -20,22 +37,46 @@
 - **(css/ast)** Make `raw` optional (#5211) ([b65a16c](https://github.com/swc-project/swc/commit/b65a16c7aa58bca57ad861ca015867f89fb80a79))
 
 
+- **(es/lints)** Support `ignoreReadBeforeAssign` for `prefer-const` (#4933) ([d035648](https://github.com/swc-project/swc/commit/d0356489cb1dfae8e6ced8dd239643bf6f5b029d))
+
+
 - **(html/ast)** Add `raw` to attributes (#5208) ([64237fa](https://github.com/swc-project/swc/commit/64237fa7fb9c95030f92892143f476c2573bed75))
 
 
 - **(html/minifier)** Compress more default attributes (#5182) ([625fc18](https://github.com/swc-project/swc/commit/625fc18da01643d81af535eefd4c636e5a632af0))
 
 
+- **(html/minifier)** Improve minifier (#5227) ([1da6016](https://github.com/swc-project/swc/commit/1da6016da7db783a4207cfff480b057ea911006c))
+
+
+- **(node)** Use wasm as a fallback (#5233) ([1cebf62](https://github.com/swc-project/swc/commit/1cebf626e66b52f0fe325f679443d8243ab9eba3))
+
+
 - **(plugin)** Pass `unresolved_mark` to plugins (#5212) ([92c0153](https://github.com/swc-project/swc/commit/92c0153cb56a6b3b7d6503216a14d5ed78df71dc))
+
+### Miscellaneous Tasks
+
+
+
+- **(visit)** Specify version of `swc_macros_common` (#5231) ([1aa0223](https://github.com/swc-project/swc/commit/1aa022361e7918f4077eacae6e51899eac007be5))
 
 ### Testing
 
+
+
+- **(css/parser)** Add a test (#5228) ([8e5efb6](https://github.com/swc-project/swc/commit/8e5efb65d55706883663a25a0e281a4ef013001b))
 
 
 - **(es/plugin)** Build plugins for e2e testing (#5210) ([cd94f0a](https://github.com/swc-project/swc/commit/cd94f0a2e9a7331073d20638031ae86d3308760e))
 
 
 - **(plugin)** Fix e2e tests on windows (#5216) ([f1ba332](https://github.com/swc-project/swc/commit/f1ba3327cfcc37534484362293cfac19587110da))
+
+### Build
+
+
+
+- **(node)** Use explicit list for package files (#5229) ([b01b6cf](https://github.com/swc-project/swc/commit/b01b6cf57ee2dcd33886ba9196f364bcb9273afe))
 
 ## [1.2.216] - 2022-07-14
 

@@ -5,7 +5,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_visit_macros"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.5.1"
+version = "0.5.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -18,5 +18,5 @@ Inflector = "0.11.4"
 pmutil = "0.5.1"
 proc-macro2 = "1"
 quote = "1"
-swc_macros_common = {version = "0.3.4", path = "../swc_macros_common"}
-syn = {version = "1", features = ["parsing", "full"]}
+swc_macros_common = { version = "0.3.6", path = "../swc_macros_common" }
+syn = { version = "1", features = ["parsing", "full"] }
