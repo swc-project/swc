@@ -11,10 +11,27 @@ import {
 } from "./types";
 export * from "./types";
 import { BundleInput, compileBundleOptions } from "./spack";
+import * as assert from "assert";
 
 // Allow overrides to the location of the .node binding file
 const bindingsOverride = process.env["SWC_BINARY_PATH"];
-const bindings = !!bindingsOverride ? require(resolve(bindingsOverride)) : require('./binding');
+let fallbackBindings: any;
+const bindings = (() => {
+  let binding
+  try {
+    binding = !!bindingsOverride ? require(resolve(bindingsOverride)) : require('./binding')
+
+    // If native binding loaded successfully, it should return proper target triple constant.
+    const triple = binding.getTargetTriple();
+    assert.ok(triple, 'Failed to read target triple from native binary.');
+    return binding;
+  } catch (_) {
+    // postinstall supposed to install `@swc/wasm` already
+    fallbackBindings = require('@swc/wasm');
+  } finally {
+    return binding;
+  }
+})();
 
 /**
  * Version of the swc binding.
@@ -34,11 +51,21 @@ export function plugins(ps: Plugin[]): Plugin {
 export class Compiler {
 
   async minify(src: string, opts?: JsMinifyOptions): Promise<Output> {
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support this interface yet.');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
     return bindings.minify(toBuffer(src), toBuffer(opts ?? {}));
   }
 
   minifySync(src: string, opts?: JsMinifyOptions): Output {
-    return bindings.minifySync(toBuffer(src), toBuffer(opts ?? {}));
+    if (bindings) {
+      return bindings.minifySync(toBuffer(src), toBuffer(opts ?? {}));
+    } else if (fallbackBindings) {
+      return fallbackBindings.minifySync(src, opts);
+    }
+    throw new Error('Bindings not found.');
   }
 
   parse(
@@ -50,6 +77,12 @@ export class Compiler {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support this interface yet.');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
+
     const res = await bindings.parse(src, toBuffer(options), filename);
     return JSON.parse(res);
   }
@@ -60,7 +93,13 @@ export class Compiler {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    return JSON.parse(bindings.parseSync(src, toBuffer(options), filename));
+    if (bindings) {
+      return JSON.parse(bindings.parseSync(src, toBuffer(options), filename));
+    } else if (fallbackBindings) {
+      return JSON.parse(fallbackBindings.parseSync(src, options));
+    }
+
+    throw new Error('Bindings not found.');
   }
 
   parseFile(
@@ -71,6 +110,12 @@ export class Compiler {
   async parseFile(path: string, options?: ParseOptions): Promise<Program> {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
+
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support filesystem access.');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
 
     const res = await bindings.parseFile(path, toBuffer(options));
 
@@ -86,6 +131,12 @@ export class Compiler {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support filesystem access');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
+
     return JSON.parse(bindings.parseFileSync(path, toBuffer(options)));
   }
 
@@ -95,6 +146,12 @@ export class Compiler {
    */
   async print(m: Program, options?: Options): Promise<Output> {
     options = options || {};
+
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support this interface yet.');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
 
     return bindings.print(JSON.stringify(m), toBuffer(options))
   }
@@ -106,17 +163,28 @@ export class Compiler {
   printSync(m: Program, options?: Options): Output {
     options = options || {};
 
-    return bindings.printSync(JSON.stringify(m), toBuffer(options));
+    if (bindings) {
+      return bindings.printSync(JSON.stringify(m), toBuffer(options));
+    } else if (fallbackBindings) {
+      return fallbackBindings.printSync(JSON.stringify(m), options);
+    }
+
+    throw new Error('Bindings not found.');
   }
 
   async transform(src: string | Program, options?: Options): Promise<Output> {
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support this interface yet.');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
+
     const isModule = typeof src !== "string";
     options = options || {};
 
     if (options?.jsc?.parser) {
       options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
     }
-
 
     const { plugin, ...newOptions } = options;
 
@@ -139,23 +207,34 @@ export class Compiler {
       options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
     }
 
+    if (bindings) {
+      const { plugin, ...newOptions } = options;
 
-    const { plugin, ...newOptions } = options;
+      if (plugin) {
+        const m =
+          typeof src === "string" ? this.parseSync(src, options?.jsc?.parser, options.filename) : src;
+        return this.transformSync(plugin(m), newOptions);
+      }
 
-    if (plugin) {
-      const m =
-        typeof src === "string" ? this.parseSync(src, options?.jsc?.parser, options.filename) : src;
-      return this.transformSync(plugin(m), newOptions);
+      return bindings.transformSync(
+        isModule ? JSON.stringify(src) : src,
+        isModule,
+        toBuffer(newOptions),
+      )
+    } else if (fallbackBindings) {
+      return fallbackBindings.transformSync(src, options);
     }
 
-    return bindings.transformSync(
-      isModule ? JSON.stringify(src) : src,
-      isModule,
-      toBuffer(newOptions),
-    )
+    throw new Error("Bindings not found");
   }
 
   async transformFile(path: string, options?: Options): Promise<Output> {
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support filesystem access.');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
+
     options = options || {};
 
     if (options?.jsc?.parser) {
@@ -174,12 +253,17 @@ export class Compiler {
   }
 
   transformFileSync(path: string, options?: Options): Output {
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support filesystem access.');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
+
     options = options || {};
 
     if (options?.jsc?.parser) {
       options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
     }
-
 
     const { plugin, ...newOptions } = options;
     newOptions.filename = path;
@@ -194,6 +278,12 @@ export class Compiler {
 
 
   async bundle(options?: BundleInput | string): Promise<{ [name: string]: Output }> {
+    if (!bindings && !!fallbackBindings) {
+      throw new Error('Fallback bindings does not support this interface yet.');
+    } else if (!bindings) {
+      throw new Error('Bindings not found.');
+    }
+
     const opts = await compileBundleOptions(options);
 
     if (Array.isArray(opts)) {
@@ -329,8 +419,12 @@ export function __experimental_registerGlobalTraceConfig(traceConfig: {
   type: 'traceEvent',
   fileName?: string
 }) {
-  if (traceConfig.type === 'traceEvent') {
-    bindings.initCustomTraceSubscriber(traceConfig.fileName);
+  // Do not raise error if binding doesn't exists - fallback binding will not support
+  // this ever.
+  if (bindings) {
+    if (traceConfig.type === 'traceEvent') {
+      bindings.initCustomTraceSubscriber(traceConfig.fileName);
+    }
   }
 }
 

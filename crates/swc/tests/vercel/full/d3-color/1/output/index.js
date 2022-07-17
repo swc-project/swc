@@ -2,7 +2,7 @@ import a from "@swc/helpers/src/_instanceof.mjs";
 import b, { extend as c } from "./define.js";
 import { Color as d, rgbConvert as e, Rgb as f, darker as g, brighter as h } from "./color.js";
 import { deg2rad as i, rad2deg as j } from "./math.js";
-var k = -0.5210501878999999 - 0.1347134789;
+var k = -1.78277 * 0.29227 - 0.1347134789;
 export default function l(b, c, d, g) {
     return 1 === arguments.length ? function(b) {
         if (a(b, Cubehelix)) return new Cubehelix(b.h, b.s, b.l, b.opacity);
