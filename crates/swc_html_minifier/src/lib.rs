@@ -91,6 +91,7 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "ondrag",
     "ondragend",
     "ondragenter",
+    "ondragexit",
     "ondragleave",
     "ondragover",
     "ondragstart",
@@ -167,6 +168,9 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onvisibilitychange",
     "onshow",
     "onsort",
+    "onbegin",
+    "onend",
+    "onrepeat",
 ];
 
 static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["style", "tabindex", "itemid"];
@@ -226,7 +230,11 @@ static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "media"),
 ];
 
-static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[("style", "media")];
+static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("style", "media"),
+    ("polyline", "points"),
+    ("polygon", "points"),
+];
 
 static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
     "class",
@@ -257,6 +265,64 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("input", "autocomplete"),
     ("form", "rel"),
     ("form", "autocomplete"),
+];
+
+static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("svg", "preserveAspectRatio"),
+    ("svg", "viewBox"),
+    ("symbol", "preserveAspectRatio"),
+    ("symbol", "viewBox"),
+    ("image", "preserveAspectRatio"),
+    ("feImage", "preserveAspectRatio"),
+    ("marker", "preserveAspectRatio"),
+    ("pattern", "preserveAspectRatio"),
+    ("pattern", "viewBox"),
+    ("pattern", "patternTransform"),
+    ("view", "preserveAspectRatio"),
+    ("view", "viewBox"),
+    ("path", "d"),
+    // TODO improve me more
+    ("textPath", "path"),
+    ("animateMotion", "path"),
+    ("glyph", "d"),
+    ("missing-glyph", "d"),
+    ("feColorMatrix", "values"),
+    ("feConvolveMatrix", "kernelMatrix"),
+    ("text", "rotate"),
+    ("tspan", "rotate"),
+    ("feFuncA", "tableValues"),
+    ("feFuncB", "tableValues"),
+    ("feFuncG", "tableValues"),
+    ("feFuncR", "tableValues"),
+    ("linearGradient", "gradientTransform"),
+    ("radialGradient", "gradientTransform"),
+    ("font-face", "panose-1"),
+];
+
+static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("animate", "keyTimes"),
+    ("animate", "keySplines"),
+    ("animate", "values"),
+    ("animate", "begin"),
+    ("animate", "end"),
+    ("animateColor", "keyTimes"),
+    ("animateColor", "keySplines"),
+    ("animateColor", "values"),
+    ("animateColor", "begin"),
+    ("animateColor", "end"),
+    ("animateMotion", "keyTimes"),
+    ("animateMotion", "keySplines"),
+    ("animateMotion", "values"),
+    ("animateMotion", "values"),
+    ("animateMotion", "end"),
+    ("animateTransform", "keyTimes"),
+    ("animateTransform", "keySplines"),
+    ("animateTransform", "values"),
+    ("animateTransform", "begin"),
+    ("animateTransform", "end"),
+    ("discard", "begin"),
+    ("set", "begin"),
+    ("set", "end"),
 ];
 
 enum CssMinificationMode {
@@ -410,6 +476,25 @@ impl Minifier<'_> {
             Namespace::HTML => {
                 SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
             }
+            Namespace::SVG => {
+                match attribute_name {
+                    "transform" | "stroke-dasharray" | "clip-path" | "requiredFeatures" => {
+                        return true
+                    }
+                    _ => {}
+                }
+
+                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            _ => false,
+        }
+    }
+
+    fn is_semicolon_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        match element.namespace {
+            Namespace::SVG => {
+                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
             _ => false,
         }
     }
@@ -446,6 +531,7 @@ impl Minifier<'_> {
                 }
                 _ => false,
             },
+            Namespace::SVG => matches!(&*element.tag_name, "a" if attribute_name == "rel"),
             _ => false,
         }
     }
@@ -911,7 +997,6 @@ impl Minifier<'_> {
                         | "textpath"
                         | "tspan"
                         | "use"
-                        | "symbol’"
                 ) =>
                 {
                     WhitespaceMinificationMode {
@@ -1954,30 +2039,32 @@ impl VisitMut for Minifier<'_> {
             if self.is_space_separated_attribute(current_element, &n.name) {
                 value = value.split_whitespace().collect::<Vec<_>>().join(" ");
             } else if self.is_comma_separated_attribute(current_element, &n.name) {
-                let is_sizes = matches!(&*n.name, "sizes" | "imagesizes");
+                value = value
+                    .split(',')
+                    .map(|value| {
+                        if matches!(&*n.name, "sizes" | "imagesizes") {
+                            let trimmed = value.trim();
 
-                let mut new_values = vec![];
-
-                for value in value.trim().split(',') {
-                    if is_sizes {
-                        let trimmed = value.trim();
-
-                        match self.minify_sizes(trimmed) {
-                            Some(minified) => {
-                                new_values.push(minified);
+                            match self.minify_sizes(trimmed) {
+                                Some(minified) => minified,
+                                _ => trimmed.to_string(),
                             }
-                            _ => {
-                                new_values.push(trimmed.to_string());
-                            }
-                        };
-                    } else {
-                        new_values.push(value.trim().to_string());
-                    }
-                }
-
-                value = new_values.join(",");
+                        } else if matches!(&*n.name, "points") {
+                            self.collapse_whitespace(value.trim())
+                        } else {
+                            value.trim().to_string()
+                        }
+                    })
+                    .collect::<Vec<_>>()
+                    .join(",");
             } else if self.is_trimable_separated_attribute(current_element, &n.name) {
                 value = value.trim().to_string();
+            } else if self.is_semicolon_separated_attribute(current_element, &n.name) {
+                value = value
+                    .split(';')
+                    .map(|value| self.collapse_whitespace(value.trim()))
+                    .collect::<Vec<_>>()
+                    .join(";");
             } else if current_element.namespace == Namespace::HTML
                 && &n.name == "contenteditable"
                 && value == "true"

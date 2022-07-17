@@ -149,5 +149,24 @@
         "@swc/core-win32-arm64-msvc": "1.2.146",
         "@swc/core-win32-ia32-msvc": "1.2.146",
         "@swc/core-win32-x64-msvc": "1.2.146"
-    }
+    },
+    "files": [
+        "CHANGELOG.md",
+        "Visitor.d.ts",
+        "index.d.ts",
+        "spack.js",
+        "util.d.ts",
+        "LICENSE",
+        "Visitor.js",
+        "binding.d.ts",
+        "index.js",
+        "run_swcx.js",
+        "types.d.ts",
+        "util.js",
+        "README.md",
+        "binding.js",
+        "package.json",
+        "spack.d.ts",
+        "types.js"
+    ]
 }

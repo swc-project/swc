@@ -136,6 +136,12 @@ impl Visit for DuplicateExports {
         };
     }
 
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
+        if n.is_export && !n.is_type_only && !n.declare {
+            self.add(&n.id)
+        }
+    }
+
     fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
         self.add_export_assign(n.span);
     }

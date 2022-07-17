@@ -8,7 +8,7 @@ use crate::rules::non_critical_lints::{
     dot_notation::DotNotationConfig, eqeqeq::EqeqeqConfig, no_bitwise::NoBitwiseConfig,
     no_console::NoConsoleConfig, no_empty_function::NoEmptyFunctionConfig,
     no_param_reassign::NoParamReassignConfig, no_restricted_syntax::NoRestrictedSyntaxConfig,
-    no_use_before_define::NoUseBeforeDefineConfig,
+    no_use_before_define::NoUseBeforeDefineConfig, prefer_const::PreferConstConfig,
     prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig, radix::RadixConfig,
     symbol_description::SymbolDescriptionConfig, use_is_nan::UseIsNanConfig,
     valid_typeof::ValidTypeofConfig, yoda::YodaConfig,
@@ -190,7 +190,7 @@ pub struct LintConfig {
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "preferConst")]
-    pub prefer_const: RuleConfig<()>,
+    pub prefer_const: RuleConfig<PreferConstConfig>,
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noCompareNegZero")]
