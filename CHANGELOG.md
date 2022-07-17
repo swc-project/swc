@@ -37,6 +37,12 @@
 
 - **(plugin)** Fix e2e tests on windows (#5216) ([f1ba332](https://github.com/swc-project/swc/commit/f1ba3327cfcc37534484362293cfac19587110da))
 
+### Build
+
+
+
+- **(node)** Use explicit list for package files (#5229) ([b01b6cf](https://github.com/swc-project/swc/commit/b01b6cf57ee2dcd33886ba9196f364bcb9273afe))
+
 ## [1.2.216] - 2022-07-14
 
 ### Bug Fixes
