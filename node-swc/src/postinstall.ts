@@ -29,6 +29,15 @@ function removeRecursive(dir: string): void {
  * Trying to validate @swc/core's native binary installation, then installs if it is not supported.
  */
 const validateBinary = async () => {
+  try {
+    const { name } = require(path.resolve(process.env.INIT_CWD!, 'package.json'));
+    if (name === '@swc/core') {
+      return;
+    }
+  } catch (_) {
+    return;
+  }
+
   // TODO: We do not take care of the case if user try to install with `--no-optional`.
   // For now, it is considered as deliberate decision.
   let binding
