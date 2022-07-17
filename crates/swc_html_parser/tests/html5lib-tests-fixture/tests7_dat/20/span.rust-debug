@@ -46,8 +46,16 @@
    `----
 
   x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/20/input.html:1:1]
+ 1 | <!doctype html><table><select>X<tr>
+   :                ^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/20/input.html:1:1]
+ 1 | <!doctype html><table><select>X<tr>
+   :                ^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/20/input.html:1:1]

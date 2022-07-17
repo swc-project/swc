@@ -68,8 +68,20 @@
    `----
 
   x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/7/input.html:1:1]
+ 1 | ,-> <TABLE>
+ 2 | |   <TR>
+ 3 | `-> <CENTER><CENTER><TD></TD></TR><TR>
+ 4 |     <FONT>
+   `----
 
   x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/7/input.html:1:1]
+ 1 | ,-> <TABLE>
+ 2 | |   <TR>
+ 3 | `-> <CENTER><CENTER><TD></TD></TR><TR>
+ 4 |     <FONT>
+   `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/7/input.html:1:1]

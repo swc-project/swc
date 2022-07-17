@@ -377,6 +377,22 @@ where
         )
     }
 
+    fn get_deep_end_span(&mut self, children: &[Child]) -> Option<Span> {
+        match children.last() {
+            Some(Child::DocumentType(DocumentType { span, .. })) => Some(*span),
+            Some(Child::Element(Element { span, children, .. })) => {
+                if span.is_dummy() {
+                    return self.get_deep_end_span(children);
+                }
+
+                Some(*span)
+            }
+            Some(Child::Comment(Comment { span, .. })) => Some(*span),
+            Some(Child::Text(Text { span, .. })) => Some(*span),
+            _ => None,
+        }
+    }
+
     fn node_to_child(&mut self, node: RcNode) -> Child {
         let start_span = node.start_span.take();
 
@@ -449,20 +465,15 @@ where
                         let span = if start_span.is_dummy() {
                             start_span
                         } else {
-                            let end = match node.end_span.take() {
-                                Some(end_span) => end_span.hi(),
-                                _ => match new_children.last() {
-                                    Some(Child::DocumentType(DocumentType { span, .. })) => {
-                                        span.hi()
-                                    }
-                                    Some(Child::Element(Element { span, .. })) => span.hi(),
-                                    Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                                    Some(Child::Text(Text { span, .. })) => span.hi(),
-                                    _ => start_span.hi(),
+                            let end_span = match node.end_span.take() {
+                                Some(end_span) if !end_span.is_dummy() => end_span,
+                                _ => match self.get_deep_end_span(&new_children) {
+                                    Some(end_span) => end_span,
+                                    _ => start_span,
                                 },
                             };
 
-                            Span::new(start_span.lo(), end, Default::default())
+                            Span::new(start_span.lo(), end_span.hi(), Default::default())
                         };
                         let (children, content) = if is_template {
                             (
