@@ -61,7 +61,10 @@
 
 
 
-- **(visit)** Specify version of `swc_macros_common` (#5231) ([1aa0223](https://github.com/swc-project/swc/commit/1aa022361e7918f4077eacae6e51899eac007be5))
+- **(ci)** Fix publish script (#5241) ([66550d6](https://github.com/swc-project/swc/commit/66550d6e87582bb3cb34d18c0dffd8f33814d81d))
+
+
+- **(visit)** Specify version of `swc_macros_common` (#5231) ([1aa0223](https://github.com/swc-project/swc/commit/1aa022361e7918f4077eacae6e51899eac007be5))- **general**: Typo (#5239) ([17f1cee](https://github.com/swc-project/swc/commit/17f1cee0a8132c79712c742f645e098df9309999))- **general**: Typo (#5238) ([df426d7](https://github.com/swc-project/swc/commit/df426d7b1d2ca74505051bfe78aa78a2a315e0ab))
 
 ### Testing
 
