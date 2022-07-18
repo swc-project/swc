@@ -1,7 +1,4 @@
 a {
-  -webkit-transition: color 200ms, -webkit-transform 200ms;
-  -moz-transition: color 200ms, -moz-transform 200ms;
-  -o-transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, -webkit-transform 200ms;
   transition: color 200ms, -moz-transform 200ms;
   transition: color 200ms, -o-transform 200ms;
@@ -14,54 +11,31 @@ a {
 }
 div {
   -webkit-transition-property: filter;
-  -moz-transition-timing-function: filter;
-  -o-transition-timing-function: filter;
   transition-property: filter;
   animation-name: rotating;
 }
 .good {
   -webkit-transition-property: filter;
-  -moz-transition-timing-function: filter;
-  -o-transition-timing-function: filter;
   transition-property: filter;
-  -webkit-transition-duration: 1s;
-  -moz-transition-duration: 1s;
-  -o-transition-duration: 1s;
   transition-duration: 1s;
 }
 .good2 {
   -webkit-transition-property: color, filter;
-  -moz-transition-timing-function: color, filter;
-  -o-transition-timing-function: color, filter;
   transition-property: color, filter;
-  -webkit-transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
-  -moz-transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
-  -o-transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
 }
 .bad {
   -webkit-transition-property: color, filter;
-  -moz-transition-timing-function: color, filter;
-  -o-transition-timing-function: color, filter;
   transition-property: color, filter;
-  -webkit-transition-duration: 1s, 2s;
-  -moz-transition-duration: 1s, 2s;
-  -o-transition-duration: 1s, 2s;
   transition-duration: 1s, 2s;
 }
 .revert {
-  -webkit-transition: 200ms -webkit-transform;
-  -moz-transition: 200ms -moz-transform;
-  -o-transition: 200ms -o-transform;
   transition: 200ms -webkit-transform;
   transition: 200ms -moz-transform;
   transition: 200ms -o-transform;
   transition: 200ms transform;
 }
 input[type=range]::-moz-range-thumb {
-  -webkit-transition: color 200ms, -webkit-transform 200ms;
-  -moz-transition: color 200ms, -moz-transform 200ms;
-  -o-transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, -webkit-transform 200ms;
   transition: color 200ms, -moz-transform 200ms;
   transition: color 200ms, -o-transform 200ms;
@@ -73,13 +47,8 @@ input[type=range]::-moz-range-thumb {
   transform: rotate(10deg);
 }
 input[type=range]::-webkit-slider-thumb {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
   transition: none;
   -webkit-transition-property: all;
-  -moz-transition-timing-function: all;
-  -o-transition-timing-function: all;
   transition-property: all;
 }
 button::-moz-submit-invalid {
@@ -89,9 +58,6 @@ button::-moz-submit-invalid {
   -ms-transform: translateX(45px);
   -o-transform: translateX(45px);
   transform: translateX(45px);
-  -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
-  -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
-  -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
   transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
   transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
   transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
@@ -105,9 +71,6 @@ button::-moz-submit-invalid {
     -ms-transform: translateX(45px);
     -o-transform: translateX(45px);
     transform: translateX(45px);
-    -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
-    -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
-    -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
@@ -120,9 +83,6 @@ button::-moz-submit-invalid {
     -ms-transform: translateX(45px);
     -o-transform: translateX(45px);
     transform: translateX(45px);
-    -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
-    -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
-    -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
@@ -135,9 +95,6 @@ button::-webkit-search-cancel-button {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-transition: color 200ms, -webkit-transform 200ms;
-  -moz-transition: color 200ms, -moz-transform 200ms;
-  -o-transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, -webkit-transform 200ms;
   transition: color 200ms, -moz-transform 200ms;
   transition: color 200ms, -o-transform 200ms;
@@ -157,17 +114,11 @@ button::-webkit-search-cancel-button {
   display: -ms-flexbox;
   display: flex;
   -webkit-transition: color 200ms, -webkit-transform 200ms;
-  -moz-transition: color 200ms, -webkit-transform 200ms;
-  -o-transition: color 200ms, -webkit-transform 200ms;
   transition: color 200ms, -webkit-transform 200ms;
-  -moz-transition: color 200ms, -moz-transform 200ms;
-  -o-transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, -webkit-transform 200ms;
   transition: color 200ms, -moz-transform 200ms;
   transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, transform 200ms;
-  -moz-transition: color 200ms, -moz-transform 200ms, -webkit-transform 200ms;
-  -o-transition: color 200ms, -o-transform 200ms, -webkit-transform 200ms;
   transition: color 200ms, -webkit-transform 200ms, -webkit-transform 200ms;
   transition: color 200ms, -moz-transform 200ms, -webkit-transform 200ms;
   transition: color 200ms, -o-transform 200ms, -webkit-transform 200ms;
@@ -201,25 +152,15 @@ button::-webkit-search-cancel-button {
   -moz-box-flex: 0;
   -ms-flex: 0 1 2;
   flex: 0 1 2;
-  -webkit-transition: flex 200ms;
-  -moz-transition: flex 200ms;
-  -o-transition: flex 200ms;
   transition: flex 200ms;
 }
 .no-warn {
   -webkit-transition-property: color, opacity;
-  -moz-transition-timing-function: color, opacity;
-  -o-transition-timing-function: color, opacity;
   transition-property: color, opacity;
-  -webkit-transition-duration: 1s, 2s;
-  -moz-transition-duration: 1s, 2s;
-  -o-transition-duration: 1s, 2s;
   transition-duration: 1s, 2s;
 }
 div {
   -webkit-transition-property: -webkit-transform;
-  -moz-transition-timing-function: -moz-transform;
-  -o-transition-timing-function: -o-transform;
   transition-property: -webkit-transform;
   transition-property: -moz-transform;
   transition-property: -o-transform;
@@ -231,9 +172,6 @@ div {
   transform: rotate(10deg);
 }
 div {
-  -webkit-transition: -webkit-calc(1s);
-  -moz-transition: -moz-calc(1s);
-  -o-transition: calc(1s);
   transition: -webkit-calc(1s);
   transition: -moz-calc(1s);
   transition: calc(1s);

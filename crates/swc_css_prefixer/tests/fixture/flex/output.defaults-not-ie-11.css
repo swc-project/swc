@@ -22,9 +22,6 @@ a {
   -moz-box-flex: 0;
   -ms-flex: 0 1 2;
   flex: 0 1 2;
-  -webkit-transition: flex 200ms;
-  -moz-transition: flex 200ms;
-  -o-transition: flex 200ms;
   transition: flex 200ms;
 }
 .inline {

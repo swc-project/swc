@@ -11,9 +11,6 @@ h1 {
   background-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
 }
 .class {
-  -webkit-border-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
-  -moz-border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
-  -o-border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
   border-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
   border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
 }

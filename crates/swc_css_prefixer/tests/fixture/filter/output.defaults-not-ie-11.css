@@ -6,9 +6,6 @@
 a {
   -webkit-filter: blur(10px);
   filter: blur(10px);
-  -webkit-transition: -webkit-filter 2s;
-  -moz-transition: filter 2s;
-  -o-transition: filter 2s;
   transition: -webkit-filter 2s;
   transition: filter 2s;
 }

@@ -1,5 +1,3 @@
 .class {
-  -webkit-box-shadow: 10px 5px 5px red !important;
-  -moz-box-shadow: 10px 5px 5px red !important;
   box-shadow: 10px 5px 5px red !important;
 }
