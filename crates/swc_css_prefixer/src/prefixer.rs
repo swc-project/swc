@@ -43,7 +43,7 @@ fn should_enable(target: Versions, feature: Versions, default: bool, lower: bool
 
     target.iter().zip(feature.iter()).any(
         |((target_name, maybe_target_version), (_, maybe_feature_version))| {
-            maybe_target_version.map_or(false, |target_version| {
+            maybe_target_version.map_or(default, |target_version| {
                 let feature_or_fallback_version =
                     maybe_feature_version.or_else(|| match target_name {
                         // Fall back to Chrome versions if Android browser data
@@ -71,6 +71,8 @@ pub fn should_prefix(property: &str, target: Versions, default: bool) -> bool {
     let versions = PREFIXES_AND_BROWSERS.get(property);
 
     if let Some(versions) = versions {
+        println!("{:?}", should_enable(target, versions[0], false, true));
+
         if !should_enable(target, versions[0], false, true) {
             return false;
         }
