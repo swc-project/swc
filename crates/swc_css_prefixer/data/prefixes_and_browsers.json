@@ -34,5 +34,293 @@
     {
       "edge": "18"
     }
+  ],
+  "-webkit-animation": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
+  ],
+  "-webkit-animation-name": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation-name": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation-name": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
+  ],
+  "-webkit-animation-duration": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation-duration": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation-duration": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
+  ],
+  "-webkit-animation-delay": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation-delay": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation-delay": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
+  ],
+  "-webkit-animation-direction": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation-direction": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation-direction": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
+  ],
+  "-webkit-animation-fill-mode": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation-fill-mode": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation-fill-mode": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
+  ],
+  "-webkit-animation-iteration-count": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation-iteration-count": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation-iteration-count": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
+  ],
+  "-webkit-animation-play-state": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation-play-state": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation-play-state": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
+  ],
+  "-webkit-animation-timing-function": [
+    {
+      "android": "2.1",
+      "chrome": "42",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "5"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "8.4",
+      "safari": "8"
+    }
+  ],
+  "-moz-animation-timing-function": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-animation-timing-function": [
+    {
+      "opera": "12"
+    },
+    {
+      "opera": "29"
+    }
   ]
 }

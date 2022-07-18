@@ -57,8 +57,6 @@
 }
 .class-12 {
   -webkit-animation: rotation-reverse 100ms;
-  -moz-animation: rotation-reverse;
-  -o-animation: rotation-reverse;
   animation: rotation-reverse;
 }
 .class-13 {

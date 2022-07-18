@@ -1,44 +1,23 @@
 .class {
-  -webkit-animation: inherit;
-  -moz-animation: inherit;
-  -o-animation: inherit;
   animation: inherit;
 }
 .class {
-  -webkit-animation-duration: 0.6s;
-  -moz-animation-duration: 0.6s;
-  -o-animation-duration: 0.6s;
   animation-duration: 0.6s;
 }
 .class {
-  -webkit-animation-name: slidein;
-  -moz-animation-name: slidein;
-  -o-animation-name: slidein;
   animation-name: slidein;
 }
 .class {
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-iteration-count: infinite;
-  -o-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
 }
 .class {
-  -webkit-animation-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
-  -moz-animation-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
-  -o-animation-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
   animation-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
 }
 .class {
-  -webkit-animation-direction: alternate;
-  -moz-animation-direction: alternate;
-  -o-animation-direction: alternate;
   animation-direction: alternate;
   animation-direction: reverse;
   animation-direction: REVERSE;
   animation-direction: alternate-reverse;
-  -webkit-animation: rotation-reverse;
-  -moz-animation: rotation-reverse;
-  -o-animation: rotation-reverse;
   animation: rotation-reverse;
   animation: rotation-reverse reverse;
   animation: test reverse;

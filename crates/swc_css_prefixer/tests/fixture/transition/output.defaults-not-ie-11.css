@@ -17,9 +17,6 @@ div {
   -moz-transition-timing-function: filter;
   -o-transition-timing-function: filter;
   transition-property: filter;
-  -webkit-animation-name: rotating;
-  -moz-animation-name: rotating;
-  -o-animation-name: rotating;
   animation-name: rotating;
 }
 .good {
