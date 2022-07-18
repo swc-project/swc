@@ -107,7 +107,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
         glob(&pattern).with_context(|| format!("glob failed for whole path: `{}`", pattern))?;
     let mut test_fns = vec![];
     // Allow only alphanumeric and underscore characters for the test_name.
-    let re = Lazy::new(|| Regex::new(r"[^A-Za-z0-9_]").unwrap());
+    static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"[^A-Za-z0-9_]").unwrap());
 
     'add: for path in paths {
         let path = path.with_context(|| "glob failed for file".to_string())?;
@@ -141,7 +141,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
         let test_name = format!(
             "{}_{}",
             callee,
-            re.replace_all(
+            RE.replace_all(
                 path_for_name
                     .to_string_lossy()
                     .replace('\\', "__")
