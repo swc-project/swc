@@ -1,0 +1,38 @@
+{
+  "-webkit-appearance": [
+    {
+      "android": "2.2",
+      "chrome": "4",
+      "edge": "79",
+      "ios": "3.2",
+      "opera": "15",
+      "safari": "3.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "83",
+      "edge": "83",
+      "ios": "14.7",
+      "opera": "72",
+      "safari": "15",
+      "samsung": "14.0"
+    }
+  ],
+  "-moz-appearance": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "79"
+    }
+  ],
+  "-ms-appearance": [
+    {
+      "edge": "12"
+    },
+    {
+      "edge": "18"
+    }
+  ]
+}

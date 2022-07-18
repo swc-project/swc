@@ -1,0 +1,25 @@
+.class {
+  -webkit-scroll-snap-type: block;
+  -ms-scroll-snap-type: block;
+  scroll-snap-type: block;
+}
+.class {
+  -webkit-scroll-snap-coordinate: none;
+  -ms-scroll-snap-coordinate: none;
+  scroll-snap-coordinate: none;
+}
+.class {
+  -webkit-scroll-snap-destination: 400px 600px;
+  -ms-scroll-snap-destination: 400px 600px;
+  scroll-snap-destination: 400px 600px;
+}
+.class {
+  -webkit-scroll-snap-points-x: none;
+  -ms-scroll-snap-points-x: none;
+  scroll-snap-points-x: none;
+}
+.class {
+  -webkit-scroll-snap-points-y: none;
+  -ms-scroll-snap-points-y: none;
+  scroll-snap-points-y: none;
+}

@@ -1,0 +1,4 @@
+.class {
+  -o-text-overflow: clip;
+  text-overflow: clip;
+}

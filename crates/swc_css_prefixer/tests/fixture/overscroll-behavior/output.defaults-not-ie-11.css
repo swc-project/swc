@@ -1,0 +1,16 @@
+.none {
+  -ms-scroll-chaining: none;
+  overscroll-behavior: none;
+}
+.contain {
+  -ms-scroll-chaining: none;
+  overscroll-behavior: contain;
+}
+.auto {
+  -ms-scroll-chaining: chained;
+  overscroll-behavior: auto;
+}
+.inherit {
+  -ms-scroll-chaining: inherit;
+  overscroll-behavior: inherit;
+}

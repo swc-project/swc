@@ -1,0 +1,10 @@
+.class {
+  -ms-touch-action: -ms-none;
+  -ms-touch-action: none;
+  touch-action: none;
+}
+.class {
+  -ms-touch-action: -ms-manipulation;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}

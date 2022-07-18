@@ -1,0 +1,45 @@
+a {
+  background-image: -webkit-image-set(url(foo@1x.png) 1x, url(foo@2x.png) 2x);
+  background-image: image-set(url(foo@1x.png) 1x, url(foo@2x.png) 2x);
+}
+h1 {
+  background-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  background-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+.class {
+  background-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  background-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+.class {
+  -webkit-border-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  -moz-border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+  -o-border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+  border-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+.class {
+  -webkit-mask: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  mask: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  mask: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+.class {
+  -webkit-mask-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  mask-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  mask-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+.class {
+  list-style: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  list-style: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+.class {
+  list-style-image: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  list-style-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+.class {
+  content: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x);
+  content: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+.broken {
+  content: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x) "test";
+  content: image-set('foo@1x.png' 1x, "foo@2x.png" 2x) "test";
+}

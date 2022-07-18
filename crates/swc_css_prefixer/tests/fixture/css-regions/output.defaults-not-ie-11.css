@@ -1,0 +1,15 @@
+.class {
+  -webkit-flow-into: table-content;
+  -ms-flow-into: table-content;
+  flow-into: table-content;
+}
+.class {
+  -webkit-flow-from: none;
+  -ms-flow-from: none;
+  flow-from: none;
+}
+.class {
+  -webkit-region-fragment: break;
+  -ms-region-fragment: break;
+  region-fragment: break;
+}

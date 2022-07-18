@@ -1,0 +1,121 @@
+@-webkit-keyframes anim {
+  from {
+    top: -webkit-calc(10% + 10px);
+    top: calc(10% + 10px);
+    -webkit-transform: rotate(10deg);
+    transform: rotate(10deg);
+  }
+  50% {
+    top: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+  }
+  to {
+    top: -webkit-calc(10%);
+    top: calc(10%);
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+}
+@-moz-keyframes anim {
+  from {
+    top: -moz-calc(10% + 10px);
+    top: calc(10% + 10px);
+    -moz-transform: rotate(10deg);
+    transform: rotate(10deg);
+  }
+  50% {
+    top: 0;
+    display: -moz-box;
+    display: flex;
+  }
+  to {
+    top: -moz-calc(10%);
+    top: calc(10%);
+    -moz-transform: rotate(0);
+    transform: rotate(0);
+  }
+}
+@-o-keyframes anim {
+  from {
+    top: calc(10% + 10px);
+    -o-transform: rotate(10deg);
+    transform: rotate(10deg);
+  }
+  50% {
+    top: 0;
+    display: flex;
+  }
+  to {
+    top: calc(10%);
+    -o-transform: rotate(0);
+    transform: rotate(0);
+  }
+}
+@keyframes anim {
+  from {
+    top: -webkit-calc(10% + 10px);
+    top: -moz-calc(10% + 10px);
+    top: calc(10% + 10px);
+    -webkit-transform: rotate(10deg);
+    -moz-transform: rotate(10deg);
+    -o-transform: rotate(10deg);
+    transform: rotate(10deg);
+  }
+  50% {
+    top: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  to {
+    top: -webkit-calc(10%);
+    top: -moz-calc(10%);
+    top: calc(10%);
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    transform: rotate(0);
+  }
+}
+@media screen {
+  @-webkit-keyframes inside {}
+  @-moz-keyframes inside {}
+  @-o-keyframes inside {}
+  @keyframes inside {}
+}
+@-webkit-keyframes spaces {
+  from {
+    color: black;
+  }
+  to {
+    color: white;
+  }
+}
+@-moz-keyframes spaces {
+  from {
+    color: black;
+  }
+  to {
+    color: white;
+  }
+}
+@-o-keyframes spaces {
+  from {
+    color: black;
+  }
+  to {
+    color: white;
+  }
+}
+@keyframes spaces {
+  from {
+    color: black;
+  }
+  to {
+    color: white;
+  }
+}

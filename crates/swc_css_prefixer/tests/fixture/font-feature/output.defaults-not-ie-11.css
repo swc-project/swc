@@ -1,0 +1,15 @@
+.class {
+  -webkit-font-feature-settings: initial;
+  -moz-font-feature-settings: initial;
+  font-feature-settings: initial;
+}
+.class {
+  -webkit-font-variant-ligatures: initial;
+  -moz-font-variant-ligatures: initial;
+  font-variant-ligatures: initial;
+}
+.class {
+  -webkit-font-language-override: initial;
+  -moz-font-language-override: initial;
+  font-language-override: initial;
+}

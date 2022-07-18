@@ -1,0 +1,37 @@
+.class {
+  -webkit-text-spacing: none;
+  text-emphasis: none;
+}
+.class {
+  -webkit-text-spacing: filled red;
+  text-emphasis: filled red;
+  -webkit-text-emphasis: filled red;
+}
+.class {
+  -webkit-text-emphasis-position: left;
+  text-emphasis-position: left;
+}
+.class {
+  -webkit-text-emphasis-style: circle;
+  text-emphasis-style: circle;
+}
+.class {
+  -webkit-text-emphasis-color: red;
+  text-emphasis-color: red;
+}
+a {
+  -webkit-text-emphasis-position: over left;
+  text-emphasis-position: over left;
+}
+em {
+  -webkit-text-emphasis-position: under right;
+  text-emphasis-position: under right;
+}
+.reverse {
+  -webkit-text-emphasis-position: left over;
+  text-emphasis-position: left over;
+}
+.wrong {
+  -webkit-text-emphasis-position: over;
+  text-emphasis-position: over;
+}
