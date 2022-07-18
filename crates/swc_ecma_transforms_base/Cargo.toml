@@ -15,6 +15,18 @@ bench = false
 [features]
 concurrent = ["concurrent-renamer", "rayon", "swc_ecma_utils/concurrent"]
 concurrent-renamer = ["rayon"]
+plugin_transform_schema_v1 = [
+  "swc_common/plugin_transform_schema_v1",
+  "swc_ecma_ast/plugin_transform_schema_v1",
+  "swc_ecma_visit/plugin_transform_schema_v1",
+  "swc_ecma_utils/plugin_transform_schema_v1"
+]
+plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest",
+  "swc_ecma_ast/plugin_transform_schema_vtest",
+  "swc_ecma_visit/plugin_transform_schema_vtest",
+  "swc_ecma_utils/plugin_transform_schema_vtest"
+]
 
 [dependencies]
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }

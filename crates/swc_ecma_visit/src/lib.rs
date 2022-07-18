@@ -276,6 +276,7 @@ where
 
     method!(fold_program, Program);
 
+    #[cfg(feature = "plugin_transform_schema_vtest")]
     method!(fold_test_dummy, TestDummy);
 
     #[inline(always)]
@@ -1009,6 +1010,7 @@ define!({
     pub enum Program {
         Module(Module),
         Script(Script),
+        #[cfg(feature = "plugin_transform_schema_vtest")]
         TestDummy(TestDummy),
     }
     pub struct Module {
@@ -1812,6 +1814,7 @@ define!({
         pub type_args: TsTypeParamInstantiation,
     }
 
+    #[cfg(feature = "plugin_transform_schema_vtest")]
     pub struct TestDummy {
         pub span: Span,
         pub body: Option<Vec<ModuleItem>>,

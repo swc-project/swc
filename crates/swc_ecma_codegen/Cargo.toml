@@ -12,6 +12,16 @@ version = "0.116.3"
 [lib]
 bench = false
 
+[features]
+plugin_transform_schema_v1 = [
+  "swc_common/plugin_transform_schema_v1",
+  "swc_ecma_ast/plugin_transform_schema_v1"
+]
+plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest",
+  "swc_ecma_ast/plugin_transform_schema_vtest"
+]
+
 [dependencies]
 memchr = "2.4.1"
 num-bigint = { version = "0.4", features = ["serde"] }

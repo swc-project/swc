@@ -18,6 +18,16 @@ bench = false
 [features]
 # Process in parallel.
 concurrent = ["swc_common/concurrent", "rayon"]
+plugin_transform_schema_v1 = [
+  "swc_common/plugin_transform_schema_v1",
+  "swc_ecma_ast/plugin_transform_schema_v1",
+  "swc_ecma_visit/plugin_transform_schema_v1",
+]
+plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest",
+  "swc_ecma_ast/plugin_transform_schema_vtest",
+  "swc_ecma_visit/plugin_transform_schema_vtest",
+]
 
 [dependencies]
 indexmap = "1"

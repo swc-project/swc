@@ -16,6 +16,20 @@ bench = false
 [features]
 concurrent = ["rayon"]
 debug = []
+plugin_transform_schema_v1 = [
+  "swc_common/plugin_transform_schema_v1",
+  "swc_ecma_ast/plugin_transform_schema_v1",
+  "swc_ecma_utils/plugin_transform_schema_v1",
+  "swc_ecma_visit/plugin_transform_schema_v1",
+  "swc_ecma_transforms_base/plugin_transform_schema_v1",
+]
+plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest",
+  "swc_ecma_ast/plugin_transform_schema_vtest",
+  "swc_ecma_utils/plugin_transform_schema_vtest",
+  "swc_ecma_visit/plugin_transform_schema_vtest",
+  "swc_ecma_transforms_base/plugin_transform_schema_vtest",
+]
 
 [dependencies]
 ahash = "0.7.4"

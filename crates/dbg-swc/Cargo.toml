@@ -11,6 +11,22 @@ version = "0.37.0"
 bench = false
 name = "dbg-swc"
 
+[features]
+plugin_transform_schema_v1 = [
+  "swc_common/plugin_transform_schema_v1",
+  "swc_ecma_ast/plugin_transform_schema_v1",
+  "swc_ecma_codegen/plugin_transform_schema_v1",
+  "swc_ecma_visit/plugin_transform_schema_v1",
+  "swc_ecma_minifier/plugin_transform_schema_v1",
+]
+plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest",
+  "swc_ecma_ast/plugin_transform_schema_vtest",
+  "swc_ecma_codegen/plugin_transform_schema_vtest",
+  "swc_ecma_visit/plugin_transform_schema_vtest",
+  "swc_ecma_minifier/plugin_transform_schema_vtest",
+]
+
 [dependencies]
 anyhow = "1.0.57"
 clap = { version = "3", features = ["derive"] }
