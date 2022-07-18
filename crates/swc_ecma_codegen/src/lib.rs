@@ -661,7 +661,14 @@ where
         self.emit_leading_comments_of_span(v.span, false)?;
 
         if self.cfg.minify {
-            self.wr.write_lit(v.span, &v.value.to_string())?;
+            let value = if v.value >= 10000000000000000_i64.into() {
+                format!("0x{}", v.value.to_str_radix(16))
+            } else if v.value <= (-10000000000000000_i64).into() {
+                format!("-0x{}", (-v.value.clone()).to_str_radix(16))
+            } else {
+                v.value.to_string()
+            };
+            self.wr.write_lit(v.span, &value)?;
             self.wr.write_lit(v.span, "n")?;
         } else {
             match &v.raw {
@@ -3623,7 +3630,7 @@ fn minify_number(num: f64) -> String {
 
     let mut original = printed.clone();
 
-    if num.fract() == 0.0 && num.is_sign_positive() && num <= (0x7fffffffffffffff_i64 as f64) {
+    if num.fract() == 0.0 && (i64::MIN as f64) <= num && num <= (i64::MAX as f64) {
         let hex = format!("{:#x}", num as i64);
 
         if hex.len() < printed.len() {
@@ -3633,6 +3640,10 @@ fn minify_number(num: f64) -> String {
 
     if original.starts_with("0.") {
         original.replace_range(0..1, "");
+    }
+
+    if original.starts_with("-0.") {
+        original.replace_range(1..2, "");
     }
 
     if original.starts_with(".000") {
