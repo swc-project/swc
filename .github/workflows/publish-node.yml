@@ -408,7 +408,7 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim yarn test
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-x64-musl-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
@@ -447,7 +447,7 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine yarn test
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-aarch64-gnu-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
@@ -487,6 +487,7 @@ jobs:
           image: ghcr.io/napi-rs/napi-rs/nodejs:aarch64-${{ matrix.node }}
           options: "-v ${{ github.workspace }}:/build -w /build"
           run: |
+            export DISABLE_PLUGIN_E2E_TESTS=true
             set -e
             yarn test
             ls -la
@@ -524,7 +525,7 @@ jobs:
           run: |
             set -e
             apk add nodejs npm yarn
-            yarn test
+            DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-arm-gnueabihf-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -565,7 +566,7 @@ jobs:
           options: "-v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
-            yarn test
+            DISABLE_PLUGIN_E2E_TESTS=true yarn test
             ls -la
   publish:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
