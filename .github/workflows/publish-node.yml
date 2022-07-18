@@ -525,7 +525,7 @@ jobs:
           run: |
             set -e
             apk add nodejs npm yarn
-            yarn test
+            DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-arm-gnueabihf-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -566,7 +566,7 @@ jobs:
           options: "-v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
-            yarn test
+            DISABLE_PLUGIN_E2E_TESTS=true yarn test
             ls -la
   publish:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
