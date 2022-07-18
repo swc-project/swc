@@ -5,6 +5,7 @@ use std::{
 
 use anyhow::{Context, Error};
 use glob::glob;
+use once_cell::sync::Lazy;
 use pmutil::q;
 use proc_macro2::Span;
 use regex::Regex;
@@ -105,6 +106,8 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
     let paths =
         glob(&pattern).with_context(|| format!("glob failed for whole path: `{}`", pattern))?;
     let mut test_fns = vec![];
+    // Allow only alphanumeric and underscore characters for the test_name.
+    let re = Lazy::new(|| Regex::new(r"[^A-Za-z0-9_]").unwrap());
 
     'add: for path in paths {
         let path = path.with_context(|| "glob failed for file".to_string())?;
@@ -138,16 +141,14 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
         let test_name = format!(
             "{}_{}",
             callee,
-            path_for_name
-                .to_string_lossy()
-                .replace('\\', "__")
-                .replace(' ', "_")
-                .replace('[', "_")
-                .replace(']', "_")
-                .replace('/', "__")
-                .replace('.', "_")
-                .replace('-', "_")
-                .replace(' ', "_")
+            re.replace_all(
+                path_for_name
+                    .to_string_lossy()
+                    .replace('\\', "__")
+                    .replace('/', "__")
+                    .as_str(),
+                "_",
+            )
         )
         .replace("___", "__");
         let test_ident = Ident::new(&test_name, Span::call_site());
