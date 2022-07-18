@@ -1,6 +1,17 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/codegen)** Optimize number and bigint literal (#5223) ([3f0856d](https://github.com/swc-project/swc/commit/3f0856db2ef7dde001cd482088a094f49de7ddac))
+
+
+- **(testing/macros)** Generalize test names with regex (#5242) ([ecbf9d6](https://github.com/swc-project/swc/commit/ecbf9d6c36b4f86945a66deb8a7d90d7ae01dc3d))
+
+## [1.2.218] - 2022-07-18
+
 ### Bug Fixes
 
 
@@ -56,9 +67,6 @@
 
 
 - **(plugin)** Pass `unresolved_mark` to plugins (#5212) ([92c0153](https://github.com/swc-project/swc/commit/92c0153cb56a6b3b7d6503216a14d5ed78df71dc))
-
-
-- **(testing/macros)** Generalize test names with regex (#5242) ([ecbf9d6](https://github.com/swc-project/swc/commit/ecbf9d6c36b4f86945a66deb8a7d90d7ae01dc3d))
 
 ### Miscellaneous Tasks
 
