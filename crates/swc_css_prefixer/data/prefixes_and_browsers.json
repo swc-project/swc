@@ -322,5 +322,139 @@
     {
       "opera": "29"
     }
+  ],
+  "-webkit-box-sizing": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "edge": "79",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "3",
+      "chrome": "9",
+      "edge": "83",
+      "ios": "4.3",
+      "safari": "5"
+    }
+  ],
+  "-moz-box-sizing": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "28"
+    }
+  ],
+  "-webkit-border-radius": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "4"
+    }
+  ],
+  "-moz-border-radius": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "3.6"
+    }
+  ],
+  "-webkit-border-top-left-radius": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "4"
+    }
+  ],
+  "-moz-border-radius-topleft": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "3.6"
+    }
+  ],
+  "-webkit-border-top-right-radius": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "4"
+    }
+  ],
+  "-moz-border-radius-topright": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "3.6"
+    }
+  ],
+  "-webkit-border-bottom-right-radius": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "4"
+    }
+  ],
+  "-moz-border-radius-bottomright": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "3.6"
+    }
+  ],
+  "-webkit-border-bottom-left-radius": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "4"
+    }
+  ],
+  "-moz-border-radius-bottomleft": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "3.6"
+    }
   ]
 }
