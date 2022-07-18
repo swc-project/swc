@@ -1,10 +1,6 @@
 .class {
-  -webkit-perspective: 20px;
-  -moz-perspective: 20px;
   perspective: 20px;
 }
 .class {
-  -webkit-perspective-origin: 20px;
-  -moz-perspective-origin: 20px;
   perspective-origin: 20px;
 }
