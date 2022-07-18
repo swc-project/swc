@@ -4286,10 +4286,11 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "0.2.6"
+version = "0.2.7"
 dependencies = [
  "anyhow",
  "glob",
+ "once_cell",
  "pmutil",
  "proc-macro2",
  "quote",
