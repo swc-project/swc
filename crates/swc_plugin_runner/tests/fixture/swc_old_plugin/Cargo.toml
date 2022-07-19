@@ -2,7 +2,7 @@
 
 [package]
 edition = "2021"
-name = "swc_internal_plugin"
+name = "swc_old_plugin"
 publish = false
 version = "0.1.0"
 
