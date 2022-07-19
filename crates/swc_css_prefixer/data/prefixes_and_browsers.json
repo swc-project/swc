@@ -848,6 +848,92 @@
     }
   ],
 
+  "-ms-touch-action": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+
+  "-webkit-text-emphasis": [
+    {
+      "android": "4.4",
+      "chrome": "25",
+      "edge": "79",
+      "op_mob": "64",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "98",
+      "edge": "98",
+      "opera": "85",
+      "safari": "7",
+      "samsung": "17.0"
+    }
+  ],
+  "-webkit-text-emphasis-position": [
+    {
+      "android": "4.4",
+      "chrome": "25",
+      "edge": "79",
+      "op_mob": "64",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "98",
+      "edge": "98",
+      "opera": "85",
+      "safari": "7",
+      "samsung": "17.0"
+    }
+  ],
+  "-webkit-text-emphasis-style": [
+    {
+      "android": "4.4",
+      "chrome": "25",
+      "edge": "79",
+      "op_mob": "64",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "98",
+      "edge": "98",
+      "opera": "85",
+      "safari": "7",
+      "samsung": "17.0"
+    }
+  ],
+  "-webkit-emphasis-color": [
+    {
+      "android": "4.4",
+      "chrome": "25",
+      "edge": "79",
+      "op_mob": "64",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "98",
+      "edge": "98",
+      "opera": "85",
+      "safari": "7",
+      "samsung": "17.0"
+    }
+  ],
+
   "-webkit-transition": [
     {
       "android": "2.1",

@@ -32,31 +32,57 @@ static PREFIXES_AND_BROWSERS: Lazy<AHashMap<String, [BrowserData<Option<Version>
             .collect()
     });
 
-fn should_enable(target: Versions, feature: Versions, default: bool, lower: bool) -> bool {
-    if target
-        .iter()
-        .zip(feature.iter())
-        .all(|((_, target_version), (_, f))| target_version.is_none() && f.is_none())
-    {
+macro_rules! zip {
+    ($x: expr) => ($x);
+    ($x: expr, $($y: expr), +) => ($x.iter().zip(zip!($($y), +)))
+}
+
+fn should_enable(
+    target: Versions,
+    low_versions: Versions,
+    high_versions: Versions,
+    default: bool,
+) -> bool {
+    if zip!(target, low_versions, high_versions).all(|((_, target_version), ((_, l), (_, h)))| {
+        target_version.is_none() && l.is_none() && h.is_none()
+    }) {
         return default;
     }
 
-    target.iter().zip(feature.iter()).any(
-        |((target_name, maybe_target_version), (_, maybe_feature_version))| {
-            maybe_target_version.map_or(default, |target_version| {
-                let feature_or_fallback_version =
-                    maybe_feature_version.or_else(|| match target_name {
-                        // Fall back to Chrome versions if Android browser data
-                        // is missing from the feature data. It appears the
-                        // Android browser has aligned its versioning with Chrome.
-                        "android" => feature.chrome,
-                        _ => None,
-                    });
+    zip!(target, low_versions, high_versions).any(
+        |(
+            (target_name, maybe_target_version),
+            ((_, maybe_low_version), (_, maybe_high_version)),
+        )| {
+            maybe_target_version.map_or(false, |target_version| {
+                let low_or_fallback_version = maybe_low_version.or_else(|| match target_name {
+                    // Fall back to Chrome versions if Android browser data
+                    // is missing from the feature data. It appears the
+                    // Android browser has aligned its versioning with Chrome.
+                    "android" => low_versions.chrome,
+                    _ => None,
+                });
 
-                if lower {
-                    feature_or_fallback_version.map_or(false, |v| v <= target_version)
+                if let Some(low_or_fallback_version) = low_or_fallback_version {
+                    if target_version >= low_or_fallback_version {
+                        let high_or_fallback_version = maybe_high_version.or(match target_name {
+                            // Fall back to Chrome versions if Android browser data
+                            // is missing from the feature data. It appears the
+                            // Android browser has aligned its versioning with Chrome.
+                            "android" => low_versions.chrome,
+                            _ => None,
+                        });
+
+                        if let Some(high_or_fallback_version) = high_or_fallback_version {
+                            target_version <= high_or_fallback_version
+                        } else {
+                            true
+                        }
+                    } else {
+                        false
+                    }
                 } else {
-                    feature_or_fallback_version.map_or(false, |v| v >= target_version)
+                    false
                 }
             })
         },
@@ -71,13 +97,9 @@ pub fn should_prefix(property: &str, target: Versions, default: bool) -> bool {
     let versions = PREFIXES_AND_BROWSERS.get(property);
 
     if let Some(versions) = versions {
-        println!("{:?}", should_enable(target, versions[0], false, true));
+        println!("{:?}", property);
 
-        if !should_enable(target, versions[0], false, true) {
-            return false;
-        }
-
-        return should_enable(target, versions[1], false, false);
+        return should_enable(target, versions[0], versions[1], false);
     }
 
     default
@@ -2397,7 +2419,7 @@ impl VisitMut for Prefixer {
             }
 
             "text-emphasis" => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-spacing", None);
+                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis", None);
             }
 
             "text-emphasis-position" => {

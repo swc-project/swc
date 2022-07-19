@@ -1,9 +1,8 @@
 .class {
-  -webkit-text-spacing: none;
+  -webkit-text-emphasis: none;
   text-emphasis: none;
 }
 .class {
-  -webkit-text-spacing: filled red;
   text-emphasis: filled red;
   -webkit-text-emphasis: filled red;
 }
