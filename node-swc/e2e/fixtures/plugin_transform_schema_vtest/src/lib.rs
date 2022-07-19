@@ -22,5 +22,15 @@ impl VisitMut for ConsoleOutputReplacer {
 
 #[plugin_transform]
 pub fn process(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
+    // Ensure this plugin uses vtest AST struct schema, by compile-time validating
+    // it does have new enum for the testing purpose.
+    match &program {
+        Program::Script(..) => {}
+        Program::Module(..) => {}
+        Program::ReservedUnused(_reserved_unused) => {
+            println!("{:#?}", _reserved_unused);
+            panic!("ReservedUnused is not supported");
+        }
+    }
     program.fold_with(&mut as_folder(ConsoleOutputReplacer))
 }
