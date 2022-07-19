@@ -3,10 +3,6 @@ a {
   transition: color 200ms, -moz-transform 200ms;
   transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, transform 200ms;
-  -webkit-transform: rotate(10deg);
-  -moz-transform: rotate(10deg);
-  -ms-transform: rotate(10deg);
-  -o-transform: rotate(10deg);
   transform: rotate(10deg);
 }
 div {
@@ -40,10 +36,6 @@ input[type=range]::-moz-range-thumb {
   transition: color 200ms, -moz-transform 200ms;
   transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, transform 200ms;
-  -webkit-transform: rotate(10deg);
-  -moz-transform: rotate(10deg);
-  -ms-transform: rotate(10deg);
-  -o-transform: rotate(10deg);
   transform: rotate(10deg);
 }
 input[type=range]::-webkit-slider-thumb {
@@ -53,10 +45,6 @@ input[type=range]::-webkit-slider-thumb {
 }
 button::-moz-submit-invalid {
   opacity: 1;
-  -webkit-transform: translateX(45px);
-  -moz-transform: translateX(45px);
-  -ms-transform: translateX(45px);
-  -o-transform: translateX(45px);
   transform: translateX(45px);
   transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
   transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
@@ -66,10 +54,6 @@ button::-moz-submit-invalid {
 @supports (transition: opacity 0.5s 2s, transform 0.5s 0.5s) {
   button::-moz-submit-invalid {
     opacity: 1;
-    -webkit-transform: translateX(45px);
-    -moz-transform: translateX(45px);
-    -ms-transform: translateX(45px);
-    -o-transform: translateX(45px);
     transform: translateX(45px);
     transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
@@ -78,10 +62,6 @@ button::-moz-submit-invalid {
   }
   button {
     opacity: 1;
-    -webkit-transform: translateX(45px);
-    -moz-transform: translateX(45px);
-    -ms-transform: translateX(45px);
-    -o-transform: translateX(45px);
     transform: translateX(45px);
     transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
@@ -99,10 +79,6 @@ button::-webkit-search-cancel-button {
   transition: color 200ms, -moz-transform 200ms;
   transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, transform 200ms;
-  -webkit-transform: rotate(10deg);
-  -moz-transform: rotate(10deg);
-  -ms-transform: rotate(10deg);
-  -o-transform: rotate(10deg);
   transform: rotate(10deg);
 }
 button::-webkit-search-cancel-button {
@@ -124,9 +100,6 @@ button::-webkit-search-cancel-button {
   transition: color 200ms, -o-transform 200ms, -webkit-transform 200ms;
   transition: color 200ms, transform 200ms, -webkit-transform 200ms;
   -webkit-transform: rotate(10deg);
-  -moz-transform: rotate(10deg);
-  -ms-transform: rotate(10deg);
-  -o-transform: rotate(10deg);
   transform: rotate(10deg);
 }
 .a::-webkit-search-cancel-button {
@@ -165,10 +138,6 @@ div {
   transition-property: -moz-transform;
   transition-property: -o-transform;
   transition-property: transform;
-  -webkit-transform: rotate(10deg);
-  -moz-transform: rotate(10deg);
-  -ms-transform: rotate(10deg);
-  -o-transform: rotate(10deg);
   transform: rotate(10deg);
 }
 div {

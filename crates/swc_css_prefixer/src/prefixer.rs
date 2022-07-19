@@ -97,8 +97,6 @@ pub fn should_prefix(property: &str, target: Versions, default: bool) -> bool {
     let versions = PREFIXES_AND_BROWSERS.get(property);
 
     if let Some(versions) = versions {
-        println!("{:?}", property);
-
         return should_enable(target, versions[0], versions[1], false);
     }
 

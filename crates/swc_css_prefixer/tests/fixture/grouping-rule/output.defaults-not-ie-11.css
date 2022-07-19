@@ -81,11 +81,9 @@
   background-color: red;
 }
 .c::-moz-selection {
-  -moz-backface-visibility: visible;
   backface-visibility: visible;
 }
 .c::selection {
   -webkit-backface-visibility: visible;
-  -moz-backface-visibility: visible;
   backface-visibility: visible;
 }
