@@ -100,9 +100,9 @@ where
 }
 
 /// Common logics for add_*_comment/comments.
-fn add_comments_inner<F>(env: &CommentHostEnvironment, byte_pos: u32, f: F)
+fn add_comments_inner<T, F>(env: &CommentHostEnvironment, byte_pos: u32, f: F)
 where
-    F: FnOnce(&SingleThreadedComments, BytePos, PluginSerializedBytes),
+    F: FnOnce(&SingleThreadedComments, BytePos, PluginSerializedBytes<T>),
 {
     unwrap_comments_storage(|comments| {
         let byte_pos = BytePos(byte_pos);

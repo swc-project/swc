@@ -63,9 +63,9 @@ impl TransformExecutor {
 
     /// Copy host's serialized bytes into guest (plugin)'s allocated memory.
     /// Once transformation completes, host should free allocated memory.
-    fn write_bytes_into_guest(
+    fn write_bytes_into_guest<T>(
         &mut self,
-        serialized_bytes: &PluginSerializedBytes,
+        serialized_bytes: &PluginSerializedBytes<T>,
     ) -> Result<(i32, i32), Error> {
         let memory = self.instance.exports.get_memory("memory")?;
 

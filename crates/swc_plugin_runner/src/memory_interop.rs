@@ -21,9 +21,9 @@ pub fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32)
 
 /// Locate a view from given memory, write serialized bytes into.
 #[tracing::instrument(level = "info", skip_all)]
-pub fn write_into_memory_view<F>(
+pub fn write_into_memory_view<T, F>(
     memory: &Memory,
-    serialized_bytes: &PluginSerializedBytes,
+    serialized_bytes: &PluginSerializedBytes<T>,
     get_allocated_ptr: F,
 ) -> (i32, i32)
 where
@@ -66,11 +66,11 @@ where
 /// non-deterministic size like `Vec<Comment>`. Guest pre-allocates a struct to
 /// contain ptr to the value, host in here allocates guest memory for the actual
 /// value then returns its ptr with length to the preallocated struct.
-pub fn allocate_return_values_into_guest(
+pub fn allocate_return_values_into_guest<T>(
     memory: &Memory,
     alloc_guest_memory: &NativeFunc<u32, i32>,
     allocated_ret_ptr: i32,
-    serialized_bytes: &PluginSerializedBytes,
+    serialized_bytes: &PluginSerializedBytes<T>,
 ) {
     let serialized_bytes_len = serialized_bytes.as_ptr().1;
 
