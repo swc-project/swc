@@ -1025,6 +1025,12 @@
     }
   ],
 
+  "-moz-text-align-last": [{
+    "firefox": "12"
+  }, {
+    "firefox": "48"
+  }],
+
   "-webkit-transition": [
     {
       "android": "2.1",
