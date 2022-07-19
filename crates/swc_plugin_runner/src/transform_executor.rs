@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{intrinsics::transmute, sync::Arc};
 
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
@@ -81,17 +81,21 @@ impl TransformExecutor {
 
     /// Copy guest's memory into host, construct serialized struct from raw
     /// bytes.
-    fn read_bytes_from_guest(
+    fn read_bytes_from_guest<T>(
         &mut self,
         returned_ptr_result: i32,
-    ) -> Result<PluginSerializedBytes<PluginError>, Error> {
+    ) -> Result<PluginSerializedBytes<T>, Error> {
         let transformed_result = &(*self.transform_result.lock());
         let ret = PluginSerializedBytes::from_slice(&transformed_result[..]);
 
         if returned_ptr_result == 0 {
             Ok(ret)
         } else {
-            let err: PluginError = ret.deserialize()?.into_inner();
+            let err: PluginError = unsafe {
+                transmute::<PluginSerializedBytes<T>, PluginSerializedBytes<PluginError>>(ret)
+            }
+            .deserialize()?
+            .into_inner();
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
                     "Failed to convert pointer size to calculate: {}",

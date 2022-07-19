@@ -11,7 +11,7 @@ pub fn emit_diagnostics(env: &BaseHostEnvironment, bytes_ptr: i32, bytes_ptr_len
             HANDLER.with(|handler| {
                 let diagnostics_bytes = copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
                 let serialized = PluginSerializedBytes::from_slice(&diagnostics_bytes[..]);
-                let diagnostic = PluginSerializedBytes::deserialize::<Diagnostic>(&serialized)
+                let diagnostic = PluginSerializedBytes::<Diagnostic>::deserialize(&serialized)
                     .expect("Should able to be deserialized into diagnostic")
                     .into_inner();
 
