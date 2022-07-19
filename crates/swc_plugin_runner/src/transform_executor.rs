@@ -135,9 +135,9 @@ impl TransformExecutor {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn transform(
         &mut self,
-        program: &PluginSerializedBytes,
-        config: &PluginSerializedBytes,
-        context: &PluginSerializedBytes,
+        program: &PluginSerializedBytes<swc_ecma_ast_latest::Program>,
+        config: &PluginSerializedBytes<String>,
+        context: &PluginSerializedBytes<String>,
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: bool,
     ) -> Result<PluginSerializedBytes, Error> {
