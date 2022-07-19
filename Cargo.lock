@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.24.1"
+version = "0.24.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3420,6 +3420,7 @@ dependencies = [
  "backtrace",
  "criterion",
  "indexmap",
+ "num-bigint",
  "num_cpus",
  "once_cell",
  "parking_lot",
@@ -4193,7 +4194,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "either",
  "swc_visit_macros",

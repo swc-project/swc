@@ -16,9 +16,6 @@ function c1() {
         z: 10
     }).z;
 }
-function c2(param) {
-    param.z;
-}
 function c5(param) {
     var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref1 = _sliced_to_array(ref[0], 1);
     ref1[0];
@@ -106,9 +103,7 @@ a1([
     }
 }), c1(), c1({
     z: 1
-}), c2({}), c2({
-    z: 1
-}), function() {
+}), ({}).z, function() {
     (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         b: "hello"
     }).b;

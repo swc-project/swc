@@ -5350,9 +5350,6 @@
             function asciiWrite(buf, string, offset, length) {
                 return blitBuffer(asciiToBytes(string), buf, offset, length);
             }
-            function latin1Write(buf, string, offset, length) {
-                return asciiWrite(buf, string, offset, length);
-            }
             function base64Write(buf, string, offset, length) {
                 return blitBuffer(base64ToBytes(string), buf, offset, length);
             }
@@ -5546,7 +5543,7 @@
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                var remaining = this.length - offset;
+                var buf, remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5559,7 +5556,7 @@
                         return asciiWrite(this, string, offset, length);
                     case "latin1":
                     case "binary":
-                        return latin1Write(this, string, offset, length);
+                        return buf = this, asciiWrite(buf, string, offset, length);
                     case "base64":
                         return base64Write(this, string, offset, length);
                     case "ucs2":

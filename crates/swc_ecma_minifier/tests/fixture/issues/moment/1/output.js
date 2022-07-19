@@ -184,9 +184,6 @@
         return normalizedInput;
     }
     var priorities = {};
-    function addUnitPriority(unit, priority) {
-        priorities[unit] = priority;
-    }
     function isLeapYear(year) {
         return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
     }
@@ -261,7 +258,7 @@
         return this.localeData().monthsShort(this, format);
     }), addFormatToken("MMMM", 0, 0, function(format) {
         return this.localeData().months(this, format);
-    }), addUnitAlias("month", "M"), addUnitPriority("month", 8), addRegexToken("M", match1to2), addRegexToken("MM", match1to2, match2), addRegexToken("MMM", function(isStrict, locale) {
+    }), addUnitAlias("month", "M"), priorities.month = 8, addRegexToken("M", match1to2), addRegexToken("MM", match1to2, match2), addRegexToken("MMM", function(isStrict, locale) {
         return locale.monthsShortRegex(isStrict);
     }), addRegexToken("MMMM", function(isStrict, locale) {
         return locale.monthsRegex(isStrict);
@@ -332,7 +329,7 @@
         "YYYYYY",
         6,
         !0
-    ], 0, "year"), addUnitAlias("year", "y"), addUnitPriority("year", 1), addRegexToken("Y", matchSigned), addRegexToken("YY", match1to2, match2), addRegexToken("YYYY", match1to4, match4), addRegexToken("YYYYY", match1to6, match6), addRegexToken("YYYYYY", match1to6, match6), addParseToken([
+    ], 0, "year"), addUnitAlias("year", "y"), priorities.year = 1, addRegexToken("Y", matchSigned), addRegexToken("YY", match1to2, match2), addRegexToken("YYYY", match1to4, match4), addRegexToken("YYYYY", match1to6, match6), addRegexToken("YYYYYY", match1to6, match6), addParseToken([
         "YYYYY",
         "YYYYYY"
     ], 0), addParseToken("YYYY", function(input, array) {
@@ -384,7 +381,7 @@
     ], "wo", "week"), addFormatToken("W", [
         "WW",
         2
-    ], "Wo", "isoWeek"), addUnitAlias("week", "w"), addUnitAlias("isoWeek", "W"), addUnitPriority("week", 5), addUnitPriority("isoWeek", 5), addRegexToken("w", match1to2), addRegexToken("ww", match1to2, match2), addRegexToken("W", match1to2), addRegexToken("WW", match1to2, match2), addWeekParseToken([
+    ], "Wo", "isoWeek"), addUnitAlias("week", "w"), addUnitAlias("isoWeek", "W"), priorities.week = 5, priorities.isoWeek = 5, addRegexToken("w", match1to2), addRegexToken("ww", match1to2, match2), addRegexToken("W", match1to2), addRegexToken("WW", match1to2, match2), addWeekParseToken([
         "w",
         "ww",
         "W",
@@ -397,7 +394,7 @@
         return this.localeData().weekdaysShort(this, format);
     }), addFormatToken("dddd", 0, 0, function(format) {
         return this.localeData().weekdays(this, format);
-    }), addFormatToken("e", 0, 0, "weekday"), addFormatToken("E", 0, 0, "isoWeekday"), addUnitAlias("day", "d"), addUnitAlias("weekday", "e"), addUnitAlias("isoWeekday", "E"), addUnitPriority("day", 11), addUnitPriority("weekday", 11), addUnitPriority("isoWeekday", 11), addRegexToken("d", match1to2), addRegexToken("e", match1to2), addRegexToken("E", match1to2), addRegexToken("dd", function(isStrict, locale) {
+    }), addFormatToken("e", 0, 0, "weekday"), addFormatToken("E", 0, 0, "isoWeekday"), addUnitAlias("day", "d"), addUnitAlias("weekday", "e"), addUnitAlias("isoWeekday", "E"), priorities.day = 11, priorities.weekday = 11, priorities.isoWeekday = 11, addRegexToken("d", match1to2), addRegexToken("e", match1to2), addRegexToken("E", match1to2), addRegexToken("dd", function(isStrict, locale) {
         return locale.weekdaysMinRegex(isStrict);
     }), addRegexToken("ddd", function(isStrict, locale) {
         return locale.weekdaysShortRegex(isStrict);
@@ -467,7 +464,7 @@
         return "" + this.hours() + zeroFill(this.minutes(), 2);
     }), addFormatToken("Hmmss", 0, 0, function() {
         return "" + this.hours() + zeroFill(this.minutes(), 2) + zeroFill(this.seconds(), 2);
-    }), meridiem("a", !0), meridiem("A", !1), addUnitAlias("hour", "h"), addUnitPriority("hour", 13), addRegexToken("a", matchMeridiem), addRegexToken("A", matchMeridiem), addRegexToken("H", match1to2), addRegexToken("h", match1to2), addRegexToken("k", match1to2), addRegexToken("HH", match1to2, match2), addRegexToken("hh", match1to2, match2), addRegexToken("kk", match1to2, match2), addRegexToken("hmm", match3to4), addRegexToken("hmmss", match5to6), addRegexToken("Hmm", match3to4), addRegexToken("Hmmss", match5to6), addParseToken([
+    }), meridiem("a", !0), meridiem("A", !1), addUnitAlias("hour", "h"), priorities.hour = 13, addRegexToken("a", matchMeridiem), addRegexToken("A", matchMeridiem), addRegexToken("H", match1to2), addRegexToken("h", match1to2), addRegexToken("k", match1to2), addRegexToken("HH", match1to2, match2), addRegexToken("hh", match1to2, match2), addRegexToken("kk", match1to2, match2), addRegexToken("hmm", match3to4), addRegexToken("hmmss", match5to6), addRegexToken("Hmm", match3to4), addRegexToken("Hmmss", match5to6), addParseToken([
         "H",
         "HH"
     ], 3), addParseToken([
@@ -1091,7 +1088,7 @@
         2
     ], 0, function() {
         return this.isoWeekYear() % 100;
-    }), addWeekYearFormatToken("gggg", "weekYear"), addWeekYearFormatToken("ggggg", "weekYear"), addWeekYearFormatToken("GGGG", "isoWeekYear"), addWeekYearFormatToken("GGGGG", "isoWeekYear"), addUnitAlias("weekYear", "gg"), addUnitAlias("isoWeekYear", "GG"), addUnitPriority("weekYear", 1), addUnitPriority("isoWeekYear", 1), addRegexToken("G", matchSigned), addRegexToken("g", matchSigned), addRegexToken("GG", match1to2, match2), addRegexToken("gg", match1to2, match2), addRegexToken("GGGG", match1to4, match4), addRegexToken("gggg", match1to4, match4), addRegexToken("GGGGG", match1to6, match6), addRegexToken("ggggg", match1to6, match6), addWeekParseToken([
+    }), addWeekYearFormatToken("gggg", "weekYear"), addWeekYearFormatToken("ggggg", "weekYear"), addWeekYearFormatToken("GGGG", "isoWeekYear"), addWeekYearFormatToken("GGGGG", "isoWeekYear"), addUnitAlias("weekYear", "gg"), addUnitAlias("isoWeekYear", "GG"), priorities.weekYear = 1, priorities.isoWeekYear = 1, addRegexToken("G", matchSigned), addRegexToken("g", matchSigned), addRegexToken("GG", match1to2, match2), addRegexToken("gg", match1to2, match2), addRegexToken("GGGG", match1to4, match4), addRegexToken("gggg", match1to4, match4), addRegexToken("GGGGG", match1to6, match6), addRegexToken("ggggg", match1to6, match6), addWeekParseToken([
         "gggg",
         "ggggg",
         "GGGG",
@@ -1103,12 +1100,12 @@
         "GG"
     ], function(input, week, config, token) {
         week[token] = hooks.parseTwoDigitYear(input);
-    }), addFormatToken("Q", 0, "Qo", "quarter"), addUnitAlias("quarter", "Q"), addUnitPriority("quarter", 7), addRegexToken("Q", match1), addParseToken("Q", function(input, array) {
+    }), addFormatToken("Q", 0, "Qo", "quarter"), addUnitAlias("quarter", "Q"), priorities.quarter = 7, addRegexToken("Q", match1), addParseToken("Q", function(input, array) {
         array[1] = (toInt(input) - 1) * 3;
     }), addFormatToken("D", [
         "DD",
         2
-    ], "Do", "date"), addUnitAlias("date", "D"), addUnitPriority("date", 9), addRegexToken("D", match1to2), addRegexToken("DD", match1to2, match2), addRegexToken("Do", function(isStrict, locale) {
+    ], "Do", "date"), addUnitAlias("date", "D"), priorities.date = 9, addRegexToken("D", match1to2), addRegexToken("DD", match1to2, match2), addRegexToken("Do", function(isStrict, locale) {
         return isStrict ? locale._dayOfMonthOrdinalParse || locale._ordinalParse : locale._dayOfMonthOrdinalParseLenient;
     }), addParseToken([
         "D",
@@ -1120,7 +1117,7 @@
     addFormatToken("DDD", [
         "DDDD",
         3
-    ], "DDDo", "dayOfYear"), addUnitAlias("dayOfYear", "DDD"), addUnitPriority("dayOfYear", 4), addRegexToken("DDD", match1to3), addRegexToken("DDDD", match3), addParseToken([
+    ], "DDDo", "dayOfYear"), addUnitAlias("dayOfYear", "DDD"), priorities.dayOfYear = 4, addRegexToken("DDD", match1to3), addRegexToken("DDDD", match3), addParseToken([
         "DDD",
         "DDDD"
     ], function(input, array, config) {
@@ -1128,7 +1125,7 @@
     }), addFormatToken("m", [
         "mm",
         2
-    ], 0, "minute"), addUnitAlias("minute", "m"), addUnitPriority("minute", 14), addRegexToken("m", match1to2), addRegexToken("mm", match1to2, match2), addParseToken([
+    ], 0, "minute"), addUnitAlias("minute", "m"), priorities.minute = 14, addRegexToken("m", match1to2), addRegexToken("mm", match1to2, match2), addParseToken([
         "m",
         "mm"
     ], 4);
@@ -1136,7 +1133,7 @@
     addFormatToken("s", [
         "ss",
         2
-    ], 0, "second"), addUnitAlias("second", "s"), addUnitPriority("second", 15), addRegexToken("s", match1to2), addRegexToken("ss", match1to2, match2), addParseToken([
+    ], 0, "second"), addUnitAlias("second", "s"), priorities.second = 15, addRegexToken("s", match1to2), addRegexToken("ss", match1to2, match2), addParseToken([
         "s",
         "ss"
     ], 5);
@@ -1181,7 +1178,7 @@
         9
     ], 0, function() {
         return 1000000 * this.millisecond();
-    }), addUnitAlias("millisecond", "ms"), addUnitPriority("millisecond", 16), addRegexToken("S", match1to3, match1), addRegexToken("SS", match1to3, match2), addRegexToken("SSS", match1to3, match3), token = "SSSS"; token.length <= 9; token += "S")addRegexToken(token, matchUnsigned);
+    }), addUnitAlias("millisecond", "ms"), priorities.millisecond = 16, addRegexToken("S", match1to3, match1), addRegexToken("SS", match1to3, match2), addRegexToken("SSS", match1to3, match3), token = "SSSS"; token.length <= 9; token += "S")addRegexToken(token, matchUnsigned);
     function parseMs(input, array) {
         array[6] = toInt(("0." + input) * 1000);
     }

@@ -6,10 +6,9 @@ function a(a, b) {
     }(void 0, function(a) {
         "use strict";
         a.vr = function(a, b, c) {
-            function d() {
+            return function() {
                 return '123';
-            }
-            return d;
+            };
         };
     });
 }
