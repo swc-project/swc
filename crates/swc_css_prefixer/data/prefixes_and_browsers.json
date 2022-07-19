@@ -914,7 +914,7 @@
       "samsung": "17.0"
     }
   ],
-  "-webkit-emphasis-color": [
+  "-webkit-text-emphasis-color": [
     {
       "android": "4.4",
       "chrome": "25",
@@ -931,6 +931,97 @@
       "opera": "85",
       "safari": "7",
       "samsung": "17.0"
+    }
+  ],
+
+  "-webkit-scroll-snap-type": [
+    {
+      "ios": "9.0",
+      "safari": "9"
+    },
+    {
+      "ios": "10.3",
+      "safari": "10.1"
+    }
+  ],
+  "-ms-scroll-snap-type": [
+    {
+      "edge": "12"
+    },
+    {
+      "edge": "18"
+    }
+  ],
+  "-webkit-scroll-snap-coordinate": [
+    {
+      "ios": "9.0",
+      "safari": "9"
+    },
+    {
+      "ios": "10.3",
+      "safari": "10.1"
+    }
+  ],
+  "-ms-scroll-snap-coordinate": [
+    {
+      "edge": "12"
+    },
+    {
+      "edge": "18"
+    }
+  ],
+  "-webkit-scroll-snap-destination": [
+    {
+      "ios": "9.0",
+      "safari": "9"
+    },
+    {
+      "ios": "10.3",
+      "safari": "10.1"
+    }
+  ],
+  "-ms-scroll-snap-destination": [
+    {
+      "edge": "12"
+    },
+    {
+      "edge": "18"
+    }
+  ],
+  "-webkit-scroll-snap-points-x": [
+    {
+      "ios": "9.0",
+      "safari": "9"
+    },
+    {
+      "ios": "10.3",
+      "safari": "10.1"
+    }
+  ],
+  "-ms-scroll-snap-points-x": [
+    {
+      "edge": "12"
+    },
+    {
+      "edge": "18"
+    }
+  ],
+  "-webkit-scroll-snap-points-y": [
+    {
+      "ios": "9.0",
+      "safari": "9"
+    },
+    {
+      "ios": "10.3",
+      "safari": "10.1"
+    }
+  ],
+  "-ms-scroll-snap-points-y": [
+    {
+      "edge": "12"
+    },
+    {
+      "edge": "18"
     }
   ],
 
