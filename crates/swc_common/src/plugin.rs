@@ -4,7 +4,7 @@
 //! `swc_common`.
 #![allow(unused)]
 
-use std::{any::type_name, mem};
+use std::{any::type_name, marker::PhantomData, mem};
 
 use anyhow::Error;
 use bytecheck::CheckBytes;
@@ -67,20 +67,25 @@ pub enum PluginError {
 /// plugin to the host. Consumers should not rely on specific details of byte
 /// format struct contains: it is strict implementation detail which can
 /// change anytime.
-pub struct PluginSerializedBytes {
+pub struct PluginSerializedBytes<T> {
     pub(crate) field: rkyv::AlignedVec,
+
+    phantom: PhantomData<T>,
 }
 
 #[cfg(feature = "plugin-base")]
-impl PluginSerializedBytes {
+impl<T> PluginSerializedBytes<T> {
     /**
      * Constructs an instance from already serialized byte
      * slices.
      */
-    pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
+    pub fn from_slice(bytes: &[u8]) -> Self {
         let mut field = rkyv::AlignedVec::new();
         field.extend_from_slice(bytes);
-        PluginSerializedBytes { field }
+        PluginSerializedBytes {
+            field,
+            phantom: PhantomData,
+        }
     }
 
     /**
@@ -94,7 +99,10 @@ impl PluginSerializedBytes {
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
         rkyv::to_bytes::<_, 512>(t)
-            .map(|field| PluginSerializedBytes { field })
+            .map(|field| PluginSerializedBytes {
+                field,
+                phantom: PhantomData,
+            })
             .map_err(|err| match err {
                 rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
                 rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
@@ -112,7 +120,7 @@ impl PluginSerializedBytes {
     fn from_raw_ptr(
         raw_allocated_ptr: *const u8,
         raw_allocated_ptr_len: usize,
-    ) -> PluginSerializedBytes {
+    ) -> PluginSerializedBytes<T> {
         let raw_ptr_bytes =
             unsafe { std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len) };
 
