@@ -580,6 +580,8 @@ pub struct CallExpr {
     #[serde(default, rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
     // pub type_params: Option<TsTypeParamInstantiation>,
+    /// Changed AST schema
+    pub extra: bool,
 }
 
 impl Take for CallExpr {
@@ -589,6 +591,7 @@ impl Take for CallExpr {
             callee: Take::dummy(),
             args: Take::dummy(),
             type_args: Take::dummy(),
+            extra: false,
         }
     }
 }
@@ -1216,6 +1219,7 @@ impl From<OptChainBase> for Expr {
                 args,
                 span,
                 type_args,
+                extra: false,
             }),
             OptChainBase::Member(member) => Self::Member(member),
         }
@@ -1247,6 +1251,7 @@ impl From<OptCall> for CallExpr {
             callee: Callee::Expr(callee),
             args,
             type_args,
+            extra: false,
         }
     }
 }

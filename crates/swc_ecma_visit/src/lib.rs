@@ -741,6 +741,7 @@ define!({
         pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<TsTypeParamInstantiation>,
+        pub extra: bool,
     }
     pub struct NewExpr {
         pub span: Span,
