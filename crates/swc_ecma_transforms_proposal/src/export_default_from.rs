@@ -51,7 +51,7 @@ impl VisitMut for ExportDefaultFrom {
                                 export_specifiers.push(ExportSpecifier::Named(
                                     ExportNamedSpecifier {
                                         span: DUMMY_SP,
-                                        orig: quote_ident!("default").into(),
+                                        orig: quote_ident!(exported.span, "default").into(),
                                         exported: Some(exported.into()),
                                         is_type_only: false,
                                     },
