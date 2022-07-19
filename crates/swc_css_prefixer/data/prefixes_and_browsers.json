@@ -1168,6 +1168,63 @@
     }
   ],
 
+  "-webkit-font-kerning": [{
+    "android": "4.4.0",
+    "chrome": "29",
+    "ios": "8",
+    "opera": "16",
+    "safari": "7"
+  }, {
+    "android": "4.4.3",
+    "chrome": "32",
+    "ios": "11.4",
+    "opera": "16",
+    "safari": "9"
+  }],
+
+  "-webkit-font-feature-settings": [{
+    "android": "4.4",
+    "chrome": "16",
+    "opera": "15"
+  }, {
+    "android": "4.4.4",
+    "chrome": "47",
+    "opera": "34"
+  }],
+  "-moz-font-feature-settings": [{
+    "firefox": "4"
+  }, {
+    "firefox": "33"
+  }],
+  "-webkit-font-variant-ligatures": [{
+    "android": "4.4",
+    "chrome": "16",
+    "opera": "15"
+  }, {
+    "android": "4.4.4",
+    "chrome": "47",
+    "opera": "34"
+  }],
+  "-moz-font-variant-ligatures": [{
+    "firefox": "4"
+  }, {
+    "firefox": "33"
+  }],
+  "-webkit-font-language-override": [{
+    "android": "4.4",
+    "chrome": "16",
+    "opera": "15"
+  }, {
+    "android": "4.4.4",
+    "chrome": "47",
+    "opera": "34"
+  }],
+  "-moz-font-language-override": [{
+    "firefox": "4"
+  }, {
+    "firefox": "33"
+  }],
+
   "-webkit-transition": [
     {
       "android": "2.1",
