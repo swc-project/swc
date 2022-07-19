@@ -32,13 +32,14 @@ swc_common = {version = "0.24.0", path = "../swc_common", features = [
   "plugin-rt",
   "concurrent",
 ]}
-swc_ecma_ast_v1 = {package = "swc_ecma_ast", version = "0.76.3", features = [
+swc_ecma_ast_v1 = {package = "swc_ecma_ast", version = "0.84.0", features = [
   "rkyv-impl",
 ]}
 
 swc_ecma_ast_latest = {package = "swc_ecma_ast", version = "0.86.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ]}
+
 swc_plugin_proxy = {version = "0.14.0", path = "../swc_plugin_proxy", features = [
   "plugin-rt",
 ]}
