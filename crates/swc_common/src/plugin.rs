@@ -135,19 +135,19 @@ impl<T> PluginSerializedBytes<T> {
         (self.field.as_ptr(), self.field.len())
     }
 
-    pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
+    pub fn deserialize(&self) -> Result<VersionedSerializable<T>, Error>
     where
-        W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+        T: rkyv::Archive,
+        T::Archived: rkyv::Deserialize<T, rkyv::de::deserializers::SharedDeserializeMap>,
     {
         use anyhow::Context;
         use rkyv::Deserialize;
 
-        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
+        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<T>>(&self.field[..]) };
 
         archived
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
-            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
+            .with_context(|| format!("failed to deserialize `{}`", type_name::<T>()))
     }
 }
 
