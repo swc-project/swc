@@ -13,7 +13,7 @@ use swc_common::{
     plugin::{PluginSerializedBytes, VersionedSerializable},
     FileName, FilePathMapping, Mark, SourceMap,
 };
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast_latest::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
 use swc_plugin_runner::cache::PluginModuleCache;
 
