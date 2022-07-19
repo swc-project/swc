@@ -42,7 +42,7 @@ impl VisitMut for ExportNamespaceFrom {
                     src: Some(src),
                     type_only: false,
                     asserts,
-                })) => {
+                })) if specifiers.iter().any(|s| s.is_namespace()) => {
                     let mut origin_specifiers = vec![];
 
                     let mut import_specifiers = vec![];
@@ -75,24 +75,12 @@ impl VisitMut for ExportNamespaceFrom {
                         }
                     }
 
-                    if !origin_specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                            NamedExport {
-                                span,
-                                specifiers: origin_specifiers,
-                                src: Some(src.clone()),
-                                type_only: false,
-                                asserts: asserts.clone(),
-                            },
-                        )));
-                    }
-
                     stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span,
                         specifiers: import_specifiers,
-                        src,
+                        src: src.clone(),
                         type_only: false,
-                        asserts,
+                        asserts: asserts.clone(),
                     })));
 
                     stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -104,6 +92,18 @@ impl VisitMut for ExportNamespaceFrom {
                             asserts: None,
                         },
                     )));
+
+                    if !origin_specifiers.is_empty() {
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span,
+                                specifiers: origin_specifiers,
+                                src: Some(src),
+                                type_only: false,
+                                asserts,
+                            },
+                        )));
+                    }
                 }
                 _ => {
                     stmts.push(item);
