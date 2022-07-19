@@ -1,8 +1,6 @@
 .class {
-  -o-object-fit: contain;
   object-fit: contain;
 }
 .class {
-  -o-object-position: 20px;
   object-position: 20px;
 }

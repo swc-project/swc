@@ -1025,11 +1025,148 @@
     }
   ],
 
-  "-moz-text-align-last": [{
-    "firefox": "12"
-  }, {
-    "firefox": "48"
-  }],
+  "-moz-text-align-last": [
+    {
+      "firefox": "12"
+    },
+    {
+      "firefox": "48"
+    }
+  ],
+
+  "-o-text-overflow": [
+    {
+      "op_mob": "10",
+      "opera": "9"
+    },
+    {
+      "op_mob": "12",
+      "opera": "10.6"
+    }
+  ],
+
+  "-webkit-shape-margin": [
+    {
+      "ios": "8",
+      "safari": "7.1"
+    },
+    {
+      "ios": "10.2",
+      "safari": "10"
+    }
+  ],
+  "-webkit-shape-outside": [
+    {
+      "ios": "8",
+      "safari": "7.1"
+    },
+    {
+      "ios": "10.2",
+      "safari": "10"
+    }
+  ],
+  "-webkit-shape-image-threshold": [
+    {
+      "ios": "8",
+      "safari": "7.1"
+    },
+    {
+      "ios": "10.2",
+      "safari": "10"
+    }
+  ],
+
+  "-o-object-fit": [
+    {
+      "op_mob": "11",
+      "opera": "10.6"
+    },
+    {
+      "op_mob": "12.1",
+      "opera": "12.1"
+    }
+  ],
+  "-o-object-position": [
+    {
+      "op_mob": "11",
+      "opera": "10.6"
+    },
+    {
+      "op_mob": "12.1",
+      "opera": "12.1"
+    }
+  ],
+
+  "-moz-tab-size": [
+    {
+      "firefox": "4"
+    },
+    {
+      "firefox": "90"
+    }
+  ],
+  "-o-tab-size": [
+    {
+      "op_mob": "11",
+      "opera": "10.6"
+    },
+    {
+      "op_mob": "12.1",
+      "opera": "12.1"
+    }
+  ],
+
+  "-webkit-hyphens": [
+    {
+      "ios": "4.2",
+      "safari": "5.1"
+    },
+    {}
+  ],
+  "-moz-hyphens": [
+    {
+      "firefox": "6"
+    },
+    {
+      "firefox": "42"
+    }
+  ],
+  "-ms-hyphens": [
+    {
+      "ie": "10",
+      "edge": "12"
+    },
+    {
+      "ie": "11",
+      "edge": "18"
+    }
+  ],
+
+  "-webkit-border-image": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "14",
+      "ios": "5.1",
+      "safari": "5.1"
+    }
+  ],
+  "-moz-border-image": [{ "firefox": "3.5" }, { "firefox": "14" }],
+  "-o-border-image": [
+    {
+      "op_mob": "11",
+      "opera": "11"
+    },
+    {
+      "op_mob": "12.1",
+      "opera": "12.1"
+    }
+  ],
 
   "-webkit-transition": [
     {
@@ -1206,32 +1343,6 @@
     },
     {
       "firefox": "15"
-    }
-  ],
-
-  "-webkit-border-image": [
-    {
-      "android": "2.1",
-      "chrome": "4",
-      "ios": "3.2",
-      "safari": "3.1"
-    },
-    {
-      "android": "4.3",
-      "chrome": "14",
-      "ios": "5.1",
-      "safari": "5.1"
-    }
-  ],
-  "-moz-border-image": [{ "firefox": "3.5" }, { "firefox": "14" }],
-  "-o-border-image": [
-    {
-      "op_mob": "11",
-      "opera": "11"
-    },
-    {
-      "op_mob": "12.1",
-      "opera": "12.1"
     }
   ],
 
