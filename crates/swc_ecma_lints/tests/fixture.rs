@@ -69,6 +69,7 @@ fn pass(input: PathBuf) {
             Program::Script(s) => {
                 rules.lint_script(s);
             }
+            _ => unreachable!(),
         });
 
         if handler.has_errors() {
