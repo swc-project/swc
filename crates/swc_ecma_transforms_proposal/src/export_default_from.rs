@@ -45,6 +45,8 @@ impl VisitMut for ExportDefaultFrom {
 
                     let mut export_specifiers = vec![];
 
+                    let mut has_namespace = false;
+
                     for s in specifiers.into_iter() {
                         match s {
                             ExportSpecifier::Default(ExportDefaultSpecifier { exported }) => {
@@ -57,8 +59,16 @@ impl VisitMut for ExportDefaultFrom {
                                     },
                                 ));
                             }
-                            ExportSpecifier::Namespace(..) | ExportSpecifier::Named(..) => {
+                            ExportSpecifier::Namespace(..) => {
+                                has_namespace = true;
                                 origin_specifiers.push(s);
+                            }
+                            ExportSpecifier::Named(..) => {
+                                if has_namespace {
+                                    origin_specifiers.push(s);
+                                } else {
+                                    export_specifiers.push(s);
+                                }
                             }
                         }
                     }

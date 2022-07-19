@@ -36,10 +36,7 @@ test!(
     |_| tr(),
     default_compounded_es6,
     r#"export v, { x, y as w } from "mod";"#,
-    r#"
-export { default as v } from "mod";
-export { x, y as w } from "mod";
-"#
+    r#"export { default as v, x, y as w } from "mod";"#
 );
 
 test!(
