@@ -36,7 +36,7 @@ swc_ecma_ast_v1 = {package = "swc_ecma_ast", version = "0.76.3", features = [
   "rkyv-impl",
 ]}
 
-swc_ecma_ast_v2 = {package = "swc_ecma_ast", version = "0.86.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast_latest = {package = "swc_ecma_ast", version = "0.86.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ]}
 swc_plugin_proxy = {version = "0.14.0", path = "../swc_plugin_proxy", features = [
