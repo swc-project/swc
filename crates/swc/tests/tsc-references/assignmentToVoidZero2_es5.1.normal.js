@@ -5,8 +5,6 @@
 // @checkJs: true
 // @allowJs: true
 // @noImplicitAny: true
-// @filename: importer.js
-import { j, k } from "./assignmentToVoidZero2";
 exports.j = 1;
 exports.k = void 0;
 var o = {};
@@ -19,4 +17,6 @@ function C() {
 }
 var c = new C();
 c.p + c.q;
+// @filename: importer.js
+import { j, k } from "./assignmentToVoidZero2";
 j + k;

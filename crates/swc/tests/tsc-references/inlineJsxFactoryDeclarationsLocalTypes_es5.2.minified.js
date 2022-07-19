@@ -1,6 +1,5 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import { predom } from "./renderer2";
-import prerendered from "./component";
 export var MySFC = function(props) {
     return predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 };
@@ -24,6 +23,7 @@ export var tree = predom(MySFC, {
     y: 6
 }));
 export default predom("h", null);
+import prerendered from "./component";
 var DOMClass = function() {
     "use strict";
     function DOMClass(props) {

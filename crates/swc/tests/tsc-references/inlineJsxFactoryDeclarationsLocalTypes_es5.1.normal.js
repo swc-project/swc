@@ -3,7 +3,6 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: component.tsx
 /** @jsx predom */ import { predom } from "./renderer2";
-import prerendered from "./component";
 export var MySFC = function(props) {
     return /*#__PURE__*/ predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 };
@@ -30,6 +29,7 @@ export var tree = /*#__PURE__*/ predom(MySFC, {
     y: 6
 }));
 export default /*#__PURE__*/ predom("h", null);
+import prerendered from "./component";
 var elem = prerendered;
 elem = /*#__PURE__*/ predom("h", null); // Expect assignability error here
 var DOMSFC = function(props) {

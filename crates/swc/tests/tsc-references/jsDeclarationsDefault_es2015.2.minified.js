@@ -1,4 +1,3 @@
-import Fab from "./index3";
 export default 12;
 export default function foo() {
     return foo;
@@ -10,6 +9,7 @@ class Foo {
     }
 }
 export const X = Foo;
+import Fab from "./index3";
 export default class extends Fab {
     constructor(...args){
         super(...args), this.x = null;

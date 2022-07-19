@@ -2,7 +2,6 @@
 // @filename: renderer.d.ts
 // @filename: component.tsx
 /** @jsx predom */ import { predom } from "./renderer2";
-import prerendered from "./component";
 export const MySFC = (props)=>/*#__PURE__*/ predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 export class MyClass {
     render() {
@@ -23,6 +22,7 @@ export const tree = /*#__PURE__*/ predom(MySFC, {
     y: 6
 }));
 export default /*#__PURE__*/ predom("h", null);
+import prerendered from "./component";
 let elem = prerendered;
 elem = /*#__PURE__*/ predom("h", null); // Expect assignability error here
 const DOMSFC = (props)=>/*#__PURE__*/ predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y, props.children);

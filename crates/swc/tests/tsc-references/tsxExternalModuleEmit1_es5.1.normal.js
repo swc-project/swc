@@ -6,8 +6,6 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 //@filename: app.tsx
 import * as React from "react";
-//@filename: button.tsx
-import * as React from "react";
 export var App = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(App, _Component);
@@ -22,6 +20,8 @@ export var App = /*#__PURE__*/ function(_Component) {
     };
     return App;
 }(React.Component);
+//@filename: button.tsx
+import * as React from "react";
 export var Button = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(Button, _Component);

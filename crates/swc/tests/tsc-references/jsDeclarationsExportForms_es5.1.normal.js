@@ -5,17 +5,6 @@
 // @declaration: true
 // @filename: cls.js
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-// @filename: includeAll.js
-import "./cjs4";
-import "./cjs3";
-import "./cjs2";
-import "./cjs";
-import "./bol";
-import "./ban";
-import "./bat";
-import "./baz";
-import "./bar";
-import "./bar2";
 export var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
@@ -45,3 +34,14 @@ module.exports.ns = ns;
 // @filename: cjs4.js
 var ns = require("./cls");
 module.exports.names = ns;
+// @filename: includeAll.js
+import "./cjs4";
+import "./cjs3";
+import "./cjs2";
+import "./cjs";
+import "./bol";
+import "./ban";
+import "./bat";
+import "./baz";
+import "./bar";
+import "./bar2";

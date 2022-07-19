@@ -1,8 +1,8 @@
 import foo from "./b";
-import Foo from "./a";
 export default class Foo {
 };
 foo();
+import Foo from "./a";
 export default function foo() {
     new Foo();
 };

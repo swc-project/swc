@@ -1,4 +1,6 @@
 import { foo, baz } from "foobarbaz";
+foo(baz);
 import { foos } from "foosball";
+foo(foos);
 import fileText from "./file!text";
-foo(baz), foo(foos), foo(fileText);
+foo(fileText);
