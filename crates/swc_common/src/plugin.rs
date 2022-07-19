@@ -94,9 +94,9 @@ impl<T> PluginSerializedBytes<T> {
      * This is sort of mimic TryFrom behavior, since we can't use generic
      * to implement TryFrom trait
      */
-    pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
+    pub fn try_serialize(t: &VersionedSerializable<T>) -> Result<Self, Error>
     where
-        W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
+        T: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
         rkyv::to_bytes::<_, 512>(t)
             .map(|field| PluginSerializedBytes {
