@@ -857,6 +857,12 @@
     }
   ],
 
+  "-webkit-text-orientation": [{
+    "safari": "10.1"
+  }, {
+    "safari": "13.1"
+  }],
+
   "-webkit-text-emphasis": [
     {
       "android": "4.4",
