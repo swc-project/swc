@@ -166,7 +166,7 @@ where
     W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
 {
     let serialized =
-        PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
+        PluginSerializedBytes::<W>::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
 
     serialized.deserialize()
 }
@@ -189,7 +189,7 @@ where
     W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
 {
     let serialized =
-        PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
+        PluginSerializedBytes::<W>::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
 
     unsafe {
         rkyv::from_bytes_unchecked(&serialized.field)
