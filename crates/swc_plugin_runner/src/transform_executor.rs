@@ -1,6 +1,6 @@
 use std::{intrinsics::transmute, sync::Arc};
 
-use anyhow::{anyhow, Error};
+use anyhow::{anyhow, Context, Error};
 use parking_lot::Mutex;
 use swc_common::{
     plugin::{PluginError, PluginSerializedBytes, PLUGIN_TRANSFORM_AST_SCHEMA_VERSION},
@@ -35,18 +35,20 @@ impl TransformExecutor {
         cache: &once_cell::sync::Lazy<crate::cache::PluginModuleCache>,
         source_map: &Arc<SourceMap>,
     ) -> Result<TransformExecutor, Error> {
-        let (instance, transform_result) =
-            crate::load_plugin::load_plugin(path, cache, source_map)?;
+        let (instance, transform_result) = crate::load_plugin::load_plugin(path, cache, source_map)
+            .context("failed to load plugin")?;
 
         let tracker = TransformExecutor {
             exported_plugin_transform: instance
                 .exports
                 .get_native_function::<(i32, i32, i32, i32, i32, i32, u32, i32), i32>(
                     "__transform_plugin_process_impl",
-                )?,
+                )
+                .context("get transform function")?,
             exported_plugin_transform_schema_version: instance
                 .exports
-                .get_native_function::<(), u32>("__get_transform_plugin_schema_version")?,
+                .get_native_function::<(), u32>("__get_transform_plugin_schema_version")
+                .context("get transform schema version")?,
             exported_plugin_free: instance
                 .exports
                 .get_native_function::<(i32, i32), i32>("__free")?,
