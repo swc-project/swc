@@ -1,69 +1,39 @@
 .class {
-  -webkit-margin-start: 20px;
-  -moz-margin-start: 20px;
   margin-inline-start: 20px;
 }
 .class {
-  -webkit-margin-end: 20px;
-  -moz-margin-end: 20px;
   margin-inline-end: 20px;
 }
 a {
-  -webkit-margin-before: 1px;
   margin-block-start: 1px;
-  -webkit-margin-start: 1px;
-  -moz-margin-start: 1px;
   margin-inline-start: 1px;
-  -webkit-padding-end: 1px;
-  -moz-padding-end: 1px;
   padding-inline-end: 1px;
 }
 .border {
-  -webkit-border-after: 1px;
   border-block-end: 1px;
-  -webkit-border-end: 1px;
-  -moz-border-end: 1px;
   border-inline-end: 1px;
 }
 .class {
-  -webkit-padding-before: 1px;
   padding-block-start: 1px;
-  -webkit-padding-after: 1px;
   padding-block-end: 1px;
 }
 .class {
-  -webkit-margin-before: 1px;
   margin-block-start: 1px;
-  -webkit-margin-after: 1px;
   margin-block-end: 1px;
 }
 .class {
-  -webkit-border-before: 1px;
   border-block-start: 1px;
-  -webkit-border-after: 1px;
   border-block-end: 1px;
 }
 .class {
-  -webkit-padding-start: 1px;
-  -moz-padding-start: 1px;
   padding-inline-start: 1px;
-  -webkit-padding-end: 1px;
-  -moz-padding-end: 1px;
   padding-inline-end: 1px;
 }
 .class {
-  -webkit-margin-start: 1px;
-  -moz-margin-start: 1px;
   margin-inline-start: 1px;
-  -webkit-margin-end: 1px;
-  -moz-margin-end: 1px;
   margin-inline-end: 1px;
 }
 .class {
-  -webkit-border-start: 1px;
-  -moz-border-start: 1px;
   border-inline-start: 1px;
-  -webkit-border-end: 1px;
-  -moz-border-end: 1px;
   border-inline-end: 1px;
 }
