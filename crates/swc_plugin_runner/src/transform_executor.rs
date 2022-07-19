@@ -84,7 +84,7 @@ impl TransformExecutor {
     fn read_bytes_from_guest(
         &mut self,
         returned_ptr_result: i32,
-    ) -> Result<PluginSerializedBytes, Error> {
+    ) -> Result<PluginSerializedBytes<PluginError>, Error> {
         let transformed_result = &(*self.transform_result.lock());
         let ret = PluginSerializedBytes::from_slice(&transformed_result[..]);
 
@@ -140,7 +140,7 @@ impl TransformExecutor {
         context: &PluginSerializedBytes<String>,
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: bool,
-    ) -> Result<PluginSerializedBytes, Error> {
+    ) -> Result<PluginSerializedBytes<swc_ecma_ast_latest::Program>, Error> {
         let should_enable_comments_proxy = if should_enable_comments_proxy { 1 } else { 0 };
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
