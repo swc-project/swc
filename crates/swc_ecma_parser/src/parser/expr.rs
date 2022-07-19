@@ -879,6 +879,7 @@ impl<I: Tokens> Parser<I> {
                 )))),
                 args: expr_or_spreads,
                 type_args: None,
+                extra: false,
             })));
         }
 
@@ -1125,6 +1126,7 @@ impl<I: Tokens> Parser<I> {
                                 callee: mut_obj_opt.take().unwrap(),
                                 type_args: Some(type_args),
                                 args,
+                                extra: false,
                             })),
                             true,
                         )))
@@ -1290,6 +1292,7 @@ impl<I: Tokens> Parser<I> {
                         callee: obj,
                         args,
                         type_args: None,
+                        extra: false,
                     })
                     .into(),
                     true,
@@ -1527,6 +1530,7 @@ impl<I: Tokens> Parser<I> {
                 callee,
                 args,
                 type_args,
+                extra: false,
             }));
 
             return self.parse_subscripts(Callee::Expr(call_expr), false, false);
@@ -1919,6 +1923,7 @@ impl<I: Tokens> Parser<I> {
             callee: Callee::Import(Import { span: import_span }),
             args,
             type_args: Default::default(),
+            extra: false,
         }));
 
         self.parse_subscripts(Callee::Expr(import), true, false)

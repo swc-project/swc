@@ -324,6 +324,7 @@ impl<I: Tokens> Parser<I> {
             callee: Callee::Expr(expr),
             args,
             type_args: None,
+            extra: false,
         })))
     }
 
