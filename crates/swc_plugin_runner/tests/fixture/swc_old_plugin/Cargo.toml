@@ -1,0 +1,14 @@
+[workspace]
+
+[package]
+edition = "2021"
+name = "swc_internal_plugin"
+publish = false
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+serde = "1"
+swc_plugin = { version = "0.49.0" }
