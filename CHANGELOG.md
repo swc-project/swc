@@ -19,6 +19,12 @@
 ### Miscellaneous Tasks
 - **general**: Fix CI (#5251) ([d229917](https://github.com/swc-project/swc/commit/d229917588a7bfda8bf4023c42c4190552a3b0c6))
 
+### Testing
+
+
+
+- **(es/plugin)** Test plugins with different schema versions (#5255) ([b7c7e3a](https://github.com/swc-project/swc/commit/b7c7e3afb069da6804aafc67f5207da11ad36c17))
+
 ### Build
 
 
