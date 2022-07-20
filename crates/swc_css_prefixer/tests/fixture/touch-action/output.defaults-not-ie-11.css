@@ -1,0 +1,6 @@
+.class {
+  touch-action: none;
+}
+.class {
+  touch-action: manipulation;
+}

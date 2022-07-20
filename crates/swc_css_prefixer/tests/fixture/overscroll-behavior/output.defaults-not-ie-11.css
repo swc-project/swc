@@ -1,0 +1,12 @@
+.none {
+  overscroll-behavior: none;
+}
+.contain {
+  overscroll-behavior: contain;
+}
+.auto {
+  overscroll-behavior: auto;
+}
+.inherit {
+  overscroll-behavior: inherit;
+}

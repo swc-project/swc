@@ -1,0 +1,8 @@
+a {
+  -webkit-appearance: none;
+  appearance: none;
+}
+b {
+  -webkit-appearance: auto;
+  appearance: auto;
+}
