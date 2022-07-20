@@ -1,4 +1,4 @@
-use swc_common::DUMMY_SP;
+use swc_common::{collections::AHashSet, EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -15,6 +15,24 @@ struct CompressSelector {
 impl CompressSelector {}
 
 impl VisitMut for CompressSelector {
+    fn visit_mut_selector_list(&mut self, selector_list: &mut SelectorList) {
+        selector_list.visit_mut_children_with(self);
+
+        let mut already_seen: AHashSet<ComplexSelector> = Default::default();
+
+        selector_list.children.retain(|children| {
+            for already_seen_complex_selector in &already_seen {
+                if already_seen_complex_selector.eq_ignore_span(children) {
+                    return false;
+                }
+            }
+
+            already_seen.insert(children.clone());
+
+            true
+        });
+    }
+
     fn visit_mut_an_plus_b(&mut self, an_plus_b: &mut AnPlusB) {
         an_plus_b.visit_mut_children_with(self);
 
