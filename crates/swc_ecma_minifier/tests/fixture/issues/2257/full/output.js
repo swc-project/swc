@@ -1453,7 +1453,7 @@
                 return getPrototypeOf(o);
             }
             function _superPropBase(object, property) {
-                for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
+                for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = getPrototypeOf(object)););
                 return object;
             }
             function get(target, property, receiver) {
@@ -1484,7 +1484,7 @@
                         writable: !0,
                         configurable: !0
                     }
-                }), superClass && _set_prototype_of_setPrototypeOf(subClass, superClass);
+                }), superClass && setPrototypeOf(subClass, superClass);
             }
             function _inheritsLoose(subClass, superClass) {
                 subClass.prototype = Object.create(superClass.prototype), subClass.prototype.constructor = subClass, subClass.__proto__ = superClass;
@@ -1661,7 +1661,8 @@
                         _cache.set(Class, Wrapper);
                     }
                     function Wrapper() {
-                        return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+                        var o;
+                        return _construct(Class, arguments, (o = this, getPrototypeOf(o)).constructor);
                     }
                     return Wrapper.prototype = Object.create(Class.prototype, {
                         constructor: {
@@ -1670,7 +1671,7 @@
                             writable: !0,
                             configurable: !0
                         }
-                    }), _set_prototype_of_setPrototypeOf(Wrapper, Class);
+                    }), setPrototypeOf(Wrapper, Class);
                 })(Class);
             }
             function _wrapNativeSuper(Class) {
@@ -15411,9 +15412,6 @@
             function ok(a, b) {
                 nk(a, b), (a = a.alternate) && nk(a, b);
             }
-            function pk() {
-                return null;
-            }
             function qk(a, b, c) {
                 var d = null != c && null != c.hydrationOptions && c.hydrationOptions.mutableSources || null;
                 if (c = new jk(a, b, null != c && !0 === c.hydrate), b = nh(3, null, null, 2 === b ? 7 : 1 === b ? 3 : 0), c.current = b, b.stateNode = c, xg(b), a[ff] = c.current, cf(8 === a.nodeType ? a.parentNode : a), d) for(a = 0; a < d.length; a++){
@@ -15736,7 +15734,9 @@
                 findHostInstanceByFiber: function(a) {
                     return null === (a = cc(a)) ? null : a.stateNode;
                 },
-                findFiberByHostInstance: wk.findFiberByHostInstance || pk,
+                findFiberByHostInstance: wk.findFiberByHostInstance || function() {
+                    return null;
+                },
                 findHostInstancesForRefresh: null,
                 scheduleRefresh: null,
                 scheduleRoot: null,

@@ -1,6 +1,3 @@
-function getProps(obj, list) {
-    return {};
-}
 applySpec({
     sum: (a)=>3,
     nested: {
@@ -32,11 +29,3 @@ applySpec({
     foo: 42,
     bar: "hello"
 });
-const myAny = {};
-getProps(myAny, [
-    'foo',
-    'bar'
-]), getProps(myAny, [
-    'foo',
-    'bar'
-]);

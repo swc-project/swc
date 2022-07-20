@@ -1,5 +1,8 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+function foo(s) {
+    return s[0];
+}
 var SymbolIterator = function() {
     "use strict";
     function SymbolIterator() {
@@ -15,6 +18,4 @@ var SymbolIterator = function() {
         return this;
     }, SymbolIterator;
 }();
-(function(s) {
-    return s[0];
-}).apply(void 0, _to_consumable_array(new SymbolIterator));
+foo.apply(void 0, _to_consumable_array(new SymbolIterator));

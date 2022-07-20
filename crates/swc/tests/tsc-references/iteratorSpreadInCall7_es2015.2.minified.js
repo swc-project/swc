@@ -1,3 +1,6 @@
+function foo(...s) {
+    return s[0];
+}
 class SymbolIterator {
     next() {
         return {
@@ -20,6 +23,4 @@ class _StringIterator {
         return this;
     }
 }
-!function(...s) {
-    return s[0];
-}(...new SymbolIterator, ...new _StringIterator);
+foo(...new SymbolIterator, ...new _StringIterator);

@@ -7,7 +7,9 @@ use super::Optimizer;
 use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
     mode::Mode,
-    util::{idents_captured_by, idents_used_by, idents_used_by_ignoring_nested},
+    util::{
+        idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
+    },
 };
 
 /// Methods related to option `inline`.
@@ -356,86 +358,25 @@ where
 
     /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt, param_count: usize) -> bool {
-        fn expr_cost(e: &Expr) -> Option<usize> {
-            match e {
-                // TODO?
-                Expr::Lit(..) => Some(1),
-                Expr::Ident(..) => Some(1),
-
-                Expr::Bin(BinExpr {
-                    op: op @ op!("instanceof") | op @ op!("in"),
-                    left,
-                    right,
-                    ..
-                }) => Some(2 + op.as_str().len() + expr_cost(left)? + expr_cost(right)?),
-
-                Expr::Unary(UnaryExpr {
-                    op: op @ op!("typeof") | op @ op!("void") | op @ op!("delete"),
-                    arg,
-                    ..
-                }) => Some(2 + op.as_str().len() + expr_cost(arg)?),
-
-                Expr::Unary(UnaryExpr { arg, .. }) => Some(1 + expr_cost(arg)?),
-
-                Expr::Call(CallExpr {
-                    callee: Callee::Expr(callee),
-                    args,
-                    ..
-                }) => {
-                    let mut c = expr_cost(callee)? + 2;
-
-                    for arg in args {
-                        if arg.spread.is_some() {
-                            c += 3;
-                        }
-
-                        c += expr_cost(&arg.expr)? + 1;
-                    }
-
-                    Some(c)
-                }
-
-                Expr::Bin(e) => {
-                    Some(expr_cost(&e.left)? + expr_cost(&e.right)? + e.op.as_str().len())
-                }
-
-                Expr::Update(e) => Some(expr_cost(&e.arg)? + 2),
-
-                Expr::Assign(e) => {
-                    e.left.as_ident()?;
-                    Some(2 + expr_cost(&e.right)?)
-                }
-
-                Expr::Seq(e) => e
-                    .exprs
-                    .iter()
-                    .map(|v| expr_cost(v))
-                    .fold(Some(0), |a, b| Some(a? + b?)),
-
-                _ => None,
-            }
-        }
-
         let cost_limit = 3 + param_count * 2;
 
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
-                Stmt::Expr(ExprStmt { expr, .. }) => {
-                    if let Some(cost) = expr_cost(expr) {
-                        if cost < cost_limit {
-                            return true;
-                        }
-                    }
+                Stmt::Expr(ExprStmt { expr, .. })
+                    if expr.size(self.expr_ctx.unresolved_ctxt) < cost_limit =>
+                {
+                    return true
                 }
 
-                Stmt::Return(ReturnStmt { arg, .. }) => {
-                    if let Some(e) = arg.as_deref() {
-                        if let Some(cost) = expr_cost(e) {
-                            if cost < cost_limit {
-                                return true;
-                            }
-                        }
-                    }
+                Stmt::Return(ReturnStmt { arg: Some(arg), .. })
+                    if arg.size(self.expr_ctx.unresolved_ctxt) < cost_limit =>
+                {
+                    return true
+                }
+
+                Stmt::Return(ReturnStmt { arg: None, .. }) => {
+                    // size of void 0
+                    return 6 < cost_limit;
                 }
 
                 _ => {}

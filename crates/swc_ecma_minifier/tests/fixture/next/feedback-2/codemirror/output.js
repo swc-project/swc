@@ -366,6 +366,9 @@
     function defineMode(name, mode) {
         arguments.length > 2 && (mode.dependencies = Array.prototype.slice.call(arguments, 2)), modes[name] = mode;
     }
+    function defineMIME(mime, spec) {
+        mimeModes[mime] = spec;
+    }
     function resolveMode(spec) {
         if ("string" == typeof spec && mimeModes.hasOwnProperty(spec)) spec = mimeModes[spec];
         else if (spec && "string" == typeof spec.name && mimeModes.hasOwnProperty(spec.name)) {
@@ -5534,9 +5537,7 @@
         contenteditable: ContentEditableInput
     }, CodeMirror2.defineMode = function(name) {
         CodeMirror2.defaults.mode || "null" == name || (CodeMirror2.defaults.mode = name), defineMode.apply(this, arguments);
-    }, CodeMirror2.defineMIME = function(mime, spec) {
-        mimeModes[mime] = spec;
-    }, CodeMirror2.defineMode("null", function() {
+    }, CodeMirror2.defineMIME = defineMIME, CodeMirror2.defineMode("null", function() {
         return {
             token: function(stream) {
                 return stream.skipToEnd();

@@ -22,9 +22,6 @@ var foo = function(object, partial) {
     a: 5,
     b: 7
 };
-function getProps(obj, list) {
-    return {};
-}
 foo(o, {
     b: 9
 }), o = foo(o, {
@@ -49,11 +46,3 @@ foo(o, {
     foo: 42,
     bar: "hello"
 });
-var myAny = {};
-getProps(myAny, [
-    "foo",
-    "bar"
-]), getProps(myAny, [
-    "foo",
-    "bar"
-]);

@@ -4426,7 +4426,7 @@
                 return (null !== P || null !== vg) && 0 != (1 & a.mode) && 0 == (2 & W);
             }
             function Ck(a, b) {
-                var a1, c = a.callbackNode;
+                var a1, b1, a2, c = a.callbackNode;
                 !function(a, b) {
                     for(var c = a.suspendedLanes, d = a.pingedLanes, e = a.expirationTimes, f = a.pendingLanes; 0 < f;){
                         var g = 31 - nc(f), h = 1 << g, k = e[g];
@@ -4436,7 +4436,7 @@
                 var d = tc(a, a === P ? Y : 0);
                 if (0 === d) null !== c && ac(c), a.callbackNode = null, a.callbackPriority = 0;
                 else if (b = d & -d, a.callbackPriority !== b) {
-                    if (null != c && ac(c), 1 === b) 0 === a.tag ? (a1 = Dk.bind(null, a), eg = !0, gg(a1)) : gg(Dk.bind(null, a)), If(function() {
+                    if (null != c && ac(c), 1 === b) 0 === a.tag ? (a2 = Dk.bind(null, a), eg = !0, gg(a2)) : gg(Dk.bind(null, a)), If(function() {
                         0 === W && ig();
                     }), c = null;
                     else {
@@ -4454,7 +4454,7 @@
                             case 536870912:
                                 c = ic;
                         }
-                        c = Ek(c, Fk.bind(null, a));
+                        c = (a1 = c, b1 = Fk.bind(null, a), $b(a1, b1));
                     }
                     a.callbackPriority = b, a.callbackNode = c;
                 }
@@ -4805,7 +4805,9 @@
                         var e = 31 - nc(c), f = 1 << e;
                         b[e] = 0, d[e] = -1, a[e] = -1, c &= ~f;
                     }
-                }(a, f), a === P && (X = P = null, Y = 0), 0 == (2064 & c.subtreeFlags) && 0 == (2064 & c.flags) || tk || (tk = !0, Ek(gc, function() {
+                }(a, f), a === P && (X = P = null, Y = 0), 0 == (2064 & c.subtreeFlags) && 0 == (2064 & c.flags) || tk || (tk = !0, function(a, b) {
+                    $b(a, b);
+                }(gc, function() {
                     return Gk(), null;
                 })), f = 0 != (15990 & c.flags), 0 != (15990 & c.subtreeFlags) || f) {
                     f = mk.transition, mk.transition = null;
@@ -5081,9 +5083,6 @@
                 }
                 null !== d && d.delete(b), Xk(a, c);
             }
-            function Ek(a, b) {
-                return $b(a, b);
-            }
             function Zk(a, b, c, d) {
                 this.tag = a, this.key = c, this.sibling = this.child = this.return = this.stateNode = this.type = this.elementType = null, this.index = 0, this.ref = null, this.pendingProps = b, this.dependencies = this.memoizedState = this.updateQueue = this.memoizedProps = null, this.mode = d, this.subtreeFlags = this.flags = 0, this.deletions = null, this.childLanes = this.lanes = 0, this.alternate = null;
             }
@@ -5215,9 +5214,6 @@
             }
             function hl(a, b) {
                 gl(a, b), (a = a.alternate) && gl(a, b);
-            }
-            function il() {
-                return null;
             }
             Uk = function(a, b, c) {
                 if (null !== a) {
@@ -5573,7 +5569,9 @@
                 findHostInstanceByFiber: function(a) {
                     return null === (a = Yb(a)) ? null : a.stateNode;
                 },
-                findFiberByHostInstance: sl.findFiberByHostInstance || il,
+                findFiberByHostInstance: sl.findFiberByHostInstance || function() {
+                    return null;
+                },
                 findHostInstancesForRefresh: null,
                 scheduleRefresh: null,
                 scheduleRoot: null,

@@ -8,6 +8,7 @@ use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
+pub(crate) mod size;
 pub(crate) mod sort;
 pub(crate) mod unit;
 

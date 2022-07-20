@@ -3420,6 +3420,7 @@ dependencies = [
  "backtrace",
  "criterion",
  "indexmap",
+ "num-bigint",
  "num_cpus",
  "once_cell",
  "parking_lot",

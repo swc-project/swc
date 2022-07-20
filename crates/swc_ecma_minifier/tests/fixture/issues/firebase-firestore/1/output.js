@@ -501,6 +501,9 @@
                 const e = gt(t.mapValue.fields.__local_write_time__.timestampValue);
                 return new it(e.seconds, e.nanos);
             }
+            function At(t) {
+                return null == t;
+            }
             function Rt(t) {
                 return 0 === t && 1 / t == -1 / 0;
             }
@@ -656,9 +659,6 @@
                 if ("string" == typeof t && "string" == typeof e && t.length === e.length) return et(t, e);
                 const n = gt(t), s = gt(e), i = et(n.seconds, s.seconds);
                 return 0 !== i ? i : et(n.nanos, s.nanos);
-            }
-            function Nt(t) {
-                return xt(t);
             }
             function xt(t) {
                 var e, n;
@@ -849,14 +849,13 @@
                 return new jt(t, e, n, s, i, r, o);
             }
             function Wt(t) {
-                var t1;
                 const e = t;
                 if (null === e.A) {
-                    let t2 = e.path.canonicalString();
-                    null !== e.collectionGroup && (t2 += "|cg:" + e.collectionGroup), t2 += "|f:", t2 += e.filters.map((t)=>Yt(t)).join(","), t2 += "|ob:", t2 += e.orderBy.map((t)=>{
+                    let t1 = e.path.canonicalString();
+                    null !== e.collectionGroup && (t1 += "|cg:" + e.collectionGroup), t1 += "|f:", t1 += e.filters.map((t)=>Yt(t)).join(","), t1 += "|ob:", t1 += e.orderBy.map((t)=>{
                         var t1;
                         return (t1 = t).field.canonicalString() + t1.dir;
-                    }).join(","), t1 = e.limit, null == t1 || (t2 += "|l:", t2 += e.limit), e.startAt && (t2 += "|lb:", t2 += ce(e.startAt)), e.endAt && (t2 += "|ub:", t2 += ce(e.endAt)), e.A = t2;
+                    }).join(","), At(e.limit) || (t1 += "|l:", t1 += e.limit), e.startAt && (t1 += "|lb:", t1 += ce(e.startAt)), e.endAt && (t1 += "|ub:", t1 += ce(e.endAt)), e.A = t1;
                 }
                 return e.A;
             }
@@ -916,7 +915,7 @@
                 }
             }
             function Yt(t) {
-                return t.field.canonicalString() + t.op.toString() + Nt(t.value);
+                return t.field.canonicalString() + t.op.toString() + xt(t.value);
             }
             class Xt extends Jt {
                 constructor(t, e, n){
@@ -992,7 +991,7 @@
                 }
             }
             function ce(t) {
-                return `${t.before ? "b" : "a"}:${t.position.map((t)=>Nt(t)).join(",")}`;
+                return `${t.before ? "b" : "a"}:${t.position.map((t)=>xt(t)).join(",")}`;
             }
             class ae {
                 constructor(t, e = "asc"){
@@ -1025,10 +1024,10 @@
                 return new fe(t);
             }
             function _e(t) {
-                return null != t.limit && "F" === t.limitType;
+                return !At(t.limit) && "F" === t.limitType;
             }
             function me(t) {
-                return null != t.limit && "L" === t.limitType;
+                return !At(t.limit) && "L" === t.limitType;
             }
             function Te(t) {
                 var t1;
@@ -1074,12 +1073,12 @@
                 return `${Wt(Ee(t))}|lt:${t.limitType}`;
             }
             function be(t) {
-                var t1, t2;
+                var t1;
                 let e;
                 return `Query(target=${e = (t1 = Ee(t)).path.canonicalString(), null !== t1.collectionGroup && (e += " collectionGroup=" + t1.collectionGroup), t1.filters.length > 0 && (e += `, filters: [${t1.filters.map((t)=>{
                     var e;
-                    return `${(e = t).field.canonicalString()} ${e.op} ${Nt(e.value)}`;
-                }).join(", ")}]`), t2 = t1.limit, null == t2 || (e += ", limit: " + t1.limit), t1.orderBy.length > 0 && (e += `, orderBy: [${t1.orderBy.map((t)=>{
+                    return `${(e = t).field.canonicalString()} ${e.op} ${xt(e.value)}`;
+                }).join(", ")}]`), At(t1.limit) || (e += ", limit: " + t1.limit), t1.orderBy.length > 0 && (e += `, orderBy: [${t1.orderBy.map((t)=>{
                     var t1;
                     return t1 = t, `${t1.field.canonicalString()} (${t1.dir})`;
                 }).join(", ")}]`), t1.startAt && (e += ", startAt: " + ce(t1.startAt)), t1.endAt && (e += ", endAt: " + ce(t1.endAt)), `Target(${e})`}; limitType=${t.limitType})`;
@@ -2190,8 +2189,8 @@
             }
             function Es(t) {
                 let e = "";
-                for(let n = 0; n < t.length; n++)e.length > 0 && (e += ""), e = Is(t.get(n), e);
-                return e + "";
+                for(let n = 0; n < t.length; n++)e.length > 0 && (e = As(e)), e = Is(t.get(n), e);
+                return As(e);
             }
             function Is(t, e) {
                 let n = e;
@@ -2210,6 +2209,9 @@
                     }
                 }
                 return n;
+            }
+            function As(t) {
+                return t + "";
             }
             function Rs(t) {
                 const e = t.length;
@@ -3599,7 +3601,7 @@
                                             }(t1.direction));
                                         }));
                                         let c1 = null, e2;
-                                        n1.limit && (c1 = null == (e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
+                                        n1.limit && (c1 = At(e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
                                         let a = null;
                                         n1.startAt && (a = fs(n1.startAt));
                                         let u = null;
@@ -4282,7 +4284,7 @@
                                     });
                                 }(e.orderBy);
                                 r && (n.structuredQuery.orderBy = r);
-                                const o = (t1 = t, e1 = e.limit, t1.D || null == e1 ? e1 : {
+                                const o = (t1 = t, e1 = e.limit, t1.D || At(e1) ? e1 : {
                                     value: e1
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;

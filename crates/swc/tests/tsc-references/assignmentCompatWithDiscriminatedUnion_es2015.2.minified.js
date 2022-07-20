@@ -6,8 +6,12 @@ Example1 || (Example1 = {}), t = s, Example2 || (Example2 = {}), t = s, Example3
     }, b;
     a.type, b.type, b = a;
 }(GH14865 || (GH14865 = {})), GH30170 || (GH30170 = {}), function(GH12052) {
+    function getAxisType() {
+        return "categorical";
+    }
+    getAxisType();
     let good = {
         type: void 0
     };
-    good.type = "categorical";
+    good.type = getAxisType();
 }(GH12052 || (GH12052 = {})), GH18421 || (GH18421 = {}), GH15907 || (GH15907 = {}), GH20889 || (GH20889 = {}), GH39357 || (GH39357 = {});
