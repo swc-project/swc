@@ -49,14 +49,15 @@ export function plugins(ps: Plugin[]): Plugin {
 }
 
 export class Compiler {
+  private fallbackBindingsPluginWarningDisplayed = false;
 
   async minify(src: string, opts?: JsMinifyOptions): Promise<Output> {
-    if (!bindings && !!fallbackBindings) {
-      throw new Error('Fallback bindings does not support this interface yet.');
-    } else if (!bindings) {
-      throw new Error('Bindings not found.');
+    if (bindings) {
+      return bindings.minify(toBuffer(src), toBuffer(opts ?? {}));
+    } else if (fallbackBindings) {
+      return Promise.resolve(fallbackBindings.minifySync(src, opts));
     }
-    return bindings.minify(toBuffer(src), toBuffer(opts ?? {}));
+    throw new Error('Bindings not found.');
   }
 
   minifySync(src: string, opts?: JsMinifyOptions): Output {
@@ -83,8 +84,14 @@ export class Compiler {
       throw new Error('Bindings not found.');
     }
 
-    const res = await bindings.parse(src, toBuffer(options), filename);
-    return JSON.parse(res);
+    if (bindings) {
+      const res = await bindings.parse(src, toBuffer(options), filename);
+      return JSON.parse(res);
+    } else if (fallbackBindings) {
+      const res = fallbackBindings.parseSync(src, toBuffer(options), filename);
+      return Promise.resolve(JSON.parse(res));
+    }
+    throw new Error('Bindings not found.');
   }
 
   parseSync(src: string, options: ParseOptions & { isModule: false }): Script;
@@ -147,13 +154,13 @@ export class Compiler {
   async print(m: Program, options?: Options): Promise<Output> {
     options = options || {};
 
-    if (!bindings && !!fallbackBindings) {
-      throw new Error('Fallback bindings does not support this interface yet.');
-    } else if (!bindings) {
-      throw new Error('Bindings not found.');
+    if (bindings) {
+      return bindings.print(JSON.stringify(m), toBuffer(options))
+    } else if (fallbackBindings) {
+      return Promise.resolve(fallbackBindings.printSync(JSON.stringify(m), options));
     }
 
-    return bindings.print(JSON.stringify(m), toBuffer(options))
+    throw new Error('Bindings not found.');
   }
 
   /**
@@ -173,12 +180,6 @@ export class Compiler {
   }
 
   async transform(src: string | Program, options?: Options): Promise<Output> {
-    if (!bindings && !!fallbackBindings) {
-      throw new Error('Fallback bindings does not support this interface yet.');
-    } else if (!bindings) {
-      throw new Error('Bindings not found.');
-    }
-
     const isModule = typeof src !== "string";
     options = options || {};
 
@@ -188,15 +189,26 @@ export class Compiler {
 
     const { plugin, ...newOptions } = options;
 
-    if (plugin) {
-      const m =
-        typeof src === "string"
-          ? await this.parse(src, options?.jsc?.parser, options.filename)
-          : src;
-      return this.transform(plugin(m), newOptions);
+    if (bindings) {
+      if (plugin) {
+        const m =
+          typeof src === "string"
+            ? await this.parse(src, options?.jsc?.parser, options.filename)
+            : src;
+        return this.transform(plugin(m), newOptions);
+      }
+
+      return bindings.transform(isModule ? JSON.stringify(src) : src, isModule, toBuffer(newOptions))
+    } else if (fallbackBindings) {
+      if (plugin && !this.fallbackBindingsPluginWarningDisplayed) {
+        console.warn(`Fallback bindings does not support legacy plugins, it'll be ignored.`);
+        this.fallbackBindingsPluginWarningDisplayed = true;
+      }
+
+      return Promise.resolve(fallbackBindings.transformSync(src, options));
     }
 
-    return bindings.transform(isModule ? JSON.stringify(src) : src, isModule, toBuffer(newOptions))
+    throw new Error('Bindings not found.');
   }
 
   transformSync(src: string | Program, options?: Options): Output {
@@ -207,9 +219,9 @@ export class Compiler {
       options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
     }
 
-    if (bindings) {
-      const { plugin, ...newOptions } = options;
+    const { plugin, ...newOptions } = options;
 
+    if (bindings) {
       if (plugin) {
         const m =
           typeof src === "string" ? this.parseSync(src, options?.jsc?.parser, options.filename) : src;
@@ -222,6 +234,10 @@ export class Compiler {
         toBuffer(newOptions),
       )
     } else if (fallbackBindings) {
+      if (plugin && !this.fallbackBindingsPluginWarningDisplayed) {
+        console.warn(`Fallback bindings does not support legacy plugins, it'll be ignored.`);
+        this.fallbackBindingsPluginWarningDisplayed = true;
+      }
       return fallbackBindings.transformSync(src, options);
     }
 
@@ -438,7 +454,7 @@ export function __experimental_registerGlobalTraceConfig(traceConfig: {
  */
 export function getBinaryMetadata() {
   return {
-    target: bindings.getTargetTriple()
+    target: bindings ? bindings?.getTargetTriple() : undefined
   };
 }
 

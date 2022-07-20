@@ -11,4 +11,9 @@ crate-type = ["cdylib"]
 
 [dependencies]
 serde = "1"
-swc_plugin = { path = "../../../../crates/swc_plugin", default-features = false, features = ["plugin_transform_schema_v1"] }
+# Intentionally referencing published version, known to not contain new AST struct changes.
+# Be careful to change this dependency version. Unless there isn't explicit reason to do so,
+# do not change.
+swc_plugin = { version = "0.83.0", default-features = false, features = [
+  "plugin_transform_schema_v1",
+] }

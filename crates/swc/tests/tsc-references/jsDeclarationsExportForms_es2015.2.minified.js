@@ -1,13 +1,3 @@
-import "./cjs4";
-import "./cjs3";
-import "./cjs2";
-import "./cjs";
-import "./bol";
-import "./ban";
-import "./bat";
-import "./baz";
-import "./bar";
-import "./bar2";
 export class Foo {
 }
 export function func() {}
@@ -25,4 +15,14 @@ let ns = require("./cls");
 module.exports.ns = ns;
 let ns = require("./cls");
 module.exports.names = ns;
+import "./cjs4";
+import "./cjs3";
+import "./cjs2";
+import "./cjs";
+import "./bol";
+import "./ban";
+import "./bat";
+import "./baz";
+import "./bar";
+import "./bar2";
 export { Foo, ns, ns as classContainer };

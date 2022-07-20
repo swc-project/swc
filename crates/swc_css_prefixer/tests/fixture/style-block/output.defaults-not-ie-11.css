@@ -1,0 +1,36 @@
+.class {
+  &.foo {
+    -webkit-appearance: auto;
+    appearance: auto;
+  }
+  @media all {
+    -webkit-appearance: auto;
+    appearance: auto;
+  }
+}
+@media (min-width: 50em) {
+  .foo {
+    -webkit-appearance: auto;
+    appearance: auto;
+  }
+  @supports (flex-wrap: wrap) {
+    .foo {
+      -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      -webkit-appearance: auto;
+      appearance: auto;
+    }
+  }
+}
+@supports (flex-wrap: wrap) {
+  .foo {
+    -webkit-appearance: auto;
+    appearance: auto;
+  }
+  @media (min-width: 50em) {
+    .foo {
+      -webkit-appearance: auto;
+      appearance: auto;
+    }
+  }
+}

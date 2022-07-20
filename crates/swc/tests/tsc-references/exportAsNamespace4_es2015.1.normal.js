@@ -2,16 +2,17 @@
 // @filename: 0.ts
 // @declaration: true
 // @esModuleInterop: true
+export const a = 1;
+export const b = 2;
+// @filename: 1.ts
 import * as _default from './0';
+export { _default as default };
 // @filename: 11.ts
 import * as ns from './0';
+export default ns;
 // @filename: 2.ts
 import foo from './1';
 import foo1 from './11';
-export const a = 1;
-export const b = 2;
-export { _default as default };
-export default ns;
 foo.a;
 foo1.a;
 foo.b;

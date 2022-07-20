@@ -7,8 +7,6 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-// @filename: index4.js
-import Fab from "./index3";
 export default 12;
 // @filename: index2.js
 export default function foo() {
@@ -25,6 +23,8 @@ var Foo = function Foo() {
 export { Foo as default };
 export var X = Foo;
 export { Foo as Bar };
+// @filename: index4.js
+import Fab from "./index3";
 var Bar = /*#__PURE__*/ function(Fab) {
     "use strict";
     _inherits(Bar, Fab);

@@ -1,0 +1,39 @@
+.class {
+  margin-inline-start: 20px;
+}
+.class {
+  margin-inline-end: 20px;
+}
+a {
+  margin-block-start: 1px;
+  margin-inline-start: 1px;
+  padding-inline-end: 1px;
+}
+.border {
+  border-block-end: 1px;
+  border-inline-end: 1px;
+}
+.class {
+  padding-block-start: 1px;
+  padding-block-end: 1px;
+}
+.class {
+  margin-block-start: 1px;
+  margin-block-end: 1px;
+}
+.class {
+  border-block-start: 1px;
+  border-block-end: 1px;
+}
+.class {
+  padding-inline-start: 1px;
+  padding-inline-end: 1px;
+}
+.class {
+  margin-inline-start: 1px;
+  margin-inline-end: 1px;
+}
+.class {
+  border-inline-start: 1px;
+  border-inline-end: 1px;
+}
