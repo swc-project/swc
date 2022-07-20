@@ -19,6 +19,12 @@
 ### Miscellaneous Tasks
 - **general**: Fix CI (#5251) ([d229917](https://github.com/swc-project/swc/commit/d229917588a7bfda8bf4023c42c4190552a3b0c6))
 
+### Build
+
+
+
+- **(cargo)** Align dependency versions (#5248) ([0d91741](https://github.com/swc-project/swc/commit/0d91741eb9dc9e2d3ae23f555e3b35c9c448cfc6))
+
 ## [1.2.218] - 2022-07-18
 
 ### Bug Fixes
