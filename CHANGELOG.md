@@ -5,6 +5,9 @@
 
 
 
+- **(css/prefixer)** Implement `preset-env` (#5247) ([e78d23d](https://github.com/swc-project/swc/commit/e78d23d193585bb088f71602a33340d0a1ed1601))
+
+
 - **(es/codegen)** Optimize number and bigint literal (#5223) ([3f0856d](https://github.com/swc-project/swc/commit/3f0856db2ef7dde001cd482088a094f49de7ddac))
 
 
