@@ -115,7 +115,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 source_map: swc_plugin::source_map::PluginSourceMapProxy,
                 plugin_config: config,
                 unresolved_mark: swc_plugin::syntax_pos::Mark::from_u32(unresolved_mark),
-                transform_context: context
+                transform_context: context,
+                experimental: swc_plugin::collections::AHashMap::default(),
             };
 
             // Take original plugin fn ident, then call it with interop'ed args
