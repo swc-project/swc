@@ -9,6 +9,10 @@ pub use swc_common::{
     },
 };
 
+pub mod collections {
+    pub use swc_common::collections::AHashMap;
+}
+
 pub mod comments {
     pub use swc_common::comments::{Comment, CommentKind, Comments};
     pub use swc_plugin_proxy::PluginCommentsProxy;
@@ -84,7 +88,22 @@ pub struct TransformPluginProgramMetadata {
     pub unresolved_mark: crate::syntax_pos::Mark,
     /// Stringified JSON value for relative context while running transform,
     /// like filenames.
-    /// /// This is readonly. Changing value in plugin doesn't affect host's
+    /// This is readonly. Changing value in plugin doesn't affect host's
     /// behavior.
     pub transform_context: String,
+    /// Non typed, extensible properties without breaking plugin compability
+    /// between host.
+    ///
+    /// Adding a new property to this metadata will be a breaking changes we
+    /// can't do freely.
+    /// Instead, we use this as a placeholder `@swc/core` may try new metadata.
+    /// Once it's proven to be stable with enough usecases, it'll be
+    /// promoted to actual property to TransformPluginProgramMetadata with
+    /// proper type support.
+    ///
+    /// There is no typed deserialization support for this unfortunately. Plugin
+    /// need to deserialize stringified values manually. In most cases this'll
+    /// be JSON type, but depends on the nature of the metadata it may
+    /// require different way to deserialize.
+    pub experimental: collections::AHashMap<String, String>,
 }
