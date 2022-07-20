@@ -165,6 +165,6 @@ body>h2:not(:first-of-type):not(:last-of-type){color:blue}
 [attr][attr][attr] {color:red}
 [attr].class[attr].class[attr] {color:red}
 .foo.foo.foo#id#id#id[attr][attr][attr]{}
-h1,h2,h3,h4,h5,h6{color:blue}
+h1,h2,h3,h4,h5,h6,h5,h1,h2,h3{color:blue}
 .class,.class,.class{color:blue}
 div.class,div.class,.class{color:blue}
