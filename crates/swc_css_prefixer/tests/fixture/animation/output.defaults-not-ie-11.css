@@ -1,0 +1,28 @@
+.class {
+  animation: inherit;
+}
+.class {
+  animation-duration: 0.6s;
+}
+.class {
+  animation-name: slidein;
+}
+.class {
+  animation-iteration-count: infinite;
+}
+.class {
+  animation-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+}
+.class {
+  animation-direction: alternate;
+  animation-direction: reverse;
+  animation-direction: REVERSE;
+  animation-direction: alternate-reverse;
+  animation: rotation-reverse;
+  animation: rotation-reverse reverse;
+  animation: test reverse;
+  animation: reverse test;
+}
+div {
+  animation-direction: var(--test);
+}

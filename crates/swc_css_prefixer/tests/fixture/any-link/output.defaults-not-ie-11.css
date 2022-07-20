@@ -1,0 +1,9 @@
+a:-webkit-any-link {
+  color: red;
+}
+a:-moz-any-link {
+  color: red;
+}
+a:any-link {
+  color: red;
+}

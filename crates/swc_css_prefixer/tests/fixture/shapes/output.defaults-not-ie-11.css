@@ -1,0 +1,9 @@
+.class {
+  shape-margin: 20px;
+}
+.class {
+  shape-outside: url("foo.png");
+}
+.class {
+  shape-image-threshold: initial;
+}

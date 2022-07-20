@@ -1,0 +1,79 @@
+.class {
+  -webkit-mask: none;
+  mask: none;
+}
+.class {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.class {
+  -webkit-mask-image: -webkit-linear-gradient(#fff);
+  mask-image: -webkit-linear-gradient(#fff);
+  mask-image: -moz-linear-gradient(#fff);
+  mask-image: -o-linear-gradient(#fff);
+  mask-image: linear-gradient(#fff);
+}
+.class {
+  mask-mode: initial;
+}
+.class {
+  -webkit-mask-clip: initial;
+  mask-clip: initial;
+}
+.class {
+  -webkit-mask-size: initial;
+  mask-size: initial;
+}
+.class {
+  -webkit-mask-repeat: initial;
+  mask-repeat: initial;
+}
+.class {
+  -webkit-mask-origin: initial;
+  mask-origin: initial;
+}
+.class {
+  -webkit-mask-position: initial;
+  mask-position: initial;
+}
+.class {
+  -webkit-mask-composite: initial;
+  mask-composite: initial;
+}
+.class {
+  -webkit-mask-border-source: url(image.png);
+  mask-border-source: url(image.png);
+  -webkit-mask-box-image-slice: 50% fill;
+  mask-border-slice: 50% fill;
+  -webkit-mask-box-image-width: auto 1 50%;
+  mask-border-width: auto 1 50%;
+  -webkit-mask-box-image-outset: 0 1 2;
+  mask-border-outset: 0 1 2;
+  -webkit-mask-border-repeat: repeat space;
+  mask-border-repeat: repeat space;
+  -webkit-mask-box-image: url(#foo) 1 fill;
+  mask-border: url(#foo) 1 fill;
+}
+a {
+  -webkit-mask: url(add.png) add, url(substract.png);
+  mask: url(add.png) add, url(substract.png);
+}
+a {
+  -webkit-mask: url(intersect.png) intersect, url(exclude.png);
+  mask: url(intersect.png) intersect, url(exclude.png);
+}
+a {
+  -webkit-mask: url(image.png) intersect, url(image.png) add, url(image.png);
+  mask: url(image.png) intersect, url(image.png) add, url(image.png);
+}
+a {
+  -webkit-mask-composite: add;
+  mask-composite: add;
+}
+a {
+  mask-composite: ;
+}
+a {
+  -webkit-mask-composite: add, subtract, exclude;
+  mask-composite: add, subtract, exclude;
+}

@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecmascript"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.182.0"
+version = "0.184.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -38,15 +38,15 @@ react = ["swc_ecma_transforms/react"]
 typescript = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
-swc_ecma_ast = { version = "0.85.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.116.0", path = "../swc_ecma_codegen", optional = true }
-swc_ecma_dep_graph = { version = "0.84.0", path = "../swc_ecma_dep_graph", optional = true }
-swc_ecma_minifier = { version = "0.138.0", path = "../swc_ecma_minifier", optional = true }
-swc_ecma_parser = { version = "0.112.0", path = "../swc_ecma_parser", optional = true, default-features = false }
-swc_ecma_preset_env = { version = "0.152.0", path = "../swc_ecma_preset_env", optional = true }
-swc_ecma_quote = { version = "0.26.2", path = "../swc_ecma_quote", optional = true }
-swc_ecma_transforms = { version = "0.177.0", path = "../swc_ecma_transforms", optional = true }
-swc_ecma_utils = { version = "0.94.0", path = "../swc_ecma_utils", optional = true }
-swc_ecma_visit = { version = "0.71.0", path = "../swc_ecma_visit", optional = true }
+swc_ecma_ast = { version = "0.87.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.118.0", path = "../swc_ecma_codegen", optional = true }
+swc_ecma_dep_graph = { version = "0.86.0", path = "../swc_ecma_dep_graph", optional = true }
+swc_ecma_minifier = { version = "0.140.0", path = "../swc_ecma_minifier", optional = true }
+swc_ecma_parser = { version = "0.114.0", path = "../swc_ecma_parser", optional = true, default-features = false }
+swc_ecma_preset_env = { version = "0.154.0", path = "../swc_ecma_preset_env", optional = true }
+swc_ecma_quote = { version = "0.28.0", path = "../swc_ecma_quote", optional = true }
+swc_ecma_transforms = { version = "0.179.0", path = "../swc_ecma_transforms", optional = true }
+swc_ecma_utils = { version = "0.96.0", path = "../swc_ecma_utils", optional = true }
+swc_ecma_visit = { version = "0.73.0", path = "../swc_ecma_visit", optional = true }
 
 [dev-dependencies]

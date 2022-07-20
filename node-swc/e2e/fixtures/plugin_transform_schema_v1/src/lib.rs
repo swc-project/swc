@@ -22,5 +22,12 @@ impl VisitMut for ConsoleOutputReplacer {
 
 #[plugin_transform]
 pub fn process(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
+    // Ensure this plugin uses v1 AST struct schema, by compile-time validating
+    // it doesn't have new enum for the testing purpose.
+    match &program {
+        Program::Script(_script) => {}
+        Program::Module(_module) => {}
+    }
+
     program.fold_with(&mut as_folder(ConsoleOutputReplacer))
 }
