@@ -1,0 +1,96 @@
+.class {
+  width: auto;
+}
+.class {
+  width: unset;
+}
+.class {
+  width: initial;
+}
+.class {
+  width: inherit;
+}
+.class {
+  width: 10;
+}
+.class {
+  width: min();
+}
+.class {
+  width: var(--foo-content);
+}
+.class {
+  width: var(-content);
+}
+.class {
+  width: var(--max-content);
+}
+.class {
+  width: --max-content;
+}
+.class {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.class {
+  width: stackWidth;
+}
+.class {
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;
+}
+.class {
+  max-width: -webkit-min-content;
+  max-width: -moz-min-content;
+  max-width: min-content;
+}
+.class {
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
+}
+.class {
+  max-height: -webkit-fit-content;
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+}
+.class {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+}
+.class {
+  width: -webkit-fill-available !important;
+  width: -moz-available !important;
+  width: stretch !important;
+}
+.class {
+  min-block-size: -webkit-max-content;
+  min-block-size: -moz-max-content;
+  min-block-size: max-content;
+}
+.class {
+  min-inline-size: -webkit-max-content;
+  min-inline-size: -moz-max-content;
+  min-inline-size: max-content;
+}
+.class {
+  width: max(250px, 100px);
+}
+.class {
+  height: min(150px, 200px);
+}
+.class {
+  min-width: min(100px, 50px);
+}
+.class {
+  max-width: max(150px, 200px);
+}
+.class {
+  min-height: max(100px, 50px);
+}
+.class {
+  max-height: min(150px, 200px);
+}

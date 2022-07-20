@@ -7,19 +7,23 @@
 
 use std::path::PathBuf;
 
+use preset_env_base::query::{Query, Targets};
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
 };
 use swc_css_parser::{parse_file, parser::ParserConfig};
-use swc_css_prefixer::prefixer;
+use swc_css_prefixer::{options::Options, prefixer};
 use swc_css_visit::VisitMutWith;
 use testing::NormalizedOutput;
 
-#[testing::fixture("tests/fixture/**/input.css")]
-fn fixture(input: PathBuf) {
-    let output = input.parent().unwrap().join("output.css");
+fn prefix(input: PathBuf, options: Options, suffix: Option<&str>) {
+    let parent = input.parent().unwrap();
+    let output = match suffix {
+        Some(suffix) => parent.join("output.".to_owned() + suffix + ".css"),
+        _ => parent.join("output.css"),
+    };
 
     testing::run_test2(false, |cm, handler| {
         //
@@ -38,7 +42,7 @@ fn fixture(input: PathBuf) {
             err.to_diagnostics(&handler).emit();
         }
 
-        ss.visit_mut_with(&mut prefixer());
+        ss.visit_mut_with(&mut prefixer(options));
 
         let mut s = String::new();
         {
@@ -54,4 +58,22 @@ fn fixture(input: PathBuf) {
         Ok(())
     })
     .unwrap();
+}
+
+#[testing::fixture("tests/fixture/**/input.css")]
+fn test_without_env(input: PathBuf) {
+    prefix(input, Options::default(), None)
+}
+
+#[testing::fixture("tests/fixture/**/input.css")]
+fn test_with_env(input: PathBuf) {
+    prefix(
+        input,
+        Options {
+            env: Some(Targets::Query(Query::Single(String::from(
+                "defaults, not IE 11",
+            )))),
+        },
+        Some("defaults-not-ie-11"),
+    )
 }
