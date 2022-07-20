@@ -20,6 +20,9 @@
 - **(es/codegen)** Optimize number and bigint literal (#5223) ([3f0856d](https://github.com/swc-project/swc/commit/3f0856db2ef7dde001cd482088a094f49de7ddac))
 
 
+- **(es/plugin)** Add experimental metadata field (#5254) ([bd1c2cc](https://github.com/swc-project/swc/commit/bd1c2cc7e6dcc04c3d8b59f34b4b88be29ec1ccb))
+
+
 - **(node)** Coerce fallback bindings (#5250) ([7e6ffff](https://github.com/swc-project/swc/commit/7e6ffffbd3834f220e940d447bf1632f70f3b9a7))
 
 
