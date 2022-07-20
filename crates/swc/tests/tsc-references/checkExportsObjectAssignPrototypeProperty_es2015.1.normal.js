@@ -6,9 +6,7 @@
 /**
  * @constructor
  * @param {string} name
- */ // @filename: validator.ts
-import "./";
-function Person(name) {
+ */ function Person(name) {
     this.name = name;
 }
 Person.prototype.describe = function() {
@@ -39,6 +37,8 @@ Object.defineProperty(Person.prototype, "setonlyAccessor", {
     }
 });
 module.exports = Person;
+// @filename: validator.ts
+import "./";
 const Person = require("./mod1");
 const m1 = new Person("Name");
 m1.thing;

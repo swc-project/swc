@@ -3,8 +3,6 @@
 // @strict: true
 // @checkJs: true
 // @filename: mod1.js
-// @filename: validator.ts
-import "./";
 Object.defineProperty(exports, "thing", {
     value: 42,
     writable: true
@@ -61,6 +59,8 @@ Object.defineProperty(module.exports, "setonlyAccessor", {
 /**
  * @type {string}
  */ const u = require("./mod2").thing;
+// @filename: validator.ts
+import "./";
 const m1 = require("./mod1");
 m1.thing;
 m1.readonlyProp;

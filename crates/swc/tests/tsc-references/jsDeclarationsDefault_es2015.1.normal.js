@@ -4,8 +4,6 @@
 // @outDir: ./out
 // @declaration: true
 // @filename: index1.js
-// @filename: index4.js
-import Fab from "./index3";
 export default 12;
 // @filename: index2.js
 export default function foo() {
@@ -22,6 +20,8 @@ class Foo {
 export { Foo as default };
 export const X = Foo;
 export { Foo as Bar };
+// @filename: index4.js
+import Fab from "./index3";
 class Bar extends Fab {
     constructor(...args){
         super(...args);

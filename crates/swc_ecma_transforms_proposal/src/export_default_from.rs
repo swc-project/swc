@@ -1,6 +1,6 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::IdentExt;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
 /// `@babel/plugin-proposal-export-default-from`
@@ -14,73 +14,92 @@ impl VisitMut for ExportDefaultFrom {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        // Imports
-        let mut stmts = Vec::with_capacity(items.len() + 4);
-        // Statements except import
-        let mut extra_stmts = Vec::with_capacity(items.len() + 4);
+        let count = items
+            .iter()
+            .filter(|m| {
+                matches!(m, ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    specifiers,
+                    src: Some(..),
+                    type_only: false,
+                    ..
+                })) if specifiers.iter().any(|s| s.is_default()))
+            })
+            .count();
 
-        for item in items.take() {
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
-                    // Skip if it does not have default export
-                    if export.specifiers.iter().all(|s| {
-                        matches!(
-                            *s,
-                            ExportSpecifier::Named(..) | ExportSpecifier::Namespace(..)
-                        )
-                    }) {
-                        extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
-                        continue;
-                    }
-
-                    match export.specifiers.remove(0) {
-                        ExportSpecifier::Default(ExportDefaultSpecifier { exported: default }) => {
-                            let local = default.prefix("_").private();
-
-                            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                                span: DUMMY_SP,
-                                specifiers: vec![ImportSpecifier::Default(
-                                    ImportDefaultSpecifier {
-                                        span: DUMMY_SP,
-                                        local: local.clone(),
-                                    },
-                                )],
-                                src: export
-                                    .src
-                                    .clone()
-                                    .expect("`export default from` requires source"),
-                                type_only: false,
-                                asserts: None,
-                            })));
-                            extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                                NamedExport {
-                                    span: DUMMY_SP,
-                                    specifiers: vec![ExportSpecifier::Named(
-                                        ExportNamedSpecifier {
-                                            span: DUMMY_SP,
-                                            orig: ModuleExportName::Ident(local),
-                                            exported: Some(ModuleExportName::Ident(default)),
-                                            is_type_only: false,
-                                        },
-                                    )],
-                                    src: None,
-                                    type_only: false,
-                                    asserts: None,
-                                },
-                            )));
-                        }
-                        _ => unreachable!(),
-                    };
-                    if !export.specifiers.is_empty() {
-                        extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
-                    }
-                }
-                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => stmts.push(item),
-                _ => extra_stmts.push(item),
-            }
+        if count == 0 {
+            return;
         }
 
-        stmts.append(&mut extra_stmts);
+        let mut stmts = Vec::<ModuleItem>::with_capacity(items.len() + count);
+
+        for item in items.drain(..) {
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    span,
+                    specifiers,
+                    src: Some(src),
+                    type_only: false,
+                    asserts,
+                })) if specifiers.iter().any(|s| s.is_default()) => {
+                    let mut origin_specifiers = vec![];
+
+                    let mut export_specifiers = vec![];
+
+                    let mut has_namespace = false;
+
+                    for s in specifiers.into_iter() {
+                        match s {
+                            ExportSpecifier::Default(ExportDefaultSpecifier { exported }) => {
+                                export_specifiers.push(ExportSpecifier::Named(
+                                    ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: quote_ident!(exported.span, "default").into(),
+                                        exported: Some(exported.into()),
+                                        is_type_only: false,
+                                    },
+                                ));
+                            }
+                            ExportSpecifier::Namespace(..) => {
+                                has_namespace = true;
+                                origin_specifiers.push(s);
+                            }
+                            ExportSpecifier::Named(..) => {
+                                if has_namespace {
+                                    origin_specifiers.push(s);
+                                } else {
+                                    export_specifiers.push(s);
+                                }
+                            }
+                        }
+                    }
+
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        NamedExport {
+                            span,
+                            specifiers: export_specifiers,
+                            src: Some(src.clone()),
+                            type_only: false,
+                            asserts: None,
+                        },
+                    )));
+
+                    if !origin_specifiers.is_empty() {
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span,
+                                specifiers: origin_specifiers,
+                                src: Some(src),
+                                type_only: false,
+                                asserts,
+                            },
+                        )));
+                    }
+                }
+                _ => {
+                    stmts.push(item);
+                }
+            }
+        }
 
         *items = stmts;
     }

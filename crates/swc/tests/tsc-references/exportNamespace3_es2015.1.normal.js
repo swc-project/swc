@@ -1,8 +1,9 @@
 // @Filename: a.ts
-import * as _a from './b';
-// @Filename: d.ts
-import { a } from './c';
 export class A {
 }
+// @Filename: c.ts
+import * as _a from './b';
 export { _a as a };
+// @Filename: d.ts
+import { a } from './c';
 new a.A(); // Error
