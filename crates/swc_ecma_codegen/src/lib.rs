@@ -86,6 +86,7 @@ where
         match *node {
             Program::Module(ref m) => emit!(m),
             Program::Script(ref s) => emit!(s),
+            _ => unreachable!(),
         }
     }
 

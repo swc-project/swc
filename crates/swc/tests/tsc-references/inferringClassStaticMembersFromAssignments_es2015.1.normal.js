@@ -1,8 +1,6 @@
 // @noEmit: true
 // @allowJs: true
 // @filename: a.js
-// @filename: b.ts
-import * as a from "./a";
 export class C1 {
 }
 C1.staticProp = 0;
@@ -24,6 +22,8 @@ var C4 = class {
 C4.staticProp = 0;
 let F4 = function() {};
 F4.staticProp = 0;
+// @filename: b.ts
+import * as a from "./a";
 var n;
 var n = a.C1.staticProp;
 var n = a.C2.staticProp;

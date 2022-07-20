@@ -3,6 +3,6 @@
 // @esModuleInterop: true
 // @noTypesAndSymbols: true
 // @Filename: a.ts
-import * as _ns from "./a";
+// @Filename: b.ts
+import * as _ns from "./a"; // Error
 export { _ns as ns };
- // Error

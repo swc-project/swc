@@ -276,6 +276,8 @@ where
 
     method!(fold_program, Program);
 
+    method!(fold_reserved_unused, ReservedUnused);
+
     #[inline(always)]
     fn fold_module(&mut self, mut n: Module) -> Module {
         #[cfg(all(debug_assertions, feature = "debug"))]
@@ -1007,6 +1009,7 @@ define!({
     pub enum Program {
         Module(Module),
         Script(Script),
+        ReservedUnused(ReservedUnused),
     }
     pub struct Module {
         pub span: Span,
@@ -1807,6 +1810,11 @@ define!({
         pub span: Span,
         pub expr: Box<Expr>,
         pub type_args: TsTypeParamInstantiation,
+    }
+
+    pub struct ReservedUnused {
+        pub span: Span,
+        pub body: Option<Vec<ModuleItem>>,
     }
 });
 

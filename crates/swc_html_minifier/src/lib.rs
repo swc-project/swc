@@ -14,7 +14,7 @@ use swc_common::{
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
-use swc_html_utils::{HTML_DEFAULT_ATTRIBUTES, SVG_ELEMENTS_AND_ATTRIBUTES};
+use swc_html_utils::{HTML_ELEMENTS_AND_ATTRIBUTES, SVG_ELEMENTS_AND_ATTRIBUTES};
 use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{
@@ -22,53 +22,6 @@ use crate::option::{
     MinifyCssOption, MinifyJsOption, MinifyJsonOption, MinifyOptions,
 };
 pub mod option;
-
-static HTML_BOOLEAN_ATTRIBUTES: &[&str] = &[
-    "allowfullscreen",
-    "async",
-    "autofocus",
-    "autoplay",
-    "checked",
-    "controls",
-    "default",
-    "defer",
-    "disabled",
-    "formnovalidate",
-    "hidden",
-    "inert",
-    "ismap",
-    "itemscope",
-    "loop",
-    "multiple",
-    "muted",
-    "nomodule",
-    "novalidate",
-    "open",
-    "playsinline",
-    "readonly",
-    "required",
-    "reversed",
-    "selected",
-    // Legacy
-    "declare",
-    "defaultchecked",
-    "defaultmuted",
-    "defaultselected",
-    "enabled",
-    "compact",
-    "indeterminate",
-    "sortable",
-    "nohref",
-    "noresize",
-    "noshade",
-    "truespeed",
-    "typemustmatch",
-    "nowrap",
-    "visible",
-    "pauseonexit",
-    "scoped",
-    "seamless",
-];
 
 // Global attributes
 static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
@@ -410,8 +363,24 @@ impl Minifier<'_> {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
     }
 
-    fn is_boolean_attribute(&self, name: &str) -> bool {
-        HTML_BOOLEAN_ATTRIBUTES.contains(&name)
+    fn is_boolean_attribute(&self, element: &Element, name: &str) -> bool {
+        if let Some(global_pseudo_element) = HTML_ELEMENTS_AND_ATTRIBUTES.get("*") {
+            if let Some(element) = global_pseudo_element.other.get(name) {
+                if element.boolean.is_some() && element.boolean.unwrap() {
+                    return true;
+                }
+            }
+        }
+
+        if let Some(element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&*element.tag_name) {
+            if let Some(element) = element.other.get(name) {
+                if element.boolean.is_some() && element.boolean.unwrap() {
+                    return true;
+                }
+            }
+        }
+
+        false
     }
 
     fn is_trimable_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
@@ -600,7 +569,7 @@ impl Minifier<'_> {
                 }
 
                 let default_attributes = if namespace == Namespace::HTML {
-                    &HTML_DEFAULT_ATTRIBUTES
+                    &HTML_ELEMENTS_AND_ATTRIBUTES
                 } else {
                     &SVG_ELEMENTS_AND_ATTRIBUTES
                 };
@@ -2030,7 +1999,7 @@ impl VisitMut for Minifier<'_> {
 
         if self.options.collapse_boolean_attributes
             && current_element.namespace == Namespace::HTML
-            && self.is_boolean_attribute(&n.name)
+            && self.is_boolean_attribute(current_element, &n.name)
         {
             n.value = None;
 

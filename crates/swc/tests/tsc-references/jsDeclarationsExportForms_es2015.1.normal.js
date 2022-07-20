@@ -4,17 +4,6 @@
 // @outDir: ./out
 // @declaration: true
 // @filename: cls.js
-// @filename: includeAll.js
-import "./cjs4";
-import "./cjs3";
-import "./cjs2";
-import "./cjs";
-import "./bol";
-import "./ban";
-import "./bat";
-import "./baz";
-import "./bar";
-import "./bar2";
 export class Foo {
 }
 // @filename: func.js
@@ -42,3 +31,14 @@ module.exports.ns = ns;
 // @filename: cjs4.js
 const ns = require("./cls");
 module.exports.names = ns;
+// @filename: includeAll.js
+import "./cjs4";
+import "./cjs3";
+import "./cjs2";
+import "./cjs";
+import "./bol";
+import "./ban";
+import "./bat";
+import "./baz";
+import "./bar";
+import "./bar2";

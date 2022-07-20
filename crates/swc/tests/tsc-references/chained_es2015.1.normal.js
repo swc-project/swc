@@ -1,8 +1,8 @@
 // @Filename: /a.ts
-// @Filename: /d.ts
-import { D } from './c';
 class A {
 }
 export { B as C } from './a';
+// @Filename: /d.ts
+import { D } from './c';
 new D();
 const d = {};

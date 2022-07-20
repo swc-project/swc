@@ -1,9 +1,9 @@
 // @module: commonjs
 // @filename: a.ts
-import * as a1 from "./a";
 export var x = 1;
 var y = 1;
 export { y };
+import * as a1 from "./a";
 const a2 = require("./a");
 const a3 = a1;
 x = 1; // Error
