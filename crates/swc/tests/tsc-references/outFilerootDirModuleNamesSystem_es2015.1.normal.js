@@ -4,11 +4,11 @@
 // @outFile: output.js
 // @filename: src/a.ts
 import foo from "./b";
-// @filename: src/b.ts
-import Foo from "./a";
 export default class Foo {
 };
 foo();
+// @filename: src/b.ts
+import Foo from "./a";
 export default function foo() {
     new Foo();
 };

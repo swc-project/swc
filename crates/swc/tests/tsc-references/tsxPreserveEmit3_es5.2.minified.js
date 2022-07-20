@@ -1,2 +1,2 @@
-import { React } from "./test";
 export var React;
+import { React } from "./test";

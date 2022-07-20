@@ -2,7 +2,6 @@ import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 import { jsx as _jsx } from "preact/jsx-runtime";
 import { createElement as _createElement } from "react";
-import "./preact";
 var props = {
     answer: 42
 };
@@ -11,6 +10,7 @@ _object_spread_props(_object_spread({}, props), {
 }), _object_spread_props(_object_spread({}, props), {
     key: "bar"
 });
+import "./preact";
 var props2 = {
     answer: 42
 };

@@ -1,5 +1,4 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import { I, T } from "./t1";
 var E, D, M, v = 1;
 function f() {}
 var C = function() {
@@ -16,4 +15,5 @@ var C = function() {
 }(M || (M = {}));
 var a = M.x;
 export { v, f, C, I, E, D, M, N, T, a } from "./t1";
+import { I, T } from "./t1";
 export { v, f, C, E, D, M, N, a, v, f, C, E, D, M, N, a };

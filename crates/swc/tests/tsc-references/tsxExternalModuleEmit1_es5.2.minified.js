@@ -2,7 +2,6 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import * as React from "react";
-import * as React from "react";
 export var App = function(_Component) {
     "use strict";
     _inherits(App, _Component);
@@ -14,6 +13,7 @@ export var App = function(_Component) {
         return React.createElement(Button, null);
     }, App;
 }(React.Component);
+import * as React from "react";
 export var Button = function(_Component) {
     "use strict";
     _inherits(Button, _Component);

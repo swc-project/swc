@@ -1,4 +1,5 @@
-import foo from "foo";
 exports.default = {
     bar: ()=>0
-}, foo.bar();
+};
+import foo from "foo";
+foo.bar();
