@@ -3711,7 +3711,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.126.0"
+version = "0.126.1"
 dependencies = [
  "either",
  "serde",
