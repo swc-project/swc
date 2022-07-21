@@ -9,7 +9,7 @@ Object.defineProperty(exports, "ServiceError", {
 const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
 const CD = ()=>{};
 const PD = ()=>{};
-let ServiceError = class ServiceError extends Error {
+let ServiceError = class ServiceError1 extends Error {
     constructor(...args){
         super(...args);
         this.code = ServiceError.Code.badResponse;
