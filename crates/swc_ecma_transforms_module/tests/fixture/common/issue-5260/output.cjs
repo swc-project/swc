@@ -10,7 +10,11 @@ function _export(target, all) {
 }
 _export(exports, {
     Aa: ()=>_a.A,
-    Ab: ()=>_b.A
+    Ab: ()=>_b.A,
+    C: ()=>_c.default,
+    D: ()=>_d.default
 });
 const _a = require("a");
 const _b = require("b");
+const _c = /*#__PURE__*/ _interopRequireDefault(require("c"));
+const _d = /*#__PURE__*/ _interopRequireDefault(require("d"));
