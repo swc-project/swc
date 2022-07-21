@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.24.2"
+version = "0.24.3"
 dependencies = [
  "ahash",
  "anyhow",

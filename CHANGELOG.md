@@ -11,6 +11,9 @@
 - **(es/decorators)** Use decorated consturctors (#5263) ([d9877e3](https://github.com/swc-project/swc/commit/d9877e305a3989e88b696135cb7cf16fc63e940f))
 
 
+- **(es/modules)** Use a private context for `export from` (#5262) ([c0ace4c](https://github.com/swc-project/swc/commit/c0ace4cb2c63b81dc08e35d6a59f9a9bcd961985))
+
+
 - **(html/minifier)** Don't break unknown attributes (#5256) ([4f55459](https://github.com/swc-project/swc/commit/4f55459b013eeee8374ee9587e7d7c71d16262ec))
 
 ### Features
