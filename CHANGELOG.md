@@ -29,6 +29,9 @@
 - **(es/plugin)** Add experimental metadata field (#5254) ([bd1c2cc](https://github.com/swc-project/swc/commit/bd1c2cc7e6dcc04c3d8b59f34b4b88be29ec1ccb))
 
 
+- **(es/plugin)** Pass experimental metadata from host (#5261) ([43eeeb3](https://github.com/swc-project/swc/commit/43eeeb35a5ec2a368c3cd215abaff1e1f7fa5a1d))
+
+
 - **(node)** Coerce fallback bindings (#5250) ([7e6ffff](https://github.com/swc-project/swc/commit/7e6ffffbd3834f220e940d447bf1632f70f3b9a7))
 
 
