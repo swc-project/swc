@@ -8,8 +8,8 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
-    private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str,
-    replace_ident, undefined, ExprFactory, IdentExt,
+    private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, undefined,
+    ExprFactory, IdentExt,
 };
 use swc_ecma_visit::{as_folder, noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -100,7 +100,7 @@ impl Fold for Decorators {
             Decl::Class(ClassDecl {
                 ident,
                 declare: false,
-                mut class,
+                class,
             }) => {
                 if !contains_decorator(&class) {
                     return Decl::Class(ClassDecl {
@@ -109,21 +109,6 @@ impl Fold for Decorators {
                         class,
                     });
                 }
-
-                let inner_ident = private_ident!(ident.sym.clone());
-
-                class.body.iter_mut().for_each(|m| match m {
-                    ClassMember::PrivateProp(PrivateProp {
-                        is_static: true, ..
-                    })
-                    | ClassMember::StaticBlock(..)
-                    | ClassMember::ClassProp(ClassProp {
-                        is_static: true, ..
-                    }) => {
-                        replace_ident(m, ident.to_id(), &inner_ident);
-                    }
-                    _ => {}
-                });
 
                 let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
