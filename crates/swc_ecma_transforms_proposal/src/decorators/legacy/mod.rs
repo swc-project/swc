@@ -413,11 +413,26 @@ impl VisitMut for TscDecorator {
                         decl.visit_mut_with(self);
 
                         if convert_to_let {
+                            let inner_ident = private_ident!(decl.ident.sym.clone());
+
+                            decl.class.body.iter_mut().for_each(|m| match m {
+                                ClassMember::PrivateProp(PrivateProp {
+                                    is_static: true, ..
+                                })
+                                | ClassMember::StaticBlock(..)
+                                | ClassMember::ClassProp(ClassProp {
+                                    is_static: true, ..
+                                }) => {
+                                    replace_ident(m, decl.ident.to_id(), &inner_ident);
+                                }
+                                _ => {}
+                            });
+
                             let d = VarDeclarator {
                                 span: DUMMY_SP,
                                 name: decl.ident.clone().into(),
                                 init: Some(Box::new(Expr::Class(ClassExpr {
-                                    ident: Some(decl.ident.clone()),
+                                    ident: Some(inner_ident),
                                     class: decl.class.take(),
                                 }))),
                                 definite: Default::default(),
@@ -449,10 +464,28 @@ impl VisitMut for TscDecorator {
                     if convert_to_let {
                         let ident = decl.ident.clone().unwrap();
 
+                        let inner_ident = private_ident!(ident.sym.clone());
+
+                        decl.class.body.iter_mut().for_each(|m| match m {
+                            ClassMember::PrivateProp(PrivateProp {
+                                is_static: true, ..
+                            })
+                            | ClassMember::StaticBlock(..)
+                            | ClassMember::ClassProp(ClassProp {
+                                is_static: true, ..
+                            }) => {
+                                replace_ident(m, ident.to_id(), &inner_ident);
+                            }
+                            _ => {}
+                        });
+
                         let d = VarDeclarator {
                             span: DUMMY_SP,
                             name: ident.clone().into(),
-                            init: Some(Box::new(Expr::Class(decl.take()))),
+                            init: Some(Box::new(Expr::Class(ClassExpr {
+                                ident: Some(inner_ident),
+                                ..decl.take()
+                            }))),
                             definite: Default::default(),
                         };
                         *module_item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
