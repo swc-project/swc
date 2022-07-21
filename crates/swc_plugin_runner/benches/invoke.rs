@@ -10,6 +10,7 @@ use std::{
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use once_cell::sync::Lazy;
 use swc_common::{
+    collections::AHashMap,
     plugin::{PluginSerializedBytes, VersionedSerializable},
     FileName, FilePathMapping, Mark, SourceMap,
 };
@@ -73,6 +74,12 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         )
         .unwrap();
 
+        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
+        let experimental_metadata = PluginSerializedBytes::try_serialize(
+            &VersionedSerializable::new(experimental_metadata),
+        )
+        .expect("Should be a hashmap");
+
         let res = transform_plugin_executor
             .transform(
                 &program_ser,
@@ -84,6 +91,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                     "{}",
                 )))
                 .unwrap(),
+                &experimental_metadata,
                 Mark::new(),
                 true,
             )

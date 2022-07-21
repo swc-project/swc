@@ -25,12 +25,13 @@ pub fn process(program: Program, _metadata: TransformPluginProgramMetadata) -> P
     // Ensure this plugin uses vtest AST struct schema, by compile-time validating
     // it does have new enum for the testing purpose.
     match &program {
-        Program::Script(..) => {}
-        Program::Module(..) => {}
+        /* TODO: reenable once experimental_metadata breaking change is merged
         Program::ReservedUnused(_reserved_unused) => {
             println!("{:#?}", _reserved_unused);
             panic!("ReservedUnused is not supported");
-        }
+        }*/
+        Program::Script(..) => {}
+        Program::Module(..) => {}
     }
     program.fold_with(&mut as_folder(ConsoleOutputReplacer))
 }
