@@ -72,7 +72,12 @@ describe("Plugins", () => {
             {
                 host: "plugin_transform_schema_vtest",
                 plugin: [
-                    "plugin_transform_schema_v1",
+                    // TODO: reenable once new packages are published
+                    // Note: this test runs against latest-published version of the plugin,
+                    // an actual e2e test verifies a breaking change.
+                    // We don't have a automatic way to resolve this when we attempt an
+                    // actual breaking change - manually workaround for now.
+                    // "plugin_transform_schema_v1",
                     "plugin_transform_schema_vtest",
                 ],
             },

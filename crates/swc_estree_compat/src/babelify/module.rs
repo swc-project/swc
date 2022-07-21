@@ -18,7 +18,8 @@ impl Babelify for Program {
         let program = match self {
             Program::Module(module) => module.babelify(ctx),
             Program::Script(script) => script.babelify(ctx),
-            _ => unreachable!(),
+            // TODO: reenable once experimental_metadata breaking change is merged
+            // _ => unreachable!(),
         };
 
         File {

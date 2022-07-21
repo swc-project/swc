@@ -725,7 +725,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.24.1"
+version = "0.24.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -753,7 +753,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "bitflags",
  "bytecheck",
@@ -770,7 +770,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.113.0"
+version = "0.114.0"
 dependencies = [
  "either",
  "enum_kind",
@@ -787,7 +787,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.95.0"
+version = "0.96.0"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -801,7 +801,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.72.0"
+version = "0.73.0"
 dependencies = [
  "num-bigint",
  "serde",
@@ -814,7 +814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.183.0"
+version = "0.184.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -844,7 +844,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.83.0"
+version = "0.85.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -855,7 +855,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.6.1"
+version = "0.7.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -864,7 +864,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.14.0"
+version = "0.15.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
@@ -875,7 +875,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "either",
  "swc_visit_macros",

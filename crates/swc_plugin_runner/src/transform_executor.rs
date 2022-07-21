@@ -13,7 +13,8 @@ use crate::memory_interop::write_into_memory_view;
 /// A struct encapsule executing a plugin's transform interop to its teardown
 pub struct TransformExecutor {
     // Main transform interface plugin exports
-    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32, u32, i32), i32>,
+    exported_plugin_transform:
+        wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32, i32, i32, u32, i32), i32>,
     // Schema version interface exports
     exported_plugin_transform_schema_version: wasmer::NativeFunc<(), u32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
@@ -39,11 +40,20 @@ impl TransformExecutor {
             crate::load_plugin::load_plugin(path, cache, source_map)?;
 
         let tracker = TransformExecutor {
-            exported_plugin_transform: instance
-                .exports
-                .get_native_function::<(i32, i32, i32, i32, i32, i32, u32, i32), i32>(
-                    "__transform_plugin_process_impl",
-                )?,
+            exported_plugin_transform: instance.exports.get_native_function::<(
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                u32,
+                i32,
+            ), i32>(
+                "__transform_plugin_process_impl"
+            )?,
             exported_plugin_transform_schema_version: instance
                 .exports
                 .get_native_function::<(), u32>("__get_transform_plugin_schema_version")?,
@@ -138,6 +148,7 @@ impl TransformExecutor {
         program: &PluginSerializedBytes,
         config: &PluginSerializedBytes,
         context: &PluginSerializedBytes,
+        experimental_metadata: &PluginSerializedBytes,
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: bool,
     ) -> Result<PluginSerializedBytes, Error> {
@@ -145,6 +156,7 @@ impl TransformExecutor {
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
         let context_str_ptr = self.write_bytes_into_guest(context)?;
+        let experimental_metadata_ptr = self.write_bytes_into_guest(experimental_metadata)?;
 
         let result = self.exported_plugin_transform.call(
             guest_program_ptr.0,
@@ -153,6 +165,8 @@ impl TransformExecutor {
             config_str_ptr.1,
             context_str_ptr.0,
             context_str_ptr.1,
+            experimental_metadata_ptr.0,
+            experimental_metadata_ptr.1,
             unresolved_mark.as_u32(),
             should_enable_comments_proxy,
         )?;
