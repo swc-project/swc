@@ -114,6 +114,12 @@ impl_from!(Arc<str>);
 impl_from!(Cow<'_, str>);
 impl_from!(String);
 
+impl From<JsWord> for Atom {
+    fn from(v: JsWord) -> Self {
+        Self::new_bad(&*v)
+    }
+}
+
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
         &self.0
