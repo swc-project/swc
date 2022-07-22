@@ -24,10 +24,10 @@ perf = ["parking_lot"]
 plugin-base = ["anyhow", "rkyv-impl", "diagnostic-serde"]
 plugin-mode = ["plugin-base"]
 plugin-rt = ["plugin-base"]
-rkyv-impl = ["rkyv", "bytecheck"]
-tty-emitter = ["atty", "termcolor"]
 plugin_transform_schema_v1 = []
 plugin_transform_schema_vtest = []
+rkyv-impl = ["rkyv", "bytecheck", "swc_atoms/rkyv-impl"]
+tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
 ahash = "0.7.4"
