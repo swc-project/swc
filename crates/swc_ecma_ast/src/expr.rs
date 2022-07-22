@@ -804,7 +804,7 @@ impl Take for TplElement {
             span: DUMMY_SP,
             tail: Default::default(),
             cooked: None,
-            raw: atom!(""),
+            raw: Default::default(),
         }
     }
 }
