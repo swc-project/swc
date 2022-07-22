@@ -455,14 +455,14 @@ impl From<ExportSpecifier> for LinkSpecifier {
                     ModuleExportName::Ident(Ident { span, sym, .. })
                     | ModuleExportName::Str(Str {
                         span, value: sym, ..
-                    }) => (sym, span),
+                    }) => (sym, span.private()),
                 };
 
                 let exported = exported.map(|exported| match exported {
                     ModuleExportName::Ident(Ident { span, sym, .. })
                     | ModuleExportName::Str(Str {
                         span, value: sym, ..
-                    }) => (sym, span),
+                    }) => (sym, span.private()),
                 });
 
                 match orig {

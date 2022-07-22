@@ -12,10 +12,11 @@ pub enum Program {
     Module(Module),
     #[tag("Script")]
     Script(Script),
-    /// Reserved type for the testing purpose only. Prod codes does not utilize
-    /// this at all and user should not try to attempt to use this as well.
-    #[tag("ReservedUnused")]
-    ReservedUnused(ReservedUnused),
+    // Reserved type for the testing purpose only. Prod codes does not utilize
+    // this at all and user should not try to attempt to use this as well.
+    // TODO: reenable once experimental_metadata breaking change is merged
+    // #[tag("ReservedUnused")]
+    // ReservedUnused(ReservedUnused),
 }
 
 #[ast_node("ReservedUnused")]

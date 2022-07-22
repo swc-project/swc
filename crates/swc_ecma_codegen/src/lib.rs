@@ -86,7 +86,8 @@ where
         match *node {
             Program::Module(ref m) => emit!(m),
             Program::Script(ref s) => emit!(s),
-            _ => unreachable!(),
+            // TODO: reenable once experimental_metadata breaking change is merged
+            // _ => unreachable!(),
         }
     }
 

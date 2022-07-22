@@ -1009,7 +1009,8 @@ define!({
     pub enum Program {
         Module(Module),
         Script(Script),
-        ReservedUnused(ReservedUnused),
+        // TODO: reenable once experimental_metadata breaking change is merged
+        // ReservedUnused(ReservedUnused),
     }
     pub struct Module {
         pub span: Span,

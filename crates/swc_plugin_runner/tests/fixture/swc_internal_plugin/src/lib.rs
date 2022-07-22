@@ -45,12 +45,15 @@ impl VisitMut for ConsoleOutputReplacer {
 /// important steps manually need to be performed like sending transformed
 /// results back to host. Refer swc_plugin_macro how does it work internally.
 #[plugin_transform]
-pub fn process(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
+pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
     HANDLER.with(|handler| {
         handler
             .struct_span_err(DUMMY_SP, "Test diagnostics from plugin")
             .emit();
     });
+
+    // Arbitaray call for now
+    metadata.experimental.is_empty();
 
     program.fold_with(&mut as_folder(ConsoleOutputReplacer))
 }
