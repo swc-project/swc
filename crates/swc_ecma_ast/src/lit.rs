@@ -321,7 +321,6 @@ pub struct Number {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in number literal
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub raw: Option<Atom>,
 }
 

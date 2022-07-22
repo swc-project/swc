@@ -2,7 +2,7 @@
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
@@ -804,7 +804,7 @@ impl Take for TplElement {
             span: DUMMY_SP,
             tail: Default::default(),
             cooked: None,
-            raw: "".into(),
+            raw: atom!(""),
         }
     }
 }
