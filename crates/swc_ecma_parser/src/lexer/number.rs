@@ -33,7 +33,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {
@@ -62,7 +62,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             if self.eat(b'n') {
                 raw.push('n');
 
-                return Ok(Either::Right((s.into_value(), raw)));
+                return Ok(Either::Right((
+                    s.into_value(),
+                    self.atoms.get_mut().intern(raw),
+                )));
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
@@ -224,7 +227,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",

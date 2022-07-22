@@ -137,6 +137,16 @@ pub struct AtomGenerator {
 }
 
 impl AtomGenerator {
+    #[deprecated = "Use `AtomGenerator::intern` instead."]
+    pub fn gen<S>(&mut self, s: S) -> Atom
+    where
+        Arc<str>: From<S>,
+        S: Eq + Hash,
+        S: AsRef<str>,
+    {
+        self.intern(s)
+    }
+
     pub fn intern<S>(&mut self, s: S) -> Atom
     where
         Arc<str>: From<S>,
