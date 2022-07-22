@@ -579,7 +579,7 @@ mod tests {
     /// Number >= 2^53
     #[test]
     fn num_big_exp() {
-        assert_eq!((1e30, "1e30".into()), num("1e30"));
+        assert_eq!((1e30, Atom::new_bad("1e30")), num("1e30"));
     }
 
     #[test]
@@ -622,20 +622,23 @@ mod tests {
 
         assert_eq!(
             num(LARGE_POSITIVE_EXP),
-            (INFINITY, LARGE_POSITIVE_EXP.into())
+            (INFINITY, Atom::new_bad(LARGE_POSITIVE_EXP))
         );
-        assert_eq!(num(LARGE_NEGATIVE_EXP), (0.0, LARGE_NEGATIVE_EXP.into()));
+        assert_eq!(
+            num(LARGE_NEGATIVE_EXP),
+            (0.0, Atom::new_bad(LARGE_NEGATIVE_EXP))
+        );
         assert_eq!(
             num(ZERO_WITH_LARGE_POSITIVE_EXP),
-            (0.0, ZERO_WITH_LARGE_POSITIVE_EXP.into())
+            (0.0, Atom::new_bad(ZERO_WITH_LARGE_POSITIVE_EXP))
         );
         assert_eq!(
             num(ZERO_WITH_LARGE_NEGATIVE_EXP),
-            (0.0, ZERO_WITH_LARGE_NEGATIVE_EXP.into())
+            (0.0, Atom::new_bad(ZERO_WITH_LARGE_NEGATIVE_EXP))
         );
         assert_eq!(
             num(LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP),
-            (0.0, LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP.into())
+            (0.0, Atom::new_bad(LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP))
         );
     }
 

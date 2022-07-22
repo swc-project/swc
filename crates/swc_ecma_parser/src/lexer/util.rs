@@ -252,7 +252,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             let cmt = Comment {
                 kind: CommentKind::Line,
                 span: Span::new(start, end, SyntaxContext::empty()),
-                text: s.into(),
+                text: self.atoms.get_mut().intern(s),
             };
 
             if is_for_next {
