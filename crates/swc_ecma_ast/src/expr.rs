@@ -2,7 +2,7 @@
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
@@ -793,11 +793,8 @@ pub struct TplElement {
     ///
     /// If you are going to use codegen right after creating a [TplElement], you
     /// don't have to worry about this value.
-
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub cooked: Option<Atom>,
 
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub raw: Atom,
 }
 

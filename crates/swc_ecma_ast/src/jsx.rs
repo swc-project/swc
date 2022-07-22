@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
@@ -197,10 +197,8 @@ pub enum JSXAttrValue {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct JSXText {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub value: JsWord,
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub raw: JsWord,
+    pub value: Atom,
+    pub raw: Atom,
 }
 
 #[cfg(feature = "arbitrary")]
