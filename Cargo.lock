@@ -4098,6 +4098,7 @@ version = "0.11.0"
 dependencies = [
  "ahash",
  "dashmap",
+ "swc_atoms",
  "swc_common",
 ]
 
