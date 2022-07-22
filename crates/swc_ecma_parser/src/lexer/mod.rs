@@ -4,7 +4,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use swc_atoms::{js_word, Atom, AtomGenerator, JsWord};
+use swc_atoms::{Atom, AtomGenerator, JsWord};
 use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
 
@@ -1117,10 +1117,17 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
         // let flags_start = self.cur_pos();
-        let flags = self
-            .may_read_word_as_str()?
-            .map(|(value, _)| value)
-            .unwrap_or(js_word!(""));
+        let flags = {
+            let ref mut this = self;
+            match this.cur() {
+                Some(c) if c.is_ident_start() => this
+                    .read_word_as_str_with(|s| self.atoms.get_mut().intern(s))
+                    .map(Some),
+                _ => Ok(None),
+            }
+        }?
+        .map(|(value, _)| value)
+        .unwrap_or_default();
 
         Ok(Regex(content, flags))
     }
