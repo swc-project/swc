@@ -982,12 +982,12 @@ define!({
     pub struct BigInt {
         pub span: Span,
         pub value: BigIntValue,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
     pub struct Bool {
         pub span: Span,
@@ -1014,12 +1014,12 @@ define!({
     pub struct Module {
         pub span: Span,
         pub body: Vec<ModuleItem>,
-        pub shebang: Option<JsWord>,
+        pub shebang: Option<Atom>,
     }
     pub struct Script {
         pub span: Span,
         pub body: Vec<Stmt>,
-        pub shebang: Option<JsWord>,
+        pub shebang: Option<Atom>,
     }
     pub enum ModuleItem {
         ModuleDecl(ModuleDecl),

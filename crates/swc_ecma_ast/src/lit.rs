@@ -70,8 +70,7 @@ pub struct BigInt {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for BigInt {
