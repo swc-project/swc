@@ -9,7 +9,7 @@ use std::{borrow::Cow, fmt::Write, io};
 
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{
     comments::{CommentKind, Comments},
     sync::Lrc,
@@ -510,12 +510,6 @@ where
             }
             Lit::JSXText(ref n) => emit!(n),
         }
-    }
-
-    fn emit_js_word(&mut self, span: Span, value: &JsWord) -> Result {
-        self.wr.write_str_lit(span, value)?;
-
-        Ok(())
     }
 
     fn emit_atom(&mut self, span: Span, value: &Atom) -> Result {
