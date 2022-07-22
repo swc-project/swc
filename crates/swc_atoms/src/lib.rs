@@ -137,7 +137,7 @@ pub struct AtomGenerator {
 }
 
 impl AtomGenerator {
-    pub fn gen<S>(&mut self, s: S) -> Atom
+    pub fn intern<S>(&mut self, s: S) -> Atom
     where
         Arc<str>: From<S>,
         S: Eq + Hash,
@@ -187,8 +187,8 @@ macro_rules! atom {
 fn _assert() {
     let mut g = AtomGenerator::default();
 
-    g.gen("str");
-    g.gen(String::new());
+    g.intern("str");
+    g.intern(String::new());
 }
 
 impl PartialEq<Atom> for str {

@@ -1028,7 +1028,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                         return Ok(Token::Str {
                             value: (&**out).into(),
-                            raw: self.atoms.get_mut().gen(raw),
+                            raw: self.atoms.get_mut().intern(raw),
                         });
                     }
                     '\\' => {
@@ -1062,7 +1062,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             Ok(Token::Str {
                 value: (&**out).into(),
-                raw: self.atoms.get_mut().gen(raw),
+                raw: self.atoms.get_mut().intern(raw),
             })
         })
     }

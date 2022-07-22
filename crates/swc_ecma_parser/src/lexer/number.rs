@@ -65,7 +65,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 return Ok(Either::Right((
                     s.into_value(),
-                    self.atoms.get_mut().gen(raw),
+                    self.atoms.get_mut().intern(raw),
                 )));
             }
 
