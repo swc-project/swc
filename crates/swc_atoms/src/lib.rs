@@ -48,6 +48,14 @@ pub struct Atom(Arc<str>);
 impl Atom {
     /// Creates a bad [Atom] from a string.
     ///
+    /// # Note
+    ///
+    /// Although this is named `bad`, it's fine to use this if a string is
+    /// unlikely to be duplicated.
+    ///
+    /// e.g. Texts in template literals or comments are unlikely to benefit from
+    /// interning.
+    ///
     /// This [Atom] is bad because it doesn't help reducing memory usage.
     pub fn new_bad<S>(s: S) -> Self
     where
