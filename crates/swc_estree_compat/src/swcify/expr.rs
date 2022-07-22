@@ -1024,7 +1024,7 @@ impl Swcify for swc_estree_ast::JSXText {
             span: ctx.span(&self.base),
             value: self.value,
             // TODO fix me
-            raw: js_word!(""),
+            raw: Default::default(),
         }
     }
 }
