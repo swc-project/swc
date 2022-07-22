@@ -203,14 +203,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return self
                     .read_number(false)
                     .map(|v| match v {
-                        Left((value, raw)) => Num {
-                            value,
-                            raw: raw.into(),
-                        },
-                        Right((value, raw)) => BigInt {
-                            value,
-                            raw: raw.into(),
-                        },
+                        Left((value, raw)) => Num { value, raw },
+                        Right((value, raw)) => BigInt { value, raw },
                     })
                     .map(Some);
             }
@@ -364,14 +358,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         };
         if ('0'..='9').contains(&next) {
             return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Num {
-                    value,
-                    raw: raw.into(),
-                },
-                Right((value, raw)) => BigInt {
-                    value,
-                    raw: raw.into(),
-                },
+                Left((value, raw)) => Num { value, raw },
+                Right((value, raw)) => BigInt { value, raw },
             });
         }
 
