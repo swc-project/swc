@@ -216,7 +216,7 @@ impl From<JsWord> for Str {
 bridge_from!(Str, JsWord, &'_ str);
 bridge_from!(Str, JsWord, String);
 bridge_from!(Str, JsWord, Cow<'_, str>);
-bridge_from!(Str, JsWord, Atom);
+bridge_from!(Str, &'_ str, Atom);
 
 /// A boolean literal.
 ///
