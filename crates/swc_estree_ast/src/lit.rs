@@ -173,7 +173,7 @@ enum AcornLiteralValue {
     Null(Option<()>),
     Boolean(bool),
     BigInt(String),
-    Decimal(JsWord),
+    Decimal(Atom),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -222,9 +222,9 @@ pub struct BooleanLiteral {
 pub struct RegExpLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub pattern: JsWord,
+    pub pattern: Atom,
     #[serde(default)]
-    pub flags: JsWord,
+    pub flags: Atom,
 }
 
 /// Deprecated. Use RegExpLiteral instead.
@@ -318,7 +318,7 @@ pub struct BigIntLiteral {
     #[serde(default)]
     pub value: String,
     #[serde(default)]
-    pub raw: JsWord,
+    pub raw: Atom,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -327,5 +327,5 @@ pub struct DecimalLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub value: JsWord,
+    pub value: Atom,
 }

@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
@@ -46,11 +46,11 @@ impl VisitMut for StickyRegex {
 
         if let Expr::Lit(Lit::Regex(Regex { exp, flags, span })) = e {
             if flags.contains('y') {
-                let str_lit = |s: JsWord| {
+                let str_lit = |s: Atom| {
                     Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
-                        value: s,
+                        value: s.into(),
                     })))
                 };
 
