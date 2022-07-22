@@ -87,7 +87,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         // `-1` is utf 8 length of `0`
                         return self
                             .make_legacy_octal(start, 0f64)
-                            .map(|value| Either::Left((value, raw)));
+                            .map(|value| Either::Left((value, self.atoms.get_mut().intern(raw))));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -114,9 +114,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
                             });
 
-                            return self
-                                .make_legacy_octal(start, val)
-                                .map(|value| Either::Left((value, raw)));
+                            return self.make_legacy_octal(start, val).map(|value| {
+                                Either::Left((value, self.atoms.get_mut().intern(raw)))
+                            });
                         }
                     }
                 }
@@ -222,7 +222,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((val, raw_str)))
+        Ok(Either::Left((val, self.atoms.get_mut().intern(raw_str))))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
