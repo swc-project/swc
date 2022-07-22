@@ -505,12 +505,12 @@ try {
                     leading_comments: vec![
                         Comment {
                             kind: CommentKind::Line,
-                            text: r#" @some-pragma"#.to_string(),
+                            text: r#" @some-pragma"#.into(),
                             span: Span::new(BytePos(150), BytePos(165), SyntaxContext::empty()),
                         },
                         Comment {
                             kind: CommentKind::Block,
-                            text: "*\n * Foo\n ".to_string(),
+                            text: "*\n * Foo\n ".into(),
                             span: Span::new(BytePos(166), BytePos(180), SyntaxContext::empty()),
                         }
                     ],
