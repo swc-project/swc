@@ -1128,7 +1128,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // TODO: Handle error
                 return Ok(Template {
-                    cooked: cooked.map(|cooked| Atom::new_bad(cooked)),
+                    cooked: cooked.map(Atom::from),
                     raw: Atom::new_bad(raw),
                 });
             }
