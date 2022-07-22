@@ -158,7 +158,7 @@ impl Pure<'_> {
                         }
                     }
                     _ => {
-                        let s = JsWord::from(&*cur_str_value);
+                        let s = Atom::from(&*cur_str_value);
                         cur_str_value.clear();
 
                         new_tpl.quasis.push(TplElement {
@@ -174,7 +174,7 @@ impl Pure<'_> {
             }
         }
 
-        let s = JsWord::from(&*cur_str_value);
+        let s = Atom::from(&*cur_str_value);
         new_tpl.quasis.push(TplElement {
             span: DUMMY_SP,
             tail: false,
@@ -263,7 +263,7 @@ impl Pure<'_> {
                         quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: true,
-                            cooked: Some(JsWord::from(&*cur_cooked)),
+                            cooked: Some(Atom::from(&*cur_cooked)),
                             raw: take(&mut cur_raw).into(),
                         });
 
@@ -307,7 +307,7 @@ impl Pure<'_> {
                                 .into();
                     }
 
-                    let new: JsWord =
+                    let new: Atom =
                         format!("{}{}", l_last.raw, convert_str_value_to_tpl_raw(&rs.value)).into();
                     l_last.raw = new;
 
@@ -331,7 +331,7 @@ impl Pure<'_> {
                                 .into()
                     }
 
-                    let new: JsWord =
+                    let new: Atom =
                         format!("{}{}", convert_str_value_to_tpl_raw(&ls.value), r_first.raw)
                             .into();
                     r_first.raw = new;
@@ -347,7 +347,7 @@ impl Pure<'_> {
                 {
                     let l_last = l.quasis.pop().unwrap();
                     let mut r_first = rt.quasis.first_mut().unwrap();
-                    let new: JsWord = format!("{}{}", l_last.raw, r_first.raw).into();
+                    let new: Atom = format!("{}{}", l_last.raw, r_first.raw).into();
 
                     r_first.raw = new;
                 }
