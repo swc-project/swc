@@ -5,6 +5,7 @@ use std::{
 };
 
 use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
 
 use crate::{
     pos::Spanned,
@@ -545,7 +546,8 @@ impl SingleThreadedComments {
 pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,
-    pub text: String,
+    /// [`Atom::new_bad`][] is perfectly fine for this value.
+    pub text: Atom,
 }
 
 impl Spanned for Comment {
