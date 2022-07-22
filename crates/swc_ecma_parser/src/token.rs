@@ -71,8 +71,8 @@ pub enum Token {
     #[kind(starts_expr)]
     BackQuote,
     Template {
-        raw: JsWord,
-        cooked: LexResult<JsWord>,
+        raw: Atom,
+        cooked: LexResult<Atom>,
     },
     /// ':'
     #[kind(before_expr)]
@@ -141,7 +141,7 @@ pub enum Token {
     JSXTagStart,
     JSXTagEnd,
 
-    Shebang(JsWord),
+    Shebang(Atom),
     Error(Error),
 }
 

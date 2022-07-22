@@ -998,13 +998,13 @@ define!({
     }
     pub struct Regex {
         pub span: Span,
-        pub exp: JsWord,
-        pub flags: JsWord,
+        pub exp: Atom,
+        pub flags: Atom,
     }
     pub struct Number {
         pub span: Span,
         pub value: f64,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
     pub enum Program {
         Module(Module),
