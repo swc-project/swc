@@ -48,16 +48,16 @@ pub struct Atom(Arc<str>);
 impl Atom {
     /// Creates a bad [Atom] from a string.
     ///
+    /// This [Atom] is bad because it doesn't help reducing memory usage.
+    ///
     /// # Note
     ///
-    /// Although this is named `bad`, it's fine to use this if a string is
+    /// Although this is called `bad`, it's fine to use this if a string is
     /// unlikely to be duplicated.
     ///
     /// e.g. Texts in template literals or comments are unlikely to benefit from
     /// interning.
-    ///
-    /// This [Atom] is bad because it doesn't help reducing memory usage.
-    pub fn new_bad<S>(s: S) -> Self
+    pub fn new<S>(s: S) -> Self
     where
         Arc<str>: From<S>,
     {
@@ -116,7 +116,7 @@ impl_from!(String);
 
 impl From<JsWord> for Atom {
     fn from(v: JsWord) -> Self {
-        Self::new_bad(&*v)
+        Self::new(&*v)
     }
 }
 
@@ -169,7 +169,7 @@ impl AtomGenerator {
             return v;
         }
 
-        let new = Atom::new_bad(s);
+        let new = Atom::new(s);
 
         self.inner.insert(new.clone());
         new
@@ -190,7 +190,7 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
     where
         D: serde::Deserializer<'de>,
     {
-        String::deserialize(deserializer).map(Self::new_bad)
+        String::deserialize(deserializer).map(Self::new)
     }
 }
 

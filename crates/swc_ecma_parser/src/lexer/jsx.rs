@@ -33,7 +33,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     out.push_str(self.input.slice(chunk_start, cur_pos));
 
                     return Ok(Token::JSXText {
-                        raw: Atom::new_bad(out),
+                        raw: Atom::new(out),
                     })
                     .map(Some);
                 }
@@ -243,7 +243,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         Ok(Token::Str {
             value: out.into(),
-            raw: Atom::new_bad(raw),
+            raw: Atom::new(raw),
         })
     }
 

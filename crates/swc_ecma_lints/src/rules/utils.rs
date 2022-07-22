@@ -54,7 +54,7 @@ pub enum ArgValue {
 pub fn extract_arg_val(unresolved_ctxt: SyntaxContext, expr: &Expr) -> ArgValue {
     match expr {
         Expr::Ident(_) => ArgValue::Ident,
-        Expr::Lit(Lit::Str(Str { value, .. })) => ArgValue::Str(Atom::new_bad(&**value)),
+        Expr::Lit(Lit::Str(Str { value, .. })) => ArgValue::Str(Atom::new(&**value)),
         Expr::Lit(Lit::Num(Number { value, .. })) => ArgValue::Number(*value),
         Expr::Lit(Lit::Regex(Regex { exp, flags, .. })) => ArgValue::RegExp {
             exp: exp.clone(),

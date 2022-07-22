@@ -1064,7 +1064,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 buf.push(c);
             }
 
-            Ok(Atom::new_bad(&**buf))
+            Ok(Atom::new(&**buf))
         })?;
         // let content_span = Span::new(content_start, self.cur_pos(),
         // Default::default());
@@ -1104,7 +1104,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.input.bump();
         self.input.bump();
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(Atom::new_bad(s)))
+        Ok(Some(Atom::new(s)))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
@@ -1129,7 +1129,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 // TODO: Handle error
                 return Ok(Template {
                     cooked: cooked.map(Atom::from),
-                    raw: Atom::new_bad(raw),
+                    raw: Atom::new(raw),
                 });
             }
 
