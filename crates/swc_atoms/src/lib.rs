@@ -88,7 +88,7 @@ macro_rules! impl_from {
     ($T:ty) => {
         impl From<$T> for Atom {
             fn from(s: $T) -> Self {
-                Atom::new_bad(s)
+                Atom::new(s)
             }
         }
     };
@@ -199,7 +199,7 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 macro_rules! atom {
     ($s:literal) => {{
         static CACHE: $crate::once_cell::sync::Lazy<$crate::Atom> =
-            $crate::once_cell::sync::Lazy::new(|| $crate::Atom::new_bad($s));
+            $crate::once_cell::sync::Lazy::new(|| $crate::Atom::new($s));
 
         $crate::Atom::clone(&*CACHE)
     }};
