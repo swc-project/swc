@@ -225,7 +225,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
