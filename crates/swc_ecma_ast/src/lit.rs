@@ -54,6 +54,7 @@ bridge_expr_from!(Lit, JSXText);
 
 bridge_lit_from!(Str, &'_ str);
 bridge_lit_from!(Str, JsWord);
+bridge_lit_from!(Str, Atom);
 bridge_lit_from!(Str, Cow<'_, str>);
 bridge_lit_from!(Str, String);
 bridge_lit_from!(Bool, bool);
@@ -215,6 +216,7 @@ impl From<JsWord> for Str {
 bridge_from!(Str, JsWord, &'_ str);
 bridge_from!(Str, JsWord, String);
 bridge_from!(Str, JsWord, Cow<'_, str>);
+bridge_from!(Str, JsWord, Atom);
 
 /// A boolean literal.
 ///
