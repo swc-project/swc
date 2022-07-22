@@ -5,7 +5,7 @@ use std::{
 };
 
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 
 use crate::{
     pos::Spanned,
@@ -440,7 +440,7 @@ impl Comments for SingleThreadedComments {
         let pure_comment = Comment {
             kind: CommentKind::Block,
             span: DUMMY_SP,
-            text: "#__PURE__".into(),
+            text: atom!("#__PURE__"),
         };
 
         if !leading.iter().any(|c| c.text == pure_comment.text) {
