@@ -108,6 +108,12 @@ impl Display for Atom {
     }
 }
 
+impl Default for Atom {
+    fn default() -> Self {
+        atom!("")
+    }
+}
+
 /// Generator for an interned strings.
 ///
 /// A lexer is expected to store this in it.
