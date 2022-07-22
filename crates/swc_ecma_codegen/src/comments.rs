@@ -29,7 +29,7 @@ macro_rules! write_comments {
                     srcmap!($e, cmt, true);
 
                     $e.wr.write_comment("/*")?;
-                    $e.wr.write_lit(DUMMY_SP, &cmt.text)?;
+                    $e.wr.write_comment(&cmt.text)?;
                     $e.wr.write_comment("*/")?;
 
                     srcmap!($e, cmt, false);
