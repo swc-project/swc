@@ -309,7 +309,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     let cmt = Comment {
                         kind: CommentKind::Block,
                         span: Span::new(start, end, SyntaxContext::empty()),
-                        text: s.into(),
+                        text: self.atoms.get_mut().intern(s),
                     };
 
                     let _ = self.input.peek();
