@@ -309,7 +309,7 @@ impl<I: Tokens> Parser<I> {
                 Str {
                     span: arg_span,
                     value: "".into(),
-                    raw: atom!("\"\""),
+                    raw: Some(atom!("\"\"")),
                 }
             }
         };

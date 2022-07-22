@@ -4,7 +4,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, AtomGenerator, JsWord};
 use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
 
@@ -114,6 +114,8 @@ pub struct Lexer<'a, I: Input> {
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 
+    atoms: Rc<RefCell<AtomGenerator>>,
+
     buf: Rc<RefCell<String>>,
 }
 
@@ -139,6 +141,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
+            atoms: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
         }
     }

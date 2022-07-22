@@ -6,6 +6,7 @@ use std::fmt::Write;
 
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
+use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use tracing::trace;
 
@@ -33,7 +34,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {
