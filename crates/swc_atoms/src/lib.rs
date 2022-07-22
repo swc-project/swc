@@ -84,6 +84,16 @@ macro_rules! impl_eq {
     };
 }
 
+macro_rules! impl_from {
+    ($T:ty) => {
+        impl From<$T> for Atom {
+            fn from(s: $T) -> Self {
+                Atom::new_bad(s)
+            }
+        }
+    };
+}
+
 impl PartialEq<str> for Atom {
     fn eq(&self, other: &str) -> bool {
         &*self.0 == other
@@ -97,6 +107,12 @@ impl_eq!(Rc<str>);
 impl_eq!(Cow<'_, str>);
 impl_eq!(String);
 impl_eq!(JsWord);
+
+impl_from!(&'_ str);
+impl_from!(Box<str>);
+impl_from!(Arc<str>);
+impl_from!(Cow<'_, str>);
+impl_from!(String);
 
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
