@@ -1,4 +1,5 @@
 use either::Either;
+use swc_atoms::Atom;
 
 use super::*;
 
@@ -31,7 +32,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                     out.push_str(self.input.slice(chunk_start, cur_pos));
 
-                    return Ok(Token::JSXText { raw: out.into() }).map(Some);
+                    return Ok(Token::JSXText {
+                        raw: Atom::new_bad(out),
+                    })
+                    .map(Some);
                 }
 
                 '&' => {
@@ -239,7 +243,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         Ok(Token::Str {
             value: out.into(),
-            raw: raw.into(),
+            raw: Atom::new_bad(raw),
         })
     }
 

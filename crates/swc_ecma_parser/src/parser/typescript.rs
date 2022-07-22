@@ -1,7 +1,7 @@
 use std::fmt::Write;
 
 use either::Either;
-use swc_atoms::js_word;
+use swc_atoms::{atom, js_word};
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
@@ -309,7 +309,7 @@ impl<I: Tokens> Parser<I> {
                 Str {
                     span: arg_span,
                     value: "".into(),
-                    raw: Some("\"\"".into()),
+                    raw: atom!("\"\""),
                 }
             }
         };
