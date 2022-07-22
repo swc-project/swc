@@ -153,7 +153,7 @@ impl Default for Atom {
 /// Generator for an interned strings.
 ///
 /// A lexer is expected to store this in it.
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub struct AtomGenerator {
     inner: FxHashSet<Atom>,
 }
