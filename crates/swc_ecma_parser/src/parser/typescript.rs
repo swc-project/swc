@@ -1,7 +1,7 @@
 use std::fmt::Write;
 
 use either::Either;
-use swc_atoms::{atom, js_word};
+use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
@@ -309,7 +309,7 @@ impl<I: Tokens> Parser<I> {
                 Str {
                     span: arg_span,
                     value: "".into(),
-                    raw: Some(atom!("\"\"")),
+                    raw: Some("\"\"".into()),
                 }
             }
         };
@@ -2812,7 +2812,6 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 
 #[cfg(test)]
 mod tests {
-    use swc_atoms::atom;
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
@@ -2843,7 +2842,7 @@ mod tests {
                         lit: TsLit::Number(Number {
                             span: DUMMY_SP,
                             value: -1.0,
-                            raw: Some(atom!("-1")),
+                            raw: Some("-1".into()),
                         }),
                     })),
                 })));
@@ -2879,7 +2878,7 @@ mod tests {
                             arg: Box::new(Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: 1.0,
-                                raw: Some(atom!("1")),
+                                raw: Some("1".into()),
                             }))),
                         }))),
                         definite: false,

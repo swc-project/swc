@@ -6,7 +6,6 @@ use std::fmt::Write;
 
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use tracing::trace;
 
@@ -34,7 +33,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
+    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {
@@ -63,10 +62,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             if self.eat(b'n') {
                 raw.push('n');
 
-                return Ok(Either::Right((
-                    s.into_value(),
-                    self.atoms.get_mut().intern(raw),
-                )));
+                return Ok(Either::Right((s.into_value(), raw)));
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
@@ -87,7 +83,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         // `-1` is utf 8 length of `0`
                         return self
                             .make_legacy_octal(start, 0f64)
-                            .map(|value| Either::Left((value, self.atoms.get_mut().intern(raw))));
+                            .map(|value| Either::Left((value, raw)));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -114,9 +110,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
                             });
 
-                            return self.make_legacy_octal(start, val).map(|value| {
-                                Either::Left((value, self.atoms.get_mut().intern(raw)))
-                            });
+                            return self
+                                .make_legacy_octal(start, val)
+                                .map(|value| Either::Left((value, raw)));
                         }
                     }
                 }
@@ -222,13 +218,13 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((val, self.atoms.get_mut().intern(raw_str))))
+        Ok(Either::Left((val, raw_str)))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
+    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -261,15 +257,12 @@ impl<'a, I: Input> Lexer<'a, I> {
             if l.eat(b'n') {
                 buf.push('n');
 
-                return Ok(Either::Right((
-                    s.into_value(),
-                    self.atoms.get_mut().intern(&**buf),
-                )));
+                return Ok(Either::Right((s.into_value(), (&**buf).into())));
             }
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, self.atoms.get_mut().intern(&**buf))))
+            Ok(Either::Left((val, (&**buf).into())))
         })
     }
 
@@ -555,7 +548,7 @@ mod tests {
         .unwrap()
     }
 
-    fn num(s: &'static str) -> (f64, Atom) {
+    fn num(s: &'static str) -> (f64, String) {
         lex(s, |l| {
             l.read_number(s.starts_with('.')).unwrap().left().unwrap()
         })
@@ -579,7 +572,7 @@ mod tests {
     /// Number >= 2^53
     #[test]
     fn num_big_exp() {
-        assert_eq!((1e30, Atom::new_bad("1e30")), num("1e30"));
+        assert_eq!((1e30, "1e30".into()), num("1e30"));
     }
 
     #[test]
@@ -622,23 +615,20 @@ mod tests {
 
         assert_eq!(
             num(LARGE_POSITIVE_EXP),
-            (INFINITY, Atom::new_bad(LARGE_POSITIVE_EXP))
+            (INFINITY, LARGE_POSITIVE_EXP.into())
         );
-        assert_eq!(
-            num(LARGE_NEGATIVE_EXP),
-            (0.0, Atom::new_bad(LARGE_NEGATIVE_EXP))
-        );
+        assert_eq!(num(LARGE_NEGATIVE_EXP), (0.0, LARGE_NEGATIVE_EXP.into()));
         assert_eq!(
             num(ZERO_WITH_LARGE_POSITIVE_EXP),
-            (0.0, Atom::new_bad(ZERO_WITH_LARGE_POSITIVE_EXP))
+            (0.0, ZERO_WITH_LARGE_POSITIVE_EXP.into())
         );
         assert_eq!(
             num(ZERO_WITH_LARGE_NEGATIVE_EXP),
-            (0.0, Atom::new_bad(ZERO_WITH_LARGE_NEGATIVE_EXP))
+            (0.0, ZERO_WITH_LARGE_NEGATIVE_EXP.into())
         );
         assert_eq!(
             num(LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP),
-            (0.0, Atom::new_bad(LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP))
+            (0.0, LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP.into())
         );
     }
 
@@ -823,7 +813,7 @@ mod tests {
                 assert_ne!(
                     vec![Num {
                         value: expected,
-                        raw: Atom::new_bad(expected.to_string())
+                        raw: expected.to_string().into()
                     }],
                     vec
                 )
