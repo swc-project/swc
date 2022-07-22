@@ -1028,7 +1028,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                         return Ok(Token::Str {
                             value: (&**out).into(),
-                            raw: self.atoms.get_mut().intern(raw),
+                            raw: l.atoms.borrow_mut().intern(raw),
                         });
                     }
                     '\\' => {
@@ -1062,7 +1062,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             Ok(Token::Str {
                 value: (&**out).into(),
-                raw: self.atoms.get_mut().intern(raw),
+                raw: l.atoms.borrow_mut().intern(raw),
             })
         })
     }
@@ -1118,10 +1118,10 @@ impl<'a, I: Input> Lexer<'a, I> {
         // here (don't ask).
         // let flags_start = self.cur_pos();
         let flags = {
-            let ref mut this = self;
-            match this.cur() {
-                Some(c) if c.is_ident_start() => this
-                    .read_word_as_str_with(|s| self.atoms.get_mut().intern(s))
+            let atoms = self.atoms.clone();
+            match self.cur() {
+                Some(c) if c.is_ident_start() => self
+                    .read_word_as_str_with(|s| atoms.borrow_mut().intern(s))
                     .map(Some),
                 _ => Ok(None),
             }
