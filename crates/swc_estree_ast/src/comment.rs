@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use swc_atoms::Atom;
 use swc_common::ast_serde;
 
 use crate::common::Loc;
@@ -14,7 +15,7 @@ pub enum CommentType {
 pub struct BaseComment {
     #[serde(rename = "type")]
     pub type_: CommentType,
-    pub value: String,
+    pub value: Atom,
     pub start: u32,
     pub end: u32,
     pub loc: Loc,
