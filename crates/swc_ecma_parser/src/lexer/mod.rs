@@ -4,7 +4,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use swc_atoms::{Atom, AtomGenerator, JsWord};
+use swc_atoms::{Atom, AtomGenerator};
 use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
 
@@ -431,27 +431,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
             _ => {
                 return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Num {
-                        value,
-                        raw: raw.into(),
-                    },
-                    Right((value, raw)) => BigInt {
-                        value,
-                        raw: raw.into(),
-                    },
+                    Left((value, raw)) => Num { value, raw },
+                    Right((value, raw)) => BigInt { value, raw },
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Num {
-                value,
-                raw: raw.into(),
-            },
-            Right((value, raw)) => BigInt {
-                value,
-                raw: raw.into(),
-            },
+            Left((value, raw)) => Num { value, raw },
+            Right((value, raw)) => BigInt { value, raw },
         })
     }
 
@@ -799,17 +787,6 @@ impl<'a, I: Input> Lexer<'a, I> {
         } else {
             Ok(Word(word))
         }
-    }
-
-    fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
-        match self.cur() {
-            Some(c) if c.is_ident_start() => self.read_word_as_str().map(Some),
-            _ => Ok(None),
-        }
-    }
-
-    fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
-        self.read_word_as_str_with(|s| JsWord::from(s))
     }
 
     /// This method is optimized for texts without escape sequences.
