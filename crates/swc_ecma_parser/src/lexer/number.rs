@@ -269,7 +269,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, self.atoms.get_mut().intern(&buf))))
+            Ok(Either::Left((val, self.atoms.get_mut().intern(&**buf))))
         })
     }
 
@@ -555,7 +555,7 @@ mod tests {
         .unwrap()
     }
 
-    fn num(s: &'static str) -> (f64, String) {
+    fn num(s: &'static str) -> (f64, Atom) {
         lex(s, |l| {
             l.read_number(s.starts_with('.')).unwrap().left().unwrap()
         })
@@ -820,7 +820,7 @@ mod tests {
                 assert_ne!(
                     vec![Num {
                         value: expected,
-                        raw: expected.to_string().into()
+                        raw: Atom::new_bad(expected.to_string())
                     }],
                     vec
                 )

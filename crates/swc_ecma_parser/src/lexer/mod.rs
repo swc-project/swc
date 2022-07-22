@@ -1132,14 +1132,14 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(Regex(content, flags))
     }
 
-    fn read_shebang(&mut self) -> LexResult<Option<JsWord>> {
+    fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
         if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
             return Ok(None);
         }
         self.input.bump();
         self.input.bump();
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(s.into()))
+        Ok(Some(Atom::new_bad(s)))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
