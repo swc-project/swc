@@ -88,7 +88,7 @@ impl WithSpan for usize {
     fn into_token(self) -> Token {
         Num {
             value: self as f64,
-            raw: self.to_string().into(),
+            raw: Atom::new_bad(self.to_string()),
         }
     }
 }
@@ -96,7 +96,7 @@ impl WithSpan for f64 {
     fn into_token(self) -> Token {
         Num {
             value: self,
-            raw: self.to_string().into(),
+            raw: Atom::new_bad(self.to_string()),
         }
     }
 }

@@ -261,12 +261,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             if l.eat(b'n') {
                 buf.push('n');
 
-                return Ok(Either::Right((s.into_value(), (&**buf).into())));
+                return Ok(Either::Right((
+                    s.into_value(),
+                    self.atoms.get_mut().intern(buf),
+                )));
             }
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, (&**buf).into())))
+            Ok(Either::Left((val, self.atoms.get_mut().intern(&buf))))
         })
     }
 
