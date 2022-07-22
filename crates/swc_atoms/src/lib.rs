@@ -30,12 +30,24 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
 /// An (optionally) interned string.
 ///
-/// Use [AtomGenerator] to create [Atom]s.
+/// Use [AtomGenerator], [`Atom::new`] or `.into()` to create [Atom]s.
+/// If you think the same value will be used multiple time, use [AtomGenerator].
+/// Othrwise, create an [Atom] using `.into()`.
 ///
+/// # Comparison with [JsWord][]
+///
+/// [JsWord][] is a globally interned string with phf support, while [Atom] is a
+/// locally interened string. Global interning results in a less memory usage,
+/// but global means a mutex. Because of the mutex, [Atom] performs better in
+/// multi-thread environments. But due to lack of phf or global interning,
+/// comparison and hashing of [Atom] is slower than them of [JsWord].
+///
+/// # Usages
 ///
 /// This should be used instead of [JsWord] for
 ///
-/// - Long texts, which is not likely to be duplicated.
+/// - Long texts, which is **not likely to be duplicated**. This does not mean
+///   "longer than xx" as this is a type.
 /// - Raw values.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(
