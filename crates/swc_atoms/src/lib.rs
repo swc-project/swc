@@ -28,7 +28,7 @@ use serde::Serializer;
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
-/// An interned string.
+/// An (optionally) interned string.
 ///
 /// Use [AtomGenerator] to create [Atom]s.
 ///
@@ -36,7 +36,7 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 /// This should be used instead of [JsWord] for
 ///
 /// - Long texts, which is not likely to be duplicated.
-/// - Raw values
+/// - Raw values.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(
     feature = "rkyv",
