@@ -2812,6 +2812,7 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 
 #[cfg(test)]
 mod tests {
+    use swc_atoms::atom;
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
@@ -2842,7 +2843,7 @@ mod tests {
                         lit: TsLit::Number(Number {
                             span: DUMMY_SP,
                             value: -1.0,
-                            raw: Some("-1".into()),
+                            raw: Some(atom!("-1")),
                         }),
                     })),
                 })));
@@ -2878,7 +2879,7 @@ mod tests {
                             arg: Box::new(Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: 1.0,
-                                raw: Some("1".into()),
+                                raw: Some(atom!("1")),
                             }))),
                         }))),
                         definite: false,
