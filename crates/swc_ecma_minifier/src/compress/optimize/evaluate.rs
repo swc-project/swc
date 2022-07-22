@@ -1,6 +1,6 @@
 use std::num::FpCategory;
 
-use swc_atoms::js_word;
+use swc_atoms::{atom, js_word};
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value::Known};
@@ -203,8 +203,8 @@ where
 
                             *e = Expr::Lit(Lit::Regex(Regex {
                                 span,
-                                exp: exp.value.clone(),
-                                flags: js_word!(""),
+                                exp: exp.value.as_ref().into(),
+                                flags: atom!(""),
                             }));
                         }
                     }
@@ -221,8 +221,8 @@ where
 
                             *e = Expr::Lit(Lit::Regex(Regex {
                                 span,
-                                exp: exp.value.clone(),
-                                flags: flags.value.clone(),
+                                exp: exp.value.as_ref().into(),
+                                flags: flags.value.as_ref().into(),
                             }));
                         }
                     }

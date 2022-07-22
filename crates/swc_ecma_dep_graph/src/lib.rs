@@ -478,7 +478,7 @@ try {
                     is_dynamic: false,
                     leading_comments: vec![Comment {
                         kind: CommentKind::Block,
-                        text: r#"* JSDoc "#.to_string(),
+                        text: r#"* JSDoc "#.into(),
                         span: Span::new(BytePos(35), BytePos(47), SyntaxContext::empty()),
                     }],
                     span: Span::new(BytePos(48), BytePos(86), Default::default()),
@@ -491,7 +491,7 @@ try {
                     is_dynamic: false,
                     leading_comments: vec![Comment {
                         kind: CommentKind::Line,
-                        text: r#"/ <reference foo="bar" />"#.to_string(),
+                        text: r#"/ <reference foo="bar" />"#.into(),
                         span: Span::new(BytePos(87), BytePos(114), SyntaxContext::empty()),
                     }],
                     span: Span::new(BytePos(115), BytePos(149), Default::default()),
@@ -505,12 +505,12 @@ try {
                     leading_comments: vec![
                         Comment {
                             kind: CommentKind::Line,
-                            text: r#" @some-pragma"#.to_string(),
+                            text: r#" @some-pragma"#.into(),
                             span: Span::new(BytePos(150), BytePos(165), SyntaxContext::empty()),
                         },
                         Comment {
                             kind: CommentKind::Block,
-                            text: "*\n * Foo\n ".to_string(),
+                            text: "*\n * Foo\n ".into(),
                             span: Span::new(BytePos(166), BytePos(180), SyntaxContext::empty()),
                         }
                     ],

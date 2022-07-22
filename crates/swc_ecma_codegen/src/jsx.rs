@@ -168,7 +168,7 @@ where
 
     #[emitter]
     fn emit_jsx_text(&mut self, node: &JSXText) -> Result {
-        self.emit_js_word(node.span(), &node.value)?;
+        self.emit_atom(node.span(), &node.value)?;
     }
 
     #[emitter]

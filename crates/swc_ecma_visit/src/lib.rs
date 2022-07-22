@@ -9,7 +9,7 @@ pub extern crate swc_ecma_ast;
 use std::{borrow::Cow, fmt::Debug};
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
@@ -794,8 +794,8 @@ define!({
     pub struct TplElement {
         pub span: Span,
         pub tail: bool,
-        pub cooked: Option<JsWord>,
-        pub raw: JsWord,
+        pub cooked: Option<Atom>,
+        pub raw: Atom,
     }
     pub struct ParenExpr {
         pub span: Span,
@@ -939,8 +939,8 @@ define!({
     }
     pub struct JSXText {
         pub span: Span,
-        pub value: JsWord,
-        pub raw: JsWord,
+        pub value: Atom,
+        pub raw: Atom,
     }
     pub struct JSXElement {
         pub span: Span,
@@ -982,12 +982,12 @@ define!({
     pub struct BigInt {
         pub span: Span,
         pub value: BigIntValue,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
     pub struct Bool {
         pub span: Span,
@@ -998,13 +998,13 @@ define!({
     }
     pub struct Regex {
         pub span: Span,
-        pub exp: JsWord,
-        pub flags: JsWord,
+        pub exp: Atom,
+        pub flags: Atom,
     }
     pub struct Number {
         pub span: Span,
         pub value: f64,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
     pub enum Program {
         Module(Module),
@@ -1015,12 +1015,12 @@ define!({
     pub struct Module {
         pub span: Span,
         pub body: Vec<ModuleItem>,
-        pub shebang: Option<JsWord>,
+        pub shebang: Option<Atom>,
     }
     pub struct Script {
         pub span: Span,
         pub body: Vec<Stmt>,
-        pub shebang: Option<JsWord>,
+        pub shebang: Option<Atom>,
     }
     pub enum ModuleItem {
         ModuleDecl(ModuleDecl),

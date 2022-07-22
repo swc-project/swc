@@ -33,7 +33,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {
@@ -62,7 +62,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             if self.eat(b'n') {
                 raw.push('n');
 
-                return Ok(Either::Right((s.into_value(), raw)));
+                return Ok(Either::Right((
+                    s.into_value(),
+                    self.atoms.borrow_mut().intern(raw),
+                )));
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
@@ -81,9 +84,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
-                        return self
-                            .make_legacy_octal(start, 0f64)
-                            .map(|value| Either::Left((value, raw)));
+                        return self.make_legacy_octal(start, 0f64).map(|value| {
+                            Either::Left((value, self.atoms.borrow_mut().intern(raw)))
+                        });
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -110,9 +113,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
                             });
 
-                            return self
-                                .make_legacy_octal(start, val)
-                                .map(|value| Either::Left((value, raw)));
+                            return self.make_legacy_octal(start, val).map(|value| {
+                                Either::Left((value, self.atoms.borrow_mut().intern(raw)))
+                            });
                         }
                     }
                 }
@@ -218,13 +221,13 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((val, raw_str)))
+        Ok(Either::Left((val, self.atoms.borrow_mut().intern(raw_str))))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -257,12 +260,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             if l.eat(b'n') {
                 buf.push('n');
 
-                return Ok(Either::Right((s.into_value(), (&**buf).into())));
+                return Ok(Either::Right((
+                    s.into_value(),
+                    l.atoms.borrow_mut().intern(&**buf),
+                )));
             }
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, (&**buf).into())))
+            Ok(Either::Left((val, l.atoms.borrow_mut().intern(&**buf))))
         })
     }
 
@@ -548,7 +554,7 @@ mod tests {
         .unwrap()
     }
 
-    fn num(s: &'static str) -> (f64, String) {
+    fn num(s: &'static str) -> (f64, Atom) {
         lex(s, |l| {
             l.read_number(s.starts_with('.')).unwrap().left().unwrap()
         })
@@ -709,7 +715,7 @@ mod tests {
                 "10000000000000000000000000000000000000000000000000000"
                     .parse::<BigIntValue>()
                     .unwrap(),
-                String::from("10000000000000000000000000000000000000000000000000000n")
+                Atom::from("10000000000000000000000000000000000000000000000000000n")
             ),
         );
     }

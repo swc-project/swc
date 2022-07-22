@@ -11,7 +11,7 @@ impl VisitMut for ConsoleOutputReplacer {
                         call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             value: JsWord::from("plugin_transform_schema_vtest"),
-                            raw: Some(JsWord::from("\"plugin_transform_schema_vtest\"")),
+                            raw: Some(Atom::from("\"plugin_transform_schema_vtest\"")),
                         })));
                     }
                 }

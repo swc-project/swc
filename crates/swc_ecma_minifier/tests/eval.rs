@@ -1,5 +1,6 @@
 #![deny(warnings)]
 
+use swc_atoms::Atom;
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -184,8 +185,8 @@ impl VisitMut for PartialInliner {
                                     span: s.span,
                                     tail: true,
                                     // TODO possible bug for quotes
-                                    raw: s.value.clone(),
-                                    cooked: Some(s.value),
+                                    raw: Atom::new(&*s.value),
+                                    cooked: Some(Atom::new(&*s.value)),
                                 };
                                 tt.tpl = Tpl {
                                     span: el.span,

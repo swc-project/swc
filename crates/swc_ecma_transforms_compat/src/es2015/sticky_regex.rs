@@ -1,5 +1,3 @@
-use swc_atoms::JsWord;
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
@@ -46,21 +44,10 @@ impl VisitMut for StickyRegex {
 
         if let Expr::Lit(Lit::Regex(Regex { exp, flags, span })) = e {
             if flags.contains('y') {
-                let str_lit = |s: JsWord| {
-                    Box::new(Expr::Lit(Lit::Str(Str {
-                        span: DUMMY_SP,
-                        raw: None,
-                        value: s,
-                    })))
-                };
-
                 *e = Expr::New(NewExpr {
                     span: *span,
                     callee: Box::new(quote_ident!(*span, "RegExp").into()),
-                    args: Some(vec![
-                        str_lit(exp.clone()).as_arg(),
-                        str_lit(flags.clone()).as_arg(),
-                    ]),
+                    args: Some(vec![exp.clone().as_arg(), flags.clone().as_arg()]),
                     type_args: Default::default(),
                 })
             }

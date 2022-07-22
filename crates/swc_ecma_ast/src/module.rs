@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
@@ -44,8 +44,7 @@ pub struct Module {
     pub body: Vec<ModuleItem>,
 
     #[serde(default, rename = "interpreter")]
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub shebang: Option<JsWord>,
+    pub shebang: Option<Atom>,
 }
 
 #[cfg(feature = "arbitrary")]
@@ -80,8 +79,7 @@ pub struct Script {
     pub body: Vec<Stmt>,
 
     #[serde(default, rename = "interpreter")]
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub shebang: Option<JsWord>,
+    pub shebang: Option<Atom>,
 }
 
 #[cfg(feature = "arbitrary")]

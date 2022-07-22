@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::{
     Expr, Lit, MemberExpr, MemberProp, Number, ParenExpr, Regex, SeqExpr, Str, TaggedTpl, Tpl,
@@ -44,9 +44,9 @@ pub fn resolve_string_quote_type(lit_str: &Str) -> Option<QuotesType> {
 
 #[derive(Debug)]
 pub enum ArgValue {
-    Str(JsWord),
+    Str(Atom),
     Number(f64),
-    RegExp { exp: JsWord, flags: JsWord },
+    RegExp { exp: Atom, flags: Atom },
     Ident,
     Other,
 }
@@ -54,7 +54,7 @@ pub enum ArgValue {
 pub fn extract_arg_val(unresolved_ctxt: SyntaxContext, expr: &Expr) -> ArgValue {
     match expr {
         Expr::Ident(_) => ArgValue::Ident,
-        Expr::Lit(Lit::Str(Str { value, .. })) => ArgValue::Str(value.clone()),
+        Expr::Lit(Lit::Str(Str { value, .. })) => ArgValue::Str(Atom::new(&**value)),
         Expr::Lit(Lit::Num(Number { value, .. })) => ArgValue::Number(*value),
         Expr::Lit(Lit::Regex(Regex { exp, flags, .. })) => ArgValue::RegExp {
             exp: exp.clone(),
