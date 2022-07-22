@@ -4,7 +4,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use swc_atoms::{js_word, AtomGenerator, JsWord};
+use swc_atoms::{js_word, Atom, AtomGenerator, JsWord};
 use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
 
@@ -1028,7 +1028,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                         return Ok(Token::Str {
                             value: (&**out).into(),
-                            raw: raw.into(),
+                            raw: self.atoms.get_mut().gen(raw),
                         });
                     }
                     '\\' => {
@@ -1062,7 +1062,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             Ok(Token::Str {
                 value: (&**out).into(),
-                raw: raw.into(),
+                raw: self.atoms.get_mut().gen(raw),
             })
         })
     }
@@ -1099,7 +1099,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 buf.push(c);
             }
 
-            Ok((&**buf).into())
+            Ok(Atom::new_bad(&**buf))
         })?;
         // let content_span = Span::new(content_start, self.cur_pos(),
         // Default::default());
@@ -1156,8 +1156,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // TODO: Handle error
                 return Ok(Template {
-                    cooked: cooked.map(|cooked| cooked.into()),
-                    raw: raw.into(),
+                    cooked: cooked.map(|cooked| Atom::new_bad(cooked)),
+                    raw: Atom::new_bad(raw),
                 });
             }
 

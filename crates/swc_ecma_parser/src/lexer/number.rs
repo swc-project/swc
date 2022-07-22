@@ -63,7 +63,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             if self.eat(b'n') {
                 raw.push('n');
 
-                return Ok(Either::Right((s.into_value(), raw)));
+                return Ok(Either::Right((
+                    s.into_value(),
+                    self.atoms.get_mut().gen(raw),
+                )));
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
