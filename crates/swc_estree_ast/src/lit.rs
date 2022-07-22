@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 
 use serde::{ser::SerializeMap, Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::ast_serde;
 
 use crate::{common::BaseNode, expr::Expression, flavor::Flavor, typescript::TSType};
@@ -241,9 +241,9 @@ pub struct RegexLiteral {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct TemplateElVal {
     #[serde(default)]
-    pub raw: JsWord,
+    pub raw: Atom,
     #[serde(default)]
-    pub cooked: Option<JsWord>,
+    pub cooked: Option<Atom>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

@@ -1,6 +1,6 @@
 use std::{borrow::Cow, mem::take};
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
@@ -141,7 +141,7 @@ impl Pure<'_> {
 
                                 cur_str_value.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
                             } else {
-                                let s = JsWord::from(&*cur_str_value);
+                                let s = Atom::from(&*cur_str_value);
                                 cur_str_value.clear();
 
                                 new_tpl.quasis.push(TplElement {
