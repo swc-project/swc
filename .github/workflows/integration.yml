@@ -87,6 +87,10 @@ jobs:
           yarn link
           yarn global add file:$PWD
 
+      - name: Print info
+        run: |
+          yarn global list
+
       - name: (swc) three.js
         run: |
           mkdir -p tests/integration/three-js
