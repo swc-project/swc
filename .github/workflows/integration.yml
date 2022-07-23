@@ -99,9 +99,9 @@ jobs:
           # Download three.js
           git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 tests/integration/three-js/repo
 
-          swcx -C isModule=unknown -C test=\".*.js$\" -C module.type=commonjs --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
+          # swc -C isModule=unknown -C test=\".*.js$\" -C module.type=commonjs --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
 
-          (cd tests/integration/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
+          # (cd tests/integration/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
 
         # terser: contains with statement in test
         # Rome.js: I forgot the cause, but it didn't work.
