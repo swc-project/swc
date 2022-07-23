@@ -83,7 +83,7 @@ jobs:
           # Avoid no space left on device, copyfile
           cargo clean
 
-          yarn global add @swc/cli@0.1.33
+          yarn global add @swc/cli@0.1.56
           yarn link
           yarn global add file:$PWD
 
