@@ -3823,7 +3823,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.74.0"
+version = "0.74.1"
 dependencies = [
  "num-bigint",
  "serde",
