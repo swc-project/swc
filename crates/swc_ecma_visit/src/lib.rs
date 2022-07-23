@@ -187,7 +187,7 @@ where
 
 /// Wrap a [VisitMut] as a [Fold]
 #[derive(Debug, Clone, Copy)]
-pub struct Folder<V: VisitMut>(V);
+pub struct Folder<V: VisitMut>(pub V);
 
 impl<V> Repeated for Folder<V>
 where
