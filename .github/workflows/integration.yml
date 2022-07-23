@@ -114,10 +114,10 @@ jobs:
           yarn global add qunit failonlyreporter
 
           # Download
-          git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
+          # git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
           # TODO
           # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/lib/
-          echo "module.exports=require('./index')" > tests/integration/redux/repo/lib/redux.js
+          # echo "module.exports=require('./index')" > tests/integration/redux/repo/lib/redux.js
           # TODO
           # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/test/
           # TODO
