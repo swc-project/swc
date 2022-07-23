@@ -17,14 +17,14 @@ bench = false
 
 [features]
 debug = []
-default = ["serde"]
+default = []
 path = []
 
 [dependencies]
-num-bigint = {version = "0.4", features = ["serde"]}
-serde = {version = "1", optional = true}
-swc_atoms = {version = "0.3.0", path = "../swc_atoms"}
-swc_common = {version = "0.25.0", path = "../swc_common"}
-swc_ecma_ast = {version = "0.88.0", path = "../swc_ecma_ast"}
-swc_visit = {version = "0.5.1", path = "../swc_visit"}
+num-bigint = { version = "0.4", features = ["serde"] }
+serde = { version = "1", optional = true }
+swc_atoms = { version = "0.3.0", path = "../swc_atoms" }
+swc_common = { version = "0.25.0", path = "../swc_common" }
+swc_ecma_ast = { version = "0.88.0", path = "../swc_ecma_ast" }
+swc_visit = { version = "0.5.1", path = "../swc_visit" }
 tracing = "0.1.32"
