@@ -9960,15 +9960,20 @@ fn issue_4788_1() {
 fn issue_5280_1() {
     run_exec_test(
         "
-    let c = 0;
-    let a = 1;
-
-    c += a;
-    a += 5;
-
-    let b = c;
-
-    console.log(a, b, c);
+        function source() {
+            let c = 0;
+            let a = 1;
+        
+            c += a;
+            a += 5;
+        
+            let b = c;
+        
+            console.log(a, b, c);
+        }
+        
+        
+        source()
     ",
         r#"
         {
