@@ -54,7 +54,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macos-10.15
+          - macos-latest
           - windows-latest
     steps:
       - uses: actions/checkout@v3
