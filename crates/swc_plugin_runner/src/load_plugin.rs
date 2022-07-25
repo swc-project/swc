@@ -2,11 +2,11 @@ use std::{env, sync::Arc};
 
 use anyhow::{Context, Error};
 use parking_lot::Mutex;
-use swc_common::SourceMap;
+use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
 use wasmer::{ChainableNamedResolver, Instance};
 use wasmer_wasi::{is_wasi_module, WasiState};
 
-use crate::{imported_fn::build_import_object, TransformPluginMetadataContext};
+use crate::imported_fn::build_import_object;
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn load_plugin(

@@ -3,12 +3,15 @@ use std::sync::Arc;
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
 use swc_common::{
-    plugin::{PluginError, PluginSerializedBytes, PLUGIN_TRANSFORM_AST_SCHEMA_VERSION},
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginError, PluginSerializedBytes, PLUGIN_TRANSFORM_AST_SCHEMA_VERSION},
+    },
     SourceMap,
 };
 use wasmer::Instance;
 
-use crate::{memory_interop::write_into_memory_view, TransformPluginMetadataContext};
+use crate::memory_interop::write_into_memory_view;
 
 /// A struct encapsule executing a plugin's transform interop to its teardown
 pub struct TransformExecutor {

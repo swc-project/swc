@@ -1,10 +1,13 @@
 use std::sync::Arc;
 
 use parking_lot::Mutex;
-use swc_common::plugin::{PluginSerializedBytes, VersionedSerializable};
+use swc_common::plugin::{
+    metadata::TransformPluginMetadataContext,
+    serialized::{PluginSerializedBytes, VersionedSerializable},
+};
 use wasmer::{LazyInit, Memory, NativeFunc};
 
-use crate::{memory_interop::allocate_return_values_into_guest, TransformPluginMetadataContext};
+use crate::memory_interop::allocate_return_values_into_guest;
 
 #[derive(wasmer::WasmerEnv, Clone)]
 pub struct MetadataContextHostEnvironment {

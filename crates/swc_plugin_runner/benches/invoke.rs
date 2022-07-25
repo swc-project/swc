@@ -11,12 +11,15 @@ use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use once_cell::sync::Lazy;
 use swc_common::{
     collections::AHashMap,
-    plugin::{PluginSerializedBytes, VersionedSerializable},
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginSerializedBytes, VersionedSerializable},
+    },
     FileName, FilePathMapping, Mark, SourceMap,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
-use swc_plugin_runner::{cache::PluginModuleCache, TransformPluginMetadataContext};
+use swc_plugin_runner::cache::PluginModuleCache;
 
 static SOURCE: &str = include_str!("./assets/input.js");
 

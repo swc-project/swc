@@ -44,7 +44,7 @@
 use std::sync::Arc;
 
 use parking_lot::Mutex;
-use swc_common::SourceMap;
+use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
 use wasmer::{imports, Function, ImportObject, Module};
 
 use crate::{
@@ -61,7 +61,6 @@ use crate::{
         set_transform_result::{set_transform_result, TransformResultHostEnvironment},
         span::span_dummy_with_cmt_proxy,
     },
-    TransformPluginMetadataContext,
 };
 
 mod comments;

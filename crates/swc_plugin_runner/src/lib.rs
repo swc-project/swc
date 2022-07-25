@@ -2,9 +2,8 @@ use std::{path::Path, sync::Arc};
 
 use anyhow::Error;
 use once_cell::sync::Lazy;
-use swc_common::SourceMap;
+use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
 use transform_executor::TransformExecutor;
-pub use transform_metadata_context::TransformPluginMetadataContext;
 
 pub mod cache;
 mod host_environment;
@@ -12,7 +11,6 @@ mod imported_fn;
 mod load_plugin;
 mod memory_interop;
 mod transform_executor;
-mod transform_metadata_context;
 
 /**
  * Attempt to create a executor to run plugin binaries.

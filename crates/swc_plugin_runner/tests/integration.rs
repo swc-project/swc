@@ -9,14 +9,17 @@ use anyhow::{anyhow, Error};
 use swc_common::{
     collections::AHashMap,
     errors::HANDLER,
-    plugin::{PluginSerializedBytes, VersionedSerializable},
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginSerializedBytes, VersionedSerializable},
+    },
     sync::Lazy,
     FileName, Mark,
 };
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
-use swc_plugin_runner::{cache::PluginModuleCache, TransformPluginMetadataContext};
+use swc_plugin_runner::cache::PluginModuleCache;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {

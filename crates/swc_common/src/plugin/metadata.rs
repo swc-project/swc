@@ -1,4 +1,4 @@
-use swc_common::collections::AHashMap;
+use crate::collections::AHashMap;
 
 /// Host side metadata context plugin may need to access.
 /// This is a global context - any plugin will have same values.

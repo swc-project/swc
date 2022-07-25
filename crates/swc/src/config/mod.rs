@@ -24,6 +24,7 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::SingleThreadedComments,
     errors::Handler,
+    plugin::metadata::TransformPluginMetadataContext,
     FileName, Mark, SourceMap, SyntaxContext,
 };
 use swc_config::{
@@ -62,7 +63,6 @@ use swc_ecma_transforms::{
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
-use swc_plugin_runner::TransformPluginMetadataContext;
 
 use crate::{
     builder::PassBuilder,

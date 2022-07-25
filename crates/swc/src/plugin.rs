@@ -10,7 +10,6 @@ use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver
 #[cfg(not(feature = "plugin"))]
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
-use swc_plugin_runner::TransformPluginMetadataContext;
 
 /// A tuple represents a plugin.
 /// First element is a resolvable name to the plugin, second is a JSON object
@@ -45,7 +44,7 @@ pub struct PluginContext {
 #[cfg(feature = "plugin")]
 pub fn plugins(
     configured_plugins: Option<Vec<PluginConfig>>,
-    metadata_context: std::sync::Arc<TransformPluginMetadataContext>,
+    metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
     resolver: Option<CachingResolver<NodeModulesResolver>>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
@@ -72,7 +71,7 @@ pub fn plugins() -> impl Fold {
 
 struct RustPlugins {
     plugins: Option<Vec<PluginConfig>>,
-    metadata_context: std::sync::Arc<TransformPluginMetadataContext>,
+    metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
     resolver: Option<CachingResolver<NodeModulesResolver>>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
@@ -101,7 +100,7 @@ impl RustPlugins {
         use anyhow::Context;
         use swc_common::{
             collections::AHashMap,
-            plugin::{PluginSerializedBytes, VersionedSerializable},
+            plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
             FileName,
         };
         use swc_ecma_loader::resolve::Resolve;
@@ -226,7 +225,7 @@ impl RustPlugins {
         use anyhow::Context;
         use swc_common::{
             collections::AHashMap,
-            plugin::{PluginSerializedBytes, VersionedSerializable},
+            plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
             FileName,
         };
         use swc_ecma_loader::resolve::Resolve;
