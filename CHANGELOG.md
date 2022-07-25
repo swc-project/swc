@@ -8,6 +8,9 @@
 - **(es/compat)** Preserve orders of `import`s and `export`s (#5249) ([2010409](https://github.com/swc-project/swc/commit/2010409bac0f73c5f4d04f6735db6142f621701a))
 
 
+- **(es/compat)** Fix capturing of block scoping pass (#5279) ([b423d6f](https://github.com/swc-project/swc/commit/b423d6f936eb1bdc66b2223fe9189a7dcc8ae1d8))
+
+
 - **(es/decorators)** Use decorated consturctors (#5263) ([d9877e3](https://github.com/swc-project/swc/commit/d9877e305a3989e88b696135cb7cf16fc63e940f))
 
 

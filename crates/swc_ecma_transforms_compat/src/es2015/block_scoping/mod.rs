@@ -11,7 +11,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str,
-    undefined, var::VarCollector, ExprFactory, StmtLike,
+    undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
@@ -44,7 +44,6 @@ pub fn block_scoping(unresolved_mark: Mark) -> impl VisitMut + Fold {
             scope: Default::default(),
             vars: vec![],
             var_decl_kind: VarDeclKind::Var,
-            in_loop_body_scope: false,
         }
     ))
 }
@@ -53,10 +52,8 @@ type ScopeStack = SmallVec<[ScopeKind; 8]>;
 
 #[derive(Debug, PartialEq, Eq)]
 enum ScopeKind {
-    Loop,
-    ForLetLoop {
-        kind: Option<VarDeclKind>,
-        all: Vec<Id>,
+    Loop {
+        lexical_var: Vec<Id>,
         args: Vec<Id>,
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
@@ -67,12 +64,22 @@ enum ScopeKind {
     Block,
 }
 
+impl ScopeKind {
+    fn new_loop() -> Self {
+        ScopeKind::Loop {
+            lexical_var: Vec::new(),
+            args: Vec::new(),
+            used: Vec::new(),
+            mutated: Default::default(),
+        }
+    }
+}
+
 struct BlockScoping {
     unresolved_mark: Mark,
     scope: ScopeStack,
     vars: Vec<VarDeclarator>,
     var_decl_kind: VarDeclKind,
-    in_loop_body_scope: bool,
 }
 
 #[swc_trace]
@@ -83,25 +90,24 @@ impl BlockScoping {
     where
         T: VisitMutWith<Self>,
     {
-        let len = self.scope.len();
-
-        let remove = !matches!(kind, ScopeKind::ForLetLoop { .. });
+        let remove = !matches!(kind, ScopeKind::Loop { .. });
         self.scope.push(kind);
 
-        self.in_loop_body_scope = true;
         node.visit_mut_with(self);
-        self.in_loop_body_scope = false;
 
         if remove {
-            self.scope.truncate(len);
+            self.scope.pop();
         }
     }
 
     fn mark_as_used(&mut self, i: Id) {
         for (idx, scope) in self.scope.iter_mut().rev().enumerate() {
-            if let ScopeKind::ForLetLoop { all, used, .. } = scope {
+            if let ScopeKind::Loop {
+                lexical_var, used, ..
+            } = scope
+            {
                 //
-                if all.contains(&i) {
+                if lexical_var.contains(&i) {
                     if idx == 0 {
                         return;
                     }
@@ -116,7 +122,7 @@ impl BlockScoping {
     fn in_loop_body(&self) -> bool {
         self.scope
             .last()
-            .map(|scope| matches!(scope, ScopeKind::ForLetLoop { .. } | ScopeKind::Loop))
+            .map(|scope| matches!(scope, ScopeKind::Loop { .. }))
             .unwrap_or(false)
     }
 
@@ -143,7 +149,7 @@ impl BlockScoping {
         }
 
         //
-        if let Some(ScopeKind::ForLetLoop {
+        if let Some(ScopeKind::Loop {
             args,
             used,
             mutated,
@@ -382,35 +388,36 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
-        self.visit_mut_with_scope(ScopeKind::Loop, &mut node.body);
+        self.visit_mut_with_scope(ScopeKind::new_loop(), &mut node.body);
+
         node.test.visit_mut_with(self);
+        self.handle_capture_of_vars(&mut node.body);
+    }
+
+    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
+        self.visit_mut_with_scope(ScopeKind::new_loop(), &mut node.body);
+
+        node.test.visit_mut_with(self);
+        self.handle_capture_of_vars(&mut node.body);
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        let var_decl_kind = match &node.left {
-            VarDeclOrPat::VarDecl(v) => Some(v.kind),
-            _ => None,
+        let lexical_var = if let VarDeclOrPat::VarDecl(decl) = &node.left {
+            find_lexical_vars(decl)
+        } else {
+            Vec::new()
         };
+        let args = lexical_var.clone();
 
         self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
 
-        let mut vars = find_vars(&node.left);
-        let args = vars.clone();
-
         node.right.visit_mut_with(self);
 
-        find_infected(&mut vars, &node.body);
-
-        let kind = if vars.is_empty() {
-            ScopeKind::Loop
-        } else {
-            ScopeKind::ForLetLoop {
-                kind: var_decl_kind,
-                all: vars,
-                args,
-                used: vec![],
-                mutated: Default::default(),
-            }
+        let kind = ScopeKind::Loop {
+            lexical_var,
+            args,
+            used: vec![],
+            mutated: Default::default(),
         };
 
         self.visit_mut_with_scope(kind, &mut node.body);
@@ -418,30 +425,23 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        let var_decl_kind = match &node.left {
-            VarDeclOrPat::VarDecl(v) => Some(v.kind),
-            _ => None,
+        let vars = if let VarDeclOrPat::VarDecl(decl) = &node.left {
+            find_lexical_vars(decl)
+        } else {
+            Vec::new()
         };
 
         self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
 
-        let mut vars = find_vars(&node.left);
         let args = vars.clone();
 
         node.right.visit_mut_with(self);
 
-        find_infected(&mut vars, &node.body);
-
-        let kind = if vars.is_empty() {
-            ScopeKind::Loop
-        } else {
-            ScopeKind::ForLetLoop {
-                kind: var_decl_kind,
-                all: vars,
-                args,
-                used: vec![],
-                mutated: Default::default(),
-            }
+        let kind = ScopeKind::Loop {
+            lexical_var: vars,
+            args,
+            used: vec![],
+            mutated: Default::default(),
         };
 
         self.visit_mut_with_scope(kind, &mut node.body);
@@ -449,31 +449,23 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
-        let var_decl_kind = match &node.init {
-            Some(VarDeclOrExpr::VarDecl(v)) => Some(v.kind),
-            _ => None,
+        let lexical_var = if let Some(VarDeclOrExpr::VarDecl(decl)) = &node.init {
+            find_lexical_vars(decl)
+        } else {
+            Vec::new()
         };
 
         node.init.visit_mut_with(self);
-
-        let mut vars = find_vars(&node.init);
-        let args = vars.clone();
+        let args = lexical_var.clone();
 
         node.test.visit_mut_with(self);
         node.update.visit_mut_with(self);
 
-        find_infected(&mut vars, &node.body);
-
-        let kind = if vars.is_empty() {
-            ScopeKind::Loop
-        } else {
-            ScopeKind::ForLetLoop {
-                kind: var_decl_kind,
-                all: vars,
-                args,
-                used: vec![],
-                mutated: Default::default(),
-            }
+        let kind = ScopeKind::Loop {
+            lexical_var,
+            args,
+            used: vec![],
+            mutated: Default::default(),
         };
         self.visit_mut_with_scope(kind, &mut node.body);
         self.handle_capture_of_vars(&mut node.body);
@@ -512,33 +504,15 @@ impl VisitMut for BlockScoping {
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         let old = self.var_decl_kind;
         self.var_decl_kind = var.kind;
+        if let Some(ScopeKind::Loop { lexical_var, .. }) = self.scope.last_mut() {
+            lexical_var.extend(find_lexical_vars(var));
+        }
+
         var.visit_mut_children_with(self);
 
         self.var_decl_kind = old;
 
         var.kind = VarDeclKind::Var;
-
-        if !self.in_loop_body_scope {
-            return;
-        }
-
-        // If loop body contains same ident to loop node's ident, rename it to avoid
-        // variable hoisting overwrites inner declaration.
-        for decl in var.decls.iter_mut() {
-            if let Pat::Ident(name) = &mut decl.name {
-                if let Some(ScopeKind::ForLetLoop {
-                    kind: Some(VarDeclKind::Let | VarDeclKind::Const),
-                    args,
-                    ..
-                }) = self.scope.last()
-                {
-                    let id = &(*name).id.to_id();
-                    if args.contains(id) {
-                        (*name).id = private_ident!((*name).id.take().sym);
-                    }
-                }
-            }
-        }
     }
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
@@ -551,12 +525,6 @@ impl VisitMut for BlockScoping {
                 var.init = Some(undefined(var.span()))
             }
         }
-    }
-
-    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
-        self.visit_mut_with_scope(ScopeKind::Loop, &mut node.body);
-
-        node.test.visit_mut_with(self);
     }
 }
 
@@ -582,106 +550,12 @@ impl BlockScoping {
     }
 }
 
-fn find_vars<T>(node: &T) -> Vec<Id>
-where
-    T: for<'any> VisitWith<VarCollector<'any, Id>>,
-{
-    let mut vars = vec![];
-    let mut v = VarCollector { to: &mut vars };
-    node.visit_with(&mut v);
-
-    vars
-}
-
-fn find_infected<T>(ids: &mut Vec<Id>, node: &T)
-where
-    T: for<'any> VisitWith<InfectionFinder<'any>>,
-{
-    let mut v = InfectionFinder {
-        vars: ids,
-        found: false,
-    };
-    node.visit_with(&mut v);
-}
-
-/// In the code below,
-///
-/// ```js
-/// let i = _step.value
-/// ```
-///
-/// `i` is infected by `_step`.
-struct InfectionFinder<'a> {
-    vars: &'a mut Vec<Id>,
-    found: bool,
-}
-
-#[swc_trace]
-impl Visit for InfectionFinder<'_> {
-    noop_visit_type!();
-
-    fn visit_assign_expr(&mut self, node: &AssignExpr) {
-        let old = self.found;
-        self.found = false;
-
-        node.right.visit_with(self);
-
-        if self.found {
-            let ids = find_pat_ids(&node.left);
-            self.vars.extend(ids);
-        }
-
-        self.found = old;
+fn find_lexical_vars(node: &VarDecl) -> Vec<Id> {
+    if node.kind == VarDeclKind::Var {
+        return Vec::new();
     }
 
-    fn visit_ident(&mut self, i: &Ident) {
-        if self.found {
-            return;
-        }
-
-        for ident in &*self.vars {
-            if i.span.ctxt() == ident.1 && i.sym == ident.0 {
-                self.found = true;
-                break;
-            }
-        }
-    }
-
-    fn visit_member_expr(&mut self, e: &MemberExpr) {
-        if self.found {
-            return;
-        }
-
-        e.obj.visit_with(self);
-
-        if let MemberProp::Computed(c) = &e.prop {
-            c.visit_with(self);
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
-        if self.found {
-            return;
-        }
-
-        if let SuperProp::Computed(c) = &e.prop {
-            c.visit_with(self);
-        }
-    }
-
-    fn visit_var_declarator(&mut self, node: &VarDeclarator) {
-        let old = self.found;
-        self.found = false;
-
-        node.init.visit_with(self);
-
-        if self.found {
-            let ids = find_pat_ids(&node.name);
-            self.vars.extend(ids);
-        }
-
-        self.found = old;
-    }
+    find_pat_ids(&node.decls)
 }
 
 struct FlowHelper<'a> {

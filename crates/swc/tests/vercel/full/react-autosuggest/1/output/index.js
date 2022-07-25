@@ -145,14 +145,14 @@ var ItemsList = function(_Component) {
                         sectionIndex: sectionIndex,
                         itemIndex: itemIndex
                     }) : itemProps, allItemProps = function(target) {
-                        for(var _arguments = arguments, _loop = function(i) {
-                            var source = null != _arguments[i] ? _arguments[i] : {};
+                        for(var i = 1; i < arguments.length; i++){
+                            var source = null != arguments[i] ? arguments[i] : {};
                             i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                                 _defineProperty(target, key, source[key]);
                             }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
                                 Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
                             });
-                        }, i = 1; i < arguments.length; i++)_loop(i);
+                        }
                         return target;
                     }({
                         id: getItemId(sectionIndex, itemIndex),

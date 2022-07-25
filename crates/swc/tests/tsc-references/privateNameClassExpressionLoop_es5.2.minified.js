@@ -1,7 +1,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
-for(var array = [], i = 0; i < 10; ++i){
+for(var array = [], i = 0; i < 10; ++i)!function(i) {
     var _myField, _method, _accessor, get_accessor = function() {
         return 42;
     }, set_accessor = function(val) {};
@@ -15,4 +15,4 @@ for(var array = [], i = 0; i < 10; ++i){
             value: "hello"
         });
     }));
-}
+}(i);
