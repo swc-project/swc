@@ -14,7 +14,7 @@
 @import url("theme.css") LAYER;
 @import url("theme.css") layer(default);
 @import url("theme.css") LAYER(default);
-/*@import url("tabs.css") layer(framework.component);*/
+@import url("tabs.css") layer(framework.component);
 @import url("override.css") layer();
 @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
 @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
@@ -156,6 +156,11 @@ st.css');
 @import url("./import-multiple-with-layer.css") layer(default);
 @import url("./import-unnamed-layer.css") layer(base);
 @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
+
+@import url(bootstrap-base.css) layer(base);
+@import url(base-headings.css) layer;
+@import url("tabs.css") layer(framework.component);
+@import url("override.css") layer();
 
 /*@import url("./test.css") unknown(default) unknown(display: flex) unknown;*/
 

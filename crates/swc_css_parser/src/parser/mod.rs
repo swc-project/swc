@@ -54,6 +54,7 @@ struct Ctx {
     block_contents_grammar: BlockContentsGrammar,
 
     in_supports_at_rule: bool,
+    in_import_at_rule: bool,
     in_page_at_rule: bool,
 }
 
