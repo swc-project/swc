@@ -1,39 +1,9 @@
-@-webkit-keyframes test {
-  0% {
-    color: red;
-  }
-}
-@-moz-keyframes test {
-  0% {
-    color: red;
-  }
-}
-@-o-keyframes test {
-  0% {
-    color: red;
-  }
-}
 @keyframes test {
   0% {
     color: red;
   }
 }
 @supports (flex-wrap: wrap) {
-  @-webkit-keyframes test {
-    0% {
-      color: red;
-    }
-  }
-  @-moz-keyframes test {
-    0% {
-      color: red;
-    }
-  }
-  @-o-keyframes test {
-    0% {
-      color: red;
-    }
-  }
   @keyframes test {
     0% {
       color: red;
@@ -42,21 +12,6 @@
 }
 @supports (flex-wrap: wrap) {
   @supports (flex-wrap: wrap) {
-    @-webkit-keyframes test {
-      0% {
-        color: red;
-      }
-    }
-    @-moz-keyframes test {
-      0% {
-        color: red;
-      }
-    }
-    @-o-keyframes test {
-      0% {
-        color: red;
-      }
-    }
     @keyframes test {
       0% {
         -webkit-flex-wrap: wrap;

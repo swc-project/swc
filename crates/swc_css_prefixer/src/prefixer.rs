@@ -553,6 +553,16 @@ struct Prefixer {
     added_declarations: Vec<Declaration>,
 }
 
+impl Prefixer {
+    fn add_at_rule(&mut self, prefix: Prefix, at_rule: AtRule) {
+        if self.simple_block.is_none() {
+            self.added_top_rules.push((prefix, Rule::AtRule(at_rule)));
+        } else {
+            self.added_at_rules.push((prefix, at_rule));
+        }
+    }
+}
+
 impl VisitMut for Prefixer {
     fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
         let mut new = vec![];
@@ -594,85 +604,87 @@ impl VisitMut for Prefixer {
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("viewport") =>
             {
-                let ms_at_rule = AtRule {
-                    span: DUMMY_SP,
-                    name: AtRuleName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-ms-viewport".into(),
-                        raw: None,
-                    }),
-                    prelude: n.prelude.clone(),
-                    block: original_simple_block.clone(),
-                };
+                if should_prefix("@-o-viewport", self.env, false) {
+                    self.add_at_rule(
+                        Prefix::Ms,
+                        AtRule {
+                            span: DUMMY_SP,
+                            name: AtRuleName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: "-ms-viewport".into(),
+                                raw: None,
+                            }),
+                            prelude: n.prelude.clone(),
+                            block: original_simple_block.clone(),
+                        },
+                    );
+                }
 
-                let o_at_rule = AtRule {
-                    span: DUMMY_SP,
-                    name: AtRuleName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-o-viewport".into(),
-                        raw: None,
-                    }),
-                    prelude: n.prelude.clone(),
-                    block: original_simple_block,
-                };
-
-                if self.simple_block.is_none() {
-                    self.added_top_rules
-                        .push((Prefix::Ms, Rule::AtRule(ms_at_rule)));
-                    self.added_top_rules
-                        .push((Prefix::O, Rule::AtRule(o_at_rule)));
-                } else {
-                    self.added_at_rules.push((Prefix::Ms, ms_at_rule));
-                    self.added_at_rules.push((Prefix::O, o_at_rule));
+                if should_prefix("@-ms-viewport", self.env, false) {
+                    self.add_at_rule(
+                        Prefix::O,
+                        AtRule {
+                            span: DUMMY_SP,
+                            name: AtRuleName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: "-o-viewport".into(),
+                                raw: None,
+                            }),
+                            prelude: n.prelude.clone(),
+                            block: original_simple_block,
+                        },
+                    );
                 }
             }
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("keyframes") =>
             {
-                let webkit_at_rule = AtRule {
-                    span: DUMMY_SP,
-                    name: AtRuleName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-keyframes".into(),
-                        raw: None,
-                    }),
-                    prelude: n.prelude.clone(),
-                    block: original_simple_block.clone(),
-                };
+                if should_prefix("@-webkit-keyframes", self.env, false) {
+                    self.add_at_rule(
+                        Prefix::Webkit,
+                        AtRule {
+                            span: DUMMY_SP,
+                            name: AtRuleName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: "-webkit-keyframes".into(),
+                                raw: None,
+                            }),
+                            prelude: n.prelude.clone(),
+                            block: original_simple_block.clone(),
+                        },
+                    );
+                }
 
-                let moz_at_rule = AtRule {
-                    span: DUMMY_SP,
-                    name: AtRuleName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-keyframes".into(),
-                        raw: None,
-                    }),
-                    prelude: n.prelude.clone(),
-                    block: original_simple_block.clone(),
-                };
+                if should_prefix("@-moz-keyframes", self.env, false) {
+                    self.add_at_rule(
+                        Prefix::Moz,
+                        AtRule {
+                            span: DUMMY_SP,
+                            name: AtRuleName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: "-moz-keyframes".into(),
+                                raw: None,
+                            }),
+                            prelude: n.prelude.clone(),
+                            block: original_simple_block.clone(),
+                        },
+                    );
+                }
 
-                let o_at_rule = AtRule {
-                    span: DUMMY_SP,
-                    name: AtRuleName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-o-keyframes".into(),
-                        raw: None,
-                    }),
-                    prelude: n.prelude.clone(),
-                    block: original_simple_block,
-                };
-
-                if self.simple_block.is_none() {
-                    self.added_top_rules
-                        .push((Prefix::Webkit, Rule::AtRule(webkit_at_rule)));
-                    self.added_top_rules
-                        .push((Prefix::Moz, Rule::AtRule(moz_at_rule)));
-                    self.added_top_rules
-                        .push((Prefix::O, Rule::AtRule(o_at_rule)));
-                } else {
-                    self.added_at_rules.push((Prefix::Webkit, webkit_at_rule));
-                    self.added_at_rules.push((Prefix::Moz, moz_at_rule));
-                    self.added_at_rules.push((Prefix::O, o_at_rule));
+                if should_prefix("@-o-keyframes", self.env, false) {
+                    self.add_at_rule(
+                        Prefix::O,
+                        AtRule {
+                            span: DUMMY_SP,
+                            name: AtRuleName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: "-o-keyframes".into(),
+                                raw: None,
+                            }),
+                            prelude: n.prelude.clone(),
+                            block: original_simple_block,
+                        },
+                    );
                 }
             }
             _ => {}
