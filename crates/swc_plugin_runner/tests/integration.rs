@@ -105,9 +105,14 @@ fn internal() -> Result<(), Error> {
             "{sourceFileName: 'single_plugin_test'}".to_string(),
         ))
         .expect("Should serializable");
-        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-        let experimental_metadata = PluginSerializedBytes::try_serialize(
-            &VersionedSerializable::new(experimental_metadata),
+        let experimental_metadata: AHashMap<String, String> = [(
+            "TestExperimental".to_string(),
+            "ExperimentalValue".to_string(),
+        )]
+        .into_iter()
+        .collect();
+        let experimental_metadata_serialized = PluginSerializedBytes::try_serialize(
+            &VersionedSerializable::new(experimental_metadata.clone()),
         )
         .expect("Should be a hashmap");
 
@@ -119,6 +124,7 @@ fn internal() -> Result<(), Error> {
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
+                Some(experimental_metadata),
             )),
             None,
         )
@@ -129,7 +135,7 @@ fn internal() -> Result<(), Error> {
                 &program,
                 &config,
                 &context,
-                &experimental_metadata,
+                &experimental_metadata_serialized,
                 Mark::new(),
                 false,
             )
@@ -175,9 +181,14 @@ fn internal() -> Result<(), Error> {
             "{sourceFileName: 'single_plugin_handler_test'}".to_string(),
         ))
         .expect("Should serializable");
-        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-        let experimental_metadata = PluginSerializedBytes::try_serialize(
-            &VersionedSerializable::new(experimental_metadata),
+        let experimental_metadata: AHashMap<String, String> = [(
+            "TestExperimental".to_string(),
+            "ExperimentalValue".to_string(),
+        )]
+        .into_iter()
+        .collect();
+        let experimental_metadata_serialized = PluginSerializedBytes::try_serialize(
+            &VersionedSerializable::new(experimental_metadata.clone()),
         )
         .expect("Should be a hashmap");
 
@@ -192,6 +203,7 @@ fn internal() -> Result<(), Error> {
                     &Arc::new(TransformPluginMetadataContext::new(
                         None,
                         "development".to_string(),
+                        Some(experimental_metadata),
                     )),
                     None,
                 )
@@ -202,7 +214,7 @@ fn internal() -> Result<(), Error> {
                     &program,
                     &config,
                     &context,
-                    &experimental_metadata,
+                    &experimental_metadata_serialized,
                     Mark::new(),
                     false,
                 )
@@ -233,6 +245,17 @@ fn internal() -> Result<(), Error> {
                 .expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
+        let experimental_metadata: AHashMap<String, String> = [(
+            "TestExperimental".to_string(),
+            "ExperimentalValue".to_string(),
+        )]
+        .into_iter()
+        .collect();
+        let experimental_metadata_serialized = PluginSerializedBytes::try_serialize(
+            &VersionedSerializable::new(experimental_metadata.clone()),
+        )
+        .expect("Should be a hashmap");
+
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
             &path,
             &cache,
@@ -240,16 +263,11 @@ fn internal() -> Result<(), Error> {
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
+                Some(experimental_metadata.clone()),
             )),
             None,
         )
         .expect("Should load plugin");
-
-        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-        let experimental_metadata = PluginSerializedBytes::try_serialize(
-            &VersionedSerializable::new(experimental_metadata),
-        )
-        .expect("Should be a hashmap");
 
         serialized_program = plugin_transform_executor
             .transform(
@@ -262,7 +280,7 @@ fn internal() -> Result<(), Error> {
                     "{sourceFileName: 'multiple_plugin_test'}".to_string(),
                 ))
                 .expect("Should serializable"),
-                &experimental_metadata,
+                &experimental_metadata_serialized,
                 Mark::new(),
                 false,
             )
@@ -276,6 +294,7 @@ fn internal() -> Result<(), Error> {
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
+                Some(experimental_metadata.clone()),
             )),
             None,
         )
@@ -292,7 +311,7 @@ fn internal() -> Result<(), Error> {
                     "{sourceFileName: 'multiple_plugin_test2'}".to_string(),
                 ))
                 .expect("Should serializable"),
-                &experimental_metadata,
+                &experimental_metadata_serialized,
                 Mark::new(),
                 false,
             )

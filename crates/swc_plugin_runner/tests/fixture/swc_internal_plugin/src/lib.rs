@@ -53,8 +53,15 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
             .emit();
     });
 
-    // Arbitaray call for now
-    metadata.experimental.is_empty();
+    let experimental_metadata = metadata.get_raw_experimental_context();
+    let experimental_value = experimental_metadata
+        .get("TestExperimental")
+        .expect("Experimental metadata should exist");
+
+    // Let test fail if metadata is not correctly passed
+    if experimental_value != "ExperimentalValue" {
+        return program;
+    }
 
     program.fold_with(&mut as_folder(ConsoleOutputReplacer))
 }

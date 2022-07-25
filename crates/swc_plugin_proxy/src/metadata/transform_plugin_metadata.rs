@@ -58,11 +58,11 @@ extern "C" {
 
 #[cfg(feature = "plugin-mode")]
 impl TransformPluginProgramMetadata {
-    pub fn get_context() {
+    pub fn get_context(&self) {
         unimplemented!()
     }
 
-    pub fn get_raw_context() {
+    pub fn get_raw_context(&self) {
         unimplemented!()
     }
 
@@ -81,7 +81,7 @@ impl TransformPluginProgramMetadata {
     ///
     /// Note these metadata values can be changed anytime. There is no gaurantee
     /// values will be available across different @swc/core versions.
-    pub fn get_experimental_context(key: &str) -> String {
+    pub fn get_experimental_context(&self, key: &str) -> String {
         unimplemented!()
     }
 
@@ -90,7 +90,9 @@ impl TransformPluginProgramMetadata {
     ///
     /// Each time this is called, it'll require a call between host-plugin which
     /// involves serialization / deserialization.
-    pub fn get_raw_experimental_context() -> swc_common::collections::AHashMap<String, String> {
+    pub fn get_raw_experimental_context(
+        &self,
+    ) -> swc_common::collections::AHashMap<String, String> {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
             __get_raw_experiemtal_transform_context(serialized_ptr)

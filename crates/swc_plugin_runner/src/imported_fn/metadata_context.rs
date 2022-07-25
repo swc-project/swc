@@ -1,6 +1,5 @@
 use std::sync::Arc;
 
-use parking_lot::Mutex;
 use swc_common::plugin::{
     metadata::TransformPluginMetadataContext,
     serialized::{PluginSerializedBytes, VersionedSerializable},
@@ -19,22 +18,18 @@ pub struct MetadataContextHostEnvironment {
     pub alloc_guest_memory: LazyInit<NativeFunc<u32, i32>>,
     pub metadata_context: Arc<TransformPluginMetadataContext>,
     pub plugin_config: Option<serde_json::Value>,
-    /// A buffer to non-determined size of return value from the host.
-    pub mutable_metadata_context_buffer: Arc<Mutex<Vec<u8>>>,
 }
 
 impl MetadataContextHostEnvironment {
     pub fn new(
         metadata_context: Arc<TransformPluginMetadataContext>,
         plugin_config: Option<serde_json::Value>,
-        mutable_metadata_context_buffer: &Arc<Mutex<Vec<u8>>>,
     ) -> Self {
         MetadataContextHostEnvironment {
             memory: LazyInit::default(),
             alloc_guest_memory: LazyInit::default(),
             metadata_context,
             plugin_config,
-            mutable_metadata_context_buffer: mutable_metadata_context_buffer.clone(),
         }
     }
 }

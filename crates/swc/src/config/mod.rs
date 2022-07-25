@@ -534,6 +534,7 @@ impl Options {
             let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
                 transform_filename,
                 self.env_name.to_owned(),
+                None,
             ));
 
             if experimental.plugins.is_some() {
@@ -573,6 +574,7 @@ impl Options {
             let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
                 transform_filename,
                 self.env_name.to_owned(),
+                None,
             ));
 
             swc_plugin_runner::cache::init_plugin_module_cache_once();

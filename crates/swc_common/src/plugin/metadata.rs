@@ -11,11 +11,15 @@ pub struct TransformPluginMetadataContext {
 }
 
 impl TransformPluginMetadataContext {
-    pub fn new(filename: Option<String>, env: String) -> Self {
+    pub fn new(
+        filename: Option<String>,
+        env: String,
+        experimental: Option<AHashMap<String, String>>,
+    ) -> Self {
         TransformPluginMetadataContext {
             filename,
             env,
-            experimental: AHashMap::default(),
+            experimental: experimental.unwrap_or_default(),
         }
     }
 }

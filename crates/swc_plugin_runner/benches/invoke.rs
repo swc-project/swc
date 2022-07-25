@@ -77,6 +77,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
+                None,
             )),
             None,
         )
