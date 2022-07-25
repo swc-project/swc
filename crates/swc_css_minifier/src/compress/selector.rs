@@ -1,4 +1,4 @@
-use swc_common::{collections::AHashSet, EqIgnoreSpan, DUMMY_SP};
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -18,7 +18,7 @@ impl VisitMut for CompressSelector {
     fn visit_mut_selector_list(&mut self, selector_list: &mut SelectorList) {
         selector_list.visit_mut_children_with(self);
 
-        let mut already_seen: AHashSet<ComplexSelector> = Default::default();
+        let mut already_seen: Vec<ComplexSelector> = vec![];
 
         selector_list.children.retain(|children| {
             for already_seen_complex_selector in &already_seen {
@@ -27,7 +27,7 @@ impl VisitMut for CompressSelector {
                 }
             }
 
-            already_seen.insert(children.clone());
+            already_seen.push(children.clone());
 
             true
         });
