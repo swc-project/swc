@@ -61,6 +61,7 @@ use crate::{
         set_transform_result::{set_transform_result, TransformResultHostEnvironment},
         span::span_dummy_with_cmt_proxy,
     },
+    TransformPluginMetadataContext,
 };
 
 mod comments;
@@ -89,13 +90,15 @@ pub(crate) fn build_import_object(
     module: &Module,
     transform_result: &Arc<Mutex<Vec<u8>>>,
     source_map: Arc<SourceMap>,
+    metadata_context: Arc<TransformPluginMetadataContext>,
+    plugin_config: Option<serde_json::Value>,
 ) -> ImportObject {
     let wasmer_store = module.store();
 
     // metadata
     let get_raw_experiemtal_transform_context_fn_decl = Function::new_native_with_env(
         wasmer_store,
-        MetadataContextHostEnvironment::new(),
+        MetadataContextHostEnvironment::new(metadata_context, plugin_config),
         get_raw_experiemtal_transform_context,
     );
 

@@ -10,6 +10,7 @@ use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver
 #[cfg(not(feature = "plugin"))]
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
+use swc_plugin_runner::TransformPluginMetadataContext;
 
 /// A tuple represents a plugin.
 /// First element is a resolvable name to the plugin, second is a JSON object
@@ -43,19 +44,21 @@ pub struct PluginContext {
 
 #[cfg(feature = "plugin")]
 pub fn plugins(
+    configured_plugins: Option<Vec<PluginConfig>>,
+    metadata_context: std::sync::Arc<TransformPluginMetadataContext>,
     resolver: Option<CachingResolver<NodeModulesResolver>>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
-    config: crate::config::JscExperimental,
     plugin_context: PluginContext,
     unresolved_mark: swc_common::Mark,
 ) -> impl Fold {
     {
         RustPlugins {
+            plugins: configured_plugins,
+            metadata_context,
             resolver,
             comments,
             source_map,
-            plugins: config.plugins,
             plugin_context,
             unresolved_mark,
         }
@@ -68,9 +71,10 @@ pub fn plugins() -> impl Fold {
 }
 
 struct RustPlugins {
+    plugins: Option<Vec<PluginConfig>>,
+    metadata_context: std::sync::Arc<TransformPluginMetadataContext>,
     resolver: Option<CachingResolver<NodeModulesResolver>>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
-    plugins: Option<Vec<PluginConfig>>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     plugin_context: PluginContext,
     unresolved_mark: swc_common::Mark,
@@ -122,8 +126,8 @@ impl RustPlugins {
                 // Note: This doesn't mean plugin won't perform any se/deserialization: it
                 // still have to construct from raw bytes internally to perform actual
                 // transform.
-                if let Some(plugins) = &self.plugins {
-                    for p in plugins {
+                if let Some(plugins) = &mut self.plugins {
+                    for p in plugins.drain(..) {
                         let resolved_path = self
                             .resolver
                             .as_ref()
@@ -136,11 +140,21 @@ impl RustPlugins {
                             anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
                         };
 
+                        let serialized_config_json = serde_json::to_string(&p.1.clone())
+                            .context("Failed to serialize plugin config as json")
+                            .and_then(|value| {
+                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
+                                    value,
+                                ))
+                            })?;
+
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(
                                 &path,
                                 &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
                                 &self.source_map,
+                                &self.metadata_context,
+                                Some(p.1),
                             )?;
 
                         if !transform_plugin_executor.is_transform_schema_compatible()? {
@@ -153,14 +167,6 @@ impl RustPlugins {
                             plugin_module = p.0.as_str()
                         );
                         let context_span_guard = span.enter();
-
-                        let serialized_config_json = serde_json::to_string(&p.1)
-                            .context("Failed to serialize plugin config as json")
-                            .and_then(|value| {
-                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                                    value,
-                                ))
-                            })?;
 
                         let serialized_context_json = serde_json::to_string(&self.plugin_context)
                             .context("Failed to serialize plugin context as json")

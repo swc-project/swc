@@ -16,7 +16,7 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
-use swc_plugin_runner::cache::PluginModuleCache;
+use swc_plugin_runner::{cache::PluginModuleCache, TransformPluginMetadataContext};
 
 static SOURCE: &str = include_str!("./assets/input.js");
 
@@ -71,6 +71,11 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 .join("swc_internal_plugin.wasm"),
             &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
             &cm,
+            &Arc::new(TransformPluginMetadataContext::new(
+                None,
+                "development".to_string(),
+            )),
+            None,
         )
         .unwrap();
 

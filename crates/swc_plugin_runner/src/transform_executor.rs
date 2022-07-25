@@ -8,7 +8,7 @@ use swc_common::{
 };
 use wasmer::Instance;
 
-use crate::memory_interop::write_into_memory_view;
+use crate::{memory_interop::write_into_memory_view, TransformPluginMetadataContext};
 
 /// A struct encapsule executing a plugin's transform interop to its teardown
 pub struct TransformExecutor {
@@ -30,14 +30,24 @@ pub struct TransformExecutor {
 }
 
 impl TransformExecutor {
-    #[tracing::instrument(level = "info", skip(cache, source_map))]
+    #[tracing::instrument(
+        level = "info",
+        skip(cache, source_map, metadata_context, plugin_config)
+    )]
     pub fn new(
         path: &std::path::Path,
         cache: &once_cell::sync::Lazy<crate::cache::PluginModuleCache>,
         source_map: &Arc<SourceMap>,
+        metadata_context: &Arc<TransformPluginMetadataContext>,
+        plugin_config: Option<serde_json::Value>,
     ) -> Result<TransformExecutor, Error> {
-        let (instance, transform_result) =
-            crate::load_plugin::load_plugin(path, cache, source_map)?;
+        let (instance, transform_result) = crate::load_plugin::load_plugin(
+            path,
+            cache,
+            source_map,
+            metadata_context,
+            plugin_config,
+        )?;
 
         let tracker = TransformExecutor {
             exported_plugin_transform: instance.exports.get_native_function::<(

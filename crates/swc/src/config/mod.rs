@@ -62,6 +62,7 @@ use swc_ecma_transforms::{
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
+use swc_plugin_runner::TransformPluginMetadataContext;
 
 use crate::{
     builder::PassBuilder,
@@ -526,9 +527,14 @@ impl Options {
             };
 
             let plugin_context = PluginContext {
-                filename: transform_filename,
+                filename: transform_filename.clone(),
                 env_name: self.env_name.to_owned(),
             };
+
+            let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
+                transform_filename,
+                self.env_name.to_owned(),
+            ));
 
             if experimental.plugins.is_some() {
                 swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
@@ -537,10 +543,11 @@ impl Options {
             let comments = comments.cloned();
             let source_map = cm.clone();
             crate::plugin::plugins(
+                experimental.plugins,
+                transform_metadata_context,
                 Some(plugin_resolver),
                 comments,
                 source_map,
-                experimental,
                 plugin_context,
                 unresolved_mark,
             )
