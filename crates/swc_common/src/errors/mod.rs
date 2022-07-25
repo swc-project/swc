@@ -8,9 +8,6 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-// TODO: https://github.com/rkyv/bytecheck/issues/20
-#![allow(ambiguous_associated_items)]
-
 use std::{
     borrow::Cow,
     cell::RefCell,
