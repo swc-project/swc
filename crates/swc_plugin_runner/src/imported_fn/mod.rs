@@ -57,6 +57,7 @@ use crate::{
             has_trailing_comments_proxy, move_leading_comments_proxy, move_trailing_comments_proxy,
             take_leading_comments_proxy, take_trailing_comments_proxy, CommentHostEnvironment,
         },
+        metadata_context::get_raw_experiemtal_transform_context,
         set_transform_result::{set_transform_result, TransformResultHostEnvironment},
         span::span_dummy_with_cmt_proxy,
     },
@@ -65,6 +66,7 @@ use crate::{
 mod comments;
 mod handler;
 mod hygiene;
+mod metadata_context;
 mod set_transform_result;
 mod source_map;
 mod span;
@@ -72,9 +74,13 @@ mod span;
 use handler::*;
 use hygiene::*;
 
-use self::source_map::{
-    doctest_offset_line_proxy, lookup_byte_offset_proxy, lookup_char_pos_proxy, merge_spans_proxy,
-    span_to_filename_proxy, span_to_lines_proxy, span_to_string_proxy, SourceMapHostEnvironment,
+use self::{
+    metadata_context::MetadataContextHostEnvironment,
+    source_map::{
+        doctest_offset_line_proxy, lookup_byte_offset_proxy, lookup_char_pos_proxy,
+        merge_spans_proxy, span_to_filename_proxy, span_to_lines_proxy, span_to_string_proxy,
+        SourceMapHostEnvironment,
+    },
 };
 
 /// Create an ImportObject includes functions to be imported from host to the
@@ -85,6 +91,13 @@ pub(crate) fn build_import_object(
     source_map: Arc<SourceMap>,
 ) -> ImportObject {
     let wasmer_store = module.store();
+
+    // metadata
+    let get_raw_experiemtal_transform_context_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        MetadataContextHostEnvironment::new(),
+        get_raw_experiemtal_transform_context,
+    );
 
     // transform_result
     let set_transform_result_fn_decl = Function::new_native_with_env(
@@ -254,6 +267,8 @@ pub(crate) fn build_import_object(
 
     imports! {
         "env" => {
+            // metadata
+            "__get_raw_experiemtal_transform_context" => get_raw_experiemtal_transform_context_fn_decl,
             // transform
             "__set_transform_result" => set_transform_result_fn_decl,
             // handler
