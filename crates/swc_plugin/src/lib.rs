@@ -29,6 +29,10 @@ pub mod source_map {
     pub use swc_plugin_proxy::PluginSourceMapProxy;
 }
 
+pub mod metadata {
+    pub use swc_plugin_proxy::TransformPluginProgramMetadata;
+}
+
 pub mod utils {
     pub use swc_common::util::take;
     #[cfg(feature = "swc_ecma_quote")]
@@ -66,6 +70,3 @@ pub mod memory {
     pub use crate::allocation::*;
 }
 mod pseudo_scoped_key;
-
-mod transform_plugin_metadata;
-pub use transform_plugin_metadata::TransformPluginProgramMetadata;

@@ -122,7 +122,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
             // Construct metadata to the `Program` for the transform plugin.
             let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_plugin::comments::PluginCommentsProxy) } else { None };
-            let mut metadata = swc_plugin::TransformPluginProgramMetadata {
+            let mut metadata = swc_plugin::metadata::TransformPluginProgramMetadata {
                 comments: plugin_comments_proxy,
                 source_map: swc_plugin::source_map::PluginSourceMapProxy,
                 plugin_config: config,

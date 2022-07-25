@@ -1,8 +1,19 @@
-use swc_plugin_proxy::{PluginCommentsProxy, PluginSourceMapProxy};
+#[cfg(feature = "plugin-mode")]
+use swc_common::{collections::AHashMap, Mark};
+
+#[cfg(feature = "plugin-mode")]
+#[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+use crate::{
+    memory_interop::read_returned_result_from_host, PluginCommentsProxy, PluginSourceMapProxy,
+};
+
+//#[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+//use crate::memory_interop::read_returned_result_from_host;
 
 /// An arbitary metadata for given Program to run transform in plugin.
 /// These are not directly attached to Program's AST structures
 /// but required for certain transforms.
+#[cfg(feature = "plugin-mode")]
 #[derive(Debug)]
 pub struct TransformPluginProgramMetadata {
     /// Proxy to the comments for the Program passed into plugin.
@@ -17,7 +28,7 @@ pub struct TransformPluginProgramMetadata {
     /// This is readonly. Changing value in plugin doesn't affect host's
     /// behavior.
     pub plugin_config: String,
-    pub unresolved_mark: crate::syntax_pos::Mark,
+    pub unresolved_mark: Mark,
     /// Stringified JSON value for relative context while running transform,
     /// like filenames.
     /// This is readonly. Changing value in plugin doesn't affect host's
@@ -42,9 +53,10 @@ pub struct TransformPluginProgramMetadata {
 
 #[cfg(target_arch = "wasm32")] // Allow testing
 extern "C" {
-    fn __get_raw_experiemtal_transform_context();
+    fn __get_raw_experiemtal_transform_context(allocated_ret_ptr: i32) -> i32;
 }
 
+#[cfg(feature = "plugin-mode")]
 impl TransformPluginProgramMetadata {
     pub fn get_context() {
         unimplemented!()
@@ -56,6 +68,9 @@ impl TransformPluginProgramMetadata {
 
     /// Returns non typed, extensible metadata properties without breaking
     /// plugin compability between host.
+    ///
+    /// Each time this is called, it'll require a call between host-plugin which
+    /// involves serialization / deserialization.
     ///
     /// `@swc/core` internally keeps a placeholder storage for adding new
     /// metadata without making a breaking changes, plugin can ask to return
@@ -72,7 +87,17 @@ impl TransformPluginProgramMetadata {
 
     /// Returns experimental metadata context, but returns whole value as a
     /// HashMap.
+    ///
+    /// Each time this is called, it'll require a call between host-plugin which
+    /// involves serialization / deserialization.
     pub fn get_raw_experimental_context() -> swc_common::collections::AHashMap<String, String> {
-        unimplemented!()
+        #[cfg(target_arch = "wasm32")]
+        return read_returned_result_from_host(|serialized_ptr| unsafe {
+            __get_raw_experiemtal_transform_context(serialized_ptr)
+        })
+        .expect("Raw experimental metadata should exists, even if it's empty map");
+
+        #[cfg(not(target_arch = "wasm32"))]
+        AHashMap::default()
     }
 }

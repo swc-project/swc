@@ -96,9 +96,14 @@ pub(crate) fn build_import_object(
     let wasmer_store = module.store();
 
     // metadata
+    let metadata_context_buffer = Arc::new(Mutex::new(vec![]));
     let get_raw_experiemtal_transform_context_fn_decl = Function::new_native_with_env(
         wasmer_store,
-        MetadataContextHostEnvironment::new(metadata_context, plugin_config),
+        MetadataContextHostEnvironment::new(
+            metadata_context,
+            plugin_config,
+            &metadata_context_buffer,
+        ),
         get_raw_experiemtal_transform_context,
     );
 

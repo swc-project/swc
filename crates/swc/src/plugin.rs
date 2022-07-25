@@ -241,8 +241,8 @@ impl RustPlugins {
                 let program = VersionedSerializable::new(n);
                 let mut serialized_program = PluginSerializedBytes::try_serialize(&program)?;
 
-                if let Some(plugins) = &self.plugins {
-                    for p in plugins {
+                if let Some(plugins) = &mut self.plugins {
+                    for p in plugins.drain(..) {
                         let serialized_config_json = serde_json::to_string(&p.1)
                             .context("Failed to serialize plugin config as json")
                             .and_then(|value| {
@@ -264,6 +264,8 @@ impl RustPlugins {
                                 &PathBuf::from(&p.0),
                                 &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
                                 &self.source_map,
+                                &self.metadata_context,
+                                Some(p.1),
                             )?;
 
                         // Forward host side experimental metadata into plugin.

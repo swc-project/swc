@@ -566,18 +566,24 @@ impl Options {
             };
 
             let plugin_context = PluginContext {
-                filename: transform_filename,
+                filename: transform_filename.clone(),
                 env_name: self.env_name.to_owned(),
             };
+
+            let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
+                transform_filename,
+                self.env_name.to_owned(),
+            ));
 
             swc_plugin_runner::cache::init_plugin_module_cache_once();
             let comments = comments.cloned();
             let source_map = cm.clone();
             crate::plugin::plugins(
+                experimental.plugins,
+                transform_metadata_context,
                 None,
                 comments,
                 source_map,
-                experimental,
                 plugin_context,
                 unresolved_mark,
             )
