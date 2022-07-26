@@ -281,17 +281,18 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // jsdoc
         let slice_start = self.cur_pos();
-        let mut was_star = if self.input.is_byte(b'*') {
+        let mut was_star_pos = if self.input.is_byte(b'*') {
+            let pos = self.cur_pos();
             self.bump();
-            true
+            Some(pos)
         } else {
-            false
+            None
         };
 
         let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
         while let Some(c) = self.cur() {
-            if was_star && c == '/' {
+            if was_star_pos.is_some() && c == '/' {
                 debug_assert_eq!(self.cur(), Some('/'));
                 self.bump(); // '/'
 
@@ -310,6 +311,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                         kind: CommentKind::Block,
                         span: Span::new(start, end, SyntaxContext::empty()),
                         text: self.atoms.borrow_mut().intern(s),
+                        span: Span::new(start, was_star_pos.unwrap(), SyntaxContext::empty()),
+                        text: s.into(),
                     };
 
                     let _ = self.input.peek();
@@ -330,7 +333,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.state.had_line_break = true;
             }
 
-            was_star = c == '*';
+            was_star_pos = if c == '*' { Some(self.cur_pos()) } else { None };
             self.bump();
         }
 
