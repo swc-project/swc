@@ -38,7 +38,7 @@ pub trait Renamer: Send + Sync {
     }
 
     /// Should increment `n`.
-    fn new_name_for(&self, orig: &Id, n: &mut usize) -> JsWord;
+    fn new_name_for(&self, orig: &Id, n: &mut usize) -> String;
 }
 
 pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
