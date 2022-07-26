@@ -6,6 +6,7 @@ use std::{
 };
 
 use anyhow::{anyhow, Error};
+use serde_json::json;
 use swc_common::{
     collections::AHashMap,
     errors::HANDLER,
@@ -105,10 +106,13 @@ fn internal() -> Result<(), Error> {
             "{sourceFileName: 'single_plugin_test'}".to_string(),
         ))
         .expect("Should serializable");
-        let experimental_metadata: AHashMap<String, String> = [(
-            "TestExperimental".to_string(),
-            "ExperimentalValue".to_string(),
-        )]
+        let experimental_metadata: AHashMap<String, String> = [
+            (
+                "TestExperimental".to_string(),
+                "ExperimentalValue".to_string(),
+            ),
+            ("OtherTest".to_string(), "OtherVal".to_string()),
+        ]
         .into_iter()
         .collect();
         let experimental_metadata_serialized = PluginSerializedBytes::try_serialize(
@@ -126,7 +130,7 @@ fn internal() -> Result<(), Error> {
                 "development".to_string(),
                 Some(experimental_metadata),
             )),
-            None,
+            Some(json!({ "pluginConfig": "testValue" })),
         )
         .expect("Should load plugin");
 
@@ -181,10 +185,13 @@ fn internal() -> Result<(), Error> {
             "{sourceFileName: 'single_plugin_handler_test'}".to_string(),
         ))
         .expect("Should serializable");
-        let experimental_metadata: AHashMap<String, String> = [(
-            "TestExperimental".to_string(),
-            "ExperimentalValue".to_string(),
-        )]
+        let experimental_metadata: AHashMap<String, String> = [
+            (
+                "TestExperimental".to_string(),
+                "ExperimentalValue".to_string(),
+            ),
+            ("OtherTest".to_string(), "OtherVal".to_string()),
+        ]
         .into_iter()
         .collect();
         let experimental_metadata_serialized = PluginSerializedBytes::try_serialize(
@@ -205,7 +212,7 @@ fn internal() -> Result<(), Error> {
                         "development".to_string(),
                         Some(experimental_metadata),
                     )),
-                    None,
+                    Some(json!({ "pluginConfig": "testValue" })),
                 )
                 .expect("Should load plugin");
 
@@ -245,10 +252,13 @@ fn internal() -> Result<(), Error> {
                 .expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
-        let experimental_metadata: AHashMap<String, String> = [(
-            "TestExperimental".to_string(),
-            "ExperimentalValue".to_string(),
-        )]
+        let experimental_metadata: AHashMap<String, String> = [
+            (
+                "TestExperimental".to_string(),
+                "ExperimentalValue".to_string(),
+            ),
+            ("OtherTest".to_string(), "OtherVal".to_string()),
+        ]
         .into_iter()
         .collect();
         let experimental_metadata_serialized = PluginSerializedBytes::try_serialize(
@@ -265,7 +275,7 @@ fn internal() -> Result<(), Error> {
                 "development".to_string(),
                 Some(experimental_metadata.clone()),
             )),
-            None,
+            Some(json!({ "pluginConfig": "testValue" })),
         )
         .expect("Should load plugin");
 
@@ -296,7 +306,7 @@ fn internal() -> Result<(), Error> {
                 "development".to_string(),
                 Some(experimental_metadata.clone()),
             )),
-            None,
+            Some(json!({ "pluginConfig": "testValue" })),
         )
         .expect("Should load plugin");
 

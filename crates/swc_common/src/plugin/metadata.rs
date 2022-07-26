@@ -1,12 +1,21 @@
+use std::env;
+
 use crate::collections::AHashMap;
 
+#[derive(Copy, Clone)]
+pub enum TransformPluginMetadataContextKind {
+    Filename = 1,
+    Env = 2,
+    Cwd = 3,
+}
+
 /// Host side metadata context plugin may need to access.
-/// This is a global context - any plugin will have same values.
+/// This is a global context - any plugin in single transform will have same
+/// values.
 pub struct TransformPluginMetadataContext {
     pub filename: Option<String>,
     pub env: String,
-    // swcconfig
-    // cwd
+    pub cwd: Option<String>,
     pub experimental: AHashMap<String, String>,
 }
 
@@ -19,6 +28,9 @@ impl TransformPluginMetadataContext {
         TransformPluginMetadataContext {
             filename,
             env,
+            cwd: env::current_dir()
+                .map(|cwd| cwd.as_path().to_string_lossy().to_string())
+                .ok(),
             experimental: experimental.unwrap_or_default(),
         }
     }

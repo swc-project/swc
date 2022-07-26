@@ -75,7 +75,10 @@ use handler::*;
 use hygiene::*;
 
 use self::{
-    metadata_context::MetadataContextHostEnvironment,
+    metadata_context::{
+        copy_context_key_to_host_env, get_experimental_transform_context,
+        get_transform_plugin_config, MetadataContextHostEnvironment,
+    },
     source_map::{
         doctest_offset_line_proxy, lookup_byte_offset_proxy, lookup_char_pos_proxy,
         merge_spans_proxy, span_to_filename_proxy, span_to_lines_proxy, span_to_string_proxy,
@@ -95,9 +98,25 @@ pub(crate) fn build_import_object(
     let wasmer_store = module.store();
 
     // metadata
+    let context_key_buffer = Arc::new(Mutex::new(vec![]));
+    let copy_context_key_to_host_env_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
+        copy_context_key_to_host_env,
+    );
+    let get_transform_plugin_config_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
+        get_transform_plugin_config,
+    );
+    let get_experimental_transform_context_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
+        get_experimental_transform_context,
+    );
     let get_raw_experiemtal_transform_context_fn_decl = Function::new_native_with_env(
         wasmer_store,
-        MetadataContextHostEnvironment::new(metadata_context, plugin_config),
+        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
         get_raw_experiemtal_transform_context,
     );
 
@@ -270,6 +289,9 @@ pub(crate) fn build_import_object(
     imports! {
         "env" => {
             // metadata
+            "__copy_context_key_to_host_env" => copy_context_key_to_host_env_fn_decl,
+            "__get_transform_plugin_config" => get_transform_plugin_config_fn_decl,
+            "__get_experimental_transform_context" => get_experimental_transform_context_fn_decl,
             "__get_raw_experiemtal_transform_context" => get_raw_experiemtal_transform_context_fn_decl,
             // transform
             "__set_transform_result" => set_transform_result_fn_decl,
