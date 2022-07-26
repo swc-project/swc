@@ -11,6 +11,9 @@
 - **(es/codegen)** Add `;` for a generator function (#5292) ([daac26b](https://github.com/swc-project/swc/commit/daac26bcfbc48a732d4b1b831a0f54518401f63b))
 
 
+- **(es/codegen)** Fix sourcemap of multiline comments (#5299) ([3100bf8](https://github.com/swc-project/swc/commit/3100bf8c6220640006c3238e69f0f5fbd8fce738))
+
+
 - **(es/compat)** Preserve orders of `import`s and `export`s (#5249) ([2010409](https://github.com/swc-project/swc/commit/2010409bac0f73c5f4d04f6735db6142f621701a))
 
 
