@@ -41,13 +41,11 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> String {
         ret.push(c);
     }
 
-    let s = unsafe {
+    unsafe {
         // Safety: We are only using ascii characters
         // Safety: The stack memory for ret is alive while creating JsWord
         String::from_utf8_unchecked(ret.to_vec())
-    };
-
-    s
+    }
 }
 
 #[allow(unused)]
