@@ -3,6 +3,7 @@
 use std::sync::Arc;
 
 use dashmap::DashMap;
+use swc_atoms::atom;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,
@@ -87,7 +88,7 @@ impl Comments for SwcComments {
         let pure_comment = Comment {
             kind: CommentKind::Block,
             span: DUMMY_SP,
-            text: "#__PURE__".into(),
+            text: atom!("#__PURE__"),
         };
 
         if !leading.iter().any(|c| c.text == pure_comment.text) {

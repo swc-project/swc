@@ -8,7 +8,7 @@ use std::{
 
 use enum_kind::Kind;
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
@@ -71,8 +71,8 @@ pub enum Token {
     #[kind(starts_expr)]
     BackQuote,
     Template {
-        raw: JsWord,
-        cooked: LexResult<JsWord>,
+        raw: Atom,
+        cooked: LexResult<Atom>,
     },
     /// ':'
     #[kind(before_expr)]
@@ -110,24 +110,24 @@ pub enum Token {
     #[kind(starts_expr)]
     Str {
         value: JsWord,
-        raw: JsWord,
+        raw: Atom,
     },
 
     /// Regexp literal.
     #[kind(starts_expr)]
-    Regex(JsWord, JsWord),
+    Regex(Atom, Atom),
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
     Num {
         value: f64,
-        raw: JsWord,
+        raw: Atom,
     },
 
     #[kind(starts_expr)]
     BigInt {
         value: BigIntValue,
-        raw: JsWord,
+        raw: Atom,
     },
 
     JSXName {
@@ -135,13 +135,13 @@ pub enum Token {
     },
     #[kind(before_expr)]
     JSXText {
-        raw: JsWord,
+        raw: Atom,
     },
     #[kind(starts_expr)]
     JSXTagStart,
     JSXTagEnd,
 
-    Shebang(JsWord),
+    Shebang(Atom),
     Error(Error),
 }
 

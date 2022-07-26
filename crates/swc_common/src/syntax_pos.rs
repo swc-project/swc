@@ -494,6 +494,11 @@ impl Span {
     }
 
     #[inline]
+    pub fn private(self) -> Span {
+        self.apply_mark(Mark::fresh(Mark::root()))
+    }
+
+    #[inline]
     pub fn adjust(&mut self, expansion: Mark) -> Option<Mark> {
         let mut span = *self;
         let mark = span.ctxt.adjust(expansion);

@@ -51,7 +51,7 @@ path-clean = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 swc = { path = "../swc", features = ["node", "concurrent"] }
-swc_atoms = { version = "0.2.4", path = "../swc_atoms" }
+swc_atoms = { path = "../swc_atoms" }
 swc_bundler = { path = "../swc_bundler" }
 swc_common = { path = "../swc_common", features = ["sourcemap", "perf"] }
 swc_ecma_ast = { path = "../swc_ecma_ast" }

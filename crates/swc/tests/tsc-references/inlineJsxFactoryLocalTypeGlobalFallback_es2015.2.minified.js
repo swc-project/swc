@@ -1,3 +1,3 @@
 import { predom } from "./renderer2";
-import prerendered from "./component";
 export default predom("h", null);
+import prerendered from "./component";

@@ -1226,13 +1226,16 @@ where
             Mergable::Var(..) => {}
             Mergable::Expr(a) => {
                 if let Expr::Seq(a) = a {
-                    //
                     for a in a.exprs.iter_mut().rev() {
                         if self.merge_sequential_expr(&mut Mergable::Expr(a), b)? {
                             return Ok(true);
                         }
 
                         if !self.is_skippable_for_seq(None, a) {
+                            return Ok(false);
+                        }
+
+                        if a.may_have_side_effects(&self.expr_ctx) {
                             return Ok(false);
                         }
                     }
@@ -2018,6 +2021,7 @@ impl Visit for UsageCounter<'_> {
     }
 }
 
+#[derive(Debug)]
 enum Mergable<'a> {
     Var(&'a mut VarDeclarator),
     Expr(&'a mut Expr),

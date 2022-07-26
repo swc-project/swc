@@ -178,82 +178,79 @@ test!(
     |_| block_scoping(Mark::new()),
     issue_686,
     "module.exports = function(values) {
-    var vars = [];
-    var elem = null, name, val;
-    for (var i = 0; i < this.elements.length; i++) {
-      elem = this.elements[i];
-      name = elem.name;
-      if (!name) continue;
-      val = values[name];
-      if (val == null) val = '';
-      switch (elem.type) {
-      case 'submit':
-        break;
-      case 'radio':
-      case 'checkbox':
-        elem.checked = val.some(function(str) {
-          return str.toString() == elem.value;
-        });
-        break;
-      case 'select-multiple':
-        elem.fill(val);
-        break;
-      case 'textarea':
-        elem.innerText = val;
-        break;
-      case 'hidden':
-        break;
-      default:
-        if (elem.fill) {
+      var vars = [];
+      var elem = null, name, val;
+      for (var i = 0; i < this.elements.length; i++) {
+        elem = this.elements[i];
+        name = elem.name;
+        if (!name) continue;
+        val = values[name];
+        if (val == null) val = '';
+        switch (elem.type) {
+        case 'submit':
+          break;
+        case 'radio':
+        case 'checkbox':
+          elem.checked = val.some(function(str) {
+            return str.toString() == elem.value;
+          });
+          break;
+        case 'select-multiple':
           elem.fill(val);
-        } else {
-          elem.value = val;
+          break;
+        case 'textarea':
+          elem.innerText = val;
+          break;
+        case 'hidden':
+          break;
+        default:
+          if (elem.fill) {
+            elem.fill(val);
+          } else {
+            elem.value = val;
+          }
+          break;
         }
-        break;
       }
-    }
-    return vars;
-  };",
-    "
-        module.exports = function(values) {
-            var _this = this, _loop = function(i) {
-                elem = _this.elements[i];
-                name = elem.name;
-                if (!name) return \"continue\";
-                val = values[name];
-                if (val == null) val = '';
-                switch(elem.type){
-                    case 'submit':
-                        break;
-                    case 'radio':
-                    case 'checkbox':
-                        elem.checked = val.some(function(str) {
-                            return str.toString() == elem.value;
-                        });
-                        break;
-                    case 'select-multiple':
-                        elem.fill(val);
-                        break;
-                    case 'textarea':
-                        elem.innerText = val;
-                        break;
-                    case 'hidden':
-                        break;
-                    default:
-                        if (elem.fill) {
-                            elem.fill(val);
-                        } else {
-                            elem.value = val;
-                        }
-                        break;
-                }
-            };
-            var vars = [];
-            var elem = null, name, val;
-            for(var i = 0; i < this.elements.length; i++)_loop(i);
-            return vars;
-        };
-        "
+      return vars;
+    };",
+    "module.exports = function(values) {
+      var vars = [];
+      var elem = null, name, val;
+      for (var i = 0; i < this.elements.length; i++) {
+        elem = this.elements[i];
+        name = elem.name;
+        if (!name) continue;
+        val = values[name];
+        if (val == null) val = '';
+        switch (elem.type) {
+        case 'submit':
+          break;
+        case 'radio':
+        case 'checkbox':
+          elem.checked = val.some(function(str) {
+            return str.toString() == elem.value;
+          });
+          break;
+        case 'select-multiple':
+          elem.fill(val);
+          break;
+        case 'textarea':
+          elem.innerText = val;
+          break;
+        case 'hidden':
+          break;
+        default:
+          if (elem.fill) {
+            elem.fill(val);
+          } else {
+            elem.value = val;
+          }
+          break;
+        }
+      }
+      return vars;
+    };"
 );
 
 test_exec!(
@@ -747,13 +744,12 @@ test!(
         ",
     "
         function test() {
-            var _arguments = arguments, _loop = function(i) {
-                var arg = _arguments[i];
-                console.log(function() {
-                    return arg;
-                }());
-            };
-            for(var i = 0; i < arguments.length; i++)_loop(i);
+            for (var i = 0; i < arguments.length; i++) {
+              var arg = arguments[i];
+              console.log(function () {
+                return arg
+              }());
+            }
         }
         "
 );
@@ -781,13 +777,12 @@ test!(
         ",
     "
         function test(a) {
-            var _loop = function(i) {
-                var arg = a.arguments[i];
-                console.log(function() {
-                    return arg;
-                }());
-            };
-            for(var i = 0; i < a.arguments.length; i++)_loop(i);
+            for (var i = 0; i < a.arguments.length; i++) {
+              var arg = a.arguments[i];
+              console.log(function () {
+                return arg
+              }());
+            }
         }
         "
 );
@@ -841,12 +836,9 @@ test!(
         ",
     "
         function test() {
-            var _loop = function(i) {
-                console.log(function() {
-                    return arguments[i];
-                }());
-            };
-            for(var i = 0; i < arguments.length; i++)_loop(i);
+            for (var i = 0; i < arguments.length; i++) {
+              console.log(function () { return arguments[i] }());
+            }
         }
         "
 );
@@ -868,7 +860,7 @@ test!(
             }
 
             ownKeys.forEach(function (key) {
-            defineProperty(target, key, source[key]);
+                defineProperty(target, key, source[key]);
             });
         }
 
@@ -877,21 +869,21 @@ test!(
     ",
     "
     export default function _objectSpread(target) {
-        var _arguments = arguments, _loop = function(i) {
-            var source = _arguments[i] != null ? _arguments[i] : {
-            };
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i] != null ? arguments[i] : {};
             var ownKeys = Object.keys(source);
+
             if (typeof Object.getOwnPropertySymbols === 'function') {
-                ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) \
-     {
-                    return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                }));
+            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+            }));
             }
-            ownKeys.forEach(function(key) {
+
+            ownKeys.forEach(function (key) {
                 defineProperty(target, key, source[key]);
             });
-        };
-        for(var i = 1; i < arguments.length; i++)_loop(i);
+        }
+
         return target;
     }
     "
@@ -975,7 +967,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
+    |_| tr(),
     issue_2998_1,
     "
     let a = 5;
@@ -988,7 +980,7 @@ for (let b = 0; b < a; b++) {
     var a = 5;
 for(var b = 0; b < a; b++){
     var c = 0, b1 = 10, d = 100;
-    console.log(b);
+    console.log(b1);
 }
     "
 );
@@ -1078,7 +1070,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
+    |_| tr(),
     issue_2998_3,
     "let a = 5;
 const expected = [];
@@ -1086,7 +1078,7 @@ for (let b = 0; b < a; b++) {
     let c = 0, b = 10, d = 100;
     expected.push(b);
 }
-expect(expected).toEqual([0,1,2,3,4]);
+expect(expected).toEqual([10,10,10,10,10]);
 "
 );
 

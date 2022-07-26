@@ -4,7 +4,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{Atom, AtomGenerator};
 use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
 
@@ -114,6 +114,8 @@ pub struct Lexer<'a, I: Input> {
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 
+    atoms: Rc<RefCell<AtomGenerator>>,
+
     buf: Rc<RefCell<String>>,
 }
 
@@ -139,6 +141,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
+            atoms: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
         }
     }
@@ -200,14 +203,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return self
                     .read_number(false)
                     .map(|v| match v {
-                        Left((value, raw)) => Num {
-                            value,
-                            raw: raw.into(),
-                        },
-                        Right((value, raw)) => BigInt {
-                            value,
-                            raw: raw.into(),
-                        },
+                        Left((value, raw)) => Num { value, raw },
+                        Right((value, raw)) => BigInt { value, raw },
                     })
                     .map(Some);
             }
@@ -361,14 +358,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         };
         if ('0'..='9').contains(&next) {
             return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Num {
-                    value,
-                    raw: raw.into(),
-                },
-                Right((value, raw)) => BigInt {
-                    value,
-                    raw: raw.into(),
-                },
+                Left((value, raw)) => Num { value, raw },
+                Right((value, raw)) => BigInt { value, raw },
             });
         }
 
@@ -440,27 +431,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
             _ => {
                 return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Num {
-                        value,
-                        raw: raw.into(),
-                    },
-                    Right((value, raw)) => BigInt {
-                        value,
-                        raw: raw.into(),
-                    },
+                    Left((value, raw)) => Num { value, raw },
+                    Right((value, raw)) => BigInt { value, raw },
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Num {
-                value,
-                raw: raw.into(),
-            },
-            Right((value, raw)) => BigInt {
-                value,
-                raw: raw.into(),
-            },
+            Left((value, raw)) => Num { value, raw },
+            Right((value, raw)) => BigInt { value, raw },
         })
     }
 
@@ -810,17 +789,6 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
-    fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
-        match self.cur() {
-            Some(c) if c.is_ident_start() => self.read_word_as_str().map(Some),
-            _ => Ok(None),
-        }
-    }
-
-    fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
-        self.read_word_as_str_with(|s| JsWord::from(s))
-    }
-
     /// This method is optimized for texts without escape sequences.
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
@@ -1025,7 +993,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                         return Ok(Token::Str {
                             value: (&**out).into(),
-                            raw: raw.into(),
+                            raw: l.atoms.borrow_mut().intern(raw),
                         });
                     }
                     '\\' => {
@@ -1059,7 +1027,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             Ok(Token::Str {
                 value: (&**out).into(),
-                raw: raw.into(),
+                raw: l.atoms.borrow_mut().intern(raw),
             })
         })
     }
@@ -1096,7 +1064,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 buf.push(c);
             }
 
-            Ok((&**buf).into())
+            Ok(Atom::new(&**buf))
         })?;
         // let content_span = Span::new(content_start, self.cur_pos(),
         // Default::default());
@@ -1114,22 +1082,29 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
         // let flags_start = self.cur_pos();
-        let flags = self
-            .may_read_word_as_str()?
-            .map(|(value, _)| value)
-            .unwrap_or(js_word!(""));
+        let flags = {
+            let atoms = self.atoms.clone();
+            match self.cur() {
+                Some(c) if c.is_ident_start() => self
+                    .read_word_as_str_with(|s| atoms.borrow_mut().intern(s))
+                    .map(Some),
+                _ => Ok(None),
+            }
+        }?
+        .map(|(value, _)| value)
+        .unwrap_or_default();
 
         Ok(Regex(content, flags))
     }
 
-    fn read_shebang(&mut self) -> LexResult<Option<JsWord>> {
+    fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
         if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
             return Ok(None);
         }
         self.input.bump();
         self.input.bump();
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(s.into()))
+        Ok(Some(Atom::new(s)))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
@@ -1153,8 +1128,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // TODO: Handle error
                 return Ok(Template {
-                    cooked: cooked.map(|cooked| cooked.into()),
-                    raw: raw.into(),
+                    cooked: cooked.map(Atom::from),
+                    raw: Atom::new(raw),
                 });
             }
 

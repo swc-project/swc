@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::ast_serde;
 
 use crate::{
@@ -73,7 +73,7 @@ pub struct InterpreterDirective {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub value: JsWord,
+    pub value: Atom,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

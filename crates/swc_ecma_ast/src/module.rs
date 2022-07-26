@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
@@ -12,6 +12,28 @@ pub enum Program {
     Module(Module),
     #[tag("Script")]
     Script(Script),
+    // Reserved type for the testing purpose only. Prod codes does not utilize
+    // this at all and user should not try to attempt to use this as well.
+    // TODO: reenable once experimental_metadata breaking change is merged
+    // #[tag("ReservedUnused")]
+    // ReservedUnused(ReservedUnused),
+}
+
+#[ast_node("ReservedUnused")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ReservedUnused {
+    pub span: Span,
+    pub body: Option<Vec<ModuleItem>>,
+}
+
+#[cfg(feature = "arbitrary")]
+#[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
+impl<'a> arbitrary::Arbitrary<'a> for ReservedUnused {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let body = u.arbitrary()?;
+        Ok(Self { span, body })
+    }
 }
 
 #[ast_node("Module")]
@@ -22,8 +44,7 @@ pub struct Module {
     pub body: Vec<ModuleItem>,
 
     #[serde(default, rename = "interpreter")]
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub shebang: Option<JsWord>,
+    pub shebang: Option<Atom>,
 }
 
 #[cfg(feature = "arbitrary")]
@@ -58,8 +79,7 @@ pub struct Script {
     pub body: Vec<Stmt>,
 
     #[serde(default, rename = "interpreter")]
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub shebang: Option<JsWord>,
+    pub shebang: Option<Atom>,
 }
 
 #[cfg(feature = "arbitrary")]

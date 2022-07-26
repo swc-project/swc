@@ -5,14 +5,14 @@
 // @filename: src/a.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import foo from "./b";
-// @filename: src/b.ts
-import Foo from "./a";
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
 };
 export { Foo as default };
 foo();
+// @filename: src/b.ts
+import Foo from "./a";
 export default function foo() {
     new Foo();
 };

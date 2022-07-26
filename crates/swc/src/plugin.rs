@@ -96,6 +96,7 @@ impl RustPlugins {
 
         use anyhow::Context;
         use swc_common::{
+            collections::AHashMap,
             plugin::{PluginSerializedBytes, VersionedSerializable},
             FileName,
         };
@@ -177,11 +178,20 @@ impl RustPlugins {
                         )
                         .entered();
 
+                        // Forward host side experimental metadata into plugin.
+                        // This is currently not being used, reserved to enable proper serialization
+                        // transform.
+                        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
+                        let experimental_metadata_reserved = PluginSerializedBytes::try_serialize(
+                            &VersionedSerializable::new(experimental_metadata),
+                        )?;
+
                         serialized_program = transform_plugin_executor
                             .transform(
                                 &serialized_program,
                                 &serialized_config_json,
                                 &serialized_context_json,
+                                &experimental_metadata_reserved,
                                 self.unresolved_mark,
                                 should_enable_comments_proxy,
                             )
@@ -209,6 +219,7 @@ impl RustPlugins {
 
         use anyhow::Context;
         use swc_common::{
+            collections::AHashMap,
             plugin::{PluginSerializedBytes, VersionedSerializable},
             FileName,
         };
@@ -249,11 +260,20 @@ impl RustPlugins {
                                 &self.source_map,
                             )?;
 
+                        // Forward host side experimental metadata into plugin.
+                        // This is currently not being used, reserved to enable proper serialization
+                        // transform.
+                        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
+                        let experimental_metadata_reserved = PluginSerializedBytes::try_serialize(
+                            &VersionedSerializable::new(experimental_metadata),
+                        )?;
+
                         serialized_program = transform_plugin_executor
                             .transform(
                                 &serialized_program,
                                 &serialized_config_json,
                                 &serialized_context_json,
+                                &experimental_metadata_reserved,
                                 self.unresolved_mark,
                                 should_enable_comments_proxy,
                             )

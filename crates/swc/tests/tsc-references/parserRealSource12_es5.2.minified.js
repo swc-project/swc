@@ -52,6 +52,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         function walkNamedTypeChildren(preAst, parent, walker) {
             walkRecordChildren(preAst, parent, walker);
         }
+        function walkModuleDeclChildren(preAst, parent, walker) {
+            walkRecordChildren(preAst, parent, walker);
+        }
         ChildrenWalkers.walkNone = function(preAst, parent, walker) {}, ChildrenWalkers.walkListChildren = function(preAst, parent, walker) {
             var len = preAst.members.length;
             if (walker.options.reverseSiblings) for(var i = len - 1; i >= 0; i--)walker.options.goNextSibling && (preAst.members[i] = walker.walk(preAst.members[i], preAst));
@@ -99,14 +102,12 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         }, ChildrenWalkers.walkCatchChildren = function(preAst, parent, walker) {
             preAst.param && (preAst.param = walker.walk(preAst.param, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
         }, ChildrenWalkers.walkRecordChildren = walkRecordChildren, ChildrenWalkers.walkNamedTypeChildren = walkNamedTypeChildren, ChildrenWalkers.walkClassDeclChildren = function(preAst, parent, walker) {
-            walkNamedTypeChildren(preAst, parent, walker), walker.options.goNextSibling && preAst.extendsList && (preAst.extendsList = walker.walk(preAst.extendsList, preAst)), walker.options.goNextSibling && preAst.implementsList && (preAst.implementsList = walker.walk(preAst.implementsList, preAst));
+            walkRecordChildren(preAst, parent, walker), walker.options.goNextSibling && preAst.extendsList && (preAst.extendsList = walker.walk(preAst.extendsList, preAst)), walker.options.goNextSibling && preAst.implementsList && (preAst.implementsList = walker.walk(preAst.implementsList, preAst));
         }, ChildrenWalkers.walkScriptChildren = function(preAst, parent, walker) {
             preAst.bod && (preAst.bod = walker.walk(preAst.bod, preAst));
         }, ChildrenWalkers.walkTypeDeclChildren = function(preAst, parent, walker) {
-            walkNamedTypeChildren(preAst, parent, walker), walker.options.goNextSibling && preAst.extendsList && (preAst.extendsList = walker.walk(preAst.extendsList, preAst)), walker.options.goNextSibling && preAst.implementsList && (preAst.implementsList = walker.walk(preAst.implementsList, preAst));
-        }, ChildrenWalkers.walkModuleDeclChildren = function(preAst, parent, walker) {
-            walkRecordChildren(preAst, parent, walker);
-        }, ChildrenWalkers.walkImportDeclChildren = function(preAst, parent, walker) {
+            walkRecordChildren(preAst, parent, walker), walker.options.goNextSibling && preAst.extendsList && (preAst.extendsList = walker.walk(preAst.extendsList, preAst)), walker.options.goNextSibling && preAst.implementsList && (preAst.implementsList = walker.walk(preAst.implementsList, preAst));
+        }, ChildrenWalkers.walkModuleDeclChildren = walkModuleDeclChildren, ChildrenWalkers.walkImportDeclChildren = function(preAst, parent, walker) {
             preAst.id && (preAst.id = walker.walk(preAst.id, preAst)), preAst.alias && (preAst.alias = walker.walk(preAst.alias, preAst));
         }, ChildrenWalkers.walkWithStatementChildren = function(preAst, parent, walker) {
             preAst.expr && (preAst.expr = walker.walk(preAst.expr, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));

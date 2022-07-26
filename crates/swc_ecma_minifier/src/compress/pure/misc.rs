@@ -294,11 +294,11 @@ impl Pure<'_> {
                     unreachable!()
                 }
             })
-            .unwrap_or(js_word!(""));
+            .unwrap_or_default();
 
         Some(Expr::Lit(Lit::Regex(Regex {
             span: *span,
-            exp: pattern,
+            exp: pattern.into(),
             flags,
         })))
     }

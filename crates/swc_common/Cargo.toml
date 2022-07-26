@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.24.1"
+version = "0.25.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -24,10 +24,10 @@ perf = ["parking_lot"]
 plugin-base = ["anyhow", "rkyv-impl", "diagnostic-serde"]
 plugin-mode = ["plugin-base"]
 plugin-rt = ["plugin-base"]
-rkyv-impl = ["rkyv", "bytecheck"]
-tty-emitter = ["atty", "termcolor"]
 plugin_transform_schema_v1 = []
 plugin_transform_schema_vtest = []
+rkyv-impl = ["rkyv", "bytecheck", "swc_atoms/rkyv-impl"]
+tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
 ahash = "0.7.4"
@@ -36,7 +36,7 @@ arbitrary = { version = "1", optional = true, features = ["derive"] }
 ast_node = { version = "0.8.1", path = "../ast_node" }
 atty = { version = "0.2", optional = true }
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
-bytecheck = { version = "0.6.8", optional = true }
+bytecheck = { version = "0.6.9", optional = true }
 cfg-if = "1.0.0"
 debug_unreachable = "0.1.1"
 either = "1.5"
@@ -50,9 +50,9 @@ serde = { version = "1.0.119", features = ["derive"] }
 siphasher = "0.3.9"
 sourcemap = { version = "6", optional = true }
 string_cache = "0.8.4"
-swc_atoms = { version = "0.2.12", path = "../swc_atoms" }
+swc_atoms = { version = "0.3.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "0.1", path = "../swc_eq_ignore_macros" }
-swc_visit = { version = "0.5.0", path = "../swc_visit" }
+swc_visit = { version = "0.5.1", path = "../swc_visit" }
 termcolor = { version = "1.0", optional = true }
 tracing = "0.1.32"
 unicode-width = "0.1.4"

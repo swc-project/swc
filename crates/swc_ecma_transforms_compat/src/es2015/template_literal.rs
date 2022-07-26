@@ -1,7 +1,7 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -72,7 +72,7 @@ impl VisitMut for TemplateLiteral {
 
                         Str {
                             span: quasis[0].span,
-                            value: s,
+                            value: JsWord::from(&*s),
                             raw: None,
                         }
                     })
@@ -103,7 +103,7 @@ impl VisitMut for TemplateLiteral {
                                 Box::new(
                                     Lit::Str(Str {
                                         span: *span,
-                                        value: s,
+                                        value: (&*s).into(),
                                         raw: None,
                                     })
                                     .into(),

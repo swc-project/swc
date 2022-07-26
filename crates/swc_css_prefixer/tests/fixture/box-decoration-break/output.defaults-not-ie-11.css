@@ -1,0 +1,4 @@
+.class {
+  -webkit-box-decoration-break: slice;
+  box-decoration-break: slice;
+}
