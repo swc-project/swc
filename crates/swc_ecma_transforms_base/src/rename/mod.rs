@@ -1,7 +1,7 @@
 use std::{borrow::Cow, collections::HashMap};
 
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
@@ -74,7 +74,7 @@ where
     renamer: R,
 
     preserved: FxHashSet<Id>,
-    unresolved: FxHashSet<JsWord>,
+    unresolved: FxHashSet<Atom>,
 }
 
 impl<R> RenamePass<R>
@@ -152,6 +152,7 @@ where
             );
         } else {
             scope.rename_single_thread(
+                &mut Default::default(),
                 &self.renamer,
                 &mut map,
                 &Default::default(),

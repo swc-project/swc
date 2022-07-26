@@ -61,9 +61,9 @@ impl Scope {
         &mut self,
         atoms: &mut AtomGenerator,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
+        to: &mut AHashMap<Id, Atom>,
         previous: &AHashMap<Id, JsWord>,
-        reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        reverse: &mut FxHashMap<Atom, Vec<Id>>,
         preserved_symbols: &FxHashSet<Atom>,
     ) where
         R: Renamer,
@@ -98,9 +98,9 @@ impl Scope {
         &self,
         atoms: &mut AtomGenerator,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
+        to: &mut AHashMap<Id, Atom>,
         previous: &AHashMap<Id, JsWord>,
-        reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        reverse: &mut FxHashMap<Atom, Vec<Id>>,
         queue: Vec<Id>,
         preserved_symbols: &FxHashSet<Atom>,
     ) where
@@ -236,11 +236,12 @@ impl Scope {
         cloned_reverse: &mut FxHashMap<Atom, Vec<Id>>,
         queue: Vec<Id>,
         preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<JsWord>,
+        preserved_symbols: &FxHashSet<Atom>,
     ) where
         R: Renamer,
     {
         let mut n = 0;
+        let mut atoms = AtomGenerator::default();
 
         for id in queue {
             if preserved.contains(&id) || to.get(&id).is_some() || previous.get(&id).is_some() {
@@ -248,7 +249,7 @@ impl Scope {
             }
 
             loop {
-                let sym = renamer.new_name_for(&id, &mut n);
+                let sym = atoms.intern(renamer.new_name_for(&id, &mut n));
 
                 // TODO: Use base54::decode
                 if preserved_symbols.contains(&sym) {
