@@ -408,8 +408,8 @@ where
                         Token::Function { value, .. }
                             if *value.to_ascii_lowercase() == *"layer" =>
                         {
-                            // TODO improve me
                             let ctx = Ctx {
+                                in_import_at_rule: true,
                                 block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                                 ..parser.ctx
                             };
