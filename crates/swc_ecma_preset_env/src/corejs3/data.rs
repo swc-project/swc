@@ -17,6 +17,52 @@ macro_rules! iterators {
     (COMMON_WITH_TAG, $($s:expr),*) => {
         iterators!(COMMON, $($s,)* "es.object.to-string")
     };
+    ($($s:expr),*) => {
+        &[$($s,)* "esnext.iterator.constructor", "es.object.to-string"]
+    };
+}
+
+macro_rules! promise {
+    (WITH_ITERATOR, $($s:expr),*) => {
+        iterators!(COMMON, $($s,)* "es.promise", "es.object.to-string")
+    };
+    ($($s:expr),*) => {
+        &[$($s,)* "es.promise", "es.object.to-string"]
+    };
+}
+
+macro_rules! async_iterators {
+    // combined with iterator!(COMMON)
+    (WITH_COMMON_ITERATOR_AND_METHOD, $($s:expr),*) => {
+        async_iterators!(
+            WITH_ITERATOR_AND_METHOD,
+            $($s,)*
+            "es.string.iterator",
+            "es.array.iterator",
+            "web.dom-collections.iterator"
+        )
+    };
+    (WITH_ITERATOR_AND_METHOD, $($s:expr),*) => {
+        async_iterators!(
+            WITH_ITERATOR,
+            $($s,)*
+            "esnext.async-iterator.every",
+            "esnext.async-iterator.filter",
+            "esnext.async-iterator.find",
+            "esnext.async-iterator.flat-map",
+            "esnext.async-iterator.for-each",
+            "esnext.async-iterator.map",
+            "esnext.async-iterator.reduce",
+            "esnext.async-iterator.some"
+        )
+    };
+    // combined with iterator!()
+    (WITH_ITERATOR, $($s:expr),*) => {
+        async_iterators!($($s,)* "esnext.iterator.constructor", "es.object.to-string")
+    };
+    ($($s:expr),*) => {
+        promise!($($s,)* "esnext.async-iterator.constructor")
+    };
 }
 
 pub static COMMON_ITERATORS: &[&str] = iterators!(COMMON,);
@@ -30,12 +76,6 @@ static TYPED_ARRAY_STATIC_METHODS: FeatureMap = data_map!(Map {
 });
 
 pub static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
-
-macro_rules! promise_with_iterators {
-    ($($s:expr),*) => {
-        iterators!(COMMON, $($s,)* "es.promise", "es.object.to-string")
-    };
-}
 
 macro_rules! map_dep {
     ($($s:expr),*) => {
@@ -103,9 +143,12 @@ macro_rules! weak_set_dep {
     };
 }
 
-static TYPED_FROM_ASYNC: &[&str] = promise_with_iterators!("esnext.typed-array.from-async");
+static ASYNC_ITERATOR: &[&str] = async_iterators!();
+static ITERATOR: &[&str] = iterators!();
 
-static PROMISE_DEPENDENCIES_WITH_ITERATORS: &[&str] = promise_with_iterators!();
+static TYPED_FROM_ASYNC: &[&str] = promise!(WITH_ITERATOR, "esnext.typed-array.from-async");
+
+static PROMISE_DEPENDENCIES_WITH_ITERATORS: &[&str] = promise!(WITH_ITERATOR,);
 
 static SYMBOL_DEPENDENCIES: &[&str] =
     &["es.symbol", "es.symbol.description", "es.object.to-string"];
@@ -218,7 +261,8 @@ static AGGREGATE_ERROR_DEP: &[&str] = iterators!(
 );
 
 pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
-    AggregateError: ERROR_DEP,
+    AsyncIterator: ASYNC_ITERATOR,
+    AggregateError: AGGREGATE_ERROR_DEP,
     ArrayBuffer: [
         "es.array-buffer.constructor",
         "es.array-buffer.slice",
@@ -233,6 +277,7 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
     DOMException: DOM_EXCEPTION,
     Error: ERROR_DEP,
     EvalError: ERROR_DEP,
+    Iterator: ITERATOR,
     Float32Array: FLOAT32_ARRAY,
     Float64Array: FLOAT64_ARRAY,
     Int8Array: INT8_ARRAY,
@@ -281,7 +326,80 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
     unescape: ["es.unescape"],
 });
 
+static INDEXED_PAIRS: &[&str] = async_iterators!(
+    WITH_ITERATOR,
+    "esnext.async-iterator.as-indexed-pairs",
+    "esnext.iterator.as-indexed-pairs"
+);
+
+static DROP: &[&str] = async_iterators!(
+    WITH_ITERATOR,
+    "esnext.async-iterator.drop",
+    "esnext.iterator.drop"
+);
+
+static EVERY: &[&str] = iterators!(
+    "es.array.every",
+    "esnext.async-iterator.every",
+    "esnext.iterator.every"
+);
+
+static FILTER: &[&str] = iterators!(
+    "es.array.filter",
+    "esnext.async-iterator.filter",
+    "esnext.iterator.filter"
+);
+
+static FIND: &[&str] = iterators!(
+    "es.array.find",
+    "esnext.async-iterator.find",
+    "esnext.iterator.find"
+);
+
+static FLAT_MAP: &[&str] = iterators!(
+    "es.array.flat-map",
+    "es.array.unscopables.flat-map",
+    "esnext.async-iterator.flat-map",
+    "esnext.iterator.flat-map"
+);
+
+static FOR_EACH: &[&str] = iterators!(
+    "es.array.for-each",
+    "esnext.async-iterator.for-each",
+    "esnext.iterator.for-each",
+    "web.dom-collections.for-each"
+);
+
+static REDUCE: &[&str] = iterators!(
+    "es.array.reduce",
+    "esnext.async-iterator.reduce",
+    "esnext.iterator.reduce"
+);
+
+static SOME: &[&str] = iterators!(
+    "es.array.some",
+    "esnext.async-iterator.some",
+    "esnext.iterator.some"
+);
+
+static TAKE: &[&str] = async_iterators!(
+    WITH_ITERATOR,
+    "esnext.async-iterator.take",
+    "esnext.iterator.take"
+);
+
+static TO_ARRAY: &[&str] = async_iterators!(
+    WITH_ITERATOR,
+    "esnext.async-iterator.to-array",
+    "esnext.iterator.to-array"
+);
+
+static TO_ASYNC: &[&str] = async_iterators!(WITH_ITERATOR_AND_METHOD, "esnext.iterator.to-async");
+
+static PROMISE_FINALLY: &[&str] = promise!("es.promise.finally");
+
 pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
+    asIndexedPairs: INDEXED_PAIRS,
     // TODO: check type of variable
     at: ["es.string.at-alternative", "es.array.at"],
     anchor: ["es.string.anchor"],
@@ -295,22 +413,29 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     copyWithin: ["es.array.copy-within"],
     description: ["es.symbol", "es.symbol.description"],
     dotAll: [ "es.regexp.dot-all"],
+    drop: DROP,
+    emplace: ["esnext.map.emplace", "esnext.weak-map.emplace"],
     endsWith: ["es.string.ends-with"],
     entries: ARRAY_NATURE_ITERATORS_WITH_TAG,
-    every: ["es.array.every"],
+    every: EVERY,
     exec: ["es.regexp.exec"],
     fill: ["es.array.fill"],
-    filter: ["es.array.filter"],
-    finally: ["es.promise.finally", "es.promise", "es.object.to-string"],
-    find: ["es.array.find"],
+    filter: FILTER,
+    filterReject: "esnext.array.filter-reject",
+    finally: PROMISE_FINALLY,
+    find: FIND,
     findIndex: ["es.array.find-index"],
+    findLast: "esnext.array.find-last",
     fixed: ["es.string.fixed"],
     flags: ["es.regexp.flags"],
     flat: ["es.array.flat", "es.array.unscopables.flat"],
-    flatMap: ["es.array.flat-map", "es.array.unscopables.flat-map"],
+    flatMap: FLAT_MAP,
     fontcolor: ["es.string.fontcolor"],
     fontsize: ["es.string.fontsize"],
-    forEach: ["es.array.for-each", "web.dom-collections.for-each"],
+    forEach: FOR_EACH,
+    getYear: "es.date.get-year",
+    groupBy: "esnext.array.group-by",
+    groupByToMap: ["esnext.array.group-by-to-map", "es.map", "es.object.to-string"],
     includes: ["es.array.includes", "es.string.includes"],
     indexOf: ["es.array.index-of"],
     italics: ["es.string.italics"],
@@ -321,21 +446,21 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     lastItem: ["esnext.array.last-item"],
     link: ["es.string.link"],
     match: ["es.string.match", "es.regexp.exec"],
-    matchAll: ["es.string.match-all"],
+    matchAll: ["es.string.match-all", "es.regexp.exec"],
     map: ["es.array.map"],
     name: ["es.function.name"],
     padEnd: ["es.string.pad-end"],
     padStart: ["es.string.pad-start"],
-    reduce: ["es.array.reduce"],
+    reduce: REDUCE,
     reduceRight: ["es.array.reduce-right"],
     repeat: ["es.string.repeat"],
     replace: ["es.string.replace", "es.regexp.exec"],
-    replaceAll: ["es.string.replace-all"],
+    replaceAll: ["es.string.replace-all", "es.string.replace","es.regexp.exec"],
     reverse: ["es.array.reverse"],
     search: ["es.string.search", "es.regexp.exec"],
     slice: ["es.array.slice"],
     small: ["es.string.small"],
-    some: ["es.array.some"],
+    some: SOME,
     sort: ["es.array.sort"],
     splice: ["es.array.splice"],
     split: ["es.string.split", "es.regexp.exec"],
@@ -343,8 +468,15 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     sticky:["es.regexp.sticky"],
     strike: ["es.string.strike"],
     sub: ["es.string.sub"],
+    substr: ["es.string.substr"],
     sup: ["es.string.sup"],
+    take: TAKE,
+    test: ["es.regexp.test", "es.regexp.exec"],
+    toArray: TO_ARRAY,
+    toAsync: TO_ASYNC,
+    toExponential: "es.number.to-exponential",
     toFixed: ["es.number.to-fixed"],
+    toGMTString: "es.date.to-gmt-string",
     toISOString: ["es.date.to-iso-string"],
     toJSON: ["es.date.to-json", "web.url.to-json"],
     toPrecision: ["es.number.to-precision"],
@@ -353,22 +485,32 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
         "es.regexp.to-string",
         "es.date.to-string"
     ],
+    toSorted: ["esnext.array.to-sorted", "es.array.sort"],
+    toSpliced: "esnext.array.to-spliced",
+    toString: ["es.object.to-string", "es.error.to-string", "es.date.to-string", "es.regexp.to-string"],
     trim: ["es.string.trim"],
     trimEnd: ["es.string.trim-end"],
     trimLeft: ["es.string.trim-start"],
     trimRight: ["es.string.trim-end"],
     trimStart: ["es.string.trim-start"],
+    uniqueBy: ["esnext.array.unique-by", "es.map"],
+    unThis: "esnext.function.un-this",
     values: ARRAY_NATURE_ITERATORS_WITH_TAG,
+    with: "esnext.array.with",
     __defineGetter__: ["es.object.define-getter"],
     __defineSetter__: ["es.object.define-setter"],
     __lookupGetter__: ["es.object.lookup-getter"],
     __lookupSetter__: ["es.object.lookup-setter"],
 });
 
-static FROM_ASYNC: &[&str] = promise_with_iterators!("esnext.array.from-async");
-static ALL_SETTLED: &[&str] = promise_with_iterators!("es.promise.all-settled");
-static PROMISE_ANY: &[&str] = promise_with_iterators!("es.promise.any", "es.aggregate-error");
-static PROMISE_TRY: &[&str] = promise_with_iterators!("esnext.promise.try");
+static ASYNC_ITER_FROM: &[&str] = async_iterators!(
+    WITH_COMMON_ITERATOR_AND_METHOD,
+    "esnext.async-iterator.from"
+);
+static FROM_ASYNC: &[&str] = promise!(WITH_ITERATOR, "esnext.array.from-async");
+static ALL_SETTLED: &[&str] = promise!(WITH_ITERATOR, "es.promise.all-settled");
+static PROMISE_ANY: &[&str] = promise!(WITH_ITERATOR, "es.promise.any", "es.aggregate-error");
+static PROMISE_TRY: &[&str] = promise!(WITH_ITERATOR, "esnext.promise.try");
 
 static MAP_FROM: &[&str] = map_dep!("esnext.map.from");
 static MAP_GROUP_BY: &[&str] = map_dep!("esnext.map.group-by");
@@ -387,10 +529,14 @@ static WEAK_SET_OF: &[&str] = set_dep!("esnext.weak-set.of");
 static SYMBOL_ITERATOR: &[&str] = iterators!(COMMON_WITH_TAG, "es.symbol.iterator");
 
 pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
+    AsyncIterator: Map {
+        from: ASYNC_ITER_FROM,
+    },
     Array: Map {
         from: ["es.array.from", "es.string.iterator"],
         fromAsync: FROM_ASYNC,
         isArray: ["es.array.is-array"],
+        isTemplateObject: "esnext.array.is-template-object",
         of: ["es.array.of"],
     },
 
@@ -403,6 +549,11 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     },
 
     Date: Map { now: "es.date.now" },
+
+    Function: Map {
+        isCallable: "esnext.function.is-callable",
+        isConstructor: "esnext.function.is-constructor",
+    },
 
     Object: Map {
         assign: "es.object.assign",
@@ -576,6 +727,12 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     Uint32Array: &TYPED_ARRAY_STATIC_METHODS,
     Float32Array: &TYPED_ARRAY_STATIC_METHODS,
     Float64Array: &TYPED_ARRAY_STATIC_METHODS,
+
+    WebAssembly: Map {
+        CompileError: ERROR_DEP,
+        LinkError: ERROR_DEP,
+        RuntimeError: ERROR_DEP,
+    },
 });
 
 //pub static COMMON_INSTANCE_DEPENDENCIES: &[&str] = &[

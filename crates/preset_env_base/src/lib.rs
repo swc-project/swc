@@ -47,6 +47,12 @@ pub struct BrowserData<T: Default> {
     pub rhino: T,
     #[serde(default)]
     pub deno: T,
+    #[serde(default)]
+    pub hermes: T,
+    #[serde(default)]
+    pub oculus: T,
+    #[serde(default)]
+    pub bun: T,
 }
 
 pub type Versions = BrowserData<Option<Version>>;
