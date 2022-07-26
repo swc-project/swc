@@ -30,9 +30,9 @@ macro_rules! write_comments {
 
                     $e.wr.write_comment("/*")?;
                     $e.wr.write_comment(&cmt.text)?;
+                    srcmap!($e, cmt, false);
                     $e.wr.write_comment("*/")?;
 
-                    srcmap!($e, cmt, false);
                     $e.wr.write_space()?;
                 }
             }
