@@ -27,7 +27,7 @@ impl PrivateNameMangler {
         let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
             cached.clone()
         } else {
-            let sym = base54::encode(&mut self.private_n, true);
+            let sym: JsWord = base54::encode(&mut self.private_n, true).into();
 
             self.renamed_private.insert(id.clone(), sym.clone());
 

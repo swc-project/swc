@@ -60,7 +60,7 @@ impl Renamer for HygieneRenamer {
         let res = if *n == 0 {
             orig.0.to_string()
         } else {
-            format!("{}{}", orig.0, n).into()
+            format!("{}{}", orig.0, n)
         };
         *n += 1;
         res

@@ -1,5 +1,4 @@
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
 use swc_common::chain;
 use swc_ecma_ast::{Module, *};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
@@ -34,7 +33,7 @@ impl Renamer for ManglingRenamer {
         idents_to_preserve(self.options.clone(), n)
     }
 
-    fn new_name_for(&self, _: &Id, n: &mut usize) -> JsWord {
+    fn new_name_for(&self, _: &Id, n: &mut usize) -> String {
         base54::encode(n, true)
     }
 }
