@@ -101,7 +101,12 @@ where
             .collect()
     }
 
-    fn get_map<N>(&self, node: &N, skip_one: bool, is_module_or_script: bool) -> AHashMap<Id, Atom>
+    fn get_map<N>(
+        &self,
+        node: &N,
+        skip_one: bool,
+        is_module_or_script: bool,
+    ) -> AHashMap<Id, JsWord>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
         N: VisitWith<Analyzer>,
@@ -159,7 +164,7 @@ where
             );
         }
 
-        map
+        map.into_iter().map(|(k, v)| (k, (&*v).into())).collect()
     }
 }
 

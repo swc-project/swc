@@ -232,7 +232,7 @@ impl Scope {
         &self,
         renamer: &R,
         to: &mut AHashMap<Id, Atom>,
-        previous: &AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, Atom>,
         cloned_reverse: &mut FxHashMap<Atom, Vec<Id>>,
         queue: Vec<Id>,
         preserved: &FxHashSet<Id>,
