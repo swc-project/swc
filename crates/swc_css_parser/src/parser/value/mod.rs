@@ -1253,6 +1253,15 @@ where
 
                 self.input.skip_ws()?;
             }
+            "layer" if self.ctx.in_import_at_rule => {
+                self.input.skip_ws()?;
+
+                let layer_name = self.parse_as::<LayerName>()?;
+
+                values.push(ComponentValue::LayerName(layer_name));
+
+                self.input.skip_ws()?;
+            }
             _ => loop {
                 self.input.skip_ws()?;
 

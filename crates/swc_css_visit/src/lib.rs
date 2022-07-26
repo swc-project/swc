@@ -55,6 +55,7 @@ define!({
 
         CalcSum(CalcSum),
         ComplexSelector(ComplexSelector),
+        LayerName(LayerName),
     }
 
     pub struct Ident {

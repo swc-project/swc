@@ -294,9 +294,9 @@ checksum = "a4a45a46ab1f2412e53d3a0ade76ffad2025804294569aae387231a0cd6e0899"
 
 [[package]]
 name = "bytecheck"
-version = "0.6.8"
+version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a31f923c2db9513e4298b72df143e6e655a759b3d6a0966df18f81223fff54f"
+checksum = "d11cac2c12b5adc6570dad2ee1b87eff4955dac476fe12d81e5fdd352e52406f"
 dependencies = [
  "bytecheck_derive",
  "ptr_meta",
@@ -304,9 +304,9 @@ dependencies = [
 
 [[package]]
 name = "bytecheck_derive"
-version = "0.6.8"
+version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "edb17c862a905d912174daa27ae002326fff56dc8b8ada50a0a5f0976cb174f0"
+checksum = "13e576ebe98e605500b3c8041bb888e966653577172df6dd97398714eb30b9bf"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3147,7 +3147,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.114.0"
+version = "0.115.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3159,7 +3159,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.101.0"
+version = "0.102.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3170,7 +3170,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.111.0"
+version = "0.112.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3198,7 +3198,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "auto_impl",
  "parking_lot",
@@ -3217,7 +3217,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.76.0"
+version = "0.77.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3232,7 +3232,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.110.0"
+version = "0.111.0"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3249,7 +3249,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.111.0"
+version = "0.112.0"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3267,7 +3267,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.98.0"
+version = "0.99.0"
 dependencies = [
  "once_cell",
  "serde",
@@ -3280,7 +3280,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.100.0"
+version = "0.101.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3291,7 +3291,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.88.0"
+version = "0.88.1"
 dependencies = [
  "arbitrary",
  "bitflags",
@@ -3932,7 +3932,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3982,7 +3982,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.49.0"
+version = "0.50.0"
 dependencies = [
  "once_cell",
  "serde",

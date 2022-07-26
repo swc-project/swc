@@ -917,6 +917,7 @@ where
 
             ComponentValue::CalcSum(n) => emit!(self, n),
             ComponentValue::ComplexSelector(n) => emit!(self, n),
+            ComponentValue::LayerName(n) => emit!(self, n),
         }
     }
 
