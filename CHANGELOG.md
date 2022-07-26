@@ -29,6 +29,9 @@
 
 
 
+- **(css/minifier)** Remove duplicate selectors (#5257) ([ce34746](https://github.com/swc-project/swc/commit/ce347461ee4cb14ef0f099abb6a8831c929f958a))
+
+
 - **(css/prefixer)** Implement `preset-env` (#5247) ([e78d23d](https://github.com/swc-project/swc/commit/e78d23d193585bb088f71602a33340d0a1ed1601))
 
 
