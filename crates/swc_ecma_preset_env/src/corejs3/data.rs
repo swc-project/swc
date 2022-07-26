@@ -4,153 +4,265 @@ use swc_common::collections::AHashMap;
 
 use crate::util::{DataMap, FeatureMap};
 
-pub static COMMON_ITERATORS: &[&str] = &[
-    "es.string.iterator",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
+macro_rules! iterators {
+    (ARRAY, $($s:expr),*) => {
+        &[$($s,)* "es.array.iterator", "web.dom-collections.iterator"]
+    };
+    (ARRAY_WITH_TAG, $($s:expr),*) => {
+        iterators!(ARRAY, $($s,)* "es.object.to-string")
+    };
+    (COMMON, $($s:expr),*) => {
+        iterators!(ARRAY, $($s,)* "es.string.iterator")
+    };
+    (COMMON_WITH_TAG, $($s:expr),*) => {
+        iterators!(COMMON, $($s,)* "es.object.to-string")
+    };
+    ($($s:expr),*) => {
+        &[$($s,)* "esnext.iterator.constructor", "es.object.to-string"]
+    };
+}
 
-static ARRAY_NATURE_ITERATORS_WITH_TAG: &[&str] = &[
-    "es.object.to-string",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
-//static COMMON_ITERATORS_WITH_TAG: &[&str] = &[
-//    "es.object.to-string",
-//    "es.string.iterator",
-//    "es.array.iterator",
-//    "web.dom-collections.iterator",
-//];
-//
-//static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
-//    "es.typed-array.copy-within",
-//    "es.typed-array.every",
-//    "es.typed-array.fill",
-//    "es.typed-array.filter",
-//    "es.typed-array.find",
-//    "es.typed-array.find-index",
-//    "es.typed-array.for-each",
-//    "es.typed-array.includes",
-//    "es.typed-array.index-of",
-//    "es.typed-array.iterator",
-//    "es.typed-array.join",
-//    "es.typed-array.last-index-of",
-//    "es.typed-array.map",
-//    "es.typed-array.reduce",
-//    "es.typed-array.reduce-right",
-//    "es.typed-array.reverse",
-//    "es.typed-array.set",
-//    "es.typed-array.slice",
-//    "es.typed-array.some",
-//    "es.typed-array.sort",
-//    "es.typed-array.subarray",
-//    "es.typed-array.to-locale-string",
-//    "es.typed-array.to-string",
-//    "es.object.to-string",
-//    "es.array.iterator",
-//    "es.array-buffer.slice",
-//];
-//
+macro_rules! promise {
+    (WITH_ITERATOR, $($s:expr),*) => {
+        iterators!(COMMON, $($s,)* "es.promise", "es.object.to-string")
+    };
+    ($($s:expr),*) => {
+        &[$($s,)* "es.promise", "es.object.to-string"]
+    };
+}
+
+macro_rules! async_iterators {
+    // combined with iterator!(COMMON)
+    (WITH_COMMON_ITERATOR_AND_METHOD, $($s:expr),*) => {
+        async_iterators!(
+            WITH_ITERATOR_AND_METHOD,
+            $($s,)*
+            "es.string.iterator",
+            "es.array.iterator",
+            "web.dom-collections.iterator"
+        )
+    };
+    (WITH_ITERATOR_AND_METHOD, $($s:expr),*) => {
+        async_iterators!(
+            WITH_ITERATOR,
+            $($s,)*
+            "esnext.async-iterator.every",
+            "esnext.async-iterator.filter",
+            "esnext.async-iterator.find",
+            "esnext.async-iterator.flat-map",
+            "esnext.async-iterator.for-each",
+            "esnext.async-iterator.map",
+            "esnext.async-iterator.reduce",
+            "esnext.async-iterator.some"
+        )
+    };
+    // combined with iterator!()
+    (WITH_ITERATOR, $($s:expr),*) => {
+        async_iterators!($($s,)* "esnext.iterator.constructor", "es.object.to-string")
+    };
+    ($($s:expr),*) => {
+        promise!($($s,)* "esnext.async-iterator.constructor")
+    };
+}
+
+pub static COMMON_ITERATORS: &[&str] = iterators!(COMMON,);
+
+static ARRAY_NATURE_ITERATORS_WITH_TAG: &[&str] = iterators!(ARRAY_WITH_TAG,);
+
 static TYPED_ARRAY_STATIC_METHODS: FeatureMap = data_map!(Map {
     from: &["es.typed-array.from"],
+    fromAsync: TYPED_FROM_ASYNC,
     of: &["es.typed-array.of"],
 });
 
-//
 pub static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
 
-static PROMISE_DEPENDENCIES_WITH_ITERATORS: &[&str] = &[
-    "es.promise",
-    "es.object.to-string",
-    "es.string.iterator",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
+macro_rules! map_dep {
+    ($($s:expr),*) => {
+        iterators!(COMMON_WITH_TAG, $($s,)*
+            "es.map",
+            "esnext.map.delete-all",
+            "esnext.map.emplace",
+            "esnext.map.every",
+            "esnext.map.filter",
+            "esnext.map.find",
+            "esnext.map.find-key",
+            "esnext.map.includes",
+            "esnext.map.key-of",
+            "esnext.map.map-keys",
+            "esnext.map.map-values",
+            "esnext.map.merge",
+            "esnext.map.reduce",
+            "esnext.map.some",
+            "esnext.map.update"
+        )
+    };
+}
+
+macro_rules! set_dep {
+    ($($s:expr),*) => {
+        iterators!(COMMON_WITH_TAG, $($s,)*
+            "es.set",
+            "esnext.set.add-all",
+            "esnext.set.delete-all",
+            "esnext.set.difference",
+            "esnext.set.every",
+            "esnext.set.filter",
+            "esnext.set.find",
+            "esnext.set.intersection",
+            "esnext.set.is-disjoint-from",
+            "esnext.set.is-subset-of",
+            "esnext.set.is-superset-of",
+            "esnext.set.join",
+            "esnext.set.map",
+            "esnext.set.reduce",
+            "esnext.set.some",
+            "esnext.set.symmetric-difference",
+            "esnext.set.union"
+        )
+    };
+}
+
+macro_rules! weak_map_dep {
+    ($($s:expr),*) => {
+        iterators!(COMMON_WITH_TAG, $($s,)*
+            "es.weak-map",
+            "esnext.weak-map.delete-all",
+            "esnext.weak-map.emplace"
+        )
+    };
+}
+
+macro_rules! weak_set_dep {
+    ($($s:expr),*) => {
+        iterators!(COMMON_WITH_TAG, $($s,)*
+            "es.weak-set",
+            "esnext.weak-set.add-all",
+            "esnext.weak-set.delete-all"
+        )
+    };
+}
+
+static ASYNC_ITERATOR: &[&str] = async_iterators!();
+static ITERATOR: &[&str] = iterators!();
+
+static TYPED_FROM_ASYNC: &[&str] = promise!(WITH_ITERATOR, "esnext.typed-array.from-async");
+
+static PROMISE_DEPENDENCIES_WITH_ITERATORS: &[&str] = promise!(WITH_ITERATOR,);
 
 static SYMBOL_DEPENDENCIES: &[&str] =
     &["es.symbol", "es.symbol.description", "es.object.to-string"];
 
-static MAP_DEPENDENCIES: &[&str] = &[
-    "es.map",
-    "esnext.map.delete-all",
-    "esnext.map.every",
-    "esnext.map.filter",
-    "esnext.map.find",
-    "esnext.map.find-key",
-    "esnext.map.includes",
-    "esnext.map.key-of",
-    "esnext.map.map-keys",
-    "esnext.map.map-values",
-    "esnext.map.merge",
-    "esnext.map.reduce",
-    "esnext.map.some",
-    "esnext.map.update",
-    "es.object.to-string",
-    "es.string.iterator",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
+static MAP_DEPENDENCIES: &[&str] = map_dep!();
 
-static SET_DEPENDENCIES: &[&str] = &[
-    "es.set",
-    "esnext.set.add-all",
-    "esnext.set.delete-all",
-    "esnext.set.difference",
-    "esnext.set.every",
-    "esnext.set.filter",
-    "esnext.set.find",
-    "esnext.set.intersection",
-    "esnext.set.is-disjoint-from",
-    "esnext.set.is-subset-of",
-    "esnext.set.is-superset-of",
-    "esnext.set.join",
-    "esnext.set.map",
-    "esnext.set.reduce",
-    "esnext.set.some",
-    "esnext.set.symmetric-difference",
-    "esnext.set.union",
-    "es.object.to-string",
-    "es.string.iterator",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
+static SET_DEPENDENCIES: &[&str] = set_dep!();
 
-static WEAK_MAP_DEPENDENCIES: &[&str] = &[
-    "es.weak-map",
-    "esnext.weak-map.delete-all",
-    "es.object.to-string",
-    "es.string.iterator",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
+static WEAK_MAP_DEPENDENCIES: &[&str] = weak_map_dep!();
 
-static WEAK_SET_DEPENDENCIES: &[&str] = &[
-    "es.weak-set",
-    "esnext.weak-set.add-all",
-    "esnext.weak-set.delete-all",
-    "es.object.to-string",
-    "es.string.iterator",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
-//
-static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] = &[
-    "web.url",
-    "es.object.to-string",
-    "es.string.iterator",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
+static WEAK_SET_DEPENDENCIES: &[&str] = weak_set_dep!();
+
+static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] =
+    iterators!(COMMON_WITH_TAG, "web.url-search-params");
 
 pub static REGEXP_DEPENDENCIES: &[&str] = &["es.regexp.constructor"];
 
+macro_rules! typed_array {
+    ($e: expr) => {
+        &[
+            $e,
+            "es.typed-array.copy-within",
+            "es.typed-array.every",
+            "es.typed-array.fill",
+            "es.typed-array.filter",
+            "es.typed-array.find",
+            "es.typed-array.find-index",
+            "es.typed-array.for-each",
+            "es.typed-array.includes",
+            "es.typed-array.index-of",
+            "es.typed-array.iterator",
+            "es.typed-array.join",
+            "es.typed-array.last-index-of",
+            "es.typed-array.map",
+            "es.typed-array.reduce",
+            "es.typed-array.reduce-right",
+            "es.typed-array.reverse",
+            "es.typed-array.set",
+            "es.typed-array.slice",
+            "es.typed-array.some",
+            "es.typed-array.sort",
+            "es.typed-array.subarray",
+            "es.typed-array.to-locale-string",
+            "es.typed-array.to-string",
+            "es.object.to-string",
+            "es.array.iterator",
+            "es.array-buffer.slice",
+            "esnext.typed-array.filter-reject",
+            "esnext.typed-array.find-last",
+            "esnext.typed-array.find-last-index",
+            "esnext.typed-array.group-by",
+            "esnext.typed-array.to-reversed",
+            "esnext.typed-array.to-sorted",
+            "esnext.typed-array.to-spliced",
+            "esnext.typed-array.unique-by",
+            "esnext.typed-array.with",
+        ]
+    };
+}
+
+static FLOAT32_ARRAY: &[&str] = typed_array!("es.typed-array.float32-array");
+static FLOAT64_ARRAY: &[&str] = typed_array!("es.typed-array.float64-array");
+static INT8_ARRAY: &[&str] = typed_array!("es.typed-array.int8-array");
+static INT16_ARRAY: &[&str] = typed_array!("es.typed-array.int16-array");
+static INT32_ARRAY: &[&str] = typed_array!("es.typed-array.int32-array");
+static UINT8_ARRAY: &[&str] = typed_array!("es.typed-array.uint8-array");
+static UINT8_CLAMPED_ARRAY: &[&str] = typed_array!("es.typed-array.uint8-clamped-array");
+static UINT16_ARRAY: &[&str] = typed_array!("es.typed-array.uint16-array");
+static UINT32_ARRAY: &[&str] = typed_array!("es.typed-array.uint32-array");
+
+static OBSERVEABLE: &[&str] = iterators!(
+    COMMON_WITH_TAG,
+    "esnext.observable",
+    "esnext.symbol.observable"
+);
+
+macro_rules! dom_exception_dep {
+    ($($s:expr),*) => {
+        &[
+            $($s,)*
+            "web.dom-exception.constructor",
+            "web.dom-exception.stack",
+            "web.dom-exception.to-string-tag",
+            "es.error.to-string",
+        ]
+    };
+}
+
+static URL_DEP: &[&str] = iterators!(COMMON_WITH_TAG, "web.url", "web.url-search-params");
+
+static DOM_EXCEPTION: &[&str] = dom_exception_dep!();
+static ATOB: &[&str] = dom_exception_dep!("web.atob");
+static BTOA: &[&str] = dom_exception_dep!("web.btoa");
+static STRUCTURE_CLONE: &[&str] = dom_exception_dep!(
+    "web.structured-clone",
+    "es.array.iterator",
+    "es.object.keys",
+    "es.object.to-string",
+    "es.map",
+    "es.set"
+);
+
+static ERROR_DEP: &[&str] = &["es.error.cause", "es.error.to-string"];
+static AGGREGATE_ERROR_DEP: &[&str] = iterators!(
+    COMMON_WITH_TAG,
+    "es.aggregate-error",
+    "es.error.cause",
+    "es.error.to-string",
+    "es.aggregate-error.cause"
+);
+
 pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
-    AggregateError: [
-        "esnext.aggregate-error",
-        "es.string.iterator",
-        "es.array.iterator",
-        "web.dom-collections.iterator",
-    ],
+    AsyncIterator: ASYNC_ITERATOR,
+    AggregateError: AGGREGATE_ERROR_DEP,
     ArrayBuffer: [
         "es.array-buffer.constructor",
         "es.array-buffer.slice",
@@ -162,279 +274,26 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
         "es.object.to-string"
     ],
     Date: ["es.date.to-string"],
-    Float32Array: [
-        "es.typed-array.float32-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
-    Float64Array: [
-        "es.typed-array.float64-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
-    Int8Array: [
-        "es.typed-array.int8-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
-    Int16Array: [
-        "es.typed-array.int16-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
-    Int32Array: [
-        "es.typed-array.int32-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
-    Uint8Array: [
-        "es.typed-array.uint8-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
-    Uint8ClampedArray: [
-        "es.typed-array.uint8-clamped-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
-    Uint16Array: [
-        "es.typed-array.uint16-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
-    Uint32Array: [
-        "es.typed-array.uint32-array",
-        "es.typed-array.copy-within",
-        "es.typed-array.every",
-        "es.typed-array.fill",
-        "es.typed-array.filter",
-        "es.typed-array.find",
-        "es.typed-array.find-index",
-        "es.typed-array.for-each",
-        "es.typed-array.includes",
-        "es.typed-array.index-of",
-        "es.typed-array.iterator",
-        "es.typed-array.join",
-        "es.typed-array.last-index-of",
-        "es.typed-array.map",
-        "es.typed-array.reduce",
-        "es.typed-array.reduce-right",
-        "es.typed-array.reverse",
-        "es.typed-array.set",
-        "es.typed-array.slice",
-        "es.typed-array.some",
-        "es.typed-array.sort",
-        "es.typed-array.subarray",
-        "es.typed-array.to-locale-string",
-        "es.typed-array.to-string",
-        "es.object.to-string",
-        "es.array.iterator",
-        "es.array-buffer.slice",
-    ],
+    DOMException: DOM_EXCEPTION,
+    Error: ERROR_DEP,
+    EvalError: ERROR_DEP,
+    Iterator: ITERATOR,
+    Float32Array: FLOAT32_ARRAY,
+    Float64Array: FLOAT64_ARRAY,
+    Int8Array: INT8_ARRAY,
+    Int16Array: INT16_ARRAY,
+    Int32Array: INT32_ARRAY,
+    Uint8Array: UINT8_ARRAY,
+    Uint8ClampedArray: UINT8_CLAMPED_ARRAY,
+    Uint16Array: UINT16_ARRAY,
+    Uint32Array: UINT32_ARRAY,
     Map: MAP_DEPENDENCIES,
     Number: ["es.number.constructor"],
-    Observable: [
-        "esnext.observable",
-        "esnext.symbol.observable",
-        "es.object.to-string",
-        "es.object.to-string",
-        "es.string.iterator",
-        "es.array.iterator",
-        "web.dom-collections.iterator",
-    ],
+    Observable: OBSERVEABLE,
     Promise: PROMISE_DEPENDENCIES,
+    RangeError: ERROR_DEP,
+    ReferenceError: ERROR_DEP,
+    Reflect: ["es.reflect.to-string-tag", "es.object.to-string"],
     RegExp: [
         "es.regexp.constructor",
         "es.regexp.exec",
@@ -442,25 +301,19 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
     ],
     Set: SET_DEPENDENCIES,
     Symbol: SYMBOL_DEPENDENCIES,
-    URL: [
-        "web.url",
-        "web.url",
-        "es.object.to-string",
-        "es.string.iterator",
-        "es.array.iterator",
-        "web.dom-collections.iterator",
-    ],
+    TypeError: ERROR_DEP,
+    URIError: ERROR_DEP,
+    URL: URL_DEP,
     URLSearchParams: URL_SEARCH_PARAMS_DEPENDENCIES,
     WeakMap: WEAK_MAP_DEPENDENCIES,
     WeakSet: WEAK_SET_DEPENDENCIES,
+
+    atob: ATOB,
+    btoa: BTOA,
     clearImmediate: ["web.immediate"],
     compositeKey: ["esnext.composite-key"],
-    compositeSymbol: [
-        "esnext.composite-symbol",
-        "es.symbol",
-        "es.symbol.description",
-        "es.object.to-string"
-    ],
+    compositeSymbol: ["esnext.composite-symbol"],
+    escape: ["es.escape"],
     fetch: PROMISE_DEPENDENCIES,
     globalThis: ["es.global-this"],
     parseFloat: ["es.parse-float"],
@@ -469,9 +322,84 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
     setTimeout: ["web.timers"],
     setInterval: ["web.timers"],
     setImmediate: ["web.immediate"],
+    structuredClone: STRUCTURE_CLONE,
+    unescape: ["es.unescape"],
 });
 
+static INDEXED_PAIRS: &[&str] = async_iterators!(
+    WITH_ITERATOR,
+    "esnext.async-iterator.as-indexed-pairs",
+    "esnext.iterator.as-indexed-pairs"
+);
+
+static DROP: &[&str] = async_iterators!(
+    WITH_ITERATOR,
+    "esnext.async-iterator.drop",
+    "esnext.iterator.drop"
+);
+
+static EVERY: &[&str] = iterators!(
+    "es.array.every",
+    "esnext.async-iterator.every",
+    "esnext.iterator.every"
+);
+
+static FILTER: &[&str] = iterators!(
+    "es.array.filter",
+    "esnext.async-iterator.filter",
+    "esnext.iterator.filter"
+);
+
+static FIND: &[&str] = iterators!(
+    "es.array.find",
+    "esnext.async-iterator.find",
+    "esnext.iterator.find"
+);
+
+static FLAT_MAP: &[&str] = iterators!(
+    "es.array.flat-map",
+    "es.array.unscopables.flat-map",
+    "esnext.async-iterator.flat-map",
+    "esnext.iterator.flat-map"
+);
+
+static FOR_EACH: &[&str] = iterators!(
+    "es.array.for-each",
+    "esnext.async-iterator.for-each",
+    "esnext.iterator.for-each",
+    "web.dom-collections.for-each"
+);
+
+static REDUCE: &[&str] = iterators!(
+    "es.array.reduce",
+    "esnext.async-iterator.reduce",
+    "esnext.iterator.reduce"
+);
+
+static SOME: &[&str] = iterators!(
+    "es.array.some",
+    "esnext.async-iterator.some",
+    "esnext.iterator.some"
+);
+
+static TAKE: &[&str] = async_iterators!(
+    WITH_ITERATOR,
+    "esnext.async-iterator.take",
+    "esnext.iterator.take"
+);
+
+static TO_ARRAY: &[&str] = async_iterators!(
+    WITH_ITERATOR,
+    "esnext.async-iterator.to-array",
+    "esnext.iterator.to-array"
+);
+
+static TO_ASYNC: &[&str] = async_iterators!(WITH_ITERATOR_AND_METHOD, "esnext.iterator.to-async");
+
+static PROMISE_FINALLY: &[&str] = promise!("es.promise.finally");
+
 pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
+    asIndexedPairs: INDEXED_PAIRS,
     // TODO: check type of variable
     at: ["es.string.at-alternative", "es.array.at"],
     anchor: ["es.string.anchor"],
@@ -485,22 +413,29 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     copyWithin: ["es.array.copy-within"],
     description: ["es.symbol", "es.symbol.description"],
     dotAll: [ "es.regexp.dot-all"],
+    drop: DROP,
+    emplace: ["esnext.map.emplace", "esnext.weak-map.emplace"],
     endsWith: ["es.string.ends-with"],
     entries: ARRAY_NATURE_ITERATORS_WITH_TAG,
-    every: ["es.array.every"],
+    every: EVERY,
     exec: ["es.regexp.exec"],
     fill: ["es.array.fill"],
-    filter: ["es.array.filter"],
-    finally: ["es.promise.finally", "es.promise", "es.object.to-string"],
-    find: ["es.array.find"],
+    filter: FILTER,
+    filterReject: "esnext.array.filter-reject",
+    finally: PROMISE_FINALLY,
+    find: FIND,
     findIndex: ["es.array.find-index"],
+    findLast: "esnext.array.find-last",
     fixed: ["es.string.fixed"],
     flags: ["es.regexp.flags"],
     flat: ["es.array.flat", "es.array.unscopables.flat"],
-    flatMap: ["es.array.flat-map", "es.array.unscopables.flat-map"],
+    flatMap: FLAT_MAP,
     fontcolor: ["es.string.fontcolor"],
     fontsize: ["es.string.fontsize"],
-    forEach: ["es.array.for-each", "web.dom-collections.for-each"],
+    forEach: FOR_EACH,
+    getYear: "es.date.get-year",
+    groupBy: "esnext.array.group-by",
+    groupByToMap: ["esnext.array.group-by-to-map", "es.map", "es.object.to-string"],
     includes: ["es.array.includes", "es.string.includes"],
     indexOf: ["es.array.index-of"],
     italics: ["es.string.italics"],
@@ -511,21 +446,21 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     lastItem: ["esnext.array.last-item"],
     link: ["es.string.link"],
     match: ["es.string.match", "es.regexp.exec"],
-    matchAll: ["es.string.match-all"],
+    matchAll: ["es.string.match-all", "es.regexp.exec"],
     map: ["es.array.map"],
     name: ["es.function.name"],
     padEnd: ["es.string.pad-end"],
     padStart: ["es.string.pad-start"],
-    reduce: ["es.array.reduce"],
+    reduce: REDUCE,
     reduceRight: ["es.array.reduce-right"],
     repeat: ["es.string.repeat"],
     replace: ["es.string.replace", "es.regexp.exec"],
-    replaceAll: ["es.string.replace-all"],
+    replaceAll: ["es.string.replace-all", "es.string.replace","es.regexp.exec"],
     reverse: ["es.array.reverse"],
     search: ["es.string.search", "es.regexp.exec"],
     slice: ["es.array.slice"],
     small: ["es.string.small"],
-    some: ["es.array.some"],
+    some: SOME,
     sort: ["es.array.sort"],
     splice: ["es.array.splice"],
     split: ["es.string.split", "es.regexp.exec"],
@@ -533,8 +468,15 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     sticky:["es.regexp.sticky"],
     strike: ["es.string.strike"],
     sub: ["es.string.sub"],
+    substr: ["es.string.substr"],
     sup: ["es.string.sup"],
+    take: TAKE,
+    test: ["es.regexp.test", "es.regexp.exec"],
+    toArray: TO_ARRAY,
+    toAsync: TO_ASYNC,
+    toExponential: "es.number.to-exponential",
     toFixed: ["es.number.to-fixed"],
+    toGMTString: "es.date.to-gmt-string",
     toISOString: ["es.date.to-iso-string"],
     toJSON: ["es.date.to-json", "web.url.to-json"],
     toPrecision: ["es.number.to-precision"],
@@ -543,26 +485,75 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
         "es.regexp.to-string",
         "es.date.to-string"
     ],
+    toSorted: ["esnext.array.to-sorted", "es.array.sort"],
+    toSpliced: "esnext.array.to-spliced",
+    toString: ["es.object.to-string", "es.error.to-string", "es.date.to-string", "es.regexp.to-string"],
     trim: ["es.string.trim"],
     trimEnd: ["es.string.trim-end"],
     trimLeft: ["es.string.trim-start"],
     trimRight: ["es.string.trim-end"],
     trimStart: ["es.string.trim-start"],
+    uniqueBy: ["esnext.array.unique-by", "es.map"],
+    unThis: "esnext.function.un-this",
     values: ARRAY_NATURE_ITERATORS_WITH_TAG,
+    with: "esnext.array.with",
     __defineGetter__: ["es.object.define-getter"],
     __defineSetter__: ["es.object.define-setter"],
     __lookupGetter__: ["es.object.lookup-getter"],
     __lookupSetter__: ["es.object.lookup-setter"],
 });
 
+static ASYNC_ITER_FROM: &[&str] = async_iterators!(
+    WITH_COMMON_ITERATOR_AND_METHOD,
+    "esnext.async-iterator.from"
+);
+static FROM_ASYNC: &[&str] = promise!(WITH_ITERATOR, "esnext.array.from-async");
+static ALL_SETTLED: &[&str] = promise!(WITH_ITERATOR, "es.promise.all-settled");
+static PROMISE_ANY: &[&str] = promise!(WITH_ITERATOR, "es.promise.any", "es.aggregate-error");
+static PROMISE_TRY: &[&str] = promise!(WITH_ITERATOR, "esnext.promise.try");
+
+static MAP_FROM: &[&str] = map_dep!("esnext.map.from");
+static MAP_GROUP_BY: &[&str] = map_dep!("esnext.map.group-by");
+static MAP_KEY_BY: &[&str] = map_dep!("esnext.map.key-by");
+static MAP_OF: &[&str] = map_dep!("esnext.map.of");
+
+static SET_FROM: &[&str] = set_dep!("esnext.set.from");
+static SET_OF: &[&str] = set_dep!("esnext.set.of");
+
+static WEAK_MAP_FROM: &[&str] = set_dep!("esnext.weak-map.from");
+static WEAK_MAP_OF: &[&str] = set_dep!("esnext.weak-map.of");
+
+static WEAK_SET_FROM: &[&str] = set_dep!("esnext.weak-set.from");
+static WEAK_SET_OF: &[&str] = set_dep!("esnext.weak-set.of");
+
+static SYMBOL_ITERATOR: &[&str] = iterators!(COMMON_WITH_TAG, "es.symbol.iterator");
+
 pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
+    AsyncIterator: Map {
+        from: ASYNC_ITER_FROM,
+    },
     Array: Map {
         from: ["es.array.from", "es.string.iterator"],
+        fromAsync: FROM_ASYNC,
         isArray: ["es.array.is-array"],
+        isTemplateObject: "esnext.array.is-template-object",
         of: ["es.array.of"],
     },
 
+    ArrayBuffer: Map {
+        isView: ["es.array-buffer.is-view"],
+    },
+
+    BigInt: Map {
+        range: ["esnext.bigint.range", "es.object.to-string"],
+    },
+
     Date: Map { now: "es.date.now" },
+
+    Function: Map {
+        isCallable: "esnext.function.is-callable",
+        isConstructor: "esnext.function.is-constructor",
+    },
 
     Object: Map {
         assign: "es.object.assign",
@@ -577,6 +568,7 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
         getOwnPropertyNames: "es.object.get-own-property-names",
         getOwnPropertySymbols: "es.symbol",
         getPrototypeOf: "es.object.get-prototype-of",
+        hasOwn: "es.object.has-own",
         is: "es.object.is",
         isExtensible: "es.object.is-extensible",
         isFrozen: "es.object.is-frozen",
@@ -622,6 +614,7 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     },
 
     String: Map {
+        cooked: "esnext.string.cooked",
         fromCodePoint: "es.string.from-code-point",
         raw: "es.string.raw",
     },
@@ -637,217 +630,40 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
         isNaN: "es.number.is-nan",
         parseFloat: "es.number.parse-float",
         parseInt: "es.number.parse-int",
+        range: [
+            "esnext.number.range",
+            "es.object.to-string",
+        ],
     },
 
     Map: Map {
-        from: [
-            "esnext.map.from",
-            "es.map",
-            "esnext.map.delete-all",
-            "esnext.map.every",
-            "esnext.map.filter",
-            "esnext.map.find",
-            "esnext.map.find-key",
-            "esnext.map.includes",
-            "esnext.map.key-of",
-            "esnext.map.map-keys",
-            "esnext.map.map-values",
-            "esnext.map.merge",
-            "esnext.map.reduce",
-            "esnext.map.some",
-            "esnext.map.update",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
-        groupBy: [
-            "esnext.map.group-by",
-            "es.map",
-            "esnext.map.delete-all",
-            "esnext.map.every",
-            "esnext.map.filter",
-            "esnext.map.find",
-            "esnext.map.find-key",
-            "esnext.map.includes",
-            "esnext.map.key-of",
-            "esnext.map.map-keys",
-            "esnext.map.map-values",
-            "esnext.map.merge",
-            "esnext.map.reduce",
-            "esnext.map.some",
-            "esnext.map.update",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
-        keyBy: [
-            "esnext.map.key-by",
-            "es.map",
-            "esnext.map.delete-all",
-            "esnext.map.every",
-            "esnext.map.filter",
-            "esnext.map.find",
-            "esnext.map.find-key",
-            "esnext.map.includes",
-            "esnext.map.key-of",
-            "esnext.map.map-keys",
-            "esnext.map.map-values",
-            "esnext.map.merge",
-            "esnext.map.reduce",
-            "esnext.map.some",
-            "esnext.map.update",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
-        of: [
-            "esnext.map.of",
-            "es.map",
-            "esnext.map.delete-all",
-            "esnext.map.every",
-            "esnext.map.filter",
-            "esnext.map.find",
-            "esnext.map.find-key",
-            "esnext.map.includes",
-            "esnext.map.key-of",
-            "esnext.map.map-keys",
-            "esnext.map.map-values",
-            "esnext.map.merge",
-            "esnext.map.reduce",
-            "esnext.map.some",
-            "esnext.map.update",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
+        from: MAP_FROM,
+        groupBy: MAP_GROUP_BY,
+        keyBy: MAP_KEY_BY,
+        of: MAP_OF,
     },
 
     Set: Map {
-        from: [
-            "esnext.set.from",
-            "es.set",
-            "esnext.set.add-all",
-            "esnext.set.delete-all",
-            "esnext.set.difference",
-            "esnext.set.every",
-            "esnext.set.filter",
-            "esnext.set.find",
-            "esnext.set.intersection",
-            "esnext.set.is-disjoint-from",
-            "esnext.set.is-subset-of",
-            "esnext.set.is-superset-of",
-            "esnext.set.join",
-            "esnext.set.map",
-            "esnext.set.reduce",
-            "esnext.set.some",
-            "esnext.set.symmetric-difference",
-            "esnext.set.union",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
-        of: [
-            "esnext.set.of",
-            "es.set",
-            "esnext.set.add-all",
-            "esnext.set.delete-all",
-            "esnext.set.difference",
-            "esnext.set.every",
-            "esnext.set.filter",
-            "esnext.set.find",
-            "esnext.set.intersection",
-            "esnext.set.is-disjoint-from",
-            "esnext.set.is-subset-of",
-            "esnext.set.is-superset-of",
-            "esnext.set.join",
-            "esnext.set.map",
-            "esnext.set.reduce",
-            "esnext.set.some",
-            "esnext.set.symmetric-difference",
-            "esnext.set.union",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
+        from: SET_FROM,
+        of: SET_OF,
     },
 
     WeakMap: Map {
-        from: [
-            "esnext.weak-map.from",
-            "es.weak-map",
-            "esnext.weak-map.delete-all",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
-        of: [
-            "esnext.weak-map.of",
-            "es.weak-map",
-            "esnext.weak-map.delete-all",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
+        from: WEAK_MAP_FROM,
+        of: WEAK_MAP_OF,
     },
 
     WeakSet: Map {
-        from: [
-            "esnext.weak-set.from",
-            "es.weak-set",
-            "esnext.weak-set.add-all",
-            "esnext.weak-set.delete-all",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
-        of: [
-            "esnext.weak-set.of",
-            "es.weak-set",
-            "esnext.weak-set.add-all",
-            "esnext.weak-set.delete-all",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
+        from: WEAK_SET_FROM,
+        of: WEAK_SET_OF,
     },
 
     Promise: Map {
         all: PROMISE_DEPENDENCIES_WITH_ITERATORS,
-        allSettled: [
-            "es.promise.all-settled",
-            "es.promise",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
-        any: [
-            "es.promise.any",
-            "es.promise",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
+        allSettled: ALL_SETTLED,
+        any: PROMISE_ANY,
         race: PROMISE_DEPENDENCIES_WITH_ITERATORS,
-        try: [
-            "esnext.promise.try",
-            "es.promise",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
+        try: PROMISE_TRY,
     },
 
     Reflect: Map {
@@ -876,18 +692,16 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     },
 
     Symbol: Map {
+        asyncDispose: ["es.symbol.async-dispose"],
         asyncIterator: ["es.symbol.async-iterator"],
         dispose: ["esnext.symbol.dispose"],
         hasInstance: ["es.symbol.has-instance", "es.function.has-instance"],
         isConcatSpreadable: ["es.symbol.is-concat-spreadable", "es.array.concat"],
-        iterator: [
-            "es.symbol.iterator",
-            "es.object.to-string",
-            "es.string.iterator",
-            "es.array.iterator",
-            "web.dom-collections.iterator",
-        ],
+        iterator: SYMBOL_ITERATOR,
         match: ["es.symbol.match", "es.string.match"],
+        matcher: ["es.symbol.matcher"],
+        match: ["es.symbol.match-all", "es.string.match-all"],
+        metadata: "esnext.symbol.metadata",
         observable: ["esnext.symbol.observable"],
         patternMatch: ["esnext.symbol.pattern-match"],
         replace: ["es.symbol.replace", "es.string.replace"],
@@ -904,10 +718,6 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
         unscopables: ["es.symbol.unscopables"],
     },
 
-    ArrayBuffer: Map {
-        isView: ["es.array-buffer.is-view"],
-    },
-
     Int8Array: &TYPED_ARRAY_STATIC_METHODS,
     Uint8Array: &TYPED_ARRAY_STATIC_METHODS,
     Uint8ClampedArray: &TYPED_ARRAY_STATIC_METHODS,
@@ -917,6 +727,12 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     Uint32Array: &TYPED_ARRAY_STATIC_METHODS,
     Float32Array: &TYPED_ARRAY_STATIC_METHODS,
     Float64Array: &TYPED_ARRAY_STATIC_METHODS,
+
+    WebAssembly: Map {
+        CompileError: ERROR_DEP,
+        LinkError: ERROR_DEP,
+        RuntimeError: ERROR_DEP,
+    },
 });
 
 //pub static COMMON_INSTANCE_DEPENDENCIES: &[&str] = &[

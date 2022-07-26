@@ -27,6 +27,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -39,6 +41,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -49,6 +52,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.array-buffer.constructor",
     "es.array-buffer.is-view",
     "es.array-buffer.slice",
@@ -204,6 +208,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -233,8 +239,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -252,6 +260,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -273,6 +282,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -358,6 +368,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -425,6 +436,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -437,6 +450,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -447,6 +461,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.array-buffer.constructor",
     "es.array-buffer.is-view",
     "es.array-buffer.slice",
@@ -602,6 +617,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -628,8 +645,10 @@
     "esnext.array.at",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.to-reversed",
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
@@ -680,6 +699,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -692,6 +713,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -702,13 +724,16 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.map",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.to-reversed",
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
@@ -760,9 +785,11 @@
     "es.array.find-index"
   ],
   "core-js/actual/array/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/actual/array/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/actual/array/flat": [
@@ -780,6 +807,9 @@
     "es.array.from",
     "es.string.iterator"
   ],
+  "core-js/actual/array/group": [
+    "esnext.array.group"
+  ],
   "core-js/actual/array/group-by": [
     "esnext.array.group-by"
   ],
@@ -787,6 +817,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/actual/array/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/actual/array/includes": [
     "es.array.includes"
@@ -816,6 +851,9 @@
   ],
   "core-js/actual/array/of": [
     "es.array.of"
+  ],
+  "core-js/actual/array/push": [
+    "es.array.push"
   ],
   "core-js/actual/array/reduce": [
     "es.array.reduce"
@@ -848,6 +886,9 @@
   "core-js/actual/array/to-spliced": [
     "esnext.array.to-spliced"
   ],
+  "core-js/actual/array/unshift": [
+    "es.array.unshift"
+  ],
   "core-js/actual/array/values": [
     "es.array.iterator",
     "es.object.to-string"
@@ -861,6 +902,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -870,6 +913,7 @@
     "es.array.join",
     "es.array.last-index-of",
     "es.array.map",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -880,12 +924,15 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.map",
     "es.object.to-string",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.to-reversed",
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
@@ -920,9 +967,11 @@
     "es.array.find-index"
   ],
   "core-js/actual/array/virtual/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/actual/array/virtual/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/actual/array/virtual/flat": [
@@ -936,6 +985,9 @@
   "core-js/actual/array/virtual/for-each": [
     "es.array.for-each"
   ],
+  "core-js/actual/array/virtual/group": [
+    "esnext.array.group"
+  ],
   "core-js/actual/array/virtual/group-by": [
     "esnext.array.group-by"
   ],
@@ -943,6 +995,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/actual/array/virtual/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/actual/array/virtual/includes": [
     "es.array.includes"
@@ -966,6 +1023,9 @@
   ],
   "core-js/actual/array/virtual/map": [
     "es.array.map"
+  ],
+  "core-js/actual/array/virtual/push": [
+    "es.array.push"
   ],
   "core-js/actual/array/virtual/reduce": [
     "es.array.reduce"
@@ -997,6 +1057,9 @@
   ],
   "core-js/actual/array/virtual/to-spliced": [
     "esnext.array.to-spliced"
+  ],
+  "core-js/actual/array/virtual/unshift": [
+    "es.array.unshift"
   ],
   "core-js/actual/array/virtual/values": [
     "es.array.iterator",
@@ -1181,9 +1244,11 @@
     "es.array.find-index"
   ],
   "core-js/actual/instance/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/actual/instance/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/actual/instance/flags": [
@@ -1201,6 +1266,9 @@
     "es.array.for-each",
     "web.dom-collections.iterator"
   ],
+  "core-js/actual/instance/group": [
+    "esnext.array.group"
+  ],
   "core-js/actual/instance/group-by": [
     "esnext.array.group-by"
   ],
@@ -1208,6 +1276,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/actual/instance/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/actual/instance/includes": [
     "es.array.includes",
@@ -1237,6 +1310,9 @@
   ],
   "core-js/actual/instance/pad-start": [
     "es.string.pad-start"
+  ],
+  "core-js/actual/instance/push": [
+    "es.array.push"
   ],
   "core-js/actual/instance/reduce": [
     "es.array.reduce"
@@ -1294,6 +1370,9 @@
   ],
   "core-js/actual/instance/trim-start": [
     "es.string.trim-start"
+  ],
+  "core-js/actual/instance/unshift": [
+    "es.array.push"
   ],
   "core-js/actual/instance/values": [
     "es.array.iterator",
@@ -2168,6 +2247,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2195,7 +2276,7 @@
     "esnext.typed-array.with"
   ],
   "core-js/actual/typed-array/at": [
-    "es.typed-array.every"
+    "es.typed-array.at"
   ],
   "core-js/actual/typed-array/copy-within": [
     "es.typed-array.copy-within"
@@ -2220,9 +2301,11 @@
     "es.typed-array.find-index"
   ],
   "core-js/actual/typed-array/find-last": [
+    "es.typed-array.find-last",
     "esnext.typed-array.find-last"
   ],
   "core-js/actual/typed-array/find-last-index": [
+    "es.typed-array.find-last-index",
     "esnext.typed-array.find-last-index"
   ],
   "core-js/actual/typed-array/float32-array": [
@@ -2238,6 +2321,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2277,6 +2362,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2328,6 +2415,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2367,6 +2456,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2406,6 +2497,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2459,6 +2552,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2541,6 +2636,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2580,6 +2677,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2619,6 +2718,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2658,6 +2759,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2746,6 +2849,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -2758,6 +2863,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -2768,6 +2874,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.array-buffer.constructor",
     "es.array-buffer.is-view",
     "es.array-buffer.slice",
@@ -2923,6 +3030,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -2962,6 +3071,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -2974,6 +3085,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -2984,6 +3096,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.object.to-string",
     "es.string.iterator"
   ],
@@ -3032,6 +3145,12 @@
   "core-js/es/array/find-index": [
     "es.array.find-index"
   ],
+  "core-js/es/array/find-last": [
+    "es.array.find-last"
+  ],
+  "core-js/es/array/find-last-index": [
+    "es.array.find-last-index"
+  ],
   "core-js/es/array/flat": [
     "es.array.flat",
     "es.array.unscopables.flat"
@@ -3076,6 +3195,9 @@
   "core-js/es/array/of": [
     "es.array.of"
   ],
+  "core-js/es/array/push": [
+    "es.array.push"
+  ],
   "core-js/es/array/reduce": [
     "es.array.reduce"
   ],
@@ -3097,6 +3219,9 @@
   "core-js/es/array/splice": [
     "es.array.splice"
   ],
+  "core-js/es/array/unshift": [
+    "es.array.unshift"
+  ],
   "core-js/es/array/values": [
     "es.array.iterator",
     "es.object.to-string"
@@ -3110,6 +3235,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -3119,6 +3246,7 @@
     "es.array.join",
     "es.array.last-index-of",
     "es.array.map",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -3129,6 +3257,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.object.to-string"
   ],
   "core-js/es/array/virtual/at": [
@@ -3158,6 +3287,12 @@
   ],
   "core-js/es/array/virtual/find-index": [
     "es.array.find-index"
+  ],
+  "core-js/es/array/virtual/find-last": [
+    "es.array.find-last"
+  ],
+  "core-js/es/array/virtual/find-last-index": [
+    "es.array.find-last-index"
   ],
   "core-js/es/array/virtual/flat": [
     "es.array.flat",
@@ -3193,6 +3328,9 @@
   "core-js/es/array/virtual/map": [
     "es.array.map"
   ],
+  "core-js/es/array/virtual/push": [
+    "es.array.push"
+  ],
   "core-js/es/array/virtual/reduce": [
     "es.array.reduce"
   ],
@@ -3213,6 +3351,9 @@
   ],
   "core-js/es/array/virtual/splice": [
     "es.array.splice"
+  ],
+  "core-js/es/array/virtual/unshift": [
+    "es.array.unshift"
   ],
   "core-js/es/array/virtual/values": [
     "es.array.iterator",
@@ -3341,6 +3482,12 @@
   "core-js/es/instance/find-index": [
     "es.array.find-index"
   ],
+  "core-js/es/instance/find-last": [
+    "es.array.find-last"
+  ],
+  "core-js/es/instance/find-last-index": [
+    "es.array.find-last-index"
+  ],
   "core-js/es/instance/flags": [
     "es.regexp.flags"
   ],
@@ -3382,6 +3529,9 @@
   ],
   "core-js/es/instance/pad-start": [
     "es.string.pad-start"
+  ],
+  "core-js/es/instance/push": [
+    "es.array.push"
   ],
   "core-js/es/instance/reduce": [
     "es.array.reduce"
@@ -3429,6 +3579,9 @@
   ],
   "core-js/es/instance/trim-start": [
     "es.string.trim-start"
+  ],
+  "core-js/es/instance/unshift": [
+    "es.array.unshift"
   ],
   "core-js/es/instance/values": [
     "es.array.iterator",
@@ -4266,6 +4419,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4311,6 +4466,12 @@
   "core-js/es/typed-array/find-index": [
     "es.typed-array.find-index"
   ],
+  "core-js/es/typed-array/find-last": [
+    "es.typed-array.find-last"
+  ],
+  "core-js/es/typed-array/find-last-index": [
+    "es.typed-array.find-last-index"
+  ],
   "core-js/es/typed-array/float32-array": [
     "es.array-buffer.constructor",
     "es.array-buffer.slice",
@@ -4324,6 +4485,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4357,6 +4520,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4402,6 +4567,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4435,6 +4602,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4468,6 +4637,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4515,6 +4686,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4581,6 +4754,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4614,6 +4789,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4647,6 +4824,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4680,6 +4859,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4745,6 +4926,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -4757,6 +4940,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -4767,6 +4951,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.array-buffer.constructor",
     "es.array-buffer.is-view",
     "es.array-buffer.slice",
@@ -4922,6 +5107,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -4951,8 +5138,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -4970,6 +5159,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -4991,6 +5181,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -5076,6 +5267,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -5133,6 +5325,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -5145,6 +5339,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -5155,6 +5350,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.map",
     "es.object.to-string",
     "es.promise",
@@ -5165,8 +5361,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -5229,9 +5427,11 @@
     "es.array.find-index"
   ],
   "core-js/features/array/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/features/array/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/features/array/flat": [
@@ -5256,6 +5456,9 @@
     "es.string.iterator",
     "esnext.array.from-async"
   ],
+  "core-js/features/array/group": [
+    "esnext.array.group"
+  ],
   "core-js/features/array/group-by": [
     "esnext.array.group-by"
   ],
@@ -5263,6 +5466,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/features/array/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/features/array/includes": [
     "es.array.includes"
@@ -5302,6 +5510,9 @@
   "core-js/features/array/of": [
     "es.array.of"
   ],
+  "core-js/features/array/push": [
+    "es.array.push"
+  ],
   "core-js/features/array/reduce": [
     "es.array.reduce"
   ],
@@ -5337,6 +5548,9 @@
     "es.map",
     "esnext.array.unique-by"
   ],
+  "core-js/features/array/unshift": [
+    "es.array.unshift"
+  ],
   "core-js/features/array/values": [
     "es.array.iterator",
     "es.object.to-string"
@@ -5350,6 +5564,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -5359,6 +5575,7 @@
     "es.array.join",
     "es.array.last-index-of",
     "es.array.map",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -5369,6 +5586,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.map",
     "es.object.to-string",
     "esnext.array.at",
@@ -5376,8 +5594,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.to-reversed",
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
@@ -5420,9 +5640,11 @@
     "es.array.find-index"
   ],
   "core-js/features/array/virtual/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/features/array/virtual/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/features/array/virtual/flat": [
@@ -5436,6 +5658,9 @@
   "core-js/features/array/virtual/for-each": [
     "es.array.for-each"
   ],
+  "core-js/features/array/virtual/group": [
+    "esnext.array.group"
+  ],
   "core-js/features/array/virtual/group-by": [
     "esnext.array.group-by"
   ],
@@ -5443,6 +5668,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/features/array/virtual/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/features/array/virtual/includes": [
     "es.array.includes"
@@ -5466,6 +5696,9 @@
   ],
   "core-js/features/array/virtual/map": [
     "es.array.map"
+  ],
+  "core-js/features/array/virtual/push": [
+    "es.array.push"
   ],
   "core-js/features/array/virtual/reduce": [
     "es.array.reduce"
@@ -5502,6 +5735,9 @@
     "es.map",
     "esnext.array.unique-by"
   ],
+  "core-js/features/array/virtual/unshift": [
+    "es.array.unshift"
+  ],
   "core-js/features/array/virtual/values": [
     "es.array.iterator",
     "es.object.to-string"
@@ -5526,6 +5762,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -5583,6 +5820,12 @@
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.from",
     "web.dom-collections.iterator"
+  ],
+  "core-js/features/async-iterator/indexed": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.indexed"
   ],
   "core-js/features/async-iterator/map": [
     "es.object.to-string",
@@ -5831,9 +6074,11 @@
     "es.array.find-index"
   ],
   "core-js/features/instance/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/features/instance/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/features/instance/flags": [
@@ -5851,6 +6096,9 @@
     "es.array.for-each",
     "web.dom-collections.iterator"
   ],
+  "core-js/features/instance/group": [
+    "esnext.array.group"
+  ],
   "core-js/features/instance/group-by": [
     "esnext.array.group-by"
   ],
@@ -5858,6 +6106,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/features/instance/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/features/instance/includes": [
     "es.array.includes",
@@ -5888,6 +6141,9 @@
   ],
   "core-js/features/instance/pad-start": [
     "es.string.pad-start"
+  ],
+  "core-js/features/instance/push": [
+    "es.array.push"
   ],
   "core-js/features/instance/reduce": [
     "es.array.reduce"
@@ -5953,6 +6209,9 @@
     "es.map",
     "esnext.array.unique-by"
   ],
+  "core-js/features/instance/unshift": [
+    "es.array.push"
+  ],
   "core-js/features/instance/values": [
     "es.array.iterator",
     "es.object.to-string",
@@ -5980,6 +6239,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -6030,6 +6290,11 @@
     "esnext.iterator.constructor",
     "esnext.iterator.from",
     "web.dom-collections.iterator"
+  ],
+  "core-js/features/iterator/indexed": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.indexed"
   ],
   "core-js/features/iterator/map": [
     "es.object.to-string",
@@ -7210,6 +7475,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -7264,6 +7530,9 @@
   ],
   "core-js/features/symbol/metadata": [
     "esnext.symbol.metadata"
+  ],
+  "core-js/features/symbol/metadata-key": [
+    "esnext.symbol.metadata-key"
   ],
   "core-js/features/symbol/observable": [
     "esnext.symbol.observable"
@@ -7327,6 +7596,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7360,7 +7631,7 @@
     "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/at": [
-    "es.typed-array.every",
+    "es.typed-array.at",
     "esnext.typed-array.at"
   ],
   "core-js/features/typed-array/copy-within": [
@@ -7392,9 +7663,11 @@
     "es.typed-array.find-index"
   ],
   "core-js/features/typed-array/find-last": [
+    "es.typed-array.find-last",
     "esnext.typed-array.find-last"
   ],
   "core-js/features/typed-array/find-last-index": [
+    "es.typed-array.find-last-index",
     "esnext.typed-array.find-last-index"
   ],
   "core-js/features/typed-array/float32-array": [
@@ -7412,6 +7685,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7459,6 +7734,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7524,6 +7801,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7571,6 +7850,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7618,6 +7899,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7679,6 +7962,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7769,6 +8054,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7816,6 +8103,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7863,6 +8152,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -7910,6 +8201,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -8063,6 +8356,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -8075,6 +8370,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -8085,6 +8381,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.array-buffer.constructor",
     "es.array-buffer.is-view",
     "es.array-buffer.slice",
@@ -8240,6 +8537,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -8269,8 +8568,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -8288,6 +8589,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -8309,6 +8611,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -8394,6 +8697,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -8451,6 +8755,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -8463,6 +8769,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -8473,6 +8780,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.map",
     "es.object.to-string",
     "es.promise",
@@ -8483,8 +8791,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -8547,9 +8857,11 @@
     "es.array.find-index"
   ],
   "core-js/full/array/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/full/array/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/full/array/flat": [
@@ -8574,6 +8886,9 @@
     "es.string.iterator",
     "esnext.array.from-async"
   ],
+  "core-js/full/array/group": [
+    "esnext.array.group"
+  ],
   "core-js/full/array/group-by": [
     "esnext.array.group-by"
   ],
@@ -8581,6 +8896,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/full/array/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/full/array/includes": [
     "es.array.includes"
@@ -8620,6 +8940,9 @@
   "core-js/full/array/of": [
     "es.array.of"
   ],
+  "core-js/full/array/push": [
+    "es.array.push"
+  ],
   "core-js/full/array/reduce": [
     "es.array.reduce"
   ],
@@ -8655,6 +8978,9 @@
     "es.map",
     "esnext.array.unique-by"
   ],
+  "core-js/full/array/unshift": [
+    "es.array.unshift"
+  ],
   "core-js/full/array/values": [
     "es.array.iterator",
     "es.object.to-string"
@@ -8668,6 +8994,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -8677,6 +9005,7 @@
     "es.array.join",
     "es.array.last-index-of",
     "es.array.map",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -8687,6 +9016,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.map",
     "es.object.to-string",
     "esnext.array.at",
@@ -8694,8 +9024,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.to-reversed",
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
@@ -8738,9 +9070,11 @@
     "es.array.find-index"
   ],
   "core-js/full/array/virtual/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/full/array/virtual/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/full/array/virtual/flat": [
@@ -8754,6 +9088,9 @@
   "core-js/full/array/virtual/for-each": [
     "es.array.for-each"
   ],
+  "core-js/full/array/virtual/group": [
+    "esnext.array.group"
+  ],
   "core-js/full/array/virtual/group-by": [
     "esnext.array.group-by"
   ],
@@ -8761,6 +9098,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/full/array/virtual/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/full/array/virtual/includes": [
     "es.array.includes"
@@ -8784,6 +9126,9 @@
   ],
   "core-js/full/array/virtual/map": [
     "es.array.map"
+  ],
+  "core-js/full/array/virtual/push": [
+    "es.array.push"
   ],
   "core-js/full/array/virtual/reduce": [
     "es.array.reduce"
@@ -8820,6 +9165,9 @@
     "es.map",
     "esnext.array.unique-by"
   ],
+  "core-js/full/array/virtual/unshift": [
+    "es.array.unshift"
+  ],
   "core-js/full/array/virtual/values": [
     "es.array.iterator",
     "es.object.to-string"
@@ -8844,6 +9192,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -8901,6 +9250,12 @@
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.from",
     "web.dom-collections.iterator"
+  ],
+  "core-js/full/async-iterator/indexed": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.indexed"
   ],
   "core-js/full/async-iterator/map": [
     "es.object.to-string",
@@ -9149,9 +9504,11 @@
     "es.array.find-index"
   ],
   "core-js/full/instance/find-last": [
+    "es.array.find-last",
     "esnext.array.find-last"
   ],
   "core-js/full/instance/find-last-index": [
+    "es.array.find-last-index",
     "esnext.array.find-last-index"
   ],
   "core-js/full/instance/flags": [
@@ -9169,6 +9526,9 @@
     "es.array.for-each",
     "web.dom-collections.iterator"
   ],
+  "core-js/full/instance/group": [
+    "esnext.array.group"
+  ],
   "core-js/full/instance/group-by": [
     "esnext.array.group-by"
   ],
@@ -9176,6 +9536,11 @@
     "es.map",
     "es.object.to-string",
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/full/instance/group-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-to-map"
   ],
   "core-js/full/instance/includes": [
     "es.array.includes",
@@ -9206,6 +9571,9 @@
   ],
   "core-js/full/instance/pad-start": [
     "es.string.pad-start"
+  ],
+  "core-js/full/instance/push": [
+    "es.array.push"
   ],
   "core-js/full/instance/reduce": [
     "es.array.reduce"
@@ -9271,6 +9639,9 @@
     "es.map",
     "esnext.array.unique-by"
   ],
+  "core-js/full/instance/unshift": [
+    "es.array.push"
+  ],
   "core-js/full/instance/values": [
     "es.array.iterator",
     "es.object.to-string",
@@ -9298,6 +9669,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -9348,6 +9720,11 @@
     "esnext.iterator.constructor",
     "esnext.iterator.from",
     "web.dom-collections.iterator"
+  ],
+  "core-js/full/iterator/indexed": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.indexed"
   ],
   "core-js/full/iterator/map": [
     "es.object.to-string",
@@ -10528,6 +10905,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -10582,6 +10960,9 @@
   ],
   "core-js/full/symbol/metadata": [
     "esnext.symbol.metadata"
+  ],
+  "core-js/full/symbol/metadata-key": [
+    "esnext.symbol.metadata-key"
   ],
   "core-js/full/symbol/observable": [
     "esnext.symbol.observable"
@@ -10645,6 +11026,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -10678,7 +11061,7 @@
     "esnext.typed-array.with"
   ],
   "core-js/full/typed-array/at": [
-    "es.typed-array.every",
+    "es.typed-array.at",
     "esnext.typed-array.at"
   ],
   "core-js/full/typed-array/copy-within": [
@@ -10710,9 +11093,11 @@
     "es.typed-array.find-index"
   ],
   "core-js/full/typed-array/find-last": [
+    "es.typed-array.find-last",
     "esnext.typed-array.find-last"
   ],
   "core-js/full/typed-array/find-last-index": [
+    "es.typed-array.find-last-index",
     "esnext.typed-array.find-last-index"
   ],
   "core-js/full/typed-array/float32-array": [
@@ -10730,6 +11115,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -10777,6 +11164,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -10842,6 +11231,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -10889,6 +11280,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -10936,6 +11329,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -10997,6 +11392,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -11087,6 +11484,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -11134,6 +11533,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -11181,6 +11582,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -11228,6 +11631,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -11395,6 +11800,12 @@
   "core-js/modules/es.array.find-index": [
     "es.array.find-index"
   ],
+  "core-js/modules/es.array.find-last": [
+    "es.array.find-last"
+  ],
+  "core-js/modules/es.array.find-last-index": [
+    "es.array.find-last-index"
+  ],
   "core-js/modules/es.array.flat": [
     "es.array.flat"
   ],
@@ -11431,6 +11842,9 @@
   "core-js/modules/es.array.of": [
     "es.array.of"
   ],
+  "core-js/modules/es.array.push": [
+    "es.array.push"
+  ],
   "core-js/modules/es.array.reduce": [
     "es.array.reduce"
   ],
@@ -11460,6 +11874,9 @@
   ],
   "core-js/modules/es.array.unscopables.flat-map": [
     "es.array.unscopables.flat-map"
+  ],
+  "core-js/modules/es.array.unshift": [
+    "es.array.unshift"
   ],
   "core-js/modules/es.data-view": [
     "es.data-view"
@@ -11986,6 +12403,12 @@
   "core-js/modules/es.typed-array.find-index": [
     "es.typed-array.find-index"
   ],
+  "core-js/modules/es.typed-array.find-last": [
+    "es.typed-array.find-last"
+  ],
+  "core-js/modules/es.typed-array.find-last-index": [
+    "es.typed-array.find-last-index"
+  ],
   "core-js/modules/es.typed-array.float32-array": [
     "es.typed-array.float32-array"
   ],
@@ -12106,11 +12529,17 @@
   "core-js/modules/esnext.array.from-async": [
     "esnext.array.from-async"
   ],
+  "core-js/modules/esnext.array.group": [
+    "esnext.array.group"
+  ],
   "core-js/modules/esnext.array.group-by": [
     "esnext.array.group-by"
   ],
   "core-js/modules/esnext.array.group-by-to-map": [
     "esnext.array.group-by-to-map"
+  ],
+  "core-js/modules/esnext.array.group-to-map": [
+    "esnext.array.group-to-map"
   ],
   "core-js/modules/esnext.array.is-template-object": [
     "esnext.array.is-template-object"
@@ -12162,6 +12591,9 @@
   ],
   "core-js/modules/esnext.async-iterator.from": [
     "esnext.async-iterator.from"
+  ],
+  "core-js/modules/esnext.async-iterator.indexed": [
+    "esnext.async-iterator.indexed"
   ],
   "core-js/modules/esnext.async-iterator.map": [
     "esnext.async-iterator.map"
@@ -12225,6 +12657,9 @@
   ],
   "core-js/modules/esnext.iterator.from": [
     "esnext.iterator.from"
+  ],
+  "core-js/modules/esnext.iterator.indexed": [
+    "esnext.iterator.indexed"
   ],
   "core-js/modules/esnext.iterator.map": [
     "esnext.iterator.map"
@@ -12493,6 +12928,9 @@
   "core-js/modules/esnext.symbol.metadata": [
     "esnext.symbol.metadata"
   ],
+  "core-js/modules/esnext.symbol.metadata-key": [
+    "esnext.symbol.metadata-key"
+  ],
   "core-js/modules/esnext.symbol.observable": [
     "esnext.symbol.observable"
   ],
@@ -12635,8 +13073,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -12654,6 +13094,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -12675,6 +13116,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -12760,6 +13202,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -12829,6 +13272,10 @@
     "esnext.array.group-by",
     "esnext.array.group-by-to-map"
   ],
+  "core-js/proposals/array-grouping-stage-3-2": [
+    "esnext.array.group",
+    "esnext.array.group-to-map"
+  ],
   "core-js/proposals/array-includes": [
     "es.array.includes",
     "es.typed-array.includes"
@@ -12897,6 +13344,9 @@
     "esnext.weak-set.from",
     "esnext.weak-set.of"
   ],
+  "core-js/proposals/decorator-metadata": [
+    "esnext.symbol.metadata-key"
+  ],
   "core-js/proposals/decorators": [
     "esnext.symbol.metadata"
   ],
@@ -12930,6 +13380,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -12944,6 +13395,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -13137,6 +13589,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -13149,6 +13603,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -13159,6 +13614,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.array-buffer.constructor",
     "es.array-buffer.is-view",
     "es.array-buffer.slice",
@@ -13314,6 +13770,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -13369,6 +13827,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -13381,6 +13841,7 @@
     "es.array.last-index-of",
     "es.array.map",
     "es.array.of",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -13391,6 +13852,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.object.to-string",
     "es.string.iterator"
   ],
@@ -13439,6 +13901,12 @@
   "core-js/stable/array/find-index": [
     "es.array.find-index"
   ],
+  "core-js/stable/array/find-last": [
+    "es.array.find-last"
+  ],
+  "core-js/stable/array/find-last-index": [
+    "es.array.find-last-index"
+  ],
   "core-js/stable/array/flat": [
     "es.array.flat",
     "es.array.unscopables.flat"
@@ -13483,6 +13951,9 @@
   "core-js/stable/array/of": [
     "es.array.of"
   ],
+  "core-js/stable/array/push": [
+    "es.array.push"
+  ],
   "core-js/stable/array/reduce": [
     "es.array.reduce"
   ],
@@ -13504,6 +13975,9 @@
   "core-js/stable/array/splice": [
     "es.array.splice"
   ],
+  "core-js/stable/array/unshift": [
+    "es.array.unshift"
+  ],
   "core-js/stable/array/values": [
     "es.array.iterator",
     "es.object.to-string"
@@ -13517,6 +13991,8 @@
     "es.array.filter",
     "es.array.find",
     "es.array.find-index",
+    "es.array.find-last",
+    "es.array.find-last-index",
     "es.array.flat",
     "es.array.flat-map",
     "es.array.for-each",
@@ -13526,6 +14002,7 @@
     "es.array.join",
     "es.array.last-index-of",
     "es.array.map",
+    "es.array.push",
     "es.array.reduce",
     "es.array.reduce-right",
     "es.array.reverse",
@@ -13536,6 +14013,7 @@
     "es.array.splice",
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
+    "es.array.unshift",
     "es.object.to-string"
   ],
   "core-js/stable/array/virtual/at": [
@@ -13565,6 +14043,12 @@
   ],
   "core-js/stable/array/virtual/find-index": [
     "es.array.find-index"
+  ],
+  "core-js/stable/array/virtual/find-last": [
+    "es.array.find-last"
+  ],
+  "core-js/stable/array/virtual/find-last-index": [
+    "es.array.find-last-index"
   ],
   "core-js/stable/array/virtual/flat": [
     "es.array.flat",
@@ -13600,6 +14084,9 @@
   "core-js/stable/array/virtual/map": [
     "es.array.map"
   ],
+  "core-js/stable/array/virtual/push": [
+    "es.array.push"
+  ],
   "core-js/stable/array/virtual/reduce": [
     "es.array.reduce"
   ],
@@ -13620,6 +14107,9 @@
   ],
   "core-js/stable/array/virtual/splice": [
     "es.array.splice"
+  ],
+  "core-js/stable/array/virtual/unshift": [
+    "es.array.unshift"
   ],
   "core-js/stable/array/virtual/values": [
     "es.array.iterator",
@@ -13797,6 +14287,12 @@
   "core-js/stable/instance/find-index": [
     "es.array.find-index"
   ],
+  "core-js/stable/instance/find-last": [
+    "es.array.find-last"
+  ],
+  "core-js/stable/instance/find-last-index": [
+    "es.array.find-last-index"
+  ],
   "core-js/stable/instance/flags": [
     "es.regexp.flags"
   ],
@@ -13840,6 +14336,9 @@
   ],
   "core-js/stable/instance/pad-start": [
     "es.string.pad-start"
+  ],
+  "core-js/stable/instance/push": [
+    "es.array.push"
   ],
   "core-js/stable/instance/reduce": [
     "es.array.reduce"
@@ -13887,6 +14386,9 @@
   ],
   "core-js/stable/instance/trim-start": [
     "es.string.trim-start"
+  ],
+  "core-js/stable/instance/unshift": [
+    "es.array.push"
   ],
   "core-js/stable/instance/values": [
     "es.array.iterator",
@@ -14758,6 +15260,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -14803,6 +15307,12 @@
   "core-js/stable/typed-array/find-index": [
     "es.typed-array.find-index"
   ],
+  "core-js/stable/typed-array/find-last": [
+    "es.typed-array.find-last"
+  ],
+  "core-js/stable/typed-array/find-last-index": [
+    "es.typed-array.find-last-index"
+  ],
   "core-js/stable/typed-array/float32-array": [
     "es.array-buffer.constructor",
     "es.array-buffer.slice",
@@ -14816,6 +15326,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -14849,6 +15361,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -14894,6 +15408,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -14927,6 +15443,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -14960,6 +15478,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -15007,6 +15527,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -15073,6 +15595,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -15106,6 +15630,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -15139,6 +15665,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -15172,6 +15700,8 @@
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.from",
     "es.typed-array.includes",
@@ -15233,8 +15763,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -15252,6 +15784,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -15273,6 +15806,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -15358,6 +15892,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -15396,8 +15931,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -15415,6 +15952,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -15436,6 +15974,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -15512,6 +16051,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -15549,8 +16089,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -15568,6 +16110,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -15586,6 +16129,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -15657,6 +16201,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
@@ -15688,8 +16233,10 @@
     "esnext.array.at",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.to-reversed",
     "esnext.array.to-sorted",
@@ -15704,6 +16251,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -15719,6 +16267,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -15741,6 +16290,7 @@
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.typed-array.at",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
@@ -15757,8 +16307,10 @@
     "esnext.array.at",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.to-reversed",
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
@@ -15799,8 +16351,10 @@
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group",
     "esnext.array.group-by",
     "esnext.array.group-by-to-map",
+    "esnext.array.group-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
@@ -15818,6 +16372,7 @@
     "esnext.async-iterator.flat-map",
     "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.indexed",
     "esnext.async-iterator.map",
     "esnext.async-iterator.reduce",
     "esnext.async-iterator.some",
@@ -15839,6 +16394,7 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.indexed",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -15924,6 +16480,7 @@
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
+    "esnext.symbol.metadata-key",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
