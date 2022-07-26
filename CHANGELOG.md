@@ -5,6 +5,12 @@
 
 
 
+- **(css)** Fix parsing of `layer` (#5290) ([83651c2](https://github.com/swc-project/swc/commit/83651c297d4e6b03809b96a87ce1c59f158e28ff))
+
+
+- **(es/codegen)** Add `;` for a generator function (#5292) ([daac26b](https://github.com/swc-project/swc/commit/daac26bcfbc48a732d4b1b831a0f54518401f63b))
+
+
 - **(es/compat)** Preserve orders of `import`s and `export`s (#5249) ([2010409](https://github.com/swc-project/swc/commit/2010409bac0f73c5f4d04f6735db6142f621701a))
 
 
@@ -29,10 +35,16 @@
 
 
 
+- **(css/minifier)** Remove duplicate selectors (#5257) ([ce34746](https://github.com/swc-project/swc/commit/ce347461ee4cb14ef0f099abb6a8831c929f958a))
+
+
 - **(css/prefixer)** Implement `preset-env` (#5247) ([e78d23d](https://github.com/swc-project/swc/commit/e78d23d193585bb088f71602a33340d0a1ed1601))
 
 
 - **(es/codegen)** Optimize number and bigint literal (#5223) ([3f0856d](https://github.com/swc-project/swc/commit/3f0856db2ef7dde001cd482088a094f49de7ddac))
+
+
+- **(es/codegen)** Remove extra space before a private method (#5295) ([0f254d5](https://github.com/swc-project/swc/commit/0f254d5ce5c23fa3ec06c074aa1b8acc5d1dbddf))
 
 
 - **(es/minifier)** Calculate correct size (#5253) ([6573324](https://github.com/swc-project/swc/commit/6573324d9c59000c81ae35ad615b0b7428bc75f9))
