@@ -96,25 +96,25 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/94/input.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                           ^^^^^^^^^^^^^^^^^^^^^^^
+   :                                    ^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/94/input.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                           ^^^^^^^^^^^^^^^^^^^^^^^
+   :                                    ^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/94/input.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                       ^^^^^^^^^^^^^^^^^^^^^^
+   :                                    ^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/94/input.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                       ^^^^^^^^^^^^^^^^^^^^^^
+   :                                    ^^^^^^^^^
    `----
 
   x Child

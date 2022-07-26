@@ -7398,6 +7398,10 @@ where
         let mut children = node.children.borrow_mut();
         let mut new_children = new_parent.children.borrow_mut();
 
+        if let Some(first) = children.first() {
+            new_parent.start_span.borrow_mut().lo = first.start_span.borrow().lo;
+        }
+
         for child in children.iter() {
             let previous_parent = child.parent.replace(Some(Rc::downgrade(new_parent)));
 

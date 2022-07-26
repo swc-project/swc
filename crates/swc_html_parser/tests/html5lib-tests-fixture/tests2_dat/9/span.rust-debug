@@ -48,13 +48,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/9/input.html:1:1]
  1 | <!DOCTYPE html><font><p><b>test</font>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^
+   :                         ^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/9/input.html:1:1]
  1 | <!DOCTYPE html><font><p><b>test</font>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^
+   :                         ^^^^^^^^^^^^^^
    `----
 
   x Child
