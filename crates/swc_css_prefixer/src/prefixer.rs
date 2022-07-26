@@ -801,7 +801,7 @@ impl VisitMut for Prefixer {
                 );
             }
 
-            if n.prelude != new_webkit_prelude {
+            if !n.prelude.eq_ignore_span(&new_webkit_prelude) {
                 let qualified_rule = QualifiedRule {
                     span: DUMMY_SP,
                     prelude: new_webkit_prelude,
@@ -869,16 +869,14 @@ impl VisitMut for Prefixer {
                 );
             }
 
-            {
+            if should_prefix(":-moz-placeholder", self.env, false) {
                 let mut new_moz_prelude_with_previous = new_moz_prelude.clone();
 
-                if should_prefix(":-moz-placeholder", self.env, false) {
-                    replace_pseudo_class_selector_on_pseudo_element_selector(
-                        &mut new_moz_prelude_with_previous,
-                        "placeholder",
-                        "-moz-placeholder",
-                    );
-                }
+                replace_pseudo_class_selector_on_pseudo_element_selector(
+                    &mut new_moz_prelude_with_previous,
+                    "placeholder",
+                    "-moz-placeholder",
+                );
 
                 if new_moz_prelude_with_previous != new_moz_prelude {
                     let qualified_rule = QualifiedRule {
@@ -905,7 +903,7 @@ impl VisitMut for Prefixer {
                 );
             }
 
-            if n.prelude != new_moz_prelude {
+            if !n.prelude.eq_ignore_span(&new_moz_prelude) {
                 let qualified_rule = QualifiedRule {
                     span: DUMMY_SP,
                     prelude: new_moz_prelude,
@@ -957,16 +955,14 @@ impl VisitMut for Prefixer {
                 );
             }
 
-            {
+            if should_prefix(":-ms-input-placeholder", self.env, false) {
                 let mut new_ms_prelude_with_previous = new_ms_prelude.clone();
 
-                if should_prefix(":-ms-input-placeholder", self.env, false) {
-                    replace_pseudo_class_selector_on_pseudo_element_selector(
-                        &mut new_ms_prelude_with_previous,
-                        "placeholder",
-                        "-ms-input-placeholder",
-                    );
-                }
+                replace_pseudo_class_selector_on_pseudo_element_selector(
+                    &mut new_ms_prelude_with_previous,
+                    "placeholder",
+                    "-ms-input-placeholder",
+                );
 
                 if new_ms_prelude_with_previous != new_ms_prelude {
                     let qualified_rule = QualifiedRule {
@@ -993,7 +989,7 @@ impl VisitMut for Prefixer {
                 );
             }
 
-            if n.prelude != new_ms_prelude {
+            if !n.prelude.eq_ignore_span(&new_ms_prelude) {
                 let qualified_rule = QualifiedRule {
                     span: DUMMY_SP,
                     prelude: new_ms_prelude,
