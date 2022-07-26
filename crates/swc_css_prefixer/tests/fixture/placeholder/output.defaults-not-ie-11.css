@@ -1,39 +1,11 @@
 input::-webkit-input-placeholder {
   color: red;
 }
-input:-moz-placeholder {
-  color: red;
-}
-input::-moz-placeholder {
-  color: red;
-}
-input:-ms-input-placeholder {
-  color: red;
-}
-input::-ms-input-placeholder {
-  color: red;
-}
 input::placeholder {
   color: red;
 }
 input::-webkit-input-placeholder, 
 #fs-toggle:-webkit-full-screen {
-  color: red;
-}
-input:-moz-placeholder, 
-#fs-toggle:-moz-full-screen {
-  color: red;
-}
-input::-moz-placeholder, 
-#fs-toggle:-moz-full-screen {
-  color: red;
-}
-input:-ms-input-placeholder, 
-#fs-toggle:-ms-fullscreen {
-  color: red;
-}
-input::-ms-input-placeholder, 
-#fs-toggle:-ms-fullscreen {
   color: red;
 }
 input::placeholder, 
@@ -44,36 +16,12 @@ input::-webkit-input-placeholder {
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 }
-input:-moz-placeholder {
-  backdrop-filter: blur(2px);
-}
-input::-moz-placeholder {
-  backdrop-filter: blur(2px);
-}
-input:-ms-input-placeholder {
-  backdrop-filter: blur(2px);
-}
-input::-ms-input-placeholder {
-  backdrop-filter: blur(2px);
-}
 input::placeholder {
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 }
 input.appearance::-webkit-input-placeholder {
   -webkit-appearance: none;
-  appearance: none;
-}
-input.appearance:-moz-placeholder {
-  appearance: none;
-}
-input.appearance::-moz-placeholder {
-  appearance: none;
-}
-input.appearance:-ms-input-placeholder {
-  appearance: none;
-}
-input.appearance::-ms-input-placeholder {
   appearance: none;
 }
 input.appearance::placeholder {

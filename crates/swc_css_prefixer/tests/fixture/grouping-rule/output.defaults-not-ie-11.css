@@ -10,78 +10,27 @@
 }
 .a, 
 .b, 
-.c::-moz-selection, 
-.d:-moz-read-only, 
-.e:-moz-placeholder {
-  color: yellow;
-}
-.a, 
-.b, 
-.c::-moz-selection, 
-.d:-moz-read-only, 
-.e::-moz-placeholder {
-  color: yellow;
-}
-.a, 
-.b, 
-.c::selection, 
-.d:read-only, 
-.e:-ms-input-placeholder {
-  color: yellow;
-}
-.a, 
-.b, 
-.c::selection, 
-.d:read-only, 
-.e::-ms-input-placeholder {
-  color: yellow;
-}
-.a, 
-.b, 
 .c::selection, 
 .d:read-only, 
 .e::placeholder {
   color: yellow;
 }
-::-moz-selection {
-  color: red;
-}
 ::selection {
   color: red;
 }
-:-moz-read-only {
-  color: black;
-}
 :read-only {
   color: black;
-}
-.f:-moz-read-write, 
-.g:-moz-read-write {
-  background: #fff;
 }
 .f:read-write, 
 .g:read-write {
   background: #fff;
 }
-.example:-webkit-any-link:read-only {
-  color: red;
-}
-.example:-moz-any-link:-moz-read-only {
-  color: red;
-}
 .example:any-link:read-only {
   color: red;
 }
 .element1:focus, 
-.element1:-moz-read-only {
-  background-color: red;
-}
-.element1:focus, 
 .element1:read-only {
   background-color: red;
-}
-.c::-moz-selection {
-  backface-visibility: visible;
 }
 .c::selection {
   -webkit-backface-visibility: visible;

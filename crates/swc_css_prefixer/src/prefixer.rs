@@ -746,12 +746,6 @@ impl VisitMut for Prefixer {
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
-        if let QualifiedRulePrelude::Invalid(_) = n.prelude {
-            n.visit_mut_children_with(self);
-
-            return;
-        }
-
         let original_simple_block = n.block.clone();
 
         n.visit_mut_children_with(self);
@@ -759,36 +753,53 @@ impl VisitMut for Prefixer {
         if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
             let mut new_webkit_prelude = n.prelude.clone();
 
-            replace_pseudo_class_selector_name(
-                &mut new_webkit_prelude,
-                "autofill",
-                "-webkit-autofill",
-            );
-            replace_pseudo_class_selector_name(
-                &mut new_webkit_prelude,
-                "any-link",
-                "-webkit-any-link",
-            );
-            replace_pseudo_class_selector_name(
-                &mut new_webkit_prelude,
-                "fullscreen",
-                "-webkit-full-screen",
-            );
-            replace_pseudo_element_selector_name(
-                &mut new_webkit_prelude,
-                "file-selector-button",
-                "-webkit-file-upload-button",
-            );
-            replace_pseudo_element_selector_name(
-                &mut new_webkit_prelude,
-                "backdrop",
-                "-webkit-backdrop",
-            );
-            replace_pseudo_element_selector_name(
-                &mut new_webkit_prelude,
-                "placeholder",
-                "-webkit-input-placeholder",
-            );
+            if should_prefix(":-webkit-autofill", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_webkit_prelude,
+                    "autofill",
+                    "-webkit-autofill",
+                );
+            }
+
+            if should_prefix(":-webkit-any-link", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_webkit_prelude,
+                    "any-link",
+                    "-webkit-any-link",
+                );
+            }
+
+            if should_prefix(":-webkit-full-screen", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_webkit_prelude,
+                    "fullscreen",
+                    "-webkit-full-screen",
+                );
+            }
+
+            if should_prefix("::-webkit-file-upload-button", self.env, false) {
+                replace_pseudo_element_selector_name(
+                    &mut new_webkit_prelude,
+                    "file-selector-button",
+                    "-webkit-file-upload-button",
+                );
+            }
+
+            if should_prefix("::-webkit-backdrop", self.env, false) {
+                replace_pseudo_element_selector_name(
+                    &mut new_webkit_prelude,
+                    "backdrop",
+                    "-webkit-backdrop",
+                );
+            }
+
+            if should_prefix("::-webkit-file-upload-button", self.env, false) {
+                replace_pseudo_element_selector_name(
+                    &mut new_webkit_prelude,
+                    "placeholder",
+                    "-webkit-input-placeholder",
+                );
+            }
 
             if n.prelude != new_webkit_prelude {
                 let qualified_rule = QualifiedRule {
@@ -810,37 +821,64 @@ impl VisitMut for Prefixer {
         if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
             let mut new_moz_prelude = n.prelude.clone();
 
-            replace_pseudo_class_selector_name(&mut new_moz_prelude, "read-only", "-moz-read-only");
-            replace_pseudo_class_selector_name(
-                &mut new_moz_prelude,
-                "read-write",
-                "-moz-read-write",
-            );
-            replace_pseudo_class_selector_name(&mut new_moz_prelude, "any-link", "-moz-any-link");
-            replace_pseudo_class_selector_name(
-                &mut new_moz_prelude,
-                "fullscreen",
-                "-moz-full-screen",
-            );
-            replace_pseudo_class_selector_name(
-                &mut new_moz_prelude,
-                "placeholder-shown",
-                "-moz-placeholder-shown",
-            );
-            replace_pseudo_element_selector_name(
-                &mut new_moz_prelude,
-                "selection",
-                "-moz-selection",
-            );
+            if should_prefix(":-moz-read-only", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_moz_prelude,
+                    "read-only",
+                    "-moz-read-only",
+                );
+            }
+
+            if should_prefix(":-moz-read-write", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_moz_prelude,
+                    "read-write",
+                    "-moz-read-write",
+                );
+            }
+
+            if should_prefix(":-moz-any-link", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_moz_prelude,
+                    "any-link",
+                    "-moz-any-link",
+                );
+            }
+
+            if should_prefix(":-moz-full-screen", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_moz_prelude,
+                    "fullscreen",
+                    "-moz-full-screen",
+                );
+            }
+
+            if should_prefix(":-moz-placeholder-shown", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_moz_prelude,
+                    "placeholder-shown",
+                    "-moz-placeholder-shown",
+                );
+            }
+
+            if should_prefix("::-moz-selection", self.env, false) {
+                replace_pseudo_element_selector_name(
+                    &mut new_moz_prelude,
+                    "selection",
+                    "-moz-selection",
+                );
+            }
 
             {
                 let mut new_moz_prelude_with_previous = new_moz_prelude.clone();
 
-                replace_pseudo_class_selector_on_pseudo_element_selector(
-                    &mut new_moz_prelude_with_previous,
-                    "placeholder",
-                    "-moz-placeholder",
-                );
+                if should_prefix(":-moz-placeholder", self.env, false) {
+                    replace_pseudo_class_selector_on_pseudo_element_selector(
+                        &mut new_moz_prelude_with_previous,
+                        "placeholder",
+                        "-moz-placeholder",
+                    );
+                }
 
                 if new_moz_prelude_with_previous != new_moz_prelude {
                     let qualified_rule = QualifiedRule {
@@ -859,11 +897,13 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            replace_pseudo_element_selector_name(
-                &mut new_moz_prelude,
-                "placeholder",
-                "-moz-placeholder",
-            );
+            if should_prefix("::-moz-placeholder", self.env, false) {
+                replace_pseudo_element_selector_name(
+                    &mut new_moz_prelude,
+                    "placeholder",
+                    "-moz-placeholder",
+                );
+            }
 
             if n.prelude != new_moz_prelude {
                 let qualified_rule = QualifiedRule {
@@ -885,27 +925,48 @@ impl VisitMut for Prefixer {
         if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
             let mut new_ms_prelude = n.prelude.clone();
 
-            replace_pseudo_class_selector_name(&mut new_ms_prelude, "fullscreen", "-ms-fullscreen");
-            replace_pseudo_class_selector_name(
-                &mut new_ms_prelude,
-                "placeholder-shown",
-                "-ms-input-placeholder",
-            );
-            replace_pseudo_element_selector_name(
-                &mut new_ms_prelude,
-                "file-selector-button",
-                "-ms-browse",
-            );
-            replace_pseudo_element_selector_name(&mut new_ms_prelude, "backdrop", "-ms-backdrop");
+            if should_prefix(":-ms-fullscreen", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_ms_prelude,
+                    "fullscreen",
+                    "-ms-fullscreen",
+                );
+            }
+
+            if should_prefix(":-ms-input-placeholder", self.env, false) {
+                replace_pseudo_class_selector_name(
+                    &mut new_ms_prelude,
+                    "placeholder-shown",
+                    "-ms-input-placeholder",
+                );
+            }
+
+            if should_prefix("::-ms-browse", self.env, false) {
+                replace_pseudo_element_selector_name(
+                    &mut new_ms_prelude,
+                    "file-selector-button",
+                    "-ms-browse",
+                );
+            }
+
+            if should_prefix("::-ms-backdrop", self.env, false) {
+                replace_pseudo_element_selector_name(
+                    &mut new_ms_prelude,
+                    "backdrop",
+                    "-ms-backdrop",
+                );
+            }
 
             {
                 let mut new_ms_prelude_with_previous = new_ms_prelude.clone();
 
-                replace_pseudo_class_selector_on_pseudo_element_selector(
-                    &mut new_ms_prelude_with_previous,
-                    "placeholder",
-                    "-ms-input-placeholder",
-                );
+                if should_prefix(":-ms-input-placeholder", self.env, false) {
+                    replace_pseudo_class_selector_on_pseudo_element_selector(
+                        &mut new_ms_prelude_with_previous,
+                        "placeholder",
+                        "-ms-input-placeholder",
+                    );
+                }
 
                 if new_ms_prelude_with_previous != new_ms_prelude {
                     let qualified_rule = QualifiedRule {
@@ -924,11 +985,13 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            replace_pseudo_element_selector_name(
-                &mut new_ms_prelude,
-                "placeholder",
-                "-ms-input-placeholder",
-            );
+            if should_prefix("::-ms-input-placeholder", self.env, false) {
+                replace_pseudo_element_selector_name(
+                    &mut new_ms_prelude,
+                    "placeholder",
+                    "-ms-input-placeholder",
+                );
+            }
 
             if n.prelude != new_ms_prelude {
                 let qualified_rule = QualifiedRule {

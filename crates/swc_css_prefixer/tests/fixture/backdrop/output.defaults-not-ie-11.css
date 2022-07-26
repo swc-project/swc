@@ -1,9 +1,3 @@
-dialog::-webkit-backdrop {
-  background: rgba(255, 0, 0, .25);
-}
-dialog::-ms-backdrop {
-  background: rgba(255, 0, 0, .25);
-}
 dialog::backdrop {
   background: rgba(255, 0, 0, .25);
 }
