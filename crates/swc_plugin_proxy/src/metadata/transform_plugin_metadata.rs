@@ -24,31 +24,7 @@ pub struct TransformPluginProgramMetadata {
     /// This is a proxy to the actual data lives in the host. Only when plugin
     /// attempts to read these it'll ask to the host to get values.
     pub source_map: PluginSourceMapProxy,
-    /// Stringified JSON value for given plugin's configuration.
-    /// This is readonly. Changing value in plugin doesn't affect host's
-    /// behavior.
-    pub plugin_config: String,
     pub unresolved_mark: Mark,
-    /// Stringified JSON value for relative context while running transform,
-    /// like filenames.
-    /// This is readonly. Changing value in plugin doesn't affect host's
-    /// behavior.
-    pub transform_context: String,
-    /// Non typed, extensible properties without breaking plugin compability
-    /// between host.
-    ///
-    /// Adding a new property to this metadata will be a breaking changes we
-    /// can't do freely.
-    /// Instead, we use this as a placeholder `@swc/core` may try new metadata.
-    /// Once it's proven to be stable with enough usecases, it'll be
-    /// promoted to actual property to TransformPluginProgramMetadata with
-    /// proper type support.
-    ///
-    /// There is no typed deserialization support for this unfortunately. Plugin
-    /// need to deserialize stringified values manually. In most cases this'll
-    /// be JSON type, but depends on the nature of the metadata it may
-    /// require different way to deserialize.
-    pub experimental: swc_common::collections::AHashMap<String, String>,
 }
 
 #[cfg(target_arch = "wasm32")] // Allow testing

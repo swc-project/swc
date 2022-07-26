@@ -65,10 +65,8 @@ use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
 
 use crate::{
-    builder::PassBuilder,
-    dropped_comments_preserver::dropped_comments_preserver,
-    plugin::{PluginConfig, PluginContext},
-    SwcImportResolver,
+    builder::PassBuilder, dropped_comments_preserver::dropped_comments_preserver,
+    plugin::PluginConfig, SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -526,11 +524,6 @@ impl Options {
                 _ => None,
             };
 
-            let plugin_context = PluginContext {
-                filename: transform_filename.clone(),
-                env_name: self.env_name.to_owned(),
-            };
-
             let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
                 transform_filename,
                 self.env_name.to_owned(),
@@ -549,7 +542,6 @@ impl Options {
                 Some(plugin_resolver),
                 comments,
                 source_map,
-                plugin_context,
                 unresolved_mark,
             )
         };
@@ -564,11 +556,6 @@ impl Options {
                 FileName::Real(path) => path.as_os_str().to_str().map(String::from),
                 FileName::Custom(filename) => Some(filename.to_owned()),
                 _ => None,
-            };
-
-            let plugin_context = PluginContext {
-                filename: transform_filename.clone(),
-                env_name: self.env_name.to_owned(),
             };
 
             let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
@@ -586,7 +573,6 @@ impl Options {
                 None,
                 comments,
                 source_map,
-                plugin_context,
                 unresolved_mark,
             )
         };

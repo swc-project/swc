@@ -52,8 +52,13 @@ impl Into<u32> for TransformPluginMetadataContextKind {
 /// This is a global context - any plugin in single transform will have same
 /// values.
 pub struct TransformPluginMetadataContext {
+    /// The path of the file being processed. This includes all of the path as
+    /// much as possible.
     pub filename: Option<String>,
+    /// The current environment resolved as process.env.SWC_ENV ||
+    /// process.env.NODE_ENV || "development"
     pub env: String,
+    /// The current working directory.
     pub cwd: Option<String>,
     pub experimental: AHashMap<String, String>,
 }

@@ -21,26 +21,6 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct PluginConfig(String, serde_json::Value);
 
-/// Struct represents arbitrary `context` or `state` to be passed to plugin's
-/// entrypoint.
-/// While internally this is strongly typed, it is not exposed as public
-/// interface to plugin's entrypoint but instead will be passed as JSON string.
-/// First, not all of plugins will need to deserialize this - plugin may opt in
-/// to access when it's needed. Secondly, we do not have way to avoid breaking
-/// changes when adding a new property. We may change this to typed
-/// deserialization in the future if we have add-only schema support with
-/// serialization / deserialization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct PluginContext {
-    /// The path of the file being processed. This includes all of the path as
-    /// much as possible.
-    pub filename: Option<String>,
-    /// The current environment resolved as process.env.SWC_ENV ||
-    /// process.env.NODE_ENV || "development"
-    pub env_name: String,
-}
-
 #[cfg(feature = "plugin")]
 pub fn plugins(
     configured_plugins: Option<Vec<PluginConfig>>,
@@ -48,7 +28,6 @@ pub fn plugins(
     resolver: Option<CachingResolver<NodeModulesResolver>>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
-    plugin_context: PluginContext,
     unresolved_mark: swc_common::Mark,
 ) -> impl Fold {
     {
@@ -58,7 +37,6 @@ pub fn plugins(
             resolver,
             comments,
             source_map,
-            plugin_context,
             unresolved_mark,
         }
     }
@@ -75,7 +53,6 @@ struct RustPlugins {
     resolver: Option<CachingResolver<NodeModulesResolver>>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
-    plugin_context: PluginContext,
     unresolved_mark: swc_common::Mark,
 }
 
@@ -87,7 +64,7 @@ impl RustPlugins {
         self.apply_inner(n).with_context(|| {
             format!(
                 "failed to invoke plugin on '{:?}'",
-                self.plugin_context.filename
+                self.metadata_context.filename
             )
         })
     }
@@ -99,7 +76,6 @@ impl RustPlugins {
 
         use anyhow::Context;
         use swc_common::{
-            collections::AHashMap,
             plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
             FileName,
         };
@@ -139,14 +115,6 @@ impl RustPlugins {
                             anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
                         };
 
-                        let serialized_config_json = serde_json::to_string(&p.1.clone())
-                            .context("Failed to serialize plugin config as json")
-                            .and_then(|value| {
-                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                                    value,
-                                ))
-                            })?;
-
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(
                                 &path,
@@ -162,41 +130,14 @@ impl RustPlugins {
 
                         let span = tracing::span!(
                             tracing::Level::INFO,
-                            "serialize_context",
-                            plugin_module = p.0.as_str()
-                        );
-                        let context_span_guard = span.enter();
-
-                        let serialized_context_json = serde_json::to_string(&self.plugin_context)
-                            .context("Failed to serialize plugin context as json")
-                            .and_then(|value| {
-                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                                    value,
-                                ))
-                            })?;
-                        drop(context_span_guard);
-
-                        let span = tracing::span!(
-                            tracing::Level::INFO,
                             "execute_plugin_runner",
                             plugin_module = p.0.as_str()
                         )
                         .entered();
 
-                        // Forward host side experimental metadata into plugin.
-                        // This is currently not being used, reserved to enable proper serialization
-                        // transform.
-                        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-                        let experimental_metadata_reserved = PluginSerializedBytes::try_serialize(
-                            &VersionedSerializable::new(experimental_metadata),
-                        )?;
-
                         serialized_program = transform_plugin_executor
                             .transform(
                                 &serialized_program,
-                                &serialized_config_json,
-                                &serialized_context_json,
-                                &experimental_metadata_reserved,
                                 self.unresolved_mark,
                                 should_enable_comments_proxy,
                             )
@@ -242,22 +183,6 @@ impl RustPlugins {
 
                 if let Some(plugins) = &mut self.plugins {
                     for p in plugins.drain(..) {
-                        let serialized_config_json = serde_json::to_string(&p.1)
-                            .context("Failed to serialize plugin config as json")
-                            .and_then(|value| {
-                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                                    value,
-                                ))
-                            })?;
-
-                        let serialized_context_json = serde_json::to_string(&self.plugin_context)
-                            .context("Failed to serialize plugin context as json")
-                            .and_then(|value| {
-                                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                                    value,
-                                ))
-                            })?;
-
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(
                                 &PathBuf::from(&p.0),
@@ -267,20 +192,9 @@ impl RustPlugins {
                                 Some(p.1),
                             )?;
 
-                        // Forward host side experimental metadata into plugin.
-                        // This is currently not being used, reserved to enable proper serialization
-                        // transform.
-                        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-                        let experimental_metadata_reserved = PluginSerializedBytes::try_serialize(
-                            &VersionedSerializable::new(experimental_metadata),
-                        )?;
-
                         serialized_program = transform_plugin_executor
                             .transform(
                                 &serialized_program,
-                                &serialized_config_json,
-                                &serialized_context_json,
-                                &experimental_metadata_reserved,
                                 self.unresolved_mark,
                                 should_enable_comments_proxy,
                             )

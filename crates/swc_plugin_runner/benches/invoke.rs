@@ -90,20 +90,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         .expect("Should be a hashmap");
 
         let res = transform_plugin_executor
-            .transform(
-                &program_ser,
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from(
-                    "{}",
-                )))
-                .unwrap(),
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from(
-                    "{}",
-                )))
-                .unwrap(),
-                &experimental_metadata,
-                Mark::new(),
-                true,
-            )
+            .transform(&program_ser, Mark::new(), true)
             .unwrap();
 
         let _ = black_box(res);
