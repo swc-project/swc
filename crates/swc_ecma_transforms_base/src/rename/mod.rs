@@ -1,7 +1,7 @@
 use std::{borrow::Cow, collections::HashMap};
 
 use rustc_hash::FxHashSet;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::{Atom, AtomGenerator, JsWord};
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
@@ -81,7 +81,7 @@ impl<R> RenamePass<R>
 where
     R: Renamer,
 {
-    fn get_unresolved<N>(&self, n: &N) -> FxHashSet<JsWord>
+    fn get_unresolved<N>(&self, n: &N) -> FxHashSet<Atom>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
     {
@@ -92,24 +92,22 @@ where
             n.visit_with(&mut v);
             v.ids
         };
+        let mut atoms = AtomGenerator::default();
         let decls = collect_decls(n);
         usages
             .into_iter()
             .filter(|used_id| !decls.contains(used_id))
-            .map(|v| v.0)
+            .map(|v| atoms.intern(&*v.0))
             .collect()
     }
 
-    fn get_map<N>(
-        &self,
-        node: &N,
-        skip_one: bool,
-        is_module_or_script: bool,
-    ) -> AHashMap<Id, JsWord>
+    fn get_map<N>(&self, node: &N, skip_one: bool, is_module_or_script: bool) -> AHashMap<Id, Atom>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
         N: VisitWith<Analyzer>,
     {
+        let mut atoms = AtomGenerator::default();
+
         let mut scope = {
             let mut v = Analyzer {
                 ..Default::default()
@@ -136,7 +134,7 @@ where
         if !self.preserved.is_empty() {
             unresolved
                 .to_mut()
-                .extend(self.preserved.iter().map(|v| v.0.clone()));
+                .extend(self.preserved.iter().map(|v| atoms.intern(&*v.0)));
         }
 
         if R::PARALLEL {

@@ -161,11 +161,11 @@ impl Scope {
     pub(crate) fn rename_parallel<R>(
         &mut self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
-        reverse: &FxHashMap<JsWord, Vec<Id>>,
+        to: &mut AHashMap<Id, Atom>,
+        previous: &AHashMap<Id, Atom>,
+        reverse: &FxHashMap<Atom, Vec<Id>>,
         preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<JsWord>,
+        preserved_symbols: &FxHashSet<Atom>,
         parallel: bool,
     ) where
         R: Renamer,
@@ -231,7 +231,7 @@ impl Scope {
     fn rename_one_scope_parallel<R>(
         &self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
+        to: &mut AHashMap<Id, Atom>,
         previous: &AHashMap<Id, JsWord>,
         cloned_reverse: &mut FxHashMap<Atom, Vec<Id>>,
         queue: Vec<Id>,
