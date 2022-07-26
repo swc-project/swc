@@ -87,7 +87,7 @@ checksum = "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
 
 [[package]]
 name = "ast_node"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "darling",
  "pmutil",
