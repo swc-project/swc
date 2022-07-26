@@ -56,9 +56,9 @@ impl Renamer for HygieneRenamer {
     const PARALLEL: bool = false;
     const RESET_N: bool = true;
 
-    fn new_name_for(&self, orig: &Id, n: &mut usize) -> swc_atoms::JsWord {
+    fn new_name_for(&self, orig: &Id, n: &mut usize) -> String {
         let res = if *n == 0 {
-            orig.0.clone()
+            orig.0.to_string()
         } else {
             format!("{}{}", orig.0, n).into()
         };

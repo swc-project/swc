@@ -3,7 +3,7 @@
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, AtomGenerator, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use tracing::debug;
@@ -59,11 +59,12 @@ impl Scope {
 
     pub(crate) fn rename_single_thread<R>(
         &mut self,
+        atoms: &mut AtomGenerator,
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
         reverse: &mut FxHashMap<JsWord, Vec<Id>>,
-        preserved_symbols: &FxHashSet<JsWord>,
+        preserved_symbols: &FxHashSet<Atom>,
     ) where
         R: Renamer,
     {
@@ -72,6 +73,7 @@ impl Scope {
         // let mut cloned_reverse = reverse.clone();
 
         self.rename_one_scope_single_thread(
+            atoms,
             renamer,
             to,
             previous,
@@ -82,6 +84,7 @@ impl Scope {
 
         for child in &mut self.children {
             child.rename_single_thread(
+                &mut Default::default(),
                 renamer,
                 to,
                 &Default::default(),
@@ -93,12 +96,13 @@ impl Scope {
 
     fn rename_one_scope_single_thread<R>(
         &self,
+        atoms: &mut AtomGenerator,
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
         reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         queue: Vec<Id>,
-        preserved_symbols: &FxHashSet<JsWord>,
+        preserved_symbols: &FxHashSet<Atom>,
     ) where
         R: Renamer,
     {
@@ -114,7 +118,7 @@ impl Scope {
             }
 
             loop {
-                let sym = renamer.new_name_for(&id, &mut n);
+                let sym = atoms.intern(renamer.new_name_for(&id, &mut n));
 
                 if preserved_symbols.contains(&sym) {
                     continue;
@@ -134,7 +138,7 @@ impl Scope {
         }
     }
 
-    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<JsWord, Vec<Id>>) -> bool {
+    fn can_rename(&self, id: &Id, symbol: &Atom, reverse: &FxHashMap<Atom, Vec<Id>>) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
@@ -229,7 +233,7 @@ impl Scope {
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
-        cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        cloned_reverse: &mut FxHashMap<Atom, Vec<Id>>,
         queue: Vec<Id>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
