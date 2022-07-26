@@ -554,11 +554,12 @@ struct Prefixer {
 }
 
 impl Prefixer {
-    fn add_at_rule(&mut self, prefix: Prefix, at_rule: AtRule) {
+    fn add_at_rule(&mut self, prefix: Prefix, at_rule: &AtRule) {
         if self.simple_block.is_none() {
-            self.added_top_rules.push((prefix, Rule::AtRule(at_rule)));
+            self.added_top_rules
+                .push((prefix, Rule::AtRule(at_rule.clone())));
         } else {
-            self.added_at_rules.push((prefix, at_rule));
+            self.added_at_rules.push((prefix, at_rule.clone()));
         }
     }
 }
@@ -607,7 +608,7 @@ impl VisitMut for Prefixer {
                 if should_prefix("@-o-viewport", self.env, false) {
                     self.add_at_rule(
                         Prefix::Ms,
-                        AtRule {
+                        &AtRule {
                             span: DUMMY_SP,
                             name: AtRuleName::Ident(Ident {
                                 span: DUMMY_SP,
@@ -623,7 +624,7 @@ impl VisitMut for Prefixer {
                 if should_prefix("@-ms-viewport", self.env, false) {
                     self.add_at_rule(
                         Prefix::O,
-                        AtRule {
+                        &AtRule {
                             span: DUMMY_SP,
                             name: AtRuleName::Ident(Ident {
                                 span: DUMMY_SP,
@@ -642,7 +643,7 @@ impl VisitMut for Prefixer {
                 if should_prefix("@-webkit-keyframes", self.env, false) {
                     self.add_at_rule(
                         Prefix::Webkit,
-                        AtRule {
+                        &AtRule {
                             span: DUMMY_SP,
                             name: AtRuleName::Ident(Ident {
                                 span: DUMMY_SP,
@@ -658,7 +659,7 @@ impl VisitMut for Prefixer {
                 if should_prefix("@-moz-keyframes", self.env, false) {
                     self.add_at_rule(
                         Prefix::Moz,
-                        AtRule {
+                        &AtRule {
                             span: DUMMY_SP,
                             name: AtRuleName::Ident(Ident {
                                 span: DUMMY_SP,
@@ -674,7 +675,7 @@ impl VisitMut for Prefixer {
                 if should_prefix("@-o-keyframes", self.env, false) {
                     self.add_at_rule(
                         Prefix::O,
-                        AtRule {
+                        &AtRule {
                             span: DUMMY_SP,
                             name: AtRuleName::Ident(Ident {
                                 span: DUMMY_SP,
