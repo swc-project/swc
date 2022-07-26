@@ -30,7 +30,13 @@ macro_rules! write_comments {
 
                     $e.wr.write_comment("/*")?;
                     $e.wr.write_comment(&cmt.text)?;
-                    srcmap!($e, cmt, false);
+
+                    {
+                        let hi = cmt.span_hi();
+                        if !hi.is_dummy() && hi.0 > 2 {
+                            $e.wr.add_srcmap(hi - swc_common::BytePos(2))?;
+                        }
+                    }
                     $e.wr.write_comment("*/")?;
 
                     $e.wr.write_space()?;
