@@ -20,5 +20,6 @@ crate swc_ecma_codegen
 crate swc_ecma_parser
 crate swc_bundler
 crate swc_node_bundler
+crate swc_ecma_transforms_react
 
 git push -u origin "$(git rev-parse --abbrev-ref HEAD)" --no-verify
