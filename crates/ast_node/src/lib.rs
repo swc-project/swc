@@ -156,9 +156,6 @@ impl VisitMut for AddAttr {
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
 /// enum.
-///
-///
-/// TODO: Delete works related to serde to `#[ast_serde]`.
 #[proc_macro_attribute]
 pub fn ast_node(
     args: proc_macro::TokenStream,
