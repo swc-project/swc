@@ -34,6 +34,12 @@
 
 - **(html/minifier)** Don't break unknown attributes (#5256) ([4f55459](https://github.com/swc-project/swc/commit/4f55459b013eeee8374ee9587e7d7c71d16262ec))
 
+### Documentation
+
+
+
+- **(ast_node)** Remove an unnecessary comment (#5304) ([8896dd9](https://github.com/swc-project/swc/commit/8896dd9a66686ddb84a444480f395dcd75a92cba))
+
 ### Features
 
 
