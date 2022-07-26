@@ -76,7 +76,7 @@ use hygiene::*;
 
 use self::{
     metadata_context::{
-        copy_context_key_to_host_env, get_experimental_transform_context,
+        copy_context_key_to_host_env, get_experimental_transform_context, get_transform_context,
         get_transform_plugin_config, MetadataContextHostEnvironment,
     },
     source_map::{
@@ -108,6 +108,11 @@ pub(crate) fn build_import_object(
         wasmer_store,
         MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
         get_transform_plugin_config,
+    );
+    let get_transform_context_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
+        get_transform_context,
     );
     let get_experimental_transform_context_fn_decl = Function::new_native_with_env(
         wasmer_store,
@@ -291,6 +296,7 @@ pub(crate) fn build_import_object(
             // metadata
             "__copy_context_key_to_host_env" => copy_context_key_to_host_env_fn_decl,
             "__get_transform_plugin_config" => get_transform_plugin_config_fn_decl,
+            "__get_transform_context" => get_transform_context_fn_decl,
             "__get_experimental_transform_context" => get_experimental_transform_context_fn_decl,
             "__get_raw_experiemtal_transform_context" => get_raw_experiemtal_transform_context_fn_decl,
             // transform

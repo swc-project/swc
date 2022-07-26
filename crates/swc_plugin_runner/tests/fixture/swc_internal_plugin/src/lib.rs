@@ -1,5 +1,8 @@
 use swc_plugin::{
-    ast::*, errors::HANDLER, metadata::TransformPluginProgramMetadata, plugin_transform,
+    ast::*,
+    errors::HANDLER,
+    metadata::{TransformPluginMetadataContextKind, TransformPluginProgramMetadata},
+    plugin_transform,
     syntax_pos::DUMMY_SP,
 };
 
@@ -52,6 +55,13 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
             .struct_span_err(DUMMY_SP, "Test diagnostics from plugin")
             .emit();
     });
+
+    let env = metadata
+        .get_context(&TransformPluginMetadataContextKind::Env)
+        .expect("Metadata should exists");
+    if env != "development" {
+        panic!("Env should be development");
+    }
 
     let experimental_value = metadata
         .get_experimental_context("TestExperimental")

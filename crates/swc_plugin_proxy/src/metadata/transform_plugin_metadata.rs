@@ -1,4 +1,3 @@
-use swc_common::plugin::metadata::TransformPluginMetadataContextKind;
 #[cfg(feature = "plugin-mode")]
 use swc_common::Mark;
 
@@ -56,12 +55,15 @@ pub struct TransformPluginProgramMetadata {
 extern "C" {
     fn __copy_context_key_to_host_env(bytes_ptr: i32, bytes_ptr_len: i32);
     fn __get_transform_plugin_config(allocated_ret_ptr: i32) -> i32;
+    fn __get_transform_context(key: u32, allocated_ret_ptr: i32) -> i32;
     fn __get_experimental_transform_context(allocated_ret_ptr: i32) -> i32;
     fn __get_raw_experiemtal_transform_context(allocated_ret_ptr: i32) -> i32;
 }
 
 #[cfg(feature = "plugin-mode")]
 impl TransformPluginProgramMetadata {
+    /// Returns current plugin's configuration as a JSON string.
+    /// Plugin may need to deserialize this string manually.
     pub fn get_transform_plugin_config(&self) -> Option<String> {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
@@ -72,8 +74,19 @@ impl TransformPluginProgramMetadata {
         None
     }
 
-    pub fn get_context(&self, key: &TransformPluginMetadataContextKind) -> Option<String> {
-        unimplemented!()
+    /// Returns metadata value for given key.
+    #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+    pub fn get_context(
+        &self,
+        key: &swc_common::plugin::metadata::TransformPluginMetadataContextKind,
+    ) -> Option<String> {
+        #[cfg(target_arch = "wasm32")]
+        return read_returned_result_from_host(|serialized_ptr| unsafe {
+            __get_transform_context(*key as u32, serialized_ptr)
+        });
+
+        #[cfg(not(target_arch = "wasm32"))]
+        None
     }
 
     /// Returns an experimental metadata value if exists. Returned value is
@@ -112,7 +125,7 @@ impl TransformPluginProgramMetadata {
     pub fn get_raw_experimental_context(
         &self,
     ) -> swc_common::collections::AHashMap<String, String> {
-        // TODO: There is not clear usecase yet - enable when we have a correct usecase.
+        // TODO: There is no clear usecase yet - enable when we have a correct usecase.
         unimplemented!("Not supported yet");
 
         #[cfg(target_arch = "wasm32")]

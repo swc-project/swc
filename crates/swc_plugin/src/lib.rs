@@ -30,6 +30,7 @@ pub mod source_map {
 }
 
 pub mod metadata {
+    pub use swc_common::plugin::metadata::TransformPluginMetadataContextKind;
     pub use swc_plugin_proxy::TransformPluginProgramMetadata;
 }
 
