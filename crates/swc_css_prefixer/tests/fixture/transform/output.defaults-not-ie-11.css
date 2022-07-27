@@ -15,21 +15,6 @@ b {
 em {
   transform: rotateZ(45deg);
 }
-@-webkit-keyframes anim {
-  from {
-    transform: rotate(90deg);
-  }
-}
-@-moz-keyframes anim {
-  from {
-    transform: rotate(90deg);
-  }
-}
-@-o-keyframes anim {
-  from {
-    transform: rotate(90deg);
-  }
-}
 @keyframes anim {
   from {
     transform: rotate(90deg);

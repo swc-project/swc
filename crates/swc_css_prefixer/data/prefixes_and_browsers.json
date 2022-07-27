@@ -1,4 +1,58 @@
 {
+  "@-ms-viewport": [
+    {
+      "edge":  "12",
+      "ie": "10",
+      "op_mob": "11"
+    },
+    {
+      "edge": "18",
+      "ie": "11",
+      "op_mob": "12.1"
+    }
+  ],
+  "@-o-viewport": [
+    {
+      "op_mob": "11"
+    },
+    {
+      "op_mob": "12.1"
+    }
+  ],
+
+  "@-webkit-keyframes": [
+    {
+      "android": "4.4",
+      "chrome": "4",
+      "ios": "3.2",
+      "opera": "12",
+      "safari": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "42",
+      "ios": "8.4",
+      "opera": "29",
+      "safari": "8"
+    }
+  ],
+  "@-moz-keyframes": [
+    {
+      "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "@-o-keyframes": [
+    {
+      "op_mob": "12"
+    },
+    {
+      "op_mob": "12"
+    }
+  ],
+
   "-webkit-appearance": [
     {
       "android": "2.2",
