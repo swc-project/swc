@@ -25,7 +25,7 @@ pub struct Config {
     pub system_global: Option<JsWord>,
 }
 
-type ExportList = Vec<(Id, JsWord, Span)>;
+type ExportList = Vec<(JsWord, Span)>;
 
 #[allow(unused)]
 struct SystemJs {
@@ -243,11 +243,10 @@ impl Visit for SystemJs {
     fn visit_export_decl(&mut self, n: &ExportDecl) {
         match &n.decl {
             Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                self.export_map.entry(ident.to_id()).or_default().push((
-                    ident.to_id(),
-                    ident.sym.clone(),
-                    ident.span,
-                ));
+                self.export_map
+                    .entry(ident.to_id())
+                    .or_default()
+                    .push((ident.sym.clone(), ident.span));
             }
 
             Decl::Var(v) => {
@@ -257,10 +256,7 @@ impl Visit for SystemJs {
                         let id = ident.to_id();
                         let Ident { sym, span, .. } = ident;
 
-                        self.export_map
-                            .entry(id.clone())
-                            .or_default()
-                            .push((id, sym, span));
+                        self.export_map.entry(id).or_default().push((sym, span));
                     });
             }
             _ => {}
@@ -306,9 +302,9 @@ impl Visit for SystemJs {
                     };
 
                     self.export_map
-                        .entry(local.clone())
+                        .entry(local)
                         .or_default()
-                        .push((local, value, span));
+                        .push((value, span));
                 }
             });
         }
@@ -441,16 +437,12 @@ impl SystemJs {
                         if let Pat::Ident(BindingIdent { id, .. }) = name {
                             if let Some(list) = self.export_map.get(&id.to_id()) {
                                 let mut iter = list.iter();
-                                if let Some((_, export_name, export_span)) = iter.next() {
+                                if let Some((export_name, export_span)) = iter.next() {
                                     props.push((export_name, *export_span, expr.into()));
                                 }
 
-                                for (id, export_name, export_span) in iter {
-                                    props.push((
-                                        export_name,
-                                        *export_span,
-                                        Ident::from(id.clone()).into(),
-                                    ));
+                                for (export_name, export_span) in iter {
+                                    props.push((export_name, *export_span, id.clone().into()));
                                 }
                             }
                         } else {
@@ -460,14 +452,10 @@ impl SystemJs {
 
                             exprs.push(Box::new(expr.into()));
 
-                            for id in find_pat_ids::<_, Id>(&name) {
-                                if let Some(list) = self.export_map.get(&id) {
-                                    for (id, export_name, export_span) in list {
-                                        props.push((
-                                            export_name,
-                                            *export_span,
-                                            Ident::from(id.clone()).into(),
-                                        ));
+                            for id in find_pat_ids::<_, Ident>(&name) {
+                                if let Some(list) = self.export_map.get(&id.to_id()) {
+                                    for (export_name, export_span) in list {
+                                        props.push((export_name, *export_span, id.clone().into()));
                                     }
                                 }
                             }
@@ -483,7 +471,10 @@ impl SystemJs {
                     0 => {}
                     1 => {
                         let expr = exprs.pop().unwrap();
-                        execute.push(expr.into_stmt());
+                        execute.push(Stmt::Expr(ExprStmt {
+                            span: stmt_span,
+                            expr,
+                        }))
                     }
                     _ => execute.push(Stmt::Expr(ExprStmt {
                         span: stmt_span,
