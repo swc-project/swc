@@ -50,6 +50,9 @@
     },
     {
       "op_mob": "12"
+    }
+  ],
+
   ":-webkit-autofill": [
     {
       "android": "4.4",
