@@ -7330,13 +7330,13 @@ where
             self.insert_at_position(appropriate_place, last_node.clone());
 
             // 15.
+            let start_span = match &furthest_block.1.children.borrow().first() {
+                Some(first) => first.start_span.borrow().lo,
+                _ => token_and_info.span.lo(),
+            };
             let new_element = self.create_element_for_token(
                 formatting_element.2.token.clone(),
-                Span::new(
-                    formatting_element.2.span.lo(),
-                    token_and_info.span.hi(),
-                    Default::default(),
-                ),
+                Span::new(start_span, token_and_info.span.hi(), Default::default()),
                 Some(Namespace::HTML),
                 None,
             );
