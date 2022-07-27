@@ -1,5 +1,6 @@
 use std::{
     fs::create_dir_all,
+    mem,
     panic::{catch_unwind, resume_unwind, AssertUnwindSafe},
     path::{Path, PathBuf},
 };
@@ -125,38 +126,102 @@ fn compile(input: &Path, output: &Path, opts: Options) {
 
             let fm = cm.load_file(input).expect("failed to load file");
 
-            match c.process_js_file(
-                fm,
-                &handler,
-                &Options {
-                    config: Config {
-                        jsc: JscConfig {
-                            syntax: Some(Syntax::Typescript(TsConfig {
-                                tsx: input.to_string_lossy().ends_with(".tsx"),
-                                decorators: true,
-                                dts: false,
-                                no_early_errors: false,
-                            })),
-                            external_helpers: true.into(),
-                            ..opts.config.jsc
-                        },
-                        source_maps: Some(SourceMapsConfig::Bool(
-                            !input.to_string_lossy().contains("Unicode"),
-                        )),
-                        is_module: IsModule::Bool(true),
-                        ..opts.config
-                    },
-                    ..opts
-                },
-            ) {
-                Ok(res) => {
-                    NormalizedOutput::from(res.code)
-                        .compare_to_file(output)
-                        .unwrap();
+            let mut files = vec![];
+
+            if fm
+                .src
+                .lines()
+                .any(|line| line.starts_with("// @Filename:") || line.starts_with("// @filename:"))
+            {
+                let mut buffer = String::default();
+
+                let mut iter = fm.src.lines();
+
+                let mut meta_line = None;
+
+                loop {
+                    let line = iter.next();
+                    if line
+                        .map(|line| {
+                            line.starts_with("// @Filename:") || line.starts_with("// @filename:")
+                        })
+                        .unwrap_or_default()
+                        || line.is_none()
+                    {
+                        let mut source = String::default();
+                        mem::swap(&mut source, &mut buffer);
+
+                        files.push((
+                            meta_line,
+                            cm.new_source_file(swc_common::FileName::Anon, source),
+                        ));
+
+                        meta_line = line;
+                    }
+
+                    if let Some(line) = line {
+                        buffer += line;
+                        buffer.push('\n');
+                    } else {
+                        break;
+                    }
                 }
-                Err(ref err) if format!("{:?}", err).contains("Syntax Error") => {}
-                Err(ref err) if format!("{:?}", err).contains("not matched") => {}
-                Err(err) => panic!("Error: {:?}", err),
+            } else {
+                files = vec![(None, fm)];
+            }
+
+            let mut result = String::default();
+
+            let options = Options {
+                config: Config {
+                    jsc: JscConfig {
+                        syntax: Some(Syntax::Typescript(TsConfig {
+                            tsx: input.to_string_lossy().ends_with(".tsx"),
+                            decorators: true,
+                            dts: false,
+                            no_early_errors: false,
+                        })),
+                        external_helpers: true.into(),
+                        ..opts.config.jsc
+                    },
+                    source_maps: Some(SourceMapsConfig::Bool(
+                        !input.to_string_lossy().contains("Unicode"),
+                    )),
+                    is_module: IsModule::Bool(true),
+                    ..opts.config
+                },
+                ..opts
+            };
+
+            for (meta_line, file) in files {
+                match c.process_js_file(file, &handler, &options) {
+                    Ok(res) => {
+                        result += &res.code;
+                    }
+                    Err(ref err) => {
+                        let error_text = format!("{:?}", err);
+                        if error_text.contains("Syntax Error") || error_text.contains("not matched")
+                        {
+                            if let Some(meta_line) = meta_line {
+                                result += meta_line;
+                            }
+
+                            for line in error_text.lines() {
+                                result.push_str("//!");
+                                result.push_str(line);
+                                result.push('\n');
+                            }
+                        } else {
+                            panic!("Error: {:?}", err)
+                        }
+                    }
+                }
+            }
+
+            if !result.is_empty() {
+                NormalizedOutput::from(result)
+                    .compare_to_file(output)
+                    .unwrap();
             }
 
             Ok(())
