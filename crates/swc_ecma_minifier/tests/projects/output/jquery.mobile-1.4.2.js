@@ -589,7 +589,7 @@
             "Webkit",
             "Moz",
             "O"
-        ], operamini = window.operamini && "[object OperaMini]" === ({}).toString.call(window.operamini), bb = window.blackberry && !propExists("-webkit-transform");
+        ], webos = "palmGetResource" in window, operamini = window.operamini && "[object OperaMini]" === ({}).toString.call(window.operamini), bb = window.blackberry && !propExists("-webkit-transform");
         $.extend($.mobile, {
             browser: {}
         }), $.mobile.browser.oldIE = function() {
@@ -613,7 +613,7 @@
             }(),
             boxShadow: !!propExists("boxShadow") && !bb,
             fixedPosition: (w = window, ua = navigator.userAgent, platform = navigator.platform, wkmatch = ua.match(/AppleWebKit\/([0-9]+)/), wkversion = !!wkmatch && wkmatch[1], ffmatch = ua.match(/Fennec\/([0-9]+)/), ffversion = !!ffmatch && ffmatch[1], operammobilematch = ua.match(/Opera Mobi\/([0-9]+)/), omversion = !!operammobilematch && operammobilematch[1], !((platform.indexOf("iPhone") > -1 || platform.indexOf("iPad") > -1 || platform.indexOf("iPod") > -1) && wkversion && wkversion < 534 || w.operamini && "[object OperaMini]" === ({}).toString.call(w.operamini) || operammobilematch && omversion < 7458 || ua.indexOf("Android") > -1 && wkversion && wkversion < 533 || ffversion && ffversion < 6 || "palmGetResource" in window && wkversion && wkversion < 534 || ua.indexOf("MeeGo") > -1 && ua.indexOf("NokiaBrowser/8.5.0") > -1)),
-            scrollTop: ("pageXOffset" in window || "scrollTop" in document1.documentElement || "scrollTop" in fakeBody[0]) && !("palmGetResource" in window) && !operamini,
+            scrollTop: ("pageXOffset" in window || "scrollTop" in document1.documentElement || "scrollTop" in fakeBody[0]) && !webos && !operamini,
             dynamicBaseTag: (fauxBase = location.protocol + "//" + location.host + location.pathname + "ui-dir/", base = $("head base"), fauxEle = null, href = "", base.length ? href = base.attr("href") : base = fauxEle = $("<base>", {
                 href: fauxBase
             }).appendTo("head"), rebase = $("<a href='testurl' />").prependTo(fakeBody)[0].href, base[0].href = href || location.pathname, fauxEle && fauxEle.remove(), 0 === rebase.indexOf(fauxBase)),
