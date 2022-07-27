@@ -270,16 +270,22 @@
  6 | `->         color: green;
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
- 5 | ,-> ident
- 6 | `->         color: green;
+ 5 | ident
+   : ^^^^^
    `----
 
   x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
  5 | ident
    : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ,-> ident
+ 6 | `->         color: green;
    `----
 
   x WhiteSpace { value: Atom('
@@ -289,10 +295,22 @@
  6 | `->         color: green;
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
+ 6 | color: green;
+   : ^^^^^
+   `----
+
   x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
  6 | color: green;
    : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
+ 6 | color: green;
+   :      ^
    `----
 
   x Colon
@@ -301,16 +319,34 @@
    :      ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
+ 6 | color: green;
+   :       ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
  6 | color: green;
    :       ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
+ 6 | color: green;
+   :        ^^^^^
+   `----
+
   x Ident { value: Atom('green' type=inline), raw: Atom('green' type=inline) }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
  6 | color: green;
    :        ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
+ 6 | color: green;
+   :             ^
    `----
 
   x Semi
@@ -587,17 +623,22 @@
  15 | `->         }
     `----
 
-  x Tokens
+  x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
- 13 | ,-> ident
- 14 | |               color: red 
- 15 | `->         }
+ 13 | ident
+    : ^^^^^
     `----
 
   x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
  13 | ident
     : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ,-> ident
+ 14 | `->             color: red
     `----
 
   x WhiteSpace { value: Atom('
@@ -607,10 +648,22 @@
  14 | `->             color: red
     `----
 
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
+ 14 | color: red
+    : ^^^^^
+    `----
+
   x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | color: red
     : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
+ 14 | color: red
+    :      ^
     `----
 
   x Colon
@@ -619,16 +672,34 @@
     :      ^
     `----
 
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
+ 14 | color: red
+    :       ^
+    `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | color: red
     :       ^
     `----
 
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
+ 14 | color: red
+    :        ^^^
+    `----
+
   x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | color: red
     :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
+ 14 | ,-> color: red 
+ 15 | `->         }
     `----
 
   x WhiteSpace { value: Atom('
@@ -865,16 +936,22 @@
     : ^^^^^^
     `----
 
-  x Tokens
+  x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
  23 | ident;
-    : ^^^^^^
+    : ^^^^^
     `----
 
   x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
  23 | ident;
     : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
+ 23 | ident;
+    :      ^
     `----
 
   x Semi
@@ -1191,16 +1268,22 @@
     : ^^^^^^
     `----
 
-  x Tokens
+  x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
  31 | ident;
-    : ^^^^^^
+    : ^^^^^
     `----
 
   x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
  31 | ident;
     : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
+ 31 | ident;
+    :      ^
     `----
 
   x Semi
@@ -1365,10 +1448,10 @@
     : ^^^^^^^
     `----
 
-  x Tokens
+  x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
-    : ^^^^^^^
+    : ^
     `----
 
   x Delim { value: '&' }
@@ -1377,16 +1460,34 @@
     : ^
     `----
 
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
+ 39 | & test;
+    :  ^
+    `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
     :  ^
     `----
 
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
+ 39 | & test;
+    :   ^^^^
+    `----
+
   x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
     :   ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
+ 39 | & test;
+    :       ^
     `----
 
   x Semi

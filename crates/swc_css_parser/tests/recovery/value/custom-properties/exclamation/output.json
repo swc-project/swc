@@ -73,13 +73,13 @@
         "name": "{",
         "value": [
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 9,
               "end": 17,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -197,13 +197,13 @@
         "name": "{",
         "value": [
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 36,
               "end": 44,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -383,13 +383,13 @@
             "important": null
           },
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 96,
               "end": 104,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -507,13 +507,13 @@
         "name": "{",
         "value": [
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 123,
               "end": 132,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -714,13 +714,13 @@
             "important": null
           },
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 183,
               "end": 192,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {

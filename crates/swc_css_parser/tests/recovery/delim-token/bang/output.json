@@ -80,13 +80,13 @@
         "name": "{",
         "value": [
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 9,
               "end": 19,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {

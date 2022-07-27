@@ -845,7 +845,7 @@ where
 
                             formatting_newline!(self);
                         }
-                        StyleBlock::Invalid(_) => {}
+                        StyleBlock::ListOfComponentValues(_) => {}
                     }
 
                     decrease_indent!(self);
@@ -924,10 +924,10 @@ where
     #[emitter]
     fn emit_style_block(&mut self, n: &StyleBlock) -> Result {
         match n {
+            StyleBlock::ListOfComponentValues(n) => emit!(self, n),
             StyleBlock::AtRule(n) => emit!(self, n),
             StyleBlock::Declaration(n) => emit!(self, n),
             StyleBlock::QualifiedRule(n) => emit!(self, n),
-            StyleBlock::Invalid(n) => emit!(self, n),
         }
     }
 

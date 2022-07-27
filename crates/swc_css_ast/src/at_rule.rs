@@ -3,8 +3,8 @@ use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
-    ComponentValue, CustomIdent, CustomPropertyName, DashedIdent, Declaration, Dimension, Function,
-    Ident, Number, Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
+    CustomIdent, CustomPropertyName, DashedIdent, Declaration, Dimension, Function, Ident,
+    ListOfComponentValues, Number, Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
 };
 
 #[ast_node("AtRule")]
@@ -59,13 +59,6 @@ pub enum AtRulePrelude {
     PagePrelude(PageSelectorList),
     #[tag("LayerPrelude")]
     LayerPrelude(LayerPrelude),
-}
-
-#[ast_node("ListOfComponentValues")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
-pub struct ListOfComponentValues {
-    pub span: Span,
-    pub children: Vec<ComponentValue>,
 }
 
 #[ast_node]
