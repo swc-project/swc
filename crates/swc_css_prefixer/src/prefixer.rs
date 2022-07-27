@@ -578,7 +578,7 @@ impl VisitMut for Prefixer {
             for mut added_rule in take(&mut self.added_top_rules) {
                 let need_skip = original_rules
                     .iter()
-                    .any(|existing_rule| added_rule.1.eq_ignore_span(&existing_rule));
+                    .any(|existing_rule| added_rule.1.eq_ignore_span(existing_rule));
 
                 if need_skip {
                     continue;
