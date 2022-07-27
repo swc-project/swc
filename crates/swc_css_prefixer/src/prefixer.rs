@@ -568,43 +568,46 @@ impl Prefixer {
 }
 
 impl VisitMut for Prefixer {
-    fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
-        let mut new = vec![];
+    fn visit_mut_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
+        let mut new_rules = Vec::with_capacity(stylesheet.rules.len());
+        let original_rules = stylesheet.rules.clone();
 
-        for mut n in take(&mut n.rules) {
-            n.visit_mut_children_with(self);
+        for mut rule in take(&mut stylesheet.rules) {
+            rule.visit_mut_children_with(self);
 
-            for mut n in take(&mut self.added_top_rules) {
+            for mut added_rule in take(&mut self.added_top_rules) {
+                let need_skip = original_rules
+                    .iter()
+                    .any(|existing_rule| added_rule.1.eq_ignore_span(&existing_rule));
+
+                if need_skip {
+                    continue;
+                }
+
                 let old_rule_prefix = self.rule_prefix.take();
 
-                self.rule_prefix = Some(n.0);
+                self.rule_prefix = Some(added_rule.0);
 
-                n.1.visit_mut_children_with(self);
+                added_rule.1.visit_mut_children_with(self);
 
-                new.push(n.1);
+                new_rules.push(added_rule.1);
 
                 self.rule_prefix = old_rule_prefix;
             }
 
-            new.push(n);
+            new_rules.push(rule);
         }
 
-        // Avoid duplicate prefixed at-rules
-        new.dedup_by(|a, b| match (a, b) {
-            (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
-            _ => false,
-        });
-
-        n.rules = new;
+        stylesheet.rules = new_rules;
     }
 
     // TODO handle declarations in `@media`/`@support`
-    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
-        let original_simple_block = n.block.clone();
+    fn visit_mut_at_rule(&mut self, at_rule: &mut AtRule) {
+        let original_simple_block = at_rule.block.clone();
 
-        n.visit_mut_children_with(self);
+        at_rule.visit_mut_children_with(self);
 
-        match &n.name {
+        match &at_rule.name {
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("viewport") =>
             {
@@ -618,7 +621,7 @@ impl VisitMut for Prefixer {
                                 value: "-ms-viewport".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block.clone(),
                         },
                     );
@@ -634,7 +637,7 @@ impl VisitMut for Prefixer {
                                 value: "-o-viewport".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block,
                         },
                     );
@@ -653,7 +656,7 @@ impl VisitMut for Prefixer {
                                 value: "-webkit-keyframes".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block.clone(),
                         },
                     );
@@ -669,7 +672,7 @@ impl VisitMut for Prefixer {
                                 value: "-moz-keyframes".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block.clone(),
                         },
                     );
@@ -685,7 +688,7 @@ impl VisitMut for Prefixer {
                                 value: "-o-keyframes".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block,
                         },
                     );
@@ -697,6 +700,7 @@ impl VisitMut for Prefixer {
 
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
         media_query_list.visit_mut_children_with(self);
+        let mut new_queries = Vec::with_capacity(media_query_list.queries.len());
 
         let mut new = Vec::with_capacity(media_query_list.queries.len());
 
@@ -719,6 +723,8 @@ impl VisitMut for Prefixer {
                 if !n.eq_ignore_span(&new_webkit_value) {
                     new.push(new_webkit_value);
                 }
+            if n != new_webkit_value {
+                new_queries.push(new_webkit_value);
             }
 
             if should_prefix("min--moz-device-pixel-ratio", self.env, false) {
@@ -738,14 +744,16 @@ impl VisitMut for Prefixer {
                 if !n.eq_ignore_span(&new_moz_value) {
                     new.push(new_moz_value);
                 }
+            if n != new_moz_value {
+                new_queries.push(new_moz_value);
             }
 
             // TODO opera support
 
-            new.push(n);
+            new_queries.push(n);
         }
 
-        media_query_list.queries = new;
+        media_query_list.queries = new_queries;
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
