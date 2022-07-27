@@ -1,6 +1,6 @@
 use swc_common::{
     errors::{Diagnostic, HANDLER},
-    plugin::PluginSerializedBytes,
+    plugin::serialized::PluginSerializedBytes,
 };
 
 use crate::{host_environment::BaseHostEnvironment, memory_interop::copy_bytes_into_host};

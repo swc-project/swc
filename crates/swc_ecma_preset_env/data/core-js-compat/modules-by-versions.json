@@ -430,5 +430,20 @@
   "3.21": [
     "web.atob",
     "web.btoa"
+  ],
+  "3.23": [
+    "es.array.find-last",
+    "es.array.find-last-index",
+    "es.array.push",
+    "es.array.unshift",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
+    "esnext.array.group",
+    "esnext.array.group-to-map",
+    "esnext.symbol.metadata-key"
+  ],
+  "3.24": [
+    "esnext.async-iterator.indexed",
+    "esnext.iterator.indexed"
   ]
 }

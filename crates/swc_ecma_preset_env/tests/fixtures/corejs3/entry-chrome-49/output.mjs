@@ -57,6 +57,7 @@ import "core-js/modules/es.symbol.replace.js";
 import "core-js/modules/es.symbol.search.js";
 import "core-js/modules/es.symbol.species.js";
 import "core-js/modules/es.symbol.split.js";
+import "core-js/modules/es.typed-array.fill.js";
 import "core-js/modules/es.typed-array.float32-array.js";
 import "core-js/modules/es.typed-array.float64-array.js";
 import "core-js/modules/es.typed-array.from.js";

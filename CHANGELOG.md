@@ -8,6 +8,9 @@
 - **(css)** Fix parsing of `layer` (#5290) ([83651c2](https://github.com/swc-project/swc/commit/83651c297d4e6b03809b96a87ce1c59f158e28ff))
 
 
+- **(css/prefixer)** Generate at-rules based on preset-env (#5294) ([94b4e0a](https://github.com/swc-project/swc/commit/94b4e0a3213e7cd0982eebe2d1b65ac5f10af2f2))
+
+
 - **(es/codegen)** Add `;` for a generator function (#5292) ([daac26b](https://github.com/swc-project/swc/commit/daac26bcfbc48a732d4b1b831a0f54518401f63b))
 
 
@@ -23,10 +26,19 @@
 - **(es/decorators)** Use decorated consturctors (#5263) ([d9877e3](https://github.com/swc-project/swc/commit/d9877e305a3989e88b696135cb7cf16fc63e940f))
 
 
+- **(es/fixer)** Wrap `await` and `yield` in callee (#5314) ([b3269fd](https://github.com/swc-project/swc/commit/b3269fda8e8614cc7faaebae0edc2bbb05b7fb0e))
+
+
 - **(es/minifier)** Preserve order of side-effects in sequences pass (#5283) ([ee84842](https://github.com/swc-project/swc/commit/ee84842d226df4905fd7edae41bfa8f7d4b48bfb))
 
 
 - **(es/modules)** Use a private context for `export from` (#5262) ([c0ace4c](https://github.com/swc-project/swc/commit/c0ace4cb2c63b81dc08e35d6a59f9a9bcd961985))
+
+
+- **(es/preset-env)** Realign with `babel-polyfills` (#5293) ([dd0a152](https://github.com/swc-project/swc/commit/dd0a152f49da3acab06dece8eb7982c56e4c23b0))
+
+
+- **(es/preset-env)** Don't add instance properties when there's a static property (#5305) ([06677c2](https://github.com/swc-project/swc/commit/06677c26eed5a2320541522b3587e0b81e7ef0e9))
 
 
 - **(es/visit)** Disable `serde` by default (#5273) ([a0007e1](https://github.com/swc-project/swc/commit/a0007e11c393dd72bd5a056e7261422a96adc106))
@@ -66,6 +78,9 @@
 
 
 - **(node)** Coerce fallback bindings (#5250) ([7e6ffff](https://github.com/swc-project/swc/commit/7e6ffffbd3834f220e940d447bf1632f70f3b9a7))
+
+
+- **(plugin)** Make metadata api lazy (#5310) ([5a164bd](https://github.com/swc-project/swc/commit/5a164bd13741d3871170cefe4778b615640d169d))
 
 
 - **(testing/macros)** Generalize test names with regex (#5242) ([ecbf9d6](https://github.com/swc-project/swc/commit/ecbf9d6c36b4f86945a66deb8a7d90d7ae01dc3d))
