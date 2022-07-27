@@ -29,10 +29,16 @@ macro_rules! write_comments {
                     srcmap!($e, cmt, true);
 
                     $e.wr.write_comment("/*")?;
-                    $e.wr.write_lit(DUMMY_SP, &cmt.text)?;
+                    $e.wr.write_comment(&cmt.text)?;
+
+                    {
+                        let hi = cmt.span_hi();
+                        if !hi.is_dummy() && hi.0 > 2 {
+                            $e.wr.add_srcmap(hi - swc_common::BytePos(2))?;
+                        }
+                    }
                     $e.wr.write_comment("*/")?;
 
-                    srcmap!($e, cmt, false);
                     $e.wr.write_space()?;
                 }
             }

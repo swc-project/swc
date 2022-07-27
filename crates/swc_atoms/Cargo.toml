@@ -16,7 +16,7 @@ bench = false
 rkyv-impl = ["rkyv", "bytecheck"]
 
 [dependencies]
-bytecheck = { version = "0.6.8", optional = true }
+bytecheck = { version = "0.6.9", optional = true }
 once_cell = "1"
 rkyv = { version = "0.7.39", optional = true }
 rustc-hash = "1.1.0"

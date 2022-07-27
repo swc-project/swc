@@ -27,6 +27,7 @@ import "core-js/modules/es.string.trim-start.js";
 import "core-js/modules/es.string.trim.js";
 import "core-js/modules/es.symbol.async-iterator.js";
 import "core-js/modules/es.symbol.description.js";
+import "core-js/modules/es.typed-array.fill.js";
 import "core-js/modules/es.typed-array.set.js";
 import "core-js/modules/es.typed-array.sort.js";
 import "core-js/modules/web.dom-collections.for-each.js";
