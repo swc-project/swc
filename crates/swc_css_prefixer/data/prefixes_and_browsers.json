@@ -3250,5 +3250,192 @@
       "ios": "9.3",
       "safari": "9"
     }
+  ],
+
+  "-webkit-calc()": [
+    {
+      "chrome": "19",
+      "ios": "6.0",
+      "safari": "6"
+    },
+    {
+      "chrome": "25",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-moz-calc": [
+    {
+      "firefox": "4"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+
+  "-webkit-image-set()": [
+    {
+      "android": "4.4",
+      "chrome": "21",
+      "edge": "79",
+      "ios": "6.0",
+      "opera": "15",
+      "safari": "6",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "ios": "9.3",
+      "safari": "9.1"
+    }
+  ],
+
+  "-webkit-cross-fade()": [
+    {
+      "android": "4.4",
+      "chrome": "17",
+      "edge": "79",
+      "ios": "5.0",
+      "op_mob": "64",
+      "opera": "15",
+      "safari": "5.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "ios": "9.3",
+      "safari": "9.1"
+    }
+  ],
+
+  "-moz-element()": [
+    {
+      "firefox": "4"
+    },
+    {}
+  ],
+
+  "-webkit-linear-gradient()": [
+    {
+      "android": "4.0",
+      "chrome": "10",
+      "safari": "5.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "25",
+      "safari": "6"
+    }
+  ],
+  "-moz-linear-gradient()": [
+    {
+      "firefox": "3.6"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-linear-gradient()": [
+    {
+      "opera": "11.1",
+      "op_mob": "11.1"
+    },
+    {
+      "opera": "11.5",
+      "op_mob": "11.5"
+    }
+  ],
+
+  "-webkit-repeating-linear-gradient()": [
+    {
+      "android": "4",
+      "chrome": "13",
+      "safari": "5.1",
+      "ios": "5.0"
+    },
+    {
+      "android": "4.3",
+      "chrome": "25",
+      "safari": "6",
+      "ios": "6.1"
+    }
+  ],
+  "-moz-repeating-linear-gradient()": [
+    {
+      "firefox": "3.6"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-repeating-linear-gradient()": [
+    {
+      "opera": "11.5"
+    },
+    {
+      "opera": "15"
+    }
+  ],
+
+  "-webkit-radial-gradient()": [
+    {
+      "android": "4.0",
+      "chrome": "13",
+      "safari": "5.1",
+      "ios": "6.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "25",
+      "safari": "6.1",
+      "ios": "6.1"
+    }
+  ],
+  "-moz-radial-gradient()": [
+    {
+      "firefox": "3.6"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-radial-gradient()": [
+    {
+      "opera": "11.6"
+    },
+    {
+      "opera": "15"
+    }
+  ],
+
+  "-webkit-repeating-radial-gradient()": [
+    {
+      "android": "4",
+      "chrome": "13",
+      "safari": "5.1",
+      "ios": "5.0"
+    },
+    {
+      "android": "4.3",
+      "chrome": "25",
+      "safari": "6",
+      "ios": "6.1"
+    }
+  ],
+  "-moz-repeating-radial-gradient()": [
+    {
+      "firefox": "3.6"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "-o-repeating-radial-gradient()": [
+    {
+      "opera": "11.5"
+    },
+    {
+      "opera": "15"
+    }
   ]
 }

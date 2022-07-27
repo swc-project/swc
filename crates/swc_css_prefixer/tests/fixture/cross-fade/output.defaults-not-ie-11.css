@@ -19,9 +19,7 @@ h3 {
   background-image: cross-fade(.59 url(foo.png), url(bar.png));
 }
 .foo {
-  background-image: -webkit-cross-fade(-webkit-linear-gradient(white, black), -webkit-radial-gradient(circle closest-corner, white, black), 0.59);
-  background-image: cross-fade(.59 -moz-linear-gradient(white, black), -moz-radial-gradient(circle closest-corner, white, black));
-  background-image: cross-fade(.59 -o-linear-gradient(white, black), -o-radial-gradient(circle closest-corner, white, black));
+  background-image: -webkit-cross-fade(linear-gradient(white, black), radial-gradient(circle closest-corner, white, black), 0.59);
   background-image: cross-fade(.59 linear-gradient(white, black), radial-gradient(circle closest-corner, white, black));
 }
 .class {

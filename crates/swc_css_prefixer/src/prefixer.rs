@@ -1146,90 +1146,137 @@ impl VisitMut for Prefixer {
                 replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
             }
 
-            replace_image_set_function_on_legacy_variant(
-                &mut webkit_value,
-                "image-set",
-                "-webkit-image-set",
-            );
-            replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
-            replace_cross_fade_function_on_legacy_variant(
-                &mut webkit_value,
-                "cross-fade",
-                "-webkit-cross-fade",
-            );
+            if should_prefix("-webkit-image-set()", self.env, false) {
+                replace_image_set_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "image-set",
+                    "-webkit-image-set",
+                );
+            }
 
-            replace_gradient_function_on_legacy_variant(
-                &mut webkit_value,
-                "linear-gradient",
-                "-webkit-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut webkit_value,
-                "repeating-linear-gradient",
-                "-webkit-repeating-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut webkit_value,
-                "radial-gradient",
-                "-webkit-radial-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut webkit_value,
-                "repeating-radial-gradient",
-                "-webkit-repeating-radial-gradient",
-            );
+            if should_prefix("-webkit-calc()", self.env, false) {
+                replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
+            }
+
+            if should_prefix("-webkit-cross-fade()", self.env, false) {
+                replace_cross_fade_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "cross-fade",
+                    "-webkit-cross-fade",
+                );
+            }
+
+            if should_prefix("-webkit-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "linear-gradient",
+                    "-webkit-linear-gradient",
+                );
+            }
+
+            if should_prefix("-webkit-repeating-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "repeating-linear-gradient",
+                    "-webkit-repeating-linear-gradient",
+                );
+            }
+
+            if should_prefix("-webkit-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "radial-gradient",
+                    "-webkit-radial-gradient",
+                );
+            }
+
+            if should_prefix("-webkit-repeating-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "repeating-radial-gradient",
+                    "-webkit-repeating-radial-gradient",
+                );
+            }
         }
 
         let mut moz_value = n.value.clone();
 
         if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
-            replace_function_name(&mut moz_value, "element", "-moz-element");
-            replace_function_name(&mut moz_value, "calc", "-moz-calc");
-            replace_gradient_function_on_legacy_variant(
-                &mut moz_value,
-                "linear-gradient",
-                "-moz-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut moz_value,
-                "repeating-linear-gradient",
-                "-moz-repeating-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut moz_value,
-                "radial-gradient",
-                "-moz-radial-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut moz_value,
-                "repeating-radial-gradient",
-                "-moz-repeating-linear-gradient",
-            );
+            if should_prefix("-moz-element()", self.env, false) {
+                replace_function_name(&mut moz_value, "element", "-moz-element");
+            }
+
+            if should_prefix("-moz-calc()", self.env, false) {
+                replace_function_name(&mut moz_value, "calc", "-moz-calc");
+            }
+
+            if should_prefix("-moz-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut moz_value,
+                    "linear-gradient",
+                    "-moz-linear-gradient",
+                );
+            }
+
+            if should_prefix("-moz-repeating-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut moz_value,
+                    "repeating-linear-gradient",
+                    "-moz-repeating-linear-gradient",
+                );
+            }
+
+            if should_prefix("-moz-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut moz_value,
+                    "radial-gradient",
+                    "-moz-radial-gradient",
+                );
+            }
+
+            if should_prefix("-moz-repeating-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut moz_value,
+                    "repeating-radial-gradient",
+                    "-moz-repeating-radial-gradient",
+                );
+            }
         }
 
         let mut o_value = n.value.clone();
 
         if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
-            replace_gradient_function_on_legacy_variant(
-                &mut o_value,
-                "linear-gradient",
-                "-o-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut o_value,
-                "repeating-linear-gradient",
-                "-o-repeating-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut o_value,
-                "radial-gradient",
-                "-o-radial-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut o_value,
-                "repeating-radial-gradient",
-                "-o-repeating-radial-gradient",
-            );
+            if should_prefix("-o-repeating-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut o_value,
+                    "linear-gradient",
+                    "-o-linear-gradient",
+                );
+            }
+
+            if should_prefix("-o-repeating-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut o_value,
+                    "repeating-linear-gradient",
+                    "-o-repeating-linear-gradient",
+                );
+            }
+
+            if should_prefix("-o-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut o_value,
+                    "radial-gradient",
+                    "-o-radial-gradient",
+                );
+            }
+
+            if should_prefix("-o-repeating-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut o_value,
+                    "repeating-radial-gradient",
+                    "-o-repeating-radial-gradient",
+                );
+            }
         }
 
         let mut ms_value = n.value.clone();
