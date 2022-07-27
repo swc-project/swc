@@ -623,6 +623,11 @@ jobs:
         run: ls -R ./scripts/npm
         shell: bash
 
+      - name: Set fallback dependencies
+        shell: bash
+        run: |
+          node ./scripts/update_fallback_dependencies.js
+
       - name: Publish
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
