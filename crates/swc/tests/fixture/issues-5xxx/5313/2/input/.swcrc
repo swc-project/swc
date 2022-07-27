@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "tsx": false
+        },
+        "target": "es2022",
+        "loose": false,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "minify": false,
+    "isModule": true
+}

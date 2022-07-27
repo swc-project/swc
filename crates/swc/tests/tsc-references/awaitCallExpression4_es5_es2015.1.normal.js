@@ -8,7 +8,7 @@ function func() {
 function _func() {
     _func = _async_to_generator(function*() {
         before();
-        var b = yield pfn(a, a, a);
+        var b = (yield pfn)(a, a, a);
         after();
     });
     return _func.apply(this, arguments);
