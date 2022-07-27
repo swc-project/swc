@@ -26,11 +26,11 @@ check:
     - "check --no-default-features --features plugin --features swc_v2"
   swc:
     # plugin feature is verified by other tasks
-    - "hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin"
+    - "hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest"
   swc_bundler:
     - "hack check --feature-powerset --no-dev-deps"
   swc_common:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest"
   swc_ecma_ast:
     - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_loader:
