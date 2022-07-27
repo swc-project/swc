@@ -3,7 +3,10 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
-use swc_common::{collections::AHashMap, EqIgnoreSpan, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    EqIgnoreSpan, DUMMY_SP,
+};
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,
@@ -1247,28 +1250,17 @@ impl VisitMut for Prefixer {
             declarations
         });
 
-        // TODO lazy
-        let property_names: Vec<&str> = declarations
-            .iter()
-            .filter(|declaration| {
-                !matches!(
-                    declaration,
-                    Declaration {
-                        name: DeclarationName::DashedIdent(_),
-                        ..
-                    }
-                )
-            })
-            .map(|declaration| match declaration {
-                Declaration {
-                    name: DeclarationName::Ident(ident),
-                    ..
-                } => &*ident.value,
-                _ => {
-                    unreachable!();
+        let properties = Lazy::new(|| {
+            let mut properties: AHashSet<&str> = AHashSet::default();
+
+            for declaration in declarations.iter() {
+                if let DeclarationName::Ident(ident) = &declaration.name {
+                    properties.insert(&ident.value);
                 }
-            })
-            .collect();
+            }
+
+            properties
+        });
 
         // TODO avoid insert moz/etc prefixes for `appearance: -webkit-button;`
         // TODO avoid duplication insert
@@ -1279,7 +1271,7 @@ impl VisitMut for Prefixer {
                     // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
                     if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
                         // Check we don't have prefixed property
-                        if !property_names.contains(&$property) {
+                        if !properties.contains(&$property) {
                             let name = DeclarationName::Ident(Ident {
                                 span: DUMMY_SP,
                                 value: $property.into(),
