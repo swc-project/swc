@@ -4,12 +4,13 @@
 // @outDir: ./out
 // @declaration: true
 // @filename: interface.ts
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+export { };
 // @filename: lib.js
 /**
  * @template T
  * @implements {IEncoder<T>}
- */ export var Encoder = /*#__PURE__*/ function() {
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+export var Encoder = /*#__PURE__*/ function() {
     "use strict";
     function Encoder() {
         _class_call_check(this, Encoder);

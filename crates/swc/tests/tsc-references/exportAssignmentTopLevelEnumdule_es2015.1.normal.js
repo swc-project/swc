@@ -9,11 +9,12 @@ var foo;
 (function(foo) {
     var answer = foo.answer = 42;
 })(foo || (foo = {}));
+module.exports = foo;
+export { };
 // @Filename: foo_1.ts
 const foo = require("./foo_0");
 var color;
 if (color === foo.green) {
     color = foo.answer;
 }
-module.exports = foo;
 export { };

@@ -8,4 +8,6 @@ export function abc(a, b, c) {
 module.exports = {
     abc
 };
+// @Filename: use.js
+import { abc } from './bug24934';
 abc(1, 2, 3);

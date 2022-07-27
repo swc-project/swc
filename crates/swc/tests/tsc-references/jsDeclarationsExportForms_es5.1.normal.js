@@ -16,9 +16,17 @@ export * from "./cls";
 // @filename: bar2.js
 export * from "./func";
 export * from "./cls";
+// @filename: baz.js
+import { Foo } from "./cls";
 export { Foo };
+// @filename: bat.js
+import * as ns from "./cls";
 export default ns;
+// @filename: ban.js
+import * as ns from "./cls";
 export { ns };
+// @filename: bol.js
+import * as ns from "./cls";
 export { ns as classContainer };
 // @filename: cjs.js
 var ns = require("./cls");

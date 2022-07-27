@@ -1,5 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
-var C1 = function(p3) {
-    "use strict";
-    swcHelpers.classCallCheck(this, C1), this.p3 = p3;
-};
+//!failed to process input file
+//!
+//!Caused by:
+//!    0: error was recoverable, but proceeding would result in wrong codegen
+//!    1: Syntax Error

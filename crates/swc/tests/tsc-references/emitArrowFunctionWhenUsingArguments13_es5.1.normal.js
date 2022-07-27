@@ -1,9 +1,5 @@
-// @target: es5
-function f() {
-    var _arguments = 10;
-    var a = function(arguments) {
-        return function() {
-            return _arguments;
-        };
-    };
-}
+//!failed to process input file
+//!
+//!Caused by:
+//!    0: error was recoverable, but proceeding would result in wrong codegen
+//!    1: Syntax Error

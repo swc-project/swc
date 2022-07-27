@@ -1,3 +1,5 @@
+export { };
+export { };
 import { predom } from "./renderer2";
 export const MySFC = (props)=>predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 export class MyClass {
@@ -19,4 +21,5 @@ export const tree = predom(MySFC, {
     y: 6
 }));
 export default predom("h", null);
-import prerendered from "./component";
+import { dom } from "./renderer";
+import prerendered, { MySFC, MyClass, tree } from "./component";

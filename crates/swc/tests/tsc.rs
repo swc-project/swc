@@ -200,29 +200,24 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                     }
                     Err(ref err) => {
                         let error_text = format!("{:?}", err);
-                        if error_text.contains("Syntax Error") || error_text.contains("not matched")
-                        {
-                            if let Some(meta_line) = meta_line {
-                                result += meta_line;
-                            }
 
-                            for line in error_text.lines() {
-                                result.push_str("//!");
-                                result.push_str(line);
-                                result.push('\n');
-                            }
-                        } else {
-                            panic!("Error: {:?}", err)
+                        if let Some(meta_line) = meta_line {
+                            result += meta_line;
+                            result.push('\n');
+                        }
+
+                        for line in error_text.lines() {
+                            result.push_str("//!");
+                            result.push_str(line);
+                            result.push('\n');
                         }
                     }
                 }
             }
 
-            if !result.is_empty() {
-                NormalizedOutput::from(result)
-                    .compare_to_file(output)
-                    .unwrap();
-            }
+            NormalizedOutput::from(result)
+                .compare_to_file(output)
+                .unwrap();
 
             Ok(())
         })

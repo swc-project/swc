@@ -1,9 +1,9 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 export class B {
     print() {
         return "I am B";
     }
 }
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 function _foo() {
     return (_foo = _async_to_generator(function*() {
         class C extends (yield import("./0")).B {

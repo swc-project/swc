@@ -6,5 +6,5 @@ export { dom as p };
 /** @jsx dom */ import { dom } from "./renderer";
 /*#__PURE__*/ dom("h", null);
 // @filename: index.tsx
-import { p } from "./renderer";
-/*#__PURE__*/ dom("h", null);
+/*#__PURE__*/ React.createElement("h", null);
+export { };

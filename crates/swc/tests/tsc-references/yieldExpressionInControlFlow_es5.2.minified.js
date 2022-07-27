@@ -4,6 +4,23 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
+            case 1:
+                return _ctx.next = 4, o;
+            case 4:
+                o = _ctx.sent, _ctx.next = 1;
+                break;
+            case 7:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked);
+});
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = regeneratorRuntime.mark(function() {
+    var o;
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
+            case 0:
                 o = [];
             case 1:
                 return _ctx.delegateYield(o, "t0", 3);
@@ -15,19 +32,4 @@ var _marked = regeneratorRuntime.mark(function() {
                 return _ctx.stop();
         }
     }, _marked);
-}), _marked1 = regeneratorRuntime.mark(function() {
-    var o;
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-            case 1:
-                return _ctx.next = 4, o;
-            case 4:
-                o = _ctx.sent, _ctx.next = 1;
-                break;
-            case 7:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _marked1);
 });

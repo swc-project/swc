@@ -3,32 +3,34 @@
 // @outDir: ./out
 // @declaration: true
 // @filename: index.js
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-/**
+export { }; // flag file as module
+ /**
  * @typedef {string | number | symbol} PropName 
- */ /**
+ */  /**
  * Callback
  *
  * @callback NumberToStringCb
  * @param {number} a
  * @returns {string}
- */ /**
+ */  /**
  * @template T
  * @typedef {T & {name: string}} MixinName 
- */ /**
+ */  /**
  * Identity function
  *
  * @template T
  * @callback Identity
  * @param {T} x
  * @returns {T}
- */ // @filename: mixed.js
+ */ 
+// @filename: mixed.js
 /**
  * @typedef {{x: string} | number | LocalThing | ExportedThing} SomeType
  */ /**
  * @param {number} x
  * @returns {SomeType}
- */ function doTheThing(x) {
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+function doTheThing(x) {
     return {
         x: "" + x
     };
@@ -47,4 +49,3 @@ var LocalThing = function LocalThing() {
     _class_call_check(this, LocalThing);
     this.y = "ok";
 };
-export { };

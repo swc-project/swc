@@ -7,6 +7,7 @@ var Conn = function() {
     return Conn.prototype.method = function() {}, Conn;
 }();
 module.exports = Conn;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Wrap = function(c) {
     "use strict";
     _class_call_check(this, Wrap), this.connItem = c.item, this.another = "";

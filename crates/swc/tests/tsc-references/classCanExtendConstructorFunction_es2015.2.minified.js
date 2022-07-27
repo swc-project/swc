@@ -16,18 +16,21 @@ var db = new class extends Wagon {
     }
 }();
 db.numberOxen = db.foonly;
-var c = new class extends Wagon {
+class Drakkhen extends Dragon {
+}
+class Conestoga extends Wagon {
     static circle(others) {
         return others.length;
     }
     constructor(drunkOO){
         super('nope'), this.drunkOO = drunkOO;
     }
-}(!0);
+}
+var c = new Conestoga(!0);
+c.drunkOO, c.numberOxen;
 function Soup(flavour) {
     this.flavour = flavour;
 }
-c.drunkOO, c.numberOxen;
 class Chowder extends Soup {
     log() {
         return this.flavour;

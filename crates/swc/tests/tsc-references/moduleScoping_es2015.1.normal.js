@@ -19,5 +19,6 @@ var v4 = {
     a: true,
     b: NaN
 }; // Should shadow global v2 in this module
+export { };
 // @Filename: file5.ts
 var x = v2; // Should be global v2 of type number again

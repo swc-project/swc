@@ -3,6 +3,8 @@
 export var x = 1;
 var y = 1;
 export { y };
+// @filename: b.ts
+import { x, y } from "./a";
 import * as a1 from "./a";
 const a2 = require("./a");
 const a3 = a1;

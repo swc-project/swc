@@ -8,3 +8,5 @@ export var types;
     };
     types.A = A;
 })(types || (types = {}));
+// @Filename: b.ts
+export { };

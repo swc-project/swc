@@ -21,4 +21,3 @@ First.Item = function I() {
     }
     return _class;
 }(Common.Object);
-var First = {}, Common = {}, Workspace = {};

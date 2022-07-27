@@ -1,8 +1,11 @@
 // @jsx: react
 // @filename: renderer.d.ts
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+export { };
+// @filename: renderer2.d.ts
+export { };
 // @filename: component.tsx
-/** @jsx predom */ import { predom } from "./renderer2";
+/** @jsx predom */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { predom } from "./renderer2";
 export var MySFC = function(props) {
     return /*#__PURE__*/ predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 };
@@ -29,11 +32,14 @@ export var tree = /*#__PURE__*/ predom(MySFC, {
     y: 6
 }));
 export default /*#__PURE__*/ predom("h", null);
-import prerendered from "./component";
+// @filename: index.tsx
+/** @jsx dom */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { dom } from "./renderer";
+import prerendered, { MySFC, MyClass, tree } from "./component";
 var elem = prerendered;
-elem = /*#__PURE__*/ predom("h", null); // Expect assignability error here
+elem = /*#__PURE__*/ dom("h", null); // Expect assignability error here
 var DOMSFC = function(props) {
-    return /*#__PURE__*/ predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y, props.children);
+    return /*#__PURE__*/ dom("p", null, props.x, " + ", props.y, " = ", props.x + props.y, props.children);
 };
 var DOMClass = /*#__PURE__*/ function() {
     "use strict";
@@ -43,34 +49,34 @@ var DOMClass = /*#__PURE__*/ function() {
     }
     var _proto = DOMClass.prototype;
     _proto.render = function render() {
-        return /*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
+        return /*#__PURE__*/ dom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
     };
     return DOMClass;
 }();
 // Should work, everything is a DOM element
-var _tree = /*#__PURE__*/ predom(DOMSFC, {
+var _tree = /*#__PURE__*/ dom(DOMSFC, {
     x: 1,
     y: 2
-}, /*#__PURE__*/ predom(DOMClass, {
+}, /*#__PURE__*/ dom(DOMClass, {
     x: 3,
     y: 4
-}), /*#__PURE__*/ predom(DOMClass, {
+}), /*#__PURE__*/ dom(DOMClass, {
     x: 5,
     y: 6
 }));
 // Should fail, no dom elements
-var _brokenTree = /*#__PURE__*/ predom(MySFC, {
+var _brokenTree = /*#__PURE__*/ dom(MySFC, {
     x: 1,
     y: 2
-}, /*#__PURE__*/ predom(MyClass, {
+}, /*#__PURE__*/ dom(MyClass, {
     x: 3,
     y: 4
-}), /*#__PURE__*/ predom(MyClass, {
+}), /*#__PURE__*/ dom(MyClass, {
     x: 5,
     y: 6
 }));
 // Should fail, nondom isn't allowed as children of dom
-var _brokenTree2 = /*#__PURE__*/ predom(DOMSFC, {
+var _brokenTree2 = /*#__PURE__*/ dom(DOMSFC, {
     x: 1,
     y: 2
 }, tree, tree);

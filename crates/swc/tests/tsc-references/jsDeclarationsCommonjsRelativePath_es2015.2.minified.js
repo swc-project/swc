@@ -1,9 +1,9 @@
 'use strict';
-class Thing {
-}
 module.exports = {
-    Thing
+    Thing: class {
+    }
 };
+'use strict';
 const Thing = require('./thing').Thing;
 module.exports = {
     Thing

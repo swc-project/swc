@@ -13,6 +13,7 @@ var ns;
     })(nested = ns.nested || (ns.nested = {}));
 })(ns || (ns = {}));
 export default ns;
+// @Filename: /a.ts
 ns.Class; // Error
 ns.Value; // Error
 let c;
@@ -20,3 +21,4 @@ let t = "";
 let n = {
     a: ''
 };
+export { };

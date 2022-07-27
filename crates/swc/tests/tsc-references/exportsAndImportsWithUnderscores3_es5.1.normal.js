@@ -7,4 +7,6 @@ export default R = {
     "___hello": 21,
     "_hi": 40
 };
+// @filename: m2.ts
+import R from "./m1";
 var ___ = R.___, ___hello = R.___hello, _hi = R._hi;

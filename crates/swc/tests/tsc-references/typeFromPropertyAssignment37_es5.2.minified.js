@@ -1,1 +1,2 @@
-(exports = module.exports = {}, require("./mod")).existy;
+exports = module.exports = {};
+require("./mod").existy;

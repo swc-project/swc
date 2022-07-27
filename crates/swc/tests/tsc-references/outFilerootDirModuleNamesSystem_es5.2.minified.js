@@ -5,9 +5,9 @@ var Foo = function() {
     _class_call_check(this, Foo);
 };
 foo();
+export { Foo as default };
 import Foo from "./a";
 export default function foo() {
     new Foo();
 };
 import("./a");
-export { Foo as default };

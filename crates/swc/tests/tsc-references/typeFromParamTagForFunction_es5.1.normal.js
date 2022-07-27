@@ -3,7 +3,6 @@
 // @noEmit: true
 // @module: commonjs
 // @filename: node.d.ts
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: a-ext.js
 exports.A = function() {
     this.x = 1;
@@ -14,6 +13,7 @@ var A = require("./a-ext").A;
     p.x;
 }
 // @filename: b-ext.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 exports.B = function _class() {
     "use strict";
     _class_call_check(this, _class);
@@ -43,6 +43,7 @@ var D = require("./d-ext").D;
     p.x;
 }
 // @filename: e-ext.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var E = function E() {
     "use strict";
     _class_call_check(this, E);
@@ -68,6 +69,7 @@ function G() {
     p.x;
 }
 // @filename: h.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var H = function H() {
     "use strict";
     _class_call_check(this, H);

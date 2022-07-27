@@ -17,3 +17,4 @@ export var C = function() {
 function set_c(v) {
     _class_private_field_set(this, _a, _class_private_field_get(this, _a) + v);
 }
+export { };

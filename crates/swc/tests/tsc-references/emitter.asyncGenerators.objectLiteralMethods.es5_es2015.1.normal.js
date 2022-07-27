@@ -1,9 +1,6 @@
 // @target: es5
 // @lib: esnext
 // @filename: O1.ts
-import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const o1 = {
     f () {
@@ -11,6 +8,7 @@ const o1 = {
     }
 };
 // @filename: O2.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const o2 = {
     f () {
         return _wrap_async_generator(function*() {
@@ -19,6 +17,7 @@ const o2 = {
     }
 };
 // @filename: O3.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const o3 = {
     f () {
         return _wrap_async_generator(function*() {
@@ -27,6 +26,10 @@ const o3 = {
     }
 };
 // @filename: O4.ts
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const o4 = {
     f () {
         return _wrap_async_generator(function*() {
@@ -37,6 +40,10 @@ const o4 = {
     }
 };
 // @filename: O5.ts
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const o5 = {
     f () {
         return _wrap_async_generator(function*() {
@@ -47,6 +54,8 @@ const o5 = {
     }
 };
 // @filename: O6.ts
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const o6 = {
     f () {
         return _wrap_async_generator(function*() {
@@ -55,6 +64,7 @@ const o6 = {
     }
 };
 // @filename: O7.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const o7 = {
     f () {
         return _wrap_async_generator(function*() {

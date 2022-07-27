@@ -1,1 +1,2 @@
-exports.version = 1, module.exports = function() {}, import("./bug28014");
+exports.version = 1, module.exports = function() {};
+import("./bug28014");

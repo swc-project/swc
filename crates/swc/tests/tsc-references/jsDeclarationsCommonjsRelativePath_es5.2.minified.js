@@ -6,6 +6,7 @@ var Thing = function() {
 module.exports = {
     Thing: Thing
 };
+"use strict";
 var Thing = require("./thing").Thing;
 module.exports = {
     Thing: Thing

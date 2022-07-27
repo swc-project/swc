@@ -1,21 +1,32 @@
 // @Filename: foo1.ts
 var x = 10;
 var y = 20;
+module.exports = x;
+export { };
 // @Filename: foo2.ts
 var x = 10;
 class y {
 }
+module.exports = x;
+export { };
+// @Filename: foo3.ts
+var x;
 (function(x) {
     var x1 = x.x = 10;
 })(x || (x = {}));
 class y {
 }
+module.exports = x;
+export { };
+// @Filename: foo4.ts
 function x() {
     return 42;
 }
 function y() {
     return 42;
 }
+module.exports = x;
+export { };
 // @Filename: foo5.ts
 var x = 5;
 var y = "test";

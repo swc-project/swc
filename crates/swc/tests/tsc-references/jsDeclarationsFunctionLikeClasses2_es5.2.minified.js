@@ -32,4 +32,5 @@ Point2D.prototype = {
         this.storage[1] = y;
     }
 };
+import { Point2D } from "./source";
 export var origin = new Point2D(0, 0);

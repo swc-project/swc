@@ -7,4 +7,7 @@ B.prototype.m = function() {
     this.x = 2;
 };
 const b = new B();
-b.id, b.x, module.exports = A;
+b.id, b.x;
+module.exports = function() {
+    this.id = 1;
+};

@@ -18,6 +18,7 @@ var ns;
     })(nested = ns.nested || (ns.nested = {}));
 })(ns || (ns = {}));
 export default ns;
+// @Filename: /a.ts
 ns.Class; // Error
 ns.Value; // Error
 var c;
@@ -25,3 +26,4 @@ var t = "";
 var n = {
     a: ""
 };
+export { };

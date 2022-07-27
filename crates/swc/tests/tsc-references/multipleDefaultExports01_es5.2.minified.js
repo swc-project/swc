@@ -5,6 +5,6 @@ var foo = function() {
 };
 export default function bar() {};
 export default 10;
+export { foo as default };
 import Entity from "./m1";
 Entity();
-export { foo as default };

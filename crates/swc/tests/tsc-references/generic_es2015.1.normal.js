@@ -1,6 +1,7 @@
 // @Filename: /a.ts
 export class A {
 }
+// @Filename: /b.ts
 let a = {
     a: ""
 };
@@ -11,3 +12,4 @@ let c = {};
 let d = {
     a: ""
 };
+export { };
