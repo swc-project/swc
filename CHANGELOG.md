@@ -46,6 +46,9 @@
 
 - **(html/minifier)** Don't break unknown attributes (#5256) ([4f55459](https://github.com/swc-project/swc/commit/4f55459b013eeee8374ee9587e7d7c71d16262ec))
 
+
+- **(html/parser)** Fix span (#5312) ([c80b9e1](https://github.com/swc-project/swc/commit/c80b9e106a432a858e40817069862b9a8f235ad3))
+
 ### Documentation
 
 

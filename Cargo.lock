@@ -4010,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.28.0"
+version = "0.28.1"
 dependencies = [
  "criterion",
  "serde",
