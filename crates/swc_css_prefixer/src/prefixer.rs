@@ -1142,7 +1142,10 @@ impl VisitMut for Prefixer {
         let mut webkit_value = n.value.clone();
 
         if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-            replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
+            if should_prefix("-webkit-filter()", self.env, false) {
+                replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
+            }
+
             replace_image_set_function_on_legacy_variant(
                 &mut webkit_value,
                 "image-set",
