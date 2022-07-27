@@ -741,12 +741,6 @@ impl VisitMut for Prefixer {
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
-        if let QualifiedRulePrelude::Invalid(_) = n.prelude {
-            n.visit_mut_children_with(self);
-
-            return;
-        }
-
         let original_simple_block = n.block.clone();
 
         n.visit_mut_children_with(self);
