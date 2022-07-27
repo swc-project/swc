@@ -11,7 +11,10 @@ use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use once_cell::sync::Lazy;
 use swc_common::{
     collections::AHashMap,
-    plugin::{PluginSerializedBytes, VersionedSerializable},
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginSerializedBytes, VersionedSerializable},
+    },
     FileName, FilePathMapping, Mark, SourceMap,
 };
 use swc_ecma_ast::EsVersion;
@@ -71,6 +74,12 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 .join("swc_internal_plugin.wasm"),
             &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
             &cm,
+            &Arc::new(TransformPluginMetadataContext::new(
+                None,
+                "development".to_string(),
+                None,
+            )),
+            None,
         )
         .unwrap();
 
@@ -81,20 +90,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         .expect("Should be a hashmap");
 
         let res = transform_plugin_executor
-            .transform(
-                &program_ser,
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from(
-                    "{}",
-                )))
-                .unwrap(),
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from(
-                    "{}",
-                )))
-                .unwrap(),
-                &experimental_metadata,
-                Mark::new(),
-                true,
-            )
+            .transform(&program_ser, Mark::new(), true)
             .unwrap();
 
         let _ = black_box(res);

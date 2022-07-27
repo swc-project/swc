@@ -40,7 +40,7 @@ checksum = "bb07d2053ccdbe10e2af2995a2f116c1330396493dc1269f6a91d0ae82e19704"
 
 [[package]]
 name = "ast_node"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "darling",
  "pmutil",
@@ -71,9 +71,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bytecheck"
-version = "0.6.8"
+version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a31f923c2db9513e4298b72df143e6e655a759b3d6a0966df18f81223fff54f"
+checksum = "d11cac2c12b5adc6570dad2ee1b87eff4955dac476fe12d81e5fdd352e52406f"
 dependencies = [
  "bytecheck_derive",
  "ptr_meta",
@@ -81,9 +81,9 @@ dependencies = [
 
 [[package]]
 name = "bytecheck_derive"
-version = "0.6.8"
+version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "edb17c862a905d912174daa27ae002326fff56dc8b8ada50a0a5f0976cb174f0"
+checksum = "13e576ebe98e605500b3c8041bb888e966653577172df6dd97398714eb30b9bf"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -704,7 +704,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc_atoms"
-version = "0.2.13"
+version = "0.3.0"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -717,7 +717,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.24.2"
+version = "0.25.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -745,7 +745,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.87.0"
+version = "0.88.1"
 dependencies = [
  "bitflags",
  "bytecheck",
@@ -762,7 +762,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.114.0"
+version = "0.115.1"
 dependencies = [
  "either",
  "enum_kind",
@@ -779,7 +779,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.96.0"
+version = "0.97.0"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -793,10 +793,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.73.0"
+version = "0.74.1"
 dependencies = [
  "num-bigint",
- "serde",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -806,7 +805,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.184.0"
+version = "0.185.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -844,7 +843,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.85.0"
+version = "0.87.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -855,7 +854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -864,7 +863,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",

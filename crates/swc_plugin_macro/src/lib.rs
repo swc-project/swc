@@ -69,9 +69,6 @@ fn handle_func(func: ItemFn) -> TokenStream {
         #[no_mangle]
         pub fn #transform_process_impl_ident(
             ast_ptr: *const u8, ast_ptr_len: i32,
-            config_str_ptr: *const u8, config_str_ptr_len: i32,
-            context_str_ptr: *const u8, context_str_ptr_len: i32,
-            experimental_metadata_ptr: *const u8, experimental_metadata_ptr_len: i32,
             unresolved_mark: u32, should_enable_comments_proxy: i32) -> i32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
@@ -81,29 +78,6 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 return construct_error_ptr(err);
             }
             let program: Program = program.expect("Should be a program");
-
-            let config = unsafe { swc_plugin::deserialize_from_ptr(config_str_ptr, config_str_ptr_len).map(|v| v.into_inner()) };
-            if config.is_err() {
-                let err = swc_plugin::PluginError::Deserialize(
-                        "Failed to deserialize config string received from host".to_string()
-                    );
-                return construct_error_ptr(err);
-            }
-            let config: String = config.expect("Should be a string");
-
-            let context = unsafe { swc_plugin::deserialize_from_ptr(context_str_ptr, context_str_ptr_len).map(|v| v.into_inner()) };
-            if context.is_err() {
-                let err = swc_plugin::PluginError::Deserialize("Failed to deserialize context string received from host".to_string());
-                return construct_error_ptr(err);
-            }
-            let context: String = context.expect("Should be a string");
-
-            let experimental_metadata = unsafe { swc_plugin::deserialize_from_ptr(experimental_metadata_ptr, experimental_metadata_ptr_len).map(|v| v.into_inner()) };
-            if experimental_metadata.is_err() {
-                let err = swc_plugin::PluginError::Deserialize("Failed to deserialize experimental_metadata received from host".to_string());
-                return construct_error_ptr(err);
-            }
-            let experimental_metadata: swc_plugin::collections::AHashMap<String, String> = experimental_metadata.expect("Should be a hashmap");
 
             // Create a handler wired with plugin's diagnostic emitter, set it for global context.
             let handler = swc_plugin::errors::Handler::with_emitter(
@@ -122,13 +96,10 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
             // Construct metadata to the `Program` for the transform plugin.
             let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_plugin::comments::PluginCommentsProxy) } else { None };
-            let mut metadata = swc_plugin::TransformPluginProgramMetadata {
+            let mut metadata = swc_plugin::metadata::TransformPluginProgramMetadata {
                 comments: plugin_comments_proxy,
                 source_map: swc_plugin::source_map::PluginSourceMapProxy,
-                plugin_config: config,
                 unresolved_mark: swc_plugin::syntax_pos::Mark::from_u32(unresolved_mark),
-                transform_context: context,
-                experimental: experimental_metadata,
             };
 
             // Take original plugin fn ident, then call it with interop'ed args

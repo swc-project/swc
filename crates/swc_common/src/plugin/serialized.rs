@@ -1,16 +1,8 @@
-//! Plugin support.
-//!
-//! We need to replace operations related to thread-local variables in
-//! `swc_common`.
-#![allow(unused)]
-
-use std::{any::type_name, mem};
+use std::any::type_name;
 
 use anyhow::Error;
 use bytecheck::CheckBytes;
 use rkyv::{with::AsBox, Archive, Deserialize, Serialize};
-
-use crate::{syntax_pos::Mark, SyntaxContext};
 
 /**
  * Compile-time version constant for the AST struct schema's version.
@@ -97,10 +89,10 @@ impl PluginSerializedBytes {
             .map(|field| PluginSerializedBytes { field })
             .map_err(|err| match err {
                 rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
-                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
+                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(_e) => {
                     Error::msg("AllocScratchError")
                 }
-                rkyv::ser::serializers::CompositeSerializerError::SharedError(e) => {
+                rkyv::ser::serializers::CompositeSerializerError::SharedError(_e) => {
                     Error::msg("SharedSerializeMapError")
                 }
             })
@@ -133,7 +125,6 @@ impl PluginSerializedBytes {
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
     {
         use anyhow::Context;
-        use rkyv::Deserialize;
 
         let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
 
@@ -183,10 +174,8 @@ where
     let serialized =
         PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
 
-    unsafe {
-        rkyv::from_bytes_unchecked(&serialized.field)
-            .map_err(|err| Error::msg("Failed to deserialize given ptr"))
-    }
+    rkyv::from_bytes_unchecked(&serialized.field)
+        .map_err(|_err| Error::msg("Failed to deserialize given ptr"))
 }
 
 /// A wrapper type for the structures to be passed into plugins

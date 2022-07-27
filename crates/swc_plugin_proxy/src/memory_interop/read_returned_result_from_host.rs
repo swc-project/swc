@@ -1,5 +1,5 @@
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-use swc_common::plugin::{
+use swc_common::plugin::serialized::{
     deserialize_from_ptr, deserialize_from_ptr_into_fallible, PluginSerializedBytes,
     VersionedSerializable,
 };

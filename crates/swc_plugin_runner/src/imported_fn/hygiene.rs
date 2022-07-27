@@ -1,6 +1,6 @@
 use swc_common::{
     hygiene::MutableMarkContext,
-    plugin::{PluginSerializedBytes, VersionedSerializable},
+    plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     Mark, SyntaxContext,
 };
 
