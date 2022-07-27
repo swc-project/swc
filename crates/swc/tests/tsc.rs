@@ -141,21 +141,18 @@ fn compile(input: &Path, output: &Path, opts: Options) {
 
                 loop {
                     let line = iter.next();
-                    if line
-                        .map(|line| {
-                            line.starts_with("// @Filename:") || line.starts_with("// @filename:")
-                        })
-                        .unwrap_or_default()
-                        || line.is_none()
-                    {
-                        let mut source = String::default();
-                        mem::swap(&mut source, &mut buffer);
+                    if line.map_or(true, |line| {
+                        line.starts_with("// @Filename:") || line.starts_with("// @filename:")
+                    }) {
+                        if !buffer.is_empty() {
+                            let mut source = String::default();
+                            mem::swap(&mut source, &mut buffer);
 
-                        files.push((
-                            meta_line,
-                            cm.new_source_file(swc_common::FileName::Anon, source),
-                        ));
-
+                            files.push((
+                                meta_line,
+                                cm.new_source_file(swc_common::FileName::Anon, source),
+                            ));
+                        }
                         meta_line = line;
                     }
 
