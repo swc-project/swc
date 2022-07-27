@@ -3477,7 +3477,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.156.0"
+version = "0.156.1"
 dependencies = [
  "ahash",
  "anyhow",
