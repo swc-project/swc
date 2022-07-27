@@ -200,7 +200,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.218"
+version = "1.2.219"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

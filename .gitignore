@@ -9,7 +9,7 @@ artifacts.json
 *.tmp_node_swc_fixture_test
 /scripts/npm/**/swc
 /scripts/npm/**/swc.exe
-
+.yarn/
 
 target/
 **/*.bk
