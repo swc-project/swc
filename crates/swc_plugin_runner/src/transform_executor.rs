@@ -3,7 +3,10 @@ use std::sync::Arc;
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
 use swc_common::{
-    plugin::{PluginError, PluginSerializedBytes, PLUGIN_TRANSFORM_AST_SCHEMA_VERSION},
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginError, PluginSerializedBytes, PLUGIN_TRANSFORM_AST_SCHEMA_VERSION},
+    },
     SourceMap,
 };
 use wasmer::Instance;
@@ -13,8 +16,7 @@ use crate::memory_interop::write_into_memory_view;
 /// A struct encapsule executing a plugin's transform interop to its teardown
 pub struct TransformExecutor {
     // Main transform interface plugin exports
-    exported_plugin_transform:
-        wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32, i32, i32, u32, i32), i32>,
+    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, u32, i32), i32>,
     // Schema version interface exports
     exported_plugin_transform_schema_version: wasmer::NativeFunc<(), u32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
@@ -30,30 +32,31 @@ pub struct TransformExecutor {
 }
 
 impl TransformExecutor {
-    #[tracing::instrument(level = "info", skip(cache, source_map))]
+    #[tracing::instrument(
+        level = "info",
+        skip(cache, source_map, metadata_context, plugin_config)
+    )]
     pub fn new(
         path: &std::path::Path,
         cache: &once_cell::sync::Lazy<crate::cache::PluginModuleCache>,
         source_map: &Arc<SourceMap>,
+        metadata_context: &Arc<TransformPluginMetadataContext>,
+        plugin_config: Option<serde_json::Value>,
     ) -> Result<TransformExecutor, Error> {
-        let (instance, transform_result) =
-            crate::load_plugin::load_plugin(path, cache, source_map)?;
+        let (instance, transform_result) = crate::load_plugin::load_plugin(
+            path,
+            cache,
+            source_map,
+            metadata_context,
+            plugin_config,
+        )?;
 
         let tracker = TransformExecutor {
-            exported_plugin_transform: instance.exports.get_native_function::<(
-                i32,
-                i32,
-                i32,
-                i32,
-                i32,
-                i32,
-                i32,
-                i32,
-                u32,
-                i32,
-            ), i32>(
-                "__transform_plugin_process_impl"
-            )?,
+            exported_plugin_transform: instance
+                .exports
+                .get_native_function::<(i32, i32, u32, i32), i32>(
+                    "__transform_plugin_process_impl",
+                )?,
             exported_plugin_transform_schema_version: instance
                 .exports
                 .get_native_function::<(), u32>("__get_transform_plugin_schema_version")?,
@@ -146,27 +149,15 @@ impl TransformExecutor {
     pub fn transform(
         &mut self,
         program: &PluginSerializedBytes,
-        config: &PluginSerializedBytes,
-        context: &PluginSerializedBytes,
-        experimental_metadata: &PluginSerializedBytes,
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: bool,
     ) -> Result<PluginSerializedBytes, Error> {
         let should_enable_comments_proxy = if should_enable_comments_proxy { 1 } else { 0 };
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
-        let config_str_ptr = self.write_bytes_into_guest(config)?;
-        let context_str_ptr = self.write_bytes_into_guest(context)?;
-        let experimental_metadata_ptr = self.write_bytes_into_guest(experimental_metadata)?;
 
         let result = self.exported_plugin_transform.call(
             guest_program_ptr.0,
             guest_program_ptr.1,
-            config_str_ptr.0,
-            config_str_ptr.1,
-            context_str_ptr.0,
-            context_str_ptr.1,
-            experimental_metadata_ptr.0,
-            experimental_metadata_ptr.1,
             unresolved_mark.as_u32(),
             should_enable_comments_proxy,
         )?;

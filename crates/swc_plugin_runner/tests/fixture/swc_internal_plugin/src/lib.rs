@@ -1,5 +1,9 @@
 use swc_plugin::{
-    ast::*, errors::HANDLER, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata,
+    ast::*,
+    errors::HANDLER,
+    metadata::{TransformPluginMetadataContextKind, TransformPluginProgramMetadata},
+    plugin_transform,
+    syntax_pos::DUMMY_SP,
 };
 
 struct ConsoleOutputReplacer;
@@ -52,8 +56,42 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
             .emit();
     });
 
-    // Arbitaray call for now
-    metadata.experimental.is_empty();
+    let env = metadata
+        .get_context(&TransformPluginMetadataContextKind::Env)
+        .expect("Metadata should exists");
+    if env != "development" {
+        panic!("Env should be development");
+    }
+
+    let experimental_value = metadata
+        .get_experimental_context("TestExperimental")
+        .expect("Experimental metadata should exist");
+
+    // Let test fail if metadata is not correctly passed
+    if &experimental_value != "ExperimentalValue" {
+        panic!("Experimental metadata should be `ExperimentalValue`");
+    }
+
+    let experimental_value = metadata
+        .get_experimental_context("OtherTest")
+        .expect("Experimental metadata 'othertest' should exist");
+
+    if &experimental_value != "OtherVal" {
+        panic!("Experimental metadata 'othertest' should be `OtherVal`");
+    }
+
+    let nonexistent_value = metadata.get_experimental_context("Nonexistent");
+
+    if nonexistent_value.is_some() {
+        panic!("Experimental metadata 'nonexistent' should not exist");
+    }
+
+    let plugin_config = metadata
+        .get_transform_plugin_config()
+        .expect("Plugin config should exist");
+    if plugin_config != "{\"pluginConfig\":\"testValue\"}" {
+        panic!("Plugin config should be testValue");
+    }
 
     program.fold_with(&mut as_folder(ConsoleOutputReplacer))
 }

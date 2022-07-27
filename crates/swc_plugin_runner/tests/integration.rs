@@ -2,13 +2,18 @@ use std::{
     env, fs,
     path::{Path, PathBuf},
     process::{Command, Stdio},
+    sync::Arc,
 };
 
 use anyhow::{anyhow, Error};
+use serde_json::json;
 use swc_common::{
     collections::AHashMap,
     errors::HANDLER,
-    plugin::{PluginSerializedBytes, VersionedSerializable},
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginSerializedBytes, VersionedSerializable},
+    },
     sync::Lazy,
     FileName, Mark,
 };
@@ -94,33 +99,32 @@ fn internal() -> Result<(), Error> {
 
         let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
             .expect("Should serializable");
-        let config =
-            PluginSerializedBytes::try_serialize(&VersionedSerializable::new("{}".to_string()))
-                .expect("Should serializable");
-        let context = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-            "{sourceFileName: 'single_plugin_test'}".to_string(),
-        ))
-        .expect("Should serializable");
-        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-        let experimental_metadata = PluginSerializedBytes::try_serialize(
-            &VersionedSerializable::new(experimental_metadata),
-        )
-        .expect("Should be a hashmap");
+        let experimental_metadata: AHashMap<String, String> = [
+            (
+                "TestExperimental".to_string(),
+                "ExperimentalValue".to_string(),
+            ),
+            ("OtherTest".to_string(), "OtherVal".to_string()),
+        ]
+        .into_iter()
+        .collect();
 
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
-        let mut plugin_transform_executor =
-            swc_plugin_runner::create_plugin_transform_executor(&path, &cache, &cm)
-                .expect("Should load plugin");
+        let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
+            &path,
+            &cache,
+            &cm,
+            &Arc::new(TransformPluginMetadataContext::new(
+                None,
+                "development".to_string(),
+                Some(experimental_metadata),
+            )),
+            Some(json!({ "pluginConfig": "testValue" })),
+        )
+        .expect("Should load plugin");
 
         let program_bytes = plugin_transform_executor
-            .transform(
-                &program,
-                &config,
-                &context,
-                &experimental_metadata,
-                Mark::new(),
-                false,
-            )
+            .transform(&program, Mark::new(), false)
             .expect("Plugin should apply transform");
 
         let program: Program = program_bytes
@@ -156,35 +160,35 @@ fn internal() -> Result<(), Error> {
 
         let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
             .expect("Should serializable");
-        let config =
-            PluginSerializedBytes::try_serialize(&VersionedSerializable::new("{}".to_string()))
-                .expect("Should serializable");
-        let context = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-            "{sourceFileName: 'single_plugin_handler_test'}".to_string(),
-        ))
-        .expect("Should serializable");
-        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-        let experimental_metadata = PluginSerializedBytes::try_serialize(
-            &VersionedSerializable::new(experimental_metadata),
-        )
-        .expect("Should be a hashmap");
+        let experimental_metadata: AHashMap<String, String> = [
+            (
+                "TestExperimental".to_string(),
+                "ExperimentalValue".to_string(),
+            ),
+            ("OtherTest".to_string(), "OtherVal".to_string()),
+        ]
+        .into_iter()
+        .collect();
 
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         let _res = HANDLER.set(&handler, || {
             let mut plugin_transform_executor =
-                swc_plugin_runner::create_plugin_transform_executor(&path, &cache, &cm)
-                    .expect("Should load plugin");
+                swc_plugin_runner::create_plugin_transform_executor(
+                    &path,
+                    &cache,
+                    &cm,
+                    &Arc::new(TransformPluginMetadataContext::new(
+                        None,
+                        "development".to_string(),
+                        Some(experimental_metadata),
+                    )),
+                    Some(json!({ "pluginConfig": "testValue" })),
+                )
+                .expect("Should load plugin");
 
             plugin_transform_executor
-                .transform(
-                    &program,
-                    &config,
-                    &context,
-                    &experimental_metadata,
-                    Mark::new(),
-                    false,
-                )
+                .transform(&program, Mark::new(), false)
                 .expect("Plugin should apply transform")
         });
 
@@ -212,53 +216,49 @@ fn internal() -> Result<(), Error> {
                 .expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
-        let mut plugin_transform_executor =
-            swc_plugin_runner::create_plugin_transform_executor(&path, &cache, &cm)
-                .expect("Should load plugin");
+        let experimental_metadata: AHashMap<String, String> = [
+            (
+                "TestExperimental".to_string(),
+                "ExperimentalValue".to_string(),
+            ),
+            ("OtherTest".to_string(), "OtherVal".to_string()),
+        ]
+        .into_iter()
+        .collect();
 
-        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-        let experimental_metadata = PluginSerializedBytes::try_serialize(
-            &VersionedSerializable::new(experimental_metadata),
+        let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
+            &path,
+            &cache,
+            &cm,
+            &Arc::new(TransformPluginMetadataContext::new(
+                None,
+                "development".to_string(),
+                Some(experimental_metadata.clone()),
+            )),
+            Some(json!({ "pluginConfig": "testValue" })),
         )
-        .expect("Should be a hashmap");
+        .expect("Should load plugin");
 
         serialized_program = plugin_transform_executor
-            .transform(
-                &serialized_program,
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                    "{}".to_string(),
-                ))
-                .expect("Should serializable"),
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                    "{sourceFileName: 'multiple_plugin_test'}".to_string(),
-                ))
-                .expect("Should serializable"),
-                &experimental_metadata,
-                Mark::new(),
-                false,
-            )
+            .transform(&serialized_program, Mark::new(), false)
             .expect("Plugin should apply transform");
 
         // TODO: we'll need to apply 2 different plugins
-        let mut plugin_transform_executor =
-            swc_plugin_runner::create_plugin_transform_executor(&path, &cache, &cm)
-                .expect("Should load plugin");
+        let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
+            &path,
+            &cache,
+            &cm,
+            &Arc::new(TransformPluginMetadataContext::new(
+                None,
+                "development".to_string(),
+                Some(experimental_metadata.clone()),
+            )),
+            Some(json!({ "pluginConfig": "testValue" })),
+        )
+        .expect("Should load plugin");
 
         serialized_program = plugin_transform_executor
-            .transform(
-                &serialized_program,
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                    "{}".to_string(),
-                ))
-                .expect("Should serializable"),
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(
-                    "{sourceFileName: 'multiple_plugin_test2'}".to_string(),
-                ))
-                .expect("Should serializable"),
-                &experimental_metadata,
-                Mark::new(),
-                false,
-            )
+            .transform(&serialized_program, Mark::new(), false)
             .expect("Plugin should apply transform");
 
         let program: Program = serialized_program

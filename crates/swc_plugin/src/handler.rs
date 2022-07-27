@@ -1,5 +1,5 @@
 use swc_common::{
-    plugin::{PluginSerializedBytes, VersionedSerializable},
+    plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     sync::OnceCell,
 };
 
