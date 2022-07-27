@@ -1228,11 +1228,11 @@ impl VisitMut for Prefixer {
 
         let mut ms_value = n.value.clone();
 
-        // TODO lazy
-        let mut declarations = vec![];
+        let declarations = Lazy::new(|| {
+            let simple_block = self.simple_block.as_ref().unwrap();
+            let mut declarations = Vec::with_capacity(simple_block.value.len());
 
-        if let Some(SimpleBlock { value, .. }) = &self.simple_block {
-            for n in value.iter() {
+            for n in simple_block.value.iter() {
                 match n {
                     ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
                         declaration,
@@ -1243,7 +1243,9 @@ impl VisitMut for Prefixer {
                     _ => {}
                 }
             }
-        }
+
+            declarations
+        });
 
         // TODO lazy
         let property_names: Vec<&str> = declarations
@@ -2294,7 +2296,7 @@ impl VisitMut for Prefixer {
             }
 
             "writing-mode" if n.value.len() == 1 => {
-                let direction = match declarations.into_iter().rev().find(|declaration| {
+                let direction = match declarations.iter().rev().find(|declaration| {
                     matches!(declaration, Declaration {
                               name: DeclarationName::Ident(Ident { value, .. }),
                                 ..
