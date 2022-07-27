@@ -39,6 +39,20 @@
   "@-moz-keyframes": [
     {
       "firefox": "5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "@-o-keyframes": [
+    {
+      "op_mob": "12"
+    },
+    {
+      "op_mob": "12"
+    }
+  ],
+
   "-webkit-min-device-pixel-ratio": [
     {
       "android": "2.3",
@@ -80,12 +94,6 @@
       "firefox": "15"
     }
   ],
-  "@-o-keyframes": [
-    {
-      "op_mob": "12"
-    },
-    {
-      "op_mob": "12"
   "max--moz-device-pixel-ratio": [
     {
       "firefox": "3.5"
