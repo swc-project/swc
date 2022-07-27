@@ -8,6 +8,9 @@
 - **(css)** Fix parsing of `layer` (#5290) ([83651c2](https://github.com/swc-project/swc/commit/83651c297d4e6b03809b96a87ce1c59f158e28ff))
 
 
+- **(css/prefixer)** Generate at-rules based on preset-env (#5294) ([94b4e0a](https://github.com/swc-project/swc/commit/94b4e0a3213e7cd0982eebe2d1b65ac5f10af2f2))
+
+
 - **(es/codegen)** Add `;` for a generator function (#5292) ([daac26b](https://github.com/swc-project/swc/commit/daac26bcfbc48a732d4b1b831a0f54518401f63b))
 
 
