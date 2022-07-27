@@ -124,8 +124,8 @@ define!({
     }
 
     pub enum QualifiedRulePrelude {
+        ListOfComponentValues(ListOfComponentValues),
         SelectorList(SelectorList),
-        Invalid(Tokens),
     }
 
     pub enum StyleBlock {

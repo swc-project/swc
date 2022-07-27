@@ -17,16 +17,22 @@
  2 | `-> }
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
  1 | , {
-   : ^^
+   : ^
    `----
 
   x Comma
    ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
  1 | , {
    : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
+ 1 | , {
+   :  ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }

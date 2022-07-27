@@ -3,8 +3,8 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
     AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
-    Dimension, Hue, Ident, Integer, KeyframeBlock, LayerName, Number, Percentage, Ratio,
-    SelectorList, Str, TokenAndSpan, Tokens, UnicodeRange, Url,
+    Dimension, Hue, Ident, Integer, KeyframeBlock, LayerName, ListOfComponentValues, Number,
+    Percentage, Ratio, SelectorList, Str, TokenAndSpan, Tokens, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -38,10 +38,10 @@ pub struct QualifiedRule {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum QualifiedRulePrelude {
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
     #[tag("SelectorList")]
     SelectorList(SelectorList),
-    #[tag("Tokens")]
-    Invalid(Tokens),
 }
 
 #[ast_node]

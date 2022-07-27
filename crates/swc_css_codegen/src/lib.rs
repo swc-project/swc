@@ -79,11 +79,11 @@ where
     #[emitter]
     fn emit_qualified_rule_prelude(&mut self, n: &QualifiedRulePrelude) -> Result {
         match n {
+            QualifiedRulePrelude::ListOfComponentValues(n) => emit!(self, n),
             QualifiedRulePrelude::SelectorList(n) => {
                 emit!(self, n);
                 formatting_space!(self);
             }
-            QualifiedRulePrelude::Invalid(n) => emit!(self, n),
         }
     }
 

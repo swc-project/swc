@@ -41,11 +41,10 @@
  10 | `-> }
     `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
- 1 | ,-> <!-- 123 -->
- 2 | |   
- 3 | `-> div {
+ 1 | <!-- 123 -->
+   :      ^^^
    `----
 
   x Number { value: 123.0, raw: Atom('123' type=inline), type_flag: Integer }
@@ -54,16 +53,35 @@
    :      ^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
+ 1 | <!-- 123 -->
+   :         ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :         ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
+ 1 | <!-- 123 -->
+   :          ^^^
+   `----
+
   x CDC
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :          ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
+ 1 | ,-> <!-- 123 -->
+ 2 | `-> 
+ 3 |     div {
    `----
 
   x WhiteSpace { value: Atom('
@@ -75,10 +93,22 @@
  3 |     div {
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
+ 3 | div {
+   : ^^^
+   `----
+
   x Ident { value: Atom('div' type=inline), raw: Atom('div' type=inline) }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
  3 | div {
    : ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
+ 3 | div {
+   :    ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }

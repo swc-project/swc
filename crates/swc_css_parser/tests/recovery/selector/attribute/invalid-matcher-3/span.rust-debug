@@ -20,10 +20,10 @@
  3 | `-> }
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^
    `----
 
   x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
@@ -32,10 +32,22 @@
    : ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :  ^
+   `----
+
   x LBracket
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :   ^^^^^
    `----
 
   x Ident { value: Atom('title' type=inline), raw: Atom('title' type=inline) }
@@ -44,10 +56,22 @@
    :   ^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :        ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :         ^
    `----
 
   x Delim { value: '*' }
@@ -56,10 +80,22 @@
    :         ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :          ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :          ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :           ^
    `----
 
   x Delim { value: '=' }
@@ -68,10 +104,22 @@
    :           ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :            ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :             ^^^^^^^
    `----
 
   x String { value: Atom('title' type=inline), raw: Atom('"title"' type=inline) }
@@ -80,10 +128,22 @@
    :             ^^^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :                    ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :                     ^
    `----
 
   x Ident { value: Atom('i' type=inline), raw: Atom('i' type=inline) }
@@ -92,16 +152,34 @@
    :                     ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :                      ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :                      ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :                       ^
+   `----
+
   x RBracket
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :                       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :                        ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
