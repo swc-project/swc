@@ -2,7 +2,7 @@
 #![allow(unused_variables)]
 #[cfg(feature = "plugin-mode")]
 use swc_common::{
-    plugin::VersionedSerializable,
+    plugin::serialized::VersionedSerializable,
     source_map::{
         DistinctSources, FileLinesResult, MalformedSourceMapPositions, Pos, SpanSnippetError,
     },
@@ -226,7 +226,7 @@ impl SourceMapper for PluginSourceMapProxy {
                 ctxt: swc_common::SyntaxContext::empty(),
             };
 
-            let serialized = swc_common::plugin::PluginSerializedBytes::try_serialize(
+            let serialized = swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(
                 &VersionedSerializable::new(span),
             )
             .expect("Should be serializable");
