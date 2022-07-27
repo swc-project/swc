@@ -74,6 +74,9 @@
 - **(node)** Coerce fallback bindings (#5250) ([7e6ffff](https://github.com/swc-project/swc/commit/7e6ffffbd3834f220e940d447bf1632f70f3b9a7))
 
 
+- **(plugin)** Make metadata api lazy (#5310) ([5a164bd](https://github.com/swc-project/swc/commit/5a164bd13741d3871170cefe4778b615640d169d))
+
+
 - **(testing/macros)** Generalize test names with regex (#5242) ([ecbf9d6](https://github.com/swc-project/swc/commit/ecbf9d6c36b4f86945a66deb8a7d90d7ae01dc3d))
 
 ### Miscellaneous Tasks
