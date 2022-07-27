@@ -7,7 +7,8 @@ export var C2 = class {
 };
 C2.staticProp = 0;
 export let F2 = function() {};
-F2.staticProp = 0, (class {
+F2.staticProp = 0;
+(class {
 }).staticProp = 0, (function() {}).staticProp = 0, (class {
 }).staticProp = 0, (function() {}).staticProp = 0;
 import * as a from "./a";

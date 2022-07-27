@@ -13,6 +13,7 @@ export var C2 = function() {
 C2.staticProp = 0;
 export var F2 = function() {};
 F2.staticProp = 0;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C3 = function() {
     "use strict";
     _class_call_check(this, C3);

@@ -121,6 +121,13 @@ fn matrix() -> Vec<(String, Options)> {
     res
 }
 
+fn is_filename_directives(line: &str) -> bool {
+    line.starts_with("// @Filename:")
+        || line.starts_with("// @filename:")
+        || line.starts_with("//@Filename:")
+        || line.starts_with("//@filename:")
+}
+
 fn compile(input: &Path, output: &Path, opts: Options) {
     let cm = Arc::<SourceMap>::default();
 
@@ -130,11 +137,7 @@ fn compile(input: &Path, output: &Path, opts: Options) {
 
     let mut files = vec![];
 
-    if fm
-        .src
-        .lines()
-        .any(|line| line.starts_with("// @Filename:") || line.starts_with("// @filename:"))
-    {
+    if fm.src.lines().any(is_filename_directives) {
         let mut buffer = String::default();
 
         let mut iter = fm.src.lines();
@@ -143,9 +146,7 @@ fn compile(input: &Path, output: &Path, opts: Options) {
 
         loop {
             let line = iter.next();
-            if line.map_or(true, |line| {
-                line.starts_with("// @Filename:") || line.starts_with("// @filename:")
-            }) {
+            if line.map_or(true, is_filename_directives) {
                 if !buffer.is_empty() {
                     let mut source = String::default();
                     mem::swap(&mut source, &mut buffer);
