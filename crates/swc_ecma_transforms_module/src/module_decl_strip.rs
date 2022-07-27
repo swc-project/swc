@@ -605,7 +605,7 @@ impl Extend<LinkSpecifier> for LinkItem {
 }
 
 impl LinkItem {
-    fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
+    pub fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
         if self.0.is_dummy() {
             self.0 = span;
         }

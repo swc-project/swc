@@ -1372,7 +1372,11 @@ impl ModuleConfig {
             }
             Some(ModuleConfig::SystemJs(config)) => {
                 if paths.is_empty() {
-                    Box::new(modules::system_js::system_js(unresolved_mark, config))
+                    Box::new(modules::system_js::system_js(
+                        unresolved_mark,
+                        config,
+                        available_features,
+                    ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
@@ -1381,6 +1385,7 @@ impl ModuleConfig {
                         base,
                         unresolved_mark,
                         config,
+                        available_features,
                     ))
                 }
             }

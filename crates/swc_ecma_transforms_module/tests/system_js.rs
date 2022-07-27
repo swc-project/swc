@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_module::system_js::{system_js, Config};
 use swc_ecma_transforms_testing::{test, test_fixture, Tester};
 use swc_ecma_visit::Fold;
@@ -18,9 +18,12 @@ fn syntax() -> Syntax {
 fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
+
+    let feature_flag = FeatureFlag::all();
+
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        system_js(unresolved_mark, config)
+        system_js(unresolved_mark, config, feature_flag)
     )
 }
 
@@ -29,7 +32,8 @@ test!(
     |tester| tr(
         tester,
         Config {
-            allow_top_level_this: true
+            allow_top_level_this: true,
+            system_global: None
         }
     ),
     allow_top_level_this_true,
@@ -51,7 +55,8 @@ test!(
     |tester| tr(
         tester,
         Config {
-            allow_top_level_this: false
+            allow_top_level_this: false,
+            system_global: None
         }
     ),
     allow_top_level_this_false,
