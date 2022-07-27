@@ -7,7 +7,20 @@ export var prerendered2 = otherdom("h", null);
 import React from "./renderer";
 export var prerendered3 = React.createElement("h", null);
 // @filename: index.tsx
-//!failed to process input file
+//!
+//!  x Expression expected
+//!   ,----
+//! 4 | <h></h>
+//!   :   ^
+//!   `----
+//!
+//!  x Unexpected token `/`. Expected jsx identifier
+//!   ,----
+//! 4 | <h></h>
+//!   :     ^
+//!   `----
+//!
 //!
 //!Caused by:
-//!    Syntax Error
+//!    0: failed to process input file
+//!    1: Syntax Error

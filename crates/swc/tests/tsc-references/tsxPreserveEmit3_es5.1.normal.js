@@ -1,8 +1,13 @@
-//@jsx: preserve
-//@module: amd
-//@filename: file.tsx
-//@filename: test.d.ts
-export var React;
-//@filename: react-consumer.tsx
-// This import should be elided
-import { React } from "./test";
+//!
+//!  x the name `React` is defined multiple times
+//!    ,-[13:1]
+//! 13 | export var React;
+//!    :            ^^|^^
+//!    :              `-- previous definition of `React` here
+//! 14 | 
+//! 15 | //@filename: react-consumer.tsx
+//! 16 | // This import should be elided
+//! 17 | import {React} from "./test";
+//!    :         ^^|^^
+//!    :           `-- `React` redefined here
+//!    `----

@@ -1,8 +1,16 @@
-var M;
-require('react');
-let ReactRouter = require('react-router');
-ReactRouter.Route, function(M) {
-    var X1;
-    M.X = X1;
-}(M || (M = {})), M || (M = {}), X;
-export { };
+//!
+//!  x multiple `export =` found
+//!    ,-[8:5]
+//!  8 | export = x;
+//!    : ^^^^^|^^^^^
+//!    :      `-- previous `export =` declared here
+//!  9 | }
+//! 10 | 
+//! 11 | declare module ReactRouter {
+//! 12 | 	var Route: any;
+//! 13 | 	interface Thing { }
+//! 14 | }
+//! 15 | declare module 'react-router' {
+//! 16 | 	export = ReactRouter;
+//!    :  ^^^^^^^^^^^^^^^^^^^^^
+//!    `----

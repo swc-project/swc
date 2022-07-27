@@ -3,16 +3,18 @@ use std::{
     mem,
     panic::{catch_unwind, resume_unwind, AssertUnwindSafe},
     path::{Path, PathBuf},
+    sync::Arc,
 };
 
 use serde::de::DeserializeOwned;
 use swc::{
     config::{Config, IsModule, JscConfig, Options, SourceMapsConfig},
-    Compiler,
+    try_with_handler, Compiler,
 };
+use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
-use testing::{NormalizedOutput, Tester};
+use testing::NormalizedOutput;
 
 #[testing::fixture(
     "../swc_ecma_parser/tests/tsc/**/*.ts",
@@ -120,104 +122,106 @@ fn matrix() -> Vec<(String, Options)> {
 }
 
 fn compile(input: &Path, output: &Path, opts: Options) {
-    Tester::new()
-        .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone());
+    let cm = Arc::<SourceMap>::default();
 
-            let fm = cm.load_file(input).expect("failed to load file");
+    let c = Compiler::new(cm.clone());
 
-            let mut files = vec![];
+    let fm = cm.load_file(input).expect("failed to load file");
 
-            if fm
-                .src
-                .lines()
-                .any(|line| line.starts_with("// @Filename:") || line.starts_with("// @filename:"))
-            {
-                let mut buffer = String::default();
+    let mut files = vec![];
 
-                let mut iter = fm.src.lines();
+    if fm
+        .src
+        .lines()
+        .any(|line| line.starts_with("// @Filename:") || line.starts_with("// @filename:"))
+    {
+        let mut buffer = String::default();
 
-                let mut meta_line = None;
+        let mut iter = fm.src.lines();
 
-                loop {
-                    let line = iter.next();
-                    if line.map_or(true, |line| {
-                        line.starts_with("// @Filename:") || line.starts_with("// @filename:")
-                    }) {
-                        if !buffer.is_empty() {
-                            let mut source = String::default();
-                            mem::swap(&mut source, &mut buffer);
+        let mut meta_line = None;
 
-                            files.push((
-                                meta_line,
-                                cm.new_source_file(swc_common::FileName::Anon, source),
-                            ));
-                        }
-                        meta_line = line;
-                    }
+        loop {
+            let line = iter.next();
+            if line.map_or(true, |line| {
+                line.starts_with("// @Filename:") || line.starts_with("// @filename:")
+            }) {
+                if !buffer.is_empty() {
+                    let mut source = String::default();
+                    mem::swap(&mut source, &mut buffer);
 
-                    if let Some(line) = line {
-                        buffer += line;
-                        buffer.push('\n');
-                    } else {
-                        break;
-                    }
+                    files.push((
+                        meta_line,
+                        cm.new_source_file(swc_common::FileName::Anon, source),
+                    ));
                 }
+                meta_line = line;
+            }
+
+            if let Some(line) = line {
+                buffer += line;
+                buffer.push('\n');
             } else {
-                files = vec![(None, fm)];
+                break;
             }
+        }
+    } else {
+        files = vec![(None, fm)];
+    }
 
-            let mut result = String::default();
+    let mut result = String::default();
 
-            let options = Options {
-                config: Config {
-                    jsc: JscConfig {
-                        syntax: Some(Syntax::Typescript(TsConfig {
-                            tsx: input.to_string_lossy().ends_with(".tsx"),
-                            decorators: true,
-                            dts: false,
-                            no_early_errors: false,
-                        })),
-                        external_helpers: true.into(),
-                        ..opts.config.jsc
-                    },
-                    source_maps: Some(SourceMapsConfig::Bool(
-                        !input.to_string_lossy().contains("Unicode"),
-                    )),
-                    is_module: IsModule::Bool(true),
-                    ..opts.config
-                },
-                ..opts
-            };
+    let options = Options {
+        config: Config {
+            jsc: JscConfig {
+                syntax: Some(Syntax::Typescript(TsConfig {
+                    tsx: input.to_string_lossy().ends_with(".tsx"),
+                    decorators: true,
+                    dts: false,
+                    no_early_errors: false,
+                })),
+                external_helpers: true.into(),
+                ..opts.config.jsc
+            },
+            source_maps: Some(SourceMapsConfig::Bool(
+                !input.to_string_lossy().contains("Unicode"),
+            )),
+            is_module: IsModule::Bool(true),
+            ..opts.config
+        },
+        ..opts
+    };
 
-            for (meta_line, file) in files {
-                match c.process_js_file(file, &handler, &options) {
-                    Ok(res) => {
-                        result += &res.code;
-                    }
-                    Err(ref err) => {
-                        let error_text = format!("{:?}", err);
+    for (meta_line, file) in files {
+        match try_with_handler(
+            cm.clone(),
+            swc::HandlerOpts {
+                color: ColorConfig::Never,
+                skip_filename: true,
+            },
+            |handler| c.process_js_file(file, handler, &options),
+        ) {
+            Ok(res) => {
+                result += &res.code;
+            }
+            Err(ref err) => {
+                let error_text = format!("{:?}", err);
 
-                        if let Some(meta_line) = meta_line {
-                            result += meta_line;
-                            result.push('\n');
-                        }
+                if let Some(meta_line) = meta_line {
+                    result += meta_line;
+                    result.push('\n');
+                }
 
-                        for line in error_text.lines() {
-                            result.push_str("//!");
-                            result.push_str(line);
-                            result.push('\n');
-                        }
-                    }
+                for line in error_text.lines() {
+                    result.push_str("//!");
+                    result.push_str(line);
+                    result.push('\n');
                 }
             }
+        }
+    }
 
-            NormalizedOutput::from(result)
-                .compare_to_file(output)
-                .unwrap();
-
-            Ok(())
-        })
-        .map(|_| ())
-        .expect("failed");
+    NormalizedOutput::from(result)
+        .compare_to_file(output)
+        .unwrap();
 }

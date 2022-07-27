@@ -1,5 +1,12 @@
 // @filename: file.tsx
-//!failed to process input file
+//!
+//!  x Unexpected token `a`. Expected jsx identifier
+//!    ,----
+//! 19 | let a = <\u0061></a>; // works
+//!    :          ^^^^^^
+//!    `----
+//!
 //!
 //!Caused by:
-//!    Syntax Error
+//!    0: failed to process input file
+//!    1: Syntax Error

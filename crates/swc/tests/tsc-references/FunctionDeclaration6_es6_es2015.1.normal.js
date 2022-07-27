@@ -1,4 +1,11 @@
-//!failed to process input file
+//!
+//!  x 'yield' cannot be used as a parameter within generator
+//!   ,----
+//! 2 | function*foo(a = yield) {
+//!   :                  ^^^^^
+//!   `----
+//!
 //!
 //!Caused by:
-//!    Syntax Error
+//!    0: failed to process input file
+//!    1: Syntax Error

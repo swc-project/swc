@@ -1,7 +1,8 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-for(var _i = 0, _iter = [
-    []
-]; _i < _iter.length; _i++){
-    var __i = _sliced_to_array(_iter[_i], 2);
-    __i[0], __i[1];
-}
+//!
+//!  x the name `v` is defined multiple times
+//!   ,----
+//! 2 | for (let [v, v] of [[]]) {}
+//!   :           |  |
+//!   :           |  `-- `v` redefined here
+//!   :           `-- previous definition of `v` here
+//!   `----

@@ -1,4 +1,17 @@
-//!failed to process input file
+//!
+//!  x Expression expected
+//!    ,----
+//! 46 | super<string>();
+//!    :      ^
+//!    `----
+//!
+//!  x Parenthesized expression cannot be empty
+//!    ,----
+//! 46 | super<string>();
+//!    :              ^^
+//!    `----
+//!
 //!
 //!Caused by:
-//!    Syntax Error
+//!    0: failed to process input file
+//!    1: Syntax Error

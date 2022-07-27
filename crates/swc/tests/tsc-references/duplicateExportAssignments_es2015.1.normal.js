@@ -1,35 +1,65 @@
 // @Filename: foo1.ts
-var x = 10;
-var y = 20;
-module.exports = x;
-export { };
+//!
+//!  x multiple `export =` found
+//!   ,-[4:1]
+//! 4 | export = x;
+//!   : ^^^^^|^^^^^
+//!   :      `-- previous `export =` declared here
+//! 5 | export = y;
+//!   : ^^^^^^^^^^^
+//!   `----
 // @Filename: foo2.ts
-var x = 10;
-class y {
-}
-module.exports = x;
-export { };
+//!
+//!  x multiple `export =` found
+//!   ,-[4:1]
+//! 4 | export = x;
+//!   : ^^^^^|^^^^^
+//!   :      `-- previous `export =` declared here
+//! 5 | export = y;
+//!   : ^^^^^^^^^^^
+//!   `----
 // @Filename: foo3.ts
-var x;
-(function(x) {
-    var x1 = x.x = 10;
-})(x || (x = {}));
-class y {
-}
-module.exports = x;
-export { };
+//!
+//!  x multiple `export =` found
+//!   ,-[8:1]
+//! 8 | export = x;
+//!   : ^^^^^|^^^^^
+//!   :      `-- previous `export =` declared here
+//! 9 | export = y;
+//!   : ^^^^^^^^^^^
+//!   `----
 // @Filename: foo4.ts
-function x() {
-    return 42;
-}
-function y() {
-    return 42;
-}
-module.exports = x;
-export { };
+//!
+//!  x multiple `export =` found
+//!   ,-[2:1]
+//! 2 | export = x;
+//!   : ^^^^^|^^^^^
+//!   :      `-- previous `export =` declared here
+//! 3 | function x(){
+//! 4 | 	return 42;
+//! 5 | }
+//! 6 | function y(){
+//! 7 | 	return 42;
+//! 8 | }
+//! 9 | export = y;
+//!   : ^^^^^^^^^^^
+//!   `----
 // @Filename: foo5.ts
-var x = 5;
-var y = "test";
-var z = {};
-module.exports = x;
-export { };
+//!
+//!  x multiple `export =` found
+//!   ,-[5:1]
+//! 5 | export = x;
+//!   : ^^^^^|^^^^^
+//!   :      `-- previous `export =` declared here
+//! 6 | export = y;
+//!   : ^^^^^^^^^^^
+//!   `----
+//!
+//!  x multiple `export =` found
+//!   ,-[6:1]
+//! 6 | export = y;
+//!   : ^^^^^|^^^^^
+//!   :      `-- previous `export =` declared here
+//! 7 | export = z;
+//!   : ^^^^^^^^^^^
+//!   `----

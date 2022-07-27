@@ -1,9 +1,15 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var C = function C() {
-    "use strict";
-    _class_call_check(this, C);
-};
-export { C as default };
-export default {
-    uhoh: "another default"
-};
+//!
+//!  x the name `default` is exported multiple times
+//!   ,-[1:1]
+//! 1 | ,-> export default class C { }
+//!   : | ^^^^^^^^^^^^^|^^^^^^^^^^^^
+//!   : |              `-- previous exported here
+//! 2 |     
+//! 3 | ,-> export default {
+//! 4 | |       uhoh: "another default",
+//! 5 | |-> };
+//!   : `---- exported more than once
+//!   `----
+//!
+//!Error: 
+//!  > Exported identifiers must be unique

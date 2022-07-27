@@ -1,38 +1,45 @@
-//@jsx: preserve
-//@module: commonjs
-//@filename: react.d.ts
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
-//@filename: app.tsx
-import * as React from "react";
-export var App = /*#__PURE__*/ function(_Component) {
-    "use strict";
-    _inherits(App, _Component);
-    var _super = _create_super(App);
-    function App() {
-        _class_call_check(this, App);
-        return _super.apply(this, arguments);
-    }
-    var _proto = App.prototype;
-    _proto.render = function render() {
-        return /*#__PURE__*/ React.createElement(Button, null);
-    };
-    return App;
-}(React.Component);
-//@filename: button.tsx
-import * as React from "react";
-export var Button = /*#__PURE__*/ function(_Component) {
-    "use strict";
-    _inherits(Button, _Component);
-    var _super = _create_super(Button);
-    function Button() {
-        _class_call_check(this, Button);
-        return _super.apply(this, arguments);
-    }
-    var _proto = Button.prototype;
-    _proto.render = function render() {
-        return /*#__PURE__*/ React.createElement("button", null, "Some button");
-    };
-    return Button;
-}(React.Component);
+//!
+//!  x the name `React` is defined multiple times
+//!    ,-[10:1]
+//! 10 | import * as React from 'react';
+//!    :             ^^|^^
+//!    :               `-- previous definition of `React` here
+//! 11 | 
+//! 12 | // Should see var button_1 = require('./button') here
+//! 13 | import { Button } from './button';
+//! 14 | 
+//! 15 | export class App extends React.Component<any, any> {
+//! 16 | 
+//! 17 |     render() {
+//! 18 |         return <Button />;
+//! 19 |     }
+//! 20 | 
+//! 21 | }
+//! 22 | 
+//! 23 | //@filename: button.tsx
+//! 24 | import * as React from 'react';
+//!    :             ^^|^^
+//!    :               `-- `React` redefined here
+//!    `----
+//!
+//!  x the name `Button` is defined multiple times
+//!    ,-[13:1]
+//! 13 | import { Button } from './button';
+//!    :          ^^^|^^
+//!    :             `-- previous definition of `Button` here
+//! 14 | 
+//! 15 | export class App extends React.Component<any, any> {
+//! 16 | 
+//! 17 |     render() {
+//! 18 |         return <Button />;
+//! 19 |     }
+//! 20 | 
+//! 21 | }
+//! 22 | 
+//! 23 | //@filename: button.tsx
+//! 24 | import * as React from 'react';
+//! 25 | 
+//! 26 | export class Button extends React.Component<any, any> {
+//!    :              ^^^|^^
+//!    :                 `-- `Button` redefined here
+//!    `----

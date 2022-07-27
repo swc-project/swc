@@ -1,25 +1,22 @@
 export { };
 export { };
-import { predom } from "./renderer2";
-export const MySFC = (props)=>predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
-export class MyClass {
-    render() {
-        return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
-    }
-    constructor(props){
-        this.props = props;
-    }
-}
-export const tree = predom(MySFC, {
-    x: 1,
-    y: 2
-}, predom(MyClass, {
-    x: 3,
-    y: 4
-}), predom(MyClass, {
-    x: 5,
-    y: 6
-}));
-export default predom("h", null);
-import { dom } from "./renderer";
-import prerendered, { MySFC, MyClass, tree } from "./component";
+// @filename: component.tsx
+//!
+//!  x Spread children are not supported in React.
+//!   ,----
+//! 5 | export const MySFC = (props: {x: number, y: number, children?: predom.JSX.Element[]}) => <p>{props.x} + {props.y} = {props.x + props.y}{...this.props.children}</p>;
+//!   :                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+//!   `----
+//!
+//!  x Spread children are not supported in React.
+//!    ,----
+//! 13 | {...this.props.children}
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^
+//!    `----
+// @filename: index.tsx
+//!
+//!  x Spread children are not supported in React.
+//!    ,----
+//! 14 | return <p>{this.props.x} + {this.props.y} = {this.props.x + this.props.y}{...this.props.children}</p>;
+//!    :                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^
+//!    `----
