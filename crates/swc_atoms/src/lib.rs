@@ -55,7 +55,7 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
-pub struct Atom(Arc<str>);
+pub struct Atom(#[cfg_attr(feature = "rkyv", with(crate::EncodeAtom))] Arc<str>);
 
 impl Atom {
     /// Creates a bad [Atom] from a string.
@@ -228,5 +228,55 @@ fn _assert() {
 impl PartialEq<Atom> for str {
     fn eq(&self, other: &Atom) -> bool {
         *self == **other
+    }
+}
+
+/// NOT A PUBLIC API. JUST BUGFIX.
+#[cfg(feature = "rkyv")]
+#[derive(Debug, Clone, Copy)]
+struct EncodeAtom;
+
+#[cfg(feature = "rkyv")]
+impl rkyv::with::ArchiveWith<Arc<str>> for EncodeAtom {
+    type Archived = rkyv::Archived<String>;
+    type Resolver = rkyv::Resolver<String>;
+
+    unsafe fn resolve_with(
+        field: &Arc<str>,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        use rkyv::Archive;
+
+        let s = field.to_string();
+        s.resolve(pos, resolver, out);
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<S> rkyv::with::SerializeWith<Arc<str>, S> for EncodeAtom
+where
+    S: ?Sized + rkyv::ser::Serializer,
+{
+    fn serialize_with(field: &Arc<str>, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Arc<str>, D> for EncodeAtom
+where
+    D: ?Sized + rkyv::Fallible,
+{
+    fn deserialize_with(
+        field: &rkyv::Archived<String>,
+        deserializer: &mut D,
+    ) -> Result<Arc<str>, D::Error> {
+        use rkyv::Deserialize;
+
+        let s: String = field.deserialize(deserializer)?;
+
+        Ok(s.into())
     }
 }
