@@ -5,10 +5,11 @@ use swc_common::{util::take::Take, FileName, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::feature::FeatureFlag;
 use swc_ecma_utils::{
-    find_pat_ids, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
+    contains_top_level_await, find_pat_ids, private_ident, quote_ident, quote_str, undefined,
+    ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use crate::{
@@ -39,6 +40,8 @@ struct SystemJs {
 
     export: Ident,
     context: Ident,
+    is_async: bool,
+    is_global_this: bool,
 
     link: Link,
     /// diffreent from [crate::module_decl_strip::Export]
@@ -68,6 +71,8 @@ pub fn system_js(
 
         export: private_ident!("_export"),
         context: private_ident!("_context"),
+        is_async: false,
+        is_global_this: true,
 
         link: Default::default(),
         export_map: Default::default(),
@@ -98,6 +103,8 @@ pub fn system_js_with_resolver(
 
         export: private_ident!("_export"),
         context: private_ident!("_context"),
+        is_async: false,
+        is_global_this: true,
 
         link: Default::default(),
         export_map: Default::default(),
@@ -117,8 +124,9 @@ impl VisitMut for SystemJs {
         let mut hoist = vec![];
         let mut execute = vec![];
 
-        for stmt in n.drain(..) {
+        for mut stmt in n.drain(..) {
             let stmt_span = stmt.span();
+            stmt.visit_mut_children_with(self);
 
             match stmt {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
@@ -172,7 +180,7 @@ impl VisitMut for SystemJs {
         };
 
         let execute: Prop = {
-            let execute = self.fn_expr(Default::default(), execute);
+            let execute = self.fn_expr(self.is_async, Default::default(), execute);
 
             KeyValueProp {
                 key: quote_ident!("execute").into(),
@@ -181,17 +189,16 @@ impl VisitMut for SystemJs {
             .into()
         };
 
-        let return_stmt = ReturnStmt {
+        let return_stmt = Expr::Object(ObjectLit {
             span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Object(ObjectLit {
-                span: DUMMY_SP,
-                props: vec![setters.into(), execute.into()],
-            }))),
-        };
+            props: vec![setters.into(), execute.into()],
+        })
+        .into_return_stmt();
 
         before_body.push(return_stmt.into());
 
         let fn_expr = self.fn_expr(
+            false,
             vec![self.export.clone().into(), self.context.clone().into()],
             before_body,
         );
@@ -213,10 +220,74 @@ impl VisitMut for SystemJs {
             .into_stmt()
             .into()]
     }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::This(ThisExpr { span }) => {
+                if !self.config.allow_top_level_this && self.is_global_this {
+                    *n = *undefined(*span);
+                }
+            }
+            Expr::MetaProp(MetaPropExpr {
+                span,
+                kind: MetaPropKind::ImportMeta,
+            }) => {
+                *n = Expr::Member(MemberExpr {
+                    obj: Box::new(self.context.clone().into()),
+                    span: *span,
+                    prop: MemberProp::Ident(quote_ident!("meta")),
+                });
+            }
+
+            _ => n.visit_mut_children_with(self),
+        };
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        self.visit_mut_with_non_global_this(n);
+    }
+
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        self.visit_mut_with_non_global_this(n);
+    }
+
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        n.key.visit_mut_with(self);
+
+        self.visit_mut_with_non_global_this(&mut n.value);
+    }
+
+    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        n.key.visit_mut_with(self);
+
+        self.visit_mut_with_non_global_this(&mut n.value);
+    }
+
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        n.key.visit_mut_with(self);
+
+        self.visit_mut_with_non_global_this(&mut n.body);
+    }
+
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.key.visit_mut_with(self);
+
+        self.visit_mut_with_non_global_this(&mut n.body);
+    }
+
+    fn visit_mut_static_block(&mut self, n: &mut StaticBlock) {
+        self.visit_mut_with_non_global_this(n);
+    }
 }
 
 impl Visit for SystemJs {
     noop_visit_type!();
+
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        self.is_async = n.iter().any(contains_top_level_await);
+
+        n.visit_children_with(self);
+    }
 
     fn visit_module_item(&mut self, n: &ModuleItem) {
         if n.is_module_decl() {
@@ -320,7 +391,7 @@ impl SystemJs {
         )
     }
 
-    fn fn_expr(&self, params: Vec<Pat>, stmts: Vec<Stmt>) -> Expr {
+    fn fn_expr(&self, is_async: bool, params: Vec<Pat>, stmts: Vec<Stmt>) -> Expr {
         if self.support_arrow {
             ArrowExpr {
                 span: DUMMY_SP,
@@ -330,7 +401,7 @@ impl SystemJs {
                     stmts,
                 }
                 .into(),
-                is_async: false,
+                is_async,
                 is_generator: false,
                 type_params: None,
                 return_type: None,
@@ -349,7 +420,7 @@ impl SystemJs {
                             stmts,
                         }),
                         is_generator: false,
-                        is_async: false,
+                        is_async,
                         type_params: None,
                         return_type: None,
                     },
@@ -526,5 +597,16 @@ impl SystemJs {
                             .as_arg()],
             )),
         }
+    }
+
+    fn visit_mut_with_non_global_this<T>(&mut self, n: &mut T)
+    where
+        T: VisitMutWith<Self>,
+    {
+        let top_level = self.is_global_this;
+
+        self.is_global_this = false;
+        n.visit_mut_children_with(self);
+        self.is_global_this = top_level;
     }
 }
