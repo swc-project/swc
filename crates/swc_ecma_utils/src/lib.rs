@@ -2481,7 +2481,13 @@ pub struct TopLevelAwait {
 impl Visit for TopLevelAwait {
     noop_visit_type!();
 
-    fn visit_stmts(&mut self, _: &[Stmt]) {}
+    fn visit_module_decl(&mut self, _: &ModuleDecl) {}
+
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if !self.found {
+            n.visit_children_with(self);
+        }
+    }
 
     fn visit_param(&mut self, _: &Param) {}
 
@@ -2501,6 +2507,37 @@ impl Visit for TopLevelAwait {
             }) => computed.visit_children_with(self),
             _ => (),
         };
+    }
+
+    fn visit_prop(&mut self, prop: &Prop) {
+        match prop {
+            Prop::KeyValue(KeyValueProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | Prop::Getter(GetterProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | Prop::Setter(SetterProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | Prop::Method(MethodProp {
+                key: PropName::Computed(computed),
+                ..
+            }) => computed.visit_children_with(self),
+            _ => {}
+        }
+    }
+
+    fn visit_for_of_stmt(&mut self, for_of_stmt: &ForOfStmt) {
+        if for_of_stmt.await_token.is_some() {
+            self.found = true;
+            return;
+        }
+
+        for_of_stmt.visit_children_with(self);
     }
 
     fn visit_await_expr(&mut self, _: &AwaitExpr) {
