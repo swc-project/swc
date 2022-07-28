@@ -5,8 +5,8 @@ use swc_common::{util::take::Take, FileName, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::feature::FeatureFlag;
 use swc_ecma_utils::{
-    contains_top_level_await, find_pat_ids, private_ident, quote_ident, quote_str, undefined,
-    ExprFactory, IsDirective,
+    contains_top_level_await, find_pat_ids, private_ident, quote_ident, quote_str,
+    top_level_this::rewrite_top_level_this, undefined, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -117,6 +117,10 @@ impl VisitMut for SystemJs {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        if !self.config.allow_top_level_this {
+            rewrite_top_level_this(n, *undefined(DUMMY_SP));
+        }
+
         n.visit_with(self);
 
         let mut before_body = vec![clone_first_use_strict(n).unwrap_or_else(use_strict)];
@@ -223,11 +227,6 @@ impl VisitMut for SystemJs {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
-            Expr::This(ThisExpr { span }) => {
-                if !self.config.allow_top_level_this && self.is_global_this {
-                    *n = *undefined(*span);
-                }
-            }
             Expr::MetaProp(MetaPropExpr {
                 span,
                 kind: MetaPropKind::ImportMeta,
@@ -241,42 +240,6 @@ impl VisitMut for SystemJs {
 
             _ => n.visit_mut_children_with(self),
         };
-    }
-
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        self.visit_mut_with_non_global_this(n);
-    }
-
-    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        self.visit_mut_with_non_global_this(n);
-    }
-
-    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
-        n.key.visit_mut_with(self);
-
-        self.visit_mut_with_non_global_this(&mut n.value);
-    }
-
-    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
-        n.key.visit_mut_with(self);
-
-        self.visit_mut_with_non_global_this(&mut n.value);
-    }
-
-    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
-        n.key.visit_mut_with(self);
-
-        self.visit_mut_with_non_global_this(&mut n.body);
-    }
-
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        n.key.visit_mut_with(self);
-
-        self.visit_mut_with_non_global_this(&mut n.body);
-    }
-
-    fn visit_mut_static_block(&mut self, n: &mut StaticBlock) {
-        self.visit_mut_with_non_global_this(n);
     }
 }
 
@@ -597,16 +560,5 @@ impl SystemJs {
                             .as_arg()],
             )),
         }
-    }
-
-    fn visit_mut_with_non_global_this<T>(&mut self, n: &mut T)
-    where
-        T: VisitMutWith<Self>,
-    {
-        let top_level = self.is_global_this;
-
-        self.is_global_this = false;
-        n.visit_mut_children_with(self);
-        self.is_global_this = top_level;
     }
 }
