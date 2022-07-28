@@ -71,3 +71,20 @@
         color: red;
     }
 }
+
+@media (min-resolution: 2dppx),
+(min-resolution: 192dpi) { }
+
+@media (min-resolution: 2.5dppx) { }
+
+@media (min-resolution: 144dpi) { }
+
+@media (min-resolution: 2x) { }
+
+@media (min-resolution: 120dpi) { }
+
+@media (min-resolution: 2dppx) { }
+
+@media only screen and (min-resolution: 124.8dpi) { }
+
+@media (min-resolution: 113.38dpcm) { }
