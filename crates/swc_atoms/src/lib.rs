@@ -236,7 +236,8 @@ fn _assert() {
 
     // Size
     unsafe {
-        transmute::<[u8; 16], Atom>(Default::default());
+        transmute::<[u8; 8], Atom>(Default::default());
+        transmute::<[u8; 8], Option<Atom>>(Default::default());
     }
 }
 
