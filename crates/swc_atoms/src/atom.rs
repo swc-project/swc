@@ -8,22 +8,14 @@ const LEN_OFFSET: u64 = 4;
 const LEN_MASK: u64 = 0xf0;
 
 const MAX_INLINE_LEN: usize = 7;
-const STATIC_SHIFT_BITS: usize = 32;
+const STATIC_SHIFT_BITS: usize = 4;
 
 pub(super) struct Atom {
     unsafe_data: NonZeroU64,
 }
 
 impl Atom {
-    pub fn from_static(s: &'static str) -> Self {
-        let len = s.len();
-        let mut data = 0;
-        data |= STATIC_TAG;
-        data |= (len as u64) << LEN_OFFSET;
-        data |= s.as_ptr() as u64;
-
-        Self {
-            unsafe_data: NonZeroU64::new_unchecked(data),
-        }
+    fn tag(&self) -> u8 {
+        (self.unsafe_data.get() & TAG_MASK) as u8
     }
 }

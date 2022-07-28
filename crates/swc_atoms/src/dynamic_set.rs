@@ -22,7 +22,7 @@ impl Default for DynSet {
 }
 
 impl DynSet {
-    pub(super) fn intern(&mut self, s: &str) -> Arc<str> {}
+    // pub(super) fn intern(&mut self, s: &str) -> Arc<str> {}
 }
 
 struct Entry {
