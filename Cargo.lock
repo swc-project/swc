@@ -2858,7 +2858,8 @@ checksum = "213701ba3370744dcd1a12960caa4843b3d68b4d1c0a5d575e0d65b2ee9d16c0"
 [[package]]
 name = "string_cache"
 version = "0.8.4"
-source = "git+https://github.com/swc-project/string-cache#d317968441e57cbd6f5ab61a7975956a1edc772e"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "213494b7a2b503146286049378ce02b482200519accc31872ee8be91fa820a08"
 dependencies = [
  "new_debug_unreachable",
  "once_cell",
@@ -2871,7 +2872,8 @@ dependencies = [
 [[package]]
 name = "string_cache_codegen"
 version = "0.5.2"
-source = "git+https://github.com/swc-project/string-cache#d317968441e57cbd6f5ab61a7975956a1edc772e"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6bb30289b722be4ff74a408c3cc27edeaad656e06cb1fe8fa9231fa59c728988"
 dependencies = [
  "phf_generator",
  "phf_shared",

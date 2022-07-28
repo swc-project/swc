@@ -18,6 +18,7 @@ use std::{
     borrow::{Borrow, Cow},
     fmt::{self, Display, Formatter},
     hash::Hash,
+    intrinsics::transmute,
     ops::Deref,
     rc::Rc,
     sync::Arc,
@@ -217,12 +218,15 @@ macro_rules! atom {
     }};
 }
 
-#[test]
 fn _assert() {
     let mut g = AtomGenerator::default();
 
     g.intern("str");
     g.intern(String::new());
+
+    unsafe {
+        transmute::<[u8; 16], Atom>(Default::default());
+    }
 }
 
 impl PartialEq<Atom> for str {
