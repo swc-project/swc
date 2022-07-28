@@ -6,7 +6,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, undefined, ExprFactory, FunctionFactory, IsDirective,
+    member_expr, private_ident, quote_ident, top_level_this::rewrite_top_level_this, undefined,
+    ExprFactory, FunctionFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -91,6 +92,10 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        if !self.config.allow_top_level_this {
+            rewrite_top_level_this(n, *undefined(DUMMY_SP));
+        }
+
         let import_interop = self.config.import_interop();
 
         let mut module_map = Default::default();
@@ -175,8 +180,6 @@ where
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map: module_map,
             lazy_record,
-            allow_top_level_this: self.config.allow_top_level_this,
-            is_global_this: true,
         });
 
         *n = stmts;

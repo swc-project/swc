@@ -47,6 +47,7 @@ mod factory;
 pub mod function;
 pub mod ident;
 pub mod parallel;
+pub mod top_level_this;
 mod value;
 pub mod var;
 
