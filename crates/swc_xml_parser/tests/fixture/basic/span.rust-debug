@@ -52,8 +52,8 @@
  15 | |           </g>
  16 | |           <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
  17 | |           <text>Text</text>
- 18 | `->     </g>
- 19 |     </svg>
+ 18 | |       </g>
+ 19 | `-> </svg>
     `----
 
   x Element
@@ -74,8 +74,8 @@
  15 | |           </g>
  16 | |           <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
  17 | |           <text>Text</text>
- 18 | `->     </g>
- 19 |     </svg>
+ 18 | |       </g>
+ 19 | `-> </svg>
     `----
 
   x Attribute
@@ -447,13 +447,13 @@
   x Child
     ,-[$DIR/tests/fixture/basic/input.xml:17:9]
  17 | <text>Text</text>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/basic/input.xml:17:9]
  17 | <text>Text</text>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Child

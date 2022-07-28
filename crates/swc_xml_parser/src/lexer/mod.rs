@@ -47,7 +47,6 @@ pub enum State {
     TagAttributeValueUnquoted,
     CharacterReferenceInAttributeValue,
     BogusComment,
-    TokenizingCharacterReference,
     Doctype,
     BeforeDoctypeName,
     DoctypeName,
@@ -287,6 +286,12 @@ where
 
         self.last_token_pos = cur_pos;
         self.pending_tokens.push_back(TokenAndSpan { span, token });
+    }
+
+    fn consume_character_reference(&mut self) -> Option<char> {
+        // TODO fix me
+
+        None
     }
 
     fn create_doctype_token(&mut self, name_c: Option<char>) {
@@ -830,10 +835,15 @@ where
                 }
             }
             State::CharacterReferenceInData => {
+                // Switch to the data state.
+                // Attempt to consume a character reference.
+                //
+                // If nothing is returned emit a U+0026 AMPERSAND character (&) token.
+                //
+                // Otherwise, emit character tokens that were returned.
                 self.state = State::Data;
 
-                // TODO
-                let character_reference = Some('c');
+                let character_reference = self.consume_character_reference();
 
                 if let Some(c) = character_reference {
                     self.emit_character_token((c, c));
@@ -1977,8 +1987,16 @@ where
                 }
             }
             State::CharacterReferenceInAttributeValue => {
-                // TODO
-                let character_reference = Some('c');
+                // Attempt to consume a character reference.
+                //
+                // If nothing is returned, append a U+0026 AMPERSAND (&) character to current
+                // attribute’s value.
+                //
+                // Otherwise append returned character tokens to current attribute’s value.
+                //
+                // Finally, switch back to attribute value state that switched to this state.
+
+                let character_reference = self.consume_character_reference();
 
                 if let Some(c) = character_reference {
                     self.append_to_attribute(None, Some((false, Some(c), Some(c))));
@@ -2017,9 +2035,6 @@ where
                         self.handle_raw_and_append_to_comment_token(c);
                     }
                 }
-            }
-            State::TokenizingCharacterReference => {
-                // TODO
             }
             State::Doctype => {
                 // Consume the next input character:

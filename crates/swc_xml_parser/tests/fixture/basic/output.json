@@ -20,7 +20,7 @@
       "type": "Element",
       "span": {
         "start": 40,
-        "end": 777,
+        "end": 783,
         "ctxt": 0
       },
       "tagName": "svg",
@@ -89,7 +89,7 @@
           "type": "Element",
           "span": {
             "start": 124,
-            "end": 772,
+            "end": 776,
             "ctxt": 0
           },
           "tagName": "g",
@@ -138,7 +138,7 @@
               "type": "Element",
               "span": {
                 "start": 171,
-                "end": 367,
+                "end": 371,
                 "ctxt": 0
               },
               "tagName": "g",
@@ -335,7 +335,7 @@
               "type": "Element",
               "span": {
                 "start": 380,
-                "end": 659,
+                "end": 663,
                 "ctxt": 0
               },
               "tagName": "g",
@@ -646,7 +646,7 @@
               "type": "Element",
               "span": {
                 "start": 750,
-                "end": 760,
+                "end": 767,
                 "ctxt": 0
               },
               "tagName": "text",

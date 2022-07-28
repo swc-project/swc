@@ -1,0 +1,88 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <h a='&noti;'/>
+ 3 | |       <h a='&lang='/>
+ 4 | `-> </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <h a='&noti;'/>
+ 3 | |       <h a='&lang='/>
+ 4 | `-> </root>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <h a='&noti;'/>
+ 3 | |       <h a='&lang='/>
+ 4 | `-> </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <h a='&noti;'/>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <h a='&noti;'/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:2:5]
+ 2 | <h a='&noti;'/>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/entity/input.xml:2:5]
+ 2 | <h a='&noti;'/>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:2:5]
+ 2 | ,-> <h a='&noti;'/>
+ 3 | `->     <h a='&lang='/>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/entity/input.xml:2:5]
+ 2 | ,-> <h a='&noti;'/>
+ 3 | `->     <h a='&lang='/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:3:5]
+ 3 | <h a='&lang='/>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/entity/input.xml:3:5]
+ 3 | <h a='&lang='/>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:3:5]
+ 3 | <h a='&lang='/>
+   :                ^
+ 4 | </root>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/entity/input.xml:3:5]
+ 3 | <h a='&lang='/>
+   :                ^
+ 4 | </root>
+   `----
