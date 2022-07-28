@@ -2566,4 +2566,19 @@ mod test {
         );
         p.parse_module().unwrap()
     }
+
+    fn has_top_level_await(text: &str) -> bool {
+        let module = parse_module(text);
+        contains_top_level_await(&module)
+    }
+
+    #[test]
+    fn top_level_await_block() {
+        assert!(has_top_level_await("if (maybe) { await test; }"))
+    }
+
+    #[test]
+    fn top_level_await_for_of() {
+        assert!(has_top_level_await("for await (let iter of []){}"))
+    }
 }
