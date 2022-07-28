@@ -2481,8 +2481,6 @@ pub struct TopLevelAwait {
 impl Visit for TopLevelAwait {
     noop_visit_type!();
 
-    fn visit_module_decl(&mut self, _: &ModuleDecl) {}
-
     fn visit_stmt(&mut self, n: &Stmt) {
         if !self.found {
             n.visit_children_with(self);
