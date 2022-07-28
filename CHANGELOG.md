@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Build
+
+
+
+- **(node)** Include fallback binding as a dependency (#5322) ([0782d25](https://github.com/swc-project/swc/commit/0782d250746eae97426ce7db9a24308efddcccf0))
+
+## [1.2.220] - 2022-07-28
+
 ### Bug Fixes
 
 
