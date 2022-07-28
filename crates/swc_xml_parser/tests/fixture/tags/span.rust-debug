@@ -1,0 +1,73 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/tags/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |   <z></z></><a/>
+ 3 | `-> </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tags/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `-> <z></z></><a/>
+ 3 |     </root>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tags/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `-> <z></z></><a/>
+ 3 |     </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tags/input.xml:1:1]
+ 1 | <root>
+   :       ^
+ 2 | <z></z></><a/>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tags/input.xml:1:1]
+ 1 | <root>
+   :       ^
+ 2 | <z></z></><a/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tags/input.xml:2:1]
+ 2 | <z></z></><a/>
+   : ^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tags/input.xml:2:1]
+ 2 | <z></z></><a/>
+   : ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tags/input.xml:2:1]
+ 2 | <z></z></><a/>
+   :        ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tags/input.xml:2:1]
+ 2 | <z></z></><a/>
+   :        ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tags/input.xml:2:1]
+ 2 | <z></z></><a/>
+   :               ^
+ 3 | </root>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tags/input.xml:2:1]
+ 2 | <z></z></><a/>
+   :               ^
+ 3 | </root>
+   `----

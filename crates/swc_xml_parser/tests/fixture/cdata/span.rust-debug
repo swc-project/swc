@@ -1,0 +1,334 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/cdata/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |       <description>An example of escaped CENDs</description>
+  3 | |       <!-- This text contains a CEND ]]> -->
+  4 | |       <!-- In this first case we put the ]] at the end of the first CDATA block
+  5 | |            and the > in the second CDATA block -->
+  6 | |       <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+  7 | |       <!-- In this second case we put a ] at the end of the first CDATA block
+  8 | |            and the ]> in the second CDATA block -->
+  9 | |       <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+ 10 | |       <exampleOfACDATA>
+ 11 | |       <![CDATA[
+ 12 | |       Since this is a CDATA section
+ 13 | |       I can use all sorts of reserved characters
+ 14 | |       like > < " and &
+ 15 | |       or write things like
+ 16 | |       <foo></bar>
+ 17 | |       but my document is still well formed!
+ 18 | |       ]]>
+ 19 | |       </exampleOfACDATA>
+ 20 | `-> </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |       <description>An example of escaped CENDs</description>
+  3 | |       <!-- This text contains a CEND ]]> -->
+  4 | |       <!-- In this first case we put the ]] at the end of the first CDATA block
+  5 | |            and the > in the second CDATA block -->
+  6 | |       <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+  7 | |       <!-- In this second case we put a ] at the end of the first CDATA block
+  8 | |            and the ]> in the second CDATA block -->
+  9 | |       <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+ 10 | |       <exampleOfACDATA>
+ 11 | |       <![CDATA[
+ 12 | |       Since this is a CDATA section
+ 13 | |       I can use all sorts of reserved characters
+ 14 | |       like > < " and &
+ 15 | |       or write things like
+ 16 | |       <foo></bar>
+ 17 | |       but my document is still well formed!
+ 18 | |       ]]>
+ 19 | `->     </exampleOfACDATA>
+ 20 |     </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/cdata/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |       <description>An example of escaped CENDs</description>
+  3 | |       <!-- This text contains a CEND ]]> -->
+  4 | |       <!-- In this first case we put the ]] at the end of the first CDATA block
+  5 | |            and the > in the second CDATA block -->
+  6 | |       <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+  7 | |       <!-- In this second case we put a ] at the end of the first CDATA block
+  8 | |            and the ]> in the second CDATA block -->
+  9 | |       <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+ 10 | |       <exampleOfACDATA>
+ 11 | |       <![CDATA[
+ 12 | |       Since this is a CDATA section
+ 13 | |       I can use all sorts of reserved characters
+ 14 | |       like > < " and &
+ 15 | |       or write things like
+ 16 | |       <foo></bar>
+ 17 | |       but my document is still well formed!
+ 18 | |       ]]>
+ 19 | `->     </exampleOfACDATA>
+ 20 |     </root>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <description>An example of escaped CENDs</description>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <description>An example of escaped CENDs</description>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
+ 2 | <description>An example of escaped CENDs</description>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
+ 2 | <description>An example of escaped CENDs</description>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
+ 2 | <description>An example of escaped CENDs</description>
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
+ 2 | <description>An example of escaped CENDs</description>
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
+ 2 | ,-> <description>An example of escaped CENDs</description>
+ 3 | `->     <!-- This text contains a CEND ]]> -->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
+ 2 | ,-> <description>An example of escaped CENDs</description>
+ 3 | `->     <!-- This text contains a CEND ]]> -->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:3:5]
+ 3 | <!-- This text contains a CEND ]]> -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/cdata/input.xml:3:5]
+ 3 | <!-- This text contains a CEND ]]> -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:3:5]
+ 3 | ,-> <!-- This text contains a CEND ]]> -->
+ 4 | `->     <!-- In this first case we put the ]] at the end of the first CDATA block
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:3:5]
+ 3 | ,-> <!-- This text contains a CEND ]]> -->
+ 4 | `->     <!-- In this first case we put the ]] at the end of the first CDATA block
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:4:5]
+ 4 | ,-> <!-- In this first case we put the ]] at the end of the first CDATA block
+ 5 | `->          and the > in the second CDATA block -->
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/cdata/input.xml:4:5]
+ 4 | ,-> <!-- In this first case we put the ]] at the end of the first CDATA block
+ 5 | `->          and the > in the second CDATA block -->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:5:10]
+ 5 | ,-> and the > in the second CDATA block -->
+ 6 | `->     <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:5:10]
+ 5 | ,-> and the > in the second CDATA block -->
+ 6 | `->     <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:6:5]
+ 6 | <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/cdata/input.xml:6:5]
+ 6 | <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:6:5]
+ 6 | <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:6:5]
+ 6 | <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:6:5]
+ 6 | ,-> <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+ 7 | `->     <!-- In this second case we put a ] at the end of the first CDATA block
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:6:5]
+ 6 | ,-> <data><![CDATA[This text contains a CEND ]]]]><![CDATA[>]]></data>
+ 7 | `->     <!-- In this second case we put a ] at the end of the first CDATA block
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:7:5]
+ 7 | ,-> <!-- In this second case we put a ] at the end of the first CDATA block
+ 8 | `->          and the ]> in the second CDATA block -->
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/cdata/input.xml:7:5]
+ 7 | ,-> <!-- In this second case we put a ] at the end of the first CDATA block
+ 8 | `->          and the ]> in the second CDATA block -->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:8:10]
+ 8 | ,-> and the ]> in the second CDATA block -->
+ 9 | `->     <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:8:10]
+ 8 | ,-> and the ]> in the second CDATA block -->
+ 9 | `->     <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:9:5]
+ 9 | <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/cdata/input.xml:9:5]
+ 9 | <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/cdata/input.xml:9:5]
+ 9 | <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/cdata/input.xml:9:5]
+ 9 | <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata/input.xml:9:5]
+  9 | ,-> <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+ 10 | `->     <exampleOfACDATA>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/cdata/input.xml:9:5]
+  9 | ,-> <alternative><![CDATA[This text contains a CEND ]]]><![CDATA[]>]]></alternative>
+ 10 | `->     <exampleOfACDATA>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata/input.xml:10:5]
+ 10 | ,-> <exampleOfACDATA>
+ 11 | |       <![CDATA[
+ 12 | |       Since this is a CDATA section
+ 13 | |       I can use all sorts of reserved characters
+ 14 | |       like > < " and &
+ 15 | |       or write things like
+ 16 | |       <foo></bar>
+ 17 | |       but my document is still well formed!
+ 18 | |       ]]>
+ 19 | `->     </exampleOfACDATA>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/cdata/input.xml:10:5]
+ 10 | ,-> <exampleOfACDATA>
+ 11 | |       <![CDATA[
+ 12 | |       Since this is a CDATA section
+ 13 | |       I can use all sorts of reserved characters
+ 14 | |       like > < " and &
+ 15 | |       or write things like
+ 16 | |       <foo></bar>
+ 17 | |       but my document is still well formed!
+ 18 | |       ]]>
+ 19 | `->     </exampleOfACDATA>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata/input.xml:10:5]
+ 10 | ,-> <exampleOfACDATA>
+ 11 | |       <![CDATA[
+ 12 | |       Since this is a CDATA section
+ 13 | |       I can use all sorts of reserved characters
+ 14 | |       like > < " and &
+ 15 | |       or write things like
+ 16 | |       <foo></bar>
+ 17 | |       but my document is still well formed!
+ 18 | |       ]]>
+ 19 | `->     </exampleOfACDATA>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/cdata/input.xml:10:5]
+ 10 | ,-> <exampleOfACDATA>
+ 11 | |       <![CDATA[
+ 12 | |       Since this is a CDATA section
+ 13 | |       I can use all sorts of reserved characters
+ 14 | |       like > < " and &
+ 15 | |       or write things like
+ 16 | |       <foo></bar>
+ 17 | |       but my document is still well formed!
+ 18 | |       ]]>
+ 19 | `->     </exampleOfACDATA>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata/input.xml:19:5]
+ 19 | </exampleOfACDATA>
+    :                   ^
+ 20 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/cdata/input.xml:19:5]
+ 19 | </exampleOfACDATA>
+    :                   ^
+ 20 | </root>
+    `----

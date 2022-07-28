@@ -1,0 +1,220 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 778,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 1,
+        "end": 771,
+        "ctxt": 0
+      },
+      "tagName": "root",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 7,
+            "end": 12,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 12,
+            "end": 52,
+            "ctxt": 0
+          },
+          "tagName": "description",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 25,
+                "end": 52,
+                "ctxt": 0
+              },
+              "data": "An example of escaped CENDs",
+              "raw": "An example of escaped CENDs"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 66,
+            "end": 71,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 71,
+            "end": 109,
+            "ctxt": 0
+          },
+          "data": " This text contains a CEND ]]> ",
+          "raw": "<!-- This text contains a CEND ]]> -->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 109,
+            "end": 114,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 114,
+            "end": 236,
+            "ctxt": 0
+          },
+          "data": " In this first case we put the ]] at the end of the first CDATA block\n         and the > in the second CDATA block ",
+          "raw": "<!-- In this first case we put the ]] at the end of the first CDATA block\n         and the > in the second CDATA block -->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 236,
+            "end": 241,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 241,
+            "end": 297,
+            "ctxt": 0
+          },
+          "tagName": "data",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 247,
+                "end": 297,
+                "ctxt": 0
+              },
+              "data": "This text contains a CEND ]]>",
+              "raw": "This text contains a CEND ]]>"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 307,
+            "end": 312,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 312,
+            "end": 433,
+            "ctxt": 0
+          },
+          "data": " In this second case we put a ] at the end of the first CDATA block\n         and the ]> in the second CDATA block ",
+          "raw": "<!-- In this second case we put a ] at the end of the first CDATA block\n         and the ]> in the second CDATA block -->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 433,
+            "end": 438,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 438,
+            "end": 501,
+            "ctxt": 0
+          },
+          "tagName": "alternative",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 451,
+                "end": 501,
+                "ctxt": 0
+              },
+              "data": "This text contains a CEND ]]]>",
+              "raw": "This text contains a CEND ]]]>"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 518,
+            "end": 523,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 523,
+            "end": 752,
+            "ctxt": 0
+          },
+          "tagName": "exampleOfACDATA",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 540,
+                "end": 752,
+                "ctxt": 0
+              },
+              "data": "\n    \n    Since this is a CDATA section\n    I can use all sorts of reserved characters\n    like > < \" and &\n    or write things like\n    <foo></bar>\n    but my document is still well formed!\n    \n    ",
+              "raw": "\n    \n    Since this is a CDATA section\n    I can use all sorts of reserved characters\n    like > < \" and &\n    or write things like\n    <foo></bar>\n    but my document is still well formed!\n    \n    "
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 770,
+            "end": 771,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        }
+      ]
+    }
+  ]
+}

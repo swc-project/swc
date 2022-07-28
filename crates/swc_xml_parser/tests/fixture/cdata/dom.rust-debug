@@ -1,0 +1,39 @@
+| <root>
+|   "
+    "
+|   <description>
+|     "An example of escaped CENDs"
+|   "
+    "
+|   <!--  This text contains a CEND ]]>  -->
+|   "
+    "
+|   <!--  In this first case we put the ]] at the end of the first CDATA block
+         and the > in the second CDATA block  -->
+|   "
+    "
+|   <data>
+|     "This text contains a CEND ]]>"
+|   "
+    "
+|   <!--  In this second case we put a ] at the end of the first CDATA block
+         and the ]> in the second CDATA block  -->
+|   "
+    "
+|   <alternative>
+|     "This text contains a CEND ]]]>"
+|   "
+    "
+|   <exampleOfACDATA>
+|     "
+    
+    Since this is a CDATA section
+    I can use all sorts of reserved characters
+    like > < " and &
+    or write things like
+    <foo></bar>
+    but my document is still well formed!
+    
+    "
+|   "
+"
