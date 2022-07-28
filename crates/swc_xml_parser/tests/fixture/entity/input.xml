@@ -1,4 +1,6 @@
 <root>
     <h a='&noti;'/>
     <h a='&lang='/>
+    <test test="&#1234;"></test>
+    <test test="&#x112;"></test>
 </root>

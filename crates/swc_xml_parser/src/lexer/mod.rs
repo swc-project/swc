@@ -327,12 +327,105 @@ where
                 self.input.reset_to(cur_pos);
             }
             Some('#') => {
-                // TODO
-                self.cur_pos = cur_pos;
-                self.input.reset_to(cur_pos);
+                let mut base = 10;
+                let mut characters = vec![];
+                let mut has_semicolon = false;
+
+                match self.consume_next_char() {
+                    Some('x' | 'X') => {
+                        base = 16;
+
+                        while let Some(c) = &self.consume_next_char() {
+                            if !c.is_ascii_hexdigit() {
+                                if *c == ';' {
+                                    has_semicolon = true;
+                                }
+
+                                break;
+                            }
+
+                            if c.is_ascii_digit() {
+                                characters.push(*c as u32 - 0x30);
+                            } else if is_upper_hex_digit(*c) {
+                                characters.push(*c as u32 - 0x37);
+                            } else if is_lower_hex_digit(*c) {
+                                characters.push(*c as u32 - 0x57);
+                            }
+                        }
+                    }
+                    Some(c) if c.is_ascii_digit() => {
+                        characters.push(c as u32 - 0x30);
+
+                        while let Some(c) = &self.consume_next_char() {
+                            if !c.is_ascii_digit() {
+                                if *c == ';' {
+                                    has_semicolon = true;
+                                }
+
+                                break;
+                            }
+
+                            characters.push(*c as u32 - 0x30);
+                        }
+                    }
+                    _ => {}
+                }
+
+                if characters.is_empty() {
+                    // TODO
+                    self.cur_pos = cur_pos;
+                    self.input.reset_to(cur_pos);
+
+                    return None;
+                }
+
+                if !has_semicolon {
+                    self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
+                }
+
+                let cr = {
+                    let mut i: u32 = 0;
+                    let mut overflowed = false;
+
+                    for value in characters {
+                        if !overflowed {
+                            if let Some(result) = i.checked_mul(base as u32) {
+                                i = result;
+
+                                if let Some(result) = i.checked_add(value as u32) {
+                                    i = result;
+                                } else {
+                                    i = 0x110000;
+
+                                    overflowed = true;
+                                }
+                            } else {
+                                i = 0x110000;
+
+                                overflowed = true;
+                            }
+                        }
+                    }
+
+                    i
+                };
+
+                if is_surrogate(cr) {
+                    self.emit_error(ErrorKind::SurrogateCharacterReference);
+
+                    return Some(char::REPLACEMENT_CHARACTER);
+                }
+
+                let c = match char::from_u32(cr) {
+                    Some(c) => c,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                return Some(c);
             }
             _ => {
-                // TODO
                 self.cur_pos = cur_pos;
                 self.input.reset_to(cur_pos);
             }
@@ -2161,7 +2254,6 @@ where
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
                         self.create_doctype_token(Some(c));
-                        self.append_to_doctype_token(Some(c), None, None);
                         self.state = State::DoctypeName;
                     }
                 }
@@ -2884,6 +2976,11 @@ fn is_control(c: u32) -> bool {
     matches!(c, c @ 0x00..=0x1f | c @ 0x7f..=0x9f if !matches!(c, 0x09 | 0x0a | 0x0c | 0x0d | 0x20))
 }
 
+#[inline(always)]
+fn is_surrogate(c: u32) -> bool {
+    matches!(c, 0xd800..=0xdfff)
+}
+
 // A noncharacter is a code point that is in the range U+FDD0 to U+FDEF,
 // inclusive, or U+FFFE, U+FFFF, U+1FFFE, U+1FFFF, U+2FFFE, U+2FFFF, U+3FFFE,
 // U+3FFFF, U+4FFFE, U+4FFFF, U+5FFFE, U+5FFFF, U+6FFFE, U+6FFFF, U+7FFFE,
@@ -2936,4 +3033,14 @@ fn is_noncharacter(c: u32) -> bool {
 #[inline(always)]
 fn is_ascii_upper_alpha(c: char) -> bool {
     matches!(c, 'A'..='Z')
+}
+
+#[inline(always)]
+fn is_upper_hex_digit(c: char) -> bool {
+    matches!(c, '0'..='9' | 'A'..='F')
+}
+
+#[inline(always)]
+fn is_lower_hex_digit(c: char) -> bool {
+    matches!(c, '0'..='9' | 'a'..='f')
 }

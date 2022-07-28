@@ -1,0 +1,397 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 1545,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "ProcessingInstruction",
+      "span": {
+        "start": 1,
+        "end": 39,
+        "ctxt": 0
+      },
+      "target": "xml",
+      "data": "version=\"1.0\" encoding=\"UTF-8\""
+    },
+    {
+      "type": "Comment",
+      "span": {
+        "start": 40,
+        "end": 138,
+        "ctxt": 0
+      },
+      "data": " Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  ",
+      "raw": "<!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->"
+    },
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 139,
+        "end": 245,
+        "ctxt": 0
+      },
+      "name": "svg",
+      "publicId": "-//W3C//DTD SVG 1.0//EN",
+      "systemId": "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd",
+      "raw": "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">"
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 246,
+        "end": 1544,
+        "ctxt": 0
+      },
+      "tagName": "svg",
+      "attributes": [
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "version",
+          "rawName": "version",
+          "value": "1.0",
+          "rawValue": "\"1.0\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "id",
+          "rawName": "id",
+          "value": "Layer_1",
+          "rawValue": "\"Layer_1\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "xmlns",
+          "rawName": "xmlns",
+          "value": "http://www.w3.org/2000/svg",
+          "rawValue": "\"http://www.w3.org/2000/svg\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "xmlns:xlink",
+          "rawName": "xmlns:xlink",
+          "value": "http://www.w3.org/1999/xlink",
+          "rawValue": "\"http://www.w3.org/1999/xlink\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "x",
+          "rawName": "x",
+          "value": "0px",
+          "rawValue": "\"0px\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "y",
+          "rawName": "y",
+          "value": "0px",
+          "rawValue": "\"0px\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "width",
+          "rawName": "width",
+          "value": "64px",
+          "rawValue": "\"64px\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "height",
+          "rawName": "height",
+          "value": "64px",
+          "rawValue": "\"64px\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "viewBox",
+          "rawName": "viewBox",
+          "value": "5.5 -3.5 64 64",
+          "rawValue": "\"5.5 -3.5 64 64\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "enable-background",
+          "rawName": "enable-background",
+          "value": "new 5.5 -3.5 64 64",
+          "rawValue": "\"new 5.5 -3.5 64 64\""
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "xml:space",
+          "rawName": "xml:space",
+          "value": "preserve",
+          "rawValue": "\"preserve\""
+        }
+      ],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 484,
+            "end": 485,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 485,
+            "end": 1537,
+            "ctxt": 0
+          },
+          "tagName": "g",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 488,
+                "end": 490,
+                "ctxt": 0
+              },
+              "data": "\n\t",
+              "raw": "\n\t"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 490,
+                "end": 549,
+                "ctxt": 0
+              },
+              "tagName": "circle",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "fill",
+                  "rawName": "fill",
+                  "value": "#FFFFFF",
+                  "rawValue": "\"#FFFFFF\""
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "cx",
+                  "rawName": "cx",
+                  "value": "37.637",
+                  "rawValue": "\"37.637\""
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "cy",
+                  "rawName": "cy",
+                  "value": "28.806",
+                  "rawValue": "\"28.806\""
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "r",
+                  "rawName": "r",
+                  "value": "28.276",
+                  "rawValue": "\"28.276\""
+                }
+              ],
+              "children": []
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 549,
+                "end": 554,
+                "ctxt": 0
+              },
+              "data": "\n    ",
+              "raw": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 554,
+                "end": 1532,
+                "ctxt": 0
+              },
+              "tagName": "g",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 557,
+                    "end": 560,
+                    "ctxt": 0
+                  },
+                  "data": "\n\t\t",
+                  "raw": "\n\t\t"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 560,
+                    "end": 1526,
+                    "ctxt": 0
+                  },
+                  "tagName": "path",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "d",
+                      "rawName": "d",
+                      "value": "M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456    C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5    c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657    c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771    c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571    C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557    c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6    C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514    c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z",
+                      "rawValue": "\"M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456    C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5    c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657    c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771    c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571    C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557    c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6    C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514    c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z\""
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 1526,
+                    "end": 1528,
+                    "ctxt": 0
+                  },
+                  "data": "\n\t",
+                  "raw": "\n\t"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1532,
+                "end": 1533,
+                "ctxt": 0
+              },
+              "data": "\n",
+              "raw": "\n"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 1537,
+            "end": 1538,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        }
+      ]
+    }
+  ]
+}

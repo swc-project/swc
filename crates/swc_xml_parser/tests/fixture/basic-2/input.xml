@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<any_name attr="https://example.com/somepath">
+    <person id="101">
+        <phone>+122233344550</phone>
+        <name>Jack</name>
+        <phone>+122233344551</phone>
+        <age>33</age>
+        <emptyNode></emptyNode>
+        <booleanNode>false</booleanNode>
+        <booleanNode>true</booleanNode>
+        <selfclosing />
+        <selfclosing with="value" />
+        <married firstTime="No" attr="val 2">Yes</married>
+        <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+        <address>
+            <city>New York</city>
+            <street>Park Ave</street>
+            <buildingNo>1</buildingNo>
+            <flatNo>1</flatNo>
+        </address>
+        <address>
+            <city>Boston</city>
+            <street>Centre St</street>
+            <buildingNo>33</buildingNo>
+            <flatNo>24</flatNo>
+        </address>
+    </person>
+    <person id="102">
+        <phone>+122233344553</phone>
+        <name>Boris</name>
+        <phone>+122233344554</phone>
+        <age>34</age>
+<!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+        <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+        <ns:address>
+<!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+            <street>Kahovka</street>
+            <buildingNo>1</buildingNo>
+            <flatNo>2</flatNo>
+        </ns:address>
+        <address>
+            <city>Tula</city>
+            <street>Lenina</street>
+            <buildingNo>3</buildingNo>
+            <flatNo>78</flatNo>
+        </address>
+    </person>
+</any_name>

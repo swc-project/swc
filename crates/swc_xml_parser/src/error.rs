@@ -65,6 +65,9 @@ impl Error {
             ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier => {
                 "Missing quote before doctype system identifier".into()
             }
+            ErrorKind::MissingSemicolonAfterCharacterReference => {
+                "Missing semicolon after character reference".into()
+            }
             ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword => {
                 "Missing whitespace after doctype public keyword".into()
             }
@@ -80,6 +83,7 @@ impl Error {
             ErrorKind::NestedComment => "Nested comment".into(),
             ErrorKind::NoncharacterInInputStream => "Noncharacter in input stream".into(),
             ErrorKind::SurrogateInInputStream => "Surrogate in input stream".into(),
+            ErrorKind::SurrogateCharacterReference => "Surrogate character reference".into(),
             ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier => {
                 "Unexpected character after doctype system identifier".into()
             }
@@ -136,6 +140,7 @@ pub enum ErrorKind {
     MissingDoctypePublicIdentifier,
     MissingQuoteBeforeDoctypePublicIdentifier,
     MissingQuoteBeforeDoctypeSystemIdentifier,
+    MissingSemicolonAfterCharacterReference,
     MissingWhitespaceAfterDoctypePublicKeyword,
     MissingWhitespaceAfterDoctypeSystemKeyword,
     MissingWhitespaceBeforeDoctypeName,
@@ -143,6 +148,7 @@ pub enum ErrorKind {
     NestedComment,
     NoncharacterInInputStream,
     SurrogateInInputStream,
+    SurrogateCharacterReference,
     UnexpectedCharacterAfterDoctypeSystemIdentifier,
     UnexpectedColonBeforeAttributeName,
     UnexpectedSolidusInTag,
