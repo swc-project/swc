@@ -2618,4 +2618,10 @@ mod test {
     fn top_level_await_for_of() {
         assert!(has_top_level_await("for await (let iter of []){}"))
     }
+
+    #[test]
+    fn top_level_export_await() {
+        assert!(has_top_level_await("export const foo = await 1;"));
+        assert!(has_top_level_await("export default await 1;"));
+    }
 }
