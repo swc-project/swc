@@ -5,3 +5,20 @@
 |   <a>
 |   "
 "
+|   <!--  start tag and end tag  -->
+|   "
+"
+|   <start-tag>
+|     "Start"
+|   "
+"
+|   <!--  short tag  -->
+|   "
+"
+|   <short-tag>
+|   "
+"
+|   <!--  empty tag  -->
+|   "
+
+"

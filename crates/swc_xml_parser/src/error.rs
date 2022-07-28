@@ -36,6 +36,7 @@ impl Error {
             ErrorKind::AbruptDoctypeSystemIdentifier => "Abrupt doctype system identifier".into(),
             ErrorKind::ControlCharacterInInputStream => "Control character in input stream".into(),
             ErrorKind::EndTagWithAttributes => "End tag with attributes".into(),
+            ErrorKind::ShortTagWithAttributes => "Short tag with attributes".into(),
             ErrorKind::DuplicateAttribute => "Duplicate attribute".into(),
             ErrorKind::EndTagWithTrailingSolidus => "End tag with trailing solidus".into(),
             ErrorKind::EofBeforeTagName => "Eof before tag name".into(),
@@ -82,8 +83,8 @@ impl Error {
             ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier => {
                 "Unexpected character after doctype system identifier".into()
             }
-            ErrorKind::UnexpectedEqualsSignBeforeAttributeName => {
-                "Unexpected equals sign before attribute name".into()
+            ErrorKind::UnexpectedColonBeforeAttributeName => {
+                "Unexpected colon before attribute name".into()
             }
             ErrorKind::UnexpectedSolidusInTag => "Unexpected solidus in tag".into(),
 
@@ -116,6 +117,7 @@ pub enum ErrorKind {
     AbruptDoctypeSystemIdentifier,
     ControlCharacterInInputStream,
     EndTagWithAttributes,
+    ShortTagWithAttributes,
     DuplicateAttribute,
     EndTagWithTrailingSolidus,
     EofBeforeTagName,
@@ -142,7 +144,7 @@ pub enum ErrorKind {
     NoncharacterInInputStream,
     SurrogateInInputStream,
     UnexpectedCharacterAfterDoctypeSystemIdentifier,
-    UnexpectedEqualsSignBeforeAttributeName,
+    UnexpectedColonBeforeAttributeName,
     UnexpectedSolidusInTag,
 
     // Parser errors

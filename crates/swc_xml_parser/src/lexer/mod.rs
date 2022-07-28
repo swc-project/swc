@@ -1,4 +1,4 @@
-use std::{char::REPLACEMENT_CHARACTER, collections::VecDeque, mem::take};
+use std::{collections::VecDeque, mem::take};
 
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
@@ -65,6 +65,8 @@ pub enum State {
     AfterDoctypeSystemIdentifier,
     BogusDoctype,
 }
+
+// TODO implement `raw` for all tokens
 
 #[derive(PartialEq, Eq, Clone, Debug)]
 struct Doctype {
@@ -214,7 +216,6 @@ where
         self.input.cur()
     }
 
-    // TODO check everywhere
     // Any occurrences of surrogates are surrogate-in-input-stream parse errors. Any
     // occurrences of noncharacters are noncharacter-in-input-stream parse errors
     // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
@@ -583,8 +584,7 @@ where
                 }
                 TagKind::Short => {
                     if !current_tag_token.attributes.is_empty() {
-                        // TODO another Error
-                        self.emit_error(ErrorKind::EndTagWithAttributes);
+                        self.emit_error(ErrorKind::ShortTagWithAttributes);
                     }
 
                     let mut already_seen: AHashSet<String> = Default::default();
@@ -868,7 +868,7 @@ where
                     // EOF
                     // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character. Reconsume the
                     // current input character in the data state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
                         self.emit_character_token(('<', '<'));
                         self.reconsume_in_state(State::Data);
@@ -882,6 +882,7 @@ where
                     // Create a new tag token and set its name to the input character, then switch
                     // to the tag name state.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.create_tag_token(TagKind::Start);
                         self.append_to_tag_token_name(c);
                         self.state = State::TagName;
@@ -906,7 +907,7 @@ where
                     // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character token and a U+002F
                     // SOLIDUS (/) character token. Reconsume the current input character in the
                     // data state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
                         self.emit_character_token(('<', '<'));
                         self.emit_character_token(('/', '/'));
@@ -922,6 +923,7 @@ where
                     // Create an end tag token and set its name to the input character, then switch
                     // to the end tag name state.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.create_tag_token(TagKind::End);
                         self.append_to_tag_token_name(c);
                         self.state = State::EndTagName
@@ -935,7 +937,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the end tag name after state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.state = State::EndTagNameAfter;
                     }
                     // U+002F SOLIDUS (/)
@@ -962,6 +964,7 @@ where
                     // Append the current input character to the tag name and stay in the current
                     // state.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_tag_token_name(c);
                     }
                 }
@@ -979,7 +982,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Stay in the current state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.skip_next_lf(c);
                     }
                     // EOF
@@ -992,7 +995,8 @@ where
                     }
                     // Anything else
                     // Parse error. Stay in the current state.
-                    _ => {
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_error(ErrorKind::InvalidCharacterInTag);
                     }
                 }
@@ -1006,7 +1010,7 @@ where
                     // EOF
                     // Parse error. Reprocess the current input character in the bogus comment
                     // state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.emit_error(ErrorKind::InvalidCharacterOfProcessingInstruction);
                         self.reconsume_in_state(State::BogusComment);
                     }
@@ -1015,6 +1019,7 @@ where
                         self.reconsume_in_state(State::BogusComment);
                     }
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.create_processing_instruction_token();
                         self.set_processing_instruction_token(Some(c), None);
                         self.state = State::PiTarget;
@@ -1028,7 +1033,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Switch to the before attribute name state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.state = State::PiTargetAfter;
                     }
                     // EOF
@@ -1048,6 +1053,7 @@ where
                     // Append the current input character to the processing instruction target and
                     // stay in the current state.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.set_processing_instruction_token(Some(c), None);
                     }
                 }
@@ -1059,7 +1065,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Stay in the current state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.skip_next_lf(c);
                     }
                     // Anything else
@@ -1089,6 +1095,7 @@ where
                     // Append the current input character to the pi’s data and stay in the current
                     // state.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.set_processing_instruction_token(None, Some(c));
                     }
                 }
@@ -1560,7 +1567,7 @@ where
                     Some(c) => {
                         self.emit_character_token((']', ']'));
                         self.emit_character_token((c, c));
-                        self.state = State::Cdata;
+                        self.reconsume_in_state(State::Cdata);
                     }
                 }
             }
@@ -1604,7 +1611,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the before attribute name state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.skip_next_lf(c);
                         self.state = State::TagAttributeNameBefore;
                     }
@@ -1644,7 +1651,6 @@ where
                     // Emit the current tag token as empty tag token and then switch to the data
                     // state.
                     Some('>') => {
-                        // TODO
                         self.emit_tag_token(None);
                         self.state = State::Data;
                     }
@@ -1664,7 +1670,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+003E GREATER-THAN SIGN(>)
@@ -1682,8 +1688,7 @@ where
                     // U+003A COLON (:)
                     // Parse error. Stay in the current state.
                     Some(':') => {
-                        // TODO better error
-                        self.emit_error(ErrorKind::UnexpectedEqualsSignBeforeAttributeName);
+                        self.emit_error(ErrorKind::UnexpectedColonBeforeAttributeName);
                     }
                     // EOF
                     // Parse error. Emit the current token and then reprocess the current input
@@ -1698,10 +1703,10 @@ where
                     // the current input character and its value to the empty string and then switch
                     // to the tag attribute name state.
                     // We set `None` for `value` to support boolean attributes in AST
-                    _ => {
-                        // TODO
-                        self.start_new_attribute(None);
-                        self.reconsume_in_state(State::TagAttributeName);
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                        self.start_new_attribute(Some(c));
+                        self.state = State::TagAttributeName;
                     }
                 }
             }
@@ -1723,7 +1728,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the tag attribute name after state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.update_attribute_span();
                         self.skip_next_lf(c);
                         self.reconsume_in_state(State::TagAttributeNameAfter);
@@ -1745,6 +1750,7 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's name.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_attribute(Some((c, c)), None);
                     }
                 }
@@ -1766,7 +1772,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+003D EQUALS SIGN(=)
@@ -1798,10 +1804,10 @@ where
                     // Start a new attribute in the current tag token. Set that attribute’s name to
                     // the current input character and its value to the empty string and then switch
                     // to the tag attribute name state.
-                    _ => {
-                        self.start_new_attribute(None);
-                        // TODO set name and value to empty string
-                        self.reconsume_in_state(State::TagAttributeName);
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                        self.start_new_attribute(Some(c));
+                        self.state = State::TagAttributeName;
                     }
                 }
             }
@@ -1812,7 +1818,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+0022 QUOTATION MARK (")
@@ -1849,8 +1855,9 @@ where
                     // Anything else
                     // Append the current input character to the current attribute’s value and then
                     // switch to the tag attribute value unquoted state.
-                    _ => {
-                        // TODO
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                        self.append_to_attribute(None, Some((true, Some(c), Some(c))));
                         self.state = State::TagAttributeValueUnquoted;
                     }
                 }
@@ -1931,7 +1938,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the before attribute name state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_spacy_except_ff(c) => {
                         self.update_attribute_span();
                         self.skip_next_lf(c);
                         self.state = State::TagAttributeNameBefore;
@@ -1984,28 +1991,24 @@ where
                 }
             }
             State::BogusComment => {
-                // TODO fix me
-                // Consume the next input character:
+                // Consume every character up to the first U+003E GREATER-THAN SIGN (>) or EOF,
+                // whichever comes first. Emit a comment token whose data is the concatenation
+                // of all those consumed characters. Then consume the next input character and
+                // switch to the data state reprocessing the EOF character if that was the
+                // character consumed.
                 match self.consume_next_char() {
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current comment token.
                     Some('>') => {
-                        self.state = State::Data;
                         self.emit_comment_token(Some(">"));
+                        self.state = State::Data;
                     }
                     // EOF
                     // Emit the comment. Emit an end-of-file token.
                     None => {
                         self.emit_comment_token(None);
-                        self.emit_token(Token::Eof);
-
-                        return Ok(());
-                    }
-                    // U+0000 NULL
-                    // This is an unexpected-null-character parse error. Append a U+FFFD
-                    // REPLACEMENT CHARACTER character to the comment token's data.
-                    Some(c @ '\x00') => {
-                        self.append_to_comment_token(REPLACEMENT_CHARACTER, c);
+                        self.state = State::Data;
+                        self.reconsume();
                     }
                     // Anything else
                     // Append the current input character to the comment token's data.
@@ -2018,7 +2021,6 @@ where
             State::TokenizingCharacterReference => {
                 // TODO
             }
-            // https://html.spec.whatwg.org/multipage/parsing.html#doctype-state
             State::Doctype => {
                 // Consume the next input character:
                 match self.consume_next_char() {
@@ -2031,22 +2033,15 @@ where
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypeName;
                     }
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Reconsume in the before DOCTYPE name state.
-                    Some('>') => {
-                        self.reconsume_in_state(State::BeforeDoctypeName);
-                    }
                     // EOF
-                    // This is an eof-in-doctype parse error. Create a new DOCTYPE token. Set
-                    // its force-quirks flag to on. Emit the current token. Emit an end-of-file
-                    // token.
+                    // Parse error. Switch to data state. Create new Doctype token. Emit Doctype
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
+                        self.state = State::Data;
                         self.create_doctype_token(None);
                         self.emit_doctype_token();
-                        self.emit_token(Token::Eof);
-
-                        return Ok(());
+                        self.reconsume();
                     }
                     // Anything else
                     // This is a missing-whitespace-before-doctype-name parse error. Reconsume
@@ -2057,9 +2052,7 @@ where
                     }
                 }
             }
-            // https://html.spec.whatwg.org/multipage/parsing.html#before-doctype-name-state
             State::BeforeDoctypeName => {
-                // TODO fix me
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -2070,10 +2063,9 @@ where
                     Some(c) if is_spacy(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
-                    // ASCII upper alpha
-                    // Create a new DOCTYPE token. Set the token's name to the lowercase version
-                    // of the current input character (add 0x0020 to the character's code
-                    // point). Switch to the DOCTYPE name state.
+                    // Uppercase ASCII letter
+                    // Create a new DOCTYPE token. Set the token name to lowercase version of the
+                    // current input character. Switch to the DOCTYPE name state.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.create_doctype_token(Some(c.to_ascii_lowercase()));
@@ -2087,35 +2079,32 @@ where
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingDoctypeName);
                         self.create_doctype_token(None);
-                        self.state = State::Data;
                         self.emit_doctype_token();
+                        self.state = State::Data;
                     }
                     // EOF
-                    // This is an eof-in-doctype parse error. Create a new DOCTYPE token. Set
-                    // its force-quirks flag to on. Emit the current token. Emit an end-of-file
-                    // token.
+                    // Parse error. Switch to data state. Create new Doctype token. Emit Doctype
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
+                        self.state = State::Data;
                         self.create_doctype_token(None);
                         self.emit_doctype_token();
-                        self.emit_token(Token::Eof);
-
-                        return Ok(());
+                        self.reconsume();
                     }
                     // Anything else
-                    // Create a new DOCTYPE token. Set the token's name to the current input
-                    // character. Switch to the DOCTYPE name state.
+                    // Create new DOCTYPE token. Set the token’s name to current input character.
+                    // Switch to DOCTYPE name state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
                         self.create_doctype_token(Some(c));
+                        self.append_to_doctype_token(Some(c), None, None);
                         self.state = State::DoctypeName;
                     }
                 }
             }
-            // https://html.spec.whatwg.org/multipage/parsing.html#doctype-name-state
             State::DoctypeName => {
-                // TODO fix me
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -2127,13 +2116,6 @@ where
                         self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypeName;
                     }
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Switch to the data state. Emit the current DOCTYPE token.
-                    Some(c @ '>') => {
-                        self.append_raw_to_doctype_token(c);
-                        self.state = State::Data;
-                        self.emit_doctype_token();
-                    }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current DOCTYPE token's name.
@@ -2141,16 +2123,20 @@ where
                         self.append_raw_to_doctype_token(c);
                         self.append_to_doctype_token(Some(c.to_ascii_lowercase()), None, None);
                     }
+                    // U+003E GREATER-THAN SIGN (>)
+                    // Emit token. Switch to data state.
+                    Some('>') => {
+                        self.emit_doctype_token();
+                        self.state = State::Data;
+                    }
                     // EOF
-                    // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
-                    // force-quirks flag to on. Emit the current DOCTYPE token. Emit an
-                    // end-of-file token.
+                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
+                    // character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
+                        self.state = State::Data;
                         self.emit_doctype_token();
-                        self.emit_token(Token::Eof);
-
-                        return Ok(());
+                        self.reconsume();
                     }
                     // Anything else
                     // Append the current input character to the current DOCTYPE token's name.
@@ -2182,15 +2168,13 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
-                    // force-quirks flag to on. Emit the current DOCTYPE token. Emit an
-                    // end-of-file token.
+                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
+                    // character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
+                        self.state = State::Data;
                         self.emit_doctype_token();
-                        self.emit_token(Token::Eof);
-
-                        return Ok(());
+                        self.reconsume();
                     }
                     // Anything else
                     // If the six characters starting from the current input character are an
@@ -2251,9 +2235,10 @@ where
             State::AfterDoctypePublicKeyword => {
                 // Consume the next input character:
                 match self.consume_next_char() {
-                    // U+0009 CHARACTER TABULATION (tab)
+                    // U+0009 CHARACTER TABULATION (Tab)
                     // U+000A LINE FEED (LF)
-                    // U+0020 SPACE
+                    // U+000C FORM FEED (FF)
+                    // U+0020 SPACE (Space)
                     // Switch to the before DOCTYPE public identifier state.
                     Some(c) if is_spacy(c) => {
                         self.append_raw_to_doctype_token(c);
@@ -2301,9 +2286,8 @@ where
                         self.reconsume()
                     }
                     // Anything else
-                    // This is a missing-quote-before-doctype-public-identifier parse error. Set
-                    // the current DOCTYPE token's force-quirks flag to on. Reconsume in the
-                    // bogus DOCTYPE state.
+                    // Parse error. Switch to the bogus DOCTYPE state. Emit that DOCTYPE token.
+                    // Reconsume the EOF character.
                     _ => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypePublicIdentifier);
                         self.reconsume_in_state(State::BogusDoctype);
@@ -2366,10 +2350,9 @@ where
                         self.reconsume()
                     }
                     // Anything else
-                    // This is a missing-quote-before-doctype-system-identifier parse error. Set
-                    // the current DOCTYPE token's force-quirks flag to on. Reconsume in the
-                    // bogus DOCTYPE state.
-                    _ => {
+                    // Parse error. Switch to the bogus DOCTYPE state.
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
                         self.state = State::BogusComment
                     }
@@ -2425,7 +2408,8 @@ where
                     }
                     // Anything else
                     // Parse error. Switch to the bogus DOCTYPE state.
-                    _ => {
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
                         self.state = State::BogusDoctype;
                     }
@@ -2480,7 +2464,8 @@ where
                     }
                     // Anything else
                     // Parse error. Switch to the bogus DOCTYPE state.
-                    _ => {
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
                         self.state = State::BogusDoctype;
                     }
@@ -2612,7 +2597,8 @@ where
                     }
                     // Anything else
                     // Parse error. Switch to bogus DOCTYPE state.
-                    _ => {
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
                         self.state = State::BogusComment;
                     }
@@ -2664,7 +2650,8 @@ where
                     }
                     // Anything else
                     // Parse error. Switch to Bogus DOCTYPE state.
-                    _ => {
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
                         self.state = State::BogusDoctype;
                     }
@@ -2771,7 +2758,8 @@ where
                     }
                     // Anything else
                     // Parse error. Switch to Bogus DOCTYPE state.
-                    _ => {
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_error(ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier);
                         self.state = State::BogusDoctype;
                     }
@@ -2815,12 +2803,18 @@ where
     }
 }
 
-// TODO form feed
 // By spec '\r` removed before tokenizer, but we keep them to have better AST
 // and don't break logic to ignore characters
 #[inline(always)]
 fn is_spacy(c: char) -> bool {
-    matches!(c, '\x09' | '\x0a' | '\x0d' | '\x0c' | '\x20')
+    matches!(c, '\x09' | '\x0a' | '\x0c' | '\x0d' | '\x20')
+}
+
+// By spec '\r` removed before tokenizer, but we keep them to have better AST
+// and don't break logic to ignore characters
+#[inline(always)]
+fn is_spacy_except_ff(c: char) -> bool {
+    matches!(c, '\x09' | '\x0c' | '\x0d' | '\x20')
 }
 
 #[inline(always)]

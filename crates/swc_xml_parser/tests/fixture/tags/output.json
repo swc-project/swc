@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 30,
+    "end": 146,
     "ctxt": 0
   },
   "children": [
@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 23,
+        "end": 139,
         "ctxt": 0
       },
       "tagName": "root",
@@ -57,6 +57,119 @@
           },
           "data": "\n",
           "raw": "\n"
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 23,
+            "end": 53,
+            "ctxt": 0
+          },
+          "data": " start tag and end tag ",
+          "raw": "<!-- start tag and end tag -->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 53,
+            "end": 54,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 54,
+            "end": 70,
+            "ctxt": 0
+          },
+          "tagName": "start-tag",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 65,
+                "end": 70,
+                "ctxt": 0
+              },
+              "data": "Start",
+              "raw": "Start"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 82,
+            "end": 83,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 83,
+            "end": 101,
+            "ctxt": 0
+          },
+          "data": " short tag ",
+          "raw": "<!-- short tag -->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 101,
+            "end": 102,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 102,
+            "end": 115,
+            "ctxt": 0
+          },
+          "tagName": "short-tag",
+          "attributes": [],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 115,
+            "end": 116,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 116,
+            "end": 134,
+            "ctxt": 0
+          },
+          "data": " empty tag ",
+          "raw": "<!-- empty tag -->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 134,
+            "end": 139,
+            "ctxt": 0
+          },
+          "data": "\n\n",
+          "raw": "\n\n"
         }
       ]
     }
