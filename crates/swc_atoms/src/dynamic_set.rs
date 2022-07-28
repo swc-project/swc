@@ -4,6 +4,7 @@ use rustc_hash::FxHashSet;
 
 thread_local!(static LOCAL_SET: RefCell<Set> = Default::default());
 
+/// Thread-local interner for atoms.
 pub(super) struct Set {
     /// hashbrown has better logic for collision resolution.
     inner: FxHashSet<Entry>,
