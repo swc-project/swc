@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Testing
+
+
+
+- **(swc)** Update test cases (#5324) ([27c6f23](https://github.com/swc-project/swc/commit/27c6f2318af03aaafa4288ff96840977972fa7a7))
+
 ## [1.2.219] - 2022-07-27
 
 ### Bug Fixes
