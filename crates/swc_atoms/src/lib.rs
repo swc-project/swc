@@ -56,6 +56,14 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
 pub struct Atom(#[cfg_attr(feature = "rkyv", with(crate::EncodeAtom))] Arc<str>);
 
 impl Atom {
@@ -224,6 +232,7 @@ fn _assert() {
     g.intern("str");
     g.intern(String::new());
 
+    // Size
     unsafe {
         transmute::<[u8; 16], Atom>(Default::default());
     }
