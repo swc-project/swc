@@ -2260,6 +2260,9 @@ impl VisitMut for Minifier<'_> {
                         text_type = Some(MinifierType::Css)
                     }
                 }
+                "title" if current_element.namespace == Namespace::HTML => {
+                    n.data = self.collapse_whitespace(&n.data).trim().into();
+                }
                 _ => {}
             }
         }

@@ -1,4 +1,24 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(css/prefixer)** Avoid prefixes for media features (#5308) ([925b16a](https://github.com/swc-project/swc/commit/925b16a563227a43fc52c107a8d2ead577137aa3))
+
+### Features
+
+
+
+- **(html/minifier)** Compress title (#5320) ([6ad5b3c](https://github.com/swc-project/swc/commit/6ad5b3ce5fc1ebb1ab37d03039065af682369610))
+
+### Testing
+
+
+
+- **(swc)** Update test cases (#5324) ([27c6f23](https://github.com/swc-project/swc/commit/27c6f2318af03aaafa4288ff96840977972fa7a7))
+
 ## [1.2.219] - 2022-07-27
 
 ### Bug Fixes

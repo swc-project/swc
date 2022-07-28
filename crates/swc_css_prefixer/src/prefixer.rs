@@ -693,43 +693,48 @@ impl VisitMut for Prefixer {
     }
 
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
-        let mut new = vec![];
+        media_query_list.visit_mut_children_with(self);
 
-        for mut n in take(&mut media_query_list.queries) {
-            n.visit_mut_children_with(self);
+        let mut new = Vec::with_capacity(media_query_list.queries.len());
 
-            let mut new_webkit_value = n.clone();
+        for n in take(&mut media_query_list.queries) {
+            // TODO avoid duplicates
+            if should_prefix("-webkit-min-device-pixel-ratio", self.env, false) {
+                let mut new_webkit_value = n.clone();
 
-            replace_media_feature_resolution_on_legacy_variant(
-                &mut new_webkit_value,
-                "min-resolution",
-                "-webkit-min-device-pixel-ratio",
-            );
-            replace_media_feature_resolution_on_legacy_variant(
-                &mut new_webkit_value,
-                "max-resolution",
-                "-webkit-max-device-pixel-ratio",
-            );
+                replace_media_feature_resolution_on_legacy_variant(
+                    &mut new_webkit_value,
+                    "min-resolution",
+                    "-webkit-min-device-pixel-ratio",
+                );
+                replace_media_feature_resolution_on_legacy_variant(
+                    &mut new_webkit_value,
+                    "max-resolution",
+                    "-webkit-max-device-pixel-ratio",
+                );
 
-            if n != new_webkit_value {
-                new.push(new_webkit_value);
+                if !n.eq_ignore_span(&new_webkit_value) {
+                    new.push(new_webkit_value);
+                }
             }
 
-            let mut new_moz_value = n.clone();
+            if should_prefix("min--moz-device-pixel-ratio", self.env, false) {
+                let mut new_moz_value = n.clone();
 
-            replace_media_feature_resolution_on_legacy_variant(
-                &mut new_moz_value,
-                "min-resolution",
-                "min--moz-device-pixel-ratio",
-            );
-            replace_media_feature_resolution_on_legacy_variant(
-                &mut new_moz_value,
-                "max-resolution",
-                "max--moz-device-pixel-ratio",
-            );
+                replace_media_feature_resolution_on_legacy_variant(
+                    &mut new_moz_value,
+                    "min-resolution",
+                    "min--moz-device-pixel-ratio",
+                );
+                replace_media_feature_resolution_on_legacy_variant(
+                    &mut new_moz_value,
+                    "max-resolution",
+                    "max--moz-device-pixel-ratio",
+                );
 
-            if n != new_moz_value {
-                new.push(new_moz_value);
+                if !n.eq_ignore_span(&new_moz_value) {
+                    new.push(new_moz_value);
+                }
             }
 
             // TODO opera support
