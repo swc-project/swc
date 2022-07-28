@@ -19,7 +19,7 @@ bench = false
 debug = []
 
 [dependencies]
-swc_atoms = { version = "0.3.0", path = "../swc_atoms" }
+swc_atoms = { version = "0.3.1", path = "../swc_atoms" }
 swc_common = { version = "0.26.0", path = "../swc_common" }
 swc_html_ast = { version = "0.23.0", path = "../swc_html_ast" }
 swc_html_utils = { version = "0.11.0", path = "../swc_html_utils" }

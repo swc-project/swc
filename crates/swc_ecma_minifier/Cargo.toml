@@ -36,7 +36,7 @@ retain_mut = "0.1.2"
 rustc-hash = "1.1.0"
 serde = { version = "1.0.118", features = ["derive"] }
 serde_json = "1.0.61"
-swc_atoms = {version = "0.3.0", path = "../swc_atoms"}
+swc_atoms = {version = "0.3.1", path = "../swc_atoms"}
 swc_cached = {version = "0.2.0", path = "../swc_cached"}
 swc_common = {version = "0.26.0", path = "../swc_common"}
 swc_config = {version = "0.1.0", path = "../swc_config"}
