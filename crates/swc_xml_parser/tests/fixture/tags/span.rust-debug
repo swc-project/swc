@@ -1,42 +1,48 @@
 
   x Document
-   ,-[$DIR/tests/fixture/tags/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |   <z></z></><a/>
- 3 | |   <!-- start tag and end tag -->
- 4 | |   <start-tag>Start</start-tag>
- 5 | |   <!-- short tag -->
- 6 | |   <short-tag />
- 7 | |   <!-- empty tag -->
- 8 | |   </>
- 9 | `-> </root>
-   `----
+    ,-[$DIR/tests/fixture/tags/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |   <z></z></><a/>
+  3 | |   <!-- start tag and end tag -->
+  4 | |   <start-tag>Start</start-tag>
+  5 | |   <!-- empty tag -->
+  6 | |   <short-tag />
+  7 | |   <test></test>
+  8 | |   <!-- short tag -->
+  9 | |   </>
+ 10 | |   <test></test>
+ 11 | `-> </root>
+    `----
 
   x Child
-   ,-[$DIR/tests/fixture/tags/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |   <z></z></><a/>
- 3 | |   <!-- start tag and end tag -->
- 4 | |   <start-tag>Start</start-tag>
- 5 | |   <!-- short tag -->
- 6 | |   <short-tag />
- 7 | |   <!-- empty tag -->
- 8 | `-> </>
- 9 |     </root>
-   `----
+    ,-[$DIR/tests/fixture/tags/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |   <z></z></><a/>
+  3 | |   <!-- start tag and end tag -->
+  4 | |   <start-tag>Start</start-tag>
+  5 | |   <!-- empty tag -->
+  6 | |   <short-tag />
+  7 | |   <test></test>
+  8 | |   <!-- short tag -->
+  9 | |   </>
+ 10 | |   <test></test>
+ 11 | `-> </root>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/tags/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |   <z></z></><a/>
- 3 | |   <!-- start tag and end tag -->
- 4 | |   <start-tag>Start</start-tag>
- 5 | |   <!-- short tag -->
- 6 | |   <short-tag />
- 7 | |   <!-- empty tag -->
- 8 | `-> </>
- 9 |     </root>
-   `----
+    ,-[$DIR/tests/fixture/tags/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |   <z></z></><a/>
+  3 | |   <!-- start tag and end tag -->
+  4 | |   <start-tag>Start</start-tag>
+  5 | |   <!-- empty tag -->
+  6 | |   <short-tag />
+  7 | |   <test></test>
+  8 | |   <!-- short tag -->
+  9 | |   </>
+ 10 | |   <test></test>
+ 11 | `-> </root>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/tags/input.xml:1:1]
@@ -55,13 +61,13 @@
   x Child
    ,-[$DIR/tests/fixture/tags/input.xml:2:1]
  2 | <z></z></><a/>
-   : ^^^
+   : ^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/tags/input.xml:2:1]
  2 | <z></z></><a/>
-   : ^^^
+   : ^^^^^^^
    `----
 
   x Child
@@ -119,13 +125,13 @@
   x Child
    ,-[$DIR/tests/fixture/tags/input.xml:4:1]
  4 | <start-tag>Start</start-tag>
-   : ^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/tags/input.xml:4:1]
  4 | <start-tag>Start</start-tag>
-   : ^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -144,38 +150,38 @@
    ,-[$DIR/tests/fixture/tags/input.xml:4:1]
  4 | <start-tag>Start</start-tag>
    :                             ^
- 5 | <!-- short tag -->
+ 5 | <!-- empty tag -->
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tags/input.xml:4:1]
  4 | <start-tag>Start</start-tag>
    :                             ^
- 5 | <!-- short tag -->
+ 5 | <!-- empty tag -->
    `----
 
   x Child
    ,-[$DIR/tests/fixture/tags/input.xml:5:1]
- 5 | <!-- short tag -->
+ 5 | <!-- empty tag -->
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Comment
    ,-[$DIR/tests/fixture/tags/input.xml:5:1]
- 5 | <!-- short tag -->
+ 5 | <!-- empty tag -->
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/fixture/tags/input.xml:5:1]
- 5 | <!-- short tag -->
+ 5 | <!-- empty tag -->
    :                   ^
  6 | <short-tag />
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tags/input.xml:5:1]
- 5 | <!-- short tag -->
+ 5 | <!-- empty tag -->
    :                   ^
  6 | <short-tag />
    `----
@@ -196,38 +202,90 @@
    ,-[$DIR/tests/fixture/tags/input.xml:6:1]
  6 | <short-tag />
    :              ^
- 7 | <!-- empty tag -->
+ 7 | <test></test>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tags/input.xml:6:1]
  6 | <short-tag />
    :              ^
- 7 | <!-- empty tag -->
+ 7 | <test></test>
    `----
 
   x Child
    ,-[$DIR/tests/fixture/tags/input.xml:7:1]
- 7 | <!-- empty tag -->
-   : ^^^^^^^^^^^^^^^^^^
+ 7 | <test></test>
+   : ^^^^^^^^^^^^^
    `----
 
-  x Comment
+  x Element
    ,-[$DIR/tests/fixture/tags/input.xml:7:1]
- 7 | <!-- empty tag -->
-   : ^^^^^^^^^^^^^^^^^^
+ 7 | <test></test>
+   : ^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/fixture/tags/input.xml:7:1]
- 7 | ,-> <!-- empty tag -->
- 8 | `-> </>
- 9 |     </root>
+ 7 | <test></test>
+   :              ^
+ 8 | <!-- short tag -->
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tags/input.xml:7:1]
- 7 | ,-> <!-- empty tag -->
- 8 | `-> </>
- 9 |     </root>
+ 7 | <test></test>
+   :              ^
+ 8 | <!-- short tag -->
    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tags/input.xml:8:1]
+ 8 | <!-- short tag -->
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/tags/input.xml:8:1]
+ 8 | <!-- short tag -->
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:8:1]
+  8 | ,-> <!-- short tag -->
+  9 | `-> </>
+ 10 |     <test></test>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tags/input.xml:8:1]
+  8 | ,-> <!-- short tag -->
+  9 | `-> </>
+ 10 |     <test></test>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:10:1]
+ 10 | <test></test>
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tags/input.xml:10:1]
+ 10 | <test></test>
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:10:1]
+ 10 | <test></test>
+    :              ^
+ 11 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tags/input.xml:10:1]
+ 10 | <test></test>
+    :              ^
+ 11 | </root>
+    `----

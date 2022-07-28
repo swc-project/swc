@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 427,
+        "end": 434,
         "ctxt": 0
       },
       "tagName": "root",
@@ -30,7 +30,7 @@
           "type": "Element",
           "span": {
             "start": 12,
-            "end": 52,
+            "end": 66,
             "ctxt": 0
           },
           "tagName": "description",
@@ -102,7 +102,7 @@
           "type": "Element",
           "span": {
             "start": 241,
-            "end": 408,
+            "end": 426,
             "ctxt": 0
           },
           "tagName": "exampleOfACDATA",

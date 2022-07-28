@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 146,
+    "end": 174,
     "ctxt": 0
   },
   "children": [
@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 139,
+        "end": 174,
         "ctxt": 0
       },
       "tagName": "root",
@@ -30,7 +30,7 @@
           "type": "Element",
           "span": {
             "start": 8,
-            "end": 11,
+            "end": 15,
             "ctxt": 0
           },
           "tagName": "z",
@@ -82,7 +82,7 @@
           "type": "Element",
           "span": {
             "start": 54,
-            "end": 70,
+            "end": 82,
             "ctxt": 0
           },
           "tagName": "start-tag",
@@ -117,8 +117,8 @@
             "end": 101,
             "ctxt": 0
           },
-          "data": " short tag ",
-          "raw": "<!-- short tag -->"
+          "data": " empty tag ",
+          "raw": "<!-- empty tag -->"
         },
         {
           "type": "Text",
@@ -152,24 +152,66 @@
           "raw": "\n"
         },
         {
-          "type": "Comment",
+          "type": "Element",
           "span": {
             "start": 116,
-            "end": 134,
+            "end": 129,
             "ctxt": 0
           },
-          "data": " empty tag ",
-          "raw": "<!-- empty tag -->"
+          "tagName": "test",
+          "attributes": [],
+          "children": []
         },
         {
           "type": "Text",
           "span": {
-            "start": 134,
-            "end": 139,
+            "start": 129,
+            "end": 130,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 130,
+            "end": 148,
+            "ctxt": 0
+          },
+          "data": " short tag ",
+          "raw": "<!-- short tag -->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 148,
+            "end": 153,
             "ctxt": 0
           },
           "data": "\n\n",
           "raw": "\n\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 153,
+            "end": 166,
+            "ctxt": 0
+          },
+          "tagName": "test",
+          "attributes": [],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 166,
+            "end": 167,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
         }
       ]
     }

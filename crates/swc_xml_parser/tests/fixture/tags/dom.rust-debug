@@ -12,13 +12,19 @@
 |     "Start"
 |   "
 "
-|   <!--  short tag  -->
+|   <!--  empty tag  -->
 |   "
 "
 |   <short-tag>
 |   "
 "
-|   <!--  empty tag  -->
+|   <test>
+|   "
+"
+|   <!--  short tag  -->
 |   "
 
+"
+|   <test>
+|   "
 "

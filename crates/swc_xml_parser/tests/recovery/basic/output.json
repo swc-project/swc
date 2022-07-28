@@ -20,7 +20,7 @@
       "type": "Element",
       "span": {
         "start": 40,
-        "end": 167,
+        "end": 174,
         "ctxt": 0
       },
       "tagName": "note",
@@ -40,7 +40,7 @@
           "type": "Element",
           "span": {
             "start": 51,
-            "end": 59,
+            "end": 64,
             "ctxt": 0
           },
           "tagName": "to",
@@ -72,7 +72,7 @@
           "type": "Element",
           "span": {
             "start": 69,
-            "end": 79,
+            "end": 86,
             "ctxt": 0
           },
           "tagName": "from",
@@ -124,7 +124,7 @@
               "type": "Element",
               "span": {
                 "start": 124,
-                "end": 159,
+                "end": 166,
                 "ctxt": 0
               },
               "tagName": "body",

@@ -20,7 +20,7 @@
       "type": "Element",
       "span": {
         "start": 23,
-        "end": 1099,
+        "end": 1115,
         "ctxt": 0
       },
       "tagName": "PurchaseOrder",
@@ -69,7 +69,7 @@
           "type": "Element",
           "span": {
             "start": 94,
-            "end": 314,
+            "end": 324,
             "ctxt": 0
           },
           "tagName": "Address",
@@ -104,7 +104,7 @@
               "type": "Element",
               "span": {
                 "start": 128,
-                "end": 145,
+                "end": 152,
                 "ctxt": 0
               },
               "tagName": "Name",
@@ -136,7 +136,7 @@
               "type": "Element",
               "span": {
                 "start": 161,
-                "end": 185,
+                "end": 194,
                 "ctxt": 0
               },
               "tagName": "Street",
@@ -168,7 +168,7 @@
               "type": "Element",
               "span": {
                 "start": 203,
-                "end": 220,
+                "end": 227,
                 "ctxt": 0
               },
               "tagName": "City",
@@ -200,7 +200,7 @@
               "type": "Element",
               "span": {
                 "start": 236,
-                "end": 245,
+                "end": 253,
                 "ctxt": 0
               },
               "tagName": "State",
@@ -232,7 +232,7 @@
               "type": "Element",
               "span": {
                 "start": 262,
-                "end": 272,
+                "end": 278,
                 "ctxt": 0
               },
               "tagName": "Zip",
@@ -264,7 +264,7 @@
               "type": "Element",
               "span": {
                 "start": 287,
-                "end": 299,
+                "end": 309,
                 "ctxt": 0
               },
               "tagName": "Country",
@@ -308,7 +308,7 @@
           "type": "Element",
           "span": {
             "start": 329,
-            "end": 537,
+            "end": 547,
             "ctxt": 0
           },
           "tagName": "Address",
@@ -343,7 +343,7 @@
               "type": "Element",
               "span": {
                 "start": 362,
-                "end": 375,
+                "end": 382,
                 "ctxt": 0
               },
               "tagName": "Name",
@@ -375,7 +375,7 @@
               "type": "Element",
               "span": {
                 "start": 391,
-                "end": 411,
+                "end": 420,
                 "ctxt": 0
               },
               "tagName": "Street",
@@ -407,7 +407,7 @@
               "type": "Element",
               "span": {
                 "start": 429,
-                "end": 443,
+                "end": 450,
                 "ctxt": 0
               },
               "tagName": "City",
@@ -439,7 +439,7 @@
               "type": "Element",
               "span": {
                 "start": 459,
-                "end": 468,
+                "end": 476,
                 "ctxt": 0
               },
               "tagName": "State",
@@ -471,7 +471,7 @@
               "type": "Element",
               "span": {
                 "start": 485,
-                "end": 495,
+                "end": 501,
                 "ctxt": 0
               },
               "tagName": "Zip",
@@ -503,7 +503,7 @@
               "type": "Element",
               "span": {
                 "start": 510,
-                "end": 522,
+                "end": 532,
                 "ctxt": 0
               },
               "tagName": "Country",
@@ -547,7 +547,7 @@
           "type": "Element",
           "span": {
             "start": 552,
-            "end": 609,
+            "end": 625,
             "ctxt": 0
           },
           "tagName": "DeliveryNotes",
@@ -579,7 +579,7 @@
           "type": "Element",
           "span": {
             "start": 630,
-            "end": 1090,
+            "end": 1098,
             "ctxt": 0
           },
           "tagName": "Items",
@@ -599,7 +599,7 @@
               "type": "Element",
               "span": {
                 "start": 646,
-                "end": 859,
+                "end": 866,
                 "ctxt": 0
               },
               "tagName": "Item",
@@ -634,7 +634,7 @@
                   "type": "Element",
                   "span": {
                     "start": 685,
-                    "end": 707,
+                    "end": 721,
                     "ctxt": 0
                   },
                   "tagName": "ProductName",
@@ -666,7 +666,7 @@
                   "type": "Element",
                   "span": {
                     "start": 734,
-                    "end": 745,
+                    "end": 756,
                     "ctxt": 0
                   },
                   "tagName": "Quantity",
@@ -698,7 +698,7 @@
                   "type": "Element",
                   "span": {
                     "start": 769,
-                    "end": 784,
+                    "end": 794,
                     "ctxt": 0
                   },
                   "tagName": "USPrice",
@@ -730,7 +730,7 @@
                   "type": "Element",
                   "span": {
                     "start": 807,
-                    "end": 840,
+                    "end": 850,
                     "ctxt": 0
                   },
                   "tagName": "Comment",
@@ -774,7 +774,7 @@
               "type": "Element",
               "span": {
                 "start": 875,
-                "end": 1078,
+                "end": 1085,
                 "ctxt": 0
               },
               "tagName": "Item",
@@ -809,7 +809,7 @@
                   "type": "Element",
                   "span": {
                     "start": 914,
-                    "end": 939,
+                    "end": 953,
                     "ctxt": 0
                   },
                   "tagName": "ProductName",
@@ -841,7 +841,7 @@
                   "type": "Element",
                   "span": {
                     "start": 966,
-                    "end": 977,
+                    "end": 988,
                     "ctxt": 0
                   },
                   "tagName": "Quantity",
@@ -873,7 +873,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1001,
-                    "end": 1015,
+                    "end": 1025,
                     "ctxt": 0
                   },
                   "tagName": "USPrice",
@@ -905,7 +905,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1038,
-                    "end": 1058,
+                    "end": 1069,
                     "ctxt": 0
                   },
                   "tagName": "ShipDate",

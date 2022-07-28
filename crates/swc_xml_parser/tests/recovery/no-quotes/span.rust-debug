@@ -57,13 +57,13 @@
   x Child
    ,-[$DIR/tests/recovery/no-quotes/input.xml:3:5]
  3 | <to>Tove</to>
-   : ^^^^^^^^
+   : ^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/no-quotes/input.xml:3:5]
  3 | <to>Tove</to>
-   : ^^^^^^^^
+   : ^^^^^^^^^^^^^
    `----
 
   x Child
@@ -93,13 +93,13 @@
   x Child
    ,-[$DIR/tests/recovery/no-quotes/input.xml:4:5]
  4 | <from>Jani</from>
-   : ^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/no-quotes/input.xml:4:5]
  4 | <from>Jani</from>
-   : ^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Child

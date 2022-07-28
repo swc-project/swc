@@ -40,7 +40,7 @@
           "type": "Element",
           "span": {
             "start": 51,
-            "end": 59,
+            "end": 64,
             "ctxt": 0
           },
           "tagName": "to",
@@ -72,7 +72,7 @@
           "type": "Element",
           "span": {
             "start": 69,
-            "end": 79,
+            "end": 86,
             "ctxt": 0
           },
           "tagName": "from",

@@ -325,8 +325,11 @@ where
                         .any(|node| get_tag_name!(node) == tag_name);
 
                     if is_closed {
-                        self.open_elements_stack
+                        let popped = self
+                            .open_elements_stack
                             .pop_until_tag_name_popped(&[tag_name]);
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                     }
 
                     if self.open_elements_stack.items.is_empty() {
@@ -597,6 +600,18 @@ where
         self.append_node(self.document.as_ref().unwrap(), child);
 
         Ok(())
+    }
+
+    fn update_end_tag_span(&self, node: Option<&RcNode>, span: Span) {
+        if let Some(node) = node {
+            if node.start_span.borrow().is_dummy() {
+                return;
+            }
+
+            let mut end_tag_span = node.end_span.borrow_mut();
+
+            *end_tag_span = Some(span);
+        }
     }
 }
 
