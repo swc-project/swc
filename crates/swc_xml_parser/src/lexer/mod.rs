@@ -23,6 +23,8 @@ pub enum State {
     PiData,
     PiAfter,
     MarkupDeclaration,
+    CommentStart,
+    CommentStartDash,
     Comment,
     CommentLessThanSign,
     CommentLessThanSignBang,
@@ -1126,20 +1128,20 @@ where
 
                 // If the next few characters are:
                 match self.consume_next_char() {
-                    // Two U+002D HYPHEN-MINUS characters (-)
-                    // Consume those two characters, create a comment token whose data
-                    // is the empty string, and switch to the comment start state.
+                    // Two U+002D HYPEN-MINUS characters (-)
+                    // Consume those two characters, create a comment token whose data is the empty
+                    // string and switch to comment start state.
                     Some('-') => match self.consume_next_char() {
                         Some('-') => {
                             self.create_comment_token(None, "<!--");
-                            self.state = State::Comment;
+                            self.state = State::CommentStart;
                         }
                         _ => {
                             anything_else(self);
                         }
                     },
-                    // ASCII case-insensitive match for the word "DOCTYPE"
-                    // Consume those characters and switch to the DOCTYPE state.
+                    // ASCII case-insensitive match for word "DOCTYPE"
+                    // Consume those characters and switch to Doctype state
                     Some(d @ 'd' | d @ 'D') => match self.consume_next_char() {
                         Some(o @ 'o' | o @ 'O') => match self.consume_next_char() {
                             Some(c @ 'c' | c @ 'C') => match self.consume_next_char() {
@@ -1187,39 +1189,33 @@ where
                             anything_else(self);
                         }
                     },
-                    // The string "[CDATA[" (the five uppercase letters "CDATA" with a
-                    // U+005B LEFT SQUARE BRACKET character before and after)
-                    // Consume those characters. If there is an adjusted current node and it
-                    // is not an element in the HTML namespace, then switch to the CDATA
-                    // section state. Otherwise, this is a cdata-in-html-content parse
-                    // error. Create a comment token whose data is the "[CDATA[" string.
-                    // Switch to the bogus comment state.
+                    // Exact match for word "[CDATA[" with a (the five uppercase letters "CDATA"
+                    // with a U+005B LEFT SQUARE BRACKET character before and after)
+                    // Consume those characters and switch to CDATA state
                     Some('[') => match self.consume_next_char() {
-                        Some(c @ 'c' | c @ 'C') => match self.consume_next_char() {
-                            Some(d @ 'd' | d @ 'D') => match self.consume_next_char() {
-                                Some(a1 @ 'a' | a1 @ 'A') => match self.consume_next_char() {
-                                    Some(t @ 't' | t @ 'T') => match self.consume_next_char() {
-                                        Some(a2 @ 'a' | a2 @ 'A') => {
-                                            match self.consume_next_char() {
-                                                Some('[') => {
-                                                    let mut data = String::with_capacity(7);
+                        Some(c @ 'C') => match self.consume_next_char() {
+                            Some(d @ 'D') => match self.consume_next_char() {
+                                Some(a1 @ 'A') => match self.consume_next_char() {
+                                    Some(t @ 'T') => match self.consume_next_char() {
+                                        Some(a2 @ 'A') => match self.consume_next_char() {
+                                            Some('[') => {
+                                                let mut data = String::with_capacity(7);
 
-                                                    data.push('[');
-                                                    data.push(c);
-                                                    data.push(d);
-                                                    data.push(a1);
-                                                    data.push(t);
-                                                    data.push(a2);
-                                                    data.push('[');
+                                                data.push('[');
+                                                data.push(c);
+                                                data.push(d);
+                                                data.push(a1);
+                                                data.push(t);
+                                                data.push(a2);
+                                                data.push('[');
 
-                                                    self.cdata_raw = Some(data);
-                                                    self.state = State::Cdata;
-                                                }
-                                                _ => {
-                                                    anything_else(self);
-                                                }
+                                                self.cdata_raw = Some(data);
+                                                self.state = State::Cdata;
                                             }
-                                        }
+                                            _ => {
+                                                anything_else(self);
+                                            }
+                                        },
                                         _ => {
                                             anything_else(self);
                                         }
@@ -1241,11 +1237,68 @@ where
                         }
                     },
                     // Anything else
-                    // This is an incorrectly-opened-comment parse error. Create a comment token
-                    // whose data is the empty string. Switch to the bogus comment state (don't
-                    // consume anything in the current state).
+                    // Emit an error. Create a comment token whose data is an empty string. Switch
+                    // to bogus comment state (don’t consume any characters)
                     _ => {
                         anything_else(self);
+                    }
+                }
+            }
+            State::CommentStart => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+002D HYPHEN-MINUS (-)
+                    // Switch to the comment start dash state.
+                    Some('-') => {
+                        self.state = State::CommentStartDash;
+                    }
+                    // U+003E GREATER-THAN SIGN (>)
+                    // This is an abrupt-closing-of-empty-comment parse error. Switch to the
+                    // data state. Emit the current comment token.
+                    Some('>') => {
+                        self.emit_error(ErrorKind::AbruptClosingOfEmptyComment);
+                        self.state = State::Data;
+                        self.emit_comment_token(Some(">"));
+                    }
+                    // Anything else
+                    // Reconsume in the comment state.
+                    _ => {
+                        self.reconsume_in_state(State::Comment);
+                    }
+                }
+            }
+            State::CommentStartDash => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+002D HYPHEN-MINUS (-)
+                    // Switch to the comment end state.
+                    Some('-') => {
+                        self.state = State::CommentEnd;
+                    }
+                    // U+003E GREATER-THAN SIGN (>)
+                    // This is an abrupt-closing-of-empty-comment parse error. Switch to the
+                    // data state. Emit the current comment token.
+                    Some('>') => {
+                        self.emit_error(ErrorKind::AbruptClosingOfEmptyComment);
+                        self.state = State::Data;
+                        self.emit_comment_token(Some("->"));
+                    }
+                    // EOF
+                    // This is an eof-in-comment parse error. Emit the current comment token.
+                    // Emit an end-of-file token.
+                    None => {
+                        self.emit_error(ErrorKind::EofInComment);
+                        self.emit_comment_token(None);
+                        self.emit_token(Token::Eof);
+
+                        return Ok(());
+                    }
+                    // Anything else
+                    // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
+                    // Reconsume in the comment state.
+                    _ => {
+                        self.append_to_comment_token('-', '-');
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }

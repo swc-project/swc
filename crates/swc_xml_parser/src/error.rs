@@ -31,6 +31,7 @@ impl Error {
             ErrorKind::Eof => "Unexpected end of file".into(),
 
             // Lexer errors
+            ErrorKind::AbruptClosingOfEmptyComment => "Abrupt closing of empty comment".into(),
             ErrorKind::AbruptDoctypePublicIdentifier => "Abrupt doctype public identifier".into(),
             ErrorKind::AbruptDoctypeSystemIdentifier => "Abrupt doctype system identifier".into(),
             ErrorKind::ControlCharacterInInputStream => "Control character in input stream".into(),
@@ -110,11 +111,11 @@ pub enum ErrorKind {
     Eof,
 
     // Lexer errors
+    AbruptClosingOfEmptyComment,
     AbruptDoctypePublicIdentifier,
     AbruptDoctypeSystemIdentifier,
     ControlCharacterInInputStream,
     EndTagWithAttributes,
-
     DuplicateAttribute,
     EndTagWithTrailingSolidus,
     EofBeforeTagName,
