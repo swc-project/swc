@@ -10,7 +10,6 @@
 
 #![allow(clippy::unreadable_literal)]
 
-/// Not a publish API.
 #[doc(hidden)]
 pub extern crate once_cell;
 
@@ -26,6 +25,8 @@ use std::{
 
 use rustc_hash::FxHashSet;
 use serde::Serializer;
+
+mod dynamic_set;
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
