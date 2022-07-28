@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(css/prefixer)** Avoid prefixes for media features (#5308) ([925b16a](https://github.com/swc-project/swc/commit/925b16a563227a43fc52c107a8d2ead577137aa3))
+
+### Testing
+
+
+
+- **(swc)** Update test cases (#5324) ([27c6f23](https://github.com/swc-project/swc/commit/27c6f2318af03aaafa4288ff96840977972fa7a7))
+
 ## [1.2.219] - 2022-07-27
 
 ### Bug Fixes
@@ -93,6 +107,9 @@
 
 
 - **(ci)** Update macos runner (#5284) ([e8473eb](https://github.com/swc-project/swc/commit/e8473eb8a8d3bebea157d0e06a56d95b2350872c))
+
+
+- **(ci)** Fix build for Android platforms (#5317) ([18d4029](https://github.com/swc-project/swc/commit/18d4029b337a94881ea173886271a54b5f385998))
 
 
 - **(deps)** Update `bytecheck` (#5296) ([35b1e78](https://github.com/swc-project/swc/commit/35b1e7817974b0e1d7a5af1f9314444fe4070585))- **general**: Fix CI (#5251) ([d229917](https://github.com/swc-project/swc/commit/d229917588a7bfda8bf4023c42c4190552a3b0c6))- **general**: Fix CI ([3421064](https://github.com/swc-project/swc/commit/34210648b06c4e4e4bd7d368a1b9d203535bbc30))

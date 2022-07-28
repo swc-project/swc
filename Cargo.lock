@@ -3249,7 +3249,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.113.2"
+version = "0.113.3"
 dependencies = [
  "once_cell",
  "preset_env_base",

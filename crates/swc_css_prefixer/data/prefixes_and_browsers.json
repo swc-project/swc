@@ -53,6 +53,56 @@
     }
   ],
 
+  "-webkit-min-device-pixel-ratio": [
+    {
+      "android": "2.3",
+      "chrome": "4",
+      "safari": "4",
+      "ios": "4.0",
+      "op_mob": "10"
+    },
+    {
+      "android": "4.3",
+      "chrome": "28",
+      "safari": "15.6",
+      "ios": "15.5",
+      "op_mob": "12"
+    }
+  ],
+  "-webkit-max-device-pixel-ratio": [
+    {
+      "android": "2.3",
+      "chrome": "4",
+      "safari": "4",
+      "ios": "4.0",
+      "op_mob": "10"
+    },
+    {
+      "android": "4.3",
+      "chrome": "28",
+      "safari": "15.6",
+      "ios": "15.5",
+      "op_mob": "12"
+    }
+  ],
+
+  "min--moz-device-pixel-ratio": [
+    {
+      "firefox": "3.5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+  "max--moz-device-pixel-ratio": [
+    {
+      "firefox": "3.5"
+    },
+    {
+      "firefox": "15"
+    }
+  ],
+
   "-webkit-appearance": [
     {
       "android": "2.2",
