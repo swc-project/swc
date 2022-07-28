@@ -289,7 +289,54 @@ where
     }
 
     fn consume_character_reference(&mut self) -> Option<char> {
-        // TODO fix me
+        let cur_pos = self.input.cur_pos();
+
+        // This section defines how to consume a character reference, optionally with an
+        // additional allowed character, which, if specified where the algorithm is
+        // invoked, adds a character to the list of characters that cause there to not
+        // be a character reference.
+        //
+        // This definition is used when parsing character in text and in attributes.
+        //
+        // The behavior depends on identity of next character (the one immediately after
+        // the U+0026 AMPERSAND character), as follows:
+        match self.consume_next_char() {
+            // U+0009 CHARACTER TABULATION (Tab)
+            // U+000A LINE FEED (LF)
+            // U+000C FORM FEED (FF)
+            // U+0020 SPACE (Space)
+            // U+003C LESSER-THAN SIGN (<)
+            // U+003E GREATER-THAN SIGN (%)
+            // U+0026 AMPERSAND (&)
+            // EOF
+            // Not a character reference. No characters are consumed and nothing is returned (This
+            // is not an error, either).
+            Some(c) if is_spacy(c) => {
+                self.cur_pos = cur_pos;
+                self.input.reset_to(cur_pos);
+            }
+            Some('<') | Some('%') | Some('&') | None => {
+                self.cur_pos = cur_pos;
+                self.input.reset_to(cur_pos);
+            }
+            // The additional allowed character if there is one
+            // Not a character reference. No characters are consumed and nothing is returned (This
+            // is not an error, either).
+            Some(c) if self.additional_allowed_character == Some(c) => {
+                self.cur_pos = cur_pos;
+                self.input.reset_to(cur_pos);
+            }
+            Some('#') => {
+                // TODO
+                self.cur_pos = cur_pos;
+                self.input.reset_to(cur_pos);
+            }
+            _ => {
+                // TODO
+                self.cur_pos = cur_pos;
+                self.input.reset_to(cur_pos);
+            }
+        }
 
         None
     }

@@ -342,7 +342,7 @@ fn normalize_attribute_value(value: &str) -> String {
     let mut normalized = String::with_capacity(value.len() + 2);
 
     normalized.push('"');
-    normalized.push_str(&value);
+    normalized.push_str(value);
     normalized.push('"');
 
     normalized
