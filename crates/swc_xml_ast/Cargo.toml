@@ -1,0 +1,19 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "Alexander Akait <sheo13666q@gmail.com>"]
+description = "AST definitions of xml"
+documentation = "https://rustdoc.swc.rs/swc_xml_ast/"
+edition = "2021"
+license = "Apache-2.0"
+name = "swc_xml_ast"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[lib]
+bench = false
+
+[dependencies]
+is-macro = "0.2.0"
+serde = {version = "1.0.127", features = ["derive"]}
+string_enum = {version = "0.3.1", path = "../string_enum/"}
+swc_atoms = {version = "0.3.0", path = "../swc_atoms"}
+swc_common = { version = "0.26.0", path = "../swc_common"}

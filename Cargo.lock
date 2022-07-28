@@ -4214,6 +4214,80 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_xml"
+version = "0.1.0"
+dependencies = [
+ "swc_xml_ast",
+ "swc_xml_codegen",
+ "swc_xml_parser",
+ "swc_xml_visit",
+]
+
+[[package]]
+name = "swc_xml_ast"
+version = "0.1.0"
+dependencies = [
+ "is-macro",
+ "serde",
+ "string_enum",
+ "swc_atoms",
+ "swc_common",
+]
+
+[[package]]
+name = "swc_xml_codegen"
+version = "0.1.0"
+dependencies = [
+ "auto_impl",
+ "bitflags",
+ "rustc-hash",
+ "swc_atoms",
+ "swc_common",
+ "swc_xml_ast",
+ "swc_xml_codegen_macros",
+ "swc_xml_parser",
+ "swc_xml_visit",
+ "testing",
+]
+
+[[package]]
+name = "swc_xml_codegen_macros"
+version = "0.1.0"
+dependencies = [
+ "pmutil",
+ "proc-macro2",
+ "quote",
+ "swc_macros_common",
+ "syn",
+]
+
+[[package]]
+name = "swc_xml_parser"
+version = "0.1.0"
+dependencies = [
+ "criterion",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_node_base",
+ "swc_xml_ast",
+ "swc_xml_visit",
+ "testing",
+]
+
+[[package]]
+name = "swc_xml_visit"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "swc_atoms",
+ "swc_common",
+ "swc_visit",
+ "swc_xml_ast",
+]
+
+[[package]]
 name = "syn"
 version = "1.0.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -1,0 +1,6 @@
+
+  x Unexpected character, only whitespace character allowed
+   ,-[$DIR/tests/recovery/non-whitespace-after/input.xml:7:1]
+ 7 | </note>a
+   :        ^
+   `----

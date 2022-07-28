@@ -1,0 +1,495 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/basic/input.xml:1:1]
+  1 | ,-> <?xml version="1.0" encoding="UTF-8"?>
+  2 | |   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83 121">
+  3 | |       <!-- test -->
+  4 | |       <g fill="none" stroke-linecap="round">
+  5 | |           <g stroke-width="8">
+  6 | |               <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+  7 | |               <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+  8 | |               <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+  9 | |           </g>
+ 10 | |           <g stroke-width="6">
+ 11 | |               <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | |               <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | |               <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | |               <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | |           </g>
+ 16 | |           <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+ 17 | |           <text>Text</text>
+ 18 | |       </g>
+ 19 | `-> </svg>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:1:1]
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ProcessingInstruction
+   ,-[$DIR/tests/fixture/basic/input.xml:1:1]
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:2:1]
+  2 | ,-> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83 121">
+  3 | |       <!-- test -->
+  4 | |       <g fill="none" stroke-linecap="round">
+  5 | |           <g stroke-width="8">
+  6 | |               <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+  7 | |               <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+  8 | |               <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+  9 | |           </g>
+ 10 | |           <g stroke-width="6">
+ 11 | |               <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | |               <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | |               <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | |               <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | |           </g>
+ 16 | |           <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+ 17 | |           <text>Text</text>
+ 18 | `->     </g>
+ 19 |     </svg>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:2:1]
+  2 | ,-> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83 121">
+  3 | |       <!-- test -->
+  4 | |       <g fill="none" stroke-linecap="round">
+  5 | |           <g stroke-width="8">
+  6 | |               <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+  7 | |               <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+  8 | |               <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+  9 | |           </g>
+ 10 | |           <g stroke-width="6">
+ 11 | |               <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | |               <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | |               <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | |               <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | |           </g>
+ 16 | |           <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+ 17 | |           <text>Text</text>
+ 18 | `->     </g>
+ 19 |     </svg>
+    `----
+
+  x Attribute
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:2:1]
+ 2 | ,-> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83 121">
+ 3 | `->     <!-- test -->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic/input.xml:2:1]
+ 2 | ,-> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83 121">
+ 3 | `->     <!-- test -->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:3:5]
+ 3 | <!-- test -->
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/basic/input.xml:3:5]
+ 3 | <!-- test -->
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:3:5]
+ 3 | ,-> <!-- test -->
+ 4 | `->     <g fill="none" stroke-linecap="round">
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic/input.xml:3:5]
+ 3 | ,-> <!-- test -->
+ 4 | `->     <g fill="none" stroke-linecap="round">
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:4:5]
+  4 | ,-> <g fill="none" stroke-linecap="round">
+  5 | |           <g stroke-width="8">
+  6 | |               <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+  7 | |               <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+  8 | |               <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+  9 | |           </g>
+ 10 | |           <g stroke-width="6">
+ 11 | |               <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | |               <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | |               <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | |               <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | |           </g>
+ 16 | |           <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+ 17 | |           <text>Text</text>
+ 18 | `->     </g>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:4:5]
+  4 | ,-> <g fill="none" stroke-linecap="round">
+  5 | |           <g stroke-width="8">
+  6 | |               <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+  7 | |               <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+  8 | |               <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+  9 | |           </g>
+ 10 | |           <g stroke-width="6">
+ 11 | |               <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | |               <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | |               <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | |               <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | |           </g>
+ 16 | |           <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+ 17 | |           <text>Text</text>
+ 18 | `->     </g>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:4:5]
+ 4 | ,-> <g fill="none" stroke-linecap="round">
+ 5 | `->         <g stroke-width="8">
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic/input.xml:4:5]
+ 4 | ,-> <g fill="none" stroke-linecap="round">
+ 5 | `->         <g stroke-width="8">
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:5:9]
+ 5 | ,-> <g stroke-width="8">
+ 6 | |               <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+ 7 | |               <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+ 8 | |               <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+ 9 | `->         </g>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic/input.xml:5:9]
+ 5 | ,-> <g stroke-width="8">
+ 6 | |               <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+ 7 | |               <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+ 8 | |               <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+ 9 | `->         </g>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:5:9]
+ 5 | ,-> <g stroke-width="8">
+ 6 | `->             <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic/input.xml:5:9]
+ 5 | ,-> <g stroke-width="8">
+ 6 | `->             <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:6:13]
+ 6 | <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic/input.xml:6:13]
+ 6 | <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:6:13]
+ 6 | ,-> <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+ 7 | `->             <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic/input.xml:6:13]
+ 6 | ,-> <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+ 7 | `->             <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:7:13]
+ 7 | <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic/input.xml:7:13]
+ 7 | <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:7:13]
+ 7 | ,-> <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+ 8 | `->             <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic/input.xml:7:13]
+ 7 | ,-> <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+ 8 | `->             <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:8:13]
+ 8 | <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic/input.xml:8:13]
+ 8 | <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic/input.xml:8:13]
+ 8 | ,-> <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+ 9 | `->         </g>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic/input.xml:8:13]
+ 8 | ,-> <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+ 9 | `->         </g>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:9:9]
+  9 | ,-> </g>
+ 10 | `->         <g stroke-width="6">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:9:9]
+  9 | ,-> </g>
+ 10 | `->         <g stroke-width="6">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:10:9]
+ 10 | ,-> <g stroke-width="6">
+ 11 | |               <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | |               <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | |               <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | |               <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | `->         </g>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:10:9]
+ 10 | ,-> <g stroke-width="6">
+ 11 | |               <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | |               <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | |               <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | |               <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | `->         </g>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:10:9]
+ 10 | ,-> <g stroke-width="6">
+ 11 | `->             <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:10:9]
+ 10 | ,-> <g stroke-width="6">
+ 11 | `->             <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:11:13]
+ 11 | <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:11:13]
+ 11 | <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:11:13]
+ 11 | ,-> <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | `->             <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:11:13]
+ 11 | ,-> <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+ 12 | `->             <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:12:13]
+ 12 | <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:12:13]
+ 12 | <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:12:13]
+ 12 | ,-> <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | `->             <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:12:13]
+ 12 | ,-> <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+ 13 | `->             <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:13:13]
+ 13 | <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:13:13]
+ 13 | <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:13:13]
+ 13 | ,-> <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | `->             <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:13:13]
+ 13 | ,-> <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+ 14 | `->             <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:14:13]
+ 14 | <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:14:13]
+ 14 | <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:14:13]
+ 14 | ,-> <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | `->         </g>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:14:13]
+ 14 | ,-> <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+ 15 | `->         </g>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:15:9]
+ 15 | ,-> </g>
+ 16 | `->         <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:15:9]
+ 15 | ,-> </g>
+ 16 | `->         <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:16:9]
+ 16 | <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:16:9]
+ 16 | <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:16:9]
+ 16 | ,-> <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+ 17 | `->         <text>Text</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:16:9]
+ 16 | ,-> <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+ 17 | `->         <text>Text</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:17:9]
+ 17 | <text>Text</text>
+    : ^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic/input.xml:17:9]
+ 17 | <text>Text</text>
+    : ^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:17:9]
+ 17 | <text>Text</text>
+    :       ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:17:9]
+ 17 | <text>Text</text>
+    :       ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:17:9]
+ 17 | ,-> <text>Text</text>
+ 18 | `->     </g>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:17:9]
+ 17 | ,-> <text>Text</text>
+ 18 | `->     </g>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic/input.xml:18:5]
+ 18 | </g>
+    :     ^
+ 19 | </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic/input.xml:18:5]
+ 18 | </g>
+    :     ^
+ 19 | </svg>
+    `----

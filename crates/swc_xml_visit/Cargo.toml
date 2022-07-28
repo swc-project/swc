@@ -1,0 +1,27 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "Alexander Akait <sheo13666q@gmail.com>"]
+description = "Visitor for xml"
+documentation = "https://rustdoc.swc.rs/swc_xml_visit/"
+edition = "2021"
+license = "Apache-2.0"
+name = "swc_xml_visit"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[lib]
+bench = false
+
+[features]
+default = ["serde"]
+path = []
+
+[dependencies]
+serde = {version = "1", optional = true}
+swc_atoms = {version = "0.3.0", path = "../swc_atoms"}
+swc_common = {version = "0.26.0", path = "../swc_common"}
+swc_xml_ast = {version = "0.1.0", path = "../swc_xml_ast"}
+swc_visit = {version = "0.5.1", path = "../swc_visit"}

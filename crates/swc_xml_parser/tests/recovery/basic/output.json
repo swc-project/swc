@@ -1,0 +1,160 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 174,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "ProcessingInstruction",
+      "span": {
+        "start": 1,
+        "end": 39,
+        "ctxt": 0
+      },
+      "target": "xml",
+      "data": "version=\"1.0\" encoding=\"UTF-8\""
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 40,
+        "end": 167,
+        "ctxt": 0
+      },
+      "tagName": "note",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 46,
+            "end": 51,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 51,
+            "end": 59,
+            "ctxt": 0
+          },
+          "tagName": "to",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 55,
+                "end": 59,
+                "ctxt": 0
+              },
+              "data": "Tove",
+              "raw": "Tove"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 64,
+            "end": 69,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 69,
+            "end": 79,
+            "ctxt": 0
+          },
+          "tagName": "from",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 75,
+                "end": 79,
+                "ctxt": 0
+              },
+              "data": "Jani",
+              "raw": "Jani"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 86,
+            "end": 91,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 91,
+            "end": 167,
+            "ctxt": 0
+          },
+          "tagName": "heading",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 100,
+                "end": 124,
+                "ctxt": 0
+              },
+              "data": "Reminder\n    ",
+              "raw": "Reminder\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 124,
+                "end": 159,
+                "ctxt": 0
+              },
+              "tagName": "body",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 130,
+                    "end": 159,
+                    "ctxt": 0
+                  },
+                  "data": "Don't forget me this weekend!",
+                  "raw": "Don't forget me this weekend!"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 166,
+                "end": 167,
+                "ctxt": 0
+              },
+              "data": "\n",
+              "raw": "\n"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
