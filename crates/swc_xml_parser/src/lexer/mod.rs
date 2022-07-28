@@ -1559,7 +1559,6 @@ where
                     // CDATA section state.
                     Some(c) => {
                         self.emit_character_token((']', ']'));
-                        self.emit_character_token((']', ']'));
                         self.emit_character_token((c, c));
                         self.state = State::Cdata;
                     }
