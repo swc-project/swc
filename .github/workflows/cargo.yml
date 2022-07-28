@@ -281,6 +281,22 @@ jobs:
             os: ubuntu-latest
           - crate: swc_html_visit
             os: ubuntu-latest
+          - crate: swc_xml
+            os: ubuntu-latest
+          - crate: swc_xml_ast
+            os: ubuntu-latest
+          - crate: swc_xml_codegen
+            os: ubuntu-latest
+          - crate: swc_xml_codegen
+            os: windows-latest
+          - crate: swc_xml_codegen_macros
+            os: ubuntu-latest
+          - crate: swc_xml_parser
+            os: ubuntu-latest
+          - crate: swc_xml_parser
+            os: windows-latest
+          - crate: swc_xml_visit
+            os: ubuntu-latest
           - crate: swc_macros_common
             os: ubuntu-latest
           - crate: swc_node_base
