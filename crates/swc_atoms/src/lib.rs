@@ -152,7 +152,7 @@ impl fmt::Debug for Atom {
 
 impl Display for Atom {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Display::fmt(&self.0, f)
+        Display::fmt(&*self.0, f)
     }
 }
 
