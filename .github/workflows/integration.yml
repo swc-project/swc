@@ -99,11 +99,9 @@ jobs:
           # Download three.js
           git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 tests/integration/three-js/repo
 
-          # TODO
-          # swc -C isModule=unknown -C test=\".*.js$\" -C module.type=commonjs --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
+          swc -C isModule=unknown -C test=\".*.js$\" -C module.type=commonjs --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
 
-          # TODO
-          # (cd tests/integration/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
+          (cd tests/integration/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
 
         # terser: contains with statement in test
         # Rome.js: I forgot the cause, but it didn't work.
@@ -113,20 +111,20 @@ jobs:
           mkdir -p tests/integration/redux
           yarn global add qunit failonlyreporter
 
-          # Download
-          # git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
-          # TODO
-          # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/lib/
-          # echo "module.exports=require('./index')" > tests/integration/redux/repo/lib/redux.js
-          # TODO
-          # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/test/
-          # TODO
-          # swc --sync tests/integration/redux/repo/test/ -d tests/integration/redux/repo/test/
+          Download
+          git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
+          TODO
+          swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/lib/
+          echo "module.exports=require('./index')" > tests/integration/redux/repo/lib/redux.js
+          TODO
+          swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/test/
+          TODO
+          swc --sync tests/integration/redux/repo/test/ -d tests/integration/redux/repo/test/
 
-          # TODO
-          # (cd tests/integration/redux/repo && yarn)
-          # TODO
-          # (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
+          TODO
+          (cd tests/integration/redux/repo && yarn)
+          TODO
+          (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
       - name: (swcpack) example react app
         run: |
           (cd crates/swc_node_bundler/tests/integration/react && yarn && npx spack)
