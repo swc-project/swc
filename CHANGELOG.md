@@ -5,6 +5,9 @@
 
 
 
+- **(atoms)** Workaround a bug of `rkyv` (#5323) ([14894ed](https://github.com/swc-project/swc/commit/14894ed4c970b7d283e36acd6001339e7d0d04fd))
+
+
 - **(css/prefixer)** Avoid prefixes for media features (#5308) ([925b16a](https://github.com/swc-project/swc/commit/925b16a563227a43fc52c107a8d2ead577137aa3))
 
 ### Features
