@@ -27,6 +27,7 @@ use rustc_hash::FxHashSet;
 use serde::Serializer;
 
 mod dynamic_set;
+mod str;
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
