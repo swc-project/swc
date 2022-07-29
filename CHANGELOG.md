@@ -7,6 +7,9 @@
 
 - **(es)** Support tsc multi-file unit tests (#5316) ([81ac366](https://github.com/swc-project/swc/commit/81ac36604edda1d38329cf10fc65720eedf48cb9))
 
+
+- **(es)** Update test cases (#5334) ([add1b75](https://github.com/swc-project/swc/commit/add1b75f61683f129b148fa14942e10a6514a0f3))
+
 ### Build
 
 
