@@ -14,8 +14,6 @@ use crate::{
     parser::{PResult, Parser, ParserConfig},
 };
 
-#[macro_use]
-mod macros;
 pub mod error;
 pub mod lexer;
 pub mod parser;
