@@ -1,5 +1,7 @@
 exports.default = {
-    bar: ()=>0
+    bar () {
+        return 0;
+    }
 };
 import foo from "foo";
 foo.bar();

@@ -2,8 +2,8 @@ var M, ANY2 = [
     "",
     ""
 ], obj1 = {
-    x (s) {},
-    y (s1) {}
+    x: (s)=>{},
+    y: (s1)=>{}
 };
 class A {
     static foo() {}

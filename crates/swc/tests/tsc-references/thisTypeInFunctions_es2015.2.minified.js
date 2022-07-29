@@ -18,7 +18,9 @@ function implicitThis(n) {
 let impl = {
     a: 12,
     explicitVoid2: ()=>this.a,
-    explicitVoid1: ()=>12,
+    explicitVoid1 () {
+        return 12;
+    },
     explicitStructural () {
         return this.a;
     },
