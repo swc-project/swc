@@ -7,9 +7,7 @@ class TextComponent extends React.Component {
 }
 _extends({}, {
     editable: !1
-});
-let textPropsTrue = {
+}), _extends({}, {
     editable: !0,
-    onEdit () {}
-};
-_extends({}, textPropsTrue);
+    onEdit: ()=>{}
+});

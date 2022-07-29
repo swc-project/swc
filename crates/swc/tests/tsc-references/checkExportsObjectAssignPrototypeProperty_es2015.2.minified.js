@@ -10,10 +10,14 @@ Person.prototype.describe = function() {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(Person.prototype, "rwAccessors", {
-    get: ()=>98122,
+    get () {
+        return 98122;
+    },
     set (_) {}
 }), Object.defineProperty(Person.prototype, "readonlyAccessor", {
-    get: ()=>21.75
+    get () {
+        return 21.75;
+    }
 }), Object.defineProperty(Person.prototype, "setonlyAccessor", {
     set (str) {
         this.rwAccessors = Number(str);

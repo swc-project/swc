@@ -1,6 +1,10 @@
 export const obj = {
-    method1: (p)=>p,
-    method2: (p)=>p
+    method1 (p) {
+        return p;
+    },
+    method2 (p) {
+        return p;
+    }
 };
 export const classExpression = class {
     method1(p) {

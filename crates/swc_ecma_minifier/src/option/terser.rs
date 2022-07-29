@@ -21,7 +21,7 @@ pub enum TerserEcmaVersion {
 
 impl Default for TerserEcmaVersion {
     fn default() -> Self {
-        Self::Num(2015)
+        Self::Num(5)
     }
 }
 
