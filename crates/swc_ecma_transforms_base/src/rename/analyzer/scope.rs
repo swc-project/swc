@@ -22,7 +22,25 @@ pub(crate) struct Scope {
 /// [JsWord] without clone or drop. This is unsafe and creator should ensure
 /// that [JsWord] stored in this type is not dropped until all operations are
 /// finished.
-pub(crate) type FastJsWord = ManuallyDrop<JsWord>;
+#[repr(transparent)]
+#[derive(Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct FastJsWord(ManuallyDrop<JsWord>);
+
+impl Clone for FastJsWord {
+    fn clone(&self) -> Self {
+        unsafe { Self(ManuallyDrop::new(transmute_copy(&self.0))) }
+    }
+}
+
+impl FastJsWord {
+    pub fn new(src: &JsWord) -> Self {
+        FastJsWord(ManuallyDrop::new(src.clone()))
+    }
+
+    pub fn into_inner(self) -> JsWord {
+        ManuallyDrop::into_inner(self.0)
+    }
+}
 
 pub(crate) type FastId = (FastJsWord, SyntaxContext);
 
@@ -153,7 +171,7 @@ impl Scope {
         // for unrelated scopes)
         if let Some(lefts) = reverse.get(symbol) {
             for left in lefts {
-                if left.1 == id.1 && *left.0 == id.0 {
+                if left.1 == id.1 && *left.0 .0 == id.0 {
                     continue;
                 }
 
@@ -291,5 +309,5 @@ impl Scope {
 }
 
 fn fast_id(id: &Id) -> FastId {
-    (ManuallyDrop::new(unsafe { transmute_copy(&id.0) }), id.1)
+    (FastJsWord::new(&id.0), id.1)
 }
