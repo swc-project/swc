@@ -6,22 +6,18 @@ a {
   transform: rotate(10deg);
 }
 div {
-  -webkit-transition-property: filter;
   transition-property: filter;
   animation-name: rotating;
 }
 .good {
-  -webkit-transition-property: filter;
   transition-property: filter;
   transition-duration: 1s;
 }
 .good2 {
-  -webkit-transition-property: color, filter;
   transition-property: color, filter;
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
 }
 .bad {
-  -webkit-transition-property: color, filter;
   transition-property: color, filter;
   transition-duration: 1s, 2s;
 }
@@ -40,7 +36,6 @@ input[type=range]::-moz-range-thumb {
 }
 input[type=range]::-webkit-slider-thumb {
   transition: none;
-  -webkit-transition-property: all;
   transition-property: all;
 }
 button::-moz-submit-invalid {
@@ -128,12 +123,10 @@ button::-webkit-search-cancel-button {
   transition: flex 200ms;
 }
 .no-warn {
-  -webkit-transition-property: color, opacity;
   transition-property: color, opacity;
   transition-duration: 1s, 2s;
 }
 div {
-  -webkit-transition-property: -webkit-transform;
   transition-property: -webkit-transform;
   transition-property: -moz-transform;
   transition-property: -o-transform;

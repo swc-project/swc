@@ -853,14 +853,6 @@ impl VisitMut for Prefixer {
                 );
             }
 
-            if should_prefix(":-moz-placeholder-shown", self.env, false) {
-                replace_pseudo_class_selector_name(
-                    &mut new_moz_prelude,
-                    "placeholder-shown",
-                    "-moz-placeholder-shown",
-                );
-            }
-
             if should_prefix("::-moz-selection", self.env, false) {
                 replace_pseudo_element_selector_name(
                     &mut new_moz_prelude,

@@ -4,8 +4,6 @@
   text-decoration: overline double red;
 }
 .full {
-  -webkit-text-decoration-style: double;
-  -moz-text-decoration-style: double;
   text-decoration-style: double;
 }
 .old {
