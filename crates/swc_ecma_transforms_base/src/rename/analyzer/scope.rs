@@ -19,6 +19,9 @@ pub(crate) struct Scope {
     pub(super) children: Vec<Scope>,
 }
 
+/// [JsWord] without clone or drop. This is unsafe and creator should ensure
+/// that [JsWord] stored in this type is not dropped until all operations are
+/// finished.
 #[repr(transparent)]
 #[derive(Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct FastJsWord(ManuallyDrop<JsWord>);
@@ -242,9 +245,9 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         cloned_reverse: &mut ReverseMap,
-        queue: Vec<Id>,
-        preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<JsWord>,
+        queue: Vec<FastId>,
+        preserved: &FxHashSet<FastId>,
+        preserved_symbols: &FxHashSet<FastJsWord>,
     ) where
         R: Renamer,
     {
