@@ -145,6 +145,7 @@ where
         if R::PARALLEL {
             let cost = scope.rename_cost();
             scope.rename_parallel(
+                &storage,
                 &self.renamer,
                 &mut map,
                 &Default::default(),
@@ -155,6 +156,7 @@ where
             );
         } else {
             scope.rename_single_thread(
+                &storage,
                 &self.renamer,
                 &mut map,
                 &Default::default(),

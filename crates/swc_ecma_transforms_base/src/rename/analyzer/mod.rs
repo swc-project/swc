@@ -12,7 +12,7 @@ pub(super) struct Analyzer<'a> {
 
     pub scope: Scope,
 
-    storage: &'a mut JsWordList,
+    pub storage: &'a mut JsWordList,
 }
 
 impl Analyzer<'_> {

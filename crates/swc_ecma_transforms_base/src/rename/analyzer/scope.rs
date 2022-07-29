@@ -71,6 +71,7 @@ impl Scope {
 
     pub(crate) fn rename_single_thread<R>(
         &mut self,
+        storage: &JsWordList,
         renamer: &R,
         to: &mut RenameMap,
         previous: &RenameMap,
@@ -84,6 +85,7 @@ impl Scope {
         // let mut cloned_reverse = reverse.clone();
 
         self.rename_one_scope_single_thread(
+            storage,
             renamer,
             to,
             previous,
@@ -94,6 +96,7 @@ impl Scope {
 
         for child in &mut self.children {
             child.rename_single_thread(
+                storage,
                 renamer,
                 to,
                 &Default::default(),
@@ -105,6 +108,7 @@ impl Scope {
 
     fn rename_one_scope_single_thread<R>(
         &self,
+        storage: &JsWordList,
         renamer: &R,
         to: &mut RenameMap,
         previous: &RenameMap,
@@ -120,7 +124,7 @@ impl Scope {
             if to.get(&id).is_some() || previous.get(&id).is_some() {
                 continue;
             }
-            let orig_id = self.data.storage.get_id(id);
+            let orig_id = storage.get_id(id);
 
             if R::RESET_N {
                 n = 0;
@@ -165,6 +169,7 @@ impl Scope {
     #[cfg_attr(not(feature = "concurrent-renamer"), allow(unused))]
     pub(crate) fn rename_parallel<R>(
         &mut self,
+        storage: &JsWordList,
         renamer: &R,
         to: &mut RenameMap,
         previous: &RenameMap,
@@ -180,6 +185,7 @@ impl Scope {
         let mut cloned_reverse = reverse.clone();
 
         self.rename_one_scope_parallel(
+            storage,
             renamer,
             to,
             previous,
@@ -202,6 +208,7 @@ impl Scope {
 
                     let mut new_map = HashMap::default();
                     child.rename_parallel(
+                        storage,
                         renamer,
                         &mut new_map,
                         to,
@@ -222,6 +229,7 @@ impl Scope {
 
         for child in &mut self.children {
             child.rename_parallel(
+                storage,
                 renamer,
                 to,
                 &Default::default(),
@@ -235,6 +243,7 @@ impl Scope {
 
     fn rename_one_scope_parallel<R>(
         &self,
+        storage: &JsWordList,
         renamer: &R,
         to: &mut RenameMap,
         previous: &RenameMap,
@@ -252,7 +261,7 @@ impl Scope {
                 continue;
             }
 
-            let orig_id = self.data.storage.get_id(id);
+            let orig_id = storage.get_id(id);
 
             if preserved.contains(&orig_id) {
                 continue;
