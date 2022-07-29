@@ -20,6 +20,7 @@ pub(crate) struct Scope {
 }
 
 #[repr(transparent)]
+#[derive(Debug, Default)]
 struct FastJsWord(ManuallyDrop<JsWord>);
 
 type FastId = (FastJsWord, SyntaxContext);
@@ -36,7 +37,7 @@ pub(super) struct ScopeData {
     /// because we merge every items in children to current scope.
     all: FxHashSet<Id>,
 
-    queue: Vec<Id>,
+    queue: Vec<FastId>,
 }
 
 impl Scope {
@@ -105,10 +106,10 @@ impl Scope {
     fn rename_one_scope_single_thread<R>(
         &self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
+        to: &mut RenameMap,
+        previous: &RenameMap,
         reverse: &mut ReverseMap,
-        queue: Vec<Id>,
+        queue: Vec<FastId>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
         R: Renamer,
