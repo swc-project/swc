@@ -36,7 +36,7 @@ pub(super) struct ScopeData {
     ///
     /// If the add-only contraint is violated, it is very likely to be a bug,
     /// because we merge every items in children to current scope.
-    all: FxHashSet<Id>,
+    all: FxHashSet<FastId>,
 
     queue: Vec<Id>,
 }
@@ -47,7 +47,7 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(id.clone());
+        self.data.all.insert(fast_id(id));
         if !self.data.queue.contains(id) {
             self.data.queue.push(id.clone());
         }
@@ -58,7 +58,7 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(id.clone());
+        self.data.all.insert(fast_id(id));
     }
 
     /// Copy `children.data.all` to `self.data.all`.
@@ -138,8 +138,8 @@ impl Scope {
                         debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
                     }
 
-                    to.insert((&id.0, id.1), sym.clone());
-                    reverse.entry(sym).or_default().push(id.clone());
+                    to.insert(fast_id(&id), sym.clone());
+                    reverse.entry(sym).or_default().push(fast_id(&id));
 
                     break;
                 }
@@ -147,13 +147,13 @@ impl Scope {
         }
     }
 
-    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<JsWord, Vec<Id>>) -> bool {
+    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &ReverseMap) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
         if let Some(lefts) = reverse.get(symbol) {
             for left in lefts {
-                if *left == *id {
+                if left.1 == id.1 && *left.0 == id.0 {
                     continue;
                 }
 

@@ -1,4 +1,4 @@
-use std::{borrow::Cow, collections::HashMap};
+use std::borrow::Cow;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
@@ -160,7 +160,9 @@ where
             );
         }
 
-        map.into_iter().map(|((s, ctxt), v)| {}).collect()
+        map.into_iter()
+            .map(|((s, ctxt), v)| ((s.clone(), ctxt), v))
+            .collect()
     }
 }
 
