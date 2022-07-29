@@ -3,6 +3,8 @@ export function x() {
 }
 let foo1 = require('./foo1');
 var x = foo1.x;
-let foo2 = require('./foo2');
-var x = foo2();
 module.exports = x;
+export { };
+let foo2 = require('./foo2');
+foo2();
+export { };

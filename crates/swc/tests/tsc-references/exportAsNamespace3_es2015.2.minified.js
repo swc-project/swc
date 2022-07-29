@@ -7,6 +7,6 @@ let ns = {
     b: 2
 };
 ns.a, ns.b;
+export { _ns as ns };
 import * as foo from './1';
 foo.ns.a, foo.ns.b;
-export { _ns as ns };

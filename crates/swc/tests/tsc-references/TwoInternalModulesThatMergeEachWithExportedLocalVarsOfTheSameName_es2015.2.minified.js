@@ -9,7 +9,9 @@ export var A;
         x: 0,
         y: 0
     };
-}(A || (A = {})), function(A) {
+}(A || (A = {}));
+export var A;
+!function(A) {
     A.Origin = {
         x: 0,
         y: 0

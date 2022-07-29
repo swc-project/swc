@@ -23,3 +23,6 @@ function b() {
 function get_c() {
     return _class_static_private_method_get(S, S, b).call(S);
 }
+// @filename: tslib.d.ts
+// these are pre-TS4.3 versions of emit helpers, which only supported private instance fields
+export { };

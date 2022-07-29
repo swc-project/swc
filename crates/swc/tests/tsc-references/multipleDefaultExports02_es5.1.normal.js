@@ -1,8 +1,22 @@
 // @module: commonjs
 // @target: ES5
 // @filename: m1.ts
-export default function foo() {};
-export default function bar() {};
+//!
+//!  x the name `default` is exported multiple times
+//!   ,-[2:1]
+//! 2 | ,-> export default function foo() {
+//! 3 | |   
+//! 4 | |-> }
+//!   : `---- previous exported here
+//! 5 |     
+//! 6 | ,-> export default function bar() {
+//! 7 | |   
+//! 8 | |-> }
+//!   : `---- exported more than once
+//!   `----
+//!
+//!Error: 
+//!  > Exported identifiers must be unique
 // @filename: m2.ts
 import Entity from "./m1";
 Entity();

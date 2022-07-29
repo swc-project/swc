@@ -1,7 +1,10 @@
-var M, M2;
-!function(M) {
-    class Point {
-    }
-    M.Point = Point;
-    var Point = M.Point = 1;
-}(M || (M = {})), (M2 || (M2 = {})).Point = 1;
+//!
+//!  x the name `Point` is defined multiple times
+//!   ,-[2:5]
+//! 2 | export class Point { x: number; y: number }
+//!   :              ^^|^^
+//!   :                `-- previous definition of `Point` here
+//! 3 |     export var Point = 1;  // Error
+//!   :                ^^|^^
+//!   :                  `-- `Point` redefined here
+//!   `----

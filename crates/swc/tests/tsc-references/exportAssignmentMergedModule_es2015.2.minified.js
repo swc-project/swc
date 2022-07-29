@@ -9,7 +9,8 @@ var Foo;
         return a;
     }
     Foo.c = c, (Foo.Test || (Foo.Test = {})).answer = 42;
-}(Foo || (Foo = {}));
+}(Foo || (Foo = {})), module.exports = Foo;
+export { };
 let foo = require("./foo_0");
-foo.a(), foo.b && (foo.Test.answer = foo.c(42)), module.exports = Foo;
+foo.a(), foo.b && (foo.Test.answer = foo.c(42));
 export { };

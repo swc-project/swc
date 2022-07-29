@@ -7,4 +7,6 @@
     b: 2
 };
 export default MyEnum;
+// @Filename: use.js
+import MyEnum from "./def";
 /** @type {MyEnum} */ const v = MyEnum.b;

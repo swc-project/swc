@@ -6,3 +6,4 @@ export class C1 {
 C1.s1 = !0;
 let foo = require("./foo_0");
 foo.C1.s1;
+export { };

@@ -3,13 +3,13 @@
 // @allowJs: true
 // @Filename: usage.js
 // note that usage is first in the compilation
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 Outer.Inner.Message = function() {};
 var y = new Outer.Inner();
 y.name;
 /** @type {Outer.Inner} should be instance type, not static type */ var x;
 x.name;
 // @Filename: def.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Outer = {};
 Outer.Inner = /*#__PURE__*/ function() {
     "use strict";

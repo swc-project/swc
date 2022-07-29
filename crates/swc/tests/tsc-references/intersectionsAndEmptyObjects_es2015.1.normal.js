@@ -41,4 +41,5 @@ var myChoicesAndEmpty;
 var unknownChoices;
 var unknownChoicesAndEmpty;
 mock(import('./ex'));
+// @filename: ex.d.ts
 export { };

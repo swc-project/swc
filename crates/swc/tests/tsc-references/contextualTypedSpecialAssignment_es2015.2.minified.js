@@ -32,7 +32,8 @@ exports.x = {
 }, Thing.prototype.x, (function() {}).prototype = {
     status: "done",
     m (n) {}
-}, module.exports = {
+};
+module.exports = {
     status: "done",
     m (n) {}
 };

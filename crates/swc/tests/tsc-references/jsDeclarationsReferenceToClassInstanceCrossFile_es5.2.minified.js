@@ -6,6 +6,7 @@ var Rectangle = function() {
 module.exports = {
     Rectangle: Rectangle
 };
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Rectangle = require("./rectangle").Rectangle, Render = function() {
     "use strict";
     function Render() {
@@ -19,5 +20,5 @@ var Rectangle = require("./rectangle").Rectangle, Render = function() {
 module.exports = {
     Render: Render
 };
-var Render = require("./index").Render, render = new Render();
+var render = new (require("./index")).Render();
 render.addRectangle(), console.log("Objects", render.objects);

@@ -5,3 +5,4 @@ export var S = function() {
     "use strict";
     _class_call_check(this, S);
 };
+export { };

@@ -5,9 +5,11 @@ var Cls = function() {
 };
 Cls.y = "ok";
 export default Cls;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C = function() {
     "use strict";
     _class_call_check(this, C);
 };
+export { C as default };
 var x = 12;
-export { C as default, x as default };
+export { x as default };

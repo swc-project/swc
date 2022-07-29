@@ -14,6 +14,7 @@
     this.x = x;
     this.y = y;
 }
+// @filename: referencer.js
 /**
  * @param {Point} p
  */ export function magnitude(p) {

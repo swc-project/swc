@@ -1,12 +1,15 @@
-var A, B;
+var A;
 (A || (A = {})).Point = function() {
     return {
         x: 0,
         y: 0
     };
-}, function(B) {
+};
+var B;
+!function(B) {
     (B.Point || (B.Point = {})).Origin = {
         x: 0,
         y: 0
     };
-}(B || (B = {})), A.Point, B.Point.Origin;
+}(B || (B = {}));
+A.Point, B.Point.Origin;

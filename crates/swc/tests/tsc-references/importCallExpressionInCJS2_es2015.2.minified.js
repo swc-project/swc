@@ -1,10 +1,10 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 export function foo() {
     return "foo";
 }
 export function backup() {
     return "backup";
 }
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 function _compute() {
     return (_compute = _async_to_generator(function*(promise) {
         let j = yield promise;

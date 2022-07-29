@@ -5,3 +5,5 @@ var A = function A() {
     _class_call_check(this, A);
 };
 export { A as default };
+// @Filename: /b.ts
+export { };

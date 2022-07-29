@@ -7,6 +7,8 @@ export class D {
 // @filename: defaultPath.ts
 export class C {
 }
+// @filename: 1.ts
 let p1 = import("./defaultPath");
 let p2 = import("./defaultPath");
 let p3 = import("./defaultPath");
+export { };

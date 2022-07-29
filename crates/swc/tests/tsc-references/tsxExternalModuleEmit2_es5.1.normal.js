@@ -1,8 +1,8 @@
 //@jsx: react
 //@module: commonjs
 //@filename: modules.d.ts
-import _extends from "@swc/helpers/src/_extends.mjs";
 //@filename: app.tsx
+import _extends from "@swc/helpers/src/_extends.mjs";
 import Main from "mod";
 // Should see mod_1['default'] in emit here
 /*#__PURE__*/ React.createElement(Foo, {

@@ -1,3 +1,4 @@
+var A;
 !function(A) {
     (A.Utils || (A.Utils = {})).mirror = function(p) {
         return {
@@ -5,7 +6,9 @@
             y: p.x
         };
     };
-}(A || (A = {})), function(A) {
+}(A || (A = {}));
+var A;
+!function(A) {
     A.Origin = {
         x: 0,
         y: 0
@@ -15,7 +18,7 @@
         }
     };
 }(A || (A = {}));
-var A, o = A.Origin, o = A.Utils.mirror(o);
+var o = A.Origin, o = A.Utils.mirror(o);
 new A.Utils.Plane(o, {
     x: 1,
     y: 1

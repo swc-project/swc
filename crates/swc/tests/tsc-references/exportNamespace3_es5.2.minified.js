@@ -3,7 +3,8 @@ export var A = function() {
     "use strict";
     _class_call_check(this, A);
 };
+export { };
 import * as _a from "./b";
+export { _a as a };
 import { a } from "./c";
 new a.A();
-export { _a as a };

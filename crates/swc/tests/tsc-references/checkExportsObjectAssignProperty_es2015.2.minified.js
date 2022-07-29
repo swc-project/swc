@@ -13,7 +13,8 @@ Object.defineProperty(exports, "thing", {
     set (str) {
         this.rwAccessors = Number(str);
     }
-}), Object.defineProperty(module.exports, "thing", {
+});
+Object.defineProperty(module.exports, "thing", {
     value: "yes",
     writable: !0
 }), Object.defineProperty(module.exports, "readonlyProp", {
@@ -28,7 +29,8 @@ Object.defineProperty(exports, "thing", {
     set (str) {
         this.rwAccessors = Number(str);
     }
-}), require("./mod1").thing, require("./mod2").thing;
+});
+require("./mod1").thing, require("./mod2").thing;
 import "./";
 let m1 = require("./mod1");
 m1.thing, m1.readonlyProp, m1.rwAccessors, m1.readonlyAccessor, m1.setonlyAccessor, m1.thing = 10, m1.rwAccessors = 11, m1.setonlyAccessor = "yes", m1.readonlyProp = "name", m1.readonlyAccessor = 12, m1.thing = "no", m1.rwAccessors = "no", m1.setonlyAccessor = 0;

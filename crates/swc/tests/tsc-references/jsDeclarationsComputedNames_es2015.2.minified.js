@@ -1,4 +1,4 @@
-let TopLevelSym = Symbol(), InnerSym = Symbol();
+const TopLevelSym = Symbol(), InnerSym = Symbol();
 module.exports = {
     [TopLevelSym]: (x = 12)=>x,
     items: {

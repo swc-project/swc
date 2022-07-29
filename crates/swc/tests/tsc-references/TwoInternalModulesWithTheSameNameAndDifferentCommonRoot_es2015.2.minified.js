@@ -1,4 +1,4 @@
-var Root, otherRoot;
+var Root;
 !function(Root) {
     var A;
     ((A = Root.A || (Root.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
@@ -7,7 +7,9 @@ var Root, otherRoot;
             y: p.x
         };
     };
-}(Root || (Root = {})), function(otherRoot) {
+}(Root || (Root = {}));
+var otherRoot;
+!function(otherRoot) {
     var A;
     (A = otherRoot.A || (otherRoot.A = {})).Origin = {
         x: 0,

@@ -2,6 +2,7 @@
 // @module: amd
 // @outFile: bundle.js
 // @filename: a/b/c.ts
+export { };
 // @filename: a/inner.ts
 var c = {
     x: 12

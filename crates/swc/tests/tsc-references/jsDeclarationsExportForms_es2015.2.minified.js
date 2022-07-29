@@ -4,16 +4,23 @@ export function func() {}
 export * from "./cls";
 export * from "./func";
 export * from "./cls";
+import { Foo } from "./cls";
+export { Foo };
+import * as ns from "./cls";
 export default ns;
-let ns = require("./cls");
+import * as ns from "./cls";
+export { ns };
+import * as ns from "./cls";
+export { ns as classContainer };
+const ns = require("./cls");
 module.exports = {
     ns
 };
-let ns = require("./cls");
+const ns = require("./cls");
 module.exports = ns;
-let ns = require("./cls");
+const ns = require("./cls");
 module.exports.ns = ns;
-let ns = require("./cls");
+const ns = require("./cls");
 module.exports.names = ns;
 import "./cjs4";
 import "./cjs3";
@@ -25,4 +32,3 @@ import "./bat";
 import "./baz";
 import "./bar";
 import "./bar2";
-export { Foo, ns, ns as classContainer };

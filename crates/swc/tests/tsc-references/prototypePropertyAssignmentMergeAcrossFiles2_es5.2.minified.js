@@ -1,4 +1,6 @@
-var one, two, Ns = {};
+var Ns = {};
 Ns.One = function() {}, Ns.Two = function() {}, Ns.One.prototype = {
     ok: function() {}
-}, Ns.Two.prototype = {}, one.wat, two.wat;
+}, Ns.Two.prototype = {};
+var two;
+(void 0).wat, two.wat;

@@ -5,11 +5,14 @@ var X;
             this.x = x, this.y = y;
         }
     };
-}(X || (X = {})), function(X) {
+}(X || (X = {}));
+var X;
+!function(X) {
     var Y;
     let Point;
     (Point = (Y = X.Y || (X.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
-}(X || (X = {})), new X.Y.Point(1, 1), X.Y.Point.Origin;
+}(X || (X = {}));
+new X.Y.Point(1, 1), X.Y.Point.Origin;
 class A {
 }
 (A || (A = {})).Instance = new A(), A.Instance, new A();

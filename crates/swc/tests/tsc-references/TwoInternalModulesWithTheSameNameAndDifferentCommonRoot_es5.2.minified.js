@@ -1,5 +1,4 @@
-var Root, otherRoot;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var Root;
 !function(Root) {
     var A;
     ((A = Root.A || (Root.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
@@ -8,7 +7,10 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             y: p.x
         };
     };
-}(Root || (Root = {})), function(otherRoot) {
+}(Root || (Root = {}));
+var otherRoot;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(otherRoot) {
     var A, Utils, Plane;
     (A = otherRoot.A || (otherRoot.A = {})).Origin = {
         x: 0,
