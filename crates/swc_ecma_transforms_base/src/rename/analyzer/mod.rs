@@ -17,11 +17,11 @@ pub(super) struct Analyzer<'a> {
 
 impl Analyzer<'_> {
     fn add_decl(&mut self, id: Id) {
-        self.scope.add_decl(&id);
+        self.scope.add_decl(self.storage, &id);
     }
 
     fn add_usage(&mut self, id: Id) {
-        self.scope.add_usage(&id);
+        self.scope.add_usage(self.storage, &id);
     }
 
     fn with_scope<F>(&mut self, op: F)

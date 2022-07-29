@@ -108,11 +108,14 @@ where
     ) -> AHashMap<Id, JsWord>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
-        N: VisitWith<Analyzer<'_>>,
+        N: for<'aa> VisitWith<Analyzer<'aa>>,
     {
+        let mut storage = Default::default();
         let mut scope = {
             let mut v = Analyzer {
-                ..Default::default()
+                is_pat_decl: Default::default(),
+                scope: Default::default(),
+                storage: &mut storage,
             };
             if skip_one {
                 node.visit_children_with(&mut v);
@@ -161,7 +164,7 @@ where
         }
 
         map.into_iter()
-            .map(|((s, ctxt), v)| ((scope.get_words().get(s).clone(), ctxt), v))
+            .map(|((s, ctxt), v)| ((storage.get(s).clone(), ctxt), v))
             .collect()
     }
 }

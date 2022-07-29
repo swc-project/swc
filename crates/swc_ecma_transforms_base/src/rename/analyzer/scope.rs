@@ -37,12 +37,12 @@ pub(super) struct ScopeData {
 }
 
 impl Scope {
-    pub(super) fn add_decl(&mut self, id: &Id) {
+    pub(super) fn add_decl(&mut self, storage: &mut JsWordList, id: &Id) {
         if id.0 == js_word!("arguments") {
             return;
         }
 
-        let id = self.data.storage.id(id);
+        let id = storage.id(id);
 
         self.data.all.insert(id);
         if !self.data.queue.contains(&id) {
@@ -50,18 +50,14 @@ impl Scope {
         }
     }
 
-    pub(super) fn add_usage(&mut self, id: &Id) {
+    pub(super) fn add_usage(&mut self, storage: &mut JsWordList, id: &Id) {
         if id.0 == js_word!("arguments") {
             return;
         }
 
-        let id = self.data.storage.id(id);
+        let id = storage.id(id);
 
         self.data.all.insert(id);
-    }
-
-    pub(crate) fn get_words(&mut self) -> &mut JsWordList {
-        &mut self.data.storage
     }
 
     /// Copy `children.data.all` to `self.data.all`.
