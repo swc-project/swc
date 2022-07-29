@@ -722,9 +722,9 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc_atoms"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f7c7709078e8f8f34a2f277d9d5f6e95ea5f18752ee9a9986d0eff3dcafea3f3"
+checksum = "66e252fe697709a0fc8710b5b9dee2d72fd9852d3f5fd1a057ce808b6987ccba"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -871,9 +871,9 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.88.1"
+version = "0.88.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f3ff2465764b9c99f0a6c80b5a288f6ecdd76647c9a0bd06d6fc7e9eb1408ca8"
+checksum = "f2a9c487212e99a336641ecbbd2bd23697b2dac0008335231009ab610bdf24af"
 dependencies = [
  "swc_atoms",
  "swc_common",
