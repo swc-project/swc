@@ -11,16 +11,8 @@ impl OpenElementsStack {
         }
     }
 
-    pub fn push(&mut self, node: RcNode) {
-        self.items.push(node);
-    }
-
-    pub fn pop(&mut self) -> Option<RcNode> {
-        self.items.pop()
-    }
-
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) -> Option<RcNode> {
-        while let Some(node) = self.pop() {
+        while let Some(node) = self.items.pop() {
             if tag_name.contains(&get_tag_name!(node)) {
                 return Some(node);
             }

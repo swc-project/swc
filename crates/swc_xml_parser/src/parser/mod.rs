@@ -251,7 +251,7 @@ where
                     let element = self.create_element_for_token(token_and_info.clone());
 
                     self.append_node(self.document.as_ref().unwrap(), element.clone());
-                    self.open_elements_stack.push(element);
+                    self.open_elements_stack.items.push(element);
                     self.phase = Phase::MainPhase;
                 }
                 Token::EmptyTag { .. } => {
@@ -302,7 +302,7 @@ where
                     let element = self.create_element_for_token(token_and_info.clone());
 
                     self.append_node(self.get_current_element(), element.clone());
-                    self.open_elements_stack.push(element);
+                    self.open_elements_stack.items.push(element);
                 }
                 Token::EmptyTag { .. } => {
                     let element = self.create_element_for_token(token_and_info.clone());
@@ -337,7 +337,7 @@ where
                     }
                 }
                 Token::ShortTag { .. } => {
-                    self.open_elements_stack.pop();
+                    self.open_elements_stack.items.pop();
 
                     if self.open_elements_stack.items.is_empty() {
                         self.phase = Phase::EndPhase;
