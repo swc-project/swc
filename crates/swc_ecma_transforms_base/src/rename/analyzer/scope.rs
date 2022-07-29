@@ -48,7 +48,7 @@ impl Scope {
 
         self.data.all.insert(id);
         if !self.data.queue.contains(&id) {
-            self.data.queue.push(id.clone());
+            self.data.queue.push(id);
         }
     }
 
@@ -140,7 +140,7 @@ impl Scope {
                 }
 
                 if self.can_rename(&id, &sym, reverse) {
-                    to.insert(id.clone(), sym.clone());
+                    to.insert(id, sym.clone());
                     reverse.entry(sym).or_default().push(id);
 
                     break;
