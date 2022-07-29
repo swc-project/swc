@@ -74,7 +74,7 @@ impl Scope {
         renamer: &R,
         to: &mut RenameMap,
         previous: &RenameMap,
-        reverse: &mut FxHashMap<JsWord, Vec<FastId>>,
+        reverse: &mut ReverseMap,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
         R: Renamer,
