@@ -13,11 +13,41 @@ use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
+mod types;
+
 fn convert_err(err: Error, error_format: ErrorFormat) -> JsValue {
     error_format.format(&err).into()
 }
 
-#[wasm_bindgen(js_name = "minifySync")]
+/// Custom interface definitions for the @swc/wasm's public interface instead of
+/// auto generated one, which is not reflecting most of types in detail.
+#[wasm_bindgen(typescript_custom_section)]
+const INTERFACE_DEFINITIONS: &'static str = r#"
+export function minifySync(code: string, opts?: JsMinifyOptions): Output;
+export function parseSync(
+    src: string,
+    options: ParseOptions & { isModule: false }
+  ): Script;
+export function parseSync(src: string, options?: ParseOptions): Module;
+export function parseSync(src: string, options?: ParseOptions): Program;
+export function printSync(m: Program, options?: Options): Output
+
+/**
+* @param {string} code
+* @param {Options} opts
+* @param {Record<string, ArrayBuffer>} experimental_plugin_bytes_resolver An object contains bytes array for the plugin
+* specified in config. Key of record represents the name of the plugin specified in config. Note this is an experimental
+* interface, likely will change.
+* @returns {Output}
+*/
+export function transformSync(code: string, opts: Options, experimental_plugin_bytes_resolver?: any): Output;
+"#;
+
+#[wasm_bindgen(
+    js_name = "minifySync",
+    typescript_type = "minifySync",
+    skip_typescript
+)]
 pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
 
@@ -44,7 +74,7 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
 
-#[wasm_bindgen(js_name = "parseSync")]
+#[wasm_bindgen(js_name = "parseSync", typescript_type = "parseSync", skip_typescript)]
 pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
 
@@ -86,7 +116,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
 
-#[wasm_bindgen(js_name = "printSync")]
+#[wasm_bindgen(js_name = "printSync", typescript_type = "printSync", skip_typescript)]
 pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
 
@@ -128,19 +158,6 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     )
     .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
-
-#[wasm_bindgen(typescript_custom_section)]
-const TRANSFORM_SYNC_DEFINITION: &'static str = r#"
-/**
-* @param {string} code
-* @param {any} opts
-* @param {Record<string, ArrayBuffer>} experimental_plugin_bytes_resolver An object contains bytes array for the plugin
-* specified in config. Key of record represents the name of the plugin specified in config. Note this is an experimental
-* interface, likely will change.
-* @returns {any}
-*/
-export function transformSync(code: string, opts: any, experimental_plugin_bytes_resolver?: any): any;
-"#;
 
 #[wasm_bindgen(
     js_name = "transformSync",
