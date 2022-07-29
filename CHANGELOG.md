@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/minifier)** Change default es version to `es5` (#5333) ([64a9946](https://github.com/swc-project/swc/commit/64a99461ecc24b074e9b674c98c1cec12b687159))
+
 ### Testing
 
 
