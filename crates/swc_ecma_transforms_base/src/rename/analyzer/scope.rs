@@ -62,6 +62,10 @@ impl Scope {
         self.data.all.insert(id);
     }
 
+    pub(crate) fn get_words(&mut self) -> &mut JsWordList {
+        &mut self.data.storage
+    }
+
     /// Copy `children.data.all` to `self.data.all`.
     pub(crate) fn prepare_renaming(&mut self) {
         self.children.iter_mut().for_each(|child| {

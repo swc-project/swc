@@ -161,7 +161,7 @@ where
         }
 
         map.into_iter()
-            .map(|((s, ctxt), v)| ((s.into_inner(), ctxt), v))
+            .map(|((s, ctxt), v)| ((scope.get_words().get(s).clone(), ctxt), v))
             .collect()
     }
 }

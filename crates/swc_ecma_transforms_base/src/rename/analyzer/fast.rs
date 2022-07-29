@@ -3,13 +3,13 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::Id;
 
 #[derive(Debug, Default)]
-pub(super) struct JsWordList {
+pub(crate) struct JsWordList {
     words: Vec<JsWord>,
 }
 
 #[repr(transparent)]
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(super) struct JsWordIndex(usize);
+pub(crate) struct JsWordIndex(usize);
 
 impl JsWordList {
     pub fn store(&mut self, w: &JsWord) -> JsWordIndex {
