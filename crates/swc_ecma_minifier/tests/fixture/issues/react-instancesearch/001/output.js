@@ -8,10 +8,14 @@ export default function createWidgetsManager(onWidgetsUpdate) {
         }));
     }
     return {
-        registerWidget: (widget)=>(widgets.push(widget), scheduleUpdate(), function() {
+        registerWidget (widget) {
+            return widgets.push(widget), scheduleUpdate(), function() {
                 widgets.splice(widgets.indexOf(widget), 1), scheduleUpdate();
-            }),
+            };
+        },
         update: scheduleUpdate,
-        getWidgets: ()=>widgets
+        getWidgets () {
+            return widgets;
+        }
     };
 };
