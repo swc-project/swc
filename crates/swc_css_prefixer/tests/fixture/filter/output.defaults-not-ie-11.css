@@ -1,10 +1,8 @@
 .class {
-  -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
   fill: red;
 }
 a {
-  -webkit-filter: blur(10px);
   filter: blur(10px);
   transition: -webkit-filter 2s;
   transition: filter 2s;

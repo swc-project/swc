@@ -105,15 +105,11 @@ button::-webkit-search-cancel-button {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-flow: row;
   -moz-box-orient: horizontal;
   -moz-box-direction: normal;
-  -ms-flex-flow: row;
   flex-flow: row;
   -webkit-box-ordinal-group: 1;
-  -webkit-order: 0;
   -moz-box-ordinal-group: 1;
-  -ms-flex-order: 0;
   order: 0;
   -webkit-box-flex: 0;
   -webkit-flex: 0 1 2;

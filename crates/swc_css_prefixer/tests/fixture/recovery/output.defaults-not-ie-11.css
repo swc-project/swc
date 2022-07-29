@@ -4,13 +4,9 @@ main {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: __styled-jsx-placeholder;
-  -ms-flex-direction: __styled-jsx-placeholder;
   flex-direction: __styled-jsx-placeholder;
   -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
   -moz-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   margin-bottom: var(--geist-gap-double);
 }
@@ -22,8 +18,6 @@ div {
 }
 @media (max-width: __styled-jsx-placeholderpx) {
   main {
-    -webkit-flex-direction: __styled-jsx-placeholder;
-    -ms-flex-direction: __styled-jsx-placeholder;
     flex-direction: __styled-jsx-placeholder;
   }
   div {

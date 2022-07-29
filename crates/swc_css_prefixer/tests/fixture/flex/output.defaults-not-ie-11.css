@@ -7,15 +7,11 @@ a {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-flow: row;
   -moz-box-orient: horizontal;
   -moz-box-direction: normal;
-  -ms-flex-flow: row;
   flex-flow: row;
   -webkit-box-ordinal-group: 1;
-  -webkit-order: 0;
   -moz-box-ordinal-group: 1;
-  -ms-flex-order: 0;
   order: 0;
   -webkit-box-flex: 0;
   -webkit-flex: 0 1 2;
@@ -30,11 +26,7 @@ a {
   display: -moz-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-align-self: auto;
-  -ms-flex-item-align: auto;
   align-self: auto;
-  -webkit-align-content: stretch;
-  -ms-flex-line-pack: stretch;
   align-content: stretch;
   -webkit-box-flex: 1;
   -webkit-flex: auto;
@@ -50,29 +42,17 @@ a {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
   -moz-box-orient: horizontal;
   -moz-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
   -moz-box-pack: start;
-  -ms-flex-pack: start;
   justify-content: flex-start;
   -webkit-box-align: start;
-  -webkit-align-items: flex-start;
   -moz-box-align: start;
-  -ms-flex-align: start;
   align-items: flex-start;
-  -webkit-flex-wrap: nowrap;
-  -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
-  -webkit-align-content: flex-start;
-  -ms-flex-line-pack: start;
   align-content: flex-start;
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: start;
   align-self: flex-start;
   -webkit-box-flex: 0;
   -webkit-flex: none;
@@ -88,29 +68,17 @@ a {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
-  -webkit-flex-direction: row-reverse;
   -moz-box-orient: horizontal;
   -moz-box-direction: reverse;
-  -ms-flex-direction: row-reverse;
   flex-direction: row-reverse;
   -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
   -moz-box-pack: end;
-  -ms-flex-pack: end;
   justify-content: flex-end;
   -webkit-box-align: end;
-  -webkit-align-items: flex-end;
   -moz-box-align: end;
-  -ms-flex-align: end;
   align-items: flex-end;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-align-content: flex-end;
-  -ms-flex-line-pack: end;
   align-content: flex-end;
-  -webkit-align-self: flex-end;
-  -ms-flex-item-align: end;
   align-self: flex-end;
   -webkit-flex-shrink: 1;
   -ms-flex-negative: 1;
@@ -124,29 +92,17 @@ a {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   -moz-box-orient: vertical;
   -moz-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -moz-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
   -webkit-box-align: center;
-  -webkit-align-items: center;
   -moz-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-flex-wrap: reverse-wrap;
-  -ms-flex-wrap: reverse-wrap;
   flex-wrap: reverse-wrap;
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
   align-content: center;
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
   align-self: center;
   -webkit-flex-basis: auto;
   -ms-flex-preferred-size: auto;
@@ -160,26 +116,16 @@ a {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: reverse;
-  -webkit-flex-direction: column-reverse;
   -moz-box-orient: vertical;
   -moz-box-direction: reverse;
-  -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
   -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
   -moz-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-box-align: baseline;
-  -webkit-align-items: baseline;
   -moz-box-align: baseline;
-  -ms-flex-align: baseline;
   align-items: baseline;
-  -webkit-align-content: space-between;
-  -ms-flex-line-pack: justify;
   align-content: space-between;
-  -webkit-align-self: baseline;
-  -ms-flex-item-align: baseline;
   align-self: baseline;
 }
 .f {
@@ -188,19 +134,11 @@ a {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-justify-content: space-around;
-  -ms-flex-pack: distribute;
   justify-content: space-around;
   -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
   -moz-box-align: stretch;
-  -ms-flex-align: stretch;
   align-items: stretch;
-  -webkit-align-content: space-around;
-  -ms-flex-line-pack: distribute;
   align-content: space-around;
-  -webkit-align-self: stretch;
-  -ms-flex-item-align: stretch;
   align-self: stretch;
 }
 .g {
@@ -220,25 +158,17 @@ a {
 .h {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-flow: column wrap;
   -moz-box-orient: vertical;
   -moz-box-direction: normal;
-  -ms-flex-flow: column wrap;
   flex-flow: column wrap;
 }
 .i {
-  -webkit-flex-flow: nowrap;
-  -ms-flex-flow: nowrap;
   flex-flow: nowrap;
 }
 .inherit {
   -webkit-box-ordinal-group: inherit;
-  -webkit-order: inherit;
   -moz-box-ordinal-group: inherit;
-  -ms-flex-order: inherit;
   order: inherit;
-  -webkit-flex-direction: inherit;
-  -ms-flex-direction: inherit;
   flex-direction: inherit;
 }
 @supports (display: flex) {
@@ -284,68 +214,46 @@ a {
   flex-basis: auto;
 }
 .class {
-  -webkit-align-self: auto;
-  -ms-flex-item-align: auto;
   align-self: auto;
 }
 .class {
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: start;
   align-self: flex-start;
 }
 .class {
-  -webkit-align-self: flex-end;
-  -ms-flex-item-align: end;
   align-self: flex-end;
 }
 .class {
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
   align-content: center;
 }
 .class {
-  -webkit-align-content: flex-start;
-  -ms-flex-line-pack: start;
   align-content: flex-start;
 }
 .class {
-  -webkit-align-content: flex-end;
-  -ms-flex-line-pack: end;
   align-content: flex-end;
 }
 .class {
   -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
   -moz-box-align: stretch;
-  -ms-flex-align: stretch;
   align-items: stretch;
 }
 .class {
   -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
   -moz-box-pack: end;
-  -ms-flex-pack: end;
   justify-content: flex-end;
 }
 .class {
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
   -moz-box-pack: start;
-  -ms-flex-pack: start;
   justify-content: flex-start;
 }
 .class {
   -webkit-box-pack: stretch;
-  -webkit-justify-content: stretch;
   -moz-box-pack: stretch;
-  -ms-flex-pack: stretch;
   justify-content: stretch;
 }
 .class {
   -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
   -moz-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 .class {
@@ -353,35 +261,27 @@ a {
 }
 .class {
   -webkit-box-ordinal-group: 2;
-  -webkit-order: 1;
   -moz-box-ordinal-group: 2;
-  -ms-flex-order: 1;
   order: 1;
 }
 .class {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   -moz-box-orient: vertical;
   -moz-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
 }
 .class {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-flow: wrap column;
   -moz-box-orient: vertical;
   -moz-box-direction: normal;
-  -ms-flex-flow: wrap column;
   flex-flow: wrap column;
 }
 .class-17 {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
   -moz-box-orient: horizontal;
   -moz-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
 }
