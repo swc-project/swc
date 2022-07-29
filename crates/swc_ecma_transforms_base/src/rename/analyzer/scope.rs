@@ -21,9 +21,7 @@ pub(crate) struct Scope {
 /// [JsWord] without clone or drop. This is unsafe and creator should ensure
 /// that [JsWord] stored in this type is not dropped until all operations are
 /// finished.
-#[repr(transparent)]
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct FastJsWord(JsWordIndex);
+pub(crate) type FastJsWord = JsWordIndex;
 
 pub(crate) type FastId = (FastJsWord, SyntaxContext);
 
