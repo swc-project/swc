@@ -1,7 +1,5 @@
 #![allow(clippy::too_many_arguments)]
 
-use std::mem::{transmute_copy, ManuallyDrop};
-
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
@@ -10,6 +8,7 @@ use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
+use super::fast::JsWordIndex;
 use crate::rename::Renamer;
 
 #[derive(Debug, Default)]
@@ -23,24 +22,8 @@ pub(crate) struct Scope {
 /// that [JsWord] stored in this type is not dropped until all operations are
 /// finished.
 #[repr(transparent)]
-#[derive(Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct FastJsWord(ManuallyDrop<JsWord>);
-
-impl Clone for FastJsWord {
-    fn clone(&self) -> Self {
-        unsafe { Self(ManuallyDrop::new(transmute_copy(&self.0))) }
-    }
-}
-
-impl FastJsWord {
-    pub fn new(src: JsWord) -> Self {
-        FastJsWord(ManuallyDrop::new(src))
-    }
-
-    pub fn into_inner(self) -> JsWord {
-        ManuallyDrop::into_inner(self.0)
-    }
-}
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct FastJsWord(JsWordIndex);
 
 pub(crate) type FastId = (FastJsWord, SyntaxContext);
 

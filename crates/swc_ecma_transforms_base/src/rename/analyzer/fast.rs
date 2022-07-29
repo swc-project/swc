@@ -4,6 +4,8 @@ pub(super) struct JsWordList {
     words: Vec<JsWord>,
 }
 
+#[repr(transparent)]
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(super) struct JsWordIndex(usize);
 
 impl JsWordList {
