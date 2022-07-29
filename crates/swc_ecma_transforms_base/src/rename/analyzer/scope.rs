@@ -134,7 +134,7 @@ impl Scope {
         }
     }
 
-    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<&JsWord, Vec<Id>>) -> bool {
+    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<JsWord, Vec<Id>>) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
@@ -159,7 +159,7 @@ impl Scope {
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
-        reverse: &FxHashMap<&JsWord, Vec<Id>>,
+        reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
         parallel: bool,
@@ -229,7 +229,7 @@ impl Scope {
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
-        cloned_reverse: &mut FxHashMap<&'static JsWord, Vec<Id>>,
+        cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         queue: Vec<Id>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
