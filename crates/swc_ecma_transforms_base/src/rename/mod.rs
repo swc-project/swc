@@ -108,7 +108,7 @@ where
     ) -> AHashMap<Id, JsWord>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
-        N: VisitWith<Analyzer>,
+        N: VisitWith<Analyzer<'_>>,
     {
         let mut scope = {
             let mut v = Analyzer {

@@ -1,19 +1,21 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use self::scope::Scope;
+use self::{fast::JsWordList, scope::Scope};
 
 mod fast;
 pub(super) mod scope;
 
-#[derive(Debug, Default)]
-pub(super) struct Analyzer {
+#[derive(Debug)]
+pub(super) struct Analyzer<'a> {
     pub is_pat_decl: bool,
 
     pub scope: Scope,
+
+    storage: &'a mut JsWordList,
 }
 
-impl Analyzer {
+impl Analyzer<'_> {
     fn add_decl(&mut self, id: Id) {
         self.scope.add_decl(&id);
     }
@@ -32,6 +34,7 @@ impl Analyzer {
                     ..Default::default()
                 },
                 is_pat_decl: self.is_pat_decl,
+                storage: self.storage,
             };
 
             op(&mut v);
@@ -41,7 +44,7 @@ impl Analyzer {
     }
 }
 
-impl Visit for Analyzer {
+impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, e: &ArrowExpr) {

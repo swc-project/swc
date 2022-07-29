@@ -27,8 +27,6 @@ pub(crate) type ReverseMap = FxHashMap<JsWord, Vec<FastId>>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
-    storage: JsWordList,
-
     /// This is add-only.
     ///
     /// If the add-only contraint is violated, it is very likely to be a bug,
