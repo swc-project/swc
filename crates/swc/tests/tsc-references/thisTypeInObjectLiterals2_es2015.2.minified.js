@@ -80,7 +80,9 @@ let vue = new Vue({
             return this.x;
         },
         hello: {
-            get: ()=>"hi",
+            get () {
+                return "hi";
+            },
             set (value) {}
         }
     }
