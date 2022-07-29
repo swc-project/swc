@@ -700,9 +700,8 @@ impl VisitMut for Prefixer {
 
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
         media_query_list.visit_mut_children_with(self);
-        let mut new_queries = Vec::with_capacity(media_query_list.queries.len());
 
-        let mut new = Vec::with_capacity(media_query_list.queries.len());
+        let mut new_queries = Vec::with_capacity(media_query_list.queries.len());
 
         for n in take(&mut media_query_list.queries) {
             // TODO avoid duplicates
@@ -720,11 +719,9 @@ impl VisitMut for Prefixer {
                     "-webkit-max-device-pixel-ratio",
                 );
 
-                if !n.eq_ignore_span(&new_webkit_value) {
-                    new.push(new_webkit_value);
+                if n != new_webkit_value {
+                    new_queries.push(new_webkit_value);
                 }
-            if n != new_webkit_value {
-                new_queries.push(new_webkit_value);
             }
 
             if should_prefix("min--moz-device-pixel-ratio", self.env, false) {
@@ -741,11 +738,9 @@ impl VisitMut for Prefixer {
                     "max--moz-device-pixel-ratio",
                 );
 
-                if !n.eq_ignore_span(&new_moz_value) {
-                    new.push(new_moz_value);
+                if n != new_moz_value {
+                    new_queries.push(new_moz_value);
                 }
-            if n != new_moz_value {
-                new_queries.push(new_moz_value);
             }
 
             // TODO opera support
