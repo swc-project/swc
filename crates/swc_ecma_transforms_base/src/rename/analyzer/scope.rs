@@ -20,7 +20,7 @@ pub(crate) struct Scope {
 }
 
 #[repr(transparent)]
-#[derive(Debug, Default)]
+#[derive(Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct FastJsWord(ManuallyDrop<JsWord>);
 
 type FastId = (FastJsWord, SyntaxContext);
