@@ -1,1 +1,2 @@
-module.exports = function() {}, module.exports(), require('./mod')();
+module.exports = function() {}, module.exports();
+require('./mod')();

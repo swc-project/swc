@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 var _obj, TopLevelSym = Symbol(), InnerSym = Symbol();
 module.exports = (_define_property(_obj = {}, TopLevelSym, function() {
@@ -10,6 +9,7 @@ module.exports = (_define_property(_obj = {}, TopLevelSym, function() {
     };
     return arg.x;
 })), _obj);
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var TopLevelSym = Symbol(), InnerSym = Symbol(), _InnerSym = InnerSym;
 export var MyClass = function() {
     "use strict";

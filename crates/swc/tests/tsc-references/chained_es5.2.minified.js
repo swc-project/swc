@@ -4,5 +4,6 @@ var A = function() {
     _class_call_check(this, A);
 };
 export { B as C } from "./a";
+export { };
 import { D } from "./c";
 new D();

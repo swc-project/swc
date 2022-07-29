@@ -1,4 +1,4 @@
-let x = {};
+const x = {};
 Object.defineProperty(x, "name", {
     value: "Charles",
     writable: !0

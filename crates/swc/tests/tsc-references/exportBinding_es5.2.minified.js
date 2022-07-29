@@ -5,6 +5,7 @@ var Y = function Y() {
     "use strict";
     _class_call_check(this, Y);
 };
+export { x, x as xx, Y as Z };
 export default y;
 var y = "y";
-export { x, x as xx, Y as Z, y, y as yy };
+export { y, y as yy };

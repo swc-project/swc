@@ -7,7 +7,14 @@ export function func() {}
 export * from "./cls";
 export * from "./func";
 export * from "./cls";
+import { Foo } from "./cls";
+export { Foo };
+import * as ns from "./cls";
 export default ns;
+import * as ns from "./cls";
+export { ns };
+import * as ns from "./cls";
+export { ns as classContainer };
 var ns = require("./cls");
 module.exports = {
     ns: ns
@@ -28,4 +35,3 @@ import "./bat";
 import "./baz";
 import "./bar";
 import "./bar2";
-export { Foo, ns, ns as classContainer };

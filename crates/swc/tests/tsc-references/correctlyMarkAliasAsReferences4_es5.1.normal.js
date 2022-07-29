@@ -4,9 +4,9 @@
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 // @filename: declaration.d.ts
-import _extends from "@swc/helpers/src/_extends.mjs";
 // @filename: 0.tsx
 ///<reference path="declaration.d.ts" />
+import _extends from "@swc/helpers/src/_extends.mjs";
 import * as cx from "classnames";
 import * as React from "react";
 var buttonProps;

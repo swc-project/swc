@@ -16,7 +16,7 @@ export * from "./t1";
 export * from "./t2";
 export * from "./t3";
 // @filename: main.ts
-import hello from "./t4";
+import hello, { x, y, z, foo } from "./t4";
 hello;
 x;
 y;

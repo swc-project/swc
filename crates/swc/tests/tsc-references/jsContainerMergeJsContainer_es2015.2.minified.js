@@ -1,2 +1,3 @@
 const a = {};
-a.d = function() {}, a.d.prototype = {};
+a.d = function() {};
+a.d.prototype = {};

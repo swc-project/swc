@@ -1,3 +1,4 @@
+export { };
 module.exports = {
     doTheThing: function(x) {
         return {
@@ -10,4 +11,3 @@ module.exports = {
         }
     }
 };
-export { };

@@ -3,5 +3,6 @@ var A = function() {
     "use strict";
     _class_call_check(this, A);
 };
-new A();
 export { A as default };
+new A();
+export { };

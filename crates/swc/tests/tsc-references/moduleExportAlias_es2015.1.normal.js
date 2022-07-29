@@ -22,6 +22,7 @@ b.func17;
 b.func18;
 b.func19;
 b.func20;
+export { };
 // @filename: b.js
 var exportsAlias = exports;
 exportsAlias.func1 = function() {};
@@ -60,4 +61,3 @@ module.exports.func18 = function() {};
 module.exports = {};
 exports.func19 = function() {};
 module.exports.func20 = function() {};
-export { };

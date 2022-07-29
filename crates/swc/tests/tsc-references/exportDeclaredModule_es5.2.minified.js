@@ -1,2 +1,4 @@
-require("./foo1").b(), module.exports = M1;
+module.exports = M1;
+export { };
+require("./foo1").b();
 export { };

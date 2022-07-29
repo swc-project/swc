@@ -9,6 +9,7 @@ var Outer = function Outer() {
     _class_call_check(this, Outer);
 };
 // @Filename: a.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 Outer.Inner = /*#__PURE__*/ function() {
     "use strict";
     function I() {

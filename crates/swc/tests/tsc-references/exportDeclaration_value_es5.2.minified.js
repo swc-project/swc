@@ -1,1 +1,2 @@
 export var AA = {};
+export { };

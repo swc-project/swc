@@ -24,5 +24,5 @@ Person.prototype.describe = function() {
     }
 }), module.exports = Person;
 import "./";
-var Person = require("./mod1"), m1 = new Person("Name");
+var m1 = new (require("./mod1"))("Name");
 m1.thing, m1.readonlyProp, m1.rwAccessors, m1.readonlyAccessor, m1.setonlyAccessor, m1.thing = 10, m1.rwAccessors = 11, m1.setonlyAccessor = "yes", m1.readonlyProp = "name", m1.readonlyAccessor = 12, m1.thing = "no", m1.rwAccessors = "no", m1.setonlyAccessor = 0;

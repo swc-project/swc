@@ -1,22 +1,18 @@
-var // ++ operator on enum type
-ENUM;
-(function(ENUM) {})(ENUM || (ENUM = {}));
-var ENUM1;
-(function(ENUM1) {
-    ENUM1[ENUM1["A"] = 0] = "A";
-    ENUM1[ENUM1["B"] = 1] = "B";
-    ENUM1[ENUM1[""] = 2] = "";
-})(ENUM1 || (ENUM1 = {}));
-// enum type var
-var ResultIsNumber1 = ++ENUM;
-var ResultIsNumber2 = ++ENUM1;
-var ResultIsNumber3 = ENUM++;
-var ResultIsNumber4 = ENUM1++;
-// enum type expressions
-var ResultIsNumber5 = ++ENUM[1] + ENUM[2];
-var ResultIsNumber6 = ENUM[1] + ENUM[2]++;
-// miss assignment operator
-++ENUM;
-++ENUM1;
-ENUM++;
-ENUM1++;
+//!
+//!  x The left-hand side of an assignment expression must be a variable or a property access.
+//!    ,----
+//! 14 | var ResultIsNumber5 = ++(ENUM[1] + ENUM[2]);
+//!    :                         ^^^^^^^^^^^^^^^^^^^
+//!    `----
+//!
+//!  x The left-hand side of an assignment expression must be a variable or a property access.
+//!    ,----
+//! 15 | var ResultIsNumber6 = (ENUM[1] + ENUM[2])++;
+//!    :                       ^^^^^^^^^^^^^^^^^^^
+//!    `----
+//!
+//!
+//!Caused by:
+//!    0: failed to process input file
+//!    1: error was recoverable, but proceeding would result in wrong codegen
+//!    2: Syntax Error

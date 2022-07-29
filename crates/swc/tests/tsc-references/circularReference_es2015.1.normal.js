@@ -13,6 +13,7 @@ export var M1;
 })(M1 || (M1 = {}));
 // @Filename: foo2.ts
 const foo1 = require('./foo1');
+export var M1;
 (function(M11) {
     class C1 {
         constructor(){

@@ -4,5 +4,6 @@ var A = function() {
     _class_call_check(this, A);
 };
 import * as a from "./a";
-var a = require("./b");
-new a.A(), module.exports = a;
+module.exports = a;
+new (require("./b")).A();
+export { };

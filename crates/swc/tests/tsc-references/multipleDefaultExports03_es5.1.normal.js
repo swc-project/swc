@@ -1,13 +1,14 @@
-// @module: commonjs
-// @target: ES5
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var C = function C() {
-    "use strict";
-    _class_call_check(this, C);
-};
-export { C as default };
-var C = function C() {
-    "use strict";
-    _class_call_check(this, C);
-};
-export { C as default };
+//!
+//!  x the name `default` is exported multiple times
+//!   ,-[4:1]
+//! 4 | ,-> export default class C {
+//! 5 | |-> }
+//!   : `---- previous exported here
+//! 6 |     
+//! 7 | ,-> export default class C {
+//! 8 | |-> }
+//!   : `---- exported more than once
+//!   `----
+//!
+//!Error: 
+//!  > Exported identifiers must be unique

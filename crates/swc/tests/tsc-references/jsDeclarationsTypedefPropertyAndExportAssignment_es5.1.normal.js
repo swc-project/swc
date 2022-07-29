@@ -11,8 +11,7 @@
  * @property {string[]} traceEventNames
  */ /**
  * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
- */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var taskGroups = {
+ */ var taskGroups = {
     parseHTML: {
         id: "parseHTML",
         label: "Parse HTML & CSS"
@@ -28,6 +27,7 @@ module.exports = {
     taskNameToGroup: taskNameToGroup
 };
 // @filename: index.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var ref = require("./module.js"), taskGroups = ref.taskGroups, taskNameToGroup = ref.taskNameToGroup;
 /** @typedef {import('./module.js').TaskGroup} TaskGroup */ /**
  * @typedef TaskNode

@@ -3,4 +3,5 @@ var A = function() {
     "use strict";
     _class_call_check(this, A);
 };
+import { A } from "./a";
 new A();

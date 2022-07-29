@@ -1,0 +1,1 @@
+GlobalThing.x;

@@ -13,9 +13,11 @@ var a = /*#__PURE__*/ _jsxs(_Fragment, {
         })
     ]
 });
+export { };
 // @filename: react.tsx
 /// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource react */ import "./preact";
+/* @jsxImportSource react */ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import "./preact";
 var a = /*#__PURE__*/ _jsxs(_Fragment, {
     children: [
         /*#__PURE__*/ _jsx("p", {}),

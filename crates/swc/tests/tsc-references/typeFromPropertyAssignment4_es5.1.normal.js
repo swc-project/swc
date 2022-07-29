@@ -2,9 +2,9 @@
 // @allowJs: true
 // @checkJs: true
 // @Filename: def.js
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Outer = {};
 // @Filename: a.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 Outer.Inner = function _class() {
     "use strict";
     _class_call_check(this, _class);

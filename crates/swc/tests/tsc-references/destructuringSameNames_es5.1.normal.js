@@ -1,69 +1,64 @@
-// Valid cases
-var ref = {
-    foo: 1
-}, foo = ref.foo, bar = ref.foo;
-var ref1;
-ref1 = {
-    foo: 2
-}, foo = ref1.foo, foo = ref1.foo, ref1;
-var ref2;
-ref2 = {
-    foo: 3
-}, foo = ref2.foo, bar = ref2.foo, ref2;
-var ref3;
-ref3 = {
-    foo: 4
-}, bar = ref3.foo, foo = ref3.foo, ref3;
-var ref4;
-ref4 = {
-    foo: 3,
-    bar: 33
-}, foo = ref4.foo, foo = ref4.bar, ref4;
-var ref5;
-ref5 = {
-    foo: 4,
-    bar: 44
-}, foo = ref5.bar, foo = ref5.foo, ref5;
-var ref6;
-ref6 = {
-    foo: 5
-}, bar = ref6.foo, bar = ref6.foo, ref6;
-var ref7;
-ref7 = {
-    foo: 6,
-    bar: 66
-}, bar = ref7.foo, foo = ref7.bar, ref7;
-var ref8;
-ref8 = {
-    foo: 7
-}, bar = ref8.foo, bar = ref8.foo, ref8;
-foo = 111, foo = 1111;
-foo = 222, foo = 2222;
-bar = 333, foo = 3333, foo = 33333;
-foo = 333, bar = 3333, foo = 33333;
-foo = 444, foo = 4444, bar = 44444;
-// Error cases
-var ref9 = {
-    foo1: 10
-}, foo1 = ref9.foo1, foo1 = ref9.foo1;
-var ref10 = {
-    foo2: 20,
-    bar2: 220
-}, foo2 = ref10.foo2, foo2 = ref10.bar2;
-var ref11 = {
-    foo3: 30,
-    bar3: 330
-}, foo3 = ref11.bar3, foo3 = ref11.foo3;
-var ref12 = {
-    foo4: 40
-}, foo4 = ref12.foo4, foo4 = ref12.foo4;
-var ref13 = {
-    foo5: 50,
-    bar5: 550
-}, foo5 = ref13.foo5, foo5 = ref13.bar5;
-var ref14 = {
-    foo6: 60,
-    bar6: 660
-}, foo6 = ref14.bar6, foo6 = ref14.foo6;
-var blah1 = 111, blah1 = 222;
-var blah2 = 333, blah2 = 444;
+//!
+//!  x the name `foo1` is defined multiple times
+//!    ,----
+//! 21 | let { foo1, foo1 } = { foo1: 10 };
+//!    :       ^^|^  ^^|^
+//!    :         |     `-- `foo1` redefined here
+//!    :         `-- previous definition of `foo1` here
+//!    `----
+//!
+//!  x the name `foo2` is defined multiple times
+//!    ,----
+//! 22 | let { foo2, bar2: foo2 } = { foo2: 20, bar2: 220 };
+//!    :       ^^|^        ^^|^
+//!    :         |           `-- `foo2` redefined here
+//!    :         `-- previous definition of `foo2` here
+//!    `----
+//!
+//!  x the name `foo3` is defined multiple times
+//!    ,----
+//! 23 | let { bar3: foo3, foo3 } = { foo3: 30, bar3: 330 };
+//!    :             ^^|^  ^^|^
+//!    :               |     `-- `foo3` redefined here
+//!    :               `-- previous definition of `foo3` here
+//!    `----
+//!
+//!  x the name `foo4` is defined multiple times
+//!    ,----
+//! 24 | const { foo4, foo4 } = { foo4: 40 };
+//!    :         ^^|^  ^^|^
+//!    :           |     `-- `foo4` redefined here
+//!    :           `-- previous definition of `foo4` here
+//!    `----
+//!
+//!  x the name `foo5` is defined multiple times
+//!    ,----
+//! 25 | const { foo5, bar5: foo5 } = { foo5: 50, bar5: 550 };
+//!    :         ^^|^        ^^|^
+//!    :           |           `-- `foo5` redefined here
+//!    :           `-- previous definition of `foo5` here
+//!    `----
+//!
+//!  x the name `foo6` is defined multiple times
+//!    ,----
+//! 26 | const { bar6: foo6, foo6 } = { foo6: 60, bar6: 660 };
+//!    :               ^^|^  ^^|^
+//!    :                 |     `-- `foo6` redefined here
+//!    :                 `-- previous definition of `foo6` here
+//!    `----
+//!
+//!  x the name `blah1` is defined multiple times
+//!    ,----
+//! 28 | let [blah1, blah1] = [111, 222];
+//!    :      ^^|^^  ^^|^^
+//!    :        |      `-- `blah1` redefined here
+//!    :        `-- previous definition of `blah1` here
+//!    `----
+//!
+//!  x the name `blah2` is defined multiple times
+//!    ,----
+//! 29 | const [blah2, blah2] = [333, 444];
+//!    :        ^^|^^  ^^|^^
+//!    :          |      `-- `blah2` redefined here
+//!    :          `-- previous definition of `blah2` here
+//!    `----

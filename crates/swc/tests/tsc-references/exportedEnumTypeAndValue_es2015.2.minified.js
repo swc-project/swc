@@ -1,6 +1,6 @@
-let MyEnum = {
+export default {
     a: 1,
     b: 2
 };
-export default MyEnum;
+import MyEnum from "./def";
 MyEnum.b;

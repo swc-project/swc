@@ -4,4 +4,8 @@ export var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
+// @Filename: /b.ts
+export { };
+// @Filename: /c.ts
+import { A } from "./b";
 new A();
