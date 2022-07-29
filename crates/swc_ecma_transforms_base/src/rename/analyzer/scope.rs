@@ -24,6 +24,10 @@ struct FastJsWord(ManuallyDrop<JsWord>);
 
 type FastId = (FastJsWord, SyntaxContext);
 
+type RenameMap = AHashMap<FastId, JsWord>;
+
+type ReverseMap = FxHashMap<JsWord, Vec<Id>>;
+
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
     /// This is add-only.
@@ -67,8 +71,8 @@ impl Scope {
     pub(crate) fn rename_single_thread<R>(
         &mut self,
         renamer: &R,
-        to: &mut AHashMap<FastId, JsWord>,
-        previous: &AHashMap<FastId, JsWord>,
+        to: &mut RenameMap,
+        previous: &RenameMap,
         reverse: &mut FxHashMap<JsWord, Vec<FastId>>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
@@ -103,7 +107,7 @@ impl Scope {
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
-        reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        reverse: &mut ReverseMap,
         queue: Vec<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
