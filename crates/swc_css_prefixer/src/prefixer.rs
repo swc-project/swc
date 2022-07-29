@@ -69,7 +69,7 @@ fn should_enable(
                             // Fall back to Chrome versions if Android browser data
                             // is missing from the feature data. It appears the
                             // Android browser has aligned its versioning with Chrome.
-                            "android" => low_versions.chrome,
+                            "android" => high_versions.chrome,
                             _ => None,
                         });
 
