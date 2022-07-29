@@ -3,6 +3,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::scope::Scope;
 
+mod fast;
 pub(super) mod scope;
 
 #[derive(Debug, Default)]
