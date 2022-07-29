@@ -6,7 +6,6 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
-use tracing::debug;
 
 use super::fast::{JsWordIndex, JsWordList};
 use crate::rename::Renamer;
@@ -136,10 +135,6 @@ impl Scope {
                 }
 
                 if self.can_rename(&id, &sym, reverse) {
-                    if cfg!(debug_assertions) {
-                        debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
-                    }
-
                     to.insert(id.clone(), sym.clone());
                     reverse.entry(sym).or_default().push(id);
 
@@ -149,13 +144,13 @@ impl Scope {
         }
     }
 
-    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &ReverseMap) -> bool {
+    fn can_rename(&self, id: &FastId, symbol: &JsWord, reverse: &ReverseMap) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
         if let Some(lefts) = reverse.get(symbol) {
             for left in lefts {
-                if left.1 == id.1 && *left.0 .0 == id.0 {
+                if *left == *id {
                     continue;
                 }
 
@@ -254,7 +249,7 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if preserved.contains(&id) || to.get(&fid).is_some() || previous.get(&fid).is_some() {
+            if preserved.contains(&id) || to.get(&id).is_some() || previous.get(&id).is_some() {
                 continue;
             }
 
@@ -267,11 +262,6 @@ impl Scope {
                 }
 
                 if self.can_rename(&id, &sym, reverse) {
-                    #[cfg(debug_assertions)]
-                    {
-                        debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
-                    }
-
                     to.insert(id, sym.clone());
                     reverse.entry(sym).or_default().push(id);
                     // self.data.decls.remove(&id);
