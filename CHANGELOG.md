@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(es)** Support tsc multi-file unit tests (#5316) ([81ac366](https://github.com/swc-project/swc/commit/81ac36604edda1d38329cf10fc65720eedf48cb9))
+
 ### Build
 
 
