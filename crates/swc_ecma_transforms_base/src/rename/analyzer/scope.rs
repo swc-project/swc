@@ -21,13 +21,13 @@ pub(crate) struct Scope {
 
 #[repr(transparent)]
 #[derive(Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct FastJsWord(ManuallyDrop<JsWord>);
+pub(crate) struct FastJsWord(ManuallyDrop<JsWord>);
 
-type FastId = (FastJsWord, SyntaxContext);
+pub(crate) type FastId = (FastJsWord, SyntaxContext);
 
-type RenameMap = AHashMap<FastId, JsWord>;
+pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
 
-type ReverseMap = FxHashMap<JsWord, Vec<Id>>;
+pub(crate) type ReverseMap = FxHashMap<JsWord, Vec<Id>>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
@@ -169,9 +169,9 @@ impl Scope {
     pub(crate) fn rename_parallel<R>(
         &mut self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
-        reverse: &FxHashMap<JsWord, Vec<Id>>,
+        to: &mut RenameMap,
+        previous: &RenameMap,
+        reverse: &ReverseMap,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
         parallel: bool,
@@ -239,9 +239,9 @@ impl Scope {
     fn rename_one_scope_parallel<R>(
         &self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
-        cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        to: &mut RenameMap,
+        previous: &RenameMap,
+        cloned_reverse: &mut ReverseMap,
         queue: Vec<Id>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,

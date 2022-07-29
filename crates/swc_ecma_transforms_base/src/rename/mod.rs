@@ -11,7 +11,7 @@ use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
 use self::renamer_single::{Send, Sync};
 use self::{
-    analyzer::Analyzer,
+    analyzer::{scope::RenameMap, Analyzer},
     collector::{collect_decls, CustomBindingCollector, IdCollector},
     eval::contains_eval,
     ops::Operator,
@@ -123,7 +123,7 @@ where
         };
         scope.prepare_renaming();
 
-        let mut map = HashMap::default();
+        let mut map = RenameMap::default();
 
         let mut unresolved = if !is_module_or_script {
             let mut unresolved = self.unresolved.clone();
@@ -160,7 +160,7 @@ where
             );
         }
 
-        map
+        map.into_iter().map(|((s, ctxt), v)| {}).collect()
     }
 }
 
