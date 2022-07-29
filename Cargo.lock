@@ -3249,7 +3249,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.113.3"
+version = "0.113.4"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3411,7 +3411,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.142.1"
+version = "0.142.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3807,7 +3807,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.98.0"
+version = "0.98.1"
 dependencies = [
  "indexmap",
  "once_cell",
