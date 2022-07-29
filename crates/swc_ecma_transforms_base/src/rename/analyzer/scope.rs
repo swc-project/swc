@@ -1,10 +1,12 @@
 #![allow(clippy::too_many_arguments)]
 
+use std::mem::ManuallyDrop;
+
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, util::take::Take};
+use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
@@ -18,7 +20,9 @@ pub(crate) struct Scope {
 }
 
 #[repr(transparent)]
-struct AssumeValid(JsWord);
+struct FastJsWord(ManuallyDrop<JsWord>);
+
+type FastId = (FastJsWord, SyntaxContext);
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
@@ -63,9 +67,9 @@ impl Scope {
     pub(crate) fn rename_single_thread<R>(
         &mut self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
-        reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        to: &mut AHashMap<FastId, JsWord>,
+        previous: &AHashMap<FastId, JsWord>,
+        reverse: &mut FxHashMap<JsWord, Vec<FastId>>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
         R: Renamer,
