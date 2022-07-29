@@ -1231,6 +1231,7 @@ where
                 }
             }
             emit!(node.super_class);
+            emit!(node.super_type_params);
         }
 
         formatting_space!();
