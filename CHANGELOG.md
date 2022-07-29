@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Change default es version to `es5` (#5333) ([64a9946](https://github.com/swc-project/swc/commit/64a99461ecc24b074e9b674c98c1cec12b687159))
 
+
+- **(es/utils)** Fix `contains_top_level_await` (#5335) ([1d10c3e](https://github.com/swc-project/swc/commit/1d10c3e83725276fa466393fb7a3139f07fa66c7))
+
 ### Testing
 
 
