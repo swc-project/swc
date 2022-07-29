@@ -17,6 +17,9 @@ pub(crate) struct Scope {
     pub(super) children: Vec<Scope>,
 }
 
+#[repr(transparent)]
+struct AssumeValid(JsWord);
+
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
     /// This is add-only.
