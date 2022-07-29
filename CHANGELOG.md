@@ -16,6 +16,12 @@
 
 - **(es/utils)** Fix `contains_top_level_await` (#5335) ([1d10c3e](https://github.com/swc-project/swc/commit/1d10c3e83725276fa466393fb7a3139f07fa66c7))
 
+### Performance
+
+
+
+- **(es/minifier)** Make name mangler faster (#5336) ([b378c06](https://github.com/swc-project/swc/commit/b378c060816411dd1990a1dae4977703d3c80748))
+
 ### Testing
 
 
