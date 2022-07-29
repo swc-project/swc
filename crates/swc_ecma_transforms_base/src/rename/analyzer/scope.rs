@@ -8,7 +8,7 @@ use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
-use super::fast::JsWordIndex;
+use super::fast::{JsWordIndex, JsWordList};
 use crate::rename::Renamer;
 
 #[derive(Debug, Default)]
@@ -33,6 +33,8 @@ pub(crate) type ReverseMap = FxHashMap<JsWord, Vec<FastId>>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
+    storage: JsWordList,
+
     /// This is add-only.
     ///
     /// If the add-only contraint is violated, it is very likely to be a bug,
@@ -290,8 +292,4 @@ impl Scope {
         let children = &self.children;
         self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
     }
-}
-
-fn fast_id(id: Id) -> FastId {
-    (FastJsWord::new(id.0), id.1)
 }

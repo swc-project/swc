@@ -1,5 +1,6 @@
 use swc_atoms::JsWord;
 
+#[derive(Debug, Default)]
 pub(super) struct JsWordList {
     words: Vec<JsWord>,
 }
@@ -9,7 +10,7 @@ pub(super) struct JsWordList {
 pub(super) struct JsWordIndex(usize);
 
 impl JsWordList {
-    pub fn get(&mut self, w: &JsWord) -> JsWordIndex {
+    pub fn store(&mut self, w: &JsWord) -> JsWordIndex {
         JsWordIndex(if let Some(i) = self.words.iter().position(|x| x == w) {
             i
         } else {
@@ -17,5 +18,9 @@ impl JsWordList {
             self.words.push(w.clone());
             i
         })
+    }
+
+    pub fn get(&self, i: JsWordIndex) -> &JsWord {
+        &self.words[i.0]
     }
 }
