@@ -122,13 +122,14 @@ impl Scope {
             if to.get(&id).is_some() || previous.get(&id).is_some() {
                 continue;
             }
+            let orig_id = self.data.storage.get_id(id);
 
             if R::RESET_N {
                 n = 0;
             }
 
             loop {
-                let sym = renamer.new_name_for(&id, &mut n);
+                let sym = renamer.new_name_for(&orig_id, &mut n);
 
                 if preserved_symbols.contains(&sym) {
                     continue;
@@ -249,12 +250,18 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if preserved.contains(&id) || to.get(&id).is_some() || previous.get(&id).is_some() {
+            if to.get(&id).is_some() || previous.get(&id).is_some() {
+                continue;
+            }
+
+            let orig_id = self.data.storage.get_id(id);
+
+            if preserved.contains(&orig_id) {
                 continue;
             }
 
             loop {
-                let sym = renamer.new_name_for(&id, &mut n);
+                let sym = renamer.new_name_for(&orig_id, &mut n);
 
                 // TODO: Use base54::decode
                 if preserved_symbols.contains(&sym) {
