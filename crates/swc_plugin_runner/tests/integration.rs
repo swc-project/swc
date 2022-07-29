@@ -251,7 +251,7 @@ fn internal() -> Result<(), Error> {
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
-                Some(experimental_metadata.clone()),
+                Some(experimental_metadata),
             )),
             Some(json!({ "pluginConfig": "testValue" })),
         )
