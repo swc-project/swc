@@ -40,7 +40,7 @@ pub(super) struct ScopeData {
     /// because we merge every items in children to current scope.
     all: FxHashSet<Id>,
 
-    queue: Vec<FastId>,
+    queue: Vec<Id>,
 }
 
 impl Scope {
@@ -112,7 +112,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         reverse: &mut ReverseMap,
-        queue: Vec<FastId>,
+        queue: Vec<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
         R: Renamer,
@@ -245,7 +245,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         cloned_reverse: &mut ReverseMap,
-        queue: Vec<FastId>,
+        queue: Vec<Id>,
         preserved: &FxHashSet<FastId>,
         preserved_symbols: &FxHashSet<FastJsWord>,
     ) where
