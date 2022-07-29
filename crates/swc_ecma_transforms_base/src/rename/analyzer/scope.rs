@@ -136,7 +136,8 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if to.get(&fast_id(&id)).is_some() || previous.get(&fast_id(&id)).is_some() {
+            let fid = fast_id(id.clone());
+            if to.get(&fid).is_some() || previous.get(&fid).is_some() {
                 continue;
             }
 
@@ -156,8 +157,9 @@ impl Scope {
                         debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
                     }
 
-                    to.insert(fast_id(&id), sym.clone());
-                    reverse.entry(sym).or_default().push(fast_id(&id));
+                    let fid = fast_id(id);
+                    to.insert(fid.clone(), sym.clone());
+                    reverse.entry(sym).or_default().push(fid);
 
                     break;
                 }
@@ -270,10 +272,8 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if preserved.contains(&id)
-                || to.get(&fast_id(&id)).is_some()
-                || previous.get(&fast_id(&id)).is_some()
-            {
+            let fid = fast_id(id.clone());
+            if preserved.contains(&id) || to.get(&fid).is_some() || previous.get(&fid).is_some() {
                 continue;
             }
 
@@ -291,8 +291,9 @@ impl Scope {
                         debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
                     }
 
-                    to.insert(fast_id(&id), sym.clone());
-                    reverse.entry(sym).or_default().push(fast_id(&id));
+                    let fid = fast_id(id.clone());
+                    to.insert(fid.clone(), sym.clone());
+                    reverse.entry(sym).or_default().push(fid.clone());
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
 
