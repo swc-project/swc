@@ -33,8 +33,8 @@ impl Clone for FastJsWord {
 }
 
 impl FastJsWord {
-    pub fn new(src: &JsWord) -> Self {
-        FastJsWord(ManuallyDrop::new(src.clone()))
+    pub fn new(src: JsWord) -> Self {
+        FastJsWord(ManuallyDrop::new(src))
     }
 
     pub fn into_inner(self) -> JsWord {
@@ -65,7 +65,7 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(fast_id(id));
+        self.data.all.insert(fast_id(id.clone()));
         if !self.data.queue.contains(id) {
             self.data.queue.push(id.clone());
         }
@@ -76,7 +76,7 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(fast_id(id));
+        self.data.all.insert(fast_id(id.clone()));
     }
 
     /// Copy `children.data.all` to `self.data.all`.
@@ -308,6 +308,6 @@ impl Scope {
     }
 }
 
-fn fast_id(id: &Id) -> FastId {
-    (FastJsWord::new(&id.0), id.1)
+fn fast_id(id: Id) -> FastId {
+    (FastJsWord::new(id.0), id.1)
 }
