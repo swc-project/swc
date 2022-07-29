@@ -8,6 +8,6 @@ class C {
 C.m(), new C().m(), new C().p();
 const obj = {
     m (x) {},
-    p (x) {}
+    p: (x)=>{}
 };
 obj.m(), obj.p();

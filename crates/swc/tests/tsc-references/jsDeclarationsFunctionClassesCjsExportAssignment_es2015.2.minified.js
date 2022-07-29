@@ -9,5 +9,7 @@ function Context(input) {
     this.state = this.construct(input);
 }
 Context.prototype = {
-    construct: (input, handle = ()=>void 0)=>input
+    construct (input, handle = ()=>void 0) {
+        return input;
+    }
 }, module.exports = Context;

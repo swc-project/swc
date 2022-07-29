@@ -2,7 +2,7 @@ class A {
 }
 c.valueOf(), c.data.hm, c.hm, i.valueOf(), i.data.hm, i.hm;
 var c, i, b, a = {
-    valueOf () {},
+    valueOf: ()=>{},
     data: new class extends A {
     }()
 };

@@ -3,7 +3,7 @@ var M, ANY2 = [
     ""
 ], obj1 = {
     x: "a",
-    y () {}
+    y: ()=>{}
 };
 class A {
     static foo() {}

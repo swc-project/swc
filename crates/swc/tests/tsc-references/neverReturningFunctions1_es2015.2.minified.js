@@ -2,9 +2,11 @@ registerComponent('test-component', {
     schema: {
         myProperty: {
             default: [],
-            parse: ()=>[
+            parse () {
+                return [
                     !0
-                ]
+                ];
+            }
         },
         string: {
             type: 'string'

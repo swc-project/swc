@@ -4,7 +4,9 @@ import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.
 let friendA;
 var _x = new WeakMap();
 friendA = {
-    getX: (obj)=>_class_private_field_get(obj, _x),
+    getX (obj) {
+        return _class_private_field_get(obj, _x);
+    },
     setX (obj, value) {
         _class_private_field_set(obj, _x, value);
     }
