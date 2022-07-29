@@ -1,6 +1,6 @@
 #![allow(clippy::too_many_arguments)]
 
-use std::intrinsics::transmute;
+use std::mem::{transmute_copy, ManuallyDrop};
 
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
@@ -22,7 +22,7 @@ pub(crate) struct Scope {
 /// [JsWord] without clone or drop. This is unsafe and creator should ensure
 /// that [JsWord] stored in this type is not dropped until all operations are
 /// finished.
-pub(crate) type FastJsWord = &'static JsWord;
+pub(crate) type FastJsWord = ManuallyDrop<JsWord>;
 
 pub(crate) type FastId = (FastJsWord, SyntaxContext);
 
@@ -118,7 +118,7 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if to.get(&(&id.0, id.1)).is_some() || previous.get(&(&id.0, id.1)).is_some() {
+            if to.get(&fast_id(&id)).is_some() || previous.get(&fast_id(&id)).is_some() {
                 continue;
             }
 
@@ -291,5 +291,5 @@ impl Scope {
 }
 
 fn fast_id(id: &Id) -> FastId {
-    (unsafe { transmute(&id.0) }, id.1)
+    (ManuallyDrop::new(unsafe { transmute_copy(&id.0) }), id.1)
 }

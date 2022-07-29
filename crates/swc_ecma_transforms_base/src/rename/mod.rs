@@ -1,4 +1,4 @@
-use std::borrow::Cow;
+use std::{borrow::Cow, mem::ManuallyDrop};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
@@ -161,7 +161,7 @@ where
         }
 
         map.into_iter()
-            .map(|((s, ctxt), v)| ((s.clone(), ctxt), v))
+            .map(|((s, ctxt), v)| ((ManuallyDrop::into_inner(s), ctxt), v))
             .collect()
     }
 }
