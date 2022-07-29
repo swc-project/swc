@@ -18,9 +18,6 @@ pub(crate) struct Scope {
     pub(super) children: Vec<Scope>,
 }
 
-/// [JsWord] without clone or drop. This is unsafe and creator should ensure
-/// that [JsWord] stored in this type is not dropped until all operations are
-/// finished.
 pub(crate) type FastJsWord = JsWordIndex;
 
 pub(crate) type FastId = (FastJsWord, SyntaxContext);
@@ -39,7 +36,7 @@ pub(super) struct ScopeData {
     /// because we merge every items in children to current scope.
     all: FxHashSet<FastId>,
 
-    queue: Vec<Id>,
+    queue: Vec<FastId>,
 }
 
 impl Scope {
@@ -48,8 +45,10 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(fast_id(id.clone()));
-        if !self.data.queue.contains(id) {
+        let id = self.data.storage.id(id);
+
+        self.data.all.insert(id);
+        if !self.data.queue.contains(&id) {
             self.data.queue.push(id.clone());
         }
     }
@@ -59,7 +58,9 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(fast_id(id.clone()));
+        let id = self.data.storage.id(id);
+
+        self.data.all.insert(id);
     }
 
     /// Copy `children.data.all` to `self.data.all`.
@@ -111,7 +112,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         reverse: &mut ReverseMap,
-        queue: Vec<Id>,
+        queue: Vec<FastId>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
         R: Renamer,
@@ -119,8 +120,7 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            let fid = fast_id(id.clone());
-            if to.get(&fid).is_some() || previous.get(&fid).is_some() {
+            if to.get(&id).is_some() || previous.get(&id).is_some() {
                 continue;
             }
 
@@ -140,9 +140,8 @@ impl Scope {
                         debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
                     }
 
-                    let fid = fast_id(id);
-                    to.insert(fid.clone(), sym.clone());
-                    reverse.entry(sym).or_default().push(fid);
+                    to.insert(id.clone(), sym.clone());
+                    reverse.entry(sym).or_default().push(id);
 
                     break;
                 }
@@ -246,7 +245,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         reverse: &mut ReverseMap,
-        queue: Vec<Id>,
+        queue: Vec<FastId>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
@@ -255,7 +254,6 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            let fid = fast_id(id.clone());
             if preserved.contains(&id) || to.get(&fid).is_some() || previous.get(&fid).is_some() {
                 continue;
             }
@@ -274,9 +272,8 @@ impl Scope {
                         debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
                     }
 
-                    let fid = fast_id(id.clone());
-                    to.insert(fid.clone(), sym.clone());
-                    reverse.entry(sym).or_default().push(fid.clone());
+                    to.insert(id, sym.clone());
+                    reverse.entry(sym).or_default().push(id);
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
 
