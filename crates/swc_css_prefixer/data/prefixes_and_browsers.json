@@ -1094,7 +1094,8 @@
       "safari": "15.3"
     }
   ],
-  "-webkit-mask-border": [
+
+  "-webkit-mask-box-image": [
     {
       "and_chr": "92",
       "android": "2.1",
@@ -1111,7 +1112,7 @@
       "safari": "15.3"
     }
   ],
-  "-webkit-mask-border-outset": [
+  "-webkit-mask-box-image-outset": [
     {
       "and_chr": "92",
       "android": "2.1",
@@ -1128,7 +1129,7 @@
       "safari": "15.3"
     }
   ],
-  "-webkit-mask-border-width": [
+  "-webkit-mask-box-image-width": [
     {
       "and_chr": "92",
       "android": "2.1",
@@ -1145,7 +1146,7 @@
       "safari": "15.3"
     }
   ],
-  "-webkit-mask-border-slice": [
+  "-webkit-mask-box-image-slice": [
     {
       "and_chr": "92",
       "android": "2.1",
@@ -2536,6 +2537,85 @@
     }
   ],
 
+  "-webkit-column-break-inside": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "opera": "15",
+      "safari": "3.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "49",
+      "ios": "8.4",
+      "opera": "36",
+      "safari": "8",
+      "samsung": "4"
+    }
+  ],
+
+  "-webkit-column-break-before": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "opera": "15",
+      "safari": "3.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "49",
+      "ios": "8.4",
+      "opera": "36",
+      "safari": "8",
+      "samsung": "4"
+    }
+  ],
+
+  "-webkit-column-break-after": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "opera": "15",
+      "safari": "3.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "49",
+      "ios": "8.4",
+      "opera": "36",
+      "safari": "8",
+      "samsung": "4"
+    }
+  ],
+
+  "-webkit-text-decoration": [
+    {
+      "chrome": "26",
+      "ios": "8",
+      "opera": "35",
+      "safari": "7.1"
+    },
+    {
+      "chrome": "56",
+      "opera": "43",
+      "safari": "12"
+    }
+  ],
+  "-moz-text-decoration": [
+    {
+      "firefox": "6"
+    },
+    {
+      "firefox": "35"
+    }
+  ],
+
   "-webkit-text-decoration-style": [
     {
       "safari": "8",
@@ -2615,23 +2695,6 @@
     }
   ],
 
-  "-moz-background-origin": [
-    {
-      "firefox": "3.6"
-    },
-    {
-      "firefox": "3.6"
-    }
-  ],
-  "-o-background-origin": [
-    {
-      "opera": "9.5"
-    },
-    {
-      "opera": "15"
-    }
-  ],
-
   "-ms-high-contrast-adjust": [
     {
       "ie": "10"
@@ -2675,6 +2738,120 @@
       "opera": "39",
       "safari": "9",
       "samsung": "6.4"
+    }
+  ],
+
+  "-webkit-flex": [
+    {
+      "chrome": "21",
+      "ios": "7.0",
+      "opera": "15",
+      "safari": "6.1"
+    },
+    {
+      "chrome": "28",
+      "ios": "8.4",
+      "opera": "16",
+      "safari": "8"
+    }
+  ],
+  "-webkit-box-flex": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "20",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-moz-box-flex": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "21"
+    }
+  ],
+  "-ms-flex": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+
+  "-webkit-flex-grow": [
+    {
+      "chrome": "21",
+      "ios": "7.0",
+      "opera": "15",
+      "safari": "6.1"
+    },
+    {
+      "chrome": "28",
+      "ios": "8.4",
+      "opera": "16",
+      "safari": "8"
+    }
+  ],
+  "-ms-flex-positive": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+
+  "-webkit-flex-shrink": [
+    {
+      "chrome": "21",
+      "ios": "7.0",
+      "opera": "15",
+      "safari": "6.1"
+    },
+    {
+      "chrome": "28",
+      "ios": "8.4",
+      "opera": "16",
+      "safari": "8"
+    }
+  ],
+  "-ms-flex-negative": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+
+  "-webkit-flex-basis": [
+    {
+      "chrome": "21",
+      "ios": "7.0",
+      "opera": "15",
+      "safari": "6.1"
+    },
+    {
+      "chrome": "28",
+      "ios": "8.4",
+      "opera": "16",
+      "safari": "8"
+    }
+  ],
+  "-ms-flex-preferred-size": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
     }
   ],
 
@@ -2738,6 +2915,50 @@
       "safari": "8"
     }
   ],
+  "-webkit-box-orient": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "20",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-webkit-box-direction": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "20",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-moz-box-orient": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "21"
+    }
+  ],
+  "-moz-box-direction": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "21"
+    }
+  ],
   "-ms-flex-flow": [
     {
       "ie": "10"
@@ -2759,6 +2980,28 @@
       "ios": "8.4",
       "opera": "16",
       "safari": "8"
+    }
+  ],
+  "-webkit-box-pack": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "20",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-moz-box-pack": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "21"
     }
   ],
   "-ms-flex-pack": [
@@ -2784,6 +3027,28 @@
       "safari": "8"
     }
   ],
+  "-webkit-box-ordinal-group": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "20",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-moz-box-ordinal-group": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "21"
+    }
+  ],
   "-ms-flex-order": [
     {
       "ie": "10"
@@ -2805,6 +3070,28 @@
       "ios": "8.4",
       "opera": "16",
       "safari": "8"
+    }
+  ],
+  "-webkit-box-align": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "20",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-moz-box-align": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "21"
     }
   ],
   "-ms-flex-align": [
@@ -2859,6 +3146,101 @@
     },
     {
       "ie": "10"
+    }
+  ],
+
+  "-webkit-box-decoration-break": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "edge": "79",
+      "ios": "7.0",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {}
+  ],
+
+  "color-adjust": [
+    {
+      "firefox": "48"
+    },
+    {
+      "firefox": "96"
+    }
+  ],
+  "-webkit-print-color-adjust": [
+    {
+      "android": "4.4",
+      "chrome": "17",
+      "edge": "79",
+      "ios": "6.0",
+      "opera": "15",
+      "safari": "6",
+      "samsung": "4"
+    },
+    {
+      "ios": "15.3",
+      "safari": "15.3"
+    }
+  ],
+
+  "-webkit-background-size": [
+    {
+      "chrome": "1",
+      "safari": "3",
+      "ios": "1"
+    },
+    {
+      "chrome": "3",
+      "safari": "4",
+      "ios": "4.1"
+    }
+  ],
+  "-moz-background-size": [
+    {
+      "firefox": "3.6"
+    },
+    {
+      "firefox": "3.6"
+    }
+  ],
+  "-o-background-size": [
+    {
+      "opera": "9.5"
+    },
+    {
+      "opera": "14"
+    }
+  ],
+
+  "-webkit-background-origin": [
+    {
+      "chrome": "1",
+      "safari": "3",
+      "ios": "1"
+    },
+    {
+      "chrome": "3",
+      "safari": "4",
+      "ios": "4.1"
+    }
+  ],
+  "-moz-background-origin": [
+    {
+      "firefox": "1"
+    },
+    {
+      "firefox": "3.6"
+    }
+  ],
+  "-o-background-origin": [
+    {
+      "opera": "9.5"
+    },
+    {
+      "opera": "15"
     }
   ]
 }

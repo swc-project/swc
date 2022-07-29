@@ -103,18 +103,8 @@ button::-webkit-search-cancel-button {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -moz-box-orient: horizontal;
-  -moz-box-direction: normal;
   flex-flow: row;
-  -webkit-box-ordinal-group: 1;
-  -moz-box-ordinal-group: 1;
   order: 0;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 1 2;
-  -moz-box-flex: 0;
-  -ms-flex: 0 1 2;
   flex: 0 1 2;
   transition: flex 200ms;
 }

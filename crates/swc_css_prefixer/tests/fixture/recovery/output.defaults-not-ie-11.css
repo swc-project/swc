@@ -5,8 +5,6 @@ main {
   display: -ms-flexbox;
   display: flex;
   flex-direction: __styled-jsx-placeholder;
-  -webkit-box-pack: justify;
-  -moz-box-pack: justify;
   justify-content: space-between;
   margin-bottom: var(--geist-gap-double);
 }

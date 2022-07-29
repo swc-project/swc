@@ -1,6 +1,5 @@
 .shorthand {
   -webkit-text-decoration: overline double red;
-  -moz-text-decoration: overline double red;
   text-decoration: overline double red;
 }
 .full {
