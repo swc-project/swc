@@ -14,8 +14,6 @@
   @supports (flex-wrap: wrap) {
     @keyframes test {
       0% {
-        -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
         color: red;
       }
     }

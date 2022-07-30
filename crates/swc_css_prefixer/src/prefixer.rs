@@ -69,7 +69,7 @@ fn should_enable(
                             // Fall back to Chrome versions if Android browser data
                             // is missing from the feature data. It appears the
                             // Android browser has aligned its versioning with Chrome.
-                            "android" => low_versions.chrome,
+                            "android" => high_versions.chrome,
                             _ => None,
                         });
 
@@ -850,14 +850,6 @@ impl VisitMut for Prefixer {
                     &mut new_moz_prelude,
                     "fullscreen",
                     "-moz-full-screen",
-                );
-            }
-
-            if should_prefix(":-moz-placeholder-shown", self.env, false) {
-                replace_pseudo_class_selector_name(
-                    &mut new_moz_prelude,
-                    "placeholder-shown",
-                    "-moz-placeholder-shown",
                 );
             }
 

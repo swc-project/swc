@@ -1,9 +1,12 @@
-a:-moz-placeholder-shown {
-  color: red;
-}
 a:-ms-input-placeholder {
   color: red;
 }
 a:placeholder-shown {
   color: red;
+}
+.SiteForm__input:not(:-ms-input-placeholder) {
+  color: #828282;
+}
+.SiteForm__input:not(:placeholder-shown) {
+  color: #828282;
 }

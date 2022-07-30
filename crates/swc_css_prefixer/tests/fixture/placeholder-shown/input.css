@@ -1,3 +1,7 @@
 a:placeholder-shown {
     color: red;
 }
+
+.SiteForm__input:not(:placeholder-shown) {
+    color: #828282;
+}
