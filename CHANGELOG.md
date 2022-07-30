@@ -5,6 +5,9 @@
 
 
 
+- **(css/ast)** Support list of component values (#5321) ([8f81104](https://github.com/swc-project/swc/commit/8f811043809a8cc51bb717b678906576bb6eccc3))
+
+
 - **(css/prefixer)** Generate prefixes for selectors using env (#5307) ([b18172d](https://github.com/swc-project/swc/commit/b18172d7613c2ecee85f559b9b317aeb2f9bfda7))
 
 
