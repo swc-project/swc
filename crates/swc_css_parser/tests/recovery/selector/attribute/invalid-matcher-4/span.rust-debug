@@ -20,10 +20,10 @@
  3 | `-> }
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
-   : ^^^^^^^^^^^^^^^^^^
+   : ^
    `----
 
   x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
@@ -32,10 +32,22 @@
    : ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+ 1 | a[title%="title"] {
+   :  ^
+   `----
+
   x LBracket
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+ 1 | a[title%="title"] {
+   :   ^^^^^
    `----
 
   x Ident { value: Atom('title' type=inline), raw: Atom('title' type=inline) }
@@ -44,10 +56,22 @@
    :   ^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+ 1 | a[title%="title"] {
+   :        ^
+   `----
+
   x Delim { value: '%' }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+ 1 | a[title%="title"] {
+   :         ^
    `----
 
   x Delim { value: '=' }
@@ -56,16 +80,34 @@
    :         ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+ 1 | a[title%="title"] {
+   :          ^^^^^^^
+   `----
+
   x String { value: Atom('title' type=inline), raw: Atom('"title"' type=inline) }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :          ^^^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+ 1 | a[title%="title"] {
+   :                 ^
+   `----
+
   x RBracket
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+ 1 | a[title%="title"] {
+   :                  ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }

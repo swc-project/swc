@@ -81,10 +81,10 @@
    : ^^^^^^^^^^
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
  2 | color: !!;
-   : ^^^^^^^^^^
+   : ^^^^^
    `----
 
   x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
@@ -93,10 +93,22 @@
    : ^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :      ^
+   `----
+
   x Colon
    ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
  2 | color: !!;
    :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :       ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
@@ -105,7 +117,7 @@
    :       ^
    `----
 
-  x Delim { value: '!' }
+  x ComponentValue
    ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
  2 | color: !!;
    :        ^
@@ -114,7 +126,25 @@
   x Delim { value: '!' }
    ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
  2 | color: !!;
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
    :         ^
+   `----
+
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :          ^
    `----
 
   x Semi

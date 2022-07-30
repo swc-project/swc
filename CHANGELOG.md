@@ -5,6 +5,9 @@
 
 
 
+- **(css/ast)** Support list of component values (#5321) ([8f81104](https://github.com/swc-project/swc/commit/8f811043809a8cc51bb717b678906576bb6eccc3))
+
+
 - **(css/prefixer)** Generate prefixes for selectors using env (#5307) ([b18172d](https://github.com/swc-project/swc/commit/b18172d7613c2ecee85f559b9b317aeb2f9bfda7))
 
 
@@ -18,6 +21,12 @@
 
 
 - **(es/utils)** Fix `contains_top_level_await` (#5335) ([1d10c3e](https://github.com/swc-project/swc/commit/1d10c3e83725276fa466393fb7a3139f07fa66c7))
+
+### Features
+
+
+
+- **(wasm)** Add interfaces for wasm bindings (#5341) ([c16b6b7](https://github.com/swc-project/swc/commit/c16b6b72300a4e4952398c136ef834b8ca2f4b41))
 
 ### Performance
 

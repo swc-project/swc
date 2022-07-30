@@ -20,10 +20,10 @@
  3 | `-> }
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
-   : ^^^^^^^^^^^^^^
+   : ^
    `----
 
   x Colon
@@ -32,16 +32,34 @@
    : ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
+ 1 | : first-child {
+   :  ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :  ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
+ 1 | : first-child {
+   :   ^^^^^^^^^^^
+   `----
+
   x Ident { value: Atom('first-child' type=dynamic), raw: Atom('first-child' type=dynamic) }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :   ^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
+ 1 | : first-child {
+   :              ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }

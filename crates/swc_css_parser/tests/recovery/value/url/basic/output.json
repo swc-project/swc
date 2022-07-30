@@ -152,13 +152,13 @@
             "important": null
           },
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 86,
               "end": 88,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -577,13 +577,13 @@
             "important": null
           },
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 347,
               "end": 350,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {

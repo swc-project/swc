@@ -177,13 +177,13 @@
               "name": "{",
               "value": [
                 {
-                  "type": "Tokens",
+                  "type": "ListOfComponentValues",
                   "span": {
                     "start": 48,
                     "end": 75,
                     "ctxt": 0
                   },
-                  "tokens": [
+                  "children": [
                     {
                       "type": "PreservedToken",
                       "span": {
@@ -485,13 +485,13 @@
                     "name": "{",
                     "value": [
                       {
-                        "type": "Tokens",
+                        "type": "ListOfComponentValues",
                         "span": {
                           "start": 174,
                           "end": 212,
                           "ctxt": 0
                         },
-                        "tokens": [
+                        "children": [
                           {
                             "type": "PreservedToken",
                             "span": {
@@ -764,13 +764,13 @@
               "name": "{",
               "value": [
                 {
-                  "type": "Tokens",
+                  "type": "ListOfComponentValues",
                   "span": {
                     "start": 270,
                     "end": 276,
                     "ctxt": 0
                   },
-                  "tokens": [
+                  "children": [
                     {
                       "type": "PreservedToken",
                       "span": {
@@ -1040,13 +1040,13 @@
                     "name": "{",
                     "value": [
                       {
-                        "type": "Tokens",
+                        "type": "ListOfComponentValues",
                         "span": {
                           "start": 396,
                           "end": 402,
                           "ctxt": 0
                         },
-                        "tokens": [
+                        "children": [
                           {
                             "type": "PreservedToken",
                             "span": {
@@ -1210,13 +1210,13 @@
             "important": null
           },
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 474,
               "end": 481,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {

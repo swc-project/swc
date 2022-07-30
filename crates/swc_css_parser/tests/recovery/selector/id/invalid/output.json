@@ -14,13 +14,13 @@
         "ctxt": 0
       },
       "prelude": {
-        "type": "Tokens",
+        "type": "ListOfComponentValues",
         "span": {
           "start": 1,
           "end": 7,
           "ctxt": 0
         },
-        "tokens": [
+        "children": [
           {
             "type": "PreservedToken",
             "span": {

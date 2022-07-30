@@ -124,15 +124,15 @@ define!({
     }
 
     pub enum QualifiedRulePrelude {
+        ListOfComponentValues(ListOfComponentValues),
         SelectorList(SelectorList),
-        Invalid(Tokens),
     }
 
     pub enum StyleBlock {
+        ListOfComponentValues(ListOfComponentValues),
         AtRule(AtRule),
         Declaration(Declaration),
         QualifiedRule(QualifiedRule),
-        Invalid(Tokens),
     }
 
     pub enum DeclarationOrAtRule {

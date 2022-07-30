@@ -20,10 +20,10 @@
  3 | `-> }
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
-   : ^^^^^^^^^^^^^
+   : ^
    `----
 
   x Delim { value: '.' }
@@ -32,10 +32,22 @@
    : ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | .class[attr= {
+   :  ^^^^^
+   `----
+
   x Ident { value: Atom('class' type=static), raw: Atom('class' type=static) }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | .class[attr= {
+   :       ^
    `----
 
   x LBracket
@@ -44,16 +56,34 @@
    :       ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | .class[attr= {
+   :        ^^^^
+   `----
+
   x Ident { value: Atom('attr' type=inline), raw: Atom('attr' type=inline) }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :        ^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | .class[attr= {
+   :            ^
+   `----
+
   x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | .class[attr= {
+   :             ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
