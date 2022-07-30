@@ -1,10 +1,12 @@
-var A, B;
+var A;
 !function(A) {
     (A.Point || (A.Point = {})).Origin = {
         x: 0,
         y: 0
     };
-}(A || (A = {})), function(A) {
+}(A || (A = {}));
+var A;
+!function(A) {
     var Point = function() {
         return {
             x: 0,
@@ -12,7 +14,9 @@ var A, B;
         };
     };
     A.Point = Point;
-}(A || (A = {})), function(B) {
+}(A || (A = {}));
+var B;
+!function(B) {
     var Point = function() {
         return {
             x: 0,

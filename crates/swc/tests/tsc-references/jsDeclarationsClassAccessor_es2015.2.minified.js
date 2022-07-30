@@ -1,3 +1,4 @@
+export { };
 export class Base {
     toJSON() {
         return {
@@ -8,6 +9,7 @@ export class Base {
     }
     constructor(){}
 }
+import { Base } from "./base.js";
 export class Argument extends Base {
     static parse(tokeniser) {}
     get type() {

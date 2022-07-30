@@ -15,8 +15,9 @@ import * as assert from "assert";
 
 // Allow overrides to the location of the .node binding file
 const bindingsOverride = process.env["SWC_BINARY_PATH"];
-let fallbackBindings: any;
-const bindings = (() => {
+// `@swc/core` includes d.ts for the `@swc/wasm` to provide typed fallback bindings
+let fallbackBindings: typeof import('../../crates/binding_core_wasm/pkg');
+const bindings: typeof import('./binding') = (() => {
   let binding
   try {
     binding = !!bindingsOverride ? require(resolve(bindingsOverride)) : require('./binding')
@@ -88,8 +89,8 @@ export class Compiler {
       const res = await bindings.parse(src, toBuffer(options), filename);
       return JSON.parse(res);
     } else if (fallbackBindings) {
-      const res = fallbackBindings.parseSync(src, toBuffer(options), filename);
-      return Promise.resolve(JSON.parse(res));
+      const res = fallbackBindings.parseSync(src, options);
+      return Promise.resolve(res);
     }
     throw new Error('Bindings not found.');
   }
@@ -103,7 +104,7 @@ export class Compiler {
     if (bindings) {
       return JSON.parse(bindings.parseSync(src, toBuffer(options), filename));
     } else if (fallbackBindings) {
-      return JSON.parse(fallbackBindings.parseSync(src, options));
+      return fallbackBindings.parseSync(src, options);
     }
 
     throw new Error('Bindings not found.');
@@ -157,7 +158,7 @@ export class Compiler {
     if (bindings) {
       return bindings.print(JSON.stringify(m), toBuffer(options))
     } else if (fallbackBindings) {
-      return Promise.resolve(fallbackBindings.printSync(JSON.stringify(m), options));
+      return Promise.resolve(fallbackBindings.printSync(m, options));
     }
 
     throw new Error('Bindings not found.');
@@ -173,7 +174,7 @@ export class Compiler {
     if (bindings) {
       return bindings.printSync(JSON.stringify(m), toBuffer(options));
     } else if (fallbackBindings) {
-      return fallbackBindings.printSync(JSON.stringify(m), options);
+      return fallbackBindings.printSync(m, options);
     }
 
     throw new Error('Bindings not found.');
@@ -205,7 +206,7 @@ export class Compiler {
         this.fallbackBindingsPluginWarningDisplayed = true;
       }
 
-      return Promise.resolve(fallbackBindings.transformSync(src, options));
+      return Promise.resolve(fallbackBindings.transformSync(isModule ? JSON.stringify(src) : src, options));
     }
 
     throw new Error('Bindings not found.');
@@ -238,7 +239,7 @@ export class Compiler {
         console.warn(`Fallback bindings does not support legacy plugins, it'll be ignored.`);
         this.fallbackBindingsPluginWarningDisplayed = true;
       }
-      return fallbackBindings.transformSync(src, options);
+      return fallbackBindings.transformSync(isModule ? JSON.stringify(src) : src, options);
     }
 
     throw new Error("Bindings not found");

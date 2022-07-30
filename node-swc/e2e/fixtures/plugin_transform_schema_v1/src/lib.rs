@@ -1,5 +1,5 @@
 use swc_plugin::{
-    ast::*, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata,
+    ast::*, metadata::TransformPluginProgramMetadata, plugin_transform, syntax_pos::DUMMY_SP,
 };
 
 struct ConsoleOutputReplacer;
@@ -13,7 +13,7 @@ impl VisitMut for ConsoleOutputReplacer {
                         call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             value: JsWord::from("plugin_transform_schema_v1"),
-                            raw: Some(JsWord::from("\"plugin_transform_schema_v1\"")),
+                            raw: Some(Atom::new("\"plugin_transform_schema_v1\"")),
                         })));
                     }
                 }

@@ -11,3 +11,4 @@ var foo = require("./foo_0");
 if (foo.E1.A === 0) {
 // Should cause runtime import - interesting optimization possibility, as gets inlined to 0.
 }
+export { };

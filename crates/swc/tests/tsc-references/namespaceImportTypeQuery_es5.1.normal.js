@@ -8,5 +8,7 @@ export var B = function B() {
     "use strict";
     _class_call_check(this, B);
 };
+// @Filename: /b.ts
 var A;
 var B;
+export { };

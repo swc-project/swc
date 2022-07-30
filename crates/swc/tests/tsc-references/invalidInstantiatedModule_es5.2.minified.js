@@ -1,10 +1,10 @@
-var M, M2;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(M) {
-    var Point = function() {
-        "use strict";
-        _class_call_check(this, Point);
-    };
-    M.Point = Point;
-    var Point = M.Point = 1;
-}(M || (M = {})), (M2 || (M2 = {})).Point = 1;
+//!
+//!  x the name `Point` is defined multiple times
+//!   ,-[2:5]
+//! 2 | export class Point { x: number; y: number }
+//!   :              ^^|^^
+//!   :                `-- previous definition of `Point` here
+//! 3 |     export var Point = 1;  // Error
+//!   :                ^^|^^
+//!   :                  `-- `Point` redefined here
+//!   `----

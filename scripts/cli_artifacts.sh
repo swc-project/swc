@@ -8,8 +8,9 @@ do
   CLI_BINARY_PATH=${filename%%.*}
 
   if [ -f "$CLI_BINARY_PATH" ]; then
+      chmod +x $CLI_BINARY_PATH
       mv $CLI_BINARY_PATH ./scripts/npm/$BINDING_ABI
-  else
+  elif [ -f "$CLI_BINARY_PATH.exe" ]; then
       mv $CLI_BINARY_PATH.exe ./scripts/npm/$BINDING_ABI
   fi
 done

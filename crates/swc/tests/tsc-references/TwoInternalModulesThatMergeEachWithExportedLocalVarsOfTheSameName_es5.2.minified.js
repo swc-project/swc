@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var A;
 !function(A) {
     (A.Utils || (A.Utils = {})).mirror = function(p) {
@@ -10,7 +9,10 @@ export var A;
         x: 0,
         y: 0
     };
-}(A || (A = {})), function(A) {
+}(A || (A = {}));
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+export var A;
+!function(A) {
     var Utils, Plane;
     A.Origin = {
         x: 0,

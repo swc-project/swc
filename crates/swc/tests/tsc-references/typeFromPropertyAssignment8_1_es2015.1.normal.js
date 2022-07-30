@@ -14,11 +14,11 @@ my.app.Application = function() {
     return Application;
 }();
 my.app.Application();
-var _min;
 // @Filename: b.js
+var _min;
 var min = (_min = window.min) !== null && _min !== void 0 ? _min : {};
-var _app1;
-min.app = (_app1 = min.app) !== null && _app1 !== void 0 ? _app1 : {};
+var _app;
+min.app = (_app = min.app) !== null && _app !== void 0 ? _app : {};
 min.app.Application = function() {
     var Application = function() {
     //...

@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 name = "swc_plugin"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.88.1"
+version = "0.88.2"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -26,7 +26,7 @@ plugin_transform_schema_vtest = [
 ]
 
 [dependencies]
-swc_atoms = { version = "0.3.0", path = "../swc_atoms" }
+swc_atoms = { version = "0.3.1", path = "../swc_atoms" }
 swc_common = { version = "0.26.0", path = "../swc_common", features = [
   "plugin-mode",
 ] }

@@ -4,3 +4,4 @@ var A = function() {
     _class_call_check(this, A);
 };
 export { A as default };
+export { };

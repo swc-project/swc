@@ -1,6 +1,7 @@
 module.exports = {
     x: 12
-}, module.exports = [
+};
+module.exports = [
     {
         x: 12
     }

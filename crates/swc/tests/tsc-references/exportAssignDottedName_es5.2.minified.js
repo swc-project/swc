@@ -3,3 +3,4 @@ export function x() {
 }
 var foo1 = require("./foo1");
 module.exports = foo1.x;
+export { };

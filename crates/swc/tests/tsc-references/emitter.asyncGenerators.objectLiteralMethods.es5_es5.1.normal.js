@@ -1,9 +1,6 @@
 // @target: es5
 // @lib: esnext
 // @filename: O1.ts
-import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var o1 = {
@@ -20,6 +17,8 @@ var o1 = {
     }
 };
 // @filename: O2.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var o2 = {
     f: function f() {
         return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
@@ -40,6 +39,8 @@ var o2 = {
     }
 };
 // @filename: O3.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var o3 = {
     f: function f() {
         return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
@@ -60,6 +61,11 @@ var o3 = {
     }
 };
 // @filename: O4.ts
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var o4 = {
     f: function f() {
         return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
@@ -81,6 +87,11 @@ var o4 = {
     }
 };
 // @filename: O5.ts
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var o5 = {
     f: function f() {
         return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
@@ -111,6 +122,9 @@ var o5 = {
     }
 };
 // @filename: O6.ts
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var o6 = {
     f: function f() {
         return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
@@ -131,6 +145,8 @@ var o6 = {
     }
 };
 // @filename: O7.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var o7 = {
     f: function f() {
         return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {

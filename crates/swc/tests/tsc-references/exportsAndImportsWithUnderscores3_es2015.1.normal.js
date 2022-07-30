@@ -7,4 +7,6 @@ export default R = {
     "___hello": 21,
     "_hi": 40
 };
+// @filename: m2.ts
+import R from "./m1";
 const { ___ , ___hello , _hi  } = R;

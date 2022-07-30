@@ -4,3 +4,4 @@ export var MyClass = function() {
     _class_call_check(this, MyClass);
 };
 import * as React from "react";
+import { MyClass } from "./file1";

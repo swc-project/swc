@@ -292,10 +292,18 @@ where
                             }
                         }
 
+                        Expr::Ident(id) => {
+                            if let Some(v_usage) = self.data.vars.get(&id.to_id()) {
+                                if v_usage.reassigned() {
+                                    return;
+                                }
+                            }
+                        }
+
                         _ => {
                             for id in idents_used_by(&**init) {
                                 if let Some(v_usage) = self.data.vars.get(&id) {
-                                    if v_usage.reassigned() {
+                                    if v_usage.reassigned() || v_usage.has_property_mutation {
                                         return;
                                     }
                                 }

@@ -4,6 +4,7 @@
 // @filename: defaultPath.ts
 export class C {
 }
+// @filename: 1.ts
 import(`${directory}\\${moduleFile}`);
 import(getSpecifier());
 var p1 = import(ValidSomeCondition() ? "./0" : "externalModule");
@@ -21,3 +22,4 @@ function* loadModule(directories) {
         import((yield path));
     }
 }
+export { };

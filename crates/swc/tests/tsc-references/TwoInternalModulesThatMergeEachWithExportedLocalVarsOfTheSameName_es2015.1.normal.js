@@ -16,6 +16,8 @@ export var A;
         y: 0
     };
 })(A || (A = {}));
+//@filename: part2.ts
+export var A;
 (function(A) {
     var Origin = A.Origin = {
         x: 0,

@@ -11,6 +11,8 @@ export var Vue = function Vue() {
 export var config = {
     x: 0
 };
+// @Filename: test.js
+import { Vue, config } from "./vue";
 // Expando declarations aren't allowed on aliases.
 Vue.config = {};
 new Vue();

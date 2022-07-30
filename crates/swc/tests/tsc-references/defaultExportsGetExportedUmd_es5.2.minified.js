@@ -3,5 +3,5 @@ var Foo = function() {
     "use strict";
     _class_call_check(this, Foo);
 };
-export default function foo() {};
 export { Foo as default };
+export default function foo() {};

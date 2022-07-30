@@ -3,4 +3,6 @@ export function abc() {
 }
 module.exports = {
     abc: abc
-}, abc(1, 2, 3);
+};
+import { abc } from "./bug24934";
+abc(1, 2, 3);

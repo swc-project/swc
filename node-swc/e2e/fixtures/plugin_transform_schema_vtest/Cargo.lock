@@ -40,7 +40,7 @@ checksum = "bb07d2053ccdbe10e2af2995a2f116c1330396493dc1269f6a91d0ae82e19704"
 
 [[package]]
 name = "ast_node"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "darling",
  "pmutil",
@@ -71,9 +71,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bytecheck"
-version = "0.6.8"
+version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a31f923c2db9513e4298b72df143e6e655a759b3d6a0966df18f81223fff54f"
+checksum = "d11cac2c12b5adc6570dad2ee1b87eff4955dac476fe12d81e5fdd352e52406f"
 dependencies = [
  "bytecheck_derive",
  "ptr_meta",
@@ -81,9 +81,9 @@ dependencies = [
 
 [[package]]
 name = "bytecheck_derive"
-version = "0.6.8"
+version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "edb17c862a905d912174daa27ae002326fff56dc8b8ada50a0a5f0976cb174f0"
+checksum = "13e576ebe98e605500b3c8041bb888e966653577172df6dd97398714eb30b9bf"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -631,18 +631,18 @@ checksum = "1c107b6f4780854c8b126e228ea8869f4d7b71260f962fefb57b996b8959ba6b"
 
 [[package]]
 name = "serde"
-version = "1.0.139"
+version = "1.0.140"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0171ebb889e45aa68b44aee0859b3eede84c6f5f5c228e6f140c0b2a0a46cad6"
+checksum = "fc855a42c7967b7c369eb5860f7164ef1f6f81c20c7cc1141f2a604e18723b03"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.139"
+version = "1.0.140"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dc1d3230c1de7932af58ad8ffbe1d784bd55efd5a9d84ac24f69c72d83543dfb"
+checksum = "6f2122636b9fe3b81f1cb25099fcf2d3f542cdb1d45940d56c713158884a05da"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -712,7 +712,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc_atoms"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -725,7 +725,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.25.0"
+version = "0.26.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -753,7 +753,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.88.0"
+version = "0.89.0"
 dependencies = [
  "bitflags",
  "bytecheck",
@@ -770,7 +770,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.115.0"
+version = "0.116.0"
 dependencies = [
  "either",
  "enum_kind",
@@ -787,7 +787,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.97.0"
+version = "0.98.0"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -801,7 +801,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.74.1"
+version = "0.75.0"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -813,7 +813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.185.0"
+version = "0.186.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -843,7 +843,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.87.0"
+version = "0.88.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -854,7 +854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -863,7 +863,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.16.0"
+version = "0.17.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",

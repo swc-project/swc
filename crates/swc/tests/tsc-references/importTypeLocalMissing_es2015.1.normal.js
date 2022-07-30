@@ -1,6 +1,9 @@
 // @declaration: true
 // @lib: es6
 // @filename: foo.ts
+module.exports = Point;
+export { };
+// @filename: foo2.ts
 class Bar {
     constructor(input){}
 }
@@ -24,4 +27,3 @@ export class Bar2 {
 export let shim = {
     Bar: Bar2
 };
-module.exports = Point;

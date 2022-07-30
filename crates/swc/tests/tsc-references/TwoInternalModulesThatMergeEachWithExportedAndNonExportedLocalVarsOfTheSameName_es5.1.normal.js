@@ -1,5 +1,4 @@
 //@filename: part1.ts
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
 (function(A) {
     var Utils;
@@ -17,6 +16,9 @@ var A;
         y: 0
     };
 })(A || (A = {}));
+//@filename: part2.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var A;
 (function(A) {
     // not a collision, since we don't export
     var Origin = "0,0";

@@ -1,20 +1,12 @@
-var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-try {
-    //@target: ES6
-    for(var _iterator = [][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var let = _step.value;
-    }
-} catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-} finally{
-    try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
-        }
-    } finally{
-        if (_didIteratorError) {
-            throw _iteratorError;
-        }
-    }
-}
+//!
+//!  x 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+//!   ,----
+//! 2 | for (let let of []) {}
+//!   :          ^^^
+//!   `----
+//!
+//!
+//!Caused by:
+//!    0: failed to process input file
+//!    1: error was recoverable, but proceeding would result in wrong codegen
+//!    2: Syntax Error

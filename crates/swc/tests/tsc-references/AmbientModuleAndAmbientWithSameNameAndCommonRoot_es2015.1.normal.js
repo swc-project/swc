@@ -1,4 +1,5 @@
 // @filename: module.d.ts
+// @filename: class.d.ts
 // @filename: test.ts
 var p;
 var p = A.Point.Origin;

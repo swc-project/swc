@@ -1,23 +1,21 @@
-class Rectangle {
-    constructor(){
-        console.log("I'm a rectangle!");
-    }
-}
 module.exports = {
-    Rectangle
+    Rectangle: class {
+        constructor(){
+            console.log("I'm a rectangle!");
+        }
+    }
 };
 const { Rectangle  } = require('./rectangle');
-class Render {
-    addRectangle() {
-        let obj = new Rectangle();
-        return this.objects.push(obj), obj;
-    }
-    constructor(){
-        this.objects = [];
-    }
-}
 module.exports = {
-    Render
+    Render: class {
+        addRectangle() {
+            let obj = new Rectangle();
+            return this.objects.push(obj), obj;
+        }
+        constructor(){
+            this.objects = [];
+        }
+    }
 };
 const { Render  } = require("./index");
 let render = new Render();

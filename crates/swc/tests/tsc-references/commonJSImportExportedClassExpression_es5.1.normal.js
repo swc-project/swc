@@ -4,12 +4,12 @@
 // @outDir: out
 // @declaration: true
 // @filename: main.js
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var K = require("./mod1").K;
 /** @param {K} k */ function f(k) {
     k.values();
 }
 // @filename: mod1.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 exports.K = /*#__PURE__*/ function() {
     "use strict";
     function K() {

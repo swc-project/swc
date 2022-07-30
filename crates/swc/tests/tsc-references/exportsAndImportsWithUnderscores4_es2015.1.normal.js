@@ -22,6 +22,8 @@ export function __esmodule() {
 export function ___hello() {
     console.log("___hello");
 }
+// @filename: m2.ts
+import { _, __, ___hello, __esmodule, __proto, _hi } from "./m1";
 _();
 __();
 ___hello();

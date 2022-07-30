@@ -11,3 +11,4 @@ const foo = require("./foo_0");
 if (foo.C1.s1) {
 // Should cause runtime import
 }
+export { };

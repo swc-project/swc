@@ -15,7 +15,9 @@ let o = {
     explicitThis: function(m) {
         return m + this.n.length;
     },
-    implicitThis: (m)=>m
+    implicitThis (m) {
+        return m;
+    }
 }, i = o;
 (0, i.explicitThis)(12), (0, (void 0).implicitNoThis)(12), c.explicitVoid = c.implicitThis, o.implicitThis = c.implicitThis, o.implicitThis = c.explicitThis, o.implicitThis = i.explicitThis, i.explicitThis = function(m) {
     return this.n.length;

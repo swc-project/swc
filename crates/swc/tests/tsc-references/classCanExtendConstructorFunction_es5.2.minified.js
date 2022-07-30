@@ -27,18 +27,18 @@ var Sql = function(Wagon) {
     }, Sql;
 }(Wagon), db = new Sql();
 db.numberOxen = db.foonly;
-var Drakkhen = function(Dragon) {
+var Drakkhen = function(Dragon1) {
     "use strict";
-    _inherits(Drakkhen, Dragon);
+    _inherits(Drakkhen, Dragon1);
     var _super = _create_super(Drakkhen);
     function Drakkhen() {
         return _class_call_check(this, Drakkhen), _super.apply(this, arguments);
     }
     return Drakkhen;
 }(Dragon);
-function Dragon(numberEaten) {
-    this.numberEaten = numberEaten;
-}
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Firedrake = function(Dragon) {
     "use strict";
     _inherits(Firedrake, Dragon);
@@ -47,9 +47,11 @@ var Firedrake = function(Dragon) {
         return _class_call_check(this, Firedrake), _super.call(this);
     }
     return Firedrake;
-}(Dragon), Conestoga = function(Wagon) {
+}(function(numberEaten) {
+    this.numberEaten = numberEaten;
+}), Conestoga = function(Wagon1) {
     "use strict";
-    _inherits(Conestoga, Wagon);
+    _inherits(Conestoga, Wagon1);
     var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
         var _this;
@@ -59,10 +61,13 @@ var Firedrake = function(Dragon) {
         return others.length;
     }, Conestoga;
 }(Wagon), c = new Conestoga(!0);
+c.drunkOO, c.numberOxen;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 function Soup(flavour) {
     this.flavour = flavour;
 }
-c.drunkOO, c.numberOxen;
 var Chowder = function(Soup) {
     "use strict";
     _inherits(Chowder, Soup);
