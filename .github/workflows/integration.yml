@@ -39,6 +39,9 @@ jobs:
           echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
         shell: bash
 
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
       - name: Prepare
         run: |
           rustup target add wasm32-wasi
@@ -73,6 +76,9 @@ jobs:
           export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
           echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
         shell: bash
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Prepare
         run: |
