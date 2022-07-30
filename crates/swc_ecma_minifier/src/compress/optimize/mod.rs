@@ -1844,6 +1844,7 @@ where
         {
             let ctx = Ctx {
                 in_var_decl_of_for_in_or_of_loop: true,
+                is_exact_lhs_of_assign: n.left.is_pat(),
                 ..self.ctx
             };
             n.left.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1865,6 +1866,7 @@ where
         {
             let ctx = Ctx {
                 in_var_decl_of_for_in_or_of_loop: true,
+                is_exact_lhs_of_assign: n.left.is_pat(),
                 ..self.ctx
             };
             n.left.visit_mut_with(&mut *self.with_ctx(ctx));
