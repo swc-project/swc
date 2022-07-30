@@ -201,16 +201,22 @@
    :                           ^^
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
  3 | background: url(var(--foo));
-   :                           ^^
+   :                           ^
    `----
 
   x RParen
    ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
  3 | background: url(var(--foo));
    :                           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
+ 3 | background: url(var(--foo));
+   :                            ^
    `----
 
   x Semi
@@ -672,13 +678,7 @@
     :                                           ^^^
     `----
 
-  x Tokens
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    :                                           ^^^
-    `----
-
-  x RParen
+  x ComponentValue
     ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
  13 | background: url(image.png param(var(--url)));
     :                                           ^
@@ -687,7 +687,25 @@
   x RParen
     ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
  13 | background: url(image.png param(var(--url)));
+    :                                           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
+ 13 | background: url(image.png param(var(--url)));
     :                                            ^
+    `----
+
+  x RParen
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
+ 13 | background: url(image.png param(var(--url)));
+    :                                            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
+ 13 | background: url(image.png param(var(--url)));
+    :                                             ^
     `----
 
   x Semi

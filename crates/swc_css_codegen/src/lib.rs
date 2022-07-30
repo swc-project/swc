@@ -79,11 +79,11 @@ where
     #[emitter]
     fn emit_qualified_rule_prelude(&mut self, n: &QualifiedRulePrelude) -> Result {
         match n {
+            QualifiedRulePrelude::ListOfComponentValues(n) => emit!(self, n),
             QualifiedRulePrelude::SelectorList(n) => {
                 emit!(self, n);
                 formatting_space!(self);
             }
-            QualifiedRulePrelude::Invalid(n) => emit!(self, n),
         }
     }
 
@@ -845,7 +845,7 @@ where
 
                             formatting_newline!(self);
                         }
-                        StyleBlock::Invalid(_) => {}
+                        StyleBlock::ListOfComponentValues(_) => {}
                     }
 
                     decrease_indent!(self);
@@ -924,10 +924,10 @@ where
     #[emitter]
     fn emit_style_block(&mut self, n: &StyleBlock) -> Result {
         match n {
+            StyleBlock::ListOfComponentValues(n) => emit!(self, n),
             StyleBlock::AtRule(n) => emit!(self, n),
             StyleBlock::Declaration(n) => emit!(self, n),
             StyleBlock::QualifiedRule(n) => emit!(self, n),
-            StyleBlock::Invalid(n) => emit!(self, n),
         }
     }
 
