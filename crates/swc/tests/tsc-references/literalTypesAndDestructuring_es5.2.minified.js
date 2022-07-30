@@ -1,1 +1,1 @@
-x.a, x.a, x.a, x.a, x.a, x.a, x.a, x.a, ({}).bar;
+x.a, x.a, x.a, x.a, x.a, x.a, x.a, x.a;
