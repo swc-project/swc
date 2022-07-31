@@ -566,10 +566,7 @@ where
         let assign = match e {
             Expr::Assign(AssignExpr { op: op!("="), .. }) => return,
             // RHS may not be evaluated
-            Expr::Assign(AssignExpr {
-                op: op!("&&=") | op!("||=") | op!("&&="),
-                ..
-            }) => return,
+            Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => return,
             Expr::Assign(e) => e,
             _ => return,
         };

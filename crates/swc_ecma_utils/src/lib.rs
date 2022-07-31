@@ -1274,6 +1274,16 @@ pub trait ExprExt {
                 ..
             }) => left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx),
 
+            Expr::Member(MemberExpr { obj, prop, .. }) if obj.is_object() => {
+                if obj.may_have_side_effects(ctx) {
+                    return true;
+                }
+                match prop {
+                    MemberProp::Computed(c) => c.expr.may_have_side_effects(ctx),
+                    MemberProp::Ident(_) | MemberProp::PrivateName(_) => false,
+                }
+            }
+
             //TODO
             Expr::Tpl(_) => true,
             Expr::TaggedTpl(_) => true,
@@ -1331,12 +1341,12 @@ pub trait ExprExt {
                     || alt.may_have_side_effects(ctx)
             }
 
-            Expr::Object(ObjectLit { ref props, .. }) => props.iter().any(|node| match node {
+            Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
                 PropOrSpread::Prop(node) => match &**node {
                     Prop::Shorthand(..) => false,
-                    Prop::KeyValue(KeyValueProp { ref key, ref value }) => {
-                        let k = match *key {
-                            PropName::Computed(ref e) => e.expr.may_have_side_effects(ctx),
+                    Prop::KeyValue(KeyValueProp { key, value }) => {
+                        let k = match key {
+                            PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
                             _ => false,
                         };
 
@@ -1344,7 +1354,8 @@ pub trait ExprExt {
                     }
                     _ => true,
                 },
-                PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.may_have_side_effects(ctx),
+                // may trigger getter
+                PropOrSpread::Spread(_) => true,
             }),
 
             Expr::JSXMember(..)
