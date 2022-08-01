@@ -32,6 +32,9 @@
 - **(css/prefixer)** Prefix more properties (#5340) ([8e12e52](https://github.com/swc-project/swc/commit/8e12e52a5735dafe1336d0bdc83e91dd7cca9d7d))
 
 
+- **(css/prefixer)** Avoid prefixing general functions (#5319) ([07732d6](https://github.com/swc-project/swc/commit/07732d6a0a3684697ebfd263749b12a083029db9))
+
+
 - **(wasm)** Add interfaces for wasm bindings (#5341) ([c16b6b7](https://github.com/swc-project/swc/commit/c16b6b72300a4e4952398c136ef834b8ca2f4b41))
 
 
