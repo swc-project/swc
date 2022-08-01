@@ -37,6 +37,9 @@
 
 - **(wasm)** Enable string interning (#5351) ([b0cb35a](https://github.com/swc-project/swc/commit/b0cb35abaad7ca2a2e58462285548959d3e2c0fc))
 
+
+- **(wasm)** Expose async facade interfaces (#5352) ([281bdd9](https://github.com/swc-project/swc/commit/281bdd9e9741ec7375497b390058a86a4f199029))
+
 ### Performance
 
 
