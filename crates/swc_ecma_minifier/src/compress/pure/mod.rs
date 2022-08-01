@@ -1,5 +1,6 @@
 #![allow(clippy::needless_update)]
 
+#[cfg(feature = "concurrent")]
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
@@ -170,27 +171,56 @@ impl Pure<'_> {
             && (!cfg!(feature = "debug") || !cfg!(debug_assertions))
             && nodes.len() >= *crate::HEAVY_TASK_PARALLELS
         {
-            GLOBALS.with(|globals| {
-                changed = nodes
-                    .par_iter_mut()
-                    .map(|node| {
-                        GLOBALS.set(globals, || {
-                            let mut v = Pure {
-                                expr_ctx: self.expr_ctx.clone(),
-                                ctx: Ctx {
-                                    par_depth: self.ctx.par_depth + 1,
-                                    ..self.ctx
-                                },
-                                changed: false,
-                                ..*self
-                            };
-                            node.visit_mut_with(&mut v);
+            #[cfg(feature = "concurrent")]
+            {
+                GLOBALS.with(|globals| {
+                    changed = nodes
+                        .par_iter_mut()
+                        .map(|node| {
+                            GLOBALS.set(globals, || {
+                                let mut v = Pure {
+                                    expr_ctx: self.expr_ctx.clone(),
+                                    ctx: Ctx {
+                                        par_depth: self.ctx.par_depth + 1,
+                                        ..self.ctx
+                                    },
+                                    changed: false,
+                                    ..*self
+                                };
+                                node.visit_mut_with(&mut v);
 
-                            v.changed
+                                v.changed
+                            })
                         })
-                    })
-                    .reduce(|| false, |a, b| a || b);
-            })
+                        .reduce(|| false, |a, b| a || b);
+                })
+            }
+
+            #[cfg(not(feature = "concurrent"))]
+            {
+                GLOBALS.with(|globals| {
+                    changed = nodes
+                        .iter_mut()
+                        .map(|node| {
+                            GLOBALS.set(globals, || {
+                                let mut v = Pure {
+                                    expr_ctx: self.expr_ctx.clone(),
+                                    ctx: Ctx {
+                                        par_depth: self.ctx.par_depth + 1,
+                                        ..self.ctx
+                                    },
+                                    changed: false,
+                                    ..*self
+                                };
+                                node.visit_mut_with(&mut v);
+
+                                v.changed
+                            })
+                        })
+                        .reduce(|a, b| a || b)
+                        .unwrap_or(false);
+                })
+            }
         } else {
             changed = nodes
                 .iter_mut()

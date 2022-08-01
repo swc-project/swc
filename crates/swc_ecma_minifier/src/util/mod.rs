@@ -533,6 +533,7 @@ impl Visit for EvalFinder {
     }
 }
 
+#[cfg(feature = "concurrent")]
 #[macro_export(local_inner_macros)]
 #[allow(clippy::crate_in_macro_def)]
 macro_rules! maybe_par {
@@ -624,5 +625,50 @@ macro_rules! maybe_par {
       } else {
           $name.iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
       }
+  };
+}
+
+#[cfg(not(feature = "concurrent"))]
+#[macro_export(local_inner_macros)]
+#[allow(clippy::crate_in_macro_def)]
+macro_rules! maybe_par {
+  ($prefix:ident.$name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+    $prefix.$name.iter().$operator($($rest)*)
+  };
+
+  ($prefix:ident.$name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+    $prefix.$name.into_iter().$operator($($rest)*)
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+    $name.iter().$operator($($rest)*)
+  };
+
+  ($name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+    $name.into_iter().$operator($($rest)*)
+  };
+
+  ($name:ident.iter_mut().$operator:ident($($rest:expr)*), $threshold:expr) => {
+    $name.iter_mut().$operator($($rest)*)
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+    $name.iter().$operator($($rest)*).$operator2($($rest2)*)
+  };
+
+  ($name:ident.into_iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+    $name.into_iter().$operator($($rest)*).$operator2($($rest2)*)
+  };
+
+  ($name:ident.iter_mut().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+    $name.iter_mut().$operator($($rest)*).$operator2($($rest2)*)
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident::<$t:ty>($($rest2:expr)*), $threshold:expr) => {
+    $name.iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*).$operator3:ident($($rest3:expr)*), $threshold:expr) => {
+    $name.iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
   };
 }

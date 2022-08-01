@@ -22,7 +22,7 @@ swc_common = { version = "0.26.0", features = [
 ], path = "../swc_common" }
 swc_ecma_ast = { version = "0.89.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.120.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "0.142.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "0.142.0", path = "../swc_ecma_minifier", features = ["concurrent"] }
 swc_ecma_parser = { version = "0.116.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.102.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "0.75.0", path = "../swc_ecma_visit" }

@@ -1,3 +1,4 @@
+#[cfg(feature = "concurrent")]
 use rayon::prelude::*;
 use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -74,10 +75,20 @@ impl Hoister<'_> {
             PartialOrd::partial_cmp,
         ) || (self.config.hoist_vars
             && if len >= *crate::LIGHT_TASK_PARALLELS {
-                stmts.par_chunks(2).any(|stmts| {
-                    is_hoisted_var_decl_without_init(&stmts[0])
-                        && is_hoisted_var_decl_without_init(&stmts[1])
-                })
+                #[cfg(feature = "concurrent")]
+                {
+                    stmts.par_chunks(2).any(|stmts| {
+                        is_hoisted_var_decl_without_init(&stmts[0])
+                            && is_hoisted_var_decl_without_init(&stmts[1])
+                    })
+                }
+                #[cfg(not(feature = "concurrent"))]
+                {
+                    stmts.chunks(2).any(|stmts| {
+                        is_hoisted_var_decl_without_init(&stmts[0])
+                            && is_hoisted_var_decl_without_init(&stmts[1])
+                    })
+                }
             } else {
                 stmts.windows(2).any(|stmts| {
                     is_hoisted_var_decl_without_init(&stmts[0])
