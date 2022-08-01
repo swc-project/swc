@@ -91,8 +91,6 @@ a {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  flex: -webkit-calc(1em + 1px) 0 0;
-  flex: -moz-calc(1em + 1px) 0 0;
   flex: calc(1em + 1px) 0 0;
 }
 .h {

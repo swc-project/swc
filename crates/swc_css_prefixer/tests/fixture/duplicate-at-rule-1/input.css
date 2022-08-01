@@ -1,0 +1,18 @@
+@font-face {}
+@-webkit-keyframes anim {}
+@font-face {}
+@keyframes anim {}
+@font-face {}
+@font-face {}
+@-webkit-keyframes anim {
+    0% {
+        color: red
+    }
+}
+@font-face {}
+@keyframes anim {
+    0% {
+        color: red
+    }
+}
+@font-face {}

@@ -10,8 +10,6 @@ main {
 }
 div {
   width: 100%;
-  max-width: -webkit-calc(100% - __styled-jsx-placeholderpx - var(--geist-gap-double));
-  max-width: -moz-calc(100% - __styled-jsx-placeholderpx - var(--geist-gap-double));
   max-width: calc(100% - __styled-jsx-placeholderpx - var(--geist-gap-double));
 }
 @media (max-width: __styled-jsx-placeholderpx) {

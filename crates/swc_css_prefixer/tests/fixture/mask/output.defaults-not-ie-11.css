@@ -7,10 +7,7 @@
   mask-image: none;
 }
 .class {
-  -webkit-mask-image: -webkit-linear-gradient(#fff);
-  mask-image: -webkit-linear-gradient(#fff);
-  mask-image: -moz-linear-gradient(#fff);
-  mask-image: -o-linear-gradient(#fff);
+  -webkit-mask-image: linear-gradient(#fff);
   mask-image: linear-gradient(#fff);
 }
 .class {
