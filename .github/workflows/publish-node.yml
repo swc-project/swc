@@ -223,7 +223,9 @@ jobs:
         with:
           image: ${{ matrix.settings.docker }}
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
-          run: ${{ matrix.settings.build }}
+          run: |
+            curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+            ${{ matrix.settings.build }}
       - name: Build
         if: ${{ !matrix.settings.docker }}
         run: ${{ matrix.settings.build }}
