@@ -1,0 +1,12 @@
+
+  x Eof in tag
+   ,-[$DIR/tests/recovery/no-quotes/input.xml:7:1]
+ 7 | </note>
+   :        ^
+   `----
+
+  x Unexpected end of file in main phase
+   ,-[$DIR/tests/recovery/no-quotes/input.xml:7:1]
+ 7 | </note>
+   :        ^
+   `----

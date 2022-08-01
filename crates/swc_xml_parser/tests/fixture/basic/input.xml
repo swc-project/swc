@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83 121">
+    <!-- test -->
+    <g fill="none" stroke-linecap="round">
+        <g stroke-width="8">
+            <path d="M23,40l2,13l-13-2" stroke="#FD4"/>
+            <path d="M36,40l-1,13l13-3" stroke="#D25"/>
+            <path d="M23,80l7-11l7,11" stroke="#8CE"/>
+        </g>
+        <g stroke-width="6">
+            <path d="M8,4c-8,9-5,30,17,49" stroke="#FD4"/>
+            <path d="M79,25c-22-6-32,14-42,26" stroke="#D25"/>
+            <path d="M10,118c23-8,20-30,20-44" stroke="#8CE"/>
+            <path d="M20,48l10,12v13m0-13l10-12" stroke="#FFF"/>
+        </g>
+        <path d="M20,48l10,12v13m0-13l10-12" stroke-width="5" stroke="#000"/>
+        <text>Text</text>
+    </g>
+</svg>

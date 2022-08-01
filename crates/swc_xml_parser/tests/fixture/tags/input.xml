@@ -1,0 +1,11 @@
+<root>
+<z></z></><a/>
+<!-- start tag and end tag -->
+<start-tag>Start</start-tag>
+<!-- empty tag -->
+<short-tag />
+<test></test>
+<!-- short tag -->
+</>
+<test></test>
+</root>
