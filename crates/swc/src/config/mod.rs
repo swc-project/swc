@@ -848,7 +848,7 @@ pub struct Config {
 }
 
 /// Second argument of `minify`.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
