@@ -27,6 +27,7 @@ rkyv-impl = ["swc_ecma_ast/rkyv-impl"]
 transforms = ["swc_ecma_transforms"]
 utils = ["swc_ecma_utils"]
 visit = ["swc_ecma_visit"]
+concurrent = ["swc_ecma_minifier/concurrent"]
 
 typescript-parser = ["swc_ecma_parser/typescript"]
 
