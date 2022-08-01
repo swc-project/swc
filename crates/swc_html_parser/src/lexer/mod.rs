@@ -566,9 +566,9 @@ where
     fn create_start_tag_token(&mut self) {
         self.current_tag_token = Some(Tag {
             kind: TagKind::Start,
-            // Maximum known html tags are `blockquote` and `figcaption`
-            tag_name: String::with_capacity(10),
-            raw_tag_name: Some(String::with_capacity(10)),
+            // Maximum known tag is `feComponentTransfer` (SVG)
+            tag_name: String::with_capacity(19),
+            raw_tag_name: Some(String::with_capacity(19)),
             is_self_closing: false,
             attributes: Vec::with_capacity(255),
         });
@@ -577,9 +577,9 @@ where
     fn create_end_tag_token(&mut self) {
         self.current_tag_token = Some(Tag {
             kind: TagKind::End,
-            // Maximum known html tags are `blockquote` and `figcaption`
-            tag_name: String::with_capacity(10),
-            raw_tag_name: Some(String::with_capacity(10)),
+            // Maximum known tag is `feComponentTransfer` (SVG)
+            tag_name: String::with_capacity(19),
+            raw_tag_name: Some(String::with_capacity(19)),
             is_self_closing: false,
             attributes: Vec::with_capacity(255),
         });
@@ -599,9 +599,9 @@ where
 
     fn start_new_attribute(&mut self, c: Option<char>) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-            // The longest known HTML attribute is "allowpaymentrequest" for "iframe".
-            let mut name = String::with_capacity(19);
-            let mut raw_name = String::with_capacity(19);
+            // The longest known attribute is "glyph-orientation-horizontal" for SVG tags
+            let mut name = String::with_capacity(28);
+            let mut raw_name = String::with_capacity(28);
 
             if let Some(c) = c {
                 name.push(c);
@@ -689,7 +689,7 @@ where
                 TagKind::Start => {
                     self.last_start_tag_name = Some(current_tag_token.tag_name.clone().into());
 
-                    let mut already_seen: AHashSet<String> = Default::default();
+                    let mut already_seen: AHashSet<JsWord> = Default::default();
 
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
@@ -699,18 +699,20 @@ where
                             .attributes
                             .drain(..)
                             .map(|attribute| {
-                                if already_seen.contains(&attribute.name) {
+                                let name: JsWord = JsWord::from(attribute.name);
+
+                                if already_seen.contains(&name) {
                                     self.errors.push(Error::new(
                                         attribute.span,
                                         ErrorKind::DuplicateAttribute,
                                     ));
                                 }
 
-                                already_seen.insert(attribute.name.clone());
+                                already_seen.insert(name.clone());
 
                                 AttributeToken {
                                     span: attribute.span,
-                                    name: attribute.name.into(),
+                                    name,
                                     raw_name: attribute.raw_name.map(JsWord::from),
                                     value: attribute.value.map(JsWord::from),
                                     raw_value: attribute.raw_value.map(JsWord::from),
@@ -730,7 +732,7 @@ where
                         self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
                     }
 
-                    let mut already_seen: AHashSet<String> = Default::default();
+                    let mut already_seen: AHashSet<JsWord> = Default::default();
 
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
@@ -740,18 +742,20 @@ where
                             .attributes
                             .drain(..)
                             .map(|attribute| {
-                                if already_seen.contains(&attribute.name) {
+                                let name: JsWord = JsWord::from(attribute.name);
+
+                                if already_seen.contains(&name) {
                                     self.errors.push(Error::new(
                                         attribute.span,
                                         ErrorKind::DuplicateAttribute,
                                     ));
                                 }
 
-                                already_seen.insert(attribute.name.clone());
+                                already_seen.insert(name.clone());
 
                                 AttributeToken {
                                     span: attribute.span,
-                                    name: attribute.name.into(),
+                                    name,
                                     raw_name: attribute.raw_name.map(JsWord::from),
                                     value: attribute.value.map(JsWord::from),
                                     raw_value: attribute.raw_value.map(JsWord::from),
@@ -767,8 +771,8 @@ where
     }
 
     fn create_comment_token(&mut self, new_data: Option<String>, raw_start: &str) {
-        let mut data = String::with_capacity(32);
-        let mut raw = String::with_capacity(38);
+        let mut data = String::with_capacity(64);
+        let mut raw = String::with_capacity(71);
 
         raw.push_str(raw_start);
 
