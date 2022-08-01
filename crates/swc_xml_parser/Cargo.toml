@@ -1,0 +1,32 @@
+[package]
+authors = [
+  "강동윤 <kdy1997.dev@gmail.com>",
+  "Alexander Akait <sheo13666q@gmail.com>",
+]
+description = "XML parser"
+documentation = "https://rustdoc.swc.rs/swc_xml_parser/"
+edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
+license = "Apache-2.0"
+name = "swc_xml_parser"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[lib]
+bench = false
+
+[features]
+debug = []
+
+[dependencies]
+swc_atoms = { version = "0.3.0", path = "../swc_atoms" }
+swc_common = { version = "0.26.0", path = "../swc_common" }
+swc_xml_ast = { version = "0.1.0", path = "../swc_xml_ast" }
+
+[dev-dependencies]
+criterion = "0.3"
+serde = "1.0.127"
+serde_json = "1.0.66"
+swc_xml_visit = { version = "0.1.0", path = "../swc_xml_visit" }
+swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
+testing = { version = "0.28.0", path = "../testing" }

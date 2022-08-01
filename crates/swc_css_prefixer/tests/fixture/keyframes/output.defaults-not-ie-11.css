@@ -1,7 +1,5 @@
 @keyframes anim {
   from {
-    top: -webkit-calc(10% + 10px);
-    top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
     transform: rotate(10deg);
   }
@@ -14,8 +12,6 @@
     display: flex;
   }
   to {
-    top: -webkit-calc(10%);
-    top: -moz-calc(10%);
     top: calc(10%);
     transform: rotate(0);
   }

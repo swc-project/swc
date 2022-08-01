@@ -66,6 +66,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
+          toolchain: 1.60
 
       - uses: actions/setup-node@v3
         with:
@@ -280,6 +281,22 @@ jobs:
           - crate: swc_html_utils
             os: ubuntu-latest
           - crate: swc_html_visit
+            os: ubuntu-latest
+          - crate: swc_xml
+            os: ubuntu-latest
+          - crate: swc_xml_ast
+            os: ubuntu-latest
+          - crate: swc_xml_codegen
+            os: ubuntu-latest
+          - crate: swc_xml_codegen
+            os: windows-latest
+          - crate: swc_xml_codegen_macros
+            os: ubuntu-latest
+          - crate: swc_xml_parser
+            os: ubuntu-latest
+          - crate: swc_xml_parser
+            os: windows-latest
+          - crate: swc_xml_visit
             os: ubuntu-latest
           - crate: swc_macros_common
             os: ubuntu-latest

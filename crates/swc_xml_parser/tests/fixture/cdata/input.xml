@@ -1,0 +1,13 @@
+<root>
+    <description>An example of escaped CENDs</description>
+    <!-- This text contains a CEND ]]> -->
+    <!-- In this first case we put the ]] at the end of the first CDATA block
+         and the > in the second CDATA block -->
+    <exampleOfACDATA>
+    <![CDATA[
+    Since this is a CDATA section
+    I can use all sorts of reserved characters
+    but my document is still well formed!
+    ]]>
+    </exampleOfACDATA>
+</root>
