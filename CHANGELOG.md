@@ -64,6 +64,12 @@
 
 - **(html/parser)** Apply small memory optimizations (#5345) ([2a499de](https://github.com/swc-project/swc/commit/2a499de61decdb836a4a51bc0fa5631568b77015))
 
+### Refactor
+
+
+
+- **(wasm)** Use async interfaces for fallback bindings (#5356) ([74e7486](https://github.com/swc-project/swc/commit/74e748617e288b98b80e4b71aee15ed6fda1c48d))
+
 ### Testing
 
 
