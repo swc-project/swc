@@ -23,6 +23,9 @@
 - **(es/minifier)** Ignore member expression without side-effects in assign position (#5344) ([8611161](https://github.com/swc-project/swc/commit/8611161c02223f6b1fb8734e648392794f2b1d81))
 
 
+- **(es/minifier)** Allow single-thread mode (#5353) ([fbdc9af](https://github.com/swc-project/swc/commit/fbdc9af5ca51e7e2a0ba42997dd9ffd14d5059f4))
+
+
 - **(es/utils)** Fix `contains_top_level_await` (#5335) ([1d10c3e](https://github.com/swc-project/swc/commit/1d10c3e83725276fa466393fb7a3139f07fa66c7))
 
 ### Features
