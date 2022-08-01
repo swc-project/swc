@@ -226,6 +226,7 @@ jobs:
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: |
             curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+            export PATH="/usr/local/cargo/bin:$PATH"
             ${{ matrix.settings.build }}
       - name: Build
         if: ${{ !matrix.settings.docker }}
