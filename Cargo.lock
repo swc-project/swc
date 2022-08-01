@@ -3147,6 +3147,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_core"
+version = "0.1.0"
+
+[[package]]
 name = "swc_css"
 version = "0.117.0"
 dependencies = [

@@ -1,0 +1,12 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
+description = "TBD"
+name = "swc_core"
+license = "Apache-2.0"
+edition = "2021"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[features]
+
+[dependencies]
