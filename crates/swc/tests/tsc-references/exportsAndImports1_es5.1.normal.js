@@ -29,5 +29,5 @@ export { v, f, C, E, D, M, N, a };
 // @filename: t2.ts
 export { v, f, C, I, E, D, M, N, T, a } from "./t1";
 // @filename: t3.ts
-import { I, T } from "./t1";
-export { v, f, C, E, D, M, N, a };
+import { v, f, C, I, E, D, M, N, T, a } from "./t1";
+export { v, f, C, I, E, D, M, N, T, a };

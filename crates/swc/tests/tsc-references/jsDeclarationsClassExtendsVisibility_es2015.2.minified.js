@@ -1,6 +1,5 @@
-class Bar {
-}
-module.exports = Bar;
+module.exports = class {
+};
 const Bar = require("./bar");
 module.exports = class extends Bar {
 }, module.exports.Strings = {

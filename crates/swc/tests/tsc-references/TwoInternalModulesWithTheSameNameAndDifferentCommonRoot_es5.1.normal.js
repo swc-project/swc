@@ -1,5 +1,4 @@
 //@filename: part1.ts
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Root;
 (function(Root) {
     var A;
@@ -17,6 +16,7 @@ var Root;
     })(A = Root.A || (Root.A = {}));
 })(Root || (Root = {}));
 //@filename: part2.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var otherRoot;
 (function(otherRoot) {
     var A;

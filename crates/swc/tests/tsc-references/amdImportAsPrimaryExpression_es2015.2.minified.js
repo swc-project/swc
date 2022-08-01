@@ -4,3 +4,4 @@ export var E1;
 }(E1 || (E1 = {}));
 let foo = require("./foo_0");
 foo.E1.A;
+export { };

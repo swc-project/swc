@@ -12,6 +12,8 @@ var A;
         Utils.mirror = mirror;
     })(Utils = A.Utils || (A.Utils = {}));
 })(A || (A = {}));
+//@filename: part2.ts
+var A;
 (function(A) {
     var Origin = A.Origin = {
         x: 0,

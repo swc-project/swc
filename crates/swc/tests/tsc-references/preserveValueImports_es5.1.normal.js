@@ -6,11 +6,17 @@ export default {};
 export var b = 0;
 export var c = 1;
 // @Filename: b.ts
-import { D } from "./a";
+export { };
+// @Filename: c.ts
+export { };
+// @Filename: d.ts
+module.exports = {};
+export { };
 // @Filename: e.ts
 var D = require("./d");
 var DD = require("./d");
 DD;
+export { };
+// @Filename: f.ts
+import { b } from "./a";
 b;
-// @Filename: d.ts
-module.exports = {};

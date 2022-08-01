@@ -9,5 +9,5 @@ Example1 || (Example1 = {}), t = s, Example2 || (Example2 = {}), t = s, Example3
     var getAxisType = function() {
         return "categorical";
     };
-    getAxisType(), void 0 = getAxisType();
+    getAxisType(), getAxisType();
 }(GH12052 || (GH12052 = {})), GH18421 || (GH18421 = {}), GH15907 || (GH15907 = {}), GH20889 || (GH20889 = {}), GH39357 || (GH39357 = {});

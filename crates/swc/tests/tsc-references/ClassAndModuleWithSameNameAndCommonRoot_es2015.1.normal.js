@@ -12,6 +12,8 @@ var X;
         Y.Point = Point;
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
+// @filename: module.ts
+var X;
 (function(X) {
     let Y;
     (function(Y) {

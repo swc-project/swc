@@ -15,8 +15,6 @@
   }
   @supports (flex-wrap: wrap) {
     .foo {
-      -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
       -webkit-appearance: auto;
       appearance: auto;
     }

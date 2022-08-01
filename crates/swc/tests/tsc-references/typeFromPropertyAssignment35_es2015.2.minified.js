@@ -3,5 +3,4 @@ Emu.D = class {
         this._model = 1;
     }
 };
-var Emu = {};
-Emu.D._wrapperInstance;
+({}).D._wrapperInstance;

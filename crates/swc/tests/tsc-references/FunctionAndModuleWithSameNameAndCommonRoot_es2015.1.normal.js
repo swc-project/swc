@@ -9,6 +9,8 @@ var A;
     }
     A.Point = Point;
 })(A || (A = {}));
+// @filename: module.ts
+var A;
 (function(A) {
     let Point;
     (function(Point) {

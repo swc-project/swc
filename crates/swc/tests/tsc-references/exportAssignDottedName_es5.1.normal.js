@@ -5,3 +5,4 @@ export function x() {
 // @Filename: foo2.ts
 var foo1 = require("./foo1");
 module.exports = foo1.x; // Ok
+export { };

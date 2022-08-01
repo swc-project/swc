@@ -12,10 +12,11 @@ export class Foo {
         });
     }
 }
-var _x1 = new WeakMap();
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+var _x = new WeakMap();
 export class Foo {
     constructor(){
-        _class_private_field_init(this, _x1, {
+        _class_private_field_init(this, _x, {
             writable: !0,
             value: void 0
         });

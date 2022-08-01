@@ -16,6 +16,7 @@
  * @property {myTypes.typeA}    prop1 - Prop 1.
  * @property {string}           prop2 - Prop 2.
  */ /** @typedef {myTypes.typeB|Function} myTypes.typeC */ export { myTypes };
+// @filename: file2.js
 /**
  * @namespace testFnTypes
  * @global

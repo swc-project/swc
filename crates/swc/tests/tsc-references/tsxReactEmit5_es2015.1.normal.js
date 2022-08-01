@@ -1,10 +1,10 @@
 //@jsx: react
 //@module: commonjs
 //@filename: file.tsx
-import _extends from "@swc/helpers/src/_extends.mjs";
 //@filename: test.d.ts
 export var React;
 //@filename: react-consumer.tsx
+import _extends from "@swc/helpers/src/_extends.mjs";
 import { React } from "./test";
 // Should emit test_1.React.createElement
 //  and React.__spread

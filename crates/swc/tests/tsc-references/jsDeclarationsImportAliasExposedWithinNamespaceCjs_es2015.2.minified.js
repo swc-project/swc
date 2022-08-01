@@ -1,5 +1,4 @@
-const myTypes = {};
-exports.myTypes = myTypes;
+exports.myTypes = {};
 const { myTypes  } = require('./file.js');
 module.exports = {
     testFn: function(input) {

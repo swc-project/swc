@@ -181,6 +181,10 @@ impl AssignOp {
             op!("??=") => Some(op!("??")),
         }
     }
+
+    pub fn may_short_circuit(&self) -> bool {
+        matches!(self, op!("??=") | op!("||=") | op!("&&="))
+    }
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]

@@ -1,6 +1,5 @@
 export default "hello";
-var a = require("./t1");
-a.default;
+require("./t1").default;
 import b from "./t1";
 import * as c from "./t1";
 c.default;

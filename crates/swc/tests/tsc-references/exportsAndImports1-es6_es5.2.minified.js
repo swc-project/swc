@@ -14,6 +14,7 @@ var C = function() {
     M.x = x;
 }(M || (M = {}));
 var a = M.x;
+export { v, f, C, E, D, M, N, a };
 export { v, f, C, I, E, D, M, N, T, a } from "./t1";
-import { I, T } from "./t1";
-export { v, f, C, E, D, M, N, a, v, f, C, E, D, M, N, a };
+import { v, f, C, I, E, D, M, N, T, a } from "./t1";
+export { v, f, C, I, E, D, M, N, T, a };

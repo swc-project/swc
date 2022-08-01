@@ -11,6 +11,7 @@ module.exports = function Obj() {
     this.x = 12;
 };
 // @filename: index.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Obj = require("./obj");
 var Container = function Container() {
     "use strict";

@@ -1,18 +1,9 @@
 .class {
-  width: -webkit-calc(20px + 40px);
-  width: -moz-calc(20px + 40px);
   width: calc(20px + 40px);
 }
 .class {
-  margin: -webkit-calc(5% + 5px) -webkit-calc(10% + 10px);
-  margin: -moz-calc(5% + 5px) -moz-calc(10% + 10px);
   margin: calc(5% + 5px) calc(10% + 10px);
 }
 div {
-  -webkit-background-size: -webkit-calc(20px);
-  -moz-background-size: -moz-calc(20px);
-  -o-background-size: calc(20px);
-  background-size: -webkit-calc(20px);
-  background-size: -moz-calc(20px);
   background-size: calc(20px);
 }

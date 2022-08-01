@@ -20,3 +20,4 @@ var x = {};
 var y = false;
 var z;
 var e = 0;
+export { };

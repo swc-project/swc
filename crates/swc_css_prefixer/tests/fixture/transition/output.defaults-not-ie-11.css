@@ -6,22 +6,18 @@ a {
   transform: rotate(10deg);
 }
 div {
-  -webkit-transition-property: filter;
   transition-property: filter;
   animation-name: rotating;
 }
 .good {
-  -webkit-transition-property: filter;
   transition-property: filter;
   transition-duration: 1s;
 }
 .good2 {
-  -webkit-transition-property: color, filter;
   transition-property: color, filter;
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
 }
 .bad {
-  -webkit-transition-property: color, filter;
   transition-property: color, filter;
   transition-duration: 1s, 2s;
 }
@@ -40,7 +36,6 @@ input[type=range]::-moz-range-thumb {
 }
 input[type=range]::-webkit-slider-thumb {
   transition: none;
-  -webkit-transition-property: all;
   transition-property: all;
 }
 button::-moz-submit-invalid {
@@ -108,32 +103,16 @@ button::-webkit-search-cancel-button {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-flow: row;
-  -moz-box-orient: horizontal;
-  -moz-box-direction: normal;
-  -ms-flex-flow: row;
   flex-flow: row;
-  -webkit-box-ordinal-group: 1;
-  -webkit-order: 0;
-  -moz-box-ordinal-group: 1;
-  -ms-flex-order: 0;
   order: 0;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 1 2;
-  -moz-box-flex: 0;
-  -ms-flex: 0 1 2;
   flex: 0 1 2;
   transition: flex 200ms;
 }
 .no-warn {
-  -webkit-transition-property: color, opacity;
   transition-property: color, opacity;
   transition-duration: 1s, 2s;
 }
 div {
-  -webkit-transition-property: -webkit-transform;
   transition-property: -webkit-transform;
   transition-property: -moz-transform;
   transition-property: -o-transform;
@@ -141,7 +120,5 @@ div {
   transform: rotate(10deg);
 }
 div {
-  transition: -webkit-calc(1s);
-  transition: -moz-calc(1s);
   transition: calc(1s);
 }

@@ -5,8 +5,7 @@
 // @lib: esnext
 // @Filename: bug25149.js
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
-var _marked1 = regeneratorRuntime.mark(f);
+var _marked = regeneratorRuntime.mark(f);
 function f() {
     var o;
     return regeneratorRuntime.wrap(function f$(_ctx) {
@@ -28,10 +27,12 @@ function f() {
             case "end":
                 return _ctx.stop();
         }
-    }, _marked1);
+    }, _marked);
 }
 // @Filename: alsoFails.ts
 // fails in Typescript too
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = regeneratorRuntime.mark(g);
 function g() {
     var o;
     return regeneratorRuntime.wrap(function g$(_ctx) {

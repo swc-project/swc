@@ -75,10 +75,10 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
  2 | color: white !!important;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^
    `----
 
   x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
@@ -87,10 +87,22 @@
    : ^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :      ^
+   `----
+
   x Colon
    ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
  2 | color: white !!important;
    :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :       ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
@@ -99,10 +111,22 @@
    :       ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :        ^^^^^
+   `----
+
   x Ident { value: Atom('white' type=inline), raw: Atom('white' type=inline) }
    ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
  2 | color: white !!important;
    :        ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :             ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
@@ -111,7 +135,7 @@
    :             ^
    `----
 
-  x Delim { value: '!' }
+  x ComponentValue
    ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
  2 | color: white !!important;
    :              ^
@@ -120,13 +144,37 @@
   x Delim { value: '!' }
    ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
  2 | color: white !!important;
+   :              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
    :               ^
+   `----
+
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :                ^^^^^^^^^
    `----
 
   x Ident { value: Atom('important' type=static), raw: Atom('important' type=static) }
    ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
  2 | color: white !!important;
    :                ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :                         ^
    `----
 
   x Semi

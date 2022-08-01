@@ -230,11 +230,7 @@ where
             return;
         }
 
-        if self.ctx.is_update_arg {
-            return;
-        }
-
-        if self.ctx.is_callee {
+        if self.ctx.is_update_arg || self.ctx.is_callee || self.ctx.is_exact_lhs_of_assign {
             return;
         }
 

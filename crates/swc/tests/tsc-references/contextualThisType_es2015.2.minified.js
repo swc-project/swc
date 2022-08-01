@@ -1,4 +1,6 @@
 var x = {
-    a: (p)=>p
+    a (p) {
+        return p;
+    }
 };
 x.a(x);

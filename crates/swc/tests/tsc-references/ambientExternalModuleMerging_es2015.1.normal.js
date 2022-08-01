@@ -5,3 +5,4 @@ const M = require("M");
 var x = M.x;
 var y = M.y;
 export { };
+//@filename: ambientExternalModuleMerging_declare.ts

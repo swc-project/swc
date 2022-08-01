@@ -2,12 +2,12 @@
 // @target: es5
 // @lib: es6
 // @filename: 0.ts
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export function foo() {
     return "foo";
 }
 // @filename: 1.ts
 import("./0");
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var p1 = import("./0");
 p1.then(function(zero) {
     return zero.foo();

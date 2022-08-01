@@ -1,4 +1,4 @@
-var A, B;
+var A;
 !function(A) {
     var Point = function() {
         return {
@@ -7,12 +7,17 @@ var A, B;
         };
     };
     A.Point = Point;
-}(A || (A = {})), function(A) {
+}(A || (A = {}));
+var A;
+!function(A) {
     (A.Point || (A.Point = {})).Origin = {
         x: 0,
         y: 0
     };
-}(A || (A = {})), A.Point, A.Point(), A.Point.Origin, function(B) {
+}(A || (A = {}));
+A.Point, A.Point(), A.Point.Origin;
+var B;
+!function(B) {
     var Point = function() {
         return {
             x: 0,

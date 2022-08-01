@@ -3,7 +3,9 @@ var A = function() {
     "use strict";
     _class_call_check(this, A);
 };
+import A from "./a";
+export { A };
 import * as types from "./b";
+export { types as default };
 import types from "./c";
 new types.A(), new types.B();
-export { A, types as default };

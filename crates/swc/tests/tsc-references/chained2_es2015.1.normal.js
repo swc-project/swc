@@ -1,6 +1,9 @@
 // @Filename: /a.ts
 class A {
 }
+export { };
+// @Filename: /b.ts
+import A from './a';
 export { A };
 // @Filename: /c.ts
 import * as types from './b';

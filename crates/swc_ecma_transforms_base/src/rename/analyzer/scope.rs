@@ -1,10 +1,12 @@
 #![allow(clippy::too_many_arguments)]
 
+use std::mem::{transmute_copy, ManuallyDrop};
+
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, util::take::Take};
+use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
@@ -17,13 +19,42 @@ pub(crate) struct Scope {
     pub(super) children: Vec<Scope>,
 }
 
+/// [JsWord] without clone or drop. This is unsafe and creator should ensure
+/// that [JsWord] stored in this type is not dropped until all operations are
+/// finished.
+#[repr(transparent)]
+#[derive(Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct FastJsWord(ManuallyDrop<JsWord>);
+
+impl Clone for FastJsWord {
+    fn clone(&self) -> Self {
+        unsafe { Self(ManuallyDrop::new(transmute_copy(&self.0))) }
+    }
+}
+
+impl FastJsWord {
+    pub fn new(src: JsWord) -> Self {
+        FastJsWord(ManuallyDrop::new(src))
+    }
+
+    pub fn into_inner(self) -> JsWord {
+        ManuallyDrop::into_inner(self.0)
+    }
+}
+
+pub(crate) type FastId = (FastJsWord, SyntaxContext);
+
+pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
+
+pub(crate) type ReverseMap = FxHashMap<JsWord, Vec<FastId>>;
+
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
     /// This is add-only.
     ///
     /// If the add-only contraint is violated, it is very likely to be a bug,
     /// because we merge every items in children to current scope.
-    all: FxHashSet<Id>,
+    all: FxHashSet<FastId>,
 
     queue: Vec<Id>,
 }
@@ -34,7 +65,7 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(id.clone());
+        self.data.all.insert(fast_id(id.clone()));
         if !self.data.queue.contains(id) {
             self.data.queue.push(id.clone());
         }
@@ -45,7 +76,7 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(id.clone());
+        self.data.all.insert(fast_id(id.clone()));
     }
 
     /// Copy `children.data.all` to `self.data.all`.
@@ -60,9 +91,9 @@ impl Scope {
     pub(crate) fn rename_single_thread<R>(
         &mut self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
-        reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        to: &mut RenameMap,
+        previous: &RenameMap,
+        reverse: &mut ReverseMap,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
         R: Renamer,
@@ -94,9 +125,9 @@ impl Scope {
     fn rename_one_scope_single_thread<R>(
         &self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
-        reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        to: &mut RenameMap,
+        previous: &RenameMap,
+        reverse: &mut ReverseMap,
         queue: Vec<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) where
@@ -105,7 +136,8 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if to.get(&id).is_some() || previous.get(&id).is_some() {
+            let fid = fast_id(id.clone());
+            if to.get(&fid).is_some() || previous.get(&fid).is_some() {
                 continue;
             }
 
@@ -125,8 +157,9 @@ impl Scope {
                         debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
                     }
 
-                    to.insert(id.clone(), sym.clone());
-                    reverse.entry(sym).or_default().push(id.clone());
+                    let fid = fast_id(id);
+                    to.insert(fid.clone(), sym.clone());
+                    reverse.entry(sym).or_default().push(fid);
 
                     break;
                 }
@@ -134,13 +167,13 @@ impl Scope {
         }
     }
 
-    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<JsWord, Vec<Id>>) -> bool {
+    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &ReverseMap) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
         if let Some(lefts) = reverse.get(symbol) {
             for left in lefts {
-                if *left == *id {
+                if left.1 == id.1 && *left.0 .0 == id.0 {
                     continue;
                 }
 
@@ -157,9 +190,9 @@ impl Scope {
     pub(crate) fn rename_parallel<R>(
         &mut self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
-        reverse: &FxHashMap<JsWord, Vec<Id>>,
+        to: &mut RenameMap,
+        previous: &RenameMap,
+        reverse: &ReverseMap,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
         parallel: bool,
@@ -227,9 +260,9 @@ impl Scope {
     fn rename_one_scope_parallel<R>(
         &self,
         renamer: &R,
-        to: &mut AHashMap<Id, JsWord>,
-        previous: &AHashMap<Id, JsWord>,
-        cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        to: &mut RenameMap,
+        previous: &RenameMap,
+        reverse: &mut ReverseMap,
         queue: Vec<Id>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
@@ -239,7 +272,8 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if preserved.contains(&id) || to.get(&id).is_some() || previous.get(&id).is_some() {
+            let fid = fast_id(id.clone());
+            if preserved.contains(&id) || to.get(&fid).is_some() || previous.get(&fid).is_some() {
                 continue;
             }
 
@@ -251,14 +285,15 @@ impl Scope {
                     continue;
                 }
 
-                if self.can_rename(&id, &sym, cloned_reverse) {
+                if self.can_rename(&id, &sym, reverse) {
                     #[cfg(debug_assertions)]
                     {
                         debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
                     }
 
-                    to.insert(id.clone(), sym.clone());
-                    cloned_reverse.entry(sym).or_default().push(id.clone());
+                    let fid = fast_id(id.clone());
+                    to.insert(fid.clone(), sym.clone());
+                    reverse.entry(sym).or_default().push(fid.clone());
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
 
@@ -272,4 +307,8 @@ impl Scope {
         let children = &self.children;
         self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
     }
+}
+
+fn fast_id(id: Id) -> FastId {
+    (FastJsWord::new(id.0), id.1)
 }

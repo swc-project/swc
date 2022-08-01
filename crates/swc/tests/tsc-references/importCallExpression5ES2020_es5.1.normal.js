@@ -21,6 +21,7 @@ export function foo() {
 export function backup() {
     return "backup";
 }
+// @filename: 2.ts
 var specify = bar() ? "./0" : undefined;
 var myModule = import(specify);
 var myModule1 = import(undefined);

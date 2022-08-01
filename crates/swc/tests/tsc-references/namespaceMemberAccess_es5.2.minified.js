@@ -4,5 +4,4 @@ var A = function() {
     _class_call_check(this, A);
 };
 import * as types from "./a";
-types.A;
-var A = types.A;
+types.A, types.A;

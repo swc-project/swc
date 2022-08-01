@@ -13,6 +13,8 @@ var X;
         Y.Point = Point;
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
+// @filename: module.ts
+var X;
 (function(X) {
     var Y;
     (function(Y) {
@@ -27,6 +29,7 @@ var X;
 var cl = new X.Y.Point(1, 1);
 var cl = X.Y.Point.Origin; // error not expected here same as bug 83996 ?
 // @filename: simple.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

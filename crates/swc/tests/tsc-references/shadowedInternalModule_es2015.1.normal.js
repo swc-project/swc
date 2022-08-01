@@ -1,25 +1,11 @@
-// all errors imported modules conflict with local variables
-var A;
-(function(A) {
-    var Point = A.Point = {
-        x: 0,
-        y: 0
-    };
-})(A || (A = {}));
-var B;
-(function(B) {
-    var A = {
-        x: 0,
-        y: 0
-    };
-})(B || (B = {}));
-var X;
-(function(X) {
-    class Y {
-    }
-    X.Y = Y;
-})(X || (X = {}));
-var Z;
-(function(Z) {
-    var Y = 12;
-})(Z || (Z = {}));
+//!
+//!  x the name `Y` is defined multiple times
+//!    ,-[30:5]
+//! 30 | import Y = X.Y;
+//!    :        |
+//!    :        `-- previous definition of `Y` here
+//! 31 | 
+//! 32 |     var Y = 12;
+//!    :         |
+//!    :         `-- `Y` redefined here
+//!    `----

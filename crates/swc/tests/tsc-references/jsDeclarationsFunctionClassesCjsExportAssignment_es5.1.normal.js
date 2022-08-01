@@ -6,8 +6,7 @@
 // @filename: timer.js
 /**
  * @param {number} timeout
- */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
-function Timer(timeout) {
+ */ function Timer(timeout) {
     this.timeout = timeout;
 }
 module.exports = Timer;
@@ -44,7 +43,8 @@ module.exports = Hook;
  *
  * @class
  * @param {Input} input
- */ function Context(input) {
+ */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+function Context(input) {
     if (!_instanceof(this, Context)) {
         return new Context(input);
     }

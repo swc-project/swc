@@ -1,11 +1,11 @@
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 export class Reflect {
 }
 export var Baz;
 Baz || (Baz = {});
-class _class {
-}
+export default class {
+};
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = [
@@ -53,154 +53,180 @@ C._ = [
     let Reflect;
     Reflect || (Reflect = {}), super.w();
 })(), super.w(), super.w(), super.w(), super.w();
-var Reflect = null;
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var { Reflect  } = {
     Reflect: null
 };
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var [Reflect] = [
     null
 ];
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-var Reflect = null;
-class C extends B {
-}
 super.w();
+export { };
 var { Reflect  } = {
     Reflect: null
 };
-class C extends B {
-}
 super.w();
+export { };
 var [Reflect] = [
     null
 ];
-class C extends B {
-}
 super.w();
-class Reflect {
-}
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class Reflect {
-}
-class C extends B {
-}
-function Reflect() {}
 super.w();
-class C extends B {
-}
-function Reflect() {}
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
-super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
-super.w(), Reflect || (Reflect = {});
-class C extends B {
-}
-C._ = _get(_get_prototype_of(C), "w", C).call(C), Reflect || (Reflect = {});
-class C extends B {
-}
-super.w(), Reflect || (Reflect = {});
-class C extends B {
-}
-C._ = _get(_get_prototype_of(C), "w", C).call(C), Reflect || (Reflect = {});
-class C extends B {
-}
 super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
 super.w();
+export { };
+var Reflect;
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+Reflect || (Reflect = {});
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
-super.w();
-class C extends B {
-}
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
-super.w();
-class C extends B {
-}
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
-super.w();
+var Reflect;
+Reflect || (Reflect = {}), super.w();
+export { };
+var Reflect;
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+Reflect || (Reflect = {});
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
-super.w();
-class C extends B {
-}
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
-super.w();
+var Reflect;
+Reflect || (Reflect = {}), super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
 super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
 super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
 super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
 super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
 super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
+super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
-super.w(), (()=>{
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+(()=>{
     class C extends B {
     }
     C._ = _get(_get_prototype_of(C), "w", C).call(C);
-})(), super.w();
+})();
+super.w();
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
 super.w();
-export { _class as default };
+export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+export { };

@@ -9,6 +9,8 @@ var X;
         })(Point = Y.Point || (Y.Point = {}));
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
+// @Filename: classPoint.ts
+var X;
 (function(X) {
     let Y;
     (function(Y) {
@@ -21,6 +23,7 @@ var X;
         Y.Point = Point;
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
+// @Filename: simple.ts
 (function(A1) {
     var Instance = A1.Instance = new A();
 })(A || (A = {}));

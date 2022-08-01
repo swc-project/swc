@@ -1,2 +1,3 @@
 export class A {
 }
+export { };

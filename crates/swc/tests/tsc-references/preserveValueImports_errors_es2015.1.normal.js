@@ -2,13 +2,25 @@
 // @isolatedModules: true,false
 // @module: esnext
 // @Filename: a.ts
+export { };
 // @Filename: b.ts
 class B {
 }
-import { A } from "./a";
+export { };
+// @Filename: c.ts
+export { };
+// @Filename: c.fixed.ts
+export { };
 // @Filename: d.ts
 export { A as AA } from "./a";
 export { B as BB } from "./b";
+// @Filename: d.fixed.ts
+export { };
 // @Filename: e.ts
-import { BB } from "./d";
-export { B as BB };
+export { };
+// @Filename: e.fixed.ts
+export { };
+// @Filename: f.ts
+export { };
+// @Filename: f.fixed.ts
+export { };

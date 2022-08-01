@@ -1,7 +1,5 @@
-var SomeClass = function() {
+new function() {
     this.otherProp = 0;
-};
-new SomeClass();
-class SomeClass {
-}
-SomeClass.prop = 0;
+}();
+(class {
+}).prop = 0;

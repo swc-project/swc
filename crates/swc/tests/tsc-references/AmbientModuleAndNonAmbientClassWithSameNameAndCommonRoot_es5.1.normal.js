@@ -1,6 +1,6 @@
 // @filename: module.d.ts
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: classPoint.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
 (function(A) {
     var Point = function Point(x, y) {

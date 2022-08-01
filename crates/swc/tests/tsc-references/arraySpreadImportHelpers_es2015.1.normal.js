@@ -15,3 +15,5 @@ const o = [
     4
 ];
 export { };
+// @filename: tslib.d.ts
+// this is a pre-TS4.4 versions of emit helper, which always forced array packing

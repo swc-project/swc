@@ -4,6 +4,7 @@
 // @filename: 0.ts
 export var a = 1;
 export var b = 2;
+// @filename: 1.ts
 export { a, b } from "./0";
 export * from "./0";
 import * as _ns from "./0";

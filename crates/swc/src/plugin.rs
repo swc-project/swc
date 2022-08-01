@@ -60,6 +60,9 @@ impl RustPlugins {
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
+        if self.plugins.is_none() || self.plugins.as_ref().unwrap().is_empty() {
+            return Ok(n);
+        }
 
         self.apply_inner(n).with_context(|| {
             format!(

@@ -16,6 +16,8 @@ var A;
         y: 0
     };
 })(A || (A = {}));
+//@filename: part2.ts
+var A;
 (function(A) {
     // not a collision, since we don't export
     var Origin = "0,0";

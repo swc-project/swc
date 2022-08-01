@@ -1,4 +1,4 @@
-(void 0).a1, ({}).a2;
+(void 0).a1;
 var tmp = {
     b21: "world"
 };

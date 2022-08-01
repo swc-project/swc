@@ -1,3 +1,6 @@
-var x;
-import _extends from "@swc/helpers/src/_extends.mjs";
-_extends({}, x);
+//!
+//!  x Spread children are not supported in React.
+//!    ,----
+//! 23 | {...todos.map(todo => <Todo key={todo.id} todo={todo.todo}/>)}
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!    `----

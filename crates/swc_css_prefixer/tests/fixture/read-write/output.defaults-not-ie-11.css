@@ -1,11 +1,4 @@
-.f:-moz-read-write {
-  color: red;
-}
 .f:read-write {
-  color: red;
-}
-.f:-moz-read-write, 
-.g:-moz-read-write {
   color: red;
 }
 .f:read-write, 

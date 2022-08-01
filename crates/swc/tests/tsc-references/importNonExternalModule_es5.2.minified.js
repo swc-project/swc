@@ -1,4 +1,4 @@
+var foo;
 (foo || (foo = {})).answer = 42;
-var foo = require("./foo_0");
-foo.answer;
+require("./foo_0").answer;
 export { };

@@ -1,8 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export function foo() {
     return "foo";
 }
-import("./0"), import("./0").then(function(zero) {
+import("./0");
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import("./0").then(function(zero) {
     return zero.foo();
 });
 export var p2 = import("./0");

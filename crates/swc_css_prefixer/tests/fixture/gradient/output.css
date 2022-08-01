@@ -18,7 +18,7 @@ strong {
 }
 div {
   background-image: -webkit-radial-gradient(right, white, black), -webkit-repeating-linear-gradient(top left, black, white), -webkit-repeating-radial-gradient(bottom, aqua, red);
-  background-image: -moz-radial-gradient(right, white, black), -moz-repeating-linear-gradient(top left, black, white), -moz-repeating-linear-gradient(bottom, aqua, red);
+  background-image: -moz-radial-gradient(right, white, black), -moz-repeating-linear-gradient(top left, black, white), -moz-repeating-radial-gradient(bottom, aqua, red);
   background-image: -o-radial-gradient(right, white, black), -o-repeating-linear-gradient(top left, black, white), -o-repeating-radial-gradient(bottom, aqua, red);
   background-image: radial-gradient(to left, white, black), repeating-linear-gradient(to bottom right, black, white), repeating-radial-gradient(to top, aqua, red);
 }

@@ -14,8 +14,6 @@
   @supports (flex-wrap: wrap) {
     @keyframes test {
       0% {
-        -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
         color: red;
       }
     }
@@ -25,18 +23,6 @@
   &.class::-webkit-input-placeholder {
     color: red;
   }
-  &.class:-moz-placeholder {
-    color: red;
-  }
-  &.class::-moz-placeholder {
-    color: red;
-  }
-  &.class:-ms-input-placeholder {
-    color: red;
-  }
-  &.class::-ms-input-placeholder {
-    color: red;
-  }
   &.class::placeholder {
     color: red;
   }
@@ -44,18 +30,6 @@
 .test {
   &.class::-webkit-input-placeholder {
     -webkit-appearance: auto;
-    appearance: auto;
-  }
-  &.class:-moz-placeholder {
-    appearance: auto;
-  }
-  &.class::-moz-placeholder {
-    appearance: auto;
-  }
-  &.class:-ms-input-placeholder {
-    appearance: auto;
-  }
-  &.class::-ms-input-placeholder {
     appearance: auto;
   }
   &.class::placeholder {
@@ -97,18 +71,6 @@
     -webkit-appearance: auto;
     appearance: auto;
   }
-  &.class:-moz-placeholder {
-    appearance: auto;
-  }
-  &.class::-moz-placeholder {
-    appearance: auto;
-  }
-  &.class:-ms-input-placeholder {
-    appearance: auto;
-  }
-  &.class::-ms-input-placeholder {
-    appearance: auto;
-  }
   &.class::placeholder {
     -webkit-appearance: auto;
     appearance: auto;
@@ -122,18 +84,6 @@
   .test {
     &.class::-webkit-input-placeholder {
       -webkit-appearance: auto;
-      appearance: auto;
-    }
-    &.class:-moz-placeholder {
-      appearance: auto;
-    }
-    &.class::-moz-placeholder {
-      appearance: auto;
-    }
-    &.class:-ms-input-placeholder {
-      appearance: auto;
-    }
-    &.class::-ms-input-placeholder {
       appearance: auto;
     }
     &.class::placeholder {

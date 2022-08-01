@@ -3,7 +3,8 @@ module.exports = class {
     constructor(){
         this.item = 3;
     }
-}, module.exports = {
+};
+module.exports = {
     Wrap: class {
         constructor(c){
             this.connItem = c.item, this.another = "";
