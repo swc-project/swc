@@ -120,7 +120,5 @@ div {
   transform: rotate(10deg);
 }
 div {
-  transition: -webkit-calc(1s);
-  transition: -moz-calc(1s);
   transition: calc(1s);
 }

@@ -82,8 +82,6 @@ p {
   width: fill-available;
 }
 .ok {
-  width: -webkit-calc(100% - var(--jqx-circular-progress-bar-fill-size));
-  width: -moz-calc(100% - var(--jqx-circular-progress-bar-fill-size));
   width: calc(100% - var(--jqx-circular-progress-bar-fill-size));
 }
 .grid {

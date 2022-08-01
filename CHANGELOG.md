@@ -32,10 +32,19 @@
 - **(css/prefixer)** Prefix more properties (#5340) ([8e12e52](https://github.com/swc-project/swc/commit/8e12e52a5735dafe1336d0bdc83e91dd7cca9d7d))
 
 
+- **(css/prefixer)** Avoid prefixing general functions (#5319) ([07732d6](https://github.com/swc-project/swc/commit/07732d6a0a3684697ebfd263749b12a083029db9))
+
+
 - **(wasm)** Add interfaces for wasm bindings (#5341) ([c16b6b7](https://github.com/swc-project/swc/commit/c16b6b72300a4e4952398c136ef834b8ca2f4b41))
 
 
 - **(wasm)** Enable string interning (#5351) ([b0cb35a](https://github.com/swc-project/swc/commit/b0cb35abaad7ca2a2e58462285548959d3e2c0fc))
+
+
+- **(wasm)** Expose async facade interfaces (#5352) ([281bdd9](https://github.com/swc-project/swc/commit/281bdd9e9741ec7375497b390058a86a4f199029))
+
+
+- **(xml)** Add xml crates (#5329) ([83e5023](https://github.com/swc-project/swc/commit/83e502367b5224be8e147d2e255e1ea3b7be4faa))
 
 ### Performance
 

@@ -217,6 +217,7 @@ dependencies = [
  "swc_plugin_runner",
  "tracing",
  "wasm-bindgen",
+ "wasm-bindgen-futures",
  "wasmer",
  "wasmer-wasi",
 ]
@@ -2935,7 +2936,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.212.1"
+version = "0.212.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3249,7 +3250,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.114.1"
+version = "0.114.2"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -4214,6 +4215,80 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_xml"
+version = "0.1.0"
+dependencies = [
+ "swc_xml_ast",
+ "swc_xml_codegen",
+ "swc_xml_parser",
+ "swc_xml_visit",
+]
+
+[[package]]
+name = "swc_xml_ast"
+version = "0.1.0"
+dependencies = [
+ "is-macro",
+ "serde",
+ "string_enum",
+ "swc_atoms",
+ "swc_common",
+]
+
+[[package]]
+name = "swc_xml_codegen"
+version = "0.1.0"
+dependencies = [
+ "auto_impl",
+ "bitflags",
+ "rustc-hash",
+ "swc_atoms",
+ "swc_common",
+ "swc_xml_ast",
+ "swc_xml_codegen_macros",
+ "swc_xml_parser",
+ "swc_xml_visit",
+ "testing",
+]
+
+[[package]]
+name = "swc_xml_codegen_macros"
+version = "0.1.0"
+dependencies = [
+ "pmutil",
+ "proc-macro2",
+ "quote",
+ "swc_macros_common",
+ "syn",
+]
+
+[[package]]
+name = "swc_xml_parser"
+version = "0.1.0"
+dependencies = [
+ "criterion",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_node_base",
+ "swc_xml_ast",
+ "swc_xml_visit",
+ "testing",
+]
+
+[[package]]
+name = "swc_xml_visit"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "swc_atoms",
+ "swc_common",
+ "swc_visit",
+ "swc_xml_ast",
+]
+
+[[package]]
 name = "syn"
 version = "1.0.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4757,9 +4832,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-futures"
-version = "0.4.28"
+version = "0.4.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e8d7523cb1f2a4c96c1317ca690031b714a51cc14e05f712446691f413f5d39"
+checksum = "fa76fb221a1f8acddf5b54ace85912606980ad661ac7a503b4570ffd3a624dad"
 dependencies = [
  "cfg-if 1.0.0",
  "js-sys",
