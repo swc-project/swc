@@ -3,7 +3,10 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
-use swc_common::{collections::AHashMap, EqIgnoreSpan, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    EqIgnoreSpan, DUMMY_SP,
+};
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,
@@ -565,43 +568,46 @@ impl Prefixer {
 }
 
 impl VisitMut for Prefixer {
-    fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
-        let mut new = vec![];
+    fn visit_mut_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
+        let mut new_rules = Vec::with_capacity(stylesheet.rules.len());
+        let original_rules = stylesheet.rules.clone();
 
-        for mut n in take(&mut n.rules) {
-            n.visit_mut_children_with(self);
+        for mut rule in take(&mut stylesheet.rules) {
+            rule.visit_mut_children_with(self);
 
-            for mut n in take(&mut self.added_top_rules) {
+            for mut added_rule in take(&mut self.added_top_rules) {
+                let need_skip = original_rules
+                    .iter()
+                    .any(|existing_rule| added_rule.1.eq_ignore_span(existing_rule));
+
+                if need_skip {
+                    continue;
+                }
+
                 let old_rule_prefix = self.rule_prefix.take();
 
-                self.rule_prefix = Some(n.0);
+                self.rule_prefix = Some(added_rule.0);
 
-                n.1.visit_mut_children_with(self);
+                added_rule.1.visit_mut_children_with(self);
 
-                new.push(n.1);
+                new_rules.push(added_rule.1);
 
                 self.rule_prefix = old_rule_prefix;
             }
 
-            new.push(n);
+            new_rules.push(rule);
         }
 
-        // Avoid duplicate prefixed at-rules
-        new.dedup_by(|a, b| match (a, b) {
-            (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
-            _ => false,
-        });
-
-        n.rules = new;
+        stylesheet.rules = new_rules;
     }
 
     // TODO handle declarations in `@media`/`@support`
-    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
-        let original_simple_block = n.block.clone();
+    fn visit_mut_at_rule(&mut self, at_rule: &mut AtRule) {
+        let original_simple_block = at_rule.block.clone();
 
-        n.visit_mut_children_with(self);
+        at_rule.visit_mut_children_with(self);
 
-        match &n.name {
+        match &at_rule.name {
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("viewport") =>
             {
@@ -615,7 +621,7 @@ impl VisitMut for Prefixer {
                                 value: "-ms-viewport".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block.clone(),
                         },
                     );
@@ -631,7 +637,7 @@ impl VisitMut for Prefixer {
                                 value: "-o-viewport".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block,
                         },
                     );
@@ -650,7 +656,7 @@ impl VisitMut for Prefixer {
                                 value: "-webkit-keyframes".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block.clone(),
                         },
                     );
@@ -666,7 +672,7 @@ impl VisitMut for Prefixer {
                                 value: "-moz-keyframes".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block.clone(),
                         },
                     );
@@ -682,7 +688,7 @@ impl VisitMut for Prefixer {
                                 value: "-o-keyframes".into(),
                                 raw: None,
                             }),
-                            prelude: n.prelude.clone(),
+                            prelude: at_rule.prelude.clone(),
                             block: original_simple_block,
                         },
                     );
@@ -695,7 +701,7 @@ impl VisitMut for Prefixer {
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
         media_query_list.visit_mut_children_with(self);
 
-        let mut new = Vec::with_capacity(media_query_list.queries.len());
+        let mut new_queries = Vec::with_capacity(media_query_list.queries.len());
 
         for n in take(&mut media_query_list.queries) {
             // TODO avoid duplicates
@@ -713,8 +719,8 @@ impl VisitMut for Prefixer {
                     "-webkit-max-device-pixel-ratio",
                 );
 
-                if !n.eq_ignore_span(&new_webkit_value) {
-                    new.push(new_webkit_value);
+                if n != new_webkit_value {
+                    new_queries.push(new_webkit_value);
                 }
             }
 
@@ -732,17 +738,17 @@ impl VisitMut for Prefixer {
                     "max--moz-device-pixel-ratio",
                 );
 
-                if !n.eq_ignore_span(&new_moz_value) {
-                    new.push(new_moz_value);
+                if n != new_moz_value {
+                    new_queries.push(new_moz_value);
                 }
             }
 
             // TODO opera support
 
-            new.push(n);
+            new_queries.push(n);
         }
 
-        media_query_list.queries = new;
+        media_query_list.queries = new_queries;
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
@@ -1139,100 +1145,150 @@ impl VisitMut for Prefixer {
         let mut webkit_value = n.value.clone();
 
         if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-            replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
-            replace_image_set_function_on_legacy_variant(
-                &mut webkit_value,
-                "image-set",
-                "-webkit-image-set",
-            );
-            replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
-            replace_cross_fade_function_on_legacy_variant(
-                &mut webkit_value,
-                "cross-fade",
-                "-webkit-cross-fade",
-            );
+            if should_prefix("-webkit-filter()", self.env, false) {
+                replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
+            }
 
-            replace_gradient_function_on_legacy_variant(
-                &mut webkit_value,
-                "linear-gradient",
-                "-webkit-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut webkit_value,
-                "repeating-linear-gradient",
-                "-webkit-repeating-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut webkit_value,
-                "radial-gradient",
-                "-webkit-radial-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut webkit_value,
-                "repeating-radial-gradient",
-                "-webkit-repeating-radial-gradient",
-            );
+            if should_prefix("-webkit-image-set()", self.env, false) {
+                replace_image_set_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "image-set",
+                    "-webkit-image-set",
+                );
+            }
+
+            if should_prefix("-webkit-calc()", self.env, false) {
+                replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
+            }
+
+            if should_prefix("-webkit-cross-fade()", self.env, false) {
+                replace_cross_fade_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "cross-fade",
+                    "-webkit-cross-fade",
+                );
+            }
+
+            if should_prefix("-webkit-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "linear-gradient",
+                    "-webkit-linear-gradient",
+                );
+            }
+
+            if should_prefix("-webkit-repeating-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "repeating-linear-gradient",
+                    "-webkit-repeating-linear-gradient",
+                );
+            }
+
+            if should_prefix("-webkit-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "radial-gradient",
+                    "-webkit-radial-gradient",
+                );
+            }
+
+            if should_prefix("-webkit-repeating-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut webkit_value,
+                    "repeating-radial-gradient",
+                    "-webkit-repeating-radial-gradient",
+                );
+            }
         }
 
         let mut moz_value = n.value.clone();
 
         if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
-            replace_function_name(&mut moz_value, "element", "-moz-element");
-            replace_function_name(&mut moz_value, "calc", "-moz-calc");
-            replace_gradient_function_on_legacy_variant(
-                &mut moz_value,
-                "linear-gradient",
-                "-moz-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut moz_value,
-                "repeating-linear-gradient",
-                "-moz-repeating-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut moz_value,
-                "radial-gradient",
-                "-moz-radial-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut moz_value,
-                "repeating-radial-gradient",
-                "-moz-repeating-linear-gradient",
-            );
+            if should_prefix("-moz-element()", self.env, false) {
+                replace_function_name(&mut moz_value, "element", "-moz-element");
+            }
+
+            if should_prefix("-moz-calc()", self.env, false) {
+                replace_function_name(&mut moz_value, "calc", "-moz-calc");
+            }
+
+            if should_prefix("-moz-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut moz_value,
+                    "linear-gradient",
+                    "-moz-linear-gradient",
+                );
+            }
+
+            if should_prefix("-moz-repeating-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut moz_value,
+                    "repeating-linear-gradient",
+                    "-moz-repeating-linear-gradient",
+                );
+            }
+
+            if should_prefix("-moz-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut moz_value,
+                    "radial-gradient",
+                    "-moz-radial-gradient",
+                );
+            }
+
+            if should_prefix("-moz-repeating-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut moz_value,
+                    "repeating-radial-gradient",
+                    "-moz-repeating-radial-gradient",
+                );
+            }
         }
 
         let mut o_value = n.value.clone();
 
         if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
-            replace_gradient_function_on_legacy_variant(
-                &mut o_value,
-                "linear-gradient",
-                "-o-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut o_value,
-                "repeating-linear-gradient",
-                "-o-repeating-linear-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut o_value,
-                "radial-gradient",
-                "-o-radial-gradient",
-            );
-            replace_gradient_function_on_legacy_variant(
-                &mut o_value,
-                "repeating-radial-gradient",
-                "-o-repeating-radial-gradient",
-            );
+            if should_prefix("-o-repeating-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut o_value,
+                    "linear-gradient",
+                    "-o-linear-gradient",
+                );
+            }
+
+            if should_prefix("-o-repeating-linear-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut o_value,
+                    "repeating-linear-gradient",
+                    "-o-repeating-linear-gradient",
+                );
+            }
+
+            if should_prefix("-o-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut o_value,
+                    "radial-gradient",
+                    "-o-radial-gradient",
+                );
+            }
+
+            if should_prefix("-o-repeating-radial-gradient()", self.env, false) {
+                replace_gradient_function_on_legacy_variant(
+                    &mut o_value,
+                    "repeating-radial-gradient",
+                    "-o-repeating-radial-gradient",
+                );
+            }
         }
 
         let mut ms_value = n.value.clone();
 
-        // TODO lazy
-        let mut declarations = vec![];
+        let declarations = Lazy::new(|| {
+            let simple_block = self.simple_block.as_ref().unwrap();
+            let mut declarations = Vec::with_capacity(simple_block.value.len());
 
-        if let Some(SimpleBlock { value, .. }) = &self.simple_block {
-            for n in value.iter() {
+            for n in simple_block.value.iter() {
                 match n {
                     ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
                         declaration,
@@ -1243,30 +1299,21 @@ impl VisitMut for Prefixer {
                     _ => {}
                 }
             }
-        }
 
-        // TODO lazy
-        let property_names: Vec<&str> = declarations
-            .iter()
-            .filter(|declaration| {
-                !matches!(
-                    declaration,
-                    Declaration {
-                        name: DeclarationName::DashedIdent(_),
-                        ..
-                    }
-                )
-            })
-            .map(|declaration| match declaration {
-                Declaration {
-                    name: DeclarationName::Ident(ident),
-                    ..
-                } => &*ident.value,
-                _ => {
-                    unreachable!();
+            declarations
+        });
+
+        let properties = Lazy::new(|| {
+            let mut properties: AHashSet<&str> = AHashSet::default();
+
+            for declaration in declarations.iter() {
+                if let DeclarationName::Ident(ident) = &declaration.name {
+                    properties.insert(&ident.value);
                 }
-            })
-            .collect();
+            }
+
+            properties
+        });
 
         // TODO avoid insert moz/etc prefixes for `appearance: -webkit-button;`
         // TODO avoid duplication insert
@@ -1277,7 +1324,7 @@ impl VisitMut for Prefixer {
                     // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
                     if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
                         // Check we don't have prefixed property
-                        if !property_names.contains(&$property) {
+                        if !properties.contains(&$property) {
                             let name = DeclarationName::Ident(Ident {
                                 span: DUMMY_SP,
                                 value: $property.into(),
@@ -2294,7 +2341,7 @@ impl VisitMut for Prefixer {
             }
 
             "writing-mode" if n.value.len() == 1 => {
-                let direction = match declarations.into_iter().rev().find(|declaration| {
+                let direction = match declarations.iter().rev().find(|declaration| {
                     matches!(declaration, Declaration {
                               name: DeclarationName::Ident(Ident { value, .. }),
                                 ..

@@ -1,231 +1,111 @@
 a {
-  background: -webkit-linear-gradient(99.5deg, white, black), -webkit-linear-gradient(220deg, black, white), -webkit-linear-gradient(45deg, black, white);
-  background: -moz-linear-gradient(99.5deg, white, black), -moz-linear-gradient(220deg, black, white), -moz-linear-gradient(45deg, black, white);
-  background: -o-linear-gradient(99.5deg, white, black), -o-linear-gradient(220deg, black, white), -o-linear-gradient(45deg, black, white);
   background: linear-gradient(350.5deg, white, black), linear-gradient(-130deg, black, white), linear-gradient(45deg, black, white);
 }
 b {
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 1), white), -webkit-linear-gradient(white, black);
-  background-image: -moz-linear-gradient(rgba(0, 0, 0, 1), white), -moz-linear-gradient(white, black);
-  background-image: -o-linear-gradient(rgba(0, 0, 0, 1), white), -o-linear-gradient(white, black);
   background-image: linear-gradient(rgba(0, 0, 0, 1), white), linear-gradient(white, black);
 }
 strong {
-  background: -webkit-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -moz-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -o-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
   background: linear-gradient(to top, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
 }
 div {
-  background-image: -webkit-radial-gradient(right, white, black), -webkit-repeating-linear-gradient(top left, black, white), -webkit-repeating-radial-gradient(bottom, aqua, red);
-  background-image: -moz-radial-gradient(right, white, black), -moz-repeating-linear-gradient(top left, black, white), -moz-repeating-linear-gradient(bottom, aqua, red);
-  background-image: -o-radial-gradient(right, white, black), -o-repeating-linear-gradient(top left, black, white), -o-repeating-radial-gradient(bottom, aqua, red);
   background-image: radial-gradient(to left, white, black), repeating-linear-gradient(to bottom right, black, white), repeating-radial-gradient(to top, aqua, red);
 }
 .old-radial {
-  background: -webkit-radial-gradient(0 50%, ellipse farthest-corner, black, white);
-  background: -moz-radial-gradient(0 50%, ellipse farthest-corner, black, white);
-  background: -o-radial-gradient(0 50%, ellipse farthest-corner, black, white);
   background: radial-gradient(0 50%, ellipse farthest-corner, black, white);
 }
 .simple1 {
-  background: -webkit-linear-gradient(black, white);
-  background: -moz-linear-gradient(black, white);
-  background: -o-linear-gradient(black, white);
   background: linear-gradient(black, white);
 }
 .simple2 {
-  background: -webkit-linear-gradient(right, black 0%, rgba(0, 0, 0, 0.5) 50%, white 100%);
-  background: -moz-linear-gradient(right, black 0%, rgba(0, 0, 0, 0.5) 50%, white 100%);
-  background: -o-linear-gradient(right, black 0%, rgba(0, 0, 0, 0.5) 50%, white 100%);
   background: linear-gradient(to left, black 0%, rgba(0, 0, 0, 0.5) 50%, white 100%);
 }
 .simple3 {
-  background: -webkit-linear-gradient(right, black 50%, white 100%);
-  background: -moz-linear-gradient(right, black 50%, white 100%);
-  background: -o-linear-gradient(right, black 50%, white 100%);
   background: linear-gradient(to left, black 50%, white 100%);
 }
 .simple4 {
-  background: -webkit-linear-gradient(left bottom, black, white);
-  background: -moz-linear-gradient(left bottom, black, white);
-  background: -o-linear-gradient(left bottom, black, white);
   background: linear-gradient(to right top, black, white);
 }
 .direction {
-  background: -webkit-linear-gradient(top left, black, rgba(0, 0, 0, 0.5), white);
-  background: -moz-linear-gradient(top left, black, rgba(0, 0, 0, 0.5), white);
-  background: -o-linear-gradient(top left, black, rgba(0, 0, 0, 0.5), white);
   background: linear-gradient(top left, black, rgba(0, 0, 0, 0.5), white);
 }
 .silent {
   background: -webkit-linear-gradient(top left, black, white);
 }
 .radial {
-  background: -webkit-radial-gradient(0 50%, farthest-side, white, black);
-  background: -moz-radial-gradient(0 50%, farthest-side, white, black);
-  background: -o-radial-gradient(0 50%, farthest-side, white, black);
   background: radial-gradient(farthest-side at 0 50%, white, black);
 }
 .second {
-  background: red -webkit-linear-gradient(red, blue);
-  background: red -moz-linear-gradient(red, blue);
-  background: red -o-linear-gradient(red, blue);
   background: red linear-gradient(red, blue);
-  background: url('logo.png'), -webkit-linear-gradient(#fff, #000);
-  background: url('logo.png'), -moz-linear-gradient(#fff, #000);
-  background: url('logo.png'), -o-linear-gradient(#fff, #000);
   background: url('logo.png'), linear-gradient(#fff, #000);
 }
 .px {
-  background: -webkit-linear-gradient(black 0, white 100px);
-  background: -moz-linear-gradient(black 0, white 100px);
-  background: -o-linear-gradient(black 0, white 100px);
   background: linear-gradient(black 0, white 100px);
 }
 .list {
-  list-style-image: -webkit-linear-gradient(white, black);
-  list-style-image: -moz-linear-gradient(white, black);
-  list-style-image: -o-linear-gradient(white, black);
   list-style-image: linear-gradient(white, black);
 }
 .mask {
-  -webkit-mask: -webkit-linear-gradient(white, black);
-  mask: -webkit-linear-gradient(white, black);
-  mask: -moz-linear-gradient(white, black);
-  mask: -o-linear-gradient(white, black);
+  -webkit-mask: linear-gradient(white, black);
   mask: linear-gradient(white, black);
 }
 .newline {
-  background-image: -webkit-linear-gradient(white, black), -webkit-linear-gradient(black, white);
-  background-image: -moz-linear-gradient(white, black), -moz-linear-gradient(black, white);
-  background-image: -o-linear-gradient(white, black), -o-linear-gradient(black, white);
   background-image: linear-gradient(white, black), linear-gradient(black, white);
 }
 .convert {
-  background: -webkit-linear-gradient(bottom, white, black);
-  background: -moz-linear-gradient(bottom, white, black);
-  background: -o-linear-gradient(bottom, white, black);
   background: linear-gradient(0deg, white, black);
-  background: -webkit-linear-gradient(left, white, black);
-  background: -moz-linear-gradient(left, white, black);
-  background: -o-linear-gradient(left, white, black);
   background: linear-gradient(90deg, white, black);
-  background: -webkit-linear-gradient(top, white, black);
-  background: -moz-linear-gradient(top, white, black);
-  background: -o-linear-gradient(top, white, black);
   background: linear-gradient(180deg, white, black);
-  background: -webkit-linear-gradient(right, white, black);
-  background: -moz-linear-gradient(right, white, black);
-  background: -o-linear-gradient(right, white, black);
   background: linear-gradient(270deg, white, black);
 }
 .grad {
-  background: -webkit-linear-gradient(89.1deg, white, black);
-  background: -moz-linear-gradient(89.1deg, white, black);
-  background: -o-linear-gradient(89.1deg, white, black);
   background: linear-gradient(1grad, white, black);
 }
 .rad {
-  background: -webkit-linear-gradient(32.704deg, white, black);
-  background: -moz-linear-gradient(32.704deg, white, black);
-  background: -o-linear-gradient(32.704deg, white, black);
   background: linear-gradient(1rad, white, black);
 }
 .turn {
-  background: -webkit-linear-gradient(342deg, white, black);
-  background: -moz-linear-gradient(342deg, white, black);
-  background: -o-linear-gradient(342deg, white, black);
   background: linear-gradient(0.3turn, white, black);
 }
 .norm {
-  background: -webkit-linear-gradient(right, white, black);
-  background: -moz-linear-gradient(right, white, black);
-  background: -o-linear-gradient(right, white, black);
   background: linear-gradient(-90deg, white, black);
 }
 .mask {
-  -webkit-mask-image: -webkit-radial-gradient(86% 86%, circle, transparent 8px, black 8px);
-  mask-image: -webkit-radial-gradient(86% 86%, circle, transparent 8px, black 8px);
-  mask-image: -moz-radial-gradient(86% 86%, circle, transparent 8px, black 8px);
-  mask-image: -o-radial-gradient(86% 86%, circle, transparent 8px, black 8px);
+  -webkit-mask-image: radial-gradient(circle at 86% 86%, transparent 8px, black 8px);
   mask-image: radial-gradient(circle at 86% 86%, transparent 8px, black 8px);
 }
 .cover {
-  background: -webkit-radial-gradient(center, ellipse cover, white, black);
-  background: -moz-radial-gradient(center, ellipse cover, white, black);
-  background: -o-radial-gradient(center, ellipse cover, white, black);
   background: radial-gradient(ellipse cover at center, white, black);
 }
 .contain {
-  background: -webkit-radial-gradient(center, contain, white, black);
-  background: -moz-radial-gradient(center, contain, white, black);
-  background: -o-radial-gradient(center, contain, white, black);
   background: radial-gradient(contain at center, white, black);
 }
 .no-div {
-  background: -webkit-linear-gradient(black);
-  background: -moz-linear-gradient(black);
-  background: -o-linear-gradient(black);
   background: linear-gradient(black);
 }
 .background-shorthand {
-  background: -webkit-radial-gradient(#FFF, transparent) 0 0/ cover no-repeat #F0F;
-  background: -moz-radial-gradient(#FFF, transparent) 0 0/ cover no-repeat #F0F;
-  background: -o-radial-gradient(#FFF, transparent) 0 0/ cover no-repeat #F0F;
   background: radial-gradient(#FFF, transparent) 0 0/ cover no-repeat #F0F;
 }
 .background-advanced {
-  background: -webkit-radial-gradient(5px 15px, ellipse farthest-corner, rgba(214, 168, 18, 0.7) 0%, rgba(255, 21, 177, 0.7) 50%, rgba(210, 7, 148, 0.7) 95%), -webkit-radial-gradient(#FFF, transparent), url(path/to/image.jpg) 50% / cover;
-  background: -moz-radial-gradient(5px 15px, ellipse farthest-corner, rgba(214, 168, 18, 0.7) 0%, rgba(255, 21, 177, 0.7) 50%, rgba(210, 7, 148, 0.7) 95%), -moz-radial-gradient(#FFF, transparent), url(path/to/image.jpg) 50% / cover;
-  background: -o-radial-gradient(5px 15px, ellipse farthest-corner, rgba(214, 168, 18, 0.7) 0%, rgba(255, 21, 177, 0.7) 50%, rgba(210, 7, 148, 0.7) 95%), -o-radial-gradient(#FFF, transparent), url(path/to/image.jpg) 50% / cover;
   background: radial-gradient(ellipse farthest-corner at 5px 15px, rgba(214, 168, 18, 0.7) 0%, rgba(255, 21, 177, 0.7) 50%, rgba(210, 7, 148, 0.7) 95%), radial-gradient(#FFF, transparent), url(path/to/image.jpg) 50% / cover;
 }
 .multiradial {
-  -webkit-mask-image: -webkit-radial-gradient(100% 50%, circle closest-corner, #000, transparent);
-  mask-image: -webkit-radial-gradient(100% 50%, circle closest-corner, #000, transparent);
-  mask-image: -moz-radial-gradient(100% 50%, circle closest-corner, #000, transparent);
-  mask-image: -o-radial-gradient(100% 50%, circle closest-corner, #000, transparent);
+  -webkit-mask-image: radial-gradient(circle closest-corner at 100% 50%, #000, transparent);
   mask-image: radial-gradient(circle closest-corner at 100% 50%, #000, transparent);
 }
 .broken {
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
-  mask-image: -webkit-radial-gradient(white, black);
-  mask-image: -moz-radial-gradient(white, black);
-  mask-image: -o-radial-gradient(white, black);
+  -webkit-mask-image: radial-gradient(white, black);
   mask-image: radial-gradient(white, black);
 }
 .loop {
-  background-image: url("https://test.com/lol(test.png"), -webkit-radial-gradient(yellow, black, yellow);
-  background-image: url("https://test.com/lol(test.png"), -moz-radial-gradient(yellow, black, yellow);
-  background-image: url("https://test.com/lol(test.png"), -o-radial-gradient(yellow, black, yellow);
   background-image: url("https://test.com/lol(test.png"), radial-gradient(yellow, black, yellow);
 }
 .more {
-  background: -webkit-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -moz-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -o-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
   background: linear-gradient(to top, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -moz-linear-gradient(right, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -o-linear-gradient(right, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
   background: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -moz-linear-gradient(top, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -o-linear-gradient(top, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
   background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -moz-linear-gradient(left, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -o-linear-gradient(left, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
   background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
-  background: -webkit-linear-gradient(56.667deg, white, black), -webkit-linear-gradient(220deg, black, white), -webkit-linear-gradient(45deg, black, white);
-  background: -moz-linear-gradient(56.667deg, white, black), -moz-linear-gradient(220deg, black, white), -moz-linear-gradient(45deg, black, white);
-  background: -o-linear-gradient(56.667deg, white, black), -o-linear-gradient(220deg, black, white), -o-linear-gradient(45deg, black, white);
   background: linear-gradient(33.333deg, white, black), linear-gradient(-130deg, black, white), linear-gradient(45deg, black, white);
 }
 .broken {
-  background-image: -webkit-linear-gradient(to, red 50%);
-  background-image: -moz-linear-gradient(to, red 50%);
-  background-image: -o-linear-gradient(to, red 50%);
   background-image: linear-gradient(to, red 50%);
 }

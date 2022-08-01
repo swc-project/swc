@@ -1,0 +1,30 @@
+@font-face{}
+@-webkit-keyframes anim {}
+@font-face{}
+@-moz-keyframes anim {}
+@-o-keyframes anim {}
+@keyframes anim {}
+@font-face{}
+@font-face{}
+@-webkit-keyframes anim {
+  0% {
+    color: red;
+  }
+}
+@font-face{}
+@-moz-keyframes anim {
+  0% {
+    color: red;
+  }
+}
+@-o-keyframes anim {
+  0% {
+    color: red;
+  }
+}
+@keyframes anim {
+  0% {
+    color: red;
+  }
+}
+@font-face{}
