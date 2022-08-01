@@ -217,13 +217,16 @@ jobs:
         run: |
           yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+          echo '/usr/local/cargo/bin' >> $GITHUB_PATH
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
         with:
           image: ${{ matrix.settings.docker }}
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
-          run: ${{ matrix.settings.build }}
+          run: >-
+            yarn global add wasm-pack &&
+            ${{ matrix.settings.build }}
       - name: Build
         if: ${{ !matrix.settings.docker }}
         run: ${{ matrix.settings.build }}
