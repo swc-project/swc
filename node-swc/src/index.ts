@@ -16,7 +16,7 @@ import * as assert from "assert";
 // Allow overrides to the location of the .node binding file
 const bindingsOverride = process.env["SWC_BINARY_PATH"];
 // `@swc/core` includes d.ts for the `@swc/wasm` to provide typed fallback bindings
-let fallbackBindings: typeof import('../../crates/binding_core_wasm/pkg');
+let fallbackBindings: any;
 const bindings: typeof import('./binding') = (() => {
   let binding
   try {
