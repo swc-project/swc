@@ -4134,12 +4134,7 @@ dependencies = [
 name = "swc_plugin"
 version = "0.88.2"
 dependencies = [
- "swc_atoms",
  "swc_common",
- "swc_ecma_quote",
- "swc_ecmascript",
- "swc_plugin_macro",
- "swc_plugin_proxy",
 ]
 
 [[package]]

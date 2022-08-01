@@ -1,5 +1,11 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
+// Quote
+#[cfg(feature = "quote")]
+pub mod quote {
+    pub use swc_ecma_quote::*;
+}
+
 // Plugins
 #[cfg(feature = "plugin")]
 pub mod plugin;
