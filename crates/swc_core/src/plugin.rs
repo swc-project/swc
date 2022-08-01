@@ -14,7 +14,7 @@ pub mod memory {
 /// for error reporting.
 #[cfg(feature = "plugin")]
 pub mod errors {
-    pub use swc_plugin::handler::HANDLER;
+    pub use swc_plugin::handler::{PluginDiagnosticsEmitter, HANDLER};
 }
 
 /// Plugin's environment metadata context.
@@ -22,4 +22,10 @@ pub mod errors {
 pub mod metadata {
     pub use swc_common::plugin::metadata::TransformPluginMetadataContextKind;
     pub use swc_plugin_proxy::TransformPluginProgramMetadata;
+}
+
+/// Proxy to the host's data not attached to the AST, like sourcemap / comments.
+#[cfg(feature = "plugin")]
+pub mod proxies {
+    pub use swc_plugin_proxy::*;
 }
