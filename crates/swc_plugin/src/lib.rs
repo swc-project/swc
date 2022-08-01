@@ -51,7 +51,7 @@ pub mod syntax_pos {
     pub use swc_common::{Mark, Span, DUMMY_SP};
 }
 
-mod handler;
+pub mod handler;
 pub mod errors {
     pub use swc_common::errors::{Diagnostic, Handler, Level};
 
@@ -65,7 +65,7 @@ pub mod environment {
 // in ide (i.e rust-analyzer) or non-wasm target `cargo check`
 pub use swc_plugin_macro::plugin_transform;
 #[cfg(target_arch = "wasm32")]
-mod allocation;
+pub mod allocation;
 #[cfg(target_arch = "wasm32")]
 pub mod memory {
     pub use crate::allocation::*;

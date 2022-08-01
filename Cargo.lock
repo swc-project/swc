@@ -3149,6 +3149,16 @@ dependencies = [
 [[package]]
 name = "swc_core"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_quote",
+ "swc_ecma_visit",
+ "swc_plugin",
+ "swc_plugin_macro",
+ "swc_plugin_proxy",
+]
 
 [[package]]
 name = "swc_css"
