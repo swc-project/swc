@@ -398,7 +398,7 @@ jobs:
             swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != 'swc_plugin_runner'
+        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_minifier'
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }}
 
@@ -406,6 +406,11 @@ jobs:
         if: matrix.settings.crate == 'swc_plugin_runner'
         run: |
           cargo test --color always -p swc_plugin_runner --features plugin_transform_schema_v1
+
+      - name: Run cargo test (swc_ecma_minifier)
+        if: matrix.settings.crate == 'swc_ecma_minifier'
+        run: |
+          cargo test --color always -p swc_ecma_minifier --features concurrent
 
       - name: Run cargo test (all features)
         if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'

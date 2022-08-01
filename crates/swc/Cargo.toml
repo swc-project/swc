@@ -16,7 +16,7 @@ bench = false
 name = "swc"
 
 [features]
-concurrent = ["swc_ecma_transforms/concurrent"]
+concurrent = ["swc_ecma_transforms/concurrent", "swc_common/concurrent", "swc_ecma_minifier/concurrent", "swc_ecmascript/concurrent"]
 debug = ["swc_ecma_visit/debug"]
 default = ["es3"]
 es3 = []
@@ -52,7 +52,6 @@ swc_atoms = {version = "0.3.1", path = "../swc_atoms"}
 swc_cached = {version = "0.2.0", path = "../swc_cached"}
 swc_common = {version = "0.26.0", path = "../swc_common", features = [
   "sourcemap",
-  "concurrent",
   "parking_lot",
 ]}
 swc_config = {version = "0.1.1", path = "../swc_config"}

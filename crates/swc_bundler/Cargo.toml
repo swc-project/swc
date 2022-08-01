@@ -61,7 +61,7 @@ swc_ecma_loader = { version = "0.38.0", path = "../swc_ecma_loader", features = 
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "0.142.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "0.142.0", path = "../swc_ecma_minifier", features = ["concurrent"] }
 swc_ecma_transforms_proposal = { version = "0.128.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react = { version = "0.139.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_typescript = { version = "0.143.0", path = "../swc_ecma_transforms_typescript" }

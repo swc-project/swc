@@ -9,6 +9,7 @@ use std::{
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
+#[cfg(feature = "concurrent")]
 use rayon::prelude::*;
 use swc_common::{
     chain,
@@ -154,8 +155,31 @@ where
                 self.changed |= v.changed;
             }
         } else {
+            #[cfg(feature = "concurrent")]
             let results = nodes
                 .par_iter_mut()
+                .map(|node| {
+                    swc_common::GLOBALS.set(self.globals, || {
+                        let mut v = Compressor {
+                            globals: self.globals,
+                            marks: self.marks,
+                            options: self.options,
+                            changed: false,
+                            pass: self.pass,
+                            left_parallel_depth: self.left_parallel_depth - 1,
+                            mode: self.mode,
+                            dump_for_infinite_loop: Default::default(),
+                        };
+                        node.visit_mut_with(&mut v);
+
+                        v.changed
+                    })
+                })
+                .collect::<Vec<_>>();
+
+            #[cfg(not(feature = "concurrent"))]
+            let results = nodes
+                .iter_mut()
                 .map(|node| {
                     swc_common::GLOBALS.set(self.globals, || {
                         let mut v = Compressor {
