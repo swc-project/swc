@@ -58,6 +58,9 @@
 
 - **(es/minifier)** Make name mangler faster (#5336) ([b378c06](https://github.com/swc-project/swc/commit/b378c060816411dd1990a1dae4977703d3c80748))
 
+
+- **(html/parser)** Apply small memory optimizations (#5345) ([2a499de](https://github.com/swc-project/swc/commit/2a499de61decdb836a4a51bc0fa5631568b77015))
+
 ### Testing
 
 
