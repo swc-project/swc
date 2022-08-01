@@ -56,7 +56,7 @@ export class Compiler {
     if (bindings) {
       return bindings.minify(toBuffer(src), toBuffer(opts ?? {}));
     } else if (fallbackBindings) {
-      return Promise.resolve(fallbackBindings.minifySync(src, opts));
+      return fallbackBindings.minify(src, opts);
     }
     throw new Error('Bindings not found.');
   }
@@ -89,8 +89,7 @@ export class Compiler {
       const res = await bindings.parse(src, toBuffer(options), filename);
       return JSON.parse(res);
     } else if (fallbackBindings) {
-      const res = fallbackBindings.parseSync(src, options);
-      return Promise.resolve(res);
+      return fallbackBindings.parse(src, options);
     }
     throw new Error('Bindings not found.');
   }
@@ -158,7 +157,7 @@ export class Compiler {
     if (bindings) {
       return bindings.print(JSON.stringify(m), toBuffer(options))
     } else if (fallbackBindings) {
-      return Promise.resolve(fallbackBindings.printSync(m, options));
+      return fallbackBindings.print(m, options);
     }
 
     throw new Error('Bindings not found.');
@@ -206,7 +205,7 @@ export class Compiler {
         this.fallbackBindingsPluginWarningDisplayed = true;
       }
 
-      return Promise.resolve(fallbackBindings.transformSync(isModule ? JSON.stringify(src) : src, options));
+      return fallbackBindings.transform(src, options);
     }
 
     throw new Error('Bindings not found.');
