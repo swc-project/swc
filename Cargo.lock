@@ -217,6 +217,7 @@ dependencies = [
  "swc_plugin_runner",
  "tracing",
  "wasm-bindgen",
+ "wasm-bindgen-futures",
  "wasmer",
  "wasmer-wasi",
 ]
@@ -2935,7 +2936,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.212.1"
+version = "0.212.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -4757,9 +4758,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-futures"
-version = "0.4.28"
+version = "0.4.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e8d7523cb1f2a4c96c1317ca690031b714a51cc14e05f712446691f413f5d39"
+checksum = "fa76fb221a1f8acddf5b54ace85912606980ad661ac7a503b4570ffd3a624dad"
 dependencies = [
  "cfg-if 1.0.0",
  "js-sys",
