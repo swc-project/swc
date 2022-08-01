@@ -46,6 +46,12 @@
 
 - **(xml)** Add xml crates (#5329) ([83e5023](https://github.com/swc-project/swc/commit/83e502367b5224be8e147d2e255e1ea3b7be4faa))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Set MSRV to `1.60` (#5354) ([d3ecfd3](https://github.com/swc-project/swc/commit/d3ecfd36cd79e25334f36119da3233be53fa7e10))
+
 ### Performance
 
 
