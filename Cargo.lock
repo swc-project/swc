@@ -3148,7 +3148,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "once_cell",
  "swc_atoms",
