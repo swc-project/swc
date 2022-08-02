@@ -5,6 +5,9 @@
 
 
 
+- **(es/lints)** Ignore TS module declare blocks (#5363) ([daaa8b5](https://github.com/swc-project/swc/commit/daaa8b5c4a86cf39ab34bc46b239719fab8b9916))
+
+
 - **(es/minifier)** Drop more comments (#5361) ([27cdc65](https://github.com/swc-project/swc/commit/27cdc65a51af28e8a6073c325fe549d270b3f7dc))
 
 ## [1.2.222] - 2022-08-01
