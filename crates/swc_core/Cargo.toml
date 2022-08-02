@@ -22,6 +22,16 @@ rustdoc-args = ["--cfg", "docsrs"]
 perf = ["swc_common/perf"]
 
 ## General
+# Enable swc_common reexports.
+#
+# In most cases, top-level features (i.e plugin, or plugin_host) will include this, so no need to
+# explicitly opt in. However, if top-level feature should be controlled by feature as opt-in
+# and some other dependent feature need this, can be manually selected.
+# refer binding_core_wasm for example: it has plugin_transform_host feature, but
+# it has to be a feature to be enabled by compile time flag to avoid cargo's feature collision,
+# while it also need to access 'common' exports by default for cargo check / or clippy.
+common = ["swc_common"]
+
 # Enable `quote!` macro support.
 quote = ["swc_ecma_quote"]
 
@@ -87,8 +97,8 @@ __plugin_transform_host_schema_vtest = [
 # Internal flags for any transform plugin feature
 __plugin_transform = [
   # Dependent features
-  "__common",
   "__visit",
+  "common",
   "ast",
   # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
@@ -100,7 +110,7 @@ __plugin_transform = [
 ]
 
 # Internal flags for any transform plugin host feature
-__plugin_transform_host = ["__common"]
+__plugin_transform_host = ["common"]
 
 # Do not use: testing purpose only
 # Force enable different version of AST schema
@@ -110,7 +120,6 @@ __plugin_transform_schema_test = [
 ]
 
 ## Common
-__common = ["swc_common"]
 __visit = ["swc_ecma_visit"]
 
 [dependencies]

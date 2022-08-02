@@ -35,7 +35,7 @@ wasm-bindgen = { version = "0.2.82", features = [
   "enable-interning",
 ] }
 wasm-bindgen-futures = "0.4.32"
-swc_core = { path = "../swc_core", features = ["ast", "perf"] }
+swc_core = { path = "../swc_core", features = ["ast", "common", "perf"] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

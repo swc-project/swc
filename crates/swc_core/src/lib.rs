@@ -35,8 +35,8 @@ pub mod visit {
 }
 
 // swc_common features
-#[cfg(any(docsrs, feature = "__common"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "__common")))]
+#[cfg(any(docsrs, feature = "common"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "common")))]
 pub mod common {
     pub use swc_common::*;
 }

@@ -12,13 +12,6 @@ compile_error!(
      run plugin, use 'plugin_transform_host_*' instead."
 );
 
-// TODO: need exhaustive list of features support __common
-#[cfg(all(feature = "perf", not(feature = "__common")))]
-compile_error!(
-    "'perf' feature is only available when enabling 'common' feature. Enabling \
-     'plugin_transform*' will enable common features internally."
-);
-
 fn main() {
     /* noop */
 }
