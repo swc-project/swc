@@ -3150,6 +3150,7 @@ dependencies = [
 name = "swc_core"
 version = "0.1.0"
 dependencies = [
+ "once_cell",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -4134,7 +4135,7 @@ dependencies = [
 name = "swc_plugin"
 version = "0.88.2"
 dependencies = [
- "swc_common",
+ "once_cell",
 ]
 
 [[package]]
