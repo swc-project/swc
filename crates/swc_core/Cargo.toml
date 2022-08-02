@@ -99,13 +99,13 @@ wasmer = { version = "2.3.0", optional = true, default-features = false }
 wasmer-wasi = { version = "2.3.0", optional = true, default-features = false }
 
 # swc_* dependencies
-swc_atoms = { optional = true, path = "../swc_atoms" }
-swc_common = { optional = true, path = "../swc_common" }
-swc_ecma_ast = { optional = true, path = "../swc_ecma_ast" }
-swc_ecma_quote = { optional = true, path = "../swc_ecma_quote" }
-swc_ecma_visit = { optional = true, path = "../swc_ecma_visit" }
-swc_plugin = { optional = true, path = "../swc_plugin" }
-swc_plugin_macro = { optional = true, path = "../swc_plugin_macro" }
-swc_plugin_proxy = { optional = true, path = "../swc_plugin_proxy" }
+swc_atoms = { optional = true, version = "0.3.1", path = "../swc_atoms" }
+swc_common = { optional = true, version = "0.26.0", path = "../swc_common" }
+swc_ecma_ast = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
+swc_ecma_quote = { optional = true, version = "0.30.0", path = "../swc_ecma_quote" }
+swc_ecma_visit = { optional = true, version = "0.75.0", path = "../swc_ecma_visit" }
+swc_plugin = { optional = true, version = "0.89.0", path = "../swc_plugin" }
+swc_plugin_macro = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
+swc_plugin_proxy = { optional = true, version = "0.17.0", path = "../swc_plugin_proxy" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_plugin_runner = { optional = true, path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.70.0", path = "../swc_plugin_runner", default-features = false }
