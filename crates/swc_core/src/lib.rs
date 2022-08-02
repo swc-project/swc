@@ -47,3 +47,10 @@ pub mod common {
 pub mod plugin_runner {
     pub use swc_plugin_runner::*;
 }
+
+// swc_trace_macro
+#[cfg(any(docsrs, feature = "trace_macro"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "trace_macro")))]
+pub mod trace_macro {
+    pub use swc_trace_macro::*;
+}

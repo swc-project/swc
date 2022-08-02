@@ -29,6 +29,11 @@ quote = ["swc_ecma_quote"]
 # TODO: currently both are enabled at once, we may want to separate them.
 ast = ["swc_ecma_ast", "swc_atoms"]
 
+# Enable trace macro support.
+# TODO: Once all top-level package (node, wasm, cli..) imports swc_core,
+# we may encapsulate `tracing` package into swc_core.
+trace_macro = ["swc_trace_macro"]
+
 ## Plugins
 # Top level features should be enabled to write plugins for the custom transform.
 plugin_transform = ["__plugin_transform", "__plugin_transform_schema_v1"]
@@ -109,8 +114,8 @@ __visit = ["swc_ecma_visit"]
 [dependencies]
 # 3rd party dependencies
 once_cell = { optional = true, version = "1.13.0" }
-wasmer = { version = "2.3.0", optional = true, default-features = false }
-wasmer-wasi = { version = "2.3.0", optional = true, default-features = false }
+wasmer = { optional = true, version = "2.3.0", default-features = false }
+wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
 swc_atoms = { optional = true, version = "0.3.1", path = "../swc_atoms" }
@@ -121,5 +126,6 @@ swc_ecma_visit = { optional = true, version = "0.75.0", path = "../swc_ecma_visi
 swc_plugin = { optional = true, version = "0.89.0", path = "../swc_plugin" }
 swc_plugin_macro = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
 swc_plugin_proxy = { optional = true, version = "0.17.0", path = "../swc_plugin_proxy" }
+swc_trace_macro = { optional = true, version = "0.1.0", path = "../swc_trace_macro" }
 # TODO: eventually swc_plugin_runner needs to remove default features
 swc_plugin_runner = { optional = true, version = "0.70.0", path = "../swc_plugin_runner", default-features = false }
