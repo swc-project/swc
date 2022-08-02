@@ -6,7 +6,9 @@ it("should compress", async () => {
     console.log(foo)
     `);
 
-    expect(code).toMatchInlineSnapshot(`"import a from\\"@src/app\\";console.log(a)"`);
+    expect(code).toMatchInlineSnapshot(
+        `"import a from\\"@src/app\\";console.log(a)"`
+    );
 });
 
 it("should accept object", async () => {
@@ -18,7 +20,9 @@ it("should accept object", async () => {
         {}
     );
 
-    expect(code).toMatchInlineSnapshot(`"import a from\\"@src/app\\";console.log(a)"`);
+    expect(code).toMatchInlineSnapshot(
+        `"import a from\\"@src/app\\";console.log(a)"`
+    );
 });
 
 it("should accept { mangle = true }", async () => {
@@ -162,8 +166,6 @@ describe("transform apis", () => {
     });
 });
 
-
-
 describe("should remove comments", () => {
     it("should remove", async () => {
         const { code } = await swc.minify(
@@ -185,6 +187,7 @@ describe("should remove comments", () => {
         );
 
         expect(code).toMatchInlineSnapshot(
+            `"(function(){const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"`
         );
     });
 
@@ -207,9 +210,11 @@ describe("should remove comments", () => {
             }
         );
 
-        expect(code).toMatchInlineSnapshot(
-        );
-
+        expect(code).toMatchInlineSnapshot(`
+            "(function(){/**
+                         * @license
+                         */ const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"
+        `);
     });
     it("should remove comment near to  licnese", async () => {
         const { code } = await swc.minify(
@@ -233,7 +238,10 @@ describe("should remove comments", () => {
             }
         );
 
-        expect(code).toMatchInlineSnapshot(
-        );
+        expect(code).toMatchInlineSnapshot(`
+            "(function(){/**
+                         * @license
+                         */ const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"
+        `);
     });
 });
