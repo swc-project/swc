@@ -8,6 +8,8 @@ pub mod quote {
 
 // Plugins
 #[cfg(feature = "plugin_transform")]
+#[cfg(any(docsrs, feature = "__plugin_transform"))]
+#[cfg(feature = "__plugin_transform")]
 pub mod plugin;
 
 // ast exposed via swc_ecma_ast

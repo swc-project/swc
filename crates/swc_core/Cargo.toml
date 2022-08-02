@@ -19,6 +19,7 @@ quote = ["swc_ecma_quote"]
 # Top level features should be enabled to write plugins for the custom transform.
 plugin_transform = [
   # Dependent features
+  "__plugin_transform",
   "__common",
   "__ast",
   "__visit",
@@ -31,8 +32,7 @@ plugin_transform = [
   "once_cell"
 ]
 
-### Internal features
-### Feature sets public features rely on.
+### Internal features that public features are relying on.
 ### This is not supposed to be used directly, and does not gaurantee
 ### stability across each versions.
 
@@ -44,11 +44,38 @@ __plugin_transform_schema_v1 = [
   "swc_common/plugin_transform_schema_v1"
 ]
 
-# Common
+# Do not use: testing purpose only
+__plugin_transform_schema_vtest = [
+  "swc_common/plugin_transform_schema_vtest"
+]
+
+## Plugins
+
+# Internal flags for any transform plugin feature
+__plugin_transform = []
+
+# Do not use: testing purpose only
+# Force enable different version of AST schema
+__plugin_transform_schema_test = [
+  # Dependent features
+  "__plugin_transform",
+  "__common",
+  "__ast",
+  "__visit",
+  "__plugin_transform_schema_vtest",
+  # Enable optional packages
+  "swc_common/plugin-mode",
+  "swc_plugin_proxy/plugin-mode",
+  "swc_plugin_macro",
+  "swc_plugin",
+  "once_cell"
+]
+
+## Common
 __common = ["swc_common"]
 
-# TODO: Should this be public?
-# AST
+## TODO: Should this be public?
+## AST
 __ast = ["swc_ecma_ast/rkyv-impl", "swc_atoms"]
 __visit = ["swc_ecma_visit"]
 
