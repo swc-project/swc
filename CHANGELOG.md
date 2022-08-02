@@ -10,6 +10,12 @@
 
 - **(es/minifier)** Drop more comments (#5361) ([27cdc65](https://github.com/swc-project/swc/commit/27cdc65a51af28e8a6073c325fe549d270b3f7dc))
 
+### Features
+
+
+
+- **(swc_core)** Introduce package (#5364) ([27b464d](https://github.com/swc-project/swc/commit/27b464d90a410b5fb6dca438442e1e8669a28e32))
+
 ## [1.2.222] - 2022-08-01
 
 ### Bug Fixes
