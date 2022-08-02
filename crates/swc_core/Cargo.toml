@@ -20,6 +20,10 @@ rustdoc-args = ["--cfg", "docsrs"]
 # Enable `quote!` macro support.
 quote = ["swc_ecma_quote"]
 
+# Enable swc_ecma_ast / swc_atoms support.
+# TODO: currently both are enabled at once, we may want to separate them.
+ast = ["swc_ecma_ast", "swc_atoms"]
+
 ## Plugins
 # Top level features should be enabled to write plugins for the custom transform.
 plugin_transform = ["__plugin_transform", "__plugin_transform_schema_v1"]
@@ -64,9 +68,10 @@ __plugin_transform_host_schema_vtest = [
 __plugin_transform = [
   # Dependent features
   "__common",
-  "__ast",
   "__visit",
+  "ast",
   # Enable optional packages
+  "swc_ecma_ast/rkyv-impl",
   "swc_common/plugin-mode",
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
@@ -86,10 +91,6 @@ __plugin_transform_schema_test = [
 
 ## Common
 __common = ["swc_common"]
-
-## TODO: Should this be public?
-## AST
-__ast = ["swc_ecma_ast/rkyv-impl", "swc_atoms"]
 __visit = ["swc_ecma_visit"]
 
 [dependencies]
