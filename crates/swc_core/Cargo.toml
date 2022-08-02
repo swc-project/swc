@@ -37,7 +37,15 @@ plugin_transform = ["__plugin_transform", "__plugin_transform_schema_v1"]
 # native feature is for the host environment does not have, or cannot access
 # to the wasm runtime (i.e cli, or @swc/core node bindings).
 # js feature is for the environment can access wasm runtime (i.e @swc/wasm)
-plugin_transform_host_native = []
+plugin_transform_host_native = [
+  # Dependent features
+  "__plugin_transform_host",
+  "__plugin_transform_host_schema_v1",
+  # Enable optional packages
+  "swc_plugin_runner/filesystem_cache",
+  "wasmer/default",
+  "wasmer-wasi/default",
+]
 plugin_transform_host_js = [
   # Dependent features
   "__plugin_transform_host",
