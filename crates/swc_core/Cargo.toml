@@ -16,6 +16,11 @@ rustdoc-args = ["--cfg", "docsrs"]
 ### Public features
 ### Users should opt in necessary features explicitly
 
+## Flags to opt into certain optimizations. In most cases this won't expose new interfaces,
+## but changes internal logics to perform differently. These flag should be turned on in combination with
+## actual features. Refer build.rs for more details.
+perf = ["swc_common/perf"]
+
 ## General
 # Enable `quote!` macro support.
 quote = ["swc_ecma_quote"]
@@ -80,7 +85,7 @@ __plugin_transform = [
 ]
 
 # Internal flags for any transform plugin host feature
-__plugin_transform_host = []
+__plugin_transform_host = ["__common"]
 
 # Do not use: testing purpose only
 # Force enable different version of AST schema
