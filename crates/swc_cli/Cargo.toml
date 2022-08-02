@@ -15,7 +15,7 @@ path = "./src/main.rs"
 
 [features]
 default = []
-plugin = ["swc/plugin"]
+plugin = ["swc/plugin", "swc_core/plugin_transform_host_native"]
 
 [dependencies]
 anyhow = "1.0.53"
@@ -27,10 +27,7 @@ relative-path = "1.6.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 swc = { version = "0.212.0", path = "../swc" }
-swc_core = { path = "../swc_core", features = [
-  "plugin_transform_host_native",
-  "trace_macro",
-] }
+swc_core = { path = "../swc_core", features = ["trace_macro"] }
 tracing = "0.1.32"
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"

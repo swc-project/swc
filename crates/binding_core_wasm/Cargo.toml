@@ -17,7 +17,7 @@ default = ["swc_v1"]
 swc_v1 = []
 swc_v2 = []
 # This feature exists to allow cargo operations
-plugin = ["swc/plugin"]
+plugin = ["swc/plugin", "swc_core/plugin_transform_host_js"]
 
 [dependencies]
 anyhow = "1.0.58"
@@ -35,11 +35,7 @@ wasm-bindgen = { version = "0.2.82", features = [
   "enable-interning",
 ] }
 wasm-bindgen-futures = "0.4.32"
-swc_core = { path = "../swc_core", features = [
-  "plugin_transform_host_js",
-  "ast",
-  "perf",
-] }
+swc_core = { path = "../swc_core", features = ["ast", "perf"] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false
