@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Drop more comments (#5361) ([27cdc65](https://github.com/swc-project/swc/commit/27cdc65a51af28e8a6073c325fe549d270b3f7dc))
+
+## [1.2.222] - 2022-08-01
+
+### Bug Fixes
+
+
+
 - **(css/ast)** Support list of component values (#5321) ([8f81104](https://github.com/swc-project/swc/commit/8f811043809a8cc51bb717b678906576bb6eccc3))
 
 
@@ -54,6 +62,9 @@
 
 
 - **(ci)** Set MSRV to `1.60` (#5354) ([d3ecfd3](https://github.com/swc-project/swc/commit/d3ecfd36cd79e25334f36119da3233be53fa7e10))
+
+
+- **(ci)** Fix publish action (#5358) ([4c461d1](https://github.com/swc-project/swc/commit/4c461d1ba7d389cc1275884dc037ec51cd3e48b7))
 
 ### Performance
 
