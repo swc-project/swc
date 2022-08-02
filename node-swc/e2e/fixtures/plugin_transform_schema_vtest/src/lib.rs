@@ -1,5 +1,6 @@
 use swc_core::{
     ast::*,
+    atoms::*,
     common::DUMMY_SP,
     plugin::{metadata::TransformPluginProgramMetadata, plugin_transform},
     visit::*,

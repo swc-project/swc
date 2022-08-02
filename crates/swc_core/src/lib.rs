@@ -13,13 +13,18 @@ pub mod quote {
 pub mod plugin;
 
 // ast exposed via swc_ecma_ast
+#[cfg(any(docsrs, feature = "__ast"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__ast")))]
+pub mod ast {
+    pub use swc_ecma_ast::*;
+}
+
 // TODO: Can dependency tree simplified
 // by swc_ecma_ast reexports swc_atoms?
 #[cfg(any(docsrs, feature = "__ast"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "__ast")))]
-pub mod ast {
+pub mod atoms {
     pub use swc_atoms::*;
-    pub use swc_ecma_ast::*;
 }
 
 // visit* interfaces

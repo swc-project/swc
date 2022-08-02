@@ -75,6 +75,6 @@ swc_common = { optional = true, version = "0.26.0", path = "../swc_common" }
 swc_ecma_ast = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
 swc_ecma_quote = { optional = true, version = "0.30.0", path = "../swc_ecma_quote" }
 swc_ecma_visit = { optional = true, version = "0.75.0", path = "../swc_ecma_visit" }
-swc_plugin = { optional = true, version = "0.88.2", path = "../swc_plugin" }
+swc_plugin = { optional = true, version = "0.89.0", path = "../swc_plugin" }
 swc_plugin_macro = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
 swc_plugin_proxy = { optional = true, version = "0.17.0", path = "../swc_plugin_proxy" }
