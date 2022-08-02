@@ -3141,10 +3141,9 @@
                 }, {})).map(function(k) {
                     return o[k];
                 }).map(function(playlist) {
-                    var l, key;
-                    return playlist.discontinuityStarts = (l = playlist.segments, key = "discontinuity", l.reduce(function(a, e, i) {
-                        return e[key] && a.push(i), a;
-                    }, [])), playlist;
+                    return playlist.discontinuityStarts = (0, playlist.segments).reduce(function(a, e, i) {
+                        return e.discontinuity && a.push(i), a;
+                    }, []), playlist;
                 });
             }, addSidxSegmentsToPlaylist$1 = function(playlist, sidxMapping) {
                 var sidxKey = generateSidxKey(playlist.sidx), sidxMatch = sidxKey && sidxMapping[sidxKey] && sidxMapping[sidxKey].sidx;

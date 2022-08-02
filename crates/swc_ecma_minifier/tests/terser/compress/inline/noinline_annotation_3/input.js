@@ -4,7 +4,7 @@
     }
     function bar() {
         var pass = 1;
-        pass = foo(pass);
+        pass = /*@__NOINLINE__*/ foo(pass);
         window.data = pass;
     }
     window.bar = bar;

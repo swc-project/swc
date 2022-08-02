@@ -1,1 +1,3 @@
-void external();
+(()=>{
+    external();
+})();

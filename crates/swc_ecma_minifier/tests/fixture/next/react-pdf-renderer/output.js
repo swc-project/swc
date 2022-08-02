@@ -16082,12 +16082,16 @@
                             }), c > 2) ? "one of ".concat(b, " ").concat(a.slice(0, c - 1).join(", "), ", or ") + a[c - 1] : 2 === c ? "one of ".concat(b, " ").concat(a[0], " or ").concat(a[1]) : "of ".concat(b, " ").concat(a[0]);
                         }
                         j("ERR_AMBIGUOUS_ARGUMENT", 'The "%s" argument is ambiguous. %s', TypeError), j("ERR_INVALID_ARG_TYPE", function(a, b, e) {
-                            if ((void 0 === g && (g = c(313)), g("string" == typeof a, "'name' must be a string"), "string" == typeof b && (f = "not ", b.substr(!h || h < 0 ? 0 : +h, f.length) === f)) ? (p = "must not be", b = b.replace(/^not /, "")) : p = "must be", i = a, j = " argument", (void 0 === l || l > i.length) && (l = i.length), i.substring(l - j.length, l) === j) q = "The ".concat(a, " ").concat(p, " ").concat(k(b, "type"));
+                            void 0 === g && (g = c(313)), g("string" == typeof a, "'name' must be a string");
+                            var f, h = "not ";
+                            "string" == typeof b && b.substr(!f || f < 0 ? 0 : +f, h.length) === h ? (o = "must not be", b = b.replace(/^not /, "")) : o = "must be";
+                            var i, j, l = " argument";
+                            if (i = a, (void 0 === j || j > i.length) && (j = i.length), i.substring(j - l.length, j) === l) p = "The ".concat(a, " ").concat(o, " ").concat(k(b, "type"));
                             else {
-                                var f, h, i, j, l, m, n, o, p, q, r = (m = a, "number" != typeof o && (o = 0), o + (n = ".").length > m.length || -1 === m.indexOf(n, o)) ? "argument" : "property";
-                                q = 'The "'.concat(a, '" ').concat(r, " ").concat(p, " ").concat(k(b, "type"));
+                                var m, n, o, p, q = ".", r = (m = a, "number" != typeof n && (n = 0), n + q.length > m.length || -1 === m.indexOf(q, n)) ? "argument" : "property";
+                                p = 'The "'.concat(a, '" ').concat(r, " ").concat(o, " ").concat(k(b, "type"));
                             }
-                            return q + ". Received type ".concat(d(e));
+                            return p + ". Received type ".concat(d(e));
                         }, TypeError), j("ERR_INVALID_ARG_VALUE", function(a, b) {
                             var d = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : "is invalid";
                             void 0 === h && (h = c(650));
@@ -21131,16 +21135,18 @@
                         c("ERR_INVALID_OPT_VALUE", function(a, b) {
                             return 'The value "' + b + '" is invalid for option "' + a + '"';
                         }, TypeError), c("ERR_INVALID_ARG_TYPE", function(a, b, c) {
-                            var e, f, g, h, i, j, k, l;
-                            let m;
-                            "string" == typeof b && (e = "not ", b.substr(!f || f < 0 ? 0 : +f, e.length) === e) ? (m = "must not be", b = b.replace(/^not /, "")) : m = "must be";
-                            let n;
-                            if (g = a, h = " argument", (void 0 === i || i > g.length) && (i = g.length), g.substring(i - h.length, i) === h) n = `The ${a} ${m} ${d(b, "type")}`;
+                            let e;
+                            var f, g = "not ";
+                            "string" == typeof b && b.substr(!f || f < 0 ? 0 : +f, g.length) === g ? (e = "must not be", b = b.replace(/^not /, "")) : e = "must be";
+                            let h;
+                            var i, j, k = " argument";
+                            if (i = a, (void 0 === j || j > i.length) && (j = i.length), i.substring(j - k.length, j) === k) h = `The ${a} ${e} ${d(b, "type")}`;
                             else {
-                                const o = (j = a, "number" != typeof l && (l = 0), l + (k = ".").length > j.length || -1 === j.indexOf(k, l)) ? "argument" : "property";
-                                n = `The "${a}" ${o} ${m} ${d(b, "type")}`;
+                                var l, m, n = ".";
+                                const o = (l = a, "number" != typeof m && (m = 0), m + n.length > l.length || -1 === l.indexOf(n, m)) ? "argument" : "property";
+                                h = `The "${a}" ${o} ${e} ${d(b, "type")}`;
                             }
-                            return n + `. Received type ${typeof c}`;
+                            return h + `. Received type ${typeof c}`;
                         }, TypeError), c("ERR_STREAM_PUSH_AFTER_EOF", "stream.push() after EOF"), c("ERR_METHOD_NOT_IMPLEMENTED", function(a) {
                             return "The " + a + " method is not implemented";
                         }), c("ERR_STREAM_PREMATURE_CLOSE", "Premature close"), c("ERR_STREAM_DESTROYED", function(a) {

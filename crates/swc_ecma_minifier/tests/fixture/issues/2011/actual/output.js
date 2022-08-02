@@ -12,7 +12,7 @@ var ClassA = function ClassA() {
     _classCallCheck(this, ClassA);
 };
 module.exports = function() {
-    var obj, key, value, ClassB = function() {
+    var obj, value, ClassB = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
         function ClassB() {
@@ -27,10 +27,10 @@ module.exports = function() {
             }, 
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ClassB;
     }();
-    return obj = ClassB, key = "MyA", value = ClassA, key in obj ? Object.defineProperty(obj, key, {
+    return obj = ClassB, value = ClassA, "MyA" in obj ? Object.defineProperty(obj, "MyA", {
         value: value,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : obj[key] = value, ClassB;
+    }) : obj.MyA = value, ClassB;
 }();
