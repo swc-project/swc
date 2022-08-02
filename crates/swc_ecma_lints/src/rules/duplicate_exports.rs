@@ -80,6 +80,12 @@ impl DuplicateExports {
 impl Visit for DuplicateExports {
     noop_visit_type!();
 
+    fn visit_ts_module_decl(&mut self, d: &TsModuleDecl) {
+        if !d.declare {
+            d.visit_children_with(self);
+        }
+    }
+
     fn visit_export_default_decl(&mut self, d: &ExportDefaultDecl) {
         if matches!(
             d.decl,
