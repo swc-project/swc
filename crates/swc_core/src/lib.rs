@@ -7,7 +7,7 @@ pub mod quote {
 }
 
 // Plugins
-#[cfg(feature = "plugin")]
+#[cfg(feature = "plugin_transform")]
 pub mod plugin;
 
 // ast exposed via swc_ecma_ast

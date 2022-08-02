@@ -16,8 +16,8 @@ version = "0.1.0"
 quote = ["swc_ecma_quote"]
 
 ## Plugins
-# Top level features should be enabled to write plugins.
-plugin = [
+# Top level features should be enabled to write plugins for the custom transform.
+plugin_transform = [
   # Dependent features
   "__common",
   "__ast",
