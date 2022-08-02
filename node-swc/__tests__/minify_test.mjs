@@ -161,3 +161,79 @@ describe("transform apis", () => {
         );
     });
 });
+
+
+
+describe("should remove comments", () => {
+    it("should remove", async () => {
+        const { code } = await swc.minify(
+            `
+        (function(){
+            /**
+             * 1
+             */
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+        })()
+        `,
+            {
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+            }
+        );
+
+        expect(code).toMatchInlineSnapshot(
+        );
+    });
+
+    it("should preserve licnese", async () => {
+        const { code } = await swc.minify(
+            `
+        (function(){
+            /**
+             * @license
+             */
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+        })()
+        `,
+            {
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+            }
+        );
+
+        expect(code).toMatchInlineSnapshot(
+        );
+
+    });
+    it("should remove comment near to  licnese", async () => {
+        const { code } = await swc.minify(
+            `
+        (function(){
+            /**
+             * @license
+             */
+             /*
+              * 1
+              */
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+        })()
+        `,
+            {
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+            }
+        );
+
+        expect(code).toMatchInlineSnapshot(
+        );
+    });
+});
