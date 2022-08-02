@@ -5,7 +5,7 @@ name = "swc_core"
 license = "Apache-2.0"
 edition = "2021"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.1.0"
+version = "0.0.1"
 
 [features]
 ### Public features
@@ -29,7 +29,7 @@ plugin_transform = [
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
   "swc_plugin",
-  "once_cell"
+  "once_cell",
 ]
 
 ### Internal features that public features are relying on.
@@ -40,14 +40,10 @@ plugin_transform = [
 # This'll be automatically selected via transform_plugin features,
 # SWC upstream decides which version to be used for specific version of
 # swc_core.
-__plugin_transform_schema_v1 = [
-  "swc_common/plugin_transform_schema_v1"
-]
+__plugin_transform_schema_v1 = ["swc_common/plugin_transform_schema_v1"]
 
 # Do not use: testing purpose only
-__plugin_transform_schema_vtest = [
-  "swc_common/plugin_transform_schema_vtest"
-]
+__plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
 ## Plugins
 
@@ -68,7 +64,7 @@ __plugin_transform_schema_test = [
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
   "swc_plugin",
-  "once_cell"
+  "once_cell",
 ]
 
 ## Common
@@ -80,7 +76,7 @@ __ast = ["swc_ecma_ast/rkyv-impl", "swc_atoms"]
 __visit = ["swc_ecma_visit"]
 
 [dependencies]
-once_cell = { optional = true, version = "1.13.0"}
+once_cell = { optional = true, version = "1.13.0" }
 swc_atoms = { optional = true, version = "0.3.1", path = "../swc_atoms" }
 swc_common = { optional = true, version = "0.26.0", path = "../swc_common" }
 swc_ecma_ast = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
