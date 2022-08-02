@@ -624,11 +624,7 @@ pub(crate) fn minify_file_comments(
         BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments) => {
             let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
                 // Preserve license comments.
-                if vc.iter().any(|c| c.text.contains("@license")) {
-                    return true;
-                }
-
-                vc.retain(|c: &Comment| c.text.starts_with('!'));
+                vc.retain(|c: &Comment| c.text.contains("@license") || c.text.starts_with('!'));
                 !vc.is_empty()
             };
             let (mut l, mut t) = comments.borrow_all_mut();
