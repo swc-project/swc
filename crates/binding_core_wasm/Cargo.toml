@@ -29,15 +29,17 @@ path-clean = "0.1.0"
 serde = { version = "1.0.140", features = ["derive"] }
 serde_json = "1.0.82"
 swc = { path = "../swc" }
-swc_common = { path = "../swc_common", features = ["perf"] }
-swc_ecmascript = { path = "../swc_ecmascript" }
 tracing = { version = "0.1.35", features = ["release_max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = [
   "serde-serialize",
   "enable-interning",
 ] }
 wasm-bindgen-futures = "0.4.32"
-swc_core = { path = "../swc_core", features = ["plugin_transform_host_js"] }
+swc_core = { path = "../swc_core", features = [
+  "plugin_transform_host_js",
+  "ast",
+  "perf",
+] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

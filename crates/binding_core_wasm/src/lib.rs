@@ -11,8 +11,10 @@ use swc::{
     config::{ErrorFormat, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
-use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
-use swc_ecmascript::ast::{EsVersion, Program};
+use swc_core::{
+    ast::{EsVersion, Program},
+    common::{comments::Comments, FileName, FilePathMapping, SourceMap},
+};
 use wasm_bindgen::{prelude::*, JsCast};
 use wasm_bindgen_futures::{future_to_promise, spawn_local, JsFuture};
 
