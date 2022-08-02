@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Drop more comments (#5361) ([27cdc65](https://github.com/swc-project/swc/commit/27cdc65a51af28e8a6073c325fe549d270b3f7dc))
 
+
+- **(es/minifier)** Optimize inlining function calls with a literal in arguments (#5365) ([b221f90](https://github.com/swc-project/swc/commit/b221f90117a77f684dc6b9ae5296c6bd1a2d8349))
+
 ### Features
 
 
