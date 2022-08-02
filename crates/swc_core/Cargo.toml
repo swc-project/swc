@@ -71,12 +71,14 @@ plugin_transform_host_js = [
 # swc_core.
 __plugin_transform_schema_v1 = ["swc_common/plugin_transform_schema_v1"]
 __plugin_transform_host_schema_v1 = [
+  "__plugin_transform_schema_v1",
   "swc_plugin_runner/plugin_transform_schema_v1",
 ]
 
 # Do not use: testing purpose only
 __plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 __plugin_transform_host_schema_vtest = [
+  "__plugin_transform_schema_vtest",
   "swc_plugin_runner/plugin_transform_schema_vtest",
 ]
 
