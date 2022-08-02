@@ -40,3 +40,10 @@ pub mod visit {
 pub mod common {
     pub use swc_common::*;
 }
+
+// swc_plugin_runner
+#[cfg(any(docsrs, feature = "__plugin_transform_host"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__plugin_transform_host")))]
+pub mod plugin_runner {
+    pub use swc_plugin_runner::*;
+}
