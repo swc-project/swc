@@ -14,7 +14,7 @@ pub mod memory {
 /// for error reporting.
 #[cfg(feature = "plugin")]
 pub mod errors {
-    pub use swc_plugin::handler::{PluginDiagnosticsEmitter, HANDLER};
+    pub use swc_plugin::handler::HANDLER;
 }
 
 /// Plugin's environment metadata context.
