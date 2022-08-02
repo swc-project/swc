@@ -17,15 +17,7 @@ default = ["swc_v1"]
 swc_v1 = []
 swc_v2 = []
 # This feature exists to allow cargo operations
-plugin = [
-  "swc/plugin",
-  "swc_plugin_runner/memory_cache",
-  "swc_plugin_runner/plugin_transform_schema_v1",
-  "wasmer",
-  "wasmer-wasi",
-  "wasmer/js-default",
-  "wasmer-wasi/js-default",
-]
+plugin = ["swc/plugin"]
 
 [dependencies]
 anyhow = "1.0.58"
@@ -38,19 +30,14 @@ serde = { version = "1.0.140", features = ["derive"] }
 serde_json = "1.0.82"
 swc = { path = "../swc" }
 swc_common = { path = "../swc_common", features = ["perf"] }
-swc_ecma_lints = { path = "../swc_ecma_lints", features = [
-  "non_critical_lints",
-] }
 swc_ecmascript = { path = "../swc_ecmascript" }
-swc_plugin_runner = { path = "../swc_plugin_runner", default-features = false, optional = true }
 tracing = { version = "0.1.35", features = ["release_max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = [
   "serde-serialize",
   "enable-interning",
 ] }
 wasm-bindgen-futures = "0.4.32"
-wasmer = { version = "2.3.0", optional = true, default-features = false }
-wasmer-wasi = { version = "2.3.0", optional = true, default-features = false }
+swc_core = { path = "../swc_core", features = ["plugin_transform_host_js"] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false
