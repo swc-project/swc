@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "crates/swc_core",
   "crates/dbg-swc",
   "crates/jsdoc",
   "crates/binding_core_node",

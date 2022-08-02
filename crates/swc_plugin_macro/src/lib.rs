@@ -32,6 +32,30 @@ fn handle_func(func: ItemFn) -> TokenStream {
         #[cfg(target_arch = "wasm32")] // Allow testing
         extern "C" {
             fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
+            fn __emit_diagnostics(bytes_ptr: i32, bytes_ptr_len: i32);
+            fn __free(bytes_ptr: i32, size: i32) -> i32;
+        }
+
+        /// An emitter for the Diagnostic in plugin's context by borrowing host's
+        /// environment context.
+        ///
+        /// It is not expected to call this directly inside of plugin transform.
+        /// Instead, it is encouraged to use global HANDLER.
+        pub struct PluginDiagnosticsEmitter;
+
+        impl swc_core::common::errors::Emitter for PluginDiagnosticsEmitter {
+            #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+            fn emit(&mut self, db: &swc_core::common::errors::DiagnosticBuilder<'_>) {
+                let diagnostic = swc_core::common::plugin::serialized::VersionedSerializable::new((*db.diagnostic).clone());
+                let diag = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(&diagnostic)
+                    .expect("Should able to serialize Diagnostic");
+                let (ptr, len) = diag.as_ptr();
+
+                #[cfg(target_arch = "wasm32")] // Allow testing
+                unsafe {
+                    __emit_diagnostics(ptr as i32, len as i32);
+                }
+            }
         }
 
 
@@ -45,9 +69,9 @@ fn handle_func(func: ItemFn) -> TokenStream {
         }
 
         /// Internal function plugin_macro uses to create ptr to PluginError.
-        fn construct_error_ptr(plugin_error: swc_plugin::PluginError) -> i32 {
-            let plugin_error = swc_plugin::VersionedSerializable::new(plugin_error);
-            let ret = swc_plugin::PluginSerializedBytes::try_serialize(&plugin_error).expect("Should able to serialize PluginError");
+        fn construct_error_ptr(plugin_error: swc_core::common::plugin::serialized::PluginError) -> i32 {
+            let plugin_error = swc_core::common::plugin::serialized::VersionedSerializable::new(plugin_error);
+            let ret = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(&plugin_error).expect("Should able to serialize PluginError");
             let (ptr, len) = ret.as_ptr();
 
             send_transform_result_to_host(
@@ -59,7 +83,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
         #[no_mangle]
         pub fn #transform_schema_version_ident() -> u32 {
-            swc_plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION
+            swc_core::common::plugin::serialized::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION
         }
 
         // Macro to allow compose plugin's transform function without manual pointer operation.
@@ -72,44 +96,46 @@ fn handle_func(func: ItemFn) -> TokenStream {
             unresolved_mark: u32, should_enable_comments_proxy: i32) -> i32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
-            let program = unsafe { swc_plugin::deserialize_from_ptr(ast_ptr, ast_ptr_len).map(|v| v.into_inner()) };
+            let program = unsafe { swc_core::common::plugin::serialized::deserialize_from_ptr(ast_ptr, ast_ptr_len).map(|v| v.into_inner()) };
             if program.is_err() {
-                let err = swc_plugin::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
+                let err = swc_core::common::plugin::serialized::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
                 return construct_error_ptr(err);
             }
             let program: Program = program.expect("Should be a program");
 
             // Create a handler wired with plugin's diagnostic emitter, set it for global context.
-            let handler = swc_plugin::errors::Handler::with_emitter(
+            let handler = swc_core::common::errors::Handler::with_emitter(
                 true,
                 false,
-                Box::new(swc_plugin::environment::PluginDiagnosticsEmitter)
+                Box::new(PluginDiagnosticsEmitter)
             );
-            let handler_set_result = swc_plugin::errors::HANDLER.inner.set(handler);
+            let handler_set_result = swc_core::plugin::errors::HANDLER.inner.set(handler);
 
             if handler_set_result.is_err() {
-                let err = swc_plugin::PluginError::Serialize(
+                let err = swc_core::common::plugin::serialized::PluginError::Serialize(
                         "Failed to set handler for plugin".to_string()
                     );
                 return construct_error_ptr(err);
             }
 
             // Construct metadata to the `Program` for the transform plugin.
-            let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_plugin::comments::PluginCommentsProxy) } else { None };
-            let mut metadata = swc_plugin::metadata::TransformPluginProgramMetadata {
+            let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_core::plugin::proxies::PluginCommentsProxy) } else { None };
+            let mut metadata = swc_core::plugin::metadata::TransformPluginProgramMetadata {
                 comments: plugin_comments_proxy,
-                source_map: swc_plugin::source_map::PluginSourceMapProxy,
-                unresolved_mark: swc_plugin::syntax_pos::Mark::from_u32(unresolved_mark),
+                source_map: swc_core::plugin::proxies::PluginSourceMapProxy,
+                unresolved_mark: swc_core::common::Mark::from_u32(unresolved_mark),
             };
 
             // Take original plugin fn ident, then call it with interop'ed args
             let transformed_program = #ident(program, metadata);
 
             // Serialize transformed result, return back to the host.
-            let serialized_result = swc_plugin::PluginSerializedBytes::try_serialize(&swc_plugin::VersionedSerializable::new(transformed_program));
+            let serialized_result = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(
+                &swc_core::common::plugin::serialized::VersionedSerializable::new(transformed_program)
+            );
 
             if serialized_result.is_err() {
-                let err = swc_plugin::PluginError::Serialize("Failed to serialize transformed program".to_string());
+                let err = swc_core::common::plugin::serialized::PluginError::Serialize("Failed to serialize transformed program".to_string());
                 return construct_error_ptr(err);
             }
 

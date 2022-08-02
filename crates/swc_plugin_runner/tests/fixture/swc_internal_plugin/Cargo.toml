@@ -11,4 +11,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 serde = "1"
-swc_plugin = { path = "../../../../swc_plugin" }
+swc_core = { path = "../../../../swc_core", features = ["plugin_transform"] }

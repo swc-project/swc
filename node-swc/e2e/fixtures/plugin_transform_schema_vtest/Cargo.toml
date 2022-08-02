@@ -11,4 +11,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 serde = "1.0.140"
-swc_plugin = { path = "../../../../crates/swc_plugin", default-features = false, features = ["plugin_transform_schema_vtest"] }
+swc_core = { path = "../../../../crates/swc_core", features = ["__plugin_transform_schema_test"] }

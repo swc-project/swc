@@ -1,9 +1,12 @@
-use swc_plugin::{
+use swc_core::{
     ast::*,
-    errors::HANDLER,
-    metadata::{TransformPluginMetadataContextKind, TransformPluginProgramMetadata},
-    plugin_transform,
-    syntax_pos::DUMMY_SP,
+    common::DUMMY_SP,
+    plugin::{
+        errors::HANDLER,
+        metadata::{TransformPluginMetadataContextKind, TransformPluginProgramMetadata},
+        plugin_transform,
+    },
+    visit::*,
 };
 
 struct ConsoleOutputReplacer;
