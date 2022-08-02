@@ -6,7 +6,9 @@ it("should compress", async () => {
     console.log(foo)
     `);
 
-    expect(code).toMatchInlineSnapshot(`"import a from\\"@src/app\\";console.log(a)"`);
+    expect(code).toMatchInlineSnapshot(
+        `"import a from\\"@src/app\\";console.log(a)"`
+    );
 });
 
 it("should accept object", async () => {
@@ -18,7 +20,9 @@ it("should accept object", async () => {
         {}
     );
 
-    expect(code).toMatchInlineSnapshot(`"import a from\\"@src/app\\";console.log(a)"`);
+    expect(code).toMatchInlineSnapshot(
+        `"import a from\\"@src/app\\";console.log(a)"`
+    );
 });
 
 it("should accept { mangle = true }", async () => {
@@ -159,5 +163,85 @@ describe("transform apis", () => {
         expect(code).toMatchInlineSnapshot(
             `"(function(){var a=Math.random()+\\"_\\"+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`
         );
+    });
+});
+
+describe("should remove comments", () => {
+    it("should remove", async () => {
+        const { code } = await swc.minify(
+            `
+        (function(){
+            /**
+             * 1
+             */
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+        })()
+        `,
+            {
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+            }
+        );
+
+        expect(code).toMatchInlineSnapshot(
+            `"(function(){const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"`
+        );
+    });
+
+    it("should preserve licnese", async () => {
+        const { code } = await swc.minify(
+            `
+        (function(){
+            /**
+             * @license
+             */
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+        })()
+        `,
+            {
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+            }
+        );
+
+        expect(code).toMatchInlineSnapshot(`
+            "(function(){/**
+                         * @license
+                         */ const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"
+        `);
+    });
+    it("should remove comment near to  licnese", async () => {
+        const { code } = await swc.minify(
+            `
+        (function(){
+            /**
+             * @license
+             */
+             /*
+              * 1
+              */
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+        })()
+        `,
+            {
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+            }
+        );
+
+        expect(code).toMatchInlineSnapshot(`
+            "(function(){/**
+                         * @license
+                         */ const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"
+        `);
     });
 });
