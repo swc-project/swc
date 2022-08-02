@@ -5137,16 +5137,16 @@
                 }(s.localStore, r));
             }
             async function Tc(t, e) {
-                var t1, e1;
                 const n = t;
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
-                    const t2 = await hr(n.localStore, e);
-                    n.currentUser = e, e1 = "'waitForPendingWrites' promise is rejected due to a user change.", (t1 = n).Ko.forEach((t)=>{
+                    const t1 = await hr(n.localStore, e);
+                    var t2, e1 = "'waitForPendingWrites' promise is rejected due to a user change.";
+                    n.currentUser = e, (t2 = n).Ko.forEach((t)=>{
                         t.forEach((t)=>{
                             t.reject(new j(K.CANCELLED, e1));
                         });
-                    }), t1.Ko.clear(), n.sharedClientState.handleUserChange(e, t2.removedBatchIds, t2.addedBatchIds), await pc(n, t2.Wn);
+                    }), t2.Ko.clear(), n.sharedClientState.handleUserChange(e, t1.removedBatchIds, t1.addedBatchIds), await pc(n, t1.Wn);
                 }
             }
             function Ec(t, e) {
