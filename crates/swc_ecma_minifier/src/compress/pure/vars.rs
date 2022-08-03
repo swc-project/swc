@@ -146,6 +146,9 @@ impl Pure<'_> {
         *stmts = new;
     }
 
+    /// TypeScript namespace results in lots of `var ts` declarations.
+    pub(super) fn remove_duplicate_vars(&mut self, vars: &mut Vec<VarDeclarator>) {}
+
     /// Collapse single-use non-constant variables, side effects permitting.
     ///
     /// This merges all variables to first variable declartion with an

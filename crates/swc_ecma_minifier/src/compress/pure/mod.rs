@@ -866,6 +866,12 @@ impl VisitMut for Pure<'_> {
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
+        vars.visit_mut_children_with(self);
+
+        self.remove_duplicate_vars(vars);
+    }
+
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
         s.visit_mut_children_with(self);
 
