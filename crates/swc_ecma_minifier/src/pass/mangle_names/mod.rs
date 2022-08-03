@@ -152,6 +152,9 @@ impl Visit for CharFreqAnalyzer<'_> {
             PropName::BigInt(_) => {}
         }
     }
+
+    /// This is preserved anyway
+    fn visit_module_export_name(&mut self, _: &ModuleExportName) {}
 }
 
 impl AddAssign for CharFreq {
