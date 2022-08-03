@@ -1,3 +1,5 @@
+use std::ops::AddAssign;
+
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{chain, sync::Lrc, SourceMap};
@@ -40,6 +42,14 @@ impl CharFreq {
 
                 _ => {}
             }
+        }
+    }
+}
+
+impl AddAssign for CharFreq {
+    fn add_assign(&mut self, rhs: Self) {
+        for i in 0..64 {
+            self.0[i] += rhs.0[i];
         }
     }
 }
