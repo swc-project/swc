@@ -1,4 +1,4 @@
-use std::ops::AddAssign;
+use std::{cmp::Reverse, ops::AddAssign};
 
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
@@ -98,7 +98,7 @@ impl CharFreq {
             .map(|(idx, c)| (self.0[idx], c))
             .collect::<Vec<_>>();
 
-        arr.sort_by_key(|&(freq, _)| freq);
+        arr.sort_by_key(|&(freq, _)| Reverse(freq));
 
         let mut head = vec![];
         let mut tail = vec![];
