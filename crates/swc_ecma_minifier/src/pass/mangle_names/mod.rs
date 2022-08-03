@@ -1,5 +1,6 @@
 use std::ops::AddAssign;
 
+use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{chain, sync::Lrc, SourceMap};
@@ -152,15 +153,6 @@ impl Base54Chars {
     /// givin a number, return a base54 encoded string
     /// `usize -> [a-zA-Z$_][a-zA-Z$_0-9]*`
     pub(crate) fn encode(&self, init: &mut usize, skip_reserved: bool) -> JsWord {
-        if skip_reserved {
-            while init.is_reserved()
-                || init.is_reserved_in_strict_bind()
-                || init.is_reserved_in_strict_mode(true)
-            {
-                *init += 1;
-            }
-        }
-
         let mut n = *init;
 
         *init += 1;
@@ -176,13 +168,13 @@ impl Base54Chars {
         let mut ret: ArrayVec<_, 14> = ArrayVec::new();
 
         base /= 54;
-        let mut c = BASE54_DEFAULT_CHARS[n / base];
+        let mut c = self.head[n / base];
         ret.push(c);
 
         while base > 1 {
             n %= base;
             base >>= 6;
-            c = BASE54_DEFAULT_CHARS[n / base];
+            c = self.tail[n / base];
 
             ret.push(c);
         }
@@ -192,6 +184,15 @@ impl Base54Chars {
             // Safety: The stack memory for ret is alive while creating JsWord
             JsWord::from(std::str::from_utf8_unchecked(&ret))
         };
+
+        if skip_reserved {
+            while s.is_reserved()
+                || s.is_reserved_in_strict_bind()
+                || s.is_reserved_in_strict_mode(true)
+            {
+                return self.encode(init, skip_reserved);
+            }
+        }
 
         s
     }
