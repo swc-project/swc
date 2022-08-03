@@ -12,6 +12,38 @@ use crate::{option::MangleOptions, util::base54};
 mod preserver;
 mod private_name;
 
+pub(crate) struct CharFreq([i32; 64]);
+
+impl CharFreq {
+    pub fn scan(&mut self, s: &str, delta: i32) {
+        if delta == 0 {
+            return;
+        }
+
+        for c in s.chars() {
+            match c {
+                'a'..='z' => {
+                    self.0[c as usize - 'a' as usize] += delta;
+                }
+                'A'..='Z' => {
+                    self.0[c as usize - 'A' as usize + 26] += delta;
+                }
+                '0'..='9' => {
+                    self.0[c as usize - '0' as usize + 52] += delta;
+                }
+                '_' => {
+                    self.0[62] += delta;
+                }
+                '$' => {
+                    self.0[63] += delta;
+                }
+
+                _ => {}
+            }
+        }
+    }
+}
+
 fn compute_char_freq(p: &Program) {
     let mut buf = vec![];
     let cm = Lrc::new(SourceMap::default());
