@@ -11786,9 +11786,9 @@
                 for(var start = gops[0].pts, i = 0; i < buffer.length && !(buffer[i].pts >= start); i++);
                 return buffer.slice(0, i).concat(gops);
             }, removeGopBuffer = function(buffer, start, end, mapping) {
-                for(var startPts = Math.ceil((start - mapping) * mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__.ONE_SECOND_IN_TS), endPts = Math.ceil((end - mapping) * mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__.ONE_SECOND_IN_TS), updatedBuffer = buffer.slice(), i = buffer.length; (i--) && !(buffer[i].pts <= endPts););
+                for(var startPts = Math.ceil((start - mapping) * mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__.ONE_SECOND_IN_TS), endPts = Math.ceil((end - mapping) * mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__.ONE_SECOND_IN_TS), updatedBuffer = buffer.slice(), i = buffer.length; i-- && !(buffer[i].pts <= endPts););
                 if (-1 === i) return updatedBuffer;
-                for(var j = i + 1; (j--) && !(buffer[j].pts <= startPts););
+                for(var j = i + 1; j-- && !(buffer[j].pts <= startPts););
                 return j = Math.max(j, 0), updatedBuffer.splice(j, i - j + 1), updatedBuffer;
             }, shallowEqual = function(a, b) {
                 if (!a && !b || !a && b || a && !b) return !1;

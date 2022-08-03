@@ -2022,7 +2022,7 @@
                             return h.getStatusText && h.getStatusText(editor, data) || "";
                         }).filter(Boolean).join(" ");
                     }, this.$callKeyboardHandlers = function(hashId, keyString, keyCode, e) {
-                        for(var toExecute, success = !1, commands = this.$editor.commands, i = this.$handlers.length; (i--) && (!(toExecute = this.$handlers[i].handleKeyboard(this.$data, hashId, keyString, keyCode, e)) || !toExecute.command || ((success = "null" == toExecute.command || commands.exec(toExecute.command, this.$editor, toExecute.args, e)) && e && -1 != hashId && !0 != toExecute.passEvent && !0 != toExecute.command.passEvent && event.stopEvent(e), !success)););
+                        for(var toExecute, success = !1, commands = this.$editor.commands, i = this.$handlers.length; i-- && (!(toExecute = this.$handlers[i].handleKeyboard(this.$data, hashId, keyString, keyCode, e)) || !toExecute.command || ((success = "null" == toExecute.command || commands.exec(toExecute.command, this.$editor, toExecute.args, e)) && e && -1 != hashId && !0 != toExecute.passEvent && !0 != toExecute.command.passEvent && event.stopEvent(e), !success)););
                         return success || -1 != hashId || (toExecute = {
                             command: "insertstring"
                         }, success = commands.exec("insertstring", this.$editor, keyString)), success && this.$editor._signal && this.$editor._signal("keyboardActivity", toExecute), success;
@@ -3012,7 +3012,7 @@
                                 }
                             }
                             if (lastIndex == line.length) break;
-                            if (lastIndex = index, (matchAttempts++) > MAX_TOKEN_COUNT) {
+                            if (lastIndex = index, matchAttempts++ > MAX_TOKEN_COUNT) {
                                 for(matchAttempts > 2 * line.length && this.reportError("infinite loop with in ace tokenizer", {
                                     startState: startState,
                                     line: line
@@ -4347,7 +4347,7 @@
                             }, testRemove = function(line, i) {
                                 return regexpStart.test(line);
                             }, shouldInsertSpace = function(line, before, after) {
-                                for(var spaces = 0; (before--) && " " == line.charAt(before);)spaces++;
+                                for(var spaces = 0; before-- && " " == line.charAt(before);)spaces++;
                                 if (spaces % tabSize != 0) return !1;
                                 for(var spaces = 0; " " == line.charAt(after++);)spaces++;
                                 return tabSize > 2 ? spaces % tabSize != tabSize - 1 : spaces % tabSize == 0;
