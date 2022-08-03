@@ -60,7 +60,7 @@ impl CharFreq {
         }
     }
 
-    pub fn compute(p: &Program) -> Self {
+    pub fn compute(p: &Program, preserved: &FxHashSet<Id>) -> Self {
         let mut buf = vec![];
         let cm = Lrc::new(SourceMap::default());
 
@@ -82,7 +82,10 @@ impl CharFreq {
         freq.scan(&code, 1);
 
         // Subtract
-        p.visit_with(&mut freq);
+        p.visit_with(&mut CharFreqAnalyzer {
+            freq: &mut freq,
+            preserverd,
+        });
 
         freq
     }
@@ -117,7 +120,12 @@ impl CharFreq {
     }
 }
 
-impl Visit for CharFreq {
+struct CharFreqAnalyzer<'a> {
+    freq: &'a mut CharFreq,
+    preserverd: &'a FxHashSet<Id>,
+}
+
+impl Visit for CharFreqAnalyzer {
     noop_visit_type!();
 
     visit_obj_and_computed!();
@@ -198,17 +206,27 @@ impl Base54Chars {
 }
 
 pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl VisitMut {
-    let base54 = CharFreq::compute(program).compile();
+    let preserved = idents_to_preserve(options.clone(), program);
+
+    let base54 = CharFreq::compute(program, &preserved).compile();
 
     chain!(
         self::private_name::private_name_mangler(options.keep_private_props),
-        renamer(Default::default(), ManglingRenamer { options, base54 })
+        renamer(
+            Default::default(),
+            ManglingRenamer {
+                options,
+                base54,
+                preserved
+            }
+        )
     )
 }
 
 struct ManglingRenamer {
     options: MangleOptions,
     base54: Base54Chars,
+    preserved: FxHashSet<Id>,
 }
 
 impl Renamer for ManglingRenamer {
@@ -216,11 +234,11 @@ impl Renamer for ManglingRenamer {
     const RESET_N: bool = false;
 
     fn preserved_ids_for_module(&mut self, n: &Module) -> FxHashSet<Id> {
-        idents_to_preserve(self.options.clone(), n)
+        self.preserved.clone()
     }
 
     fn preserved_ids_for_script(&mut self, n: &Script) -> FxHashSet<Id> {
-        idents_to_preserve(self.options.clone(), n)
+        self.preserved.clone()
     }
 
     fn new_name_for(&self, _: &Id, n: &mut usize) -> JsWord {
