@@ -6,7 +6,7 @@ use swc_common::{chain, sync::Lrc, SourceMap};
 use swc_ecma_ast::{Module, *};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitWith};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitMut, VisitWith};
 
 use self::preserver::idents_to_preserve;
 use crate::{option::MangleOptions, util::base54};
@@ -84,6 +84,26 @@ impl CharFreq {
 
 impl Visit for CharFreq {
     noop_visit_type!();
+
+    visit_obj_and_computed!();
+
+    fn visit_ident(&mut self, i: &Ident) {
+        self.scan(&i.sym, -1);
+    }
+
+    fn visit_str(&mut self, s: &Str) {
+        self.scan(&s.value, -1);
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        match n {
+            PropName::Ident(_) => {}
+            PropName::Str(_) => {}
+            PropName::Num(_) => {}
+            PropName::Computed(e) => e.visit_with(self),
+            PropName::BigInt(_) => {}
+        }
+    }
 }
 
 impl AddAssign for CharFreq {
