@@ -29,6 +29,9 @@
 - **(es/minifier)** Remove duplicate `var` declarations (#5373) ([4fdbe40](https://github.com/swc-project/swc/commit/4fdbe40c74e618a9bdf00253f970e27e20c6b6eb))
 
 
+- **(es/minifier)** Consider char frequencies (#5375) ([3943eb2](https://github.com/swc-project/swc/commit/3943eb24d11540928d436f63c4ffd6421400fcaf))
+
+
 - **(swc_core)** Introduce package (#5364) ([27b464d](https://github.com/swc-project/swc/commit/27b464d90a410b5fb6dca438442e1e8669a28e32))
 
 
