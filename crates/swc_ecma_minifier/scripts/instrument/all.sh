@@ -8,4 +8,4 @@
 
 
 export RUST_LOG=off
-cargo profile instruments -t time --example minify-all --features swc_common/perf --release -- $@
+cargo profile instruments -t time --example minify-all --features swc_common/perf --features concurrent --release -- $@
