@@ -34,6 +34,12 @@
 ### Miscellaneous Tasks
 - **general**: Update toml formatting (#5368) ([12fd737](https://github.com/swc-project/swc/commit/12fd7373265df570aa129ce8c92ce5953db79254))
 
+### Performance
+
+
+
+- **(es/minifier)** Make postcompress pass parallel (#5374) ([6552d1a](https://github.com/swc-project/swc/commit/6552d1a6f77e5a69cf3c21de9606653b1dcc285a))
+
 ## [1.2.222] - 2022-08-01
 
 ### Bug Fixes
