@@ -98,6 +98,21 @@ impl VisitMut for ModuleRefRewriter {
         }
     }
 
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        let is_indirect = n
+            .tag
+            .as_ident()
+            .and_then(|ident| self.import_map.get(&ident.to_id()))
+            .map(|(_, prop)| prop.is_some())
+            .unwrap_or_default();
+
+        n.visit_mut_children_with(self);
+
+        if is_indirect {
+            *n = n.take().into_indirect()
+        }
+    }
+
     fn visit_mut_function(&mut self, n: &mut Function) {
         self.visit_mut_with_non_global_this(n);
     }
