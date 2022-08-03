@@ -189,6 +189,7 @@ mod tests {
     #[test]
     fn regression_increments() {
         assert_min("x++ + ++y", "x++ + ++y");
+        assert_min("x++ - ++y", "x++-++y");
     }
 
     #[test]

@@ -1077,7 +1077,12 @@ where
                 node.left.ends_with_alpha_num()
             } else {
                 match *node.left {
-                    Expr::Update(UpdateExpr { prefix: false, .. }) => true,
+                    Expr::Update(UpdateExpr {
+                        prefix: false, op, ..
+                    }) => matches!(
+                        (op, node.op),
+                        (op!("--"), op!(bin, "-")) | (op!("++"), op!(bin, "+"))
+                    ),
                     _ => false,
                 }
             }
@@ -1099,7 +1104,7 @@ where
             if is_kwd_op {
                 node.right.starts_with_alpha_num()
             } else {
-                match (node.op, &*node.right) {
+                match (&node.op, &*node.right) {
                     (
                         _,
                         Expr::Unary(UnaryExpr {
@@ -1120,7 +1125,7 @@ where
                         }),
                     ) => false,
 
-                    (_, r) if is_space_require_before_rhs(r) => true,
+                    (op, r) if require_space_before_rhs(r, op) => true,
 
                     _ => false,
                 }
@@ -3612,13 +3617,24 @@ fn handle_invalid_unicodes(s: &str) -> Cow<str> {
     Cow::Owned(s.replace("\\\0", "\\"))
 }
 
-fn is_space_require_before_rhs(rhs: &Expr) -> bool {
+fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
     match rhs {
-        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() => true,
+        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && *op == op!(bin, "-") => true,
 
-        Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
+        Expr::Update(UpdateExpr {
+            prefix: true,
+            op: update,
+            ..
+        }) => matches!(
+            (op, update),
+            (op!(bin, "-"), op!("--")) | (op!(bin, "+"), op!("++"))
+        ),
+        Expr::Unary(UnaryExpr { op: unary, .. }) => matches!(
+            (op, unary),
+            (op!(bin, "-"), op!(unary, "-")) | (op!(bin, "+"), op!(unary, "+"))
+        ),
 
-        Expr::Bin(BinExpr { left, .. }) => is_space_require_before_rhs(left),
+        Expr::Bin(BinExpr { left, .. }) => require_space_before_rhs(left, op),
 
         _ => false,
     }

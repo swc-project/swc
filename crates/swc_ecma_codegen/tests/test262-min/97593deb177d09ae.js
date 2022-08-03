@@ -1,1 +1,1 @@
-function a(b,c){return b-- >>>c}
+function a(b,c){return b-->>>c}
