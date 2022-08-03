@@ -217,19 +217,11 @@ pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl Vi
 
     chain!(
         self::private_name::private_name_mangler(options.keep_private_props),
-        renamer(
-            Default::default(),
-            ManglingRenamer {
-                options,
-                base54,
-                preserved
-            }
-        )
+        renamer(Default::default(), ManglingRenamer { base54, preserved })
     )
 }
 
 struct ManglingRenamer {
-    options: MangleOptions,
     base54: Base54Chars,
     preserved: FxHashSet<Id>,
 }
@@ -238,11 +230,11 @@ impl Renamer for ManglingRenamer {
     const PARALLEL: bool = true;
     const RESET_N: bool = false;
 
-    fn preserved_ids_for_module(&mut self, n: &Module) -> FxHashSet<Id> {
+    fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
         self.preserved.clone()
     }
 
-    fn preserved_ids_for_script(&mut self, n: &Script) -> FxHashSet<Id> {
+    fn preserved_ids_for_script(&mut self, _: &Script) -> FxHashSet<Id> {
         self.preserved.clone()
     }
 
