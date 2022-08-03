@@ -1,21 +1,21 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
 description = "Commandline for SWC"
-edition = "2021"
-include = ["Cargo.toml", "src/**/*.rs"]
-license = "Apache-2.0"
-name = "swc_cli"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.86.0"
+edition     = "2021"
+include     = ["Cargo.toml", "src/**/*.rs"]
+license     = "Apache-2.0"
+name        = "swc_cli"
+repository  = "https://github.com/swc-project/swc.git"
+version     = "0.86.0"
 
 [[bin]]
 bench = false
-name = "swc"
-path = "./src/main.rs"
+name  = "swc"
+path  = "./src/main.rs"
 
 [features]
 default = []
-plugin = ["swc/plugin", "swc_core/plugin_transform_host_native"]
+plugin  = ["swc_core/plugin_transform_host_native"]
 
 [dependencies]
 anyhow = "1.0.53"
@@ -26,14 +26,17 @@ rayon = "1"
 relative-path = "1.6.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
-swc = { version = "0.212.0", path = "../swc" }
-swc_core = { path = "../swc_core", features = ["trace_macro", "common"] }
+swc_core = { version = "0.2.0", path = "../swc_core", features = [
+  "trace_macro",
+  "common",
+  "base",
+] }
 tracing = "0.1.32"
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 walkdir = "2"
 
-[dependencies.path-absolutize]
-features = ["once_cell_cache"]
-version = "3.0.11"
+  [dependencies.path-absolutize]
+  features = ["once_cell_cache"]
+  version  = "3.0.11"
