@@ -1,11 +1,15 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
 description = "TBD"
-name = "swc_core"
-license = "Apache-2.0"
 edition = "2021"
+license = "Apache-2.0"
+name = "swc_core"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.1.0"
+version = "0.1.1"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 ### Public features
@@ -23,8 +27,7 @@ plugin_transform = [
   "__common",
   "__ast",
   "__visit",
-  "__plugin_transform_schema_v1",
-  # Enable optional packages
+  "__plugin_transform_schema_v1", # Enable optional packages
   "swc_common/plugin-mode",
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
@@ -58,8 +61,7 @@ __plugin_transform_schema_test = [
   "__common",
   "__ast",
   "__visit",
-  "__plugin_transform_schema_vtest",
-  # Enable optional packages
+  "__plugin_transform_schema_vtest", # Enable optional packages
   "swc_common/plugin-mode",
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
