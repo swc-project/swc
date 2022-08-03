@@ -104,7 +104,7 @@ impl CharFreq {
         let mut tail = vec![];
 
         for (_, c) in arr {
-            if c <= b'0' || c >= b'9' {
+            if !(b'0'..=b'9').contains(&c) {
                 head.push(c);
             }
             tail.push(c);
