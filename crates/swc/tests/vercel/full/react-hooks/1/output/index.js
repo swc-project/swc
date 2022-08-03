@@ -1,9 +1,9 @@
-import { jsx as a, Fragment as b } from "react/jsx-runtime";
-import c from "react";
-import { useRouter as d } from "next/router";
-import { useProject as e } from "@swr/use-project";
-import f from "@swr/use-team";
-export default function g() {
-    var c = d().query.project, g = e(c).data;
-    return f().teamSlug, useProjectBranches(null == g ? void 0 : g.id).data, a(b, {});
+import { jsx as r, Fragment as o } from "react/jsx-runtime";
+import t from "react";
+import { useRouter as m } from "next/router";
+import { useProject as a } from "@swr/use-project";
+import i from "@swr/use-team";
+export default function e() {
+    var t = m().query.project, e = a(t).data;
+    return i().teamSlug, useProjectBranches(null == e ? void 0 : e.id).data, r(o, {});
 };
