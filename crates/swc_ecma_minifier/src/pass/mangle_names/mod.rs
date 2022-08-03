@@ -11,7 +11,7 @@ use crate::{option::MangleOptions, util::base54};
 mod preserver;
 mod private_name;
 
-pub(crate) fn name_mangler(options: MangleOptions) -> impl VisitMut {
+pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl VisitMut {
     chain!(
         self::private_name::private_name_mangler(options.keep_private_props),
         renamer(Default::default(), ManglingRenamer { options })
