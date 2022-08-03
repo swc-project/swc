@@ -1,7 +1,8 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::chain;
+use swc_common::{chain, sync::Lrc, SourceMap};
 use swc_ecma_ast::{Module, *};
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::VisitMut;
 
@@ -10,6 +11,24 @@ use crate::{option::MangleOptions, util::base54};
 
 mod preserver;
 mod private_name;
+
+fn compute_char_freq(p: &Program) {
+    let mut buf = vec![];
+    let cm = Lrc::new(SourceMap::default());
+
+    {
+        let mut emitter = Emitter {
+            cfg: Default::default(),
+            cm: cm.clone(),
+            comments: None,
+            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
+        };
+
+        emitter.emit_program(&p).unwrap();
+    }
+
+    let code = String::from_utf8(buf).unwrap();
+}
 
 pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl VisitMut {
     chain!(
