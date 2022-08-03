@@ -1,17 +1,17 @@
-var a = [
+var o = [
     "a",
     "b",
     "c"
 ];
-for (const b of a){
-    console.log(b);
-    let c;
-    c = [
+for (const f of o){
+    console.log(f);
+    let l;
+    l = [
         "e",
         "f",
         "g"
     ];
-    for (const d of c){
-        console.log(d);
+    for (const r of l){
+        console.log(r);
     }
 }

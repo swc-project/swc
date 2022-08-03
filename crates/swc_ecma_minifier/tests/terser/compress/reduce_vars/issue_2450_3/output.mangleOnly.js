@@ -1,12 +1,12 @@
-var a = (function() {
-    function a() {
+var n = (function() {
+    function n() {
         return "foo";
     }
-    return function b() {
+    return function r() {
         return [
             1,
-            a
+            n
         ];
     };
 })();
-console.log(a()[1] === a()[1]);
+console.log(n()[1] === n()[1]);

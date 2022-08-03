@@ -1,50 +1,50 @@
-import { a, b } from "./utils";
+import { a as t, b as n } from "./utils";
 if (typeof window !== "undefined") {
     require("intersection-observer");
 }
-const c = (function c() {
+const o = (function o() {
     const e = new Map();
-    function f(a) {
-        return g(a) || new IntersectionObserver(k, a);
+    function r(t) {
+        return c(t) || new IntersectionObserver(i, t);
     }
-    function g(c = {}) {
-        const f = b(c);
-        for (const g of e.keys()){
-            if (a(g, f)) {
-                return g;
+    function c(o = {}) {
+        const r = n(o);
+        for (const c of e.keys()){
+            if (t(c, r)) {
+                return c;
             }
         }
         return null;
     }
-    function h(a) {
-        return !e.has(a) ? e.set(a, new Map()).get(a) : e.get(a);
+    function f(t) {
+        return !e.has(t) ? e.set(t, new Map()).get(t) : e.get(t);
     }
-    function i(a, b, c) {
-        const e = h(a);
-        e.set(b, c);
-        a.observe(b);
+    function s(t, n, o) {
+        const e = f(t);
+        e.set(n, o);
+        t.observe(n);
     }
-    function j(a, b) {
-        const c = h(a);
-        c.delete(b);
-        a.unobserve(b);
+    function u(t, n) {
+        const o = f(t);
+        o.delete(n);
+        t.unobserve(n);
     }
-    function k(a, b) {
-        for (let c of a){
-            const e = h(b);
-            const f = e.get(c.target);
-            if (f) {
-                f(c);
+    function i(t, n) {
+        for (let o of t){
+            const e = f(n);
+            const r = e.get(o.target);
+            if (r) {
+                r(o);
             }
         }
     }
     return {
-        d: f,
-        l: i,
-        q: j
+        d: r,
+        l: s,
+        q: u
     };
 })();
-export default c;
-export const { d  } = c;
-export const { l  } = c;
-export const { q  } = c;
+export default o;
+export const { d  } = o;
+export const { l  } = o;
+export const { q  } = o;

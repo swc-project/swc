@@ -1,19 +1,19 @@
 (function() {
-    function a() {
-        let a = [
+    function n() {
+        let n = [
             "A",
             "B",
             "C"
         ];
-        let c = [
+        let u = [
             2,
             1,
             0
-        ].map((c)=>b(a[c] + c));
-        return c;
+        ].map((u)=>t(n[u] + u));
+        return u;
     }
-    function b(a) {
-        return ()=>console.log(a);
+    function t(n) {
+        return ()=>console.log(n);
     }
-    a().map((a)=>a());
+    n().map((n)=>n());
 })();

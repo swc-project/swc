@@ -1,16 +1,16 @@
 (function() {
-    function a(a) {
-        return a[a[0]];
+    function n(n) {
+        return n[n[0]];
     }
-    function b() {
+    function t() {
         if (true) {
-            const b = a([
+            const t = n([
                 1,
                 2,
                 3
             ]);
-            console.log(b);
+            console.log(t);
         }
     }
-    return b();
+    return t();
 })();

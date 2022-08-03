@@ -1,6 +1,6 @@
-var a = [
+var o = [
     1,
     2,
     3
 ];
-for (var b of a)console.log(b);
+for (var r of o)console.log(r);

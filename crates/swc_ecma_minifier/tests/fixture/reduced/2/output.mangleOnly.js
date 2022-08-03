@@ -1,40 +1,40 @@
 export const def = {
-    code (a) {
-        const { gen: b , schema: c , parentSchema: d , data: e , it: f  } = a;
-        if (f.opts.removeAdditional === "all" && d.additionalProperties === undefined) {
-            additionalProperties_1.default.code(new validate_1.KeywordCxt(f, additionalProperties_1.default, "additionalProperties"));
+    code (e) {
+        const { gen: o , schema: t , parentSchema: r , data: s , it: a  } = e;
+        if (a.opts.removeAdditional === "all" && r.additionalProperties === undefined) {
+            additionalProperties_1.default.code(new validate_1.KeywordCxt(a, additionalProperties_1.default, "additionalProperties"));
         }
-        const g = (0, code_1.allSchemaProperties)(c);
-        for (const h of g){
-            f.definedProperties.add(h);
+        const d = (0, code_1.allSchemaProperties)(t);
+        for (const n of d){
+            a.definedProperties.add(n);
         }
-        if (f.opts.unevaluated && g.length && f.props !== true) {
-            f.props = util_1.mergeEvaluated.props(b, (0, util_1.toHash)(g), f.props);
+        if (a.opts.unevaluated && d.length && a.props !== true) {
+            a.props = util_1.mergeEvaluated.props(o, (0, util_1.toHash)(d), a.props);
         }
-        const i = g.filter((a)=>!(0, util_1.alwaysValidSchema)(f, c[a]));
+        const i = d.filter((e)=>!(0, util_1.alwaysValidSchema)(a, t[e]));
         if (i.length === 0) return;
-        const j = b.name("valid");
-        for (const k of i){
-            if (l(k)) {
-                m(k);
+        const p = o.name("valid");
+        for (const f of i){
+            if (l(f)) {
+                c(f);
             } else {
-                b.if((0, code_1.propertyInData)(b, e, k, f.opts.ownProperties));
-                m(k);
-                if (!f.allErrors) b.else().var(j, true);
-                b.endIf();
+                o.if((0, code_1.propertyInData)(o, s, f, a.opts.ownProperties));
+                c(f);
+                if (!a.allErrors) o.else().var(p, true);
+                o.endIf();
             }
-            a.it.definedProperties.add(k);
-            a.ok(j);
+            e.it.definedProperties.add(f);
+            e.ok(p);
         }
-        function l(a) {
-            return (f.opts.useDefaults && !f.compositeRule && c[a].default !== undefined);
+        function l(e) {
+            return (a.opts.useDefaults && !a.compositeRule && t[e].default !== undefined);
         }
-        function m(b) {
-            a.subschema({
+        function c(o) {
+            e.subschema({
                 keyword: "properties",
-                schemaProp: b,
-                dataProp: b
-            }, j);
+                schemaProp: o,
+                dataProp: o
+            }, p);
         }
     }
 };

@@ -5,11 +5,11 @@
         916
     ],
     {
-        6974: function(a, b, c) {
-            c.r(b);
-            var d = c(4512);
-            b["default"] = function() {
-                return (0, d.jsx)("p", {
+        6974: function(n, r, u) {
+            u.r(r);
+            var c = u(4512);
+            r["default"] = function() {
+                return (0, c.jsx)("p", {
                     children: "Hello World 1"
                 });
             };

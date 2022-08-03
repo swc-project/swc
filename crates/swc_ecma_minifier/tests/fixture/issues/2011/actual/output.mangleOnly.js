@@ -1,55 +1,55 @@
-function a(a, b) {
-    if (!(a instanceof b)) {
+function e(e, n) {
+    if (!(e instanceof n)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function b(a, b) {
-    for(var c = 0; c < b.length; c++){
-        var d = b[c];
-        d.enumerable = d.enumerable || false;
-        d.configurable = true;
-        if ("value" in d) d.writable = true;
-        Object.defineProperty(a, d.key, d);
+function n(e, n) {
+    for(var r = 0; r < n.length; r++){
+        var t = n[r];
+        t.enumerable = t.enumerable || false;
+        t.configurable = true;
+        if ("value" in t) t.writable = true;
+        Object.defineProperty(e, t.key, t);
     }
 }
-function c(a, c, d) {
-    if (c) b(a.prototype, c);
-    if (d) b(a, d);
-    return a;
+function r(e, r, t) {
+    if (r) n(e.prototype, r);
+    if (t) n(e, t);
+    return e;
 }
-function d(a, b, c) {
-    if (b in a) {
-        Object.defineProperty(a, b, {
-            value: c,
+function t(e, n, r) {
+    if (n in e) {
+        Object.defineProperty(e, n, {
+            value: r,
             enumerable: true,
             configurable: true,
             writable: true
         });
     } else {
-        a[b] = c;
+        e[n] = r;
     }
-    return a;
+    return e;
 }
-var e = function b() {
+var i = function n() {
     "use strict";
-    a(this, b);
+    e(this, n);
 };
 module.exports = (function() {
-    var b = (function() {
+    var n = (function() {
         "use strict";
-        function b() {
-            a(this, b);
+        function n() {
+            e(this, n);
         }
-        c(b, [
+        r(n, [
             {
                 key: "it",
-                value: function a() {
-                    this.bb = new b.MyA();
+                value: function e() {
+                    this.bb = new n.MyA();
                 }
             }, 
         ]);
-        return b;
+        return n;
     })();
-    d(b, "MyA", e);
-    return b;
+    t(n, "MyA", i);
+    return n;
 })();

@@ -1,9 +1,9 @@
-let { w: a , x: b , z: c  } = {
+let { w: l , x: g , z: o  } = {
     x: 1,
     y: 2,
     z: 3
 };
-console.log(b);
+console.log(g);
 if (0) {
-    console.log(c);
+    console.log(o);
 }

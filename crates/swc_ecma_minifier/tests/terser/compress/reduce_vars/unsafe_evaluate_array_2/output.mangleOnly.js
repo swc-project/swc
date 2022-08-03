@@ -1,11 +1,11 @@
-var a = [
+var n = [
     1,
     2,
-    function(a) {
-        return a * a;
+    function(n) {
+        return n * n;
     },
-    function(a) {
-        return a * a * a;
+    function(n) {
+        return n * n * n;
     }, 
 ];
-console.log(a[0], a[1], a[2](2), a[3]);
+console.log(n[0], n[1], n[2](2), n[3]);

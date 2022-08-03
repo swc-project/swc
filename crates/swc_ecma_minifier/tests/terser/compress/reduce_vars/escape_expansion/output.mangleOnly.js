@@ -1,15 +1,15 @@
-function a() {
-    var a = d();
-    if (a !== (a = d())) console.log("FAIL");
+function n() {
+    var n = u();
+    if (n !== (n = u())) console.log("FAIL");
     else console.log("PASS");
 }
-function b() {}
-function c(...a) {
-    return a[0];
+function o() {}
+function t(...n) {
+    return n[0];
 }
-function d() {
-    return c(...[
-        b
+function u() {
+    return t(...[
+        o
     ]);
 }
-a();
+n();

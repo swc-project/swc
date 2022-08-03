@@ -1,4 +1,4 @@
-let [a] = [
+let [l] = [
     1
 ];
-console.log(a);
+console.log(l);

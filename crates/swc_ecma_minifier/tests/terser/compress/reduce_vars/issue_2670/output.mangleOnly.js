@@ -1,4 +1,4 @@
-const a = {};
-a.prop = "PASS";
-const { prop: b  } = a;
-console.log(b);
+const o = {};
+o.prop = "PASS";
+const { prop: p  } = o;
+console.log(p);

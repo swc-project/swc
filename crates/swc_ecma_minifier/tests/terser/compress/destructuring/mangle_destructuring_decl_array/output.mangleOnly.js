@@ -1,4 +1,4 @@
-var [, a, b, c, d, e = 2, f = [
+var [, a, g, l, o, r = 2, v = [
     1 + 2
 ]] = [
     9,
@@ -6,4 +6,4 @@ var [, a, b, c, d, e = 2, f = [
     7,
     6
 ];
-console.log(a, b, c, d, e, f);
+console.log(a, g, l, o, r, v);

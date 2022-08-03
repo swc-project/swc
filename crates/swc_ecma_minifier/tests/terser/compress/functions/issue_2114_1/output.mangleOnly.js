@@ -1,13 +1,13 @@
-var a = 0;
-!(function(a) {
-    a = 0;
+var n = 0;
+!(function(n) {
+    n = 0;
 })([
     {
-        0: (a = a + 1),
-        length: (a = 1 + a)
+        0: (n = n + 1),
+        length: (n = 1 + n)
     },
-    typeof void (function b() {
-        var c = (function a(b) {})(c && (c.b += ((a = a + 1), 0)));
+    typeof void (function o() {
+        var t = (function n(o) {})(t && (t.b += ((n = n + 1), 0)));
     })(), 
 ]);
-console.log(a);
+console.log(n);

@@ -1,13 +1,13 @@
-import { jsx as a, jsxs as b, Fragment as c } from "react/jsx-runtime";
-import * as d from "react";
-import e from "invariant";
-import { injectScript as f } from "./utils/injectscript";
-import { preventGoogleFonts as g } from "./utils/prevent-google-fonts";
-import { isBrowser as h } from "./utils/isbrowser";
-import { makeLoadScriptUrl as i } from "./utils/make-load-script-url";
-let j = false;
+import { jsx as e, jsxs as t, Fragment as o } from "react/jsx-runtime";
+import * as r from "react";
+import i from "invariant";
+import { injectScript as n } from "./utils/injectscript";
+import { preventGoogleFonts as s } from "./utils/prevent-google-fonts";
+import { isBrowser as p } from "./utils/isbrowser";
+import { makeLoadScriptUrl as a } from "./utils/make-load-script-url";
+let l = false;
 export function DefaultLoadingElement() {
-    return a("div", {
+    return e("div", {
         children: `Loading...`
     });
 }
@@ -15,25 +15,25 @@ export const defaultLoadScriptProps = {
     id: "script-loader",
     version: "weekly"
 };
-class k extends d.PureComponent {
+class c extends r.PureComponent {
     componentDidMount() {
-        if (h) {
-            if (window.google && window.google.maps && !j) {
+        if (p) {
+            if (window.google && window.google.maps && !l) {
                 console.error("google api is already presented");
                 return;
             }
-            this.isCleaningUp().then(this.injectScript).catch(function a(b) {
-                console.error("Error at injecting script after cleaning up: ", b);
+            this.isCleaningUp().then(this.injectScript).catch(function e(t) {
+                console.error("Error at injecting script after cleaning up: ", t);
             });
         }
     }
-    componentDidUpdate(a) {
-        if (this.props.libraries !== a.libraries) {
+    componentDidUpdate(e) {
+        if (this.props.libraries !== e.libraries) {
             console.warn("Performance warning! LoadScript has been reloaded unintentionally! You should not pass `libraries` prop as new array. Please keep an array of libraries as static class property for Components and PureComponents, or just a const variable outside of component, or somewhere in config files or ENV variables");
         }
-        if (h && a.language !== this.props.language) {
+        if (p && e.language !== this.props.language) {
             this.cleanup();
-            this.setState(function a() {
+            this.setState(function e() {
                 return {
                     loaded: false
                 };
@@ -41,33 +41,33 @@ class k extends d.PureComponent {
         }
     }
     componentWillUnmount() {
-        if (h) {
+        if (p) {
             this.cleanup();
-            const a = ()=>{
+            const e = ()=>{
                 if (!this.check.current) {
                     delete window.google;
-                    j = false;
+                    l = false;
                 }
             };
-            window.setTimeout(a, 1);
+            window.setTimeout(e, 1);
             if (this.props.onUnmount) {
                 this.props.onUnmount();
             }
         }
     }
     render() {
-        return b(c, {
+        return t(o, {
             children: [
-                a("div", {
+                e("div", {
                     ref: this.check
                 }),
-                this.state.loaded ? this.props.children : this.props.loadingElement || a(DefaultLoadingElement, {}), 
+                this.state.loaded ? this.props.children : this.props.loadingElement || e(DefaultLoadingElement, {}), 
             ]
         });
     }
-    constructor(...a){
-        super(...a);
-        this.check = d.createRef();
+    constructor(...e){
+        super(...e);
+        this.check = r.createRef();
         this.state = {
             loaded: false
         };
@@ -76,74 +76,74 @@ class k extends d.PureComponent {
             this.injectScript();
         };
         this.isCleaningUp = async ()=>{
-            function a(a) {
-                if (!j) {
-                    a();
+            function e(e) {
+                if (!l) {
+                    e();
                 } else {
-                    if (h) {
-                        const b = window.setInterval(function c() {
-                            if (!j) {
-                                window.clearInterval(b);
-                                a();
+                    if (p) {
+                        const t = window.setInterval(function o() {
+                            if (!l) {
+                                window.clearInterval(t);
+                                e();
                             }
                         }, 1);
                     }
                 }
                 return;
             }
-            return new Promise(a);
+            return new Promise(e);
         };
         this.cleanup = ()=>{
-            j = true;
-            const a = document.getElementById(this.props.id);
-            if (a && a.parentNode) {
-                a.parentNode.removeChild(a);
+            l = true;
+            const e = document.getElementById(this.props.id);
+            if (e && e.parentNode) {
+                e.parentNode.removeChild(e);
             }
-            Array.prototype.slice.call(document.getElementsByTagName("script")).filter(function a(b) {
-                return (typeof b.src === "string" && b.src.includes("maps.googleapis"));
-            }).forEach(function a(b) {
-                if (b.parentNode) {
-                    b.parentNode.removeChild(b);
+            Array.prototype.slice.call(document.getElementsByTagName("script")).filter(function e(t) {
+                return (typeof t.src === "string" && t.src.includes("maps.googleapis"));
+            }).forEach(function e(t) {
+                if (t.parentNode) {
+                    t.parentNode.removeChild(t);
                 }
             });
-            Array.prototype.slice.call(document.getElementsByTagName("link")).filter(function a(b) {
-                return (b.href === "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans");
-            }).forEach(function a(b) {
-                if (b.parentNode) {
-                    b.parentNode.removeChild(b);
+            Array.prototype.slice.call(document.getElementsByTagName("link")).filter(function e(t) {
+                return (t.href === "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans");
+            }).forEach(function e(t) {
+                if (t.parentNode) {
+                    t.parentNode.removeChild(t);
                 }
             });
-            Array.prototype.slice.call(document.getElementsByTagName("style")).filter(function a(b) {
-                return (b.innerText !== undefined && b.innerText.length > 0 && b.innerText.includes(".gm-"));
-            }).forEach(function a(b) {
-                if (b.parentNode) {
-                    b.parentNode.removeChild(b);
+            Array.prototype.slice.call(document.getElementsByTagName("style")).filter(function e(t) {
+                return (t.innerText !== undefined && t.innerText.length > 0 && t.innerText.includes(".gm-"));
+            }).forEach(function e(t) {
+                if (t.parentNode) {
+                    t.parentNode.removeChild(t);
                 }
             });
         };
         this.injectScript = ()=>{
             if (this.props.preventGoogleFontsLoading) {
-                g();
+                s();
             }
-            e(!!this.props.id, 'LoadScript requires "id" prop to be a string: %s', this.props.id);
-            const a = {
+            i(!!this.props.id, 'LoadScript requires "id" prop to be a string: %s', this.props.id);
+            const e = {
                 id: this.props.id,
                 nonce: this.props.nonce,
-                url: i(this.props)
+                url: a(this.props)
             };
-            f(a).then(()=>{
+            n(e).then(()=>{
                 if (this.props.onLoad) {
                     this.props.onLoad();
                 }
-                this.setState(function a() {
+                this.setState(function e() {
                     return {
                         loaded: true
                     };
                 });
                 return;
-            }).catch((a)=>{
+            }).catch((e)=>{
                 if (this.props.onError) {
-                    this.props.onError(a);
+                    this.props.onError(e);
                 }
                 console.error(`
           There has been an Error with loading Google Maps API script, please check that you provided correct google API key (${this.props.googleMapsApiKey || "-"}) or Client ID (${this.props.googleMapsClientId || "-"}) to <LoadScript />
@@ -153,5 +153,5 @@ class k extends d.PureComponent {
         };
     }
 }
-k.defaultProps = defaultLoadScriptProps;
-export default k;
+c.defaultProps = defaultLoadScriptProps;
+export default c;

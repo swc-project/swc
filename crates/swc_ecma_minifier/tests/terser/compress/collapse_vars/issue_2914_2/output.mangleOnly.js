@@ -1,14 +1,14 @@
-function a(a) {
-    var b = 0;
-    var c = 0;
-    var d = 0;
-    while(c < 32){
-        var e = a[b++];
-        d = (127 & e) << c;
-        if (0 === (128 & e)) return d;
-        c += 7;
+function r(r) {
+    var a = 0;
+    var v = 0;
+    var $ = 0;
+    while(v < 32){
+        var i = r[a++];
+        $ = (127 & i) << v;
+        if (0 === (128 & i)) return $;
+        v += 7;
     }
 }
-console.log(a([
+console.log(r([
     129
 ]));

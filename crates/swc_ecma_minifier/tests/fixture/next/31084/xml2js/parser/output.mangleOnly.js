@@ -1,61 +1,61 @@
 (function() {
     "use strict";
-    var a, b, c, d, e, f, g, h, i = function(a, b) {
+    var t, r, s, e, i, n, o, a, h = function(t, r) {
         return function() {
-            return a.apply(b, arguments);
+            return t.apply(r, arguments);
         };
-    }, j = function(a, b) {
-        for(var c in b){
-            if (k.call(b, c)) a[c] = b[c];
+    }, p = function(t, r) {
+        for(var s in r){
+            if (u.call(r, s)) t[s] = r[s];
         }
-        function d() {
-            this.constructor = a;
+        function e() {
+            this.constructor = t;
         }
-        d.prototype = b.prototype;
-        a.prototype = new d();
-        a.__super__ = b.prototype;
-        return a;
-    }, k = {}.hasOwnProperty;
-    g = require("sax");
-    c = require("events");
-    a = require("./bom");
-    f = require("./processors");
-    h = require("timers").setImmediate;
-    b = require("./defaults").defaults;
-    d = function(a) {
-        return (typeof a === "object" && a != null && Object.keys(a).length === 0);
+        e.prototype = r.prototype;
+        t.prototype = new e();
+        t.__super__ = r.prototype;
+        return t;
+    }, u = {}.hasOwnProperty;
+    o = require("sax");
+    s = require("events");
+    t = require("./bom");
+    n = require("./processors");
+    a = require("timers").setImmediate;
+    r = require("./defaults").defaults;
+    e = function(t) {
+        return (typeof t === "object" && t != null && Object.keys(t).length === 0);
     };
-    e = function(a, b, c) {
-        var d, e, f;
-        for(d = 0, e = a.length; d < e; d++){
-            f = a[d];
-            b = f(b, c);
+    i = function(t, r, s) {
+        var e, i, n;
+        for(e = 0, i = t.length; e < i; e++){
+            n = t[e];
+            r = n(r, s);
         }
-        return b;
+        return r;
     };
-    exports.Parser = (function(c) {
-        j(l, c);
-        function l(a) {
-            this.parseStringPromise = i(this.parseStringPromise, this);
-            this.parseString = i(this.parseString, this);
-            this.reset = i(this.reset, this);
-            this.assignOrPush = i(this.assignOrPush, this);
-            this.processAsync = i(this.processAsync, this);
-            var c, d, e;
+    exports.Parser = (function(s) {
+        p(c, s);
+        function c(t) {
+            this.parseStringPromise = h(this.parseStringPromise, this);
+            this.parseString = h(this.parseString, this);
+            this.reset = h(this.reset, this);
+            this.assignOrPush = h(this.assignOrPush, this);
+            this.processAsync = h(this.processAsync, this);
+            var s, e, i;
             if (!(this instanceof exports.Parser)) {
-                return new exports.Parser(a);
+                return new exports.Parser(t);
             }
             this.options = {};
-            d = b["0.2"];
-            for(c in d){
-                if (!k.call(d, c)) continue;
-                e = d[c];
-                this.options[c] = e;
+            e = r["0.2"];
+            for(s in e){
+                if (!u.call(e, s)) continue;
+                i = e[s];
+                this.options[s] = i;
             }
-            for(c in a){
-                if (!k.call(a, c)) continue;
-                e = a[c];
-                this.options[c] = e;
+            for(s in t){
+                if (!u.call(t, s)) continue;
+                i = t[s];
+                this.options[s] = i;
             }
             if (this.options.xmlns) {
                 this.options.xmlnskey = this.options.attrkey + "ns";
@@ -64,313 +64,313 @@
                 if (!this.options.tagNameProcessors) {
                     this.options.tagNameProcessors = [];
                 }
-                this.options.tagNameProcessors.unshift(f.normalize);
+                this.options.tagNameProcessors.unshift(n.normalize);
             }
             this.reset();
         }
-        l.prototype.processAsync = function() {
-            var a, b;
+        c.prototype.processAsync = function() {
+            var t, r;
             try {
                 if (this.remaining.length <= this.options.chunkSize) {
-                    a = this.remaining;
+                    t = this.remaining;
                     this.remaining = "";
-                    this.saxParser = this.saxParser.write(a);
+                    this.saxParser = this.saxParser.write(t);
                     return this.saxParser.close();
                 } else {
-                    a = this.remaining.substr(0, this.options.chunkSize);
+                    t = this.remaining.substr(0, this.options.chunkSize);
                     this.remaining = this.remaining.substr(this.options.chunkSize, this.remaining.length);
-                    this.saxParser = this.saxParser.write(a);
-                    return h(this.processAsync);
+                    this.saxParser = this.saxParser.write(t);
+                    return a(this.processAsync);
                 }
-            } catch (c) {
-                b = c;
+            } catch (s) {
+                r = s;
                 if (!this.saxParser.errThrown) {
                     this.saxParser.errThrown = true;
-                    return this.emit(b);
+                    return this.emit(r);
                 }
             }
         };
-        l.prototype.assignOrPush = function(a, b, c) {
-            if (!(b in a)) {
+        c.prototype.assignOrPush = function(t, r, s) {
+            if (!(r in t)) {
                 if (!this.options.explicitArray) {
-                    return (a[b] = c);
+                    return (t[r] = s);
                 } else {
-                    return (a[b] = [
-                        c
+                    return (t[r] = [
+                        s
                     ]);
                 }
             } else {
-                if (!(a[b] instanceof Array)) {
-                    a[b] = [
-                        a[b]
+                if (!(t[r] instanceof Array)) {
+                    t[r] = [
+                        t[r]
                     ];
                 }
-                return a[b].push(c);
+                return t[r].push(s);
             }
         };
-        l.prototype.reset = function() {
-            var a, b, c, f;
+        c.prototype.reset = function() {
+            var t, r, s, n;
             this.removeAllListeners();
-            this.saxParser = g.parser(this.options.strict, {
+            this.saxParser = o.parser(this.options.strict, {
                 trim: false,
                 normalize: false,
                 xmlns: this.options.xmlns
             });
             this.saxParser.errThrown = false;
-            this.saxParser.onerror = (function(a) {
-                return function(b) {
-                    a.saxParser.resume();
-                    if (!a.saxParser.errThrown) {
-                        a.saxParser.errThrown = true;
-                        return a.emit("error", b);
+            this.saxParser.onerror = (function(t) {
+                return function(r) {
+                    t.saxParser.resume();
+                    if (!t.saxParser.errThrown) {
+                        t.saxParser.errThrown = true;
+                        return t.emit("error", r);
                     }
                 };
             })(this);
-            this.saxParser.onend = (function(a) {
+            this.saxParser.onend = (function(t) {
                 return function() {
-                    if (!a.saxParser.ended) {
-                        a.saxParser.ended = true;
-                        return a.emit("end", a.resultObject);
+                    if (!t.saxParser.ended) {
+                        t.saxParser.ended = true;
+                        return t.emit("end", t.resultObject);
                     }
                 };
             })(this);
             this.saxParser.ended = false;
             this.EXPLICIT_CHARKEY = this.options.explicitCharkey;
             this.resultObject = null;
-            f = [];
-            a = this.options.attrkey;
-            b = this.options.charkey;
-            this.saxParser.onopentag = (function(c) {
-                return function(d) {
-                    var g, h, i, j, l;
-                    i = {};
-                    i[b] = "";
-                    if (!c.options.ignoreAttrs) {
-                        l = d.attributes;
-                        for(g in l){
-                            if (!k.call(l, g)) continue;
-                            if (!(a in i) && !c.options.mergeAttrs) {
-                                i[a] = {};
+            n = [];
+            t = this.options.attrkey;
+            r = this.options.charkey;
+            this.saxParser.onopentag = (function(s) {
+                return function(e) {
+                    var o, a, h, p, c;
+                    h = {};
+                    h[r] = "";
+                    if (!s.options.ignoreAttrs) {
+                        c = e.attributes;
+                        for(o in c){
+                            if (!u.call(c, o)) continue;
+                            if (!(t in h) && !s.options.mergeAttrs) {
+                                h[t] = {};
                             }
-                            h = c.options.attrValueProcessors ? e(c.options.attrValueProcessors, d.attributes[g], g) : d.attributes[g];
-                            j = c.options.attrNameProcessors ? e(c.options.attrNameProcessors, g) : g;
-                            if (c.options.mergeAttrs) {
-                                c.assignOrPush(i, j, h);
+                            a = s.options.attrValueProcessors ? i(s.options.attrValueProcessors, e.attributes[o], o) : e.attributes[o];
+                            p = s.options.attrNameProcessors ? i(s.options.attrNameProcessors, o) : o;
+                            if (s.options.mergeAttrs) {
+                                s.assignOrPush(h, p, a);
                             } else {
-                                i[a][j] = h;
+                                h[t][p] = a;
                             }
                         }
                     }
-                    i["#name"] = c.options.tagNameProcessors ? e(c.options.tagNameProcessors, d.name) : d.name;
-                    if (c.options.xmlns) {
-                        i[c.options.xmlnskey] = {
-                            uri: d.uri,
-                            local: d.local
+                    h["#name"] = s.options.tagNameProcessors ? i(s.options.tagNameProcessors, e.name) : e.name;
+                    if (s.options.xmlns) {
+                        h[s.options.xmlnskey] = {
+                            uri: e.uri,
+                            local: e.local
                         };
                     }
-                    return f.push(i);
+                    return n.push(h);
                 };
             })(this);
-            this.saxParser.onclosetag = (function(a) {
+            this.saxParser.onclosetag = (function(t) {
                 return function() {
-                    var c, g, h, i, j, l, m, n, o, p;
-                    l = f.pop();
-                    j = l["#name"];
-                    if (!a.options.explicitChildren || !a.options.preserveChildrenOrder) {
-                        delete l["#name"];
+                    var s, o, a, h, p, c, l, f, m, P;
+                    c = n.pop();
+                    p = c["#name"];
+                    if (!t.options.explicitChildren || !t.options.preserveChildrenOrder) {
+                        delete c["#name"];
                     }
-                    if (l.cdata === true) {
-                        c = l.cdata;
-                        delete l.cdata;
+                    if (c.cdata === true) {
+                        s = c.cdata;
+                        delete c.cdata;
                     }
-                    o = f[f.length - 1];
-                    if (l[b].match(/^\s*$/) && !c) {
-                        g = l[b];
-                        delete l[b];
+                    m = n[n.length - 1];
+                    if (c[r].match(/^\s*$/) && !s) {
+                        o = c[r];
+                        delete c[r];
                     } else {
-                        if (a.options.trim) {
-                            l[b] = l[b].trim();
+                        if (t.options.trim) {
+                            c[r] = c[r].trim();
                         }
-                        if (a.options.normalize) {
-                            l[b] = l[b].replace(/\s{2,}/g, " ").trim();
+                        if (t.options.normalize) {
+                            c[r] = c[r].replace(/\s{2,}/g, " ").trim();
                         }
-                        l[b] = a.options.valueProcessors ? e(a.options.valueProcessors, l[b], j) : l[b];
-                        if (Object.keys(l).length === 1 && b in l && !a.EXPLICIT_CHARKEY) {
-                            l = l[b];
+                        c[r] = t.options.valueProcessors ? i(t.options.valueProcessors, c[r], p) : c[r];
+                        if (Object.keys(c).length === 1 && r in c && !t.EXPLICIT_CHARKEY) {
+                            c = c[r];
                         }
                     }
-                    if (d(l)) {
-                        l = a.options.emptyTag !== "" ? a.options.emptyTag : g;
+                    if (e(c)) {
+                        c = t.options.emptyTag !== "" ? t.options.emptyTag : o;
                     }
-                    if (a.options.validator != null) {
-                        p = "/" + (function() {
-                            var a, b, c;
-                            c = [];
-                            for(a = 0, b = f.length; a < b; a++){
-                                i = f[a];
-                                c.push(i["#name"]);
+                    if (t.options.validator != null) {
+                        P = "/" + (function() {
+                            var t, r, s;
+                            s = [];
+                            for(t = 0, r = n.length; t < r; t++){
+                                h = n[t];
+                                s.push(h["#name"]);
                             }
-                            return c;
-                        })().concat(j).join("/");
+                            return s;
+                        })().concat(p).join("/");
                         (function() {
-                            var b;
+                            var r;
                             try {
-                                return (l = a.options.validator(p, o && o[j], l));
-                            } catch (c) {
-                                b = c;
-                                return a.emit("error", b);
+                                return (c = t.options.validator(P, m && m[p], c));
+                            } catch (s) {
+                                r = s;
+                                return t.emit("error", r);
                             }
                         })();
                     }
-                    if (a.options.explicitChildren && !a.options.mergeAttrs && typeof l === "object") {
-                        if (!a.options.preserveChildrenOrder) {
-                            i = {};
-                            if (a.options.attrkey in l) {
-                                i[a.options.attrkey] = l[a.options.attrkey];
-                                delete l[a.options.attrkey];
+                    if (t.options.explicitChildren && !t.options.mergeAttrs && typeof c === "object") {
+                        if (!t.options.preserveChildrenOrder) {
+                            h = {};
+                            if (t.options.attrkey in c) {
+                                h[t.options.attrkey] = c[t.options.attrkey];
+                                delete c[t.options.attrkey];
                             }
-                            if (!a.options.charsAsChildren && a.options.charkey in l) {
-                                i[a.options.charkey] = l[a.options.charkey];
-                                delete l[a.options.charkey];
+                            if (!t.options.charsAsChildren && t.options.charkey in c) {
+                                h[t.options.charkey] = c[t.options.charkey];
+                                delete c[t.options.charkey];
                             }
-                            if (Object.getOwnPropertyNames(l).length > 0) {
-                                i[a.options.childkey] = l;
+                            if (Object.getOwnPropertyNames(c).length > 0) {
+                                h[t.options.childkey] = c;
                             }
-                            l = i;
-                        } else if (o) {
-                            o[a.options.childkey] = o[a.options.childkey] || [];
-                            m = {};
-                            for(h in l){
-                                if (!k.call(l, h)) continue;
-                                m[h] = l[h];
+                            c = h;
+                        } else if (m) {
+                            m[t.options.childkey] = m[t.options.childkey] || [];
+                            l = {};
+                            for(a in c){
+                                if (!u.call(c, a)) continue;
+                                l[a] = c[a];
                             }
-                            o[a.options.childkey].push(m);
-                            delete l["#name"];
-                            if (Object.keys(l).length === 1 && b in l && !a.EXPLICIT_CHARKEY) {
-                                l = l[b];
+                            m[t.options.childkey].push(l);
+                            delete c["#name"];
+                            if (Object.keys(c).length === 1 && r in c && !t.EXPLICIT_CHARKEY) {
+                                c = c[r];
                             }
                         }
                     }
-                    if (f.length > 0) {
-                        return a.assignOrPush(o, j, l);
+                    if (n.length > 0) {
+                        return t.assignOrPush(m, p, c);
                     } else {
-                        if (a.options.explicitRoot) {
-                            n = l;
-                            l = {};
-                            l[j] = n;
+                        if (t.options.explicitRoot) {
+                            f = c;
+                            c = {};
+                            c[p] = f;
                         }
-                        a.resultObject = l;
-                        a.saxParser.ended = true;
-                        return a.emit("end", a.resultObject);
+                        t.resultObject = c;
+                        t.saxParser.ended = true;
+                        return t.emit("end", t.resultObject);
                     }
                 };
             })(this);
-            c = (function(a) {
-                return function(c) {
-                    var d, e;
-                    e = f[f.length - 1];
-                    if (e) {
-                        e[b] += c;
-                        if (a.options.explicitChildren && a.options.preserveChildrenOrder && a.options.charsAsChildren && (a.options.includeWhiteChars || c.replace(/\\n/g, "").trim() !== "")) {
-                            e[a.options.childkey] = e[a.options.childkey] || [];
-                            d = {
+            s = (function(t) {
+                return function(s) {
+                    var e, i;
+                    i = n[n.length - 1];
+                    if (i) {
+                        i[r] += s;
+                        if (t.options.explicitChildren && t.options.preserveChildrenOrder && t.options.charsAsChildren && (t.options.includeWhiteChars || s.replace(/\\n/g, "").trim() !== "")) {
+                            i[t.options.childkey] = i[t.options.childkey] || [];
+                            e = {
                                 "#name": "__text__"
                             };
-                            d[b] = c;
-                            if (a.options.normalize) {
-                                d[b] = d[b].replace(/\s{2,}/g, " ").trim();
+                            e[r] = s;
+                            if (t.options.normalize) {
+                                e[r] = e[r].replace(/\s{2,}/g, " ").trim();
                             }
-                            e[a.options.childkey].push(d);
+                            i[t.options.childkey].push(e);
                         }
-                        return e;
+                        return i;
                     }
                 };
             })(this);
-            this.saxParser.ontext = c;
-            return (this.saxParser.oncdata = (function(a) {
-                return function(a) {
-                    var b;
-                    b = c(a);
-                    if (b) {
-                        return (b.cdata = true);
+            this.saxParser.ontext = s;
+            return (this.saxParser.oncdata = (function(t) {
+                return function(t) {
+                    var r;
+                    r = s(t);
+                    if (r) {
+                        return (r.cdata = true);
                     }
                 };
             })(this));
         };
-        l.prototype.parseString = function(b, c) {
-            var d;
-            if (c != null && typeof c === "function") {
-                this.on("end", function(a) {
+        c.prototype.parseString = function(r, s) {
+            var e;
+            if (s != null && typeof s === "function") {
+                this.on("end", function(t) {
                     this.reset();
-                    return c(null, a);
+                    return s(null, t);
                 });
-                this.on("error", function(a) {
+                this.on("error", function(t) {
                     this.reset();
-                    return c(a);
+                    return s(t);
                 });
             }
             try {
-                b = b.toString();
-                if (b.trim() === "") {
+                r = r.toString();
+                if (r.trim() === "") {
                     this.emit("end", null);
                     return true;
                 }
-                b = a.stripBOM(b);
+                r = t.stripBOM(r);
                 if (this.options.async) {
-                    this.remaining = b;
-                    h(this.processAsync);
+                    this.remaining = r;
+                    a(this.processAsync);
                     return this.saxParser;
                 }
-                return this.saxParser.write(b).close();
-            } catch (e) {
-                d = e;
+                return this.saxParser.write(r).close();
+            } catch (i) {
+                e = i;
                 if (!(this.saxParser.errThrown || this.saxParser.ended)) {
-                    this.emit("error", d);
+                    this.emit("error", e);
                     return (this.saxParser.errThrown = true);
                 } else if (this.saxParser.ended) {
-                    throw d;
+                    throw e;
                 }
             }
         };
-        l.prototype.parseStringPromise = function(a) {
-            return new Promise((function(b) {
-                return function(c, d) {
-                    return b.parseString(a, function(a, b) {
-                        if (a) {
-                            return d(a);
+        c.prototype.parseStringPromise = function(t) {
+            return new Promise((function(r) {
+                return function(s, e) {
+                    return r.parseString(t, function(t, r) {
+                        if (t) {
+                            return e(t);
                         } else {
-                            return c(b);
+                            return s(r);
                         }
                     });
                 };
             })(this));
         };
-        return l;
-    })(c);
-    exports.parseString = function(a, b, c) {
-        var d, e, f;
-        if (c != null) {
-            if (typeof c === "function") {
-                d = c;
+        return c;
+    })(s);
+    exports.parseString = function(t, r, s) {
+        var e, i, n;
+        if (s != null) {
+            if (typeof s === "function") {
+                e = s;
             }
-            if (typeof b === "object") {
-                e = b;
+            if (typeof r === "object") {
+                i = r;
             }
         } else {
-            if (typeof b === "function") {
-                d = b;
+            if (typeof r === "function") {
+                e = r;
             }
-            e = {};
+            i = {};
         }
-        f = new exports.Parser(e);
-        return f.parseString(a, d);
+        n = new exports.Parser(i);
+        return n.parseString(t, e);
     };
-    exports.parseStringPromise = function(a, b) {
-        var c, d;
-        if (typeof b === "object") {
-            c = b;
+    exports.parseStringPromise = function(t, r) {
+        var s, e;
+        if (typeof r === "object") {
+            s = r;
         }
-        d = new exports.Parser(c);
-        return d.parseStringPromise(a);
+        e = new exports.Parser(s);
+        return e.parseStringPromise(t);
     };
 }.call(this));

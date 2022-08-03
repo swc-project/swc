@@ -1,9 +1,9 @@
 console.log((function() {
-    var a = {
+    var n = {
         p: 1
-    }, b = [
-        a
+    }, o = [
+        n
     ];
-    console.log(b[0].p);
-    return a.p;
+    console.log(o[0].p);
+    return n.p;
 })());

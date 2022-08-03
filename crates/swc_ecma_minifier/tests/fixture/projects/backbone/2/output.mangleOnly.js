@@ -1,4 +1,4 @@
-function a() {
+function t() {
     if (!eventsApi(this, "on", name, [
         callback,
         context

@@ -1,4 +1,4 @@
-let { foo: [, , ...a] ,  } = {
+let { foo: [, , ...o] ,  } = {
     foo: [
         1,
         2,
@@ -7,4 +7,4 @@ let { foo: [, , ...a] ,  } = {
     ],
     bar: 5
 };
-console.log(a);
+console.log(o);

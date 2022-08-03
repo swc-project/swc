@@ -1,18 +1,18 @@
-function a() {
-    var a = [
+function r() {
+    var r = [
         94,
         173,
         190,
         239
     ];
-    var b = 0;
-    b |= a[0];
-    b <<= 8;
-    b |= a[1];
-    b <<= 8;
-    b |= a[2];
-    b <<= 8;
-    b |= a[3];
-    return b;
+    var n = 0;
+    n |= r[0];
+    n <<= 8;
+    n |= r[1];
+    n <<= 8;
+    n |= r[2];
+    n <<= 8;
+    n |= r[3];
+    return n;
 }
-console.log(a().toString(16));
+console.log(r().toString(16));

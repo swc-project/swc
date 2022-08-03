@@ -1,9 +1,9 @@
-var a;
-function b(a) {
+var r;
+function n(r) {
     return [
-        a,
-        a,
-        a
+        r,
+        r,
+        r
     ];
 }
-for(var c in ((a = console), b(a)))console.log(c);
+for(var o in ((r = console), n(r)))console.log(o);

@@ -4,15 +4,15 @@
         808
     ],
     {
-        2808: function(a, b, c) {
-            c.r(b);
-            var d = c(4512);
-            var e = c(4652);
-            var f = (0, e.default)(function() {
-                return c.e(383).then(c.bind(c, 1383));
+        2808: function(n, e, r) {
+            r.r(e);
+            var t = r(4512);
+            var u = r(4652);
+            var a = (0, u.default)(function() {
+                return r.e(383).then(r.bind(r, 1383));
             }, {
                 loadableGenerated: {
-                    webpack: function a() {
+                    webpack: function n() {
                         return [
                             1383
                         ];
@@ -22,11 +22,11 @@
                     ]
                 }
             });
-            b["default"] = function() {
-                return (0, d.jsxs)("div", {
+            e["default"] = function() {
+                return (0, t.jsxs)("div", {
                     children: [
                         "Nested 1",
-                        (0, d.jsx)(f, {}), 
+                        (0, t.jsx)(a, {}), 
                     ]
                 });
             };

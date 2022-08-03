@@ -3,111 +3,111 @@
         217
     ],
     {
-        2809: function(a, b, c) {
+        2809: function(n, r, e) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/spread",
                 function() {
-                    return c(1767);
+                    return e(1767);
                 }, 
             ]);
             if (false) {}
         },
-        2726: function(a, b, c) {
+        2726: function(n, r, e) {
             "use strict";
-            c.d(b, {
+            e.d(r, {
                 Z: function() {
                     return i;
                 }
             });
-            var d = c(5893);
-            var e = c(7294);
-            function f(a) {
-                var b = a.value, c = a.onChange;
-                return (0, d.jsx)("input", {
-                    value: b,
-                    onChange: c
+            var t = e(5893);
+            var u = e(7294);
+            function a(n) {
+                var r = n.value, e = n.onChange;
+                return (0, t.jsx)("input", {
+                    value: r,
+                    onChange: e
                 });
             }
-            var g = f;
-            function h(a) {
-                var b = a.value, c = a.onChange;
-                (0, e.useEffect)(function() {
+            var o = a;
+            function f(n) {
+                var r = n.value, e = n.onChange;
+                (0, u.useEffect)(function() {
                     console.log("EFFECT");
                 }, []);
-                return (0, d.jsx)(g, {
-                    value: b,
-                    onChange: c
+                return (0, t.jsx)(o, {
+                    value: r,
+                    onChange: e
                 });
             }
-            var i = h;
+            var i = f;
         },
-        1767: function(a, b, c) {
+        1767: function(n, r, e) {
             "use strict";
-            c.r(b);
-            c.d(b, {
+            e.r(r);
+            e.d(r, {
                 default: function() {
-                    return k;
+                    return v;
                 }
             });
-            var d = c(5893);
-            var e = c(7294);
-            var f = c(2726);
-            function g(a, b, c) {
-                if (b in a) {
-                    Object.defineProperty(a, b, {
-                        value: c,
+            var t = e(5893);
+            var u = e(7294);
+            var a = e(2726);
+            function o(n, r, e) {
+                if (r in n) {
+                    Object.defineProperty(n, r, {
+                        value: e,
                         enumerable: true,
                         configurable: true,
                         writable: true
                     });
                 } else {
-                    a[b] = c;
+                    n[r] = e;
                 }
-                return a;
+                return n;
             }
-            function h(a) {
-                for(var b = 1; b < arguments.length; b++){
-                    var c = arguments[b] != null ? arguments[b] : {};
-                    var d = Object.keys(c);
+            function f(n) {
+                for(var r = 1; r < arguments.length; r++){
+                    var e = arguments[r] != null ? arguments[r] : {};
+                    var t = Object.keys(e);
                     if (typeof Object.getOwnPropertySymbols === "function") {
-                        d = d.concat(Object.getOwnPropertySymbols(c).filter(function(a) {
-                            return Object.getOwnPropertyDescriptor(c, a).enumerable;
+                        t = t.concat(Object.getOwnPropertySymbols(e).filter(function(n) {
+                            return Object.getOwnPropertyDescriptor(e, n).enumerable;
                         }));
                     }
-                    d.forEach(function(b) {
-                        g(a, b, c[b]);
+                    t.forEach(function(r) {
+                        o(n, r, e[r]);
                     });
                 }
-                return a;
+                return n;
             }
-            function i(a) {
-                return (0, d.jsx)(f.Z, h({}, a));
+            function i(n) {
+                return (0, t.jsx)(a.Z, f({}, n));
             }
-            var j = i;
-            function k() {
-                var a = (0, e.useState)(""), b = a[0], c = a[1];
-                var f = (0, e.useCallback)(function(a) {
-                    c(a.target.value);
+            var c = i;
+            function v() {
+                var n = (0, u.useState)(""), r = n[0], e = n[1];
+                var a = (0, u.useCallback)(function(n) {
+                    e(n.target.value);
                 }, []);
-                return (0, d.jsx)(j, {
-                    onChange: f,
-                    value: b
+                return (0, t.jsx)(c, {
+                    onChange: a,
+                    value: r
                 });
             }
         }
     },
-    function(a) {
-        var b = function(b) {
-            return a((a.s = b));
+    function(n) {
+        var r = function(r) {
+            return n((n.s = r));
         };
-        a.O(0, [
+        n.O(0, [
             774,
             888,
             179
         ], function() {
-            return b(2809);
+            return r(2809);
         });
-        var c = a.O();
-        _N_E = c;
+        var e = n.O();
+        _N_E = e;
     }, 
 ]);

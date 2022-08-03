@@ -1,6 +1,6 @@
 function a(a) {
-    const { a: b , b: c  } = a;
-    console.log(c);
+    const { a: n , b: o  } = a;
+    console.log(o);
 }
 a({
     a: 1,
@@ -8,9 +8,9 @@ a({
 });
 a({
     get a () {
-        var b = "side effect";
-        console.log(b);
-        return b;
+        var n = "side effect";
+        console.log(n);
+        return n;
     },
     b: 4
 });

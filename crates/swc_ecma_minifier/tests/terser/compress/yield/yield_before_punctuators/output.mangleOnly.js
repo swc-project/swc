@@ -1,17 +1,17 @@
 iter = (function*() {
     assignmentResult = [x = yield] = value;
 })();
-function* a() {
+function* i() {
     yield;
 }
-function* b() {
+function* n() {
     [
         yield
     ];
 }
-function* c() {
+function* d() {
     yield, yield;
 }
-function* d() {
+function* e() {
     (yield) ? yield : yield;
 }

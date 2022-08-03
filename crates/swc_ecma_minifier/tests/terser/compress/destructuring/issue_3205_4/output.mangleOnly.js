@@ -1,9 +1,9 @@
 (function() {
-    function a(a) {
-        var { a: b  } = a;
-        console.log(b);
+    function n(n) {
+        var { a: a  } = n;
+        console.log(a);
     }
-    a({
+    n({
         a: "PASS"
     });
 })();

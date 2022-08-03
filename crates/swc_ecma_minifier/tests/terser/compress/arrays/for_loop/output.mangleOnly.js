@@ -1,30 +1,30 @@
-function a() {
-    var a = [
+function r() {
+    var r = [
         1,
         2,
         3
     ];
-    var b = 0;
-    for(var c = 0; c < a.length; c++)b += a[c];
-    return b;
+    var n = 0;
+    for(var t = 0; t < r.length; t++)n += r[t];
+    return n;
 }
-function b() {
-    var a = [
+function n() {
+    var r = [
         1,
         2,
         3
     ];
-    var b = 0;
-    for(var c = 0, d = a.length; c < d; c++)b += a[c];
-    return b;
+    var n = 0;
+    for(var t = 0, a = r.length; t < a; t++)n += r[t];
+    return n;
 }
-function c() {
-    var a = [
+function t() {
+    var r = [
         1,
         2,
         3
     ];
-    for(var b = 0; b < a.length; b++)a[b]++;
-    return a[2];
+    for(var n = 0; n < r.length; n++)r[n]++;
+    return r[2];
 }
-console.log(a(), b(), c());
+console.log(r(), n(), t());

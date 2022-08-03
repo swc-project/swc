@@ -1,4 +1,4 @@
-var a = [
+var o = [
     0,
     1,
     NaN,
@@ -11,8 +11,8 @@ var a = [
     "foo",
     /foo/
 ];
-a.forEach(function(b) {
-    a.forEach(function(a) {
-        console.log(+(b * a), +(b / a), +(b % a), -(b * a), -(b / a), -(b % a));
+o.forEach(function(f) {
+    o.forEach(function(o) {
+        console.log(+(f * o), +(f / o), +(f % o), -(f * o), -(f / o), -(f % o));
     });
 });

@@ -1,6 +1,6 @@
-let a;
-let b = 4;
-({ [5 + 2 - b]: a  } = {
+let l;
+let e = 4;
+({ [5 + 2 - e]: l  } = {
     [1 + 2]: 42
 });
-console.log(a);
+console.log(l);

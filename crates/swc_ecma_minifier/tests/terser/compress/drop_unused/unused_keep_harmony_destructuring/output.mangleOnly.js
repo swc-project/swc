@@ -1,4 +1,4 @@
 function a() {
-    var { x: b , y: c  } = a;
-    var d = a;
+    var { x: n , y: r  } = a;
+    var v = a;
 }

@@ -1,13 +1,13 @@
 export const obj = {
-    ready: function(a) {
-        if (a === true ? --jQuery.readyWait : jQuery.isReady) {
+    ready: function(r) {
+        if (r === true ? --jQuery.readyWait : jQuery.isReady) {
             return;
         }
         if (!document.body) {
             return setTimeout(jQuery.ready);
         }
         jQuery.isReady = true;
-        if (a !== true && --jQuery.readyWait > 0) {
+        if (r !== true && --jQuery.readyWait > 0) {
             return;
         }
         readyList.resolveWith(document, [

@@ -1,7 +1,7 @@
-function a({ w: a = console.log("side effect") , x: b , y: c  }) {
-    console.log(b);
+function o({ w: o = console.log("side effect") , x: g , y: l  }) {
+    console.log(g);
 }
-a({
+o({
     x: 1,
     y: 2,
     z: 3

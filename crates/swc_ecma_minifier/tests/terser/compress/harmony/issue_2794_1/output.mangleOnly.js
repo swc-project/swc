@@ -1,17 +1,17 @@
-function a() {
-    for (const a of d(c)){
-        console.log(a);
+function n() {
+    for (const n of c(t)){
+        console.log(n);
     }
-    function d(a) {
-        return b(a);
+    function c(n) {
+        return o(n);
     }
 }
-function b(a) {
+function o(n) {
     return [
-        a,
-        2 * a,
-        3 * a
+        n,
+        2 * n,
+        3 * n
     ];
 }
-const c = 10;
-a();
+const t = 10;
+n();

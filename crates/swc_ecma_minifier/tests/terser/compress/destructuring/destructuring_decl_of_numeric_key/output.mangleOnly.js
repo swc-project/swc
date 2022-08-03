@@ -1,4 +1,4 @@
-let { 3: a  } = {
+let { 3: l  } = {
     [1 + 2]: 42
 };
-console.log(a);
+console.log(l);

@@ -1,5 +1,5 @@
-(function(...a) {
-    console.log(...a);
+(function(...l) {
+    console.log(...l);
 }.call(console, 1, ...[
     2,
     3

@@ -1,15 +1,15 @@
-import { MS as a, MOZ as b, WEBKIT as c } from "./Enum.js.js";
-import { strlen as d, indexof as e, replace as f } from "./Utility.js.js";
-function g(a, b) {
-    return a.charCodeAt(b) | 0;
+import { MS as e, MOZ as s, WEBKIT as a } from "./Enum.js.js";
+import { strlen as c, indexof as r, replace as t } from "./Utility.js.js";
+function _(e, s) {
+    return e.charCodeAt(s) | 0;
 }
-export function prefix(h, i) {
-    function j(a, b) {
-        return ((((((((b << 2) ^ g(a, 0)) << 2) ^ g(a, 1)) << 2) ^ g(a, 2)) << 2) ^ g(a, 3));
+export function prefix(n, u) {
+    function $(e, s) {
+        return ((((((((s << 2) ^ _(e, 0)) << 2) ^ _(e, 1)) << 2) ^ _(e, 2)) << 2) ^ _(e, 3));
     }
-    switch(j(h, i)){
+    switch($(n, u)){
         case 5103:
-            return c + "print-" + h + h;
+            return a + "print-" + n + n;
         case 5737:
         case 4201:
         case 3177:
@@ -35,44 +35,44 @@ export function prefix(h, i) {
         case 5365:
         case 5621:
         case 3829:
-            return c + h + h;
+            return a + n + n;
         case 5349:
         case 4246:
         case 4810:
         case 6968:
         case 2756:
-            return c + h + b + h + a + h + h;
+            return a + n + s + n + e + n + n;
         case 6828:
         case 4268:
-            return c + h + a + h + h;
+            return a + n + e + n + n;
         case 6165:
-            return c + h + a + "flex-" + h + h;
+            return a + n + e + "flex-" + n + n;
         case 5187:
-            return (c + h + f(h, /(\w+).+(:[^]+)/, c + "box-$1$2" + a + "flex-$1$2") + h);
+            return (a + n + t(n, /(\w+).+(:[^]+)/, a + "box-$1$2" + e + "flex-$1$2") + n);
         case 5443:
-            return (c + h + a + "flex-item-" + f(h, /flex-|-self/, "") + h);
+            return (a + n + e + "flex-item-" + t(n, /flex-|-self/, "") + n);
         case 4675:
-            return (c + h + a + "flex-line-pack" + f(h, /align-content|flex-|-self/, "") + h);
+            return (a + n + e + "flex-line-pack" + t(n, /align-content|flex-|-self/, "") + n);
         case 5548:
-            return (c + h + a + f(h, "shrink", "negative") + h);
+            return (a + n + e + t(n, "shrink", "negative") + n);
         case 5292:
-            return (c + h + a + f(h, "basis", "preferred-size") + h);
+            return (a + n + e + t(n, "basis", "preferred-size") + n);
         case 6060:
-            return (c + "box-" + f(h, "-grow", "") + c + h + a + f(h, "grow", "positive") + h);
+            return (a + "box-" + t(n, "-grow", "") + a + n + e + t(n, "grow", "positive") + n);
         case 4554:
-            return (c + f(h, /([^-])(transform)/g, "$1" + c + "$2") + h);
+            return (a + t(n, /([^-])(transform)/g, "$1" + a + "$2") + n);
         case 6187:
-            return (f(f(f(h, /(zoom-|grab)/, c + "$1"), /(image-set)/, c + "$1"), h, "") + h);
+            return (t(t(t(n, /(zoom-|grab)/, a + "$1"), /(image-set)/, a + "$1"), n, "") + n);
         case 5495:
         case 3959:
-            return f(h, /(image-set\([^]*)/, c + "$1" + "$`$1");
+            return t(n, /(image-set\([^]*)/, a + "$1" + "$`$1");
         case 4968:
-            return (f(f(h, /(.+:)(flex-)?(.*)/, c + "box-pack:$3" + a + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + c + h + h);
+            return (t(t(n, /(.+:)(flex-)?(.*)/, a + "box-pack:$3" + e + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + a + n + n);
         case 4095:
         case 3583:
         case 4068:
         case 2532:
-            return f(h, /(.+)-inline(.+)/, c + "$1$2") + h;
+            return t(n, /(.+)-inline(.+)/, a + "$1$2") + n;
         case 8116:
         case 7059:
         case 5753:
@@ -85,35 +85,35 @@ export function prefix(h, i) {
         case 5789:
         case 5021:
         case 4765:
-            if (d(h) - 1 - i > 6) switch(g(h, i + 1)){
+            if (c(n) - 1 - u > 6) switch(_(n, u + 1)){
                 case 109:
-                    if (g(h, i + 4) !== 45) break;
+                    if (_(n, u + 4) !== 45) break;
                 case 102:
-                    return (f(h, /(.+:)(.+)-([^]+)/, "$1" + c + "$2-$3" + "$1" + b + (g(h, i + 3) == 108 ? "$3" : "$2-$3")) + h);
+                    return (t(n, /(.+:)(.+)-([^]+)/, "$1" + a + "$2-$3" + "$1" + s + (_(n, u + 3) == 108 ? "$3" : "$2-$3")) + n);
                 case 115:
-                    return ~e(h, "stretch") ? prefix(f(h, "stretch", "fill-available"), i) + h : h;
+                    return ~r(n, "stretch") ? prefix(t(n, "stretch", "fill-available"), u) + n : n;
             }
             break;
         case 4949:
-            if (g(h, i + 1) !== 115) break;
+            if (_(n, u + 1) !== 115) break;
         case 6444:
-            switch(g(h, d(h) - 3 - (~e(h, "!important") && 10))){
+            switch(_(n, c(n) - 3 - (~r(n, "!important") && 10))){
                 case 107:
-                    return f(h, ":", ":" + c) + h;
+                    return t(n, ":", ":" + a) + n;
                 case 101:
-                    return (f(h, /(.+:)([^;!]+)(;|!.+)?/, "$1" + c + (g(h, 14) === 45 ? "inline-" : "") + "box$3" + "$1" + c + "$2$3" + "$1" + a + "$2box$3") + h);
+                    return (t(n, /(.+:)([^;!]+)(;|!.+)?/, "$1" + a + (_(n, 14) === 45 ? "inline-" : "") + "box$3" + "$1" + a + "$2$3" + "$1" + e + "$2box$3") + n);
             }
             break;
         case 5936:
-            switch(g(h, i + 11)){
+            switch(_(n, u + 11)){
                 case 114:
-                    return (c + h + a + f(h, /[svh]\w+-[tblr]{2}/, "tb") + h);
+                    return (a + n + e + t(n, /[svh]\w+-[tblr]{2}/, "tb") + n);
                 case 108:
-                    return (c + h + a + f(h, /[svh]\w+-[tblr]{2}/, "tb-rl") + h);
+                    return (a + n + e + t(n, /[svh]\w+-[tblr]{2}/, "tb-rl") + n);
                 case 45:
-                    return (c + h + a + f(h, /[svh]\w+-[tblr]{2}/, "lr") + h);
+                    return (a + n + e + t(n, /[svh]\w+-[tblr]{2}/, "lr") + n);
             }
-            return c + h + a + h + h;
+            return a + n + e + n + n;
     }
-    return h;
+    return n;
 }

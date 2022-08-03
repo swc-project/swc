@@ -1,8 +1,8 @@
 (function() {
-    function a(a, { a: b  } = a) {
-        console.log(b);
+    function n(n, { a: o  } = n) {
+        console.log(o);
     }
-    a({
+    n({
         a: "PASS"
     });
 })();

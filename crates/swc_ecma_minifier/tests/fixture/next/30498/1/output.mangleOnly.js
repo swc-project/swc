@@ -1,26 +1,26 @@
-function a() {
-    return new b();
+function e() {
+    return new t();
 }
-class b extends BaseSchema {
-    matches(a, b) {
-        let c = false;
-        let d;
-        let e;
-        if (b) {
-            if (typeof b === "object") {
-                ({ excludeEmptyString: c = false , message: d , name: e  } = b);
+class t extends BaseSchema {
+    matches(e, t) {
+        let s = false;
+        let a;
+        let r;
+        if (t) {
+            if (typeof t === "object") {
+                ({ excludeEmptyString: s = false , message: a , name: r  } = t);
             } else {
-                d = b;
+                a = t;
             }
         }
         return this.test({
-            name: e || "matches",
-            message: d || string.matches,
+            name: r || "matches",
+            message: a || string.matches,
             params: {
-                regex: a
+                regex: e
             },
-            test: (b)=>isAbsent(b) || (b === "" && c) || b.search(a) !== -1
+            test: (t)=>isAbsent(t) || (t === "" && s) || t.search(e) !== -1
         });
     }
 }
-a.prototype = b.prototype;
+e.prototype = t.prototype;

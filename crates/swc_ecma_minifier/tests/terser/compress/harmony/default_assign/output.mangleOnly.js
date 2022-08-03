@@ -1,13 +1,13 @@
-function a(a, c = 3) {
-    console.log(a);
+function n(n, o = 3) {
+    console.log(n);
 }
 g = ([[] = 123])=>{};
-h = ([[a, c, d] = [
+h = ([[n, o, c] = [
     4,
     5,
     6
 ]] = [])=>{};
-function c([[a, c, d] = [
+function o([[n, o, c] = [
     4,
     5,
     6

@@ -1,3 +1,3 @@
-const [{ a  }, b] = c;
-let [{ d  }, e] = f;
-var [{ g  }, h] = i;
+const [{ a: t  }, a] = c;
+let [{ d: e  }, l] = f;
+var [{ g: n  }, o] = i;

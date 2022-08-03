@@ -1,3 +1,3 @@
 var {} = Object;
-let { L: a  } = Object, b = "foo";
-const c = "bar", { prop: d , C2: e = console.log("side effect") , C3: f  } = Object;
+let { L: o  } = Object, l = "foo";
+const p = "bar", { prop: r , C2: t = console.log("side effect") , C3: C  } = Object;

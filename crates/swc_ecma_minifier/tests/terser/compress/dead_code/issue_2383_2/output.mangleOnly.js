@@ -1,5 +1,5 @@
 if (0) {
-    var { x: a = 0 , y: [b, , { z: c , p: d = 7  }] = [
+    var { x: z = 0 , y: [$, , { z: a , p: f = 7  }] = [
         1,
         2,
         {
@@ -7,4 +7,4 @@ if (0) {
         }
     ]  } = {};
 }
-console.log(a, d, b, c);
+console.log(z, f, $, a);

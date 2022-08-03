@@ -1,4 +1,4 @@
-for (let a of ([
+for (let o of ([
     1,
     2
 ], [
@@ -6,5 +6,5 @@ for (let a of ([
     4,
     5
 ])){
-    console.log(a);
+    console.log(o);
 }
