@@ -28,7 +28,7 @@ serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 swc_core = { version = "0.2.0", path = "../swc_core", features = [
   "trace_macro",
-  "common",
+  "common_concurrent",
   "base",
 ] }
 tracing = "0.1.32"

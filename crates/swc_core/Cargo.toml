@@ -57,6 +57,12 @@ utils = ["__utils"]
 # Enable swc_ecma_transforms base features
 transforms = ["__transforms"]
 
+# Enable swc_bundler
+bundler = ["swc_bundler"]
+
+# Enable swc_ecma_loader
+loader = ["swc_ecma_loader"]
+
 # Enable swc_ecma_ast / swc_atoms support.
 # TODO: currently both are enabled at once, we may want to separate them.
 ast = ["swc_ecma_ast", "swc_atoms"]
@@ -155,13 +161,16 @@ wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 # swc_* dependencies
 swc                 = { optional = true, version = "0.212.3", path = "../swc" }
 swc_atoms           = { optional = true, version = "0.3.1", path = "../swc_atoms" }
+swc_bundler         = { optional = true, version = "0.175.0", path = "../swc_bundler" }
 swc_common          = { optional = true, version = "0.26.0", path = "../swc_common" }
 swc_ecma_ast        = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
+swc_ecma_loader     = { optional = true, version = "0.38.0", path = "../swc_ecma_loader" }
+swc_ecma_parser     = { optional = true, version = "0.116.0", path = "../swc_ecma_parser" }
 swc_ecma_quote      = { optional = true, version = "0.30.0", path = "../swc_ecma_quote" }
 swc_ecma_transforms = { optional = true, version = "0.181.0", path = "../swc_ecma_transforms" }
 swc_ecma_utils      = { optional = true, version = "0.98.0", path = "../swc_ecma_utils" }
 swc_ecma_visit      = { optional = true, version = "0.75.0", path = "../swc_ecma_visit" }
-swc_node_base       = { optional = true, verion = "0.5.5", path = "../swc_node_base" }
+swc_node_base       = { optional = true, version = "0.5.5", path = "../swc_node_base" }
 swc_plugin          = { optional = true, version = "0.89.0", path = "../swc_plugin" }
 swc_plugin_macro    = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
 swc_plugin_proxy    = { optional = true, version = "0.17.0", path = "../swc_plugin_proxy" }

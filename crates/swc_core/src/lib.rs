@@ -69,6 +69,20 @@ pub mod transforms {
     pub use swc_ecma_transforms::*;
 }
 
+// swc_bundler
+#[cfg(any(docsrs, feature = "bundler"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "bundler")))]
+pub mod bundler {
+    pub use swc_bundler::*;
+}
+
+// swc_ecma_loader
+#[cfg(any(docsrs, feature = "loader"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "loader")))]
+pub mod loader {
+    pub use swc_ecma_loader::*;
+}
+
 #[cfg(any(docsrs, feature = "allocator_node"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;
