@@ -84,7 +84,7 @@ impl CharFreq {
         // Subtract
         p.visit_with(&mut CharFreqAnalyzer {
             freq: &mut freq,
-            preserverd,
+            preserved,
         });
 
         freq
@@ -122,20 +122,25 @@ impl CharFreq {
 
 struct CharFreqAnalyzer<'a> {
     freq: &'a mut CharFreq,
-    preserverd: &'a FxHashSet<Id>,
+    preserved: &'a FxHashSet<Id>,
 }
 
-impl Visit for CharFreqAnalyzer {
+impl Visit for CharFreqAnalyzer<'_> {
     noop_visit_type!();
 
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        self.scan(&i.sym, -1);
+        // It's not mangled
+        if self.preserved.contains(&i.to_id()) {
+            return;
+        }
+
+        self.freq.scan(&i.sym, -1);
     }
 
     fn visit_str(&mut self, s: &Str) {
-        self.scan(&s.value, -1);
+        self.freq.scan(&s.value, -1);
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
