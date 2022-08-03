@@ -1,3 +1,4 @@
+use rustc_hash::FxHashSet;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, StmtLike};
@@ -144,6 +145,22 @@ impl Pure<'_> {
         drop_invalid_stmts(&mut new);
 
         *stmts = new;
+    }
+
+    /// TypeScript namespace results in lots of `var ts` declarations.
+    pub(super) fn remove_duplicate_vars(&mut self, vars: &mut Vec<VarDeclarator>) {
+        let mut found = FxHashSet::default();
+
+        vars.retain(|v| {
+            if v.init.is_some() {
+                return true;
+            }
+
+            match &v.name {
+                Pat::Ident(i) => found.insert(i.to_id()),
+                _ => true,
+            }
+        })
     }
 
     /// Collapse single-use non-constant variables, side effects permitting.

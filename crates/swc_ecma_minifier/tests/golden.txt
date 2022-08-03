@@ -554,6 +554,7 @@ functions/issue_1841_1/input.js
 functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
+functions/issue_2531_2/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js
@@ -639,6 +640,8 @@ hoist_props/direct_access_2/input.js
 hoist_props/direct_access_3/input.js
 hoist_props/does_not_hoist_objects_with_computed_props/input.js
 hoist_props/hoist_function_with_call/input.js
+hoist_props/issue_2377_1/input.js
+hoist_props/issue_2377_3/input.js
 hoist_props/issue_2462/input.js
 hoist_props/issue_2473_1/input.js
 hoist_props/issue_2473_2/input.js
@@ -1034,6 +1037,8 @@ properties/native_prototype_lhs/input.js
 pure_funcs/array/input.js
 pure_funcs/assign/input.js
 pure_funcs/babel/input.js
+pure_funcs/issue_2705_1/input.js
+pure_funcs/issue_2705_6/input.js
 pure_funcs/issue_3065_1/input.js
 pure_funcs/issue_3065_2/input.js
 pure_funcs/issue_3065_3/input.js
@@ -1093,6 +1098,7 @@ reduce_vars/defun_assign/input.js
 reduce_vars/defun_call/input.js
 reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
+reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_single_use_loop/input.js
 reduce_vars/defun_var_3/input.js
 reduce_vars/delay_def_lhs/input.js

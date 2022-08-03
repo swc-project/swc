@@ -233,7 +233,6 @@ functions/issue_2114_2/input.js
 functions/issue_2428/input.js
 functions/issue_2476/input.js
 functions/issue_2531_1/input.js
-functions/issue_2531_2/input.js
 functions/issue_2531_3/input.js
 functions/issue_2601_1/input.js
 functions/issue_2601_2/input.js
@@ -546,12 +545,10 @@ pure_funcs/issue_2629_3/input.js
 pure_funcs/issue_2629_4/input.js
 pure_funcs/issue_2629_5/input.js
 pure_funcs/issue_2638/input.js
-pure_funcs/issue_2705_1/input.js
 pure_funcs/issue_2705_2/input.js
 pure_funcs/issue_2705_3/input.js
 pure_funcs/issue_2705_4/input.js
 pure_funcs/issue_2705_5/input.js
-pure_funcs/issue_2705_6/input.js
 pure_funcs/issue_3065_2b/input.js
 pure_funcs/issue_526_1/input.js
 pure_funcs/relational/input.js
@@ -581,7 +578,6 @@ reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
 reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
-reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_label/input.js
 reduce_vars/defun_redefine/input.js
 reduce_vars/defun_reference/input.js
