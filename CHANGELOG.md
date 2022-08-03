@@ -5,6 +5,9 @@
 
 
 
+- **(es/fixer)** Don't insert extra paren when left of `BinExpr` is `UpdateExpr` (#5376) ([77497e4](https://github.com/swc-project/swc/commit/77497e4fbe9bf10c5ffd510e932a6ff404da1760))
+
+
 - **(es/lints)** Ignore TS module declare blocks (#5363) ([daaa8b5](https://github.com/swc-project/swc/commit/daaa8b5c4a86cf39ab34bc46b239719fab8b9916))
 
 
