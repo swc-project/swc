@@ -11,8 +11,10 @@ use swc::{
     config::{ErrorFormat, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
-use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
-use swc_ecmascript::ast::{EsVersion, Program};
+use swc_core::{
+    ast::{EsVersion, Program},
+    common::{comments::Comments, FileName, FilePathMapping, SourceMap},
+};
 use wasm_bindgen::{prelude::*, JsCast};
 use wasm_bindgen_futures::{future_to_promise, spawn_local, JsFuture};
 
@@ -237,7 +239,7 @@ pub fn transform_sync(
                 .try_into()
                 .expect("Resolver should be a js object");
 
-            swc_plugin_runner::cache::init_plugin_module_cache_once();
+            swc_core::plugin_runner::cache::init_plugin_module_cache_once();
 
             let entries = Object::entries(&plugin_bytes_resolver_object);
             for entry in entries.iter() {
@@ -265,7 +267,7 @@ pub fn transform_sync(
                 // In here we 'inject' externally loaded bytes into the cache, so
                 // remaining plugin_runner execution path works as much as
                 // similar between embedded runtime.
-                swc_plugin_runner::cache::PLUGIN_MODULE_CACHE.store_once(&name, bytes);
+                swc_core::plugin_runner::cache::PLUGIN_MODULE_CACHE.store_once(&name, bytes);
             }
         }
     }

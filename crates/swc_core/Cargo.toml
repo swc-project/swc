@@ -11,28 +11,64 @@ version = "0.1.1"
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
+
 [features]
 ### Public features
 ### Users should opt in necessary features explicitly
 
+## Flags to opt into certain optimizations. In most cases this won't expose new interfaces,
+## but changes internal logics to perform differently. These flag should be turned on in combination with
+## actual features. Refer build.rs for more details.
+perf = ["swc_common/perf"]
+
 ## General
+# Enable swc_common reexports.
+#
+# In most cases, top-level features (i.e plugin, or plugin_host) will include this, so no need to
+# explicitly opt in. However, if top-level feature should be controlled by feature as opt-in
+# and some other dependent feature need this, can be manually selected.
+# refer binding_core_wasm for example: it has plugin_transform_host feature, but
+# it has to be a feature to be enabled by compile time flag to avoid cargo's feature collision,
+# while it also need to access 'common' exports by default for cargo check / or clippy.
+common = ["swc_common"]
+
 # Enable `quote!` macro support.
 quote = ["swc_ecma_quote"]
 
+# Enable swc_ecma_ast / swc_atoms support.
+# TODO: currently both are enabled at once, we may want to separate them.
+ast = ["swc_ecma_ast", "swc_atoms"]
+
+# Enable trace macro support.
+# TODO: Once all top-level package (node, wasm, cli..) imports swc_core,
+# we may encapsulate `tracing` package into swc_core.
+trace_macro = ["swc_trace_macro"]
+
 ## Plugins
 # Top level features should be enabled to write plugins for the custom transform.
-plugin_transform = [
+plugin_transform = ["__plugin_transform", "__plugin_transform_schema_v1"]
+
+# Host features to enable plugin `runner` runtime.
+# native feature is for the host environment does not have, or cannot access
+# to the wasm runtime (i.e cli, or @swc/core node bindings).
+# js feature is for the environment can access wasm runtime (i.e @swc/wasm)
+plugin_transform_host_native = [
   # Dependent features
-  "__plugin_transform",
-  "__common",
-  "__ast",
-  "__visit",
-  "__plugin_transform_schema_v1", # Enable optional packages
-  "swc_common/plugin-mode",
-  "swc_plugin_proxy/plugin-mode",
-  "swc_plugin_macro",
-  "swc_plugin",
-  "once_cell",
+  "__plugin_transform_host",
+  "__plugin_transform_host_schema_v1",
+  # Enable optional packages
+  "swc_plugin_runner/filesystem_cache",
+  "wasmer/default",
+  "wasmer-wasi/default",
+]
+plugin_transform_host_js = [
+  # Dependent features
+  "__plugin_transform_host",
+  "__plugin_transform_host_schema_v1",
+  # Enable optional packages
+  "swc_plugin_runner/memory_cache",
+  "wasmer/js-default",
+  "wasmer-wasi/js-default",
 ]
 
 ### Internal features that public features are relying on.
@@ -44,24 +80,28 @@ plugin_transform = [
 # SWC upstream decides which version to be used for specific version of
 # swc_core.
 __plugin_transform_schema_v1 = ["swc_common/plugin_transform_schema_v1"]
+__plugin_transform_host_schema_v1 = [
+  "__plugin_transform_schema_v1",
+  "swc_plugin_runner/plugin_transform_schema_v1",
+]
 
 # Do not use: testing purpose only
 __plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
+__plugin_transform_host_schema_vtest = [
+  "__plugin_transform_schema_vtest",
+  "swc_plugin_runner/plugin_transform_schema_vtest",
+]
 
 ## Plugins
 
 # Internal flags for any transform plugin feature
-__plugin_transform = []
-
-# Do not use: testing purpose only
-# Force enable different version of AST schema
-__plugin_transform_schema_test = [
+__plugin_transform = [
   # Dependent features
-  "__plugin_transform",
-  "__common",
-  "__ast",
   "__visit",
-  "__plugin_transform_schema_vtest", # Enable optional packages
+  "common",
+  "ast",
+  # Enable optional packages
+  "swc_ecma_ast/rkyv-impl",
   "swc_common/plugin-mode",
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
@@ -69,21 +109,34 @@ __plugin_transform_schema_test = [
   "once_cell",
 ]
 
-## Common
-__common = ["swc_common"]
+# Internal flags for any transform plugin host feature
+__plugin_transform_host = ["common"]
 
-## TODO: Should this be public?
-## AST
-__ast = ["swc_ecma_ast/rkyv-impl", "swc_atoms"]
+# Do not use: testing purpose only
+# Force enable different version of AST schema
+__plugin_transform_schema_test = [
+  "__plugin_transform",
+  "__plugin_transform_schema_vtest",
+]
+
+## Common
 __visit = ["swc_ecma_visit"]
 
 [dependencies]
+# 3rd party dependencies
 once_cell = { optional = true, version = "1.13.0" }
+wasmer = { optional = true, version = "2.3.0", default-features = false }
+wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
+
+# swc_* dependencies
 swc_atoms = { optional = true, version = "0.3.1", path = "../swc_atoms" }
 swc_common = { optional = true, version = "0.26.0", path = "../swc_common" }
 swc_ecma_ast = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
 swc_ecma_quote = { optional = true, version = "0.30.0", path = "../swc_ecma_quote" }
 swc_ecma_visit = { optional = true, version = "0.75.0", path = "../swc_ecma_visit" }
-swc_plugin = { optional = true, version = "0.88.2", path = "../swc_plugin" }
+swc_plugin = { optional = true, version = "0.89.0", path = "../swc_plugin" }
 swc_plugin_macro = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
 swc_plugin_proxy = { optional = true, version = "0.17.0", path = "../swc_plugin_proxy" }
+swc_trace_macro = { optional = true, version = "0.1.0", path = "../swc_trace_macro" }
+# TODO: eventually swc_plugin_runner needs to remove default features
+swc_plugin_runner = { optional = true, version = "0.70.0", path = "../swc_plugin_runner", default-features = false }

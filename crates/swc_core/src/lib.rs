@@ -13,13 +13,18 @@ pub mod quote {
 pub mod plugin;
 
 // ast exposed via swc_ecma_ast
+#[cfg(any(docsrs, feature = "ast"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "ast")))]
+pub mod ast {
+    pub use swc_ecma_ast::*;
+}
+
 // TODO: Can dependency tree simplified
 // by swc_ecma_ast reexports swc_atoms?
-#[cfg(any(docsrs, feature = "__ast"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "__ast")))]
-pub mod ast {
+#[cfg(any(docsrs, feature = "ast"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "ast")))]
+pub mod atoms {
     pub use swc_atoms::*;
-    pub use swc_ecma_ast::*;
 }
 
 // visit* interfaces
@@ -30,8 +35,22 @@ pub mod visit {
 }
 
 // swc_common features
-#[cfg(any(docsrs, feature = "__common"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "__common")))]
+#[cfg(any(docsrs, feature = "common"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "common")))]
 pub mod common {
     pub use swc_common::*;
+}
+
+// swc_plugin_runner
+#[cfg(any(docsrs, feature = "__plugin_transform_host"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__plugin_transform_host")))]
+pub mod plugin_runner {
+    pub use swc_plugin_runner::*;
+}
+
+// swc_trace_macro
+#[cfg(any(docsrs, feature = "trace_macro"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "trace_macro")))]
+pub mod trace_macro {
+    pub use swc_trace_macro::*;
 }
