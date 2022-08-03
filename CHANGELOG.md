@@ -25,6 +25,12 @@
 
 - **(swc_core)** Introduce package (#5364) ([27b464d](https://github.com/swc-project/swc/commit/27b464d90a410b5fb6dca438442e1e8669a28e32))
 
+
+- **(swc_core)** Expand features and use it from wasm and cli (#5369) ([8b9dd6f](https://github.com/swc-project/swc/commit/8b9dd6f026e13fa850a7adcca52e285d874d4390))
+
+### Miscellaneous Tasks
+- **general**: Update toml formatting (#5368) ([12fd737](https://github.com/swc-project/swc/commit/12fd7373265df570aa129ce8c92ce5953db79254))
+
 ## [1.2.222] - 2022-08-01
 
 ### Bug Fixes
