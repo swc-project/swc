@@ -1,15 +1,15 @@
-(function(a, b) {
-    console.log(a, b);
+(function(l, n) {
+    console.log(l, n);
 }.apply("foo", [
     "bar"
 ]));
-(function(a, b) {
-    console.log(this, a, b);
+(function(l, n) {
+    console.log(this, l, n);
 }.apply("foo", [
     "bar"
 ]));
-(function(a, b) {
-    console.log(a, b);
+(function(l, n) {
+    console.log(l, n);
 }.apply("foo", [
     "bar"
 ], "baz"));

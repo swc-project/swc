@@ -1,5 +1,5 @@
-function a() {
-    function a() {
+function n() {
+    function n() {
         return "foobar";
     }
 }

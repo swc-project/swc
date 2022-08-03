@@ -1,3 +1,3 @@
-function a() {}
+function n() {}
 console.log("foo");
-function b() {}
+function o() {}

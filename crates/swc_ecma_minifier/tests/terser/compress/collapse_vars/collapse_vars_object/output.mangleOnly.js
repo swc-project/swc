@@ -1,38 +1,38 @@
-function a(a, b) {
-    var c = a + b;
+function r(r, n) {
+    var t = r + n;
     return {
         get b () {
             return 7;
         },
-        r: c
+        r: t
     };
 }
-function b(a, b) {
-    var c = a + b;
+function n(r, n) {
+    var t = r + n;
     return {
-        r: c,
+        r: t,
         get b () {
             return 7;
         }
     };
 }
-function c(a, b) {
-    var c = a + b;
-    var d = a - b;
+function t(r, n) {
+    var t = r + n;
+    var u = r - n;
     return {
-        q: d,
-        r: g(a),
-        s: c
+        q: u,
+        r: g(r),
+        s: t
     };
 }
-function d(a, b) {
-    var c = f(a + b);
+function u(r, n) {
+    var t = f(r + n);
     return [
         {
             a: {
-                q: a,
-                r: b,
-                s: c
+                q: r,
+                r: n,
+                s: t
             },
             b: g()
         }

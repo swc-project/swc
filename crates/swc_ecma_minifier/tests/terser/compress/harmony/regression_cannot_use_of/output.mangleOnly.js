@@ -1,6 +1,6 @@
-function a() {}
-var a = "is a valid variable name";
-a = {
+function f() {}
+var f = "is a valid variable name";
+f = {
     of: "is ok"
 };
 x.of;

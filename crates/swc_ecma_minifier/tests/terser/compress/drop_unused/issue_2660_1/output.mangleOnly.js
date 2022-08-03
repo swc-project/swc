@@ -1,6 +1,6 @@
-var a = 2;
-function b(c) {
-    return (c && b()) || a--;
+var n = 2;
+function r(o) {
+    return (o && r()) || n--;
 }
-b(1);
-console.log(a);
+r(1);
+console.log(n);

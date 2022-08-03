@@ -1,1 +1,1 @@
-import * as a from "lel";
+import * as m from "lel";

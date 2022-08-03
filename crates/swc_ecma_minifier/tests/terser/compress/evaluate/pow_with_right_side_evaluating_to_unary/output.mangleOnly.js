@@ -1,3 +1,3 @@
 var a = (4 - 7) ** foo;
-var b = (++bar) ** 3;
-var c = (--baz) ** 2;
+var r = (++bar) ** 3;
+var v = (--baz) ** 2;

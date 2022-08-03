@@ -1,31 +1,31 @@
-const a = "const1";
-const b = "const2";
-function c() {
-    const [c, d] = useState(undefined);
+const t = "const1";
+const n = "const2";
+function e() {
+    const [e, r] = useState(undefined);
     useEffect(()=>{
-        if (GLOBALS.get(a) && GLOBALS.get(b)) {
-            d(true);
+        if (GLOBALS.get(t) && GLOBALS.get(n)) {
+            r(true);
         } else {
-            d(false);
+            r(false);
         }
     }, []);
-    return c;
+    return e;
 }
-function d() {
-    const [a, b] = useState({});
+function r() {
+    const [t, n] = useState({});
     useEffect(()=>{
-        b(JSON.parse(GLOBALS.get(CONST1) || "{}"));
+        n(JSON.parse(GLOBALS.get(CONST1) || "{}"));
     }, []);
-    return a;
+    return t;
 }
 export function HeaderCTA() {
-    const a = d();
-    const b = c();
-    if (b === undefined) {
+    const t = r();
+    const n = e();
+    if (n === undefined) {
         return null;
     }
-    if (b) {
-        return use(a.field);
+    if (n) {
+        return use(t.field);
     }
     return pure();
 }

@@ -1,8 +1,8 @@
-var a, b;
-function c() {
+var r, a;
+function b() {
+    r = /bar/;
     a = /bar/;
-    b = /bar/;
     return /bar/;
 }
-var d = c();
-console.log(a === b, b === d, d === a);
+var n = b();
+console.log(r === a, a === n, n === r);

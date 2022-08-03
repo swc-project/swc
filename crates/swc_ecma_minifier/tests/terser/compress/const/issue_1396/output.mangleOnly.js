@@ -1,13 +1,13 @@
-function a(a) {
-    const b = 1;
-    console.log(2 | b);
-    console.log(b + 1);
-    console.log(b);
-    console.log(a & b);
+function o(o) {
+    const n = 1;
+    console.log(2 | n);
+    console.log(n + 1);
+    console.log(n);
+    console.log(o & n);
 }
-function b() {
-    const a = "01234567890123456789";
-    console.log(a + a + a + a + a);
-    const b = "abc";
-    console.log(b + b + b + b + b);
+function n() {
+    const o = "01234567890123456789";
+    console.log(o + o + o + o + o);
+    const n = "abc";
+    console.log(n + n + n + n + n);
 }

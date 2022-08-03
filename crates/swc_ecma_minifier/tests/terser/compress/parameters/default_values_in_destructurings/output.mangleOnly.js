@@ -1,4 +1,4 @@
-function a({ a =4 , b  }) {}
-function a([a, b = 12]) {}
-var { x: a = 6 , y: b  } = a;
-var [a, b = 6] = a;
+function n({ a: n = 4 , b: a  }) {}
+function n([n, a = 12]) {}
+var { x: n = 6 , y: a  } = n;
+var [n, a = 6] = n;

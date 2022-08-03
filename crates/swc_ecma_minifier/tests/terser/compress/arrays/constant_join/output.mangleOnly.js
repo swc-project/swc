@@ -1,46 +1,46 @@
-var a = [
+var n = [
     "foo",
     "bar",
     "baz"
 ].join("");
-var b = [
+var i = [
     "foo",
     "bar",
     "baz"
 ].join();
-var c = [
+var o = [
     "foo",
     "bar",
     "baz"
 ].join(null);
-var d = [
+var v = [
     "foo",
     "bar",
     "baz"
 ].join(void 0);
-var e = [
+var a = [
     "foo",
     ,
     "baz"
 ].join();
-var f = [
+var j = [
     "foo",
     null,
     "baz"
 ].join();
-var g = [
+var r = [
     "foo",
     void 0,
     "baz"
 ].join();
-var h = [
+var _ = [
     "foo",
     1,
     2,
     3,
     "bar"
 ].join("");
-var i = [
+var l = [
     boo(),
     "foo",
     1,
@@ -49,7 +49,7 @@ var i = [
     "bar",
     bar()
 ].join("");
-var j = [
+var u = [
     boo(),
     bar(),
     "foo",
@@ -59,14 +59,14 @@ var j = [
     "bar",
     bar()
 ].join("");
-var k = [
+var d = [
     1,
     2,
     "foo",
     "bar",
     baz()
 ].join("");
-var l = [
+var $ = [
     boo() + bar() + "foo",
     1,
     2,
@@ -74,7 +74,7 @@ var l = [
     "bar",
     bar() + "foo"
 ].join("");
-var m = [
+var b = [
     1,
     2,
     null,
@@ -83,7 +83,7 @@ var m = [
     "bar",
     baz()
 ].join("");
-var n = [
+var c = [
     boo() + bar() + "foo",
     1,
     2,
@@ -91,7 +91,7 @@ var n = [
     "bar",
     bar() + "foo"
 ].join();
-var o = [
+var e = [
     1,
     2,
     null,
@@ -100,11 +100,11 @@ var o = [
     "bar",
     baz()
 ].join();
-var p = [
+var f = [
     "foo",
     1 + 2 + "bar",
     "baz"
 ].join("-");
-var q = [].join(foo + bar);
-var r = [].join("");
-var s = [].join("foo");
+var g = [].join(foo + bar);
+var h = [].join("");
+var k = [].join("foo");

@@ -1,13 +1,13 @@
-var a = {
+var r = {
     get foo () {
         return 1;
     },
     bar: 2,
-    square: function(a) {
-        return a * a;
+    square: function(r) {
+        return r * r;
     },
-    cube: function(a) {
-        return a * a * a;
+    cube: function(r) {
+        return r * r * r;
     }
 };
-console.log(a.foo, a.bar, a.square(2), a.cube);
+console.log(r.foo, r.bar, r.square(2), r.cube);

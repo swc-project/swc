@@ -5,6 +5,6 @@
         } finally{
             continue;
         }
-        var b = "defined";
-    }while (b && b.c)
+        var i = "defined";
+    }while (i && i.c)
 })();

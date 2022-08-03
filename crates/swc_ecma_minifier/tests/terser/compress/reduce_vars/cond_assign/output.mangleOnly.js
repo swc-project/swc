@@ -1,5 +1,5 @@
 !(function() {
-    var a;
-    void 0 ? (a = 1) : 0;
-    console.log(a);
+    var o;
+    void 0 ? (o = 1) : 0;
+    console.log(o);
 })();

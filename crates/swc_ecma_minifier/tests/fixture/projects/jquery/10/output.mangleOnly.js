@@ -1,31 +1,31 @@
 export const obj = {
-    when: function(a) {
-        var b = 0, c = core_slice.call(arguments), d = c.length, e = d !== 1 || (a && jQuery.isFunction(a.promise)) ? d : 0, f = e === 1 ? a : jQuery.Deferred(), g = function(a, b, c) {
-            return function(d) {
-                b[a] = this;
-                c[a] = arguments.length > 1 ? core_slice.call(arguments) : d;
-                if (c === h) {
-                    f.notifyWith(b, c);
-                } else if (!--e) {
-                    f.resolveWith(b, c);
+    when: function(e) {
+        var i = 0, n = core_slice.call(arguments), o = n.length, r = o !== 1 || (e && jQuery.isFunction(e.promise)) ? o : 0, t = r === 1 ? e : jQuery.Deferred(), s = function(e, i, n) {
+            return function(o) {
+                i[e] = this;
+                n[e] = arguments.length > 1 ? core_slice.call(arguments) : o;
+                if (n === f) {
+                    t.notifyWith(i, n);
+                } else if (!--r) {
+                    t.resolveWith(i, n);
                 }
             };
-        }, h, i, j;
-        if (d > 1) {
-            h = new Array(d);
-            i = new Array(d);
-            j = new Array(d);
-            for(; b < d; b++){
-                if (c[b] && jQuery.isFunction(c[b].promise)) {
-                    c[b].promise().done(g(b, j, c)).fail(f.reject).progress(g(b, i, h));
+        }, f, l, c;
+        if (o > 1) {
+            f = new Array(o);
+            l = new Array(o);
+            c = new Array(o);
+            for(; i < o; i++){
+                if (n[i] && jQuery.isFunction(n[i].promise)) {
+                    n[i].promise().done(s(i, c, n)).fail(t.reject).progress(s(i, l, f));
                 } else {
-                    --e;
+                    --r;
                 }
             }
         }
-        if (!e) {
-            f.resolveWith(j, c);
+        if (!r) {
+            t.resolveWith(c, n);
         }
-        return f.promise();
+        return t.promise();
     }
 };

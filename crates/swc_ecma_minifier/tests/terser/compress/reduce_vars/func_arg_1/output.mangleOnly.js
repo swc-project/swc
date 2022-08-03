@@ -1,6 +1,6 @@
-var a = 42;
-!(function(a) {
-    console.log(a());
+var n = 42;
+!(function(n) {
+    console.log(n());
 })(function() {
-    return a;
+    return n;
 });

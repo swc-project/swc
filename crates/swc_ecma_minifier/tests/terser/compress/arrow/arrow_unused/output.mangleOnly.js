@@ -1,19 +1,19 @@
-(a)=>dog;
-let a = (a)=>{
-    console.log(a * a);
+(l)=>dog;
+let l = (l)=>{
+    console.log(l * l);
 };
-let b = (a, b)=>a - b + g;
+let o = (l, o)=>l - o + g;
 (()=>{
     console.log("0");
 })();
-!(function(a) {
+!(function(l) {
     (()=>{
         console.log("1");
     })();
-    let b = (a)=>{
-        console.log(a);
+    let o = (l)=>{
+        console.log(l);
     };
-    let c = (a)=>a + a;
-    console.log(c(a));
+    let t = (l)=>l + l;
+    console.log(t(l));
 })(1);
-a(3);
+l(3);

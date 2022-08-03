@@ -1,9 +1,9 @@
-function a() {
-    var a = 1;
-    x(a, b, d);
-    for(var b = 2, c = 3; x(a, b, c, d); x(a, b, c, d)){
-        var d = 4, e = 5;
-        x(a, b, c, d, e);
+function r() {
+    var r = 1;
+    x(r, a, f);
+    for(var a = 2, v = 3; x(r, a, v, f); x(r, a, v, f)){
+        var f = 4, n = 5;
+        x(r, a, v, f, n);
     }
-    x(a, b, c, d, e);
+    x(r, a, v, f, n);
 }

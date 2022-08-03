@@ -1,11 +1,11 @@
 "use strict";
-function a(a, b) {
+function n(n, e) {
     "use strict";
-    !function(a, c) {
-        c(b);
-    }(void 0, function(a) {
+    !function(n, r) {
+        r(e);
+    }(void 0, function(n) {
         "use strict";
-        a.vr = function(a, b, c) {
+        n.vr = function(n, e, r) {
             return function() {
                 return '123';
             };
@@ -16,5 +16,5 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
     enumerable: !0,
-    get: ()=>a
+    get: ()=>n
 });

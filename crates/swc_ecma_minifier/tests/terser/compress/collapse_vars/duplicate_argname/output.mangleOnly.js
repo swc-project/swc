@@ -1,7 +1,7 @@
-function a() {
+function n() {
     return "PASS";
 }
-console.log((function(b, b) {
-    a++;
-    return b;
-})("FAIL", a()));
+console.log((function(r, r) {
+    n++;
+    return r;
+})("FAIL", n()));

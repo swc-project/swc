@@ -1,9 +1,9 @@
-function a() {
+function t() {
     return function() {};
 }
-var b = a();
-var c = b;
+var n = t();
+var r = n;
 export function baseRest() {
-    return c();
+    return r();
 }
-export { c as _setToString };
+export { r as _setToString };

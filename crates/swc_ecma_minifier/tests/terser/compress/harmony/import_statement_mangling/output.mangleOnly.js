@@ -1,7 +1,7 @@
-import a from "foo";
-import b, { Food as c } from "lel";
-import { What as d } from "lel";
-a();
-b();
-c();
-d();
+import m from "foo";
+import o, { Food as r } from "lel";
+import { What as t } from "lel";
+m();
+o();
+r();
+t();

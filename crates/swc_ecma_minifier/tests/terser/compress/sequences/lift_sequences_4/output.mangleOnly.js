@@ -1,2 +1,2 @@
-var a, b, c, d;
-a = (b, c, d);
+var a, r, v, b;
+a = (r, v, b);

@@ -1,7 +1,7 @@
-var a;
-function b(b) {
-    console.log(a === b);
-    a = b;
+var n;
+function o(o) {
+    console.log(n === o);
+    n = o;
 }
 function c() {}
 [
@@ -9,5 +9,5 @@ function c() {}
     2,
     3
 ].forEach(function() {
-    b(c);
+    o(c);
 });

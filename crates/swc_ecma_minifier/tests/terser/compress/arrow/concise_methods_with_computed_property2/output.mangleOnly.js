@@ -1,10 +1,10 @@
-var a = {
+var r = {
     [[
         1
-    ]] (a) {
-        return a;
+    ]] (r) {
+        return r;
     }
 };
-console.log(a[[
+console.log(r[[
     1
 ]]("PASS"));

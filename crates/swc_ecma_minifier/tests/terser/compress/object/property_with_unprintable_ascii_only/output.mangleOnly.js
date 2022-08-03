@@ -1,4 +1,4 @@
-var a = {
+var $ = {
     "\0\x01": "foo",
     get "\0\x01" () {
         return "bar";
@@ -10,12 +10,12 @@ var a = {
         return "foobar";
     }
 };
-class b {
+class r {
     get "\0\x01"() {
         return "bar";
     }
-    set "\0\x01"(a) {
-        save(a);
+    set "\0\x01"($) {
+        save($);
     }
     *"\0\x01"() {
         return "foobar";

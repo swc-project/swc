@@ -1,12 +1,12 @@
-function a() {
-    function a(a) {
-        function b() {
-            return a;
+function n() {
+    function n(n) {
+        function r() {
+            return n;
         }
         return function() {
-            return b();
+            return r();
         };
     }
-    return a("Hello");
+    return n("Hello");
 }
-console.log("Greeting:", a()());
+console.log("Greeting:", n()());

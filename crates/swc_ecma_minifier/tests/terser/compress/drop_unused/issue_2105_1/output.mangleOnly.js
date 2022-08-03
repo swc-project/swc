@@ -1,20 +1,20 @@
-!(function(a) {
-    a();
+!(function(n) {
+    n();
 })(function() {
-    return (function(a) {
-        a()().prop();
+    return (function(n) {
+        n()().prop();
     })(function() {
-        function a() {
-            var a = function() {
+        function n() {
+            var n = function() {
                 console.log("PASS");
-            }, b = function() {
+            }, o = function() {
                 console.log;
-                a();
+                n();
             };
             return {
-                prop: b
+                prop: o
             };
         }
-        return a;
+        return n;
     });
 });

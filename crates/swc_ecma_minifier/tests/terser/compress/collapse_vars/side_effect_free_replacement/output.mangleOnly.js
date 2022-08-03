@@ -1,4 +1,4 @@
-var a;
-(function(a) {
-    x(a);
-})(a);
+var n;
+(function(n) {
+    x(n);
+})(n);

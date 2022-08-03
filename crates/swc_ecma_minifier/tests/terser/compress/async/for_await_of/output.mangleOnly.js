@@ -1,6 +1,6 @@
-async function b(b) {
-    for await (a of b){}
-    for await (var c of b){}
-    for await (let d of b){}
-    for await (const e of b){}
+async function o(o) {
+    for await (a of o){}
+    for await (var f of o){}
+    for await (let t of o){}
+    for await (const i of o){}
 }

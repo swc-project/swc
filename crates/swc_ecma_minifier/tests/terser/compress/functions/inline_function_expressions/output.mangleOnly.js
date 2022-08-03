@@ -1,7 +1,7 @@
-(async ()=>2)().catch((a)=>null);
+(async ()=>2)().catch((n)=>null);
 (async function() {
     return 3;
-})().catch((a)=>null);
+})().catch((n)=>null);
 (()=>4)();
 (function() {
     return 5;

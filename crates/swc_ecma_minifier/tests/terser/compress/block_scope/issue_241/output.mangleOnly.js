@@ -1,30 +1,30 @@
-var a = {};
-(function(a) {
-    function b(a) {
-        var b = {};
-        function d() {
-            return c({
-                one: a.one,
-                two: a.two
+var n = {};
+(function(n) {
+    function r(n) {
+        var r = {};
+        function e() {
+            return o({
+                one: n.one,
+                two: n.two
             });
         }
-        b.inner = function() {
-            return d();
+        r.inner = function() {
+            return e();
         };
-        return b;
+        return r;
     }
-    function c(a) {
-        var b;
-        if (a) {
-            b = a.one;
+    function o(n) {
+        var r;
+        if (n) {
+            r = n.one;
         } else {
-            b = a.two;
+            r = n.two;
         }
-        return b;
+        return r;
     }
-    a.fail = b;
-})(a);
-var b = a.fail({
+    n.fail = r;
+})(n);
+var r = n.fail({
     one: "PASS"
 });
-console.log(b.inner());
+console.log(r.inner());

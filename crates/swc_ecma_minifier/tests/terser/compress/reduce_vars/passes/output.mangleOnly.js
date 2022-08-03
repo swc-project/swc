@@ -1,12 +1,12 @@
-function a() {
-    var a = 1, b = 2, c = 3;
-    if (a) {
-        b = c;
+function l() {
+    var l = 1, o = 2, g = 3;
+    if (l) {
+        o = g;
     } else {
-        c = b;
+        g = o;
     }
-    console.log(a + b);
-    console.log(b + c);
-    console.log(a + c);
-    console.log(a + b + c);
+    console.log(l + o);
+    console.log(o + g);
+    console.log(l + g);
+    console.log(l + o + g);
 }

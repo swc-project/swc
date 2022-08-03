@@ -1,10 +1,10 @@
-var a = 3;
+var e = 3;
 if (foo()) {
     do {
         do {
-            alert(a);
-        }while (--a)
-    }while (a)
+            alert(e);
+        }while (--e)
+    }while (e)
 } else {
     bar();
 }

@@ -1,5 +1,5 @@
-var a = [
+var _ = [
     1,
     2
 ];
-console.log(a[0], a[1]);
+console.log(_[0], _[1]);

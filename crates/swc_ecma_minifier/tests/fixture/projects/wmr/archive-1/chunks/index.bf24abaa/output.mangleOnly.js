@@ -1,5 +1,5 @@
-import { s as a, m as b } from "../index.f66dda46.js";
-const c = {
+import { s as t, m as e } from "../index.f66dda46.js";
+const r = {
     browser: true,
     env: {
         FOO: "bar",
@@ -10,10 +10,10 @@ const c = {
     }
 };
 null;
-const d = 42;
-function e() {
-    return b`<table><thead><tr><th>Name ${d}</th><th>Value</th></tr></thead><tbody>${Object.keys(c.env).sort().map((a)=>{
-        return b`<tr key=${a}><td>${a}</td><td>${String(c.env[a])}</td></tr>`;
+const n = 42;
+function o() {
+    return e`<table><thead><tr><th>Name ${n}</th><th>Value</th></tr></thead><tbody>${Object.keys(r.env).sort().map((t)=>{
+        return e`<tr key=${t}><td>${t}</td><td>${String(r.env[t])}</td></tr>`;
     })}</tbody></table>`;
 }
-export { e as Environment };
+export { o as Environment };

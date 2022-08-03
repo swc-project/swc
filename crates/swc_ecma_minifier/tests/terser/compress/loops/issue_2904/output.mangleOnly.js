@@ -1,4 +1,4 @@
-var a = 1;
+var l = 1;
 do {
-    console.log(a);
-}while (--a)
+    console.log(l);
+}while (--l)

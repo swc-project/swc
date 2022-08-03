@@ -1,6 +1,6 @@
-function a() {
-    var a = "";
-    for(a in {
+function n() {
+    var n = "";
+    for(n in {
         break: "me"
-    })console.log(a);
+    })console.log(n);
 }

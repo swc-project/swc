@@ -1,4 +1,4 @@
-var a = {
+var t = {
     ["x" + ""]: 1,
     ["method" + ""] () {
         this.s = "PASS";
@@ -10,5 +10,5 @@ var a = {
         this.x = value;
     }
 };
-a.method();
-console.log(a.g);
+t.method();
+console.log(t.g);

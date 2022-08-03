@@ -1,16 +1,16 @@
-function d() {
-    class d extends bar {
+function s() {
+    class s extends bar {
     }
     class e extends some.prop {
     }
-    class f extends stuff[1 - 1] {
+    class n extends stuff[1 - 1] {
     }
-    class g extends (a || b) {
+    class t extends (a || b) {
     }
-    class h extends (a, b) {
+    class d extends (a, b) {
     }
-    class i extends (a ? b : c) {
+    class l extends (a ? b : c) {
     }
-    class j extends (!0) {
+    class x extends (!0) {
     }
 }

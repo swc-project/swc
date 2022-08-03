@@ -1,2 +1,2 @@
-export default function a() {};
-a();
+export default function t() {};
+t();

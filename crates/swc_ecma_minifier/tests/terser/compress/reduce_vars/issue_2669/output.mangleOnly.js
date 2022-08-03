@@ -1,4 +1,4 @@
-let a;
-console.log(([a] = [
+let l;
+console.log(([l] = [
     "PASS"
-]) && a);
+]) && l);

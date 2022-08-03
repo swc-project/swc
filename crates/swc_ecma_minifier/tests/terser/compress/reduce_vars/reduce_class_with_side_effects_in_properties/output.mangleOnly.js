@@ -1,12 +1,12 @@
-let a = "";
-class b {
-    static _ = (a += "PA");
+let s = "";
+class t {
+    static _ = (s += "PA");
 }
-class c {
-    static _ = (a += "SS");
+class a {
+    static _ = (s += "SS");
 }
 global.something = [
-    new c(),
-    new b()
+    new a(),
+    new t()
 ];
-console.log(a);
+console.log(s);

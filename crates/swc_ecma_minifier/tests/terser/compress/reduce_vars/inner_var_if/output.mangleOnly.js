@@ -1,4 +1,4 @@
-function a(a) {
-    if (a) var b = 1;
-    if (!b) console.log(b);
+function f(f) {
+    if (f) var i = 1;
+    if (!i) console.log(i);
 }

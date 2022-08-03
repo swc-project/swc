@@ -1,20 +1,20 @@
-function a() {
-    var a = 1;
-    var b = [];
-    b[a] = 2;
-    console.log(a + 3);
+function n() {
+    var n = 1;
+    var o = [];
+    o[n] = 2;
+    console.log(n + 3);
 }
-function b() {
-    var a = [
+function o() {
+    var n = [
         1
     ];
-    a[2] = 3;
-    console.log(a.length);
+    n[2] = 3;
+    console.log(n.length);
 }
-function c() {
-    var a = [
+function g() {
+    var n = [
         1
     ];
-    a.push(2);
-    console.log(a.length);
+    n.push(2);
+    console.log(n.length);
 }

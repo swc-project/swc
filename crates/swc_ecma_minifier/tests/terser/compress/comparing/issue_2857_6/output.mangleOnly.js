@@ -1,7 +1,7 @@
-function a(a) {
-    if ({}.b === undefined || {}.b === null) return a.b !== undefined && a.b !== null;
+function l(l) {
+    if ({}.b === undefined || {}.b === null) return l.b !== undefined && l.b !== null;
 }
-console.log(a({
+console.log(l({
     a: [
         null
     ],

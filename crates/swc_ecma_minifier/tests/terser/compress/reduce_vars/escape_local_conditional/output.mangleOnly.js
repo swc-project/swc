@@ -1,11 +1,11 @@
-function a() {
-    var a = b();
-    if (a !== (a = b())) console.log("PASS");
+function n() {
+    var n = o();
+    if (n !== (n = o())) console.log("PASS");
     else console.log("FAIL");
 }
-function b(a) {
-    function b() {}
-    function c() {}
-    return a ? b : c;
+function o(n) {
+    function o() {}
+    function f() {}
+    return n ? o : f;
 }
-a();
+n();

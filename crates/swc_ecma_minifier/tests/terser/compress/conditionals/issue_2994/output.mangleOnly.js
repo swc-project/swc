@@ -1,19 +1,19 @@
-function a(a, d, e) {
-    if (a) {
-        if (d) {
-            return b;
+function e(e, r, f) {
+    if (e) {
+        if (r) {
+            return t;
         } else {
-            const f = "something";
-            if (e) {
-                const g = "else";
-                return c;
+            const l = "something";
+            if (f) {
+                const o = "else";
+                return n;
             } else {
                 return undefined;
             }
         }
     }
 }
-let b = 2, c = 3;
-for(let d = 0; d < 8; ++d){
-    console.log(a(d & 4, d & 2, d & 1));
+let t = 2, n = 3;
+for(let r = 0; r < 8; ++r){
+    console.log(e(r & 4, r & 2, r & 1));
 }

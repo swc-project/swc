@@ -1,12 +1,12 @@
-var a = {};
-(function(a) {
-    a.X = function() {
-        return b;
+var l = {};
+(function(l) {
+    l.X = function() {
+        return n;
     };
-    class b {
+    class n {
         static hello() {
             console.log("hello");
         }
     }
-})(a);
-a.X().hello();
+})(l);
+l.X().hello();

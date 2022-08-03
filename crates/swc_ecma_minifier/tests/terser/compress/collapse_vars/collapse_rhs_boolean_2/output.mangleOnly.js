@@ -1,9 +1,9 @@
-var a;
-(function b() {
-    a = function() {};
-    if (/foo/) console.log(typeof a);
+var o;
+(function n() {
+    o = function() {};
+    if (/foo/) console.log(typeof o);
 })();
-console.log((function b() {
-    a = [];
+console.log((function n() {
+    o = [];
     return !1;
 })());

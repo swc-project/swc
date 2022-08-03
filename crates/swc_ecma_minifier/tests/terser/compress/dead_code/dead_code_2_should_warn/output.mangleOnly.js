@@ -1,15 +1,15 @@
-function a() {
-    b();
-    a = 10;
+function n() {
+    f();
+    n = 10;
     throw new Error("foo");
-    if (a) {
+    if (n) {
         y();
-        var a;
-        function b() {}
+        var n;
+        function f() {}
         (function() {
-            var a;
-            function b() {}
+            var n;
+            function f() {}
         })();
     }
 }
-a();
+n();

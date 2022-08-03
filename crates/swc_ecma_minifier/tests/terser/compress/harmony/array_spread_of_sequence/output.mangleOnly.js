@@ -1,16 +1,16 @@
-var a = [
+var g = [
     1
 ];
 console.log([
-    ...(a, a)
+    ...(g, g)
 ]);
 console.log([
-    ...a,
-    a
+    ...g,
+    g
 ]);
 console.log([
-    ...(a || a)
+    ...(g || g)
 ]);
 console.log([
-    ...(a || a)
+    ...(g || g)
 ]);

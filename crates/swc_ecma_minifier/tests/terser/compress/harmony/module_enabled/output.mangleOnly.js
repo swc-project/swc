@@ -1,3 +1,3 @@
-let a = 10, b = 20;
-console.log(a++, b, a++);
-export { a as apple };
+let e = 10, l = 20;
+console.log(e++, l, e++);
+export { e as apple };

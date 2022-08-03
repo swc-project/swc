@@ -1,6 +1,6 @@
 console.log((function() {
-    var a = {
+    var o = {
         p: 3
     };
-    return (a.q = /foo/), (a.r = "bar");
+    return (o.q = /foo/), (o.r = "bar");
 })());

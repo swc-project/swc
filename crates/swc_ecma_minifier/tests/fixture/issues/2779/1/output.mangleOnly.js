@@ -1,2 +1,2 @@
-const a = Math.random();
-console.log(a === -1 / 0);
+const o = Math.random();
+console.log(o === -1 / 0);

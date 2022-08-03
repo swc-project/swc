@@ -1,8 +1,8 @@
-var a = 1;
+var r = 1;
 console.log({
     get a () {
-        a = 2;
-        return a;
+        r = 2;
+        return r;
     },
     b: 1
-}.b, a);
+}.b, r);

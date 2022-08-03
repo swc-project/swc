@@ -1,3 +1,3 @@
-function a(a, b) {
-    return a-- >> b;
+function n(n, r) {
+    return n-- >> r;
 }

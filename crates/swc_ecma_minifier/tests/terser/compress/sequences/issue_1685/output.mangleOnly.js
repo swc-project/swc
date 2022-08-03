@@ -1,6 +1,6 @@
-var a = 100, b = 10;
-function c() {
-    var a = (a--, delete a && --b);
+var e = 100, $ = 10;
+function a() {
+    var e = (e--, delete e && --$);
 }
-c();
-console.log(a, b);
+a();
+console.log(e, $);

@@ -1,18 +1,18 @@
-function a() {
+function t() {
     {
-        let a;
+        let t;
     }
     {
-        var b;
+        var a;
     }
     {
         const c = 1;
-        class d {
+        class l {
         }
     }
 }
 {
-    let b;
+    let a;
 }{
     var c;
 }

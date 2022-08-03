@@ -1,4 +1,4 @@
 ()=>{
-    let a;
-    console.log(a + `?ts=${Date.now()}`);
+    let l;
+    console.log(l + `?ts=${Date.now()}`);
 };

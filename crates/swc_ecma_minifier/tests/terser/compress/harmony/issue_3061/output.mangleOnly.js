@@ -1,5 +1,5 @@
-console.log(new (class extends (function(a) {
-    return class extends a {
+console.log(new (class extends (function(n) {
+    return class extends n {
     };
 })(Error) {
 })() instanceof Error);

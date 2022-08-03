@@ -1,9 +1,9 @@
-function a() {
-    var a = {
+function n() {
+    var n = {
         get b () {},
         set b (<invalid>){}
     };
     return {
-        a: a
+        a: n
     };
 }

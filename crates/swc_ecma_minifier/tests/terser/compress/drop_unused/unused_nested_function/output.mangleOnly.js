@@ -1,6 +1,6 @@
-function a(a, b) {
-    function c() {
+function n(n, t) {
+    function u() {
         something();
     }
-    return a + b;
+    return n + t;
 }

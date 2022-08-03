@@ -1,8 +1,8 @@
-function a(a) {
-    return (a = (function() {
+function n(n) {
+    return (n = (function() {
         return function() {
-            return a;
+            return n;
         };
     })());
 }
-console.log(typeof a()());
+console.log(typeof n()());

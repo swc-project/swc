@@ -1,12 +1,12 @@
-var a = 1;
+var r = 1;
 do {
-    (function(b) {
-        return b[a];
+    (function(t) {
+        return t[r];
         try {
-            b = 2;
-        } catch (c) {
-            var c;
+            t = 2;
+        } catch (a) {
+            var a;
         }
     })(3);
 }while (0)
-console.log(a);
+console.log(r);

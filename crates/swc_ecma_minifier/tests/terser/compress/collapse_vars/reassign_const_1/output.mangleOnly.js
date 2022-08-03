@@ -1,6 +1,6 @@
-function a() {
-    const a = 1;
-    a = 2;
-    return a;
+function n() {
+    const n = 1;
+    n = 2;
+    return n;
 }
-console.log(a());
+console.log(n());

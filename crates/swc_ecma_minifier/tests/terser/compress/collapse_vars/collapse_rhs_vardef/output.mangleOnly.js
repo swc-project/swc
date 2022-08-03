@@ -1,7 +1,7 @@
-var a, b = 1;
-a = --b + (function a() {
-    var b;
-    a[--b] = 1;
+var a, n = 1;
+a = --n + (function a() {
+    var n;
+    a[--n] = 1;
 })();
-b |= a;
-console.log(a, b);
+n |= a;
+console.log(a, n);

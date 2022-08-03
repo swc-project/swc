@@ -1,8 +1,8 @@
 var a = ()=>0;
-var b = ()=>{
+var r = ()=>{
     "use strict";
 };
-var c = ()=>{
+var v = ()=>{
     "use strict";
     var a = ()=>{
         "use strict";

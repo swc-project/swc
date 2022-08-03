@@ -1,5 +1,5 @@
 import "mod-name";
-import a from "bar";
-import { Bar as b, Baz as c } from "lel";
-import b, { Foo as a } from "lel";
-import { Bar as d, Baz as e } from "lel";
+import r from "bar";
+import { Bar as m, Baz as o } from "lel";
+import m, { Foo as r } from "lel";
+import { Bar as i, Baz as p } from "lel";

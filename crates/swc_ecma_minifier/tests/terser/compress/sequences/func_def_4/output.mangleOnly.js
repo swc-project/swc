@@ -1,7 +1,7 @@
-function a() {
-    function a() {
-        return (a = 0), !!a;
+function n() {
+    function n() {
+        return (n = 0), !!n;
     }
-    return a();
+    return n();
 }
-console.log(a());
+console.log(n());

@@ -1,3 +1,2 @@
-var a = 2;
-export let foo = 1,
-    bar = a;
+var o = 2;
+export let foo = 1, bar = o;

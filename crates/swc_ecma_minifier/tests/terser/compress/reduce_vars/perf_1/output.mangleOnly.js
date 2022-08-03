@@ -1,11 +1,11 @@
-function a(a, b, c) {
-    return a < b ? a * b + c : a * c - b;
+function r(r, n, o) {
+    return r < n ? r * n + o : r * o - n;
 }
-function b(b, c, d) {
-    return a(b, c, d);
+function n(n, o, t) {
+    return r(n, o, t);
 }
-var c = 0;
-for(var d = 0; d < 100; ++d){
-    c += b(d, d + 1, 3 * d);
+var o = 0;
+for(var t = 0; t < 100; ++t){
+    o += n(t, t + 1, 3 * t);
 }
-console.log(c);
+console.log(o);

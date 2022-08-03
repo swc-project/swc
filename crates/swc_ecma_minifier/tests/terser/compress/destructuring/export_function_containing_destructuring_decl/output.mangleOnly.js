@@ -1,9 +1,9 @@
 export function f() {
-    let [{ x: a , y: b , z: c  }] = [
+    let [{ x: t , y: e , z: n  }] = [
         {
             x: 1,
             y: 2
         }
     ];
-    return a;
+    return t;
 }

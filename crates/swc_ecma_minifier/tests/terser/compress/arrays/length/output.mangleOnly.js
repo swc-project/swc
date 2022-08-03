@@ -1,5 +1,5 @@
-var a = [
+var g = [
     1,
     2
 ];
-console.log(a.length);
+console.log(g.length);

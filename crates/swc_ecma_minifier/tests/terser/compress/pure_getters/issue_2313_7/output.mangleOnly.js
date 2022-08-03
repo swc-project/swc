@@ -1,17 +1,17 @@
-var a = 0, b = 0;
+var e = 0, s = 0;
 class c {
     get c() {
-        a++;
+        e++;
         return 42;
     }
-    set c(a) {
-        b++;
+    set c(e) {
+        s++;
     }
 }
-class d extends c {
+class r extends c {
     d() {
         super.c++;
-        if (super.c) console.log(a, b);
+        if (super.c) console.log(e, s);
     }
 }
-new d().d();
+new r().d();

@@ -1,4 +1,4 @@
-function a() {
-    var b;
-    (b = a.g), b();
+function n() {
+    var a;
+    (a = n.g), a();
 }

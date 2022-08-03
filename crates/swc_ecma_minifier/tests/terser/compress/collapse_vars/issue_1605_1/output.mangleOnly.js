@@ -1,6 +1,6 @@
-function a(a) {
-    var b = a;
-    return b;
+function n(n) {
+    var r = n;
+    return r;
 }
-var b = new Object();
-b.p = 1;
+var r = new Object();
+r.p = 1;

@@ -1,9 +1,9 @@
-let a = [
+let l = [
     ...[
         , 
     ]
 ];
-let b = [
+let e = [
     , 
 ];
-console.log(0 in a, 0 in b);
+console.log(0 in l, 0 in e);

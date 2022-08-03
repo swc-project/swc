@@ -1,52 +1,52 @@
-import a from "@swc/helpers/src/_async_to_generator.mjs";
-import b from "@swc/helpers/src/_sliced_to_array.mjs";
-import c from "regenerator-runtime";
-import { jsx as d, jsxs as e, Fragment as f } from "react/jsx-runtime";
-import * as g from "react";
-export default function h() {
-    var h = b(g.useState({
+import t from "@swc/helpers/src/_async_to_generator.mjs";
+import r from "@swc/helpers/src/_sliced_to_array.mjs";
+import e from "regenerator-runtime";
+import { jsx as n, jsxs as a, Fragment as o } from "react/jsx-runtime";
+import * as s from "react";
+export default function i() {
+    var i = r(s.useState({
         hits: []
-    }), 2), i = h[0], j = h[1], k = b(g.useState("react"), 2), l = k[0], m = k[1];
-    return g.useEffect(function() {
-        "" !== l && function() {
-            b.apply(this, arguments);
+    }), 2), u = i[0], c = i[1], f = r(s.useState("react"), 2), p = f[0], m = f[1];
+    return s.useEffect(function() {
+        "" !== p && function() {
+            r.apply(this, arguments);
         }();
-        function b() {
-            return (b = a(c.mark(function a() {
-                var b, d;
-                return c.wrap(function(a) {
-                    for(;;)switch(a.prev = a.next){
+        function r() {
+            return (r = t(e.mark(function t() {
+                var r, n;
+                return e.wrap(function(t) {
+                    for(;;)switch(t.prev = t.next){
                         case 0:
-                            return a.next = 2, fetch("https://hn.algolia.com/api/v1/search?query=" + l);
+                            return t.next = 2, fetch("https://hn.algolia.com/api/v1/search?query=" + p);
                         case 2:
-                            return b = a.sent, a.next = 5, b.json();
+                            return r = t.sent, t.next = 5, r.json();
                         case 5:
-                            j(d = a.sent);
+                            c(n = t.sent);
                         case 7:
                         case "end":
-                            return a.stop();
+                            return t.stop();
                     }
-                }, a);
+                }, t);
             }))).apply(this, arguments);
         }
     }, [
-        l
-    ]), e(f, {
+        p
+    ]), a(o, {
         children: [
-            d("input", {
-                value: l,
-                onChange: function(a) {
-                    return m(a.target.value);
+            n("input", {
+                value: p,
+                onChange: function(t) {
+                    return m(t.target.value);
                 }
             }),
-            d("ul", {
-                children: i.hits.map(function(a) {
-                    return d("li", {
-                        children: d("a", {
-                            href: a.url,
-                            children: a.title
+            n("ul", {
+                children: u.hits.map(function(t) {
+                    return n("li", {
+                        children: n("a", {
+                            href: t.url,
+                            children: t.title
                         })
-                    }, a.objectID);
+                    }, t.objectID);
                 })
             })
         ]

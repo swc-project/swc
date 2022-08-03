@@ -1,10 +1,10 @@
-var a = 0;
+var n = 0;
 (function() {
-    while(b());
-    function b() {
-        var b = (function() {
-            var b = a++, c = (a = 1 + a);
+    while(i());
+    function i() {
+        var i = (function() {
+            var i = n++, o = (n = 1 + n);
         })();
     }
 })();
-console.log(a);
+console.log(n);

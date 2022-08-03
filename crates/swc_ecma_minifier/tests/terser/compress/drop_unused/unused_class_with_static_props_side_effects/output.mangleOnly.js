@@ -1,5 +1,5 @@
-let a = "FAIL";
-class b {
-    static _ = (a = "PASS");
+let l = "FAIL";
+class s {
+    static _ = (l = "PASS");
 }
-console.log(a);
+console.log(l);

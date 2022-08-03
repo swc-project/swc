@@ -1,12 +1,12 @@
-var a = 0;
+var n = 0;
 !(function() {
-    !(function(a) {
-        a = 1 + a;
-        var a = 0;
-        function b(b) {
-            if (((a = 1 + a), 0 !== (23).toString())) (a = 1 + a), b && (b[0] = 0);
+    !(function(n) {
+        n = 1 + n;
+        var n = 0;
+        function i(i) {
+            if (((n = 1 + n), 0 !== (23).toString())) (n = 1 + n), i && (i[0] = 0);
         }
-        b();
+        i();
     })(-1);
 })();
-console.log(a);
+console.log(n);

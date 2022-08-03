@@ -1,6 +1,6 @@
-function a() {
-    var a = /\s/;
-    console.log(a.source);
-    return "a b c".split(a)[1];
+function o() {
+    var o = /\s/;
+    console.log(o.source);
+    return "a b c".split(o)[1];
 }
-console.log(a());
+console.log(o());

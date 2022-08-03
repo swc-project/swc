@@ -1,25 +1,25 @@
 (()=>{
-    var a = {
-        746: (a, b, c)=>{
-            const d = Object.prototype.hasOwnProperty;
-            const e = 4;
-            const f = e * 12;
-            const g = e * 60;
-            const h = f / 3;
-            const i = g - f;
-            const j = (f - h) / 2;
+    var o = {
+        746: (o, t, n)=>{
+            const s = Object.prototype.hasOwnProperty;
+            const r = 4;
+            const c = r * 12;
+            const e = r * 60;
+            const O = c / 3;
+            const a = e - c;
+            const v = (c - O) / 2;
         }
     };
-    __webpack_require__.m = a;
+    __webpack_require__.m = o;
     (()=>{
-        __webpack_require__.O = (a, b, c, d)=>{
-            for(var e = 0; e < b.length; e++){
-                Object.keys(__webpack_require__.O).every((a)=>__webpack_require__.O[a](b[e]));
+        __webpack_require__.O = (o, t, n, s)=>{
+            for(var r = 0; r < t.length; r++){
+                Object.keys(__webpack_require__.O).every((o)=>__webpack_require__.O[o](t[r]));
             }
         };
     })();
-    var b = __webpack_require__.O(undefined, [
+    var t = __webpack_require__.O(undefined, [
         532
     ], ()=>__webpack_require__(746));
-    b = __webpack_require__.O(b);
+    t = __webpack_require__.O(t);
 })();

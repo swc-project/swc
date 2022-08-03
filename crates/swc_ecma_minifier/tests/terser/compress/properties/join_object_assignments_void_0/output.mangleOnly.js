@@ -1,3 +1,3 @@
-var a = {};
-a[void 0] = 1;
-console.log(a[void 0]);
+var o = {};
+o[void 0] = 1;
+console.log(o[void 0]);

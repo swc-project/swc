@@ -1,7 +1,7 @@
 var a;
-const b = false;
-if (b) {
+const f = false;
+if (f) {
     console.log("unreachable");
-    var c;
-    function d() {}
+    var n;
+    function o() {}
 }

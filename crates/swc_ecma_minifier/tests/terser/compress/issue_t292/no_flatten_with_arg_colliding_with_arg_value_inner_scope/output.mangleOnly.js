@@ -1,19 +1,19 @@
-var a = [
+var n = [
     "a"
 ];
-function b(b) {
-    return a.indexOf(b);
+function r(r) {
+    return n.indexOf(r);
 }
-function c(a) {
-    return b(a);
+function t(n) {
+    return r(n);
 }
-function d(a) {
-    return b(a);
+function u(n) {
+    return r(n);
 }
-function e(b) {
-    return a[b];
+function e(r) {
+    return n[r];
 }
-function f(a) {
-    return e(d(a));
+function f(n) {
+    return e(u(n));
 }
 console.log(f("a"));

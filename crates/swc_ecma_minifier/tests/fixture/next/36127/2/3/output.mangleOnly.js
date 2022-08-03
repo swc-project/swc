@@ -1,79 +1,79 @@
 export class Text {
     constructor(){}
-    lineAt(a) {
-        if (a < 0 || a > this.length) throw new RangeError(`Invalid position ${a} in document of length ${this.length}`);
-        return this.lineInner(a, false, 1, 0);
+    lineAt(e) {
+        if (e < 0 || e > this.length) throw new RangeError(`Invalid position ${e} in document of length ${this.length}`);
+        return this.lineInner(e, false, 1, 0);
     }
-    line(a) {
-        if (a < 1 || a > this.lines) throw new RangeError(`Invalid line number ${a} in ${this.lines}-line document`);
-        return this.lineInner(a, true, 1, 0);
+    line(e) {
+        if (e < 1 || e > this.lines) throw new RangeError(`Invalid line number ${e} in ${this.lines}-line document`);
+        return this.lineInner(e, true, 1, 0);
     }
-    replace(a, c, d) {
-        let e = [];
-        this.decompose(0, a, e, 2);
-        if (d.length) d.decompose(0, d.length, e, 1 | 2);
-        this.decompose(c, this.length, e, 1);
-        return b.from(e, this.length - (c - a) + d.length);
+    replace(e, n, i) {
+        let s = [];
+        this.decompose(0, e, s, 2);
+        if (i.length) i.decompose(0, i.length, s, 1 | 2);
+        this.decompose(n, this.length, s, 1);
+        return t.from(s, this.length - (n - e) + i.length);
     }
-    append(a) {
-        return this.replace(this.length, this.length, a);
+    append(e) {
+        return this.replace(this.length, this.length, e);
     }
-    slice(a, c = this.length) {
-        let d = [];
-        this.decompose(a, c, d, 0);
-        return b.from(d, c - a);
+    slice(e, n = this.length) {
+        let i = [];
+        this.decompose(e, n, i, 0);
+        return t.from(i, n - e);
     }
-    eq(a) {
-        if (a == this) return true;
-        if (a.length != this.length || a.lines != this.lines) return false;
-        let b = this.scanIdentical(a, 1), c = this.length - this.scanIdentical(a, -1);
-        let d = new f(this), e = new f(a);
-        for(let g = b, h = b;;){
-            d.next(g);
-            e.next(g);
-            g = 0;
-            if (d.lineBreak != e.lineBreak || d.done != e.done || d.value != e.value) return false;
-            h += d.value.length;
-            if (d.done || h >= c) return true;
+    eq(e) {
+        if (e == this) return true;
+        if (e.length != this.length || e.lines != this.lines) return false;
+        let t = this.scanIdentical(e, 1), n = this.length - this.scanIdentical(e, -1);
+        let i = new l(this), s = new l(e);
+        for(let h = t, r = t;;){
+            i.next(h);
+            s.next(h);
+            h = 0;
+            if (i.lineBreak != s.lineBreak || i.done != s.done || i.value != s.value) return false;
+            r += i.value.length;
+            if (i.done || r >= n) return true;
         }
     }
-    iter(a = 1) {
-        return new f(this, a);
+    iter(e = 1) {
+        return new l(this, e);
     }
-    iterRange(a, b = this.length) {
-        return new g(this, a, b);
+    iterRange(e, t = this.length) {
+        return new h(this, e, t);
     }
-    iterLines(a, b) {
-        let c;
-        if (a == null) {
-            c = this.iter();
+    iterLines(e, t) {
+        let n;
+        if (e == null) {
+            n = this.iter();
         } else {
-            if (b == null) b = this.lines + 1;
-            let d = this.line(a).from;
-            c = this.iterRange(d, Math.max(d, b == this.lines + 1 ? this.length : b <= 1 ? 0 : this.line(b - 1).to));
+            if (t == null) t = this.lines + 1;
+            let i = this.line(e).from;
+            n = this.iterRange(i, Math.max(i, t == this.lines + 1 ? this.length : t <= 1 ? 0 : this.line(t - 1).to));
         }
-        return new h(c);
+        return new r(n);
     }
     toString() {
         return this.sliceString(0);
     }
     toJSON() {
-        let a = [];
-        this.flatten(a);
-        return a;
+        let e = [];
+        this.flatten(e);
+        return e;
     }
-    static of(c) {
-        if (c.length == 0) throw new RangeError("A document must have at least one line");
-        if (c.length == 1 && !c[0]) return Text.empty;
-        return c.length <= 32 ? new a(c) : b.from(a.split(c, []));
+    static of(n) {
+        if (n.length == 0) throw new RangeError("A document must have at least one line");
+        if (n.length == 1 && !n[0]) return Text.empty;
+        return n.length <= 32 ? new e(n) : t.from(e.split(n, []));
     }
 }
 Symbol.iterator;
-class a extends Text {
-    constructor(a, b = c(a)){
+class e extends Text {
+    constructor(e, t = n(e)){
         super();
-        this.text = a;
-        this.length = b;
+        this.text = e;
+        this.length = t;
     }
     get lines() {
         return this.text.length;
@@ -81,326 +81,326 @@ class a extends Text {
     get children() {
         return null;
     }
-    lineInner(a, b, c, d) {
-        for(let e = 0;; e++){
-            let f = this.text[e], g = d + f.length;
-            if ((b ? c : g) >= a) return new Line(d, g, c, f);
-            d = g + 1;
-            c++;
+    lineInner(e, t, n, i) {
+        for(let s = 0;; s++){
+            let l = this.text[s], h = i + l.length;
+            if ((t ? n : h) >= e) return new Line(i, h, n, l);
+            i = h + 1;
+            n++;
         }
     }
-    decompose(b, c, f, g) {
-        let h = b <= 0 && c >= this.length ? this : new a(e(this.text, b, c), Math.min(c, this.length) - Math.max(0, b));
-        if (g & 1) {
-            let i = f.pop();
-            let j = d(h.text, i.text.slice(), 0, h.length);
-            if (j.length <= 32) {
-                f.push(new a(j, i.length + h.length));
+    decompose(t, n, l, h) {
+        let r = t <= 0 && n >= this.length ? this : new e(s(this.text, t, n), Math.min(n, this.length) - Math.max(0, t));
+        if (h & 1) {
+            let o = l.pop();
+            let f = i(r.text, o.text.slice(), 0, r.length);
+            if (f.length <= 32) {
+                l.push(new e(f, o.length + r.length));
             } else {
-                let k = j.length >> 1;
-                f.push(new a(j.slice(0, k)), new a(j.slice(k)));
+                let u = f.length >> 1;
+                l.push(new e(f.slice(0, u)), new e(f.slice(u)));
             }
         } else {
-            f.push(h);
+            l.push(r);
         }
     }
-    replace(c, f, g) {
-        if (!(g instanceof a)) return super.replace(c, f, g);
-        let h = d(this.text, d(g.text, e(this.text, 0, c)), f);
-        let i = this.length + g.length - (f - c);
-        if (h.length <= 32) return new a(h, i);
-        return b.from(a.split(h, []), i);
+    replace(n, l, h) {
+        if (!(h instanceof e)) return super.replace(n, l, h);
+        let r = i(this.text, i(h.text, s(this.text, 0, n)), l);
+        let o = this.length + h.length - (l - n);
+        if (r.length <= 32) return new e(r, o);
+        return t.from(e.split(r, []), o);
     }
-    sliceString(a, b = this.length, c = "\n") {
-        let d = "";
-        for(let e = 0, f = 0; e <= b && f < this.text.length; f++){
-            let g = this.text[f], h = e + g.length;
-            if (e > a && f) d += c;
-            if (a < h && b > e) d += g.slice(Math.max(0, a - e), b - e);
-            e = h + 1;
+    sliceString(e, t = this.length, n = "\n") {
+        let i = "";
+        for(let s = 0, l = 0; s <= t && l < this.text.length; l++){
+            let h = this.text[l], r = s + h.length;
+            if (s > e && l) i += n;
+            if (e < r && t > s) i += h.slice(Math.max(0, e - s), t - s);
+            s = r + 1;
         }
-        return d;
+        return i;
     }
-    flatten(a) {
-        for (let b of this.text)a.push(b);
+    flatten(e) {
+        for (let t of this.text)e.push(t);
     }
     scanIdentical() {
         return 0;
     }
-    static split(b, c) {
-        let d = [], e = -1;
-        for (let f of b){
-            d.push(f);
-            e += f.length + 1;
-            if (d.length == 32) {
-                c.push(new a(d, e));
-                d = [];
-                e = -1;
+    static split(t, n) {
+        let i = [], s = -1;
+        for (let l of t){
+            i.push(l);
+            s += l.length + 1;
+            if (i.length == 32) {
+                n.push(new e(i, s));
+                i = [];
+                s = -1;
             }
         }
-        if (e > -1) c.push(new a(d, e));
-        return c;
+        if (s > -1) n.push(new e(i, s));
+        return n;
     }
 }
-class b extends Text {
-    constructor(a, b){
+class t extends Text {
+    constructor(e, t){
         super();
-        this.children = a;
-        this.length = b;
+        this.children = e;
+        this.length = t;
         this.lines = 0;
-        for (let c of a)this.lines += c.lines;
+        for (let n of e)this.lines += n.lines;
     }
-    lineInner(a, b, c, d) {
-        for(let e = 0;; e++){
-            let f = this.children[e], g = d + f.length, h = c + f.lines - 1;
-            if ((b ? h : g) >= a) return f.lineInner(a, b, c, d);
-            d = g + 1;
-            c = h + 1;
+    lineInner(e, t, n, i) {
+        for(let s = 0;; s++){
+            let l = this.children[s], h = i + l.length, r = n + l.lines - 1;
+            if ((t ? r : h) >= e) return l.lineInner(e, t, n, i);
+            i = h + 1;
+            n = r + 1;
         }
     }
-    decompose(a, b, c, d) {
-        for(let e = 0, f = 0; f <= b && e < this.children.length; e++){
-            let g = this.children[e], h = f + g.length;
-            if (a <= h && b >= f) {
-                let i = d & ((f <= a ? 1 : 0) | (h >= b ? 2 : 0));
-                if (f >= a && h <= b && !i) c.push(g);
-                else g.decompose(a - f, b - f, c, i);
+    decompose(e, t, n, i) {
+        for(let s = 0, l = 0; l <= t && s < this.children.length; s++){
+            let h = this.children[s], r = l + h.length;
+            if (e <= r && t >= l) {
+                let o = i & ((l <= e ? 1 : 0) | (r >= t ? 2 : 0));
+                if (l >= e && r <= t && !o) n.push(h);
+                else h.decompose(e - l, t - l, n, o);
             }
-            f = h + 1;
+            l = r + 1;
         }
     }
-    replace(a, c, d) {
-        if (d.lines < this.lines) for(let e = 0, f = 0; e < this.children.length; e++){
-            let g = this.children[e], h = f + g.length;
-            if (a >= f && c <= h) {
-                let i = g.replace(a - f, c - f, d);
-                let j = this.lines - g.lines + i.lines;
-                if (i.lines < (j >> (5 - 1)) && i.lines > (j >> (5 + 1))) {
-                    let k = this.children.slice();
-                    k[e] = i;
-                    return new b(k, this.length - (c - a) + d.length);
+    replace(e, n, i) {
+        if (i.lines < this.lines) for(let s = 0, l = 0; s < this.children.length; s++){
+            let h = this.children[s], r = l + h.length;
+            if (e >= l && n <= r) {
+                let o = h.replace(e - l, n - l, i);
+                let f = this.lines - h.lines + o.lines;
+                if (o.lines < (f >> (5 - 1)) && o.lines > (f >> (5 + 1))) {
+                    let u = this.children.slice();
+                    u[s] = o;
+                    return new t(u, this.length - (n - e) + i.length);
                 }
-                return super.replace(f, h, i);
+                return super.replace(l, r, o);
             }
-            f = h + 1;
+            l = r + 1;
         }
-        return super.replace(a, c, d);
+        return super.replace(e, n, i);
     }
-    sliceString(a, b = this.length, c = "\n") {
-        let d = "";
-        for(let e = 0, f = 0; e < this.children.length && f <= b; e++){
-            let g = this.children[e], h = f + g.length;
-            if (f > a && e) d += c;
-            if (a < h && b > f) d += g.sliceString(a - f, b - f, c);
-            f = h + 1;
+    sliceString(e, t = this.length, n = "\n") {
+        let i = "";
+        for(let s = 0, l = 0; s < this.children.length && l <= t; s++){
+            let h = this.children[s], r = l + h.length;
+            if (l > e && s) i += n;
+            if (e < r && t > l) i += h.sliceString(e - l, t - l, n);
+            l = r + 1;
         }
-        return d;
+        return i;
     }
-    flatten(a) {
-        for (let b of this.children)b.flatten(a);
+    flatten(e) {
+        for (let t of this.children)t.flatten(e);
     }
-    scanIdentical(a, c) {
-        if (!(a instanceof b)) return 0;
-        let d = 0;
-        let [e, f, g, h] = c > 0 ? [
+    scanIdentical(e, n) {
+        if (!(e instanceof t)) return 0;
+        let i = 0;
+        let [s, l, h, r] = n > 0 ? [
             0,
             0,
             this.children.length,
-            a.children.length
+            e.children.length
         ] : [
             this.children.length - 1,
-            a.children.length - 1,
+            e.children.length - 1,
             -1,
             -1
         ];
-        for(;; e += c, f += c){
-            if (e == g || f == h) return d;
-            let i = this.children[e], j = a.children[f];
-            if (i != j) return d + i.scanIdentical(j, c);
-            d += i.length + 1;
+        for(;; s += n, l += n){
+            if (s == h || l == r) return i;
+            let o = this.children[s], f = e.children[l];
+            if (o != f) return i + o.scanIdentical(f, n);
+            i += o.length + 1;
         }
     }
-    static from(c, d = c.reduce((a, b)=>a + b.length + 1, -1)) {
-        let e = 0;
-        for (let f of c)e += f.lines;
-        if (e < 32) {
-            let g = [];
-            for (let h of c)h.flatten(g);
-            return new a(g, d);
+    static from(n, i = n.reduce((e, t)=>e + t.length + 1, -1)) {
+        let s = 0;
+        for (let l of n)s += l.lines;
+        if (s < 32) {
+            let h = [];
+            for (let r of n)r.flatten(h);
+            return new e(h, i);
         }
-        let i = Math.max(32, e >> 5), j = i << 1, k = i >> 1;
-        let l = [], m = 0, n = -1, o = [];
-        function p(c) {
-            let d;
-            if (c.lines > j && c instanceof b) {
-                for (let e of c.children)p(e);
-            } else if (c.lines > k && (m > k || !m)) {
-                q();
-                l.push(c);
-            } else if (c instanceof a && m && (d = o[o.length - 1]) instanceof a && c.lines + d.lines <= 32) {
-                m += c.lines;
-                n += c.length + 1;
-                o[o.length - 1] = new a(d.text.concat(c.text), d.length + 1 + c.length);
+        let o = Math.max(32, s >> 5), f = o << 1, u = o >> 1;
+        let c = [], a = 0, g = -1, $ = [];
+        function p(n) {
+            let i;
+            if (n.lines > f && n instanceof t) {
+                for (let s of n.children)p(s);
+            } else if (n.lines > u && (a > u || !a)) {
+                _();
+                c.push(n);
+            } else if (n instanceof e && a && (i = $[$.length - 1]) instanceof e && n.lines + i.lines <= 32) {
+                a += n.lines;
+                g += n.length + 1;
+                $[$.length - 1] = new e(i.text.concat(n.text), i.length + 1 + n.length);
             } else {
-                if (m + c.lines > i) q();
-                m += c.lines;
-                n += c.length + 1;
-                o.push(c);
+                if (a + n.lines > o) _();
+                a += n.lines;
+                g += n.length + 1;
+                $.push(n);
             }
         }
-        function q() {
-            if (m == 0) return;
-            l.push(o.length == 1 ? o[0] : b.from(o, n));
-            n = -1;
-            m = o.length = 0;
+        function _() {
+            if (a == 0) return;
+            c.push($.length == 1 ? $[0] : t.from($, g));
+            g = -1;
+            a = $.length = 0;
         }
-        for (let r of c)p(r);
-        q();
-        return l.length == 1 ? l[0] : new b(l, d);
+        for (let d of n)p(d);
+        _();
+        return c.length == 1 ? c[0] : new t(c, i);
     }
 }
-Text.empty = new a([
+Text.empty = new e([
     ""
 ], 0);
-function c(a) {
-    let b = -1;
-    for (let c of a)b += c.length + 1;
-    return b;
+function n(e) {
+    let t = -1;
+    for (let n of e)t += n.length + 1;
+    return t;
 }
-function d(a, b, c = 0, d = 1e9) {
-    for(let e = 0, f = 0, g = true; f < a.length && e <= d; f++){
-        let h = a[f], i = e + h.length;
-        if (i >= c) {
-            if (i > d) h = h.slice(0, d - e);
-            if (e < c) h = h.slice(c - e);
-            if (g) {
-                b[b.length - 1] += h;
-                g = false;
-            } else b.push(h);
+function i(e, t, n = 0, i = 1e9) {
+    for(let s = 0, l = 0, h = true; l < e.length && s <= i; l++){
+        let r = e[l], o = s + r.length;
+        if (o >= n) {
+            if (o > i) r = r.slice(0, i - s);
+            if (s < n) r = r.slice(n - s);
+            if (h) {
+                t[t.length - 1] += r;
+                h = false;
+            } else t.push(r);
         }
-        e = i + 1;
+        s = o + 1;
     }
-    return b;
+    return t;
 }
-function e(a, b, c) {
-    return d(a, [
+function s(e, t, n) {
+    return i(e, [
         ""
-    ], b, c);
+    ], t, n);
 }
-class f {
-    constructor(b, c = 1){
-        this.dir = c;
+class l {
+    constructor(t, n = 1){
+        this.dir = n;
         this.done = false;
         this.lineBreak = false;
         this.value = "";
         this.nodes = [
-            b
+            t
         ];
         this.offsets = [
-            c > 0 ? 1 : (b instanceof a ? b.text.length : b.children.length) << 1
+            n > 0 ? 1 : (t instanceof e ? t.text.length : t.children.length) << 1
         ];
     }
-    nextInner(b, c) {
+    nextInner(t, n) {
         this.done = this.lineBreak = false;
         for(;;){
-            let d = this.nodes.length - 1;
-            let e = this.nodes[d], f = this.offsets[d], g = f >> 1;
-            let h = e instanceof a ? e.text.length : e.children.length;
-            if (g == (c > 0 ? h : 0)) {
-                if (d == 0) {
+            let i = this.nodes.length - 1;
+            let s = this.nodes[i], l = this.offsets[i], h = l >> 1;
+            let r = s instanceof e ? s.text.length : s.children.length;
+            if (h == (n > 0 ? r : 0)) {
+                if (i == 0) {
                     this.done = true;
                     this.value = "";
                     return this;
                 }
-                if (c > 0) this.offsets[d - 1]++;
+                if (n > 0) this.offsets[i - 1]++;
                 this.nodes.pop();
                 this.offsets.pop();
-            } else if ((f & 1) == (c > 0 ? 0 : 1)) {
-                this.offsets[d] += c;
-                if (b == 0) {
+            } else if ((l & 1) == (n > 0 ? 0 : 1)) {
+                this.offsets[i] += n;
+                if (t == 0) {
                     this.lineBreak = true;
                     this.value = "\n";
                     return this;
                 }
-                b--;
-            } else if (e instanceof a) {
-                let i = e.text[g + (c < 0 ? -1 : 0)];
-                this.offsets[d] += c;
-                if (i.length > Math.max(0, b)) {
-                    this.value = b == 0 ? i : c > 0 ? i.slice(b) : i.slice(0, i.length - b);
+                t--;
+            } else if (s instanceof e) {
+                let o = s.text[h + (n < 0 ? -1 : 0)];
+                this.offsets[i] += n;
+                if (o.length > Math.max(0, t)) {
+                    this.value = t == 0 ? o : n > 0 ? o.slice(t) : o.slice(0, o.length - t);
                     return this;
                 }
-                b -= i.length;
+                t -= o.length;
             } else {
-                let j = e.children[g + (c < 0 ? -1 : 0)];
-                if (b > j.length) {
-                    b -= j.length;
-                    this.offsets[d] += c;
+                let f = s.children[h + (n < 0 ? -1 : 0)];
+                if (t > f.length) {
+                    t -= f.length;
+                    this.offsets[i] += n;
                 } else {
-                    if (c < 0) this.offsets[d]--;
-                    this.nodes.push(j);
-                    this.offsets.push(c > 0 ? 1 : (j instanceof a ? j.text.length : j.children.length) << 1);
+                    if (n < 0) this.offsets[i]--;
+                    this.nodes.push(f);
+                    this.offsets.push(n > 0 ? 1 : (f instanceof e ? f.text.length : f.children.length) << 1);
                 }
             }
         }
     }
-    next(a = 0) {
-        if (a < 0) {
-            this.nextInner(-a, (-this.dir));
-            a = this.value.length;
+    next(e = 0) {
+        if (e < 0) {
+            this.nextInner(-e, (-this.dir));
+            e = this.value.length;
         }
-        return this.nextInner(a, this.dir);
+        return this.nextInner(e, this.dir);
     }
 }
 Symbol.iterator;
-class g {
-    constructor(a, b, c){
+class h {
+    constructor(e, t, n){
         this.value = "";
         this.done = false;
-        this.cursor = new f(a, b > c ? -1 : 1);
-        this.pos = b > c ? a.length : 0;
-        this.from = Math.min(b, c);
-        this.to = Math.max(b, c);
+        this.cursor = new l(e, t > n ? -1 : 1);
+        this.pos = t > n ? e.length : 0;
+        this.from = Math.min(t, n);
+        this.to = Math.max(t, n);
     }
-    nextInner(a, b) {
-        if (b < 0 ? this.pos <= this.from : this.pos >= this.to) {
+    nextInner(e, t) {
+        if (t < 0 ? this.pos <= this.from : this.pos >= this.to) {
             this.value = "";
             this.done = true;
             return this;
         }
-        a += Math.max(0, b < 0 ? this.pos - this.to : this.from - this.pos);
-        let c = b < 0 ? this.pos - this.from : this.to - this.pos;
-        if (a > c) a = c;
-        c -= a;
-        let { value: d  } = this.cursor.next(a);
-        this.pos += (d.length + a) * b;
-        this.value = d.length <= c ? d : b < 0 ? d.slice(d.length - c) : d.slice(0, c);
+        e += Math.max(0, t < 0 ? this.pos - this.to : this.from - this.pos);
+        let n = t < 0 ? this.pos - this.from : this.to - this.pos;
+        if (e > n) e = n;
+        n -= e;
+        let { value: i  } = this.cursor.next(e);
+        this.pos += (i.length + e) * t;
+        this.value = i.length <= n ? i : t < 0 ? i.slice(i.length - n) : i.slice(0, n);
         this.done = !this.value;
         return this;
     }
-    next(a = 0) {
-        if (a < 0) a = Math.max(a, this.from - this.pos);
-        else if (a > 0) a = Math.min(a, this.to - this.pos);
-        return this.nextInner(a, this.cursor.dir);
+    next(e = 0) {
+        if (e < 0) e = Math.max(e, this.from - this.pos);
+        else if (e > 0) e = Math.min(e, this.to - this.pos);
+        return this.nextInner(e, this.cursor.dir);
     }
     get lineBreak() {
         return this.cursor.lineBreak && this.value != "";
     }
 }
 Symbol.iterator;
-class h {
-    constructor(a){
-        this.inner = a;
+class r {
+    constructor(e){
+        this.inner = e;
         this.afterBreak = true;
         this.value = "";
         this.done = false;
     }
-    next(a = 0) {
-        let { done: b , lineBreak: c , value: d  } = this.inner.next(a);
-        if (b) {
+    next(e = 0) {
+        let { done: t , lineBreak: n , value: i  } = this.inner.next(e);
+        if (t) {
             this.done = true;
             this.value = "";
-        } else if (c) {
+        } else if (n) {
             if (this.afterBreak) {
                 this.value = "";
             } else {
@@ -408,7 +408,7 @@ class h {
                 this.next();
             }
         } else {
-            this.value = d;
+            this.value = i;
             this.afterBreak = false;
         }
         return this;
@@ -422,16 +422,16 @@ if (typeof Symbol != "undefined") {
     Text.prototype[Symbol.iterator] = function() {
         return this.iter();
     };
-    f.prototype[Symbol.iterator] = g.prototype[Symbol.iterator] = h.prototype[Symbol.iterator] = function() {
+    l.prototype[Symbol.iterator] = h.prototype[Symbol.iterator] = r.prototype[Symbol.iterator] = function() {
         return this;
     };
 }
 export class Line {
-    constructor(a, b, c, d){
-        this.from = a;
-        this.to = b;
-        this.number = c;
-        this.text = d;
+    constructor(e, t, n, i){
+        this.from = e;
+        this.to = t;
+        this.number = n;
+        this.text = i;
     }
     get length() {
         return this.to - this.from;

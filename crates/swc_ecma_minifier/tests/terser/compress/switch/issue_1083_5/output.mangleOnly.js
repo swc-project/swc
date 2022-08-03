@@ -1,15 +1,15 @@
-function a(a, b) {
+function e(e, a) {
     switch(true){
         default:
             console.log("definitely");
             break;
-        case b:
+        case a:
             console.log("maybe");
             break;
-        case a:
+        case e:
             console.log("definitely");
             break;
     }
 }
-a(true, false);
-a(true, true);
+e(true, false);
+e(true, true);

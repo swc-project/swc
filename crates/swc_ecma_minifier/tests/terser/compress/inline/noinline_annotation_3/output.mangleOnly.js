@@ -1,12 +1,12 @@
 (function() {
-    function a(a) {
-        return a;
+    function n(n) {
+        return n;
     }
-    function b() {
-        var b = 1;
-        b = a(b);
-        window.data = b;
+    function t() {
+        var t = 1;
+        t = n(t);
+        window.data = t;
     }
-    window.bar = b;
-    b();
+    window.bar = t;
+    t();
 })();

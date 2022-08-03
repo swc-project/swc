@@ -1,9 +1,9 @@
 0;
-var a = function() {
+var $ = function() {
     "use asm";
     0.0;
 };
-function b() {
+function n() {
     0;
     return function() {
         "use asm";

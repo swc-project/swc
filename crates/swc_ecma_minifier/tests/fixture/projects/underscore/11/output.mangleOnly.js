@@ -1,5 +1,5 @@
 if (typeof /./ !== "function") {
-    _.isFunction = function(a) {
-        return typeof a === "function";
+    _.isFunction = function(n) {
+        return typeof n === "function";
     };
 }

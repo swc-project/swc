@@ -1,27 +1,27 @@
-function a(a, b) {
-    var c = a + b;
+function n(n, r) {
+    var t = n + r;
     return [
-        c
+        t
     ];
 }
-function b(a, b) {
-    var c = a + b;
+function r(n, r) {
+    var t = n + r;
     return [
-        a,
+        n,
         side_effect(),
-        c
+        t
     ];
 }
-function c(a, b) {
-    var c = f(a + b);
+function t(n, r) {
+    var t = f(n + r);
     return [
         [
             3
         ],
         [
-            c,
-            a,
-            b
+            t,
+            n,
+            r
         ],
         [
             g()

@@ -1,8 +1,8 @@
-console.log((function(a) {
-    var b = 42;
+console.log((function(n) {
+    var r = 42;
     return (function() {
-        a--;
-        a--, a.toString();
+        n--;
+        n--, n.toString();
         return;
     })();
 })());

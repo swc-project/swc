@@ -1,9 +1,9 @@
-function a(a) {
-    (function(b) {
-        a = b();
+function n(n) {
+    (function(t) {
+        n = t();
     })(function() {
-        return (function(a) {
-            return a;
-        })(function(a) {});
+        return (function(n) {
+            return n;
+        })(function(n) {});
     });
 }

@@ -1,9 +1,9 @@
 var a = [];
-var b = function b() {
-    a.push(b);
+var n = function n() {
+    a.push(n);
 };
 [
     0,
     1
-].map(()=>b());
+].map(()=>n());
 console.log(a[0] === a[1]);

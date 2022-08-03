@@ -1,6 +1,6 @@
-!(function a(b) {
-    return b && a(b - 1) + b;
+!(function n(r) {
+    return r && n(r - 1) + r;
 })(42);
-!(function a(b) {
-    return b;
+!(function n(r) {
+    return r;
 })(42);

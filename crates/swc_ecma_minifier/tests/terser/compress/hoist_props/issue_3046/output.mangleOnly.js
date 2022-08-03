@@ -1,8 +1,8 @@
-console.log((function(a) {
+console.log((function(c) {
     do {
-        var b = {
-            c: a++
+        var n = {
+            c: c++
         };
-    }while (b.c && a)
-    return a;
+    }while (n.c && c)
+    return c;
 })(0));

@@ -1,4 +1,4 @@
-var a = function(a) {
-    console.log(a);
-}, b = bar();
-a(b);
+var n = function(n) {
+    console.log(n);
+}, o = bar();
+n(o);

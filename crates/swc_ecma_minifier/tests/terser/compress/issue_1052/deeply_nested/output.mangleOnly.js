@@ -2,10 +2,10 @@
     if (!window) {
         return;
     }
-    function a() {}
-    function b() {}
+    function n() {}
+    function f() {}
     if (!document) {
         return;
     }
-    function c() {}
+    function i() {}
 })();

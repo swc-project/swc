@@ -1,15 +1,15 @@
-var a = 0;
-function b() {
+var t = 0;
+function r() {
     try {
         throw 1;
-    } catch (a) {
+    } catch (t) {
         try {
             throw 2;
-        } catch (b) {
-            var b = 3;
-            console.log(b);
+        } catch (r) {
+            var r = 3;
+            console.log(r);
         }
     }
-    console.log(b);
+    console.log(r);
 }
-b();
+r();

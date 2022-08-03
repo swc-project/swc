@@ -1,11 +1,11 @@
 let a = async (a)=>await foo(a);
-let b = async ()=>await bar();
-let c = async (a)=>await baz(a);
-let d = async (a, b)=>{
-    await far(a, b);
+let t = async ()=>await bar();
+let y = async (a)=>await baz(a);
+let c = async (a, t)=>{
+    await far(a, t);
 };
 let e = async ({ x: a = [
     1
-] , y: b = 2  })=>{
-    await wow(a, b);
+] , y: t = 2  })=>{
+    await wow(a, t);
 };

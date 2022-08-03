@@ -1,6 +1,6 @@
 "foo";
 "use strict";
-function a() {
+function n() {
     "use strict";
     "bar";
     "use asm";

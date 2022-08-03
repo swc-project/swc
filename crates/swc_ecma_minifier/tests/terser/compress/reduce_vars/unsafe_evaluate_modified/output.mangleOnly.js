@@ -1,69 +1,69 @@
 console.log((function() {
-    var a = {
+    var p = {
         p: 1
     };
-    a.p++;
-    console.log(a.p);
-    return a.p;
+    p.p++;
+    console.log(p.p);
+    return p.p;
 })());
 console.log((function() {
-    var a = {
+    var p = {
         p: 2
     };
-    --a.p;
-    console.log(a.p);
-    return a.p;
+    --p.p;
+    console.log(p.p);
+    return p.p;
 })());
 console.log((function() {
-    var a = {
+    var p = {
         p: 3
     };
-    a.p += "";
-    console.log(a.p);
-    return a.p;
+    p.p += "";
+    console.log(p.p);
+    return p.p;
 })());
 console.log((function() {
-    var a = {
+    var p = {
         p: 4
     };
-    a = {};
-    console.log(a.p);
-    return a.p;
+    p = {};
+    console.log(p.p);
+    return p.p;
 })());
 console.log((function() {
-    var a = {
+    var p = {
         p: 5
     };
-    a.p = -9;
-    console.log(a.p);
-    return a.p;
+    p.p = -9;
+    console.log(p.p);
+    return p.p;
 })());
-function a() {
+function p() {
     this.p++;
 }
 console.log((function() {
-    var b = {
+    var n = {
         p: 6
     };
-    a.call(b);
-    console.log(b.p);
-    return b.p;
+    p.call(n);
+    console.log(n.p);
+    return n.p;
 })());
 console.log((function() {
-    var a = {
+    var p = {
         p: 7
     };
     console.log([
-        a
+        p
     ][0].p++);
-    return a.p;
+    return p.p;
 })());
 console.log((function() {
-    var a = {
+    var p = {
         p: 8
     };
     console.log({
-        q: a
+        q: p
     }.q.p++);
-    return a.p;
+    return p.p;
 })());

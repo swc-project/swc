@@ -1,18 +1,18 @@
-function a() {
+function n() {
     return `foo`;
 }
-function b() {
+function r() {
     return `\nbar`;
 }
-function c() {
+function u() {
     return;
     `baz`;
 }
-function d() {
+function t() {
     return;
     `qux`;
 }
-function e() {
+function o() {
     return `\nfin`;
 }
-console.log(a(), b(), c(), d(), e());
+console.log(n(), r(), u(), t(), o());

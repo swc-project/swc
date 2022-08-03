@@ -1,15 +1,15 @@
 export const obj = {
-    create: function(a, b) {
-        b = b ? _.clone(b) : {};
-        if (!(a = this._prepareModel(a, b))) return false;
-        if (!b.wait) this.add(a, b);
-        var c = this;
-        var d = b.success;
-        b.success = function(a, b, e) {
-            if (e.wait) c.add(a, e);
-            if (d) d(a, b, e);
+    create: function(e, s) {
+        s = s ? _.clone(s) : {};
+        if (!(e = this._prepareModel(e, s))) return false;
+        if (!s.wait) this.add(e, s);
+        var t = this;
+        var i = s.success;
+        s.success = function(e, s, a) {
+            if (a.wait) t.add(e, a);
+            if (i) i(e, s, a);
         };
-        a.save(null, b);
-        return a;
+        e.save(null, s);
+        return e;
     }
 };

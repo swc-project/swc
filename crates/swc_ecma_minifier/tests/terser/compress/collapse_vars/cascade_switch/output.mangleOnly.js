@@ -1,6 +1,6 @@
-function a(a, b) {
-    switch(((a = x()), a)){
-        case ((a = x()), b(a)):
+function c(c, a) {
+    switch(((c = x()), c)){
+        case ((c = x()), a(c)):
             break;
     }
 }

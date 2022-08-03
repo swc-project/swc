@@ -1,21 +1,21 @@
 console.log((function() {
-    var a = {
+    var o = {
         p: 1
     };
-    console.log(a.not_present);
-    return a.p;
+    console.log(o.not_present);
+    return o.p;
 })());
 console.log((function() {
-    var a = {
+    var o = {
         p: 2
     };
-    console.log(a.prototype);
-    return a.p;
+    console.log(o.prototype);
+    return o.p;
 })());
 console.log((function() {
-    var a = {
+    var o = {
         p: 3
     };
-    console.log(a.hasOwnProperty);
-    return a.p;
+    console.log(o.hasOwnProperty);
+    return o.p;
 })());

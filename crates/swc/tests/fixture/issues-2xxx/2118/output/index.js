@@ -1,1 +1,1 @@
-export function test(a,b){a.__proto__=b}
+export function test(t,o){t.__proto__=o}

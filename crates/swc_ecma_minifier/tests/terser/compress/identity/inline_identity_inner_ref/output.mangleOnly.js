@@ -1,5 +1,5 @@
-const a = (a)=>(function() {
-        return a;
+const n = (n)=>(function() {
+        return n;
     })();
-const b = (a)=>((a)=>a)();
-console.log(a(1), a(2), b(3), b(4));
+const o = (n)=>((n)=>n)();
+console.log(n(1), n(2), o(3), o(4));

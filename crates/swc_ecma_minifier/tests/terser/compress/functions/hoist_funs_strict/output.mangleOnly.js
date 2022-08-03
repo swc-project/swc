@@ -1,10 +1,10 @@
 "use strict";
-console.log(typeof f, typeof b, 1);
-if (console.log(typeof f, typeof b, 2)) console.log(typeof f, typeof b, 3);
+console.log(typeof f, typeof e, 1);
+if (console.log(typeof f, typeof e, 2)) console.log(typeof f, typeof e, 3);
 else {
-    console.log(typeof a, typeof b, 4);
-    function a() {}
-    console.log(typeof a, typeof b, 5);
+    console.log(typeof o, typeof e, 4);
+    function o() {}
+    console.log(typeof o, typeof e, 5);
 }
-function b() {}
-console.log(typeof f, typeof b, 6);
+function e() {}
+console.log(typeof f, typeof e, 6);

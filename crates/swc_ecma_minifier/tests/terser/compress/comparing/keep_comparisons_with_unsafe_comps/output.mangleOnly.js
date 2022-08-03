@@ -3,12 +3,12 @@ var a = {
         triggeredFirst();
     }
 };
-var b = {
+var v = {
     valueOf: function() {
         triggeredSecond();
     }
 };
-var c = a <= b;
-var d = a < b;
-var e = a >= b;
-var f = a > b;
+var r = a <= v;
+var f = a < v;
+var n = a >= v;
+var u = a > v;

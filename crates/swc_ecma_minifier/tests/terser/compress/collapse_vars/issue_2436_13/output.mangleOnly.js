@@ -1,10 +1,10 @@
-var a = "PASS";
+var n = "PASS";
 (function() {
-    function b(b) {
-        (function a(b) {
-            var b = b && (b.null = "FAIL");
-        })(a);
+    function o(o) {
+        (function n(o) {
+            var o = o && (o.null = "FAIL");
+        })(n);
     }
-    b();
+    o();
 })();
-console.log(a);
+console.log(n);

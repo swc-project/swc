@@ -1,4 +1,4 @@
-var a = [
+var i = [
     "foo",
     "bar",
     boo(),
@@ -6,7 +6,7 @@ var a = [
     "x",
     "y"
 ].join("");
-var b = [
+var j = [
     "foo",
     "bar",
     boo(),
@@ -14,7 +14,7 @@ var b = [
     "x",
     "y"
 ].join("-");
-var c = [
+var n = [
     "foo",
     "bar",
     boo(),
@@ -22,7 +22,7 @@ var c = [
     "x",
     "y"
 ].join("really-long-separator");
-var d = [
+var o = [
     "foo",
     "bar",
     boo(),
@@ -37,7 +37,7 @@ var d = [
     "x",
     "y", 
 ].join("-");
-var e = [
+var a = [
     "foo",
     "bar",
     boo(),
@@ -52,7 +52,7 @@ var e = [
     "x",
     "y", 
 ].join("really-long-separator");
-var f = [
+var r = [
     "str",
     "str" + variable,
     "foo",

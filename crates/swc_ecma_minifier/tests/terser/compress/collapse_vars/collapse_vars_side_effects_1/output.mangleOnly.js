@@ -1,35 +1,35 @@
 function a() {
     var a = 7;
-    var b = "abcdef";
-    var c = 2;
-    var d = console.log.bind(console);
-    var e = b.charAt(c++);
-    var f = b.charAt(c++);
-    var g = b.charAt(c++);
-    d(e, f, g, a);
+    var r = "abcdef";
+    var v = 2;
+    var c = console.log.bind(console);
+    var t = r.charAt(v++);
+    var n = r.charAt(v++);
+    var h = r.charAt(v++);
+    c(t, n, h, a);
 }
-function b() {
+function r() {
     var a = 7;
-    var b = console.log.bind(console);
-    var c = "abcdef";
-    var d = 2;
-    var e = c.charAt(d++);
-    var f = c.charAt(d++);
-    var g = c.charAt(d++);
-    b(e, d, f, g, a);
+    var r = console.log.bind(console);
+    var v = "abcdef";
+    var c = 2;
+    var t = v.charAt(c++);
+    var n = v.charAt(c++);
+    var h = v.charAt(c++);
+    r(t, c, n, h, a);
+}
+function v() {
+    var a = 7;
+    var r = "abcdef";
+    var v = 2;
+    var c = console.log.bind(console);
+    var t = r.charAt(v++);
+    var n = r.charAt(v++);
+    var h = r.charAt(v++);
+    c(t, h, n, a);
 }
 function c() {
-    var a = 7;
-    var b = "abcdef";
-    var c = 2;
-    var d = console.log.bind(console);
-    var e = b.charAt(c++);
-    var f = b.charAt(c++);
-    var g = b.charAt(c++);
-    d(e, g, f, a);
+    var a = console.log.bind(console), r = 10, v = (r += 2), c = (r += 3), t = (r += 4);
+    a(v, t, c, r);
 }
-function d() {
-    var a = console.log.bind(console), b = 10, c = (b += 2), d = (b += 3), e = (b += 4);
-    a(c, e, d, b);
-}
-a(), b(), c(), d();
+a(), r(), v(), c();

@@ -1,25 +1,25 @@
-var a, b, c;
-!(function(a) {
-    var b;
-    (a.Point || (a.Point = {})).Origin = {
+var n, i, t;
+!(function(n) {
+    var i;
+    (n.Point || (n.Point = {})).Origin = {
         x: 0,
         y: 0
     };
-})(a || (a = {})), ((c = a || (a = {})).Point = function() {
+})(n || (n = {})), ((t = n || (n = {})).Point = function() {
     return {
         x: 0,
         y: 0
     };
-}), (function(a) {
-    var b;
-    function c() {
+}), (function(n) {
+    var i;
+    function t() {
         return {
             x: 0,
             y: 0
         };
     }
-    ((c = a.Point || (a.Point = {})).Origin = {
+    ((t = n.Point || (n.Point = {})).Origin = {
         x: 0,
         y: 0
-    }), (a.Point = c);
-})(b || (b = {}));
+    }), (n.Point = t);
+})(i || (i = {}));

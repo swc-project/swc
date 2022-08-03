@@ -1,5 +1,5 @@
-import * as a from "filesystem";
-import * as b from "whatever";
-a.resolve();
-b.search();
-export { a as fs, b as stuff };
+import * as r from "filesystem";
+import * as o from "whatever";
+r.resolve();
+o.search();
+export { r as fs, o as stuff };

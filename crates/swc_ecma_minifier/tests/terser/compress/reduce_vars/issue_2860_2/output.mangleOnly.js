@@ -1,4 +1,4 @@
-console.log((function(a) {
-    return (a ^= 1);
-    a ^= 2;
+console.log((function(n) {
+    return (n ^= 1);
+    n ^= 2;
 })());

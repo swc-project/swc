@@ -1,8 +1,8 @@
-var a, b;
-function c() {
-    a = void 0;
-    b = void 0;
+var o, v;
+function i() {
+    o = void 0;
+    v = void 0;
     return void 0;
 }
-var d = c();
-console.log(a === b, b === d, d === a);
+var r = i();
+console.log(o === v, v === r, r === o);

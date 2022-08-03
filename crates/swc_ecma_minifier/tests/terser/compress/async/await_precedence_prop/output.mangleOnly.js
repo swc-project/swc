@@ -1,6 +1,6 @@
 async function a() {
     return (await foo()).bar;
 }
-async function b() {
+async function n() {
     return await foo().bar;
 }

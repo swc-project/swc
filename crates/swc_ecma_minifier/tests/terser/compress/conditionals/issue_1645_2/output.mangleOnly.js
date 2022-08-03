@@ -1,6 +1,6 @@
-var a = 0;
-function b() {
-    return a++;
+var n = 0;
+function r() {
+    return n++;
 }
-b() ? (a += 2) : (a += 4);
-console.log(a);
+r() ? (n += 2) : (n += 4);
+console.log(n);

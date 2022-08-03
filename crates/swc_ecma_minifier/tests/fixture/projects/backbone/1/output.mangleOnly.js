@@ -1,2 +1,2 @@
-var a = root._;
-if (!a && typeof require !== "undefined") a = require("underscore");
+var f = root._;
+if (!f && typeof require !== "undefined") f = require("underscore");

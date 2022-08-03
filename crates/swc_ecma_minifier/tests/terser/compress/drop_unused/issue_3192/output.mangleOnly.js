@@ -1,7 +1,7 @@
-(function(a) {
-    console.log((a = "foo"), arguments[0]);
+(function(n) {
+    console.log((n = "foo"), arguments[0]);
 })("bar");
-(function(a) {
+(function(n) {
     "use strict";
-    console.log((a = "foo"), arguments[0]);
+    console.log((n = "foo"), arguments[0]);
 })("bar");

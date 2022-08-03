@@ -1,8 +1,8 @@
-var a, b;
-function c() {
-    a = !0;
-    b = !0;
+var r, n;
+function $() {
+    r = !0;
+    n = !0;
     return !0;
 }
-var d = c();
-console.log(a === b, b === d, d === a);
+var a = $();
+console.log(r === n, n === a, a === r);

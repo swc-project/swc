@@ -1,3 +1,3 @@
-const a = (a)=>a;
-const b = (b = a)=>b;
-console.log(b() === b());
+const o = (o)=>o;
+const c = (c = o)=>c;
+console.log(c() === c());

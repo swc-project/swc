@@ -1,4 +1,4 @@
-for(var a = 0; a < points.length; a++)for(var b in points[a], keys){
-    for(var c = 0; c < keys[key].length; c++)console.log(c);
-    console.log(a);
+for(var r = 0; r < points.length; r++)for(var o in points[r], keys){
+    for(var g = 0; g < keys[key].length; g++)console.log(g);
+    console.log(r);
 }

@@ -1,6 +1,6 @@
-var a = 0, b = 0;
-function c() {
-    b += a;
+var n = 0, o = 0;
+function $() {
+    o += n;
 }
-c(c(), ++a);
-console.log(a, b);
+$($(), ++n);
+console.log(n, o);

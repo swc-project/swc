@@ -1,8 +1,8 @@
 try {
-    const a = [
+    const o = [
         "PASS"
     ];
-    for (const b of a){
-        console.log(b);
+    for (const c of o){
+        console.log(c);
     }
-} catch (c) {}
+} catch (t) {}

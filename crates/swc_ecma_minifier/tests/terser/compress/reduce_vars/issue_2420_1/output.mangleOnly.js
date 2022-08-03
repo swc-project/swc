@@ -1,9 +1,9 @@
-function a() {
-    var a = this;
-    if (a.count++) a.foo();
-    else a.bar();
+function o() {
+    var o = this;
+    if (o.count++) o.foo();
+    else o.bar();
 }
-var b = {
+var n = {
     count: 0,
     foo: function() {
         console.log("foo");
@@ -12,5 +12,5 @@ var b = {
         console.log("bar");
     }
 };
-a.call(b);
-a.call(b);
+o.call(n);
+o.call(n);

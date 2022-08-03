@@ -1,8 +1,8 @@
 function a(a) {
-    var b;
-    let c;
-    ({ a: b , b: c  } = a);
-    console.log(c);
+    var r;
+    let t;
+    ({ a: r , b: t  } = a);
+    console.log(t);
 }
 a({
     a: 1,
@@ -10,9 +10,9 @@ a({
 });
 a({
     get a () {
-        var b = "side effect";
-        console.log(b);
-        return b;
+        var r = "side effect";
+        console.log(r);
+        return r;
     },
     b: 4
 });

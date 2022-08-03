@@ -1,13 +1,13 @@
-function a() {
+function n() {
     var arguments;
     return typeof arguments;
 }
-function b() {
+function r() {
     var arguments = 42;
     return typeof arguments;
 }
-function c(a) {
-    var arguments = a;
+function t(n) {
+    var arguments = n;
     return typeof arguments;
 }
-console.log(a(), b(), c());
+console.log(n(), r(), t());

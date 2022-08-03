@@ -1,14 +1,14 @@
-function a(a) {
+function r(r) {
     try {
         try {
             throw "foo";
-        } catch (c) {
-            return (a = true);
+        } catch (n) {
+            return (r = true);
         }
     } finally{
-        a && (b = "PASS");
+        r && (t = "PASS");
     }
 }
-var b = "FAIL";
-a();
-console.log(b);
+var t = "FAIL";
+r();
+console.log(t);

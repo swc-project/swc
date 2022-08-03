@@ -1,6 +1,6 @@
-class a {
+class s {
     #a = 123;
-     #b() {}
+    #b() {}
     get #c() {}
-    set #c(b) {}
+    set #c(e) {}
 }

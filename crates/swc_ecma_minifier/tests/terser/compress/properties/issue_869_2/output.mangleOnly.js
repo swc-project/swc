@@ -1,11 +1,11 @@
-var a = {
+var e = {
     p: "FAIL"
 };
-Object.defineProperties(a, {
+Object.defineProperties(e, {
     p: {
         get: function() {
             return "PASS";
         }
     }
 });
-console.log(a.p);
+console.log(e.p);

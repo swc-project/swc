@@ -1,21 +1,21 @@
-const a = id({
-    extname: (a)=>{
-        console.log("PASS:" + a);
+const n = id({
+    extname: (n)=>{
+        console.log("PASS:" + n);
     }
 });
-global.getExtFn = function a() {
-    return function(a) {
-        return b(a);
+global.getExtFn = function n() {
+    return function(n) {
+        return t(n);
     };
 };
-function b(a) {
-    let b;
-    if (!b) {
-        b = c(a);
+function t(n) {
+    let t;
+    if (!t) {
+        t = e(n);
     }
-    return b;
+    return t;
 }
-function c(b) {
-    return a.extname(b);
+function e(t) {
+    return n.extname(t);
 }
 getExtFn()("name");

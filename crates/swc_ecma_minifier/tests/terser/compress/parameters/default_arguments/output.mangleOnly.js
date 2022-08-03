@@ -1,5 +1,5 @@
-function a(a = 6) {}
-function a(a = 6 + 5) {}
-function a({ foo: a  } = {}, [b] = [
+function n(n = 6) {}
+function n(n = 6 + 5) {}
+function n({ foo: n  } = {}, [c] = [
     1
 ]) {}

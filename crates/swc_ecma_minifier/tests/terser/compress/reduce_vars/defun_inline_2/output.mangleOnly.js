@@ -1,9 +1,9 @@
-function a() {
-    function a(a) {
-        return a;
+function n() {
+    function n(n) {
+        return n;
     }
-    function b() {
-        return b();
+    function r() {
+        return r();
     }
-    return a(2) + b();
+    return n(2) + r();
 }

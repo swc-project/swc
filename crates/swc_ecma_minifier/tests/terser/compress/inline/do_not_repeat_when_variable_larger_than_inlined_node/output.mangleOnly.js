@@ -1,6 +1,6 @@
-const a = "string";
-pass(a);
-pass(a);
-pass(a);
-pass(a);
-pass(a);
+const c = "string";
+pass(c);
+pass(c);
+pass(c);
+pass(c);
+pass(c);

@@ -1,24 +1,24 @@
 var a = {
     valueOf: 0
 } < 1;
-var b = {
+var r = {
     toString: 0
 } < 1;
-var c = {
+var v = {
     valueOf: 0
 } + "";
-var d = {
+var t = {
     toString: 0
 } + "";
+var $ = ({
+    valueOf: 0
+} + "")[2];
 var e = ({
-    valueOf: 0
-} + "")[2];
-var f = ({
     toString: 0
 } + "")[2];
-var g = {
+var f = {
     valueOf: 0
 }.valueOf();
-var h = {
+var g = {
     toString: 0
 }.toString();

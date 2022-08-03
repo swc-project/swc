@@ -1,3 +1,3 @@
-export default function a(a, b) {
-    return a - b;
+export default function t(t, e) {
+    return t - e;
 };

@@ -1,15 +1,15 @@
 var a = [
     `1 ${any} 2`
 ].join("");
-var b = [
+var i = [
     "before",
     `1 ${any} 2`
 ].join("");
-var c = [
+var j = [
     `1 ${any} 2`,
     "after"
 ].join("");
-var d = [
+var n = [
     "before",
     `1 ${any} 2`,
     "after"

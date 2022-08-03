@@ -1,3 +1,3 @@
-import { foo as a, cat as b, bird as c } from "stuff";
-console.log(a, b, c);
-export { a as qux, b as dog, c as bird };
+import { foo as o, cat as a, bird as r } from "stuff";
+console.log(o, a, r);
+export { o as qux, a as dog, r as bird };

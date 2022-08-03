@@ -1,23 +1,23 @@
-function a(a) {
-    var b = a;
-    return a + b;
+function n(n) {
+    var r = n;
+    return n + r;
 }
-function b(a) {
-    var b = a;
-    return a++ + b;
+function r(n) {
+    var r = n;
+    return n++ + r;
 }
-function c(a) {
-    var b = a++;
-    return a + b;
+function t(n) {
+    var r = n++;
+    return n + r;
 }
-function d(a) {
-    var b = a++;
-    return a++ + b;
+function u(n) {
+    var r = n++;
+    return n++ + r;
 }
-function e(a) {
-    var b = (function() {
-        return a;
+function o(n) {
+    var r = (function() {
+        return n;
     })();
-    return a++ + b;
+    return n++ + r;
 }
-console.log(a(1), b(1), c(1), d(1), e(1));
+console.log(n(1), r(1), t(1), u(1), o(1));

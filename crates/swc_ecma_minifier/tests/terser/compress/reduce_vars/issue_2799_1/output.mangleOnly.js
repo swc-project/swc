@@ -1,12 +1,12 @@
 console.log((function() {
-    return a;
-    function a(a) {
-        function b(a) {
-            return a && a + b(a - 1);
+    return n;
+    function n(n) {
+        function r(n) {
+            return n && n + r(n - 1);
         }
-        function c(a) {
-            return b(a);
+        function t(n) {
+            return r(n);
         }
-        return c(a);
+        return t(n);
     }
 })()(5));

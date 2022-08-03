@@ -1,8 +1,8 @@
-var a = 1, b = 2;
+var r = 1, n = 2;
 (function() {
-    b = a;
-    if (a++ + b--) return 1;
+    n = r;
+    if (r++ + n--) return 1;
     return;
-    var b = {};
+    var n = {};
 })();
-console.log(a, b);
+console.log(r, n);

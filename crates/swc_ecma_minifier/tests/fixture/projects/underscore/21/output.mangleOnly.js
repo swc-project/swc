@@ -1,11 +1,11 @@
-_.shuffle = function(a) {
-    var b;
-    var c = 0;
-    var d = [];
-    each(a, function(a) {
-        b = _.random(c++);
-        d[c - 1] = d[b];
-        d[b] = a;
+_.shuffle = function(n) {
+    var r;
+    var a = 0;
+    var f = [];
+    each(n, function(n) {
+        r = _.random(a++);
+        f[a - 1] = f[r];
+        f[r] = n;
     });
-    return d;
+    return f;
 };

@@ -1,6 +1,6 @@
 if (a) {
-    var c = console.log("foo");
+    var f = console.log("foo");
     if (b) {
-        var d = console.log("bar");
+        var g = console.log("bar");
     }
 }

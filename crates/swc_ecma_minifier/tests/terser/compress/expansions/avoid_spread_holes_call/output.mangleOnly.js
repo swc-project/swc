@@ -1,8 +1,8 @@
-let a = (a, b)=>[
-        a,
-        b
+let l = (l, e)=>[
+        l,
+        e
     ];
-let b = a(...[
+let e = l(...[
     , 
 ], 1);
-console.log(...b);
+console.log(...e);

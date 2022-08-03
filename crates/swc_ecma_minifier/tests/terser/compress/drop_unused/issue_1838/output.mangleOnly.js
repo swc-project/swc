@@ -1,4 +1,4 @@
-function b() {
-    var b = a;
+function i() {
+    var i = a;
     while(c);
 }

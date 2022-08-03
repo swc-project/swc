@@ -1,3 +1,3 @@
-function a(a, b) {
-    return (a = x()), b(a);
+function n(n, r) {
+    return (n = x()), r(n);
 }

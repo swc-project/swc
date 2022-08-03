@@ -1,4 +1,4 @@
-function a() {
-    return (a = 0), !!a;
+function n() {
+    return (n = 0), !!n;
 }
-console.log(a());
+console.log(n());

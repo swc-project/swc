@@ -1,84 +1,84 @@
-function a() {
-    throw (l = k());
+function t() {
+    throw (w = a());
 }
-function b(a) {
-    throw (a = k());
+function o(t) {
+    throw (t = a());
 }
-function c() {
-    var a;
-    throw (a = k());
+function n() {
+    var t;
+    throw (t = a());
 }
-function d() {
+function r() {
     try {
-        throw (l = k());
-    } catch (a) {
-        console.log(l);
+        throw (w = a());
+    } catch (t) {
+        console.log(w);
     }
 }
-function e(a) {
+function c(t) {
     try {
-        throw (a = k());
-    } catch (b) {
-        console.log(a);
+        throw (t = a());
+    } catch (o) {
+        console.log(t);
     }
 }
 function f() {
-    var a;
+    var t;
     try {
-        throw (a = k());
-    } catch (b) {
-        console.log(a);
+        throw (t = a());
+    } catch (o) {
+        console.log(t);
     }
 }
-function g() {
+function l() {
     try {
-        throw (l = k());
+        throw (w = a());
     } finally{
-        console.log(l);
+        console.log(w);
     }
 }
-function h(a) {
+function i(t) {
     try {
-        throw (a = k());
+        throw (t = a());
     } finally{
-        console.log(a);
+        console.log(t);
     }
 }
-function i() {
-    var a;
+function h() {
+    var t;
     try {
-        throw (a = k());
+        throw (t = a());
     } finally{
-        console.log(a);
+        console.log(t);
     }
 }
-function j(j) {
-    var m = 0;
-    k = function() {
-        m += j;
-        if (j < 0) throw m;
-        return m;
+function u(u) {
+    var y = 0;
+    a = function() {
+        y += u;
+        if (u < 0) throw y;
+        return y;
     };
     [
-        a,
-        b,
+        t,
+        o,
+        n,
+        r,
         c,
-        d,
-        e,
         f,
-        g,
-        h,
-        i
-    ].forEach(function(a, b) {
-        l = null;
+        l,
+        i,
+        h
+    ].forEach(function(t, o) {
+        w = null;
         try {
-            a(10 * (1 + b));
-        } catch (c) {
-            console.log("caught " + c);
+            t(10 * (1 + o));
+        } catch (n) {
+            console.log("caught " + n);
         }
-        if (null !== l) console.log("a: " + l);
+        if (null !== w) console.log("a: " + w);
     });
 }
-var k, l;
-j(1);
-j(-1);
+var a, w;
+u(1);
+u(-1);

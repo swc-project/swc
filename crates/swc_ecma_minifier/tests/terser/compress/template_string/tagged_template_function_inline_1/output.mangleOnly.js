@@ -1,2 +1,2 @@
-var a = ()=>{};
-a`test`;
+var t = ()=>{};
+t`test`;

@@ -2,15 +2,15 @@ var a = {
     x: 1,
     y: 2
 };
-var b = {
+var r = {
     x: 3,
     z: 4
 };
-var c = {
+var v = {
     ...a
 };
-var d = {
+var x = {
     ...a,
-    ...b
+    ...r
 };
-console.log(c, d);
+console.log(v, x);

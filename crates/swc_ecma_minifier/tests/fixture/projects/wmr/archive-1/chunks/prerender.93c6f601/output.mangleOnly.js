@@ -1,35 +1,35 @@
 import "../index.f66dda46.js";
-import { t as a } from "./hoofd.module.6c5395cb.js";
-function b(a, b) {
-    return import("../prerender.daa73035/input.js").then((c)=>c.default(a, b));
+import { t as t } from "./hoofd.module.6c5395cb.js";
+function e(t, e) {
+    return import("../prerender.daa73035/input.js").then((n)=>n.default(t, e));
 }
-async function c(c) {
-    const d = await b(c);
-    const e = a();
-    const f = new Set([
-        ...e.links.map((a)=>({
+async function n(n) {
+    const a = await e(n);
+    const r = t();
+    const p = new Set([
+        ...r.links.map((t)=>({
                 type: "link",
-                props: a
+                props: t
             })),
-        ...e.metas.map((a)=>({
+        ...r.metas.map((t)=>({
                 type: "meta",
-                props: a
+                props: t
             })),
-        ...e.scripts.map((a)=>({
+        ...r.scripts.map((t)=>({
                 type: "script",
-                props: a
+                props: t
             })), 
     ]);
     return {
-        ...d,
+        ...a,
         data: {
             hello: "world"
         },
         head: {
-            title: e.title,
-            lang: e.lang,
-            elements: f
+            title: r.title,
+            lang: r.lang,
+            elements: p
         }
     };
 }
-export { c as prerender };
+export { n as prerender };

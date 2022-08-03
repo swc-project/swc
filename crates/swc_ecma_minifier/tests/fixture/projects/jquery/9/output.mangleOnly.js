@@ -1,15 +1,15 @@
 export const obj = {
-    fireWith: function(a, b) {
-        b = b || [];
-        b = [
-            a,
-            b.slice ? b.slice() : b
+    fireWith: function(i, e) {
+        e = e || [];
+        e = [
+            i,
+            e.slice ? e.slice() : e
         ];
         if (list && (!fired || stack)) {
             if (firing) {
-                stack.push(b);
+                stack.push(e);
             } else {
-                fire(b);
+                fire(e);
             }
         }
         return this;

@@ -1,4 +1,4 @@
-function* a() {
-    var a = yield x();
-    return new a();
+function* n() {
+    var n = yield x();
+    return new n();
 }

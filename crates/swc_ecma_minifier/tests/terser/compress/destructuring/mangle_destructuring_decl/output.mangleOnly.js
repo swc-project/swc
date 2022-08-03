@@ -1,12 +1,12 @@
-function a(a) {
-    let b = a.a || {
+function e(e) {
+    let n = e.a || {
         e: 7,
         n: 8
     };
-    let { t: c , e: d , n: e , s: f = 5 + 4 , o: g , r: h  } = b;
-    console.log(c, d, e, f, g, h);
+    let { t: t , e: o , n: l , s: a = 5 + 4 , o: r , r: s  } = n;
+    console.log(t, o, l, a, r, s);
 }
-a({
+e({
     a: {
         t: 1,
         e: 2,
@@ -16,4 +16,4 @@ a({
         r: 6
     }
 });
-a({});
+e({});

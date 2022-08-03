@@ -1,6 +1,6 @@
-var a = "FAIL";
-var b = {
+var S = "FAIL";
+var a = {
     PASS: false
 };
-b[(a = id("PASS"))] ||= "PASS";
-console.log(a, b.PASS);
+a[(S = id("PASS"))] ||= "PASS";
+console.log(S, a.PASS);

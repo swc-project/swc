@@ -1,7 +1,7 @@
 function a(a) {
     l: {
         if (a) break l;
-        var b = 1;
+        var f = 1;
     }
-    console.log(b);
+    console.log(f);
 }

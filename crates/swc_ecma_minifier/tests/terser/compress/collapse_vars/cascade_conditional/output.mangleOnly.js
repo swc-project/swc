@@ -1,3 +1,3 @@
-function a(a, b) {
-    ((a = x()), a) ? a++ : ((b = y(a)), b(a));
+function n(n, c) {
+    ((n = x()), n) ? n++ : ((c = y(n)), c(n));
 }

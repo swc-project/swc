@@ -1,7 +1,7 @@
-function a() {
+function e() {
     return {
         message: "Hello there"
     };
 }
-var b = a();
-console.log(b.message);
+var s = e();
+console.log(s.message);

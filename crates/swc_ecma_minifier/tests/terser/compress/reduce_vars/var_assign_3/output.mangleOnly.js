@@ -1,5 +1,5 @@
 !(function() {
-    var a;
-    while((a = 2));
-    console.log(a);
+    var i;
+    while((i = 2));
+    console.log(i);
 })();

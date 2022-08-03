@@ -1,4 +1,4 @@
-var a = {
+var o = {
     foo: function() {
         for(this.b in [
             1,
@@ -6,5 +6,5 @@ var a = {
         ]);
     }
 };
-a.foo();
-console.log(a.b);
+o.foo();
+console.log(o.b);

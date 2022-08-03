@@ -1,4 +1,4 @@
-var a = {
+var o = {
     _foo: null,
     set foo (val){},
     get foo () {

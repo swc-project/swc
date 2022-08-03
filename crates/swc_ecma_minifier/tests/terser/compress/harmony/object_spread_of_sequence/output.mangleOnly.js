@@ -1,16 +1,16 @@
-var a = {
+var g = {
     x: 1
 };
 console.log({
-    ...(a, a)
+    ...(g, g)
 });
 console.log({
-    ...a,
-    a: a
+    ...g,
+    a: g
 });
 console.log({
-    ...(a || a)
+    ...(g || g)
 });
 console.log({
-    ...(a || a)
+    ...(g || g)
 });

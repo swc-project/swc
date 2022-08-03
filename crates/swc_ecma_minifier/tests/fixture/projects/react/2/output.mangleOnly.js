@@ -1,21 +1,21 @@
 (function() {
     {
-        ReactDebugCurrentFrame.setExtraStackFrame = function(a) {
+        ReactDebugCurrentFrame.setExtraStackFrame = function(t) {
             {
-                currentExtraStackFrame = a;
+                currentExtraStackFrame = t;
             }
         };
         ReactDebugCurrentFrame.getCurrentStack = null;
         ReactDebugCurrentFrame.getStackAddendum = function() {
-            var a = "";
+            var t = "";
             if (currentExtraStackFrame) {
-                a += currentExtraStackFrame;
+                t += currentExtraStackFrame;
             }
-            var b = ReactDebugCurrentFrame.getCurrentStack;
-            if (b) {
-                a += b() || "";
+            var n = ReactDebugCurrentFrame.getCurrentStack;
+            if (n) {
+                t += n() || "";
             }
-            return a;
+            return t;
         };
     }
 })();

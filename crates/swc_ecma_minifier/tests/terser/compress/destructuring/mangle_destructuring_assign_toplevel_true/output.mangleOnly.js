@@ -1,14 +1,14 @@
-function a(a) {
-    let e, f, g;
-    let h = a.a || {
+function e(e) {
+    let o, a, c;
+    let f = e.a || {
         e: 7,
         n: 8
     };
-    ({ t: b , e: c , n: d , s: e = 5 + 4 , o: f , r: g  } = h);
-    console.log(b, c, d, e, f, g);
+    ({ t , e: l , n , s: o = 5 + 4 , o: a , r: c  } = f);
+    console.log(t, l, n, o, a, c);
 }
-let b, c, d;
-a({
+let t, l, n;
+e({
     a: {
         t: 1,
         e: 2,
@@ -18,4 +18,4 @@ a({
         r: 6
     }
 });
-a({});
+e({});

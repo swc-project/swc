@@ -1,10 +1,10 @@
-export default class a {
+export default class s {
 };
 export class bar {
 }
-class b {
+class a {
     meth() {}
 }
-class c {
+class l {
 }
-console.log(a, bar, b, c, c);
+console.log(s, bar, a, l, l);

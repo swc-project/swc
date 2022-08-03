@@ -1,4 +1,4 @@
-const a = 5;
-var b = 2;
-while(b--)console.log(b);
-console.log(a);
+const l = 5;
+var o = 2;
+while(o--)console.log(o);
+console.log(l);

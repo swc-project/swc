@@ -1,13 +1,13 @@
-var a = 100, b = 10;
-switch(b){
+var a = 100, e = 10;
+switch(e){
     case a--:
         break;
-    case b:
-        var c;
+    case e:
+        var r;
         break;
     case a:
         break;
     case a--:
         break;
 }
-console.log(a, b);
+console.log(a, e);

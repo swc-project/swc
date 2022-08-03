@@ -1,14 +1,14 @@
-class a {
+class s {
     constructor(){}
     foo() {}
 }
-class b {
-    constructor(...a){}
+class c {
+    constructor(...s){}
     foo() {}
 }
-class c extends a {
+class o extends s {
 }
-var d = class a {
+var a = class s {
 };
-var e = class {
+var r = class {
 };

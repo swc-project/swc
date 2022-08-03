@@ -1,9 +1,9 @@
-good = function(a) {
-    return function(b) {
+good = function(n) {
+    return function(t) {
         try {
-            a();
+            n();
         } catch (c) {
-            b(c);
+            t(c);
         }
     };
 };

@@ -1,9 +1,9 @@
 {
-    const a = function() {};
-    a(bar());
+    const n = function() {};
+    n(bar());
 }{
-    let b = function() {};
-    b(bar());
+    let t = function() {};
+    t(bar());
 }{
     var c = function() {};
     c(bar());

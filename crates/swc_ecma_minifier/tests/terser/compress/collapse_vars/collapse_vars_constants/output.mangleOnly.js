@@ -1,18 +1,18 @@
-function a(a) {
-    var b = 4, c = a.prop, d = 5, e = sideeffect1(), f = sideeffect2();
-    return (c + (function() {
-        return e - b * f - d;
+function n(n) {
+    var r = 4, t = n.prop, u = 5, o = sideeffect1(), c = sideeffect2();
+    return (t + (function() {
+        return o - r * c - u;
     })());
 }
-function b(a) {
-    var b = 4, c = a.prop, d = 5, e = sideeffect1(), f = sideeffect2();
-    return (c + (function() {
-        return -b * f - d;
+function r(n) {
+    var r = 4, t = n.prop, u = 5, o = sideeffect1(), c = sideeffect2();
+    return (t + (function() {
+        return -r * c - u;
     })());
 }
-function c(a) {
-    var b = 4, c = a.prop, d = 5, e = sideeffect1();
-    return (c + (function() {
-        return -b - d;
+function t(n) {
+    var r = 4, t = n.prop, u = 5, o = sideeffect1();
+    return (t + (function() {
+        return -r - u;
     })());
 }

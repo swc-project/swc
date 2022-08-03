@@ -1,4 +1,4 @@
-var b = 1, c = 2;
+var n = 1, f = 2;
 (function() {
-    for([[b], c] in a);
+    for([[n], f] in a);
 })();

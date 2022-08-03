@@ -1,2 +1,2 @@
-const a = ()=>null;
-console.log(id(a) === id(a));
+const l = ()=>null;
+console.log(id(l) === id(l));

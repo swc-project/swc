@@ -1,3 +1,3 @@
 var a = `foo ${"`;\n`${any}"} bar`;
-var b = `foo ${any} bar` + "`;\n`${any}";
-var c = `foo ${"`;\n`${any}"} ${any} bar`;
+var o = `foo ${any} bar` + "`;\n`${any}";
+var r = `foo ${"`;\n`${any}"} ${any} bar`;

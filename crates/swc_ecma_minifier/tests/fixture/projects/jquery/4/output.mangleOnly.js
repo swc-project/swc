@@ -1,24 +1,24 @@
 export const obj = {
-    parseXML: function(a) {
-        var b, c;
-        if (!a || typeof a !== "string") {
+    parseXML: function(e) {
+        var r, n;
+        if (!e || typeof e !== "string") {
             return null;
         }
         try {
             if (window.DOMParser) {
-                c = new DOMParser();
-                b = c.parseFromString(a, "text/xml");
+                n = new DOMParser();
+                r = n.parseFromString(e, "text/xml");
             } else {
-                b = new ActiveXObject("Microsoft.XMLDOM");
-                b.async = "false";
-                b.loadXML(a);
+                r = new ActiveXObject("Microsoft.XMLDOM");
+                r.async = "false";
+                r.loadXML(e);
             }
-        } catch (d) {
-            b = undefined;
+        } catch (t) {
+            r = undefined;
         }
-        if (!b || !b.documentElement || b.getElementsByTagName("parsererror").length) {
-            jQuery.error("Invalid XML: " + a);
+        if (!r || !r.documentElement || r.getElementsByTagName("parsererror").length) {
+            jQuery.error("Invalid XML: " + e);
         }
-        return b;
+        return r;
     }
 };

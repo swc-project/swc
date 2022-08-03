@@ -1,8 +1,8 @@
-var a = 1;
+var r = 1;
 try {
-    var b = (function a(b) {
-        throw b;
+    var a = (function r(a) {
+        throw a;
     })(2);
-    var c = --a + b;
-} catch (d) {}
-console.log(a);
+    var t = --r + a;
+} catch (c) {}
+console.log(r);

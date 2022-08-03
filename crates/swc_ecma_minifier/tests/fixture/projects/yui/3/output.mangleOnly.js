@@ -1,50 +1,50 @@
 Y.Loader.prototype._rollup = function() {
-    var a, b, c, d, e = this.required, f, g = this.moduleInfo, h, i, j;
+    var e, i, r, s, t = this.required, l, o = this.moduleInfo, f, u, h;
     if (this.dirty || !this.rollups) {
         this.rollups = {};
-        for(a in g){
-            if (g.hasOwnProperty(a)) {
-                c = this.getModule(a);
-                if (c && c.rollup) {
-                    this.rollups[a] = c;
+        for(e in o){
+            if (o.hasOwnProperty(e)) {
+                r = this.getModule(e);
+                if (r && r.rollup) {
+                    this.rollups[e] = r;
                 }
             }
         }
     }
     for(;;){
-        h = false;
-        for(a in this.rollups){
-            if (this.rollups.hasOwnProperty(a)) {
-                if (!e[a] && (!this.loaded[a] || this.forceMap[a])) {
-                    c = this.getModule(a);
-                    d = c.supersedes || [];
-                    f = false;
-                    if (!c.rollup) {
+        f = false;
+        for(e in this.rollups){
+            if (this.rollups.hasOwnProperty(e)) {
+                if (!t[e] && (!this.loaded[e] || this.forceMap[e])) {
+                    r = this.getModule(e);
+                    s = r.supersedes || [];
+                    l = false;
+                    if (!r.rollup) {
                         continue;
                     }
-                    i = 0;
-                    for(b = 0; b < d.length; b++){
-                        j = g[d[b]];
-                        if (this.loaded[d[b]] && !this.forceMap[d[b]]) {
-                            f = false;
+                    u = 0;
+                    for(i = 0; i < s.length; i++){
+                        h = o[s[i]];
+                        if (this.loaded[s[i]] && !this.forceMap[s[i]]) {
+                            l = false;
                             break;
-                        } else if (e[d[b]] && c.type === j.type) {
-                            i++;
-                            f = i >= c.rollup;
-                            if (f) {
+                        } else if (t[s[i]] && r.type === h.type) {
+                            u++;
+                            l = u >= r.rollup;
+                            if (l) {
                                 break;
                             }
                         }
                     }
-                    if (f) {
-                        e[a] = true;
-                        h = true;
-                        this.getRequires(c);
+                    if (l) {
+                        t[e] = true;
+                        f = true;
+                        this.getRequires(r);
                     }
                 }
             }
         }
-        if (!h) {
+        if (!f) {
             break;
         }
     }

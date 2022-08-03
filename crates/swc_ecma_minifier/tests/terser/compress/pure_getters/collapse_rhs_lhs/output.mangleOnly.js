@@ -1,5 +1,5 @@
-function a(a, b) {
-    (a.b = b), (b += 2);
-    console.log(a.b, b);
+function b(b, n) {
+    (b.b = n), (n += 2);
+    console.log(b.b, n);
 }
-a({}, 1);
+b({}, 1);

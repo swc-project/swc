@@ -1,6 +1,6 @@
-var a = "bar";
-var b = {
-    get: a,
+var e = "bar";
+var t = {
+    get: e,
     set: "foo",
     get bar () {
         return this.get;
@@ -27,19 +27,19 @@ var b = {
         this._eleven = value;
     }
 };
-var c = {
+var r = {
     get () {
         return "gift";
     },
-    set: function(a) {
-        return "Storing code " + a;
+    set: function(e) {
+        return "Storing code " + e;
     }
 };
-var d = {
+var n = {
     ["get"]: "foo",
     ["set"]: "bar"
 };
-var e = {
+var s = {
     get: "foo",
     set: "bar"
 };

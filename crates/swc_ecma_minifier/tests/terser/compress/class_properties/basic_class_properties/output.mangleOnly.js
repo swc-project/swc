@@ -1,4 +1,4 @@
-class a {
+class t {
     static foo;
     bar;
     static fil = "P";
@@ -8,9 +8,9 @@ class a {
     #a;
     #b = "S";
     toString() {
-        if ("bar" in this && "foo" in a) {
-            return a.fil + this.another + this.set + this.#b;
+        if ("bar" in this && "foo" in t) {
+            return t.fil + this.another + this.set + this.#b;
         }
     }
 }
-console.log(new a().toString());
+console.log(new t().toString());

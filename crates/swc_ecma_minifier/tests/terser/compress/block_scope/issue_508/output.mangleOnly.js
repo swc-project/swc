@@ -1,17 +1,17 @@
-const a = ()=>{
-    let a;
+const l = ()=>{
+    let l;
     {
-        let b = [];
+        let t = [];
         {
             console.log();
         }
-        a = b;
+        l = t;
         {
-            let c = a;
-            let d = 123456;
-            console.log(d);
-            c.push(d);
+            let e = l;
+            let o = 123456;
+            console.log(o);
+            e.push(o);
         }
     }
 };
-a();
+l();

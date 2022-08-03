@@ -1,6 +1,6 @@
-class a {
+class c {
 }
-function b() {}
-(class a {
+function n() {}
+(class c {
 });
-(function a() {});
+(function c() {});

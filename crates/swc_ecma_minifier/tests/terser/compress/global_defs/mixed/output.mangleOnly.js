@@ -1,7 +1,7 @@
-const a = {
+const o = {
     BAR: 0
 };
-console.log(a.BAR);
+console.log(o.BAR);
 console.log(++CONFIG.DEBUG);
 console.log(++CONFIG.VALUE);
 console.log(++CONFIG["VAL" + "UE"]);

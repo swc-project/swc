@@ -1,10 +1,10 @@
 (function() {
     console.log(1);
 })();
-(function(a) {
-    console.log(a);
+(function(n) {
+    console.log(n);
 })(2);
-(function(a) {
-    var b = a;
-    console.log(b);
+(function(n) {
+    var o = n;
+    console.log(o);
 })(3);

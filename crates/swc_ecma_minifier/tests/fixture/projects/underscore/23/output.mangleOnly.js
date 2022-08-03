@@ -1,10 +1,10 @@
-_.once = function(a) {
-    var b = false, c;
+_.once = function(n) {
+    var r = false, t;
     return function() {
-        if (b) return c;
-        b = true;
-        c = a.apply(this, arguments);
-        a = null;
-        return c;
+        if (r) return t;
+        r = true;
+        t = n.apply(this, arguments);
+        n = null;
+        return t;
     };
 };

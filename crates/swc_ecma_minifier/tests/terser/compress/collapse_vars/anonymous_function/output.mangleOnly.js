@@ -1,4 +1,4 @@
-console.log((function a(b) {
-    a ^= 0;
-    return a * b;
+console.log((function n(o) {
+    n ^= 0;
+    return n * o;
 })(1));

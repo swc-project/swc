@@ -1,6 +1,6 @@
-function a() {
-    if (code == 16) var a = 2, b = 3, c = len;
-    else if (code == 17) var a = 3, b = 3, c = (len = 0);
-    else if (code == 18) var a = 7, b = 11, c = (len = 0);
-    var d = this.getBits(a) + b;
+function i() {
+    if (code == 16) var i = 2, e = 3, _ = len;
+    else if (code == 17) var i = 3, e = 3, _ = (len = 0);
+    else if (code == 18) var i = 7, e = 11, _ = (len = 0);
+    var a = this.getBits(i) + e;
 }

@@ -1,10 +1,10 @@
-function a(a) {
-    return a != null;
+function n(n) {
+    return n != null;
 }
-function b(b, c) {
-    if (b == null || a(b)) {
+function r(r, u) {
+    if (r == null || n(r)) {
         return true;
     }
     return false;
 }
-module.exports = b;
+module.exports = r;

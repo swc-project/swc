@@ -1,7 +1,7 @@
-function a() {
-    return b();
+function n() {
+    return t();
 }
-function b() {
-    return b["call" + "er"].arguments;
+function t() {
+    return t["call" + "er"].arguments;
 }
-console.log(a(1, 2, 3).length);
+console.log(n(1, 2, 3).length);

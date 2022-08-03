@@ -1,7 +1,7 @@
-const a = {
+const C = {
     CCC: "PASS"
 };
 if (id(true)) {
-    const b = a.CCC;
-    console.log(b);
+    const o = C.CCC;
+    console.log(o);
 }

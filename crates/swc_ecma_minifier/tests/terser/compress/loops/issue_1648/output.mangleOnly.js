@@ -1,5 +1,5 @@
-function a() {
+function i() {
     x();
-    var a = 1;
+    var i = 1;
     while(1);
 }

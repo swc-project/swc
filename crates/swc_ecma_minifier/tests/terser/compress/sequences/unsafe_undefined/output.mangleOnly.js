@@ -1,8 +1,8 @@
-function f(f) {
+function n(n) {
     if (a) return b;
     if (c) return d;
 }
-function g(f) {
+function r(n) {
     if (a) return b;
     if (c) return d;
     e();

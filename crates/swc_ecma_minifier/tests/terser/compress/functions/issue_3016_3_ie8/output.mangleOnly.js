@@ -1,11 +1,11 @@
-var a = 1;
+var r = 1;
 do {
     console.log((function() {
-        return a ? "FAIL" : (a = "PASS");
+        return r ? "FAIL" : (r = "PASS");
         try {
-            a = 2;
-        } catch (a) {
-            var a;
+            r = 2;
+        } catch (r) {
+            var r;
         }
     })());
-}while (a--)
+}while (r--)

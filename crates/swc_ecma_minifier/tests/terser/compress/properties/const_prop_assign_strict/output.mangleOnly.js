@@ -1,4 +1,4 @@
-function a() {
+function t() {
     /abc/.index = 1;
     this._aircraft = [];
 }

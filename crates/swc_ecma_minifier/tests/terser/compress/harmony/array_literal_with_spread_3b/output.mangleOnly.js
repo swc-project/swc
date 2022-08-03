@@ -1,4 +1,4 @@
-var a = [];
+var $ = [];
 console.log([
     10,
     20
@@ -12,47 +12,47 @@ console.log([
     20
 ][2]);
 console.log([
-    ...a,
+    ...$,
     10,
     20
 ][0]);
 console.log([
-    ...a,
+    ...$,
     10,
     20
 ][1]);
 console.log([
-    ...a,
+    ...$,
     10,
     20
 ][2]);
 console.log([
     10,
-    ...a,
+    ...$,
     20
 ][0]);
 console.log([
     10,
-    ...a,
+    ...$,
     20
 ][1]);
 console.log([
     10,
-    ...a,
+    ...$,
     20
 ][2]);
 console.log([
     10,
     20,
-    ...a
+    ...$
 ][0]);
 console.log([
     10,
     20,
-    ...a
+    ...$
 ][1]);
 console.log([
     10,
     20,
-    ...a
+    ...$
 ][2]);

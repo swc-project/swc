@@ -1,7 +1,7 @@
-global.leak = (a)=>console.log(a);
+global.leak = (l)=>console.log(l);
 global.num = 4;
-let a = -1;
-for(const b in [
+let l = -1;
+for(const n in [
     0,
     1,
     2,
@@ -9,5 +9,5 @@ for(const b in [
     4,
     5
 ]){
-    a++, b == num && leak(a);
+    l++, n == num && leak(l);
 }

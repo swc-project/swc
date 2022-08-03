@@ -1,4 +1,4 @@
-function a() {
-    class a {
+function c() {
+    class c {
     }
 }

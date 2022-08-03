@@ -1,8 +1,8 @@
-var a;
+var e;
 if (some_condition()) {
-    a();
+    e();
 } else {
-    a();
+    e();
 }
 if (some_condition()) {
     side_effects();

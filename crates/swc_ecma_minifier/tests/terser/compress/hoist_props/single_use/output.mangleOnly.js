@@ -1,6 +1,6 @@
-var a = {
+var r = {
     bar: function() {
         return 42;
     }
 };
-console.log(a.bar());
+console.log(r.bar());

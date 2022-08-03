@@ -1,10 +1,10 @@
-var a = 100, b = 10;
+var a = 100, e = 10;
 function c() {
-    switch(--b){
+    switch(--e){
         default:
         case !function a() {}:
             break;
-        case b--:
+        case e--:
             switch(0){
                 default:
                 case a--:
@@ -15,4 +15,4 @@ function c() {
     }
 }
 c();
-console.log(a, b);
+console.log(a, e);

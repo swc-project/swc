@@ -1,8 +1,8 @@
-var a = {
+var b = {
     get b () {
         throw 0;
     }
 };
 ({
-    ...a
+    ...b
 }.b);

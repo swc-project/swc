@@ -1,10 +1,10 @@
-let a = ()=>0;
-let b = ()=>{
+let e = ()=>0;
+let t = ()=>{
     "use strict";
 };
-let c = ()=>{
+let l = ()=>{
     "use strict";
-    let a = ()=>{
+    let e = ()=>{
         "use strict";
     };
 };

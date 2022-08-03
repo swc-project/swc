@@ -1,15 +1,15 @@
 export var Test;
-(function(a) {
-    let b;
-    (function(b) {
-        b["Test"] = "1";
-        b["Test2"] = "2";
-        b["Test3"] = "3";
-    })(b = a.testEnum || (a.testEnum = {}));
-    let c;
-    (function(c) {
-        c["Test"] = "1";
-        c["Test2"] = "2";
-        c["Test3"] = "3";
-    })(c = a.testEnum2 || (a.testEnum2 = {}));
+(function(t) {
+    let e;
+    (function(e) {
+        e["Test"] = "1";
+        e["Test2"] = "2";
+        e["Test3"] = "3";
+    })(e = t.testEnum || (t.testEnum = {}));
+    let n;
+    (function(n) {
+        n["Test"] = "1";
+        n["Test2"] = "2";
+        n["Test3"] = "3";
+    })(n = t.testEnum2 || (t.testEnum2 = {}));
 })(Test || (Test = {}));

@@ -1,12 +1,12 @@
-function* a() {
+function* n() {
     yield;
 }
-function* b() {
+function* i() {
     yield undefined;
 }
-function* c() {
+function* l() {
     yield null;
 }
-function* d() {
+function* u() {
     yield* undefined;
 }

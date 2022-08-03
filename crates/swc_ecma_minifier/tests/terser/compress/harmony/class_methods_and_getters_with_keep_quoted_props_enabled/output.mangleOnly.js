@@ -1,4 +1,4 @@
-class a {
+class t {
     a() {}
     b() {}
     get c() {
@@ -7,10 +7,10 @@ class a {
     get d() {
         return "d";
     }
-    set e(a) {
-        doSomething(a);
+    set e(t) {
+        doSomething(t);
     }
-    set f(a) {
+    set f(t) {
         doSomething(b);
     }
     static g() {}

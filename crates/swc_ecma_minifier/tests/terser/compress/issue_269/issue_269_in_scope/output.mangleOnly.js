@@ -1,2 +1,2 @@
-var a, b, c;
-f(a(x), b(x, x), c(x));
+var a, r, v;
+f(a(x), r(x, x), v(x));

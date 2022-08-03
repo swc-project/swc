@@ -1,12 +1,12 @@
 !(function() {
-    function a() {
+    function n() {
         c();
     }
-    function b() {
-        a();
+    function o() {
+        n();
     }
     function c() {
-        b();
+        o();
     }
     console.log("PASS");
 })();

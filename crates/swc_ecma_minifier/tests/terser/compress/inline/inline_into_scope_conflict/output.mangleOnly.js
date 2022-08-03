@@ -1,14 +1,14 @@
-var a = pass;
-const b = function b() {
-    a();
+var n = pass;
+const o = function o() {
+    n();
 };
-const c = function a() {
+const c = function n() {
     for(;;){
-        b();
+        o();
         break;
     }
 };
 (function() {
-    var a = id(a);
+    var n = id(n);
     c();
 })();

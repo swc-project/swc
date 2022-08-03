@@ -1,1 +1,1 @@
-function* a() {}
+function* n() {}

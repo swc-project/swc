@@ -1,19 +1,19 @@
-function a(a, b, c) {
-    return b in a ? Object.defineProperty(a, b, {
-        value: c,
+function E(E, e, t) {
+    return e in E ? Object.defineProperty(E, e, {
+        value: t,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : a[b] = c, a;
+    }) : E[e] = t, E;
 }
-var b;
-export var DML_Statements = (a(b = {}, PrivilegeType.DML_SELECT, "Select"), a(b, PrivilegeType.DML_SELECT_SEQUENCE, "Select Sequence"), a(b, PrivilegeType.DML_DELETE, "Delete"), a(b, PrivilegeType.DML_INSERT, "Insert"), a(b, PrivilegeType.DML_UPDATE, "Update"), a(b, PrivilegeType.DML_MERGE_INTO, "Merge into"), b);
-var c;
-export var DCL_Statements = (a(c = {}, PrivilegeType.DCL_GRANT, "Grant"), a(c, PrivilegeType.DCL_REVOKE, "Revoke"), a(c, PrivilegeType.DCL_COMMIT, "Commit"), a(c, PrivilegeType.DCL_ROLLBACK, "Rollback"), c);
-var d;
-export var DDL_Statements = (a(d = {}, PrivilegeType.DDL_DROP, "Drop"), a(d, PrivilegeType.DDL_ALTER, "Alter"), a(d, PrivilegeType.DDL_CREATE, "Create"), a(d, PrivilegeType.DDL_RENAME, "Rename"), a(d, PrivilegeType.DDL_TRUNCATE, "Truncate"), d);
 var e;
-export var ETC_Statements = (a(e = {}, PrivilegeType.ETC_BEGIN, "Begin"), a(e, PrivilegeType.ETC_EXECUTE, "Execute"), a(e, PrivilegeType.ETC_EXPLAIN, "Explain"), a(e, PrivilegeType.ETC_OTHERS, "Etc."), e);
+export var DML_Statements = (E(e = {}, PrivilegeType.DML_SELECT, "Select"), E(e, PrivilegeType.DML_SELECT_SEQUENCE, "Select Sequence"), E(e, PrivilegeType.DML_DELETE, "Delete"), E(e, PrivilegeType.DML_INSERT, "Insert"), E(e, PrivilegeType.DML_UPDATE, "Update"), E(e, PrivilegeType.DML_MERGE_INTO, "Merge into"), e);
+var t;
+export var DCL_Statements = (E(t = {}, PrivilegeType.DCL_GRANT, "Grant"), E(t, PrivilegeType.DCL_REVOKE, "Revoke"), E(t, PrivilegeType.DCL_COMMIT, "Commit"), E(t, PrivilegeType.DCL_ROLLBACK, "Rollback"), t);
+var T;
+export var DDL_Statements = (E(T = {}, PrivilegeType.DDL_DROP, "Drop"), E(T, PrivilegeType.DDL_ALTER, "Alter"), E(T, PrivilegeType.DDL_CREATE, "Create"), E(T, PrivilegeType.DDL_RENAME, "Rename"), E(T, PrivilegeType.DDL_TRUNCATE, "Truncate"), T);
+var a;
+export var ETC_Statements = (E(a = {}, PrivilegeType.ETC_BEGIN, "Begin"), E(a, PrivilegeType.ETC_EXECUTE, "Execute"), E(a, PrivilegeType.ETC_EXPLAIN, "Explain"), E(a, PrivilegeType.ETC_OTHERS, "Etc."), a);
 export var AWS_REGION = [
     {
         value: "ap-northeast-2",
@@ -108,13 +108,13 @@ export var AWS_REGION = [
         text: "South America (S\xe3o Paulo)"
     }, 
 ];
-var f;
-export var NotificationChannelTypes = (a(f = {}, NotificationServiceType.HTTP, "HTTP"), a(f, NotificationServiceType.AGIT, "Agit"), a(f, NotificationServiceType.SLACK, "Slack"), a(f, NotificationServiceType.KAKAOWORK, "Kakaowork"), f);
-var g;
-export var AlertActionGroup = (a(g = {}, ActionTypeGroup.APPROVAL, "New Request"), a(g, ActionTypeGroup.DATABASE_AUTHENTICATION, "DB Connection Attempt"), a(g, ActionTypeGroup.EXCEL_EXPORT, "Data Export"), a(g, ActionTypeGroup.SQL_EXECUTION_PREVENTED, "Prevented SQL Execution"), a(g, ActionTypeGroup.SENSITIVE_DATA, "Sensitive Data Access"), a(g, ActionTypeGroup.SQL_EXECUTION, "SQL Execution"), g);
-var h;
-export var AUDIT_ACTION_TYPE = (a(h = {}, AuditActionType.CONNECTION, "Connection"), a(h, AuditActionType.SQL_EXECUTION, "SQL Execution"), a(h, AuditActionType.EXPORT_DATA, "Export Data"), a(h, AuditActionType.IMPORT_DATA, "Import Data"), a(h, AuditActionType.EXPORT_SCHEMA, "Export Schema"), a(h, AuditActionType.IMPORT_SCHEMA, "Import Schema"), a(h, AuditActionType.COPY_CLIPBOARD, "Copy Clipboard"), h);
-var i;
-export var ROLE_HISTORY_MODE_TYPE = (a(i = {}, RoleHistoryModeType.USER_ADD, "User Added"), a(i, RoleHistoryModeType.USER_MOD, "User Modified"), a(i, RoleHistoryModeType.USER_REMOVE, "User Removed"), a(i, RoleHistoryModeType.GROUP_ADD, "Group Added"), a(i, RoleHistoryModeType.GROUP_MOD, "Group Modified"), a(i, RoleHistoryModeType.GROUP_REMOVE, "Group Removed"), a(i, RoleHistoryModeType.ROLE_GRANTED, "Role Granted"), a(i, RoleHistoryModeType.ROLE_REVOKED, "Role Revoked"), a(i, RoleHistoryModeType.ACL_ADD, "Access Control Granted"), a(i, RoleHistoryModeType.ACL_MOD, "Access Control Updated"), a(i, RoleHistoryModeType.ACL_REMOVE, "Access Control Revoked"), a(i, RoleHistoryModeType.ACL_EXPIRED, "Access Control Expired"), i);
-var j;
-export var HISTORY_ACTION_TYPE = (a(j = {}, HistoryActionType.CONNECT, "Connect"), a(j, HistoryActionType.DISCONNECT, "Disconnect"), a(j, HistoryActionType.LOGIN, "User Login"), a(j, HistoryActionType.LOGOUT, "User Logout"), a(j, HistoryActionType.LOCKED, "Account Locked"), a(j, HistoryActionType.EXPIRED, "Account Expired"), a(j, HistoryActionType.LOCKED_MANUALLY, "Account Locked Manually"), a(j, HistoryActionType.UNLOCK, "Account Unlocked"), j);
+var D;
+export var NotificationChannelTypes = (E(D = {}, NotificationServiceType.HTTP, "HTTP"), E(D, NotificationServiceType.AGIT, "Agit"), E(D, NotificationServiceType.SLACK, "Slack"), E(D, NotificationServiceType.KAKAOWORK, "Kakaowork"), D);
+var O;
+export var AlertActionGroup = (E(O = {}, ActionTypeGroup.APPROVAL, "New Request"), E(O, ActionTypeGroup.DATABASE_AUTHENTICATION, "DB Connection Attempt"), E(O, ActionTypeGroup.EXCEL_EXPORT, "Data Export"), E(O, ActionTypeGroup.SQL_EXECUTION_PREVENTED, "Prevented SQL Execution"), E(O, ActionTypeGroup.SENSITIVE_DATA, "Sensitive Data Access"), E(O, ActionTypeGroup.SQL_EXECUTION, "SQL Execution"), O);
+var L;
+export var AUDIT_ACTION_TYPE = (E(L = {}, AuditActionType.CONNECTION, "Connection"), E(L, AuditActionType.SQL_EXECUTION, "SQL Execution"), E(L, AuditActionType.EXPORT_DATA, "Export Data"), E(L, AuditActionType.IMPORT_DATA, "Import Data"), E(L, AuditActionType.EXPORT_SCHEMA, "Export Schema"), E(L, AuditActionType.IMPORT_SCHEMA, "Import Schema"), E(L, AuditActionType.COPY_CLIPBOARD, "Copy Clipboard"), L);
+var A;
+export var ROLE_HISTORY_MODE_TYPE = (E(A = {}, RoleHistoryModeType.USER_ADD, "User Added"), E(A, RoleHistoryModeType.USER_MOD, "User Modified"), E(A, RoleHistoryModeType.USER_REMOVE, "User Removed"), E(A, RoleHistoryModeType.GROUP_ADD, "Group Added"), E(A, RoleHistoryModeType.GROUP_MOD, "Group Modified"), E(A, RoleHistoryModeType.GROUP_REMOVE, "Group Removed"), E(A, RoleHistoryModeType.ROLE_GRANTED, "Role Granted"), E(A, RoleHistoryModeType.ROLE_REVOKED, "Role Revoked"), E(A, RoleHistoryModeType.ACL_ADD, "Access Control Granted"), E(A, RoleHistoryModeType.ACL_MOD, "Access Control Updated"), E(A, RoleHistoryModeType.ACL_REMOVE, "Access Control Revoked"), E(A, RoleHistoryModeType.ACL_EXPIRED, "Access Control Expired"), A);
+var C;
+export var HISTORY_ACTION_TYPE = (E(C = {}, HistoryActionType.CONNECT, "Connect"), E(C, HistoryActionType.DISCONNECT, "Disconnect"), E(C, HistoryActionType.LOGIN, "User Login"), E(C, HistoryActionType.LOGOUT, "User Logout"), E(C, HistoryActionType.LOCKED, "Account Locked"), E(C, HistoryActionType.EXPIRED, "Account Expired"), E(C, HistoryActionType.LOCKED_MANUALLY, "Account Locked Manually"), E(C, HistoryActionType.UNLOCK, "Account Unlocked"), C);

@@ -1,7 +1,7 @@
-function a() {
+function n() {
     return 1;
 }
-function b() {
-    console.log(a());
+function o() {
+    console.log(n());
 }
-b();
+o();

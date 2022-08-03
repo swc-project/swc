@@ -1,4 +1,4 @@
-function* a() {
-    var a = {};
-    a.prop = yield 5;
+function* i() {
+    var i = {};
+    i.prop = yield 5;
 }

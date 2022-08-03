@@ -1,6 +1,6 @@
-export default function a(a) {
-    const b = ()=>{
+export default function t(t) {
+    const n = ()=>{
         return "test";
     };
-    return a`${b()}`;
+    return t`${n()}`;
 };

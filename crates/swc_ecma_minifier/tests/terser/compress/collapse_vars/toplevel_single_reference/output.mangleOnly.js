@@ -1,5 +1,5 @@
-var a;
-for(var b in x){
-    var a = b;
-    b(a);
+var r;
+for(var a in x){
+    var r = a;
+    a(r);
 }

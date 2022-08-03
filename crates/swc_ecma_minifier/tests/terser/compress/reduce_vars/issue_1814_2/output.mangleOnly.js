@@ -1,7 +1,7 @@
-const a = "32";
+const n = "32";
 !(function() {
-    var b = a + 1;
-    !(function(a) {
-        console.log(b, a++);
+    var o = n + 1;
+    !(function(n) {
+        console.log(o, n++);
     })(0);
 })();

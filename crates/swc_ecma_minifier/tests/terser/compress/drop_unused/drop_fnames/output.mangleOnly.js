@@ -1,5 +1,5 @@
-function a() {
-    return function a() {
-        var b = a;
+function n() {
+    return function n() {
+        var r = n;
     };
 }

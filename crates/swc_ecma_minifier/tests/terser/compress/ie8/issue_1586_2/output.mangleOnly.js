@@ -1,7 +1,7 @@
-function a() {
+function c() {
     try {
         x();
-    } catch (a) {
-        console.log(a.message);
+    } catch (c) {
+        console.log(c.message);
     }
 }

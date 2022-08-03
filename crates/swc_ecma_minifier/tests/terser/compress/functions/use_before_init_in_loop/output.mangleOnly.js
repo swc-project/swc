@@ -1,7 +1,7 @@
-var a = "PASS";
-for(var b = 2; --b >= 0;)(function() {
-    var b = (function() {
+var r = "PASS";
+for(var n = 2; --n >= 0;)(function() {
+    var n = (function() {
         return 1;
-    })(b && (a = "FAIL"));
+    })(n && (r = "FAIL"));
 })();
-console.log(a);
+console.log(r);

@@ -1,9 +1,9 @@
-function* a(a = 0, b = null, c = 1) {
-    if (b == null) {
-        b = a;
-        a = 0;
+function* l(l = 0, n = null, f = 1) {
+    if (n == null) {
+        n = l;
+        l = 0;
     }
-    for(let d = a; d < b; d += c){
-        yield d;
+    for(let i = l; i < n; i += f){
+        yield i;
     }
 }

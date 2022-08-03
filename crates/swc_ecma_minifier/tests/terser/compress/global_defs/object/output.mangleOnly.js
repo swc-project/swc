@@ -1,13 +1,13 @@
-function a(a) {
-    return a.VALUE;
+function n(n) {
+    return n.VALUE;
 }
-function b() {
-    var a = {
+function r() {
+    var n = {
         VALUE: 1
     };
-    return a.VALUE;
+    return n.VALUE;
 }
-function c() {
+function u() {
     return CONFIG.VALUE;
 }
 if (CONFIG.DEBUG[0]) console.debug("foo");

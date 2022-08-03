@@ -1,9 +1,9 @@
-let a = [
+let l = [
     1
 ];
-let b;
-while(a.length > 0){
-    b = a.sort();
-    a = [];
-    b.forEach((a)=>console.log(a));
+let e;
+while(l.length > 0){
+    e = l.sort();
+    l = [];
+    e.forEach((l)=>console.log(l));
 }

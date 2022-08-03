@@ -1,12 +1,12 @@
-import { jsx as a, Fragment as b } from "react/jsx-runtime";
-import { useRouter as c } from "next/router";
-import { useProject as d } from "@swr/use-project";
-import e from "@swr/use-team";
-export default function f() {
-    var f = c().query, g = f.project;
-    var h = d(g), i = h.data;
-    var j = e(), k = j.teamSlug;
-    var l = i === null || i === void 0 ? void 0 : i.id;
-    var m = useProjectBranches(l), n = m.data;
-    return a(b, {});
+import { jsx as r, Fragment as a } from "react/jsx-runtime";
+import { useRouter as o } from "next/router";
+import { useProject as t } from "@swr/use-project";
+import m from "@swr/use-team";
+export default function i() {
+    var i = o().query, e = i.project;
+    var v = t(e), d = v.data;
+    var f = m(), p = f.teamSlug;
+    var u = d === null || d === void 0 ? void 0 : d.id;
+    var n = useProjectBranches(u), l = n.data;
+    return r(a, {});
 };

@@ -1,7 +1,7 @@
-var a = 1, b = 0;
+var a = 1, e = 0;
 do {
-    b++;
+    e++;
     if (!--a) break;
-    b = 1 + b;
+    e = 1 + e;
 }while (0)
-console.log(a, b);
+console.log(a, e);

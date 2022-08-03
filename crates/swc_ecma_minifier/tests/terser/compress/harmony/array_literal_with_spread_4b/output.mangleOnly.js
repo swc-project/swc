@@ -1,62 +1,62 @@
-var a = [];
-function b(a) {
-    console.log("(" + a + ")");
-    return 10 * a;
+var _ = [];
+function o(_) {
+    console.log("(" + _ + ")");
+    return 10 * _;
 }
 console.log([
-    b(1),
-    b(2)
+    o(1),
+    o(2)
 ][0]);
 console.log([
-    b(1),
-    b(2)
+    o(1),
+    o(2)
 ][1]);
 console.log([
-    b(1),
-    b(2)
+    o(1),
+    o(2)
 ][2]);
 console.log([
-    ...a,
-    b(1),
-    b(2)
+    ..._,
+    o(1),
+    o(2)
 ][0]);
 console.log([
-    ...a,
-    b(1),
-    b(2)
+    ..._,
+    o(1),
+    o(2)
 ][1]);
 console.log([
-    ...a,
-    b(1),
-    b(2)
+    ..._,
+    o(1),
+    o(2)
 ][2]);
 console.log([
-    b(1),
-    ...a,
-    b(2)
+    o(1),
+    ..._,
+    o(2)
 ][0]);
 console.log([
-    b(1),
-    ...a,
-    b(2)
+    o(1),
+    ..._,
+    o(2)
 ][1]);
 console.log([
-    b(1),
-    ...a,
-    b(2)
+    o(1),
+    ..._,
+    o(2)
 ][2]);
 console.log([
-    b(1),
-    b(2),
-    ...a
+    o(1),
+    o(2),
+    ..._
 ][0]);
 console.log([
-    b(1),
-    b(2),
-    ...a
+    o(1),
+    o(2),
+    ..._
 ][1]);
 console.log([
-    b(1),
-    b(2),
-    ...a
+    o(1),
+    o(2),
+    ..._
 ][2]);

@@ -1,11 +1,11 @@
 "use strict";
-console.log((function a() {
-    return c;
-    function b(a) {
-        return a || a();
+console.log((function n() {
+    return t;
+    function r(n) {
+        return n || n();
     }
-    function c(a) {
-        b(a);
-        return a;
+    function t(n) {
+        r(n);
+        return n;
     }
 })()(42));

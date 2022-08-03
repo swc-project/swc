@@ -1,5 +1,5 @@
-(function(a) {
-    while(a());
-})(function a() {
-    console.log(typeof a);
+(function(n) {
+    while(n());
+})(function n() {
+    console.log(typeof n);
 });

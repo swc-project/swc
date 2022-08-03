@@ -1,2 +1,2 @@
-var a;
-if (((a = x()), a)) if (a == y()) z();
+var f;
+if (((f = x()), f)) if (f == y()) z();

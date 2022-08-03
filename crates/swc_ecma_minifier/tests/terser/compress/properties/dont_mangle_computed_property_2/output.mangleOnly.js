@@ -1,6 +1,6 @@
-const a = Symbol("foo");
-const b = {
-    [a]: "bar",
+const n = Symbol("foo");
+const i = {
+    [n]: "bar",
     baz: 1,
     qux: 2,
     [3 + 4]: "seven",
@@ -12,5 +12,5 @@ const b = {
     NaN: "nan",
     void: "Void"
 };
-console.log(b[a], b["baz"], b.qux, b[7], b[0], b[1 + 0], b[null], b[undefined], b[1 / 0], b[NaN], b.void);
-console.log(b.null, b.undefined, b.Infinity, b.NaN);
+console.log(i[n], i["baz"], i.qux, i[7], i[0], i[1 + 0], i[null], i[undefined], i[1 / 0], i[NaN], i.void);
+console.log(i.null, i.undefined, i.Infinity, i.NaN);

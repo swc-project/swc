@@ -1,9 +1,9 @@
-function a() {
+function n() {
     {
-        const a = 1;
+        const n = 1;
     }
     {
-        let b;
+        let o;
     }
     console.log(x, y);
 }

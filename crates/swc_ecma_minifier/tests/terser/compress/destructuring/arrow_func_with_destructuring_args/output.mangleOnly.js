@@ -1,5 +1,5 @@
-(({ foo: a = 1 + 0 , bar: b = 2  }, [c = 3, d = 4])=>{
-    console.log(a, b, c, d);
+(({ foo: o = 1 + 0 , bar: a = 2  }, [b = 3, r = 4])=>{
+    console.log(o, a, b, r);
 })({
     bar: 5 - 0
 }, [

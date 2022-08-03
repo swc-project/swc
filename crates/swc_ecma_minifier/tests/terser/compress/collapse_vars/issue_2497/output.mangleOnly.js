@@ -1,16 +1,16 @@
-function a() {
+function r() {
     if (true) {
-        for(var a = 0; a < 1; ++a){
-            for(var b = 0; b < 1; ++b){
-                var c = 1;
-                var d = c;
-                c = d ? d + 1 : 0;
+        for(var r = 0; r < 1; ++r){
+            for(var a = 0; a < 1; ++a){
+                var v = 1;
+                var _ = v;
+                v = _ ? _ + 1 : 0;
             }
         }
     } else {
-        for(var a = 0; a < 1; ++a){
-            for(var b = 0; b < 1; ++b){
-                var c = 1;
+        for(var r = 0; r < 1; ++r){
+            for(var a = 0; a < 1; ++a){
+                var v = 1;
             }
         }
     }

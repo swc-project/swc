@@ -1,7 +1,7 @@
-function a() {
-    var a = 1;
-    var b = 2;
-    var c = 3;
-    function d() {}
-    return d(a, b, c);
+function n() {
+    var n = 1;
+    var r = 2;
+    var a = 3;
+    function t() {}
+    return t(n, r, a);
 }

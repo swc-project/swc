@@ -1,8 +1,8 @@
-let a = "FAIL";
-class b {
-    static [a = "PASS"];
+let s = "FAIL";
+class l {
+    static [s = "PASS"];
 }
-console.log(a);
-class c {
+console.log(s);
+class t {
     static [console.log("PASS")];
 }

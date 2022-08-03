@@ -1,7 +1,7 @@
-_.contains = _.include = function(a, b) {
-    if (a == null) return false;
-    if (nativeIndexOf && a.indexOf === nativeIndexOf) return a.indexOf(b) != -1;
-    return any(a, function(a) {
-        return a === b;
+_.contains = _.include = function(n, e) {
+    if (n == null) return false;
+    if (nativeIndexOf && n.indexOf === nativeIndexOf) return n.indexOf(e) != -1;
+    return any(n, function(n) {
+        return n === e;
     });
 };

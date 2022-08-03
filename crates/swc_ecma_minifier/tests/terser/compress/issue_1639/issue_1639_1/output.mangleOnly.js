@@ -1,10 +1,10 @@
-var a = 100, b = 10;
-var c = 5;
-while(--c > 0){
-    if ((--b, false)) {
-        if (b) {
-            var d = 0;
+var $ = 100, a = 10;
+var f = 5;
+while(--f > 0){
+    if ((--a, false)) {
+        if (a) {
+            var i = 0;
         }
     }
 }
-console.log(a, b);
+console.log($, a);

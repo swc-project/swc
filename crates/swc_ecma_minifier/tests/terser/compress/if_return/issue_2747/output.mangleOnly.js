@@ -1,14 +1,14 @@
 "use strict";
-function a(a) {
-    if (a === 0) {
+function e(e) {
+    if (e === 0) {
         return null;
     }
-    let b;
-    if (a > 2) {
-        b = 4;
+    let l;
+    if (e > 2) {
+        l = 4;
     } else {
-        b = 5;
+        l = 5;
     }
-    return b;
+    return l;
 }
-console.log(a(0), a(1), a(3));
+console.log(e(0), e(1), e(3));

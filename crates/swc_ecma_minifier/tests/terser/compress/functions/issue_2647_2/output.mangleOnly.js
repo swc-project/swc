@@ -1,6 +1,6 @@
 (function() {
-    function a(a) {
-        return a.toUpperCase();
+    function n(n) {
+        return n.toUpperCase();
     }
-    console.log((()=>a("pass"))());
+    console.log((()=>n("pass"))());
 })();

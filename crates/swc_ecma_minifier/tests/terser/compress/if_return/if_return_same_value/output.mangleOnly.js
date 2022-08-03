@@ -1,4 +1,4 @@
-function a() {
+function r() {
     if (foo) {
         return x();
     }
@@ -6,7 +6,7 @@ function a() {
         return x();
     }
 }
-function b() {
+function n() {
     if (foo) {
         return x();
     }
@@ -15,7 +15,7 @@ function b() {
     }
     return x();
 }
-function c() {
+function t() {
     if (foo) {
         return x();
     }

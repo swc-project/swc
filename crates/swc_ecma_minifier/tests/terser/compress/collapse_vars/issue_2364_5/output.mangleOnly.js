@@ -1,8 +1,8 @@
-function a(a, b, c) {
-    var d = 3 - b;
-    var e = a;
-    var f = 7;
-    var g = "run";
-    var h = (e[g](d)[f] = c);
-    return h;
+function r(r, a, v) {
+    var n = 3 - a;
+    var t = r;
+    var u = 7;
+    var c = "run";
+    var e = (t[c](n)[u] = v);
+    return e;
 }

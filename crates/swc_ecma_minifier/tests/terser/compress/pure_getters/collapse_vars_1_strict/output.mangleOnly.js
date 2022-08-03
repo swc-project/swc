@@ -1,7 +1,7 @@
-function a(a, b) {
+function r(r, a) {
     for(;;){
-        var c = a.g();
-        var d = b.p;
-        if (c || d) break;
+        var f = r.g();
+        var i = a.p;
+        if (f || i) break;
     }
 }

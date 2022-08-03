@@ -1,2 +1,2 @@
-let a = ()=>String.raw;
-console.log(a()`\4321\u\x`);
+let l = ()=>String.raw;
+console.log(l()`\4321\u\x`);

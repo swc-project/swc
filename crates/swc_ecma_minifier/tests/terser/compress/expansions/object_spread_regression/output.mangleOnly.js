@@ -1,5 +1,5 @@
-const a = ()=>{
-    let a = {
+const t = ()=>{
+    let t = {
         ...{}
     };
 };

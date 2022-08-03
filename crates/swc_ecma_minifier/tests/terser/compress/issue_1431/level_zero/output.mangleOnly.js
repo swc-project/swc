@@ -1,8 +1,8 @@
-function a(a) {
-    function b(a) {
-        return a * a;
+function n(n) {
+    function r(n) {
+        return n * n;
     }
     return function() {
-        return a;
+        return n;
     };
 }

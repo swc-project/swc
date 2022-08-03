@@ -1,7 +1,7 @@
-function a() {
-    function a() {
-        L: for(var a in x)break L;
+function n() {
+    function n() {
+        L: for(var n in x)break L;
     }
-    a();
+    n();
 }
-a();
+n();

@@ -1,6 +1,6 @@
 console.log((function() {
-    var a = 1, b = "FAIL";
-    if (0 || a--) b = "PASS";
-    a = 1;
-    return b;
+    var n = 1, r = "FAIL";
+    if (0 || n--) r = "PASS";
+    n = 1;
+    return r;
 })());

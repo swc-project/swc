@@ -1,7 +1,7 @@
-function a() {
-    function a() {}
-    a.prototype = {};
-    a.prototype.bar = 42;
-    return a;
+function o() {
+    function o() {}
+    o.prototype = {};
+    o.prototype.bar = 42;
+    return o;
 }
-console.log(new (a())().bar);
+console.log(new (o())().bar);

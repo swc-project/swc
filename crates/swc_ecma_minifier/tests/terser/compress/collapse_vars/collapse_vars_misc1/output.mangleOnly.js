@@ -1,53 +1,53 @@
-function a(a, b, c) {
-    var d = 3 - b;
-    var e = a;
-    var f = 7;
-    var g = "run";
-    var h = (e[g](d)[f] = c);
-    return h;
+function r(r, n, t) {
+    var a = 3 - n;
+    var v = r;
+    var c = 7;
+    var o = "run";
+    var e = (v[o](a)[c] = t);
+    return e;
 }
-function b(a) {
-    var b = 5 - a;
-    return b;
+function n(r) {
+    var n = 5 - r;
+    return n;
 }
-function c(a) {
-    const b = foo(), c = b / (5 - a);
-    return c;
+function t(r) {
+    const n = foo(), t = n / (5 - r);
+    return t;
 }
-function d(a) {
-    var b = foo(), c = (5 - a) / b;
-    return c;
+function a(r) {
+    var n = foo(), t = (5 - r) / n;
+    return t;
 }
-function e(a) {
-    var b = foo(), c = (5 - u) / b;
-    return c;
+function v(r) {
+    var n = foo(), t = (5 - u) / n;
+    return t;
 }
-function f(a) {
-    const b = foo(), c = (5 - window.x) / b;
-    return c;
+function c(r) {
+    const n = foo(), t = (5 - window.x) / n;
+    return t;
 }
-function g() {
-    var a = window.a * window.z;
-    return a && zap();
+function o() {
+    var r = window.a * window.z;
+    return r && zap();
 }
-function h() {
-    var a = window.a * window.z;
-    return a + a;
+function e() {
+    var r = window.a * window.z;
+    return r + r;
+}
+function f() {
+    var r = window.a * window.z;
+    var n = r + 5;
+    return r + n;
 }
 function i() {
-    var a = window.a * window.z;
-    var b = a + 5;
-    return a + b;
+    var r = window.a * window.z;
+    return bar() || r;
 }
-function j() {
-    var a = window.a * window.z;
-    return bar() || a;
+function z(r) {
+    var n = 5, t = 3;
+    return (n += t);
 }
-function k(a) {
-    var b = 5, c = 3;
-    return (b += c);
-}
-function l(a) {
-    var b = 5, c = 3;
-    return (b += --c);
+function s(r) {
+    var n = 5, t = 3;
+    return (n += --t);
 }

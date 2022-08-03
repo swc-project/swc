@@ -1,8 +1,8 @@
-!(function(a) {
+!(function(t) {
     try {
         throw 0;
-    } catch (b) {
-        a = 123456789 / 0;
+    } catch (c) {
+        t = 123456789 / 0;
     }
-    console.log(a);
+    console.log(t);
 })();

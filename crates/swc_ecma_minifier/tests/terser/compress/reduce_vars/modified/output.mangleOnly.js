@@ -1,46 +1,46 @@
-function a() {
-    var a = 1, b = 2;
-    b++;
-    console.log(a + 1);
-    console.log(b + 1);
+function o() {
+    var o = 1, l = 2;
+    l++;
+    console.log(o + 1);
+    console.log(l + 1);
 }
-function b() {
-    var a = 1, b = 2;
-    --b;
-    console.log(a + 1);
-    console.log(b + 1);
+function l() {
+    var o = 1, l = 2;
+    --l;
+    console.log(o + 1);
+    console.log(l + 1);
 }
-function c() {
-    var a = 1, b = 2, c = 3;
-    b = c;
-    console.log(a + b);
-    console.log(b + c);
-    console.log(a + c);
-    console.log(a + b + c);
+function g() {
+    var o = 1, l = 2, g = 3;
+    l = g;
+    console.log(o + l);
+    console.log(l + g);
+    console.log(o + g);
+    console.log(o + l + g);
 }
-function d() {
-    var a = 1, b = 2, c = 3;
-    b *= c;
-    console.log(a + b);
-    console.log(b + c);
-    console.log(a + c);
-    console.log(a + b + c);
+function n() {
+    var o = 1, l = 2, g = 3;
+    l *= g;
+    console.log(o + l);
+    console.log(l + g);
+    console.log(o + g);
+    console.log(o + l + g);
 }
-function e() {
-    var a = 1, b = 2, c = 3;
-    if (a) {
-        b = c;
+function f() {
+    var o = 1, l = 2, g = 3;
+    if (o) {
+        l = g;
     } else {
-        c = b;
+        g = l;
     }
-    console.log(a + b);
-    console.log(b + c);
-    console.log(a + c);
-    console.log(a + b + c);
+    console.log(o + l);
+    console.log(l + g);
+    console.log(o + g);
+    console.log(o + l + g);
 }
-function f(a) {
-    B = a;
+function _(o) {
+    B = o;
     console.log(typeof A ? "yes" : "no");
     console.log(typeof B ? "yes" : "no");
 }
-a(), b(), c(), d(), e(), f();
+o(), l(), g(), n(), f(), _();

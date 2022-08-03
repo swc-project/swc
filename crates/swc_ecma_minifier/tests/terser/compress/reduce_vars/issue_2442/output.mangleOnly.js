@@ -1,3 +1,3 @@
-function a() {
-    a();
+function n() {
+    n();
 }

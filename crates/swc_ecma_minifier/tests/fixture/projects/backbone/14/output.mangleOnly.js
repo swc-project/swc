@@ -1,47 +1,47 @@
 export const obj = {
-    set: function(a, b, c) {
-        var d, e, f, g, h, i, j, k;
-        if (a == null) return this;
-        if (typeof a === "object") {
-            e = a;
-            c = b;
+    set: function(i, t, e) {
+        var s, h, n, r, u, f, g, a;
+        if (i == null) return this;
+        if (typeof i === "object") {
+            h = i;
+            e = t;
         } else {
-            (e = {})[a] = b;
+            (h = {})[i] = t;
         }
-        c || (c = {});
-        if (!this._validate(e, c)) return false;
-        f = c.unset;
-        h = c.silent;
-        g = [];
-        i = this._changing;
+        e || (e = {});
+        if (!this._validate(h, e)) return false;
+        n = e.unset;
+        u = e.silent;
+        r = [];
+        f = this._changing;
         this._changing = true;
-        if (!i) {
+        if (!f) {
             this._previousAttributes = _.clone(this.attributes);
             this.changed = {};
         }
-        (k = this.attributes), (j = this._previousAttributes);
-        if (this.idAttribute in e) this.id = e[this.idAttribute];
-        for(d in e){
-            b = e[d];
-            if (!_.isEqual(k[d], b)) g.push(d);
-            if (!_.isEqual(j[d], b)) {
-                this.changed[d] = b;
+        (a = this.attributes), (g = this._previousAttributes);
+        if (this.idAttribute in h) this.id = h[this.idAttribute];
+        for(s in h){
+            t = h[s];
+            if (!_.isEqual(a[s], t)) r.push(s);
+            if (!_.isEqual(g[s], t)) {
+                this.changed[s] = t;
             } else {
-                delete this.changed[d];
+                delete this.changed[s];
             }
-            f ? delete k[d] : (k[d] = b);
+            n ? delete a[s] : (a[s] = t);
         }
-        if (!h) {
-            if (g.length) this._pending = true;
-            for(var l = 0, m = g.length; l < m; l++){
-                this.trigger("change:" + g[l], this, k[g[l]], c);
+        if (!u) {
+            if (r.length) this._pending = true;
+            for(var l = 0, d = r.length; l < d; l++){
+                this.trigger("change:" + r[l], this, a[r[l]], e);
             }
         }
-        if (i) return this;
-        if (!h) {
+        if (f) return this;
+        if (!u) {
             while(this._pending){
                 this._pending = false;
-                this.trigger("change", this, c);
+                this.trigger("change", this, e);
             }
         }
         this._pending = false;

@@ -1,5 +1,5 @@
 export const obj = {
-    eq: function(a, b) {
-        return b >= 0 ? a(this[b]) : a(this[this.length + b]);
+    eq: function(t, n) {
+        return n >= 0 ? t(this[n]) : t(this[this.length + n]);
     }
 };
