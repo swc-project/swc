@@ -72,7 +72,7 @@ impl CharFreq {
                 wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
             };
 
-            emitter.emit_program(&p).unwrap();
+            emitter.emit_program(p).unwrap();
         }
 
         let code = String::from_utf8(buf).unwrap();
@@ -185,13 +185,12 @@ impl Base54Chars {
             JsWord::from(std::str::from_utf8_unchecked(&ret))
         };
 
-        if skip_reserved {
-            while s.is_reserved()
+        if skip_reserved
+            && (s.is_reserved()
                 || s.is_reserved_in_strict_bind()
-                || s.is_reserved_in_strict_mode(true)
-            {
-                return self.encode(init, skip_reserved);
-            }
+                || s.is_reserved_in_strict_mode(true))
+        {
+            return self.encode(init, skip_reserved);
         }
 
         s
@@ -199,7 +198,7 @@ impl Base54Chars {
 }
 
 pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl VisitMut {
-    let base54 = CharFreq::compute(&program).compile();
+    let base54 = CharFreq::compute(program).compile();
 
     chain!(
         self::private_name::private_name_mangler(options.keep_private_props),
