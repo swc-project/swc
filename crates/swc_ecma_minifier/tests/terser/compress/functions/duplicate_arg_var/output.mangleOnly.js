@@ -1,4 +1,4 @@
-console.log((function(a) {
-    return a + "ING";
-    var a;
+console.log((function(n) {
+    return n + "ING";
+    var n;
 })("PASS"));

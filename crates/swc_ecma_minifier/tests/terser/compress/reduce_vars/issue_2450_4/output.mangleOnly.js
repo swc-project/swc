@@ -1,7 +1,7 @@
-var a;
-function b(b) {
-    console.log(a === b);
-    a = b;
+var n;
+function o(o) {
+    console.log(n === o);
+    n = o;
 }
-function c() {}
-for(var d = 3; --d >= 0;)b(c);
+function f() {}
+for(var r = 3; --r >= 0;)o(f);

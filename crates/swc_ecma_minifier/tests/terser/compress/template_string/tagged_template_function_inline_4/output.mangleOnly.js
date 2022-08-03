@@ -1,4 +1,4 @@
-const a = {
+const t = {
     pl: function() {}
 };
-a.pl`test`;
+t.pl`test`;

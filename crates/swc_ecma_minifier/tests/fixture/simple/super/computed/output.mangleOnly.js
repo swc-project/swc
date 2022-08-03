@@ -1,4 +1,4 @@
-class a extends B {
+class s extends B {
     foo() {
         console.log(super["dsaas"]);
     }

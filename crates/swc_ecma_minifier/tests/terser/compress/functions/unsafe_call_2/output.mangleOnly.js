@@ -1,9 +1,9 @@
-function c() {
+function l() {
     console.log(a, b);
 }
-var d = (function(c, d) {
-    console.log(this, c, d);
+var n = (function(l, n) {
+    console.log(this, l, n);
 })(function() {
-    c.call("foo", "bar");
-    d.call("foo", "bar");
+    l.call("foo", "bar");
+    n.call("foo", "bar");
 })();

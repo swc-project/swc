@@ -1,6 +1,6 @@
 "use asm";
 0.0;
-function a() {
+function $() {
     0.0;
     (function() {
         0.0;

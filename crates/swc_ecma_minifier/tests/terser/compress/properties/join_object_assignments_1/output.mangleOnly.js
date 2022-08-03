@@ -1,11 +1,11 @@
 console.log((function() {
-    var a = {
+    var o = {
         a: 1,
         c: (console.log("c"), "C")
     };
-    a.b = 2;
-    (a[3] = function() {
-        console.log(a);
-    }), (a["a"] = /foo/), (a.bar = a);
-    return a;
+    o.b = 2;
+    (o[3] = function() {
+        console.log(o);
+    }), (o["a"] = /foo/), (o.bar = o);
+    return o;
 })());

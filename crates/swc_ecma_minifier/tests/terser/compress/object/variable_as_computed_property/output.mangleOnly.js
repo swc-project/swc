@@ -1,5 +1,5 @@
-function a(a) {
+function n(n) {
     return {
-        [a]: {}
+        [n]: {}
     };
 }

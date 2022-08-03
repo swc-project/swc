@@ -1,8 +1,8 @@
-export function getInsertStringLength(a, b, c, d) {
-    var e = a.mask, f = a.maskChar, g = c.split(""), h = d;
-    return (g.every(function(b) {
-        for(; (g = b), isPermanentCharacter(a, (c = d)) && g !== e[c];)if (++d >= e.length) return !1;
-        var c, g;
-        return ((isAllowedCharacter(a, d, b) || b === f) && d++, d < e.length);
-    }), d - h);
+export function getInsertStringLength(r, n, t, e) {
+    var a = r.mask, u = r.maskChar, f = t.split(""), i = e;
+    return (f.every(function(n) {
+        for(; (f = n), isPermanentCharacter(r, (t = e)) && f !== a[t];)if (++e >= a.length) return !1;
+        var t, f;
+        return ((isAllowedCharacter(r, e, n) || n === u) && e++, e < a.length);
+    }), e - i);
 }

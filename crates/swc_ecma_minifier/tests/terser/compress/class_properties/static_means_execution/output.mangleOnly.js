@@ -1,13 +1,13 @@
-let a = 0;
-class b {
+let s = 0;
+class l {
+}
+class a {
+    prop = (s = s === 1 ? "PASS" : "FAIL");
 }
 class c {
-    prop = (a = a === 1 ? "PASS" : "FAIL");
+    static prop = (s = s === 0 ? 1 : "FAIL");
 }
-class d {
-    static prop = (a = a === 0 ? 1 : "FAIL");
-}
-new b();
+new l();
+new a();
 new c();
-new d();
-console.log(a);
+console.log(s);

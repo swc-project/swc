@@ -1,9 +1,9 @@
-var a = function() {};
-a.prototype.set = function(a) {
-    this.value = a;
+var t = function() {};
+t.prototype.set = function(t) {
+    this.value = t;
     return this;
 };
-a.prototype.print = function() {
+t.prototype.print = function() {
     console.log(this.value);
 };
-new a().set("PASS").print();
+new t().set("PASS").print();

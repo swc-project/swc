@@ -1,2 +1,2 @@
-function a() {}
-a`test`;
+function t() {}
+t`test`;

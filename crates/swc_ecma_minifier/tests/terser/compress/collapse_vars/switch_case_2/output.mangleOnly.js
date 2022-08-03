@@ -1,7 +1,7 @@
-var a = 1, b = 2;
-switch(b++){
-    case b:
-        var c = a;
+var a = 1, r = 2;
+switch(r++){
+    case r:
+        var v = a;
         var a;
         break;
 }

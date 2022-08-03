@@ -1,7 +1,7 @@
-function a(a) {
+function n(n) {
     return {
         c: 42,
-        d: a(),
+        d: n(),
         e: "foo"
     };
 }

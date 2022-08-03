@@ -1,6 +1,6 @@
-var a;
+var e;
 if (some_condition()) {
-    new a(1);
+    new e(1);
 } else {
-    a(2);
+    e(2);
 }

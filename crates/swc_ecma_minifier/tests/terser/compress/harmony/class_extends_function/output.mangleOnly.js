@@ -1,4 +1,4 @@
-class a extends function() {} {
+class n extends function() {} {
 }
-class b extends function a() {} {
+class s extends function n() {} {
 }

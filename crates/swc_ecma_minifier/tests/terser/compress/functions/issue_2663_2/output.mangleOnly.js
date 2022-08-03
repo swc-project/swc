@@ -1,13 +1,13 @@
 (function() {
-    var a;
-    function b(a) {
+    var n;
+    function o(n) {
         return (function() {
-            console.log(a);
+            console.log(n);
         })();
     }
-    for(a in {
+    for(n in {
         a: 1,
         b: 2,
         c: 3
-    })b(a);
+    })o(n);
 })();

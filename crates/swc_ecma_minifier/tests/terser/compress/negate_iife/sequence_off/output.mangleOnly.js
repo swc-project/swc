@@ -1,4 +1,4 @@
-function a() {
+function n() {
     (function() {
         return t;
     })() ? console.log(true) : console.log(false);
@@ -6,7 +6,7 @@ function a() {
         console.log("something");
     })();
 }
-function b() {
+function o() {
     (function() {
         console.log("something");
     })();

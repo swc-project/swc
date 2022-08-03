@@ -1,7 +1,7 @@
-export const IndexPage = (a)=>{
-    if (a === "loading") {
+export const IndexPage = (e)=>{
+    if (e === "loading") {
         return 1;
-    } else if (a === "error") {
+    } else if (e === "error") {
         return 2;
     } else {
         return 3;

@@ -1,8 +1,8 @@
-const a = {
-    navigate: function(a, b) {
+const t = {
+    navigate: function(t, e) {
         if (!History.started) return false;
-        if (!b || b === true) b = {
-            trigger: !!b
+        if (!e || e === true) e = {
+            trigger: !!e
         };
     }
 };

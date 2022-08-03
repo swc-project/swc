@@ -1,6 +1,6 @@
-var a;
-function b(b) {
-    a = foo();
-    b *= 4 + foo();
+var n;
+function a(a) {
+    n = foo();
+    a *= 4 + foo();
     c >>= 0 | foo();
 }

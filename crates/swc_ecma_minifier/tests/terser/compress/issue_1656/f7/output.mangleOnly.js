@@ -1,7 +1,7 @@
-var a = 100, b = 10;
-function c() {
-    var c = 5;
-    while(((b = a) ? !a : ~a ? null : (b += a)) && --c > 0){}
+var l = 100, $ = 10;
+function n() {
+    var n = 5;
+    while((($ = l) ? !l : ~l ? null : ($ += l)) && --n > 0){}
 }
-c();
-console.log(a, b);
+n();
+console.log(l, $);

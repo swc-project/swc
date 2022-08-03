@@ -1,11 +1,11 @@
-var a = "PASS";
-function b() {
-    return a;
+var n = "PASS";
+function r() {
+    return n;
 }
-function c() {
-    return b();
+function t() {
+    return r();
 }
 (function() {
-    var a = "FAIL";
-    if (a == a) console.log(c());
+    var n = "FAIL";
+    if (n == n) console.log(t());
 })();

@@ -1,8 +1,8 @@
-function a(a) {
-    return (a = {
+function n(n) {
+    return (n = {
         p: function() {
-            return a;
+            return n;
         }
     });
 }
-console.log(typeof a().p());
+console.log(typeof n().p());

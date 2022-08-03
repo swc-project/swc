@@ -1,2 +1,2 @@
-const a = (a)=>a;
-console.log(a(1, console.log(2)), a(3, 4));
+const o = (o)=>o;
+console.log(o(1, console.log(2)), o(3, 4));

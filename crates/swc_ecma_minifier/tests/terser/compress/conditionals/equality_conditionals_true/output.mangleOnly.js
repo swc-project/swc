@@ -1,9 +1,9 @@
-function a(a, b, c) {
-    console.log(a == (b ? a : a), a == (b ? a : c), a != (b ? a : a), a != (b ? a : c), a === (b ? a : a), a === (b ? a : c), a !== (b ? a : a), a !== (b ? a : c));
+function $($, l, n) {
+    console.log($ == (l ? $ : $), $ == (l ? $ : n), $ != (l ? $ : $), $ != (l ? $ : n), $ === (l ? $ : $), $ === (l ? $ : n), $ !== (l ? $ : $), $ !== (l ? $ : n));
 }
-a(0, 0, 0);
-a(0, true, 0);
-a(1, 2, 3);
-a(1, null, 3);
-a(NaN);
-a(NaN, "foo");
+$(0, 0, 0);
+$(0, true, 0);
+$(1, 2, 3);
+$(1, null, 3);
+$(NaN);
+$(NaN, "foo");

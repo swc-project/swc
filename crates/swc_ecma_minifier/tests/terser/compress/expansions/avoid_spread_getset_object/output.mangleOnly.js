@@ -1,15 +1,15 @@
-let a = {
+let e = {
     ...{
         get x () {
             return 1;
         }
     }
 };
-let b = {
+let t = {
     ...{
         set y (_){
             console.log(_);
         }
     }
 };
-console.log(a.x, b.y, (a.x = 2), (b.y = 3), a.x, b.y);
+console.log(e.x, t.y, (e.x = 2), (t.y = 3), e.x, t.y);

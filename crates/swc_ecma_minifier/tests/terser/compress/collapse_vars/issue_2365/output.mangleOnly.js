@@ -1,22 +1,22 @@
-console.log((function(a) {
-    var b = a.f;
-    a.f++;
-    return b;
+console.log((function(f) {
+    var n = f.f;
+    f.f++;
+    return n;
 })({
     f: 1
 }));
 console.log((function() {
-    var a = {
+    var f = {
         f: 1
-    }, b = a.f;
-    a.f++;
-    return b;
+    }, n = f.f;
+    f.f++;
+    return n;
 })());
 console.log({
     f: 1,
     g: function() {
-        var a = this.f;
+        var f = this.f;
         this.f++;
-        return a;
+        return f;
     }
 }.g());

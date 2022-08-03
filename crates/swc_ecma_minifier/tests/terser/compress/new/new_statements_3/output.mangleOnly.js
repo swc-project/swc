@@ -1,12 +1,12 @@
-new (function(a) {
-    this.foo = a;
+new (function(n) {
+    this.foo = n;
 })(1);
-new (function(a) {
-    this.foo = a;
+new (function(n) {
+    this.foo = n;
 })();
-new (function a(b) {
-    this.foo = b;
+new (function n(o) {
+    this.foo = o;
 })(1);
-new (function a(b) {
-    this.foo = b;
+new (function n(o) {
+    this.foo = o;
 })();

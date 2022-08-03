@@ -1,31 +1,31 @@
-function a() {
-    var a = {};
-    var a = [];
-    return a;
+function n() {
+    var n = {};
+    var n = [];
+    return n;
 }
-function b() {
-    var a = {};
-    a = [];
-    return a;
+function r() {
+    var n = {};
+    n = [];
+    return n;
 }
-function c() {
-    a = {};
-    var a = [];
-    return a;
+function t() {
+    n = {};
+    var n = [];
+    return n;
 }
-function d(a) {
-    a = {};
-    a = [];
-    return a;
+function u(n) {
+    n = {};
+    n = [];
+    return n;
 }
-function e(a) {
-    var a = {};
-    a = [];
-    return a;
+function o(n) {
+    var n = {};
+    n = [];
+    return n;
 }
-function f(a) {
-    a = {};
-    var a = [];
-    return a;
+function a(n) {
+    n = {};
+    var n = [];
+    return n;
 }
-console.log(a(), b(), c(), d(), e(), f());
+console.log(n(), r(), t(), u(), o(), a());

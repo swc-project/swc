@@ -1,9 +1,9 @@
-function a() {
-    const a = 2;
-    return 1 + a;
+function n() {
+    const n = 2;
+    return 1 + n;
 }
-function b() {
-    const a = 2;
-    a = 3;
-    return 1 + a;
+function t() {
+    const n = 2;
+    n = 3;
+    return 1 + n;
 }

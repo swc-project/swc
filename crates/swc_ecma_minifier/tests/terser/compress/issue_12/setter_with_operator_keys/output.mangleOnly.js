@@ -1,4 +1,4 @@
-var a = {
+var e = {
     get instanceof () {
         return test0;
     },

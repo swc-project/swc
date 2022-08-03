@@ -1,7 +1,7 @@
-function a(a) {
-    var b = (function() {
-        return a;
+function n(n) {
+    var r = (function() {
+        return n;
     })();
-    return a++ + b;
+    return n++ + r;
 }
-console.log(a(1));
+console.log(n(1));

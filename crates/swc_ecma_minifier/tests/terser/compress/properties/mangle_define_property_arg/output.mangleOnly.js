@@ -1,13 +1,13 @@
-var a = "propname";
-const b = {
-    some_prop: a
+var e = "propname";
+const r = {
+    some_prop: e
 };
-const c = console;
-c.log(b);
-Object.defineProperty(b, "some_prop", {
+const o = console;
+o.log(r);
+Object.defineProperty(r, "some_prop", {
     value: 3
 });
-Object.defineProperty(c, "lag", {
+Object.defineProperty(o, "lag", {
     value: 3
 });
 Object.defineProperty(console, "lag", {

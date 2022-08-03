@@ -1,7 +1,7 @@
-var a = 1;
-function b(c) {
-    c && b();
-    --a, a.toString();
+var n = 1;
+function o(t) {
+    t && o();
+    --n, n.toString();
 }
-b();
-console.log(a);
+o();
+console.log(n);

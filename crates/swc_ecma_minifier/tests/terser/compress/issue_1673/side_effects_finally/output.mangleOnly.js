@@ -1,11 +1,11 @@
-function a() {
-    function a() {
+function n() {
+    function n() {
         try {
             x();
-        } catch (a) {} finally{
+        } catch (n) {} finally{
             console.log("PASS");
         }
     }
-    a();
+    n();
 }
-a();
+n();

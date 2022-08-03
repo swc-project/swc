@@ -1,9 +1,9 @@
-function a() {
-    function a() {
+function n() {
+    function n() {
         L: do {
             break L;
         }while (1)
     }
-    a();
+    n();
 }
-a();
+n();

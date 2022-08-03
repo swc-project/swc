@@ -1,6 +1,6 @@
 export class C {
-    go(a, b) {
-        var c = a;
-        return a - b + c;
+    go(r, a) {
+        var e = r;
+        return r - a + e;
     }
 }

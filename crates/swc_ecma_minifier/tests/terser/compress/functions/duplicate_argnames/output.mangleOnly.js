@@ -1,6 +1,6 @@
-var a = "PASS";
-function b(b, b, b) {
-    b && (a = "FAIL");
+var n = "PASS";
+function o(o, o, o) {
+    o && (n = "FAIL");
 }
-b(0, console);
-console.log(a);
+o(0, console);
+console.log(n);

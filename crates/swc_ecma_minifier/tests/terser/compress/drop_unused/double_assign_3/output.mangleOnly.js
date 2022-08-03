@@ -1,4 +1,4 @@
-for(var a = 0; a < 2; a++)(b = void 0), (b = {
-    a: b
-}), console.log(b);
-var b;
+for(var a = 0; a < 2; a++)(o = void 0), (o = {
+    a: o
+}), console.log(o);
+var o;

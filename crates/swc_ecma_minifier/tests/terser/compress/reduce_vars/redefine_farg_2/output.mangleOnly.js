@@ -1,13 +1,13 @@
-function a(a) {
-    var a;
-    return typeof a;
+function n(n) {
+    var n;
+    return typeof n;
 }
-function b(a) {
-    var a = 42;
-    return typeof a;
+function r(n) {
+    var n = 42;
+    return typeof n;
 }
-function c(a, b) {
-    var a = b;
-    return typeof a;
+function t(n, r) {
+    var n = r;
+    return typeof n;
 }
-console.log(a([]), b([]), c([]));
+console.log(n([]), r([]), t([]));

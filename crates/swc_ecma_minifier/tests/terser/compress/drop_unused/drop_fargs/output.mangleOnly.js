@@ -1,3 +1,3 @@
-function a(a) {
-    var b = a;
+function n(n) {
+    var a = n;
 }

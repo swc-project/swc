@@ -1,11 +1,11 @@
-function a() {
-    function a() {
+function t() {
+    function t() {
         try {
             throw 0;
-        } catch (a) {
+        } catch (t) {
             console.log("PASS");
         }
     }
-    a();
+    t();
 }
-a();
+t();

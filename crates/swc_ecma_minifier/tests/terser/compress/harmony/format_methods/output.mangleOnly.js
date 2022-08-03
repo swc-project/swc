@@ -1,11 +1,11 @@
-class a extends B {
-    constructor(a){
+class s extends B {
+    constructor(s){
         x();
     }
-    static s(a, b) {
+    static s(s, t) {
         y();
     }
-    run(a, b, c) {
+    run(s, t, c) {
         z();
     }
 }

@@ -1,12 +1,12 @@
-function a() {
-    const a = "X";
-    return a + a;
+function n() {
+    const n = "X";
+    return n + n;
 }
-function b() {
-    const a = "X";
-    return a + a;
+function t() {
+    const n = "X";
+    return n + n;
 }
 function c() {
-    const a = "X";
-    return a + a;
+    const n = "X";
+    return n + n;
 }

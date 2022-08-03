@@ -1,6 +1,6 @@
-var a = 0;
+var n = 0;
 new (function() {
-    this[a++] = 1;
-    a += 1;
+    this[n++] = 1;
+    n += 1;
 })();
-console.log(a);
+console.log(n);

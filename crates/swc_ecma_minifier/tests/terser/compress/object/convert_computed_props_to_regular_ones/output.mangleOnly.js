@@ -1,4 +1,4 @@
-var a = {
+var _ = {
     ["hi"]: 0,
     ["A" + 1]: 1,
     [/B/]: 2,
@@ -12,6 +12,6 @@ var a = {
     [Infinity]: 10,
     [NaN]: 11
 };
-for(var b in a){
-    console.log(b, a[b]);
+for(var $ in _){
+    console.log($, _[$]);
 }

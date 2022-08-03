@@ -1,10 +1,10 @@
-var a = 1;
-function b() {
-    if (b) a = 2;
+var n = 1;
+function f() {
+    if (f) n = 2;
     {
-        function b() {}
-        b();
+        function f() {}
+        f();
     }
 }
-b();
-console.log(a);
+f();
+console.log(n);

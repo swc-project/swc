@@ -1,9 +1,9 @@
-const a = "FOO";
-const b = "BAR";
-class c {
-    [a] = "PASS";
-    static [b];
+const s = "FOO";
+const c = "BAR";
+class n {
+    [s] = "PASS";
+    static [c];
 }
-if ("BAR" in c) {
-    console.log(new c()[a]);
+if ("BAR" in n) {
+    console.log(new n()[s]);
 }

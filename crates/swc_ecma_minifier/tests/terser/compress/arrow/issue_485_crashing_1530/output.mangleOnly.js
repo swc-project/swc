@@ -1,4 +1,4 @@
-(function(a) {
+(function(r) {
     if (true) return;
-    var b = 42;
+    var t = 42;
 })(this);

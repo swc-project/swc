@@ -1,6 +1,6 @@
-function a() {
-    class a {
+function s() {
+    class s {
     }
-    class b {
+    class c {
     }
 }

@@ -1,24 +1,24 @@
-function d(d) {
-    if (2 == d) return foo();
-    if (3 == d) return bar();
-    if (4 == d) return baz();
-    fail(d);
+function r(r) {
+    if (2 == r) return foo();
+    if (3 == r) return bar();
+    if (4 == r) return baz();
+    fail(r);
 }
-function e(d) {
-    if (a(d)) return foo();
-    if (b(d)) return bar();
-    if (c(d)) return baz();
-    fail(d);
+function e(r) {
+    if (a(r)) return foo();
+    if (b(r)) return bar();
+    if (c(r)) return baz();
+    fail(r);
 }
-function f(d) {
-    if (a(d)) return foo();
-    else if (b(d)) return bar();
-    else if (c(d)) return baz();
-    else fail(d);
+function n(r) {
+    if (a(r)) return foo();
+    else if (b(r)) return bar();
+    else if (c(r)) return baz();
+    else fail(r);
 }
-function g(d) {
-    if (a(d)) return foo();
-    else if (b(d)) return bar();
-    else if (c(d)) return baz();
-    fail(d);
+function f(r) {
+    if (a(r)) return foo();
+    else if (b(r)) return bar();
+    else if (c(r)) return baz();
+    fail(r);
 }

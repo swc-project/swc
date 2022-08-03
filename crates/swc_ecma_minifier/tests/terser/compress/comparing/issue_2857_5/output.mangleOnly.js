@@ -1,10 +1,10 @@
-function a(a, b) {
-    (b && a === undefined) || a === null;
-    (b && a === undefined) || a !== null;
-    (b && a !== undefined) || a === null;
-    (b && a !== undefined) || a !== null;
-    b && a === undefined && a === null;
-    b && a === undefined && a !== null;
-    b && a !== undefined && a === null;
-    b && a !== undefined && a !== null;
+function l(l, n) {
+    (n && l === undefined) || l === null;
+    (n && l === undefined) || l !== null;
+    (n && l !== undefined) || l === null;
+    (n && l !== undefined) || l !== null;
+    n && l === undefined && l === null;
+    n && l === undefined && l !== null;
+    n && l !== undefined && l === null;
+    n && l !== undefined && l !== null;
 }

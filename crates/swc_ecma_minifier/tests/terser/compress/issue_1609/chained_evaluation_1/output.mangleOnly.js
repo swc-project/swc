@@ -1,8 +1,8 @@
 (function() {
-    var a = 1;
+    var n = 1;
     (function() {
-        var b = a, c;
-        c = f(b);
-        c.bar = b;
+        var a = n, r;
+        r = f(a);
+        r.bar = a;
     })();
 })();

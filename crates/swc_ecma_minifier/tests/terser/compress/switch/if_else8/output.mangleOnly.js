@@ -1,9 +1,9 @@
-function a(a) {
-    switch(a){
+function t(t) {
+    switch(t){
         case "bar":
             return "PASS";
         default:
             return "FAIL";
     }
 }
-console.log(a("bar"));
+console.log(t("bar"));

@@ -1,10 +1,10 @@
 if (false) {
-    var a = 123;
+    var e = 123;
 } else {
-    console.log(a);
+    console.log(e);
 }
 if (true) {
-    console.log(b);
+    console.log(l);
 } else {
-    var b = 123;
+    var l = 123;
 }

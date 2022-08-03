@@ -1,3 +1,3 @@
-var a = 100, b = 10;
-a++ && false && a ? 0 : 0;
-console.log(a, b);
+var $ = 100, a = 10;
+$++ && false && $ ? 0 : 0;
+console.log($, a);

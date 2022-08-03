@@ -1,7 +1,7 @@
-function a(a) {
-    return (a = b);
-    function b() {
-        return a;
+function n(n) {
+    return (n = t);
+    function t() {
+        return n;
     }
 }
-console.log(typeof a()());
+console.log(typeof n()());

@@ -1,19 +1,19 @@
 export const obj = {
-    proxy: function(a, b) {
-        var c, d, e;
-        if (typeof b === "string") {
-            e = a[b];
-            b = a;
-            a = e;
+    proxy: function(i, n) {
+        var t, u, r;
+        if (typeof n === "string") {
+            r = i[n];
+            n = i;
+            i = r;
         }
-        if (!jQuery.isFunction(a)) {
+        if (!jQuery.isFunction(i)) {
             return undefined;
         }
-        c = core_slice.call(arguments, 2);
-        d = function() {
-            return a.apply(b || this, c.concat(core_slice.call(arguments)));
+        t = core_slice.call(arguments, 2);
+        u = function() {
+            return i.apply(n || this, t.concat(core_slice.call(arguments)));
         };
-        d.guid = a.guid = a.guid || jQuery.guid++;
-        return d;
+        u.guid = i.guid = i.guid || jQuery.guid++;
+        return u;
     }
 };

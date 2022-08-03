@@ -1,18 +1,18 @@
-((a)=>{
-    a();
-})(()=>((a)=>{
-        a()().prop();
+((r)=>{
+    r();
+})(()=>((r)=>{
+        r()().prop();
     })(()=>{
-        let a = ()=>{
-            var a = ()=>{
+        let r = ()=>{
+            var r = ()=>{
                 console.log("PASS");
-            }, b = ()=>{
+            }, o = ()=>{
                 console.log;
-                a();
+                r();
             };
             return {
-                prop: b
+                prop: o
             };
         };
-        return a;
+        return r;
     }));

@@ -1,12 +1,12 @@
-var a = "PASS";
+var t = "PASS";
 try {
     throw 0;
-} catch (b) {
+} catch (c) {
     (function() {
-        function a() {
-            b = "FAIL";
+        function t() {
+            c = "FAIL";
         }
-        a(), a();
+        t(), t();
     })();
 }
-console.log(a);
+console.log(t);

@@ -1,4 +1,4 @@
-var a = {
+var n = {
     123: function() {
         console.log("123");
     },
@@ -21,10 +21,10 @@ var a = {
         console.log("undefined");
     }
 };
-a[123]();
-new a.foo();
-a.bar();
-a.Baz();
-a.BOO();
-new a.null();
-new a.undefined();
+n[123]();
+new n.foo();
+n.bar();
+n.Baz();
+n.BOO();
+new n.null();
+new n.undefined();

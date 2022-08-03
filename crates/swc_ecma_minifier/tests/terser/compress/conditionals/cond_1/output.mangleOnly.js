@@ -1,10 +1,10 @@
-function a(a, b) {
-    if (b) {
-        a(x);
+function e(e, f) {
+    if (f) {
+        e(x);
     } else {
-        a(y);
+        e(y);
     }
-    if (b) {
+    if (f) {
         side_effects(x);
     } else {
         side_effects(y);

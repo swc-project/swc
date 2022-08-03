@@ -1,5 +1,5 @@
 ({
-    emit: function a() {
+    emit: function n() {
         console.log("PASS");
     },
     run: function() {

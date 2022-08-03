@@ -1,6 +1,6 @@
 console.log((function() {
-    var a = (function() {
+    var n = (function() {
         return;
     })();
-    return a;
+    return n;
 })());

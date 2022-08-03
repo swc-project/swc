@@ -1,5 +1,5 @@
 new {
-    f: function(a) {
-        this.a = a;
+    f: function(f) {
+        this.a = f;
     }
 }.f(42);

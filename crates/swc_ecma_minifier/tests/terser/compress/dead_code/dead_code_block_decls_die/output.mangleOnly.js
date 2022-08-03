@@ -1,8 +1,8 @@
 if (0) {
-    let a = 6;
-    const b = 12;
-    class c {
+    let l = 6;
+    const s = 12;
+    class a {
     }
-    var d;
+    var c;
 }
 console.log(foo, bar, Baz);

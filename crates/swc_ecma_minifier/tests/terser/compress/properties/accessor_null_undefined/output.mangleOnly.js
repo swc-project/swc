@@ -1,10 +1,10 @@
-var a = 1;
-var b = {
+var n = 1;
+var e = {
     get null () {
-        return a;
+        return n;
     },
     set undefined (c){
-        a = c;
+        n = c;
     }
 };
-console.log(b.null, (b.undefined = 2), b.null);
+console.log(e.null, (e.undefined = 2), e.null);

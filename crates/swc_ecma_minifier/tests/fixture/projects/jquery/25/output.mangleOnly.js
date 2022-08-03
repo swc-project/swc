@@ -1,45 +1,45 @@
 export const obj = {
-    domManip: function(a, b, c) {
-        a = core_concat.apply([], a);
-        var d, e, f, g, h, i, j = 0, k = this.length, l = this, m = k - 1, n = a[0], o = jQuery.isFunction(n);
-        if (o || !(k <= 1 || typeof n !== "string" || jQuery.support.checkClone || !rchecked.test(n))) {
-            return this.each(function(d) {
-                var e = l.eq(d);
-                if (o) {
-                    a[0] = n.call(this, d, b ? e.html() : undefined);
+    domManip: function(t, e, i) {
+        t = core_concat.apply([], t);
+        var n, a, l, s, o, r, h = 0, f = this.length, c = this, p = f - 1, u = t[0], m = jQuery.isFunction(u);
+        if (m || !(f <= 1 || typeof u !== "string" || jQuery.support.checkClone || !rchecked.test(u))) {
+            return this.each(function(n) {
+                var a = c.eq(n);
+                if (m) {
+                    t[0] = u.call(this, n, e ? a.html() : undefined);
                 }
-                e.domManip(a, b, c);
+                a.domManip(t, e, i);
             });
         }
-        if (k) {
-            i = jQuery.buildFragment(a, this[0].ownerDocument, false, this);
-            d = i.firstChild;
-            if (i.childNodes.length === 1) {
-                i = d;
+        if (f) {
+            r = jQuery.buildFragment(t, this[0].ownerDocument, false, this);
+            n = r.firstChild;
+            if (r.childNodes.length === 1) {
+                r = n;
             }
-            if (d) {
-                b = b && jQuery.nodeName(d, "tr");
-                g = jQuery.map(getAll(i, "script"), disableScript);
-                f = g.length;
-                for(; j < k; j++){
-                    e = i;
-                    if (j !== m) {
-                        e = jQuery.clone(e, true, true);
-                        if (f) {
-                            jQuery.merge(g, getAll(e, "script"));
+            if (n) {
+                e = e && jQuery.nodeName(n, "tr");
+                s = jQuery.map(getAll(r, "script"), disableScript);
+                l = s.length;
+                for(; h < f; h++){
+                    a = r;
+                    if (h !== p) {
+                        a = jQuery.clone(a, true, true);
+                        if (l) {
+                            jQuery.merge(s, getAll(a, "script"));
                         }
                     }
-                    c.call(b && jQuery.nodeName(this[j], "table") ? findOrAppend(this[j], "tbody") : this[j], e, j);
+                    i.call(e && jQuery.nodeName(this[h], "table") ? findOrAppend(this[h], "tbody") : this[h], a, h);
                 }
-                if (f) {
-                    h = g[g.length - 1].ownerDocument;
-                    jQuery.map(g, restoreScript);
-                    for(j = 0; j < f; j++){
-                        e = g[j];
-                        if (rscriptType.test(e.type || "") && !jQuery._data(e, "globalEval") && jQuery.contains(h, e)) {
-                            if (e.src) {
+                if (l) {
+                    o = s[s.length - 1].ownerDocument;
+                    jQuery.map(s, restoreScript);
+                    for(h = 0; h < l; h++){
+                        a = s[h];
+                        if (rscriptType.test(a.type || "") && !jQuery._data(a, "globalEval") && jQuery.contains(o, a)) {
+                            if (a.src) {
                                 jQuery.ajax({
-                                    url: e.src,
+                                    url: a.src,
                                     type: "GET",
                                     dataType: "script",
                                     async: false,
@@ -47,12 +47,12 @@ export const obj = {
                                     throws: true
                                 });
                             } else {
-                                jQuery.globalEval((e.text || e.textContent || e.innerHTML || "").replace(rcleanScript, ""));
+                                jQuery.globalEval((a.text || a.textContent || a.innerHTML || "").replace(rcleanScript, ""));
                             }
                         }
                     }
                 }
-                i = d = null;
+                r = n = null;
             }
         }
         return this;

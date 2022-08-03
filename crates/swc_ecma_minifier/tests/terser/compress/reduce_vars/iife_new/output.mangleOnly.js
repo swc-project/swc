@@ -1,4 +1,4 @@
-var a = new (function(a, b, c) {
-    b++;
-    console.log(a - 1, b * 1, c + 2);
+var n = new (function(n, _, o) {
+    _++;
+    console.log(n - 1, _ * 1, o + 2);
 })(1, 2, 3);

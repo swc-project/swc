@@ -1,9 +1,9 @@
-console.log((function(a) {
+console.log((function(n) {
     return (function() {
-        return a + 1;
+        return n + 1;
     })();
-})(1), (function(a) {
-    return (function(a) {
-        return a === undefined;
+})(1), (function(n) {
+    return (function(n) {
+        return n === undefined;
     })();
 })(2));

@@ -1,5 +1,5 @@
-var a = {};
+var e = {};
 ({
     keep: 1
 });
-a.keep = a.change;
+e.keep = e.change;

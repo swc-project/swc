@@ -1,5 +1,5 @@
 var a = 1;
-function b() {
+function c() {
     a++;
     try {
         x();
@@ -7,5 +7,5 @@ function b() {
         var a;
     }
 }
-b();
+c();
 console.log(a);

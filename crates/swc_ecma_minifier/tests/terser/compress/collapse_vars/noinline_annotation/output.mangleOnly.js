@@ -1,2 +1,2 @@
-const a = ()=>console.log();
-a();
+const o = ()=>console.log();
+o();

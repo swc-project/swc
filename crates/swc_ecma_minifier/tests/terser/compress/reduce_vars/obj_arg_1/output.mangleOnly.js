@@ -1,9 +1,9 @@
-var a = 1;
-function b(a) {
-    return a.bar();
+var r = 1;
+function n(r) {
+    return r.bar();
 }
-console.log(b({
+console.log(n({
     bar: function() {
-        return a + a;
+        return r + r;
     }
 }));

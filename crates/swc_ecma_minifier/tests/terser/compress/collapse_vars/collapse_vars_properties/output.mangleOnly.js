@@ -1,9 +1,9 @@
-function a(a) {
-    var b = "LiteralProperty";
-    return !!-+a[b];
+function r(r) {
+    var n = "LiteralProperty";
+    return !!-+r[n];
 }
-function b(a) {
-    var b = "One";
-    var c = "Two";
-    return ~!!-+a[b + c];
+function n(r) {
+    var n = "One";
+    var t = "Two";
+    return ~!!-+r[n + t];
 }

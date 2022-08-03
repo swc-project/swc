@@ -1,4 +1,4 @@
-function a(b) {
-    return b ? b * a(b - 1) : 1;
+function n(o) {
+    return o ? o * n(o - 1) : 1;
 }
-console.log(a(5));
+console.log(n(5));

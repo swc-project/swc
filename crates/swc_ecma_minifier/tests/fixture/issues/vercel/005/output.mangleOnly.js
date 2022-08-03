@@ -1,113 +1,113 @@
-const a = 1000;
-const b = a * 60;
-const c = b * 60;
-const d = c * 24;
-const e = d * 7;
-const f = d * 365.25;
-function g(a, b) {
+const e = 1000;
+const s = e * 60;
+const n = s * 60;
+const t = n * 24;
+const c = t * 7;
+const r = t * 365.25;
+function a(e, s) {
     try {
-        if (typeof a === "string" && a.length > 0) {
-            return h(a);
-        } else if (typeof a === "number" && isFinite(a)) {
-            return b?.long ? j(a) : i(a);
+        if (typeof e === "string" && e.length > 0) {
+            return u(e);
+        } else if (typeof e === "number" && isFinite(e)) {
+            return s?.long ? i(e) : o(e);
         }
         throw new Error("Value is not a string or number.");
-    } catch (c) {
-        const d = l(c) ? `${c.message}. value=${JSON.stringify(a)}` : "An unknown error has occured.";
-        throw new Error(d);
+    } catch (n) {
+        const t = d(n) ? `${n.message}. value=${JSON.stringify(e)}` : "An unknown error has occured.";
+        throw new Error(t);
     }
 }
-function h(g) {
-    g = String(g);
-    if (g.length > 100) {
+function u(a) {
+    a = String(a);
+    if (a.length > 100) {
         throw new Error("Value exceeds the maximum length of 100 characters.");
     }
-    const h = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(g);
-    if (!h) {
+    const u = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(a);
+    if (!u) {
         return NaN;
     }
-    const i = parseFloat(h[1]);
-    const j = (h[2] || "ms").toLowerCase();
-    switch(j){
+    const o = parseFloat(u[1]);
+    const i = (u[2] || "ms").toLowerCase();
+    switch(i){
         case "years":
         case "year":
         case "yrs":
         case "yr":
         case "y":
-            return i * f;
+            return o * r;
         case "weeks":
         case "week":
         case "w":
-            return i * e;
+            return o * c;
         case "days":
         case "day":
         case "d":
-            return i * d;
+            return o * t;
         case "hours":
         case "hour":
         case "hrs":
         case "hr":
         case "h":
-            return i * c;
+            return o * n;
         case "minutes":
         case "minute":
         case "mins":
         case "min":
         case "m":
-            return i * b;
+            return o * s;
         case "seconds":
         case "second":
         case "secs":
         case "sec":
         case "s":
-            return i * a;
+            return o * e;
         case "milliseconds":
         case "millisecond":
         case "msecs":
         case "msec":
         case "ms":
-            return i;
+            return o;
         default:
-            throw new Error(`The unit ${j} was matched, but no matching case exists.`);
+            throw new Error(`The unit ${i} was matched, but no matching case exists.`);
     }
 }
-export default g;
-function i(e) {
-    const f = Math.abs(e);
-    if (f >= d) {
-        return `${Math.round(e / d)}d`;
+export default a;
+function o(c) {
+    const r = Math.abs(c);
+    if (r >= t) {
+        return `${Math.round(c / t)}d`;
     }
-    if (f >= c) {
-        return `${Math.round(e / c)}h`;
+    if (r >= n) {
+        return `${Math.round(c / n)}h`;
     }
-    if (f >= b) {
-        return `${Math.round(e / b)}m`;
+    if (r >= s) {
+        return `${Math.round(c / s)}m`;
     }
-    if (f >= a) {
-        return `${Math.round(e / a)}s`;
+    if (r >= e) {
+        return `${Math.round(c / e)}s`;
     }
-    return `${e}ms`;
+    return `${c}ms`;
 }
-function j(e) {
-    const f = Math.abs(e);
-    if (f >= d) {
-        return k(e, f, d, "day");
+function i(c) {
+    const r = Math.abs(c);
+    if (r >= t) {
+        return f(c, r, t, "day");
     }
-    if (f >= c) {
-        return k(e, f, c, "hour");
+    if (r >= n) {
+        return f(c, r, n, "hour");
     }
-    if (f >= b) {
-        return k(e, f, b, "minute");
+    if (r >= s) {
+        return f(c, r, s, "minute");
     }
-    if (f >= a) {
-        return k(e, f, a, "second");
+    if (r >= e) {
+        return f(c, r, e, "second");
     }
-    return `${e} ms`;
+    return `${c} ms`;
 }
-function k(a, b, c, d) {
-    const e = b >= c * 1.5;
-    return `${Math.round(a / c)} ${d}${e ? "s" : ""}`;
+function f(e, s, n, t) {
+    const c = s >= n * 1.5;
+    return `${Math.round(e / n)} ${t}${c ? "s" : ""}`;
 }
-function l(a) {
-    return typeof a === "object" && a !== null && "message" in a;
+function d(e) {
+    return typeof e === "object" && e !== null && "message" in e;
 }

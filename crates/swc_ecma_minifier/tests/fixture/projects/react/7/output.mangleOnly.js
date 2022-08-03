@@ -1,17 +1,17 @@
-function a(a, b) {
-    function c(a) {
-        var b = /[=:]/g;
-        var c = {
+function n(n, r) {
+    function t(n) {
+        var r = /[=:]/g;
+        var t = {
             "=": "=0",
             ":": "=2"
         };
-        var d = a.replace(b, function(a) {
-            return c[a];
+        var e = n.replace(r, function(n) {
+            return t[n];
         });
-        return "$" + d;
+        return "$" + e;
     }
-    if (typeof a === "object" && a !== null && a.key != null) {
-        return c("" + a.key);
+    if (typeof n === "object" && n !== null && n.key != null) {
+        return t("" + n.key);
     }
-    return b.toString(36);
+    return r.toString(36);
 }

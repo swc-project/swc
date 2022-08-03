@@ -1,7 +1,7 @@
-var a = [];
-var b = 0;
-a[b++] = function() {
+var r = [];
+var a = 0;
+r[a++] = function() {
     return 42;
 };
-var c = a[b++]();
-console.log(c);
+var n = r[a++]();
+console.log(n);

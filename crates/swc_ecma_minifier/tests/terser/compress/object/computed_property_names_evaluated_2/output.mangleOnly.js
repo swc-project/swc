@@ -1,6 +1,6 @@
-var a = something();
-var b = {
-    [a] () {
+var r = something();
+var a = {
+    [r] () {
         return "blah";
     }
 };

@@ -1,6 +1,6 @@
-function a(a) {
-    return "undefined" == typeof a;
+function n(n) {
+    return "undefined" == typeof n;
 }
-function b(a) {
-    return "undefined" != typeof a;
+function t(n) {
+    return "undefined" != typeof n;
 }

@@ -1,6 +1,6 @@
-var a;
+var r;
 w();
-var b = x();
+var a = x();
 y();
-for(var c; 0;)z();
-var d;
+for(var v; 0;)z();
+var f;

@@ -1,7 +1,7 @@
-function a(a, b) {
+function t(t, e) {
     return {
-        get: a,
-        set: b,
+        get: t,
+        set: e,
         get g () {},
         set s (n){},
         c,

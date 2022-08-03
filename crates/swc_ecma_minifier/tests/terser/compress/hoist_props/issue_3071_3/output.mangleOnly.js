@@ -1,10 +1,10 @@
-var a = 0;
-(function(b, c) {
-    (function b(d) {
-        var e = 2;
-        while(--c + (d = {
-            p: a++
-        }) && --e > 0);
+var n = 0;
+(function(i, o) {
+    (function i(a) {
+        var c = 2;
+        while(--o + (a = {
+            p: n++
+        }) && --c > 0);
     })();
 })();
-console.log(a);
+console.log(n);

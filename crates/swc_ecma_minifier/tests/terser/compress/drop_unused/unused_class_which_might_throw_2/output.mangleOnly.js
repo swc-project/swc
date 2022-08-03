@@ -1,9 +1,9 @@
-let a = "FAIL";
+let l = "FAIL";
 try {
-    class b {
+    class c {
         [ima_throw_lol()] = null;
     }
-} catch (c) {
-    a = "PASS";
+} catch (t) {
+    l = "PASS";
 }
-console.log(a);
+console.log(l);

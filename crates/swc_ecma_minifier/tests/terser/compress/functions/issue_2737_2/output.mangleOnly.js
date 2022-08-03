@@ -1,5 +1,5 @@
-(function(a) {
-    for(; a();)break;
-})(function a() {
-    return console.log("PASS"), a;
+(function(n) {
+    for(; n();)break;
+})(function n() {
+    return console.log("PASS"), n;
 });

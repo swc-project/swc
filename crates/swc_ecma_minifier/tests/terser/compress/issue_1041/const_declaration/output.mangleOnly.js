@@ -1,1 +1,1 @@
-const a = a || {};
+const c = c || {};

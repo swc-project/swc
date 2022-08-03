@@ -1,5 +1,5 @@
 console.log((function() {
-    a++;
-    return a;
-    var a;
+    n++;
+    return n;
+    var n;
 })());

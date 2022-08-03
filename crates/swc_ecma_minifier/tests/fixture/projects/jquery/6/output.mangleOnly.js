@@ -1,15 +1,15 @@
 export const obj = {
-    inArray: function(a, b, c) {
-        var d;
-        if (b) {
+    inArray: function(r, n, t) {
+        var i;
+        if (n) {
             if (core_indexOf) {
-                return core_indexOf.call(b, a, c);
+                return core_indexOf.call(n, r, t);
             }
-            d = b.length;
-            c = c ? (c < 0 ? Math.max(0, d + c) : c) : 0;
-            for(; c < d; c++){
-                if (c in b && b[c] === a) {
-                    return c;
+            i = n.length;
+            t = t ? (t < 0 ? Math.max(0, i + t) : t) : 0;
+            for(; t < i; t++){
+                if (t in n && n[t] === r) {
+                    return t;
                 }
             }
         }

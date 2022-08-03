@@ -1,8 +1,8 @@
-var a = function() {
+var i = function() {
     reset(this);
-    if (a.$prototyping) return this;
+    if (i.$prototyping) return this;
     this.$caller = null;
-    var b = this.initialize ? this.initialize.apply(this, arguments) : this;
+    var t = this.initialize ? this.initialize.apply(this, arguments) : this;
     this.$caller = this.caller = null;
-    return b;
+    return t;
 }.extend(this).implement(params);

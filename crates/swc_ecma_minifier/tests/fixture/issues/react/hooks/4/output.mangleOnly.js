@@ -1,21 +1,21 @@
 "use strict";
-var a = __webpack_require__(86677);
-var b = __webpack_require__(45205);
-var c = __webpack_require__(502);
-var d = __webpack_require__(78869);
-var e = __webpack_require__(16966);
-var f = __webpack_require__(96236);
-var g = __webpack_require__(70326);
-export function useProjectBranches(a, h) {
-    var i = (0, e.LP)();
-    var j = (0, c.ZP)(), k = j.team;
-    var l = k === null || k === void 0 ? void 0 : k.id;
-    return (0, b.ZP)(a ? "".concat(f.Ms, "/git-branches").concat((0, g.c)({
-        projectId: a,
-        teamId: l
-    })) : "", function(a) {
-        return (0, d.Z)(a, i, {
+var r = __webpack_require__(86677);
+var a = __webpack_require__(45205);
+var t = __webpack_require__(502);
+var v = __webpack_require__(78869);
+var n = __webpack_require__(16966);
+var o = __webpack_require__(96236);
+var $ = __webpack_require__(70326);
+export function useProjectBranches(r, c) {
+    var e = (0, n.LP)();
+    var u = (0, t.ZP)(), d = u.team;
+    var i = d === null || d === void 0 ? void 0 : d.id;
+    return (0, a.ZP)(r ? "".concat(o.Ms, "/git-branches").concat((0, $.c)({
+        projectId: r,
+        teamId: i
+    })) : "", function(r) {
+        return (0, v.Z)(r, e, {
             throwOnHTTPError: true
         });
-    }, h);
+    }, c);
 }

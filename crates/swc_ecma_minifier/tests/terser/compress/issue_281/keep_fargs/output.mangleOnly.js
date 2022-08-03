@@ -1,5 +1,5 @@
 var a = 1;
-!(function(b) {
+!(function(n) {
     a++;
 })(a++ + (a && a.var));
 console.log(a);

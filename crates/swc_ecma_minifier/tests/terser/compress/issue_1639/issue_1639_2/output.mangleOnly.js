@@ -1,6 +1,6 @@
-var a = 100, b = 10;
-function c() {
-    if ((++a, false)) if (a) if (++a) ;
+var f = 100, i = 10;
+function $() {
+    if ((++f, false)) if (f) if (++f) ;
 }
-c();
-console.log(a, b);
+$();
+console.log(f, i);

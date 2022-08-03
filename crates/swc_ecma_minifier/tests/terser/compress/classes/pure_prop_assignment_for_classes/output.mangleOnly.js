@@ -1,7 +1,7 @@
-class a {
+class s {
 }
-a.staticProp = "A";
-class b {
+s.staticProp = "A";
+class t {
     static get danger() {}
 }
-b.staticProp = "";
+t.staticProp = "";

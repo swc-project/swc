@@ -1,17 +1,17 @@
-function a() {
-    var a = b;
-    a += c;
+function n() {
+    var n = b;
+    n += c;
 }
-function d(a) {
-    a <<= b;
+function t(n) {
+    n <<= b;
 }
-function e(a) {
-    --a;
+function u(n) {
+    --n;
 }
 function f() {
-    var a = b;
-    return (a *= c);
+    var n = b;
+    return (n *= c);
 }
-function g(a) {
-    x((a /= b));
+function i(n) {
+    x((n /= b));
 }

@@ -1,28 +1,28 @@
-var a = ()=>{
-    var a = 42 * Math.random();
+var r = ()=>{
+    var r = 42 * Math.random();
+    return r;
+};
+var a = (r)=>{
+    var a = Math.random() * r;
     return a;
 };
-var b = (a)=>{
-    var b = Math.random() * a;
-    return b;
+var v = (r)=>{
+    var a = Math.random() * r;
+    return a;
 };
-var c = (a)=>{
-    var b = Math.random() * a;
-    return b;
+var n = (...r)=>{
+    var a = Math.random() * r;
+    return a;
 };
-var d = (...a)=>{
-    var b = Math.random() * a;
-    return b;
+var e = (r, a)=>{
+    var v = r * a + r / a;
+    return v;
 };
-var e = (a, b)=>{
-    var c = a * b + a / b;
-    return c;
+var t = (r, ...a)=>{
+    var v = r;
+    for(var n = 0; n < a.length; n++)v += a[n];
+    return v;
 };
-var f = (a, ...b)=>{
-    var c = a;
-    for(var d = 0; d < b.length; d++)c += b[d];
-    return c;
-};
-var g = (...a)=>{
-    a.join();
+var o = (...r)=>{
+    r.join();
 };

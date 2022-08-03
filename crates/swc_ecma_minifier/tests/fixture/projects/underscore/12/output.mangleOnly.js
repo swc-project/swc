@@ -1,7 +1,7 @@
-_.random = function(a, b) {
-    if (b == null) {
-        b = a;
-        a = 0;
+_.random = function(n, o) {
+    if (o == null) {
+        o = n;
+        n = 0;
     }
-    return a + Math.floor(Math.random() * (b - a + 1));
+    return n + Math.floor(Math.random() * (o - n + 1));
 };

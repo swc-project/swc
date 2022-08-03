@@ -1,11 +1,11 @@
-function a(a) {
-    console.log(a);
+function n(n) {
+    console.log(n);
 }
-function b(b) {
-    return a(b);
+function o(o) {
+    return n(o);
 }
-function c(a) {
-    b(a);
+function t(n) {
+    o(n);
 }
-c(42);
-c("PASS");
+t(42);
+t("PASS");

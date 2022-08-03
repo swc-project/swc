@@ -1,4 +1,4 @@
-function a() {
-    var a = this;
-    for(;;)a.bar();
+function r() {
+    var r = this;
+    for(;;)r.bar();
 }

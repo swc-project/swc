@@ -1,7 +1,7 @@
-_.invoke = function(a, b) {
-    var c = slice.call(arguments, 2);
-    var d = _.isFunction(b);
-    return _.map(a, function(a) {
-        return (d ? b : a[b]).apply(a, c);
+_.invoke = function(n, r) {
+    var a = slice.call(arguments, 2);
+    var i = _.isFunction(r);
+    return _.map(n, function(n) {
+        return (i ? r : n[r]).apply(n, a);
     });
 };

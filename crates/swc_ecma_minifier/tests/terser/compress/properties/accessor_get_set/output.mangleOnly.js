@@ -1,10 +1,10 @@
-var a = 1;
-var b = {
+var e = 1;
+var t = {
     get set () {
-        return a;
+        return e;
     },
     set get (c){
-        a = c;
+        e = c;
     }
 };
-console.log(b.set, (b.get = 2), b.set);
+console.log(t.set, (t.get = 2), t.set);

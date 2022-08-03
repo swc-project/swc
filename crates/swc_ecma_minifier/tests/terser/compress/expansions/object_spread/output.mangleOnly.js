@@ -1,11 +1,11 @@
-let a = {
+let e = {
     ...{}
 };
-console.log(Object.keys(a));
-let b = {
+console.log(Object.keys(e));
+let l = {
     a: 1,
     ...{
         b: 2
     }
 };
-console.log(Object.keys(b).join(","));
+console.log(Object.keys(l).join(","));

@@ -1,9 +1,9 @@
-function c() {
+function r() {
     if (foo) return;
     bar();
     baz();
 }
-function d() {
+function n() {
     if (foo) return;
     if (bar) return;
     if (baz) return;

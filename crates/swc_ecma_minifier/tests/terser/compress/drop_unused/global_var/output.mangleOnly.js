@@ -1,10 +1,10 @@
-var a;
-function b(b) {
-    a;
-    b;
+var r;
+function n(n) {
+    r;
+    n;
     c;
     typeof c === "undefined";
-    c + b + a;
-    b && b.ar();
-    return b;
+    c + n + r;
+    n && n.ar();
+    return n;
 }

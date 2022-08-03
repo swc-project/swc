@@ -1,12 +1,12 @@
-function a() {
+function n() {
     "use strict";
 }
-function b() {
+function c() {
     "use strict";
-    function a() {
+    function n() {
         "use strict";
     }
 }
-(function a() {
+(function n() {
     "use strict";
 })();

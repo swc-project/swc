@@ -1,20 +1,20 @@
-function a() {
+function r() {
     try {
-        var a = 1;
-        return a;
-    } catch (b) {
-        var c = 2;
-        return c;
+        var r = 1;
+        return r;
+    } catch (t) {
+        var n = 2;
+        return n;
     } finally{
-        var d = 3;
-        return d;
+        var a = 3;
+        return a;
     }
 }
-function b() {
-    var a = could_throw();
+function t() {
+    var r = could_throw();
     try {
-        return a + might_throw();
-    } catch (b) {
+        return r + might_throw();
+    } catch (t) {
         return 3;
     }
 }

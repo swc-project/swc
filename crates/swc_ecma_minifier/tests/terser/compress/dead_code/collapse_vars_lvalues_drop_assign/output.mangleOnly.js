@@ -1,12 +1,12 @@
-function a(a) {
-    var b = ++a;
-    return (a += b);
+function n(n) {
+    var r = ++n;
+    return (n += r);
 }
-function b(a) {
-    var b = (a -= 3);
-    return (a += b);
+function r(n) {
+    var r = (n -= 3);
+    return (n += r);
 }
-function c(a) {
-    var b = a, c = ++b;
-    return (b += c);
+function t(n) {
+    var r = n, t = ++r;
+    return (r += t);
 }

@@ -1,11 +1,11 @@
-(function(a) {
-    a();
+(function(n) {
+    n();
 })(function() {
     window.used = function() {
-        var a = window.foo, b = window.bar, c = window.foobar;
-        return (function(a, b) {
-            if (-1 === b) return a;
-            return $(a, b);
-        })(b, c);
+        var n = window.foo, r = window.bar, o = window.foobar;
+        return (function(n, r) {
+            if (-1 === r) return n;
+            return $(n, r);
+        })(r, o);
     }.call(this);
 });

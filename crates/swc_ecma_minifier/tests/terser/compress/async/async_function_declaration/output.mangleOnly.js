@@ -1,20 +1,20 @@
 async function a() {}
-async function b() {
+async function n() {
     (await x) + y;
 }
-async function c() {
+async function i() {
     await (x + y);
 }
-async function d() {
+async function t() {
     (await x) + (await y);
 }
-async function e() {
+async function c() {
     await (x + (await y));
 }
-async function f() {
+async function w() {
     await x;
     await y;
 }
-async function g() {
+async function f() {
     await x, await y;
 }

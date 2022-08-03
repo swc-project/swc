@@ -1,3 +1,3 @@
-export default async function a() {
+export default async function t() {
     return await foo();
 };

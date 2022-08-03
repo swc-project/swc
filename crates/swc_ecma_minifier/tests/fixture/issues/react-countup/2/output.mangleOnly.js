@@ -1,15 +1,15 @@
-export function formatNumber(a) {
-    var b, c, d, e, f = a < 0 ? "-" : "";
-    b = Math.abs(a).toFixed(s.options.decimalPlaces);
-    var g = (b += "").split(".");
-    if (((c = g[0]), (d = g.length > 1 ? s.options.decimal + g[1] : ""), s.options.useGrouping)) {
-        e = "";
-        for(var h = 0, i = c.length; h < i; ++h)0 !== h && h % 3 == 0 && (e = s.options.separator + e), (e = c[i - h - 1] + e);
-        c = e;
+export function formatNumber(o) {
+    var n, t, e, i, r = o < 0 ? "-" : "";
+    n = Math.abs(o).toFixed(s.options.decimalPlaces);
+    var p = (n += "").split(".");
+    if (((t = p[0]), (e = p.length > 1 ? s.options.decimal + p[1] : ""), s.options.useGrouping)) {
+        i = "";
+        for(var a = 0, l = t.length; a < l; ++a)0 !== a && a % 3 == 0 && (i = s.options.separator + i), (i = t[l - a - 1] + i);
+        t = i;
     }
-    return (s.options.numerals && s.options.numerals.length && ((c = c.replace(/[0-9]/g, function(a) {
-        return s.options.numerals[+a];
-    })), (d = d.replace(/[0-9]/g, function(a) {
-        return s.options.numerals[+a];
-    }))), f + s.options.prefix + c + d + s.options.suffix);
+    return (s.options.numerals && s.options.numerals.length && ((t = t.replace(/[0-9]/g, function(o) {
+        return s.options.numerals[+o];
+    })), (e = e.replace(/[0-9]/g, function(o) {
+        return s.options.numerals[+o];
+    }))), r + s.options.prefix + t + e + s.options.suffix);
 }

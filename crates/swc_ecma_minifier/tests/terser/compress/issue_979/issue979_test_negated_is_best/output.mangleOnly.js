@@ -1,24 +1,24 @@
-function c() {
+function n() {
     if ((a == 1) | (b == 2)) {
         foo();
     }
 }
-function d() {
+function f() {
     if (!((a == 1) | (b == 2))) {} else {
         foo();
     }
 }
-function e() {
+function i() {
     if (a == 1 && b == 2) {
         foo();
     }
 }
-function f() {
+function e() {
     if (!(a == 1 && b == 2)) {} else {
         foo();
     }
 }
-function g() {
+function t() {
     if (a == 1 || b == 2) {
         foo();
     } else {

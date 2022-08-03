@@ -1,9 +1,9 @@
-function a(a, b) {
-    var c = function() {
-        return d();
+function n(n, r) {
+    var t = function() {
+        return u();
     };
-    var d = function() {
-        return c();
+    var u = function() {
+        return t();
     };
-    return a + b;
+    return n + r;
 }

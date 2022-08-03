@@ -1,23 +1,23 @@
-function a(b, c, d) {
-    var e;
-    if (b) {
-        if (isFunction(b)) {
-            for(e in b){
-                if (e != "prototype" && e != "length" && e != "name" && b.hasOwnProperty(e)) {
-                    c.call(d, b[e], e);
+function f(r, e, l) {
+    var a;
+    if (r) {
+        if (isFunction(r)) {
+            for(a in r){
+                if (a != "prototype" && a != "length" && a != "name" && r.hasOwnProperty(a)) {
+                    e.call(l, r[a], a);
                 }
             }
-        } else if (b.forEach && b.forEach !== a) {
-            b.forEach(c, d);
-        } else if (isArrayLike(b)) {
-            for(e = 0; e < b.length; e++)c.call(d, b[e], e);
+        } else if (r.forEach && r.forEach !== f) {
+            r.forEach(e, l);
+        } else if (isArrayLike(r)) {
+            for(a = 0; a < r.length; a++)e.call(l, r[a], a);
         } else {
-            for(e in b){
-                if (b.hasOwnProperty(e)) {
-                    c.call(d, b[e], e);
+            for(a in r){
+                if (r.hasOwnProperty(a)) {
+                    e.call(l, r[a], a);
                 }
             }
         }
     }
-    return b;
+    return r;
 }

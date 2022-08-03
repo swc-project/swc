@@ -1,2 +1,2 @@
-(a, b)=>a(b);
-async (a, b)=>await a(b);
+(a, c)=>a(c);
+async (a, c)=>await a(c);

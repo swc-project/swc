@@ -1,9 +1,9 @@
-function a(a, b) {
-    return a ? a : b;
+function n(n, r) {
+    return n ? n : r;
 }
-function b() {
-    return c ? c : d;
+function r() {
+    return u ? u : t;
 }
-var c = 4;
-var d = 5;
-console.log(a(3, null), a(0, 7), a(true, false), b());
+var u = 4;
+var t = 5;
+console.log(n(3, null), n(0, 7), n(true, false), r());

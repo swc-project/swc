@@ -1,9 +1,9 @@
 !(function() {
-    function a(a) {
+    function n(n) {
         L: {
-            if (a) break L;
+            if (n) break L;
             return 1;
         }
     }
-    console.log(a(2));
+    console.log(n(2));
 })();

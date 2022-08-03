@@ -1,6 +1,6 @@
-function a() {
-    var a = this, b = options.success;
-    return ((options.success = function(c, d, e) {
-        e.wait && a.add(c, e), b && b(c, d, e);
+function s() {
+    var s = this, c = options.success;
+    return ((options.success = function(n, u, t) {
+        t.wait && s.add(n, t), c && c(n, u, t);
     }), model.save(null, options), model);
 }

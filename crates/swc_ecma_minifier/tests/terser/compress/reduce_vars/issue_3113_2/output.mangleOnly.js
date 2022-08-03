@@ -1,13 +1,13 @@
-var a = 0;
+var n = 0;
 (function() {
-    function b() {
-        while(d());
+    function i() {
+        while(c());
     }
-    var c = b();
-    function d() {
-        c && c[a++];
+    var o = i();
+    function c() {
+        o && o[n++];
     }
-    c = 1;
-    d();
+    o = 1;
+    c();
 })();
-console.log(a);
+console.log(n);

@@ -1,8 +1,8 @@
-const a = {};
+const s = {};
 leak();
-a.Class1 = class {
+s.Class1 = class {
     static foo = leak();
 };
-a.Class2 = class extends Obj.Class1 {
+s.Class2 = class extends Obj.Class1 {
 };
-new a.Class2();
+new s.Class2();

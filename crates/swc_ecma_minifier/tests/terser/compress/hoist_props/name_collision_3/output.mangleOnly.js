@@ -1,10 +1,10 @@
-var a = {
+var n = {
     p: 1,
-    "+": function(a) {
-        return a;
+    "+": function(n) {
+        return n;
     },
-    "-": function(a) {
-        return a + 1;
+    "-": function(n) {
+        return n + 1;
     }
-}, b = 2, c = 3;
-console.log(a.p === a.p, a["+"](4), a["-"](5));
+}, r = 2, t = 3;
+console.log(n.p === n.p, n["+"](4), n["-"](5));

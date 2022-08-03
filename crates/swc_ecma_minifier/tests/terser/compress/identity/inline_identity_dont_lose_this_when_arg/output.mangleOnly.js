@@ -1,6 +1,6 @@
 "use strict";
 const a = (a)=>a;
-const b = {
+const c = {
     leak: leak
 };
-leak(a(b.leak));
+leak(a(c.leak));

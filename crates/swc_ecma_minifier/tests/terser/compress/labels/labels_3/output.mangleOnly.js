@@ -1,4 +1,4 @@
-for(var a = 0; a < 5; ++a){
-    if (a < 3) continue;
-    console.log(a);
+for(var o = 0; o < 5; ++o){
+    if (o < 3) continue;
+    console.log(o);
 }

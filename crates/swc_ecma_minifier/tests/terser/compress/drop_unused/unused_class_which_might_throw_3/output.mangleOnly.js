@@ -1,11 +1,11 @@
-let a = "FAIL";
+let l = "FAIL";
 try {
-    class b {
+    class t {
         [ima_throw_lol()]() {
             return null;
         }
     }
 } catch (c) {
-    a = "PASS";
+    l = "PASS";
 }
-console.log(a);
+console.log(l);

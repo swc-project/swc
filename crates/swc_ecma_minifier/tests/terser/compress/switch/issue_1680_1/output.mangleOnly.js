@@ -1,13 +1,13 @@
-function a(a) {
-    console.log(a);
-    return a + 1;
+function c(c) {
+    console.log(c);
+    return c + 1;
 }
 switch(2){
-    case a(0):
-    case a(1):
-        a(2);
+    case c(0):
+    case c(1):
+        c(2);
     case 2:
-    case a(3):
-    case a(4):
-        a(5);
+    case c(3):
+    case c(4):
+        c(5);
 }

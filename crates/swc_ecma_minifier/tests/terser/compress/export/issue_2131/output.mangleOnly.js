@@ -1,10 +1,10 @@
-function a() {
+function n() {
     console.log(42);
 }
-function b() {
+function o() {
     console.log(42);
 }
-var c = 1, d = 2;
+var t = 1, c = 2;
 export function main() {
-    b(c);
+    o(t);
 }

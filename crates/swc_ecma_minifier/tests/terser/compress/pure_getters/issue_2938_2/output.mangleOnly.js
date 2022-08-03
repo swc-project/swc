@@ -1,7 +1,7 @@
-var a = function a() {};
-var b = a.prototype;
-b.initialContext = function a() {
+var n = function n() {};
+var t = n.prototype;
+t.initialContext = function n() {
     console.log("PASS");
 };
-b.braceIsBlock = function() {};
-new a().initialContext();
+t.braceIsBlock = function() {};
+new n().initialContext();

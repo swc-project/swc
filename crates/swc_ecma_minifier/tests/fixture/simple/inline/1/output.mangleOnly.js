@@ -1,4 +1,4 @@
-function a(a, b) {
-    return ((a % b) + b) % b;
+function n(n, o) {
+    return ((n % o) + o) % o;
 }
-console.log(a(10, 15));
+console.log(n(10, 15));

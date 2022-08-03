@@ -1,3 +1,3 @@
-var a = "hi";
-var b = "hello";
-var c = "testing \u{101111}";
+var _ = "hi";
+var a = "hello";
+var r = "testing \u{101111}";

@@ -1,3 +1,3 @@
-var a = `<\/script>${content}`;
-var b = `\x3c!--`;
-var c = `--\x3e`;
+var r = `<\/script>${content}`;
+var a = `\x3c!--`;
+var v = `--\x3e`;

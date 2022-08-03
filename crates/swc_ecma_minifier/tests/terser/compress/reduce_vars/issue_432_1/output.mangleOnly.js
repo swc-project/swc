@@ -1,13 +1,13 @@
-const a = ()=>{
-    b();
+const n = ()=>{
+    o();
 };
-function b() {
-    const a = ()=>{
-        var a = ()=>{
-            b();
+function o() {
+    const n = ()=>{
+        var n = ()=>{
+            o();
         };
     };
-    a();
+    n();
 }
 leak(()=>Topology);
 console.log("PASS");

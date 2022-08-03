@@ -1,14 +1,14 @@
-var a = 1, b = true;
+var o = 1, p = true;
 (function() {
-    if (b) {
-        const c = function() {
-            var b = a;
-            console.log(b, c.prop, d.prop);
+    if (p) {
+        const r = function() {
+            var p = o;
+            console.log(p, r.prop, n.prop);
         };
-        c.prop = 2;
-        const d = {
+        r.prop = 2;
+        const n = {
             prop: 3
         };
-        c();
+        r();
     }
 })();

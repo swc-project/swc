@@ -1,4 +1,4 @@
-function a() {
+function n() {
     console.log(1);
     return {
         y: function() {
@@ -9,7 +9,7 @@ function a() {
         }
     };
 }
-a().y().z++;
-if (a().y().z) {
+n().y().z++;
+if (n().y().z) {
     console.log(3);
 }

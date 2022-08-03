@@ -1,60 +1,60 @@
-function a(a) {
-    var b = foo(), c = bar();
-    return c || a;
+function n(n) {
+    var r = foo(), t = bar();
+    return t || n;
 }
-function b(a) {
-    var b = foo(), c = bar();
-    return c && a;
+function r(n) {
+    var r = foo(), t = bar();
+    return t && n;
 }
-function c(a) {
-    var b = foo(), c = bar();
-    return a && b && c;
+function t(n) {
+    var r = foo(), t = bar();
+    return n && r && t;
 }
-function d(a) {
-    var b = foo(), c = bar();
-    return b && a;
+function u(n) {
+    var r = foo(), t = bar();
+    return r && n;
 }
-function e(a) {
-    var b = foo(), c = bar();
-    return b && a && c;
+function a(n) {
+    var r = foo(), t = bar();
+    return r && n && t;
 }
-function f(a) {
-    var b = foo(), c = bar();
-    return a || b || c;
+function c(n) {
+    var r = foo(), t = bar();
+    return n || r || t;
 }
-function g(a) {
-    var b = foo(), c = bar();
-    return b || a || c;
+function e(n) {
+    var r = foo(), t = bar();
+    return r || n || t;
 }
-function h(a) {
-    var b = foo(), c = bar();
-    return b && c && a;
+function f(n) {
+    var r = foo(), t = bar();
+    return r && t && n;
 }
-function i(a, b) {
-    var c = foo(), d = bar();
-    return (a || c) && (b || d);
+function i(n, r) {
+    var t = foo(), u = bar();
+    return (n || t) && (r || u);
 }
-function j(a, b) {
-    var c = foo(), d = bar();
-    return (a && c) || (b && d);
+function o(n, r) {
+    var t = foo(), u = bar();
+    return (n && t) || (r && u);
 }
-function k(a, b) {
-    var c = foo(), d = bar();
-    return a - c || b - d;
+function v(n, r) {
+    var t = foo(), u = bar();
+    return n - t || r - u;
 }
-function l(a, b) {
-    var c = foo(), d = bar();
-    return a - d || b - c;
+function b(n, r) {
+    var t = foo(), u = bar();
+    return n - u || r - t;
 }
-function m(a, b) {
-    var c = foo(), d = bar();
-    return a - b || d - c;
+function d(n, r) {
+    var t = foo(), u = bar();
+    return n - r || u - t;
 }
-function n(a, b) {
-    var c = foo(), d = bar();
-    return c - d || a - b;
+function g(n, r) {
+    var t = foo(), u = bar();
+    return t - u || n - r;
 }
-function o(a, b) {
-    var c = foo(), d = bar();
-    return d - c || a - b;
+function h(n, r) {
+    var t = foo(), u = bar();
+    return u - t || n - r;
 }

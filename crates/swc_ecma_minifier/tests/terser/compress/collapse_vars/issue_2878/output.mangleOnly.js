@@ -1,11 +1,11 @@
-var a = 0;
-(function(b, c) {
-    function d() {
-        if (b) a++;
+var n = 0;
+(function(f, i) {
+    function o() {
+        if (f) n++;
     }
-    c = d();
-    b = 1;
-    c && c.b;
-    d();
+    i = o();
+    f = 1;
+    i && i.b;
+    o();
 })();
-console.log(a);
+console.log(n);

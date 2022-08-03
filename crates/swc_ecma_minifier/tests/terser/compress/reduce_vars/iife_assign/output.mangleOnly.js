@@ -1,9 +1,9 @@
 !(function() {
-    var a = 1, b = 0;
+    var n = 1, o = 0;
     !(function() {
-        b++;
+        o++;
         return;
-        a = 2;
+        n = 2;
     })();
-    console.log(a);
+    console.log(n);
 })();

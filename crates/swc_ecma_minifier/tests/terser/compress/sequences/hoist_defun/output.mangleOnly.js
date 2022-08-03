@@ -1,3 +1,3 @@
 x();
-function a() {}
+function n() {}
 y();

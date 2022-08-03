@@ -1,7 +1,7 @@
 (function() {
-    var a = 0;
-    _.uniqueId = function(b) {
-        var c = ++a + "";
-        return b ? b + c : c;
+    var n = 0;
+    _.uniqueId = function(u) {
+        var r = ++n + "";
+        return u ? u + r : r;
     };
 })();

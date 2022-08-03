@@ -1,4 +1,4 @@
-class a {
+class o {
     Quoted() {}
     Unquoted() {}
 }

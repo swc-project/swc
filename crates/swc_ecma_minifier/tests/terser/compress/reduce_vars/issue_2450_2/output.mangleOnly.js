@@ -1,5 +1,5 @@
-function a() {
-    function a() {}
-    return a;
+function n() {
+    function n() {}
+    return n;
 }
-console.log(a() === a());
+console.log(n() === n());

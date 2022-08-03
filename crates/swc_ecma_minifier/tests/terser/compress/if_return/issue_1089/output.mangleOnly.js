@@ -1,8 +1,8 @@
-function a() {
-    var a = document.getElementById("fname");
-    if (a.files[0].size > 12345) {
+function e() {
+    var e = document.getElementById("fname");
+    if (e.files[0].size > 12345) {
         alert("alert");
-        a.focus();
+        e.focus();
         return false;
     }
 }

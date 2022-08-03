@@ -1,7 +1,7 @@
-var a = "FAIL";
+var r = "FAIL";
 try {
     throw 1;
-} catch (b) {
-    var a = "PASS";
+} catch (a) {
+    var r = "PASS";
 }
-console.log(a);
+console.log(r);

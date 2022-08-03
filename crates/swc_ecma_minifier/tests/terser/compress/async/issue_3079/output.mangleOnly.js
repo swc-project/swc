@@ -1,8 +1,8 @@
-(a)=>1;
-var a = (a)=>a;
-console.log(a(1));
-a = (a)=>a;
-console.log(a(2));
+(g)=>1;
+var g = (g)=>g;
+console.log(g(1));
+g = (g)=>g;
+console.log(g(2));
 console.log({
-    m: (a)=>(a ? "3" : "4")
+    m: (g)=>(g ? "3" : "4")
 }.m(true));

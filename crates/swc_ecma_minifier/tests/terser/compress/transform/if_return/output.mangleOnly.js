@@ -1,10 +1,10 @@
-function a(a, b, c, d) {
-    if (b) return;
-    if (a) {
-        if (c) return;
-    } else if (d) return;
-    if (b == c) return true;
-    if (b) a();
-    if (c) d();
+function r(r, e, f, i) {
+    if (e) return;
+    if (r) {
+        if (f) return;
+    } else if (i) return;
+    if (e == f) return true;
+    if (e) r();
+    if (f) i();
     return true;
 }

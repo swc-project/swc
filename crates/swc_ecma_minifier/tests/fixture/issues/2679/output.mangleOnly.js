@@ -1,5 +1,5 @@
 (function() {
-    var a = {};
-    a.b = 1;
-    a = null;
+    var n = {};
+    n.b = 1;
+    n = null;
 })();

@@ -1,55 +1,55 @@
-function a() {}
-function b() {
+function n() {}
+function r() {
     return undefined;
 }
-function c() {
+function u() {
     return void 0;
 }
-function d() {
+function t() {
     return void 123;
 }
-function e() {
+function o() {
     return;
 }
-function f(a, b) {
-    console.log(a, b);
-    baz(a);
+function i(n, r) {
+    console.log(n, r);
+    baz(n);
     return;
 }
-function g(a, b) {
-    console.log(a, b);
-    if (a) {
-        foo(b);
-        baz(a);
-        return a + b;
+function f(n, r) {
+    console.log(n, r);
+    if (n) {
+        foo(r);
+        baz(n);
+        return n + r;
     }
     return undefined;
 }
-function h(a, b) {
-    console.log(a, b);
-    if (a) {
-        foo(b);
-        baz(a);
+function e(n, r) {
+    console.log(n, r);
+    if (n) {
+        foo(r);
+        baz(n);
         return void 0;
     }
-    return a + b;
+    return n + r;
 }
-function i(a, b) {
-    foo(a);
-    bar(b);
+function c(n, r) {
+    foo(n);
+    bar(r);
     return void 0;
 }
-function j(a, b) {
-    foo(a);
-    bar(b);
+function l(n, r) {
+    foo(n);
+    bar(r);
     return undefined;
 }
-function k() {
+function d() {
     return false;
 }
-function l() {
+function v() {
     return null;
 }
-function m() {
+function $() {
     return 0;
 }

@@ -1,6 +1,6 @@
-class a {
+class e {
     foo() {
-        leak(new a());
+        leak(new e());
     }
 }
-export default a;
+export default e;

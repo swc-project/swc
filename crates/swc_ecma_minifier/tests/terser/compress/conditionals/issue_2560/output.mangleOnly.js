@@ -1,18 +1,18 @@
-function a(a) {
-    console.log(a);
+function n(n) {
+    console.log(n);
 }
-function b() {
-    return a;
+function o() {
+    return n;
 }
-function c() {
-    if (d !== (d = b())) {
-        d(1);
+function f() {
+    if (i !== (i = o())) {
+        i(1);
     } else {
-        d(2);
+        i(2);
     }
 }
-var d = function() {
+var i = function() {
     console.log("init");
 };
-c();
-c();
+f();
+f();

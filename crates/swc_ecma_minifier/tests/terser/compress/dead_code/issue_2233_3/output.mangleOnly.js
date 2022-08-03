@@ -2,7 +2,7 @@ var a;
 Array.isArray;
 a;
 UndeclaredGlobal;
-function b() {
+function i() {
     var a;
     AnotherUndeclaredGlobal;
     Math.sin;

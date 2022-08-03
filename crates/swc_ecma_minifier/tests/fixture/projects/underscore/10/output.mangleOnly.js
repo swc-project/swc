@@ -1,56 +1,56 @@
-var a = function(b, c, d, e) {
-    if (b === c) return b !== 0 || 1 / b == 1 / c;
-    if (b == null || c == null) return b === c;
-    if (b instanceof _) b = b._wrapped;
-    if (c instanceof _) c = c._wrapped;
-    var f = toString.call(b);
-    if (f != toString.call(c)) return false;
-    switch(f){
+var e = function(r, n, i, a) {
+    if (r === n) return r !== 0 || 1 / r == 1 / n;
+    if (r == null || n == null) return r === n;
+    if (r instanceof _) r = r._wrapped;
+    if (n instanceof _) n = n._wrapped;
+    var t = toString.call(r);
+    if (t != toString.call(n)) return false;
+    switch(t){
         case "[object String]":
-            return b == String(c);
+            return r == String(n);
         case "[object Number]":
-            return b != +b ? c != +c : b == 0 ? 1 / b == 1 / c : b == +c;
+            return r != +r ? n != +n : r == 0 ? 1 / r == 1 / n : r == +n;
         case "[object Date]":
         case "[object Boolean]":
-            return +b == +c;
+            return +r == +n;
         case "[object RegExp]":
-            return (b.source == c.source && b.global == c.global && b.multiline == c.multiline && b.ignoreCase == c.ignoreCase);
+            return (r.source == n.source && r.global == n.global && r.multiline == n.multiline && r.ignoreCase == n.ignoreCase);
     }
-    if (typeof b != "object" || typeof c != "object") return false;
-    var g = d.length;
-    while(g--){
-        if (d[g] == b) return e[g] == c;
+    if (typeof r != "object" || typeof n != "object") return false;
+    var f = i.length;
+    while(f--){
+        if (i[f] == r) return a[f] == n;
     }
-    var h = b.constructor, i = c.constructor;
-    if (h !== i && !(_.isFunction(h) && h instanceof h && _.isFunction(i) && i instanceof i)) {
+    var s = r.constructor, l = n.constructor;
+    if (s !== l && !(_.isFunction(s) && s instanceof s && _.isFunction(l) && l instanceof l)) {
         return false;
     }
-    d.push(b);
-    e.push(c);
-    var j = 0, k = true;
-    if (f == "[object Array]") {
-        j = b.length;
-        k = j == c.length;
-        if (k) {
-            while(j--){
-                if (!(k = a(b[j], c[j], d, e))) break;
+    i.push(r);
+    a.push(n);
+    var u = 0, o = true;
+    if (t == "[object Array]") {
+        u = r.length;
+        o = u == n.length;
+        if (o) {
+            while(u--){
+                if (!(o = e(r[u], n[u], i, a))) break;
             }
         }
     } else {
-        for(var l in b){
-            if (_.has(b, l)) {
-                j++;
-                if (!(k = _.has(c, l) && a(b[l], c[l], d, e))) break;
+        for(var c in r){
+            if (_.has(r, c)) {
+                u++;
+                if (!(o = _.has(n, c) && e(r[c], n[c], i, a))) break;
             }
         }
-        if (k) {
-            for(l in c){
-                if (_.has(c, l) && !j--) break;
+        if (o) {
+            for(c in n){
+                if (_.has(n, c) && !u--) break;
             }
-            k = !j;
+            o = !u;
         }
     }
-    d.pop();
-    e.pop();
-    return k;
+    i.pop();
+    a.pop();
+    return o;
 };

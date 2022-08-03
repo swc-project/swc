@@ -1,7 +1,7 @@
-function e(e) {
+function n(n) {
     return function() {
-        function e(e) {
-            return e * e;
+        function n(n) {
+            return n * n;
         }
         if (a) return b;
         if (c) return d;

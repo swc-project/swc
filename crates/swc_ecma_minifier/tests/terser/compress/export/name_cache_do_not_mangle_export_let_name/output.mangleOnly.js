@@ -1,3 +1,3 @@
 export let add = 1;
-let a = 2, b = 3;
-console.log(add, add, a, a, b, b);
+let e = 2, l = 3;
+console.log(add, add, e, e, l, l);

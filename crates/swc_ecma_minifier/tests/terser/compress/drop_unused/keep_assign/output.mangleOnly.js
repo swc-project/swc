@@ -1,21 +1,21 @@
-function a() {
-    var a;
-    a = 1;
+function n() {
+    var n;
+    n = 1;
 }
-function b() {
-    var a = 1;
-    a = 2;
+function r() {
+    var n = 1;
+    n = 2;
 }
-function c(a) {
-    a = 1;
+function t(n) {
+    n = 1;
 }
-function d() {
-    var a;
-    return (a = 1);
+function u() {
+    var n;
+    return (n = 1);
 }
-function e() {
-    var a;
+function c() {
+    var n;
     return function() {
-        a = 1;
+        n = 1;
     };
 }

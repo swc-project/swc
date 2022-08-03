@@ -1,5 +1,5 @@
-function a() {
-    this.$chk = function(a) {
-        return !!(a || a === 0);
+function n() {
+    this.$chk = function(n) {
+        return !!(n || n === 0);
     };
 }

@@ -1,14 +1,14 @@
-(function(a, b) {
-    a.CryptoJS = b();
+(function(n, r) {
+    n.CryptoJS = r();
 })(this, function() {
-    var a = a || (function(a) {
-        var b = {};
-        b.demo = function(b) {
-            return a.ceil(b);
+    var n = n || (function(n) {
+        var r = {};
+        r.demo = function(r) {
+            return n.ceil(r);
         };
-        return b;
+        return r;
     })(Math);
-    return a;
+    return n;
 });
-var a = this.CryptoJS.demo(1.3);
-console.log(a);
+var n = this.CryptoJS.demo(1.3);
+console.log(n);

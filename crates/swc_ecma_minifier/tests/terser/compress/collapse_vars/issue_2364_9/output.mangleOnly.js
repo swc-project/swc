@@ -1,14 +1,14 @@
-function a(a, b) {
-    var c = a();
-    return b.f(c);
+function n(n, r) {
+    var f = n();
+    return r.f(f);
 }
-var b = {
+var r = {
     f: function() {
         return "FAIL";
     }
 };
-console.log(a(function() {
-    b.f = function() {
+console.log(n(function() {
+    r.f = function() {
         return "PASS";
     };
-}, b));
+}, r));

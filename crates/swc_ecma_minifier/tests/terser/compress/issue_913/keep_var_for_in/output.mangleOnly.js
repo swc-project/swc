@@ -1,4 +1,4 @@
-(function(a) {
-    var b = 5;
-    for(var c in a)return b;
+(function(r) {
+    var n = 5;
+    for(var a in r)return n;
 })();

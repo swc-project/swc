@@ -1,40 +1,40 @@
-function a(a) {
-    var b = ++a;
-    return (a += b);
+function n(n) {
+    var r = ++n;
+    return (n += r);
 }
-function b(a) {
-    var b = (a -= 3);
-    return (a += b);
+function r(n) {
+    var r = (n -= 3);
+    return (n += r);
 }
-function c(a) {
-    var b = a, c = ++b;
-    return (b += c);
+function t(n) {
+    var r = n, t = ++r;
+    return (r += t);
 }
-function d(a) {
-    var b = (a -= 3), c = a + b;
-    return c;
+function u(n) {
+    var r = (n -= 3), t = n + r;
+    return t;
 }
-function e(a) {
-    var b = (a -= 3);
-    return a + b;
+function a(n) {
+    var r = (n -= 3);
+    return n + r;
 }
-function f(a) {
-    var b = e1(), c = e2(), d = (c = --a), e = (b = a);
-    return e - d;
+function c(n) {
+    var r = e1(), t = e2(), u = (t = --n), a = (r = n);
+    return a - u;
 }
-function g(a) {
-    var b = e1(), c = e2(), d = (c = --a), e = (b = a);
-    return d - e;
+function e(n) {
+    var r = e1(), t = e2(), u = (t = --n), a = (r = n);
+    return u - a;
 }
-function h(a) {
-    var b = e1(), c = e2(), d = c - a, e = (b = a);
-    return e - d;
+function f(n) {
+    var r = e1(), t = e2(), u = t - n, a = (r = n);
+    return a - u;
 }
-function i(a) {
-    var b = e1(), c = e2(), d = (b = a), e = c - a;
-    return d - e;
+function i(n) {
+    var r = e1(), t = e2(), u = (r = n), a = t - n;
+    return u - a;
 }
-function j(a) {
-    var b = e1(), c = e2(), d = (b = a), e = c - a;
-    return e - d;
+function o(n) {
+    var r = e1(), t = e2(), u = (r = n), a = t - n;
+    return a - u;
 }

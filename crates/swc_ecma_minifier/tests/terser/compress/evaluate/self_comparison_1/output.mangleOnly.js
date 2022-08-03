@@ -1,4 +1,4 @@
-var a = {
+var n = {
     n: NaN
 };
-console.log(typeof a.n, a.n == a.n, a.n === a.n, a.n != a.n, a.n !== a.n);
+console.log(typeof n.n, n.n == n.n, n.n === n.n, n.n != n.n, n.n !== n.n);

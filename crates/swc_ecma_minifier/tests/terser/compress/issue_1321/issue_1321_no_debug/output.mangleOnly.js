@@ -1,4 +1,4 @@
-var a = {};
-a.foo = 1;
-a["a"] = 2 * a.foo;
-console.log(a.foo, a["a"]);
+var o = {};
+o.foo = 1;
+o["a"] = 2 * o.foo;
+console.log(o.foo, o["a"]);

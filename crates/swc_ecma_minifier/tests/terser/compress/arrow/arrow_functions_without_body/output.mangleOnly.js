@@ -1,7 +1,7 @@
 var a = ()=>42;
-var b = (a)=>a;
-var c = (a)=>a;
-var d = (...a)=>a;
-var e = (a, b)=>a + b;
-var f = (a, ...b)=>a + b[0];
-var g = (...a)=>a.join();
+var r = (a)=>a;
+var v = (a)=>a;
+var i = (...a)=>a;
+var j = (a, r)=>a + r;
+var n = (a, ...r)=>a + r[0];
+var o = (...a)=>a.join();

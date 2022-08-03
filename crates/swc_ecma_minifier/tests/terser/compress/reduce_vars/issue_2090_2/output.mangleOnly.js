@@ -1,7 +1,7 @@
 console.log((function() {
-    var a = 1;
+    var r = 1;
     [].forEach(()=>{
-        a = 2;
+        r = 2;
     });
-    return a;
+    return r;
 })());

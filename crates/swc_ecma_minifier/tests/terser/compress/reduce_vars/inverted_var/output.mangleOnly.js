@@ -1,30 +1,30 @@
 console.log((function() {
-    var a = 1;
-    return a;
+    var n = 1;
+    return n;
 })(), (function() {
-    var a;
-    a = 2;
-    return a;
+    var n;
+    n = 2;
+    return n;
 })(), (function() {
-    a = 3;
-    return a;
-    var a;
-})(), (function(a) {
-    a = 4;
-    return a;
-})(), (function(a) {
-    a = 5;
-    return a;
-    var a;
-})(), (function a() {
-    a = 6;
-    return a;
-})(), (function a() {
-    a = 7;
-    return a;
-    var a;
+    n = 3;
+    return n;
+    var n;
+})(), (function(n) {
+    n = 4;
+    return n;
+})(), (function(n) {
+    n = 5;
+    return n;
+    var n;
+})(), (function n() {
+    n = 6;
+    return n;
+})(), (function n() {
+    n = 7;
+    return n;
+    var n;
 })(), (function() {
-    a = 8;
-    return a;
-    var a = "foo";
+    n = 8;
+    return n;
+    var n = "foo";
 })());

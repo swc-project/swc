@@ -1,8 +1,8 @@
 !(function() {
     try {
-        var a = 1;
+        var r = 1;
         throw "";
-        var b = 2;
-    } catch (c) {}
-    console.log(a, b);
+        var t = 2;
+    } catch (a) {}
+    console.log(r, t);
 })();

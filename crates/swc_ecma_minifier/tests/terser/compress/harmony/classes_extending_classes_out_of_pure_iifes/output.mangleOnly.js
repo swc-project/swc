@@ -1,8 +1,8 @@
-let a = (()=>{
-    class a {
+let s = (()=>{
+    class s {
     }
-    a.sub = b;
-    return a;
+    s.sub = e;
+    return s;
 })();
-class b extends a {
+class e extends s {
 }

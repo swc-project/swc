@@ -1,8 +1,8 @@
-function a(a) {
-    function b(a) {
-        if (a) return a;
-        b(a - 1);
+function n(n) {
+    function r(n) {
+        if (n) return n;
+        r(n - 1);
     }
-    return b(a);
+    return r(n);
 }
-console.log(a("PASS"));
+console.log(n("PASS"));

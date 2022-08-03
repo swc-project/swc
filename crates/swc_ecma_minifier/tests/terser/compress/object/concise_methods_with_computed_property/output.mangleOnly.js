@@ -1,4 +1,4 @@
-var a = {
+var r = {
     [Symbol.iterator] () {
         return {};
     },

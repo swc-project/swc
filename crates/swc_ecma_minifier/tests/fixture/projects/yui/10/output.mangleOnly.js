@@ -1,8 +1,8 @@
-export var _path = function(a, b, c, d) {
-    var e = a + "/" + b;
-    if (!d) {
+export var _path = function(r, n, t, a) {
+    var e = r + "/" + n;
+    if (!a) {
         e += "-min";
     }
-    e += "." + (c || CSS);
+    e += "." + (t || CSS);
     return e;
 };

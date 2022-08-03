@@ -1,15 +1,15 @@
-function a(a) {
-    function b() {
+function o(o) {
+    function g() {
         throw "nope";
     }
     try {
-        console.log("0" + b() ? "yes" : "no");
-    } catch (c) {
-        console.log(c);
+        console.log("0" + g() ? "yes" : "no");
+    } catch (l) {
+        console.log(l);
     }
-    console.log("0" + a ? "yes" : "no");
-    console.log(a + "0" ? "Yes" : "No");
-    console.log("" + a);
-    console.log(a + "");
+    console.log("0" + o ? "yes" : "no");
+    console.log(o + "0" ? "Yes" : "No");
+    console.log("" + o);
+    console.log(o + "");
 }
-a();
+o();

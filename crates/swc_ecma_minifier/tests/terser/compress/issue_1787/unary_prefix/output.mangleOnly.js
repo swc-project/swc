@@ -1,4 +1,4 @@
 console.log((function() {
-    var a = -(2 / 3);
-    return a;
+    var n = -(2 / 3);
+    return n;
 })());

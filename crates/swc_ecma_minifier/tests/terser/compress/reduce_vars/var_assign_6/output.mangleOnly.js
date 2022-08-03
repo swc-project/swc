@@ -1,4 +1,4 @@
 !(function() {
-    var a = (function() {})((a = 1));
-    console.log(a);
+    var n = (function() {})((n = 1));
+    console.log(n);
 })();

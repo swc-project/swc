@@ -1,28 +1,28 @@
-export function insertRule(a, b) {
-    invariant(isString(a), "`insertRule` accepts only strings");
+export function insertRule(e, t) {
+    invariant(isString(e), "`insertRule` accepts only strings");
     if (!this._isBrowser) {
-        if (typeof b !== "number") {
-            b = this._serverSheet.cssRules.length;
+        if (typeof t !== "number") {
+            t = this._serverSheet.cssRules.length;
         }
-        this._serverSheet.insertRule(a, b);
+        this._serverSheet.insertRule(e, t);
         return this._rulesCount++;
     }
     if (this._optimizeForSpeed) {
-        var c = this.getSheet();
-        if (typeof b !== "number") {
-            b = c.cssRules.length;
+        var s = this.getSheet();
+        if (typeof t !== "number") {
+            t = s.cssRules.length;
         }
         try {
-            c.insertRule(a, b);
-        } catch (d) {
+            s.insertRule(e, t);
+        } catch (i) {
             if (!isProd) {
-                console.warn("StyleSheet: illegal rule: \n\n" + a + "\n\nSee https://stackoverflow.com/q/20007992 for more info");
+                console.warn("StyleSheet: illegal rule: \n\n" + e + "\n\nSee https://stackoverflow.com/q/20007992 for more info");
             }
             return -1;
         }
     } else {
-        var e = this._tags[b];
-        this._tags.push(this.makeStyleTag(this._name, a, e));
+        var r = this._tags[t];
+        this._tags.push(this.makeStyleTag(this._name, e, r));
     }
     return this._rulesCount++;
 }

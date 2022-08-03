@@ -1,7 +1,7 @@
-function a() {
+function f() {
     if (x()) {
-        var a;
-        if (!g) a = true;
-        if (a) g();
+        var f;
+        if (!g) f = true;
+        if (f) g();
     }
 }

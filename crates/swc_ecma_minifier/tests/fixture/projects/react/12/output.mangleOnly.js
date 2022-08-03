@@ -1,14 +1,14 @@
-function a(a) {
-    function b(a) {
-        if (a !== undefined) {
-            var b = a.fileName.replace(/^.*[\\\/]/, "");
-            var c = a.lineNumber;
-            return ("\n\nCheck your code at " + b + ":" + c + ".");
+function r(r) {
+    function n(r) {
+        if (r !== undefined) {
+            var n = r.fileName.replace(/^.*[\\\/]/, "");
+            var e = r.lineNumber;
+            return ("\n\nCheck your code at " + n + ":" + e + ".");
         }
         return "";
     }
-    if (a !== null && a !== undefined) {
-        return b(a.__source);
+    if (r !== null && r !== undefined) {
+        return n(r.__source);
     }
     return "";
 }

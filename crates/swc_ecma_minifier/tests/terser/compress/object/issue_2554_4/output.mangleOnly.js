@@ -1,4 +1,4 @@
-var a = new (class {
+var t = new (class {
     constructor(){
         this[1] = 2;
     }
@@ -8,9 +8,9 @@ var a = new (class {
     get [3 + 0]() {
         return this[1];
     }
-    set [4 + 0](a) {
-        this[1] = a;
+    set [4 + 0](t) {
+        this[1] = t;
     }
 })();
-a[2]();
-console.log(a[3]);
+t[2]();
+console.log(t[3]);

@@ -1,9 +1,9 @@
 (function() {
-    let a;
-    const b = function() {
-        a = true;
+    let n;
+    const o = function() {
+        n = true;
     };
-    if (!a) {
+    if (!n) {
         console.log(1);
     }
     console.log(2);

@@ -1,7 +1,7 @@
-function a() {
-    var a = "";
-    for(var a in {
+function o() {
+    var o = "";
+    for(var o in {
         break: "me"
-    })console.log(a);
-    console.log(a);
+    })console.log(o);
+    console.log(o);
 }

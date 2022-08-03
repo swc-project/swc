@@ -1,3 +1,3 @@
-let a = 9, b = 0;
-for(const c = 1; c < 3; ++b)break;
-console.log(a, b);
+let o = 9, e = 0;
+for(const l = 1; l < 3; ++e)break;
+console.log(o, e);

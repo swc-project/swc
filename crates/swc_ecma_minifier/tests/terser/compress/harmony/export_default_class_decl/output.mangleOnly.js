@@ -1,4 +1,4 @@
-export default class a {
+export default class s {
 };
 export class Cab {
 }

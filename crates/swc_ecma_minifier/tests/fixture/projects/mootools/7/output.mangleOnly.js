@@ -1,25 +1,25 @@
 export const exported = {
-    toQueryString: function(a, b) {
-        var c = [];
-        Object.each(a, function(a, d) {
-            if (b) d = b + "[" + d + "]";
-            var e;
-            switch(typeOf(a)){
+    toQueryString: function(r, t) {
+        var n = [];
+        Object.each(r, function(r, e) {
+            if (t) e = t + "[" + e + "]";
+            var a;
+            switch(typeOf(r)){
                 case "object":
-                    e = Object.toQueryString(a, d);
+                    a = Object.toQueryString(r, e);
                     break;
                 case "array":
-                    var f = {};
-                    a.each(function(a, b) {
-                        f[b] = a;
+                    var i = {};
+                    r.each(function(r, t) {
+                        i[t] = r;
                     });
-                    e = Object.toQueryString(f, d);
+                    a = Object.toQueryString(i, e);
                     break;
                 default:
-                    e = d + "=" + encodeURIComponent(a);
+                    a = e + "=" + encodeURIComponent(r);
             }
-            if (a != null) c.push(e);
+            if (r != null) n.push(a);
         });
-        return c.join("&");
+        return n.join("&");
     }
 };

@@ -1,49 +1,49 @@
-import a from "@swc/helpers/src/_async_to_generator.mjs";
-import b from "regenerator-runtime";
+import n from "@swc/helpers/src/_async_to_generator.mjs";
+import t from "regenerator-runtime";
 Promise.all(assignAll).then(function() {
-    var c = a(b.mark(function a(c) {
-        var d, e, f, g;
-        return b.wrap(function(a) {
-            for(;;)switch(a.prev = a.next){
+    var r = n(t.mark(function n(r) {
+        var e, c, a, o;
+        return t.wrap(function(n) {
+            for(;;)switch(n.prev = n.next){
                 case 0:
-                    d = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', a.t0 = regeneratorRuntime.keys(c);
+                    e = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', n.t0 = regeneratorRuntime.keys(r);
                 case 2:
-                    if ((a.t1 = a.t0()).done) {
-                        a.next = 12;
+                    if ((n.t1 = n.t0()).done) {
+                        n.next = 12;
                         break;
                     }
-                    return f = c[e = a.t1.value], d += "'".concat(f.id, "', "), a.next = 8, listOfUser(f.id);
+                    return a = r[c = n.t1.value], e += "'".concat(a.id, "', "), n.next = 8, listOfUser(a.id);
                 case 8:
-                    (g = a.sent).forEach(function(a) {
-                        insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(f.id, "', now());");
-                    }), a.next = 2;
+                    (o = n.sent).forEach(function(n) {
+                        insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(a.id, "', now());");
+                    }), n.next = 2;
                     break;
                 case 12:
                 case "end":
-                    return a.stop();
+                    return n.stop();
             }
-        }, a);
+        }, n);
     }));
-    return function(c) {
-        return c.apply(this, arguments);
+    return function(r) {
+        return r.apply(this, arguments);
     };
 }());
-export var listOfUser = function(c) {
-    var d;
-    return new Promise((d = a(b.mark(function a(d, e) {
-        var f;
-        return b.wrap(function(a) {
-            for(;;)switch(a.prev = a.next){
+export var listOfUser = function(r) {
+    var e;
+    return new Promise((e = n(t.mark(function n(e, c) {
+        var a;
+        return t.wrap(function(n) {
+            for(;;)switch(n.prev = n.next){
                 case 0:
-                    f = 'Select Distinct id from "TABLE" Where id = \''.concat(c, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
-                        a ? e(a) : d(b.rows);
+                    a = 'Select Distinct id from "TABLE" Where id = \''.concat(r, "' And user_id IS not null"), postgreSQL.query(a, null, function(n, t) {
+                        n ? c(n) : e(t.rows);
                     });
                 case 2:
                 case "end":
-                    return a.stop();
+                    return n.stop();
             }
-        }, a);
-    })), function(d, e) {
-        return d.apply(this, arguments);
+        }, n);
+    })), function(e, c) {
+        return e.apply(this, arguments);
     }));
 };

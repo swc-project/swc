@@ -1,6 +1,6 @@
 async function a() {
     (await x) + y;
 }
-async function b() {
+async function n() {
     await (x + y);
 }

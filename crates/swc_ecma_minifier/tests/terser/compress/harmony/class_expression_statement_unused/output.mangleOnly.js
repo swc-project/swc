@@ -1,8 +1,8 @@
 (class {
 });
-(class a {
+(class s {
 });
-let a = class a {
+let s = class s {
 };
-class b {
+class l {
 }

@@ -2,5 +2,5 @@
     if (!window) {
         return;
     }
-    function a() {}
+    function n() {}
 })();

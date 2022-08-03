@@ -1,7 +1,7 @@
-var a = console;
-console.log((function(a) {
+var n = console;
+console.log((function(n) {
     return {
-        x: a.a,
-        y: a.b
+        x: n.a,
+        y: n.b
     };
-})(a));
+})(n));

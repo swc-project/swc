@@ -1,13 +1,13 @@
-function a(a) {
-    if (a) {
-        return d(1);
+function r(r) {
+    if (r) {
+        return t(1);
     } else {
-        return d(2);
-        var b;
+        return t(2);
+        var n;
     }
-    var c = d(3);
-    function d(a) {
-        return 7 - a;
+    var e = t(3);
+    function t(r) {
+        return 7 - r;
     }
-    return b || c;
+    return n || e;
 }

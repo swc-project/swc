@@ -1,8 +1,8 @@
 x = 42;
-(function a() {})();
-!(function a() {})();
-~(function a() {})();
-+(function a() {})();
--(function a() {})();
-void (function a() {})();
-typeof (function a() {})();
+(function n() {})();
+!(function n() {})();
+~(function n() {})();
++(function n() {})();
+-(function n() {})();
+void (function n() {})();
+typeof (function n() {})();

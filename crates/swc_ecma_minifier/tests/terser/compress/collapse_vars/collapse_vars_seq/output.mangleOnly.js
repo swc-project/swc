@@ -1,6 +1,6 @@
-var a = function(a, b) {
-    var c, d, e = a + b, f = e * e, g = f - e;
-    (c = g), (d = 7);
-    return c + d;
+var r = function(r, n) {
+    var a, o, t = r + n, u = t * t, v = u - t;
+    (a = v), (o = 7);
+    return a + o;
 };
-console.log(a(1, 2));
+console.log(r(1, 2));

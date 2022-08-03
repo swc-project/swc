@@ -3,5 +3,5 @@ if (x()) {
     y();
 } else {
     z();
-    var b;
+    var e;
 }

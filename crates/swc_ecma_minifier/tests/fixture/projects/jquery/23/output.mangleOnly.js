@@ -1,36 +1,36 @@
 export const obj = {
-    style: function(a, b, c, d) {
-        if (!a || a.nodeType === 3 || a.nodeType === 8 || !a.style) {
+    style: function(e, s, t, r) {
+        if (!e || e.nodeType === 3 || e.nodeType === 8 || !e.style) {
             return;
         }
-        var e, f, g, h = jQuery.camelCase(b), i = a.style;
-        b = jQuery.cssProps[h] || (jQuery.cssProps[h] = vendorPropName(i, h));
-        g = jQuery.cssHooks[b] || jQuery.cssHooks[h];
-        if (c !== undefined) {
-            f = typeof c;
-            if (f === "string" && (e = rrelNum.exec(c))) {
-                c = (e[1] + 1) * e[2] + parseFloat(jQuery.css(a, b));
-                f = "number";
+        var n, o, c, f = jQuery.camelCase(s), i = e.style;
+        s = jQuery.cssProps[f] || (jQuery.cssProps[f] = vendorPropName(i, f));
+        c = jQuery.cssHooks[s] || jQuery.cssHooks[f];
+        if (t !== undefined) {
+            o = typeof t;
+            if (o === "string" && (n = rrelNum.exec(t))) {
+                t = (n[1] + 1) * n[2] + parseFloat(jQuery.css(e, s));
+                o = "number";
             }
-            if (c == null || (f === "number" && isNaN(c))) {
+            if (t == null || (o === "number" && isNaN(t))) {
                 return;
             }
-            if (f === "number" && !jQuery.cssNumber[h]) {
-                c += "px";
+            if (o === "number" && !jQuery.cssNumber[f]) {
+                t += "px";
             }
-            if (!jQuery.support.clearCloneStyle && c === "" && b.indexOf("background") === 0) {
-                i[b] = "inherit";
+            if (!jQuery.support.clearCloneStyle && t === "" && s.indexOf("background") === 0) {
+                i[s] = "inherit";
             }
-            if (!g || !("set" in g) || (c = g.set(a, c, d)) !== undefined) {
+            if (!c || !("set" in c) || (t = c.set(e, t, r)) !== undefined) {
                 try {
-                    i[b] = c;
-                } catch (j) {}
+                    i[s] = t;
+                } catch (l) {}
             }
         } else {
-            if (g && "get" in g && (e = g.get(a, false, d)) !== undefined) {
-                return e;
+            if (c && "get" in c && (n = c.get(e, false, r)) !== undefined) {
+                return n;
             }
-            return i[b];
+            return i[s];
         }
     }
 };

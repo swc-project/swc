@@ -1,16 +1,16 @@
-function a(a) {
-    return b;
-    function b(b) {
-        return b !== null && a.test(String.fromCharCode(b));
+function o(o) {
+    return l;
+    function l(l) {
+        return l !== null && o.test(String.fromCharCode(l));
     }
 }
-console.log(a("Foo"));
-console.log(a("Foo"));
-console.log(a("Foo"));
-console.log(a("Foo"));
-console.log(a("Foo"));
-console.log(a("Foo"));
-console.log(a("Foo"));
-console.log(a("Foo"));
-console.log(a("Foo"));
-console.log(a("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));
+console.log(o("Foo"));

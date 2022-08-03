@@ -1,4 +1,4 @@
-function a() {
-    class a extends /rx/ {
+function n() {
+    class n extends /rx/ {
     }
 }

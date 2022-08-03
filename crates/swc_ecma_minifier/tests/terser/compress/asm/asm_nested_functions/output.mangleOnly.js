@@ -1,17 +1,17 @@
 0;
-function a() {
+function $() {
     "use asm";
     0.0;
 }
 0;
-function b() {
+function n() {
     0;
-    function a() {
+    function $() {
         "use asm";
         0.0;
     }
     0;
-    function b() {
+    function n() {
         0;
     }
     0;

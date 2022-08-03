@@ -1,6 +1,6 @@
-function c(c) {
+function f(f) {
     a();
-    if (c) {
+    if (f) {
         b();
         return false;
     }

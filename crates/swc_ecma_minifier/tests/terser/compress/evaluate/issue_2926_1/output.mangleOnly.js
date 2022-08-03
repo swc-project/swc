@@ -1,3 +1,3 @@
-(function a(b, c = true, ...d) {
-    console.log(a.name.length, a.length);
+(function n(e, t = true, ...g) {
+    console.log(n.name.length, n.length);
 })();

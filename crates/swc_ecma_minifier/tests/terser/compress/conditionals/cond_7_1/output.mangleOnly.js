@@ -1,6 +1,6 @@
-var a;
+var e;
 if (y) {
-    a = 1 + 1;
+    e = 1 + 1;
 } else {
-    a = 2;
+    e = 2;
 }

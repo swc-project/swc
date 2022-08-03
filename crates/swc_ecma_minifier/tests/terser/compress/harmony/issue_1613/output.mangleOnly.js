@@ -1,4 +1,4 @@
-const a = 1;
-const b = {
-    name: a
+const n = 1;
+const c = {
+    name: n
 };

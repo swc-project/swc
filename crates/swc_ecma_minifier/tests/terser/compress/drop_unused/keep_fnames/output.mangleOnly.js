@@ -1,3 +1,3 @@
-function a() {
-    return function a(b) {};
+function n() {
+    return function n(t) {};
 }

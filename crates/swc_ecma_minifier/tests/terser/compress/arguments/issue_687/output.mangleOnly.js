@@ -1,4 +1,4 @@
-function a() {
+function n() {
     return arguments.length;
 }
-a();
+n();

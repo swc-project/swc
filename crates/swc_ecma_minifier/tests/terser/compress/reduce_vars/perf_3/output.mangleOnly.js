@@ -1,9 +1,9 @@
-var a = function(a, b, c) {
-    return a < b ? a * b + c : a * c - b;
+var r = function(r, n, a) {
+    return r < n ? r * n + a : r * a - n;
 };
-var b = function(b, c, d) {
-    return a(b, c, d);
+var n = function(n, a, o) {
+    return r(n, a, o);
 };
-var c = 0;
-for(var d = 0; d < 100; ++d)c += b(d, d + 1, 3 * d);
-console.log(c);
+var a = 0;
+for(var o = 0; o < 100; ++o)a += n(o, o + 1, 3 * o);
+console.log(a);

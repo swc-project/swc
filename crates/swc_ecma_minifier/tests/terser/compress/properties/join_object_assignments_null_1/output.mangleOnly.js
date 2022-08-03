@@ -1,3 +1,3 @@
-var a = {};
-a[null] = 1;
-console.log(a[null]);
+var l = {};
+l[null] = 1;
+console.log(l[null]);

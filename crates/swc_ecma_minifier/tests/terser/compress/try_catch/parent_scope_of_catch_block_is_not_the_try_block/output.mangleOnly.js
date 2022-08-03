@@ -1,9 +1,9 @@
-function a(a, b) {
+function t(t, n) {
     try {
         const c = {};
         throw "PASS";
-    } catch (d) {
-        return b(d);
+    } catch (o) {
+        return n(o);
     }
 }
-console.log(a(null, (a)=>a));
+console.log(t(null, (t)=>t));

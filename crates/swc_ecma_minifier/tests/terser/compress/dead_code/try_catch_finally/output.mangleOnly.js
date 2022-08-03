@@ -1,15 +1,15 @@
-var a = 1;
+var l = 1;
 !(function() {
     try {
         if (false) throw x;
-    } catch (a) {
-        var a = 2;
+    } catch (l) {
+        var l = 2;
         console.log("FAIL");
     } finally{
-        a = 3;
+        l = 3;
         console.log("PASS");
     }
 })();
 try {
-    console.log(a);
+    console.log(l);
 } finally{}

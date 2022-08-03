@@ -1,2 +1,2 @@
-var a = 2, b = 3, c = 4;
-console.log(a, b, c, a * b, a * c, b * c);
+var a = 2, g = 3, l = 4;
+console.log(a, g, l, a * g, a * l, g * l);

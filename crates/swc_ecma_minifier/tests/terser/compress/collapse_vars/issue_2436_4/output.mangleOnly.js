@@ -7,5 +7,5 @@ console.log((function(a) {
         x: a.a,
         y: a.b
     };
-    var b;
+    var r;
 })(a));

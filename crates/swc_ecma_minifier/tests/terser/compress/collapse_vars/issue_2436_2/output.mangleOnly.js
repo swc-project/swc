@@ -2,10 +2,10 @@ var a = {
     a: 1,
     b: 2
 };
-console.log((function(b) {
+console.log((function(n) {
     a.a = 3;
     return {
-        x: b.a,
-        y: b.b
+        x: n.a,
+        y: n.b
     };
 })(a));

@@ -1,9 +1,9 @@
 B.c = {
     get foo () {
-        for(var a = 1; a < 10; a++){}
+        for(var o = 1; o < 10; o++){}
     }
 };
-var b;
-export function setGetChildNodes(a) {
-    b = a;
+var r;
+export function setGetChildNodes(o) {
+    r = o;
 }

@@ -1,15 +1,15 @@
-_.indexOf = function(a, b, c) {
-    if (a == null) return -1;
-    var d = 0, e = a.length;
-    if (c) {
-        if (typeof c == "number") {
-            d = c < 0 ? Math.max(0, e + c) : c;
+_.indexOf = function(e, n, r) {
+    if (e == null) return -1;
+    var f = 0, i = e.length;
+    if (r) {
+        if (typeof r == "number") {
+            f = r < 0 ? Math.max(0, i + r) : r;
         } else {
-            d = _.sortedIndex(a, b);
-            return a[d] === b ? d : -1;
+            f = _.sortedIndex(e, n);
+            return e[f] === n ? f : -1;
         }
     }
-    if (nativeIndexOf && a.indexOf === nativeIndexOf) return a.indexOf(b, c);
-    for(; d < e; d++)if (a[d] === b) return d;
+    if (nativeIndexOf && e.indexOf === nativeIndexOf) return e.indexOf(n, r);
+    for(; f < i; f++)if (e[f] === n) return f;
     return -1;
 };

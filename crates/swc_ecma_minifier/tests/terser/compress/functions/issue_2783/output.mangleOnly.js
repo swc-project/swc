@@ -1,13 +1,13 @@
 (function() {
-    return b;
-    function a(a) {
-        var b = a.b;
-        if (b) return b;
-        return a;
+    return r;
+    function n(n) {
+        var r = n.b;
+        if (r) return r;
+        return n;
     }
-    function b(b, c) {
-        while(c--){
-            console.log(a(b));
+    function r(r, t) {
+        while(t--){
+            console.log(n(r));
         }
     }
 })()({

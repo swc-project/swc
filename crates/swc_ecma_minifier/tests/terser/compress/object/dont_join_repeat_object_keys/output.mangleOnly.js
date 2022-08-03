@@ -1,4 +1,4 @@
-const a = {
+const o = {
     foo: 1
 };
-a.foo = 2;
+o.foo = 2;

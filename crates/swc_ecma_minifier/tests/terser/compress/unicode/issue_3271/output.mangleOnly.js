@@ -1,13 +1,13 @@
-function a(a) {
-    var b = 0, c = new Array(2), d = a.charCodeAt(0);
-    if (d < 2048) {
-        c[b++] = 192 | (d >>> 6);
-        c[b++] = 128 | (d & 63);
+function e(e) {
+    var _ = 0, n = new Array(2), r = e.charCodeAt(0);
+    if (r < 2048) {
+        n[_++] = 192 | (r >>> 6);
+        n[_++] = 128 | (r & 63);
     } else {
-        c[b++] = 224 | (d >>> 12);
-        c[b++] = 128 | ((d >>> 6) & 63);
-        c[b++] = 128 | (d & 63);
+        n[_++] = 224 | (r >>> 12);
+        n[_++] = 128 | ((r >>> 6) & 63);
+        n[_++] = 128 | (r & 63);
     }
-    return c;
+    return n;
 }
-console.log(a("é"));
+console.log(e("é"));

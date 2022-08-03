@@ -1,4 +1,4 @@
-var a = {
+var t = {
     [1 + 0]: 1,
     [2 + 0] () {
         this[4] = "PASS";
@@ -10,5 +10,5 @@ var a = {
         this[1] = value;
     }
 };
-a[2]();
-console.log(a[3]);
+t[2]();
+console.log(t[3]);

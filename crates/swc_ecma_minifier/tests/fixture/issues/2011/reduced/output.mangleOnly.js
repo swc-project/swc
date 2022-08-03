@@ -1,8 +1,8 @@
-class a {
+class s {
 }
-module.exports = class b {
-    static MyA = a;
+module.exports = class t {
+    static MyA = s;
     it() {
-        this.bb = new b.MyA();
+        this.bb = new t.MyA();
     }
 };

@@ -1,8 +1,8 @@
-!(function(a) {
-    if (a) return;
-    let b = 1;
-    function c() {
-        return b;
+!(function(n) {
+    if (n) return;
+    let t = 1;
+    function r() {
+        return t;
     }
-    console.log(c());
+    console.log(r());
 })();

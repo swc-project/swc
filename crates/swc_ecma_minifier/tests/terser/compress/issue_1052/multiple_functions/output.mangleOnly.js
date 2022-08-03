@@ -2,6 +2,6 @@
     if (!window) {
         return;
     }
-    function a() {}
-    function b() {}
+    function n() {}
+    function f() {}
 })();

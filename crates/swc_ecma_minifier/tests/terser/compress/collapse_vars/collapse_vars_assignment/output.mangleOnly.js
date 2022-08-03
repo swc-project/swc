@@ -1,37 +1,37 @@
-function a(a) {
-    return console.log(a), a;
+function r(r) {
+    return console.log(r), r;
 }
-function b(a) {
-    var b = 3 / a;
-    return (b = b);
+function n(r) {
+    var n = 3 / r;
+    return (n = n);
 }
-function c(a) {
-    const b = 3 / a;
-    const c = 1 - b;
-    return c;
+function t(r) {
+    const n = 3 / r;
+    const t = 1 - n;
+    return t;
 }
-function d(b) {
-    var c = 3 / b;
-    var d = c - 7;
-    return a((b = d));
+function u(n) {
+    var t = 3 / n;
+    var u = t - 7;
+    return r((n = u));
 }
-function e(b) {
-    var c = 3 / b;
-    var d = c - 7;
-    return a((b |= d));
+function a(n) {
+    var t = 3 / n;
+    var u = t - 7;
+    return r((n |= u));
 }
-function f(b) {
-    var c = 3 / b;
-    var d = 2;
-    return a((d += c));
+function o(n) {
+    var t = 3 / n;
+    var u = 2;
+    return r((u += t));
 }
-function h(b) {
-    var c = 2;
-    var d = 3 / b;
-    return a((c += d));
+function v(n) {
+    var t = 2;
+    var u = 3 / n;
+    return r((t += u));
 }
-function i(b) {
-    var c = g();
-    var d = 3 / b;
-    return a((c += d));
+function c(n) {
+    var t = g();
+    var u = 3 / n;
+    return r((t += u));
 }

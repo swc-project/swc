@@ -1,9 +1,9 @@
-var a = 1, b = 2;
+var a = 1, e = 2;
 switch(a){
     case a:
-        var b;
+        var e;
         break;
-    case b:
+    case e:
         break;
 }
-console.log(b);
+console.log(e);

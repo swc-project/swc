@@ -1,6 +1,6 @@
-for(var a = 0, b = 5; ((a += 1), 3) - 3 && b > 0; b--){
-    var c = (function() {
-        b--;
-    })(a++);
+for(var o = 0, r = 5; ((o += 1), 3) - 3 && r > 0; r--){
+    var a = (function() {
+        r--;
+    })(o++);
 }
-console.log(a);
+console.log(o);
