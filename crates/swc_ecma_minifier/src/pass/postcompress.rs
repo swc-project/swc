@@ -1,4 +1,5 @@
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{maybe_par, option::CompressOptions};
@@ -20,6 +21,17 @@ struct PostcompressOptimizer<'a> {
 struct Ctx {
     is_module: bool,
     is_top_level: bool,
+}
+
+impl Parallel for PostcompressOptimizer<'_> {
+    fn create(&self) -> Self {
+        Self {
+            options: self.options,
+            ctx: self.ctx,
+        }
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 impl VisitMut for PostcompressOptimizer<'_> {
@@ -46,7 +58,7 @@ impl VisitMut for PostcompressOptimizer<'_> {
         );
         self.ctx.is_top_level = true;
 
-        nodes.visit_mut_children_with(self);
+        self.visit_mut_par(*crate::LIGHT_TASK_PARALLELS, nodes);
     }
 
     fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
@@ -54,7 +66,7 @@ impl VisitMut for PostcompressOptimizer<'_> {
 
         self.ctx.is_top_level = false;
 
-        nodes.visit_mut_children_with(self);
+        self.visit_mut_par(*crate::LIGHT_TASK_PARALLELS, nodes);
 
         self.ctx = old;
     }
