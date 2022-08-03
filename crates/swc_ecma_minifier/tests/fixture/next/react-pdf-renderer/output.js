@@ -28426,12 +28426,8 @@
                 for(o = 0, t.table[0] = 0, i = 0; i < 16; ++i)p[i] = o, o += t.table[i];
                 for(i = 0; i < n; ++i)e[r + i] && (t.trans[p[e[r + i]]++] = i);
             }
-            function p(a) {
-                a.bitcount-- || (a.tag = a.source[a.sourceIndex++], a.bitcount = 7);
-                var b = 1 & a.tag;
-                return a.tag >>>= 1, b;
             function $(t) {
-                (t.bitcount--) || (t.tag = t.source[t.sourceIndex++], t.bitcount = 7);
+                t.bitcount-- || (t.tag = t.source[t.sourceIndex++], t.bitcount = 7);
                 var e = 1 & t.tag;
                 return t.tag >>>= 1, e;
             }
