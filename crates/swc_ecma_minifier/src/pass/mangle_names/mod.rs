@@ -6,7 +6,7 @@ use swc_common::{chain, sync::Lrc, SourceMap};
 use swc_ecma_ast::{Module, *};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
-use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::{noop_visit_type, VisitMut, Vsiit};
 
 use self::preserver::idents_to_preserve;
 use crate::{option::MangleOptions, util::base54};
@@ -52,6 +52,36 @@ impl CharFreq {
             }
         }
     }
+
+    pub fn compute(p: &Program) -> Self {
+        let mut buf = vec![];
+        let cm = Lrc::new(SourceMap::default());
+
+        {
+            let mut emitter = Emitter {
+                cfg: Default::default(),
+                cm: cm.clone(),
+                comments: None,
+                wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
+            };
+
+            emitter.emit_program(&p).unwrap();
+        }
+
+        let code = String::from_utf8(buf).unwrap();
+
+        let mut freq = Self::default();
+
+        freq.scan(&code, 1);
+
+        // We don't print comments
+
+        // Subtract import paths
+    }
+}
+
+impl Visit for CharFreq {
+    noop_visit_type!();
 }
 
 impl AddAssign for CharFreq {
@@ -60,24 +90,6 @@ impl AddAssign for CharFreq {
             self.0[i] += rhs.0[i];
         }
     }
-}
-
-fn compute_char_freq(p: &Program) {
-    let mut buf = vec![];
-    let cm = Lrc::new(SourceMap::default());
-
-    {
-        let mut emitter = Emitter {
-            cfg: Default::default(),
-            cm: cm.clone(),
-            comments: None,
-            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
-        };
-
-        emitter.emit_program(&p).unwrap();
-    }
-
-    let code = String::from_utf8(buf).unwrap();
 }
 
 pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl VisitMut {
