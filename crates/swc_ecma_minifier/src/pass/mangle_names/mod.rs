@@ -6,7 +6,7 @@ use swc_common::{chain, sync::Lrc, SourceMap};
 use swc_ecma_ast::{Module, *};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitMut};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitWith};
 
 use self::preserver::idents_to_preserve;
 use crate::{option::MangleOptions, util::base54};
@@ -73,6 +73,8 @@ impl CharFreq {
         let mut freq = Self::default();
 
         freq.scan(&code, 1);
+
+        p.visit_with(&mut freq);
 
         // We don't print comments
 
