@@ -593,6 +593,7 @@ harmony/class_extends_function/input.js
 harmony/class_extends_regex/input.js
 harmony/class_method_using_arguments/input.js
 harmony/class_methods_and_getters_with_keep_quoted_props_enabled/input.js
+harmony/class_name_can_be_mangled/input.js
 harmony/class_name_can_be_preserved/input.js
 harmony/class_statics/input.js
 harmony/classes/input.js
@@ -613,9 +614,12 @@ harmony/format_methods/input.js
 harmony/import_all_statement/input.js
 harmony/import_meta/input.js
 harmony/import_statement/input.js
+harmony/issue_1613/input.js
+harmony/issue_1753/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
 harmony/issue_2676/input.js
+harmony/issue_2762/input.js
 harmony/issue_2794_4/input.js
 harmony/issue_2794_5/input.js
 harmony/issue_2794_6/input.js
@@ -684,7 +688,9 @@ ie8/do_screw/input.js
 ie8/do_screw_constants/input.js
 ie8/dont_screw/input.js
 ie8/dont_screw_constants/input.js
+ie8/issue_1586_2/input.js
 ie8/issue_2120_2/input.js
+ie8/issue_2254_2/input.js
 if_return/if_if_return_return/input.js
 if_return/if_return_1/input.js
 if_return/if_return_2/input.js
@@ -724,6 +730,7 @@ issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js
 issue_12/keep_name_of_setter/input.js
 issue_12/setter_with_operator_keys/input.js
+issue_1202/mangle_keep_fnames_true/input.js
 issue_1212/issue_1212_debug_false/input.js
 issue_1212/issue_1212_debug_true/input.js
 issue_126/concatenate_rhs_strings/input.js
@@ -732,11 +739,17 @@ issue_143/tranformation_sort_order_equal/input.js
 issue_143/tranformation_sort_order_greater_or_equal/input.js
 issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
+issue_1431/level_one/input.js
+issue_1431/level_three/input.js
+issue_1431/level_two/input.js
+issue_1431/level_zero/input.js
 issue_1446/typeof_eq_undefined/input.js
 issue_1446/undefined_redefined/input.js
+issue_1446/undefined_redefined_mangle/input.js
 issue_1447/else_with_empty_block/input.js
 issue_1447/else_with_empty_statement/input.js
 issue_1588/runtime_error/input.js
+issue_1588/safe_undefined/input.js
 issue_1588/support_ie8/input.js
 issue_1609/chained_evaluation_1/input.js
 issue_1609/chained_evaluation_2/input.js
@@ -864,6 +877,7 @@ issue_t50/issue_t50_let/input.js
 join_vars/issue_1079_with_mixed/input.js
 join_vars/issue_1079_with_vars/input.js
 join_vars/only_vars/input.js
+keep_names/drop_classnames/input.js
 keep_names/keep_classnames/input.js
 keep_names/keep_fnames/input.js
 keep_names/keep_fnames_and_avoid_collisions/input.js
