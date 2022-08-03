@@ -7,7 +7,7 @@ it("should compress", async () => {
     `);
 
     expect(code).toMatchInlineSnapshot(
-        `"import a from\\"@src/app\\";console.log(a)"`
+        `"import o from\\"@src/app\\";console.log(o)"`
     );
 });
 
@@ -21,7 +21,7 @@ it("should accept object", async () => {
     );
 
     expect(code).toMatchInlineSnapshot(
-        `"import a from\\"@src/app\\";console.log(a)"`
+        `"import o from\\"@src/app\\";console.log(o)"`
     );
 });
 
@@ -38,7 +38,7 @@ it("should accept { mangle = true }", async () => {
     );
 
     expect(code).toMatchInlineSnapshot(
-        `"import a from\\"@src/app\\";console.log(a)"`
+        `"import o from\\"@src/app\\";console.log(o)"`
     );
 });
 
@@ -57,7 +57,7 @@ it("should accept { mangle = object }", async () => {
     );
 
     expect(code).toMatchInlineSnapshot(
-        `"import a from\\"@src/app\\";console.log(a)"`
+        `"import o from\\"@src/app\\";console.log(o)"`
     );
 });
 
@@ -83,7 +83,7 @@ it("should mangle locals", async () => {
     );
 
     expect(code).toMatchInlineSnapshot(
-        `"(function(){const a=Math.random()+\\"_\\"+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`
+        `"(function(){const o=Math.random()+\\"_\\"+Math.random();console.log(o);console.log(o);console.log(o);console.log(o);console.log(o);console.log(o)})()"`
     );
 });
 
@@ -161,7 +161,7 @@ describe("transform apis", () => {
         );
 
         expect(code).toMatchInlineSnapshot(
-            `"(function(){var a=Math.random()+\\"_\\"+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`
+            `"(function(){var o=Math.random()+\\"_\\"+Math.random();console.log(o);console.log(o);console.log(o);console.log(o);console.log(o);console.log(o)})()"`
         );
     });
 });
@@ -187,7 +187,7 @@ describe("should remove comments", () => {
         );
 
         expect(code).toMatchInlineSnapshot(
-            `"(function(){const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"`
+            `"(function(){const n=Math.random()+\\"_\\"+Math.random();console.log(n)})()"`
         );
     });
 
@@ -213,7 +213,7 @@ describe("should remove comments", () => {
         expect(code).toMatchInlineSnapshot(`
             "(function(){/**
                          * @license
-                         */ const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"
+                         */ const n=Math.random()+\\"_\\"+Math.random();console.log(n)})()"
         `);
     });
     it("should remove comment near to  licnese", async () => {
@@ -241,7 +241,7 @@ describe("should remove comments", () => {
         expect(code).toMatchInlineSnapshot(`
             "(function(){/**
                          * @license
-                         */ const a=Math.random()+\\"_\\"+Math.random();console.log(a)})()"
+                         */ const n=Math.random()+\\"_\\"+Math.random();console.log(n)})()"
         `);
     });
 });
