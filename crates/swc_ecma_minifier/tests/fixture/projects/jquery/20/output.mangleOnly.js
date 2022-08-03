@@ -1,8 +1,8 @@
 export const obj = {
     setRequestHeader: function(e, t) {
-        var r = e.toLowerCase();
+        var o = e.toLowerCase();
         if (!state) {
-            e = requestHeadersNames[r] = requestHeadersNames[r] || e;
+            e = requestHeadersNames[o] = requestHeadersNames[o] || e;
             requestHeaders[e] = t;
         }
         return this;

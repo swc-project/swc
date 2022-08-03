@@ -4,7 +4,7 @@ function n() {
 function o() {
     console.log(42);
 }
-var t = 1, c = 2;
+var i = 1, t = 2;
 export function main() {
-    o(t);
+    o(i);
 }

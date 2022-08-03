@@ -1,25 +1,25 @@
 export function foo() {
-    var i = 0, e = true;
+    var f = 0, i = true;
     if (className == "[object Array]") {
-        i = a.length;
-        e = i == b.length;
-        if (e) {
-            while(i--){
-                if (!(e = eq(a[i], b[i], aStack, bStack))) break;
+        f = a.length;
+        i = f == b.length;
+        if (i) {
+            while(f--){
+                if (!(i = eq(a[f], b[f], aStack, bStack))) break;
             }
         }
     } else {
-        for(var f in a){
-            if (_.has(a, f)) {
-                i++;
-                if (!(e = _.has(b, f) && eq(a[f], b[f], aStack, bStack))) break;
+        for(var e in a){
+            if (_.has(a, e)) {
+                f++;
+                if (!(i = _.has(b, e) && eq(a[e], b[e], aStack, bStack))) break;
             }
         }
-        if (e) {
-            for(f in b){
-                if (_.has(b, f) && !i--) break;
+        if (i) {
+            for(e in b){
+                if (_.has(b, e) && !f--) break;
             }
-            e = !i;
+            i = !f;
         }
     }
 }

@@ -1,3 +1,3 @@
 export const add = 1;
-const o = 2, t = 3;
-console.log(add, add, o, o, t, t);
+const d = 2, o = 3;
+console.log(add, add, d, d, o, o);

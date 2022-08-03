@@ -1,6 +1,6 @@
 export const obj = {
-    set: function(s, t, n) {
-        var o = n && getStyles(s);
-        return setPositiveNumber(s, t, n ? augmentWidthOrHeight(s, name, n, jQuery.support.boxSizing && jQuery.css(s, "boxSizing", false, o) === "border-box", o) : 0);
+    set: function(o, s, t) {
+        var n = t && getStyles(o);
+        return setPositiveNumber(o, s, t ? augmentWidthOrHeight(o, name, t, jQuery.support.boxSizing && jQuery.css(o, "boxSizing", false, n) === "border-box", n) : 0);
     }
 };

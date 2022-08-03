@@ -1,8 +1,8 @@
 export const obj = {
     each: function(e, f, a) {
-        var l, r = 0, i = e.length, s = isArraylike(e);
+        var l, r = 0, i = e.length, o = isArraylike(e);
         if (a) {
-            if (s) {
+            if (o) {
                 for(; r < i; r++){
                     l = f.apply(e[r], a);
                     if (l === false) {
@@ -18,7 +18,7 @@ export const obj = {
                 }
             }
         } else {
-            if (s) {
+            if (o) {
                 for(; r < i; r++){
                     l = f.call(e[r], r, e[r]);
                     if (l === false) {

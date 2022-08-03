@@ -1,7 +1,7 @@
-export function add(n, r) {
-    return n + r;
+export function add(d, n) {
+    return d + n;
 }
-function n(n, r) {
-    return n - r;
+function d(d, n) {
+    return d - n;
 }
-console.log(add(1, 2), add(3, 4), n(5, 6), n(7, 8));
+console.log(add(1, 2), add(3, 4), d(5, 6), d(7, 8));

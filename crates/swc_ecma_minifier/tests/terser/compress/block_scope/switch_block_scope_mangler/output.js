@@ -10,8 +10,8 @@ var fn = function(e) {
             console.log(a);
             break;
         default:
-            let c = e + 3;
-            console.log(c);
+            let f = e + 3;
+            console.log(f);
     }
 };
 fn(1);

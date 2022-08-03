@@ -2,9 +2,9 @@ export default class s {
 };
 export class bar {
 }
-class l {
+class a {
     meth() {}
 }
-class a {
+class l {
 }
-console.log(s, bar, l, a, a);
+console.log(s, bar, a, l, l);

@@ -1,5 +1,5 @@
 export class add {
 }
-class s {
+class d {
 }
-console.log(add, add, s, s);
+console.log(add, add, d, d);

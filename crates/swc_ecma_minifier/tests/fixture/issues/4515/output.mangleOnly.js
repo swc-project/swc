@@ -3,7 +3,7 @@ B.c = {
         for(var o = 1; o < 10; o++){}
     }
 };
-var r;
+var e;
 export function setGetChildNodes(o) {
-    r = o;
+    e = o;
 }

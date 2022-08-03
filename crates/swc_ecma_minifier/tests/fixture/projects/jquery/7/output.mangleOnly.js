@@ -1,10 +1,10 @@
 export const obj = {
     proxy: function(i, n) {
-        var t, u, r;
+        var t, u, o;
         if (typeof n === "string") {
-            r = i[n];
+            o = i[n];
             n = i;
-            i = r;
+            i = o;
         }
         if (!jQuery.isFunction(i)) {
             return undefined;

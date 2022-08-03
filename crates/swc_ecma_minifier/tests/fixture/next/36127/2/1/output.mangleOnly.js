@@ -1,6 +1,6 @@
-export function regexCheck(n) {
+export function regexCheck(e) {
     return r;
     function r(r) {
-        return r !== null && n.test(String.fromCharCode(r));
+        return r !== null && e.test(String.fromCharCode(r));
     }
 }

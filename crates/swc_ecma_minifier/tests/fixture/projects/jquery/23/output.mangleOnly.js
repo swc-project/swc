@@ -3,19 +3,19 @@ export const obj = {
         if (!e || e.nodeType === 3 || e.nodeType === 8 || !e.style) {
             return;
         }
-        var n, o, c, f = jQuery.camelCase(s), i = e.style;
+        var o, n, c, f = jQuery.camelCase(s), i = e.style;
         s = jQuery.cssProps[f] || (jQuery.cssProps[f] = vendorPropName(i, f));
         c = jQuery.cssHooks[s] || jQuery.cssHooks[f];
         if (t !== undefined) {
-            o = typeof t;
-            if (o === "string" && (n = rrelNum.exec(t))) {
-                t = (n[1] + 1) * n[2] + parseFloat(jQuery.css(e, s));
-                o = "number";
+            n = typeof t;
+            if (n === "string" && (o = rrelNum.exec(t))) {
+                t = (o[1] + 1) * o[2] + parseFloat(jQuery.css(e, s));
+                n = "number";
             }
-            if (t == null || (o === "number" && isNaN(t))) {
+            if (t == null || (n === "number" && isNaN(t))) {
                 return;
             }
-            if (o === "number" && !jQuery.cssNumber[f]) {
+            if (n === "number" && !jQuery.cssNumber[f]) {
                 t += "px";
             }
             if (!jQuery.support.clearCloneStyle && t === "" && s.indexOf("background") === 0) {
@@ -27,8 +27,8 @@ export const obj = {
                 } catch (l) {}
             }
         } else {
-            if (c && "get" in c && (n = c.get(e, false, r)) !== undefined) {
-                return n;
+            if (c && "get" in c && (o = c.get(e, false, r)) !== undefined) {
+                return o;
             }
             return i[s];
         }
