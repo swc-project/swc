@@ -14,7 +14,15 @@ use crate::{option::MangleOptions, util::base54};
 mod preserver;
 mod private_name;
 
+#[derive(Clone, Copy)]
+
 pub(crate) struct CharFreq([i32; 64]);
+
+impl Default for CharFreq {
+    fn default() -> Self {
+        CharFreq([0; 64])
+    }
+}
 
 impl CharFreq {
     pub fn scan(&mut self, s: &str, delta: i32) {
