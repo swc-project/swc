@@ -1076,12 +1076,13 @@ where
             if is_kwd_op {
                 node.left.ends_with_alpha_num()
             } else {
+                // space is mandatory to avoid outputting -->
                 match *node.left {
                     Expr::Update(UpdateExpr {
                         prefix: false, op, ..
                     }) => matches!(
                         (op, node.op),
-                        (op!("--"), op!(bin, "-")) | (op!("++"), op!(bin, "+"))
+                        (op!("--"), op!(">") | op!(">>") | op!(">>>") | op!(">="))
                     ),
                     _ => false,
                 }
@@ -1104,31 +1105,7 @@ where
             if is_kwd_op {
                 node.right.starts_with_alpha_num()
             } else {
-                match (&node.op, &*node.right) {
-                    (
-                        _,
-                        Expr::Unary(UnaryExpr {
-                            op: op!("typeof") | op!("void") | op!("delete"),
-                            ..
-                        }),
-                    ) => false,
-
-                    (op!("||") | op!("&&"), Expr::Unary(UnaryExpr { op: op!("!"), .. })) => false,
-
-                    (op!("*") | op!("/"), Expr::Unary(..)) => false,
-
-                    (
-                        op!("||") | op!("&&"),
-                        Expr::Unary(UnaryExpr {
-                            op: op!(unary, "+") | op!(unary, "-") | op!("!"),
-                            ..
-                        }),
-                    ) => false,
-
-                    (op, r) if require_space_before_rhs(r, op) => true,
-
-                    _ => false,
-                }
+                require_space_before_rhs(&*node.right, &node.op)
             }
         } else {
             is_kwd_op
@@ -3629,6 +3606,18 @@ fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
             (op, update),
             (op!(bin, "-"), op!("--")) | (op!(bin, "+"), op!("++"))
         ),
+
+        // space is mandatory to avoid outputting <!--
+        Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) if *op == op!("<") || *op == op!("<<") => {
+            if let Expr::Update(UpdateExpr { op: op!("--"), .. }) = &**arg {
+                true
+            } else {
+                false
+            }
+        }
+
         Expr::Unary(UnaryExpr { op: unary, .. }) => matches!(
             (op, unary),
             (op!(bin, "-"), op!(unary, "-")) | (op!(bin, "+"), op!(unary, "+"))

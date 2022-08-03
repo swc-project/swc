@@ -188,7 +188,7 @@ mod tests {
 
     #[test]
     fn regression_increments() {
-        assert_min("x++ + ++y", "x++ + ++y");
+        assert_min("x++ + ++y", "x+++ ++y");
         assert_min("x++ - ++y", "x++-++y");
     }
 
@@ -197,5 +197,10 @@ mod tests {
         assert_min("({ 1n: 2 });", "({1n:2})");
         assert_min("(class C { 1n = 1 });", "(class C{1n=1})");
         assert_min("(class C { 1n () { } });", "(class C{1n(){}})");
+    }
+
+    #[test]
+    fn html_comment() {
+        assert_min("a < !--b && c-- > d;", "a< !--b&&c-- >d");
     }
 }
