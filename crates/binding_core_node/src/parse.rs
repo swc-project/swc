@@ -12,7 +12,7 @@ use swc::{
     config::{ErrorFormat, ParseOptions},
     Compiler,
 };
-use swc_common::{comments::Comments, FileName};
+use swc_core::common::{comments::Comments, FileName};
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::{get_compiler, util::try_with};

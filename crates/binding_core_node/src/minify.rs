@@ -9,7 +9,7 @@ use swc::{
     config::{ErrorFormat, JsMinifyOptions},
     TransformOutput,
 };
-use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
+use swc_core::common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::{get_compiler, util::try_with};

@@ -5,7 +5,7 @@ use std::panic::{catch_unwind, AssertUnwindSafe};
 use anyhow::{anyhow, Error};
 use napi::Env;
 use swc::{config::ErrorFormat, try_with_handler};
-use swc_common::{
+use swc_core::common::{
     errors::Handler,
     sync::{Lrc, OnceCell},
     SourceMap,
