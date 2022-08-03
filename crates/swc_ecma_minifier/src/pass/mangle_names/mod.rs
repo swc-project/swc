@@ -3,7 +3,9 @@ use std::{cmp::Reverse, ops::AddAssign};
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{chain, sync::Lrc, SourceMap};
+use swc_common::{
+    chain, sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError,
+};
 use swc_ecma_ast::{Module, *};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
@@ -28,6 +30,48 @@ pub(crate) struct Base54Chars {
 impl Default for CharFreq {
     fn default() -> Self {
         CharFreq([0; 64])
+    }
+}
+
+struct DummySourceMap;
+
+impl SourceMapper for DummySourceMap {
+    fn lookup_char_pos(&self, _: BytePos) -> Loc {
+        unreachable!()
+    }
+
+    fn span_to_lines(&self, _: Span) -> Result<FileLines, SpanLinesError> {
+        unreachable!()
+    }
+
+    fn span_to_string(&self, _: Span) -> String {
+        String::new()
+    }
+
+    fn span_to_filename(&self, _: Span) -> FileName {
+        FileName::Anon
+    }
+
+    fn merge_spans(&self, _: Span, _: Span) -> Option<Span> {
+        None
+    }
+
+    fn call_span_if_macro(&self, sp: Span) -> Span {
+        sp
+    }
+
+    fn doctest_offset_line(&self, line: usize) -> usize {
+        line
+    }
+
+    fn span_to_snippet(&self, _: Span) -> Result<String, swc_common::SpanSnippetError> {
+        Ok(String::new())
+    }
+}
+
+impl SourceMapperExt for DummySourceMap {
+    fn get_code_map(&self) -> &dyn SourceMapper {
+        self
     }
 }
 
@@ -62,14 +106,14 @@ impl CharFreq {
 
     pub fn compute(p: &Program, preserved: &FxHashSet<Id>) -> Self {
         let mut buf = vec![];
-        let cm = Lrc::new(SourceMap::default());
+        let cm = Lrc::new(DummySourceMap);
 
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),
-                cm: cm.clone(),
+                cm,
                 comments: None,
-                wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
+                wr: Box::new(JsWriter::new(Default::default(), "\n", &mut buf, None)),
             };
 
             emitter.emit_program(p).unwrap();
