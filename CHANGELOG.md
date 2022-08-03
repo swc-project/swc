@@ -13,6 +13,12 @@
 
 - **(es/minifier)** Optimize inlining function calls with a literal in arguments (#5365) ([b221f90](https://github.com/swc-project/swc/commit/b221f90117a77f684dc6b9ae5296c6bd1a2d8349))
 
+### Documentation
+
+
+
+- **(rustdoc)** FIx CI (#5370) ([cf3de12](https://github.com/swc-project/swc/commit/cf3de124d621c8735c551637136b325104c5668e))
+
 ### Features
 
 
