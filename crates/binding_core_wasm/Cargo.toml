@@ -17,7 +17,7 @@ default = ["swc_v1"]
 swc_v1  = []
 swc_v2  = []
 # This feature exists to allow cargo operations
-plugin = ["swc/plugin", "swc_core/plugin_transform_host_js"]
+plugin = ["swc_core/plugin_transform_host_js"]
 
 [dependencies]
 anyhow = "1.0.58"
@@ -28,8 +28,12 @@ parking_lot_core = "0.9.3"
 path-clean = "0.1.0"
 serde = { version = "1.0.140", features = ["derive"] }
 serde_json = "1.0.82"
-swc = { path = "../swc" }
-swc_core = { path = "../swc_core", features = ["ast", "common", "perf"] }
+swc_core = { path = "../swc_core", features = [
+  "ast",
+  "common",
+  "common_perf",
+  "base",
+] }
 tracing = { version = "0.1.35", features = ["release_max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = [
   "serde-serialize",
