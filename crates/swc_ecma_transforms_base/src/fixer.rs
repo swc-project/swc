@@ -293,7 +293,6 @@ impl VisitMut for Fixer<'_> {
                 || expr.op == op!("!==") => {}
 
             Expr::Seq(..)
-            | Expr::Update(UpdateExpr { prefix: false, .. })
             | Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             })
@@ -1636,4 +1635,6 @@ var store = global[SHARED] || (global[SHARED] = {});
         }
         "
     );
+
+    identical!(bin_and_unary, "console.log(a++ && b--)");
 }

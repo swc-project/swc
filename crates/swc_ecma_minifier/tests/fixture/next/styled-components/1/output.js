@@ -4053,7 +4053,7 @@
                                                 g++;
                                             case 34:
                                             case 39:
-                                                for(; (l++) < J && e.charCodeAt(l) !== g;);
+                                                for(; l++ < J && e.charCodeAt(l) !== g;);
                                         }
                                         if (0 === k) break;
                                         l++;

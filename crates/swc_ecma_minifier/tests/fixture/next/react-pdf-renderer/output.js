@@ -28427,7 +28427,7 @@
                 for(e = 0; e < d; ++e)b[c + e] && (a.trans[n[b[c + e]]++] = e);
             }
             function p(a) {
-                (a.bitcount--) || (a.tag = a.source[a.sourceIndex++], a.bitcount = 7);
+                a.bitcount-- || (a.tag = a.source[a.sourceIndex++], a.bitcount = 7);
                 var b = 1 & a.tag;
                 return a.tag >>>= 1, b;
             }
