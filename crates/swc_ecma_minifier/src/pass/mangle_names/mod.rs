@@ -18,6 +18,12 @@ mod private_name;
 
 pub(crate) struct CharFreq([i32; 64]);
 
+#[derive(Clone, Copy)]
+pub(crate) struct Base54Chars {
+    head: [u8; 54],
+    tail: [u8; 64],
+}
+
 impl Default for CharFreq {
     fn default() -> Self {
         CharFreq([0; 64])
@@ -74,11 +80,39 @@ impl CharFreq {
 
         freq.scan(&code, 1);
 
+        // Subtract
         p.visit_with(&mut freq);
 
-        // We don't print comments
+        freq
+    }
 
-        // Subtract import paths
+    pub fn compile(self) -> Base54Chars {
+        static BASE54_DEFAULT_CHARS: &[u8; 64] =
+            b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
+
+        let mut arr = BASE54_DEFAULT_CHARS
+            .iter()
+            .copied()
+            .enumerate()
+            .map(|(idx, c)| (self.0[idx], c))
+            .collect::<Vec<_>>();
+
+        arr.sort_by_key(|&(freq, _)| freq);
+
+        let mut head = vec![];
+        let mut tail = vec![];
+
+        for (_, c) in arr {
+            if c <= b'0' || c >= b'9' {
+                head.push(c);
+            }
+            tail.push(c);
+        }
+
+        Base54Chars {
+            head: head.try_into().unwrap(),
+            tail: tail.try_into().unwrap(),
+        }
     }
 }
 
