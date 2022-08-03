@@ -9,7 +9,7 @@ use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitMut, VisitWith};
 
 use self::preserver::idents_to_preserve;
-use crate::{option::MangleOptions, util::base54};
+use crate::option::MangleOptions;
 
 mod preserver;
 mod private_name;
@@ -148,15 +148,67 @@ impl AddAssign for CharFreq {
     }
 }
 
+impl Base54Chars {
+    /// givin a number, return a base54 encoded string
+    /// `usize -> [a-zA-Z$_][a-zA-Z$_0-9]*`
+    pub(crate) fn encode(&self, init: &mut usize, skip_reserved: bool) -> JsWord {
+        if skip_reserved {
+            while init.is_reserved()
+                || init.is_reserved_in_strict_bind()
+                || init.is_reserved_in_strict_mode(true)
+            {
+                *init += 1;
+            }
+        }
+
+        let mut n = *init;
+
+        *init += 1;
+
+        let mut base = 54;
+
+        while n >= base {
+            n -= base;
+            base <<= 6;
+        }
+
+        // Not sure if this is ideal, but it's safe
+        let mut ret: ArrayVec<_, 14> = ArrayVec::new();
+
+        base /= 54;
+        let mut c = BASE54_DEFAULT_CHARS[n / base];
+        ret.push(c);
+
+        while base > 1 {
+            n %= base;
+            base >>= 6;
+            c = BASE54_DEFAULT_CHARS[n / base];
+
+            ret.push(c);
+        }
+
+        let s = unsafe {
+            // Safety: We are only using ascii characters
+            // Safety: The stack memory for ret is alive while creating JsWord
+            JsWord::from(std::str::from_utf8_unchecked(&ret))
+        };
+
+        s
+    }
+}
+
 pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl VisitMut {
+    let base54 = CharFreq::compute(&program).compile();
+
     chain!(
         self::private_name::private_name_mangler(options.keep_private_props),
-        renamer(Default::default(), ManglingRenamer { options })
+        renamer(Default::default(), ManglingRenamer { options, base54 })
     )
 }
 
 struct ManglingRenamer {
     options: MangleOptions,
+    base54: Base54Chars,
 }
 
 impl Renamer for ManglingRenamer {
@@ -172,6 +224,6 @@ impl Renamer for ManglingRenamer {
     }
 
     fn new_name_for(&self, _: &Id, n: &mut usize) -> JsWord {
-        base54::encode(n, true)
+        self.base54.encode(n, true)
     }
 }
