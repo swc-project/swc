@@ -22,7 +22,7 @@ jobs:
           profile: minimal
 
       - name: Create rustdoc
-        run: cargo doc --all --exclude swc_cli
+        run: cargo doc --all --all-features --exclude swc_cli --exclude binding_core_node --exclude binding_core_wasm
 
       - name: Create CNAME
         run: |
