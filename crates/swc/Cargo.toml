@@ -22,7 +22,6 @@ concurrent = [
   "swc_ecma_transforms/concurrent",
   "swc_common/concurrent",
   "swc_ecma_minifier/concurrent",
-  "swc_ecmascript/concurrent",
 ]
 
 debug = ["swc_ecma_visit/debug"]
@@ -88,7 +87,6 @@ swc_ecma_transforms_compat = { version = "0.120.0", path = "../swc_ecma_transfor
 swc_ecma_transforms_optimization = { version = "0.150.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "0.98.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.75.0", path = "../swc_ecma_visit" }
-swc_ecmascript = { version = "0.186.0", path = "../swc_ecmascript" }
 swc_error_reporters = { version = "0.10.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.13.0", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "0.17.0", path = "../swc_plugin_proxy", optional = true }

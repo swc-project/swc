@@ -9,7 +9,7 @@
 //!
 //! ## Dependency version management
 //!
-//! `swc` has [swc_ecmascript](https://docs.rs/swc_ecmascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
+//! `swc` has [swc_css](https://docs.rs/swc_css), which re-exports required modules.
 //!
 //! ## Testing
 //!
@@ -110,7 +110,6 @@
 
 pub extern crate swc_atoms as atoms;
 extern crate swc_common as common;
-pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
     env,
