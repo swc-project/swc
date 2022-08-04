@@ -54,6 +54,7 @@ swc_core = { path = "../swc_core", features = [
   "bundler",
   "loader",
   "base_node",
+  "base_concurrent",
 ] }
 
 swc_node_bundler  = { path = "../swc_node_bundler" }

@@ -48,8 +48,9 @@ allocator_node = ["swc_node_base"]
 ## General
 # Enable swc reexports. To avoid confusion between swc_core namespace,
 # it is named as 'base' instead.
-base      = ["__base"]
-base_node = ["__base", "swc/node"]
+base            = ["__base"]
+base_concurrent = ["__base", "swc/concurrent"]
+base_node       = ["__base", "swc/node"]
 
 # Enable swc_common reexports.
 #
@@ -124,6 +125,7 @@ __plugin_transform_host_schema_v1 = [
   # Dependent features
   "__plugin_transform_schema_v1",
   # Enable optional features
+  "swc/plugin_transform_schema_v1",
   "swc_plugin_runner/plugin_transform_schema_v1",
 ]
 __plugin_transform_schema_v1 = ["swc_common/plugin_transform_schema_v1"]
@@ -133,6 +135,7 @@ __plugin_transform_host_schema_vtest = [
   # Dependent features
   "__plugin_transform_schema_vtest",
   # Enable optional features
+  "swc/plugin_transform_schema_vtest",
   "swc_plugin_runner/plugin_transform_schema_vtest",
 ]
 __plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]

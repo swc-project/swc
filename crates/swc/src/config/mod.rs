@@ -19,8 +19,8 @@ use serde::{
 };
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
-pub use swc_common::chain;
 use swc_common::{
+    chain,
     collections::{AHashMap, AHashSet},
     comments::SingleThreadedComments,
     errors::Handler,

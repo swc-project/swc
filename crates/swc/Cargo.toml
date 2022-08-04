@@ -16,19 +16,24 @@ bench = false
 name  = "swc"
 
 [features]
-# TODO: this seems unused, confirm & remove later once imports to swc flattens out ecma_*
-#concurrent = ["swc_ecma_transforms/concurrent", "swc_common/concurrent", "swc_ecma_minifier/concurrent", "swc_ecmascript/concurrent"]
-debug   = ["swc_ecma_visit/debug"]
+# TODO: This may need reorganization with swc_core - swc_core allows to optionally enable
+# each features (minifier, transforms..) but swc includes all of them.
+concurrent = [
+  "swc_ecma_transforms/concurrent",
+  "swc_common/concurrent",
+  "swc_ecma_minifier/concurrent",
+  "swc_ecmascript/concurrent",
+]
+
+debug = ["swc_ecma_visit/debug"]
 default = ["es3"]
-es3     = []
-node    = ["napi", "napi-derive"]
-plugin  = ["swc_plugin_runner", "swc_plugin_proxy/plugin-rt"]
-# TODO: This is redundant with swc_core
+es3 = []
+node = ["napi", "napi-derive"]
+plugin = ["swc_plugin_runner", "swc_plugin_proxy/plugin-rt"]
 plugin_transform_schema_v1 = [
   "swc_common/plugin_transform_schema_v1",
   "swc_plugin_runner/plugin_transform_schema_v1",
 ]
-# TODO: This is redundant with swc_core
 plugin_transform_schema_vtest = [
   "swc_common/plugin_transform_schema_vtest",
   "swc_plugin_runner/plugin_transform_schema_vtest",

@@ -109,7 +109,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 pub extern crate swc_atoms as atoms;
-pub extern crate swc_common as common;
+extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
