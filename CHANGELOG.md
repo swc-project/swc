@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Update the golden list (#5378) ([84a1ef8](https://github.com/swc-project/swc/commit/84a1ef856af287c2272a4f3e553b248148e15d33))
 
+
+- **(es/minifier)** Add snapshots of compressed libraries (#5389) ([a46669d](https://github.com/swc-project/swc/commit/a46669d334755f4de1a02fbc32dfbee6f01d433d))
+
 ## [1.2.223] - 2022-08-03
 
 ### Bug Fixes
