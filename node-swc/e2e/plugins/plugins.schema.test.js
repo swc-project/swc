@@ -30,7 +30,7 @@ const buildHost = async (feature) => {
         "binding_core_node",
         "-p",
         "binding_core_node",
-        `--cargo-flags=--no-default-features --features swc_v1 --features plugin --features ${feature}`,
+        `--cargo-flags=--no-default-features --features swc_v1 --features ${feature}`,
         "--config",
         `./node-swc/e2e/fixtures/napi.host.${feature}.config.js`,
     ];
@@ -70,7 +70,7 @@ describe("Plugins", () => {
                 plugin: ["plugin_transform_schema_v1"],
             },
             {
-                host: "plugin_transform_schema_vtest",
+                host: "__plugin_transform_vtest",
                 plugin: [
                     // TODO: reenable once new packages are published
                     // Note: this test runs against latest-published version of the plugin,
