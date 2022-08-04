@@ -10,6 +10,12 @@
 
 - **(es/modules)** Use an indirect call for a tagged template (#5382) ([cdb6164](https://github.com/swc-project/swc/commit/cdb6164937b285aa294a8d68459a2c39862d941f))
 
+### Features
+
+
+
+- **(es/codegen)** Remove more whitespaces from `BinExpr` (#5380) ([e37b7e8](https://github.com/swc-project/swc/commit/e37b7e8caa05fd98fdfe7b3918cb7b09147bbae7))
+
 ### Testing
 
 
