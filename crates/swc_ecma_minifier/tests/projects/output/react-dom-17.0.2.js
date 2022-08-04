@@ -3390,7 +3390,7 @@
                             case "pointerup":
                                 SyntheticEventCtor = SyntheticPointerEvent;
                         }
-                        var inCapturePhase = (4 & eventSystemFlags) != 0, accumulateTargetOnly = !inCapturePhase && "scroll" === domEventName, _listeners = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
+                        var inCapturePhase = (4 & eventSystemFlags) != 0, _listeners = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, !inCapturePhase && "scroll" === domEventName);
                         if (_listeners.length > 0) {
                             var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
                             dispatchQueue.push({
@@ -4232,11 +4232,11 @@
             isFlushingSyncQueue = !0;
             var i = 0;
             try {
-                var _isSync2 = !0, _queue = syncQueue;
+                var _queue = syncQueue;
                 runWithPriority$1(99, function() {
                     for(; i < _queue.length; i++){
                         var callback = _queue[i];
-                        do callback = callback(_isSync2);
+                        do callback = callback(!0);
                         while (null !== callback)
                     }
                 }), syncQueue = null;
@@ -5277,8 +5277,8 @@
     function warnOnHookMismatchInDev(currentHookName) {
         var componentName = getComponentName(currentlyRenderingFiber$1.type);
         if (!didWarnAboutMismatchedHooksForComponent.has(componentName) && (didWarnAboutMismatchedHooksForComponent.add(componentName), null !== hookTypesDev)) {
-            for(var table = "", secondColumnStart = 30, i = 0; i <= hookTypesUpdateIndexDev; i++){
-                for(var oldHookName = hookTypesDev[i], newHookName = i === hookTypesUpdateIndexDev ? currentHookName : oldHookName, row = i + 1 + ". " + oldHookName; row.length < secondColumnStart;)row += " ";
+            for(var table = "", i = 0; i <= hookTypesUpdateIndexDev; i++){
+                for(var oldHookName = hookTypesDev[i], newHookName = i === hookTypesUpdateIndexDev ? currentHookName : oldHookName, row = i + 1 + ". " + oldHookName; row.length < 30;)row += " ";
                 row += newHookName + "\n", table += row;
             }
             error("React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://reactjs.org/link/rules-of-hooks\n\n   Previous render            Next render\n   ------------------------------------------------------\n%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", componentName, table);
@@ -6364,19 +6364,15 @@
     function updateOffscreenComponent(current, workInProgress, renderLanes) {
         var a, b, _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
         if ("hidden" === nextProps.mode || "unstable-defer-without-hiding" === nextProps.mode) {
-            if ((4 & workInProgress.mode) == 0) {
-                var nextBaseLanes, a1, b1, nextState = {
-                    baseLanes: NoLanes
-                };
-                workInProgress.memoizedState = nextState, pushRenderLanes(workInProgress, renderLanes);
-            } else if (includesSomeLane(renderLanes, 1073741824)) {
-                var _nextState2 = {
-                    baseLanes: NoLanes
-                };
-                workInProgress.memoizedState = _nextState2, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
-            } else {
+            if ((4 & workInProgress.mode) == 0) workInProgress.memoizedState = {
+                baseLanes: NoLanes
+            }, pushRenderLanes(workInProgress, renderLanes);
+            else if (includesSomeLane(renderLanes, 1073741824)) workInProgress.memoizedState = {
+                baseLanes: NoLanes
+            }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
+            else {
                 nextBaseLanes = null !== prevState ? (a1 = prevState.baseLanes) | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-                var _nextState = {
+                var nextBaseLanes, a1, b1, _nextState = {
                     baseLanes: nextBaseLanes
                 };
                 return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
@@ -7363,16 +7359,14 @@
     }
     function logCapturedError(boundary, errorInfo) {
         try {
-            var logError = !0;
-            if (!1 === logError) return;
-            var errorBoundaryMessage, error = errorInfo.value, source = errorInfo.source, stack = errorInfo.stack, componentStack = null !== stack ? stack : "";
+            var errorBoundaryMessage, error = errorInfo.value, source = errorInfo.source, stack = errorInfo.stack;
             if (null != error && error._suppressLogging) {
                 if (1 === boundary.tag) return;
                 console.error(error);
             }
-            var componentName = source ? getComponentName(source.type) : null, componentNameMessage = componentName ? "The above error occurred in the <" + componentName + "> component:" : "The above error occurred in one of your React components:", errorBoundaryName = getComponentName(boundary.type);
+            var componentName = source ? getComponentName(source.type) : null, errorBoundaryName = getComponentName(boundary.type);
             errorBoundaryMessage = errorBoundaryName ? "React will try to recreate this component tree from scratch using the error boundary you provided, " + errorBoundaryName + "." : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.";
-            var combinedMessage = componentNameMessage + "\n" + componentStack + "\n\n" + errorBoundaryMessage;
+            var combinedMessage = (componentName ? "The above error occurred in the <" + componentName + "> component:" : "The above error occurred in one of your React components:") + "\n" + (null !== stack ? stack : "") + "\n\n" + errorBoundaryMessage;
             console.error(combinedMessage);
         } catch (e) {
             setTimeout(function() {
@@ -7973,8 +7967,8 @@
                 break;
             case 23:
             case 24:
-                var isHidden = null !== finishedWork.memoizedState;
-                hideOrUnhideAllChildren(finishedWork, isHidden);
+                var newState = finishedWork.memoizedState;
+                hideOrUnhideAllChildren(finishedWork, null !== newState);
                 return;
         }
         throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
@@ -8156,7 +8150,7 @@
                 break;
             case 3:
                 if (markRootSuspended$1(root, lanes), includesOnlyRetries(lanes) && !shouldForceFlushFallbacksInDEV()) {
-                    var msUntilTimeout = globalMostRecentFallbackTime + 500 - now();
+                    var lanes1, msUntilTimeout = globalMostRecentFallbackTime + 500 - now();
                     if (msUntilTimeout > 10) {
                         if (getNextLanes(root, NoLanes) !== NoLanes) break;
                         var suspendedLanes = root.suspendedLanes;
@@ -8173,13 +8167,13 @@
             case 4:
                 if (markRootSuspended$1(root, lanes), (4186112 & (lanes1 = lanes)) === lanes1) break;
                 if (!shouldForceFlushFallbacksInDEV()) {
-                    var lanes1, eventTimeMs = function(root, lanes) {
+                    var mostRecentEventTime = function(root, lanes) {
                         for(var eventTimes = root.eventTimes, mostRecentEventTime = -1; lanes > 0;){
                             var index = pickArbitraryLaneIndex(lanes), lane = 1 << index, eventTime = eventTimes[index];
                             eventTime > mostRecentEventTime && (mostRecentEventTime = eventTime), lanes &= ~lane;
                         }
                         return mostRecentEventTime;
-                    }(root, lanes), timeElapsedMs = now() - eventTimeMs, _msUntilTimeout = jnd(timeElapsedMs) - timeElapsedMs;
+                    }(root, lanes), timeElapsedMs = now() - mostRecentEventTime, _msUntilTimeout = jnd(timeElapsedMs) - timeElapsedMs;
                     if (_msUntilTimeout > 10) {
                         root.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root), _msUntilTimeout);
                         break;

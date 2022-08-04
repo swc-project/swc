@@ -32,12 +32,17 @@ impl Storage for ProgramData {
 
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
+            let inited = self.initialized_vars.contains(&id);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
 
                     e.get_mut().ref_count += var_info.ref_count;
-                    e.get_mut().cond_init |= var_info.cond_init;
+                    e.get_mut().cond_init |= if !inited && e.get().var_initialized {
+                        true
+                    } else {
+                        var_info.cond_init
+                    };
 
                     e.get_mut().reassigned_with_assignment |= var_info.reassigned_with_assignment;
                     e.get_mut().reassigned_with_var_decl |= var_info.reassigned_with_var_decl;
@@ -147,12 +152,20 @@ impl Storage for ProgramData {
 
         v.declared_count += 1;
         v.declared = true;
-        if ctx.in_cond && has_init {
-            v.cond_init = true;
+        if has_init {
+            self.initialized_vars.insert(i.to_id());
         }
         v.declared_as_catch_param |= ctx.in_catch_param;
 
         v
+    }
+
+    fn get_initialized_cnt(&self) -> usize {
+        self.initialized_vars.len()
+    }
+
+    fn truncate_initialized_cnt(&mut self, len: usize) {
+        self.initialized_vars.truncate(len)
     }
 }
 
@@ -188,6 +201,8 @@ impl ProgramData {
             return;
         }
 
+        let inited = self.initialized_vars.contains(&i);
+
         let e = self.vars.entry(i).or_insert_with(|| {
             // trace!("insert({}{:?})", i.0, i.1);
 
@@ -202,6 +217,9 @@ impl ProgramData {
 
         if is_first {
             e.ref_count += 1;
+            if e.var_initialized && !inited {
+                e.cond_init = true;
+            }
         }
         e.reassigned_with_assignment |= is_first && is_modify && ctx.is_exact_reassignment;
         // Passing object as a argument is possibly modification.

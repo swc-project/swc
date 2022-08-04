@@ -3462,8 +3462,8 @@
                 nativeDateToISOString.call(new Date(NaN));
             }) ? function() {
                 if (!isFinite(getTime.call(this))) throw RangeError("Invalid time value");
-                var date = this, year = date.getUTCFullYear(), milliseconds = date.getUTCMilliseconds(), sign = year < 0 ? "-" : year > 9999 ? "+" : "";
-                return sign + padStart(abs(year), sign ? 6 : 4, 0) + "-" + padStart(date.getUTCMonth() + 1, 2, 0) + "-" + padStart(date.getUTCDate(), 2, 0) + "T" + padStart(date.getUTCHours(), 2, 0) + ":" + padStart(date.getUTCMinutes(), 2, 0) + ":" + padStart(date.getUTCSeconds(), 2, 0) + "." + padStart(milliseconds, 3, 0) + "Z";
+                var year = this.getUTCFullYear(), milliseconds = this.getUTCMilliseconds(), sign = year < 0 ? "-" : year > 9999 ? "+" : "";
+                return sign + padStart(abs(year), sign ? 6 : 4, 0) + "-" + padStart(this.getUTCMonth() + 1, 2, 0) + "-" + padStart(this.getUTCDate(), 2, 0) + "T" + padStart(this.getUTCHours(), 2, 0) + ":" + padStart(this.getUTCMinutes(), 2, 0) + ":" + padStart(this.getUTCSeconds(), 2, 0) + "." + padStart(milliseconds, 3, 0) + "Z";
             } : nativeDateToISOString;
         },
         6672: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -9644,16 +9644,12 @@
                 }
                 var forceNextPop = !1;
                 function handlePop(location) {
-                    if (forceNextPop) forceNextPop = !1, setState();
-                    else {
-                        var action = "POP";
-                        transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function(ok) {
-                            ok ? setState({
-                                action: action,
-                                location: location
-                            }) : revertPop(location);
-                        });
-                    }
+                    forceNextPop ? (forceNextPop = !1, setState()) : transitionManager.confirmTransitionTo(location, "POP", getUserConfirmation, function(ok) {
+                        ok ? setState({
+                            action: "POP",
+                            location: location
+                        }) : revertPop(location);
+                    });
                 }
                 function revertPop(fromLocation) {
                     var toLocation = history.location, toIndex = allKeys.indexOf(toLocation.key);
@@ -9799,16 +9795,12 @@
                     }
                 }
                 function handlePop(location) {
-                    if (forceNextPop) forceNextPop = !1, setState();
-                    else {
-                        var action = "POP";
-                        transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function(ok) {
-                            ok ? setState({
-                                action: action,
-                                location: location
-                            }) : revertPop(location);
-                        });
-                    }
+                    forceNextPop ? (forceNextPop = !1, setState()) : transitionManager.confirmTransitionTo(location, "POP", getUserConfirmation, function(ok) {
+                        ok ? setState({
+                            action: "POP",
+                            location: location
+                        }) : revertPop(location);
+                    });
                 }
                 function revertPop(fromLocation) {
                     var toLocation = history.location, toIndex = allPaths.lastIndexOf(createPath(toLocation));

@@ -613,8 +613,8 @@
                             mouseleave: "mouseout",
                             mouseenter: "mouseover"
                         }[type], function(event) {
-                            var target = this, related = event.relatedTarget;
-                            related && (related === target || contains(target, related)) || handle(event, type);
+                            var related = event.relatedTarget;
+                            related && (related === this || contains(this, related)) || handle(event, type);
                         });
                     } else addEventListenerFn(element, type, handle), events1[type] = [];
                     eventFns = events1[type];

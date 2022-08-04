@@ -3271,10 +3271,7 @@
                     return "vjs-mute-control " + _Button.prototype.buildCSSClass.call(this);
                 }, _proto.handleClick = function(event) {
                     var vol = this.player_.volume(), lastVolume = this.player_.lastVolume_();
-                    if (0 === vol) {
-                        var volumeToSet = lastVolume < 0.1 ? 0.1 : lastVolume;
-                        this.player_.volume(volumeToSet), this.player_.muted(!1);
-                    } else this.player_.muted(!this.player_.muted());
+                    0 === vol ? (this.player_.volume(lastVolume < 0.1 ? 0.1 : lastVolume), this.player_.muted(!1)) : this.player_.muted(!this.player_.muted());
                 }, _proto.update = function(event) {
                     this.updateIcon_(), this.updateControlText_();
                 }, _proto.updateIcon_ = function() {
@@ -7555,9 +7552,11 @@
                     if (!mediaID) throw Error("refreshMedia_ must take a media id");
                     this.media_ && this.isMaster_ && this.handleMaster_();
                     var playlists = this.masterPlaylistLoader_.master.playlists, mediaChanged = !this.media_ || this.media_ !== playlists[mediaID];
-                    mediaChanged ? this.media_ = playlists[mediaID] : this.trigger("playlistunchanged"), this.mediaUpdateTimeout || _this9.media().endList || (_this9.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
-                        _this9.trigger("mediaupdatetimeout"), createMediaUpdateTimeout();
-                    }, refreshDelay(_this9.media(), Boolean(mediaChanged)))), this.trigger("loadedplaylist");
+                    mediaChanged ? this.media_ = playlists[mediaID] : this.trigger("playlistunchanged"), this.mediaUpdateTimeout || function createMediaUpdateTimeout() {
+                        _this9.media().endList || (_this9.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
+                            _this9.trigger("mediaupdatetimeout"), createMediaUpdateTimeout();
+                        }, refreshDelay(_this9.media(), Boolean(mediaChanged))));
+                    }(), this.trigger("loadedplaylist");
                 }, DashPlaylistLoader;
             }(EventTarget), Config = {
                 GOAL_BUFFER_LENGTH: 30,

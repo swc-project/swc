@@ -431,13 +431,11 @@
                     return addListener(ownerDocument, "mousemove", eventHandler), addListener(ownerDocument, "mouseup", onMouseUp), addListener(ownerDocument, "dragstart", onMouseUp), onMouseUp;
                 }, exports.addMouseWheelListener = function(el, callback, destroyer) {
                     "onmousewheel" in el ? addListener(el, "mousewheel", function(e) {
-                        var factor = 8;
-                        void 0 !== e.wheelDeltaX ? (e.wheelX = -e.wheelDeltaX / factor, e.wheelY = -e.wheelDeltaY / factor) : (e.wheelX = 0, e.wheelY = -e.wheelDelta / factor), callback(e);
+                        void 0 !== e.wheelDeltaX ? (e.wheelX = -e.wheelDeltaX / 8, e.wheelY = -e.wheelDeltaY / 8) : (e.wheelX = 0, e.wheelY = -e.wheelDelta / 8), callback(e);
                     }, destroyer) : "onwheel" in el ? addListener(el, "wheel", function(e) {
-                        var factor = 0.35;
                         switch(e.deltaMode){
                             case e.DOM_DELTA_PIXEL:
-                                e.wheelX = e.deltaX * factor || 0, e.wheelY = e.deltaY * factor || 0;
+                                e.wheelX = 0.35 * e.deltaX || 0, e.wheelY = 0.35 * e.deltaY || 0;
                                 break;
                             case e.DOM_DELTA_LINE:
                             case e.DOM_DELTA_PAGE:
@@ -813,8 +811,8 @@
                             value || (value = "");
                             var newValue = "\n ab" + value + "cde fg\n";
                             newValue != text.value && (text.value = lastValue = newValue);
-                            var selectionStart = 4, selectionEnd = 4 + (value.length || (host.selection.isEmpty() ? 0 : 1));
-                            (lastSelectionStart != selectionStart || lastSelectionEnd != selectionEnd) && text.setSelectionRange(selectionStart, selectionEnd), lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd;
+                            var selectionEnd = 4 + (value.length || (host.selection.isEmpty() ? 0 : 1));
+                            (4 != lastSelectionStart || lastSelectionEnd != selectionEnd) && text.setSelectionRange(4, selectionEnd), lastSelectionStart = 4, lastSelectionEnd = selectionEnd;
                         }
                     } : function() {
                         if (!inComposition && !sendingText && (isFocused || afterContextMenu)) {
@@ -2468,8 +2466,8 @@
                         case 12:
                             for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
                             if (i < len) {
-                                var c = chars[ix], rtlCandidate = c >= 0x0591 && c <= 0x08ff || 0xfb1e == c;
-                                if (wType = types[i], rtlCandidate && (1 == wType || 7 == wType)) return 1;
+                                var c = chars[ix];
+                                if (wType = types[i], (c >= 0x0591 && c <= 0x08ff || 0xfb1e == c) && (1 == wType || 7 == wType)) return 1;
                             }
                             if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
                             return classes[ix - 1];
