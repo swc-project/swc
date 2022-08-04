@@ -1672,7 +1672,7 @@ fn full(input: PathBuf) {
 
 #[testing::fixture("benches/full/*.js")]
 fn full_libs(input: PathBuf) {
-    let manifest_dir = input.parent().unwrap().parent().unwrap();
+    let manifest_dir = input.parent().unwrap().parent().unwrap().parent().unwrap();
 
     testing::run_test2(false, |cm, handler| {
         let output = run(
