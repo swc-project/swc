@@ -9,17 +9,17 @@ use napi::{
     Env, Status, Task,
 };
 use serde::Deserialize;
-use swc::{
-    config::SourceMapsConfig,
-    resolver::{environment_resolver, paths_resolver},
-    Compiler, TransformOutput,
-};
 use swc_core::{
     ast::{
         Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
         PropName, Str,
     },
     atoms::{js_word, JsWord},
+    base::{
+        config::SourceMapsConfig,
+        resolver::{environment_resolver, paths_resolver},
+        Compiler, TransformOutput,
+    },
     bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
     common::{collections::AHashMap, Span},
     loader::{TargetEnv, NODE_BUILTINS},
@@ -43,7 +43,7 @@ struct StaticConfigItem {
 }
 
 pub(crate) struct BundleTask {
-    swc: Arc<swc::Compiler>,
+    swc: Arc<swc_core::base::Compiler>,
     config: ConfigItem,
 }
 
