@@ -5,6 +5,20 @@
 
 
 
+- **(es/fixer)** Preserve parens for optional chaining expressions (#5388) ([9443419](https://github.com/swc-project/swc/commit/9443419591a47931bf27958ef5f69599484157a5))
+
+### Testing
+
+
+
+- **(es/minifier)** Update the golden list (#5378) ([84a1ef8](https://github.com/swc-project/swc/commit/84a1ef856af287c2272a4f3e553b248148e15d33))
+
+## [1.2.223] - 2022-08-03
+
+### Bug Fixes
+
+
+
 - **(es/fixer)** Don't insert extra paren when left of `BinExpr` is `UpdateExpr` (#5376) ([77497e4](https://github.com/swc-project/swc/commit/77497e4fbe9bf10c5ffd510e932a6ff404da1760))
 
 
