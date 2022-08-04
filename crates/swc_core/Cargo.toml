@@ -8,7 +8,25 @@ repository  = "https://github.com/swc-project/swc.git"
 version     = "0.2.0"
 
   [package.metadata.docs.rs]
-  all-features = true
+  features = [
+    "common_perf",
+    "allocator_node",
+    "base",
+    "base_node",
+    "common",
+    "common_concurrent",
+    "visit",
+    "quote",
+    "utils",
+    "transforms",
+    "bundler",
+    "loader",
+    "ast",
+    "trace_macro",
+    "plugin_transform",
+    "plugin_transform_host_js",
+    "plugin_transform_host_native",
+  ]
   rustdoc-args = ["--cfg", "docsrs"]
 
 
