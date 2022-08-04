@@ -30,7 +30,8 @@ allocator_node = ["swc_node_base"]
 ## General
 # Enable swc reexports. To avoid confusion between swc_core namespace,
 # it is named as 'base' instead.
-base = ["swc"]
+base      = ["__base"]
+base_node = ["__base", "swc/node"]
 
 # Enable swc_common reexports.
 #
@@ -84,19 +85,13 @@ plugin_transform_host_js = [
   # Dependent features
   "__plugin_transform_host",
   "__plugin_transform_host_schema_v1",
-  # Enable optional packages
-  "swc_plugin_runner/memory_cache",
-  "wasmer/js-default",
-  "wasmer-wasi/js-default",
+  "__plugin_transform_env_js",
 ]
 plugin_transform_host_native = [
   # Dependent features
   "__plugin_transform_host",
   "__plugin_transform_host_schema_v1",
-  # Enable optional packages
-  "swc_plugin_runner/filesystem_cache",
-  "wasmer/default",
-  "wasmer-wasi/default",
+  "__plugin_transform_env_native",
 ]
 
 ### Internal features that public features are relying on.
@@ -108,14 +103,18 @@ plugin_transform_host_native = [
 # SWC upstream decides which version to be used for specific version of
 # swc_core.
 __plugin_transform_host_schema_v1 = [
+  # Dependent features
   "__plugin_transform_schema_v1",
+  # Enable optional features
   "swc_plugin_runner/plugin_transform_schema_v1",
 ]
 __plugin_transform_schema_v1 = ["swc_common/plugin_transform_schema_v1"]
 
 # Do not use: testing purpose only
 __plugin_transform_host_schema_vtest = [
+  # Dependent features
   "__plugin_transform_schema_vtest",
+  # Enable optional features
   "swc_plugin_runner/plugin_transform_schema_vtest",
 ]
 __plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
@@ -138,7 +137,26 @@ __plugin_transform = [
 ]
 
 # Internal flags for any transform plugin host feature
-__plugin_transform_host = ["__common", "swc_plugin_proxy/plugin-rt"]
+__plugin_transform_host = [
+  # Dependent features
+  "__common",
+  # Enable optional packages
+  # TODO: we may simply flag around downlevel plugin feature
+  "swc_plugin_proxy/plugin-rt",
+  "swc/plugin",
+]
+# Internal flags to control plugin environment
+__plugin_transform_env_native = [
+  "swc_plugin_runner/filesystem_cache",
+  "wasmer/default",
+  "wasmer-wasi/default",
+]
+
+__plugin_transform_env_js = [
+  "swc_plugin_runner/memory_cache",
+  "wasmer/js-default",
+  "wasmer-wasi/js-default",
+]
 
 # Do not use: testing purpose only
 # Force enable different version of AST schema
@@ -148,6 +166,7 @@ __plugin_transform_schema_test = [
 ]
 
 ## Common
+__base       = ["swc"]
 __common     = ["swc_common"]
 __transforms = ["swc_ecma_transforms"]
 __utils      = ["swc_ecma_utils"]

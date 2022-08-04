@@ -35,8 +35,8 @@ pub mod visit {
 }
 
 // swc features
-#[cfg(any(docsrs, feature = "base"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "base")))]
+#[cfg(any(docsrs, feature = "__base"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__base")))]
 pub mod base {
     pub use swc::*;
 }
