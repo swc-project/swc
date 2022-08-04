@@ -905,6 +905,8 @@ impl Fixer<'_> {
                 ..
             }) => {
                 match &**expr {
+                    // `(a?.b).c !== a?.b.c`
+                    Expr::OptChain(..) => return,
                     Expr::Bin(bin_expr) if bin_expr.left.is_object() => {
                         return;
                     }
