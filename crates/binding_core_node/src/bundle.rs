@@ -9,19 +9,21 @@ use napi::{
     Env, Status, Task,
 };
 use serde::Deserialize;
-use swc::{
-    config::SourceMapsConfig,
-    resolver::{environment_resolver, paths_resolver},
-    Compiler, TransformOutput,
+use swc_core::{
+    ast::{
+        Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
+        PropName, Str,
+    },
+    atoms::{js_word, JsWord},
+    base::{
+        config::SourceMapsConfig,
+        resolver::{environment_resolver, paths_resolver},
+        Compiler, TransformOutput,
+    },
+    bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
+    common::{collections::AHashMap, Span},
+    loader::{TargetEnv, NODE_BUILTINS},
 };
-use swc_atoms::{js_word, JsWord};
-use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
-use swc_common::{collections::AHashMap, Span};
-use swc_ecma_ast::{
-    Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
-    PropName, Str,
-};
-use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
 use swc_nodejs_common::{get_deserialized, MapErr};
 
 use crate::get_compiler;
@@ -41,7 +43,7 @@ struct StaticConfigItem {
 }
 
 pub(crate) struct BundleTask {
-    swc: Arc<swc::Compiler>,
+    swc: Arc<swc_core::base::Compiler>,
     config: ConfigItem,
 }
 
@@ -76,7 +78,7 @@ impl Task for BundleTask {
                 self.swc.cm.clone(),
                 &self.config.loader,
                 &self.config.resolver,
-                swc_bundler::Config {
+                swc_core::bundler::Config {
                     require: true,
                     external_modules: builtins
                         .into_iter()
@@ -261,7 +263,7 @@ pub(crate) fn bundle() -> napi::Result<AsyncTask<BundleTask>> {
 
 struct Hook;
 
-impl swc_bundler::Hook for Hook {
+impl swc_core::bundler::Hook for Hook {
     fn get_import_meta_props(
         &self,
         span: Span,

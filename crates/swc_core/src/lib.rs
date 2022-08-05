@@ -28,15 +28,22 @@ pub mod atoms {
 }
 
 // visit* interfaces
-#[cfg(any(docsrs, feature = "__visit"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "__visit")))]
+#[cfg(any(docsrs, feature = "visit"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "visit")))]
 pub mod visit {
     pub use swc_ecma_visit::*;
 }
 
+// swc features
+#[cfg(any(docsrs, feature = "__base"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__base")))]
+pub mod base {
+    pub use swc::*;
+}
+
 // swc_common features
-#[cfg(any(docsrs, feature = "common"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "common")))]
+#[cfg(any(docsrs, feature = "__common"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__common")))]
 pub mod common {
     pub use swc_common::*;
 }
@@ -54,3 +61,28 @@ pub mod plugin_runner {
 pub mod trace_macro {
     pub use swc_trace_macro::*;
 }
+
+// swc_ecma_transforms
+#[cfg(any(docsrs, feature = "__transforms"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__transforms")))]
+pub mod transforms {
+    pub use swc_ecma_transforms::*;
+}
+
+// swc_bundler
+#[cfg(any(docsrs, feature = "bundler"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "bundler")))]
+pub mod bundler {
+    pub use swc_bundler::*;
+}
+
+// swc_ecma_loader
+#[cfg(any(docsrs, feature = "loader"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "loader")))]
+pub mod loader {
+    pub use swc_ecma_loader::*;
+}
+
+#[cfg(any(docsrs, feature = "allocator_node"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
+extern crate swc_node_base;

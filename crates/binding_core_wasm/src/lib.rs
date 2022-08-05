@@ -7,12 +7,12 @@ use std::sync::Arc;
 use anyhow::{Context, Error};
 use js_sys::{JsString, JSON};
 use once_cell::sync::Lazy;
-use swc::{
-    config::{ErrorFormat, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
-    try_with_handler, Compiler,
-};
 use swc_core::{
     ast::{EsVersion, Program},
+    base::{
+        config::{ErrorFormat, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
+        try_with_handler, Compiler,
+    },
     common::{comments::Comments, FileName, FilePathMapping, SourceMap},
 };
 use wasm_bindgen::{prelude::*, JsCast};
@@ -75,7 +75,7 @@ pub fn minify_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
 
     try_with_handler(
         c.cm.clone(),
-        swc::HandlerOpts {
+        swc_core::base::HandlerOpts {
             ..Default::default()
         },
         |handler| {
@@ -113,7 +113,7 @@ pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
 
     try_with_handler(
         c.cm.clone(),
-        swc::HandlerOpts {
+        swc_core::base::HandlerOpts {
             ..Default::default()
         },
         |handler| {
@@ -166,7 +166,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
 
     try_with_handler(
         c.cm.clone(),
-        swc::HandlerOpts {
+        swc_core::base::HandlerOpts {
             ..Default::default()
         },
         |_handler| {
@@ -284,7 +284,7 @@ pub fn transform_sync(
 
     try_with_handler(
         c.cm.clone(),
-        swc::HandlerOpts {
+        swc_core::base::HandlerOpts {
             ..Default::default()
         },
         |handler| {

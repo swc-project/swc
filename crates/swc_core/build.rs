@@ -12,6 +12,15 @@ compile_error!(
      run plugin, use 'plugin_transform_host_*' instead."
 );
 
+#[cfg(all(feature = "__plugin_transform", feature = "common_concurrent"))]
+compile_error!("plugin transform cannot enable concurrent mode.");
+
+#[cfg(all(feature = "transforms", feature = "transforms_concurrent"))]
+compile_error!(
+    "'transforms' and 'transforms_concurrent' features are mutually exclusive. Please choose only \
+     one feature."
+);
+
 fn main() {
     /* noop */
 }

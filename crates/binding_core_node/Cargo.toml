@@ -1,37 +1,30 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-build = "build.rs"
+build   = "build.rs"
 edition = "2021"
 exclude = ["artifacts.json", "index.node"]
 license = "Apache-2.0"
-name = "binding_core_node"
+name    = "binding_core_node"
 publish = false
 version = "0.1.0"
 
 [lib]
-bench = false
+bench      = false
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1", "plugin", "plugin_transform_schema_v1"]
-plugin = [
-  "swc/plugin",
-  "swc_plugin_runner/default",
-  "wasmer/default",
-  "wasmer-wasi/default",
+default = ["swc_v1", "plugin"]
+plugin  = ["swc_core/plugin_transform_host_native"]
+swc_v1  = ["swc_node_bundler/swc_v1"]
+swc_v2  = ["swc_node_bundler/swc_v2"]
+
+# Internal flag for testing purpose only.
+__plugin_transform_vtest = [
+  # We know what we're doing - enable internal features for testing fixture setup.
+  "swc_core/__plugin_transform_host",
+  "swc_core/__plugin_transform_host_schema_vtest",
+  "swc_core/__plugin_transform_env_native",
 ]
-plugin_transform_schema_v1 = [
-  "swc/plugin_transform_schema_v1",
-  "swc_common/plugin_transform_schema_v1",
-  "swc_plugin_runner/plugin_transform_schema_v1",
-]
-plugin_transform_schema_vtest = [
-  "swc/plugin_transform_schema_vtest",
-  "swc_common/plugin_transform_schema_vtest",
-  "swc_plugin_runner/plugin_transform_schema_vtest",
-]
-swc_v1 = ["swc_node_bundler/swc_v1"]
-swc_v2 = ["swc_node_bundler/swc_v2"]
 
 [build-dependencies]
 napi-build = { version = "2" }
@@ -50,22 +43,19 @@ node_macro_deps = { path = "../node_macro_deps" }
 path-clean = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
-swc = { path = "../swc", features = ["node", "concurrent"] }
-swc_atoms = { path = "../swc_atoms" }
-swc_bundler = { path = "../swc_bundler" }
-swc_common = { path = "../swc_common", features = ["sourcemap", "perf"] }
-swc_ecma_ast = { path = "../swc_ecma_ast" }
-swc_ecma_lints = { path = "../swc_ecma_lints", features = [
-  "non_critical_lints",
-] }
-swc_ecma_loader = { path = "../swc_ecma_loader" }
-swc_ecma_parser = { path = "../swc_ecma_parser" }
-swc_node_bundler = { path = "../swc_node_bundler" }
-swc_nodejs_common = { path = "../swc_nodejs_common" }
-swc_plugin_runner = { path = "../swc_plugin_runner", optional = true, default-features = false }
 tracing = { version = "0.1.32", features = ["release_max_level_info"] }
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
-wasmer = { version = "2.3.0", optional = true, default-features = false }
-wasmer-wasi = { version = "2.3.0", optional = true, default-features = false }
+
+swc_core = { path = "../swc_core", features = [
+  "ast",
+  "common_concurrent",
+  "bundler",
+  "loader",
+  "base_node",
+  "base_concurrent",
+] }
+
+swc_node_bundler  = { path = "../swc_node_bundler" }
+swc_nodejs_common = { path = "../swc_nodejs_common" }
