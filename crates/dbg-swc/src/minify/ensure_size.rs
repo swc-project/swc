@@ -48,7 +48,21 @@ impl EnsureSize {
             return Ok(());
         }
         for report in &results {
-            println!("{:?}", report);
+            println!("{}", report.fm.name);
+
+            if let Some(terser) = &report.terser {
+                if report.swc.mangled_size > terser.mangled_size {
+                    println!("Mangled");
+                    println!("swc: {} bytes", report.swc.mangled_size);
+                    println!("terser: {} bytes", terser.mangled_size);
+                }
+
+                if report.swc.no_mangle_size > terser.no_mangle_size {
+                    println!("No-mangle");
+                    println!("swc: {} bytes", report.swc.no_mangle_size);
+                    println!("terser: {} bytes", terser.no_mangle_size);
+                }
+            }
         }
 
         bail!("found some issues")
