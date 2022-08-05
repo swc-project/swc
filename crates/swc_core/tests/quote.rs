@@ -1,13 +1,13 @@
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::Ident;
-use swc_ecma_quote::{quote, quote_expr};
-use swc_ecma_utils::private_ident;
+#[cfg(any(feature = "quote"))]
+use swc_core::{ast::Ident, common::DUMMY_SP, quote, quote_expr, utils::private_ident};
 
+#[cfg(any(feature = "quote"))]
 #[test]
 fn quote_expr_call_1() {
     let _expr = quote_expr!("call(arg1, typeof arg2, arg3)");
 }
 
+#[cfg(any(feature = "quote"))]
 #[test]
 fn quote_expr_var_cloned() {
     testing::run_test2(false, |_cm, _handler| {
@@ -20,6 +20,7 @@ fn quote_expr_var_cloned() {
     .unwrap();
 }
 
+#[cfg(any(feature = "quote"))]
 #[test]
 fn quote_example() {
     let _stmt = quote!(
@@ -28,6 +29,7 @@ fn quote_example() {
     );
 }
 
+#[cfg(any(feature = "quote"))]
 #[test]
 fn quote_var_type_expr() {
     let _stmt = quote!(
@@ -37,6 +39,7 @@ fn quote_var_type_expr() {
     );
 }
 
+#[cfg(any(feature = "quote"))]
 #[test]
 fn quote_var_type_pat() {
     let _stmt = quote!(

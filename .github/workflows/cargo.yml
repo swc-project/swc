@@ -415,9 +415,14 @@ jobs:
             swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_minifier'
+        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote'
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }}
+
+      - name: Run cargo test (core)
+        if: matrix.settings.crate == 'swc_core'
+        run: |
+          cargo test --color always -p swc_core --features quote --features common --features utils
 
       - name: Run cargo test (plugin)
         if: matrix.settings.crate == 'swc_plugin_runner'

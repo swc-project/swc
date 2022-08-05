@@ -3,9 +3,13 @@
 // Quote
 #[cfg(any(docsrs, feature = "quote"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
-pub mod quote {
-    pub use swc_ecma_quote::*;
-}
+pub mod quote;
+
+/// Not a public interface.
+#[cfg(any(docsrs, feature = "quote"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
+#[doc(hidden)]
+pub extern crate swc_ecma_quote_macros;
 
 // Plugins
 #[cfg(any(docsrs, feature = "__plugin_transform"))]
@@ -81,6 +85,12 @@ pub mod bundler {
 #[cfg_attr(docsrs, doc(cfg(feature = "loader")))]
 pub mod loader {
     pub use swc_ecma_loader::*;
+}
+
+#[cfg(any(docsrs, feature = "__utils"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__utils")))]
+pub mod utils {
+    pub use swc_ecma_utils::*;
 }
 
 #[cfg(any(docsrs, feature = "allocator_node"))]
