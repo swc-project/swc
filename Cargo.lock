@@ -3047,7 +3047,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3126,7 +3126,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "once_cell",
  "swc",
