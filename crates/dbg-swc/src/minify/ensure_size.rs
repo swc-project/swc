@@ -48,7 +48,7 @@ impl EnsureSize {
             return Ok(());
         }
         for report in &results {
-            println!("{}", report.fm.name);
+            println!("{:?}", report);
         }
 
         bail!("found some issues")
