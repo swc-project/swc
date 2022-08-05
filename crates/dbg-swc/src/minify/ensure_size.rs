@@ -48,6 +48,7 @@ impl EnsureSize {
             return Ok(());
         }
         for report in &results {
+            println!();
             println!("{}", report.fm.name);
 
             if let Some(terser) = &report.terser {
