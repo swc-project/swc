@@ -3136,7 +3136,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_loader",
  "swc_ecma_parser",
- "swc_ecma_quote",
+ "swc_ecma_quote_macros",
  "swc_ecma_transforms",
  "swc_ecma_utils",
  "swc_ecma_visit",
@@ -3146,6 +3146,7 @@ dependencies = [
  "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_trace_macro",
+ "testing",
  "wasmer",
  "wasmer-wasi",
 ]
