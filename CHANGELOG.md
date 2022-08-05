@@ -31,6 +31,9 @@
 
 - **(es/minifier)** Add snapshots of compressed libraries (#5389) ([a46669d](https://github.com/swc-project/swc/commit/a46669d334755f4de1a02fbc32dfbee6f01d433d))
 
+
+- **(es/minifier)** Organize simple size tests (#5403) ([86da544](https://github.com/swc-project/swc/commit/86da5441e6c510aa8513a796f482d08923362681))
+
 ## [1.2.223] - 2022-08-03
 
 ### Bug Fixes
