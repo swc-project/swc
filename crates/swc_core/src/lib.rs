@@ -3,9 +3,12 @@
 // Quote
 #[cfg(any(docsrs, feature = "quote"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
-pub mod quote {
-    pub use swc_ecma_quote::*;
-}
+pub mod quote;
+
+/// Not a public interface.
+#[cfg(any(docsrs, feature = "quote"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
+pub extern crate swc_ecma_quote_macros;
 
 // Plugins
 #[cfg(any(docsrs, feature = "__plugin_transform"))]

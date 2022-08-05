@@ -29,6 +29,8 @@ version     = "0.3.0"
   ]
   rustdoc-args = ["--cfg", "docsrs"]
 
+[lib]
+doctest = false
 
 [features]
 ### Public features
@@ -69,7 +71,13 @@ common_concurrent = ["__common", "swc_common/concurrent"]
 visit = ["swc_ecma_visit"]
 
 # Enable `quote!` macro support.
-quote = ["swc_ecma_quote", "ast"]
+quote = [
+  # Dependent features
+  "__common",
+  "ast",
+  # Enable optional package
+  "swc_ecma_quote_macros",
+]
 
 # Enable swc_ecma_utils
 utils = ["__utils", "__common"]
@@ -199,21 +207,25 @@ wasmer      = { optional = true, version = "2.3.0", default-features = false }
 wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
-swc                 = { optional = true, version = "0.212.3", path = "../swc" }
-swc_atoms           = { optional = true, version = "0.3.1", path = "../swc_atoms" }
-swc_bundler         = { optional = true, version = "0.175.0", path = "../swc_bundler" }
-swc_common          = { optional = true, version = "0.26.0", path = "../swc_common" }
-swc_ecma_ast        = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
-swc_ecma_loader     = { optional = true, version = "0.38.0", path = "../swc_ecma_loader" }
-swc_ecma_parser     = { optional = true, version = "0.116.0", path = "../swc_ecma_parser" }
-swc_ecma_quote      = { optional = true, version = "0.30.0", path = "../swc_ecma_quote" }
-swc_ecma_transforms = { optional = true, version = "0.181.0", path = "../swc_ecma_transforms" }
-swc_ecma_utils      = { optional = true, version = "0.98.0", path = "../swc_ecma_utils" }
-swc_ecma_visit      = { optional = true, version = "0.75.0", path = "../swc_ecma_visit" }
-swc_node_base       = { optional = true, version = "0.5.5", path = "../swc_node_base" }
-swc_plugin          = { optional = true, version = "0.89.0", path = "../swc_plugin" }
-swc_plugin_macro    = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
-swc_plugin_proxy    = { optional = true, version = "0.17.0", path = "../swc_plugin_proxy" }
-swc_trace_macro     = { optional = true, version = "0.1.0", path = "../swc_trace_macro" }
+swc             = { optional = true, version = "0.212.3", path = "../swc" }
+swc_atoms       = { optional = true, version = "0.3.1", path = "../swc_atoms" }
+swc_bundler     = { optional = true, version = "0.175.0", path = "../swc_bundler" }
+swc_common      = { optional = true, version = "0.26.0", path = "../swc_common" }
+swc_ecma_ast    = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
+swc_ecma_loader = { optional = true, version = "0.38.0", path = "../swc_ecma_loader" }
+swc_ecma_parser = { optional = true, version = "0.116.0", path = "../swc_ecma_parser" }
+#swc_ecma_quote        = { optional = true, version = "0.30.0", path = "../swc_ecma_quote" }
+swc_ecma_quote_macros = { optional = true, version = "0.26.0", path = "../swc_ecma_quote_macros" }
+swc_ecma_transforms   = { optional = true, version = "0.181.0", path = "../swc_ecma_transforms" }
+swc_ecma_utils        = { optional = true, version = "0.98.0", path = "../swc_ecma_utils" }
+swc_ecma_visit        = { optional = true, version = "0.75.0", path = "../swc_ecma_visit" }
+swc_node_base         = { optional = true, version = "0.5.5", path = "../swc_node_base" }
+swc_plugin            = { optional = true, version = "0.89.0", path = "../swc_plugin" }
+swc_plugin_macro      = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
+swc_plugin_proxy      = { optional = true, version = "0.17.0", path = "../swc_plugin_proxy" }
+swc_trace_macro       = { optional = true, version = "0.1.0", path = "../swc_trace_macro" }
 # TODO: eventually swc_plugin_runner needs to remove default features
 swc_plugin_runner = { optional = true, version = "0.70.0", path = "../swc_plugin_runner", default-features = false }
+
+[dev-dependencies]
+testing = { version = "0.28.0", path = "../testing" }
