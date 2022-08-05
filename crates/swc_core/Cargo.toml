@@ -207,14 +207,13 @@ wasmer      = { optional = true, version = "2.3.0", default-features = false }
 wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
-swc             = { optional = true, version = "0.212.3", path = "../swc" }
-swc_atoms       = { optional = true, version = "0.3.1", path = "../swc_atoms" }
-swc_bundler     = { optional = true, version = "0.175.0", path = "../swc_bundler" }
-swc_common      = { optional = true, version = "0.26.0", path = "../swc_common" }
-swc_ecma_ast    = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
-swc_ecma_loader = { optional = true, version = "0.38.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { optional = true, version = "0.116.0", path = "../swc_ecma_parser" }
-#swc_ecma_quote        = { optional = true, version = "0.30.0", path = "../swc_ecma_quote" }
+swc                   = { optional = true, version = "0.212.3", path = "../swc" }
+swc_atoms             = { optional = true, version = "0.3.1", path = "../swc_atoms" }
+swc_bundler           = { optional = true, version = "0.175.0", path = "../swc_bundler" }
+swc_common            = { optional = true, version = "0.26.0", path = "../swc_common" }
+swc_ecma_ast          = { optional = true, version = "0.89.1", path = "../swc_ecma_ast" }
+swc_ecma_loader       = { optional = true, version = "0.38.0", path = "../swc_ecma_loader" }
+swc_ecma_parser       = { optional = true, version = "0.116.0", path = "../swc_ecma_parser" }
 swc_ecma_quote_macros = { optional = true, version = "0.26.0", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms   = { optional = true, version = "0.181.0", path = "../swc_ecma_transforms" }
 swc_ecma_utils        = { optional = true, version = "0.98.0", path = "../swc_ecma_utils" }
