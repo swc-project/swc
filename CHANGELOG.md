@@ -8,6 +8,9 @@
 - **(es/fixer)** Preserve parens for optional chaining expressions (#5388) ([9443419](https://github.com/swc-project/swc/commit/9443419591a47931bf27958ef5f69599484157a5))
 
 
+- **(es/minifier)** Inline vars declared in conditional paths (#5392) ([ca21fd0](https://github.com/swc-project/swc/commit/ca21fd0c4d0d7c074a1821d6d4c862f8dd5f611c))
+
+
 - **(es/modules)** Use an indirect call for a tagged template (#5382) ([cdb6164](https://github.com/swc-project/swc/commit/cdb6164937b285aa294a8d68459a2c39862d941f))
 
 ### Features
