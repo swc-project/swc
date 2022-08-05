@@ -1203,16 +1203,6 @@ pub trait ExprExt {
                     }
             }
 
-            Expr::Fn(FnExpr {
-                function:
-                    Function {
-                        params,
-                        body: Some(BlockStmt { stmts, .. }),
-                        ..
-                    },
-                ..
-            }) if params.iter().all(|p| p.pat.is_ident()) && stmts.is_empty() => true,
-
             _ => false,
         }
     }
