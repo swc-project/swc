@@ -83,6 +83,12 @@ pub mod loader {
     pub use swc_ecma_loader::*;
 }
 
+#[cfg(any(docsrs, feature = "__utils"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__utils")))]
+pub mod utils {
+    pub use swc_ecma_utils::*;
+}
+
 #[cfg(any(docsrs, feature = "allocator_node"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;

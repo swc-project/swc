@@ -69,10 +69,10 @@ common_concurrent = ["__common", "swc_common/concurrent"]
 visit = ["swc_ecma_visit"]
 
 # Enable `quote!` macro support.
-quote = ["swc_ecma_quote"]
+quote = ["swc_ecma_quote", "ast"]
 
 # Enable swc_ecma_utils
-utils = ["__utils"]
+utils = ["__utils", "__common"]
 
 # Enable swc_ecma_transforms base features
 transforms = ["__transforms"]
