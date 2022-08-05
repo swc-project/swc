@@ -16,12 +16,7 @@ impl ToCode for swc_ecma_ast::Ident {
             Vars {
                 sym_value: self.sym.to_code(cx),
             },
-            {
-                swc_ecma_quote::swc_ecma_ast::Ident::new(
-                    sym_value,
-                    swc_ecma_quote::swc_common::DUMMY_SP,
-                )
-            }
+            { swc_core::ast::Ident::new(sym_value, swc_core::common::DUMMY_SP,) }
         )
         .parse()
     }

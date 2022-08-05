@@ -29,7 +29,7 @@ impl Builder {
         ExprStruct {
             attrs: Default::default(),
             brace_token: Default::default(),
-            path: syn::parse_quote!(swc_ecma_quote::swc_ecma_ast::#type_name),
+            path: syn::parse_quote!(swc_core::ast::#type_name),
             fields: self.fields,
             dot2_token: Default::default(),
             rest: Default::default(),
