@@ -7,6 +7,7 @@ use swc_core::{
         metadata::{TransformPluginMetadataContextKind, TransformPluginProgramMetadata},
         plugin_transform,
     },
+    quote,
     visit::*,
 };
 
@@ -59,6 +60,11 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
             .struct_span_err(DUMMY_SP, "Test diagnostics from plugin")
             .emit();
     });
+
+    let _stmt = quote!(
+        "const $name = 4;" as Stmt,
+        name = Ident::new("ref".into(), DUMMY_SP)
+    );
 
     let env = metadata
         .get_context(&TransformPluginMetadataContextKind::Env)
