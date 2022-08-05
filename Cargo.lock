@@ -3658,7 +3658,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.137.1"
+version = "0.137.2"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3813,7 +3813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.98.1"
+version = "0.98.2"
 dependencies = [
  "indexmap",
  "once_cell",
