@@ -19,6 +19,9 @@
 
 - **(swc_core)** Expand features to support node bindings (#5387) ([038a543](https://github.com/swc-project/swc/commit/038a543be9b9b5922e4207cc9079e4f32435e475))
 
+
+- **(swc_core)** Expose `quote!` macros (#5400) ([8ca736f](https://github.com/swc-project/swc/commit/8ca736f8ee390bef676ab9ef7472b11b3c3dc941))
+
 ### Testing
 
 

@@ -3047,7 +3047,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.87.0"
+version = "0.88.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3126,7 +3126,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "once_cell",
  "swc",
@@ -3511,7 +3511,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.30.0"
+version = "0.31.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3523,7 +3523,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -3842,7 +3842,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.186.1"
+version = "0.187.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
