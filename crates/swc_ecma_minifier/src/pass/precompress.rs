@@ -1,5 +1,5 @@
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, util::take::Take};
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
@@ -19,7 +19,6 @@ pub(crate) fn precompress_optimizer(options: &CompressOptions, marks: Marks) -> 
         options,
         marks,
         data: Default::default(),
-        fn_decl_count: Default::default(),
         ctx: Default::default(),
     }
 }
@@ -30,7 +29,6 @@ pub(crate) struct PrecompressOptimizer<'a> {
     marks: Marks,
 
     data: Option<ProgramData>,
-    fn_decl_count: AHashMap<Id, usize>,
     ctx: Ctx,
 }
 
@@ -65,7 +63,6 @@ impl PrecompressOptimizer<'_> {
                     options: self.options,
                     marks: self.marks,
                     data,
-                    fn_decl_count: Default::default(),
                     ctx: self.ctx,
                 });
                 return;
@@ -75,7 +72,6 @@ impl PrecompressOptimizer<'_> {
                     options: self.options,
                     marks: self.marks,
                     data: None,
-                    fn_decl_count: Default::default(),
                     ctx: self.ctx,
                 })
             });
@@ -101,33 +97,6 @@ impl VisitMut for PrecompressOptimizer<'_> {
 
         if let Expr::Paren(p) = e {
             *e = *p.expr.take();
-        }
-    }
-
-    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        n.visit_mut_children_with(self);
-
-        if self.options.dead_code || self.options.unused {
-            if let Some(usage) = self.data.as_ref().unwrap().vars.get(&n.ident.to_id()) {
-                // Remove if variable with same name exists.
-                if usage.var_kind.is_some()
-                    && usage.var_initialized
-                    && usage.is_fn_local
-                    && !usage.cond_init
-                {
-                    n.ident.take();
-                    return;
-                }
-
-                if usage.assign_count > 1 {
-                    let v = self.fn_decl_count.entry(n.ident.to_id()).or_default();
-                    *v += 1;
-
-                    if *v == usage.assign_count {
-                        n.ident.take();
-                    }
-                }
-            }
         }
     }
 

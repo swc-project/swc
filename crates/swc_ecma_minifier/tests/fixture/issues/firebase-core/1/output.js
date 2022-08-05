@@ -9,8 +9,7 @@
                 if (!(source instanceof Object)) return source;
                 switch(source.constructor){
                     case Date:
-                        const dateValue = source;
-                        return new Date(dateValue.getTime());
+                        return new Date(source.getTime());
                     case Object:
                         void 0 === target && (target = {});
                         break;

@@ -20,14 +20,7 @@ var Test9 = function() {
     }
     var _proto = Test9.prototype;
     return _proto.f = function() {
-        if (_instanceof(this, Test9D1)) {
-            var d1 = this;
-            d1.f1();
-        }
-        if (_instanceof(this, Test9D2)) {
-            var d2 = this;
-            d2.f2();
-        }
+        _instanceof(this, Test9D1) && this.f1(), _instanceof(this, Test9D2) && this.f2();
     }, _proto.g = function() {
         1 === this.no && this.no, 1 === this.this && this.this;
     }, Test9;

@@ -1221,27 +1221,27 @@
                         string: ""
                     }, 
                 ];
-                for(var n = [], i = r.props, o = i.fill, a = void 0 === o ? "black" : o, u = i.fontFamily, l = void 0 === u ? "Helvetica" : u, s = i.fontWeight, f = i.fontStyle, c = i.fontSize, d = void 0 === c ? 18 : c, p = i.textDecoration, h = i.textDecorationColor, $ = i.textDecorationStyle, y = i.textTransform, v = i.opacity, g = e ? e.getFont({
+                for(var n = [], i = r.props, o = i.fill, a = void 0 === o ? "black" : o, u = i.fontFamily, l = void 0 === u ? "Helvetica" : u, s = i.fontWeight, f = i.fontStyle, c = i.fontSize, d = i.textDecoration, p = i.textDecorationColor, h = i.textDecorationStyle, $ = i.textTransform, y = i.opacity, v = e ? e.getFont({
                     fontFamily: l,
                     fontWeight: s,
                     fontStyle: f
-                }) : null, _ = g ? g.data : l, m = {
-                    font: _,
-                    opacity: v,
-                    fontSize: d,
+                }) : null, g = v ? v.data : l, _ = {
+                    font: g,
+                    opacity: y,
+                    fontSize: void 0 === c ? 18 : c,
                     color: a,
-                    underlineStyle: $,
-                    underline: "underline" === p || "underline line-through" === p || "line-through underline" === p,
-                    underlineColor: h || a,
-                    strike: "line-through" === p || "underline line-through" === p || "line-through underline" === p,
-                    strikeStyle: $,
-                    strikeColor: h || a
-                }, b = 0; b < r.children.length; b += 1){
-                    var D = r.children[b];
-                    D.type === T.TextInstance ? n.push({
-                        string: V(D.value, y),
-                        attributes: m
-                    }) : D && n.push.apply(n, t(D));
+                    underlineStyle: h,
+                    underline: "underline" === d || "underline line-through" === d || "line-through underline" === d,
+                    underlineColor: p || a,
+                    strike: "line-through" === d || "underline line-through" === d || "line-through underline" === d,
+                    strikeStyle: h,
+                    strikeColor: p || a
+                }, m = 0; m < r.children.length; m += 1){
+                    var b = r.children[m];
+                    b.type === T.TextInstance ? n.push({
+                        string: V(b.value, $),
+                        attributes: _
+                    }) : b && n.push.apply(n, t(b));
                 }
                 return n;
             }, ti = {
@@ -2149,13 +2149,13 @@
                     value: "" + e
                 };
                 if (!e_(e.type)) return t(e.type(e.props));
-                var r = e.type, o = e.props, a = o.style, u = void 0 === a ? {} : a, l = o.children, s = void 0 === l ? [] : l, f = H.default(o, eg), c = n.castArray(s).map(t);
+                var r = e.type, o = e.props, a = o.style, u = o.children, l = H.default(o, eg), s = n.castArray(void 0 === u ? [] : u).map(t);
                 return {
                     type: r,
-                    style: u,
-                    props: f,
+                    style: void 0 === a ? {} : a,
+                    props: l,
                     box: {},
-                    children: c
+                    children: s
                 };
             }, em = function(t) {
                 var e = 0, r = 1 / 0;
@@ -2211,44 +2211,44 @@
                         string: ""
                     }, 
                 ];
-                for(var o = [], a = r.style, u = a.color, l = void 0 === u ? "black" : u, s = a.fontFamily, f = void 0 === s ? "Helvetica" : s, c = a.fontWeight, d = a.fontStyle, p = a.fontSize, h = void 0 === p ? 18 : p, $ = a.textAlign, y = void 0 === $ ? "left" : $, v = a.lineHeight, g = a.textDecoration, _ = a.textDecorationColor, m = a.textDecorationStyle, b = a.textTransform, D = a.letterSpacing, w = a.textIndent, E = a.opacity, x = {
+                for(var o = [], a = r.style, u = a.color, l = void 0 === u ? "black" : u, s = a.fontFamily, f = void 0 === s ? "Helvetica" : s, c = a.fontWeight, d = a.fontStyle, p = a.fontSize, h = void 0 === p ? 18 : p, $ = a.textAlign, y = a.lineHeight, v = a.textDecoration, g = a.textDecorationColor, _ = a.textDecorationStyle, m = a.textTransform, b = a.letterSpacing, D = a.textIndent, w = a.opacity, E = e ? e.getFont({
                     fontFamily: f,
                     fontWeight: c,
                     fontStyle: d
-                }, k = e ? e.getFont(x) : null, C = k ? k.data : f, S = 0 === i ? null : r.style.backgroundColor, P = {
-                    font: C,
+                }) : null, x = E ? E.data : f, k = {
+                    font: x,
                     color: l,
-                    opacity: E,
+                    opacity: w,
                     fontSize: h,
-                    backgroundColor: S,
-                    align: y,
-                    indent: w,
-                    characterSpacing: D,
-                    strikeStyle: m,
-                    underlineStyle: m,
-                    underline: "underline" === g || "underline line-through" === g || "line-through underline" === g,
-                    strike: "line-through" === g || "underline line-through" === g || "line-through underline" === g,
-                    strikeColor: _ || l,
-                    underlineColor: _ || l,
-                    link: n || (null === (A = r.props) || void 0 === A ? void 0 : A.src) || (null === (I = r.props) || void 0 === I ? void 0 : I.href),
-                    lineHeight: v ? v * h : null
-                }, F = 0; F < r.children.length; F += 1){
-                    var A, I, R, O = r.children[F];
-                    O.type === T.Image ? o.push({
+                    backgroundColor: 0 === i ? null : r.style.backgroundColor,
+                    align: void 0 === $ ? "left" : $,
+                    indent: D,
+                    characterSpacing: b,
+                    strikeStyle: _,
+                    underlineStyle: _,
+                    underline: "underline" === v || "underline line-through" === v || "line-through underline" === v,
+                    strike: "line-through" === v || "underline line-through" === v || "line-through underline" === v,
+                    strikeColor: g || l,
+                    underlineColor: g || l,
+                    link: n || (null === (S = r.props) || void 0 === S ? void 0 : S.src) || (null === (P = r.props) || void 0 === P ? void 0 : P.href),
+                    lineHeight: y ? y * h : null
+                }, C = 0; C < r.children.length; C += 1){
+                    var S, P, F, A = r.children[C];
+                    A.type === T.Image ? o.push({
                         string: "￼",
-                        attributes: U.default({}, P, {
+                        attributes: U.default({}, k, {
                             attachment: {
-                                width: O.style.width || h,
-                                height: O.style.height || h,
-                                image: O.image.data
+                                width: A.style.width || h,
+                                height: A.style.height || h,
+                                image: A.image.data
                             }
                         })
-                    }) : O.type === T.TextInstance ? o.push({
-                        string: V(O.value, b),
-                        attributes: P
-                    }) : O && (R = o).push.apply(R, t(e, O, P.link, i + 1));
+                    }) : A.type === T.TextInstance ? o.push({
+                        string: V(A.value, m),
+                        attributes: k
+                    }) : A && (F = o).push.apply(F, t(e, A, k.link, i + 1));
                 }
-                for(var B = 0; B < ex.length; B += 1)o = (0, ex[B])(o);
+                for(var I = 0; I < ex.length; I += 1)o = (0, ex[I])(o);
                 return o;
             }, e6 = function(t, e) {
                 var r = e3(t, e);
@@ -3380,14 +3380,14 @@
                 }
             }, ta = 4.0 * ((Math.sqrt(2) - 1.0) / 3.0), tu = function(t, e) {
                 if (e.style) {
-                    var r = e.box, n = r.top, i = r.left, o = r.width, a = r.height, u = e.style, l = u.borderTopLeftRadius, s = void 0 === l ? 0 : l, f = u.borderTopRightRadius, c = void 0 === f ? 0 : f, d = u.borderBottomRightRadius, p = void 0 === d ? 0 : d, h = u.borderBottomLeftRadius, $ = void 0 === h ? 0 : h, y = Math.min(c, 0.5 * o, 0.5 * a), v = y * (1.0 - ta);
-                    t.moveTo(i + y, n), t.lineTo(i + o - y, n), t.bezierCurveTo(i + o - v, n, i + o, n + v, i + o, n + y);
-                    var g = Math.min(p, 0.5 * o, 0.5 * a), _ = g * (1.0 - ta);
-                    t.lineTo(i + o, n + a - g), t.bezierCurveTo(i + o, n + a - _, i + o - _, n + a, i + o - g, n + a);
-                    var m = Math.min($, 0.5 * o, 0.5 * a), b = m * (1.0 - ta);
-                    t.lineTo(i + m, n + a), t.bezierCurveTo(i + b, n + a, i, n + a - b, i, n + a - m);
-                    var D = Math.min(s, 0.5 * o, 0.5 * a), w = D * (1.0 - ta);
-                    t.lineTo(i, n + D), t.bezierCurveTo(i, n + w, i + w, n, i + D, n), t.closePath(), t.clip();
+                    var r = e.box, n = r.top, i = r.left, o = r.width, a = r.height, u = e.style, l = u.borderTopLeftRadius, s = u.borderTopRightRadius, f = u.borderBottomRightRadius, c = u.borderBottomLeftRadius, d = Math.min(void 0 === s ? 0 : s, 0.5 * o, 0.5 * a), p = d * (1.0 - ta);
+                    t.moveTo(i + d, n), t.lineTo(i + o - d, n), t.bezierCurveTo(i + o - p, n, i + o, n + p, i + o, n + d);
+                    var h = Math.min(void 0 === f ? 0 : f, 0.5 * o, 0.5 * a), $ = h * (1.0 - ta);
+                    t.lineTo(i + o, n + a - h), t.bezierCurveTo(i + o, n + a - $, i + o - $, n + a, i + o - h, n + a);
+                    var y = Math.min(void 0 === c ? 0 : c, 0.5 * o, 0.5 * a), v = y * (1.0 - ta);
+                    t.lineTo(i + y, n + a), t.bezierCurveTo(i + v, n + a, i, n + a - v, i, n + a - y);
+                    var g = Math.min(void 0 === l ? 0 : l, 0.5 * o, 0.5 * a), _ = g * (1.0 - ta);
+                    t.lineTo(i, n + g), t.bezierCurveTo(i, n + _, i + _, n, i + g, n), t.closePath(), t.clip();
                 }
             }, tl = function(t, e, r) {
                 var n = e.operation, i = e.value;
@@ -3933,14 +3933,7 @@
                 var $ = o + Math.max(s, i);
                 t.bezierCurveTo(a + c + Math.max(i - c, 0) * (1.0 - es), o + s, a + c, o + s + Math.max(i - s, 0) * (1.0 - es), a + c, $), t.lineTo(a, $), t.lineTo(a, o + i);
                 var y = i * (1.0 - es);
-                if (t.bezierCurveTo(a, o + y, a + y, o, a + i, o), t.closePath(), t.clip(), f) {
-                    var v = -s / f;
-                    t.moveTo(a + u / 2, v * (-u / 2) + o), t.lineTo(a + u, o), t.lineTo(a, o), t.lineTo(a, o + l), t.closePath(), t.clip();
-                }
-                if (c) {
-                    var g = -s / c;
-                    t.moveTo(a + u / 2, g * (-u / 2) + o), t.lineTo(a, o), t.lineTo(a + u, o), t.lineTo(a + u, o + l), t.closePath(), t.clip();
-                }
+                t.bezierCurveTo(a, o + y, a + y, o, a + i, o), t.closePath(), t.clip(), f && (t.moveTo(a + u / 2, -s / f * (-u / 2) + o), t.lineTo(a + u, o), t.lineTo(a, o), t.lineTo(a, o + l), t.closePath(), t.clip()), c && (t.moveTo(a + u / 2, -s / c * (-u / 2) + o), t.lineTo(a, o), t.lineTo(a + u, o), t.lineTo(a + u, o + l), t.closePath(), t.clip());
             }, ec = function(t, e, r, n, i) {
                 var o = e.top, a = e.left, u = e.width, l = r.borderTopColor, s = r.borderTopWidth, f = r.borderTopStyle, c = r.borderRightWidth, d = r.borderLeftWidth, p = i * (1.0 - es), h = n * (1.0 - es);
                 t.moveTo(a, o + Math.max(i, s)), t.bezierCurveTo(a, o + p, a + p, o, a + i, o), t.lineTo(a + u - n, o), t.bezierCurveTo(a + u - h, o, a + u, o + h, a + u, o + n), t.strokeColor(l), t.lineWidth(2 * Math.max(c, s, d)), "dashed" === f ? t.dash(2 * s, {
@@ -3958,14 +3951,7 @@
                 var h = a + u - Math.max(n, f);
                 t.bezierCurveTo(a + u - f, o + s + Math.max(n - s, 0) * (1.0 - es), a + u - f - Math.max(n - f, 0) * (1.0 - es), o + s, h, o + s), t.lineTo(h, o), t.lineTo(a + u - n, o);
                 var $ = n * (1.0 - es);
-                if (t.bezierCurveTo(a + u - $, o, a + u, o + $, a + u, o + n), t.closePath(), t.clip(), s) {
-                    var y = -s / f;
-                    t.moveTo(a + u / 2, y * (-u / 2) + o), t.lineTo(a + u, o), t.lineTo(a + u, o + l), t.lineTo(a, o + l), t.closePath(), t.clip();
-                }
-                if (c) {
-                    var v = c / f;
-                    t.moveTo(a + u / 2, v * (-u / 2) + o + l), t.lineTo(a + u, o + l), t.lineTo(a + u, o), t.lineTo(a, o), t.closePath(), t.clip();
-                }
+                t.bezierCurveTo(a + u - $, o, a + u, o + $, a + u, o + n), t.closePath(), t.clip(), s && (t.moveTo(a + u / 2, -s / f * (-u / 2) + o), t.lineTo(a + u, o), t.lineTo(a + u, o + l), t.lineTo(a, o + l), t.closePath(), t.clip()), c && (t.moveTo(a + u / 2, c / f * (-u / 2) + o + l), t.lineTo(a + u, o + l), t.lineTo(a + u, o), t.lineTo(a, o), t.closePath(), t.clip());
             }, ep = function(t, e, r, n, i) {
                 var o = e.top, a = e.left, u = e.width, l = e.height, s = r.borderRightColor, f = r.borderRightStyle, c = r.borderRightWidth, d = r.borderTopWidth, p = r.borderBottomWidth, h = i * (1.0 - es), $ = n * (1.0 - es);
                 t.moveTo(a + u - n, o), t.bezierCurveTo(a + u - $, o, a + u, o + $, a + u, o + n), t.lineTo(a + u, o + l - i), t.bezierCurveTo(a + u, o + l - h, a + u - h, o + l, a + u - i, o + l), t.strokeColor(s), t.lineWidth(2 * Math.max(c, d, p)), "dashed" === f ? t.dash(2 * c, {
@@ -3985,14 +3971,7 @@
                 var $ = o + l - Math.max(s, i);
                 t.bezierCurveTo(a + u - f - Math.max(i - f, 0) * (1.0 - es), o + l - s, a + u - f, o + l - s - Math.max(i - s, 0) * (1.0 - es), a + u - f, $), t.lineTo(a + u, $), t.lineTo(a + u, o + l - i);
                 var y = i * (1.0 - es);
-                if (t.bezierCurveTo(a + u, o + l - y, a + u - y, o + l, a + u - i, o + l), t.closePath(), t.clip(), f) {
-                    var v = s / f;
-                    t.moveTo(a + u / 2, v * (-u / 2) + o + l), t.lineTo(a + u, o + l), t.lineTo(a, o + l), t.lineTo(a, o), t.closePath(), t.clip();
-                }
-                if (c) {
-                    var g = -s / c;
-                    t.moveTo(a + u / 2, g * (u / 2) + o + l), t.lineTo(a, o + l), t.lineTo(a + u, o + l), t.lineTo(a + u, o), t.closePath(), t.clip();
-                }
+                t.bezierCurveTo(a + u, o + l - y, a + u - y, o + l, a + u - i, o + l), t.closePath(), t.clip(), f && (t.moveTo(a + u / 2, s / f * (-u / 2) + o + l), t.lineTo(a + u, o + l), t.lineTo(a, o + l), t.lineTo(a, o), t.closePath(), t.clip()), c && (t.moveTo(a + u / 2, -s / c * (u / 2) + o + l), t.lineTo(a, o + l), t.lineTo(a + u, o + l), t.lineTo(a + u, o), t.closePath(), t.clip());
             }, e$ = function(t, e, r, n, i) {
                 var o = e.top, a = e.left, u = e.width, l = e.height, s = r.borderBottomColor, f = r.borderBottomStyle, c = r.borderBottomWidth, d = r.borderRightWidth, p = r.borderLeftWidth, h = n * (1.0 - es), $ = i * (1.0 - es);
                 t.moveTo(a + u, o + l - i), t.bezierCurveTo(a + u, o + l - $, a + u - $, o + l, a + u - i, o + l), t.lineTo(a + n, o + l), t.bezierCurveTo(a + h, o + l, a, o + l - h, a, o + l - n), t.strokeColor(s), t.lineWidth(2 * Math.max(c, d, p)), "dashed" === f ? t.dash(2 * c, {
@@ -4010,14 +3989,7 @@
                 var h = a + Math.max(n, f);
                 t.bezierCurveTo(a + f, o + l - c - Math.max(n - c, 0) * (1.0 - es), a + f + Math.max(n - f, 0) * (1.0 - es), o + l - c, h, o + l - c), t.lineTo(h, o + l), t.lineTo(a + n, o + l);
                 var $ = n * (1.0 - es);
-                if (t.bezierCurveTo(a + $, o + l, a, o + l - $, a, o + l - n), t.closePath(), t.clip(), c) {
-                    var y = -c / f;
-                    t.moveTo(a + u / 2, y * (u / 2) + o + l), t.lineTo(a, o + l), t.lineTo(a, o), t.lineTo(a + u, o), t.closePath(), t.clip();
-                }
-                if (c) {
-                    var v = -s / f;
-                    t.moveTo(a + u / 2, v * (-u / 2) + o), t.lineTo(a, o), t.lineTo(a, o + l), t.lineTo(a + u, o + l), t.closePath(), t.clip();
-                }
+                t.bezierCurveTo(a + $, o + l, a, o + l - $, a, o + l - n), t.closePath(), t.clip(), c && (t.moveTo(a + u / 2, -c / f * (u / 2) + o + l), t.lineTo(a, o + l), t.lineTo(a, o), t.lineTo(a + u, o), t.closePath(), t.clip()), c && (t.moveTo(a + u / 2, -s / f * (-u / 2) + o), t.lineTo(a, o), t.lineTo(a, o + l), t.lineTo(a + u, o + l), t.closePath(), t.clip());
             }, ev = function(t, e, r, n, i) {
                 var o = e.top, a = e.left, u = e.height, l = r.borderLeftColor, s = r.borderLeftStyle, f = r.borderLeftWidth, c = r.borderTopWidth, d = r.borderBottomWidth, p = n * (1.0 - es), h = i * (1.0 - es);
                 t.moveTo(a + n, o + u), t.bezierCurveTo(a + p, o + u, a, o + u - p, a, o + u - n), t.lineTo(a, o + i), t.bezierCurveTo(a, o + h, a + h, o, a + i, o), t.strokeColor(l), t.lineWidth(2 * Math.max(f, c, d)), "dashed" === s ? t.dash(2 * f, {
@@ -4028,25 +4000,25 @@
             }, eg = function(t, e) {
                 var r;
                 if ((r = e).box && (r.box.borderTopWidth || r.box.borderRightWidth || r.box.borderBottomWidth || r.box.borderLeftWidth)) {
-                    var n = e.box, i = n.width, o = n.height, a = n.borderTopWidth, u = n.borderLeftWidth, l = n.borderRightWidth, s = n.borderBottomWidth, f = e.style, c = f.opacity, d = f.borderTopLeftRadius, p = void 0 === d ? 0 : d, h = f.borderTopRightRadius, $ = void 0 === h ? 0 : h, y = f.borderBottomLeftRadius, v = void 0 === y ? 0 : y, g = f.borderBottomRightRadius, _ = void 0 === g ? 0 : g, m = f.borderTopColor, b = void 0 === m ? "black" : m, D = f.borderTopStyle, w = void 0 === D ? "solid" : D, E = f.borderLeftColor, x = void 0 === E ? "black" : E, k = f.borderLeftStyle, C = void 0 === k ? "solid" : k, T = f.borderRightColor, S = void 0 === T ? "black" : T, P = f.borderRightStyle, F = void 0 === P ? "solid" : P, A = f.borderBottomColor, I = void 0 === A ? "black" : A, R = f.borderBottomStyle, O = void 0 === R ? "solid" : R, B = {
-                        borderTopColor: b,
+                    var n = e.box, i = n.width, o = n.height, a = n.borderTopWidth, u = n.borderLeftWidth, l = n.borderRightWidth, s = n.borderBottomWidth, f = e.style, c = f.opacity, d = f.borderTopLeftRadius, p = void 0 === d ? 0 : d, h = f.borderTopRightRadius, $ = void 0 === h ? 0 : h, y = f.borderBottomLeftRadius, v = void 0 === y ? 0 : y, g = f.borderBottomRightRadius, _ = void 0 === g ? 0 : g, m = f.borderTopColor, b = f.borderTopStyle, D = f.borderLeftColor, w = f.borderLeftStyle, E = f.borderRightColor, x = f.borderRightStyle, k = f.borderBottomColor, C = f.borderBottomStyle, T = {
+                        borderTopColor: void 0 === m ? "black" : m,
                         borderTopWidth: a,
-                        borderTopStyle: w,
-                        borderLeftColor: x,
+                        borderTopStyle: void 0 === b ? "solid" : b,
+                        borderLeftColor: void 0 === D ? "black" : D,
                         borderLeftWidth: u,
-                        borderLeftStyle: C,
-                        borderRightColor: S,
+                        borderLeftStyle: void 0 === w ? "solid" : w,
+                        borderRightColor: void 0 === E ? "black" : E,
                         borderRightWidth: l,
-                        borderRightStyle: F,
-                        borderBottomColor: I,
+                        borderRightStyle: void 0 === x ? "solid" : x,
+                        borderBottomColor: void 0 === k ? "black" : k,
                         borderBottomWidth: s,
-                        borderBottomStyle: O,
+                        borderBottomStyle: void 0 === C ? "solid" : C,
                         borderTopLeftRadius: p,
                         borderTopRightRadius: $,
                         borderBottomLeftRadius: v,
                         borderBottomRightRadius: _
-                    }, L = Math.min($, 0.5 * i, 0.5 * o), N = Math.min(p, 0.5 * i, 0.5 * o), z = Math.min(_, 0.5 * i, 0.5 * o), U = Math.min(v, 0.5 * i, 0.5 * o);
-                    t.save(), t.strokeOpacity(c), a && (t.save(), ef(t, e.box, B, L, N), ec(t, e.box, B, L, N), t.restore()), l && (t.save(), ed(t, e.box, B, L, z), ep(t, e.box, B, L, z), t.restore()), s && (t.save(), eh(t, e.box, B, U, z), e$(t, e.box, B, U, z), t.restore()), u && (t.save(), ey(t, e.box, B, U, N), ev(t, e.box, B, U, N), t.restore()), t.restore();
+                    }, S = Math.min($, 0.5 * i, 0.5 * o), P = Math.min(p, 0.5 * i, 0.5 * o), F = Math.min(_, 0.5 * i, 0.5 * o), A = Math.min(v, 0.5 * i, 0.5 * o);
+                    t.save(), t.strokeOpacity(c), a && (t.save(), ef(t, e.box, T, S, P), ec(t, e.box, T, S, P), t.restore()), l && (t.save(), ed(t, e.box, T, S, F), ep(t, e.box, T, S, F), t.restore()), s && (t.save(), eh(t, e.box, T, A, F), e$(t, e.box, T, A, F), t.restore()), u && (t.save(), ey(t, e.box, T, A, P), ev(t, e.box, T, A, P), t.restore()), t.restore();
                 }
             }, e_ = function(t, e) {
                 var r, n = e.box, i = n.top, o = n.left, a = n.width, u = n.height, l = tR(e.style.backgroundColor), s = (0, _.isNil)(null === (r = e.style) || void 0 === r ? void 0 : r.opacity) ? 1 : e.style.opacity, f = Math.min(l.opacity, s);
@@ -4057,8 +4029,8 @@
             }, em = function(t, e) {
                 var r = e.props || {}, n = e.box, i = n.top, o = n.left, a = n.width, u = n.height, l = r.src || r.href;
                 if (l) {
-                    var s, f = (s = l, /^#.+/.test(s)), c = f ? "goTo" : "link", d = f ? l.slice(1) : l;
-                    t[c](o, i, a, u, d);
+                    var s, f = (s = l, /^#.+/.test(s)), c = f ? l.slice(1) : l;
+                    t[f ? "goTo" : "link"](o, i, a, u, c);
                 }
             }, eb = function(t, e) {
                 var r;
@@ -5100,12 +5072,12 @@
                     case "scale":
                         var n = r.map(function(t) {
                             return Number.parseFloat(t);
-                        }), i = n[0], o = n[1], a = void 0 === o ? i : o;
+                        }), i = n[0], o = n[1];
                         return {
                             operation: "scale",
                             value: [
                                 i,
-                                a
+                                void 0 === o ? i : o
                             ]
                         };
                     case "scaleX":
@@ -5125,11 +5097,11 @@
                             ]
                         };
                     case "rotate":
-                        var u = /(-?\d*\.?\d*)(\w*)?/i.exec(r), l = u[1], s = u[2], f = Number.parseFloat(l);
+                        var a = /(-?\d*\.?\d*)(\w*)?/i.exec(r), u = a[1], l = a[2], s = Number.parseFloat(u);
                         return {
                             operation: "rotate",
                             value: [
-                                "rad" === s ? 180 * f / Math.PI : f, 
+                                "rad" === l ? 180 * s / Math.PI : s, 
                             ]
                         };
                     case "translate":
@@ -16088,8 +16060,8 @@
                             var l, s, c = " argument";
                             if (l = t, (void 0 === s || s > l.length) && (s = l.length), l.substring(s - c.length, s) === c) $ = "The ".concat(t, " ").concat(h, " ").concat(f(e, "type"));
                             else {
-                                var d, p, h, $, y = ".", v = (d = t, "number" != typeof p && (p = 0), p + y.length > d.length || -1 === d.indexOf(y, p)) ? "argument" : "property";
-                                $ = 'The "'.concat(t, '" ').concat(v, " ").concat(h, " ").concat(f(e, "type"));
+                                var d, p, h, $, y = ("number" != typeof p && (p = 0), p + 1 > (d = t).length || -1 === d.indexOf(".", p)) ? "argument" : "property";
+                                $ = 'The "'.concat(t, '" ').concat(y, " ").concat(h, " ").concat(f(e, "type"));
                             }
                             return $ + ". Received type ".concat(n(i));
                         }, TypeError), s("ERR_INVALID_ARG_VALUE", function(t, e) {
@@ -21136,17 +21108,16 @@
                             return 'The value "' + e + '" is invalid for option "' + t + '"';
                         }, TypeError), r("ERR_INVALID_ARG_TYPE", function(t, e, r) {
                             let i;
-                            var o, a = "not ";
-                            "string" == typeof e && e.substr(!o || o < 0 ? 0 : +o, a.length) === a ? (i = "must not be", e = e.replace(/^not /, "")) : i = "must be";
-                            let u;
-                            var l, s, f = " argument";
-                            if (l = t, (void 0 === s || s > l.length) && (s = l.length), l.substring(s - f.length, s) === f) u = `The ${t} ${i} ${n(e, "type")}`;
+                            var o, a, u, l = "not ";
+                            "string" == typeof e && e.substr(!u || u < 0 ? 0 : +u, l.length) === l ? (i = "must not be", e = e.replace(/^not /, "")) : i = "must be";
+                            let s;
+                            var f, c, d = " argument";
+                            if (f = t, (void 0 === c || c > f.length) && (c = f.length), f.substring(c - d.length, c) === d) s = `The ${t} ${i} ${n(e, "type")}`;
                             else {
-                                var c, d, p = ".";
-                                const h = (c = t, "number" != typeof d && (d = 0), d + p.length > c.length || -1 === c.indexOf(p, d)) ? "argument" : "property";
-                                u = `The "${t}" ${h} ${i} ${n(e, "type")}`;
+                                const p = ("number" != typeof a && (a = 0), a + 1 > (o = t).length || -1 === o.indexOf(".", a)) ? "argument" : "property";
+                                s = `The "${t}" ${p} ${i} ${n(e, "type")}`;
                             }
-                            return u + `. Received type ${typeof r}`;
+                            return s + `. Received type ${typeof r}`;
                         }, TypeError), r("ERR_STREAM_PUSH_AFTER_EOF", "stream.push() after EOF"), r("ERR_METHOD_NOT_IMPLEMENTED", function(t) {
                             return "The " + t + " method is not implemented";
                         }), r("ERR_STREAM_PREMATURE_CLOSE", "Premature close"), r("ERR_STREAM_DESTROYED", function(t) {
@@ -22193,10 +22164,7 @@
                             getHighWaterMark: function(t, e, r, i) {
                                 var o, a, u, l = (o = e, a = i, u = r, null != o.highWaterMark ? o.highWaterMark : a ? o[u] : null);
                                 if (null != l) {
-                                    if (!(isFinite(l) && Math.floor(l) === l) || l < 0) {
-                                        var s = i ? r : "highWaterMark";
-                                        throw new n(s, l);
-                                    }
+                                    if (!(isFinite(l) && Math.floor(l) === l) || l < 0) throw new n(i ? r : "highWaterMark", l);
                                     return Math.floor(l);
                                 }
                                 return t.objectMode ? 16 : 16384;

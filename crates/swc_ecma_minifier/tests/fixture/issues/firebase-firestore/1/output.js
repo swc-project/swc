@@ -2472,8 +2472,8 @@
                 static bt() {
                     if (!isIndexedDBAvailable()) return !1;
                     if (Ws.Pt()) return !0;
-                    const t = getUA(), e = Ws.Rt(t), n = 0 < e && e < 10, s = Ws.vt(t), i = 0 < s && s < 4.5;
-                    return !(t.indexOf("MSIE ") > 0 || t.indexOf("Trident/") > 0 || t.indexOf("Edge/") > 0 || n || i);
+                    const t = getUA(), e = Ws.Rt(t), s = Ws.vt(t);
+                    return !(t.indexOf("MSIE ") > 0 || t.indexOf("Trident/") > 0 || t.indexOf("Edge/") > 0 || 0 < e && e < 10 || 0 < s && s < 4.5);
                 }
                 static Pt() {
                     var t;
@@ -4813,9 +4813,7 @@
                     return this.ao && !this.co && this.ho(this.ao, t) && (this.lo(this.ao), e = !0), e;
                 }
                 ho(t, e) {
-                    if (!t.fromCache) return !0;
-                    const n = "Offline" !== e;
-                    return (!this.options.fo || !n) && (!t.docs.isEmpty() || "Offline" === e);
+                    return !t.fromCache || (!this.options.fo || !("Offline" !== e)) && (!t.docs.isEmpty() || "Offline" === e);
                 }
                 uo(t) {
                     if (t.docChanges.length > 0) return !0;
@@ -5137,16 +5135,16 @@
                 }(s.localStore, r));
             }
             async function Tc(t, e) {
+                var t1;
                 const n = t;
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
-                    const t1 = await hr(n.localStore, e);
-                    var t2, e1 = "'waitForPendingWrites' promise is rejected due to a user change.";
-                    n.currentUser = e, (t2 = n).Ko.forEach((t)=>{
+                    const t2 = await hr(n.localStore, e);
+                    n.currentUser = e, (t1 = n).Ko.forEach((t)=>{
                         t.forEach((t)=>{
-                            t.reject(new j(K.CANCELLED, e1));
+                            t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
                         });
-                    }), t2.Ko.clear(), n.sharedClientState.handleUserChange(e, t1.removedBatchIds, t1.addedBatchIds), await pc(n, t1.Wn);
+                    }), t1.Ko.clear(), n.sharedClientState.handleUserChange(e, t2.removedBatchIds, t2.addedBatchIds), await pc(n, t2.Wn);
                 }
             }
             function Ec(t, e) {

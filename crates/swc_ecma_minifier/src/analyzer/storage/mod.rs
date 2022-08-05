@@ -27,6 +27,9 @@ pub(crate) trait Storage: Sized + Default {
         has_init: bool,
         kind: Option<VarDeclKind>,
     ) -> &mut Self::VarData;
+
+    fn get_initialized_cnt(&self) -> usize;
+    fn truncate_initialized_cnt(&mut self, len: usize);
 }
 
 pub(crate) trait ScopeDataLike: Sized + Default + Clone {

@@ -3091,8 +3091,8 @@
                     };
                 }));
                 if ("static" === type) {
-                    var index = segments.length - 1, sectionDuration = "number" == typeof periodDuration ? periodDuration : sourceDuration;
-                    segments[index].duration = sectionDuration - duration / (void 0 === _attributes$timescale4 ? 1 : _attributes$timescale4) * index;
+                    var index = segments.length - 1;
+                    segments[index].duration = ("number" == typeof periodDuration ? periodDuration : sourceDuration) - duration / (void 0 === _attributes$timescale4 ? 1 : _attributes$timescale4) * index;
                 }
                 return segments;
             }, segmentsFromBase = function(attributes) {
@@ -3197,11 +3197,7 @@
                 void 0 === sidxMapping && (sidxMapping = {}), void 0 === isAudioOnly && (isAudioOnly = !1);
                 var mainPlaylist, formattedPlaylists = playlists.reduce(function(a, playlist) {
                     var role = playlist.attributes.role && playlist.attributes.role.value || "", language = playlist.attributes.lang || "", label = playlist.attributes.label || "main";
-                    if (language && !playlist.attributes.label) {
-                        var roleLabel = role ? " (" + role + ")" : "";
-                        label = "" + playlist.attributes.lang + roleLabel;
-                    }
-                    a[label] || (a[label] = {
+                    language && !playlist.attributes.label && (label = "" + playlist.attributes.lang + (role ? " (" + role + ")" : "")), a[label] || (a[label] = {
                         language: language,
                         autoselect: !0,
                         default: "main" === role,
@@ -3380,8 +3376,8 @@
                 if (!segmentsFn) return segmentsInfo;
                 var segments = segmentsFn(segmentAttributes, segmentInfo.segmentTimeline);
                 if (segmentAttributes.duration) {
-                    var _segmentAttributes = segmentAttributes, duration = _segmentAttributes.duration, _segmentAttributes$ti = _segmentAttributes.timescale, timescale = void 0 === _segmentAttributes$ti ? 1 : _segmentAttributes$ti;
-                    segmentAttributes.duration = duration / timescale;
+                    var _segmentAttributes = segmentAttributes, duration = _segmentAttributes.duration, _segmentAttributes$ti = _segmentAttributes.timescale;
+                    segmentAttributes.duration = duration / (void 0 === _segmentAttributes$ti ? 1 : _segmentAttributes$ti);
                 } else segments.length ? segmentAttributes.duration = segments.reduce(function(max, segment) {
                     return Math.max(max, Math.ceil(segment.duration));
                 }, 0) : segmentAttributes.duration = 0;
@@ -3514,8 +3510,8 @@
                         "3D": 0
                     };
                     if (/=/.test(value)) {
-                        var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1], opts = void 0 === _value$split2$ ? "" : _value$split2$;
-                        flags.channel = channel, flags.language = value, opts.split(",").forEach(function(opt) {
+                        var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
+                        flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
                             var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
                             "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
                         });

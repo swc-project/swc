@@ -1,5 +1,6 @@
 use std::{collections::HashSet, hash::BuildHasherDefault};
 
+use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, SyntaxContext};
@@ -62,7 +63,7 @@ where
 pub(crate) struct VarUsageInfo {
     pub inline_prevented: bool,
 
-    /// The number of reference to this identifier.
+    /// The number of direct reference to this identifier.
     pub ref_count: usize,
 
     /// `true` if a variable is conditionally initialized.
@@ -79,6 +80,8 @@ pub(crate) struct VarUsageInfo {
 
     pub assign_count: usize,
     pub mutation_by_call_count: usize,
+
+    /// The number of direct and indirect reference to this identifier.
     /// ## Things to note
     ///
     /// - Update is counted as usage
@@ -160,6 +163,8 @@ pub(crate) struct ProgramData {
     pub top: ScopeData,
 
     pub scopes: FxHashMap<SyntaxContext, ScopeData>,
+
+    initialized_vars: IndexSet<Id>,
 }
 
 impl ProgramData {
@@ -333,6 +338,18 @@ where
         self.scope.add_declared_symbol(i);
 
         self.data.declare_decl(self.ctx, i, has_init, kind)
+    }
+
+    fn visit_in_cond<T: VisitWith<Self>>(&mut self, t: &T) {
+        let cnt = self.data.get_initialized_cnt();
+        t.visit_with(self);
+        self.data.truncate_initialized_cnt(cnt)
+    }
+
+    fn visit_children_in_cond<T: VisitWith<Self>>(&mut self, t: &T) {
+        let cnt = self.data.get_initialized_cnt();
+        t.visit_children_with(self);
+        self.data.truncate_initialized_cnt(cnt)
     }
 }
 
@@ -518,7 +535,7 @@ where
                 in_cond: true,
                 ..self.ctx
             };
-            n.body.visit_with(&mut *self.with_ctx(ctx));
+            self.with_ctx(ctx).visit_in_cond(&n.body);
         }
     }
 
@@ -562,8 +579,8 @@ where
                 in_cond: true,
                 ..self.ctx
             };
-            n.cons.visit_with(&mut *self.with_ctx(ctx));
-            n.alt.visit_with(&mut *self.with_ctx(ctx));
+            self.with_ctx(ctx).visit_in_cond(&n.cons);
+            self.with_ctx(ctx).visit_in_cond(&n.alt);
         }
     }
 
@@ -592,7 +609,7 @@ where
             in_cond: true,
             ..self.ctx
         };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        self.with_ctx(ctx).visit_children_in_cond(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -722,7 +739,8 @@ where
                 in_cond: true,
                 ..child.ctx
             };
-            n.body.visit_with(&mut *child.with_ctx(ctx));
+
+            child.with_ctx(ctx).visit_in_cond(&n.body);
         });
     }
 
@@ -743,7 +761,7 @@ where
                 in_cond: true,
                 ..child.ctx
             };
-            n.body.visit_with(&mut *child.with_ctx(ctx))
+            child.with_ctx(ctx).visit_in_cond(&n.body);
         });
     }
 
@@ -757,10 +775,9 @@ where
             ..self.ctx
         };
 
-        n.test.visit_with(&mut *self.with_ctx(ctx));
-        n.update.visit_with(&mut *self.with_ctx(ctx));
-
-        n.body.visit_with(&mut *self.with_ctx(ctx));
+        self.with_ctx(ctx).visit_in_cond(&n.test);
+        self.with_ctx(ctx).visit_in_cond(&n.update);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -806,8 +823,9 @@ where
             ..self.ctx
         };
         n.test.visit_with(self);
-        n.cons.visit_with(&mut *self.with_ctx(ctx));
-        n.alt.visit_with(&mut *self.with_ctx(ctx));
+
+        self.with_ctx(ctx).visit_in_cond(&n.cons);
+        self.with_ctx(ctx).visit_in_cond(&n.alt);
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
@@ -1019,7 +1037,7 @@ where
                 in_cond: true,
                 ..self.ctx
             };
-            n.cons.visit_with(&mut *self.with_ctx(ctx));
+            self.with_ctx(ctx).visit_in_cond(&n.cons);
         }
     }
 
@@ -1030,7 +1048,7 @@ where
             ..self.ctx
         };
 
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        self.with_ctx(ctx).visit_children_in_cond(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -1109,7 +1127,8 @@ where
             in_cond: true,
             ..self.ctx
         };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+
+        self.with_ctx(ctx).visit_children_in_cond(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
