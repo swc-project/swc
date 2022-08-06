@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Emit extra dot if a float is too large (#5407) ([6dca81e](https://github.com/swc-project/swc/commit/6dca81e368f060d8247de0dd5183ea0826142b0f))
+
+
 - **(es/fixer)** Preserve parens for optional chaining expressions (#5388) ([9443419](https://github.com/swc-project/swc/commit/9443419591a47931bf27958ef5f69599484157a5))
 
 
