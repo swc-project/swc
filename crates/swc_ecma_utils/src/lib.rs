@@ -4,6 +4,9 @@
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
+#[doc(hidden)]
+pub extern crate swc_common;
+
 use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
