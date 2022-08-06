@@ -636,9 +636,10 @@ where
         Ok(striped_raw
             .map(|raw| {
                 if raw.bytes().all(|c| c.is_ascii_digit()) {
-                    // Legacy octal contains only digits, but `value` and `raw` are
-                    // different
-                    if !num.value.to_string().eq(&raw) {
+                    // Maybe legacy octal
+                    // Do we really need to support pre es5?
+                    let slice = raw.as_bytes();
+                    if slice.len() >= 2 && slice[0] == b'0' {
                         return false;
                     }
 
