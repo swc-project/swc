@@ -44,20 +44,20 @@ impl EnsureSize {
                 .collect::<Result<Vec<_>>>()
         })?;
 
-        for report in &results {
+        for f in &results {
             println!();
-            println!("{}", report.fm.name);
+            println!("{}", f.fm.name);
 
-            if let Some(terser) = &report.terser {
-                if report.swc.mangled_size > terser.mangled_size {
+            if let Some(terser) = &f.terser {
+                if f.swc.mangled_size > terser.mangled_size {
                     println!("  Mangled");
-                    println!("    swc: {} bytes", report.swc.mangled_size);
+                    println!("    swc: {} bytes", f.swc.mangled_size);
                     println!("    terser: {} bytes", terser.mangled_size);
                 }
 
-                if report.swc.no_mangle_size > terser.no_mangle_size {
+                if f.swc.no_mangle_size > terser.no_mangle_size {
                     println!("  No-mangle");
-                    println!("    swc: {} bytes", report.swc.no_mangle_size);
+                    println!("    swc: {} bytes", f.swc.no_mangle_size);
                     println!("    terser: {} bytes", terser.no_mangle_size);
                 }
             }
