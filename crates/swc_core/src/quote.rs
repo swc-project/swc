@@ -1,7 +1,5 @@
-use swc_atoms::JsWord;
-use swc_ecma_ast::*;
-
 use self::private::Sealed;
+use super::{ast::*, atoms::JsWord};
 
 /// # Supported output types
 ///

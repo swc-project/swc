@@ -3126,7 +3126,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "once_cell",
  "swc",
@@ -3813,7 +3813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.98.2"
+version = "0.98.3"
 dependencies = [
  "indexmap",
  "once_cell",
