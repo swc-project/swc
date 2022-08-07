@@ -2,11 +2,10 @@
 #[macro_export]
 macro_rules! private_ident {
     ($s:expr) => {
-        private_ident!(::swc_common::DUMMY_SP, $s)
+        private_ident!($crate::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
-        use swc_common::Mark;
-        let mark = Mark::fresh(Mark::root());
+        let mark = $crate::swc_common::Mark::fresh($crate::swc_common::Mark::root());
         let span = $span.apply_mark(mark);
         $crate::swc_ecma_ast::Ident::new($s.into(), span)
     }};
@@ -15,7 +14,7 @@ macro_rules! private_ident {
 #[macro_export]
 macro_rules! quote_ident {
     ($s:expr) => {
-        quote_ident!(::swc_common::DUMMY_SP, $s)
+        quote_ident!($crate::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
         $crate::swc_ecma_ast::Ident::new($s.into(), $span)
@@ -25,7 +24,7 @@ macro_rules! quote_ident {
 #[macro_export]
 macro_rules! quote_str {
     ($s:expr) => {
-        quote_str!(::swc_common::DUMMY_SP, $s)
+        quote_str!($crate::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
         $crate::swc_ecma_ast::Str {
@@ -74,7 +73,7 @@ macro_rules! member_expr {
         let prop = MemberProp::Ident($crate::quote_ident!($span, stringify!($first)));
 
         member_expr!(@EXT, $span, Box::new(Expr::Member(MemberExpr{
-            span: ::swc_common::DUMMY_SP,
+            span: $crate::swc_common::DUMMY_SP,
             obj: $obj,
             prop,
         })), $($rest)*)
@@ -85,7 +84,7 @@ macro_rules! member_expr {
         let prop = MemberProp::Ident($crate::quote_ident!($span, stringify!($first)));
 
         Box::new(Expr::Member(MemberExpr{
-            span: ::swc_common::DUMMY_SP,
+            span: $crate::swc_common::DUMMY_SP,
             obj: $obj,
             prop,
         }))
