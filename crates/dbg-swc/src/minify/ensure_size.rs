@@ -44,9 +44,6 @@ impl EnsureSize {
                 .collect::<Result<Vec<_>>>()
         })?;
 
-        if results.is_empty() {
-            return Ok(());
-        }
         for report in &results {
             println!();
             println!("{}", report.fm.name);
@@ -66,10 +63,10 @@ impl EnsureSize {
             }
         }
 
-        bail!("found some issues")
+        Ok(())
     }
 
-    fn check_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<Option<SizeIssue>> {
+    fn check_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<Option<FileSize>> {
         wrap_task(|| {
             info!("Checking {}", js_file.display());
 
@@ -91,7 +88,7 @@ impl EnsureSize {
 
             // eprintln!("The output size of swc minifier: {}", code_mangled.len());
 
-            let mut size_issue = SizeIssue {
+            let mut size_issue = FileSize {
                 fm,
                 swc: MinifierOutput {
                     mangled_size: code_mangled.len(),
@@ -149,7 +146,7 @@ impl EnsureSize {
 
 #[allow(unused)]
 #[derive(Debug)]
-struct SizeIssue {
+struct FileSize {
     fm: Arc<SourceFile>,
 
     swc: MinifierOutput,
