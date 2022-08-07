@@ -9,7 +9,7 @@ macro_rules! impl_simple_enum {
                     $(
                         $E::$v => q!(
                             Vars {},
-                            { swc_ecma_ast::$E::$v }
+                            { swc_core::ast::$E::$v }
                         )
                         .parse(),
                     )*
