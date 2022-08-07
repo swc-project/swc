@@ -3,7 +3,7 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result};
 use clap::Args;
 use rayon::prelude::*;
 use swc_common::{SourceFile, SourceMap, GLOBALS};
