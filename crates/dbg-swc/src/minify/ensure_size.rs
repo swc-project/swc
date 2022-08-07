@@ -63,6 +63,19 @@ impl EnsureSize {
             }
         }
 
+        println!("Total");
+        println!(
+            "  swc: {} bytes",
+            results.iter().map(|f| f.swc.mangled_size).sum::<usize>()
+        );
+        println!(
+            "  terser: {} bytes",
+            results
+                .iter()
+                .flat_map(|f| f.terser.map(|v| v.mangled_size))
+                .sum::<usize>()
+        );
+
         Ok(())
     }
 
@@ -141,7 +154,7 @@ struct FileSize {
 }
 
 #[allow(unused)]
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 struct MinifierOutput {
     mangled_size: usize,
     no_mangle_size: usize,
