@@ -110,10 +110,6 @@ impl Take for VarDecl {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
-)]
 pub enum VarDeclKind {
     /// `var`
     Var,

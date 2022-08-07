@@ -25,7 +25,6 @@ use crate::typescript::TsTypeAnn;
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]
