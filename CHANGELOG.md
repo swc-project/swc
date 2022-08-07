@@ -7,6 +7,9 @@
 
 - **(es/utils)** Allow `quote_ident!` working with `swc_core` (#5409) ([c227325](https://github.com/swc-project/swc/commit/c2273255c0c2b90e606c5880b8e80a5cd8c370bf))
 
+
+- **(swc_core)** Update references for `quote!` (#5408) ([27e7e0b](https://github.com/swc-project/swc/commit/27e7e0b69b15a215a887b2a3f75a598ac01252b6))
+
 ### Testing
 
 
