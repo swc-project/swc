@@ -13,6 +13,12 @@
 
 - **(swc_core)** Fix dep on `quote_macros` (#5415) ([420d936](https://github.com/swc-project/swc/commit/420d936c50265c958b3811772ee15fb468afcf58))
 
+### Features
+
+
+
+- **(dbg-swc)** Improve minifier comparator (#5411) ([d1da899](https://github.com/swc-project/swc/commit/d1da89939f169437e67031833ea09237968dd620))
+
 ### Testing
 
 
