@@ -380,15 +380,6 @@ impl Visit for SystemJs {
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
-        if let Decl::Fn(FnDecl {
-            ident,
-            declare: false,
-            ..
-        }) = &n.decl
-        {
-            self.hoist_fn_ids.insert(ident.to_id());
-        }
-
         match &n.decl {
             Decl::Class(ClassDecl {
                 ident,
@@ -652,13 +643,14 @@ impl SystemJs {
 
                 execute.push(expr.into_stmt());
             }
-            Decl::Fn(FnDecl { declare, .. }) => {
+            Decl::Fn(FnDecl {
+                declare, ref ident, ..
+            }) => {
                 if declare {
                     return;
                 }
 
-                // self.decls.push(ident.clone());
-                // self.fn_decls.insert(ident.to_id());
+                self.hoist_fn_ids.insert(ident.to_id());
 
                 hoist.push(decl.into());
             }
