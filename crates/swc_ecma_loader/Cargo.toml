@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_loader"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.38.0"
+version = "0.39.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -34,8 +34,8 @@ parking_lot = { version = "0.12.0", optional = true }
 path-clean = { version = "=0.1.0", optional = true }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1.0.64", optional = true }
-swc_cached = { version = "0.2.0", optional = true, path = "../swc_cached" }
-swc_common = { version = "0.26.0", path = "../swc_common" }
+swc_cached = { version = "0.3.0", optional = true, path = "../swc_cached" }
+swc_common = { version = "0.27.0", path = "../swc_common" }
 tracing = "0.1.32"
 pathdiff = "0.2.1"
 
