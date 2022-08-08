@@ -7,6 +7,8 @@ use std::{
 use anyhow::{Context, Result};
 use clap::{ArgEnum, Parser, Subcommand};
 
+use crate::util::SWC_CORE_VERSION;
+
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ArgEnum)]
 pub enum PluginTargetType {
     /// wasm32-unknown-unknown target.
@@ -155,8 +157,13 @@ crate-type = ["cdylib"]
 
 [dependencies]
 serde = "1"
-swc_plugin = "*""#,
-                name
+swc_core = {{ version = "{}", features = ["plugin_transform"] }}
+
+# .cargo/config defines few alias to build plugin.
+# cargo build-wasi generates wasm-wasi32 binary
+# cargo build-wasm32 generates wasm32-unknown-unknown binary.
+"#,
+                name, SWC_CORE_VERSION
             )
             .as_bytes(),
         )
@@ -167,18 +174,22 @@ swc_plugin = "*""#,
             PluginTargetType::Wasm32Wasi => "wasm32-wasi",
         };
 
+        let build_alias = match self.target_type {
+            PluginTargetType::Wasm32UnknownUnknown => "build-wasm32",
+            PluginTargetType::Wasm32Wasi => "build-wasi",
+        };
+
         // Create cargo config for build target
         let cargo_config_path = path.join(".cargo");
         create_dir_all(&cargo_config_path).context("`create_dir_all` failed")?;
         fs::write(
             &cargo_config_path.join("config"),
-            format!(
-                r#"# These command aliases are not final, may change
+            r#"# These command aliases are not final, may change
 [alias]
 # Alias to build actual plugin binary for the specified target.
-prepublish = "build --target {}""#,
-                build_target
-            )
+build-wasi = "build --target wasm32-wasi"
+build-wasm32 = "build --target wasm32-unknown-unknown"
+""#
             .as_bytes(),
         )
         .context("failed to write config toml file")?;
@@ -197,24 +208,27 @@ prepublish = "build --target {}""#,
     "keywords": ["swc-plugin"],
     "main": "{}",
     "scripts": {{
-        "prepublishOnly": "cargo build --release"
+        "prepublishOnly": "cargo {} --release"
     }},
     "files": []
 }}
 "#,
-                name, dist_output_path
+                name, dist_output_path, build_alias
             )
             .as_bytes(),
         )
-        .context("failed to write Cargo.toml file")?;
+        .context("failed to write package.json file")?;
 
         // Create entrypoint src file
         let src_path = path.join("src");
         create_dir_all(&src_path)?;
         fs::write(
             &src_path.join("lib.rs"),
-            r#"use swc_plugin::{ast::*, plugin_transform, TransformPluginProgramMetadata};
-
+            r#"use swc_core::{
+    ast::Program,
+    plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
+    visit::{as_folder, FoldWith, VisitMut},
+};
 pub struct TransformVisitor;
 
 impl VisitMut for TransformVisitor {
@@ -227,26 +241,21 @@ impl VisitMut for TransformVisitor {
 /// `plugin_transform` macro interop pointers into deserialized structs, as well
 /// as returning ptr back to host.
 ///
-/// It is possible to opt out from macro by writing transform fn manually via
+/// It is possible to opt out from macro by writing transform fn manually
+/// if plugin need to handle low-level ptr directly via
 /// `__transform_plugin_process_impl(
-///     ast_ptr: *const u8,
-///     ast_ptr_len: i32,
-///     config_str_ptr: *const u8,
-///     config_str_ptr_len: i32,
-///     context_str_ptr: *const u8,
-///     context_str_ptr_len: i32) ->
+///     ast_ptr: *const u8, ast_ptr_len: i32,
+///     unresolved_mark: u32, should_enable_comments_proxy: i32) ->
 ///     i32 /*  0 for success, fail otherwise.
 ///             Note this is only for internal pointer interop result,
-///             not actual transform result */
+///             not actual transform result */`
 ///
-/// if plugin need to handle low-level ptr directly. However, there are
-/// important steps manually need to be performed like sending transformed
-/// results back to host. Refer swc_plugin_macro how does it work internally.
+/// This requires manual handling of serialization / deserialization from ptrs.
+/// Refer swc_plugin_macro to see how does it work internally.
 #[plugin_transform]
 pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
     program.fold_with(&mut as_folder(TransformVisitor))
-}
-"#
+}"#
             .as_bytes(),
         )
         .context("failed to write the rust source file")?;
