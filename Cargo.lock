@@ -3126,7 +3126,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "once_cell",
  "swc",
@@ -3523,7 +3523,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.27.0"
+version = "0.27.1"
 dependencies = [
  "anyhow",
  "pmutil",
