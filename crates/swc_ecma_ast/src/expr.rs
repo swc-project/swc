@@ -713,10 +713,6 @@ pub struct MetaPropExpr {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
-)]
 pub enum MetaPropKind {
     /// `new.target`
     NewTarget,
@@ -897,7 +893,6 @@ impl Take for Import {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(

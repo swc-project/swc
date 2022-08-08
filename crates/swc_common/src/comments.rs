@@ -542,7 +542,6 @@ impl SingleThreadedComments {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,
@@ -560,10 +559,6 @@ impl Spanned for Comment {
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
 )]
 pub enum CommentKind {
     Line,
