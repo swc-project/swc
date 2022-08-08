@@ -518,25 +518,25 @@ impl<'de> Deserialize<'de> for AssignExpr {
                 while let Some(key) = map.next_key::<&str>()? {
                     match key {
                         "span" => {
-                            if Option::is_some(&span_field) {
+                            if span_field.is_some() {
                                 return Err(de::Error::duplicate_field("span"));
                             }
                             span_field = Some(map.next_value()?);
                         }
                         "operator" => {
-                            if Option::is_some(&op_field) {
+                            if op_field.is_some() {
                                 return Err(de::Error::duplicate_field("operator"));
                             }
                             op_field = Some(map.next_value()?);
                         }
                         "left" => {
-                            if Option::is_some(&left_field) {
+                            if left_field.is_some() {
                                 return Err(de::Error::duplicate_field("left"));
                             }
                             left_field = Some(map.next_value()?);
                         }
                         "right" => {
-                            if Option::is_some(&right_field) {
+                            if right_field.is_some() {
                                 return Err(de::Error::duplicate_field("right"));
                             }
                             right_field = Some(map.next_value()?);
@@ -547,23 +547,10 @@ impl<'de> Deserialize<'de> for AssignExpr {
                     }
                 }
 
-                if span_field.is_none() {
-                    return Err(de::Error::missing_field("span"));
-                }
-                if op_field.is_none() {
-                    return Err(de::Error::missing_field("operator"));
-                }
-                if left_field.is_none() {
-                    return Err(de::Error::missing_field("left"));
-                }
-                if right_field.is_none() {
-                    return Err(de::Error::missing_field("right"));
-                }
-
-                let span = span_field.unwrap();
-                let op = op_field.unwrap();
-                let mut left = left_field.unwrap();
-                let right = right_field.unwrap();
+                let span = span_field.ok_or_else(|| de::Error::missing_field("span"))?;
+                let op = op_field.ok_or_else(|| de::Error::missing_field("operator"))?;
+                let mut left = left_field.ok_or_else(|| de::Error::missing_field("left"))?;
+                let right = right_field.ok_or_else(|| de::Error::missing_field("right"))?;
 
                 if op != AssignOp::Assign {
                     left = match left {
