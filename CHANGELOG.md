@@ -10,6 +10,9 @@
 
 - **(swc_core)** Update references for `quote!` (#5408) ([27e7e0b](https://github.com/swc-project/swc/commit/27e7e0b69b15a215a887b2a3f75a598ac01252b6))
 
+
+- **(swc_core)** Fix dep on `quote_macros` (#5415) ([420d936](https://github.com/swc-project/swc/commit/420d936c50265c958b3811772ee15fb468afcf58))
+
 ### Testing
 
 
