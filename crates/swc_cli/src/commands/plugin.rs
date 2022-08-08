@@ -189,7 +189,7 @@ swc_core = {{ version = "{}", features = ["plugin_transform"] }}
 # Alias to build actual plugin binary for the specified target.
 build-wasi = "build --target wasm32-wasi"
 build-wasm32 = "build --target wasm32-unknown-unknown"
-""#
+"#
             .as_bytes(),
         )
         .context("failed to write config toml file")?;
@@ -224,11 +224,13 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
         create_dir_all(&src_path)?;
         fs::write(
             &src_path.join("lib.rs"),
-            r#"use swc_core::{
+            r##"use swc_core::{
     ast::Program,
     plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
+    testing_transform::test,
     visit::{as_folder, FoldWith, VisitMut},
 };
+
 pub struct TransformVisitor;
 
 impl VisitMut for TransformVisitor {
@@ -255,8 +257,22 @@ impl VisitMut for TransformVisitor {
 #[plugin_transform]
 pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
     program.fold_with(&mut as_folder(TransformVisitor))
-}"#
-            .as_bytes(),
+}
+
+// An example to test plugin transform.
+// Recommended streategy to test plugin's transform is verify
+// the Visitor's behavior, instead of trying to run `process_transform` with mocks
+// unless explicitly required to do so.
+test!(
+    Default::default(),
+    |_| as_folder(TransformVisitor),
+    boo,
+    // Input codes
+    r#"console.log("transform");"#,
+    // Output codes after transformed with plugin
+    r#"console.log("transform");"#
+);"##
+                .as_bytes(),
         )
         .context("failed to write the rust source file")?;
 
