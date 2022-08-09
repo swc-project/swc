@@ -40,6 +40,3 @@ walkdir = "2"
   [dependencies.path-absolutize]
   features = ["once_cell_cache"]
   version  = "3.0.11"
-
-[build-dependencies]
-toml = "0.5.9"

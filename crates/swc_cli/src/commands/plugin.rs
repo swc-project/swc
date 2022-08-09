@@ -6,8 +6,7 @@ use std::{
 
 use anyhow::{Context, Result};
 use clap::{ArgEnum, Parser, Subcommand};
-
-use crate::util::SWC_CORE_VERSION;
+use swc_core::SWC_CORE_VERSION;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ArgEnum)]
 pub enum PluginTargetType {
@@ -143,6 +142,10 @@ impl super::CommandRunner for PluginScaffoldOptions {
         // generate .gitignore
         write_ignore_file(path)?;
 
+        let swc_core_version: Vec<&str> = SWC_CORE_VERSION.split('.').collect();
+        // We'll pick semver major.minor, but allow any patch version.
+        let swc_core_version = format!("{}.{}.*", swc_core_version[0], swc_core_version[1]);
+
         // Create `Cargo.toml` file with necessary sections
         fs::write(
             &path.join("Cargo.toml"),
@@ -163,7 +166,7 @@ swc_core = {{ version = "{}", features = ["plugin_transform"] }}
 # cargo build-wasi generates wasm-wasi32 binary
 # cargo build-wasm32 generates wasm32-unknown-unknown binary.
 "#,
-                name, SWC_CORE_VERSION
+                name, swc_core_version
             )
             .as_bytes(),
         )

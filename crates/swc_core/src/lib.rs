@@ -102,3 +102,5 @@ pub mod testing_transform {
 #[cfg(any(docsrs, feature = "allocator_node"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;
+
+pub static SWC_CORE_VERSION: &str = include_str!(concat!(env!("OUT_DIR"), "/core_pkg_version.txt"));

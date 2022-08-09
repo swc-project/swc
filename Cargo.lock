@@ -3059,7 +3059,6 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_core",
- "toml",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
