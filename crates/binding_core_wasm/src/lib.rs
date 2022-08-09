@@ -15,7 +15,7 @@ use swc_core::{
     },
     binding_macros::{
         build_minify, build_minify_sync, build_parse, build_parse_sync, build_print,
-        build_print_sync,
+        build_print_sync, build_transform,
     },
     common::{comments::Comments, FileName, FilePathMapping, SourceMap},
 };
@@ -174,16 +174,7 @@ pub fn transform_sync(
     .map_err(|e| convert_err(e, error_format))
 }
 
-#[wasm_bindgen(js_name = "transform", typescript_type = "transform", skip_typescript)]
-pub fn transform(
-    s: JsValue,
-    opts: JsValue,
-    experimental_plugin_bytes_resolver: JsValue,
-) -> js_sys::Promise {
-    // TODO: This'll be properly scheduled once wasm have standard backed thread
-    // support.
-    future_to_promise(async { transform_sync(s, opts, experimental_plugin_bytes_resolver) })
-}
+build_transform!(#[wasm_bindgen(js_name = "transform", typescript_type = "transform", skip_typescript)]);
 
 build_print_sync!(#[wasm_bindgen(js_name = "printSync", typescript_type = "printSync", skip_typescript)]);
 build_print!(#[wasm_bindgen(js_name = "print", typescript_type = "print", skip_typescript)]);

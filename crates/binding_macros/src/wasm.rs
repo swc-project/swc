@@ -187,3 +187,23 @@ macro_rules! build_print {
       }
   };
 }
+
+/// Currently this relies on existence of transform_sync.
+#[macro_export]
+macro_rules! build_transform {
+  ($(#[$m:meta])*) => {
+    build_transform!($(#[$m])*, Default::default());
+  };
+  ($(#[$m:meta])*, $opt: expr) => {
+      $(#[$m])*
+      pub fn transform(
+        s: JsValue,
+        opts: JsValue,
+        experimental_plugin_bytes_resolver: JsValue,
+      ) -> js_sys::Promise {
+          // TODO: This'll be properly scheduled once wasm have standard backed thread
+          // support.
+          future_to_promise(async { transform_sync(s, opts, experimental_plugin_bytes_resolver) })
+      }
+  };
+}
