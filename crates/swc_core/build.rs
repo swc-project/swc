@@ -1,3 +1,10 @@
+use std::{
+    env,
+    fs::File,
+    io::{BufWriter, Write},
+    path::Path,
+};
+
 // Validate conflict between host / plugin features
 #[cfg(all(
     feature = "plugin_transform",
@@ -22,5 +29,12 @@ compile_error!(
 );
 
 fn main() {
-    /* noop */
+    // Creates a static compile time constants for the version of swc_core.
+    let pkg_version = env::var("CARGO_PKG_VERSION").unwrap();
+    let out_dir = env::var("OUT_DIR").expect("Outdir should exist");
+    let dest_path = Path::new(&out_dir).join("core_pkg_version.txt");
+    let mut f = BufWriter::new(
+        File::create(&dest_path).expect("Failed to create swc_core version constant"),
+    );
+    write!(f, "{}", pkg_version).expect("Failed to write swc_core version constant");
 }
