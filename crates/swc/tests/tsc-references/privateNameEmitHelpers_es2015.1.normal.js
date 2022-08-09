@@ -1,12 +1,12 @@
+// @target: es2015
+// @importHelpers: true
+// @isolatedModules: true
+// @filename: main.ts
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakSet(), _c = /*#__PURE__*/ new WeakMap();
-// @target: es2015
-// @importHelpers: true
-// @isolatedModules: true
-// @filename: main.ts
 export class C {
     constructor(){
         _class_private_method_init(this, _b);
@@ -26,3 +26,6 @@ function b() {
 function set_c(v) {
     _class_private_field_set(this, _a, _class_private_field_get(this, _a) + v);
 }
+// @filename: tslib.d.ts
+// these are pre-TS4.3 versions of emit helpers, which only supported private instance fields
+export { };

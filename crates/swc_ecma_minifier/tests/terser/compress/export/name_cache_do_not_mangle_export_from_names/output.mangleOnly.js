@@ -1,16 +1,16 @@
-function a() {
+function o() {
     console.log("should be dropped");
 }
-function b() {
+function n() {
     console.log("should be dropped");
 }
-function c() {
+function i() {
     console.log("should be dropped");
 }
-function d() {
+function u() {
     console.log("should be dropped");
 }
-function e() {
+function t() {
     console.log("should be dropped");
 }
 function f() {

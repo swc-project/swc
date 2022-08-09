@@ -132,6 +132,9 @@
             function alloc(value) {
                 return line = column = 1, Tokenizer_length = Utility_strlen(characters = value), position = 0, [];
             }
+            function dealloc(value) {
+                return characters = "", value;
+            }
             function delimit(type) {
                 return trim(slice(position - 1, delimiter(91 === type ? type + 2 : 40 === type ? type + 1 : type)));
             }
@@ -413,15 +416,12 @@
                 }
                 while (character = next())
                 return parsed;
-            }, getRules = function(value, points) {
-                var value1;
-                return value1 = toRules(alloc(value), points), characters = "", value1;
             }, fixedElements = new WeakMap(), compat = function(element) {
                 if ("rule" === element.type && element.parent && element.length) {
                     for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
                     if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var points = [], rules = getRules(value, points), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
+                        for(var value1, points, points1 = [], rules = (value1 = value, points = points1, dealloc(toRules(alloc(value1), points))), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points1[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {
@@ -639,12 +639,12 @@
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
                 }), stylis = function(styles) {
-                    var value, value1;
-                    return serialize((value1 = parse("", null, null, null, [
+                    var value;
+                    return serialize(dealloc(parse("", null, null, null, [
                         ""
                     ], value = alloc(value = styles), 0, [
                         0
-                    ], value), characters = "", value1), serializer);
+                    ], value)), serializer);
                 };
                 _insert = function(selector, serialized, sheet, shouldCache) {
                     currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);

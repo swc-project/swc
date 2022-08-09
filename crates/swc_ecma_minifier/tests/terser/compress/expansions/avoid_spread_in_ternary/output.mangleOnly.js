@@ -1,16 +1,16 @@
-function a(...a) {
-    console.log(...a);
+function e(...e) {
+    console.log(...e);
 }
-var b = [
+var f = [
     1,
     2
-], c = [
+], i = [
     3,
     4
-], d = Math;
-if (d) a(b);
-else a(c);
-if (d) a(...b);
-else a(c);
-if (d.no_such_property) a(b);
-else a(...c);
+], l = Math;
+if (l) e(f);
+else e(i);
+if (l) e(...f);
+else e(i);
+if (l.no_such_property) e(f);
+else e(...i);

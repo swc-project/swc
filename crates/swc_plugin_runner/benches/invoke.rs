@@ -10,8 +10,12 @@ use std::{
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use once_cell::sync::Lazy;
 use swc_common::{
-    plugin::{PluginSerializedBytes, VersionedSerializable},
-    FileName, FilePathMapping, SourceMap,
+    collections::AHashMap,
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginSerializedBytes, VersionedSerializable},
+    },
+    FileName, FilePathMapping, Mark, SourceMap,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
@@ -70,22 +74,23 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 .join("swc_internal_plugin.wasm"),
             &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
             &cm,
+            &Arc::new(TransformPluginMetadataContext::new(
+                None,
+                "development".to_string(),
+                None,
+            )),
+            None,
         )
         .unwrap();
 
+        let experimental_metadata: AHashMap<String, String> = AHashMap::default();
+        let experimental_metadata = PluginSerializedBytes::try_serialize(
+            &VersionedSerializable::new(experimental_metadata),
+        )
+        .expect("Should be a hashmap");
+
         let res = transform_plugin_executor
-            .transform(
-                &program_ser,
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from(
-                    "{}",
-                )))
-                .unwrap(),
-                &PluginSerializedBytes::try_serialize(&VersionedSerializable::new(String::from(
-                    "{}",
-                )))
-                .unwrap(),
-                true,
-            )
+            .transform(&program_ser, Mark::new(), true)
             .unwrap();
 
         let _ = black_box(res);

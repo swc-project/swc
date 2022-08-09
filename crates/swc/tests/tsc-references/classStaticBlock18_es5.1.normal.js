@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @target: esnext, es2022, es2015, es5
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function foo() {
     var _class, __;
     return _class = function _class() {

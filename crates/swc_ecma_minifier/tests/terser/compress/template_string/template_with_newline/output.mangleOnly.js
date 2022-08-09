@@ -1,3 +1,3 @@
-function a(a) {
+function t(t) {
     return `yep,\nthis is a template string!`;
 }

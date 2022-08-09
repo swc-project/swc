@@ -1,16 +1,16 @@
 (function() {
     console.log("iife0");
 })();
-var b = (function() {
+var n = (function() {
     console.log("iife1");
-    function b() {}
-    return b;
+    function n() {}
+    return n;
 })();
 (function() {
-    var b = (function() {
+    var n = (function() {
         console.log("iife2");
-        function b() {}
-        return b;
+        function n() {}
+        return n;
     })();
 })();
 bar(), baz(), quux();

@@ -1,4 +1,4 @@
-let a = "PASS";
-let b;
-b &&= a = "FAIL";
-console.log(a);
+let l = "PASS";
+let e;
+e &&= l = "FAIL";
+console.log(l);

@@ -1,7 +1,7 @@
 use std::iter;
 
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// Extension methods for [Expr].
@@ -323,6 +323,24 @@ impl IntoIndirectCall for Callee {
             exprs: vec![0f64.into(), self.expect_expr()],
         }
         .as_callee()
+    }
+}
+
+impl IntoIndirectCall for TaggedTpl {
+    type Item = TaggedTpl;
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_indirect(mut self) -> Self {
+        Self {
+            tag: Box::new(
+                SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![0f64.into(), self.tag.take()],
+                }
+                .into(),
+            ),
+            ..self
+        }
     }
 }
 

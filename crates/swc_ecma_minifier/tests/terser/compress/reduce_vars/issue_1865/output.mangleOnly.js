@@ -1,10 +1,10 @@
-function a(a) {
-    a.thing = false;
+function n(n) {
+    n.thing = false;
 }
 console.log((function() {
-    var b = {
+    var t = {
         thing: true
     };
-    a(b);
-    return b.thing;
+    n(t);
+    return t.thing;
 })());

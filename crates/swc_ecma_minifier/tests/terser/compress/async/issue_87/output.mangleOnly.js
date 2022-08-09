@@ -1,7 +1,7 @@
-function a(a) {
-    console.log(a[0], a.prop);
+function o(o) {
+    console.log(o[0], o.prop);
 }
-a({
+o({
     0: 1,
     prop: 2
 });

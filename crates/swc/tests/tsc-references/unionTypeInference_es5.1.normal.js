@@ -1,3 +1,5 @@
+// @strict: true
+// @target: esnext
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var a1 = f1(1, 2); // 1 | 2
@@ -106,6 +108,4 @@ function _fun() {
     return _fun.apply(this, arguments);
 }
 baz(xx);
-// @strict: true
-// @target: esnext
 export { };

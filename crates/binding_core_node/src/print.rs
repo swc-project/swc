@@ -4,11 +4,13 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
 };
-use swc::{
-    config::{Options, SourceMapsConfig},
-    Compiler, TransformOutput,
+use swc_core::{
+    ast::{EsVersion, Program},
+    base::{
+        config::{Options, SourceMapsConfig},
+        Compiler, TransformOutput,
+    },
 };
-use swc_ecma_ast::{EsVersion, Program};
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::get_compiler;

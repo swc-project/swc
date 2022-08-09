@@ -1,6 +1,6 @@
 export const E = {
-    test: function(a) {
-        var b = a.config.doc, c = !a.config.defaultGraphicEngine || a.config.defaultGraphicEngine != "canvas", d = b && b.createElement("canvas"), e = b && b.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
-        return e && (c || !d);
+    test: function(e) {
+        var n = e.config.doc, t = !e.config.defaultGraphicEngine || e.config.defaultGraphicEngine != "canvas", i = n && n.createElement("canvas"), a = n && n.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+        return a && (t || !i);
     }
 };

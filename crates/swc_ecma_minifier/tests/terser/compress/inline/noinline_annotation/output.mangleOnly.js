@@ -1,5 +1,5 @@
-function a() {
+function n() {
     return 123;
 }
-a();
-a();
+n();
+n();

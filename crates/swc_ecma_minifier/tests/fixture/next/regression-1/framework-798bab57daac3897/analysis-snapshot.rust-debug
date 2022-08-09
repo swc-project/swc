@@ -1560,7 +1560,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -3268,7 +3268,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -3308,7 +3308,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -3348,7 +3348,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -5644,7 +5644,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -5684,7 +5684,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -5724,7 +5724,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -7006,7 +7006,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -11632,7 +11632,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -12172,7 +12172,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -18316,7 +18316,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -22812,7 +22812,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -29862,7 +29862,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -31272,7 +31272,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -31312,7 +31312,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -31390,7 +31390,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -32304,7 +32304,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -35138,7 +35138,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -35376,7 +35376,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -36216,7 +36216,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -36256,7 +36256,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -36564,7 +36564,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -36644,7 +36644,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -37144,7 +37144,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -37488,7 +37488,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -37684,7 +37684,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -37994,7 +37994,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -38496,7 +38496,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -38726,7 +38726,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -39108,7 +39108,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -39418,7 +39418,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -40374,7 +40374,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -40492,7 +40492,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -45024,7 +45024,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 32,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -45064,7 +45064,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -45104,7 +45104,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 19,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -45800,7 +45800,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -46796,7 +46796,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -46836,7 +46836,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -46952,7 +46952,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -46992,7 +46992,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -47032,7 +47032,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -47224,7 +47224,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -47454,7 +47454,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -47572,7 +47572,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -47650,7 +47650,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -48268,7 +48268,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -49618,7 +49618,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -49736,7 +49736,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -50128,7 +50128,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -50832,7 +50832,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -50872,7 +50872,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -51142,7 +51142,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -51298,7 +51298,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -52002,7 +52002,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -52042,7 +52042,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 10,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -52236,7 +52236,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -52972,7 +52972,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -53012,7 +53012,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -53548,7 +53548,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -53588,7 +53588,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -53900,7 +53900,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -54636,7 +54636,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -56020,7 +56020,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -56060,7 +56060,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -56252,7 +56252,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -56372,7 +56372,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -56528,7 +56528,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -56568,7 +56568,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -56846,7 +56846,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -56886,7 +56886,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -57046,7 +57046,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 9,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -57126,7 +57126,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 9,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -57242,7 +57242,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -57974,7 +57974,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -58090,7 +58090,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -58130,7 +58130,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -58246,7 +58246,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -58286,7 +58286,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -58676,7 +58676,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -58796,7 +58796,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -58836,7 +58836,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -59070,7 +59070,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -59962,7 +59962,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -60082,7 +60082,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -60238,7 +60238,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -60278,7 +60278,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -60472,7 +60472,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 13,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -60592,7 +60592,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -60708,7 +60708,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -61056,7 +61056,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -61294,7 +61294,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -61648,7 +61648,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -61768,7 +61768,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -61808,7 +61808,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -61848,7 +61848,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -61966,7 +61966,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -62358,7 +62358,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -62476,7 +62476,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -62744,7 +62744,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -63446,7 +63446,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -63566,7 +63566,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -63606,7 +63606,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -63880,7 +63880,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -64732,7 +64732,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 10,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -64812,7 +64812,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -64972,7 +64972,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65012,7 +65012,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65172,7 +65172,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65212,7 +65212,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65332,7 +65332,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 38,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65372,7 +65372,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65412,7 +65412,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65452,7 +65452,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65572,7 +65572,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -65770,7 +65770,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -66388,7 +66388,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -66428,7 +66428,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -66586,7 +66586,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -66626,7 +66626,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -66666,7 +66666,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -66864,7 +66864,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -67532,7 +67532,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -67572,7 +67572,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -67690,7 +67690,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -67844,7 +67844,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 13,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -67884,7 +67884,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -67964,7 +67964,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68004,7 +68004,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68200,7 +68200,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68240,7 +68240,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68318,7 +68318,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68358,7 +68358,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 10,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68398,7 +68398,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68556,7 +68556,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68634,7 +68634,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68674,7 +68674,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68792,7 +68792,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -68872,7 +68872,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -69190,7 +69190,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -69780,7 +69780,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -69978,7 +69978,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 32,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -70560,7 +70560,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -70600,7 +70600,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -70680,7 +70680,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -70760,7 +70760,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -70800,7 +70800,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 10,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -70840,7 +70840,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -70880,7 +70880,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -70960,7 +70960,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -71000,7 +71000,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -71040,7 +71040,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -71198,7 +71198,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -71238,7 +71238,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -71586,7 +71586,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -71706,7 +71706,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -71746,7 +71746,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -71786,7 +71786,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73094,7 +73094,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73134,7 +73134,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73288,7 +73288,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 14,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73328,7 +73328,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73408,7 +73408,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73606,7 +73606,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73646,7 +73646,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73724,7 +73724,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73764,7 +73764,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73844,7 +73844,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -73964,7 +73964,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 10,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -74282,7 +74282,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -74438,7 +74438,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -74714,7 +74714,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -74872,7 +74872,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 21,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75032,7 +75032,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75390,7 +75390,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75430,7 +75430,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75470,7 +75470,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75510,7 +75510,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75590,7 +75590,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75630,7 +75630,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75670,7 +75670,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75710,7 +75710,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75790,7 +75790,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75830,7 +75830,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75870,7 +75870,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 9,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75910,7 +75910,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 9,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -75950,7 +75950,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 15,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -76184,7 +76184,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -76382,7 +76382,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77002,7 +77002,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 12,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77156,7 +77156,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77196,7 +77196,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77236,7 +77236,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77276,7 +77276,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77354,7 +77354,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77434,7 +77434,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 13,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77554,7 +77554,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77672,7 +77672,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77866,7 +77866,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77906,7 +77906,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -77946,7 +77946,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78066,7 +78066,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78266,7 +78266,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78306,7 +78306,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78346,7 +78346,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78426,7 +78426,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78466,7 +78466,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78506,7 +78506,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78546,7 +78546,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78586,7 +78586,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78664,7 +78664,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78704,7 +78704,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -78744,7 +78744,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -79020,7 +79020,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -79488,7 +79488,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -79756,7 +79756,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 14,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -79910,7 +79910,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 11,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -79950,7 +79950,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -79990,7 +79990,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80070,7 +80070,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80110,7 +80110,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 33,
-                cond_init: false,
+                cond_init: true,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80150,7 +80150,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80382,7 +80382,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80422,7 +80422,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80582,7 +80582,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80702,7 +80702,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80818,7 +80818,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80898,7 +80898,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80938,7 +80938,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -80978,7 +80978,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -81018,7 +81018,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -81096,7 +81096,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 22,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -81136,7 +81136,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -81216,7 +81216,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -81332,7 +81332,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -81372,7 +81372,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -81804,7 +81804,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -82768,7 +82768,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83042,7 +83042,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83196,7 +83196,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83356,7 +83356,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83550,7 +83550,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83590,7 +83590,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 10,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83668,7 +83668,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 22,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83708,7 +83708,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 14,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83788,7 +83788,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83828,7 +83828,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83946,7 +83946,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -83986,7 +83986,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -84216,7 +84216,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 14,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -84256,7 +84256,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -84296,7 +84296,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 14,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -85388,7 +85388,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -85626,7 +85626,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 14,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -85666,7 +85666,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 29,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -85744,7 +85744,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -85862,7 +85862,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -85902,7 +85902,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -85942,7 +85942,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -85982,7 +85982,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -86022,7 +86022,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -86062,7 +86062,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -86690,7 +86690,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 10,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -86848,7 +86848,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -87270,7 +87270,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -87310,7 +87310,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -87390,7 +87390,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -87430,7 +87430,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -87510,7 +87510,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -87550,7 +87550,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -88402,7 +88402,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -88482,7 +88482,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -88562,7 +88562,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -88602,7 +88602,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -88642,7 +88642,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 9,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -88682,7 +88682,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -88722,7 +88722,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 7,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -89846,7 +89846,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -90468,7 +90468,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 18,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -90586,7 +90586,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -90704,7 +90704,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -90744,7 +90744,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -90784,7 +90784,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -91524,7 +91524,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -91564,7 +91564,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -91604,7 +91604,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -93388,7 +93388,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 9,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -93466,7 +93466,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -93546,7 +93546,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 14,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -93626,7 +93626,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -93666,7 +93666,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -93706,7 +93706,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -94250,7 +94250,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -94330,7 +94330,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -94410,7 +94410,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -94450,7 +94450,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -94490,7 +94490,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -95080,7 +95080,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -95158,7 +95158,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 6,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -95198,7 +95198,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -95238,7 +95238,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -95278,7 +95278,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -95318,7 +95318,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96026,7 +96026,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96066,7 +96066,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 1,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96106,7 +96106,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96146,7 +96146,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96384,7 +96384,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96656,7 +96656,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 8,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96734,7 +96734,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 3,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96854,7 +96854,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -96894,7 +96894,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -97170,7 +97170,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 2,
-                cond_init: true,
+                cond_init: false,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,

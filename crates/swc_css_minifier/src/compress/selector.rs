@@ -1,4 +1,4 @@
-use swc_common::DUMMY_SP;
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -15,6 +15,24 @@ struct CompressSelector {
 impl CompressSelector {}
 
 impl VisitMut for CompressSelector {
+    fn visit_mut_selector_list(&mut self, selector_list: &mut SelectorList) {
+        selector_list.visit_mut_children_with(self);
+
+        let mut already_seen: Vec<ComplexSelector> = vec![];
+
+        selector_list.children.retain(|children| {
+            for already_seen_complex_selector in &already_seen {
+                if already_seen_complex_selector.eq_ignore_span(children) {
+                    return false;
+                }
+            }
+
+            already_seen.push(children.clone());
+
+            true
+        });
+    }
+
     fn visit_mut_an_plus_b(&mut self, an_plus_b: &mut AnPlusB) {
         an_plus_b.visit_mut_children_with(self);
 
@@ -29,7 +47,7 @@ impl VisitMut for CompressSelector {
                 *an_plus_b = AnPlusB::Ident(Ident {
                     span: *span,
                     value: "odd".into(),
-                    raw: "odd".into(),
+                    raw: None,
                 });
             }
             // `2n-0`, `2n-2`, `2n-4`, etc => `2n`
@@ -128,7 +146,7 @@ impl VisitMut for CompressSelector {
                             name: Ident {
                                 span: DUMMY_SP,
                                 value: "first-child".into(),
-                                raw: "first-child".into(),
+                                raw: None,
                             },
                             children: None,
                         })
@@ -155,7 +173,7 @@ impl VisitMut for CompressSelector {
                             name: Ident {
                                 span: DUMMY_SP,
                                 value: "last-child".into(),
-                                raw: "last-child".into(),
+                                raw: None,
                             },
                             children: None,
                         })
@@ -182,7 +200,7 @@ impl VisitMut for CompressSelector {
                             name: Ident {
                                 span: DUMMY_SP,
                                 value: "first-of-type".into(),
-                                raw: "first-of-type".into(),
+                                raw: None,
                             },
                             children: None,
                         })
@@ -209,7 +227,7 @@ impl VisitMut for CompressSelector {
                             name: Ident {
                                 span: DUMMY_SP,
                                 value: "last-of-type".into(),
-                                raw: "last-of-type".into(),
+                                raw: None,
                             },
                             children: None,
                         })
@@ -297,7 +315,7 @@ impl VisitMut for CompressSelector {
             attribute_selector.value = Some(AttributeSelectorValue::Ident(Ident {
                 span: *span,
                 value: value.clone(),
-                raw: value.clone(),
+                raw: None,
             }));
         }
     }

@@ -1,7 +1,7 @@
-console.log((function(a) {
+console.log((function(n) {
     try {
-        return (null.p = a = 1);
-    } catch (b) {
-        return a ? "PASS" : "FAIL";
+        return (null.p = n = 1);
+    } catch (r) {
+        return n ? "PASS" : "FAIL";
     }
 })());

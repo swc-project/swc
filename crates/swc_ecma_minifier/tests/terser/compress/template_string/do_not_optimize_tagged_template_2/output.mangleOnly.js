@@ -1,1 +1,1 @@
-var a = tag`test` + " something out";
+var t = tag`test` + " something out";

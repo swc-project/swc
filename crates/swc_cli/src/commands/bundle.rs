@@ -1,5 +1,5 @@
 use clap::Parser;
-use swc_trace_macro::swc_trace;
+use swc_core::trace_macro::swc_trace;
 
 #[derive(Parser)]
 pub struct BundleOptions {}

@@ -1,0 +1,198 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :  ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :          ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :          ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :           ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                  ^^^^
+   `----
+
+  x Ident { value: Atom('http' type=inline), raw: Atom('http' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                  ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                      ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                       ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                        ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                         ^^^
+   `----
+
+  x Ident { value: Atom('www' type=inline), raw: Atom('www' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                         ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                            ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                             ^^^^^^^
+   `----
+
+  x Ident { value: Atom('example' type=inline), raw: Atom('example' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                             ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                    ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                     ^^^
+   `----
+
+  x Ident { value: Atom('com' type=inline), raw: Atom('com' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                     ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                        ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                          ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                          ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
+ 1 | @document domain(http://www.example.com/) {}
+   :                                           ^^
+   `----

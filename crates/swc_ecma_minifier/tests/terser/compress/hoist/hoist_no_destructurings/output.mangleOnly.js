@@ -1,5 +1,5 @@
 function a([a]) {
     bar();
-    var b;
+    var n;
     var a;
 }

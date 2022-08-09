@@ -1,7 +1,5 @@
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-import { Foo as A } from "./a";
-import { Foo as B } from "./b";
 var _x = new WeakMap();
 export class Foo {
     copy(other) {
@@ -14,14 +12,17 @@ export class Foo {
         });
     }
 }
-var _x1 = new WeakMap();
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+var _x = new WeakMap();
 export class Foo {
     constructor(){
-        _class_private_field_init(this, _x1, {
+        _class_private_field_init(this, _x, {
             writable: !0,
             value: void 0
         });
     }
 }
+import { Foo as A } from "./a";
+import { Foo as B } from "./b";
 let a = new A(), b = new B();
 a.copy(b);

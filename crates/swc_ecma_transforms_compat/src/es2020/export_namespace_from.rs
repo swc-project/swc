@@ -1,6 +1,6 @@
-use swc_common::DUMMY_SP;
+use swc_atoms::JsWord;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{IdentExt, IsDirective};
+use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 use swc_trace_macro::swc_trace;
 
@@ -16,82 +16,108 @@ impl VisitMut for ExportNamespaceFrom {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let mut items_updated = Vec::with_capacity(items.len() + 4);
-        // Statements except imports
-        let mut extra_stmts = Vec::with_capacity(items.len() + 4);
+        let count = items
+            .iter()
+            .filter(|m| {
+                matches!(m, ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                        specifiers,
+                        src: Some(..),
+                        type_only: false,
+                        ..
+                    })) if specifiers.iter().any(|s| s.is_namespace()))
+            })
+            .count();
+
+        if count == 0 {
+            return;
+        }
+
+        let mut stmts = Vec::<ModuleItem>::with_capacity(items.len() + count);
+
         for item in items.drain(..) {
             match item {
-                ModuleItem::Stmt(ref s) if s.is_use_strict() => items_updated.push(item),
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
-                    // Skip if it does not have namespace export
-                    if export.specifiers.iter().all(|s| {
-                        matches!(
-                            *s,
-                            ExportSpecifier::Named(..) | ExportSpecifier::Default(..)
-                        )
-                    }) {
-                        extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
-                        continue;
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    span,
+                    specifiers,
+                    src: Some(src),
+                    type_only: false,
+                    asserts,
+                })) if specifiers.iter().any(|s| s.is_namespace()) => {
+                    let mut origin_specifiers = vec![];
+
+                    let mut import_specifiers = vec![];
+                    let mut export_specifiers = vec![];
+
+                    for s in specifiers.into_iter() {
+                        match s {
+                            ExportSpecifier::Namespace(ExportNamespaceSpecifier { span, name }) => {
+                                let local_bridge =
+                                    private_ident!(format!("_{}", normalize_name(&name)));
+
+                                import_specifiers.push(ImportSpecifier::Namespace(
+                                    ImportStarAsSpecifier {
+                                        span,
+                                        local: local_bridge.clone(),
+                                    },
+                                ));
+                                export_specifiers.push(ExportSpecifier::Named(
+                                    ExportNamedSpecifier {
+                                        span,
+                                        orig: local_bridge.into(),
+                                        exported: Some(name),
+                                        is_type_only: false,
+                                    },
+                                ))
+                            }
+                            ExportSpecifier::Default(..) | ExportSpecifier::Named(..) => {
+                                origin_specifiers.push(s);
+                            }
+                        }
                     }
 
-                    match export.specifiers.remove(0) {
-                        ExportSpecifier::Namespace(ns) => {
-                            let name = match ns.name {
-                                ModuleExportName::Ident(name) => name,
-                                ModuleExportName::Str(..) => {
-                                    unimplemented!("module string names unimplemented")
-                                }
-                            };
-                            let local = name.prefix("_").private();
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                        span,
+                        specifiers: import_specifiers,
+                        src: src.clone(),
+                        type_only: false,
+                        asserts: asserts.clone(),
+                    })));
 
-                            items_updated.push(ModuleItem::ModuleDecl(ModuleDecl::Import(
-                                ImportDecl {
-                                    span: DUMMY_SP,
-                                    specifiers: vec![ImportSpecifier::Namespace(
-                                        ImportStarAsSpecifier {
-                                            span: DUMMY_SP,
-                                            local: local.clone(),
-                                        },
-                                    )],
-                                    src: export
-                                        .src
-                                        .clone()
-                                        .expect("`export default from` requires source"),
-                                    type_only: false,
-                                    asserts: None,
-                                },
-                            )));
-                            extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                                NamedExport {
-                                    span: DUMMY_SP,
-                                    specifiers: vec![ExportSpecifier::Named(
-                                        ExportNamedSpecifier {
-                                            span: DUMMY_SP,
-                                            orig: ModuleExportName::Ident(local),
-                                            exported: Some(ModuleExportName::Ident(name)),
-                                            is_type_only: false,
-                                        },
-                                    )],
-                                    src: None,
-                                    type_only: false,
-                                    asserts: None,
-                                },
-                            )));
-                        }
-                        _ => unreachable!(),
-                    };
-                    if !export.specifiers.is_empty() {
-                        extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        NamedExport {
+                            span,
+                            specifiers: export_specifiers,
+                            src: None,
+                            type_only: false,
+                            asserts: None,
+                        },
+                    )));
+
+                    if !origin_specifiers.is_empty() {
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span,
+                                specifiers: origin_specifiers,
+                                src: Some(src),
+                                type_only: false,
+                                asserts,
+                            },
+                        )));
                     }
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => items_updated.push(item),
-                _ => extra_stmts.push(item),
+                _ => {
+                    stmts.push(item);
+                }
             }
         }
 
-        items_updated.append(&mut extra_stmts);
-        items_updated.shrink_to_fit();
+        *items = stmts;
+    }
+}
 
-        *items = items_updated;
+fn normalize_name(module_export_name: &ModuleExportName) -> &JsWord {
+    match module_export_name {
+        ModuleExportName::Ident(Ident { sym: name, .. })
+        | ModuleExportName::Str(Str { value: name, .. }) => name,
     }
 }

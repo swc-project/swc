@@ -8,7 +8,9 @@ export var M1;
     };
     M1.C1 = C1;
 }(M1 || (M1 = {}));
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var foo1 = require("./foo1");
+export var M1;
 !function(M11) {
     var C1 = function() {
         "use strict";

@@ -2,7 +2,7 @@ use std::{env, sync::Arc};
 
 use anyhow::{Context, Error};
 use parking_lot::Mutex;
-use swc_common::SourceMap;
+use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
 use wasmer::{ChainableNamedResolver, Instance};
 use wasmer_wasi::{is_wasi_module, WasiState};
 
@@ -13,13 +13,21 @@ pub fn load_plugin(
     plugin_path: &std::path::Path,
     cache: &once_cell::sync::Lazy<crate::cache::PluginModuleCache>,
     source_map: &Arc<SourceMap>,
+    metadata_context: &Arc<TransformPluginMetadataContext>,
+    plugin_config: Option<serde_json::Value>,
 ) -> Result<(Instance, Arc<Mutex<Vec<u8>>>), Error> {
     let module = cache.load_module(plugin_path);
 
     return match module {
         Ok(module) => {
             let transform_result: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(vec![]));
-            let import_object = build_import_object(&module, &transform_result, source_map.clone());
+            let import_object = build_import_object(
+                &module,
+                &transform_result,
+                source_map.clone(),
+                metadata_context.clone(),
+                plugin_config,
+            );
 
             // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown.
             // Wasi specific env need to be initialized if given module targets wasm32-wasi.

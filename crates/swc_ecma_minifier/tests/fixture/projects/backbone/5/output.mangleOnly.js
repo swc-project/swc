@@ -1,15 +1,15 @@
-var a = {
-    on: function(a, b, c) {
-        if (!eventsApi(this, "on", a, [
-            b,
-            c
-        ]) || !b) return this;
+var t = {
+    on: function(t, s, e) {
+        if (!eventsApi(this, "on", t, [
+            s,
+            e
+        ]) || !s) return this;
         this._events || (this._events = {});
-        var d = this._events[a] || (this._events[a] = []);
-        d.push({
-            callback: b,
-            context: c,
-            ctx: c || this
+        var i = this._events[t] || (this._events[t] = []);
+        i.push({
+            callback: s,
+            context: e,
+            ctx: e || this
         });
         return this;
     }

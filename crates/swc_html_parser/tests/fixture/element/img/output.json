@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -154,7 +155,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "w3schools.jpg"
+                  "rawName": "src",
+                  "value": "w3schools.jpg",
+                  "rawValue": "\"w3schools.jpg\""
                 },
                 {
                   "type": "Attribute",
@@ -166,7 +169,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "alt",
-                  "value": "W3Schools.com"
+                  "rawName": "alt",
+                  "value": "W3Schools.com",
+                  "rawValue": "\"W3Schools.com\""
                 },
                 {
                   "type": "Attribute",
@@ -178,7 +183,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "104"
+                  "rawName": "width",
+                  "value": "104",
+                  "rawValue": "\"104\""
                 },
                 {
                   "type": "Attribute",
@@ -190,7 +197,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "142"
+                  "rawName": "height",
+                  "value": "142",
+                  "rawValue": "\"142\""
                 }
               ],
               "children": [],

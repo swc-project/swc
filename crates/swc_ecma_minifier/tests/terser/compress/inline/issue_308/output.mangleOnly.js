@@ -1,14 +1,14 @@
-exports.withStyles = b;
-function a(a) {
-    if (typeof a !== "function") {
-        throw new TypeError("Super expression must be a function, not " + typeof a);
+exports.withStyles = n;
+function t(t) {
+    if (typeof t !== "function") {
+        throw new TypeError("Super expression must be a function, not " + typeof t);
     }
-    Object.create(a);
+    Object.create(t);
 }
-function b() {
-    var b = EXTERNAL();
-    return (function(b) {
-        a(b);
-        function c() {}
-    })(b);
+function n() {
+    var n = EXTERNAL();
+    return (function(n) {
+        t(n);
+        function e() {}
+    })(n);
 }

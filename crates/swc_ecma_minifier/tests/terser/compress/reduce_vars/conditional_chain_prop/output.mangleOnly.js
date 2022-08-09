@@ -1,4 +1,4 @@
 global.a = null;
-let b = "PASS";
-a?.b[(b = "FAIL")];
-console.log(b);
+let l = "PASS";
+a?.b[(l = "FAIL")];
+console.log(l);

@@ -156,9 +156,6 @@ impl VisitMut for AddAttr {
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
 /// enum.
-///
-///
-/// TODO: Delete works related to serde to `#[ast_serde]`.
 #[proc_macro_attribute]
 pub fn ast_node(
     args: proc_macro::TokenStream,
@@ -212,10 +209,6 @@ pub fn ast_node(
                 #[cfg_attr(
                     feature = "rkyv",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-                )]
-                #[cfg_attr(
-                    feature = "rkyv",
-                    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
                 )]
                 #[cfg_attr(
                     feature = "rkyv",
@@ -278,10 +271,6 @@ pub fn ast_node(
                                 deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
                             )
                         )
-                    )]
-                    #[cfg_attr(
-                        feature = "rkyv",
-                        archive_attr(repr(C), derive(bytecheck::CheckBytes))
                     )]
                     serde_tag
                     #[serde(rename_all = "camelCase")]

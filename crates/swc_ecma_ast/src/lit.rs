@@ -6,7 +6,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
@@ -54,6 +54,7 @@ bridge_expr_from!(Lit, JSXText);
 
 bridge_lit_from!(Str, &'_ str);
 bridge_lit_from!(Str, JsWord);
+bridge_lit_from!(Str, Atom);
 bridge_lit_from!(Str, Cow<'_, str>);
 bridge_lit_from!(Str, String);
 bridge_lit_from!(Bool, bool);
@@ -70,8 +71,7 @@ pub struct BigInt {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for BigInt {
@@ -164,8 +164,7 @@ pub struct Str {
 
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl Take for Str {
@@ -209,6 +208,17 @@ impl From<JsWord> for Str {
         Str {
             span: DUMMY_SP,
             value,
+            raw: None,
+        }
+    }
+}
+
+impl From<Atom> for Str {
+    #[inline]
+    fn from(value: Atom) -> Self {
+        Str {
+            span: DUMMY_SP,
+            value: JsWord::from(&*value),
             raw: None,
         }
     }
@@ -273,12 +283,10 @@ pub struct Regex {
     pub span: Span,
 
     #[serde(rename = "pattern")]
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub exp: JsWord,
+    pub exp: Atom,
 
     #[serde(default)]
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub flags: JsWord,
+    pub flags: Atom,
 }
 
 impl Take for Regex {
@@ -324,8 +332,7 @@ pub struct Number {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in number literal
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl Eq for Number {}

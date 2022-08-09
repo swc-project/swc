@@ -1,0 +1,12 @@
+@-webkit-keyframes anim {}
+@keyframes anim {}
+@-webkit-keyframes anim {
+  0% {
+    color: red;
+  }
+}
+@keyframes anim {
+  0% {
+    color: red;
+  }
+}

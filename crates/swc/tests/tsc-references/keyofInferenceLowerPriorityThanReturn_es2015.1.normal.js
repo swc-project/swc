@@ -1,3 +1,4 @@
+// #22736
 const bookTable = null;
 function insertOnConflictDoNothing(_table, _conflictTarget) {
     throw new Error();

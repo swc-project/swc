@@ -1,7 +1,7 @@
 var a = 0;
-var b = {
+var r = {
     a: 1,
     b: 2
 };
-for(var c in b)a++;
-console.log(a, b.a);
+for(var v in r)a++;
+console.log(a, r.a);

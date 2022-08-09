@@ -27,8 +27,7 @@ test!(
     default_es6,
     r#"export foo from "bar";"#,
     r#"
-import _foo from "bar";
-export { _foo as foo };
+export { default as foo } from "bar";
 "#
 );
 
@@ -37,15 +36,11 @@ test!(
     |_| tr(),
     default_compounded_es6,
     r#"export v, { x, y as w } from "mod";"#,
-    r#"
-import _v from "mod";
-export { _v as v };
-export { x, y as w } from "mod";
-"#
+    r#"export { default as v, x, y as w } from "mod";"#
 );
 
 test!(
-    syntax_namespace(),
+    syntax_default(),
     |_| tr(),
     namespace_compound_es6,
     r"export * as foo, { bar } from 'bar';",

@@ -1,3 +1,6 @@
+// @target: es2018
+// @lib: es5
+// @noEmit: true
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
@@ -7,10 +10,7 @@ function f1() {
     return _f1.apply(this, arguments);
 }
 function _f1() {
-    _f1 = // @target: es2018
-    // @lib: es5
-    // @noEmit: true
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _f1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, _iteratorAbruptCompletion1, _didIteratorError1, _iteratorError1, _iterator1, _step1, _value1;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

@@ -1,3 +1,6 @@
+// @strictNullChecks: true
+// @noimplicitany: true
+// @declaration: true
 function box(x) {
     return {
         value: x

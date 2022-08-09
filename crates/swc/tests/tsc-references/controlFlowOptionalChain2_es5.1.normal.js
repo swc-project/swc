@@ -1,3 +1,4 @@
+// @strictNullChecks: true
 function funcTwo(arg) {
     if ((arg === null || arg === void 0 ? void 0 : arg.type) === "B") {
         arg; // `B`

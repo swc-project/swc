@@ -1,0 +1,28 @@
+.class {
+  transform: rotate(30deg);
+}
+a {
+  transition: -webkit-transform 1s;
+  transition: -moz-transform 1s;
+  transition: -o-transform 1s;
+  transition: transform 1s;
+  transform: rotateX(45deg);
+}
+b {
+  transform: translateX(45deg);
+  transform-origin: 0 0;
+}
+em {
+  transform: rotateZ(45deg);
+}
+@keyframes anim {
+  from {
+    transform: rotate(90deg);
+  }
+}
+.class {
+  transform-style: flat;
+}
+.class {
+  transform: perspective(500px) rotateY(3deg);
+}

@@ -1,3 +1,3 @@
 var a = {};
-var b = [];
-var c = {};
+var r = [];
+var v = {};

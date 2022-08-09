@@ -1,6 +1,6 @@
-function a() {}
+function t() {}
 try {
     throw 42;
-} catch (b) {
-    console.log(b);
+} catch (c) {
+    console.log(c);
 }

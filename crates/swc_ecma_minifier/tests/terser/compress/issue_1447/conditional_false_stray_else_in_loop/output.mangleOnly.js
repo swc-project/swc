@@ -1,4 +1,4 @@
-for(var a = 1; a <= 4; ++a){
-    if (a <= 2) continue;
-    console.log(a);
+for(var o = 1; o <= 4; ++o){
+    if (o <= 2) continue;
+    console.log(o);
 }

@@ -1,8 +1,8 @@
-var a = 2, b = "PASS";
-while(a--)(function() {
-    return a ? (b = "FAIL") : (a = 1);
-    try {} catch (a) {
-        var a;
+var r = 2, t = "PASS";
+while(r--)(function() {
+    return r ? (t = "FAIL") : (r = 1);
+    try {} catch (r) {
+        var r;
     }
 })();
-console.log(b);
+console.log(t);

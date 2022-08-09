@@ -1,6 +1,6 @@
-var a;
+var l;
 console.log((function() {
     this.p++;
-}.call((a = {
+}.call((l = {
     p: 6
-})), a.p));
+})), l.p));

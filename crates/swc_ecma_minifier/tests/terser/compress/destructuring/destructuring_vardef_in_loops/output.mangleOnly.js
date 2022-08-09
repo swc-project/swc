@@ -1,3 +1,3 @@
-for(var [a, b] in pairs);
-for(var [c] = 0;;);
-for (var { c: d  } of cees);
+for(var [r, f] in pairs);
+for(var [o] = 0;;);
+for (var { c: a  } of cees);

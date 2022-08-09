@@ -1,3 +1,4 @@
+// @target: ES6
 function tempTag2(...rest) {
     return undefined;
 }

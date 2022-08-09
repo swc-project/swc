@@ -8,62 +8,20 @@ use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::SingleThreadedComments,
     sync::Lrc,
     FileName, FilePathMapping, Mark, SourceMap,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
+use swc_html_utils::{HTML_ELEMENTS_AND_ATTRIBUTES, SVG_ELEMENTS_AND_ATTRIBUTES};
 use swc_html_visit::{VisitMut, VisitMutWith};
 
-use crate::option::{CollapseWhitespaces, MinifierType, MinifyOptions};
+use crate::option::{
+    CollapseWhitespaces, CssOptions, JsOptions, JsParserOptions, JsonOptions, MinifierType,
+    MinifyCssOption, MinifyJsOption, MinifyJsonOption, MinifyOptions,
+};
 pub mod option;
-
-static HTML_BOOLEAN_ATTRIBUTES: &[&str] = &[
-    "allowfullscreen",
-    "async",
-    "autofocus",
-    "autoplay",
-    "checked",
-    "controls",
-    "default",
-    "defer",
-    "disabled",
-    "formnovalidate",
-    "hidden",
-    "inert",
-    "ismap",
-    "itemscope",
-    "loop",
-    "multiple",
-    "muted",
-    "nomodule",
-    "novalidate",
-    "open",
-    "playsinline",
-    "readonly",
-    "required",
-    "reversed",
-    "selected",
-    // Legacy
-    "declare",
-    "defaultchecked",
-    "defaultmuted",
-    "defaultselected",
-    "enabled",
-    "compact",
-    "indeterminate",
-    "sortable",
-    "nohref",
-    "noresize",
-    "noshade",
-    "truespeed",
-    "typemustmatch",
-    "nowrap",
-    "visible",
-    "pauseonexit",
-    "scoped",
-    "seamless",
-];
 
 // Global attributes
 static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
@@ -86,6 +44,7 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "ondrag",
     "ondragend",
     "ondragenter",
+    "ondragexit",
     "ondragleave",
     "ondragover",
     "ondragstart",
@@ -162,6 +121,9 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onvisibilitychange",
     "onshow",
     "onsort",
+    "onbegin",
+    "onend",
+    "onrepeat",
 ];
 
 static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["style", "tabindex", "itemid"];
@@ -221,7 +183,11 @@ static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "media"),
 ];
 
-static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[("style", "media")];
+static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("style", "media"),
+    ("polyline", "points"),
+    ("polygon", "points"),
+];
 
 static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
     "class",
@@ -252,6 +218,64 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("input", "autocomplete"),
     ("form", "rel"),
     ("form", "autocomplete"),
+];
+
+static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("svg", "preserveAspectRatio"),
+    ("svg", "viewBox"),
+    ("symbol", "preserveAspectRatio"),
+    ("symbol", "viewBox"),
+    ("image", "preserveAspectRatio"),
+    ("feImage", "preserveAspectRatio"),
+    ("marker", "preserveAspectRatio"),
+    ("pattern", "preserveAspectRatio"),
+    ("pattern", "viewBox"),
+    ("pattern", "patternTransform"),
+    ("view", "preserveAspectRatio"),
+    ("view", "viewBox"),
+    ("path", "d"),
+    // TODO improve me more
+    ("textPath", "path"),
+    ("animateMotion", "path"),
+    ("glyph", "d"),
+    ("missing-glyph", "d"),
+    ("feColorMatrix", "values"),
+    ("feConvolveMatrix", "kernelMatrix"),
+    ("text", "rotate"),
+    ("tspan", "rotate"),
+    ("feFuncA", "tableValues"),
+    ("feFuncB", "tableValues"),
+    ("feFuncG", "tableValues"),
+    ("feFuncR", "tableValues"),
+    ("linearGradient", "gradientTransform"),
+    ("radialGradient", "gradientTransform"),
+    ("font-face", "panose-1"),
+];
+
+static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("animate", "keyTimes"),
+    ("animate", "keySplines"),
+    ("animate", "values"),
+    ("animate", "begin"),
+    ("animate", "end"),
+    ("animateColor", "keyTimes"),
+    ("animateColor", "keySplines"),
+    ("animateColor", "values"),
+    ("animateColor", "begin"),
+    ("animateColor", "end"),
+    ("animateMotion", "keyTimes"),
+    ("animateMotion", "keySplines"),
+    ("animateMotion", "values"),
+    ("animateMotion", "values"),
+    ("animateMotion", "end"),
+    ("animateTransform", "keyTimes"),
+    ("animateTransform", "keySplines"),
+    ("animateTransform", "values"),
+    ("animateTransform", "begin"),
+    ("animateTransform", "end"),
+    ("discard", "begin"),
+    ("set", "begin"),
+    ("set", "end"),
 ];
 
 enum CssMinificationMode {
@@ -315,31 +339,12 @@ pub static CONDITIONAL_COMMENT_START: Lazy<CachedRegex> =
 pub static CONDITIONAL_COMMENT_END: Lazy<CachedRegex> =
     Lazy::new(|| CachedRegex::new("\\[endif]").unwrap());
 
-struct Minifier {
+struct Minifier<'a> {
+    options: &'a MinifyOptions,
+
     current_element: Option<Element>,
     latest_element: Option<Child>,
-
     descendant_of_pre: bool,
-
-    force_set_html5_doctype: bool,
-    collapse_whitespaces: CollapseWhitespaces,
-
-    remove_empty_metedata_elements: bool,
-
-    remove_comments: bool,
-    preserve_comments: Option<Vec<CachedRegex>>,
-    minify_conditional_comments: bool,
-    remove_empty_attributes: bool,
-    remove_redundant_attributes: bool,
-    collapse_boolean_attributes: bool,
-    normalize_attributes: bool,
-    minify_json: bool,
-    minify_js: bool,
-    minify_css: bool,
-    minify_additional_attributes: Option<Vec<(CachedRegex, MinifierType)>>,
-    minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
-
-    sort_space_separated_attribute_values: bool,
     attribute_name_counter: Option<AHashMap<JsWord, usize>>,
 }
 
@@ -353,13 +358,29 @@ fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
     }
 }
 
-impl Minifier {
+impl Minifier<'_> {
     fn is_event_handler_attribute(&self, name: &str) -> bool {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
     }
 
-    fn is_boolean_attribute(&self, name: &str) -> bool {
-        HTML_BOOLEAN_ATTRIBUTES.contains(&name)
+    fn is_boolean_attribute(&self, element: &Element, name: &str) -> bool {
+        if let Some(global_pseudo_element) = HTML_ELEMENTS_AND_ATTRIBUTES.get("*") {
+            if let Some(element) = global_pseudo_element.other.get(name) {
+                if element.boolean.is_some() && element.boolean.unwrap() {
+                    return true;
+                }
+            }
+        }
+
+        if let Some(element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&*element.tag_name) {
+            if let Some(element) = element.other.get(name) {
+                if element.boolean.is_some() && element.boolean.unwrap() {
+                    return true;
+                }
+            }
+        }
+
+        false
     }
 
     fn is_trimable_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
@@ -424,6 +445,25 @@ impl Minifier {
             Namespace::HTML => {
                 SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
             }
+            Namespace::SVG => {
+                match attribute_name {
+                    "transform" | "stroke-dasharray" | "clip-path" | "requiredFeatures" => {
+                        return true
+                    }
+                    _ => {}
+                }
+
+                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            _ => false,
+        }
+    }
+
+    fn is_semicolon_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+        match element.namespace {
+            Namespace::SVG => {
+                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
             _ => false,
         }
     }
@@ -460,6 +500,7 @@ impl Minifier {
                 }
                 _ => false,
             },
+            Namespace::SVG => matches!(&*element.tag_name, "a" if attribute_name == "rel"),
             _ => false,
         }
     }
@@ -482,358 +523,109 @@ impl Minifier {
         &self,
         namespace: Namespace,
         tag_name: &str,
-        attribute_name: &str,
-        attribute_value: &str,
+        attribute: &Attribute,
     ) -> bool {
-        matches!(
-            (
-                namespace,
-                tag_name,
-                attribute_name,
-                attribute_value.to_ascii_lowercase().trim()
-            ),
-            (
-                Namespace::HTML,
-                "html",
-                "xmlns",
-                "http://www.w3.org/1999/xhtml"
-            ) | (
-                Namespace::HTML,
-                "html",
-                "xmlns:xlink",
-                "http://www.w3.org/1999/xlink"
-            ) | (Namespace::HTML, "iframe", "height", "150")
-                | (Namespace::HTML, "iframe", "width", "300")
-                | (Namespace::HTML, "iframe", "frameborder", "1")
-                | (Namespace::HTML, "iframe", "loading", "eager")
-                | (Namespace::HTML, "iframe", "fetchpriority", "auto")
-                | (
-                    Namespace::HTML,
-                    "iframe",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
+        let attribute_value = attribute.value.as_ref().unwrap();
+
+        match namespace {
+            Namespace::HTML | Namespace::SVG => {
+                // Legacy attributes, not in spec
+                if tag_name == "script" {
+                    match &*attribute.name {
+                        "type" => {
+                            let value = if let Some(next) = attribute_value.split(';').next() {
+                                next
+                            } else {
+                                attribute_value
+                            };
+
+                            match value {
+                                // Legacy JavaScript MIME types
+                                "application/javascript"
+                                | "application/ecmascript"
+                                | "application/x-ecmascript"
+                                | "application/x-javascript"
+                                | "text/ecmascript"
+                                | "text/javascript1.0"
+                                | "text/javascript1.1"
+                                | "text/javascript1.2"
+                                | "text/javascript1.3"
+                                | "text/javascript1.4"
+                                | "text/javascript1.5"
+                                | "text/jscript"
+                                | "text/livescript"
+                                | "text/x-ecmascript"
+                                | "text/x-javascript" => return true,
+                                _ => {}
+                            }
+                        }
+                        "language" => match &*attribute_value.trim().to_ascii_lowercase() {
+                            "javascript" | "javascript1.2" | "javascript1.3" | "javascript1.4"
+                            | "javascript1.5" | "javascript1.6" | "javascript1.7" => return true,
+                            _ => {}
+                        },
+                        _ => {}
+                    }
+                }
+
+                let default_attributes = if namespace == Namespace::HTML {
+                    &HTML_ELEMENTS_AND_ATTRIBUTES
+                } else {
+                    &SVG_ELEMENTS_AND_ATTRIBUTES
+                };
+
+                let attribute_name = if let Some(prefix) = &attribute.prefix {
+                    let mut with_namespace =
+                        String::with_capacity(prefix.len() + 1 + attribute.name.len());
+
+                    with_namespace.push_str(prefix);
+                    with_namespace.push(':');
+                    with_namespace.push_str(&attribute.name);
+
+                    with_namespace
+                } else {
+                    attribute.name.to_string()
+                };
+                let normalized_value = attribute_value.trim();
+
+                let attributes = match default_attributes.get(tag_name) {
+                    Some(element) => element,
+                    None => return false,
+                };
+
+                let attribute_info = match attributes.other.get(&attribute_name) {
+                    Some(attribute_info) => attribute_info,
+                    None => return false,
+                };
+
+                match (attribute_info.inherited, &attribute_info.initial) {
+                    (None, Some(initial)) | (Some(false), Some(initial)) => {
+                        initial == normalized_value
+                    }
+                    _ => false,
+                }
+            }
+            _ => {
+                matches!(
+                    (
+                        namespace,
+                        tag_name,
+                        &*attribute.name,
+                        attribute_value.to_ascii_lowercase().trim()
+                    ),
+                    |(Namespace::MATHML, "math", "xmlns", "http://www.w3.org/1998/math/mathml")| (
+                        Namespace::MATHML,
+                        "math",
+                        "xlink",
+                        "http://www.w3.org/1999/xlink"
+                    )
                 )
-                | (
-                    Namespace::HTML,
-                    "a",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "a", "target", "_self")
-                | (Namespace::HTML, "area", "target", "_self")
-                | (Namespace::HTML, "area", "shape", "rect")
-                | (
-                    Namespace::HTML,
-                    "area",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "form", "method", "get")
-                | (Namespace::HTML, "form", "target", "_self")
-                | (
-                    Namespace::HTML,
-                    "form",
-                    "enctype",
-                    "application/x-www-form-urlencoded"
-                )
-                | (Namespace::HTML, "input", "type", "text")
-                | (Namespace::HTML, "input", "size", "20")
-                | (Namespace::HTML, "track", "kind", "subtitles")
-                | (Namespace::HTML, "textarea", "cols", "20")
-                | (Namespace::HTML, "textarea", "rows", "2")
-                | (Namespace::HTML, "textarea", "wrap", "sort")
-                | (Namespace::HTML, "progress", "max", "1")
-                | (Namespace::HTML, "meter", "min", "0")
-                | (Namespace::HTML, "img", "decoding", "auto")
-                | (Namespace::HTML, "img", "fetchpriority", "auto")
-                | (Namespace::HTML, "img", "loading", "eager")
-                | (
-                    Namespace::HTML,
-                    "img",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "link", "type", "text/css")
-                | (Namespace::HTML, "link", "fetchpriority", "auto")
-                | (
-                    Namespace::HTML,
-                    "link",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "style", "type", "text/css")
-                | (Namespace::HTML, "script", "language", "javascript")
-                | (Namespace::HTML, "script", "language", "javascript1.2")
-                | (Namespace::HTML, "script", "language", "javascript1.3")
-                | (Namespace::HTML, "script", "language", "javascript1.4")
-                | (Namespace::HTML, "script", "language", "javascript1.5")
-                | (Namespace::HTML, "script", "language", "javascript1.6")
-                | (Namespace::HTML, "script", "language", "javascript1.7")
-                | (Namespace::HTML, "script", "type", "text/javascript")
-                | (Namespace::HTML, "script", "type", "text/ecmascript")
-                | (Namespace::HTML, "script", "type", "text/jscript")
-                | (Namespace::HTML, "script", "type", "application/javascript")
-                | (
-                    Namespace::HTML,
-                    "script",
-                    "type",
-                    "application/x-javascript"
-                )
-                | (Namespace::HTML, "script", "type", "application/ecmascript")
-                | (Namespace::HTML, "script", "fetchpriority", "auto")
-                | (
-                    Namespace::HTML,
-                    "script",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::HTML, "ol", "type", "1")
-                | (Namespace::HTML, "base", "target", "_self")
-                | (Namespace::HTML, "canvas", "height", "150")
-                | (Namespace::HTML, "canvas", "width", "300")
-                | (Namespace::HTML, "col", "span", "1")
-                | (Namespace::HTML, "colgroup", "span", "1")
-                | (Namespace::HTML, "td", "colspan", "1")
-                | (Namespace::HTML, "td", "rowspan", "1")
-                | (Namespace::HTML, "th", "colspan", "1")
-                | (Namespace::HTML, "th", "rowspan", "1")
-                | (Namespace::HTML, "button", "type", "submit")
-                | (Namespace::SVG, "svg", "xmlns", "http://www.w3.org/2000/svg")
-                | (
-                    Namespace::SVG,
-                    "svg",
-                    "xlink",
-                    "http://www.w3.org/1999/xlink"
-                )
-                | (Namespace::SVG, "style", "type", "text/css")
-                | (Namespace::SVG, "script", "language", "javascript")
-                | (Namespace::SVG, "script", "language", "javascript1.2")
-                | (Namespace::SVG, "script", "language", "javascript1.3")
-                | (Namespace::SVG, "script", "language", "javascript1.4")
-                | (Namespace::SVG, "script", "language", "javascript1.5")
-                | (Namespace::SVG, "script", "language", "javascript1.6")
-                | (Namespace::SVG, "script", "language", "javascript1.7")
-                | (Namespace::SVG, "script", "type", "text/javascript")
-                | (Namespace::SVG, "script", "type", "text/ecmascript")
-                | (Namespace::SVG, "script", "type", "text/jscript")
-                | (Namespace::SVG, "script", "type", "application/javascript")
-                | (Namespace::SVG, "script", "type", "application/x-javascript")
-                | (Namespace::SVG, "script", "type", "application/ecmascript")
-                | (Namespace::SVG, "script", "fetchpriority", "auto")
-                | (
-                    Namespace::SVG,
-                    "script",
-                    "referrerpolicy",
-                    "strict-origin-when-cross-origin"
-                )
-                | (Namespace::SVG, "a", "opacity", "1")
-                | (Namespace::SVG, "altGlyph", "opacity", "1")
-                | (Namespace::SVG, "altGlyph", "fill", "black")
-                | (Namespace::SVG, "altGlyph", "fill-opacity", "1")
-                | (Namespace::SVG, "altGlyph", "fill-rule", "nonzero")
-                | (Namespace::SVG, "altGlyph", "font-size", "medium")
-                | (Namespace::SVG, "altGlyph", "font-size-adjust", "none")
-                | (Namespace::SVG, "altGlyph", "font-stretch", "normal")
-                | (Namespace::SVG, "altGlyph", "font-style", "normal")
-                | (Namespace::SVG, "altGlyph", "font-variant", "normal")
-                | (Namespace::SVG, "altGlyph", "font-weight", "normal")
-                | (Namespace::SVG, "animate", "begin", "0s")
-                | (Namespace::SVG, "animate", "dur", "indefinite")
-                | (Namespace::SVG, "animate", "min", "0")
-                | (Namespace::SVG, "animate", "opacity", "1")
-                | (Namespace::SVG, "animate", "rotate", "0")
-                | (Namespace::SVG, "animate", "restart", "always")
-                | (Namespace::SVG, "animate", "fill", "remove")
-                | (Namespace::SVG, "animate", "calcMode", "linear")
-                | (Namespace::SVG, "animate", "additive", "replace")
-                | (Namespace::SVG, "animate", "accumulate", "none")
-                | (Namespace::SVG, "animateColor", "begin", "0s")
-                | (Namespace::SVG, "animateColor", "dur", "indefinite")
-                | (Namespace::SVG, "animateColor", "min", "0")
-                | (Namespace::SVG, "animateColor", "opacity", "1")
-                | (Namespace::SVG, "animateColor", "restart", "always")
-                | (Namespace::SVG, "animateColor", "fill", "remove")
-                | (Namespace::SVG, "animateColor", "calcMode", "linear")
-                | (Namespace::SVG, "animateColor", "additive", "replace")
-                | (Namespace::SVG, "animateColor", "accumulate", "none")
-                | (Namespace::SVG, "animateMotion", "begin", "0s")
-                | (Namespace::SVG, "animateMotion", "dur", "indefinite")
-                | (Namespace::SVG, "animateMotion", "min", "0")
-                | (Namespace::SVG, "animateMotion", "rotate", "0")
-                | (Namespace::SVG, "animateMotion", "restart", "always")
-                | (Namespace::SVG, "animateMotion", "fill", "remove")
-                | (Namespace::SVG, "animateMotion", "calcMode", "linear")
-                | (Namespace::SVG, "animateMotion", "additive", "replace")
-                | (Namespace::SVG, "animateMotion", "accumulate", "none")
-                | (Namespace::SVG, "animateTransform", "begin", "0s")
-                | (Namespace::SVG, "animateTransform", "dur", "indefinite")
-                | (Namespace::SVG, "animateTransform", "min", "0")
-                | (Namespace::SVG, "animateTransform", "restart", "always")
-                | (Namespace::SVG, "animateTransform", "fill", "remove")
-                | (Namespace::SVG, "animateTransform", "calcMode", "linear")
-                | (Namespace::SVG, "animateTransform", "additive", "replace")
-                | (Namespace::SVG, "animateTransform", "accumulate", "none")
-                | (Namespace::SVG, "circle", "cx", "0")
-                | (Namespace::SVG, "circle", "cy", "0")
-                | (Namespace::SVG, "circle", "r", "0")
-                | (Namespace::SVG, "circle", "fill", "black")
-                | (Namespace::SVG, "circle", "fill-opacity", "1")
-                | (Namespace::SVG, "circle", "opacity", "1")
-                | (Namespace::SVG, "clipPath", "opacity", "1")
-                | (Namespace::SVG, "defs", "opacity", "1")
-                | (Namespace::SVG, "discard", "begin", "0s")
-                | (Namespace::SVG, "ellipse", "fill", "black")
-                | (Namespace::SVG, "ellipse", "fill-opacity", "1")
-                | (Namespace::SVG, "ellipse", "rx", "auto")
-                | (Namespace::SVG, "ellipse", "ry", "auto")
-                | (Namespace::SVG, "ellipse", "cx", "0")
-                | (Namespace::SVG, "ellipse", "cy", "0")
-                | (Namespace::SVG, "ellipse", "opacity", "1")
-                | (Namespace::SVG, "feBlend", "opacity", "1")
-                | (Namespace::SVG, "feColorMatrix", "opacity", "1")
-                | (Namespace::SVG, "feComponentTransfer", "opacity", "1")
-                | (Namespace::SVG, "feComposite", "opacity", "1")
-                | (Namespace::SVG, "feComposite", "k1", "0")
-                | (Namespace::SVG, "feComposite", "k2", "0")
-                | (Namespace::SVG, "feComposite", "k3", "0")
-                | (Namespace::SVG, "feComposite", "k4", "0")
-                | (Namespace::SVG, "feConvolveMatrix", "opacity", "1")
-                | (Namespace::SVG, "feDiffuseLighting", "opacity", "1")
-                | (Namespace::SVG, "feDisplacementMap", "opacity", "1")
-                | (Namespace::SVG, "feDisplacementMap", "yChannelSelector", "a")
-                | (Namespace::SVG, "feFlood", "opacity", "1")
-                | (Namespace::SVG, "feGaussianBlur", "opacity", "1")
-                | (Namespace::SVG, "feImage", "opacity", "1")
-                | (Namespace::SVG, "feMerge", "opacity", "1")
-                | (Namespace::SVG, "feMorphology", "opacity", "1")
-                | (Namespace::SVG, "feMorphology", "radius", "0")
-                | (Namespace::SVG, "feOffset", "opacity", "1")
-                | (Namespace::SVG, "fePointLight", "z", "1")
-                | (Namespace::SVG, "feSpecularLighting", "opacity", "1")
-                | (Namespace::SVG, "feSpotLight", "z", "1")
-                | (Namespace::SVG, "feTile", "opacity", "1")
-                | (Namespace::SVG, "feTurbulence", "opacity", "1")
-                | (Namespace::SVG, "filter", "opacity", "1")
-                | (Namespace::SVG, "font", "opacity", "1")
-                | (Namespace::SVG, "foreignObject", "opacity", "1")
-                | (Namespace::SVG, "g", "opacity", "1")
-                | (Namespace::SVG, "glyph", "opacity", "1")
-                | (Namespace::SVG, "glyphRef", "opacity", "1")
-                | (Namespace::SVG, "image", "opacity", "1")
-                | (Namespace::SVG, "line", "opacity", "1")
-                | (Namespace::SVG, "line", "y1", "0")
-                | (Namespace::SVG, "line", "y2", "0")
-                | (Namespace::SVG, "linearGradient", "opacity", "1")
-                | (Namespace::SVG, "linearGradient", "y1", "0")
-                | (Namespace::SVG, "linearGradient", "y2", "0")
-                | (
-                    Namespace::SVG,
-                    "linearGradient",
-                    "gradientUnits",
-                    "objectBoundingBox"
-                )
-                | (Namespace::SVG, "linearGradient", "spreadMethod", "pad")
-                | (Namespace::SVG, "marker", "opacity", "1")
-                | (Namespace::SVG, "marker", "refX", "0")
-                | (Namespace::SVG, "marker", "refY", "0")
-                | (Namespace::SVG, "mask", "opacity", "1")
-                | (Namespace::SVG, "missing-glyph", "opacity", "1")
-                | (Namespace::SVG, "path", "opacity", "1")
-                | (Namespace::SVG, "path", "fill", "black")
-                | (Namespace::SVG, "path", "fill-opacity", "1")
-                | (Namespace::SVG, "path", "fill-rule", "nonzero")
-                | (Namespace::SVG, "pattern", "opacity", "1")
-                | (Namespace::SVG, "polygon", "opacity", "1")
-                | (Namespace::SVG, "polygon", "fill", "black")
-                | (Namespace::SVG, "polygon", "fill-opacity", "1")
-                | (Namespace::SVG, "polygon", "fill-rule", "nonzero")
-                | (Namespace::SVG, "polyline", "opacity", "1")
-                | (Namespace::SVG, "polyline", "fill", "black")
-                | (Namespace::SVG, "polyline", "fill-opacity", "1")
-                | (Namespace::SVG, "polyline", "fill-rule", "nonzero")
-                | (Namespace::SVG, "radialGradient", "opacity", "1")
-                | (Namespace::SVG, "radialGradient", "cx", "50%")
-                | (Namespace::SVG, "radialGradient", "cy", "50%")
-                | (Namespace::SVG, "radialGradient", "fr", "0")
-                | (
-                    Namespace::SVG,
-                    "radialGradient",
-                    "gradientUnits",
-                    "objectBoundingBox"
-                )
-                | (Namespace::SVG, "radialGradient", "r", "50%")
-                | (Namespace::SVG, "radialGradient", "spreadMethod", "pad")
-                | (Namespace::SVG, "rect", "opacity", "1")
-                | (Namespace::SVG, "rect", "rx", "auto")
-                | (Namespace::SVG, "rect", "ry", "auto")
-                | (Namespace::SVG, "set", "begin", "0s")
-                | (Namespace::SVG, "set", "dur", "indefinite")
-                | (Namespace::SVG, "set", "min", "0")
-                | (Namespace::SVG, "set", "restart", "always")
-                | (Namespace::SVG, "stop", "opacity", "1")
-                | (Namespace::SVG, "svg", "opacity", "1")
-                | (Namespace::SVG, "svg", "zoomAndPan", "magnify")
-                | (Namespace::SVG, "switch", "opacity", "1")
-                | (Namespace::SVG, "symbol", "opacity", "1")
-                | (Namespace::SVG, "text", "opacity", "1")
-                | (Namespace::SVG, "text", "fill", "black")
-                | (Namespace::SVG, "text", "fill-opacity", "1")
-                | (Namespace::SVG, "text", "fill-rule", "nonzero")
-                | (Namespace::SVG, "text", "font-size", "medium")
-                | (Namespace::SVG, "text", "font-size-adjust", "none")
-                | (Namespace::SVG, "text", "font-stretch", "normal")
-                | (Namespace::SVG, "text", "font-style", "normal")
-                | (Namespace::SVG, "text", "font-variant", "normal")
-                | (Namespace::SVG, "text", "font-weight", "normal")
-                | (Namespace::SVG, "textPath", "opacity", "1")
-                | (Namespace::SVG, "textPath", "fill", "black")
-                | (Namespace::SVG, "textPath", "fill-opacity", "1")
-                | (Namespace::SVG, "textPath", "fill-rule", "nonzero")
-                | (Namespace::SVG, "textPath", "font-size", "medium")
-                | (Namespace::SVG, "textPath", "font-size-adjust", "none")
-                | (Namespace::SVG, "textPath", "font-stretch", "normal")
-                | (Namespace::SVG, "textPath", "font-style", "normal")
-                | (Namespace::SVG, "textPath", "font-variant", "normal")
-                | (Namespace::SVG, "textPath", "font-weight", "normal")
-                | (Namespace::SVG, "tref", "opacity", "1")
-                | (Namespace::SVG, "tref", "fill", "black")
-                | (Namespace::SVG, "tref", "fill-opacity", "1")
-                | (Namespace::SVG, "tref", "fill-rule", "nonzero")
-                | (Namespace::SVG, "tref", "font-size", "medium")
-                | (Namespace::SVG, "tref", "font-size-adjust", "none")
-                | (Namespace::SVG, "tref", "font-weight", "normal")
-                | (Namespace::SVG, "tref", "font-stretch", "normal")
-                | (Namespace::SVG, "tref", "font-style", "normal")
-                | (Namespace::SVG, "tref", "font-variant", "normal")
-                | (Namespace::SVG, "tspan", "opacity", "1")
-                | (Namespace::SVG, "tspan", "fill", "black")
-                | (Namespace::SVG, "tspan", "fill-opacity", "1")
-                | (Namespace::SVG, "tspan", "fill-rule", "nonzero")
-                | (Namespace::SVG, "tspan", "font-size", "medium")
-                | (Namespace::SVG, "tspan", "font-size-adjust", "none")
-                | (Namespace::SVG, "tspan", "font-stretch", "normal")
-                | (Namespace::SVG, "tspan", "font-style", "normal")
-                | (Namespace::SVG, "tspan", "font-variant", "normal")
-                | (Namespace::SVG, "tspan", "font-weight", "normal")
-                | (Namespace::SVG, "use", "opacity", "1")
-                | (Namespace::SVG, "view", "zoomAndPan", "magnify")
-                | (
-                    Namespace::MATHML,
-                    "math",
-                    "xmlns",
-                    "http://www.w3.org/1998/math/mathml"
-                )
-                | (
-                    Namespace::MATHML,
-                    "math",
-                    "xlink",
-                    "http://www.w3.org/1999/xlink"
-                )
-        )
+            }
+        }
     }
 
     fn is_preserved_comment(&self, data: &str) -> bool {
-        if let Some(preserve_comments) = &self.preserve_comments {
+        if let Some(preserve_comments) = &self.options.preserve_comments {
             return preserve_comments.iter().any(|regex| regex.is_match(data));
         }
 
@@ -849,7 +641,7 @@ impl Minifier {
     }
 
     fn need_collapse_whitespace(&self) -> bool {
-        !matches!(self.collapse_whitespaces, CollapseWhitespaces::None)
+        !matches!(self.options.collapse_whitespaces, CollapseWhitespaces::None)
     }
 
     fn is_custom_element(&self, tag_name: &str) -> bool {
@@ -1121,7 +913,7 @@ impl Minifier {
         namespace: Namespace,
         tag_name: &str,
     ) -> WhitespaceMinificationMode {
-        let default_trim = match self.collapse_whitespaces {
+        let default_trim = match self.options.collapse_whitespaces {
             CollapseWhitespaces::All => true,
             CollapseWhitespaces::Smart
             | CollapseWhitespaces::Conservative
@@ -1174,7 +966,6 @@ impl Minifier {
                         | "textpath"
                         | "tspan"
                         | "use"
-                        | "symbol’"
                 ) =>
                 {
                     WhitespaceMinificationMode {
@@ -1219,7 +1010,7 @@ impl Minifier {
     }
 
     fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
-        if let Some(minify_additional_attributes) = &self.minify_additional_attributes {
+        if let Some(minify_additional_attributes) = &self.options.minify_additional_attributes {
             for item in minify_additional_attributes {
                 if item.0.is_match(name) {
                     return Some(item.1.clone());
@@ -1255,11 +1046,11 @@ impl Minifier {
 
         let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
             match child {
-                Child::Comment(comment) if self.remove_comments => {
+                Child::Comment(comment) if self.options.remove_comments => {
                     self.is_preserved_comment(&comment.data)
                 }
                 Child::Element(element)
-                    if self.remove_empty_metedata_elements
+                    if self.options.remove_empty_metedata_elements
                         && (!self.is_element_displayed(element.namespace, &element.tag_name)
                             || (matches!(element.namespace, Namespace::HTML | Namespace::SVG)
                                 && &*element.tag_name == "script")
@@ -1284,7 +1075,7 @@ impl Minifier {
                     if !self.descendant_of_pre
                         && get_white_space(namespace, tag_name) == WhiteSpace::Normal
                         && matches!(
-                            self.collapse_whitespaces,
+                            self.options.collapse_whitespaces,
                             CollapseWhitespaces::All
                                 | CollapseWhitespaces::Smart
                                 | CollapseWhitespaces::Conservative
@@ -1293,7 +1084,7 @@ impl Minifier {
                     let mut is_smart_left_trim = false;
                     let mut is_smart_right_trim = false;
 
-                    if self.collapse_whitespaces == CollapseWhitespaces::Smart {
+                    if self.options.collapse_whitespaces == CollapseWhitespaces::Smart {
                         let prev = if index >= 1 {
                             children.get(index - 1)
                         } else {
@@ -1591,7 +1382,9 @@ impl Minifier {
     }
 
     fn is_additional_scripts_content(&self, name: &str) -> Option<MinifierType> {
-        if let Some(minify_additional_scripts_content) = &self.minify_additional_scripts_content {
+        if let Some(minify_additional_scripts_content) =
+            &self.options.minify_additional_scripts_content
+        {
             for item in minify_additional_scripts_content {
                 if item.0.is_match(name) {
                     return Some(item.1.clone());
@@ -1602,39 +1395,101 @@ impl Minifier {
         None
     }
 
+    fn need_minify_json(&self) -> bool {
+        match self.options.minify_json {
+            MinifyJsonOption::Bool(value) => value,
+            MinifyJsonOption::Options(_) => true,
+        }
+    }
+
+    fn get_json_options(&self) -> JsonOptions {
+        match &self.options.minify_json {
+            MinifyJsonOption::Bool(_) => JsonOptions { pretty: false },
+            MinifyJsonOption::Options(json_options) => *json_options.clone(),
+        }
+    }
+
     fn minify_json(&self, data: String) -> Option<String> {
         let json = match serde_json::from_str::<Value>(&data) {
             Ok(json) => json,
             _ => return None,
         };
 
-        match serde_json::to_string(&json) {
+        let options = self.get_json_options();
+        let result = match options.pretty {
+            true => serde_json::to_string_pretty(&json),
+            false => serde_json::to_string(&json),
+        };
+
+        match result {
             Ok(minified_json) => Some(minified_json),
             _ => None,
         }
     }
 
+    fn need_minify_js(&self) -> bool {
+        match self.options.minify_js {
+            MinifyJsOption::Bool(value) => value,
+            MinifyJsOption::Options(_) => true,
+        }
+    }
+
+    fn get_js_options(&self) -> JsOptions {
+        match &self.options.minify_js {
+            MinifyJsOption::Bool(_) => JsOptions {
+                parser: JsParserOptions::default(),
+                minifier: swc_ecma_minifier::option::MinifyOptions {
+                    compress: Some(swc_ecma_minifier::option::CompressOptions::default()),
+                    mangle: Some(swc_ecma_minifier::option::MangleOptions::default()),
+                    ..Default::default()
+                },
+                codegen: swc_ecma_codegen::Config::default(),
+            },
+            MinifyJsOption::Options(js_options) => *js_options.clone(),
+        }
+    }
+
     // TODO source map url output for JS and CSS?
-    // TODO allow preserve comments
     fn minify_js(&self, data: String, is_module: bool, is_attribute: bool) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
+        let mut options = self.get_js_options();
 
-        let syntax = swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig {
-            allow_return_outside_function: !is_module && is_attribute,
-            ..Default::default()
-        });
+        if let swc_ecma_parser::Syntax::Es(es_config) = &mut options.parser.syntax {
+            es_config.allow_return_outside_function = !is_module && is_attribute;
+        }
 
-        let target = swc_ecma_ast::EsVersion::latest();
+        let comments = SingleThreadedComments::default();
+
         let mut program = if is_module {
-            match swc_ecma_parser::parse_file_as_module(&fm, syntax, target, None, &mut errors) {
+            match swc_ecma_parser::parse_file_as_module(
+                &fm,
+                options.parser.syntax,
+                options.parser.target,
+                if options.parser.comments {
+                    Some(&comments)
+                } else {
+                    None
+                },
+                &mut errors,
+            ) {
                 Ok(module) => swc_ecma_ast::Program::Module(module),
                 _ => return None,
             }
         } else {
-            match swc_ecma_parser::parse_file_as_script(&fm, syntax, target, None, &mut errors) {
+            match swc_ecma_parser::parse_file_as_script(
+                &fm,
+                options.parser.syntax,
+                options.parser.target,
+                if options.parser.comments {
+                    Some(&comments)
+                } else {
+                    None
+                },
+                &mut errors,
+            ) {
                 Ok(script) => swc_ecma_ast::Program::Script(script),
                 _ => return None,
             }
@@ -1648,30 +1503,30 @@ impl Minifier {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
+        if let Some(compress_options) = &mut options.minifier.compress {
+            compress_options.module = is_module;
+        } else {
+            options.minifier.compress = Some(swc_ecma_minifier::option::CompressOptions {
+                ecma: options.parser.target,
+                ..Default::default()
+            });
+        }
+
         swc_ecma_visit::VisitMutWith::visit_mut_with(
             &mut program,
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
         );
 
-        let options = swc_ecma_minifier::option::MinifyOptions {
-            compress: Some(swc_ecma_minifier::option::CompressOptions {
-                ecma: target,
-                module: is_module,
-                negate_iife: false,
-                ..Default::default()
-            }),
-            mangle: Some(swc_ecma_minifier::option::MangleOptions {
-                ..Default::default()
-            }),
-            ..Default::default()
-        };
-
         let program = swc_ecma_minifier::optimize(
             program,
             cm.clone(),
+            if options.parser.comments {
+                Some(&comments)
+            } else {
+                None
+            },
             None,
-            None,
-            &options,
+            &options.minifier,
             &swc_ecma_minifier::option::ExtraOptions {
                 unresolved_mark,
                 top_level_mark,
@@ -1683,21 +1538,24 @@ impl Minifier {
         {
             let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                 cm.clone(),
-                "",
+                "\n",
                 &mut buf,
                 None,
             )) as Box<dyn swc_ecma_codegen::text_writer::WriteJs>;
 
             wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
 
+            options.codegen.minify = true;
+            options.codegen.target = options.parser.target;
+
             let mut emitter = swc_ecma_codegen::Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    minify: true,
-                    target,
-                    ..Default::default()
-                },
+                cfg: options.codegen,
                 cm,
-                comments: None,
+                comments: if options.parser.comments {
+                    Some(&comments)
+                } else {
+                    None
+                },
                 wr,
             };
 
@@ -1710,6 +1568,13 @@ impl Minifier {
         };
 
         Some(minified)
+    }
+
+    fn need_minify_css(&self) -> bool {
+        match self.options.minify_css {
+            MinifyCssOption::Bool(value) => value,
+            MinifyCssOption::Options(_) => true,
+        }
     }
 
     fn minify_sizes(&self, value: &str) -> Option<String> {
@@ -1738,15 +1603,28 @@ impl Minifier {
         Some(minified)
     }
 
+    fn get_css_options(&self) -> CssOptions {
+        match &self.options.minify_css {
+            MinifyCssOption::Bool(_) => CssOptions {
+                parser: swc_css_parser::parser::ParserConfig::default(),
+                minifier: swc_css_minifier::options::MinifyOptions::default(),
+                codegen: swc_css_codegen::CodegenConfig::default(),
+            },
+            MinifyCssOption::Options(css_options) => *css_options.clone(),
+        }
+    }
+
     fn minify_css(&self, data: String, mode: CssMinificationMode) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
 
+        let mut options = self.get_css_options();
+
         let mut stylesheet = match mode {
             CssMinificationMode::Stylesheet => {
-                match swc_css_parser::parse_file(&fm, Default::default(), &mut errors) {
+                match swc_css_parser::parse_file(&fm, options.parser, &mut errors) {
                     Ok(stylesheet) => stylesheet,
                     _ => return None,
                 }
@@ -1754,7 +1632,7 @@ impl Minifier {
             CssMinificationMode::ListOfDeclarations => {
                 match swc_css_parser::parse_file::<Vec<swc_css_ast::DeclarationOrAtRule>>(
                     &fm,
-                    Default::default(),
+                    options.parser,
                     &mut errors,
                 ) {
                     Ok(list_of_declarations) => {
@@ -1790,7 +1668,7 @@ impl Minifier {
             CssMinificationMode::MediaQueryList => {
                 match swc_css_parser::parse_file::<swc_css_ast::MediaQueryList>(
                     &fm,
-                    Default::default(),
+                    options.parser,
                     &mut errors,
                 ) {
                     Ok(media_query_list) => swc_css_ast::Stylesheet {
@@ -1800,7 +1678,7 @@ impl Minifier {
                             name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                 span: Default::default(),
                                 value: "media".into(),
-                                raw: "media".into(),
+                                raw: None,
                             }),
                             prelude: Some(swc_css_ast::AtRulePrelude::MediaPrelude(
                                 media_query_list,
@@ -1813,7 +1691,7 @@ impl Minifier {
                                 value: vec![swc_css_ast::ComponentValue::Str(swc_css_ast::Str {
                                     span: Default::default(),
                                     value: "placeholder".into(),
-                                    raw: "placeholder".into(),
+                                    raw: None,
                                 })],
                             }),
                         })],
@@ -1828,7 +1706,7 @@ impl Minifier {
             return None;
         }
 
-        swc_css_minifier::minify(&mut stylesheet);
+        swc_css_minifier::minify(&mut stylesheet, options.minifier);
 
         let mut minified = String::new();
         let wr = swc_css_codegen::writer::basic::BasicCssWriter::new(
@@ -1836,10 +1714,10 @@ impl Minifier {
             None,
             swc_css_codegen::writer::basic::BasicCssWriterConfig::default(),
         );
-        let mut gen = swc_css_codegen::CodeGenerator::new(
-            wr,
-            swc_css_codegen::CodegenConfig { minify: true },
-        );
+
+        options.codegen.minify = true;
+
+        let mut gen = swc_css_codegen::CodeGenerator::new(wr, options.codegen);
 
         match mode {
             CssMinificationMode::Stylesheet => {
@@ -1936,34 +1814,14 @@ impl Minifier {
             return None;
         }
 
-        let minify_options = MinifyOptions {
-            force_set_html5_doctype: self.force_set_html5_doctype,
-            collapse_whitespaces: self.collapse_whitespaces.clone(),
-            remove_empty_metedata_elements: self.remove_empty_metedata_elements,
-            remove_comments: self.remove_comments,
-            preserve_comments: self.preserve_comments.clone(),
-            minify_conditional_comments: self.minify_conditional_comments,
-            remove_empty_attributes: self.remove_empty_attributes,
-            remove_redundant_attributes: self.remove_empty_attributes,
-            collapse_boolean_attributes: self.collapse_boolean_attributes,
-            normalize_attributes: self.normalize_attributes,
-            minify_js: self.minify_js,
-            minify_json: self.minify_json,
-            minify_css: self.minify_css,
-            minify_additional_scripts_content: self.minify_additional_scripts_content.clone(),
-            minify_additional_attributes: self.minify_additional_attributes.clone(),
-            sort_space_separated_attribute_values: self.sort_space_separated_attribute_values,
-            sort_attributes: self.attribute_name_counter.is_some(),
-        };
-
         match document_or_document_fragment {
             HtmlRoot::Document(ref mut document) => {
-                minify_document(document, &minify_options);
+                minify_document(document, self.options);
             }
             HtmlRoot::DocumentFragment(ref mut document_fragment) => minify_document_fragment(
                 document_fragment,
                 context_element.as_ref().unwrap(),
-                &minify_options,
+                self.options,
             ),
         }
 
@@ -1997,12 +1855,12 @@ impl Minifier {
     }
 }
 
-impl VisitMut for Minifier {
+impl VisitMut for Minifier<'_> {
     fn visit_mut_document(&mut self, n: &mut Document) {
         n.visit_mut_children_with(self);
 
         n.children
-            .retain(|child| !matches!(child, Child::Comment(_) if self.remove_comments));
+            .retain(|child| !matches!(child, Child::Comment(_) if self.options.remove_comments));
     }
 
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
@@ -2014,7 +1872,7 @@ impl VisitMut for Minifier {
     fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
         n.visit_mut_children_with(self);
 
-        if !self.force_set_html5_doctype {
+        if !self.options.force_set_html5_doctype {
             return;
         }
 
@@ -2028,7 +1886,7 @@ impl VisitMut for Minifier {
 
         self.current_element = None;
 
-        if self.collapse_whitespaces == CollapseWhitespaces::Smart {
+        if self.options.collapse_whitespaces == CollapseWhitespaces::Smart {
             match n {
                 Child::Text(_) | Child::Element(_) => {
                     self.latest_element = Some(n.clone());
@@ -2085,29 +1943,13 @@ impl VisitMut for Minifier {
                 return true;
             }
 
-            if self.remove_redundant_attributes
-                && self.is_default_attribute_value(
-                    n.namespace,
-                    &n.tag_name,
-                    &attribute.name,
-                    match &*n.tag_name {
-                        "script" if matches!(n.namespace, Namespace::HTML | Namespace::SVG) => {
-                            let original_value = attribute.value.as_ref().unwrap();
-
-                            if let Some(next) = original_value.split(';').next() {
-                                next
-                            } else {
-                                original_value
-                            }
-                        }
-                        _ => attribute.value.as_ref().unwrap(),
-                    },
-                )
+            if self.options.remove_redundant_attributes
+                && self.is_default_attribute_value(n.namespace, &n.tag_name, attribute)
             {
                 return false;
             }
 
-            if self.remove_empty_attributes {
+            if self.options.remove_empty_attributes {
                 let value = attribute.value.as_ref().unwrap();
 
                 if (matches!(&*attribute.name, "id") && value.is_empty())
@@ -2155,41 +1997,43 @@ impl VisitMut for Minifier {
 
         let current_element = self.current_element.as_ref().unwrap();
 
-        if self.collapse_boolean_attributes
+        if self.options.collapse_boolean_attributes
             && current_element.namespace == Namespace::HTML
-            && self.is_boolean_attribute(&n.name)
+            && self.is_boolean_attribute(current_element, &n.name)
         {
             n.value = None;
 
             return;
-        } else if self.normalize_attributes {
+        } else if self.options.normalize_attributes {
             if self.is_space_separated_attribute(current_element, &n.name) {
                 value = value.split_whitespace().collect::<Vec<_>>().join(" ");
             } else if self.is_comma_separated_attribute(current_element, &n.name) {
-                let is_sizes = matches!(&*n.name, "sizes" | "imagesizes");
+                value = value
+                    .split(',')
+                    .map(|value| {
+                        if matches!(&*n.name, "sizes" | "imagesizes") {
+                            let trimmed = value.trim();
 
-                let mut new_values = vec![];
-
-                for value in value.trim().split(',') {
-                    if is_sizes {
-                        let trimmed = value.trim();
-
-                        match self.minify_sizes(trimmed) {
-                            Some(minified) => {
-                                new_values.push(minified);
+                            match self.minify_sizes(trimmed) {
+                                Some(minified) => minified,
+                                _ => trimmed.to_string(),
                             }
-                            _ => {
-                                new_values.push(trimmed.to_string());
-                            }
-                        };
-                    } else {
-                        new_values.push(value.trim().to_string());
-                    }
-                }
-
-                value = new_values.join(",");
+                        } else if matches!(&*n.name, "points") {
+                            self.collapse_whitespace(value.trim())
+                        } else {
+                            value.trim().to_string()
+                        }
+                    })
+                    .collect::<Vec<_>>()
+                    .join(",");
             } else if self.is_trimable_separated_attribute(current_element, &n.name) {
                 value = value.trim().to_string();
+            } else if self.is_semicolon_separated_attribute(current_element, &n.name) {
+                value = value
+                    .split(';')
+                    .map(|value| self.collapse_whitespace(value.trim()))
+                    .collect::<Vec<_>>()
+                    .join(";");
             } else if current_element.namespace == Namespace::HTML
                 && &n.name == "contenteditable"
                 && value == "true"
@@ -2240,10 +2084,18 @@ impl VisitMut for Minifier {
                     Some(minified) => minified,
                     _ => value,
                 };
+            } else if matches!(current_element.namespace, Namespace::HTML | Namespace::SVG)
+                && matches!(
+                    &*current_element.tag_name,
+                    "style" | "link" | "script" | "input"
+                )
+                && &n.name == "type"
+            {
+                value = value.trim().to_ascii_lowercase();
             }
         }
 
-        if self.sort_space_separated_attribute_values
+        if self.options.sort_space_separated_attribute_values
             && self.is_attribute_value_unordered_set(current_element, &n.name)
         {
             let mut values = value.split_whitespace().collect::<Vec<_>>();
@@ -2256,13 +2108,13 @@ impl VisitMut for Minifier {
                 Some(minified) => minified,
                 _ => value,
             };
-        } else if self.minify_css && &*n.name == "media" && !value.is_empty() {
+        } else if self.need_minify_css() && &*n.name == "media" && !value.is_empty() {
             if let Some(minified) =
                 self.minify_css(value.clone(), CssMinificationMode::MediaQueryList)
             {
                 value = minified;
             }
-        } else if self.minify_css && &*n.name == "style" && !value.is_empty() {
+        } else if self.need_minify_css() && &*n.name == "style" && !value.is_empty() {
             if let Some(minified) =
                 self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
             {
@@ -2270,29 +2122,29 @@ impl VisitMut for Minifier {
             }
         }
 
-        if self.minify_additional_attributes.is_some() {
+        if self.options.minify_additional_attributes.is_some() {
             let minifier_type = self.is_additional_minifier_attribute(&n.name);
 
             match minifier_type {
-                Some(MinifierType::JsScript) if self.minify_js => {
+                Some(MinifierType::JsScript) if self.need_minify_js() => {
                     value = match self.minify_js(value.clone(), false, true) {
                         Some(minified) => minified,
                         _ => value,
                     };
                 }
-                Some(MinifierType::JsModule) if self.minify_js => {
+                Some(MinifierType::JsModule) if self.need_minify_js() => {
                     value = match self.minify_js(value.clone(), true, true) {
                         Some(minified) => minified,
                         _ => value,
                     };
                 }
-                Some(MinifierType::Json) if self.minify_json => {
+                Some(MinifierType::Json) if self.need_minify_json() => {
                     value = match self.minify_json(value.clone()) {
                         Some(minified) => minified,
                         _ => value,
                     };
                 }
-                Some(MinifierType::Css) if self.minify_css => {
+                Some(MinifierType::Css) if self.need_minify_css() => {
                     value = match self
                         .minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
                     {
@@ -2327,7 +2179,7 @@ impl VisitMut for Minifier {
         if let Some(current_element) = &self.current_element {
             match &*current_element.tag_name {
                 "script"
-                    if (self.minify_json || self.minify_js)
+                    if (self.need_minify_json() || self.need_minify_js())
                         && matches!(
                             current_element.namespace,
                             Namespace::HTML | Namespace::SVG
@@ -2342,7 +2194,7 @@ impl VisitMut for Minifier {
                         .map(|v| v.trim().to_ascii_lowercase());
 
                     match type_attribute_value.as_deref() {
-                        Some("module") if self.minify_js => {
+                        Some("module") if self.need_minify_js() => {
                             text_type = Some(MinifierType::JsModule);
                         }
                         Some(
@@ -2354,7 +2206,7 @@ impl VisitMut for Minifier {
                             | "application/ecmascript",
                         )
                         | None
-                            if self.minify_js =>
+                            if self.need_minify_js() =>
                         {
                             text_type = Some(MinifierType::JsScript);
                         }
@@ -2363,10 +2215,12 @@ impl VisitMut for Minifier {
                             | "application/ld+json"
                             | "importmap"
                             | "speculationrules",
-                        ) if self.minify_json => {
+                        ) if self.need_minify_json() => {
                             text_type = Some(MinifierType::Json);
                         }
-                        Some(script_type) if self.minify_additional_scripts_content.is_some() => {
+                        Some(script_type)
+                            if self.options.minify_additional_scripts_content.is_some() =>
+                        {
                             if let Some(minifier_type) =
                                 self.is_additional_scripts_content(script_type)
                             {
@@ -2377,7 +2231,7 @@ impl VisitMut for Minifier {
                     }
                 }
                 "style"
-                    if self.minify_css
+                    if self.need_minify_css()
                         && matches!(
                             current_element.namespace,
                             Namespace::HTML | Namespace::SVG
@@ -2405,6 +2259,9 @@ impl VisitMut for Minifier {
                     {
                         text_type = Some(MinifierType::Css)
                     }
+                }
+                "title" if current_element.namespace == Namespace::HTML => {
+                    n.data = self.collapse_whitespace(&n.data).trim().into();
                 }
                 _ => {}
             }
@@ -2462,7 +2319,7 @@ impl VisitMut for Minifier {
     fn visit_mut_comment(&mut self, n: &mut Comment) {
         n.visit_mut_children_with(self);
 
-        if !self.minify_conditional_comments {
+        if !self.options.minify_conditional_comments {
             return;
         }
 
@@ -2512,7 +2369,10 @@ impl VisitMut for AttributeNameCounter {
     }
 }
 
-fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -> Minifier {
+fn create_minifier<'a>(
+    context_element: Option<&Element>,
+    options: &'a MinifyOptions,
+) -> Minifier<'a> {
     let mut current_element = None;
     let mut is_pre = false;
 
@@ -2523,31 +2383,11 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
     }
 
     Minifier {
+        options,
+
         current_element,
         latest_element: None,
-
         descendant_of_pre: is_pre,
-
-        force_set_html5_doctype: options.force_set_html5_doctype,
-        remove_comments: options.remove_comments,
-        preserve_comments: options.preserve_comments.clone(),
-        minify_conditional_comments: options.minify_conditional_comments,
-
-        collapse_whitespaces: options.collapse_whitespaces.clone(),
-
-        remove_empty_metedata_elements: options.remove_empty_metedata_elements,
-        remove_empty_attributes: options.remove_empty_attributes,
-        collapse_boolean_attributes: options.collapse_boolean_attributes,
-        remove_redundant_attributes: options.remove_redundant_attributes,
-        normalize_attributes: options.normalize_attributes,
-
-        minify_js: options.minify_js,
-        minify_json: options.minify_json,
-        minify_css: options.minify_css,
-        minify_additional_attributes: options.minify_additional_attributes.clone(),
-        minify_additional_scripts_content: options.minify_additional_scripts_content.clone(),
-
-        sort_space_separated_attribute_values: options.sort_space_separated_attribute_values,
         attribute_name_counter: None,
     }
 }

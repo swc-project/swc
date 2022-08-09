@@ -1,3 +1,5 @@
+// @strict: true
+// @target: esnext, es2021, es2020, es2015
 var _a, _b, _c, _foo, _ref, _foo1, _ref1, _foo2, _ref2, _ref3, _ref4, _ref5;
 (_a = a).baz && (_a.baz = result.baz);
 (_b = b).baz || (_b.baz = result.baz);

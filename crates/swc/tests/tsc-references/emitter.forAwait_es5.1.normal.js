@@ -1,16 +1,14 @@
+// @target: es2018,es2017,es2015,es5
+// @lib: esnext
+// @filename: file1.ts
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 function f1() {
     return _f1.apply(this, arguments);
 }
 function _f1() {
-    _f1 = // @target: es2018,es2017,es2015,es5
-    // @lib: esnext
-    // @filename: file1.ts
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _f1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -84,12 +82,15 @@ function _f1() {
     }));
     return _f1.apply(this, arguments);
 }
+// @filename: file2.ts
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function f2() {
     return _f2.apply(this, arguments);
 }
 function _f2() {
-    _f2 = // @filename: file2.ts
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _f2 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var x, y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -163,12 +164,16 @@ function _f2() {
     }));
     return _f2.apply(this, arguments);
 }
+// @filename: file3.ts
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function f3() {
     return _f3.apply(this, arguments);
 }
 function _f3() {
-    _f3 = // @filename: file3.ts
-    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _f3 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -242,12 +247,16 @@ function _f3() {
     }));
     return _f3.apply(this, arguments);
 }
+// @filename: file4.ts
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function f4() {
     return _f4.apply(this, arguments);
 }
 function _f4() {
-    _f4 = // @filename: file4.ts
-    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _f4 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var x, y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -321,13 +330,16 @@ function _f4() {
     }));
     return _f4.apply(this, arguments);
 }
+// @filename: file5.ts
+// https://github.com/Microsoft/TypeScript/issues/21363
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function f5() {
     return _f5.apply(this, arguments);
 }
 function _f5() {
-    _f5 = // @filename: file5.ts
-    // https://github.com/Microsoft/TypeScript/issues/21363
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _f5 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -400,13 +412,17 @@ function _f5() {
     }));
     return _f5.apply(this, arguments);
 }
+// @filename: file6.ts
+// https://github.com/Microsoft/TypeScript/issues/21363
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function f6() {
     return _f6.apply(this, arguments);
 }
 function _f6() {
-    _f6 = // @filename: file6.ts
-    // https://github.com/Microsoft/TypeScript/issues/21363
-    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _f6 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -479,13 +495,17 @@ function _f6() {
     }));
     return _f6.apply(this, arguments);
 }
+// @filename: file7.ts
+// https://github.com/microsoft/TypeScript/issues/36166
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function f7() {
     return _f7.apply(this, arguments);
 }
 function _f7() {
-    _f7 = // @filename: file7.ts
-    // https://github.com/microsoft/TypeScript/issues/36166
-    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _f7 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

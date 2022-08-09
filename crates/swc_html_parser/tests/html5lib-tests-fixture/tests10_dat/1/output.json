@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -75,7 +76,8 @@
                 "end": 40,
                 "ctxt": 0
               },
-              "data": "[CDATA[a]]"
+              "data": "[CDATA[a]]",
+              "raw": "<![CDATA[a]]>"
             }
           ],
           "content": null,

@@ -1,6 +1,6 @@
 use pmutil::q;
 use proc_macro2::Span;
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_ecma_ast::*;
 use syn::{ExprLit, LitBool, LitFloat};
 
@@ -17,6 +17,12 @@ impl_struct!(Number, [span, value, raw]);
 impl_struct!(Regex, [span, exp, flags]);
 
 impl ToCode for JsWord {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
+        q!(Vars { val: &**self }, { val.into() }).parse()
+    }
+}
+
+impl ToCode for Atom {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
         q!(Vars { val: &**self }, { val.into() }).parse()
     }

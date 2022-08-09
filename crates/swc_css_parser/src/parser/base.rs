@@ -117,9 +117,9 @@ where
         let span = self.input.cur_span()?;
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
-        let mut prelude = QualifiedRulePrelude::Invalid(Tokens {
+        let mut prelude = QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
             span: Default::default(),
-            tokens: vec![],
+            children: vec![],
         });
 
         // Repeatedly consume the next input token:
@@ -162,7 +162,7 @@ where
                             self.input.reset(&state);
 
                             let span = self.input.cur_span()?;
-                            let mut tokens = vec![];
+                            let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "{") {
                                 if is!(self, ";") {
@@ -171,14 +171,14 @@ where
                                     return Err(Error::new(span, ErrorKind::UnexpectedChar(';')));
                                 }
 
-                                let token = self.input.bump()?;
-
-                                tokens.extend(token);
+                                if let Some(token_and_span) = self.input.bump()? {
+                                    children.push(ComponentValue::PreservedToken(token_and_span));
+                                }
                             }
 
-                            QualifiedRulePrelude::Invalid(Tokens {
+                            QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
                                 span: span!(self, span.lo),
-                                tokens,
+                                children,
                             })
                         }
                     };
@@ -237,25 +237,26 @@ where
                             self.input.reset(&state);
 
                             let span = self.input.cur_span()?;
-                            let mut tokens = vec![];
+                            let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                let token = self.input.bump()?;
-
-                                tokens.extend(token);
+                                if let Some(token_and_span) = self.input.bump()? {
+                                    children.push(ComponentValue::PreservedToken(token_and_span));
+                                }
 
                                 if is!(self, ";") {
-                                    let token = self.input.bump()?;
-
-                                    tokens.extend(token);
+                                    if let Some(token_and_span) = self.input.bump()? {
+                                        children
+                                            .push(ComponentValue::PreservedToken(token_and_span));
+                                    }
 
                                     break;
                                 }
                             }
 
-                            StyleBlock::Invalid(Tokens {
+                            StyleBlock::ListOfComponentValues(ListOfComponentValues {
                                 span: span!(self, span.lo),
-                                tokens,
+                                children,
                             })
                         }
                     };
@@ -275,25 +276,26 @@ where
                             self.input.reset(&state);
 
                             let span = self.input.cur_span()?;
-                            let mut tokens = vec![];
+                            let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                let token = self.input.bump()?;
-
-                                tokens.extend(token);
+                                if let Some(token_and_span) = self.input.bump()? {
+                                    children.push(ComponentValue::PreservedToken(token_and_span));
+                                }
 
                                 if is!(self, ";") {
-                                    let token = self.input.bump()?;
-
-                                    tokens.extend(token);
+                                    if let Some(token_and_span) = self.input.bump()? {
+                                        children
+                                            .push(ComponentValue::PreservedToken(token_and_span));
+                                    }
 
                                     break;
                                 }
                             }
 
-                            StyleBlock::Invalid(Tokens {
+                            StyleBlock::ListOfComponentValues(ListOfComponentValues {
                                 span: span!(self, span.lo),
-                                tokens,
+                                children,
                             })
                         }
                     };
@@ -320,24 +322,26 @@ where
                         ),
                     ));
 
-                    let mut tokens = vec![];
+                    let mut children = vec![];
 
                     // TODO fix me
                     while !is_one_of!(self, EOF, "}") {
-                        tokens.extend(self.input.bump()?);
+                        if let Some(token_and_span) = self.input.bump()? {
+                            children.push(ComponentValue::PreservedToken(token_and_span));
+                        }
 
                         if is!(self, ";") {
-                            let token = self.input.bump()?;
-
-                            tokens.extend(token);
+                            if let Some(token_and_span) = self.input.bump()? {
+                                children.push(ComponentValue::PreservedToken(token_and_span));
+                            }
 
                             break;
                         }
                     }
 
-                    declarations.push(StyleBlock::Invalid(Tokens {
+                    declarations.push(StyleBlock::ListOfComponentValues(ListOfComponentValues {
                         span: span!(self, span.lo),
-                        tokens,
+                        children,
                     }));
                 }
             }
@@ -706,9 +710,7 @@ where
     fn parse(&mut self) -> PResult<Declaration> {
         let span = self.input.cur_span()?;
 
-        self.input.skip_ws()?;
-
-        // 1. Consume the next input token. Create a new declaration with its name set
+        // Consume the next input token. Create a new declaration with its name set
         // to the value of the current input token and its value initially set to an
         // empty list.
         let is_dashed_ident = match cur!(self) {
@@ -784,6 +786,10 @@ where
             }
         }
 
+        // 5. If the last two non-<whitespace-token>s in the declaration’s value are a
+        // <delim-token> with the value "!" followed by an <ident-token> with a value
+        // that is an ASCII case-insensitive match for "important", remove them from the
+        // declaration’s value and set the declaration’s important flag to true.
         self.input.skip_ws()?;
 
         let important = if is!(self, "!") {
@@ -796,8 +802,11 @@ where
             None
         };
 
+        // 6. While the last token in the declaration’s value is a <whitespace-token>,
+        // remove that token.
         self.input.skip_ws()?;
 
+        // 7. Return the declaration.
         Ok(Declaration {
             span: Span::new(span.lo, end, Default::default()),
             name,

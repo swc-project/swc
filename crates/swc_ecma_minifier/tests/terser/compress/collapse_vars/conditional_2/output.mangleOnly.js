@@ -1,5 +1,5 @@
-function a(a, b) {
-    var c = a + 1, d = a + 2;
-    return b ? c : d;
+function n(n, r) {
+    var o = n + 1, t = n + 2;
+    return r ? o : t;
 }
-console.log(a(3, 0), a(4, 1));
+console.log(n(3, 0), n(4, 1));

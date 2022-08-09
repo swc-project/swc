@@ -1,6 +1,6 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @strict: true
 // @target: ES6
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 class Base {
     method() {}
 }

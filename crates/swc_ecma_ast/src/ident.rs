@@ -25,7 +25,6 @@ use crate::typescript::TsTypeAnn;
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]
@@ -34,6 +33,14 @@ pub struct BindingIdent {
     #[serde(default, rename = "typeAnnotation")]
     #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub type_ann: Option<TsTypeAnn>,
+}
+
+impl std::ops::Deref for BindingIdent {
+    type Target = Ident;
+
+    fn deref(&self) -> &Self::Target {
+        &self.id
+    }
 }
 
 impl BindingIdent {

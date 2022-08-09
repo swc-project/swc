@@ -1,8 +1,8 @@
-var a, b;
-function c() {
-    a = 42;
-    b = 42;
+var r, n;
+function a() {
+    r = 42;
+    n = 42;
     return 42;
 }
-var d = c();
-console.log(a === b, b === d, d === a);
+var o = a();
+console.log(r === n, n === o, o === r);

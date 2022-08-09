@@ -1,4 +1,4 @@
-var a = [
+var o = [
     0,
     null,
     true,
@@ -7,10 +7,10 @@ var a = [
     -1 / 0,
     void 0
 ];
-a.forEach(function(b) {
-    a.forEach(function(c) {
-        a.forEach(function(a) {
-            console.log(b ? c || a : a);
+o.forEach(function(f) {
+    o.forEach(function(n) {
+        o.forEach(function(o) {
+            console.log(f ? n || o : o);
         });
     });
 });

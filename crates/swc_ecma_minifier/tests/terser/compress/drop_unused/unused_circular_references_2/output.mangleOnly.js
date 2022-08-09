@@ -1,4 +1,4 @@
-function a(a, b) {
-    var c = 1, d = e, e = c + d, f = moo();
-    return a + b;
+function n(n, r) {
+    var t = 1, u = a, a = t + u, c = moo();
+    return n + r;
 }

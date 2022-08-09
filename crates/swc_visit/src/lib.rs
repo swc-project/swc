@@ -216,14 +216,14 @@ where
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AstKindPath<K>
 where
-    K: Copy,
+    K: ParentKind,
 {
     path: Vec<K>,
 }
 
 impl<K> std::ops::Deref for AstKindPath<K>
 where
-    K: Copy,
+    K: ParentKind,
 {
     type Target = Vec<K>;
 
@@ -234,7 +234,7 @@ where
 
 impl<K> Default for AstKindPath<K>
 where
-    K: Copy,
+    K: ParentKind,
 {
     fn default() -> Self {
         Self {
@@ -245,7 +245,7 @@ where
 
 impl<K> AstKindPath<K>
 where
-    K: Copy,
+    K: ParentKind,
 {
     pub fn new(path: Vec<K>) -> Self {
         Self { path }
@@ -257,22 +257,27 @@ where
         self.path.pop();
         ret
     }
+
+    pub fn with_index<Ret>(&mut self, index: usize, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
+        self.path.last_mut().unwrap().set_index(index);
+        let res = op(self);
+        self.path.last_mut().unwrap().set_index(usize::MAX);
+        res
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct AstNodePath<K, N>
+pub struct AstNodePath<N>
 where
-    K: Copy,
-    N: Copy,
+    N: NodeRef,
 {
-    kinds: AstKindPath<K>,
+    kinds: AstKindPath<N::ParentKind>,
     path: Vec<N>,
 }
 
-impl<K, N> std::ops::Deref for AstNodePath<K, N>
+impl<N> std::ops::Deref for AstNodePath<N>
 where
-    K: Copy,
-    N: Copy,
+    N: NodeRef,
 {
     type Target = Vec<N>;
 
@@ -281,10 +286,9 @@ where
     }
 }
 
-impl<K, N> Default for AstNodePath<K, N>
+impl<N> Default for AstNodePath<N>
 where
-    K: Copy,
-    N: Copy,
+    N: NodeRef,
 {
     fn default() -> Self {
         Self {
@@ -294,23 +298,24 @@ where
     }
 }
 
-impl<K, N> AstNodePath<K, N>
+impl<N> AstNodePath<N>
 where
-    K: Copy,
-    N: Copy,
+    N: NodeRef,
 {
-    pub fn new(kinds: AstKindPath<K>, path: Vec<N>) -> Self {
+    pub fn new(kinds: AstKindPath<N::ParentKind>, path: Vec<N>) -> Self {
         Self { kinds, path }
     }
 
-    pub fn kinds(&self) -> &AstKindPath<K> {
+    pub fn kinds(&self) -> &AstKindPath<N::ParentKind> {
         &self.kinds
     }
 
-    pub fn with<F, Ret>(&mut self, kind: K, node: N, op: F) -> Ret
+    pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
     where
-        F: for<'aa> FnOnce(&'aa mut AstNodePath<K, N>) -> Ret,
+        F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
     {
+        let kind = node.kind();
+
         self.kinds.path.push(kind);
         self.path.push(node);
         let ret = op(self);
@@ -319,4 +324,30 @@ where
 
         ret
     }
+
+    pub fn with_index<F, Ret>(&mut self, index: usize, op: F) -> Ret
+    where
+        F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
+    {
+        self.kinds.path.last_mut().unwrap().set_index(index);
+        self.path.last_mut().unwrap().set_index(index);
+
+        let res = op(self);
+
+        self.path.last_mut().unwrap().set_index(usize::MAX);
+        self.kinds.path.last_mut().unwrap().set_index(usize::MAX);
+        res
+    }
+}
+
+pub trait NodeRef: Copy {
+    type ParentKind: ParentKind;
+
+    fn kind(&self) -> Self::ParentKind;
+
+    fn set_index(&mut self, index: usize);
+}
+
+pub trait ParentKind: Copy {
+    fn set_index(&mut self, index: usize);
 }

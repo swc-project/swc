@@ -1,3 +1,6 @@
+//@jsx: react
+//@module: commonjs
+//@filename: file.tsx
 var m = /*#__PURE__*/ React.createElement("div", {
     "x-y": "val"
 });

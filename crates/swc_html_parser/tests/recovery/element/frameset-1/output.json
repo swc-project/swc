@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": "-//W3C//DTD HTML 4.01 Frameset//EN",
-      "systemId": "http://www.w3.org/TR/html4/frameset.dtd"
+      "systemId": "http://www.w3.org/TR/html4/frameset.dtd",
+      "raw": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"\n        \"http://www.w3.org/TR/html4/frameset.dtd\">"
     },
     {
       "type": "Element",
@@ -70,7 +71,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "http-equiv",
-                  "value": "Content-Type"
+                  "rawName": "http-equiv",
+                  "value": "Content-Type",
+                  "rawValue": "\"Content-Type\""
                 },
                 {
                   "type": "Attribute",
@@ -82,7 +85,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "content",
-                  "value": "text/html; charset=utf-8"
+                  "rawName": "content",
+                  "value": "text/html; charset=utf-8",
+                  "rawValue": "\"text/html; charset=utf-8\""
                 }
               ],
               "children": [],
@@ -168,7 +173,9 @@
               "namespace": null,
               "prefix": null,
               "name": "rows",
-              "value": "80,*"
+              "rawName": "rows",
+              "value": "80,*",
+              "rawValue": "\"80,*\""
             },
             {
               "type": "Attribute",
@@ -180,7 +187,9 @@
               "namespace": null,
               "prefix": null,
               "name": "cols",
-              "value": "*"
+              "rawName": "cols",
+              "value": "*",
+              "rawValue": "\"*\""
             }
           ],
           "children": [
@@ -214,7 +223,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "top.html"
+                  "rawName": "src",
+                  "value": "top.html",
+                  "rawValue": "\"top.html\""
                 },
                 {
                   "type": "Attribute",
@@ -226,7 +237,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "name",
-                  "value": "topFrame"
+                  "rawName": "name",
+                  "value": "topFrame",
+                  "rawValue": "\"topFrame\""
                 },
                 {
                   "type": "Attribute",
@@ -238,7 +251,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "scrolling",
-                  "value": "no"
+                  "rawName": "scrolling",
+                  "value": "no",
+                  "rawValue": "\"no\""
                 },
                 {
                   "type": "Attribute",
@@ -250,7 +265,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "noresize",
-                  "value": null
+                  "rawName": "noresize",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -287,7 +304,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "cols",
-                  "value": "80,*"
+                  "rawName": "cols",
+                  "value": "80,*",
+                  "rawValue": "\"80,*\""
                 }
               ],
               "children": [
@@ -321,7 +340,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "src",
-                      "value": "left.html"
+                      "rawName": "src",
+                      "value": "left.html",
+                      "rawValue": "\"left.html\""
                     },
                     {
                       "type": "Attribute",
@@ -333,7 +354,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "name",
-                      "value": "leftFrame"
+                      "rawName": "name",
+                      "value": "leftFrame",
+                      "rawValue": "\"leftFrame\""
                     },
                     {
                       "type": "Attribute",
@@ -345,7 +368,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "scrolling",
-                      "value": "no"
+                      "rawName": "scrolling",
+                      "value": "no",
+                      "rawValue": "\"no\""
                     },
                     {
                       "type": "Attribute",
@@ -357,7 +382,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "noresize",
-                      "value": null
+                      "rawName": "noresize",
+                      "value": null,
+                      "rawValue": null
                     }
                   ],
                   "children": [],
@@ -394,7 +421,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "src",
-                      "value": "main.html"
+                      "rawName": "src",
+                      "value": "main.html",
+                      "rawValue": "\"main.html\""
                     },
                     {
                       "type": "Attribute",
@@ -406,7 +435,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "name",
-                      "value": "mainFrame"
+                      "rawName": "name",
+                      "value": "mainFrame",
+                      "rawValue": "\"mainFrame\""
                     }
                   ],
                   "children": [],

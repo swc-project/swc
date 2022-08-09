@@ -1,5 +1,5 @@
-function a() {
-    var a = 33;
-    console.log(a++);
-    alert(a);
+function n() {
+    var n = 33;
+    console.log(n++);
+    alert(n);
 }

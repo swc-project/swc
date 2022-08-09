@@ -5,5 +5,4 @@ function funky(declaration) {
     return !1;
 }
 module.exports = donkey, module.exports.funky = funky;
-var funky = require("./commonJSAliasedExport").funky;
-funky(1);
+(0, require("./commonJSAliasedExport").funky)(1);

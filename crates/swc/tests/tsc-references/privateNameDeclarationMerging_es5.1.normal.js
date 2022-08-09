@@ -1,7 +1,7 @@
+// @target: es6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-// @target: es6
 var D = function D() {
     "use strict";
     _class_call_check(this, D);

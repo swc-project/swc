@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": "-//W3C//DTD HTML 4.01//EN",
-      "systemId": "http://www.w3.org/TR/html4/strict.dtd"
+      "systemId": "http://www.w3.org/TR/html4/strict.dtd",
+      "raw": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\n        \"http://www.w3.org/TR/html4/strict.dtd\">"
     },
     {
       "type": "Element",
@@ -70,7 +71,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "http-equiv",
-                  "value": "Content-Type"
+                  "rawName": "http-equiv",
+                  "value": "Content-Type",
+                  "rawValue": "\"Content-Type\""
                 },
                 {
                   "type": "Attribute",
@@ -82,7 +85,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "content",
-                  "value": "text/html; charset=utf-8"
+                  "rawName": "content",
+                  "value": "text/html; charset=utf-8",
+                  "rawValue": "\"text/html; charset=utf-8\""
                 }
               ],
               "children": [],

@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -106,7 +107,8 @@
                 "end": 151,
                 "ctxt": 0
               },
-              "data": "\n<p>Look at this cool image:</p>\n<img border=\"0\" src=\"pic_trulli.jpg\" alt=\"Trulli\">\n"
+              "data": "\n<p>Look at this cool image:</p>\n<img border=\"0\" src=\"pic_trulli.jpg\" alt=\"Trulli\">\n",
+              "raw": "<!--\n<p>Look at this cool image:</p>\n<img border=\"0\" src=\"pic_trulli.jpg\" alt=\"Trulli\">\n-->"
             },
             {
               "type": "Text",

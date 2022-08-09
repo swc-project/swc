@@ -1,10 +1,10 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @moduleResolution: node
 // @declaration: true
 // @emitDeclarationOnly: true
 // @filename: rectangle.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Rectangle = function Rectangle() {
     "use strict";
     _class_call_check(this, Rectangle);
@@ -14,6 +14,7 @@ module.exports = {
     Rectangle: Rectangle
 };
 // @filename: index.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Rectangle = require("./rectangle").Rectangle;
 var Render = /*#__PURE__*/ function() {
     "use strict";

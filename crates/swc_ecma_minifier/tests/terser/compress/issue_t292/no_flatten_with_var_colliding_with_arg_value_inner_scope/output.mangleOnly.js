@@ -1,21 +1,21 @@
-var a = [
+var n = [
     "a"
 ];
-function b(b) {
-    return a.indexOf(b);
+function r(r) {
+    return n.indexOf(r);
 }
-function c(a) {
-    return b(a);
+function t(n) {
+    return r(n);
 }
-function d(a) {
-    return b(a);
+function u(n) {
+    return r(n);
 }
-function e(b) {
-    var c = b * 2;
-    console.log(c);
-    return a[c];
+function o(r) {
+    var t = r * 2;
+    console.log(t);
+    return n[t];
 }
-function f(a) {
-    return e(d(a));
+function e(n) {
+    return o(u(n));
 }
-console.log(f("a"));
+console.log(e("a"));

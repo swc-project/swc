@@ -1,4 +1,4 @@
-function a() {
-    function a() {}
-    function b() {}
+function n() {
+    function n() {}
+    function c() {}
 }

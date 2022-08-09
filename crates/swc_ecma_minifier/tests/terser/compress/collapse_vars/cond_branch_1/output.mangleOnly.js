@@ -1,21 +1,21 @@
-function a(a, b) {
-    var c = console.log;
-    var d = ++b;
+function a(a, n) {
+    var o = console.log;
+    var r = ++n;
     if (a) a++;
-    c(d, a);
+    o(r, a);
 }
-function b(a, b) {
-    var c = console.log;
-    var d = ++b;
+function n(a, n) {
+    var o = console.log;
+    var r = ++n;
     a && a++;
-    c(d, a);
+    o(r, a);
 }
-function c(a, b) {
-    var c = console.log;
-    var d = ++b;
+function o(a, n) {
+    var o = console.log;
+    var r = ++n;
     a ? a++ : a--;
-    c(d, a);
+    o(r, a);
 }
 a(1, 2);
-b(3, 4);
-c(5, 6);
+n(3, 4);
+o(5, 6);

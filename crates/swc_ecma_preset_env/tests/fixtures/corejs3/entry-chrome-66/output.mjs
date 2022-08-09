@@ -9,6 +9,7 @@ import "core-js/modules/es.math.hypot.js";
 import "core-js/modules/es.object.from-entries.js";
 import "core-js/modules/es.promise.finally.js";
 import "core-js/modules/es.promise.js";
+import "core-js/modules/es.regexp.flags.js";
 import "core-js/modules/es.symbol.description.js";
 import "core-js/modules/es.typed-array.set.js";
 import "core-js/modules/es.typed-array.sort.js";

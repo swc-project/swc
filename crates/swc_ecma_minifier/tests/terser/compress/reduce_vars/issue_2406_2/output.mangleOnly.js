@@ -1,16 +1,16 @@
-const a = {
+const n = {
     fn: function() {
         return this;
     }
 };
-let b = {
+let t = {
     fn: function() {
         return this;
     }
 };
-var c = {
+var f = {
     fn: function() {
         return this;
     }
 };
-console.log(a.fn(), b.fn(), c.fn());
+console.log(n.fn(), t.fn(), f.fn());

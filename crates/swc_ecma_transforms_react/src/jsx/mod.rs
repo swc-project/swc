@@ -6,7 +6,7 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
@@ -1263,7 +1263,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 }
 
 #[inline]
-fn jsx_text_to_str(t: JsWord) -> JsWord {
+fn jsx_text_to_str(t: Atom) -> JsWord {
     static SPACE_START: Lazy<Regex> = Lazy::new(|| Regex::new("^[ ]+").unwrap());
     static SPACE_END: Lazy<Regex> = Lazy::new(|| Regex::new("[ ]+$").unwrap());
     let mut buf = String::new();

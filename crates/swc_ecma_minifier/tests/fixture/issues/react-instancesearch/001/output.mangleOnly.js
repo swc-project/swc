@@ -1,29 +1,29 @@
-import { defer as a } from "./utils";
-export default function b(b) {
-    const c = [];
-    let d = false;
-    function e() {
-        if (d) {
+import { defer as e } from "./utils";
+export default function t(t) {
+    const r = [];
+    let n = false;
+    function u() {
+        if (n) {
             return;
         }
-        d = true;
-        a(()=>{
-            d = false;
-            b();
+        n = true;
+        e(()=>{
+            n = false;
+            t();
         });
     }
     return {
-        registerWidget (a) {
-            c.push(a);
-            e();
-            return function b() {
-                c.splice(c.indexOf(a), 1);
-                e();
+        registerWidget (e) {
+            r.push(e);
+            u();
+            return function t() {
+                r.splice(r.indexOf(e), 1);
+                u();
             };
         },
-        update: e,
+        update: u,
         getWidgets () {
-            return c;
+            return r;
         }
     };
 };

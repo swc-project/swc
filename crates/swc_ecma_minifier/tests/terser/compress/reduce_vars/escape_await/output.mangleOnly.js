@@ -1,15 +1,15 @@
-function a() {
-    var a;
-    c().then((b)=>{
-        a = b;
+function n() {
+    var n;
+    e().then((t)=>{
+        n = t;
     });
-    c().then((b)=>{
-        if (a !== (a = b)) console.log("FAIL");
+    e().then((t)=>{
+        if (n !== (n = t)) console.log("FAIL");
         else console.log("PASS");
     });
 }
-function b() {}
-async function c() {
-    return await b;
+function t() {}
+async function e() {
+    return await t;
 }
-a();
+n();

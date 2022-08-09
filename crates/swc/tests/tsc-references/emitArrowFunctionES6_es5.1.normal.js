@@ -1,6 +1,6 @@
+// @target:es6
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_array from "@swc/helpers/src/_to_array.mjs";
-// @target:es6
 var f1 = function() {};
 var f2 = function(x, y) {};
 var f3 = function(x, y) {

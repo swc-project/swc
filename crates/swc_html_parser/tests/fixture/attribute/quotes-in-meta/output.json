@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -83,7 +86,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "http-equiv",
-                  "value": "Content-Type"
+                  "rawName": "http-equiv",
+                  "value": "Content-Type",
+                  "rawValue": "\"Content-Type\""
                 },
                 {
                   "type": "Attribute",
@@ -95,7 +100,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "content",
-                  "value": "charset=\"windows-1251"
+                  "rawName": "content",
+                  "value": "charset=\"windows-1251",
+                  "rawValue": "'charset=\"windows-1251'"
                 }
               ],
               "children": [],

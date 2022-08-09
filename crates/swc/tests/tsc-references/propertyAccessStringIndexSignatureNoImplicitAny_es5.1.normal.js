@@ -1,3 +1,4 @@
+// @noImplicitAny: true
 var flags;
 flags.b;
 flags.f;

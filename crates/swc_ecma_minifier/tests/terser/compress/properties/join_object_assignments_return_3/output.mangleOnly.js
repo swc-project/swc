@@ -1,6 +1,6 @@
 console.log((function() {
-    var a = {
+    var n = {
         p: 3
     };
-    return (a.q = "foo"), (a.p += ""), console.log(a.q), a.p;
+    return (n.q = "foo"), (n.p += ""), console.log(n.q), n.p;
 })());

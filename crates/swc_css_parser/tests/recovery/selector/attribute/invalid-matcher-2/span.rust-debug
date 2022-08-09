@@ -17,10 +17,10 @@
    : ^^^^^^^^^^^^^^^^^
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
  1 | [href#="test"] {}
-   : ^^^^^^^^^^^^^^^
+   : ^
    `----
 
   x LBracket
@@ -29,10 +29,22 @@
    : ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
+ 1 | [href#="test"] {}
+   :  ^^^^
+   `----
+
   x Ident { value: Atom('href' type=inline), raw: Atom('href' type=inline) }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
  1 | [href#="test"] {}
    :  ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
+ 1 | [href#="test"] {}
+   :      ^
    `----
 
   x Delim { value: '#' }
@@ -41,10 +53,22 @@
    :      ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
+ 1 | [href#="test"] {}
+   :       ^
+   `----
+
   x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
  1 | [href#="test"] {}
    :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
+ 1 | [href#="test"] {}
+   :        ^^^^^^
    `----
 
   x String { value: Atom('test' type=inline), raw: Atom('"test"' type=inline) }
@@ -53,10 +77,22 @@
    :        ^^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
+ 1 | [href#="test"] {}
+   :              ^
+   `----
+
   x RBracket
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
  1 | [href#="test"] {}
    :              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
+ 1 | [href#="test"] {}
+   :               ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }

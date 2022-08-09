@@ -1,4 +1,4 @@
-var a = {
+var r = {
     "*": 1,
     get "*" () {
         return 2;
@@ -14,7 +14,7 @@ var a = {
         return 3;
     }
 };
-class b {
+class e {
     get "*"() {
         return 1;
     }

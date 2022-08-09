@@ -1,6 +1,6 @@
-import _class_static_private_field_destructure from "@swc/helpers/src/_class_static_private_field_destructure.mjs";
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: false
+import _class_static_private_field_destructure from "@swc/helpers/src/_class_static_private_field_destructure.mjs";
 class A {
     testObject() {
         return {

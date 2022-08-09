@@ -1,11 +1,11 @@
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @strict: true
 // @noImplicitThis: false
 // @Filename: a.js
-/** @param {number} x */ function C(x) {
+/** @param {number} x */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+function C(x) {
     this.x = x;
 }
 C.prototype.m = function() {

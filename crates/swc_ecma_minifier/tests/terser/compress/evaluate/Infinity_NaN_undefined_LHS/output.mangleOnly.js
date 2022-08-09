@@ -1,4 +1,4 @@
-function a() {
+function n() {
     Infinity = Infinity;
     ++Infinity;
     Infinity--;

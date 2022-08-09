@@ -1,0 +1,111 @@
+a {
+  background: linear-gradient(350.5deg, white, black), linear-gradient(-130deg, black, white), linear-gradient(45deg, black, white);
+}
+b {
+  background-image: linear-gradient(rgba(0, 0, 0, 1), white), linear-gradient(white, black);
+}
+strong {
+  background: linear-gradient(to top, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
+}
+div {
+  background-image: radial-gradient(to left, white, black), repeating-linear-gradient(to bottom right, black, white), repeating-radial-gradient(to top, aqua, red);
+}
+.old-radial {
+  background: radial-gradient(0 50%, ellipse farthest-corner, black, white);
+}
+.simple1 {
+  background: linear-gradient(black, white);
+}
+.simple2 {
+  background: linear-gradient(to left, black 0%, rgba(0, 0, 0, 0.5) 50%, white 100%);
+}
+.simple3 {
+  background: linear-gradient(to left, black 50%, white 100%);
+}
+.simple4 {
+  background: linear-gradient(to right top, black, white);
+}
+.direction {
+  background: linear-gradient(top left, black, rgba(0, 0, 0, 0.5), white);
+}
+.silent {
+  background: -webkit-linear-gradient(top left, black, white);
+}
+.radial {
+  background: radial-gradient(farthest-side at 0 50%, white, black);
+}
+.second {
+  background: red linear-gradient(red, blue);
+  background: url('logo.png'), linear-gradient(#fff, #000);
+}
+.px {
+  background: linear-gradient(black 0, white 100px);
+}
+.list {
+  list-style-image: linear-gradient(white, black);
+}
+.mask {
+  -webkit-mask: linear-gradient(white, black);
+  mask: linear-gradient(white, black);
+}
+.newline {
+  background-image: linear-gradient(white, black), linear-gradient(black, white);
+}
+.convert {
+  background: linear-gradient(0deg, white, black);
+  background: linear-gradient(90deg, white, black);
+  background: linear-gradient(180deg, white, black);
+  background: linear-gradient(270deg, white, black);
+}
+.grad {
+  background: linear-gradient(1grad, white, black);
+}
+.rad {
+  background: linear-gradient(1rad, white, black);
+}
+.turn {
+  background: linear-gradient(0.3turn, white, black);
+}
+.norm {
+  background: linear-gradient(-90deg, white, black);
+}
+.mask {
+  -webkit-mask-image: radial-gradient(circle at 86% 86%, transparent 8px, black 8px);
+  mask-image: radial-gradient(circle at 86% 86%, transparent 8px, black 8px);
+}
+.cover {
+  background: radial-gradient(ellipse cover at center, white, black);
+}
+.contain {
+  background: radial-gradient(contain at center, white, black);
+}
+.no-div {
+  background: linear-gradient(black);
+}
+.background-shorthand {
+  background: radial-gradient(#FFF, transparent) 0 0/ cover no-repeat #F0F;
+}
+.background-advanced {
+  background: radial-gradient(ellipse farthest-corner at 5px 15px, rgba(214, 168, 18, 0.7) 0%, rgba(255, 21, 177, 0.7) 50%, rgba(210, 7, 148, 0.7) 95%), radial-gradient(#FFF, transparent), url(path/to/image.jpg) 50% / cover;
+}
+.multiradial {
+  -webkit-mask-image: radial-gradient(circle closest-corner at 100% 50%, #000, transparent);
+  mask-image: radial-gradient(circle closest-corner at 100% 50%, #000, transparent);
+}
+.broken {
+  -webkit-mask-image: radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
+}
+.loop {
+  background-image: url("https://test.com/lol(test.png"), radial-gradient(yellow, black, yellow);
+}
+.more {
+  background: linear-gradient(to top, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
+  background: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
+  background: linear-gradient(33.333deg, white, black), linear-gradient(-130deg, black, white), linear-gradient(45deg, black, white);
+}
+.broken {
+  background-image: linear-gradient(to, red 50%);
+}

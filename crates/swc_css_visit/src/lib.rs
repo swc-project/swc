@@ -55,48 +55,49 @@ define!({
 
         CalcSum(CalcSum),
         ComplexSelector(ComplexSelector),
+        LayerName(LayerName),
     }
 
     pub struct Ident {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct CustomIdent {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct CustomPropertyName {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct DashedIdent {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Integer {
         pub span: Span,
         pub value: i64,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Number {
         pub span: Span,
         pub value: f64,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct Declaration {
@@ -123,15 +124,15 @@ define!({
     }
 
     pub enum QualifiedRulePrelude {
+        ListOfComponentValues(ListOfComponentValues),
         SelectorList(SelectorList),
-        Invalid(Tokens),
     }
 
     pub enum StyleBlock {
+        ListOfComponentValues(ListOfComponentValues),
         AtRule(AtRule),
         Declaration(Declaration),
         QualifiedRule(QualifiedRule),
-        Invalid(Tokens),
     }
 
     pub enum DeclarationOrAtRule {
@@ -172,7 +173,7 @@ define!({
     pub struct HexColor {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub enum AlphaValue {
@@ -268,10 +269,10 @@ define!({
 
     pub struct UrlValueRaw {
         pub span: Span,
-        pub before: JsWord,
-        pub after: JsWord,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub before: Option<JsWord>,
+        pub raw: Option<JsWord>,
+        pub after: Option<JsWord>,
     }
 
     pub enum UrlModifier {

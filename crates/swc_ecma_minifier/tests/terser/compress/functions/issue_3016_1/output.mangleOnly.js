@@ -1,8 +1,8 @@
-var a = 1;
+var r = 1;
 do {
-    (function(b) {
-        return b[a];
-        var b;
+    (function(n) {
+        return n[r];
+        var n;
     })(3);
 }while (0)
-console.log(a);
+console.log(r);

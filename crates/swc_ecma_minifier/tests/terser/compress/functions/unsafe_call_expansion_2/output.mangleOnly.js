@@ -1,7 +1,7 @@
-var a = [
+var l = [
     2,
     3
 ];
-(function(...a) {
-    console.log(...a);
-}.call(console, 1, ...a, 4));
+(function(...l) {
+    console.log(...l);
+}.call(console, 1, ...l, 4));

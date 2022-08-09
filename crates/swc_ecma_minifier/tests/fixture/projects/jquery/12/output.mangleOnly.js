@@ -1,49 +1,49 @@
-var a = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, b = /([A-Z])/g;
-function c(a, b, c, d) {
-    if (!jQuery.acceptData(a)) {
+var e = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, a = /([A-Z])/g;
+function t(e, a, t, f) {
+    if (!jQuery.acceptData(e)) {
         return;
     }
-    var e, f, g = jQuery.expando, h = typeof b === "string", i = a.nodeType, j = i ? jQuery.cache : a, k = i ? a[g] : a[g] && g;
-    if ((!k || !j[k] || (!d && !j[k].data)) && h && c === undefined) {
+    var i, d, n = jQuery.expando, o = typeof a === "string", p = e.nodeType, r = p ? jQuery.cache : e, c = p ? e[n] : e[n] && n;
+    if ((!c || !r[c] || (!f && !r[c].data)) && o && t === undefined) {
         return;
     }
-    if (!k) {
-        if (i) {
-            a[g] = k = core_deletedIds.pop() || jQuery.guid++;
+    if (!c) {
+        if (p) {
+            e[n] = c = core_deletedIds.pop() || jQuery.guid++;
         } else {
-            k = g;
+            c = n;
         }
     }
-    if (!j[k]) {
-        j[k] = {};
-        if (!i) {
-            j[k].toJSON = jQuery.noop;
+    if (!r[c]) {
+        r[c] = {};
+        if (!p) {
+            r[c].toJSON = jQuery.noop;
         }
     }
-    if (typeof b === "object" || typeof b === "function") {
-        if (d) {
-            j[k] = jQuery.extend(j[k], b);
+    if (typeof a === "object" || typeof a === "function") {
+        if (f) {
+            r[c] = jQuery.extend(r[c], a);
         } else {
-            j[k].data = jQuery.extend(j[k].data, b);
+            r[c].data = jQuery.extend(r[c].data, a);
         }
     }
-    e = j[k];
-    if (!d) {
-        if (!e.data) {
-            e.data = {};
+    i = r[c];
+    if (!f) {
+        if (!i.data) {
+            i.data = {};
         }
-        e = e.data;
+        i = i.data;
     }
-    if (c !== undefined) {
-        e[jQuery.camelCase(b)] = c;
+    if (t !== undefined) {
+        i[jQuery.camelCase(a)] = t;
     }
-    if (h) {
-        f = e[b];
-        if (f == null) {
-            f = e[jQuery.camelCase(b)];
+    if (o) {
+        d = i[a];
+        if (d == null) {
+            d = i[jQuery.camelCase(a)];
         }
     } else {
-        f = e;
+        d = i;
     }
-    return f;
+    return d;
 }

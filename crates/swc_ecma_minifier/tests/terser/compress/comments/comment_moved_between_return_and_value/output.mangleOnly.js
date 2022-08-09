@@ -1,7 +1,7 @@
-console.log((function(a) {
-    function b(a) {
-        return a.toUpperCase();
+console.log((function(n) {
+    function o(n) {
+        return n.toUpperCase();
     }
     console.log("PASS");
-    return b("PA") + "SS";
+    return o("PA") + "SS";
 })());

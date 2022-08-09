@@ -3,8 +3,8 @@ var a = 1;
     a++;
     try {
         x();
-    } catch (b) {
-        var b;
+    } catch (c) {
+        var c;
     }
 })();
 console.log(a);

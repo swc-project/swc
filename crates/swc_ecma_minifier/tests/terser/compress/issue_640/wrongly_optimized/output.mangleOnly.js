@@ -1,6 +1,6 @@
-function a() {
+function f() {
     foo();
 }
-if (a() || true) {
+if (f() || true) {
     bar();
 }

@@ -1,3 +1,5 @@
+// @declaration: true
+// @Filename: file1.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C3 = function C3() {
     "use strict";
@@ -13,3 +15,5 @@ c5.x1;
 c5.x2;
 c5.x3;
 c5.x4;
+// @Filename: file2.ts
+// @Filename: file3.ts

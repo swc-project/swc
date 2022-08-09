@@ -1,3 +1,6 @@
+// @target: es5
+// @useDefineForClassFields: true
+// @noTypesAndSymbols: true
 import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";

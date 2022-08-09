@@ -1,9 +1,9 @@
-var a = {
-    async bar (a) {
-        return await a, 2;
+var e = {
+    async bar (e) {
+        return await e, 2;
     },
-    *gen (a) {
-        return yield a.toUpperCase(), 2;
+    *gen (e) {
+        return yield e.toUpperCase(), 2;
     }
 };
-console.log(a.gen("pass").next().value);
+console.log(e.gen("pass").next().value);

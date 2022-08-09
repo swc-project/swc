@@ -1,7 +1,4 @@
 var E1, E2, t1, t2, t3, t4;
-function f1(x) {
-    return "foo";
-}
 function f2(x) {
     return 10;
 }
@@ -10,7 +7,9 @@ function f2(x) {
 }(E1 || (E1 = {})), function(E2) {
     E2[E2.two = 0] = "two";
 }(E2 || (E2 = {})), t1 = [
-    f1,
+    function(x) {
+        return "foo";
+    },
     f2
 ], t2 = [
     E1.one,

@@ -1,3 +1,5 @@
+//@filename: file.tsx
+//@jsx: react
 import _extends from "@swc/helpers/src/_extends.mjs";
 var p;
 var openClosed1 = /*#__PURE__*/ React.createElement("div", null, blah);

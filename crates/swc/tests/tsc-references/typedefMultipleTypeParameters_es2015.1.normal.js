@@ -11,3 +11,4 @@
  */ /** @type {Everything<{ a: number, b: 'hi', c: never }, undefined, { c: true, d: 1 }, number, string>} */ var tuvwx;
 /** @type {Everything<{ a: number  }, undefined, { c: 1, d: 1 }, number, string>} */ var wrong;
 /** @type {Everything<{ a: number  }>} */ var insufficient;
+// @Filename: test.ts

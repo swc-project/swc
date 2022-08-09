@@ -1,10 +1,10 @@
-class a extends b(c(Array)) {
+class s extends n(e(Array)) {
     constructor(){
         super(...arguments);
     }
 }
-function b(a) {
-    return class extends a {
+function n(s) {
+    return class extends s {
         constructor(){
             super(...arguments);
         }
@@ -13,11 +13,11 @@ function b(a) {
         }
     };
 }
-function c(a) {
-    return class extends a {
-        constructor(...a){
-            super(...a);
+function e(s) {
+    return class extends s {
+        constructor(...s){
+            super(...s);
         }
     };
 }
-console.log(new a(1, "PASS", 3).second());
+console.log(new s(1, "PASS", 3).second());

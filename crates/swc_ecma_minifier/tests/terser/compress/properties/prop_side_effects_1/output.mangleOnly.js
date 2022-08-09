@@ -1,8 +1,8 @@
-var a = 1;
-console.log(a);
-var b = {
+var r = 1;
+console.log(r);
+var a = {
     bar: function() {
-        return a + a;
+        return r + r;
     }
 };
-console.log(b.bar());
+console.log(a.bar());

@@ -1,5 +1,8 @@
-import _extends from "@swc/helpers/src/_extends.mjs";
+//@jsx: react
+//@module: commonjs
+//@filename: file.tsx
 //@filename: react-consumer.tsx
+import _extends from "@swc/helpers/src/_extends.mjs";
 var M;
 (function(M) {
     var React1;

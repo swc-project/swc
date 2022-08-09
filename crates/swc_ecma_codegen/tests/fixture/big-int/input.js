@@ -12,3 +12,4 @@ const n11 = 0b101n;
 const n12 = 0b101n;
 const n13 = 0o13n;
 const n14 = 0b101_101n;
+const n15 = 10000000000000000n;

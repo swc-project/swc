@@ -1,8 +1,8 @@
-function a() {
+function t() {
     if (FOO) {
+        let t;
         let a;
-        let b;
-        var c;
-        var d;
+        var e;
+        var f;
     }
 }

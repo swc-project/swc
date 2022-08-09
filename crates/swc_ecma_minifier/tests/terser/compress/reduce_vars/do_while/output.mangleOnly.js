@@ -1,10 +1,10 @@
-function a(a) {
+function n(n) {
     do {
         (function() {
-            a && (b = "PASS");
+            n && (o = "PASS");
         })();
-    }while ((a = 0))
+    }while ((n = 0))
 }
-var b = "FAIL";
-a(1);
-console.log(b);
+var o = "FAIL";
+n(1);
+console.log(o);

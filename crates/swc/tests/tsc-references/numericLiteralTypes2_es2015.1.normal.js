@@ -1,3 +1,4 @@
+// @strictNullChecks: true
 function f1() {
     var a = 1;
     var a = 1;

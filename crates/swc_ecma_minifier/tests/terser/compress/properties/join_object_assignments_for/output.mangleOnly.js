@@ -1,7 +1,7 @@
 console.log((function() {
-    var a = {
+    var o = {
         p: 3
     };
-    for(a.q = "foo"; console.log(a.q););
-    return a.p;
+    for(o.q = "foo"; console.log(o.q););
+    return o.p;
 })());

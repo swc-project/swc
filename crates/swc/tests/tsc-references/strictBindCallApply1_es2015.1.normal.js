@@ -1,3 +1,4 @@
+// @strict: true
 let f00 = foo.bind(undefined);
 let f01 = foo.bind(undefined, 10);
 let f02 = foo.bind(undefined, 10, "hello");

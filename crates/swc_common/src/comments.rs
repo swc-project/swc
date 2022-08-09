@@ -5,6 +5,7 @@ use std::{
 };
 
 use rustc_hash::FxHashMap;
+use swc_atoms::{atom, Atom};
 
 use crate::{
     pos::Spanned,
@@ -439,7 +440,7 @@ impl Comments for SingleThreadedComments {
         let pure_comment = Comment {
             kind: CommentKind::Block,
             span: DUMMY_SP,
-            text: "#__PURE__".into(),
+            text: atom!("#__PURE__"),
         };
 
         if !leading.iter().any(|c| c.text == pure_comment.text) {
@@ -541,11 +542,11 @@ impl SingleThreadedComments {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,
-    pub text: String,
+    /// [`Atom::new_bad`][] is perfectly fine for this value.
+    pub text: Atom,
 }
 
 impl Spanned for Comment {
@@ -558,10 +559,6 @@ impl Spanned for Comment {
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
 )]
 pub enum CommentKind {
     Line,

@@ -1,5 +1,5 @@
-function a() {
-    function a() {}
-    a();
-    return a;
+function n() {
+    function n() {}
+    n();
+    return n;
 }

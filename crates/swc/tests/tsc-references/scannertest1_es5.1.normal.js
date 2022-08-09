@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 ///<reference path='References.ts' />
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var CharacterInfo = /*#__PURE__*/ function() {
     "use strict";
     function CharacterInfo() {

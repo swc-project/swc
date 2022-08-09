@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 //@target: ES6
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 var k, v;
 var map = new Map([
     [

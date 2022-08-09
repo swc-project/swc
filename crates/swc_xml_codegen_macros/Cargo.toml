@@ -1,0 +1,20 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "Alexander Akait <sheo13666q@gmail.com>"]
+description = "Internal macro for the xml code generator"
+documentation = "https://rustdoc.swc.rs/swc_xml_codegen_macros/"
+edition = "2021"
+license = "Apache-2.0"
+name = "swc_xml_codegen_macros"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[lib]
+bench = false
+proc-macro = true
+
+[dependencies]
+pmutil = "0.5.1"
+proc-macro2 = "1"
+quote = "1"
+swc_macros_common = {version = "0.3.4", path = "../swc_macros_common"}
+syn = {version = "1", features = ["fold"]}

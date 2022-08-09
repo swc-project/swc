@@ -1,4 +1,4 @@
-function c() {
+function n() {
     a();
     b();
     x = 10;

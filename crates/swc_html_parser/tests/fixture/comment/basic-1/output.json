@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -71,7 +72,8 @@
                 "end": 56,
                 "ctxt": 0
               },
-              "data": "This is a comment"
+              "data": "This is a comment",
+              "raw": "<!--This is a comment-->"
             },
             {
               "type": "Text",
@@ -90,7 +92,8 @@
                 "end": 83,
                 "ctxt": 0
               },
-              "data": " This is a comment "
+              "data": " This is a comment ",
+              "raw": "<!-- This is a comment -->"
             },
             {
               "type": "Text",
@@ -144,7 +147,8 @@
                 "end": 162,
                 "ctxt": 0
               },
-              "data": " Comments are not displayed in the browser "
+              "data": " Comments are not displayed in the browser ",
+              "raw": "<!-- Comments are not displayed in the browser -->"
             },
             {
               "type": "Text",

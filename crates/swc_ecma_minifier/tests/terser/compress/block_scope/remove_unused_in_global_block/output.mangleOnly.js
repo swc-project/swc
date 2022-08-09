@@ -1,12 +1,12 @@
 {
-    let a;
-    const b = 1;
-    class c {
+    let s;
+    const l = 1;
+    class a {
     }
-    var d;
-}let e;
-const f = 2;
-class g {
+    var c;
+}let t;
+const o = 2;
+class e {
 }
-var h;
+var n;
 console.log(x, y, Zee);

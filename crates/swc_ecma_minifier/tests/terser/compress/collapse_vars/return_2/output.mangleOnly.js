@@ -1,12 +1,12 @@
-var a = console.log;
-function b(b, c) {
-    var d = c();
-    if (b) return b;
-    a(d);
+var n = console.log;
+function r(r, t) {
+    var u = t();
+    if (r) return r;
+    n(u);
 }
-b(false, function() {
+r(false, function() {
     return 1;
 });
-b(true, function() {
+r(true, function() {
     return 2;
 });

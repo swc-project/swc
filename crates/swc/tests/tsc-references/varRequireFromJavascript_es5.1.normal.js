@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @strict: true
 // @noEmit: true
 // @Filename: ex.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var Crunch = /*#__PURE__*/ function() {
     "use strict";
     function Crunch(n) {

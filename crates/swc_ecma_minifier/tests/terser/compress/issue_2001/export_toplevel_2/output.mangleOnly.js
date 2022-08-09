@@ -1,6 +1,6 @@
-class a {
+class s {
 }
 export class B {
 }
-export default class b {
+export default class a {
 };

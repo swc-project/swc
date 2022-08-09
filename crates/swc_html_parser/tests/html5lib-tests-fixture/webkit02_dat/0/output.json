@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "bar",
-                  "value": "qux/"
+                  "rawName": "bar",
+                  "value": "qux/",
+                  "rawValue": "qux/"
                 }
               ],
               "children": [],

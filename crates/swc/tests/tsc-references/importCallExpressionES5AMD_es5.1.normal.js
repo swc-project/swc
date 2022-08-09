@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @module: amd
 // @target: es5
 // @lib: es6
@@ -8,6 +7,7 @@ export function foo() {
 }
 // @filename: 1.ts
 import("./0");
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var p1 = import("./0");
 p1.then(function(zero) {
     return zero.foo();

@@ -2,7 +2,7 @@ use std::{path::Path, sync::Arc};
 
 use anyhow::Error;
 use once_cell::sync::Lazy;
-use swc_common::SourceMap;
+use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
 use transform_executor::TransformExecutor;
 
 pub mod cache;
@@ -24,6 +24,8 @@ pub fn create_plugin_transform_executor(
     path: &Path,
     cache: &Lazy<cache::PluginModuleCache>,
     source_map: &Arc<SourceMap>,
+    metadata_context: &Arc<TransformPluginMetadataContext>,
+    plugin_config: Option<serde_json::Value>,
 ) -> Result<TransformExecutor, Error> {
-    TransformExecutor::new(path, cache, source_map)
+    TransformExecutor::new(path, cache, source_map, metadata_context, plugin_config)
 }

@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Comment",
@@ -25,7 +26,8 @@
         "end": 23,
         "ctxt": 0
       },
-      "data": "x"
+      "data": "x",
+      "raw": "<!--x"
     },
     {
       "type": "Element",

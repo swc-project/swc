@@ -198,7 +198,7 @@ impl VisitMut for CompressDeclaration {
                             declaration.value = vec![ComponentValue::Ident(Ident {
                                 span: *span,
                                 value: "inline-block".into(),
-                                raw: "inline-block".into(),
+                                raw: None,
                             })];
                         }
                         // `block flow list-item` -> `list-item`
@@ -432,7 +432,7 @@ impl VisitMut for CompressDeclaration {
                                 ComponentValue::Number(Number {
                                     span,
                                     value: 400.0,
-                                    raw: "400".into(),
+                                    raw: None,
                                 })
                             }
                             ComponentValue::Ident(Ident { value, span, .. })
@@ -441,7 +441,7 @@ impl VisitMut for CompressDeclaration {
                                 ComponentValue::Number(Number {
                                     span,
                                     value: 700.0,
-                                    raw: "700".into(),
+                                    raw: None,
                                 })
                             }
                             _ => node,
@@ -471,14 +471,14 @@ impl VisitMut for CompressDeclaration {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
                                     value: "repeat-x".into(),
-                                    raw: "repeat-x".into(),
+                                    raw: None,
                                 })];
                             }
                             ("no-repeat", "repeat") => {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
                                     value: "repeat-y".into(),
-                                    raw: "repeat-y".into(),
+                                    raw: None,
                                 })];
                             }
                             ("repeat", "repeat")

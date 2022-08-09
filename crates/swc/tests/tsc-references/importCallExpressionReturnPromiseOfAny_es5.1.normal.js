@@ -1,14 +1,15 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(loadModule);
 // @module: commonjs
 // @target: es6
 // @noImplicitAny: true
 // @filename: defaultPath.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
+// @filename: 1.ts
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = regeneratorRuntime.mark(loadModule);
 import("".concat(directory, "\\").concat(moduleFile));
 import(getSpecifier());
 var p1 = import(ValidSomeCondition() ? "./0" : "externalModule");
@@ -88,3 +89,4 @@ function loadModule(directories) {
         ]
     ]);
 }
+export { };

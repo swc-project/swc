@@ -1,10 +1,10 @@
-var a = {};
+var t = {};
 {
-    Object.freeze(a);
-}function b(b, c, d) {
-    this.props = b;
-    this.context = c;
-    this.refs = a;
-    this.updater = d || ReactNoopUpdateQueue;
+    Object.freeze(t);
+}function e(e, o, s) {
+    this.props = e;
+    this.context = o;
+    this.refs = t;
+    this.updater = s || ReactNoopUpdateQueue;
 }
-b.prototype.isReactComponent = {};
+e.prototype.isReactComponent = {};

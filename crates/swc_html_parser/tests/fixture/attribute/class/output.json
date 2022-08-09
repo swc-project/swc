@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +156,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"
+                  "rawName": "class",
+                  "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z",
+                  "rawValue": "\"0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z\""
                 }
               ],
               "children": [],
@@ -190,7 +195,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "add sort keys createSorter"
+                  "rawName": "class",
+                  "value": "add sort keys createSorter",
+                  "rawValue": "\"add sort keys createSorter\""
                 }
               ],
               "children": [],
@@ -227,7 +234,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "sprite sprite-{{sprite}}"
+                  "rawName": "class",
+                  "value": "sprite sprite-{{sprite}}",
+                  "rawValue": "\"sprite sprite-{{sprite}}\""
                 }
               ],
               "children": [],
@@ -264,7 +273,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "{{sprite}}-sprite sprite"
+                  "rawName": "class",
+                  "value": "{{sprite}}-sprite sprite",
+                  "rawValue": "\"{{sprite}}-sprite sprite\""
                 }
               ],
               "children": [],
@@ -301,7 +312,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "sprite-{{sprite}}-sprite"
+                  "rawName": "class",
+                  "value": "sprite-{{sprite}}-sprite",
+                  "rawValue": "\"sprite-{{sprite}}-sprite\""
                 }
               ],
               "children": [],
@@ -338,7 +351,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "{{sprite}}"
+                  "rawName": "class",
+                  "value": "{{sprite}}",
+                  "rawValue": "\"{{sprite}}\""
                 }
               ],
               "children": [],
@@ -375,7 +390,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "{{sprite}}"
+                  "rawName": "class",
+                  "value": "{{sprite}}",
+                  "rawValue": "{{sprite}}"
                 }
               ],
               "children": [],
@@ -412,7 +429,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": null
+                  "rawName": "class",
+                  "value": null,
+                  "rawValue": null
                 }
               ],
               "children": [],
@@ -449,7 +468,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
+                  "rawName": "class",
+                  "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar",
+                  "rawValue": "\"nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar\""
                 }
               ],
               "children": [],
@@ -486,7 +507,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
+                  "rawName": "class",
+                  "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz",
+                  "rawValue": "\"moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz\""
                 }
               ],
               "children": [],
@@ -523,7 +546,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "="
+                  "rawName": "class",
+                  "value": "=",
+                  "rawValue": "\"=\""
                 }
               ],
               "children": [],
@@ -560,7 +585,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "= = = ="
+                  "rawName": "class",
+                  "value": "= = = =",
+                  "rawValue": "\"= = = =\""
                 }
               ],
               "children": [],

@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -68,7 +69,7 @@
               "type": "Element",
               "span": {
                 "start": 17,
-                "end": 28,
+                "end": 43,
                 "ctxt": 0
               },
               "tagName": "i",
@@ -124,7 +125,7 @@
                   "type": "Element",
                   "span": {
                     "start": 21,
-                    "end": 28,
+                    "end": 43,
                     "ctxt": 0
                   },
                   "tagName": "table",

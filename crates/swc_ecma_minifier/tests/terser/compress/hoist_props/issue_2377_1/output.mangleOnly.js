@@ -1,11 +1,11 @@
-var a = {
+var o = {
     foo: 1,
     bar: 2,
-    square: function(a) {
-        return a * a;
+    square: function(o) {
+        return o * o;
     },
-    cube: function(a) {
-        return a * a * a;
+    cube: function(o) {
+        return o * o * o;
     }
 };
-console.log(a.foo, a.cube(3));
+console.log(o.foo, o.cube(3));

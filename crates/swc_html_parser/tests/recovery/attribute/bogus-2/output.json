@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "a",
-                  "value": "&not="
+                  "rawName": "a",
+                  "value": "&not=",
+                  "rawValue": "&not="
                 }
               ],
               "children": [],

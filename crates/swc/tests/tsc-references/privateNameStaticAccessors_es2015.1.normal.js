@@ -1,7 +1,7 @@
-import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
-import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
 // @strict: true
 // @target: es6
+import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
+import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
 class A1 {
     constructor(name){
         _class_static_private_field_spec_set(A1, A1, _prop, "");

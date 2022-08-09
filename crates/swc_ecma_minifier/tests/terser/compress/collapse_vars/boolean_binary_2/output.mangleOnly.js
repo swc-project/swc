@@ -1,6 +1,6 @@
-var a = 0;
-a += 1;
+var n = 0;
+n += 1;
 ((function() {
-    a = 1 + a;
+    n = 1 + n;
 } || 9).toString());
-console.log(a);
+console.log(n);

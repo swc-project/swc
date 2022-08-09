@@ -1,2 +1,2 @@
-var a = typeof ((a)=>null);
-console.log(a);
+var l = typeof ((l)=>null);
+console.log(l);

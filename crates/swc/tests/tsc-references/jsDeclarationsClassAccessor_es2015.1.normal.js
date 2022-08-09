@@ -1,3 +1,10 @@
+// @allowJs: true
+// @checkJs: true
+// @target: es2019
+// @outDir: ./out
+// @declaration: true
+// @filename: supplement.d.ts
+export { };
 // @filename: base.js
 export class Base {
     toJSON() {
@@ -10,6 +17,8 @@ export class Base {
     }
     constructor(){}
 }
+// @filename: argument.js
+import { Base } from "./base.js";
 export class Argument extends Base {
     /**
      * @param {*} tokeniser

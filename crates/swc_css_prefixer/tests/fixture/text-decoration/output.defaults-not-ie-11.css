@@ -1,0 +1,29 @@
+.shorthand {
+  -webkit-text-decoration: overline double red;
+  text-decoration: overline double red;
+}
+.full {
+  text-decoration-style: double;
+}
+.old {
+  text-decoration: underline;
+}
+.global {
+  text-decoration: unset;
+}
+.skip {
+  -webkit-text-decoration-skip: spaces;
+  text-decoration-skip: spaces;
+}
+.ink-auto {
+  -webkit-text-decoration-skip: ink;
+  text-decoration-skip-ink: auto;
+}
+.ink-all {
+  -webkit-text-decoration-skip-ink: all;
+  text-decoration-skip-ink: all;
+}
+.old-ink {
+  -webkit-text-decoration-skip: ink;
+  text-decoration-skip: ink;
+}

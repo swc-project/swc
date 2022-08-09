@@ -1,10 +1,7 @@
-import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 // @target: es2018
 // @lib: esnext
 // @filename: F1.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const f1 = function() {
     var _ref = _wrap_async_generator(function*() {});
     return function f1() {
@@ -12,6 +9,7 @@ const f1 = function() {
     };
 }();
 // @filename: F2.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const f2 = function() {
     var _ref = _wrap_async_generator(function*() {
         const x = yield;
@@ -21,6 +19,7 @@ const f2 = function() {
     };
 }();
 // @filename: F3.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const f3 = function() {
     var _ref = _wrap_async_generator(function*() {
         const x = yield 1;
@@ -30,6 +29,10 @@ const f3 = function() {
     };
 }();
 // @filename: F4.ts
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const f4 = function() {
     var _ref = _wrap_async_generator(function*() {
         const x = yield* _async_generator_delegate(_async_iterator([
@@ -41,6 +44,10 @@ const f4 = function() {
     };
 }();
 // @filename: F5.ts
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const f5 = function() {
     var _ref = _wrap_async_generator(function*() {
         const x = yield* _async_generator_delegate(_async_iterator(_wrap_async_generator(function*() {
@@ -52,6 +59,8 @@ const f5 = function() {
     };
 }();
 // @filename: F6.ts
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const f6 = function() {
     var _ref = _wrap_async_generator(function*() {
         const x = yield _await_async_generator(1);
@@ -61,6 +70,7 @@ const f6 = function() {
     };
 }();
 // @filename: F7.ts
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 const f7 = function() {
     var _ref = _wrap_async_generator(function*() {
         return 1;

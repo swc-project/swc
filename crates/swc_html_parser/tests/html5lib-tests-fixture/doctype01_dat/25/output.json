@@ -16,7 +16,8 @@
       },
       "name": "potato",
       "publicId": "W3C-//dfdf",
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE potato PUBLIC \"W3C-//dfdf\" SYSTEM ggg>"
     },
     {
       "type": "Element",

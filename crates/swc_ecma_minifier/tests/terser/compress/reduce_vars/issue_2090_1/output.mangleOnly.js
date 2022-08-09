@@ -1,5 +1,5 @@
 console.log((function() {
-    var a = 1;
-    [].forEach(()=>(a = 2));
-    return a;
+    var r = 1;
+    [].forEach(()=>(r = 2));
+    return r;
 })());

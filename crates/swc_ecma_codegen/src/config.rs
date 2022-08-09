@@ -1,6 +1,8 @@
+use serde::{Deserialize, Serialize};
 use swc_ecma_ast::EsVersion;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
     /// The target runtime environment.
     ///
@@ -11,13 +13,16 @@ pub struct Config {
     /// e.g. `const foo = 1;` with [EsVersion::Es3] will emitted as `const foo =
     /// 1` without verification.
     /// This is because it's not a concern of the code generator.
+    #[serde(default = "EsVersion::latest")]
     pub target: EsVersion,
 
     /// Forces the code generator to use only ascii characters.
     ///
     /// This is useful for environments that do not support unicode.
+    #[serde(default)]
     pub ascii_only: bool,
 
+    #[serde(default)]
     pub minify: bool,
 }
 

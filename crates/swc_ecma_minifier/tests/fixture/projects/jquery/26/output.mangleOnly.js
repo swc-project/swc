@@ -1,9 +1,9 @@
 export const obj = {
-    clone: function(a, b) {
-        a = a == null ? false : a;
-        b = b == null ? a : b;
+    clone: function(n, t) {
+        n = n == null ? false : n;
+        t = t == null ? n : t;
         return this.map(function() {
-            return jQuery.clone(this, a, b);
+            return jQuery.clone(this, n, t);
         });
     }
 };

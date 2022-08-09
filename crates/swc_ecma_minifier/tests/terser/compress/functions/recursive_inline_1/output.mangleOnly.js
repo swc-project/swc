@@ -1,10 +1,10 @@
-function a() {
-    c();
+function n() {
+    i();
 }
-function b(a) {
-    a();
+function f(n) {
+    n();
 }
-function c(a) {
-    b();
-    if (a) x();
+function i(n) {
+    f();
+    if (n) x();
 }

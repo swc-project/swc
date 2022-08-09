@@ -134,66 +134,55 @@ function _sendTransactionsWithManualRetry() {
 }
 export var sendTransactions = function() {
     var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructionSet, signersSet) {
-        var sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, _transaction, instructions, signers, transaction, _transaction1, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, signedTxnPromise, result, _args = arguments;
+        var _loop, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, signedTxnPromise, result, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
+                    _loop = function(i) {
+                        var _transaction;
+                        var instructions = instructionSet[i];
+                        var signers = signersSet[i];
+                        if (instructions.length === 0) {
+                            return "continue";
+                        }
+                        var transaction = new Transaction();
+                        instructions.forEach(function(instruction) {
+                            return transaction.add(instruction);
+                        });
+                        transaction.recentBlockhash = block.blockhash;
+                        (_transaction = transaction).setSigners.apply(_transaction, [
+                            // fee payed by the wallet owner
+                            wallet.publicKey
+                        ].concat(_to_consumable_array(signers.map(function(s) {
+                            return s.publicKey;
+                        }))));
+                        if (signers.length > 0) {
+                            var _transaction1;
+                            (_transaction1 = transaction).partialSign.apply(_transaction1, _to_consumable_array(signers));
+                        }
+                        unsignedTxns.push(transaction);
+                    };
                     sequenceType = _args.length > 4 && _args[4] !== void 0 ? _args[4] : SequenceType.Parallel, commitment = _args.length > 5 && _args[5] !== void 0 ? _args[5] : "singleGossip", successCallback = _args.length > 6 && _args[6] !== void 0 ? _args[6] : function(txid, ind) {}, failCallback = _args.length > 7 && _args[7] !== void 0 ? _args[7] : function(txid, ind) {
                         return false;
                     }, block = _args.length > 8 ? _args[8] : void 0, beforeTransactions = _args.length > 9 && _args[9] !== void 0 ? _args[9] : [], afterTransactions = _args.length > 10 && _args[10] !== void 0 ? _args[10] : [];
                     ;
                     if (wallet.publicKey) {
-                        _ctx.next = 4;
+                        _ctx.next = 5;
                         break;
                     }
                     throw new WalletNotConnectedError();
-                case 4:
+                case 5:
                     unsignedTxns = beforeTransactions;
                     if (block) {
-                        _ctx.next = 9;
+                        _ctx.next = 10;
                         break;
                     }
-                    _ctx.next = 8;
+                    _ctx.next = 9;
                     return connection.getRecentBlockhash(commitment);
-                case 8:
-                    block = _ctx.sent;
                 case 9:
-                    i = 0;
+                    block = _ctx.sent;
                 case 10:
-                    if (!(i < instructionSet.length)) {
-                        _ctx.next = 25;
-                        break;
-                    }
-                    ;
-                    instructions = instructionSet[i];
-                    signers = signersSet[i];
-                    if (!(instructions.length === 0)) {
-                        _ctx.next = 16;
-                        break;
-                    }
-                    return _ctx.abrupt("continue", 22);
-                case 16:
-                    transaction = new Transaction();
-                    instructions.forEach(function(instruction) {
-                        return transaction.add(instruction);
-                    });
-                    transaction.recentBlockhash = block.blockhash;
-                    (_transaction = transaction).setSigners.apply(_transaction, [
-                        // fee payed by the wallet owner
-                        wallet.publicKey
-                    ].concat(_to_consumable_array(signers.map(function(s) {
-                        return s.publicKey;
-                    }))));
-                    if (signers.length > 0) {
-                        ;
-                        (_transaction1 = transaction).partialSign.apply(_transaction1, _to_consumable_array(signers));
-                    }
-                    unsignedTxns.push(transaction);
-                case 22:
-                    i++;
-                    _ctx.next = 10;
-                    break;
-                case 25:
+                    for(i = 0; i < instructionSet.length; i++)_loop(i);
                     (_unsignedTxns = unsignedTxns).push.apply(_unsignedTxns, _to_consumable_array(afterTransactions));
                     partiallySignedTransactions = unsignedTxns.filter(function(t) {
                         return t.signatures.find(function(sig) {
@@ -205,17 +194,17 @@ export var sendTransactions = function() {
                             return sig.publicKey.equals(wallet.publicKey);
                         });
                     });
-                    _ctx.next = 30;
+                    _ctx.next = 16;
                     return wallet.signAllTransactions(partiallySignedTransactions);
-                case 30:
+                case 16:
                     signedTxns = _ctx.sent;
                     signedTxns = fullySignedTransactions.concat(signedTxns);
                     pendingTxns = [];
                     console.log("Signed txns length", signedTxns.length, "vs handed in length", instructionSet.length);
                     i1 = 0;
-                case 35:
+                case 21:
                     if (!(i1 < signedTxns.length)) {
-                        _ctx.next = 61;
+                        _ctx.next = 47;
                         break;
                     }
                     signedTxnPromise = sendSignedTransaction({
@@ -223,80 +212,80 @@ export var sendTransactions = function() {
                         signedTransaction: signedTxns[i1]
                     });
                     if (!(sequenceType !== SequenceType.Parallel)) {
-                        _ctx.next = 57;
+                        _ctx.next = 43;
                         break;
                     }
-                    _ctx.prev = 38;
-                    _ctx.next = 41;
+                    _ctx.prev = 24;
+                    _ctx.next = 27;
                     return signedTxnPromise.then(function(param) {
                         var txid = param.txid, slot = param.slot;
                         return successCallback(txid, i1);
                     });
-                case 41:
+                case 27:
                     pendingTxns.push(signedTxnPromise);
-                    _ctx.next = 55;
+                    _ctx.next = 41;
                     break;
-                case 44:
-                    _ctx.prev = 44;
-                    _ctx.t0 = _ctx["catch"](38);
+                case 30:
+                    _ctx.prev = 30;
+                    _ctx.t0 = _ctx["catch"](24);
                     console.log("Failed at txn index:", i1);
                     console.log("Caught failure:", _ctx.t0);
                     failCallback(signedTxns[i1], i1);
                     if (!(sequenceType === SequenceType.StopOnFailure)) {
-                        _ctx.next = 55;
+                        _ctx.next = 41;
                         break;
                     }
                     _ctx.t1 = i1;
-                    _ctx.next = 53;
+                    _ctx.next = 39;
                     return Promise.all(pendingTxns);
-                case 53:
+                case 39:
                     _ctx.t2 = _ctx.sent;
                     return _ctx.abrupt("return", {
                         number: _ctx.t1,
                         txs: _ctx.t2
                     });
-                case 55:
-                    _ctx.next = 58;
+                case 41:
+                    _ctx.next = 44;
                     break;
-                case 57:
+                case 43:
                     {
                         pendingTxns.push(signedTxnPromise);
                     }
-                case 58:
+                case 44:
                     i1++;
-                    _ctx.next = 35;
+                    _ctx.next = 21;
                     break;
-                case 61:
+                case 47:
                     if (!(sequenceType !== SequenceType.Parallel)) {
-                        _ctx.next = 66;
+                        _ctx.next = 52;
                         break;
                     }
-                    _ctx.next = 64;
+                    _ctx.next = 50;
                     return Promise.all(pendingTxns);
-                case 64:
+                case 50:
                     result = _ctx.sent;
                     return _ctx.abrupt("return", {
                         number: signedTxns.length,
                         txs: result
                     });
-                case 66:
+                case 52:
                     _ctx.t3 = signedTxns.length;
-                    _ctx.next = 69;
+                    _ctx.next = 55;
                     return Promise.all(pendingTxns);
-                case 69:
+                case 55:
                     _ctx.t4 = _ctx.sent;
                     return _ctx.abrupt("return", {
                         number: _ctx.t3,
                         txs: _ctx.t4
                     });
-                case 71:
+                case 57:
                 case "end":
                     return _ctx.stop();
             }
         }, _callee, null, [
             [
-                38,
-                44
+                24,
+                30
             ]
         ]);
     }));

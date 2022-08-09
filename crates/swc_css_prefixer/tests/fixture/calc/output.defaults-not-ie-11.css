@@ -1,0 +1,9 @@
+.class {
+  width: calc(20px + 40px);
+}
+.class {
+  margin: calc(5% + 5px) calc(10% + 10px);
+}
+div {
+  background-size: calc(20px);
+}

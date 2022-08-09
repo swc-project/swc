@@ -1,30 +1,30 @@
-function a() {
-    var a = 9;
-    var b = /[A-Z]+/;
+function r() {
+    var r = 9;
+    var n = /[A-Z]+/;
     return [
-        b,
-        a
+        n,
+        r
     ];
 }
-function b() {
-    var a = /ab*/g;
-    return function(b) {
-        return a.exec(b);
+function n() {
+    var r = /ab*/g;
+    return function(n) {
+        return r.exec(n);
     };
 }
 (function() {
-    var a;
-    var b = "acdabcdeabbb";
-    var c = /ab*/g;
-    while((a = c.exec(b))){
-        console.log(a[0]);
+    var r;
+    var n = "acdabcdeabbb";
+    var a = /ab*/g;
+    while((r = a.exec(n))){
+        console.log(r[0]);
     }
 })();
 (function() {
-    var a;
-    var c = "acdabcdeabbb";
-    var d = b();
-    while((a = d(c))){
-        console.log(a[0]);
+    var r;
+    var a = "acdabcdeabbb";
+    var e = n();
+    while((r = e(a))){
+        console.log(r[0]);
     }
 })();

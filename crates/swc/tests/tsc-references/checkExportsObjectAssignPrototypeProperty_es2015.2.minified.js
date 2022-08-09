@@ -1,4 +1,3 @@
-import "./";
 function Person(name) {
     this.name = name;
 }
@@ -11,14 +10,19 @@ Person.prototype.describe = function() {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(Person.prototype, "rwAccessors", {
-    get: ()=>98122,
+    get () {
+        return 98122;
+    },
     set (_) {}
 }), Object.defineProperty(Person.prototype, "readonlyAccessor", {
-    get: ()=>21.75
+    get () {
+        return 21.75;
+    }
 }), Object.defineProperty(Person.prototype, "setonlyAccessor", {
     set (str) {
         this.rwAccessors = Number(str);
     }
 }), module.exports = Person;
+import "./";
 let Person = require("./mod1"), m1 = new Person("Name");
 m1.thing, m1.readonlyProp, m1.rwAccessors, m1.readonlyAccessor, m1.setonlyAccessor, m1.thing = 10, m1.rwAccessors = 11, m1.setonlyAccessor = "yes", m1.readonlyProp = "name", m1.readonlyAccessor = 12, m1.thing = "no", m1.rwAccessors = "no", m1.setonlyAccessor = 0;

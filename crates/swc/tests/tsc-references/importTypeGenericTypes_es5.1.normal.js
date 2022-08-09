@@ -1,3 +1,9 @@
+// @declaration: true
+// @lib: es6
+// @filename: foo.ts
+module.exports = Point;
+export { };
+// @filename: foo2.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Bar = function Bar(input) {
     "use strict";
@@ -5,6 +11,7 @@ var Bar = function Bar(input) {
 };
 export { Bar };
 // @filename: usage.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var x = {
     x: 0,
     y: 0,
@@ -26,4 +33,3 @@ export var Bar2 = function Bar2(input) {
 export var shim = {
     Bar: Bar2
 };
-module.exports = Point;

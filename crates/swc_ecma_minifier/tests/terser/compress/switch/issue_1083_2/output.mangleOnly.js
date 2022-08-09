@@ -1,13 +1,13 @@
-function a(a, b) {
+function e(e, t) {
     switch(true){
-        case a:
+        case e:
         default:
             console.log("PASS");
             break;
-        case b:
+        case t:
             console.log("FAIL");
             break;
     }
 }
-a(true, false);
-a(true, true);
+e(true, false);
+e(true, true);

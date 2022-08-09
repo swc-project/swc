@@ -1,10 +1,8 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @lib: es2020
 // @module: es2020
 // @target: es2020
 // @filename: 0.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
@@ -23,6 +21,10 @@ export function foo() {
 export function backup() {
     return "backup";
 }
+// @filename: 2.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

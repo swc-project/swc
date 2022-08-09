@@ -19,11 +19,12 @@ use serde::{
 };
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
-pub use swc_common::chain;
 use swc_common::{
+    chain,
     collections::{AHashMap, AHashSet},
     comments::SingleThreadedComments,
     errors::Handler,
+    plugin::metadata::TransformPluginMetadataContext,
     FileName, Mark, SourceMap, SyntaxContext,
 };
 use swc_config::{
@@ -64,10 +65,8 @@ use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
 
 use crate::{
-    builder::PassBuilder,
-    dropped_comments_preserver::dropped_comments_preserver,
-    plugin::{PluginConfig, PluginContext},
-    SwcImportResolver,
+    builder::PassBuilder, dropped_comments_preserver::dropped_comments_preserver,
+    plugin::PluginConfig, SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -525,10 +524,11 @@ impl Options {
                 _ => None,
             };
 
-            let plugin_context = PluginContext {
-                filename: transform_filename,
-                env_name: self.env_name.to_owned(),
-            };
+            let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
+                transform_filename,
+                self.env_name.to_owned(),
+                None,
+            ));
 
             if experimental.plugins.is_some() {
                 swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
@@ -537,11 +537,12 @@ impl Options {
             let comments = comments.cloned();
             let source_map = cm.clone();
             crate::plugin::plugins(
+                experimental.plugins,
+                transform_metadata_context,
                 Some(plugin_resolver),
                 comments,
                 source_map,
-                experimental,
-                plugin_context,
+                unresolved_mark,
             )
         };
 
@@ -557,15 +558,23 @@ impl Options {
                 _ => None,
             };
 
-            let plugin_context = PluginContext {
-                filename: transform_filename,
-                env_name: self.env_name.to_owned(),
-            };
+            let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
+                transform_filename,
+                self.env_name.to_owned(),
+                None,
+            ));
 
             swc_plugin_runner::cache::init_plugin_module_cache_once();
             let comments = comments.cloned();
             let source_map = cm.clone();
-            crate::plugin::plugins(None, comments, source_map, experimental, plugin_context)
+            crate::plugin::plugins(
+                experimental.plugins,
+                transform_metadata_context,
+                None,
+                comments,
+                source_map,
+                unresolved_mark,
+            )
         };
 
         #[cfg(not(feature = "plugin"))]
@@ -839,7 +848,7 @@ pub struct Config {
 }
 
 /// Second argument of `minify`.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
@@ -1664,7 +1673,7 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResol
 
     let r = {
         let r = TsConfigResolver::new(
-            NodeModulesResolver::default(),
+            NodeModulesResolver::new(Default::default(), Default::default(), true),
             base_url.clone(),
             paths.clone(),
         );

@@ -1,3 +1,6 @@
+// @strict: true
+// @declaration: true
+// @target: es2015
 function f10({ kind , payload  }) {
     if (kind === 'A') {
         payload.toFixed();

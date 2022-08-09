@@ -1,17 +1,17 @@
-function a() {}
-function b() {}
-function c() {}
-function d() {}
-function e(e, f) {
-    if (b(e)) {
-        var g = e;
-        var h = f;
-        var i = 0;
-        var j = c(g.valueOf(), i, h, d);
-        return g && true === g.isMatrix ? a(j) : j;
+function n() {}
+function r() {}
+function t() {}
+function u() {}
+function a(a, i) {
+    if (r(a)) {
+        var f = a;
+        var v = i;
+        var e = 0;
+        var c = t(f.valueOf(), e, v, u);
+        return f && true === f.isMatrix ? n(c) : c;
     } else {
-        var i = e;
-        var h = f;
-        return d(i, h);
+        var e = a;
+        var v = i;
+        return u(e, v);
     }
 }

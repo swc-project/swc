@@ -1,27 +1,27 @@
-function a(a, b) {
-    if (typeof a !== "object") {
+function e(e, i) {
+    if (typeof e !== "object") {
         return;
     }
-    if (Array.isArray(a)) {
-        for(var c = 0; c < a.length; c++){
-            var d = a[c];
-            if (isValidElement(d)) {
-                validateExplicitKey(d, b);
+    if (Array.isArray(e)) {
+        for(var r = 0; r < e.length; r++){
+            var f = e[r];
+            if (isValidElement(f)) {
+                validateExplicitKey(f, i);
             }
         }
-    } else if (isValidElement(a)) {
-        if (a._store) {
-            a._store.validated = true;
+    } else if (isValidElement(e)) {
+        if (e._store) {
+            e._store.validated = true;
         }
-    } else if (a) {
-        var e = getIteratorFn(a);
-        if (typeof e === "function") {
-            if (e !== a.entries) {
-                var f = e.call(a);
-                var g;
-                while(!(g = f.next()).done){
-                    if (isValidElement(g.value)) {
-                        validateExplicitKey(g.value, b);
+    } else if (e) {
+        var a = getIteratorFn(e);
+        if (typeof a === "function") {
+            if (a !== e.entries) {
+                var t = a.call(e);
+                var l;
+                while(!(l = t.next()).done){
+                    if (isValidElement(l.value)) {
+                        validateExplicitKey(l.value, i);
                     }
                 }
             }

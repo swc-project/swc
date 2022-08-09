@@ -1,47 +1,47 @@
 export const E = {
-    _getTransaction: function(a, b) {
-        var c = [], d, e, f, g;
-        if (!Lang.isArray(a)) {
-            a = [
-                a
+    _getTransaction: function(t, e) {
+        var i = [], s, r, n, u;
+        if (!Lang.isArray(t)) {
+            t = [
+                t
             ];
         }
-        b = Y.merge(this.options, b);
-        b.attributes = Y.merge(this.options.attributes, b.attributes);
-        for(d = 0, e = a.length; d < e; ++d){
-            g = a[d];
-            f = {
+        e = Y.merge(this.options, e);
+        e.attributes = Y.merge(this.options.attributes, e.attributes);
+        for(s = 0, r = t.length; s < r; ++s){
+            u = t[s];
+            n = {
                 attributes: {}
             };
-            if (typeof g === "string") {
-                f.url = g;
-            } else if (g.url) {
-                Y.mix(f, g, false, null, 0, true);
-                g = g.url;
+            if (typeof u === "string") {
+                n.url = u;
+            } else if (u.url) {
+                Y.mix(n, u, false, null, 0, true);
+                u = u.url;
             } else {
                 continue;
             }
-            Y.mix(f, b, false, null, 0, true);
-            if (!f.type) {
-                if (this.REGEX_CSS.test(g)) {
-                    f.type = "css";
+            Y.mix(n, e, false, null, 0, true);
+            if (!n.type) {
+                if (this.REGEX_CSS.test(u)) {
+                    n.type = "css";
                 } else {
-                    if (!this.REGEX_JS.test(g)) {}
-                    f.type = "js";
+                    if (!this.REGEX_JS.test(u)) {}
+                    n.type = "js";
                 }
             }
-            Y.mix(f, f.type === "js" ? this.jsOptions : this.cssOptions, false, null, 0, true);
-            f.attributes.id || (f.attributes.id = Y.guid());
-            if (f.win) {
-                f.doc = f.win.document;
+            Y.mix(n, n.type === "js" ? this.jsOptions : this.cssOptions, false, null, 0, true);
+            n.attributes.id || (n.attributes.id = Y.guid());
+            if (n.win) {
+                n.doc = n.win.document;
             } else {
-                f.win = f.doc.defaultView || f.doc.parentWindow;
+                n.win = n.doc.defaultView || n.doc.parentWindow;
             }
-            if (f.charset) {
-                f.attributes.charset = f.charset;
+            if (n.charset) {
+                n.attributes.charset = n.charset;
             }
-            c.push(f);
+            i.push(n);
         }
-        return new Transaction(c, b);
+        return new Transaction(i, e);
     }
 };

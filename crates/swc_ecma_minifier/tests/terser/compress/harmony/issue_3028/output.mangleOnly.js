@@ -1,11 +1,11 @@
-function a(a) {
-    var b = a.splice(0, 2);
+function n(n) {
+    var i = n.splice(0, 2);
     return [
-        ...a,
-        ...b
+        ...n,
+        ...i
     ];
 }
-console.log(a([
+console.log(n([
     1,
     2,
     3

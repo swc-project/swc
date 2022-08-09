@@ -2,6 +2,6 @@
 (function() {
     console.log(arguments[1], arguments["1"], arguments["foo"]);
 })("bar", 42);
-(function(a, b) {
+(function(n, o) {
     console.log(arguments[1], arguments["1"], arguments["foo"]);
 })("bar", 42);

@@ -1,7 +1,7 @@
-var a, b, c;
-a = name ? [
+var e, s, t;
+e = name ? [
     name
 ] : _.keys(this._events);
-for(b = 0, c = a.length; b < c; b++){
-    name = a[b];
+for(s = 0, t = e.length; s < t; s++){
+    name = e[s];
 }

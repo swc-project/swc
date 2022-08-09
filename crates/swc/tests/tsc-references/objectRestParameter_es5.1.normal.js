@@ -1,7 +1,7 @@
+// @target: es2015
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-// @target: es2015
 function cloneAgain(_param) {
     var a = _param.a, clone = _object_without_properties(_param, [
         "a"

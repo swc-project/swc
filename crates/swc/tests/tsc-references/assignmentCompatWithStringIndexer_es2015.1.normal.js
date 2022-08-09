@@ -1,3 +1,4 @@
+// index signatures must be compatible in assignments
 class A {
 }
 var a;

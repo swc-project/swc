@@ -3091,8 +3091,8 @@
                     };
                 }));
                 if ("static" === type) {
-                    var index = segments.length - 1, sectionDuration = "number" == typeof periodDuration ? periodDuration : sourceDuration;
-                    segments[index].duration = sectionDuration - duration / (void 0 === _attributes$timescale4 ? 1 : _attributes$timescale4) * index;
+                    var index = segments.length - 1;
+                    segments[index].duration = ("number" == typeof periodDuration ? periodDuration : sourceDuration) - duration / (void 0 === _attributes$timescale4 ? 1 : _attributes$timescale4) * index;
                 }
                 return segments;
             }, segmentsFromBase = function(attributes) {
@@ -3141,10 +3141,9 @@
                 }, {})).map(function(k) {
                     return o[k];
                 }).map(function(playlist) {
-                    var l, key;
-                    return playlist.discontinuityStarts = (l = playlist.segments, key = "discontinuity", l.reduce(function(a, e, i) {
-                        return e[key] && a.push(i), a;
-                    }, [])), playlist;
+                    return playlist.discontinuityStarts = (0, playlist.segments).reduce(function(a, e, i) {
+                        return e.discontinuity && a.push(i), a;
+                    }, []), playlist;
                 });
             }, addSidxSegmentsToPlaylist$1 = function(playlist, sidxMapping) {
                 var sidxKey = generateSidxKey(playlist.sidx), sidxMatch = sidxKey && sidxMapping[sidxKey] && sidxMapping[sidxKey].sidx;
@@ -3198,11 +3197,7 @@
                 void 0 === sidxMapping && (sidxMapping = {}), void 0 === isAudioOnly && (isAudioOnly = !1);
                 var mainPlaylist, formattedPlaylists = playlists.reduce(function(a, playlist) {
                     var role = playlist.attributes.role && playlist.attributes.role.value || "", language = playlist.attributes.lang || "", label = playlist.attributes.label || "main";
-                    if (language && !playlist.attributes.label) {
-                        var roleLabel = role ? " (" + role + ")" : "";
-                        label = "" + playlist.attributes.lang + roleLabel;
-                    }
-                    a[label] || (a[label] = {
+                    language && !playlist.attributes.label && (label = "" + playlist.attributes.lang + (role ? " (" + role + ")" : "")), a[label] || (a[label] = {
                         language: language,
                         autoselect: !0,
                         default: "main" === role,
@@ -3381,8 +3376,8 @@
                 if (!segmentsFn) return segmentsInfo;
                 var segments = segmentsFn(segmentAttributes, segmentInfo.segmentTimeline);
                 if (segmentAttributes.duration) {
-                    var _segmentAttributes = segmentAttributes, duration = _segmentAttributes.duration, _segmentAttributes$ti = _segmentAttributes.timescale, timescale = void 0 === _segmentAttributes$ti ? 1 : _segmentAttributes$ti;
-                    segmentAttributes.duration = duration / timescale;
+                    var _segmentAttributes = segmentAttributes, duration = _segmentAttributes.duration, _segmentAttributes$ti = _segmentAttributes.timescale;
+                    segmentAttributes.duration = duration / (void 0 === _segmentAttributes$ti ? 1 : _segmentAttributes$ti);
                 } else segments.length ? segmentAttributes.duration = segments.reduce(function(max, segment) {
                     return Math.max(max, Math.ceil(segment.duration));
                 }, 0) : segmentAttributes.duration = 0;
@@ -3515,8 +3510,8 @@
                         "3D": 0
                     };
                     if (/=/.test(value)) {
-                        var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1], opts = void 0 === _value$split2$ ? "" : _value$split2$;
-                        flags.channel = channel, flags.language = value, opts.split(",").forEach(function(opt) {
+                        var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
+                        flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
                             var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
                             "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
                         });
@@ -5350,9 +5345,6 @@
             function asciiWrite(buf, string, offset, length) {
                 return blitBuffer(asciiToBytes(string), buf, offset, length);
             }
-            function latin1Write(buf, string, offset, length) {
-                return asciiWrite(buf, string, offset, length);
-            }
             function base64Write(buf, string, offset, length) {
                 return blitBuffer(base64ToBytes(string), buf, offset, length);
             }
@@ -5546,7 +5538,7 @@
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                var remaining = this.length - offset;
+                var buf, remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5559,7 +5551,7 @@
                         return asciiWrite(this, string, offset, length);
                     case "latin1":
                     case "binary":
-                        return latin1Write(this, string, offset, length);
+                        return buf = this, asciiWrite(buf, string, offset, length);
                     case "base64":
                         return base64Write(this, string, offset, length);
                     case "ucs2":

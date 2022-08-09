@@ -22,7 +22,7 @@ export SWC_RUN=0
 export SWC_CHECK=0
 
 # Update golden.txt
-cargo test --test compress fixture_tests__terser__compress__ \
+cargo test --features concurrent --test compress fixture_tests__terser__compress__ \
   | grep 'fixture_tests__terser__compress__' \
   | grep 'js .\.\. ok$' \
   | sed -e 's!test fixture_tests__terser__compress__!!' \
@@ -41,7 +41,7 @@ rm tests/postponed.tmp.txt
 sortFile tests/postponed.txt
 
 # Update TODO.txt
-cargo test --test compress 'fixture_tests__terser__compress__' \
+cargo test --features concurrent --test compress 'fixture_tests__terser__compress__' \
   | grep 'fixture_tests__terser__compress__' \
   | grep 'js .\.\. FAILED$' \
   | sed -e 's!test fixture_tests__terser__compress__!!' \

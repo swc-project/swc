@@ -1,3 +1,3 @@
-function a(a) {}
-function b(a) {}
-(function a(b) {})();
+function n(n) {}
+function c(n) {}
+(function n(c) {})();

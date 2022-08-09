@@ -16,3 +16,4 @@ export class C {
         });
     }
 }
+export { };

@@ -1,6 +1,6 @@
 try {
-    var a = A, b = 1;
-    throw a;
-} catch (c) {
-    console.log(b);
+    var r = A, t = 1;
+    throw r;
+} catch (a) {
+    console.log(t);
 }

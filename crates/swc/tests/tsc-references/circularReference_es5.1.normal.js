@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @Filename: foo1.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var foo2 = require("./foo2");
 export var M1;
 (function(M1) {
@@ -13,7 +13,9 @@ export var M1;
     M1.C1 = C1;
 })(M1 || (M1 = {}));
 // @Filename: foo2.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var foo1 = require("./foo1");
+export var M1;
 (function(M11) {
     var C1 = function C1() {
         "use strict";

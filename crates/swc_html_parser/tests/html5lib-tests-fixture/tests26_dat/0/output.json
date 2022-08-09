@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -74,7 +75,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "#1"
+                  "rawName": "href",
+                  "value": "#1",
+                  "rawValue": "'#1'"
                 }
               ],
               "children": [
@@ -166,7 +169,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "href",
-                      "value": "#2"
+                      "rawName": "href",
+                      "value": "#2",
+                      "rawValue": "'#2'"
                     }
                   ],
                   "children": [],
@@ -197,7 +202,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "#2"
+                  "rawName": "href",
+                  "value": "#2",
+                  "rawValue": "'#2'"
                 }
               ],
               "children": [
@@ -289,7 +296,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "href",
-                      "value": "#3"
+                      "rawName": "href",
+                      "value": "#3",
+                      "rawValue": "'#3'"
                     }
                   ],
                   "children": [],
@@ -320,7 +329,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "#3"
+                  "rawName": "href",
+                  "value": "#3",
+                  "rawValue": "'#3'"
                 }
               ],
               "children": [

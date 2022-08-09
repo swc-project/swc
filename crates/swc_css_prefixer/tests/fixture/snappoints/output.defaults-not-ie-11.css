@@ -1,0 +1,15 @@
+.class {
+  scroll-snap-type: block;
+}
+.class {
+  scroll-snap-coordinate: none;
+}
+.class {
+  scroll-snap-destination: 400px 600px;
+}
+.class {
+  scroll-snap-points-x: none;
+}
+.class {
+  scroll-snap-points-y: none;
+}

@@ -1,10 +1,10 @@
-var a = {
+var r = {
     [[
         1
     ]] () {
         return "success";
     }
 };
-doSomething(a[[
+doSomething(r[[
     1
 ]]());

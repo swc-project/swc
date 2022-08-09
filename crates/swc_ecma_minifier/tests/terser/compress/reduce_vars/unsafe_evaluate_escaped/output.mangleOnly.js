@@ -1,23 +1,23 @@
 console.log((function() {
-    var a = {
+    var n = {
         p: 1
     };
-    console.log(a, a.p);
-    return a.p;
+    console.log(n, n.p);
+    return n.p;
 })());
 console.log((function() {
-    var a = {
+    var n = {
         p: 2
     };
-    console.log(a.p, a);
-    return a.p;
+    console.log(n.p, n);
+    return n.p;
 })());
 console.log((function() {
-    var a = {
+    var n = {
         p: 3
-    }, b = [
-        a
+    }, o = [
+        n
     ];
-    console.log(b[0].p++);
-    return a.p;
+    console.log(o[0].p++);
+    return n.p;
 })());

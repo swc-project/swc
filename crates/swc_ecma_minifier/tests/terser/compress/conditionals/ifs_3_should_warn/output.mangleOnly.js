@@ -1,13 +1,13 @@
-var a, b;
-if (a && !(a + "1") && b) {
-    var c;
+var e, a;
+if (e && !(e + "1") && a) {
+    var r;
     foo();
 } else {
     bar();
 }
-if (a || !!(a + "1") || b) {
+if (e || !!(e + "1") || a) {
     foo();
 } else {
-    var d;
+    var v;
     bar();
 }

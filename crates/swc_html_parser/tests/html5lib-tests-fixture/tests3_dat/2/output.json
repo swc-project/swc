@@ -68,7 +68,8 @@
             "end": 22,
             "ctxt": 0
           },
-          "data": " "
+          "data": " ",
+          "raw": "<!-- -->"
         },
         {
           "type": "Comment",
@@ -77,7 +78,8 @@
             "end": 45,
             "ctxt": 0
           },
-          "data": " "
+          "data": " ",
+          "raw": "<!-- -->"
         },
         {
           "type": "Element",

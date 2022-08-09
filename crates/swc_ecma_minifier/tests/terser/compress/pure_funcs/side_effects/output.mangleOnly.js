@@ -1,4 +1,4 @@
-function a(a, b) {
-    console.log(a());
-    console.log(b);
+function o(o, g) {
+    console.log(o());
+    console.log(g);
 }

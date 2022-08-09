@@ -1,3 +1,4 @@
+// @strict: true
 stringDictionary = optionalProperties; // ok
 stringDictionary = undefinedProperties; // error
 probablyArray = numberLiteralKeys; // error

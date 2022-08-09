@@ -74,6 +74,7 @@ impl StartsWithAlphaNum for Expr {
             | Expr::Lit(Lit::Bool(_))
             | Expr::Lit(Lit::Num(_))
             | Expr::Lit(Lit::Null(_))
+            | Expr::Lit(Lit::BigInt(_))
             | Expr::Await(_)
             | Expr::Fn(_)
             | Expr::Class(_)

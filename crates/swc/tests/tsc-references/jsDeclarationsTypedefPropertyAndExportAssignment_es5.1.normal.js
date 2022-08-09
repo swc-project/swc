@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -28,6 +27,7 @@ module.exports = {
     taskNameToGroup: taskNameToGroup
 };
 // @filename: index.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var ref = require("./module.js"), taskGroups = ref.taskGroups, taskNameToGroup = ref.taskNameToGroup;
 /** @typedef {import('./module.js').TaskGroup} TaskGroup */ /**
  * @typedef TaskNode

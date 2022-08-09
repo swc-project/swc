@@ -1,23 +1,23 @@
 (async function() {
     return await 3;
 })();
-(async function(a) {
-    await console.log(a);
+(async function(n) {
+    await console.log(n);
 })(4);
-function a(a, b) {
-    return a(b);
+function n(n, t) {
+    return n(t);
 }
-a(async function() {
+n(async function() {
     return await 1;
 });
-a(async function(a) {
-    await console.log(a);
+n(async function(n) {
+    await console.log(n);
 }, 2);
-function b() {
+function t() {
     console.log("top");
 }
-b();
-async function c() {
+t();
+async function a() {
     console.log("async_top");
 }
-c();
+a();

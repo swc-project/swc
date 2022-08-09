@@ -1,5 +1,3 @@
-// @filename: /a.ts
-import foo from "foo";
 // @noImplicitReferences: true
 // @currentDirectory: /
 // @allowJs: true
@@ -11,4 +9,6 @@ exports.default = {
         return 0;
     }
 };
+// @filename: /a.ts
+import foo from "foo";
 foo.bar();

@@ -98,7 +98,7 @@ impl InfoMarker<'_> {
             if c.kind == CommentKind::Block {
                 //
                 if c.text.len() == (text.len() + 5)
-                    && c.text.starts_with("#__")
+                    && (c.text.starts_with("#__") || c.text.starts_with("@__"))
                     && c.text.ends_with("__")
                     && text == &c.text[3..c.text.len() - 2]
                 {

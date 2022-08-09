@@ -1,19 +1,19 @@
 "use strict";
-function a(a) {
-    if (a) {
-        return b();
+function n(n) {
+    if (n) {
+        return r();
         not_called1();
     } else {
-        return d();
+        return u();
         not_called2();
     }
-    function b() {
+    function r() {
         return 7;
     }
     return not_reached;
-    function c() {}
-    function d() {
+    function t() {}
+    function u() {
         return 8;
     }
 }
-console.log(a(0), a(1));
+console.log(n(0), n(1));

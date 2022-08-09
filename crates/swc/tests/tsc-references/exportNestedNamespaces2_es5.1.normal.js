@@ -1,5 +1,3 @@
-// @Filename: use.js
-import * as debug from "./mod";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -16,5 +14,7 @@ exports = require("./mod");
 exports.formatters.o = function(v) {
     return v;
 };
+// @Filename: use.js
+import * as debug from "./mod";
 debug.formatters.j;
 var one = debug.formatters.o(1);

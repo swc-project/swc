@@ -1,6 +1,6 @@
-new ((function(a) {
-    return function b() {
-        this.x = a;
+new ((function(n) {
+    return function t() {
+        this.x = n;
         console.log(this);
     };
 })(7))();

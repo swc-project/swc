@@ -1,15 +1,15 @@
-function a() {
-    b();
+function n() {
+    o();
 }
-function b() {
+function o() {
     console.log(1);
 }
 function c() {
-    function b() {
+    function o() {
         console.log(2);
     }
-    a();
-    b();
+    n();
+    o();
 }
 c();
 c();

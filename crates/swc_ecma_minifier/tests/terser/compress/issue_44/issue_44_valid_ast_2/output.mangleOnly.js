@@ -1,3 +1,3 @@
-function a(a) {
-    if (foo) for(var b = 0, c = a.qoo();; b++){}
+function o(o) {
+    if (foo) for(var f = 0, i = o.qoo();; f++){}
 }

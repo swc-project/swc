@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +156,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "style",
-                  "value": "display:none"
+                  "rawName": "style",
+                  "value": "display:none",
+                  "rawValue": "\"display:none\""
                 }
               ],
               "children": [
@@ -198,7 +203,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m1"
+                          "rawName": "id",
+                          "value": "m1",
+                          "rawValue": "\"m1\""
                         }
                       ],
                       "children": [
@@ -254,7 +261,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d1"
+                      "rawName": "id",
+                      "value": "d1",
+                      "rawValue": "\"d1\""
                     }
                   ],
                   "children": [
@@ -335,7 +344,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d2"
+                      "rawName": "id",
+                      "value": "d2",
+                      "rawValue": "\"d2\""
                     }
                   ],
                   "children": [
@@ -468,7 +479,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d3"
+                      "rawName": "id",
+                      "value": "d3",
+                      "rawValue": "\"d3\""
                     }
                   ],
                   "children": [
@@ -516,7 +529,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d4"
+                      "rawName": "id",
+                      "value": "d4",
+                      "rawValue": "\"d4\""
                     }
                   ],
                   "children": [
@@ -564,7 +579,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d5"
+                      "rawName": "id",
+                      "value": "d5",
+                      "rawValue": "\"d5\""
                     }
                   ],
                   "children": [
@@ -700,7 +717,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d6"
+                      "rawName": "id",
+                      "value": "d6",
+                      "rawValue": "\"d6\""
                     }
                   ],
                   "children": [
@@ -771,7 +790,9 @@
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "encoding",
-                                  "value": "text/html"
+                                  "rawName": "encoding",
+                                  "value": "text/html",
+                                  "rawValue": "\"text/html\""
                                 }
                               ],
                               "children": [
@@ -895,7 +916,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m1"
+                          "rawName": "id",
+                          "value": "m1",
+                          "rawValue": "\"m1\""
                         }
                       ],
                       "children": [
@@ -951,7 +974,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d1"
+                      "rawName": "id",
+                      "value": "d1",
+                      "rawValue": "\"d1\""
                     }
                   ],
                   "children": [
@@ -986,7 +1011,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "mathvariant",
-                              "value": "BOLD"
+                              "rawName": "MATHVARIANT",
+                              "value": "BOLD",
+                              "rawValue": "\"BOLD\""
                             }
                           ],
                           "children": [],
@@ -1031,7 +1058,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "id",
-                      "value": "d2"
+                      "rawName": "id",
+                      "value": "d2",
+                      "rawValue": "\"d2\""
                     }
                   ],
                   "children": [
@@ -1066,7 +1095,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "definitionURL",
-                              "value": "www.example.org/FOO"
+                              "rawName": "DEFINITIONurl",
+                              "value": "www.example.org/FOO",
+                              "rawValue": "\"www.example.org/FOO\""
                             }
                           ],
                           "children": [
@@ -1191,7 +1222,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m3span-mtext"
+                          "rawName": "id",
+                          "value": "m3span-mtext",
+                          "rawValue": "\"m3span-mtext\""
                         }
                       ],
                       "children": [
@@ -1284,7 +1317,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m3span-mi"
+                          "rawName": "id",
+                          "value": "m3span-mi",
+                          "rawValue": "\"m3span-mi\""
                         }
                       ],
                       "children": [
@@ -1377,7 +1412,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m3p-mtext"
+                          "rawName": "id",
+                          "value": "m3p-mtext",
+                          "rawValue": "\"m3p-mtext\""
                         }
                       ],
                       "children": [
@@ -1470,7 +1507,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "m3p-mi"
+                          "rawName": "id",
+                          "value": "m3p-mi",
+                          "rawValue": "\"m3p-mi\""
                         }
                       ],
                       "children": [

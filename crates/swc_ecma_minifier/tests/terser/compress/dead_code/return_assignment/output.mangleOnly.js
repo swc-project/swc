@@ -1,58 +1,58 @@
-function a(a, b, c) {
-    return (a = i()), (b = g()), (b = a && (c >>= 5));
+function n(n, t, r) {
+    return (n = l()), (t = f()), (t = n && (r >>= 5));
 }
-function b() {
-    return (j = i());
+function t() {
+    return (e = l());
 }
-function c(a) {
-    return (a = i());
+function r(n) {
+    return (n = l());
 }
-function d() {
-    var a;
-    return (a = i());
+function u() {
+    var n;
+    return (n = l());
 }
-function e(a) {
+function o(n) {
     try {
-        return (a = i());
-    } catch (b) {
-        console.log(a);
+        return (n = l());
+    } catch (t) {
+        console.log(n);
     }
 }
-function f(a) {
+function c(n) {
     try {
-        return (a = i());
+        return (n = l());
     } finally{
-        console.log(a);
+        console.log(n);
     }
 }
-function g() {
+function f() {
     console.log("y");
 }
-function h(g) {
-    var h = 0;
-    i = function() {
-        h += g;
-        if (g < 0) throw h;
-        return h;
+function i(f) {
+    var i = 0;
+    l = function() {
+        i += f;
+        if (f < 0) throw i;
+        return i;
     };
     [
-        a,
-        b,
-        c,
-        d,
-        e,
-        f
-    ].forEach(function(a, b) {
-        j = null;
+        n,
+        t,
+        r,
+        u,
+        o,
+        c
+    ].forEach(function(n, t) {
+        e = null;
         try {
-            b += 1;
-            console.log("result " + a(10 * b, 100 * b, 1e3 * b));
-        } catch (c) {
-            console.log("caught " + c);
+            t += 1;
+            console.log("result " + n(10 * t, 100 * t, 1e3 * t));
+        } catch (r) {
+            console.log("caught " + r);
         }
-        if (null !== j) console.log("e: " + j);
+        if (null !== e) console.log("e: " + e);
     });
 }
-var i, j;
-h(1);
-h(-1);
+var l, e;
+i(1);
+i(-1);

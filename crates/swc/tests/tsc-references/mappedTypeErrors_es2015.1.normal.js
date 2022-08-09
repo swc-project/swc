@@ -1,3 +1,5 @@
+// @strictNullChecks: true
+// @declaration: true
 function f1(x) {
     let y; // Error
 }

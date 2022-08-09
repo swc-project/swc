@@ -1,8 +1,8 @@
-var a, b;
-function c() {
-    a = this;
-    b = this;
+var t, i;
+function r() {
+    t = this;
+    i = this;
     return this;
 }
-var d = c();
-console.log(a === b, b === d, d === a);
+var h = r();
+console.log(t === i, i === h, h === t);

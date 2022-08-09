@@ -1,8 +1,8 @@
-var a = "PASS";
-var b = null;
-var c = {
+var l = "PASS";
+var o = null;
+var p = {
     prop: null
 };
-b &&= console.log((a = "FAIL"));
-c.prop &&= console.log((a = "FAIL"));
-console.log(a, b, c.prop);
+o &&= console.log((l = "FAIL"));
+p.prop &&= console.log((l = "FAIL"));
+console.log(l, o, p.prop);

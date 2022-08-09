@@ -1,12 +1,12 @@
 (function() {
-    function a() {
+    function n() {
         console.log(this[0]);
     }
     (function() {
-        var b = [
+        var i = [
             "PASS",
-            a
+            n
         ];
-        b[1]();
+        i[1]();
     })();
 })();

@@ -1,5 +1,5 @@
-let _iterator = Symbol.iterator;
 //@target: ES6
+let _iterator = Symbol.iterator;
 class StringIterator {
     next() {
         return {

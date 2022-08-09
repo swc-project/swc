@@ -1,7 +1,7 @@
 define(function() {
-    function a() {}
-    if (a()) {
-        a();
+    function n() {}
+    if (n()) {
+        n();
         return void 0;
     }
 });

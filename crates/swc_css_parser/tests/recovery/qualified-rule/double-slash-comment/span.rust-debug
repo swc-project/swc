@@ -23,13 +23,7 @@
  4 | `-> }
    `----
 
-  x Tokens
-   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
- 1 | ,-> // test
- 2 | `-> a {
-   `----
-
-  x Delim { value: '/' }
+  x ComponentValue
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    : ^
@@ -38,7 +32,25 @@
   x Delim { value: '/' }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
+   : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
    :  ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   :  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   :   ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
@@ -47,10 +59,23 @@
    :   ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   :    ^^^^
+   `----
+
   x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    :    ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   :        ^
+ 2 | a {
    `----
 
   x WhiteSpace { value: Atom('
@@ -61,10 +86,22 @@
  2 | a {
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
+
   x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
  2 | a {
    : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
+ 2 | a {
+   :  ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }

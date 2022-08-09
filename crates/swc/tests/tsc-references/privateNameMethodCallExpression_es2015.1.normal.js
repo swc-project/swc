@@ -1,7 +1,7 @@
+// @target: es2015
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _method = /*#__PURE__*/ new WeakSet(), _method2 = /*#__PURE__*/ new WeakSet();
-// @target: es2015
 class AA {
     test() {
         var _ref, _ref1, _ref2, _ref3;

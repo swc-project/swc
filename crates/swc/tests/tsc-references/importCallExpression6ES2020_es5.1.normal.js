@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @module: es2020
 // @target: es2020
 // @filename: 0.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
@@ -20,6 +20,7 @@ export function foo() {
 export function backup() {
     return "backup";
 }
+// @filename: 2.ts
 var specify = bar() ? "./0" : undefined;
 var myModule = import(specify);
 var myModule1 = import(undefined);

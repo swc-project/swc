@@ -1,5 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _define_property from "@swc/helpers/src/_define_property.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -7,6 +5,7 @@ import _define_property from "@swc/helpers/src/_define_property.mjs";
 // @outDir: ./out
 // @declaration: true
 // @filename: index.js
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var TopLevelSym = Symbol();
 var InnerSym = Symbol();
 var _obj;
@@ -20,6 +19,7 @@ module.exports = (_obj = {}, _define_property(_obj, TopLevelSym, function() {
     return arg.x;
 })), _obj);
 // @filename: index2.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var TopLevelSym = Symbol();
 var InnerSym = Symbol();
 var _InnerSym = InnerSym;

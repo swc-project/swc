@@ -1,3 +1,4 @@
+// @filename: module.d.ts
 // @filename: classPoint.ts
 var A;
 (function(A) {

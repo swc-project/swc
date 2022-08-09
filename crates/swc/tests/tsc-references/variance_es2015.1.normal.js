@@ -1,3 +1,6 @@
+// @strict: true
+// Test cases for parameter variances affected by conditional types.
+// Repro from #30047
 const foo = {
     prop: true
 };

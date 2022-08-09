@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "xmlns",
-          "value": "http://www.w3.org/1999/xhtml"
+          "rawName": "xmlns",
+          "value": "http://www.w3.org/1999/xhtml",
+          "rawValue": "\"http://www.w3.org/1999/xhtml\""
         }
       ],
       "children": [
@@ -182,7 +185,8 @@
                         "end": 142,
                         "ctxt": 0
                       },
-                      "data": " Presentation MathML "
+                      "data": " Presentation MathML ",
+                      "raw": "<!-- Presentation MathML -->"
                     },
                     {
                       "type": "Text",
@@ -411,7 +415,8 @@
                         "end": 345,
                         "ctxt": 0
                       },
-                      "data": " Content MathML "
+                      "data": " Content MathML ",
+                      "raw": "<!-- Content MathML -->"
                     },
                     {
                       "type": "Text",
@@ -443,7 +448,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "MathML-Content"
+                          "rawName": "encoding",
+                          "value": "MathML-Content",
+                          "rawValue": "\"MathML-Content\""
                         }
                       ],
                       "children": [
@@ -602,7 +609,9 @@
                                       "namespace": null,
                                       "prefix": null,
                                       "name": "type",
-                                      "value": "integer"
+                                      "rawName": "type",
+                                      "value": "integer",
+                                      "rawValue": "\"integer\""
                                     }
                                   ],
                                   "children": [
@@ -714,7 +723,8 @@
                         "end": 700,
                         "ctxt": 0
                       },
-                      "data": " Content HTML "
+                      "data": " Content HTML ",
+                      "raw": "<!-- Content HTML -->"
                     },
                     {
                       "type": "Text",
@@ -746,7 +756,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "application/xhtml+xml"
+                          "rawName": "encoding",
+                          "value": "application/xhtml+xml",
+                          "rawValue": "\"application/xhtml+xml\""
                         }
                       ],
                       "children": [
@@ -851,7 +863,8 @@
                         "end": 1070,
                         "ctxt": 0
                       },
-                      "data": " annotate an image "
+                      "data": " annotate an image ",
+                      "raw": "<!-- annotate an image -->"
                     },
                     {
                       "type": "Text",
@@ -883,7 +896,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "image/png"
+                          "rawName": "encoding",
+                          "value": "image/png",
+                          "rawValue": "\"image/png\""
                         },
                         {
                           "type": "Attribute",
@@ -895,7 +910,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "src",
-                          "value": "some/path/formula.png"
+                          "rawName": "src",
+                          "value": "some/path/formula.png",
+                          "rawValue": "\"some/path/formula.png\""
                         }
                       ],
                       "children": [],
@@ -919,7 +936,8 @@
                         "end": 1172,
                         "ctxt": 0
                       },
-                      "data": " annotate TeX "
+                      "data": " annotate TeX ",
+                      "raw": "<!-- annotate TeX -->"
                     },
                     {
                       "type": "Text",
@@ -951,7 +969,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "encoding",
-                          "value": "application/x-tex"
+                          "rawName": "encoding",
+                          "value": "application/x-tex",
+                          "rawValue": "\"application/x-tex\""
                         }
                       ],
                       "children": [

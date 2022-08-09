@@ -14,7 +14,7 @@ if (foo) {
     stuff();
 }
 if (foo) {
-    for(var a = 0; a < 5; ++a)if (bar) baz();
+    for(var f = 0; f < 5; ++f)if (bar) baz();
 } else {
     stuff();
 }

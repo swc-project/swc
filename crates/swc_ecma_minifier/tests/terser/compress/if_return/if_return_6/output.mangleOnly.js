@@ -1,4 +1,4 @@
-function a(a) {
-    return a ? true : void 0;
+function r(r) {
+    return r ? true : void 0;
     return y;
 }

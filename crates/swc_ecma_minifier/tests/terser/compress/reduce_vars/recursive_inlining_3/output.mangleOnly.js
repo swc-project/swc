@@ -1,15 +1,15 @@
 !(function() {
-    function a(a) {
-        console.log("foo", a);
-        if (a) b(a - 1);
+    function n(n) {
+        console.log("foo", n);
+        if (n) f(n - 1);
     }
-    function b(a) {
-        console.log("bar", a);
-        if (a) c(a - 1);
+    function f(n) {
+        console.log("bar", n);
+        if (n) i(n - 1);
     }
-    function c(b) {
-        console.log("qux", b);
-        if (b) a(b - 1);
+    function i(f) {
+        console.log("qux", f);
+        if (f) n(f - 1);
     }
-    c(4);
+    i(4);
 })();

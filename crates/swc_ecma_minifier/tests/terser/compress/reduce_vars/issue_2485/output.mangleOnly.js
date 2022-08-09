@@ -1,21 +1,21 @@
-var a = function(a) {
-    var b = function(a, b) {
-        return a + b;
+var r = function(r) {
+    var n = function(r, n) {
+        return r + n;
     };
-    var c = function(a) {
-        return a.reduce(b, 0);
+    var t = function(r) {
+        return r.reduce(n, 0);
     };
-    var d = function(a) {
-        return c(a);
+    var u = function(r) {
+        return t(r);
     };
-    a.baz = function(a) {
-        var b = d(a);
-        return (b.get = 1), b;
+    r.baz = function(r) {
+        var n = u(r);
+        return (n.get = 1), n;
     };
-    return a;
+    return r;
 };
-var b = a({});
-console.log(b.baz([
+var n = r({});
+console.log(n.baz([
     1,
     2,
     3

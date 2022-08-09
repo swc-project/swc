@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @Filename: module.ts
 var X;
 (function(X) {
@@ -10,6 +9,9 @@ var X;
         })(Point = Y.Point || (Y.Point = {}));
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
+// @Filename: classPoint.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var X;
 (function(X) {
     var Y;
     (function(Y) {
@@ -22,6 +24,8 @@ var X;
         Y.Point = Point;
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
+// @Filename: simple.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 (function(A1) {
     var Instance = A1.Instance = new A();
 })(A || (A = {}));

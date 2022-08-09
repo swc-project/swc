@@ -1,9 +1,9 @@
-var a = 1, b = "PASS";
+var n = 1, o = "PASS";
 do {
     (function() {
-        (function(a) {
-            a = 0 != (a && (b = "FAIL"));
+        (function(n) {
+            n = 0 != (n && (o = "FAIL"));
         })();
     })();
-}while (a--)
-console.log(b);
+}while (n--)
+console.log(o);

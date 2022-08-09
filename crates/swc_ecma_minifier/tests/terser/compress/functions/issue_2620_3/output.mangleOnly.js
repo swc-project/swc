@@ -1,16 +1,16 @@
-var a = "FAIL";
+var c = "FAIL";
 (function() {
-    function b(b, c) {
-        function d() {
-            switch(b){
-                case b:
+    function n(n, a) {
+        function e() {
+            switch(n){
+                case n:
                     break;
-                case ((a = "PASS"), NaN):
+                case ((c = "PASS"), NaN):
                     break;
             }
         }
-        d();
+        e();
     }
-    b(0 / 0);
+    n(0 / 0);
 })();
-console.log(a);
+console.log(c);

@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -74,7 +75,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "contentscripttype",
-                  "value": ""
+                  "rawName": "contentScriptType",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -86,7 +89,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "contentstyletype",
-                  "value": ""
+                  "rawName": "contentStyleType",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -98,7 +103,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "externalresourcesrequired",
-                  "value": ""
+                  "rawName": "externalResourcesRequired",
+                  "value": "",
+                  "rawValue": "''"
                 },
                 {
                   "type": "Attribute",
@@ -110,7 +117,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "filterres",
-                  "value": ""
+                  "rawName": "filterRes",
+                  "value": "",
+                  "rawValue": "''"
                 }
               ],
               "children": [],

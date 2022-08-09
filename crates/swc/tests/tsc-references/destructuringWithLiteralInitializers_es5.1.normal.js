@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 // (arg: { x: any, y: any }) => void
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f1(param) {
     var x = param.x, y = param.y;
 }

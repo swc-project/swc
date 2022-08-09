@@ -1,3 +1,3 @@
 if (1) {
-    function a() {}
+    function f() {}
 }

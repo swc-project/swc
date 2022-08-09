@@ -366,6 +366,9 @@
     function defineMode(name, mode) {
         arguments.length > 2 && (mode.dependencies = Array.prototype.slice.call(arguments, 2)), modes[name] = mode;
     }
+    function defineMIME(mime, spec) {
+        mimeModes[mime] = spec;
+    }
     function resolveMode(spec) {
         if ("string" == typeof spec && mimeModes.hasOwnProperty(spec)) spec = mimeModes[spec];
         else if (spec && "string" == typeof spec.name && mimeModes.hasOwnProperty(spec.name)) {
@@ -1675,7 +1678,7 @@
             }(order, fromArg || 0, null == toArg ? lineLen : toArg, function(from, to, dir, i) {
                 var topLeft, topRight, botLeft, botRight, ltr = "ltr" == dir, fromPos = coords(from, ltr ? "left" : "right"), toPos = coords(to - 1, ltr ? "right" : "left"), openStart = null == fromArg && 0 == from, openEnd = null == toArg && to == lineLen, first = 0 == i, last = !order || i == order.length - 1;
                 if (toPos.top - fromPos.top <= 3) {
-                    var openLeft = (docLTR ? openStart : openEnd) && first, openRight = (docLTR ? openEnd : openStart) && last, left = openLeft ? leftSide : (ltr ? fromPos : toPos).left, right = openRight ? rightSide : (ltr ? toPos : fromPos).right;
+                    var left = (docLTR ? openStart : openEnd) && first ? leftSide : (ltr ? fromPos : toPos).left, right = (docLTR ? openEnd : openStart) && last ? rightSide : (ltr ? toPos : fromPos).right;
                     add(left, fromPos.top, right - left, fromPos.bottom);
                 } else ltr ? (topLeft = docLTR && openStart && first ? leftSide : fromPos.left, topRight = docLTR ? rightSide : wrapX(from, dir, "before"), botLeft = docLTR ? leftSide : wrapX(to, dir, "after"), botRight = docLTR && openEnd && last ? rightSide : toPos.right) : (topLeft = docLTR ? wrapX(from, dir, "before") : leftSide, topRight = !docLTR && openStart && first ? rightSide : fromPos.right, botLeft = !docLTR && openEnd && last ? leftSide : toPos.left, botRight = docLTR ? wrapX(to, dir, "after") : rightSide), add(topLeft, fromPos.top, topRight - topLeft, fromPos.bottom), fromPos.bottom < toPos.top && add(leftSide, fromPos.bottom, null, toPos.top), add(botLeft, toPos.top, botRight - botLeft, toPos.bottom);
                 (!start || 0 > cmpCoords(fromPos, start)) && (start = fromPos), 0 > cmpCoords(toPos, start) && (start = toPos), (!end || 0 > cmpCoords(fromPos, end)) && (end = fromPos), 0 > cmpCoords(toPos, end) && (end = toPos);
@@ -4623,10 +4626,7 @@
                 }, wrappedLineExtent = getWrappedLineExtent("before" == start.sticky ? mv(start, -1) : start.ch);
                 if ("rtl" == cm.doc.direction || 1 == part.level) {
                     var moveInStorageOrder = 1 == part.level == dir < 0, ch = mv(start, moveInStorageOrder ? 1 : -1);
-                    if (null != ch && (moveInStorageOrder ? ch <= part.to && ch <= wrappedLineExtent.end : ch >= part.from && ch >= wrappedLineExtent.begin)) {
-                        var sticky = moveInStorageOrder ? "before" : "after";
-                        return new Pos(start.line, ch, sticky);
-                    }
+                    if (null != ch && (moveInStorageOrder ? ch <= part.to && ch <= wrappedLineExtent.end : ch >= part.from && ch >= wrappedLineExtent.begin)) return new Pos(start.line, ch, moveInStorageOrder ? "before" : "after");
                 }
                 var searchInVisualLine = function(partPos, dir, wrappedLineExtent) {
                     for(var getRes = function(ch, moveInStorageOrder) {
@@ -5534,9 +5534,7 @@
         contenteditable: ContentEditableInput
     }, CodeMirror2.defineMode = function(name) {
         CodeMirror2.defaults.mode || "null" == name || (CodeMirror2.defaults.mode = name), defineMode.apply(this, arguments);
-    }, CodeMirror2.defineMIME = function(mime, spec) {
-        mimeModes[mime] = spec;
-    }, CodeMirror2.defineMode("null", function() {
+    }, CodeMirror2.defineMIME = defineMIME, CodeMirror2.defineMode("null", function() {
         return {
             token: function(stream) {
                 return stream.skipToEnd();

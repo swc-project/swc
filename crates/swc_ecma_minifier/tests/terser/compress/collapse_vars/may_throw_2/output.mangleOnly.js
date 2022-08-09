@@ -1,9 +1,9 @@
-function a(a) {
+function r(r) {
     try {
-        var b = x();
-        ++a;
-        return a(b);
+        var t = x();
+        ++r;
+        return r(t);
     } catch (c) {}
-    console.log(a);
+    console.log(r);
 }
-a(0);
+r(0);

@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +156,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "action",
-                  "value": ""
+                  "rawName": "action",
+                  "value": "",
+                  "rawValue": "\"\""
                 },
                 {
                   "type": "Attribute",
@@ -165,7 +170,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "method",
-                  "value": "get"
+                  "rawName": "method",
+                  "value": "get",
+                  "rawValue": "\"get\""
                 },
                 {
                   "type": "Attribute",
@@ -177,7 +184,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "class",
-                  "value": "form-example"
+                  "rawName": "class",
+                  "value": "form-example",
+                  "rawValue": "\"form-example\""
                 }
               ],
               "children": [
@@ -211,7 +220,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "class",
-                      "value": "form-example"
+                      "rawName": "class",
+                      "value": "form-example",
+                      "rawValue": "\"form-example\""
                     }
                   ],
                   "children": [
@@ -245,7 +256,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "for",
-                          "value": "name"
+                          "rawName": "for",
+                          "value": "name",
+                          "rawValue": "\"name\""
                         }
                       ],
                       "children": [
@@ -293,7 +306,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "type",
-                          "value": "text"
+                          "rawName": "type",
+                          "value": "text",
+                          "rawValue": "\"text\""
                         },
                         {
                           "type": "Attribute",
@@ -305,7 +320,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "name",
-                          "value": "name"
+                          "rawName": "name",
+                          "value": "name",
+                          "rawValue": "\"name\""
                         },
                         {
                           "type": "Attribute",
@@ -317,7 +334,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "name"
+                          "rawName": "id",
+                          "value": "name",
+                          "rawValue": "\"name\""
                         },
                         {
                           "type": "Attribute",
@@ -329,7 +348,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "required",
-                          "value": null
+                          "rawName": "required",
+                          "value": null,
+                          "rawValue": null
                         }
                       ],
                       "children": [],
@@ -380,7 +401,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "class",
-                      "value": "form-example"
+                      "rawName": "class",
+                      "value": "form-example",
+                      "rawValue": "\"form-example\""
                     }
                   ],
                   "children": [
@@ -414,7 +437,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "for",
-                          "value": "email"
+                          "rawName": "for",
+                          "value": "email",
+                          "rawValue": "\"email\""
                         }
                       ],
                       "children": [
@@ -462,7 +487,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "type",
-                          "value": "email"
+                          "rawName": "type",
+                          "value": "email",
+                          "rawValue": "\"email\""
                         },
                         {
                           "type": "Attribute",
@@ -474,7 +501,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "name",
-                          "value": "email"
+                          "rawName": "name",
+                          "value": "email",
+                          "rawValue": "\"email\""
                         },
                         {
                           "type": "Attribute",
@@ -486,7 +515,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "id",
-                          "value": "email"
+                          "rawName": "id",
+                          "value": "email",
+                          "rawValue": "\"email\""
                         },
                         {
                           "type": "Attribute",
@@ -498,7 +529,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "required",
-                          "value": null
+                          "rawName": "required",
+                          "value": null,
+                          "rawValue": null
                         }
                       ],
                       "children": [],
@@ -549,7 +582,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "class",
-                      "value": "form-example"
+                      "rawName": "class",
+                      "value": "form-example",
+                      "rawValue": "\"form-example\""
                     }
                   ],
                   "children": [
@@ -583,7 +618,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "type",
-                          "value": "submit"
+                          "rawName": "type",
+                          "value": "submit",
+                          "rawValue": "\"submit\""
                         },
                         {
                           "type": "Attribute",
@@ -595,7 +632,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "value",
-                          "value": "Subscribe!"
+                          "rawName": "value",
+                          "value": "Subscribe!",
+                          "rawValue": "\"Subscribe!\""
                         }
                       ],
                       "children": [],
@@ -660,7 +699,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "method",
-                  "value": "post"
+                  "rawName": "method",
+                  "value": "post",
+                  "rawValue": "\"post\""
                 }
               ],
               "children": [
@@ -761,7 +802,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "type",
-                              "value": "radio"
+                              "rawName": "type",
+                              "value": "radio",
+                              "rawValue": "\"radio\""
                             },
                             {
                               "type": "Attribute",
@@ -773,7 +816,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "name",
-                              "value": "radio"
+                              "rawName": "name",
+                              "value": "radio",
+                              "rawValue": "\"radio\""
                             }
                           ],
                           "children": [],

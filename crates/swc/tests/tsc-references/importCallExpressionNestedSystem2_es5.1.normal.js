@@ -1,17 +1,17 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
 // @module: system
 // @target: es5
 // @skipLibCheck: true
 // @lib: es6
 // @filename: foo.ts
 export default "./foo";
+// @filename: index.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function foo() {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = // @filename: index.ts
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _foo = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@filename: part1.ts
 export var A;
 (function(A) {
@@ -17,6 +16,9 @@ export var A;
         y: 0
     };
 })(A || (A = {}));
+//@filename: part2.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+export var A;
 (function(A) {
     var Origin = A.Origin = {
         x: 0,

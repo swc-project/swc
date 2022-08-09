@@ -1,3 +1,4 @@
+// @jsx: preserve
 var t = {
     tag: "h1"
 };

@@ -1,6 +1,6 @@
-function a() {
-    var a = {
+function r() {
+    var r = {
         𝒜: true
     };
-    return a.𝒜;
+    return r.𝒜;
 }

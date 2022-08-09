@@ -1,10 +1,10 @@
-var a = function(a, b) {
-    var c, d, e = a + b, f = e * e, g = f - e;
-    (c = g), (d = 7);
-    throw c + d;
+var r = function(r, t) {
+    var a, c, o = r + t, h = o * o, n = h - o;
+    (a = n), (c = 7);
+    throw a + c;
 };
 try {
-    a(1, 2);
-} catch (b) {
-    console.log(b);
+    r(1, 2);
+} catch (t) {
+    console.log(t);
 }

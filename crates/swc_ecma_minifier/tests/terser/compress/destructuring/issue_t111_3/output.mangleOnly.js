@@ -1,1 +1,1 @@
-let a = (a)=>(console.log(a), a), b = a(1), {} = a(2), c = a(3), {} = a(4);
+let l = (l)=>(console.log(l), l), e = l(1), {} = l(2), g = l(3), {} = l(4);

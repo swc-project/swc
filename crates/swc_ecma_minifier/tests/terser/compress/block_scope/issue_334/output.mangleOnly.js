@@ -1,13 +1,13 @@
-(function(b) {
+(function(f) {
     (function() {
-        c();
+        i();
     })();
-    function c() {
-        a(b);
+    function i() {
+        n(f);
     }
 })("Hello World!");
-function a(a) {
-    if (!a.x) {
-        console.log(a);
+function n(n) {
+    if (!n.x) {
+        console.log(n);
     }
 }

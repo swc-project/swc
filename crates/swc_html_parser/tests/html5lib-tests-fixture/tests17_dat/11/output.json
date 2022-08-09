@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -58,7 +59,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 24,
+                "end": 33,
                 "ctxt": 0
               },
               "tagName": "select",

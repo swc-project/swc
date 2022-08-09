@@ -1,12 +1,12 @@
-function a() {
-    var a = {
+function n() {
+    var n = {
         inner: function() {
-            return a;
+            return n;
         }
     };
 }
-function b() {
-    var a = {
-        inner: a
+function r() {
+    var n = {
+        inner: n
     };
 }

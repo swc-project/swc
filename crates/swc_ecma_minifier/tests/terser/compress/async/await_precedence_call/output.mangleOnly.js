@@ -1,6 +1,6 @@
-async function a() {
+async function n() {
     return (await foo())();
 }
-async function b() {
+async function a() {
     return await foo()();
 }

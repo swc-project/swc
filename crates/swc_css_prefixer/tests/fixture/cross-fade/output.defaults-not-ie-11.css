@@ -1,0 +1,43 @@
+a {
+  background-image: -webkit-cross-fade(url(foo.png), url(bar.png), 0.2);
+  background-image: cross-fade(20% url(foo.png), url(bar.png));
+}
+b {
+  background-image: -webkit-cross-fade(url(foo.png), url(bar.png), 0.5);
+  background-image: cross-fade(url(foo.png), url(bar.png));
+}
+h1 {
+  background-image: -webkit-cross-fade(url(foo.png), url(bar.png), 0.10823);
+  background-image: cross-fade(10.823% url(foo.png), url(bar.png));
+}
+h2 {
+  background-image: -webkit-cross-fade(url(foo.png), url(bar.png), 0.59);
+  background-image: cross-fade(0.59 url(foo.png), url(bar.png));
+}
+h3 {
+  background-image: -webkit-cross-fade(url(foo.png), url(bar.png), 0.59);
+  background-image: cross-fade(.59 url(foo.png), url(bar.png));
+}
+.foo {
+  background-image: -webkit-cross-fade(linear-gradient(white, black), radial-gradient(circle closest-corner, white, black), 0.59);
+  background-image: cross-fade(.59 linear-gradient(white, black), radial-gradient(circle closest-corner, white, black));
+}
+.class {
+  background-image: -webkit-cross-fade(url(white.png), url(black.png), 0);
+  background-image: cross-fade(url(white.png) 0%, url(black.png) 100%);
+  background-image: -webkit-cross-fade(url(white.png), url(black.png), 0.25);
+  background-image: cross-fade(url(white.png) 25%, url(black.png) 75%);
+  background-image: -webkit-cross-fade(url(white.png), url(black.png), 0.5);
+  background-image: cross-fade(url(white.png) 50%, url(black.png) 50%);
+  background-image: -webkit-cross-fade(url(white.png), url(black.png), 0.75);
+  background-image: cross-fade(url(white.png) 75%, url(black.png) 25%);
+  background-image: -webkit-cross-fade(url(white.png), url(black.png), 1);
+  background-image: cross-fade(url(white.png) 100%, url(black.png) 0%);
+  background-image: cross-fade(url(green.png) 75%, url(red.png) 75%);
+  background-image: -webkit-cross-fade(url(white.png), url(black.png), 0.25);
+  background-image: cross-fade(url(white.png), url(black.png) 75%);
+  background-image: cross-fade(url(red.png) 33.33%, url(yellow.png) 33.33%, url(blue.png) 33.33%);
+}
+.broken {
+  background-image: cross-fade(url(red.png) 33.33%);
+}

@@ -1,9 +1,9 @@
-(function(a, b) {
-    var c = arguments[0];
-    var d = arguments[1];
+(function(a, r) {
+    var v = arguments[0];
+    var $ = arguments[1];
     var a = "foo";
-    b++;
+    r++;
     arguments[0] = "moo";
     arguments[1] *= 2;
-    console.log(a, b, c, d, arguments[0], arguments[1]);
+    console.log(a, r, v, $, arguments[0], arguments[1]);
 })("bar", 42);

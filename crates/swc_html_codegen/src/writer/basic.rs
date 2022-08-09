@@ -1,5 +1,6 @@
 use std::fmt::{Result, Write};
 
+use rustc_hash::FxHashSet;
 use swc_common::{BytePos, LineCol, Span};
 
 use super::HtmlWriter;
@@ -55,6 +56,9 @@ where
     linefeed: &'a str,
 
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+    srcmap_done: FxHashSet<(BytePos, u32, u32)>,
+    /// Used to avoid including whitespaces created by indention.
+    pending_srcmap: Option<BytePos>,
 
     config: BasicHtmlWriterConfig,
 
@@ -92,7 +96,24 @@ where
             srcmap,
 
             w: writer,
+            pending_srcmap: Default::default(),
+            srcmap_done: Default::default(),
         }
+    }
+
+    fn write_indent_string(&mut self) -> Result {
+        for _ in 0..(self.config.indent_width * self.indent_level as i32) {
+            self.raw_write(self.indent_type)?;
+        }
+
+        Ok(())
+    }
+
+    fn raw_write(&mut self, data: &str) -> Result {
+        self.w.write_str(data)?;
+        self.col += data.chars().count();
+
+        Ok(())
     }
 
     fn write(&mut self, span: Option<Span>, data: &str) -> Result {
@@ -100,6 +121,10 @@ where
             if self.line_start {
                 self.write_indent_string()?;
                 self.line_start = false;
+
+                if let Some(pending) = self.pending_srcmap.take() {
+                    self.srcmap(pending);
+                }
             }
 
             if let Some(span) = span {
@@ -120,30 +145,23 @@ where
         Ok(())
     }
 
-    fn write_indent_string(&mut self) -> Result {
-        for _ in 0..(self.config.indent_width * self.indent_level as i32) {
-            self.raw_write(self.indent_type)?;
+    fn srcmap(&mut self, byte_pos: BytePos) {
+        if byte_pos.is_dummy() {
+            return;
         }
 
-        Ok(())
-    }
-
-    fn raw_write(&mut self, data: &str) -> Result {
-        self.w.write_str(data)?;
-        self.col += data.chars().count();
-
-        Ok(())
-    }
-
-    fn srcmap(&mut self, byte_pos: BytePos) {
         if let Some(ref mut srcmap) = self.srcmap {
-            srcmap.push((
-                byte_pos,
-                LineCol {
+            if self
+                .srcmap_done
+                .insert((byte_pos, self.line as _, self.col as _))
+            {
+                let loc = LineCol {
                     line: self.line as _,
                     col: self.col as _,
-                },
-            ))
+                };
+
+                srcmap.push((byte_pos, loc));
+            }
         }
     }
 }
@@ -157,11 +175,17 @@ where
     }
 
     fn write_newline(&mut self) -> Result {
+        let pending = self.pending_srcmap.take();
+
         if !self.line_start {
             self.raw_write(self.linefeed)?;
             self.line += 1;
             self.col = 0;
             self.line_start = true;
+
+            if let Some(pending) = pending {
+                self.srcmap(pending)
+            }
         }
 
         Ok(())
@@ -179,29 +203,26 @@ where
         Ok(())
     }
 
-    fn write_str(&mut self, span: Span, s: &str) -> Result {
+    fn write_multiline_raw(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
-            let mut lines = s.split('\n').peekable();
-            let mut lo_byte_pos = span.lo();
+            if !span.is_dummy() {
+                self.srcmap(span.lo())
+            }
 
-            while let Some(line) = lines.next() {
-                if !span.is_dummy() {
-                    self.srcmap(lo_byte_pos)
-                }
+            self.write(None, s)?;
 
-                self.raw_write(line)?;
+            let line_start_of_s = compute_line_starts(s);
 
-                if lines.peek().is_some() {
-                    self.raw_write("\n")?;
-                    self.line += 1;
-                    self.col = 0;
+            if line_start_of_s.len() > 1 {
+                self.line = self.line + line_start_of_s.len() - 1;
 
-                    if !span.is_dummy() {
-                        lo_byte_pos = lo_byte_pos + BytePos((line.len() + 1) as u32);
-                    }
-                } else if !span.is_dummy() {
-                    self.srcmap(span.hi());
-                }
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+
+                self.col = s[last_line_byte_index..].chars().count();
+            }
+
+            if !span.is_dummy() {
+                self.srcmap(span.hi())
             }
         }
 
@@ -220,4 +241,31 @@ where
 
         self.indent_level -= 1;
     }
+}
+
+fn compute_line_starts(s: &str) -> Vec<usize> {
+    let mut res = vec![];
+    let mut line_start = 0;
+    let mut chars = s.char_indices().peekable();
+
+    while let Some((pos, c)) = chars.next() {
+        match c {
+            '\r' => {
+                if let Some(&(_, '\n')) = chars.peek() {
+                    let _ = chars.next();
+                }
+            }
+
+            '\n' => {
+                res.push(line_start);
+                line_start = pos + 1;
+            }
+
+            _ => {}
+        }
+    }
+
+    // Last line.
+    res.push(line_start);
+    res
 }

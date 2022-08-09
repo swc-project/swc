@@ -1,6 +1,6 @@
+//@target: ES6
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_array from "@swc/helpers/src/_to_array.mjs";
-//@target: ES6
 var k, v;
 var map = new Map([
     [

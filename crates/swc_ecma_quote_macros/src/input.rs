@@ -15,6 +15,9 @@ pub(super) struct QuoteInput {
 
 pub(super) struct QuoteVar {
     pub name: syn::Ident,
+    /// Defaults to `swc_ecma_ast::Ident`
+    pub ty: Option<syn::Type>,
+
     #[allow(unused)]
     pub eq_token: Token![=],
     pub value: syn::Expr,
@@ -44,8 +47,18 @@ impl Parse for QuoteInput {
 
 impl Parse for QuoteVar {
     fn parse(input: ParseStream) -> syn::Result<Self> {
+        let name = input.parse()?;
+
+        let ty = if input.peek(Token![:]) {
+            let _: Token![:] = input.parse()?;
+            Some(input.parse()?)
+        } else {
+            None
+        };
+
         Ok(Self {
-            name: input.parse()?,
+            name,
+            ty,
             eq_token: input.parse()?,
             value: input.parse()?,
         })

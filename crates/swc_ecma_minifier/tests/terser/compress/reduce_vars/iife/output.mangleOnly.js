@@ -1,4 +1,4 @@
-!(function(a, b, c) {
-    b++;
-    console.log(a - 1, b * 1, c + 2);
+!(function(_, n, o) {
+    n++;
+    console.log(_ - 1, n * 1, o + 2);
 })(1, 2, 3);

@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use swc_common::{
-    plugin::{PluginSerializedBytes, VersionedSerializable},
+    plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     BytePos, SourceMap, Span, SyntaxContext,
 };
 use wasmer::{LazyInit, Memory, NativeFunc};

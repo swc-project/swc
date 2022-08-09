@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -234,7 +237,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "span",
-                          "value": "2"
+                          "rawName": "span",
+                          "value": "2",
+                          "rawValue": "\"2\""
                         },
                         {
                           "type": "Attribute",
@@ -246,7 +251,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "class",
-                          "value": "batman"
+                          "rawName": "class",
+                          "value": "batman",
+                          "rawValue": "\"batman\""
                         }
                       ],
                       "children": [],
@@ -273,7 +280,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "span",
-                          "value": "2"
+                          "rawName": "span",
+                          "value": "2",
+                          "rawValue": "\"2\""
                         },
                         {
                           "type": "Attribute",
@@ -285,7 +294,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "class",
-                          "value": "flash"
+                          "rawName": "class",
+                          "value": "flash",
+                          "rawValue": "\"flash\""
                         }
                       ],
                       "children": [],
@@ -393,7 +404,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "scope",
-                              "value": "col"
+                              "rawName": "scope",
+                              "value": "col",
+                              "rawValue": "\"col\""
                             }
                           ],
                           "children": [
@@ -441,7 +454,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "scope",
-                              "value": "col"
+                              "rawName": "scope",
+                              "value": "col",
+                              "rawValue": "\"col\""
                             }
                           ],
                           "children": [
@@ -489,7 +504,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "scope",
-                              "value": "col"
+                              "rawName": "scope",
+                              "value": "col",
+                              "rawValue": "\"col\""
                             }
                           ],
                           "children": [
@@ -537,7 +554,9 @@
                               "namespace": null,
                               "prefix": null,
                               "name": "scope",
-                              "value": "col"
+                              "rawName": "scope",
+                              "value": "col",
+                              "rawValue": "\"col\""
                             }
                           ],
                           "children": [

@@ -1,9 +1,9 @@
-function a(a) {
+function e(e) {
     {
-        if (a) {
-            var b = a._owner;
-            var c = describeUnknownElementTypeFrameInDEV(a.type, a._source, b ? b.type : null);
-            setExtraStackFrame(c);
+        if (e) {
+            var l = e._owner;
+            var n = describeUnknownElementTypeFrameInDEV(e.type, e._source, l ? l.type : null);
+            setExtraStackFrame(n);
         } else {
             setExtraStackFrame(null);
         }

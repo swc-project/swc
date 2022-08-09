@@ -92,8 +92,9 @@
  * @returns {*} The return.
  */ function check6(obj) {
     return obj.foo;
-} // @Filename: mod7.js
- /** 
+}
+// @Filename: mod7.js
+/** 
    Multiline type expressions in comments without leading * are not supported.
    @typedef {{
      foo:

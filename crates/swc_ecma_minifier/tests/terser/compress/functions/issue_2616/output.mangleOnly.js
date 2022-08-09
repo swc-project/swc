@@ -1,11 +1,11 @@
-var a = "FAIL";
+var n = "FAIL";
 (function() {
-    function b() {
-        function b(b) {
-            (true << NaN) - 0 / 0 || (a = "PASS");
+    function o() {
+        function o(o) {
+            (true << NaN) - 0 / 0 || (n = "PASS");
         }
-        b([]);
+        o([]);
     }
-    b();
+    o();
 })();
-console.log(a);
+console.log(n);

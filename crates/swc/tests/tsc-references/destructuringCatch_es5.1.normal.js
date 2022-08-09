@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 // @noImplicitAny: true
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 try {
     throw [
         0,

@@ -1,8 +1,8 @@
-function a() {}
-var b = [
+function n() {}
+var o = [
     1,
     2
 ].map(function() {
-    return new a();
+    return new n();
 });
-console.log(b[0].constructor === b[1].constructor);
+console.log(o[0].constructor === o[1].constructor);

@@ -1,6 +1,6 @@
-function a() {
-    function a() {}
-    a.a = function() {};
-    a.b = a.a;
-    return a;
+function n() {
+    function n() {}
+    n.a = function() {};
+    n.b = n.a;
+    return n;
 }

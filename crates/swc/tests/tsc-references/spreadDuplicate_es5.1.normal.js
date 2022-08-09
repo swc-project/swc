@@ -1,3 +1,6 @@
+// @strict: true
+// @declaration: true
+// Repro from #44438
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 var a1 = _object_spread({
     a: 123

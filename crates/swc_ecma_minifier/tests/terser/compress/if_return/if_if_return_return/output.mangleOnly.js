@@ -1,6 +1,6 @@
-function a(a, b) {
-    if (a) {
-        if (b) return b;
+function n(n, r) {
+    if (n) {
+        if (r) return r;
         return;
     }
     g();

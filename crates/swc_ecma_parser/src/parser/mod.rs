@@ -3,7 +3,7 @@
 
 use std::ops::{Deref, DerefMut};
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashMap, comments::Comments, input::Input, BytePos, Span};
 use swc_ecma_ast::*;
 
@@ -205,7 +205,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_shebang(&mut self) -> PResult<Option<JsWord>> {
+    fn parse_shebang(&mut self) -> PResult<Option<Atom>> {
         match cur!(self, false) {
             Ok(&Token::Shebang(..)) => match bump!(self) {
                 Token::Shebang(v) => Ok(Some(v)),

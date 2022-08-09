@@ -1,9 +1,9 @@
-function a() {
-    console.log(c);
+function n() {
+    console.log(o);
 }
-function b() {
-    a();
+function i() {
+    n();
 }
-while(b());
-var c = 1;
-a();
+while(i());
+var o = 1;
+n();

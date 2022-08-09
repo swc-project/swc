@@ -1,9 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-// @filename: b.ts
-import * as a from "./a";
 // @noEmit: true
 // @allowJs: true
 // @filename: a.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var C1 = function C1() {
     "use strict";
     _class_call_check(this, C1);
@@ -19,6 +17,7 @@ C2.staticProp = 0;
 export var F2 = function F2() {};
 F2.staticProp = 0;
 //@filename: global.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var C3 = function C3() {
     "use strict";
     _class_call_check(this, C3);
@@ -33,6 +32,8 @@ var C4 = function C4() {
 C4.staticProp = 0;
 var F4 = function F4() {};
 F4.staticProp = 0;
+// @filename: b.ts
+import * as a from "./a";
 var n;
 var n = a.C1.staticProp;
 var n = a.C2.staticProp;

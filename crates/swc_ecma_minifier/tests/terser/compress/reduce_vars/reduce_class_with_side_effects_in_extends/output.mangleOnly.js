@@ -1,10 +1,10 @@
-let a = "";
-class b extends ((a += "PA"), Array) {
+let e = "";
+class s extends ((e += "PA"), Array) {
 }
-class c extends ((a += "SS"), Array) {
+class n extends ((e += "SS"), Array) {
 }
 global.something = [
-    new c(),
-    new b()
+    new n(),
+    new s()
 ];
-console.log(a);
+console.log(e);

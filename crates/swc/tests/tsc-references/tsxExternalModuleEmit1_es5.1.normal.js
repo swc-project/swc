@@ -1,10 +1,13 @@
+//@jsx: preserve
+//@module: commonjs
+//@filename: react.d.ts
+//@filename: app.tsx
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-//@filename: app.tsx
 import * as React from "react";
-//@filename: button.tsx
-import * as React from "react";
+// Should see var button_1 = require('./button') here
+import { Button } from "./button";
 export var App = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(App, _Component);
@@ -19,6 +22,11 @@ export var App = /*#__PURE__*/ function(_Component) {
     };
     return App;
 }(React.Component);
+//@filename: button.tsx
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+import * as React from "react";
 export var Button = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(Button, _Component);

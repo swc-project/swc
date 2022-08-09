@@ -1,3 +1,4 @@
+// @strictNullChecks: true
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 var o1;
 var o1 = _object_spread({}, undefinedUnion);

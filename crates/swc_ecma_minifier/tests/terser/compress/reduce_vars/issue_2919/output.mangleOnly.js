@@ -1,4 +1,4 @@
-var a = [
+var o = [
     function() {}
 ];
-console.log(typeof a[0]);
+console.log(typeof o[0]);

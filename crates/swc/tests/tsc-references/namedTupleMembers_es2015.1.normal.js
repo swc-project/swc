@@ -1,3 +1,4 @@
+// @declaration: true
 a = b;
 a = c;
 a = d;

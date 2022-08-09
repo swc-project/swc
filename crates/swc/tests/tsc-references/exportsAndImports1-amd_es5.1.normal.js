@@ -1,9 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-// @filename: t3.ts
-import { I, T } from "./t1";
 // @module: amd
 // @target: ES5
 // @filename: t1.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var v = 1;
 function f() {}
 var C = function C() {
@@ -31,4 +29,6 @@ var a = M.x;
 export { v, f, C, E, D, M, N, a };
 // @filename: t2.ts
 export { v, f, C, I, E, D, M, N, T, a } from "./t1";
-export { v, f, C, E, D, M, N, a };
+// @filename: t3.ts
+import { v, f, C, I, E, D, M, N, T, a } from "./t1";
+export { v, f, C, I, E, D, M, N, T, a };

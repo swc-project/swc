@@ -1,1 +1,1 @@
-const a = (a)=>(console.log(a), a), b = a(1), {} = a(2), c = a(3), d = a(4);
+const o = (o)=>(console.log(o), o), c = o(1), {} = o(2), g = o(3), l = o(4);

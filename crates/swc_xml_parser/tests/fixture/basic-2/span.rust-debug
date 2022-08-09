@@ -1,0 +1,1644 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/basic-2/input.xml:1:1]
+  1 | ,-> <?xml version="1.0"?>
+  2 | |   <any_name attr="https://example.com/somepath">
+  3 | |       <person id="101">
+  4 | |           <phone>+122233344550</phone>
+  5 | |           <name>Jack</name>
+  6 | |           <phone>+122233344551</phone>
+  7 | |           <age>33</age>
+  8 | |           <emptyNode></emptyNode>
+  9 | |           <booleanNode>false</booleanNode>
+ 10 | |           <booleanNode>true</booleanNode>
+ 11 | |           <selfclosing />
+ 12 | |           <selfclosing with="value" />
+ 13 | |           <married firstTime="No" attr="val 2">Yes</married>
+ 14 | |           <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+ 15 | |           <address>
+ 16 | |               <city>New York</city>
+ 17 | |               <street>Park Ave</street>
+ 18 | |               <buildingNo>1</buildingNo>
+ 19 | |               <flatNo>1</flatNo>
+ 20 | |           </address>
+ 21 | |           <address>
+ 22 | |               <city>Boston</city>
+ 23 | |               <street>Centre St</street>
+ 24 | |               <buildingNo>33</buildingNo>
+ 25 | |               <flatNo>24</flatNo>
+ 26 | |           </address>
+ 27 | |       </person>
+ 28 | |       <person id="102">
+ 29 | |           <phone>+122233344553</phone>
+ 30 | |           <name>Boris</name>
+ 31 | |           <phone>+122233344554</phone>
+ 32 | |           <age>34</age>
+ 33 | |   <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+ 34 | |           <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+ 35 | |           <ns:address>
+ 36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | |               <street>Kahovka</street>
+ 38 | |               <buildingNo>1</buildingNo>
+ 39 | |               <flatNo>2</flatNo>
+ 40 | |           </ns:address>
+ 41 | |           <address>
+ 42 | |               <city>Tula</city>
+ 43 | |               <street>Lenina</street>
+ 44 | |               <buildingNo>3</buildingNo>
+ 45 | |               <flatNo>78</flatNo>
+ 46 | |           </address>
+ 47 | |       </person>
+ 48 | `-> </any_name>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:1:1]
+ 1 | <?xml version="1.0"?>
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ProcessingInstruction
+   ,-[$DIR/tests/fixture/basic-2/input.xml:1:1]
+ 1 | <?xml version="1.0"?>
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:2:1]
+  2 | ,-> <any_name attr="https://example.com/somepath">
+  3 | |       <person id="101">
+  4 | |           <phone>+122233344550</phone>
+  5 | |           <name>Jack</name>
+  6 | |           <phone>+122233344551</phone>
+  7 | |           <age>33</age>
+  8 | |           <emptyNode></emptyNode>
+  9 | |           <booleanNode>false</booleanNode>
+ 10 | |           <booleanNode>true</booleanNode>
+ 11 | |           <selfclosing />
+ 12 | |           <selfclosing with="value" />
+ 13 | |           <married firstTime="No" attr="val 2">Yes</married>
+ 14 | |           <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+ 15 | |           <address>
+ 16 | |               <city>New York</city>
+ 17 | |               <street>Park Ave</street>
+ 18 | |               <buildingNo>1</buildingNo>
+ 19 | |               <flatNo>1</flatNo>
+ 20 | |           </address>
+ 21 | |           <address>
+ 22 | |               <city>Boston</city>
+ 23 | |               <street>Centre St</street>
+ 24 | |               <buildingNo>33</buildingNo>
+ 25 | |               <flatNo>24</flatNo>
+ 26 | |           </address>
+ 27 | |       </person>
+ 28 | |       <person id="102">
+ 29 | |           <phone>+122233344553</phone>
+ 30 | |           <name>Boris</name>
+ 31 | |           <phone>+122233344554</phone>
+ 32 | |           <age>34</age>
+ 33 | |   <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+ 34 | |           <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+ 35 | |           <ns:address>
+ 36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | |               <street>Kahovka</street>
+ 38 | |               <buildingNo>1</buildingNo>
+ 39 | |               <flatNo>2</flatNo>
+ 40 | |           </ns:address>
+ 41 | |           <address>
+ 42 | |               <city>Tula</city>
+ 43 | |               <street>Lenina</street>
+ 44 | |               <buildingNo>3</buildingNo>
+ 45 | |               <flatNo>78</flatNo>
+ 46 | |           </address>
+ 47 | |       </person>
+ 48 | `-> </any_name>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:2:1]
+  2 | ,-> <any_name attr="https://example.com/somepath">
+  3 | |       <person id="101">
+  4 | |           <phone>+122233344550</phone>
+  5 | |           <name>Jack</name>
+  6 | |           <phone>+122233344551</phone>
+  7 | |           <age>33</age>
+  8 | |           <emptyNode></emptyNode>
+  9 | |           <booleanNode>false</booleanNode>
+ 10 | |           <booleanNode>true</booleanNode>
+ 11 | |           <selfclosing />
+ 12 | |           <selfclosing with="value" />
+ 13 | |           <married firstTime="No" attr="val 2">Yes</married>
+ 14 | |           <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+ 15 | |           <address>
+ 16 | |               <city>New York</city>
+ 17 | |               <street>Park Ave</street>
+ 18 | |               <buildingNo>1</buildingNo>
+ 19 | |               <flatNo>1</flatNo>
+ 20 | |           </address>
+ 21 | |           <address>
+ 22 | |               <city>Boston</city>
+ 23 | |               <street>Centre St</street>
+ 24 | |               <buildingNo>33</buildingNo>
+ 25 | |               <flatNo>24</flatNo>
+ 26 | |           </address>
+ 27 | |       </person>
+ 28 | |       <person id="102">
+ 29 | |           <phone>+122233344553</phone>
+ 30 | |           <name>Boris</name>
+ 31 | |           <phone>+122233344554</phone>
+ 32 | |           <age>34</age>
+ 33 | |   <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+ 34 | |           <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+ 35 | |           <ns:address>
+ 36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | |               <street>Kahovka</street>
+ 38 | |               <buildingNo>1</buildingNo>
+ 39 | |               <flatNo>2</flatNo>
+ 40 | |           </ns:address>
+ 41 | |           <address>
+ 42 | |               <city>Tula</city>
+ 43 | |               <street>Lenina</street>
+ 44 | |               <buildingNo>3</buildingNo>
+ 45 | |               <flatNo>78</flatNo>
+ 46 | |           </address>
+ 47 | |       </person>
+ 48 | `-> </any_name>
+    `----
+
+  x Attribute
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:2:1]
+ 2 | ,-> <any_name attr="https://example.com/somepath">
+ 3 | `->     <person id="101">
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:2:1]
+ 2 | ,-> <any_name attr="https://example.com/somepath">
+ 3 | `->     <person id="101">
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:3:5]
+  3 | ,-> <person id="101">
+  4 | |           <phone>+122233344550</phone>
+  5 | |           <name>Jack</name>
+  6 | |           <phone>+122233344551</phone>
+  7 | |           <age>33</age>
+  8 | |           <emptyNode></emptyNode>
+  9 | |           <booleanNode>false</booleanNode>
+ 10 | |           <booleanNode>true</booleanNode>
+ 11 | |           <selfclosing />
+ 12 | |           <selfclosing with="value" />
+ 13 | |           <married firstTime="No" attr="val 2">Yes</married>
+ 14 | |           <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+ 15 | |           <address>
+ 16 | |               <city>New York</city>
+ 17 | |               <street>Park Ave</street>
+ 18 | |               <buildingNo>1</buildingNo>
+ 19 | |               <flatNo>1</flatNo>
+ 20 | |           </address>
+ 21 | |           <address>
+ 22 | |               <city>Boston</city>
+ 23 | |               <street>Centre St</street>
+ 24 | |               <buildingNo>33</buildingNo>
+ 25 | |               <flatNo>24</flatNo>
+ 26 | |           </address>
+ 27 | `->     </person>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:3:5]
+  3 | ,-> <person id="101">
+  4 | |           <phone>+122233344550</phone>
+  5 | |           <name>Jack</name>
+  6 | |           <phone>+122233344551</phone>
+  7 | |           <age>33</age>
+  8 | |           <emptyNode></emptyNode>
+  9 | |           <booleanNode>false</booleanNode>
+ 10 | |           <booleanNode>true</booleanNode>
+ 11 | |           <selfclosing />
+ 12 | |           <selfclosing with="value" />
+ 13 | |           <married firstTime="No" attr="val 2">Yes</married>
+ 14 | |           <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+ 15 | |           <address>
+ 16 | |               <city>New York</city>
+ 17 | |               <street>Park Ave</street>
+ 18 | |               <buildingNo>1</buildingNo>
+ 19 | |               <flatNo>1</flatNo>
+ 20 | |           </address>
+ 21 | |           <address>
+ 22 | |               <city>Boston</city>
+ 23 | |               <street>Centre St</street>
+ 24 | |               <buildingNo>33</buildingNo>
+ 25 | |               <flatNo>24</flatNo>
+ 26 | |           </address>
+ 27 | `->     </person>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:3:5]
+ 3 | ,-> <person id="101">
+ 4 | `->         <phone>+122233344550</phone>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:3:5]
+ 3 | ,-> <person id="101">
+ 4 | `->         <phone>+122233344550</phone>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
+ 4 | <phone>+122233344550</phone>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
+ 4 | <phone>+122233344550</phone>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
+ 4 | <phone>+122233344550</phone>
+   :        ^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
+ 4 | <phone>+122233344550</phone>
+   :        ^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
+ 4 | ,-> <phone>+122233344550</phone>
+ 5 | `->         <name>Jack</name>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
+ 4 | ,-> <phone>+122233344550</phone>
+ 5 | `->         <name>Jack</name>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
+ 5 | <name>Jack</name>
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
+ 5 | <name>Jack</name>
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
+ 5 | <name>Jack</name>
+   :       ^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
+ 5 | <name>Jack</name>
+   :       ^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
+ 5 | ,-> <name>Jack</name>
+ 6 | `->         <phone>+122233344551</phone>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
+ 5 | ,-> <name>Jack</name>
+ 6 | `->         <phone>+122233344551</phone>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
+ 6 | <phone>+122233344551</phone>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
+ 6 | <phone>+122233344551</phone>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
+ 6 | <phone>+122233344551</phone>
+   :        ^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
+ 6 | <phone>+122233344551</phone>
+   :        ^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
+ 6 | ,-> <phone>+122233344551</phone>
+ 7 | `->         <age>33</age>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
+ 6 | ,-> <phone>+122233344551</phone>
+ 7 | `->         <age>33</age>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
+ 7 | <age>33</age>
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
+ 7 | <age>33</age>
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
+ 7 | <age>33</age>
+   :      ^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
+ 7 | <age>33</age>
+   :      ^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
+ 7 | ,-> <age>33</age>
+ 8 | `->         <emptyNode></emptyNode>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
+ 7 | ,-> <age>33</age>
+ 8 | `->         <emptyNode></emptyNode>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:8:9]
+ 8 | <emptyNode></emptyNode>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic-2/input.xml:8:9]
+ 8 | <emptyNode></emptyNode>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:8:9]
+ 8 | ,-> <emptyNode></emptyNode>
+ 9 | `->         <booleanNode>false</booleanNode>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:8:9]
+ 8 | ,-> <emptyNode></emptyNode>
+ 9 | `->         <booleanNode>false</booleanNode>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
+ 9 | <booleanNode>false</booleanNode>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
+ 9 | <booleanNode>false</booleanNode>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
+ 9 | <booleanNode>false</booleanNode>
+   :              ^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
+ 9 | <booleanNode>false</booleanNode>
+   :              ^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
+  9 | ,-> <booleanNode>false</booleanNode>
+ 10 | `->         <booleanNode>true</booleanNode>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
+  9 | ,-> <booleanNode>false</booleanNode>
+ 10 | `->         <booleanNode>true</booleanNode>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
+ 10 | <booleanNode>true</booleanNode>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
+ 10 | <booleanNode>true</booleanNode>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
+ 10 | <booleanNode>true</booleanNode>
+    :              ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
+ 10 | <booleanNode>true</booleanNode>
+    :              ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
+ 10 | ,-> <booleanNode>true</booleanNode>
+ 11 | `->         <selfclosing />
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
+ 10 | ,-> <booleanNode>true</booleanNode>
+ 11 | `->         <selfclosing />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:11:9]
+ 11 | <selfclosing />
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:11:9]
+ 11 | <selfclosing />
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:11:9]
+ 11 | ,-> <selfclosing />
+ 12 | `->         <selfclosing with="value" />
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:11:9]
+ 11 | ,-> <selfclosing />
+ 12 | `->         <selfclosing with="value" />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:9]
+ 12 | <selfclosing with="value" />
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:9]
+ 12 | <selfclosing with="value" />
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:9]
+ 12 | ,-> <selfclosing with="value" />
+ 13 | `->         <married firstTime="No" attr="val 2">Yes</married>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:9]
+ 12 | ,-> <selfclosing with="value" />
+ 13 | `->         <married firstTime="No" attr="val 2">Yes</married>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
+ 13 | <married firstTime="No" attr="val 2">Yes</married>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
+ 13 | <married firstTime="No" attr="val 2">Yes</married>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
+ 13 | <married firstTime="No" attr="val 2">Yes</married>
+    :                                      ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
+ 13 | <married firstTime="No" attr="val 2">Yes</married>
+    :                                      ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
+ 13 | ,-> <married firstTime="No" attr="val 2">Yes</married>
+ 14 | `->         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
+ 13 | ,-> <married firstTime="No" attr="val 2">Yes</married>
+ 14 | `->         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
+ 14 | <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
+ 14 | <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
+ 14 | <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
+ 14 | <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
+ 14 | ,-> <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+ 15 | `->         <address>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
+ 14 | ,-> <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+ 15 | `->         <address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:9]
+ 15 | ,-> <address>
+ 16 | |               <city>New York</city>
+ 17 | |               <street>Park Ave</street>
+ 18 | |               <buildingNo>1</buildingNo>
+ 19 | |               <flatNo>1</flatNo>
+ 20 | `->         </address>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:9]
+ 15 | ,-> <address>
+ 16 | |               <city>New York</city>
+ 17 | |               <street>Park Ave</street>
+ 18 | |               <buildingNo>1</buildingNo>
+ 19 | |               <flatNo>1</flatNo>
+ 20 | `->         </address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:9]
+ 15 | ,-> <address>
+ 16 | `->             <city>New York</city>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:9]
+ 15 | ,-> <address>
+ 16 | `->             <city>New York</city>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
+ 16 | <city>New York</city>
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
+ 16 | <city>New York</city>
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
+ 16 | <city>New York</city>
+    :       ^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
+ 16 | <city>New York</city>
+    :       ^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
+ 16 | ,-> <city>New York</city>
+ 17 | `->             <street>Park Ave</street>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
+ 16 | ,-> <city>New York</city>
+ 17 | `->             <street>Park Ave</street>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
+ 17 | <street>Park Ave</street>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
+ 17 | <street>Park Ave</street>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
+ 17 | <street>Park Ave</street>
+    :         ^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
+ 17 | <street>Park Ave</street>
+    :         ^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
+ 17 | ,-> <street>Park Ave</street>
+ 18 | `->             <buildingNo>1</buildingNo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
+ 17 | ,-> <street>Park Ave</street>
+ 18 | `->             <buildingNo>1</buildingNo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
+ 18 | <buildingNo>1</buildingNo>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
+ 18 | <buildingNo>1</buildingNo>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
+ 18 | <buildingNo>1</buildingNo>
+    :             ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
+ 18 | <buildingNo>1</buildingNo>
+    :             ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
+ 18 | ,-> <buildingNo>1</buildingNo>
+ 19 | `->             <flatNo>1</flatNo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
+ 18 | ,-> <buildingNo>1</buildingNo>
+ 19 | `->             <flatNo>1</flatNo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
+ 19 | <flatNo>1</flatNo>
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
+ 19 | <flatNo>1</flatNo>
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
+ 19 | <flatNo>1</flatNo>
+    :         ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
+ 19 | <flatNo>1</flatNo>
+    :         ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
+ 19 | ,-> <flatNo>1</flatNo>
+ 20 | `->         </address>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
+ 19 | ,-> <flatNo>1</flatNo>
+ 20 | `->         </address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:20:9]
+ 20 | ,-> </address>
+ 21 | `->         <address>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:20:9]
+ 20 | ,-> </address>
+ 21 | `->         <address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:9]
+ 21 | ,-> <address>
+ 22 | |               <city>Boston</city>
+ 23 | |               <street>Centre St</street>
+ 24 | |               <buildingNo>33</buildingNo>
+ 25 | |               <flatNo>24</flatNo>
+ 26 | `->         </address>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:9]
+ 21 | ,-> <address>
+ 22 | |               <city>Boston</city>
+ 23 | |               <street>Centre St</street>
+ 24 | |               <buildingNo>33</buildingNo>
+ 25 | |               <flatNo>24</flatNo>
+ 26 | `->         </address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:9]
+ 21 | ,-> <address>
+ 22 | `->             <city>Boston</city>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:9]
+ 21 | ,-> <address>
+ 22 | `->             <city>Boston</city>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
+ 22 | <city>Boston</city>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
+ 22 | <city>Boston</city>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
+ 22 | <city>Boston</city>
+    :       ^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
+ 22 | <city>Boston</city>
+    :       ^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
+ 22 | ,-> <city>Boston</city>
+ 23 | `->             <street>Centre St</street>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
+ 22 | ,-> <city>Boston</city>
+ 23 | `->             <street>Centre St</street>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
+ 23 | <street>Centre St</street>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
+ 23 | <street>Centre St</street>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
+ 23 | <street>Centre St</street>
+    :         ^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
+ 23 | <street>Centre St</street>
+    :         ^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
+ 23 | ,-> <street>Centre St</street>
+ 24 | `->             <buildingNo>33</buildingNo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
+ 23 | ,-> <street>Centre St</street>
+ 24 | `->             <buildingNo>33</buildingNo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
+ 24 | <buildingNo>33</buildingNo>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
+ 24 | <buildingNo>33</buildingNo>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
+ 24 | <buildingNo>33</buildingNo>
+    :             ^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
+ 24 | <buildingNo>33</buildingNo>
+    :             ^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
+ 24 | ,-> <buildingNo>33</buildingNo>
+ 25 | `->             <flatNo>24</flatNo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
+ 24 | ,-> <buildingNo>33</buildingNo>
+ 25 | `->             <flatNo>24</flatNo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
+ 25 | <flatNo>24</flatNo>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
+ 25 | <flatNo>24</flatNo>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
+ 25 | <flatNo>24</flatNo>
+    :         ^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
+ 25 | <flatNo>24</flatNo>
+    :         ^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
+ 25 | ,-> <flatNo>24</flatNo>
+ 26 | `->         </address>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
+ 25 | ,-> <flatNo>24</flatNo>
+ 26 | `->         </address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:26:9]
+ 26 | ,-> </address>
+ 27 | `->     </person>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:26:9]
+ 26 | ,-> </address>
+ 27 | `->     </person>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:27:5]
+ 27 | ,-> </person>
+ 28 | `->     <person id="102">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:27:5]
+ 27 | ,-> </person>
+ 28 | `->     <person id="102">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:5]
+ 28 | ,-> <person id="102">
+ 29 | |           <phone>+122233344553</phone>
+ 30 | |           <name>Boris</name>
+ 31 | |           <phone>+122233344554</phone>
+ 32 | |           <age>34</age>
+ 33 | |   <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+ 34 | |           <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+ 35 | |           <ns:address>
+ 36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | |               <street>Kahovka</street>
+ 38 | |               <buildingNo>1</buildingNo>
+ 39 | |               <flatNo>2</flatNo>
+ 40 | |           </ns:address>
+ 41 | |           <address>
+ 42 | |               <city>Tula</city>
+ 43 | |               <street>Lenina</street>
+ 44 | |               <buildingNo>3</buildingNo>
+ 45 | |               <flatNo>78</flatNo>
+ 46 | |           </address>
+ 47 | `->     </person>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:5]
+ 28 | ,-> <person id="102">
+ 29 | |           <phone>+122233344553</phone>
+ 30 | |           <name>Boris</name>
+ 31 | |           <phone>+122233344554</phone>
+ 32 | |           <age>34</age>
+ 33 | |   <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+ 34 | |           <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+ 35 | |           <ns:address>
+ 36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | |               <street>Kahovka</street>
+ 38 | |               <buildingNo>1</buildingNo>
+ 39 | |               <flatNo>2</flatNo>
+ 40 | |           </ns:address>
+ 41 | |           <address>
+ 42 | |               <city>Tula</city>
+ 43 | |               <street>Lenina</street>
+ 44 | |               <buildingNo>3</buildingNo>
+ 45 | |               <flatNo>78</flatNo>
+ 46 | |           </address>
+ 47 | `->     </person>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:5]
+ 28 | ,-> <person id="102">
+ 29 | `->         <phone>+122233344553</phone>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:5]
+ 28 | ,-> <person id="102">
+ 29 | `->         <phone>+122233344553</phone>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
+ 29 | <phone>+122233344553</phone>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
+ 29 | <phone>+122233344553</phone>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
+ 29 | <phone>+122233344553</phone>
+    :        ^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
+ 29 | <phone>+122233344553</phone>
+    :        ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
+ 29 | ,-> <phone>+122233344553</phone>
+ 30 | `->         <name>Boris</name>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
+ 29 | ,-> <phone>+122233344553</phone>
+ 30 | `->         <name>Boris</name>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
+ 30 | <name>Boris</name>
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
+ 30 | <name>Boris</name>
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
+ 30 | <name>Boris</name>
+    :       ^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
+ 30 | <name>Boris</name>
+    :       ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
+ 30 | ,-> <name>Boris</name>
+ 31 | `->         <phone>+122233344554</phone>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
+ 30 | ,-> <name>Boris</name>
+ 31 | `->         <phone>+122233344554</phone>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
+ 31 | <phone>+122233344554</phone>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
+ 31 | <phone>+122233344554</phone>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
+ 31 | <phone>+122233344554</phone>
+    :        ^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
+ 31 | <phone>+122233344554</phone>
+    :        ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
+ 31 | ,-> <phone>+122233344554</phone>
+ 32 | `->         <age>34</age>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
+ 31 | ,-> <phone>+122233344554</phone>
+ 32 | `->         <age>34</age>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
+ 32 | <age>34</age>
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
+ 32 | <age>34</age>
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
+ 32 | <age>34</age>
+    :      ^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
+ 32 | <age>34</age>
+    :      ^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
+ 32 | <age>34</age>
+    :              ^
+ 33 | <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
+ 32 | <age>34</age>
+    :              ^
+ 33 | <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:1]
+ 33 | <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:1]
+ 33 | <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:1]
+ 33 | ,-> <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+ 34 | `->         <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:1]
+ 33 | ,-> <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
+ 34 | `->         <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
+ 34 | <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
+ 34 | <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
+ 34 | <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
+ 34 | <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
+ 34 | ,-> <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+ 35 | `->         <ns:address>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
+ 34 | ,-> <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+ 35 | `->         <ns:address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:35:9]
+ 35 | ,-> <ns:address>
+ 36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | |               <street>Kahovka</street>
+ 38 | |               <buildingNo>1</buildingNo>
+ 39 | |               <flatNo>2</flatNo>
+ 40 | `->         </ns:address>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:35:9]
+ 35 | ,-> <ns:address>
+ 36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | |               <street>Kahovka</street>
+ 38 | |               <buildingNo>1</buildingNo>
+ 39 | |               <flatNo>2</flatNo>
+ 40 | `->         </ns:address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:35:9]
+ 35 | <ns:address>
+    :             ^
+ 36 | <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:35:9]
+ 35 | <ns:address>
+    :             ^
+ 36 | <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:1]
+ 36 | <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:1]
+ 36 | <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:1]
+ 36 | ,-> <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | `->             <street>Kahovka</street>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:1]
+ 36 | ,-> <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
+ 37 | `->             <street>Kahovka</street>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
+ 37 | <street>Kahovka</street>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
+ 37 | <street>Kahovka</street>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
+ 37 | <street>Kahovka</street>
+    :         ^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
+ 37 | <street>Kahovka</street>
+    :         ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
+ 37 | ,-> <street>Kahovka</street>
+ 38 | `->             <buildingNo>1</buildingNo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
+ 37 | ,-> <street>Kahovka</street>
+ 38 | `->             <buildingNo>1</buildingNo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
+ 38 | <buildingNo>1</buildingNo>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
+ 38 | <buildingNo>1</buildingNo>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
+ 38 | <buildingNo>1</buildingNo>
+    :             ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
+ 38 | <buildingNo>1</buildingNo>
+    :             ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
+ 38 | ,-> <buildingNo>1</buildingNo>
+ 39 | `->             <flatNo>2</flatNo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
+ 38 | ,-> <buildingNo>1</buildingNo>
+ 39 | `->             <flatNo>2</flatNo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
+ 39 | <flatNo>2</flatNo>
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
+ 39 | <flatNo>2</flatNo>
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
+ 39 | <flatNo>2</flatNo>
+    :         ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
+ 39 | <flatNo>2</flatNo>
+    :         ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
+ 39 | ,-> <flatNo>2</flatNo>
+ 40 | `->         </ns:address>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
+ 39 | ,-> <flatNo>2</flatNo>
+ 40 | `->         </ns:address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:40:9]
+ 40 | ,-> </ns:address>
+ 41 | `->         <address>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:40:9]
+ 40 | ,-> </ns:address>
+ 41 | `->         <address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:9]
+ 41 | ,-> <address>
+ 42 | |               <city>Tula</city>
+ 43 | |               <street>Lenina</street>
+ 44 | |               <buildingNo>3</buildingNo>
+ 45 | |               <flatNo>78</flatNo>
+ 46 | `->         </address>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:9]
+ 41 | ,-> <address>
+ 42 | |               <city>Tula</city>
+ 43 | |               <street>Lenina</street>
+ 44 | |               <buildingNo>3</buildingNo>
+ 45 | |               <flatNo>78</flatNo>
+ 46 | `->         </address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:9]
+ 41 | ,-> <address>
+ 42 | `->             <city>Tula</city>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:9]
+ 41 | ,-> <address>
+ 42 | `->             <city>Tula</city>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
+ 42 | <city>Tula</city>
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
+ 42 | <city>Tula</city>
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
+ 42 | <city>Tula</city>
+    :       ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
+ 42 | <city>Tula</city>
+    :       ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
+ 42 | ,-> <city>Tula</city>
+ 43 | `->             <street>Lenina</street>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
+ 42 | ,-> <city>Tula</city>
+ 43 | `->             <street>Lenina</street>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
+ 43 | <street>Lenina</street>
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
+ 43 | <street>Lenina</street>
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
+ 43 | <street>Lenina</street>
+    :         ^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
+ 43 | <street>Lenina</street>
+    :         ^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
+ 43 | ,-> <street>Lenina</street>
+ 44 | `->             <buildingNo>3</buildingNo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
+ 43 | ,-> <street>Lenina</street>
+ 44 | `->             <buildingNo>3</buildingNo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
+ 44 | <buildingNo>3</buildingNo>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
+ 44 | <buildingNo>3</buildingNo>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
+ 44 | <buildingNo>3</buildingNo>
+    :             ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
+ 44 | <buildingNo>3</buildingNo>
+    :             ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
+ 44 | ,-> <buildingNo>3</buildingNo>
+ 45 | `->             <flatNo>78</flatNo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
+ 44 | ,-> <buildingNo>3</buildingNo>
+ 45 | `->             <flatNo>78</flatNo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
+ 45 | <flatNo>78</flatNo>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
+ 45 | <flatNo>78</flatNo>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
+ 45 | <flatNo>78</flatNo>
+    :         ^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
+ 45 | <flatNo>78</flatNo>
+    :         ^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
+ 45 | ,-> <flatNo>78</flatNo>
+ 46 | `->         </address>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
+ 45 | ,-> <flatNo>78</flatNo>
+ 46 | `->         </address>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:46:9]
+ 46 | ,-> </address>
+ 47 | `->     </person>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:46:9]
+ 46 | ,-> </address>
+ 47 | `->     </person>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/basic-2/input.xml:47:5]
+ 47 | </person>
+    :          ^
+ 48 | </any_name>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/basic-2/input.xml:47:5]
+ 47 | </person>
+    :          ^
+ 48 | </any_name>
+    `----

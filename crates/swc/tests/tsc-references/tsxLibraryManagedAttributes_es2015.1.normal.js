@@ -1,3 +1,5 @@
+// @jsx: preserve
+// @strict: true
 class Component extends ReactComponent {
 }
 Component.propTypes = {

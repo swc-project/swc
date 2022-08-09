@@ -1,6 +1,7 @@
+export { };
+import A from './a';
+export { A };
 import * as types from './b';
+export { types as default };
 import types from './c';
-class A {
-}
 new types.A(), new types.B();
-export { A, types as default };

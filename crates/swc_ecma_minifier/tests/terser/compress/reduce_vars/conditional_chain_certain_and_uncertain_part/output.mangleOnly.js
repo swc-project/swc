@@ -1,6 +1,6 @@
 global.a = {
     b: null
 };
-let b = "FAIL";
-a.b?.[(b = "PASS")]?.d((b = "FAIL"));
-console.log(b);
+let l = "FAIL";
+a.b?.[(l = "PASS")]?.d((l = "FAIL"));
+console.log(l);

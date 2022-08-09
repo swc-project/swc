@@ -1,4 +1,4 @@
-function a() {
+function r() {
     return !error ? !0 : (this.trigger("invalid", this, error, _.extend(options, {
         validationError: error
     })), !1);

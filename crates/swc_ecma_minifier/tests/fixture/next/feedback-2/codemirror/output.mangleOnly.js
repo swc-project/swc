@@ -1,4085 +1,4085 @@
-(function(a, b) {
-    typeof exports === "object" && typeof module !== "undefined" ? (module.exports = b()) : typeof define === "function" && define.amd ? define(b) : ((a = a || self), (a.CodeMirror = b()));
+(function(e, t) {
+    typeof exports === "object" && typeof module !== "undefined" ? (module.exports = t()) : typeof define === "function" && define.amd ? define(t) : ((e = e || self), (e.CodeMirror = t()));
 })(this, function() {
     "use strict";
-    var a = navigator.userAgent;
-    var b = navigator.platform;
-    var c = /gecko\/\d/i.test(a);
-    var d = /MSIE \d/.test(a);
-    var e = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(a);
-    var f = /Edge\/(\d+)/.exec(a);
-    var g = d || e || f;
-    var h = g && (d ? document.documentMode || 6 : +(f || e)[1]);
-    var i = !f && /WebKit\//.test(a);
-    var j = i && /Qt\/\d+\.\d+/.test(a);
-    var k = !f && /Chrome\//.test(a);
-    var l = /Opera\//.test(a);
-    var m = /Apple Computer/.test(navigator.vendor);
-    var n = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(a);
-    var o = /PhantomJS/.test(a);
-    var p = m && (/Mobile\/\w+/.test(a) || navigator.maxTouchPoints > 2);
-    var q = /Android/.test(a);
-    var r = p || q || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(a);
-    var s = p || /Mac/.test(b);
-    var t = /\bCrOS\b/.test(a);
-    var u = /win/i.test(b);
-    var v = l && a.match(/Version\/(\d*\.\d*)/);
-    if (v) {
-        v = Number(v[1]);
+    var e = navigator.userAgent;
+    var t = navigator.platform;
+    var i = /gecko\/\d/i.test(e);
+    var r = /MSIE \d/.test(e);
+    var n = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(e);
+    var o = /Edge\/(\d+)/.exec(e);
+    var l = r || n || o;
+    var s = l && (r ? document.documentMode || 6 : +(o || n)[1]);
+    var a = !o && /WebKit\//.test(e);
+    var f = a && /Qt\/\d+\.\d+/.test(e);
+    var u = !o && /Chrome\//.test(e);
+    var c = /Opera\//.test(e);
+    var h = /Apple Computer/.test(navigator.vendor);
+    var d = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(e);
+    var p = /PhantomJS/.test(e);
+    var v = h && (/Mobile\/\w+/.test(e) || navigator.maxTouchPoints > 2);
+    var g = /Android/.test(e);
+    var m = v || g || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(e);
+    var $ = v || /Mac/.test(t);
+    var y = /\bCrOS\b/.test(e);
+    var _ = /win/i.test(t);
+    var w = c && e.match(/Version\/(\d*\.\d*)/);
+    if (w) {
+        w = Number(w[1]);
     }
-    if (v && v >= 15) {
-        l = false;
-        i = true;
+    if (w && w >= 15) {
+        c = false;
+        a = true;
     }
-    var w = s && (j || (l && (v == null || v < 12.11)));
-    var x = c || (g && h >= 9);
-    function y(a) {
-        return new RegExp("(^|\\s)" + a + "(?:$|\\s)\\s*");
+    var b = $ && (f || (c && (w == null || w < 12.11)));
+    var x = i || (l && s >= 9);
+    function C(e) {
+        return new RegExp("(^|\\s)" + e + "(?:$|\\s)\\s*");
     }
-    var z = function(a, b) {
-        var c = a.className;
-        var d = y(b).exec(c);
-        if (d) {
-            var e = c.slice(d.index + d[0].length);
-            a.className = c.slice(0, d.index) + (e ? d[1] + e : "");
+    var S = function(e, t) {
+        var i = e.className;
+        var r = C(t).exec(i);
+        if (r) {
+            var n = i.slice(r.index + r[0].length);
+            e.className = i.slice(0, r.index) + (n ? r[1] + n : "");
         }
     };
-    function A(a) {
-        for(var b = a.childNodes.length; b > 0; --b){
-            a.removeChild(a.firstChild);
+    function k(e) {
+        for(var t = e.childNodes.length; t > 0; --t){
+            e.removeChild(e.firstChild);
         }
-        return a;
+        return e;
     }
-    function B(a, b) {
-        return A(a).appendChild(b);
+    function T(e, t) {
+        return k(e).appendChild(t);
     }
-    function C(a, b, c, d) {
-        var e = document.createElement(a);
-        if (c) {
-            e.className = c;
+    function L(e, t, i, r) {
+        var n = document.createElement(e);
+        if (i) {
+            n.className = i;
         }
-        if (d) {
-            e.style.cssText = d;
+        if (r) {
+            n.style.cssText = r;
         }
-        if (typeof b == "string") {
-            e.appendChild(document.createTextNode(b));
-        } else if (b) {
-            for(var f = 0; f < b.length; ++f){
-                e.appendChild(b[f]);
+        if (typeof t == "string") {
+            n.appendChild(document.createTextNode(t));
+        } else if (t) {
+            for(var o = 0; o < t.length; ++o){
+                n.appendChild(t[o]);
             }
         }
-        return e;
+        return n;
     }
-    function D(a, b, c, d) {
-        var e = C(a, b, c, d);
-        e.setAttribute("role", "presentation");
-        return e;
+    function O(e, t, i, r) {
+        var n = L(e, t, i, r);
+        n.setAttribute("role", "presentation");
+        return n;
     }
-    var E;
+    var W;
     if (document.createRange) {
-        E = function(a, b, c, d) {
-            var e = document.createRange();
-            e.setEnd(d || a, c);
-            e.setStart(a, b);
-            return e;
+        W = function(e, t, i, r) {
+            var n = document.createRange();
+            n.setEnd(r || e, i);
+            n.setStart(e, t);
+            return n;
         };
     } else {
-        E = function(a, b, c) {
-            var d = document.body.createTextRange();
+        W = function(e, t, i) {
+            var r = document.body.createTextRange();
             try {
-                d.moveToElementText(a.parentNode);
-            } catch (e) {
-                return d;
+                r.moveToElementText(e.parentNode);
+            } catch (n) {
+                return r;
             }
-            d.collapse(true);
-            d.moveEnd("character", c);
-            d.moveStart("character", b);
-            return d;
+            r.collapse(true);
+            r.moveEnd("character", i);
+            r.moveStart("character", t);
+            return r;
         };
     }
-    function F(a, b) {
-        if (b.nodeType == 3) {
-            b = b.parentNode;
+    function N(e, t) {
+        if (t.nodeType == 3) {
+            t = t.parentNode;
         }
-        if (a.contains) {
-            return a.contains(b);
+        if (e.contains) {
+            return e.contains(t);
         }
         do {
-            if (b.nodeType == 11) {
-                b = b.host;
+            if (t.nodeType == 11) {
+                t = t.host;
             }
-            if (b == a) {
+            if (t == e) {
                 return true;
             }
-        }while ((b = b.parentNode))
+        }while ((t = t.parentNode))
     }
-    function G() {
-        var a;
+    function A() {
+        var e;
         try {
-            a = document.activeElement;
-        } catch (b) {
-            a = document.body || null;
+            e = document.activeElement;
+        } catch (t) {
+            e = document.body || null;
         }
-        while(a && a.shadowRoot && a.shadowRoot.activeElement){
-            a = a.shadowRoot.activeElement;
+        while(e && e.shadowRoot && e.shadowRoot.activeElement){
+            e = e.shadowRoot.activeElement;
         }
-        return a;
+        return e;
     }
-    function H(a, b) {
-        var c = a.className;
-        if (!y(b).test(c)) {
-            a.className += (c ? " " : "") + b;
+    function D(e, t) {
+        var i = e.className;
+        if (!C(t).test(i)) {
+            e.className += (i ? " " : "") + t;
         }
     }
-    function I(a, b) {
-        var c = a.split(" ");
-        for(var d = 0; d < c.length; d++){
-            if (c[d] && !y(c[d]).test(b)) {
-                b += " " + c[d];
+    function H(e, t) {
+        var i = e.split(" ");
+        for(var r = 0; r < i.length; r++){
+            if (i[r] && !C(i[r]).test(t)) {
+                t += " " + i[r];
             }
         }
-        return b;
+        return t;
     }
-    var J = function(a) {
-        a.select();
+    var F = function(e) {
+        e.select();
     };
-    if (p) {
-        J = function(a) {
-            a.selectionStart = 0;
-            a.selectionEnd = a.value.length;
+    if (v) {
+        F = function(e) {
+            e.selectionStart = 0;
+            e.selectionEnd = e.value.length;
         };
-    } else if (g) {
-        J = function(a) {
+    } else if (l) {
+        F = function(e) {
             try {
-                a.select();
-            } catch (b) {}
+                e.select();
+            } catch (t) {}
         };
     }
-    function K(a) {
-        var b = Array.prototype.slice.call(arguments, 1);
+    function M(e) {
+        var t = Array.prototype.slice.call(arguments, 1);
         return function() {
-            return a.apply(null, b);
+            return e.apply(null, t);
         };
     }
-    function L(a, b, c) {
-        if (!b) {
-            b = {};
+    function P(e, t, i) {
+        if (!t) {
+            t = {};
         }
-        for(var d in a){
-            if (a.hasOwnProperty(d) && (c !== false || !b.hasOwnProperty(d))) {
-                b[d] = a[d];
+        for(var r in e){
+            if (e.hasOwnProperty(r) && (i !== false || !t.hasOwnProperty(r))) {
+                t[r] = e[r];
             }
         }
-        return b;
+        return t;
     }
-    function M(a, b, c, d, e) {
-        if (b == null) {
-            b = a.search(/[^\s\u00a0]/);
-            if (b == -1) {
-                b = a.length;
+    function z(e, t, i, r, n) {
+        if (t == null) {
+            t = e.search(/[^\s\u00a0]/);
+            if (t == -1) {
+                t = e.length;
             }
         }
-        for(var f = d || 0, g = e || 0;;){
-            var h = a.indexOf("\t", f);
-            if (h < 0 || h >= b) {
-                return g + (b - f);
+        for(var o = r || 0, l = n || 0;;){
+            var s = e.indexOf("\t", o);
+            if (s < 0 || s >= t) {
+                return l + (t - o);
             }
-            g += h - f;
-            g += c - (g % c);
-            f = h + 1;
+            l += s - o;
+            l += i - (l % i);
+            o = s + 1;
         }
     }
-    var N = function() {
+    var E = function() {
         this.id = null;
         this.f = null;
         this.time = 0;
-        this.handler = K(this.onTimeout, this);
+        this.handler = M(this.onTimeout, this);
     };
-    N.prototype.onTimeout = function(a) {
-        a.id = 0;
-        if (a.time <= +new Date()) {
-            a.f();
+    E.prototype.onTimeout = function(e) {
+        e.id = 0;
+        if (e.time <= +new Date()) {
+            e.f();
         } else {
-            setTimeout(a.handler, a.time - +new Date());
+            setTimeout(e.handler, e.time - +new Date());
         }
     };
-    N.prototype.set = function(a, b) {
-        this.f = b;
-        var c = +new Date() + a;
-        if (!this.id || c < this.time) {
+    E.prototype.set = function(e, t) {
+        this.f = t;
+        var i = +new Date() + e;
+        if (!this.id || i < this.time) {
             clearTimeout(this.id);
-            this.id = setTimeout(this.handler, a);
-            this.time = c;
+            this.id = setTimeout(this.handler, e);
+            this.time = i;
         }
     };
-    function O(a, b) {
-        for(var c = 0; c < a.length; ++c){
-            if (a[c] == b) {
-                return c;
+    function I(e, t) {
+        for(var i = 0; i < e.length; ++i){
+            if (e[i] == t) {
+                return i;
             }
         }
         return -1;
     }
-    var P = 50;
-    var Q = {
+    var R = 50;
+    var B = {
         toString: function() {
             return "CodeMirror.Pass";
         }
     };
-    var R = {
+    var G = {
         scroll: false
-    }, S = {
+    }, U = {
         origin: "*mouse"
-    }, T = {
+    }, V = {
         origin: "+move"
     };
-    function U(a, b, c) {
-        for(var d = 0, e = 0;;){
-            var f = a.indexOf("\t", d);
-            if (f == -1) {
-                f = a.length;
+    function K(e, t, i) {
+        for(var r = 0, n = 0;;){
+            var o = e.indexOf("\t", r);
+            if (o == -1) {
+                o = e.length;
             }
-            var g = f - d;
-            if (f == a.length || e + g >= b) {
-                return d + Math.min(g, b - e);
+            var l = o - r;
+            if (o == e.length || n + l >= t) {
+                return r + Math.min(l, t - n);
             }
-            e += f - d;
-            e += c - (e % c);
-            d = f + 1;
-            if (e >= b) {
-                return d;
+            n += o - r;
+            n += i - (n % i);
+            r = o + 1;
+            if (n >= t) {
+                return r;
             }
         }
     }
-    var V = [
+    var X = [
         ""
     ];
-    function W(a) {
-        while(V.length <= a){
-            V.push(X(V) + " ");
+    function Y(e) {
+        while(X.length <= e){
+            X.push(j(X) + " ");
         }
-        return V[a];
+        return X[e];
     }
-    function X(a) {
-        return a[a.length - 1];
+    function j(e) {
+        return e[e.length - 1];
     }
-    function Y(a, b) {
-        var c = [];
-        for(var d = 0; d < a.length; d++){
-            c[d] = b(a[d], d);
+    function q(e, t) {
+        var i = [];
+        for(var r = 0; r < e.length; r++){
+            i[r] = t(e[r], r);
         }
-        return c;
+        return i;
     }
-    function Z(a, b, c) {
-        var d = 0, e = c(b);
-        while(d < a.length && c(a[d]) <= e){
-            d++;
+    function Z(e, t, i) {
+        var r = 0, n = i(t);
+        while(r < e.length && i(e[r]) <= n){
+            r++;
         }
-        a.splice(d, 0, b);
+        e.splice(r, 0, t);
     }
-    function $() {}
-    function _(a, b) {
-        var c;
+    function J() {}
+    function Q(e, t) {
+        var i;
         if (Object.create) {
-            c = Object.create(a);
+            i = Object.create(e);
         } else {
-            $.prototype = a;
-            c = new $();
+            J.prototype = e;
+            i = new J();
         }
-        if (b) {
-            L(b, c);
+        if (t) {
+            P(t, i);
         }
-        return c;
+        return i;
     }
-    var aa = /[\u00df\u0587\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
-    function ab(a) {
-        return (/\w/.test(a) || (a > "\x80" && (a.toUpperCase() != a.toLowerCase() || aa.test(a))));
+    var ee = /[\u00df\u0587\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
+    function et(e) {
+        return (/\w/.test(e) || (e > "\x80" && (e.toUpperCase() != e.toLowerCase() || ee.test(e))));
     }
-    function ac(a, b) {
-        if (!b) {
-            return ab(a);
+    function ei(e, t) {
+        if (!t) {
+            return et(e);
         }
-        if (b.source.indexOf("\\w") > -1 && ab(a)) {
+        if (t.source.indexOf("\\w") > -1 && et(e)) {
             return true;
         }
-        return b.test(a);
+        return t.test(e);
     }
-    function ad(a) {
-        for(var b in a){
-            if (a.hasOwnProperty(b) && a[b]) {
+    function er(e) {
+        for(var t in e){
+            if (e.hasOwnProperty(t) && e[t]) {
                 return false;
             }
         }
         return true;
     }
-    var ae = /[\u0300-\u036f\u0483-\u0489\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u065e\u0670\u06d6-\u06dc\u06de-\u06e4\u06e7\u06e8\u06ea-\u06ed\u0711\u0730-\u074a\u07a6-\u07b0\u07eb-\u07f3\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0900-\u0902\u093c\u0941-\u0948\u094d\u0951-\u0955\u0962\u0963\u0981\u09bc\u09be\u09c1-\u09c4\u09cd\u09d7\u09e2\u09e3\u0a01\u0a02\u0a3c\u0a41\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a70\u0a71\u0a75\u0a81\u0a82\u0abc\u0ac1-\u0ac5\u0ac7\u0ac8\u0acd\u0ae2\u0ae3\u0b01\u0b3c\u0b3e\u0b3f\u0b41-\u0b44\u0b4d\u0b56\u0b57\u0b62\u0b63\u0b82\u0bbe\u0bc0\u0bcd\u0bd7\u0c3e-\u0c40\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0cbc\u0cbf\u0cc2\u0cc6\u0ccc\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0d3e\u0d41-\u0d44\u0d4d\u0d57\u0d62\u0d63\u0dca\u0dcf\u0dd2-\u0dd4\u0dd6\u0ddf\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0eb1\u0eb4-\u0eb9\u0ebb\u0ebc\u0ec8-\u0ecd\u0f18\u0f19\u0f35\u0f37\u0f39\u0f71-\u0f7e\u0f80-\u0f84\u0f86\u0f87\u0f90-\u0f97\u0f99-\u0fbc\u0fc6\u102d-\u1030\u1032-\u1037\u1039\u103a\u103d\u103e\u1058\u1059\u105e-\u1060\u1071-\u1074\u1082\u1085\u1086\u108d\u109d\u135f\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17b7-\u17bd\u17c6\u17c9-\u17d3\u17dd\u180b-\u180d\u18a9\u1920-\u1922\u1927\u1928\u1932\u1939-\u193b\u1a17\u1a18\u1a56\u1a58-\u1a5e\u1a60\u1a62\u1a65-\u1a6c\u1a73-\u1a7c\u1a7f\u1b00-\u1b03\u1b34\u1b36-\u1b3a\u1b3c\u1b42\u1b6b-\u1b73\u1b80\u1b81\u1ba2-\u1ba5\u1ba8\u1ba9\u1c2c-\u1c33\u1c36\u1c37\u1cd0-\u1cd2\u1cd4-\u1ce0\u1ce2-\u1ce8\u1ced\u1dc0-\u1de6\u1dfd-\u1dff\u200c\u200d\u20d0-\u20f0\u2cef-\u2cf1\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua66f-\ua672\ua67c\ua67d\ua6f0\ua6f1\ua802\ua806\ua80b\ua825\ua826\ua8c4\ua8e0-\ua8f1\ua926-\ua92d\ua947-\ua951\ua980-\ua982\ua9b3\ua9b6-\ua9b9\ua9bc\uaa29-\uaa2e\uaa31\uaa32\uaa35\uaa36\uaa43\uaa4c\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uabe5\uabe8\uabed\udc00-\udfff\ufb1e\ufe00-\ufe0f\ufe20-\ufe26\uff9e\uff9f]/;
-    function af(a) {
-        return a.charCodeAt(0) >= 768 && ae.test(a);
+    var en = /[\u0300-\u036f\u0483-\u0489\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u065e\u0670\u06d6-\u06dc\u06de-\u06e4\u06e7\u06e8\u06ea-\u06ed\u0711\u0730-\u074a\u07a6-\u07b0\u07eb-\u07f3\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0900-\u0902\u093c\u0941-\u0948\u094d\u0951-\u0955\u0962\u0963\u0981\u09bc\u09be\u09c1-\u09c4\u09cd\u09d7\u09e2\u09e3\u0a01\u0a02\u0a3c\u0a41\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a70\u0a71\u0a75\u0a81\u0a82\u0abc\u0ac1-\u0ac5\u0ac7\u0ac8\u0acd\u0ae2\u0ae3\u0b01\u0b3c\u0b3e\u0b3f\u0b41-\u0b44\u0b4d\u0b56\u0b57\u0b62\u0b63\u0b82\u0bbe\u0bc0\u0bcd\u0bd7\u0c3e-\u0c40\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0cbc\u0cbf\u0cc2\u0cc6\u0ccc\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0d3e\u0d41-\u0d44\u0d4d\u0d57\u0d62\u0d63\u0dca\u0dcf\u0dd2-\u0dd4\u0dd6\u0ddf\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0eb1\u0eb4-\u0eb9\u0ebb\u0ebc\u0ec8-\u0ecd\u0f18\u0f19\u0f35\u0f37\u0f39\u0f71-\u0f7e\u0f80-\u0f84\u0f86\u0f87\u0f90-\u0f97\u0f99-\u0fbc\u0fc6\u102d-\u1030\u1032-\u1037\u1039\u103a\u103d\u103e\u1058\u1059\u105e-\u1060\u1071-\u1074\u1082\u1085\u1086\u108d\u109d\u135f\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17b7-\u17bd\u17c6\u17c9-\u17d3\u17dd\u180b-\u180d\u18a9\u1920-\u1922\u1927\u1928\u1932\u1939-\u193b\u1a17\u1a18\u1a56\u1a58-\u1a5e\u1a60\u1a62\u1a65-\u1a6c\u1a73-\u1a7c\u1a7f\u1b00-\u1b03\u1b34\u1b36-\u1b3a\u1b3c\u1b42\u1b6b-\u1b73\u1b80\u1b81\u1ba2-\u1ba5\u1ba8\u1ba9\u1c2c-\u1c33\u1c36\u1c37\u1cd0-\u1cd2\u1cd4-\u1ce0\u1ce2-\u1ce8\u1ced\u1dc0-\u1de6\u1dfd-\u1dff\u200c\u200d\u20d0-\u20f0\u2cef-\u2cf1\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua66f-\ua672\ua67c\ua67d\ua6f0\ua6f1\ua802\ua806\ua80b\ua825\ua826\ua8c4\ua8e0-\ua8f1\ua926-\ua92d\ua947-\ua951\ua980-\ua982\ua9b3\ua9b6-\ua9b9\ua9bc\uaa29-\uaa2e\uaa31\uaa32\uaa35\uaa36\uaa43\uaa4c\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uabe5\uabe8\uabed\udc00-\udfff\ufb1e\ufe00-\ufe0f\ufe20-\ufe26\uff9e\uff9f]/;
+    function eo(e) {
+        return e.charCodeAt(0) >= 768 && en.test(e);
     }
-    function ag(a, b, c) {
-        while((c < 0 ? b > 0 : b < a.length) && af(a.charAt(b))){
-            b += c;
+    function el(e, t, i) {
+        while((i < 0 ? t > 0 : t < e.length) && eo(e.charAt(t))){
+            t += i;
         }
-        return b;
+        return t;
     }
-    function ah(a, b, c) {
-        var d = b > c ? -1 : 1;
+    function es(e, t, i) {
+        var r = t > i ? -1 : 1;
         for(;;){
-            if (b == c) {
-                return b;
+            if (t == i) {
+                return t;
             }
-            var e = (b + c) / 2, f = d < 0 ? Math.ceil(e) : Math.floor(e);
-            if (f == b) {
-                return a(f) ? b : c;
+            var n = (t + i) / 2, o = r < 0 ? Math.ceil(n) : Math.floor(n);
+            if (o == t) {
+                return e(o) ? t : i;
             }
-            if (a(f)) {
-                c = f;
+            if (e(o)) {
+                i = o;
             } else {
-                b = f + d;
+                t = o + r;
             }
         }
     }
-    function ai(a, b, c, d) {
-        if (!a) {
-            return d(b, c, "ltr", 0);
-        }
-        var e = false;
-        for(var f = 0; f < a.length; ++f){
-            var g = a[f];
-            if ((g.from < c && g.to > b) || (b == c && g.to == b)) {
-                d(Math.max(g.from, b), Math.min(g.to, c), g.level == 1 ? "rtl" : "ltr", f);
-                e = true;
-            }
-        }
+    function ea(e, t, i, r) {
         if (!e) {
-            d(b, c, "ltr");
+            return r(t, i, "ltr", 0);
         }
-    }
-    var aj = null;
-    function ak(a, b, c) {
-        var d;
-        aj = null;
-        for(var e = 0; e < a.length; ++e){
-            var f = a[e];
-            if (f.from < b && f.to > b) {
-                return e;
-            }
-            if (f.to == b) {
-                if (f.from != f.to && c == "before") {
-                    d = e;
-                } else {
-                    aj = e;
-                }
-            }
-            if (f.from == b) {
-                if (f.from != f.to && c != "before") {
-                    d = e;
-                } else {
-                    aj = e;
-                }
+        var n = false;
+        for(var o = 0; o < e.length; ++o){
+            var l = e[o];
+            if ((l.from < i && l.to > t) || (t == i && l.to == t)) {
+                r(Math.max(l.from, t), Math.min(l.to, i), l.level == 1 ? "rtl" : "ltr", o);
+                n = true;
             }
         }
-        return d != null ? d : aj;
+        if (!n) {
+            r(t, i, "ltr");
+        }
     }
-    var al = (function() {
-        var a = "bbbbbbbbbtstwsbbbbbbbbbbbbbbssstwNN%%%NNNNNN,N,N1111111111NNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNbbbbbbsbbbbbbbbbbbbbbbbbbbbbbbbbb,N%%%%NNNNLNNNNN%%11NLNNN1LNNNNNLLLLLLLLLLLLLLLLLLLLLLLNLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLN";
-        var b = "nnnnnnNNr%%r,rNNmmmmmmmmmmmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmmmmmmmmmmmmmmmnnnnnnnnnn%nnrrrmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmnNmmmmmmrrmmNmmmmrr1111111111";
-        function c(c) {
-            if (c <= 0xf7) {
-                return a.charAt(c);
-            } else if (0x590 <= c && c <= 0x5f4) {
+    var ef = null;
+    function eu(e, t, i) {
+        var r;
+        ef = null;
+        for(var n = 0; n < e.length; ++n){
+            var o = e[n];
+            if (o.from < t && o.to > t) {
+                return n;
+            }
+            if (o.to == t) {
+                if (o.from != o.to && i == "before") {
+                    r = n;
+                } else {
+                    ef = n;
+                }
+            }
+            if (o.from == t) {
+                if (o.from != o.to && i != "before") {
+                    r = n;
+                } else {
+                    ef = n;
+                }
+            }
+        }
+        return r != null ? r : ef;
+    }
+    var ec = (function() {
+        var e = "bbbbbbbbbtstwsbbbbbbbbbbbbbbssstwNN%%%NNNNNN,N,N1111111111NNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNbbbbbbsbbbbbbbbbbbbbbbbbbbbbbbbbb,N%%%%NNNNLNNNNN%%11NLNNN1LNNNNNLLLLLLLLLLLLLLLLLLLLLLLNLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLN";
+        var t = "nnnnnnNNr%%r,rNNmmmmmmmmmmmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmmmmmmmmmmmmmmmnnnnnnnnnn%nnrrrmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmnNmmmmmmrrmmNmmmmrr1111111111";
+        function i(i) {
+            if (i <= 0xf7) {
+                return e.charAt(i);
+            } else if (0x590 <= i && i <= 0x5f4) {
                 return "R";
-            } else if (0x600 <= c && c <= 0x6f9) {
-                return b.charAt(c - 0x600);
-            } else if (0x6ee <= c && c <= 0x8ac) {
+            } else if (0x600 <= i && i <= 0x6f9) {
+                return t.charAt(i - 0x600);
+            } else if (0x6ee <= i && i <= 0x8ac) {
                 return "r";
-            } else if (0x2000 <= c && c <= 0x200b) {
+            } else if (0x2000 <= i && i <= 0x200b) {
                 return "w";
-            } else if (c == 0x200c) {
+            } else if (i == 0x200c) {
                 return "b";
             } else {
                 return "L";
             }
         }
-        var d = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
-        var e = /[stwN]/, f = /[LRr]/, g = /[Lb1n]/, h = /[1n]/;
-        function i(a, b, c) {
-            this.level = a;
-            this.from = b;
-            this.to = c;
+        var r = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
+        var n = /[stwN]/, o = /[LRr]/, l = /[Lb1n]/, s = /[1n]/;
+        function a(e, t, i) {
+            this.level = e;
+            this.from = t;
+            this.to = i;
         }
-        return function(a, b) {
-            var j = b == "ltr" ? "L" : "R";
-            if (a.length == 0 || (b == "ltr" && !d.test(a))) {
+        return function(e, t) {
+            var f = t == "ltr" ? "L" : "R";
+            if (e.length == 0 || (t == "ltr" && !r.test(e))) {
                 return false;
             }
-            var k = a.length, l = [];
-            for(var m = 0; m < k; ++m){
-                l.push(c(a.charCodeAt(m)));
+            var u = e.length, c = [];
+            for(var h = 0; h < u; ++h){
+                c.push(i(e.charCodeAt(h)));
             }
-            for(var n = 0, o = j; n < k; ++n){
-                var p = l[n];
-                if (p == "m") {
-                    l[n] = o;
+            for(var d = 0, p = f; d < u; ++d){
+                var v = c[d];
+                if (v == "m") {
+                    c[d] = p;
                 } else {
-                    o = p;
+                    p = v;
                 }
             }
-            for(var q = 0, r = j; q < k; ++q){
-                var s = l[q];
-                if (s == "1" && r == "r") {
-                    l[q] = "n";
-                } else if (f.test(s)) {
-                    r = s;
-                    if (s == "r") {
-                        l[q] = "R";
+            for(var g = 0, m = f; g < u; ++g){
+                var $ = c[g];
+                if ($ == "1" && m == "r") {
+                    c[g] = "n";
+                } else if (o.test($)) {
+                    m = $;
+                    if ($ == "r") {
+                        c[g] = "R";
                     }
                 }
             }
-            for(var t = 1, u = l[0]; t < k - 1; ++t){
-                var v = l[t];
-                if (v == "+" && u == "1" && l[t + 1] == "1") {
-                    l[t] = "1";
-                } else if (v == "," && u == l[t + 1] && (u == "1" || u == "n")) {
-                    l[t] = u;
+            for(var y = 1, _ = c[0]; y < u - 1; ++y){
+                var w = c[y];
+                if (w == "+" && _ == "1" && c[y + 1] == "1") {
+                    c[y] = "1";
+                } else if (w == "," && _ == c[y + 1] && (_ == "1" || _ == "n")) {
+                    c[y] = _;
                 }
-                u = v;
+                _ = w;
             }
-            for(var w = 0; w < k; ++w){
-                var x = l[w];
+            for(var b = 0; b < u; ++b){
+                var x = c[b];
                 if (x == ",") {
-                    l[w] = "N";
+                    c[b] = "N";
                 } else if (x == "%") {
-                    var y = void 0;
-                    for(y = w + 1; y < k && l[y] == "%"; ++y){}
-                    var z = (w && l[w - 1] == "!") || (y < k && l[y] == "1") ? "1" : "N";
-                    for(var A = w; A < y; ++A){
-                        l[A] = z;
+                    var C = void 0;
+                    for(C = b + 1; C < u && c[C] == "%"; ++C){}
+                    var S = (b && c[b - 1] == "!") || (C < u && c[C] == "1") ? "1" : "N";
+                    for(var k = b; k < C; ++k){
+                        c[k] = S;
                     }
-                    w = y - 1;
+                    b = C - 1;
                 }
             }
-            for(var B = 0, C = j; B < k; ++B){
-                var D = l[B];
-                if (C == "L" && D == "1") {
-                    l[B] = "L";
-                } else if (f.test(D)) {
-                    C = D;
+            for(var T = 0, L = f; T < u; ++T){
+                var O = c[T];
+                if (L == "L" && O == "1") {
+                    c[T] = "L";
+                } else if (o.test(O)) {
+                    L = O;
                 }
             }
-            for(var E = 0; E < k; ++E){
-                if (e.test(l[E])) {
-                    var F = void 0;
-                    for(F = E + 1; F < k && e.test(l[F]); ++F){}
-                    var G = (E ? l[E - 1] : j) == "L";
-                    var H = (F < k ? l[F] : j) == "L";
-                    var I = G == H ? (G ? "L" : "R") : j;
-                    for(var J = E; J < F; ++J){
-                        l[J] = I;
+            for(var W = 0; W < u; ++W){
+                if (n.test(c[W])) {
+                    var N = void 0;
+                    for(N = W + 1; N < u && n.test(c[N]); ++N){}
+                    var A = (W ? c[W - 1] : f) == "L";
+                    var D = (N < u ? c[N] : f) == "L";
+                    var H = A == D ? (A ? "L" : "R") : f;
+                    for(var F = W; F < N; ++F){
+                        c[F] = H;
                     }
-                    E = F - 1;
+                    W = N - 1;
                 }
             }
-            var K = [], L;
-            for(var M = 0; M < k;){
-                if (g.test(l[M])) {
-                    var N = M;
-                    for(++M; M < k && g.test(l[M]); ++M){}
-                    K.push(new i(0, N, M));
+            var M = [], P;
+            for(var z = 0; z < u;){
+                if (l.test(c[z])) {
+                    var E = z;
+                    for(++z; z < u && l.test(c[z]); ++z){}
+                    M.push(new a(0, E, z));
                 } else {
-                    var O = M, P = K.length, Q = b == "rtl" ? 1 : 0;
-                    for(++M; M < k && l[M] != "L"; ++M){}
-                    for(var R = O; R < M;){
-                        if (h.test(l[R])) {
-                            if (O < R) {
-                                K.splice(P, 0, new i(1, O, R));
-                                P += Q;
+                    var I = z, R = M.length, B = t == "rtl" ? 1 : 0;
+                    for(++z; z < u && c[z] != "L"; ++z){}
+                    for(var G = I; G < z;){
+                        if (s.test(c[G])) {
+                            if (I < G) {
+                                M.splice(R, 0, new a(1, I, G));
+                                R += B;
                             }
-                            var S = R;
-                            for(++R; R < M && h.test(l[R]); ++R){}
-                            K.splice(P, 0, new i(2, S, R));
-                            P += Q;
-                            O = R;
+                            var U = G;
+                            for(++G; G < z && s.test(c[G]); ++G){}
+                            M.splice(R, 0, new a(2, U, G));
+                            R += B;
+                            I = G;
                         } else {
-                            ++R;
+                            ++G;
                         }
                     }
-                    if (O < M) {
-                        K.splice(P, 0, new i(1, O, M));
+                    if (I < z) {
+                        M.splice(R, 0, new a(1, I, z));
                     }
                 }
             }
-            if (b == "ltr") {
-                if (K[0].level == 1 && (L = a.match(/^\s+/))) {
-                    K[0].from = L[0].length;
-                    K.unshift(new i(0, 0, L[0].length));
+            if (t == "ltr") {
+                if (M[0].level == 1 && (P = e.match(/^\s+/))) {
+                    M[0].from = P[0].length;
+                    M.unshift(new a(0, 0, P[0].length));
                 }
-                if (X(K).level == 1 && (L = a.match(/\s+$/))) {
-                    X(K).to -= L[0].length;
-                    K.push(new i(0, k - L[0].length, k));
+                if (j(M).level == 1 && (P = e.match(/\s+$/))) {
+                    j(M).to -= P[0].length;
+                    M.push(new a(0, u - P[0].length, u));
                 }
             }
-            return b == "rtl" ? K.reverse() : K;
+            return t == "rtl" ? M.reverse() : M;
         };
     })();
-    function am(a, b) {
-        var c = a.order;
-        if (c == null) {
-            c = a.order = al(a.text, b);
+    function eh(e, t) {
+        var i = e.order;
+        if (i == null) {
+            i = e.order = ec(e.text, t);
         }
-        return c;
+        return i;
     }
-    var an = [];
-    var ao = function(a, b, c) {
-        if (a.addEventListener) {
-            a.addEventListener(b, c, false);
-        } else if (a.attachEvent) {
-            a.attachEvent("on" + b, c);
+    var ed = [];
+    var ep = function(e, t, i) {
+        if (e.addEventListener) {
+            e.addEventListener(t, i, false);
+        } else if (e.attachEvent) {
+            e.attachEvent("on" + t, i);
         } else {
-            var d = a._handlers || (a._handlers = {});
-            d[b] = (d[b] || an).concat(c);
+            var r = e._handlers || (e._handlers = {});
+            r[t] = (r[t] || ed).concat(i);
         }
     };
-    function ap(a, b) {
-        return (a._handlers && a._handlers[b]) || an;
+    function ev(e, t) {
+        return (e._handlers && e._handlers[t]) || ed;
     }
-    function aq(a, b, c) {
-        if (a.removeEventListener) {
-            a.removeEventListener(b, c, false);
-        } else if (a.detachEvent) {
-            a.detachEvent("on" + b, c);
+    function eg(e, t, i) {
+        if (e.removeEventListener) {
+            e.removeEventListener(t, i, false);
+        } else if (e.detachEvent) {
+            e.detachEvent("on" + t, i);
         } else {
-            var d = a._handlers, e = d && d[b];
-            if (e) {
-                var f = O(e, c);
-                if (f > -1) {
-                    d[b] = e.slice(0, f).concat(e.slice(f + 1));
+            var r = e._handlers, n = r && r[t];
+            if (n) {
+                var o = I(n, i);
+                if (o > -1) {
+                    r[t] = n.slice(0, o).concat(n.slice(o + 1));
                 }
             }
         }
     }
-    function ar(a, b) {
-        var c = ap(a, b);
-        if (!c.length) {
+    function em(e, t) {
+        var i = ev(e, t);
+        if (!i.length) {
             return;
         }
-        var d = Array.prototype.slice.call(arguments, 2);
-        for(var e = 0; e < c.length; ++e){
-            c[e].apply(null, d);
+        var r = Array.prototype.slice.call(arguments, 2);
+        for(var n = 0; n < i.length; ++n){
+            i[n].apply(null, r);
         }
     }
-    function as(a, b, c) {
-        if (typeof b == "string") {
-            b = {
-                type: b,
+    function e$(e, t, i) {
+        if (typeof t == "string") {
+            t = {
+                type: t,
                 preventDefault: function() {
                     this.defaultPrevented = true;
                 }
             };
         }
-        ar(a, c || b.type, a, b);
-        return ay(b) || b.codemirrorIgnore;
+        em(e, i || t.type, e, t);
+        return eC(t) || t.codemirrorIgnore;
     }
-    function at(a) {
-        var b = a._handlers && a._handlers.cursorActivity;
-        if (!b) {
+    function ey(e) {
+        var t = e._handlers && e._handlers.cursorActivity;
+        if (!t) {
             return;
         }
-        var c = a.curOp.cursorActivityHandlers || (a.curOp.cursorActivityHandlers = []);
-        for(var d = 0; d < b.length; ++d){
-            if (O(c, b[d]) == -1) {
-                c.push(b[d]);
+        var i = e.curOp.cursorActivityHandlers || (e.curOp.cursorActivityHandlers = []);
+        for(var r = 0; r < t.length; ++r){
+            if (I(i, t[r]) == -1) {
+                i.push(t[r]);
             }
         }
     }
-    function au(a, b) {
-        return ap(a, b).length > 0;
+    function e_(e, t) {
+        return ev(e, t).length > 0;
     }
-    function av(a) {
-        a.prototype.on = function(a, b) {
-            ao(this, a, b);
+    function ew(e) {
+        e.prototype.on = function(e, t) {
+            ep(this, e, t);
         };
-        a.prototype.off = function(a, b) {
-            aq(this, a, b);
+        e.prototype.off = function(e, t) {
+            eg(this, e, t);
         };
     }
-    function aw(a) {
-        if (a.preventDefault) {
-            a.preventDefault();
+    function eb(e) {
+        if (e.preventDefault) {
+            e.preventDefault();
         } else {
-            a.returnValue = false;
+            e.returnValue = false;
         }
     }
-    function ax(a) {
-        if (a.stopPropagation) {
-            a.stopPropagation();
+    function ex(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
         } else {
-            a.cancelBubble = true;
+            e.cancelBubble = true;
         }
     }
-    function ay(a) {
-        return a.defaultPrevented != null ? a.defaultPrevented : a.returnValue == false;
+    function eC(e) {
+        return e.defaultPrevented != null ? e.defaultPrevented : e.returnValue == false;
     }
-    function az(a) {
-        aw(a);
-        ax(a);
+    function eS(e) {
+        eb(e);
+        ex(e);
     }
-    function aA(a) {
-        return a.target || a.srcElement;
+    function ek(e) {
+        return e.target || e.srcElement;
     }
-    function aB(a) {
-        var b = a.which;
-        if (b == null) {
-            if (a.button & 1) {
-                b = 1;
-            } else if (a.button & 2) {
-                b = 3;
-            } else if (a.button & 4) {
-                b = 2;
+    function eT(e) {
+        var t = e.which;
+        if (t == null) {
+            if (e.button & 1) {
+                t = 1;
+            } else if (e.button & 2) {
+                t = 3;
+            } else if (e.button & 4) {
+                t = 2;
             }
         }
-        if (s && a.ctrlKey && b == 1) {
-            b = 3;
+        if ($ && e.ctrlKey && t == 1) {
+            t = 3;
         }
-        return b;
+        return t;
     }
-    var aC = (function() {
-        if (g && h < 9) {
+    var eL = (function() {
+        if (l && s < 9) {
             return false;
         }
-        var a = C("div");
-        return "draggable" in a || "dragDrop" in a;
+        var e = L("div");
+        return "draggable" in e || "dragDrop" in e;
     })();
-    var aD;
-    function aE(a) {
-        if (aD == null) {
-            var b = C("span", "\u200b");
-            B(a, C("span", [
-                b,
+    var eO;
+    function e0(e) {
+        if (eO == null) {
+            var t = L("span", "\u200b");
+            T(e, L("span", [
+                t,
                 document.createTextNode("x")
             ]));
-            if (a.firstChild.offsetHeight != 0) {
-                aD = b.offsetWidth <= 1 && b.offsetHeight > 2 && !(g && h < 8);
+            if (e.firstChild.offsetHeight != 0) {
+                eO = t.offsetWidth <= 1 && t.offsetHeight > 2 && !(l && s < 8);
             }
         }
-        var c = aD ? C("span", "\u200b") : C("span", "\u00a0", null, "display: inline-block; width: 1px; margin-right: -1px");
-        c.setAttribute("cm-text", "");
-        return c;
+        var i = eO ? L("span", "\u200b") : L("span", "\u00a0", null, "display: inline-block; width: 1px; margin-right: -1px");
+        i.setAttribute("cm-text", "");
+        return i;
     }
-    var aF;
-    function aG(a) {
-        if (aF != null) {
-            return aF;
+    var eW;
+    function eN(e) {
+        if (eW != null) {
+            return eW;
         }
-        var b = B(a, document.createTextNode("A\u062eA"));
-        var c = E(b, 0, 1).getBoundingClientRect();
-        var d = E(b, 1, 2).getBoundingClientRect();
-        A(a);
-        if (!c || c.left == c.right) {
+        var t = T(e, document.createTextNode("A\u062eA"));
+        var i = W(t, 0, 1).getBoundingClientRect();
+        var r = W(t, 1, 2).getBoundingClientRect();
+        k(e);
+        if (!i || i.left == i.right) {
             return false;
         }
-        return (aF = d.right - c.right < 3);
+        return (eW = r.right - i.right < 3);
     }
-    var aH = "\n\nb".split(/\n/).length != 3 ? function(a) {
-        var b = 0, c = [], d = a.length;
-        while(b <= d){
-            var e = a.indexOf("\n", b);
-            if (e == -1) {
-                e = a.length;
+    var eA = "\n\nb".split(/\n/).length != 3 ? function(e) {
+        var t = 0, i = [], r = e.length;
+        while(t <= r){
+            var n = e.indexOf("\n", t);
+            if (n == -1) {
+                n = e.length;
             }
-            var f = a.slice(b, a.charAt(e - 1) == "\r" ? e - 1 : e);
-            var g = f.indexOf("\r");
-            if (g != -1) {
-                c.push(f.slice(0, g));
-                b += g + 1;
+            var o = e.slice(t, e.charAt(n - 1) == "\r" ? n - 1 : n);
+            var l = o.indexOf("\r");
+            if (l != -1) {
+                i.push(o.slice(0, l));
+                t += l + 1;
             } else {
-                c.push(f);
-                b = e + 1;
+                i.push(o);
+                t = n + 1;
             }
         }
-        return c;
-    } : function(a) {
-        return a.split(/\r\n?|\n/);
+        return i;
+    } : function(e) {
+        return e.split(/\r\n?|\n/);
     };
-    var aI = window.getSelection ? function(a) {
+    var eD = window.getSelection ? function(e) {
         try {
-            return a.selectionStart != a.selectionEnd;
-        } catch (b) {
+            return e.selectionStart != e.selectionEnd;
+        } catch (t) {
             return false;
         }
-    } : function(a) {
-        var b;
+    } : function(e) {
+        var t;
         try {
-            b = a.ownerDocument.selection.createRange();
-        } catch (c) {}
-        if (!b || b.parentElement() != a) {
+            t = e.ownerDocument.selection.createRange();
+        } catch (i) {}
+        if (!t || t.parentElement() != e) {
             return false;
         }
-        return b.compareEndPoints("StartToEnd", b) != 0;
+        return t.compareEndPoints("StartToEnd", t) != 0;
     };
-    var aJ = (function() {
-        var a = C("div");
-        if ("oncopy" in a) {
+    var eH = (function() {
+        var e = L("div");
+        if ("oncopy" in e) {
             return true;
         }
-        a.setAttribute("oncopy", "return;");
-        return typeof a.oncopy == "function";
+        e.setAttribute("oncopy", "return;");
+        return typeof e.oncopy == "function";
     })();
-    var aK = null;
-    function aL(a) {
-        if (aK != null) {
-            return aK;
+    var eF = null;
+    function eM(e) {
+        if (eF != null) {
+            return eF;
         }
-        var b = B(a, C("span", "x"));
-        var c = b.getBoundingClientRect();
-        var d = E(b, 0, 1).getBoundingClientRect();
-        return (aK = Math.abs(c.left - d.left) > 1);
+        var t = T(e, L("span", "x"));
+        var i = t.getBoundingClientRect();
+        var r = W(t, 0, 1).getBoundingClientRect();
+        return (eF = Math.abs(i.left - r.left) > 1);
     }
-    var aM = {}, aN = {};
-    function aO(a, b) {
+    var e1 = {}, eP = {};
+    function ez(e, t) {
         if (arguments.length > 2) {
-            b.dependencies = Array.prototype.slice.call(arguments, 2);
+            t.dependencies = Array.prototype.slice.call(arguments, 2);
         }
-        aM[a] = b;
+        e1[e] = t;
     }
-    function aP(a, b) {
-        aN[a] = b;
+    function eE(e, t) {
+        eP[e] = t;
     }
-    function aQ(a) {
-        if (typeof a == "string" && aN.hasOwnProperty(a)) {
-            a = aN[a];
-        } else if (a && typeof a.name == "string" && aN.hasOwnProperty(a.name)) {
-            var b = aN[a.name];
-            if (typeof b == "string") {
-                b = {
-                    name: b
+    function eI(e) {
+        if (typeof e == "string" && eP.hasOwnProperty(e)) {
+            e = eP[e];
+        } else if (e && typeof e.name == "string" && eP.hasOwnProperty(e.name)) {
+            var t = eP[e.name];
+            if (typeof t == "string") {
+                t = {
+                    name: t
                 };
             }
-            a = _(b, a);
-            a.name = b.name;
-        } else if (typeof a == "string" && /^[\w\-]+\/[\w\-]+\+xml$/.test(a)) {
-            return aQ("application/xml");
-        } else if (typeof a == "string" && /^[\w\-]+\/[\w\-]+\+json$/.test(a)) {
-            return aQ("application/json");
+            e = Q(t, e);
+            e.name = t.name;
+        } else if (typeof e == "string" && /^[\w\-]+\/[\w\-]+\+xml$/.test(e)) {
+            return eI("application/xml");
+        } else if (typeof e == "string" && /^[\w\-]+\/[\w\-]+\+json$/.test(e)) {
+            return eI("application/json");
         }
-        if (typeof a == "string") {
+        if (typeof e == "string") {
             return {
-                name: a
+                name: e
             };
         } else {
-            return a || {
+            return e || {
                 name: "null"
             };
         }
     }
-    function aR(a, b) {
-        b = aQ(b);
-        var c = aM[b.name];
-        if (!c) {
-            return aR(a, "text/plain");
+    function eR(e, t) {
+        t = eI(t);
+        var i = e1[t.name];
+        if (!i) {
+            return eR(e, "text/plain");
         }
-        var d = c(a, b);
-        if (aS.hasOwnProperty(b.name)) {
-            var e = aS[b.name];
-            for(var f in e){
-                if (!e.hasOwnProperty(f)) {
+        var r = i(e, t);
+        if (e3.hasOwnProperty(t.name)) {
+            var n = e3[t.name];
+            for(var o in n){
+                if (!n.hasOwnProperty(o)) {
                     continue;
                 }
-                if (d.hasOwnProperty(f)) {
-                    d["_" + f] = d[f];
+                if (r.hasOwnProperty(o)) {
+                    r["_" + o] = r[o];
                 }
-                d[f] = e[f];
+                r[o] = n[o];
             }
         }
-        d.name = b.name;
-        if (b.helperType) {
-            d.helperType = b.helperType;
+        r.name = t.name;
+        if (t.helperType) {
+            r.helperType = t.helperType;
         }
-        if (b.modeProps) {
-            for(var g in b.modeProps){
-                d[g] = b.modeProps[g];
+        if (t.modeProps) {
+            for(var l in t.modeProps){
+                r[l] = t.modeProps[l];
             }
         }
-        return d;
+        return r;
     }
-    var aS = {};
-    function aT(a, b) {
-        var c = aS.hasOwnProperty(a) ? aS[a] : (aS[a] = {});
-        L(b, c);
+    var e3 = {};
+    function e7(e, t) {
+        var i = e3.hasOwnProperty(e) ? e3[e] : (e3[e] = {});
+        P(t, i);
     }
-    function aU(a, b) {
-        if (b === true) {
-            return b;
+    function eB(e, t) {
+        if (t === true) {
+            return t;
         }
-        if (a.copyState) {
-            return a.copyState(b);
+        if (e.copyState) {
+            return e.copyState(t);
         }
-        var c = {};
-        for(var d in b){
-            var e = b[d];
-            if (e instanceof Array) {
-                e = e.concat([]);
+        var i = {};
+        for(var r in t){
+            var n = t[r];
+            if (n instanceof Array) {
+                n = n.concat([]);
             }
-            c[d] = e;
+            i[r] = n;
         }
-        return c;
+        return i;
     }
-    function aV(a, b) {
-        var c;
-        while(a.innerMode){
-            c = a.innerMode(b);
-            if (!c || c.mode == a) {
+    function e4(e, t) {
+        var i;
+        while(e.innerMode){
+            i = e.innerMode(t);
+            if (!i || i.mode == e) {
                 break;
             }
-            b = c.state;
-            a = c.mode;
+            t = i.state;
+            e = i.mode;
         }
-        return c || {
-            mode: a,
-            state: b
+        return i || {
+            mode: e,
+            state: t
         };
     }
-    function aW(a, b, c) {
-        return a.startState ? a.startState(b, c) : true;
+    function e6(e, t, i) {
+        return e.startState ? e.startState(t, i) : true;
     }
-    var aX = function(a, b, c) {
+    var e5 = function(e, t, i) {
         this.pos = this.start = 0;
-        this.string = a;
-        this.tabSize = b || 8;
+        this.string = e;
+        this.tabSize = t || 8;
         this.lastColumnPos = this.lastColumnValue = 0;
         this.lineStart = 0;
-        this.lineOracle = c;
+        this.lineOracle = i;
     };
-    aX.prototype.eol = function() {
+    e5.prototype.eol = function() {
         return this.pos >= this.string.length;
     };
-    aX.prototype.sol = function() {
+    e5.prototype.sol = function() {
         return this.pos == this.lineStart;
     };
-    aX.prototype.peek = function() {
+    e5.prototype.peek = function() {
         return this.string.charAt(this.pos) || undefined;
     };
-    aX.prototype.next = function() {
+    e5.prototype.next = function() {
         if (this.pos < this.string.length) {
             return this.string.charAt(this.pos++);
         }
     };
-    aX.prototype.eat = function(a) {
-        var b = this.string.charAt(this.pos);
-        var c;
-        if (typeof a == "string") {
-            c = b == a;
+    e5.prototype.eat = function(e) {
+        var t = this.string.charAt(this.pos);
+        var i;
+        if (typeof e == "string") {
+            i = t == e;
         } else {
-            c = b && (a.test ? a.test(b) : a(b));
+            i = t && (e.test ? e.test(t) : e(t));
         }
-        if (c) {
+        if (i) {
             ++this.pos;
-            return b;
+            return t;
         }
     };
-    aX.prototype.eatWhile = function(a) {
-        var b = this.pos;
-        while(this.eat(a)){}
-        return this.pos > b;
+    e5.prototype.eatWhile = function(e) {
+        var t = this.pos;
+        while(this.eat(e)){}
+        return this.pos > t;
     };
-    aX.prototype.eatSpace = function() {
-        var a = this.pos;
+    e5.prototype.eatSpace = function() {
+        var e = this.pos;
         while(/[\s\u00a0]/.test(this.string.charAt(this.pos))){
             ++this.pos;
         }
-        return this.pos > a;
+        return this.pos > e;
     };
-    aX.prototype.skipToEnd = function() {
+    e5.prototype.skipToEnd = function() {
         this.pos = this.string.length;
     };
-    aX.prototype.skipTo = function(a) {
-        var b = this.string.indexOf(a, this.pos);
-        if (b > -1) {
-            this.pos = b;
+    e5.prototype.skipTo = function(e) {
+        var t = this.string.indexOf(e, this.pos);
+        if (t > -1) {
+            this.pos = t;
             return true;
         }
     };
-    aX.prototype.backUp = function(a) {
-        this.pos -= a;
+    e5.prototype.backUp = function(e) {
+        this.pos -= e;
     };
-    aX.prototype.column = function() {
+    e5.prototype.column = function() {
         if (this.lastColumnPos < this.start) {
-            this.lastColumnValue = M(this.string, this.start, this.tabSize, this.lastColumnPos, this.lastColumnValue);
+            this.lastColumnValue = z(this.string, this.start, this.tabSize, this.lastColumnPos, this.lastColumnValue);
             this.lastColumnPos = this.start;
         }
-        return (this.lastColumnValue - (this.lineStart ? M(this.string, this.lineStart, this.tabSize) : 0));
+        return (this.lastColumnValue - (this.lineStart ? z(this.string, this.lineStart, this.tabSize) : 0));
     };
-    aX.prototype.indentation = function() {
-        return (M(this.string, null, this.tabSize) - (this.lineStart ? M(this.string, this.lineStart, this.tabSize) : 0));
+    e5.prototype.indentation = function() {
+        return (z(this.string, null, this.tabSize) - (this.lineStart ? z(this.string, this.lineStart, this.tabSize) : 0));
     };
-    aX.prototype.match = function(a, b, c) {
-        if (typeof a == "string") {
-            var d = function(a) {
-                return c ? a.toLowerCase() : a;
+    e5.prototype.match = function(e, t, i) {
+        if (typeof e == "string") {
+            var r = function(e) {
+                return i ? e.toLowerCase() : e;
             };
-            var e = this.string.substr(this.pos, a.length);
-            if (d(e) == d(a)) {
-                if (b !== false) {
-                    this.pos += a.length;
+            var n = this.string.substr(this.pos, e.length);
+            if (r(n) == r(e)) {
+                if (t !== false) {
+                    this.pos += e.length;
                 }
                 return true;
             }
         } else {
-            var f = this.string.slice(this.pos).match(a);
-            if (f && f.index > 0) {
+            var o = this.string.slice(this.pos).match(e);
+            if (o && o.index > 0) {
                 return null;
             }
-            if (f && b !== false) {
-                this.pos += f[0].length;
+            if (o && t !== false) {
+                this.pos += o[0].length;
             }
-            return f;
+            return o;
         }
     };
-    aX.prototype.current = function() {
+    e5.prototype.current = function() {
         return this.string.slice(this.start, this.pos);
     };
-    aX.prototype.hideFirstChars = function(a, b) {
-        this.lineStart += a;
+    e5.prototype.hideFirstChars = function(e, t) {
+        this.lineStart += e;
         try {
-            return b();
+            return t();
         } finally{
-            this.lineStart -= a;
+            this.lineStart -= e;
         }
     };
-    aX.prototype.lookAhead = function(a) {
-        var b = this.lineOracle;
-        return b && b.lookAhead(a);
+    e5.prototype.lookAhead = function(e) {
+        var t = this.lineOracle;
+        return t && t.lookAhead(e);
     };
-    aX.prototype.baseToken = function() {
-        var a = this.lineOracle;
-        return a && a.baseToken(this.pos);
+    e5.prototype.baseToken = function() {
+        var e = this.lineOracle;
+        return e && e.baseToken(this.pos);
     };
-    function aY(a, b) {
-        b -= a.first;
-        if (b < 0 || b >= a.size) {
-            throw new Error("There is no line " + (b + a.first) + " in the document.");
+    function e2(e, t) {
+        t -= e.first;
+        if (t < 0 || t >= e.size) {
+            throw new Error("There is no line " + (t + e.first) + " in the document.");
         }
-        var c = a;
-        while(!c.lines){
-            for(var d = 0;; ++d){
-                var e = c.children[d], f = e.chunkSize();
-                if (b < f) {
-                    c = e;
+        var i = e;
+        while(!i.lines){
+            for(var r = 0;; ++r){
+                var n = i.children[r], o = n.chunkSize();
+                if (t < o) {
+                    i = n;
                     break;
                 }
-                b -= f;
+                t -= o;
             }
         }
-        return c.lines[b];
+        return i.lines[t];
     }
-    function aZ(a, b, c) {
-        var d = [], e = b.line;
-        a.iter(b.line, c.line + 1, function(a) {
-            var f = a.text;
-            if (e == c.line) {
-                f = f.slice(0, c.ch);
+    function eG(e, t, i) {
+        var r = [], n = t.line;
+        e.iter(t.line, i.line + 1, function(e) {
+            var o = e.text;
+            if (n == i.line) {
+                o = o.slice(0, i.ch);
             }
-            if (e == b.line) {
-                f = f.slice(b.ch);
+            if (n == t.line) {
+                o = o.slice(t.ch);
             }
-            d.push(f);
-            ++e;
+            r.push(o);
+            ++n;
         });
-        return d;
+        return r;
     }
-    function a$(a, b, c) {
-        var d = [];
-        a.iter(b, c, function(a) {
-            d.push(a.text);
+    function eU(e, t, i) {
+        var r = [];
+        e.iter(t, i, function(e) {
+            r.push(e.text);
         });
-        return d;
+        return r;
     }
-    function a_(a, b) {
-        var c = b - a.height;
-        if (c) {
-            for(var d = a; d; d = d.parent){
-                d.height += c;
+    function eV(e, t) {
+        var i = t - e.height;
+        if (i) {
+            for(var r = e; r; r = r.parent){
+                r.height += i;
             }
         }
     }
-    function a0(a) {
-        if (a.parent == null) {
+    function eK(e) {
+        if (e.parent == null) {
             return null;
         }
-        var b = a.parent, c = O(b.lines, a);
-        for(var d = b.parent; d; b = d, d = d.parent){
-            for(var e = 0;; ++e){
-                if (d.children[e] == b) {
+        var t = e.parent, i = I(t.lines, e);
+        for(var r = t.parent; r; t = r, r = r.parent){
+            for(var n = 0;; ++n){
+                if (r.children[n] == t) {
                     break;
                 }
-                c += d.children[e].chunkSize();
+                i += r.children[n].chunkSize();
             }
         }
-        return c + b.first;
+        return i + t.first;
     }
-    function a1(a, b) {
-        var c = a.first;
+    function eX(e, t) {
+        var i = e.first;
         outer: do {
-            for(var d = 0; d < a.children.length; ++d){
-                var e = a.children[d], f = e.height;
-                if (b < f) {
-                    a = e;
+            for(var r = 0; r < e.children.length; ++r){
+                var n = e.children[r], o = n.height;
+                if (t < o) {
+                    e = n;
                     continue outer;
                 }
-                b -= f;
-                c += e.chunkSize();
+                t -= o;
+                i += n.chunkSize();
             }
-            return c;
-        }while (!a.lines)
-        var g = 0;
-        for(; g < a.lines.length; ++g){
-            var h = a.lines[g], i = h.height;
-            if (b < i) {
+            return i;
+        }while (!e.lines)
+        var l = 0;
+        for(; l < e.lines.length; ++l){
+            var s = e.lines[l], a = s.height;
+            if (t < a) {
                 break;
             }
-            b -= i;
+            t -= a;
         }
-        return c + g;
+        return i + l;
     }
-    function a2(a, b) {
-        return b >= a.first && b < a.first + a.size;
+    function eY(e, t) {
+        return t >= e.first && t < e.first + e.size;
     }
-    function a3(a, b) {
-        return String(a.lineNumberFormatter(b + a.firstLineNumber));
+    function ej(e, t) {
+        return String(e.lineNumberFormatter(t + e.firstLineNumber));
     }
-    function a4(a, b, c) {
-        if (c === void 0) c = null;
-        if (!(this instanceof a4)) {
-            return new a4(a, b, c);
+    function e9(e, t, i) {
+        if (i === void 0) i = null;
+        if (!(this instanceof e9)) {
+            return new e9(e, t, i);
         }
-        this.line = a;
-        this.ch = b;
-        this.sticky = c;
+        this.line = e;
+        this.ch = t;
+        this.sticky = i;
     }
-    function a5(a, b) {
-        return a.line - b.line || a.ch - b.ch;
+    function eq(e, t) {
+        return e.line - t.line || e.ch - t.ch;
     }
-    function a6(a, b) {
-        return a.sticky == b.sticky && a5(a, b) == 0;
+    function e8(e, t) {
+        return e.sticky == t.sticky && eq(e, t) == 0;
     }
-    function a7(a) {
-        return a4(a.line, a.ch);
+    function eZ(e) {
+        return e9(e.line, e.ch);
     }
-    function a8(a, b) {
-        return a5(a, b) < 0 ? b : a;
+    function eJ(e, t) {
+        return eq(e, t) < 0 ? t : e;
     }
-    function a9(a, b) {
-        return a5(a, b) < 0 ? a : b;
+    function eQ(e, t) {
+        return eq(e, t) < 0 ? e : t;
     }
-    function ba(a, b) {
-        return Math.max(a.first, Math.min(b, a.first + a.size - 1));
+    function te(e, t) {
+        return Math.max(e.first, Math.min(t, e.first + e.size - 1));
     }
-    function bb(a, b) {
-        if (b.line < a.first) {
-            return a4(a.first, 0);
+    function tt(e, t) {
+        if (t.line < e.first) {
+            return e9(e.first, 0);
         }
-        var c = a.first + a.size - 1;
-        if (b.line > c) {
-            return a4(c, aY(a, c).text.length);
+        var i = e.first + e.size - 1;
+        if (t.line > i) {
+            return e9(i, e2(e, i).text.length);
         }
-        return bc(b, aY(a, b.line).text.length);
+        return ti(t, e2(e, t.line).text.length);
     }
-    function bc(a, b) {
-        var c = a.ch;
-        if (c == null || c > b) {
-            return a4(a.line, b);
-        } else if (c < 0) {
-            return a4(a.line, 0);
+    function ti(e, t) {
+        var i = e.ch;
+        if (i == null || i > t) {
+            return e9(e.line, t);
+        } else if (i < 0) {
+            return e9(e.line, 0);
         } else {
-            return a;
+            return e;
         }
     }
-    function bd(a, b) {
-        var c = [];
-        for(var d = 0; d < b.length; d++){
-            c[d] = bb(a, b[d]);
+    function tr(e, t) {
+        var i = [];
+        for(var r = 0; r < t.length; r++){
+            i[r] = tt(e, t[r]);
         }
-        return c;
+        return i;
     }
-    var be = function(a, b) {
-        this.state = a;
-        this.lookAhead = b;
+    var tn = function(e, t) {
+        this.state = e;
+        this.lookAhead = t;
     };
-    var bf = function(a, b, c, d) {
-        this.state = b;
-        this.doc = a;
-        this.line = c;
-        this.maxLookAhead = d || 0;
+    var to = function(e, t, i, r) {
+        this.state = t;
+        this.doc = e;
+        this.line = i;
+        this.maxLookAhead = r || 0;
         this.baseTokens = null;
         this.baseTokenPos = 1;
     };
-    bf.prototype.lookAhead = function(a) {
-        var b = this.doc.getLine(this.line + a);
-        if (b != null && a > this.maxLookAhead) {
-            this.maxLookAhead = a;
+    to.prototype.lookAhead = function(e) {
+        var t = this.doc.getLine(this.line + e);
+        if (t != null && e > this.maxLookAhead) {
+            this.maxLookAhead = e;
         }
-        return b;
+        return t;
     };
-    bf.prototype.baseToken = function(a) {
+    to.prototype.baseToken = function(e) {
         if (!this.baseTokens) {
             return null;
         }
-        while(this.baseTokens[this.baseTokenPos] <= a){
+        while(this.baseTokens[this.baseTokenPos] <= e){
             this.baseTokenPos += 2;
         }
-        var b = this.baseTokens[this.baseTokenPos + 1];
+        var t = this.baseTokens[this.baseTokenPos + 1];
         return {
-            type: b && b.replace(/( |^)overlay .*/, ""),
-            size: this.baseTokens[this.baseTokenPos] - a
+            type: t && t.replace(/( |^)overlay .*/, ""),
+            size: this.baseTokens[this.baseTokenPos] - e
         };
     };
-    bf.prototype.nextLine = function() {
+    to.prototype.nextLine = function() {
         this.line++;
         if (this.maxLookAhead > 0) {
             this.maxLookAhead--;
         }
     };
-    bf.fromSaved = function(a, b, c) {
-        if (b instanceof be) {
-            return new bf(a, aU(a.mode, b.state), c, b.lookAhead);
+    to.fromSaved = function(e, t, i) {
+        if (t instanceof tn) {
+            return new to(e, eB(e.mode, t.state), i, t.lookAhead);
         } else {
-            return new bf(a, aU(a.mode, b), c);
+            return new to(e, eB(e.mode, t), i);
         }
     };
-    bf.prototype.save = function(a) {
-        var b = a !== false ? aU(this.doc.mode, this.state) : this.state;
-        return this.maxLookAhead > 0 ? new be(b, this.maxLookAhead) : b;
+    to.prototype.save = function(e) {
+        var t = e !== false ? eB(this.doc.mode, this.state) : this.state;
+        return this.maxLookAhead > 0 ? new tn(t, this.maxLookAhead) : t;
     };
-    function bg(a, b, c, d) {
-        var e = [
-            a.state.modeGen
-        ], f = {};
-        bp(a, b.text, a.doc.mode, c, function(a, b) {
-            return e.push(a, b);
-        }, f, d);
-        var g = c.state;
-        var h = function(d) {
-            c.baseTokens = e;
-            var h = a.state.overlays[d], i = 1, j = 0;
-            c.state = true;
-            bp(a, b.text, h.mode, c, function(a, b) {
-                var c = i;
-                while(j < a){
-                    var d = e[i];
-                    if (d > a) {
-                        e.splice(i, 1, a, e[i + 1], d);
+    function tl(e, t, i, r) {
+        var n = [
+            e.state.modeGen
+        ], o = {};
+        tv(e, t.text, e.doc.mode, i, function(e, t) {
+            return n.push(e, t);
+        }, o, r);
+        var l = i.state;
+        var s = function(r) {
+            i.baseTokens = n;
+            var s = e.state.overlays[r], a = 1, f = 0;
+            i.state = true;
+            tv(e, t.text, s.mode, i, function(e, t) {
+                var i = a;
+                while(f < e){
+                    var r = n[a];
+                    if (r > e) {
+                        n.splice(a, 1, e, n[a + 1], r);
                     }
-                    i += 2;
-                    j = Math.min(a, d);
+                    a += 2;
+                    f = Math.min(e, r);
                 }
-                if (!b) {
+                if (!t) {
                     return;
                 }
-                if (h.opaque) {
-                    e.splice(c, i - c, a, "overlay " + b);
-                    i = c + 2;
+                if (s.opaque) {
+                    n.splice(i, a - i, e, "overlay " + t);
+                    a = i + 2;
                 } else {
-                    for(; c < i; c += 2){
-                        var f = e[c + 1];
-                        e[c + 1] = (f ? f + " " : "") + "overlay " + b;
+                    for(; i < a; i += 2){
+                        var o = n[i + 1];
+                        n[i + 1] = (o ? o + " " : "") + "overlay " + t;
                     }
                 }
-            }, f);
-            c.state = g;
-            c.baseTokens = null;
-            c.baseTokenPos = 1;
+            }, o);
+            i.state = l;
+            i.baseTokens = null;
+            i.baseTokenPos = 1;
         };
-        for(var i = 0; i < a.state.overlays.length; ++i)h(i);
+        for(var a = 0; a < e.state.overlays.length; ++a)s(a);
         return {
-            styles: e,
-            classes: f.bgClass || f.textClass ? f : null
+            styles: n,
+            classes: o.bgClass || o.textClass ? o : null
         };
     }
-    function bh(a, b, c) {
-        if (!b.styles || b.styles[0] != a.state.modeGen) {
-            var d = bi(a, a0(b));
-            var e = b.text.length > a.options.maxHighlightLength && aU(a.doc.mode, d.state);
-            var f = bg(a, b, d);
-            if (e) {
-                d.state = e;
+    function ts(e, t, i) {
+        if (!t.styles || t.styles[0] != e.state.modeGen) {
+            var r = ta(e, eK(t));
+            var n = t.text.length > e.options.maxHighlightLength && eB(e.doc.mode, r.state);
+            var o = tl(e, t, r);
+            if (n) {
+                r.state = n;
             }
-            b.stateAfter = d.save(!e);
-            b.styles = f.styles;
-            if (f.classes) {
-                b.styleClasses = f.classes;
-            } else if (b.styleClasses) {
-                b.styleClasses = null;
+            t.stateAfter = r.save(!n);
+            t.styles = o.styles;
+            if (o.classes) {
+                t.styleClasses = o.classes;
+            } else if (t.styleClasses) {
+                t.styleClasses = null;
             }
-            if (c === a.doc.highlightFrontier) {
-                a.doc.modeFrontier = Math.max(a.doc.modeFrontier, ++a.doc.highlightFrontier);
+            if (i === e.doc.highlightFrontier) {
+                e.doc.modeFrontier = Math.max(e.doc.modeFrontier, ++e.doc.highlightFrontier);
             }
         }
-        return b.styles;
+        return t.styles;
     }
-    function bi(a, b, c) {
-        var d = a.doc, e = a.display;
-        if (!d.mode.startState) {
-            return new bf(d, true, b);
+    function ta(e, t, i) {
+        var r = e.doc, n = e.display;
+        if (!r.mode.startState) {
+            return new to(r, true, t);
         }
-        var f = bq(a, b, c);
-        var g = f > d.first && aY(d, f - 1).stateAfter;
-        var h = g ? bf.fromSaved(d, g, f) : new bf(d, aW(d.mode), f);
-        d.iter(f, b, function(c) {
-            bj(a, c.text, h);
-            var d = h.line;
-            c.stateAfter = d == b - 1 || d % 5 == 0 || (d >= e.viewFrom && d < e.viewTo) ? h.save() : null;
-            h.nextLine();
+        var o = tg(e, t, i);
+        var l = o > r.first && e2(r, o - 1).stateAfter;
+        var s = l ? to.fromSaved(r, l, o) : new to(r, e6(r.mode), o);
+        r.iter(o, t, function(i) {
+            tf(e, i.text, s);
+            var r = s.line;
+            i.stateAfter = r == t - 1 || r % 5 == 0 || (r >= n.viewFrom && r < n.viewTo) ? s.save() : null;
+            s.nextLine();
         });
-        if (c) {
-            d.modeFrontier = h.line;
+        if (i) {
+            r.modeFrontier = s.line;
         }
-        return h;
+        return s;
     }
-    function bj(a, b, c, d) {
-        var e = a.doc.mode;
-        var f = new aX(b, a.options.tabSize, c);
-        f.start = f.pos = d || 0;
-        if (b == "") {
-            bk(e, c.state);
+    function tf(e, t, i, r) {
+        var n = e.doc.mode;
+        var o = new e5(t, e.options.tabSize, i);
+        o.start = o.pos = r || 0;
+        if (t == "") {
+            tu(n, i.state);
         }
-        while(!f.eol()){
-            bl(e, f, c.state);
-            f.start = f.pos;
+        while(!o.eol()){
+            tc(n, o, i.state);
+            o.start = o.pos;
         }
     }
-    function bk(a, b) {
-        if (a.blankLine) {
-            return a.blankLine(b);
+    function tu(e, t) {
+        if (e.blankLine) {
+            return e.blankLine(t);
         }
-        if (!a.innerMode) {
+        if (!e.innerMode) {
             return;
         }
-        var c = aV(a, b);
-        if (c.mode.blankLine) {
-            return c.mode.blankLine(c.state);
+        var i = e4(e, t);
+        if (i.mode.blankLine) {
+            return i.mode.blankLine(i.state);
         }
     }
-    function bl(a, b, c, d) {
-        for(var e = 0; e < 10; e++){
-            if (d) {
-                d[0] = aV(a, c).mode;
+    function tc(e, t, i, r) {
+        for(var n = 0; n < 10; n++){
+            if (r) {
+                r[0] = e4(e, i).mode;
             }
-            var f = a.token(b, c);
-            if (b.pos > b.start) {
-                return f;
+            var o = e.token(t, i);
+            if (t.pos > t.start) {
+                return o;
             }
         }
-        throw new Error("Mode " + a.name + " failed to advance stream.");
+        throw new Error("Mode " + e.name + " failed to advance stream.");
     }
-    var bm = function(a, b, c) {
-        this.start = a.start;
-        this.end = a.pos;
-        this.string = a.current();
-        this.type = b || null;
-        this.state = c;
+    var th = function(e, t, i) {
+        this.start = e.start;
+        this.end = e.pos;
+        this.string = e.current();
+        this.type = t || null;
+        this.state = i;
     };
-    function bn(a, b, c, d) {
-        var e = a.doc, f = e.mode, g;
-        b = bb(e, b);
-        var h = aY(e, b.line), i = bi(a, b.line, c);
-        var j = new aX(h.text, a.options.tabSize, i), k;
-        if (d) {
-            k = [];
+    function td(e, t, i, r) {
+        var n = e.doc, o = n.mode, l;
+        t = tt(n, t);
+        var s = e2(n, t.line), a = ta(e, t.line, i);
+        var f = new e5(s.text, e.options.tabSize, a), u;
+        if (r) {
+            u = [];
         }
-        while((d || j.pos < b.ch) && !j.eol()){
-            j.start = j.pos;
-            g = bl(f, j, i.state);
-            if (d) {
-                k.push(new bm(j, g, aU(e.mode, i.state)));
+        while((r || f.pos < t.ch) && !f.eol()){
+            f.start = f.pos;
+            l = tc(o, f, a.state);
+            if (r) {
+                u.push(new th(f, l, eB(n.mode, a.state)));
             }
         }
-        return d ? k : new bm(j, g, i.state);
+        return r ? u : new th(f, l, a.state);
     }
-    function bo(a, b) {
-        if (a) {
+    function tp(e, t) {
+        if (e) {
             for(;;){
-                var c = a.match(/(?:^|\s+)line-(background-)?(\S+)/);
-                if (!c) {
+                var i = e.match(/(?:^|\s+)line-(background-)?(\S+)/);
+                if (!i) {
                     break;
                 }
-                a = a.slice(0, c.index) + a.slice(c.index + c[0].length);
-                var d = c[1] ? "bgClass" : "textClass";
-                if (b[d] == null) {
-                    b[d] = c[2];
-                } else if (!new RegExp("(?:^|\\s)" + c[2] + "(?:$|\\s)").test(b[d])) {
-                    b[d] += " " + c[2];
+                e = e.slice(0, i.index) + e.slice(i.index + i[0].length);
+                var r = i[1] ? "bgClass" : "textClass";
+                if (t[r] == null) {
+                    t[r] = i[2];
+                } else if (!new RegExp("(?:^|\\s)" + i[2] + "(?:$|\\s)").test(t[r])) {
+                    t[r] += " " + i[2];
                 }
-            }
-        }
-        return a;
-    }
-    function bp(a, b, c, d, e, f, g) {
-        var h = c.flattenSpans;
-        if (h == null) {
-            h = a.options.flattenSpans;
-        }
-        var i = 0, j = null;
-        var k = new aX(b, a.options.tabSize, d), l;
-        var m = a.options.addModeClass && [
-            null
-        ];
-        if (b == "") {
-            bo(bk(c, d.state), f);
-        }
-        while(!k.eol()){
-            if (k.pos > a.options.maxHighlightLength) {
-                h = false;
-                if (g) {
-                    bj(a, b, d, k.pos);
-                }
-                k.pos = b.length;
-                l = null;
-            } else {
-                l = bo(bl(c, k, d.state, m), f);
-            }
-            if (m) {
-                var n = m[0].name;
-                if (n) {
-                    l = "m-" + (l ? n + " " + l : n);
-                }
-            }
-            if (!h || j != l) {
-                while(i < k.start){
-                    i = Math.min(k.start, i + 5000);
-                    e(i, j);
-                }
-                j = l;
-            }
-            k.start = k.pos;
-        }
-        while(i < k.pos){
-            var o = Math.min(k.pos, i + 5000);
-            e(o, j);
-            i = o;
-        }
-    }
-    function bq(a, b, c) {
-        var d, e, f = a.doc;
-        var g = c ? -1 : b - (a.doc.mode.innerMode ? 1000 : 100);
-        for(var h = b; h > g; --h){
-            if (h <= f.first) {
-                return f.first;
-            }
-            var i = aY(f, h - 1), j = i.stateAfter;
-            if (j && (!c || h + (j instanceof be ? j.lookAhead : 0) <= f.modeFrontier)) {
-                return h;
-            }
-            var k = M(i.text, null, a.options.tabSize);
-            if (e == null || d > k) {
-                e = h - 1;
-                d = k;
             }
         }
         return e;
     }
-    function br(a, b) {
-        a.modeFrontier = Math.min(a.modeFrontier, b);
-        if (a.highlightFrontier < b - 10) {
+    function tv(e, t, i, r, n, o, l) {
+        var s = i.flattenSpans;
+        if (s == null) {
+            s = e.options.flattenSpans;
+        }
+        var a = 0, f = null;
+        var u = new e5(t, e.options.tabSize, r), c;
+        var h = e.options.addModeClass && [
+            null
+        ];
+        if (t == "") {
+            tp(tu(i, r.state), o);
+        }
+        while(!u.eol()){
+            if (u.pos > e.options.maxHighlightLength) {
+                s = false;
+                if (l) {
+                    tf(e, t, r, u.pos);
+                }
+                u.pos = t.length;
+                c = null;
+            } else {
+                c = tp(tc(i, u, r.state, h), o);
+            }
+            if (h) {
+                var d = h[0].name;
+                if (d) {
+                    c = "m-" + (c ? d + " " + c : d);
+                }
+            }
+            if (!s || f != c) {
+                while(a < u.start){
+                    a = Math.min(u.start, a + 5000);
+                    n(a, f);
+                }
+                f = c;
+            }
+            u.start = u.pos;
+        }
+        while(a < u.pos){
+            var p = Math.min(u.pos, a + 5000);
+            n(p, f);
+            a = p;
+        }
+    }
+    function tg(e, t, i) {
+        var r, n, o = e.doc;
+        var l = i ? -1 : t - (e.doc.mode.innerMode ? 1000 : 100);
+        for(var s = t; s > l; --s){
+            if (s <= o.first) {
+                return o.first;
+            }
+            var a = e2(o, s - 1), f = a.stateAfter;
+            if (f && (!i || s + (f instanceof tn ? f.lookAhead : 0) <= o.modeFrontier)) {
+                return s;
+            }
+            var u = z(a.text, null, e.options.tabSize);
+            if (n == null || r > u) {
+                n = s - 1;
+                r = u;
+            }
+        }
+        return n;
+    }
+    function tm(e, t) {
+        e.modeFrontier = Math.min(e.modeFrontier, t);
+        if (e.highlightFrontier < t - 10) {
             return;
         }
-        var c = a.first;
-        for(var d = b - 1; d > c; d--){
-            var e = aY(a, d).stateAfter;
-            if (e && (!(e instanceof be) || d + e.lookAhead < b)) {
-                c = d + 1;
+        var i = e.first;
+        for(var r = t - 1; r > i; r--){
+            var n = e2(e, r).stateAfter;
+            if (n && (!(n instanceof tn) || r + n.lookAhead < t)) {
+                i = r + 1;
                 break;
             }
         }
-        a.highlightFrontier = Math.min(a.highlightFrontier, c);
+        e.highlightFrontier = Math.min(e.highlightFrontier, i);
     }
-    var bs = false, bt = false;
-    function bu() {
-        bs = true;
+    var t$ = false, ty = false;
+    function t_() {
+        t$ = true;
     }
-    function bv() {
-        bt = true;
+    function tw() {
+        ty = true;
     }
-    function bw(a, b, c) {
-        this.marker = a;
-        this.from = b;
-        this.to = c;
+    function tb(e, t, i) {
+        this.marker = e;
+        this.from = t;
+        this.to = i;
     }
-    function bx(a, b) {
-        if (a) {
-            for(var c = 0; c < a.length; ++c){
-                var d = a[c];
-                if (d.marker == b) {
-                    return d;
+    function tx(e, t) {
+        if (e) {
+            for(var i = 0; i < e.length; ++i){
+                var r = e[i];
+                if (r.marker == t) {
+                    return r;
                 }
             }
         }
     }
-    function by(a, b) {
-        var c;
-        for(var d = 0; d < a.length; ++d){
-            if (a[d] != b) {
-                (c || (c = [])).push(a[d]);
+    function tC(e, t) {
+        var i;
+        for(var r = 0; r < e.length; ++r){
+            if (e[r] != t) {
+                (i || (i = [])).push(e[r]);
             }
         }
-        return c;
+        return i;
     }
-    function bz(a, b, c) {
-        var d = c && window.WeakSet && (c.markedSpans || (c.markedSpans = new WeakSet()));
-        if (d && d.has(a.markedSpans)) {
-            a.markedSpans.push(b);
+    function tS(e, t, i) {
+        var r = i && window.WeakSet && (i.markedSpans || (i.markedSpans = new WeakSet()));
+        if (r && r.has(e.markedSpans)) {
+            e.markedSpans.push(t);
         } else {
-            a.markedSpans = a.markedSpans ? a.markedSpans.concat([
-                b
+            e.markedSpans = e.markedSpans ? e.markedSpans.concat([
+                t
             ]) : [
-                b
+                t
             ];
-            if (d) {
-                d.add(a.markedSpans);
+            if (r) {
+                r.add(e.markedSpans);
             }
         }
-        b.marker.attachLine(a);
+        t.marker.attachLine(e);
     }
-    function bA(a, b, c) {
-        var d;
-        if (a) {
-            for(var e = 0; e < a.length; ++e){
-                var f = a[e], g = f.marker;
-                var h = f.from == null || (g.inclusiveLeft ? f.from <= b : f.from < b);
-                if (h || (f.from == b && g.type == "bookmark" && (!c || !f.marker.insertLeft))) {
-                    var i = f.to == null || (g.inclusiveRight ? f.to >= b : f.to > b);
-                    (d || (d = [])).push(new bw(g, f.from, i ? null : f.to));
+    function tk(e, t, i) {
+        var r;
+        if (e) {
+            for(var n = 0; n < e.length; ++n){
+                var o = e[n], l = o.marker;
+                var s = o.from == null || (l.inclusiveLeft ? o.from <= t : o.from < t);
+                if (s || (o.from == t && l.type == "bookmark" && (!i || !o.marker.insertLeft))) {
+                    var a = o.to == null || (l.inclusiveRight ? o.to >= t : o.to > t);
+                    (r || (r = [])).push(new tb(l, o.from, a ? null : o.to));
                 }
             }
-        }
-        return d;
-    }
-    function bB(a, b, c) {
-        var d;
-        if (a) {
-            for(var e = 0; e < a.length; ++e){
-                var f = a[e], g = f.marker;
-                var h = f.to == null || (g.inclusiveRight ? f.to >= b : f.to > b);
-                if (h || (f.from == b && g.type == "bookmark" && (!c || f.marker.insertLeft))) {
-                    var i = f.from == null || (g.inclusiveLeft ? f.from <= b : f.from < b);
-                    (d || (d = [])).push(new bw(g, i ? null : f.from - b, f.to == null ? null : f.to - b));
-                }
-            }
-        }
-        return d;
-    }
-    function bC(a, b) {
-        if (b.full) {
-            return null;
-        }
-        var c = a2(a, b.from.line) && aY(a, b.from.line).markedSpans;
-        var d = a2(a, b.to.line) && aY(a, b.to.line).markedSpans;
-        if (!c && !d) {
-            return null;
-        }
-        var e = b.from.ch, f = b.to.ch, g = a5(b.from, b.to) == 0;
-        var h = bA(c, e, g);
-        var i = bB(d, f, g);
-        var j = b.text.length == 1, k = X(b.text).length + (j ? e : 0);
-        if (h) {
-            for(var l = 0; l < h.length; ++l){
-                var m = h[l];
-                if (m.to == null) {
-                    var n = bx(i, m.marker);
-                    if (!n) {
-                        m.to = e;
-                    } else if (j) {
-                        m.to = n.to == null ? null : n.to + k;
-                    }
-                }
-            }
-        }
-        if (i) {
-            for(var o = 0; o < i.length; ++o){
-                var p = i[o];
-                if (p.to != null) {
-                    p.to += k;
-                }
-                if (p.from == null) {
-                    var q = bx(h, p.marker);
-                    if (!q) {
-                        p.from = k;
-                        if (j) {
-                            (h || (h = [])).push(p);
-                        }
-                    }
-                } else {
-                    p.from += k;
-                    if (j) {
-                        (h || (h = [])).push(p);
-                    }
-                }
-            }
-        }
-        if (h) {
-            h = bD(h);
-        }
-        if (i && i != h) {
-            i = bD(i);
-        }
-        var r = [
-            h
-        ];
-        if (!j) {
-            var s = b.text.length - 2, t;
-            if (s > 0 && h) {
-                for(var u = 0; u < h.length; ++u){
-                    if (h[u].to == null) {
-                        (t || (t = [])).push(new bw(h[u].marker, null, null));
-                    }
-                }
-            }
-            for(var v = 0; v < s; ++v){
-                r.push(t);
-            }
-            r.push(i);
         }
         return r;
     }
-    function bD(a) {
-        for(var b = 0; b < a.length; ++b){
-            var c = a[b];
-            if (c.from != null && c.from == c.to && c.marker.clearWhenEmpty !== false) {
-                a.splice(b--, 1);
+    function tT(e, t, i) {
+        var r;
+        if (e) {
+            for(var n = 0; n < e.length; ++n){
+                var o = e[n], l = o.marker;
+                var s = o.to == null || (l.inclusiveRight ? o.to >= t : o.to > t);
+                if (s || (o.from == t && l.type == "bookmark" && (!i || o.marker.insertLeft))) {
+                    var a = o.from == null || (l.inclusiveLeft ? o.from <= t : o.from < t);
+                    (r || (r = [])).push(new tb(l, a ? null : o.from - t, o.to == null ? null : o.to - t));
+                }
             }
         }
-        if (!a.length) {
+        return r;
+    }
+    function tL(e, t) {
+        if (t.full) {
             return null;
         }
-        return a;
+        var i = eY(e, t.from.line) && e2(e, t.from.line).markedSpans;
+        var r = eY(e, t.to.line) && e2(e, t.to.line).markedSpans;
+        if (!i && !r) {
+            return null;
+        }
+        var n = t.from.ch, o = t.to.ch, l = eq(t.from, t.to) == 0;
+        var s = tk(i, n, l);
+        var a = tT(r, o, l);
+        var f = t.text.length == 1, u = j(t.text).length + (f ? n : 0);
+        if (s) {
+            for(var c = 0; c < s.length; ++c){
+                var h = s[c];
+                if (h.to == null) {
+                    var d = tx(a, h.marker);
+                    if (!d) {
+                        h.to = n;
+                    } else if (f) {
+                        h.to = d.to == null ? null : d.to + u;
+                    }
+                }
+            }
+        }
+        if (a) {
+            for(var p = 0; p < a.length; ++p){
+                var v = a[p];
+                if (v.to != null) {
+                    v.to += u;
+                }
+                if (v.from == null) {
+                    var g = tx(s, v.marker);
+                    if (!g) {
+                        v.from = u;
+                        if (f) {
+                            (s || (s = [])).push(v);
+                        }
+                    }
+                } else {
+                    v.from += u;
+                    if (f) {
+                        (s || (s = [])).push(v);
+                    }
+                }
+            }
+        }
+        if (s) {
+            s = tO(s);
+        }
+        if (a && a != s) {
+            a = tO(a);
+        }
+        var m = [
+            s
+        ];
+        if (!f) {
+            var $ = t.text.length - 2, y;
+            if ($ > 0 && s) {
+                for(var _ = 0; _ < s.length; ++_){
+                    if (s[_].to == null) {
+                        (y || (y = [])).push(new tb(s[_].marker, null, null));
+                    }
+                }
+            }
+            for(var w = 0; w < $; ++w){
+                m.push(y);
+            }
+            m.push(a);
+        }
+        return m;
     }
-    function bE(a, b, c) {
-        var d = null;
-        a.iter(b.line, c.line + 1, function(a) {
-            if (a.markedSpans) {
-                for(var b = 0; b < a.markedSpans.length; ++b){
-                    var c = a.markedSpans[b].marker;
-                    if (c.readOnly && (!d || O(d, c) == -1)) {
-                        (d || (d = [])).push(c);
+    function tO(e) {
+        for(var t = 0; t < e.length; ++t){
+            var i = e[t];
+            if (i.from != null && i.from == i.to && i.marker.clearWhenEmpty !== false) {
+                e.splice(t--, 1);
+            }
+        }
+        if (!e.length) {
+            return null;
+        }
+        return e;
+    }
+    function t0(e, t, i) {
+        var r = null;
+        e.iter(t.line, i.line + 1, function(e) {
+            if (e.markedSpans) {
+                for(var t = 0; t < e.markedSpans.length; ++t){
+                    var i = e.markedSpans[t].marker;
+                    if (i.readOnly && (!r || I(r, i) == -1)) {
+                        (r || (r = [])).push(i);
                     }
                 }
             }
         });
-        if (!d) {
+        if (!r) {
             return null;
         }
-        var e = [
+        var n = [
             {
-                from: b,
-                to: c
+                from: t,
+                to: i
             }
         ];
-        for(var f = 0; f < d.length; ++f){
-            var g = d[f], h = g.find(0);
-            for(var i = 0; i < e.length; ++i){
-                var j = e[i];
-                if (a5(j.to, h.from) < 0 || a5(j.from, h.to) > 0) {
+        for(var o = 0; o < r.length; ++o){
+            var l = r[o], s = l.find(0);
+            for(var a = 0; a < n.length; ++a){
+                var f = n[a];
+                if (eq(f.to, s.from) < 0 || eq(f.from, s.to) > 0) {
                     continue;
                 }
-                var k = [
-                    i,
+                var u = [
+                    a,
                     1
-                ], l = a5(j.from, h.from), m = a5(j.to, h.to);
-                if (l < 0 || (!g.inclusiveLeft && !l)) {
-                    k.push({
-                        from: j.from,
-                        to: h.from
+                ], c = eq(f.from, s.from), h = eq(f.to, s.to);
+                if (c < 0 || (!l.inclusiveLeft && !c)) {
+                    u.push({
+                        from: f.from,
+                        to: s.from
                     });
                 }
-                if (m > 0 || (!g.inclusiveRight && !m)) {
-                    k.push({
-                        from: h.to,
-                        to: j.to
+                if (h > 0 || (!l.inclusiveRight && !h)) {
+                    u.push({
+                        from: s.to,
+                        to: f.to
                     });
                 }
-                e.splice.apply(e, k);
-                i += k.length - 3;
+                n.splice.apply(n, u);
+                a += u.length - 3;
             }
+        }
+        return n;
+    }
+    function tW(e) {
+        var t = e.markedSpans;
+        if (!t) {
+            return;
+        }
+        for(var i = 0; i < t.length; ++i){
+            t[i].marker.detachLine(e);
+        }
+        e.markedSpans = null;
+    }
+    function tN(e, t) {
+        if (!t) {
+            return;
+        }
+        for(var i = 0; i < t.length; ++i){
+            t[i].marker.attachLine(e);
+        }
+        e.markedSpans = t;
+    }
+    function tA(e) {
+        return e.inclusiveLeft ? -1 : 0;
+    }
+    function tD(e) {
+        return e.inclusiveRight ? 1 : 0;
+    }
+    function tH(e, t) {
+        var i = e.lines.length - t.lines.length;
+        if (i != 0) {
+            return i;
+        }
+        var r = e.find(), n = t.find();
+        var o = eq(r.from, n.from) || tA(e) - tA(t);
+        if (o) {
+            return -o;
+        }
+        var l = eq(r.to, n.to) || tD(e) - tD(t);
+        if (l) {
+            return l;
+        }
+        return t.id - e.id;
+    }
+    function tF(e, t) {
+        var i = ty && e.markedSpans, r;
+        if (i) {
+            for(var n = void 0, o = 0; o < i.length; ++o){
+                n = i[o];
+                if (n.marker.collapsed && (t ? n.from : n.to) == null && (!r || tH(r, n.marker) < 0)) {
+                    r = n.marker;
+                }
+            }
+        }
+        return r;
+    }
+    function tM(e) {
+        return tF(e, true);
+    }
+    function t1(e) {
+        return tF(e, false);
+    }
+    function tP(e, t) {
+        var i = ty && e.markedSpans, r;
+        if (i) {
+            for(var n = 0; n < i.length; ++n){
+                var o = i[n];
+                if (o.marker.collapsed && (o.from == null || o.from < t) && (o.to == null || o.to > t) && (!r || tH(r, o.marker) < 0)) {
+                    r = o.marker;
+                }
+            }
+        }
+        return r;
+    }
+    function tz(e, t, i, r, n) {
+        var o = e2(e, t);
+        var l = ty && o.markedSpans;
+        if (l) {
+            for(var s = 0; s < l.length; ++s){
+                var a = l[s];
+                if (!a.marker.collapsed) {
+                    continue;
+                }
+                var f = a.marker.find(0);
+                var u = eq(f.from, i) || tA(a.marker) - tA(n);
+                var c = eq(f.to, r) || tD(a.marker) - tD(n);
+                if ((u >= 0 && c <= 0) || (u <= 0 && c >= 0)) {
+                    continue;
+                }
+                if ((u <= 0 && (a.marker.inclusiveRight && n.inclusiveLeft ? eq(f.to, i) >= 0 : eq(f.to, i) > 0)) || (u >= 0 && (a.marker.inclusiveRight && n.inclusiveLeft ? eq(f.from, r) <= 0 : eq(f.from, r) < 0))) {
+                    return true;
+                }
+            }
+        }
+    }
+    function tE(e) {
+        var t;
+        while((t = tM(e))){
+            e = t.find(-1, true).line;
         }
         return e;
     }
-    function bF(a) {
-        var b = a.markedSpans;
-        if (!b) {
-            return;
+    function tI(e) {
+        var t;
+        while((t = t1(e))){
+            e = t.find(1, true).line;
         }
-        for(var c = 0; c < b.length; ++c){
-            b[c].marker.detachLine(a);
+        return e;
+    }
+    function tR(e) {
+        var t, i;
+        while((t = t1(e))){
+            e = t.find(1, true).line;
+            (i || (i = [])).push(e);
         }
-        a.markedSpans = null;
+        return i;
     }
-    function bG(a, b) {
-        if (!b) {
-            return;
+    function t3(e, t) {
+        var i = e2(e, t), r = tE(i);
+        if (i == r) {
+            return t;
         }
-        for(var c = 0; c < b.length; ++c){
-            b[c].marker.attachLine(a);
+        return eK(r);
+    }
+    function t7(e, t) {
+        if (t > e.lastLine()) {
+            return t;
         }
-        a.markedSpans = b;
-    }
-    function bH(a) {
-        return a.inclusiveLeft ? -1 : 0;
-    }
-    function bI(a) {
-        return a.inclusiveRight ? 1 : 0;
-    }
-    function bJ(a, b) {
-        var c = a.lines.length - b.lines.length;
-        if (c != 0) {
-            return c;
+        var i = e2(e, t), r;
+        if (!tB(e, i)) {
+            return t;
         }
-        var d = a.find(), e = b.find();
-        var f = a5(d.from, e.from) || bH(a) - bH(b);
-        if (f) {
-            return -f;
+        while((r = t1(i))){
+            i = r.find(1, true).line;
         }
-        var g = a5(d.to, e.to) || bI(a) - bI(b);
-        if (g) {
-            return g;
-        }
-        return b.id - a.id;
+        return eK(i) + 1;
     }
-    function bK(a, b) {
-        var c = bt && a.markedSpans, d;
-        if (c) {
-            for(var e = void 0, f = 0; f < c.length; ++f){
-                e = c[f];
-                if (e.marker.collapsed && (b ? e.from : e.to) == null && (!d || bJ(d, e.marker) < 0)) {
-                    d = e.marker;
-                }
-            }
-        }
-        return d;
-    }
-    function bL(a) {
-        return bK(a, true);
-    }
-    function bM(a) {
-        return bK(a, false);
-    }
-    function bN(a, b) {
-        var c = bt && a.markedSpans, d;
-        if (c) {
-            for(var e = 0; e < c.length; ++e){
-                var f = c[e];
-                if (f.marker.collapsed && (f.from == null || f.from < b) && (f.to == null || f.to > b) && (!d || bJ(d, f.marker) < 0)) {
-                    d = f.marker;
-                }
-            }
-        }
-        return d;
-    }
-    function bO(a, b, c, d, e) {
-        var f = aY(a, b);
-        var g = bt && f.markedSpans;
-        if (g) {
-            for(var h = 0; h < g.length; ++h){
-                var i = g[h];
-                if (!i.marker.collapsed) {
+    function tB(e, t) {
+        var i = ty && t.markedSpans;
+        if (i) {
+            for(var r = void 0, n = 0; n < i.length; ++n){
+                r = i[n];
+                if (!r.marker.collapsed) {
                     continue;
                 }
-                var j = i.marker.find(0);
-                var k = a5(j.from, c) || bH(i.marker) - bH(e);
-                var l = a5(j.to, d) || bI(i.marker) - bI(e);
-                if ((k >= 0 && l <= 0) || (k <= 0 && l >= 0)) {
+                if (r.from == null) {
+                    return true;
+                }
+                if (r.marker.widgetNode) {
                     continue;
                 }
-                if ((k <= 0 && (i.marker.inclusiveRight && e.inclusiveLeft ? a5(j.to, c) >= 0 : a5(j.to, c) > 0)) || (k >= 0 && (i.marker.inclusiveRight && e.inclusiveLeft ? a5(j.from, d) <= 0 : a5(j.from, d) < 0))) {
+                if (r.from == 0 && r.marker.inclusiveLeft && t4(e, t, r)) {
                     return true;
                 }
             }
         }
     }
-    function bP(a) {
-        var b;
-        while((b = bL(a))){
-            a = b.find(-1, true).line;
+    function t4(e, t, i) {
+        if (i.to == null) {
+            var r = i.marker.find(1, true);
+            return t4(e, r.line, tx(r.line.markedSpans, i.marker));
         }
-        return a;
-    }
-    function bQ(a) {
-        var b;
-        while((b = bM(a))){
-            a = b.find(1, true).line;
-        }
-        return a;
-    }
-    function bR(a) {
-        var b, c;
-        while((b = bM(a))){
-            a = b.find(1, true).line;
-            (c || (c = [])).push(a);
-        }
-        return c;
-    }
-    function bS(a, b) {
-        var c = aY(a, b), d = bP(c);
-        if (c == d) {
-            return b;
-        }
-        return a0(d);
-    }
-    function bT(a, b) {
-        if (b > a.lastLine()) {
-            return b;
-        }
-        var c = aY(a, b), d;
-        if (!bU(a, c)) {
-            return b;
-        }
-        while((d = bM(c))){
-            c = d.find(1, true).line;
-        }
-        return a0(c) + 1;
-    }
-    function bU(a, b) {
-        var c = bt && b.markedSpans;
-        if (c) {
-            for(var d = void 0, e = 0; e < c.length; ++e){
-                d = c[e];
-                if (!d.marker.collapsed) {
-                    continue;
-                }
-                if (d.from == null) {
-                    return true;
-                }
-                if (d.marker.widgetNode) {
-                    continue;
-                }
-                if (d.from == 0 && d.marker.inclusiveLeft && bV(a, b, d)) {
-                    return true;
-                }
-            }
-        }
-    }
-    function bV(a, b, c) {
-        if (c.to == null) {
-            var d = c.marker.find(1, true);
-            return bV(a, d.line, bx(d.line.markedSpans, c.marker));
-        }
-        if (c.marker.inclusiveRight && c.to == b.text.length) {
+        if (i.marker.inclusiveRight && i.to == t.text.length) {
             return true;
         }
-        for(var e = void 0, f = 0; f < b.markedSpans.length; ++f){
-            e = b.markedSpans[f];
-            if (e.marker.collapsed && !e.marker.widgetNode && e.from == c.to && (e.to == null || e.to != c.from) && (e.marker.inclusiveLeft || c.marker.inclusiveRight) && bV(a, b, e)) {
+        for(var n = void 0, o = 0; o < t.markedSpans.length; ++o){
+            n = t.markedSpans[o];
+            if (n.marker.collapsed && !n.marker.widgetNode && n.from == i.to && (n.to == null || n.to != i.from) && (n.marker.inclusiveLeft || i.marker.inclusiveRight) && t4(e, t, n)) {
                 return true;
             }
         }
     }
-    function bW(a) {
-        a = bP(a);
-        var b = 0, c = a.parent;
-        for(var d = 0; d < c.lines.length; ++d){
-            var e = c.lines[d];
-            if (e == a) {
+    function t6(e) {
+        e = tE(e);
+        var t = 0, i = e.parent;
+        for(var r = 0; r < i.lines.length; ++r){
+            var n = i.lines[r];
+            if (n == e) {
                 break;
             } else {
-                b += e.height;
+                t += n.height;
             }
         }
-        for(var f = c.parent; f; c = f, f = c.parent){
-            for(var g = 0; g < f.children.length; ++g){
-                var h = f.children[g];
-                if (h == c) {
+        for(var o = i.parent; o; i = o, o = i.parent){
+            for(var l = 0; l < o.children.length; ++l){
+                var s = o.children[l];
+                if (s == i) {
                     break;
                 } else {
-                    b += h.height;
+                    t += s.height;
                 }
             }
         }
-        return b;
+        return t;
     }
-    function bX(a) {
-        if (a.height == 0) {
+    function t5(e) {
+        if (e.height == 0) {
             return 0;
         }
-        var b = a.text.length, c, d = a;
-        while((c = bL(d))){
-            var e = c.find(0, true);
-            d = e.from.line;
-            b += e.from.ch - e.to.ch;
+        var t = e.text.length, i, r = e;
+        while((i = tM(r))){
+            var n = i.find(0, true);
+            r = n.from.line;
+            t += n.from.ch - n.to.ch;
         }
-        d = a;
-        while((c = bM(d))){
-            var f = c.find(0, true);
-            b -= d.text.length - f.from.ch;
-            d = f.to.line;
-            b += d.text.length - f.to.ch;
+        r = e;
+        while((i = t1(r))){
+            var o = i.find(0, true);
+            t -= r.text.length - o.from.ch;
+            r = o.to.line;
+            t += r.text.length - o.to.ch;
         }
-        return b;
+        return t;
     }
-    function bY(a) {
-        var b = a.display, c = a.doc;
-        b.maxLine = aY(c, c.first);
-        b.maxLineLength = bX(b.maxLine);
-        b.maxLineChanged = true;
-        c.iter(function(a) {
-            var c = bX(a);
-            if (c > b.maxLineLength) {
-                b.maxLineLength = c;
-                b.maxLine = a;
+    function t2(e) {
+        var t = e.display, i = e.doc;
+        t.maxLine = e2(i, i.first);
+        t.maxLineLength = t5(t.maxLine);
+        t.maxLineChanged = true;
+        i.iter(function(e) {
+            var i = t5(e);
+            if (i > t.maxLineLength) {
+                t.maxLineLength = i;
+                t.maxLine = e;
             }
         });
     }
-    var bZ = function(a, b, c) {
-        this.text = a;
-        bG(this, b);
-        this.height = c ? c(this) : 1;
+    var tG = function(e, t, i) {
+        this.text = e;
+        tN(this, t);
+        this.height = i ? i(this) : 1;
     };
-    bZ.prototype.lineNo = function() {
-        return a0(this);
+    tG.prototype.lineNo = function() {
+        return eK(this);
     };
-    av(bZ);
-    function b$(a, b, c, d) {
-        a.text = b;
-        if (a.stateAfter) {
-            a.stateAfter = null;
+    ew(tG);
+    function tU(e, t, i, r) {
+        e.text = t;
+        if (e.stateAfter) {
+            e.stateAfter = null;
         }
-        if (a.styles) {
-            a.styles = null;
+        if (e.styles) {
+            e.styles = null;
         }
-        if (a.order != null) {
-            a.order = null;
+        if (e.order != null) {
+            e.order = null;
         }
-        bF(a);
-        bG(a, c);
-        var e = d ? d(a) : 1;
-        if (e != a.height) {
-            a_(a, e);
+        tW(e);
+        tN(e, i);
+        var n = r ? r(e) : 1;
+        if (n != e.height) {
+            eV(e, n);
         }
     }
-    function b_(a) {
-        a.parent = null;
-        bF(a);
+    function tV(e) {
+        e.parent = null;
+        tW(e);
     }
-    var b0 = {}, b1 = {};
-    function b2(a, b) {
-        if (!a || /^\s*$/.test(a)) {
+    var tK = {}, tX = {};
+    function tY(e, t) {
+        if (!e || /^\s*$/.test(e)) {
             return null;
         }
-        var c = b.addModeClass ? b1 : b0;
-        return c[a] || (c[a] = a.replace(/\S+/g, "cm-$&"));
+        var i = t.addModeClass ? tX : tK;
+        return i[e] || (i[e] = e.replace(/\S+/g, "cm-$&"));
     }
-    function b3(a, b) {
-        var c = D("span", null, null, i ? "padding-right: .1px" : null);
-        var d = {
-            pre: D("pre", [
-                c
+    function tj(e, t) {
+        var i = O("span", null, null, a ? "padding-right: .1px" : null);
+        var r = {
+            pre: O("pre", [
+                i
             ], "CodeMirror-line"),
-            content: c,
+            content: i,
             col: 0,
             pos: 0,
-            cm: a,
+            cm: e,
             trailingSpace: false,
-            splitSpaces: a.getOption("lineWrapping")
+            splitSpaces: e.getOption("lineWrapping")
         };
-        b.measure = {};
-        for(var e = 0; e <= (b.rest ? b.rest.length : 0); e++){
-            var f = e ? b.rest[e - 1] : b.line, g = void 0;
-            d.pos = 0;
-            d.addToken = b5;
-            if (aG(a.display.measure) && (g = am(f, a.doc.direction))) {
-                d.addToken = b7(d.addToken, g);
+        t.measure = {};
+        for(var n = 0; n <= (t.rest ? t.rest.length : 0); n++){
+            var o = n ? t.rest[n - 1] : t.line, l = void 0;
+            r.pos = 0;
+            r.addToken = tq;
+            if (eN(e.display.measure) && (l = eh(o, e.doc.direction))) {
+                r.addToken = tZ(r.addToken, l);
             }
-            d.map = [];
-            var h = b != a.display.externalMeasured && a0(f);
-            b9(f, d, bh(a, f, h));
-            if (f.styleClasses) {
-                if (f.styleClasses.bgClass) {
-                    d.bgClass = I(f.styleClasses.bgClass, d.bgClass || "");
+            r.map = [];
+            var s = t != e.display.externalMeasured && eK(o);
+            tQ(o, r, ts(e, o, s));
+            if (o.styleClasses) {
+                if (o.styleClasses.bgClass) {
+                    r.bgClass = H(o.styleClasses.bgClass, r.bgClass || "");
                 }
-                if (f.styleClasses.textClass) {
-                    d.textClass = I(f.styleClasses.textClass, d.textClass || "");
+                if (o.styleClasses.textClass) {
+                    r.textClass = H(o.styleClasses.textClass, r.textClass || "");
                 }
             }
-            if (d.map.length == 0) {
-                d.map.push(0, 0, d.content.appendChild(aE(a.display.measure)));
+            if (r.map.length == 0) {
+                r.map.push(0, 0, r.content.appendChild(e0(e.display.measure)));
             }
-            if (e == 0) {
-                b.measure.map = d.map;
-                b.measure.cache = {};
+            if (n == 0) {
+                t.measure.map = r.map;
+                t.measure.cache = {};
             } else {
-                (b.measure.maps || (b.measure.maps = [])).push(d.map);
-                (b.measure.caches || (b.measure.caches = [])).push({});
+                (t.measure.maps || (t.measure.maps = [])).push(r.map);
+                (t.measure.caches || (t.measure.caches = [])).push({});
             }
         }
-        if (i) {
-            var j = d.content.lastChild;
-            if (/\bcm-tab\b/.test(j.className) || (j.querySelector && j.querySelector(".cm-tab"))) {
-                d.content.className = "cm-tab-wrap-hack";
+        if (a) {
+            var f = r.content.lastChild;
+            if (/\bcm-tab\b/.test(f.className) || (f.querySelector && f.querySelector(".cm-tab"))) {
+                r.content.className = "cm-tab-wrap-hack";
             }
         }
-        ar(a, "renderLine", a, b.line, d.pre);
-        if (d.pre.className) {
-            d.textClass = I(d.pre.className, d.textClass || "");
+        em(e, "renderLine", e, t.line, r.pre);
+        if (r.pre.className) {
+            r.textClass = H(r.pre.className, r.textClass || "");
         }
-        return d;
+        return r;
     }
-    function b4(a) {
-        var b = C("span", "\u2022", "cm-invalidchar");
-        b.title = "\\u" + a.charCodeAt(0).toString(16);
-        b.setAttribute("aria-label", b.title);
-        return b;
+    function t9(e) {
+        var t = L("span", "\u2022", "cm-invalidchar");
+        t.title = "\\u" + e.charCodeAt(0).toString(16);
+        t.setAttribute("aria-label", t.title);
+        return t;
     }
-    function b5(a, b, c, d, e, f, i) {
-        if (!b) {
+    function tq(e, t, i, r, n, o, a) {
+        if (!t) {
             return;
         }
-        var j = a.splitSpaces ? b6(b, a.trailingSpace) : b;
-        var k = a.cm.state.specialChars, l = false;
-        var m;
-        if (!k.test(b)) {
-            a.col += b.length;
-            m = document.createTextNode(j);
-            a.map.push(a.pos, a.pos + b.length, m);
-            if (g && h < 9) {
-                l = true;
+        var f = e.splitSpaces ? t8(t, e.trailingSpace) : t;
+        var u = e.cm.state.specialChars, c = false;
+        var h;
+        if (!u.test(t)) {
+            e.col += t.length;
+            h = document.createTextNode(f);
+            e.map.push(e.pos, e.pos + t.length, h);
+            if (l && s < 9) {
+                c = true;
             }
-            a.pos += b.length;
+            e.pos += t.length;
         } else {
-            m = document.createDocumentFragment();
-            var n = 0;
+            h = document.createDocumentFragment();
+            var d = 0;
             while(true){
-                k.lastIndex = n;
-                var o = k.exec(b);
-                var p = o ? o.index - n : b.length - n;
-                if (p) {
-                    var q = document.createTextNode(j.slice(n, n + p));
-                    if (g && h < 9) {
-                        m.appendChild(C("span", [
-                            q
+                u.lastIndex = d;
+                var p = u.exec(t);
+                var v = p ? p.index - d : t.length - d;
+                if (v) {
+                    var g = document.createTextNode(f.slice(d, d + v));
+                    if (l && s < 9) {
+                        h.appendChild(L("span", [
+                            g
                         ]));
                     } else {
-                        m.appendChild(q);
+                        h.appendChild(g);
                     }
-                    a.map.push(a.pos, a.pos + p, q);
-                    a.col += p;
-                    a.pos += p;
+                    e.map.push(e.pos, e.pos + v, g);
+                    e.col += v;
+                    e.pos += v;
                 }
-                if (!o) {
+                if (!p) {
                     break;
                 }
-                n += p + 1;
-                var r = void 0;
-                if (o[0] == "\t") {
-                    var s = a.cm.options.tabSize, t = s - (a.col % s);
-                    r = m.appendChild(C("span", W(t), "cm-tab"));
-                    r.setAttribute("role", "presentation");
-                    r.setAttribute("cm-text", "\t");
-                    a.col += t;
-                } else if (o[0] == "\r" || o[0] == "\n") {
-                    r = m.appendChild(C("span", o[0] == "\r" ? "\u240d" : "\u2424", "cm-invalidchar"));
-                    r.setAttribute("cm-text", o[0]);
-                    a.col += 1;
+                d += v + 1;
+                var m = void 0;
+                if (p[0] == "\t") {
+                    var $ = e.cm.options.tabSize, y = $ - (e.col % $);
+                    m = h.appendChild(L("span", Y(y), "cm-tab"));
+                    m.setAttribute("role", "presentation");
+                    m.setAttribute("cm-text", "\t");
+                    e.col += y;
+                } else if (p[0] == "\r" || p[0] == "\n") {
+                    m = h.appendChild(L("span", p[0] == "\r" ? "\u240d" : "\u2424", "cm-invalidchar"));
+                    m.setAttribute("cm-text", p[0]);
+                    e.col += 1;
                 } else {
-                    r = a.cm.options.specialCharPlaceholder(o[0]);
-                    r.setAttribute("cm-text", o[0]);
-                    if (g && h < 9) {
-                        m.appendChild(C("span", [
-                            r
+                    m = e.cm.options.specialCharPlaceholder(p[0]);
+                    m.setAttribute("cm-text", p[0]);
+                    if (l && s < 9) {
+                        h.appendChild(L("span", [
+                            m
                         ]));
                     } else {
-                        m.appendChild(r);
+                        h.appendChild(m);
                     }
-                    a.col += 1;
+                    e.col += 1;
                 }
-                a.map.push(a.pos, a.pos + 1, r);
-                a.pos++;
+                e.map.push(e.pos, e.pos + 1, m);
+                e.pos++;
             }
         }
-        a.trailingSpace = j.charCodeAt(b.length - 1) == 32;
-        if (c || d || e || l || f || i) {
-            var u = c || "";
-            if (d) {
-                u += d;
+        e.trailingSpace = f.charCodeAt(t.length - 1) == 32;
+        if (i || r || n || c || o || a) {
+            var _ = i || "";
+            if (r) {
+                _ += r;
             }
-            if (e) {
-                u += e;
+            if (n) {
+                _ += n;
             }
-            var v = C("span", [
-                m
-            ], u, f);
-            if (i) {
-                for(var w in i){
-                    if (i.hasOwnProperty(w) && w != "style" && w != "class") {
-                        v.setAttribute(w, i[w]);
+            var w = L("span", [
+                h
+            ], _, o);
+            if (a) {
+                for(var b in a){
+                    if (a.hasOwnProperty(b) && b != "style" && b != "class") {
+                        w.setAttribute(b, a[b]);
                     }
                 }
             }
-            return a.content.appendChild(v);
+            return e.content.appendChild(w);
         }
-        a.content.appendChild(m);
+        e.content.appendChild(h);
     }
-    function b6(a, b) {
-        if (a.length > 1 && !/  /.test(a)) {
-            return a;
+    function t8(e, t) {
+        if (e.length > 1 && !/  /.test(e)) {
+            return e;
         }
-        var c = b, d = "";
-        for(var e = 0; e < a.length; e++){
-            var f = a.charAt(e);
-            if (f == " " && c && (e == a.length - 1 || a.charCodeAt(e + 1) == 32)) {
-                f = "\u00a0";
+        var i = t, r = "";
+        for(var n = 0; n < e.length; n++){
+            var o = e.charAt(n);
+            if (o == " " && i && (n == e.length - 1 || e.charCodeAt(n + 1) == 32)) {
+                o = "\u00a0";
             }
-            d += f;
-            c = f == " ";
+            r += o;
+            i = o == " ";
         }
-        return d;
+        return r;
     }
-    function b7(a, b) {
-        return function(c, d, e, f, g, h, i) {
-            e = e ? e + " cm-force-border" : "cm-force-border";
-            var j = c.pos, k = j + d.length;
+    function tZ(e, t) {
+        return function(i, r, n, o, l, s, a) {
+            n = n ? n + " cm-force-border" : "cm-force-border";
+            var f = i.pos, u = f + r.length;
             for(;;){
-                var l = void 0;
-                for(var m = 0; m < b.length; m++){
-                    l = b[m];
-                    if (l.to > j && l.from <= j) {
+                var c = void 0;
+                for(var h = 0; h < t.length; h++){
+                    c = t[h];
+                    if (c.to > f && c.from <= f) {
                         break;
                     }
                 }
-                if (l.to >= k) {
-                    return a(c, d, e, f, g, h, i);
+                if (c.to >= u) {
+                    return e(i, r, n, o, l, s, a);
                 }
-                a(c, d.slice(0, l.to - j), e, f, null, h, i);
-                f = null;
-                d = d.slice(l.to - j);
-                j = l.to;
+                e(i, r.slice(0, c.to - f), n, o, null, s, a);
+                o = null;
+                r = r.slice(c.to - f);
+                f = c.to;
             }
         };
     }
-    function b8(a, b, c, d) {
-        var e = !d && c.widgetNode;
-        if (e) {
-            a.map.push(a.pos, a.pos + b, e);
+    function tJ(e, t, i, r) {
+        var n = !r && i.widgetNode;
+        if (n) {
+            e.map.push(e.pos, e.pos + t, n);
         }
-        if (!d && a.cm.display.input.needsContentAttribute) {
-            if (!e) {
-                e = a.content.appendChild(document.createElement("span"));
+        if (!r && e.cm.display.input.needsContentAttribute) {
+            if (!n) {
+                n = e.content.appendChild(document.createElement("span"));
             }
-            e.setAttribute("cm-marker", c.id);
+            n.setAttribute("cm-marker", i.id);
         }
-        if (e) {
-            a.cm.display.input.setUneditable(e);
-            a.content.appendChild(e);
+        if (n) {
+            e.cm.display.input.setUneditable(n);
+            e.content.appendChild(n);
         }
-        a.pos += b;
-        a.trailingSpace = false;
+        e.pos += t;
+        e.trailingSpace = false;
     }
-    function b9(a, b, c) {
-        var d = a.markedSpans, e = a.text, f = 0;
-        if (!d) {
-            for(var g = 1; g < c.length; g += 2){
-                b.addToken(b, e.slice(f, (f = c[g])), b2(c[g + 1], b.cm.options));
+    function tQ(e, t, i) {
+        var r = e.markedSpans, n = e.text, o = 0;
+        if (!r) {
+            for(var l = 1; l < i.length; l += 2){
+                t.addToken(t, n.slice(o, (o = i[l])), tY(i[l + 1], t.cm.options));
             }
             return;
         }
-        var h = e.length, i = 0, j = 1, k = "", l, m;
-        var n = 0, o, p, q, r, s;
+        var s = n.length, a = 0, f = 1, u = "", c, h;
+        var d = 0, p, v, g, m, $;
         for(;;){
-            if (n == i) {
-                o = p = q = m = "";
-                s = null;
-                r = null;
-                n = Infinity;
-                var t = [], u = void 0;
-                for(var v = 0; v < d.length; ++v){
-                    var w = d[v], x = w.marker;
-                    if (x.type == "bookmark" && w.from == i && x.widgetNode) {
-                        t.push(x);
-                    } else if (w.from <= i && (w.to == null || w.to > i || (x.collapsed && w.to == i && w.from == i))) {
-                        if (w.to != null && w.to != i && n > w.to) {
-                            n = w.to;
-                            p = "";
+            if (d == a) {
+                p = v = g = h = "";
+                $ = null;
+                m = null;
+                d = Infinity;
+                var y = [], _ = void 0;
+                for(var w = 0; w < r.length; ++w){
+                    var b = r[w], x = b.marker;
+                    if (x.type == "bookmark" && b.from == a && x.widgetNode) {
+                        y.push(x);
+                    } else if (b.from <= a && (b.to == null || b.to > a || (x.collapsed && b.to == a && b.from == a))) {
+                        if (b.to != null && b.to != a && d > b.to) {
+                            d = b.to;
+                            v = "";
                         }
                         if (x.className) {
-                            o += " " + x.className;
+                            p += " " + x.className;
                         }
                         if (x.css) {
-                            m = (m ? m + ";" : "") + x.css;
+                            h = (h ? h + ";" : "") + x.css;
                         }
-                        if (x.startStyle && w.from == i) {
-                            q += " " + x.startStyle;
+                        if (x.startStyle && b.from == a) {
+                            g += " " + x.startStyle;
                         }
-                        if (x.endStyle && w.to == n) {
-                            (u || (u = [])).push(x.endStyle, w.to);
+                        if (x.endStyle && b.to == d) {
+                            (_ || (_ = [])).push(x.endStyle, b.to);
                         }
                         if (x.title) {
-                            (s || (s = {})).title = x.title;
+                            ($ || ($ = {})).title = x.title;
                         }
                         if (x.attributes) {
-                            for(var y in x.attributes){
-                                (s || (s = {}))[y] = x.attributes[y];
+                            for(var C in x.attributes){
+                                ($ || ($ = {}))[C] = x.attributes[C];
                             }
                         }
-                        if (x.collapsed && (!r || bJ(r.marker, x) < 0)) {
-                            r = w;
+                        if (x.collapsed && (!m || tH(m.marker, x) < 0)) {
+                            m = b;
                         }
-                    } else if (w.from > i && n > w.from) {
-                        n = w.from;
+                    } else if (b.from > a && d > b.from) {
+                        d = b.from;
                     }
                 }
-                if (u) {
-                    for(var z = 0; z < u.length; z += 2){
-                        if (u[z + 1] == n) {
-                            p += " " + u[z];
+                if (_) {
+                    for(var S = 0; S < _.length; S += 2){
+                        if (_[S + 1] == d) {
+                            v += " " + _[S];
                         }
                     }
                 }
-                if (!r || r.from == i) {
-                    for(var A = 0; A < t.length; ++A){
-                        b8(b, 0, t[A]);
+                if (!m || m.from == a) {
+                    for(var k = 0; k < y.length; ++k){
+                        tJ(t, 0, y[k]);
                     }
                 }
-                if (r && (r.from || 0) == i) {
-                    b8(b, (r.to == null ? h + 1 : r.to) - i, r.marker, r.from == null);
-                    if (r.to == null) {
+                if (m && (m.from || 0) == a) {
+                    tJ(t, (m.to == null ? s + 1 : m.to) - a, m.marker, m.from == null);
+                    if (m.to == null) {
                         return;
                     }
-                    if (r.to == i) {
-                        r = false;
+                    if (m.to == a) {
+                        m = false;
                     }
                 }
             }
-            if (i >= h) {
+            if (a >= s) {
                 break;
             }
-            var B = Math.min(h, n);
+            var T = Math.min(s, d);
             while(true){
-                if (k) {
-                    var C = i + k.length;
-                    if (!r) {
-                        var D = C > B ? k.slice(0, B - i) : k;
-                        b.addToken(b, D, l ? l + o : o, q, i + D.length == n ? p : "", m, s);
+                if (u) {
+                    var L = a + u.length;
+                    if (!m) {
+                        var O = L > T ? u.slice(0, T - a) : u;
+                        t.addToken(t, O, c ? c + p : p, g, a + O.length == d ? v : "", h, $);
                     }
-                    if (C >= B) {
-                        k = k.slice(B - i);
-                        i = B;
+                    if (L >= T) {
+                        u = u.slice(T - a);
+                        a = T;
                         break;
                     }
-                    i = C;
-                    q = "";
+                    a = L;
+                    g = "";
                 }
-                k = e.slice(f, (f = c[j++]));
-                l = b2(c[j++], b.cm.options);
+                u = n.slice(o, (o = i[f++]));
+                c = tY(i[f++], t.cm.options);
             }
         }
     }
-    function ca(a, b, c) {
-        this.line = b;
-        this.rest = bR(b);
-        this.size = this.rest ? a0(X(this.rest)) - c + 1 : 1;
+    function ie(e, t, i) {
+        this.line = t;
+        this.rest = tR(t);
+        this.size = this.rest ? eK(j(this.rest)) - i + 1 : 1;
         this.node = this.text = null;
-        this.hidden = bU(a, b);
+        this.hidden = tB(e, t);
     }
-    function cb(a, b, c) {
-        var d = [], e;
-        for(var f = b; f < c; f = e){
-            var g = new ca(a.doc, aY(a.doc, f), f);
-            e = f + g.size;
-            d.push(g);
+    function it(e, t, i) {
+        var r = [], n;
+        for(var o = t; o < i; o = n){
+            var l = new ie(e.doc, e2(e.doc, o), o);
+            n = o + l.size;
+            r.push(l);
         }
-        return d;
+        return r;
     }
-    var cc = null;
-    function cd(a) {
-        if (cc) {
-            cc.ops.push(a);
+    var ii = null;
+    function ir(e) {
+        if (ii) {
+            ii.ops.push(e);
         } else {
-            a.ownsGroup = cc = {
+            e.ownsGroup = ii = {
                 ops: [
-                    a
+                    e
                 ],
                 delayedCallbacks: []
             };
         }
     }
-    function ce(a) {
-        var b = a.delayedCallbacks, c = 0;
+    function io(e) {
+        var t = e.delayedCallbacks, i = 0;
         do {
-            for(; c < b.length; c++){
-                b[c].call(null);
+            for(; i < t.length; i++){
+                t[i].call(null);
             }
-            for(var d = 0; d < a.ops.length; d++){
-                var e = a.ops[d];
-                if (e.cursorActivityHandlers) {
-                    while(e.cursorActivityCalled < e.cursorActivityHandlers.length){
-                        e.cursorActivityHandlers[e.cursorActivityCalled++].call(null, e.cm);
+            for(var r = 0; r < e.ops.length; r++){
+                var n = e.ops[r];
+                if (n.cursorActivityHandlers) {
+                    while(n.cursorActivityCalled < n.cursorActivityHandlers.length){
+                        n.cursorActivityHandlers[n.cursorActivityCalled++].call(null, n.cm);
                     }
                 }
             }
-        }while (c < b.length)
+        }while (i < t.length)
     }
-    function cf(a, b) {
-        var c = a.ownsGroup;
-        if (!c) {
+    function il(e, t) {
+        var i = e.ownsGroup;
+        if (!i) {
             return;
         }
         try {
-            ce(c);
+            io(i);
         } finally{
-            cc = null;
-            b(c);
+            ii = null;
+            t(i);
         }
     }
-    var cg = null;
-    function ch(a, b) {
-        var c = ap(a, b);
-        if (!c.length) {
+    var is = null;
+    function ia(e, t) {
+        var i = ev(e, t);
+        if (!i.length) {
             return;
         }
-        var d = Array.prototype.slice.call(arguments, 2), e;
-        if (cc) {
-            e = cc.delayedCallbacks;
-        } else if (cg) {
-            e = cg;
+        var r = Array.prototype.slice.call(arguments, 2), n;
+        if (ii) {
+            n = ii.delayedCallbacks;
+        } else if (is) {
+            n = is;
         } else {
-            e = cg = [];
-            setTimeout(ci, 0);
+            n = is = [];
+            setTimeout(iu, 0);
         }
-        var f = function(a) {
-            e.push(function() {
-                return c[a].apply(null, d);
+        var o = function(e) {
+            n.push(function() {
+                return i[e].apply(null, r);
             });
         };
-        for(var g = 0; g < c.length; ++g)f(g);
+        for(var l = 0; l < i.length; ++l)o(l);
     }
-    function ci() {
-        var a = cg;
-        cg = null;
-        for(var b = 0; b < a.length; ++b){
-            a[b]();
+    function iu() {
+        var e = is;
+        is = null;
+        for(var t = 0; t < e.length; ++t){
+            e[t]();
         }
     }
-    function cj(a, b, c, d) {
-        for(var e = 0; e < b.changes.length; e++){
-            var f = b.changes[e];
-            if (f == "text") {
-                cn(a, b);
-            } else if (f == "gutter") {
-                cp(a, b, c, d);
-            } else if (f == "class") {
-                co(a, b);
-            } else if (f == "widget") {
-                cq(a, b, d);
+    function ic(e, t, i, r) {
+        for(var n = 0; n < t.changes.length; n++){
+            var o = t.changes[n];
+            if (o == "text") {
+                iv(e, t);
+            } else if (o == "gutter") {
+                im(e, t, i, r);
+            } else if (o == "class") {
+                ig(e, t);
+            } else if (o == "widget") {
+                i$(e, t, r);
             }
         }
-        b.changes = null;
+        t.changes = null;
     }
-    function ck(a) {
-        if (a.node == a.text) {
-            a.node = C("div", null, null, "position: relative");
-            if (a.text.parentNode) {
-                a.text.parentNode.replaceChild(a.node, a.text);
+    function ih(e) {
+        if (e.node == e.text) {
+            e.node = L("div", null, null, "position: relative");
+            if (e.text.parentNode) {
+                e.text.parentNode.replaceChild(e.node, e.text);
             }
-            a.node.appendChild(a.text);
-            if (g && h < 8) {
-                a.node.style.zIndex = 2;
+            e.node.appendChild(e.text);
+            if (l && s < 8) {
+                e.node.style.zIndex = 2;
             }
         }
-        return a.node;
+        return e.node;
     }
-    function cl(a, b) {
-        var c = b.bgClass ? b.bgClass + " " + (b.line.bgClass || "") : b.line.bgClass;
-        if (c) {
-            c += " CodeMirror-linebackground";
+    function id(e, t) {
+        var i = t.bgClass ? t.bgClass + " " + (t.line.bgClass || "") : t.line.bgClass;
+        if (i) {
+            i += " CodeMirror-linebackground";
         }
-        if (b.background) {
-            if (c) {
-                b.background.className = c;
+        if (t.background) {
+            if (i) {
+                t.background.className = i;
             } else {
-                b.background.parentNode.removeChild(b.background);
-                b.background = null;
+                t.background.parentNode.removeChild(t.background);
+                t.background = null;
             }
-        } else if (c) {
-            var d = ck(b);
-            b.background = d.insertBefore(C("div", null, c), d.firstChild);
-            a.display.input.setUneditable(b.background);
+        } else if (i) {
+            var r = ih(t);
+            t.background = r.insertBefore(L("div", null, i), r.firstChild);
+            e.display.input.setUneditable(t.background);
         }
     }
-    function cm(a, b) {
-        var c = a.display.externalMeasured;
-        if (c && c.line == b.line) {
-            a.display.externalMeasured = null;
-            b.measure = c.measure;
-            return c.built;
+    function ip(e, t) {
+        var i = e.display.externalMeasured;
+        if (i && i.line == t.line) {
+            e.display.externalMeasured = null;
+            t.measure = i.measure;
+            return i.built;
         }
-        return b3(a, b);
+        return tj(e, t);
     }
-    function cn(a, b) {
-        var c = b.text.className;
-        var d = cm(a, b);
-        if (b.text == b.node) {
-            b.node = d.pre;
+    function iv(e, t) {
+        var i = t.text.className;
+        var r = ip(e, t);
+        if (t.text == t.node) {
+            t.node = r.pre;
         }
-        b.text.parentNode.replaceChild(d.pre, b.text);
-        b.text = d.pre;
-        if (d.bgClass != b.bgClass || d.textClass != b.textClass) {
-            b.bgClass = d.bgClass;
-            b.textClass = d.textClass;
-            co(a, b);
-        } else if (c) {
-            b.text.className = c;
+        t.text.parentNode.replaceChild(r.pre, t.text);
+        t.text = r.pre;
+        if (r.bgClass != t.bgClass || r.textClass != t.textClass) {
+            t.bgClass = r.bgClass;
+            t.textClass = r.textClass;
+            ig(e, t);
+        } else if (i) {
+            t.text.className = i;
         }
     }
-    function co(a, b) {
-        cl(a, b);
-        if (b.line.wrapClass) {
-            ck(b).className = b.line.wrapClass;
-        } else if (b.node != b.text) {
-            b.node.className = "";
+    function ig(e, t) {
+        id(e, t);
+        if (t.line.wrapClass) {
+            ih(t).className = t.line.wrapClass;
+        } else if (t.node != t.text) {
+            t.node.className = "";
         }
-        var c = b.textClass ? b.textClass + " " + (b.line.textClass || "") : b.line.textClass;
-        b.text.className = c || "";
+        var i = t.textClass ? t.textClass + " " + (t.line.textClass || "") : t.line.textClass;
+        t.text.className = i || "";
     }
-    function cp(a, b, c, d) {
-        if (b.gutter) {
-            b.node.removeChild(b.gutter);
-            b.gutter = null;
+    function im(e, t, i, r) {
+        if (t.gutter) {
+            t.node.removeChild(t.gutter);
+            t.gutter = null;
         }
-        if (b.gutterBackground) {
-            b.node.removeChild(b.gutterBackground);
-            b.gutterBackground = null;
+        if (t.gutterBackground) {
+            t.node.removeChild(t.gutterBackground);
+            t.gutterBackground = null;
         }
-        if (b.line.gutterClass) {
-            var e = ck(b);
-            b.gutterBackground = C("div", null, "CodeMirror-gutter-background " + b.line.gutterClass, "left: " + (a.options.fixedGutter ? d.fixedPos : -d.gutterTotalWidth) + "px; width: " + d.gutterTotalWidth + "px");
-            a.display.input.setUneditable(b.gutterBackground);
-            e.insertBefore(b.gutterBackground, b.text);
+        if (t.line.gutterClass) {
+            var n = ih(t);
+            t.gutterBackground = L("div", null, "CodeMirror-gutter-background " + t.line.gutterClass, "left: " + (e.options.fixedGutter ? r.fixedPos : -r.gutterTotalWidth) + "px; width: " + r.gutterTotalWidth + "px");
+            e.display.input.setUneditable(t.gutterBackground);
+            n.insertBefore(t.gutterBackground, t.text);
         }
-        var f = b.line.gutterMarkers;
-        if (a.options.lineNumbers || f) {
-            var g = ck(b);
-            var h = (b.gutter = C("div", null, "CodeMirror-gutter-wrapper", "left: " + (a.options.fixedGutter ? d.fixedPos : -d.gutterTotalWidth) + "px"));
-            h.setAttribute("aria-hidden", "true");
-            a.display.input.setUneditable(h);
-            g.insertBefore(h, b.text);
-            if (b.line.gutterClass) {
-                h.className += " " + b.line.gutterClass;
+        var o = t.line.gutterMarkers;
+        if (e.options.lineNumbers || o) {
+            var l = ih(t);
+            var s = (t.gutter = L("div", null, "CodeMirror-gutter-wrapper", "left: " + (e.options.fixedGutter ? r.fixedPos : -r.gutterTotalWidth) + "px"));
+            s.setAttribute("aria-hidden", "true");
+            e.display.input.setUneditable(s);
+            l.insertBefore(s, t.text);
+            if (t.line.gutterClass) {
+                s.className += " " + t.line.gutterClass;
             }
-            if (a.options.lineNumbers && (!f || !f["CodeMirror-linenumbers"])) {
-                b.lineNumber = h.appendChild(C("div", a3(a.options, c), "CodeMirror-linenumber CodeMirror-gutter-elt", "left: " + d.gutterLeft["CodeMirror-linenumbers"] + "px; width: " + a.display.lineNumInnerWidth + "px"));
+            if (e.options.lineNumbers && (!o || !o["CodeMirror-linenumbers"])) {
+                t.lineNumber = s.appendChild(L("div", ej(e.options, i), "CodeMirror-linenumber CodeMirror-gutter-elt", "left: " + r.gutterLeft["CodeMirror-linenumbers"] + "px; width: " + e.display.lineNumInnerWidth + "px"));
             }
-            if (f) {
-                for(var i = 0; i < a.display.gutterSpecs.length; ++i){
-                    var j = a.display.gutterSpecs[i].className, k = f.hasOwnProperty(j) && f[j];
-                    if (k) {
-                        h.appendChild(C("div", [
-                            k
-                        ], "CodeMirror-gutter-elt", "left: " + d.gutterLeft[j] + "px; width: " + d.gutterWidth[j] + "px"));
+            if (o) {
+                for(var a = 0; a < e.display.gutterSpecs.length; ++a){
+                    var f = e.display.gutterSpecs[a].className, u = o.hasOwnProperty(f) && o[f];
+                    if (u) {
+                        s.appendChild(L("div", [
+                            u
+                        ], "CodeMirror-gutter-elt", "left: " + r.gutterLeft[f] + "px; width: " + r.gutterWidth[f] + "px"));
                     }
                 }
             }
         }
     }
-    function cq(a, b, c) {
-        if (b.alignable) {
-            b.alignable = null;
+    function i$(e, t, i) {
+        if (t.alignable) {
+            t.alignable = null;
         }
-        var d = y("CodeMirror-linewidget");
-        for(var e = b.node.firstChild, f = void 0; e; e = f){
-            f = e.nextSibling;
-            if (d.test(e.className)) {
-                b.node.removeChild(e);
+        var r = C("CodeMirror-linewidget");
+        for(var n = t.node.firstChild, o = void 0; n; n = o){
+            o = n.nextSibling;
+            if (r.test(n.className)) {
+                t.node.removeChild(n);
             }
         }
-        cs(a, b, c);
+        i_(e, t, i);
     }
-    function cr(a, b, c, d) {
-        var e = cm(a, b);
-        b.text = b.node = e.pre;
-        if (e.bgClass) {
-            b.bgClass = e.bgClass;
+    function iy(e, t, i, r) {
+        var n = ip(e, t);
+        t.text = t.node = n.pre;
+        if (n.bgClass) {
+            t.bgClass = n.bgClass;
         }
-        if (e.textClass) {
-            b.textClass = e.textClass;
+        if (n.textClass) {
+            t.textClass = n.textClass;
         }
-        co(a, b);
-        cp(a, b, c, d);
-        cs(a, b, d);
-        return b.node;
+        ig(e, t);
+        im(e, t, i, r);
+        i_(e, t, r);
+        return t.node;
     }
-    function cs(a, b, c) {
-        ct(a, b.line, b, c, true);
-        if (b.rest) {
-            for(var d = 0; d < b.rest.length; d++){
-                ct(a, b.rest[d], b, c, false);
+    function i_(e, t, i) {
+        iw(e, t.line, t, i, true);
+        if (t.rest) {
+            for(var r = 0; r < t.rest.length; r++){
+                iw(e, t.rest[r], t, i, false);
             }
         }
     }
-    function ct(a, b, c, d, e) {
-        if (!b.widgets) {
+    function iw(e, t, i, r, n) {
+        if (!t.widgets) {
             return;
         }
-        var f = ck(c);
-        for(var g = 0, h = b.widgets; g < h.length; ++g){
-            var i = h[g], j = C("div", [
-                i.node
-            ], "CodeMirror-linewidget" + (i.className ? " " + i.className : ""));
-            if (!i.handleMouseEvents) {
-                j.setAttribute("cm-ignore-events", "true");
+        var o = ih(i);
+        for(var l = 0, s = t.widgets; l < s.length; ++l){
+            var a = s[l], f = L("div", [
+                a.node
+            ], "CodeMirror-linewidget" + (a.className ? " " + a.className : ""));
+            if (!a.handleMouseEvents) {
+                f.setAttribute("cm-ignore-events", "true");
             }
-            cu(i, j, c, d);
-            a.display.input.setUneditable(j);
-            if (e && i.above) {
-                f.insertBefore(j, c.gutter || c.text);
+            ib(a, f, i, r);
+            e.display.input.setUneditable(f);
+            if (n && a.above) {
+                o.insertBefore(f, i.gutter || i.text);
             } else {
-                f.appendChild(j);
+                o.appendChild(f);
             }
-            ch(i, "redraw");
+            ia(a, "redraw");
         }
     }
-    function cu(a, b, c, d) {
-        if (a.noHScroll) {
-            (c.alignable || (c.alignable = [])).push(b);
-            var e = d.wrapperWidth;
-            b.style.left = d.fixedPos + "px";
-            if (!a.coverGutter) {
-                e -= d.gutterTotalWidth;
-                b.style.paddingLeft = d.gutterTotalWidth + "px";
+    function ib(e, t, i, r) {
+        if (e.noHScroll) {
+            (i.alignable || (i.alignable = [])).push(t);
+            var n = r.wrapperWidth;
+            t.style.left = r.fixedPos + "px";
+            if (!e.coverGutter) {
+                n -= r.gutterTotalWidth;
+                t.style.paddingLeft = r.gutterTotalWidth + "px";
             }
-            b.style.width = e + "px";
+            t.style.width = n + "px";
         }
-        if (a.coverGutter) {
-            b.style.zIndex = 5;
-            b.style.position = "relative";
-            if (!a.noHScroll) {
-                b.style.marginLeft = -d.gutterTotalWidth + "px";
+        if (e.coverGutter) {
+            t.style.zIndex = 5;
+            t.style.position = "relative";
+            if (!e.noHScroll) {
+                t.style.marginLeft = -r.gutterTotalWidth + "px";
             }
         }
     }
-    function cv(a) {
-        if (a.height != null) {
-            return a.height;
+    function ix(e) {
+        if (e.height != null) {
+            return e.height;
         }
-        var b = a.doc.cm;
-        if (!b) {
+        var t = e.doc.cm;
+        if (!t) {
             return 0;
         }
-        if (!F(document.body, a.node)) {
-            var c = "position: relative;";
-            if (a.coverGutter) {
-                c += "margin-left: -" + b.display.gutters.offsetWidth + "px;";
+        if (!N(document.body, e.node)) {
+            var i = "position: relative;";
+            if (e.coverGutter) {
+                i += "margin-left: -" + t.display.gutters.offsetWidth + "px;";
             }
-            if (a.noHScroll) {
-                c += "width: " + b.display.wrapper.clientWidth + "px;";
+            if (e.noHScroll) {
+                i += "width: " + t.display.wrapper.clientWidth + "px;";
             }
-            B(b.display.measure, C("div", [
-                a.node
-            ], null, c));
+            T(t.display.measure, L("div", [
+                e.node
+            ], null, i));
         }
-        return (a.height = a.node.parentNode.offsetHeight);
+        return (e.height = e.node.parentNode.offsetHeight);
     }
-    function cw(a, b) {
-        for(var c = aA(b); c != a.wrapper; c = c.parentNode){
-            if (!c || (c.nodeType == 1 && c.getAttribute("cm-ignore-events") == "true") || (c.parentNode == a.sizer && c != a.mover)) {
+    function iC(e, t) {
+        for(var i = ek(t); i != e.wrapper; i = i.parentNode){
+            if (!i || (i.nodeType == 1 && i.getAttribute("cm-ignore-events") == "true") || (i.parentNode == e.sizer && i != e.mover)) {
                 return true;
             }
         }
     }
-    function cx(a) {
-        return a.lineSpace.offsetTop;
+    function iS(e) {
+        return e.lineSpace.offsetTop;
     }
-    function cy(a) {
-        return a.mover.offsetHeight - a.lineSpace.offsetHeight;
+    function ik(e) {
+        return e.mover.offsetHeight - e.lineSpace.offsetHeight;
     }
-    function cz(a) {
-        if (a.cachedPaddingH) {
-            return a.cachedPaddingH;
+    function iT(e) {
+        if (e.cachedPaddingH) {
+            return e.cachedPaddingH;
         }
-        var b = B(a.measure, C("pre", "x", "CodeMirror-line-like"));
-        var c = window.getComputedStyle ? window.getComputedStyle(b) : b.currentStyle;
-        var d = {
-            left: parseInt(c.paddingLeft),
-            right: parseInt(c.paddingRight)
+        var t = T(e.measure, L("pre", "x", "CodeMirror-line-like"));
+        var i = window.getComputedStyle ? window.getComputedStyle(t) : t.currentStyle;
+        var r = {
+            left: parseInt(i.paddingLeft),
+            right: parseInt(i.paddingRight)
         };
-        if (!isNaN(d.left) && !isNaN(d.right)) {
-            a.cachedPaddingH = d;
+        if (!isNaN(r.left) && !isNaN(r.right)) {
+            e.cachedPaddingH = r;
         }
-        return d;
+        return r;
     }
-    function cA(a) {
-        return P - a.display.nativeBarWidth;
+    function iL(e) {
+        return R - e.display.nativeBarWidth;
     }
-    function cB(a) {
-        return (a.display.scroller.clientWidth - cA(a) - a.display.barWidth);
+    function iO(e) {
+        return (e.display.scroller.clientWidth - iL(e) - e.display.barWidth);
     }
-    function cC(a) {
-        return (a.display.scroller.clientHeight - cA(a) - a.display.barHeight);
+    function i0(e) {
+        return (e.display.scroller.clientHeight - iL(e) - e.display.barHeight);
     }
-    function cD(a, b, c) {
-        var d = a.options.lineWrapping;
-        var e = d && cB(a);
-        if (!b.measure.heights || (d && b.measure.width != e)) {
-            var f = (b.measure.heights = []);
-            if (d) {
-                b.measure.width = e;
-                var g = b.text.firstChild.getClientRects();
-                for(var h = 0; h < g.length - 1; h++){
-                    var i = g[h], j = g[h + 1];
-                    if (Math.abs(i.bottom - j.bottom) > 2) {
-                        f.push((i.bottom + j.top) / 2 - c.top);
+    function iW(e, t, i) {
+        var r = e.options.lineWrapping;
+        var n = r && iO(e);
+        if (!t.measure.heights || (r && t.measure.width != n)) {
+            var o = (t.measure.heights = []);
+            if (r) {
+                t.measure.width = n;
+                var l = t.text.firstChild.getClientRects();
+                for(var s = 0; s < l.length - 1; s++){
+                    var a = l[s], f = l[s + 1];
+                    if (Math.abs(a.bottom - f.bottom) > 2) {
+                        o.push((a.bottom + f.top) / 2 - i.top);
                     }
                 }
             }
-            f.push(c.bottom - c.top);
+            o.push(i.bottom - i.top);
         }
     }
-    function cE(a, b, c) {
-        if (a.line == b) {
+    function iN(e, t, i) {
+        if (e.line == t) {
             return {
-                map: a.measure.map,
-                cache: a.measure.cache
+                map: e.measure.map,
+                cache: e.measure.cache
             };
         }
-        if (a.rest) {
-            for(var d = 0; d < a.rest.length; d++){
-                if (a.rest[d] == b) {
+        if (e.rest) {
+            for(var r = 0; r < e.rest.length; r++){
+                if (e.rest[r] == t) {
                     return {
-                        map: a.measure.maps[d],
-                        cache: a.measure.caches[d]
+                        map: e.measure.maps[r],
+                        cache: e.measure.caches[r]
                     };
                 }
             }
-            for(var e = 0; e < a.rest.length; e++){
-                if (a0(a.rest[e]) > c) {
+            for(var n = 0; n < e.rest.length; n++){
+                if (eK(e.rest[n]) > i) {
                     return {
-                        map: a.measure.maps[e],
-                        cache: a.measure.caches[e],
+                        map: e.measure.maps[n],
+                        cache: e.measure.caches[n],
                         before: true
                     };
                 }
             }
         }
     }
-    function cF(a, b) {
-        b = bP(b);
-        var c = a0(b);
-        var d = (a.display.externalMeasured = new ca(a.doc, b, c));
-        d.lineN = c;
-        var e = (d.built = b3(a, d));
-        d.text = e.pre;
-        B(a.display.lineMeasure, e.pre);
-        return d;
+    function iA(e, t) {
+        t = tE(t);
+        var i = eK(t);
+        var r = (e.display.externalMeasured = new ie(e.doc, t, i));
+        r.lineN = i;
+        var n = (r.built = tj(e, r));
+        r.text = n.pre;
+        T(e.display.lineMeasure, n.pre);
+        return r;
     }
-    function cG(a, b, c, d) {
-        return cJ(a, cI(a, b), c, d);
+    function iD(e, t, i, r) {
+        return iM(e, iF(e, t), i, r);
     }
-    function cH(a, b) {
-        if (b >= a.display.viewFrom && b < a.display.viewTo) {
-            return a.display.view[de(a, b)];
+    function iH(e, t) {
+        if (t >= e.display.viewFrom && t < e.display.viewTo) {
+            return e.display.view[rl(e, t)];
         }
-        var c = a.display.externalMeasured;
-        if (c && b >= c.lineN && b < c.lineN + c.size) {
-            return c;
+        var i = e.display.externalMeasured;
+        if (i && t >= i.lineN && t < i.lineN + i.size) {
+            return i;
         }
     }
-    function cI(a, b) {
-        var c = a0(b);
-        var d = cH(a, c);
-        if (d && !d.text) {
-            d = null;
-        } else if (d && d.changes) {
-            cj(a, d, c, c9(a));
-            a.curOp.forceUpdate = true;
+    function iF(e, t) {
+        var i = eK(t);
+        var r = iH(e, i);
+        if (r && !r.text) {
+            r = null;
+        } else if (r && r.changes) {
+            ic(e, r, i, rt(e));
+            e.curOp.forceUpdate = true;
         }
-        if (!d) {
-            d = cF(a, b);
+        if (!r) {
+            r = iA(e, t);
         }
-        var e = cE(d, b, c);
+        var n = iN(r, t, i);
         return {
-            line: b,
-            view: d,
+            line: t,
+            view: r,
             rect: null,
-            map: e.map,
-            cache: e.cache,
-            before: e.before,
+            map: n.map,
+            cache: n.cache,
+            before: n.before,
             hasHeights: false
         };
     }
-    function cJ(a, b, c, d, e) {
-        if (b.before) {
-            c = -1;
+    function iM(e, t, i, r, n) {
+        if (t.before) {
+            i = -1;
         }
-        var f = c + (d || ""), g;
-        if (b.cache.hasOwnProperty(f)) {
-            g = b.cache[f];
+        var o = i + (r || ""), l;
+        if (t.cache.hasOwnProperty(o)) {
+            l = t.cache[o];
         } else {
-            if (!b.rect) {
-                b.rect = b.view.text.getBoundingClientRect();
+            if (!t.rect) {
+                t.rect = t.view.text.getBoundingClientRect();
             }
-            if (!b.hasHeights) {
-                cD(a, b.view, b.rect);
-                b.hasHeights = true;
+            if (!t.hasHeights) {
+                iW(e, t.view, t.rect);
+                t.hasHeights = true;
             }
-            g = cN(a, b, c, d);
-            if (!g.bogus) {
-                b.cache[f] = g;
+            l = iE(e, t, i, r);
+            if (!l.bogus) {
+                t.cache[o] = l;
             }
         }
         return {
-            left: g.left,
-            right: g.right,
-            top: e ? g.rtop : g.top,
-            bottom: e ? g.rbottom : g.bottom
+            left: l.left,
+            right: l.right,
+            top: n ? l.rtop : l.top,
+            bottom: n ? l.rbottom : l.bottom
         };
     }
-    var cK = {
+    var i1 = {
         left: 0,
         right: 0,
         top: 0,
         bottom: 0
     };
-    function cL(a, b, c) {
-        var d, e, f, g, h, i;
-        for(var j = 0; j < a.length; j += 3){
-            h = a[j];
-            i = a[j + 1];
-            if (b < h) {
-                e = 0;
-                f = 1;
-                g = "left";
-            } else if (b < i) {
-                e = b - h;
-                f = e + 1;
-            } else if (j == a.length - 3 || (b == i && a[j + 3] > b)) {
-                f = i - h;
-                e = f - 1;
-                if (b >= i) {
-                    g = "right";
+    function iP(e, t, i) {
+        var r, n, o, l, s, a;
+        for(var f = 0; f < e.length; f += 3){
+            s = e[f];
+            a = e[f + 1];
+            if (t < s) {
+                n = 0;
+                o = 1;
+                l = "left";
+            } else if (t < a) {
+                n = t - s;
+                o = n + 1;
+            } else if (f == e.length - 3 || (t == a && e[f + 3] > t)) {
+                o = a - s;
+                n = o - 1;
+                if (t >= a) {
+                    l = "right";
                 }
             }
-            if (e != null) {
-                d = a[j + 2];
-                if (h == i && c == (d.insertLeft ? "left" : "right")) {
-                    g = c;
+            if (n != null) {
+                r = e[f + 2];
+                if (s == a && i == (r.insertLeft ? "left" : "right")) {
+                    l = i;
                 }
-                if (c == "left" && e == 0) {
-                    while(j && a[j - 2] == a[j - 3] && a[j - 1].insertLeft){
-                        d = a[(j -= 3) + 2];
-                        g = "left";
+                if (i == "left" && n == 0) {
+                    while(f && e[f - 2] == e[f - 3] && e[f - 1].insertLeft){
+                        r = e[(f -= 3) + 2];
+                        l = "left";
                     }
                 }
-                if (c == "right" && e == i - h) {
-                    while(j < a.length - 3 && a[j + 3] == a[j + 4] && !a[j + 5].insertLeft){
-                        d = a[(j += 3) + 2];
-                        g = "right";
+                if (i == "right" && n == a - s) {
+                    while(f < e.length - 3 && e[f + 3] == e[f + 4] && !e[f + 5].insertLeft){
+                        r = e[(f += 3) + 2];
+                        l = "right";
                     }
                 }
                 break;
             }
         }
         return {
-            node: d,
-            start: e,
-            end: f,
-            collapse: g,
-            coverStart: h,
-            coverEnd: i
+            node: r,
+            start: n,
+            end: o,
+            collapse: l,
+            coverStart: s,
+            coverEnd: a
         };
     }
-    function cM(a, b) {
-        var c = cK;
-        if (b == "left") {
-            for(var d = 0; d < a.length; d++){
-                if ((c = a[d]).left != c.right) {
+    function iz(e, t) {
+        var i = i1;
+        if (t == "left") {
+            for(var r = 0; r < e.length; r++){
+                if ((i = e[r]).left != i.right) {
                     break;
                 }
             }
         } else {
-            for(var e = a.length - 1; e >= 0; e--){
-                if ((c = a[e]).left != c.right) {
+            for(var n = e.length - 1; n >= 0; n--){
+                if ((i = e[n]).left != i.right) {
                     break;
                 }
-            }
-        }
-        return c;
-    }
-    function cN(a, b, c, d) {
-        var e = cL(b.map, c, d);
-        var f = e.node, i = e.start, j = e.end, k = e.collapse;
-        var l;
-        if (f.nodeType == 3) {
-            for(var m = 0; m < 4; m++){
-                while(i && af(b.line.text.charAt(e.coverStart + i))){
-                    --i;
-                }
-                while(e.coverStart + j < e.coverEnd && af(b.line.text.charAt(e.coverStart + j))){
-                    ++j;
-                }
-                if (g && h < 9 && i == 0 && j == e.coverEnd - e.coverStart) {
-                    l = f.parentNode.getBoundingClientRect();
-                } else {
-                    l = cM(E(f, i, j).getClientRects(), d);
-                }
-                if (l.left || l.right || i == 0) {
-                    break;
-                }
-                j = i;
-                i = i - 1;
-                k = "right";
-            }
-            if (g && h < 11) {
-                l = cO(a.display.measure, l);
-            }
-        } else {
-            if (i > 0) {
-                k = d = "right";
-            }
-            var n;
-            if (a.options.lineWrapping && (n = f.getClientRects()).length > 1) {
-                l = n[d == "right" ? n.length - 1 : 0];
-            } else {
-                l = f.getBoundingClientRect();
-            }
-        }
-        if (g && h < 9 && !i && (!l || (!l.left && !l.right))) {
-            var o = f.parentNode.getClientRects()[0];
-            if (o) {
-                l = {
-                    left: o.left,
-                    right: o.left + c8(a.display),
-                    top: o.top,
-                    bottom: o.bottom
-                };
-            } else {
-                l = cK;
-            }
-        }
-        var p = l.top - b.rect.top, q = l.bottom - b.rect.top;
-        var r = (p + q) / 2;
-        var s = b.view.measure.heights;
-        var t = 0;
-        for(; t < s.length - 1; t++){
-            if (r < s[t]) {
-                break;
-            }
-        }
-        var u = t ? s[t - 1] : 0, v = s[t];
-        var w = {
-            left: (k == "right" ? l.right : l.left) - b.rect.left,
-            right: (k == "left" ? l.left : l.right) - b.rect.left,
-            top: u,
-            bottom: v
-        };
-        if (!l.left && !l.right) {
-            w.bogus = true;
-        }
-        if (!a.options.singleCursorHeightPerLine) {
-            w.rtop = p;
-            w.rbottom = q;
-        }
-        return w;
-    }
-    function cO(a, b) {
-        if (!window.screen || screen.logicalXDPI == null || screen.logicalXDPI == screen.deviceXDPI || !aL(a)) {
-            return b;
-        }
-        var c = screen.logicalXDPI / screen.deviceXDPI;
-        var d = screen.logicalYDPI / screen.deviceYDPI;
-        return {
-            left: b.left * c,
-            right: b.right * c,
-            top: b.top * d,
-            bottom: b.bottom * d
-        };
-    }
-    function cP(a) {
-        if (a.measure) {
-            a.measure.cache = {};
-            a.measure.heights = null;
-            if (a.rest) {
-                for(var b = 0; b < a.rest.length; b++){
-                    a.measure.caches[b] = {};
-                }
-            }
-        }
-    }
-    function cQ(a) {
-        a.display.externalMeasure = null;
-        A(a.display.lineMeasure);
-        for(var b = 0; b < a.display.view.length; b++){
-            cP(a.display.view[b]);
-        }
-    }
-    function cR(a) {
-        cQ(a);
-        a.display.cachedCharWidth = a.display.cachedTextHeight = a.display.cachedPaddingH = null;
-        if (!a.options.lineWrapping) {
-            a.display.maxLineChanged = true;
-        }
-        a.display.lineNumChars = null;
-    }
-    function cS() {
-        if (k && q) {
-            return -(document.body.getBoundingClientRect().left - parseInt(getComputedStyle(document.body).marginLeft));
-        }
-        return (window.pageXOffset || (document.documentElement || document.body).scrollLeft);
-    }
-    function cT() {
-        if (k && q) {
-            return -(document.body.getBoundingClientRect().top - parseInt(getComputedStyle(document.body).marginTop));
-        }
-        return (window.pageYOffset || (document.documentElement || document.body).scrollTop);
-    }
-    function cU(a) {
-        var b = bP(a);
-        var c = b.widgets;
-        var d = 0;
-        if (c) {
-            for(var e = 0; e < c.length; ++e){
-                if (c[e].above) {
-                    d += cv(c[e]);
-                }
-            }
-        }
-        return d;
-    }
-    function cV(a, b, c, d, e) {
-        if (!e) {
-            var f = cU(b);
-            c.top += f;
-            c.bottom += f;
-        }
-        if (d == "line") {
-            return c;
-        }
-        if (!d) {
-            d = "local";
-        }
-        var g = bW(b);
-        if (d == "local") {
-            g += cx(a.display);
-        } else {
-            g -= a.display.viewOffset;
-        }
-        if (d == "page" || d == "window") {
-            var h = a.display.lineSpace.getBoundingClientRect();
-            g += h.top + (d == "window" ? 0 : cT());
-            var i = h.left + (d == "window" ? 0 : cS());
-            c.left += i;
-            c.right += i;
-        }
-        c.top += g;
-        c.bottom += g;
-        return c;
-    }
-    function cW(a, b, c) {
-        if (c == "div") {
-            return b;
-        }
-        var d = b.left, e = b.top;
-        if (c == "page") {
-            d -= cS();
-            e -= cT();
-        } else if (c == "local" || !c) {
-            var f = a.display.sizer.getBoundingClientRect();
-            d += f.left;
-            e += f.top;
-        }
-        var g = a.display.lineSpace.getBoundingClientRect();
-        return {
-            left: d - g.left,
-            top: e - g.top
-        };
-    }
-    function cX(a, b, c, d, e) {
-        if (!d) {
-            d = aY(a.doc, b.line);
-        }
-        return cV(a, d, cG(a, d, b.ch, e), c);
-    }
-    function cY(a, b, c, d, e, f) {
-        d = d || aY(a.doc, b.line);
-        if (!e) {
-            e = cI(a, d);
-        }
-        function g(b, g) {
-            var h = cJ(a, e, b, g ? "right" : "left", f);
-            if (g) {
-                h.left = h.right;
-            } else {
-                h.right = h.left;
-            }
-            return cV(a, d, h, c);
-        }
-        var h = am(d, a.doc.direction), i = b.ch, j = b.sticky;
-        if (i >= d.text.length) {
-            i = d.text.length;
-            j = "before";
-        } else if (i <= 0) {
-            i = 0;
-            j = "after";
-        }
-        if (!h) {
-            return g(j == "before" ? i - 1 : i, j == "before");
-        }
-        function k(a, b, c) {
-            var d = h[b], e = d.level == 1;
-            return g(c ? a - 1 : a, e != c);
-        }
-        var l = ak(h, i, j);
-        var m = aj;
-        var n = k(i, l, j == "before");
-        if (m != null) {
-            n.other = k(i, m, j != "before");
-        }
-        return n;
-    }
-    function cZ(a, b) {
-        var c = 0;
-        b = bb(a.doc, b);
-        if (!a.options.lineWrapping) {
-            c = c8(a.display) * b.ch;
-        }
-        var d = aY(a.doc, b.line);
-        var e = bW(d) + cx(a.display);
-        return {
-            left: c,
-            right: c,
-            top: e,
-            bottom: e + d.height
-        };
-    }
-    function c$(a, b, c, d, e) {
-        var f = a4(a, b, c);
-        f.xRel = e;
-        if (d) {
-            f.outside = d;
-        }
-        return f;
-    }
-    function c_(a, b, c) {
-        var d = a.doc;
-        c += a.display.viewOffset;
-        if (c < 0) {
-            return c$(d.first, 0, null, -1, -1);
-        }
-        var e = a1(d, c), f = d.first + d.size - 1;
-        if (e > f) {
-            return c$(d.first + d.size - 1, aY(d, f).text.length, null, 1, 1);
-        }
-        if (b < 0) {
-            b = 0;
-        }
-        var g = aY(d, e);
-        for(;;){
-            var h = c3(a, g, e, b, c);
-            var i = bN(g, h.ch + (h.xRel > 0 || h.outside > 0 ? 1 : 0));
-            if (!i) {
-                return h;
-            }
-            var j = i.find(1);
-            if (j.line == e) {
-                return j;
-            }
-            g = aY(d, (e = j.line));
-        }
-    }
-    function c0(a, b, c, d) {
-        d -= cU(b);
-        var e = b.text.length;
-        var f = ah(function(b) {
-            return (cJ(a, c, b - 1).bottom <= d);
-        }, e, 0);
-        e = ah(function(b) {
-            return cJ(a, c, b).top > d;
-        }, f, e);
-        return {
-            begin: f,
-            end: e
-        };
-    }
-    function c1(a, b, c, d) {
-        if (!c) {
-            c = cI(a, b);
-        }
-        var e = cV(a, b, cJ(a, c, d), "line").top;
-        return c0(a, b, c, e);
-    }
-    function c2(a, b, c, d) {
-        return a.bottom <= c ? false : a.top > c ? true : (d ? a.left : a.right) > b;
-    }
-    function c3(a, b, c, d, e) {
-        e -= bW(b);
-        var f = cI(a, b);
-        var g = cU(b);
-        var h = 0, i = b.text.length, j = true;
-        var k = am(b, a.doc.direction);
-        if (k) {
-            var l = (a.options.lineWrapping ? c5 : c4)(a, b, c, f, k, d, e);
-            j = l.level != 1;
-            h = j ? l.from : l.to - 1;
-            i = j ? l.to : l.from - 1;
-        }
-        var m = null, n = null;
-        var o = ah(function(b) {
-            var c = cJ(a, f, b);
-            c.top += g;
-            c.bottom += g;
-            if (!c2(c, d, e, false)) {
-                return false;
-            }
-            if (c.top <= e && c.left <= d) {
-                m = b;
-                n = c;
-            }
-            return true;
-        }, h, i);
-        var p, q, r = false;
-        if (n) {
-            var s = d - n.left < n.right - d, t = s == j;
-            o = m + (t ? 0 : 1);
-            q = t ? "after" : "before";
-            p = s ? n.left : n.right;
-        } else {
-            if (!j && (o == i || o == h)) {
-                o++;
-            }
-            q = o == 0 ? "after" : o == b.text.length ? "before" : cJ(a, f, o - (j ? 1 : 0)).bottom + g <= e == j ? "after" : "before";
-            var u = cY(a, a4(c, o, q), "line", b, f);
-            p = u.left;
-            r = e < u.top ? -1 : e >= u.bottom ? 1 : 0;
-        }
-        o = ag(b.text, o, 1);
-        return c$(c, o, q, r, d - p);
-    }
-    function c4(a, b, c, d, e, f, g) {
-        var h = ah(function(h) {
-            var i = e[h], j = i.level != 1;
-            return c2(cY(a, a4(c, j ? i.to : i.from, j ? "before" : "after"), "line", b, d), f, g, true);
-        }, 0, e.length - 1);
-        var i = e[h];
-        if (h > 0) {
-            var j = i.level != 1;
-            var k = cY(a, a4(c, j ? i.from : i.to, j ? "after" : "before"), "line", b, d);
-            if (c2(k, f, g, true) && k.top > g) {
-                i = e[h - 1];
             }
         }
         return i;
     }
-    function c5(a, b, c, d, e, f, g) {
-        var h = c0(a, b, d, g);
-        var i = h.begin;
-        var j = h.end;
-        if (/\s/.test(b.text.charAt(j - 1))) {
-            j--;
-        }
-        var k = null, l = null;
-        for(var m = 0; m < e.length; m++){
-            var n = e[m];
-            if (n.from >= j || n.to <= i) {
-                continue;
-            }
-            var o = n.level != 1;
-            var p = cJ(a, d, o ? Math.min(j, n.to) - 1 : Math.max(i, n.from)).right;
-            var q = p < f ? f - p + 1e9 : p - f;
-            if (!k || l > q) {
-                k = n;
-                l = q;
-            }
-        }
-        if (!k) {
-            k = e[e.length - 1];
-        }
-        if (k.from < i) {
-            k = {
-                from: i,
-                to: k.to,
-                level: k.level
-            };
-        }
-        if (k.to > j) {
-            k = {
-                from: k.from,
-                to: j,
-                level: k.level
-            };
-        }
-        return k;
-    }
-    var c6;
-    function c7(a) {
-        if (a.cachedTextHeight != null) {
-            return a.cachedTextHeight;
-        }
-        if (c6 == null) {
-            c6 = C("pre", null, "CodeMirror-line-like");
-            for(var b = 0; b < 49; ++b){
-                c6.appendChild(document.createTextNode("x"));
-                c6.appendChild(C("br"));
-            }
-            c6.appendChild(document.createTextNode("x"));
-        }
-        B(a.measure, c6);
-        var c = c6.offsetHeight / 50;
-        if (c > 3) {
-            a.cachedTextHeight = c;
-        }
-        A(a.measure);
-        return c || 1;
-    }
-    function c8(a) {
-        if (a.cachedCharWidth != null) {
-            return a.cachedCharWidth;
-        }
-        var b = C("span", "xxxxxxxxxx");
-        var c = C("pre", [
-            b
-        ], "CodeMirror-line-like");
-        B(a.measure, c);
-        var d = b.getBoundingClientRect(), e = (d.right - d.left) / 10;
-        if (e > 2) {
-            a.cachedCharWidth = e;
-        }
-        return e || 10;
-    }
-    function c9(a) {
-        var b = a.display, c = {}, d = {};
-        var e = b.gutters.clientLeft;
-        for(var f = b.gutters.firstChild, g = 0; f; f = f.nextSibling, ++g){
-            var h = a.display.gutterSpecs[g].className;
-            c[h] = f.offsetLeft + f.clientLeft + e;
-            d[h] = f.clientWidth;
-        }
-        return {
-            fixedPos: da(b),
-            gutterTotalWidth: b.gutters.offsetWidth,
-            gutterLeft: c,
-            gutterWidth: d,
-            wrapperWidth: b.wrapper.clientWidth
-        };
-    }
-    function da(a) {
-        return (a.scroller.getBoundingClientRect().left - a.sizer.getBoundingClientRect().left);
-    }
-    function db(a) {
-        var b = c7(a.display), c = a.options.lineWrapping;
-        var d = c && Math.max(5, a.display.scroller.clientWidth / c8(a.display) - 3);
-        return function(e) {
-            if (bU(a.doc, e)) {
-                return 0;
-            }
-            var f = 0;
-            if (e.widgets) {
-                for(var g = 0; g < e.widgets.length; g++){
-                    if (e.widgets[g].height) {
-                        f += e.widgets[g].height;
-                    }
+    function iE(e, t, i, r) {
+        var n = iP(t.map, i, r);
+        var o = n.node, a = n.start, f = n.end, u = n.collapse;
+        var c;
+        if (o.nodeType == 3) {
+            for(var h = 0; h < 4; h++){
+                while(a && eo(t.line.text.charAt(n.coverStart + a))){
+                    --a;
                 }
+                while(n.coverStart + f < n.coverEnd && eo(t.line.text.charAt(n.coverStart + f))){
+                    ++f;
+                }
+                if (l && s < 9 && a == 0 && f == n.coverEnd - n.coverStart) {
+                    c = o.parentNode.getBoundingClientRect();
+                } else {
+                    c = iz(W(o, a, f).getClientRects(), r);
+                }
+                if (c.left || c.right || a == 0) {
+                    break;
+                }
+                f = a;
+                a = a - 1;
+                u = "right";
             }
-            if (c) {
-                return (f + (Math.ceil(e.text.length / d) || 1) * b);
-            } else {
-                return f + b;
-            }
-        };
-    }
-    function dc(a) {
-        var b = a.doc, c = db(a);
-        b.iter(function(a) {
-            var b = c(a);
-            if (b != a.height) {
-                a_(a, b);
-            }
-        });
-    }
-    function dd(a, b, c, d) {
-        var e = a.display;
-        if (!c && aA(b).getAttribute("cm-not-content") == "true") {
-            return null;
-        }
-        var f, g, h = e.lineSpace.getBoundingClientRect();
-        try {
-            f = b.clientX - h.left;
-            g = b.clientY - h.top;
-        } catch (i) {
-            return null;
-        }
-        var j = c_(a, f, g), k;
-        if (d && j.xRel > 0 && (k = aY(a.doc, j.line).text).length == j.ch) {
-            var l = M(k, k.length, a.options.tabSize) - k.length;
-            j = a4(j.line, Math.max(0, Math.round((f - cz(a.display).left) / c8(a.display)) - l));
-        }
-        return j;
-    }
-    function de(a, b) {
-        if (b >= a.display.viewTo) {
-            return null;
-        }
-        b -= a.display.viewFrom;
-        if (b < 0) {
-            return null;
-        }
-        var c = a.display.view;
-        for(var d = 0; d < c.length; d++){
-            b -= c[d].size;
-            if (b < 0) {
-                return d;
-            }
-        }
-    }
-    function df(a, b, c, d) {
-        if (b == null) {
-            b = a.doc.first;
-        }
-        if (c == null) {
-            c = a.doc.first + a.doc.size;
-        }
-        if (!d) {
-            d = 0;
-        }
-        var e = a.display;
-        if (d && c < e.viewTo && (e.updateLineNumbers == null || e.updateLineNumbers > b)) {
-            e.updateLineNumbers = b;
-        }
-        a.curOp.viewChanged = true;
-        if (b >= e.viewTo) {
-            if (bt && bS(a.doc, b) < e.viewTo) {
-                dh(a);
-            }
-        } else if (c <= e.viewFrom) {
-            if (bt && bT(a.doc, c + d) > e.viewFrom) {
-                dh(a);
-            } else {
-                e.viewFrom += d;
-                e.viewTo += d;
-            }
-        } else if (b <= e.viewFrom && c >= e.viewTo) {
-            dh(a);
-        } else if (b <= e.viewFrom) {
-            var f = di(a, c, c + d, 1);
-            if (f) {
-                e.view = e.view.slice(f.index);
-                e.viewFrom = f.lineN;
-                e.viewTo += d;
-            } else {
-                dh(a);
-            }
-        } else if (c >= e.viewTo) {
-            var g = di(a, b, b, -1);
-            if (g) {
-                e.view = e.view.slice(0, g.index);
-                e.viewTo = g.lineN;
-            } else {
-                dh(a);
+            if (l && s < 11) {
+                c = iI(e.display.measure, c);
             }
         } else {
-            var h = di(a, b, b, -1);
-            var i = di(a, c, c + d, 1);
-            if (h && i) {
-                e.view = e.view.slice(0, h.index).concat(cb(a, h.lineN, i.lineN)).concat(e.view.slice(i.index));
-                e.viewTo += d;
+            if (a > 0) {
+                u = r = "right";
+            }
+            var d;
+            if (e.options.lineWrapping && (d = o.getClientRects()).length > 1) {
+                c = d[r == "right" ? d.length - 1 : 0];
             } else {
-                dh(a);
+                c = o.getBoundingClientRect();
             }
         }
-        var j = e.externalMeasured;
-        if (j) {
-            if (c < j.lineN) {
-                j.lineN += d;
-            } else if (b < j.lineN + j.size) {
-                e.externalMeasured = null;
-            }
-        }
-    }
-    function dg(a, b, c) {
-        a.curOp.viewChanged = true;
-        var d = a.display, e = a.display.externalMeasured;
-        if (e && b >= e.lineN && b < e.lineN + e.size) {
-            d.externalMeasured = null;
-        }
-        if (b < d.viewFrom || b >= d.viewTo) {
-            return;
-        }
-        var f = d.view[de(a, b)];
-        if (f.node == null) {
-            return;
-        }
-        var g = f.changes || (f.changes = []);
-        if (O(g, c) == -1) {
-            g.push(c);
-        }
-    }
-    function dh(a) {
-        a.display.viewFrom = a.display.viewTo = a.doc.first;
-        a.display.view = [];
-        a.display.viewOffset = 0;
-    }
-    function di(a, b, c, d) {
-        var e = de(a, b), f, g = a.display.view;
-        if (!bt || c == a.doc.first + a.doc.size) {
-            return {
-                index: e,
-                lineN: c
-            };
-        }
-        var h = a.display.viewFrom;
-        for(var i = 0; i < e; i++){
-            h += g[i].size;
-        }
-        if (h != b) {
-            if (d > 0) {
-                if (e == g.length - 1) {
-                    return null;
-                }
-                f = h + g[e].size - b;
-                e++;
+        if (l && s < 9 && !a && (!c || (!c.left && !c.right))) {
+            var p = o.parentNode.getClientRects()[0];
+            if (p) {
+                c = {
+                    left: p.left,
+                    right: p.left + re(e.display),
+                    top: p.top,
+                    bottom: p.bottom
+                };
             } else {
-                f = h - b;
+                c = i1;
             }
-            b += f;
-            c += f;
         }
-        while(bS(a.doc, c) != c){
-            if (e == (d < 0 ? 0 : g.length - 1)) {
-                return null;
+        var v = c.top - t.rect.top, g = c.bottom - t.rect.top;
+        var m = (v + g) / 2;
+        var $ = t.view.measure.heights;
+        var y = 0;
+        for(; y < $.length - 1; y++){
+            if (m < $[y]) {
+                break;
             }
-            c += d * g[e - (d < 0 ? 1 : 0)].size;
-            e += d;
         }
+        var _ = y ? $[y - 1] : 0, w = $[y];
+        var b = {
+            left: (u == "right" ? c.right : c.left) - t.rect.left,
+            right: (u == "left" ? c.left : c.right) - t.rect.left,
+            top: _,
+            bottom: w
+        };
+        if (!c.left && !c.right) {
+            b.bogus = true;
+        }
+        if (!e.options.singleCursorHeightPerLine) {
+            b.rtop = v;
+            b.rbottom = g;
+        }
+        return b;
+    }
+    function iI(e, t) {
+        if (!window.screen || screen.logicalXDPI == null || screen.logicalXDPI == screen.deviceXDPI || !eM(e)) {
+            return t;
+        }
+        var i = screen.logicalXDPI / screen.deviceXDPI;
+        var r = screen.logicalYDPI / screen.deviceYDPI;
         return {
-            index: e,
-            lineN: c
+            left: t.left * i,
+            right: t.right * i,
+            top: t.top * r,
+            bottom: t.bottom * r
         };
     }
-    function dj(a, b, c) {
-        var d = a.display, e = d.view;
-        if (e.length == 0 || b >= d.viewTo || c <= d.viewFrom) {
-            d.view = cb(a, b, c);
-            d.viewFrom = b;
-        } else {
-            if (d.viewFrom > b) {
-                d.view = cb(a, b, d.viewFrom).concat(d.view);
-            } else if (d.viewFrom < b) {
-                d.view = d.view.slice(de(a, b));
-            }
-            d.viewFrom = b;
-            if (d.viewTo < c) {
-                d.view = d.view.concat(cb(a, d.viewTo, c));
-            } else if (d.viewTo > c) {
-                d.view = d.view.slice(0, de(a, c));
-            }
-        }
-        d.viewTo = c;
-    }
-    function dk(a) {
-        var b = a.display.view, c = 0;
-        for(var d = 0; d < b.length; d++){
-            var e = b[d];
-            if (!e.hidden && (!e.node || e.changes)) {
-                ++c;
-            }
-        }
-        return c;
-    }
-    function dl(a) {
-        a.display.input.showSelection(a.display.input.prepareSelection());
-    }
-    function dm(a, b) {
-        if (b === void 0) b = true;
-        var c = a.doc, d = {};
-        var e = (d.cursors = document.createDocumentFragment());
-        var f = (d.selection = document.createDocumentFragment());
-        var g = a.options.$customCursor;
-        if (g) {
-            b = true;
-        }
-        for(var h = 0; h < c.sel.ranges.length; h++){
-            if (!b && h == c.sel.primIndex) {
-                continue;
-            }
-            var i = c.sel.ranges[h];
-            if (i.from().line >= a.display.viewTo || i.to().line < a.display.viewFrom) {
-                continue;
-            }
-            var j = i.empty();
-            if (g) {
-                var k = g(a, i);
-                if (k) {
-                    dn(a, k, e);
+    function iR(e) {
+        if (e.measure) {
+            e.measure.cache = {};
+            e.measure.heights = null;
+            if (e.rest) {
+                for(var t = 0; t < e.rest.length; t++){
+                    e.measure.caches[t] = {};
                 }
-            } else if (j || a.options.showCursorWhenSelecting) {
-                dn(a, i.head, e);
             }
-            if (!j) {
-                dq(a, i, f);
+        }
+    }
+    function i3(e) {
+        e.display.externalMeasure = null;
+        k(e.display.lineMeasure);
+        for(var t = 0; t < e.display.view.length; t++){
+            iR(e.display.view[t]);
+        }
+    }
+    function i7(e) {
+        i3(e);
+        e.display.cachedCharWidth = e.display.cachedTextHeight = e.display.cachedPaddingH = null;
+        if (!e.options.lineWrapping) {
+            e.display.maxLineChanged = true;
+        }
+        e.display.lineNumChars = null;
+    }
+    function iB() {
+        if (u && g) {
+            return -(document.body.getBoundingClientRect().left - parseInt(getComputedStyle(document.body).marginLeft));
+        }
+        return (window.pageXOffset || (document.documentElement || document.body).scrollLeft);
+    }
+    function i4() {
+        if (u && g) {
+            return -(document.body.getBoundingClientRect().top - parseInt(getComputedStyle(document.body).marginTop));
+        }
+        return (window.pageYOffset || (document.documentElement || document.body).scrollTop);
+    }
+    function i6(e) {
+        var t = tE(e);
+        var i = t.widgets;
+        var r = 0;
+        if (i) {
+            for(var n = 0; n < i.length; ++n){
+                if (i[n].above) {
+                    r += ix(i[n]);
+                }
             }
+        }
+        return r;
+    }
+    function i5(e, t, i, r, n) {
+        if (!n) {
+            var o = i6(t);
+            i.top += o;
+            i.bottom += o;
+        }
+        if (r == "line") {
+            return i;
+        }
+        if (!r) {
+            r = "local";
+        }
+        var l = t6(t);
+        if (r == "local") {
+            l += iS(e.display);
+        } else {
+            l -= e.display.viewOffset;
+        }
+        if (r == "page" || r == "window") {
+            var s = e.display.lineSpace.getBoundingClientRect();
+            l += s.top + (r == "window" ? 0 : i4());
+            var a = s.left + (r == "window" ? 0 : iB());
+            i.left += a;
+            i.right += a;
+        }
+        i.top += l;
+        i.bottom += l;
+        return i;
+    }
+    function i2(e, t, i) {
+        if (i == "div") {
+            return t;
+        }
+        var r = t.left, n = t.top;
+        if (i == "page") {
+            r -= iB();
+            n -= i4();
+        } else if (i == "local" || !i) {
+            var o = e.display.sizer.getBoundingClientRect();
+            r += o.left;
+            n += o.top;
+        }
+        var l = e.display.lineSpace.getBoundingClientRect();
+        return {
+            left: r - l.left,
+            top: n - l.top
+        };
+    }
+    function iG(e, t, i, r, n) {
+        if (!r) {
+            r = e2(e.doc, t.line);
+        }
+        return i5(e, r, iD(e, r, t.ch, n), i);
+    }
+    function iU(e, t, i, r, n, o) {
+        r = r || e2(e.doc, t.line);
+        if (!n) {
+            n = iF(e, r);
+        }
+        function l(t, l) {
+            var s = iM(e, n, t, l ? "right" : "left", o);
+            if (l) {
+                s.left = s.right;
+            } else {
+                s.right = s.left;
+            }
+            return i5(e, r, s, i);
+        }
+        var s = eh(r, e.doc.direction), a = t.ch, f = t.sticky;
+        if (a >= r.text.length) {
+            a = r.text.length;
+            f = "before";
+        } else if (a <= 0) {
+            a = 0;
+            f = "after";
+        }
+        if (!s) {
+            return l(f == "before" ? a - 1 : a, f == "before");
+        }
+        function u(e, t, i) {
+            var r = s[t], n = r.level == 1;
+            return l(i ? e - 1 : e, n != i);
+        }
+        var c = eu(s, a, f);
+        var h = ef;
+        var d = u(a, c, f == "before");
+        if (h != null) {
+            d.other = u(a, h, f != "before");
         }
         return d;
     }
-    function dn(a, b, c) {
-        var d = cY(a, b, "div", null, null, !a.options.singleCursorHeightPerLine);
-        var e = c.appendChild(C("div", "\u00a0", "CodeMirror-cursor"));
-        e.style.left = d.left + "px";
-        e.style.top = d.top + "px";
-        e.style.height = Math.max(0, d.bottom - d.top) * a.options.cursorHeight + "px";
-        if (/\bcm-fat-cursor\b/.test(a.getWrapperElement().className)) {
-            var f = cX(a, b, "div", null, null);
-            var g = f.right - f.left;
-            e.style.width = (g > 0 ? g : a.defaultCharWidth()) + "px";
+    function iV(e, t) {
+        var i = 0;
+        t = tt(e.doc, t);
+        if (!e.options.lineWrapping) {
+            i = re(e.display) * t.ch;
         }
-        if (d.other) {
-            var h = c.appendChild(C("div", "\u00a0", "CodeMirror-cursor CodeMirror-secondarycursor"));
-            h.style.display = "";
-            h.style.left = d.other.left + "px";
-            h.style.top = d.other.top + "px";
-            h.style.height = (d.other.bottom - d.other.top) * 0.85 + "px";
+        var r = e2(e.doc, t.line);
+        var n = t6(r) + iS(e.display);
+        return {
+            left: i,
+            right: i,
+            top: n,
+            bottom: n + r.height
+        };
+    }
+    function iK(e, t, i, r, n) {
+        var o = e9(e, t, i);
+        o.xRel = n;
+        if (r) {
+            o.outside = r;
+        }
+        return o;
+    }
+    function iX(e, t, i) {
+        var r = e.doc;
+        i += e.display.viewOffset;
+        if (i < 0) {
+            return iK(r.first, 0, null, -1, -1);
+        }
+        var n = eX(r, i), o = r.first + r.size - 1;
+        if (n > o) {
+            return iK(r.first + r.size - 1, e2(r, o).text.length, null, 1, 1);
+        }
+        if (t < 0) {
+            t = 0;
+        }
+        var l = e2(r, n);
+        for(;;){
+            var s = iq(e, l, n, t, i);
+            var a = tP(l, s.ch + (s.xRel > 0 || s.outside > 0 ? 1 : 0));
+            if (!a) {
+                return s;
+            }
+            var f = a.find(1);
+            if (f.line == n) {
+                return f;
+            }
+            l = e2(r, (n = f.line));
         }
     }
-    function dp(a, b) {
-        return a.top - b.top || a.left - b.left;
+    function iY(e, t, i, r) {
+        r -= i6(t);
+        var n = t.text.length;
+        var o = es(function(t) {
+            return (iM(e, i, t - 1).bottom <= r);
+        }, n, 0);
+        n = es(function(t) {
+            return iM(e, i, t).top > r;
+        }, o, n);
+        return {
+            begin: o,
+            end: n
+        };
     }
-    function dq(a, b, c) {
-        var d = a.display, e = a.doc;
-        var f = document.createDocumentFragment();
-        var g = cz(a.display), h = g.left;
-        var i = Math.max(d.sizerWidth, cB(a) - d.sizer.offsetLeft) - g.right;
-        var j = e.direction == "ltr";
-        function k(a, b, c, d) {
-            if (b < 0) {
-                b = 0;
-            }
-            b = Math.round(b);
-            d = Math.round(d);
-            f.appendChild(C("div", null, "CodeMirror-selected", "position: absolute; left: " + a + "px;\n                             top: " + b + "px; width: " + (c == null ? i - a : c) + "px;\n                             height: " + (d - b) + "px"));
+    function ij(e, t, i, r) {
+        if (!i) {
+            i = iF(e, t);
         }
-        function l(b, c, d) {
-            var f = aY(e, b);
-            var g = f.text.length;
-            var l, m;
-            function n(c, d) {
-                return cX(a, a4(b, c), "div", f, d);
+        var n = i5(e, t, iM(e, i, r), "line").top;
+        return iY(e, t, i, n);
+    }
+    function i9(e, t, i, r) {
+        return e.bottom <= i ? false : e.top > i ? true : (r ? e.left : e.right) > t;
+    }
+    function iq(e, t, i, r, n) {
+        n -= t6(t);
+        var o = iF(e, t);
+        var l = i6(t);
+        var s = 0, a = t.text.length, f = true;
+        var u = eh(t, e.doc.direction);
+        if (u) {
+            var c = (e.options.lineWrapping ? iZ : i8)(e, t, i, o, u, r, n);
+            f = c.level != 1;
+            s = f ? c.from : c.to - 1;
+            a = f ? c.to : c.from - 1;
+        }
+        var h = null, d = null;
+        var p = es(function(t) {
+            var i = iM(e, o, t);
+            i.top += l;
+            i.bottom += l;
+            if (!i9(i, r, n, false)) {
+                return false;
             }
-            function o(b, c, d) {
-                var e = c1(a, f, null, b);
-                var g = (c == "ltr") == (d == "after") ? "left" : "right";
-                var h = d == "after" ? e.begin : e.end - (/\s/.test(f.text.charAt(e.end - 1)) ? 2 : 1);
-                return n(h, g)[g];
+            if (i.top <= n && i.left <= r) {
+                h = t;
+                d = i;
             }
-            var p = am(f, e.direction);
-            ai(p, c || 0, d == null ? g : d, function(a, b, e, f) {
-                var q = e == "ltr";
-                var r = n(a, q ? "left" : "right");
-                var s = n(b - 1, q ? "right" : "left");
-                var t = c == null && a == 0, u = d == null && b == g;
-                var v = f == 0, w = !p || f == p.length - 1;
-                if (s.top - r.top <= 3) {
-                    var x = (j ? t : u) && v;
-                    var y = (j ? u : t) && w;
-                    var z = x ? h : (q ? r : s).left;
-                    var A = y ? i : (q ? s : r).right;
-                    k(z, r.top, A - z, r.bottom);
+            return true;
+        }, s, a);
+        var v, g, m = false;
+        if (d) {
+            var $ = r - d.left < d.right - r, y = $ == f;
+            p = h + (y ? 0 : 1);
+            g = y ? "after" : "before";
+            v = $ ? d.left : d.right;
+        } else {
+            if (!f && (p == a || p == s)) {
+                p++;
+            }
+            g = p == 0 ? "after" : p == t.text.length ? "before" : iM(e, o, p - (f ? 1 : 0)).bottom + l <= n == f ? "after" : "before";
+            var _ = iU(e, e9(i, p, g), "line", t, o);
+            v = _.left;
+            m = n < _.top ? -1 : n >= _.bottom ? 1 : 0;
+        }
+        p = el(t.text, p, 1);
+        return iK(i, p, g, m, r - v);
+    }
+    function i8(e, t, i, r, n, o, l) {
+        var s = es(function(s) {
+            var a = n[s], f = a.level != 1;
+            return i9(iU(e, e9(i, f ? a.to : a.from, f ? "before" : "after"), "line", t, r), o, l, true);
+        }, 0, n.length - 1);
+        var a = n[s];
+        if (s > 0) {
+            var f = a.level != 1;
+            var u = iU(e, e9(i, f ? a.from : a.to, f ? "after" : "before"), "line", t, r);
+            if (i9(u, o, l, true) && u.top > l) {
+                a = n[s - 1];
+            }
+        }
+        return a;
+    }
+    function iZ(e, t, i, r, n, o, l) {
+        var s = iY(e, t, r, l);
+        var a = s.begin;
+        var f = s.end;
+        if (/\s/.test(t.text.charAt(f - 1))) {
+            f--;
+        }
+        var u = null, c = null;
+        for(var h = 0; h < n.length; h++){
+            var d = n[h];
+            if (d.from >= f || d.to <= a) {
+                continue;
+            }
+            var p = d.level != 1;
+            var v = iM(e, r, p ? Math.min(f, d.to) - 1 : Math.max(a, d.from)).right;
+            var g = v < o ? o - v + 1e9 : v - o;
+            if (!u || c > g) {
+                u = d;
+                c = g;
+            }
+        }
+        if (!u) {
+            u = n[n.length - 1];
+        }
+        if (u.from < a) {
+            u = {
+                from: a,
+                to: u.to,
+                level: u.level
+            };
+        }
+        if (u.to > f) {
+            u = {
+                from: u.from,
+                to: f,
+                level: u.level
+            };
+        }
+        return u;
+    }
+    var iJ;
+    function iQ(e) {
+        if (e.cachedTextHeight != null) {
+            return e.cachedTextHeight;
+        }
+        if (iJ == null) {
+            iJ = L("pre", null, "CodeMirror-line-like");
+            for(var t = 0; t < 49; ++t){
+                iJ.appendChild(document.createTextNode("x"));
+                iJ.appendChild(L("br"));
+            }
+            iJ.appendChild(document.createTextNode("x"));
+        }
+        T(e.measure, iJ);
+        var i = iJ.offsetHeight / 50;
+        if (i > 3) {
+            e.cachedTextHeight = i;
+        }
+        k(e.measure);
+        return i || 1;
+    }
+    function re(e) {
+        if (e.cachedCharWidth != null) {
+            return e.cachedCharWidth;
+        }
+        var t = L("span", "xxxxxxxxxx");
+        var i = L("pre", [
+            t
+        ], "CodeMirror-line-like");
+        T(e.measure, i);
+        var r = t.getBoundingClientRect(), n = (r.right - r.left) / 10;
+        if (n > 2) {
+            e.cachedCharWidth = n;
+        }
+        return n || 10;
+    }
+    function rt(e) {
+        var t = e.display, i = {}, r = {};
+        var n = t.gutters.clientLeft;
+        for(var o = t.gutters.firstChild, l = 0; o; o = o.nextSibling, ++l){
+            var s = e.display.gutterSpecs[l].className;
+            i[s] = o.offsetLeft + o.clientLeft + n;
+            r[s] = o.clientWidth;
+        }
+        return {
+            fixedPos: ri(t),
+            gutterTotalWidth: t.gutters.offsetWidth,
+            gutterLeft: i,
+            gutterWidth: r,
+            wrapperWidth: t.wrapper.clientWidth
+        };
+    }
+    function ri(e) {
+        return (e.scroller.getBoundingClientRect().left - e.sizer.getBoundingClientRect().left);
+    }
+    function rr(e) {
+        var t = iQ(e.display), i = e.options.lineWrapping;
+        var r = i && Math.max(5, e.display.scroller.clientWidth / re(e.display) - 3);
+        return function(n) {
+            if (tB(e.doc, n)) {
+                return 0;
+            }
+            var o = 0;
+            if (n.widgets) {
+                for(var l = 0; l < n.widgets.length; l++){
+                    if (n.widgets[l].height) {
+                        o += n.widgets[l].height;
+                    }
+                }
+            }
+            if (i) {
+                return (o + (Math.ceil(n.text.length / r) || 1) * t);
+            } else {
+                return o + t;
+            }
+        };
+    }
+    function rn(e) {
+        var t = e.doc, i = rr(e);
+        t.iter(function(e) {
+            var t = i(e);
+            if (t != e.height) {
+                eV(e, t);
+            }
+        });
+    }
+    function ro(e, t, i, r) {
+        var n = e.display;
+        if (!i && ek(t).getAttribute("cm-not-content") == "true") {
+            return null;
+        }
+        var o, l, s = n.lineSpace.getBoundingClientRect();
+        try {
+            o = t.clientX - s.left;
+            l = t.clientY - s.top;
+        } catch (a) {
+            return null;
+        }
+        var f = iX(e, o, l), u;
+        if (r && f.xRel > 0 && (u = e2(e.doc, f.line).text).length == f.ch) {
+            var c = z(u, u.length, e.options.tabSize) - u.length;
+            f = e9(f.line, Math.max(0, Math.round((o - iT(e.display).left) / re(e.display)) - c));
+        }
+        return f;
+    }
+    function rl(e, t) {
+        if (t >= e.display.viewTo) {
+            return null;
+        }
+        t -= e.display.viewFrom;
+        if (t < 0) {
+            return null;
+        }
+        var i = e.display.view;
+        for(var r = 0; r < i.length; r++){
+            t -= i[r].size;
+            if (t < 0) {
+                return r;
+            }
+        }
+    }
+    function rs(e, t, i, r) {
+        if (t == null) {
+            t = e.doc.first;
+        }
+        if (i == null) {
+            i = e.doc.first + e.doc.size;
+        }
+        if (!r) {
+            r = 0;
+        }
+        var n = e.display;
+        if (r && i < n.viewTo && (n.updateLineNumbers == null || n.updateLineNumbers > t)) {
+            n.updateLineNumbers = t;
+        }
+        e.curOp.viewChanged = true;
+        if (t >= n.viewTo) {
+            if (ty && t3(e.doc, t) < n.viewTo) {
+                rf(e);
+            }
+        } else if (i <= n.viewFrom) {
+            if (ty && t7(e.doc, i + r) > n.viewFrom) {
+                rf(e);
+            } else {
+                n.viewFrom += r;
+                n.viewTo += r;
+            }
+        } else if (t <= n.viewFrom && i >= n.viewTo) {
+            rf(e);
+        } else if (t <= n.viewFrom) {
+            var o = ru(e, i, i + r, 1);
+            if (o) {
+                n.view = n.view.slice(o.index);
+                n.viewFrom = o.lineN;
+                n.viewTo += r;
+            } else {
+                rf(e);
+            }
+        } else if (i >= n.viewTo) {
+            var l = ru(e, t, t, -1);
+            if (l) {
+                n.view = n.view.slice(0, l.index);
+                n.viewTo = l.lineN;
+            } else {
+                rf(e);
+            }
+        } else {
+            var s = ru(e, t, t, -1);
+            var a = ru(e, i, i + r, 1);
+            if (s && a) {
+                n.view = n.view.slice(0, s.index).concat(it(e, s.lineN, a.lineN)).concat(n.view.slice(a.index));
+                n.viewTo += r;
+            } else {
+                rf(e);
+            }
+        }
+        var f = n.externalMeasured;
+        if (f) {
+            if (i < f.lineN) {
+                f.lineN += r;
+            } else if (t < f.lineN + f.size) {
+                n.externalMeasured = null;
+            }
+        }
+    }
+    function ra(e, t, i) {
+        e.curOp.viewChanged = true;
+        var r = e.display, n = e.display.externalMeasured;
+        if (n && t >= n.lineN && t < n.lineN + n.size) {
+            r.externalMeasured = null;
+        }
+        if (t < r.viewFrom || t >= r.viewTo) {
+            return;
+        }
+        var o = r.view[rl(e, t)];
+        if (o.node == null) {
+            return;
+        }
+        var l = o.changes || (o.changes = []);
+        if (I(l, i) == -1) {
+            l.push(i);
+        }
+    }
+    function rf(e) {
+        e.display.viewFrom = e.display.viewTo = e.doc.first;
+        e.display.view = [];
+        e.display.viewOffset = 0;
+    }
+    function ru(e, t, i, r) {
+        var n = rl(e, t), o, l = e.display.view;
+        if (!ty || i == e.doc.first + e.doc.size) {
+            return {
+                index: n,
+                lineN: i
+            };
+        }
+        var s = e.display.viewFrom;
+        for(var a = 0; a < n; a++){
+            s += l[a].size;
+        }
+        if (s != t) {
+            if (r > 0) {
+                if (n == l.length - 1) {
+                    return null;
+                }
+                o = s + l[n].size - t;
+                n++;
+            } else {
+                o = s - t;
+            }
+            t += o;
+            i += o;
+        }
+        while(t3(e.doc, i) != i){
+            if (n == (r < 0 ? 0 : l.length - 1)) {
+                return null;
+            }
+            i += r * l[n - (r < 0 ? 1 : 0)].size;
+            n += r;
+        }
+        return {
+            index: n,
+            lineN: i
+        };
+    }
+    function rc(e, t, i) {
+        var r = e.display, n = r.view;
+        if (n.length == 0 || t >= r.viewTo || i <= r.viewFrom) {
+            r.view = it(e, t, i);
+            r.viewFrom = t;
+        } else {
+            if (r.viewFrom > t) {
+                r.view = it(e, t, r.viewFrom).concat(r.view);
+            } else if (r.viewFrom < t) {
+                r.view = r.view.slice(rl(e, t));
+            }
+            r.viewFrom = t;
+            if (r.viewTo < i) {
+                r.view = r.view.concat(it(e, r.viewTo, i));
+            } else if (r.viewTo > i) {
+                r.view = r.view.slice(0, rl(e, i));
+            }
+        }
+        r.viewTo = i;
+    }
+    function rh(e) {
+        var t = e.display.view, i = 0;
+        for(var r = 0; r < t.length; r++){
+            var n = t[r];
+            if (!n.hidden && (!n.node || n.changes)) {
+                ++i;
+            }
+        }
+        return i;
+    }
+    function rd(e) {
+        e.display.input.showSelection(e.display.input.prepareSelection());
+    }
+    function rp(e, t) {
+        if (t === void 0) t = true;
+        var i = e.doc, r = {};
+        var n = (r.cursors = document.createDocumentFragment());
+        var o = (r.selection = document.createDocumentFragment());
+        var l = e.options.$customCursor;
+        if (l) {
+            t = true;
+        }
+        for(var s = 0; s < i.sel.ranges.length; s++){
+            if (!t && s == i.sel.primIndex) {
+                continue;
+            }
+            var a = i.sel.ranges[s];
+            if (a.from().line >= e.display.viewTo || a.to().line < e.display.viewFrom) {
+                continue;
+            }
+            var f = a.empty();
+            if (l) {
+                var u = l(e, a);
+                if (u) {
+                    rv(e, u, n);
+                }
+            } else if (f || e.options.showCursorWhenSelecting) {
+                rv(e, a.head, n);
+            }
+            if (!f) {
+                rm(e, a, o);
+            }
+        }
+        return r;
+    }
+    function rv(e, t, i) {
+        var r = iU(e, t, "div", null, null, !e.options.singleCursorHeightPerLine);
+        var n = i.appendChild(L("div", "\u00a0", "CodeMirror-cursor"));
+        n.style.left = r.left + "px";
+        n.style.top = r.top + "px";
+        n.style.height = Math.max(0, r.bottom - r.top) * e.options.cursorHeight + "px";
+        if (/\bcm-fat-cursor\b/.test(e.getWrapperElement().className)) {
+            var o = iG(e, t, "div", null, null);
+            var l = o.right - o.left;
+            n.style.width = (l > 0 ? l : e.defaultCharWidth()) + "px";
+        }
+        if (r.other) {
+            var s = i.appendChild(L("div", "\u00a0", "CodeMirror-cursor CodeMirror-secondarycursor"));
+            s.style.display = "";
+            s.style.left = r.other.left + "px";
+            s.style.top = r.other.top + "px";
+            s.style.height = (r.other.bottom - r.other.top) * 0.85 + "px";
+        }
+    }
+    function rg(e, t) {
+        return e.top - t.top || e.left - t.left;
+    }
+    function rm(e, t, i) {
+        var r = e.display, n = e.doc;
+        var o = document.createDocumentFragment();
+        var l = iT(e.display), s = l.left;
+        var a = Math.max(r.sizerWidth, iO(e) - r.sizer.offsetLeft) - l.right;
+        var f = n.direction == "ltr";
+        function u(e, t, i, r) {
+            if (t < 0) {
+                t = 0;
+            }
+            t = Math.round(t);
+            r = Math.round(r);
+            o.appendChild(L("div", null, "CodeMirror-selected", "position: absolute; left: " + e + "px;\n                             top: " + t + "px; width: " + (i == null ? a - e : i) + "px;\n                             height: " + (r - t) + "px"));
+        }
+        function c(t, i, r) {
+            var o = e2(n, t);
+            var l = o.text.length;
+            var c, h;
+            function d(i, r) {
+                return iG(e, e9(t, i), "div", o, r);
+            }
+            function p(t, i, r) {
+                var n = ij(e, o, null, t);
+                var l = (i == "ltr") == (r == "after") ? "left" : "right";
+                var s = r == "after" ? n.begin : n.end - (/\s/.test(o.text.charAt(n.end - 1)) ? 2 : 1);
+                return d(s, l)[l];
+            }
+            var v = eh(o, n.direction);
+            ea(v, i || 0, r == null ? l : r, function(e, t, n, o) {
+                var g = n == "ltr";
+                var m = d(e, g ? "left" : "right");
+                var $ = d(t - 1, g ? "right" : "left");
+                var y = i == null && e == 0, _ = r == null && t == l;
+                var w = o == 0, b = !v || o == v.length - 1;
+                if ($.top - m.top <= 3) {
+                    var x = (f ? y : _) && w;
+                    var C = (f ? _ : y) && b;
+                    var S = x ? s : (g ? m : $).left;
+                    var k = C ? a : (g ? $ : m).right;
+                    u(S, m.top, k - S, m.bottom);
                 } else {
-                    var B, C, D, E;
-                    if (q) {
-                        B = j && t && v ? h : r.left;
-                        C = j ? i : o(a, e, "before");
-                        D = j ? h : o(b, e, "after");
-                        E = j && u && w ? i : s.right;
+                    var T, L, O, W;
+                    if (g) {
+                        T = f && y && w ? s : m.left;
+                        L = f ? a : p(e, n, "before");
+                        O = f ? s : p(t, n, "after");
+                        W = f && _ && b ? a : $.right;
                     } else {
-                        B = !j ? h : o(a, e, "before");
-                        C = !j && t && v ? i : r.right;
-                        D = !j && u && w ? h : s.left;
-                        E = !j ? i : o(b, e, "after");
+                        T = !f ? s : p(e, n, "before");
+                        L = !f && y && w ? a : m.right;
+                        O = !f && _ && b ? s : $.left;
+                        W = !f ? a : p(t, n, "after");
                     }
-                    k(B, r.top, C - B, r.bottom);
-                    if (r.bottom < s.top) {
-                        k(h, r.bottom, null, s.top);
+                    u(T, m.top, L - T, m.bottom);
+                    if (m.bottom < $.top) {
+                        u(s, m.bottom, null, $.top);
                     }
-                    k(D, s.top, E - D, s.bottom);
+                    u(O, $.top, W - O, $.bottom);
                 }
-                if (!l || dp(r, l) < 0) {
-                    l = r;
+                if (!c || rg(m, c) < 0) {
+                    c = m;
                 }
-                if (dp(s, l) < 0) {
-                    l = s;
+                if (rg($, c) < 0) {
+                    c = $;
                 }
-                if (!m || dp(r, m) < 0) {
-                    m = r;
+                if (!h || rg(m, h) < 0) {
+                    h = m;
                 }
-                if (dp(s, m) < 0) {
-                    m = s;
+                if (rg($, h) < 0) {
+                    h = $;
                 }
             });
             return {
-                start: l,
-                end: m
+                start: c,
+                end: h
             };
         }
-        var m = b.from(), n = b.to();
-        if (m.line == n.line) {
-            l(m.line, m.ch, n.ch);
+        var h = t.from(), d = t.to();
+        if (h.line == d.line) {
+            c(h.line, h.ch, d.ch);
         } else {
-            var o = aY(e, m.line), p = aY(e, n.line);
-            var q = bP(o) == bP(p);
-            var r = l(m.line, m.ch, q ? o.text.length + 1 : null).end;
-            var s = l(n.line, q ? 0 : null, n.ch).start;
-            if (q) {
-                if (r.top < s.top - 2) {
-                    k(r.right, r.top, null, r.bottom);
-                    k(h, s.top, s.left, s.bottom);
+            var p = e2(n, h.line), v = e2(n, d.line);
+            var g = tE(p) == tE(v);
+            var m = c(h.line, h.ch, g ? p.text.length + 1 : null).end;
+            var $ = c(d.line, g ? 0 : null, d.ch).start;
+            if (g) {
+                if (m.top < $.top - 2) {
+                    u(m.right, m.top, null, m.bottom);
+                    u(s, $.top, $.left, $.bottom);
                 } else {
-                    k(r.right, r.top, s.left - r.right, r.bottom);
+                    u(m.right, m.top, $.left - m.right, m.bottom);
                 }
             }
-            if (r.bottom < s.top) {
-                k(h, r.bottom, null, s.top);
+            if (m.bottom < $.top) {
+                u(s, m.bottom, null, $.top);
             }
         }
-        c.appendChild(f);
+        i.appendChild(o);
     }
-    function dr(a) {
-        if (!a.state.focused) {
+    function r$(e) {
+        if (!e.state.focused) {
             return;
         }
-        var b = a.display;
-        clearInterval(b.blinker);
-        var c = true;
-        b.cursorDiv.style.visibility = "";
-        if (a.options.cursorBlinkRate > 0) {
-            b.blinker = setInterval(function() {
-                if (!a.hasFocus()) {
-                    dv(a);
+        var t = e.display;
+        clearInterval(t.blinker);
+        var i = true;
+        t.cursorDiv.style.visibility = "";
+        if (e.options.cursorBlinkRate > 0) {
+            t.blinker = setInterval(function() {
+                if (!e.hasFocus()) {
+                    rb(e);
                 }
-                b.cursorDiv.style.visibility = (c = !c) ? "" : "hidden";
-            }, a.options.cursorBlinkRate);
-        } else if (a.options.cursorBlinkRate < 0) {
-            b.cursorDiv.style.visibility = "hidden";
+                t.cursorDiv.style.visibility = (i = !i) ? "" : "hidden";
+            }, e.options.cursorBlinkRate);
+        } else if (e.options.cursorBlinkRate < 0) {
+            t.cursorDiv.style.visibility = "hidden";
         }
     }
-    function ds(a) {
-        if (!a.hasFocus()) {
-            a.display.input.focus();
-            if (!a.state.focused) {
-                du(a);
+    function ry(e) {
+        if (!e.hasFocus()) {
+            e.display.input.focus();
+            if (!e.state.focused) {
+                rw(e);
             }
         }
     }
-    function dt(a) {
-        a.state.delayingBlurEvent = true;
+    function r_(e) {
+        e.state.delayingBlurEvent = true;
         setTimeout(function() {
-            if (a.state.delayingBlurEvent) {
-                a.state.delayingBlurEvent = false;
-                if (a.state.focused) {
-                    dv(a);
+            if (e.state.delayingBlurEvent) {
+                e.state.delayingBlurEvent = false;
+                if (e.state.focused) {
+                    rb(e);
                 }
             }
         }, 100);
     }
-    function du(a, b) {
-        if (a.state.delayingBlurEvent && !a.state.draggingText) {
-            a.state.delayingBlurEvent = false;
+    function rw(e, t) {
+        if (e.state.delayingBlurEvent && !e.state.draggingText) {
+            e.state.delayingBlurEvent = false;
         }
-        if (a.options.readOnly == "nocursor") {
+        if (e.options.readOnly == "nocursor") {
             return;
         }
-        if (!a.state.focused) {
-            ar(a, "focus", a, b);
-            a.state.focused = true;
-            H(a.display.wrapper, "CodeMirror-focused");
-            if (!a.curOp && a.display.selForContextMenu != a.doc.sel) {
-                a.display.input.reset();
-                if (i) {
+        if (!e.state.focused) {
+            em(e, "focus", e, t);
+            e.state.focused = true;
+            D(e.display.wrapper, "CodeMirror-focused");
+            if (!e.curOp && e.display.selForContextMenu != e.doc.sel) {
+                e.display.input.reset();
+                if (a) {
                     setTimeout(function() {
-                        return a.display.input.reset(true);
+                        return e.display.input.reset(true);
                     }, 20);
                 }
             }
-            a.display.input.receivedFocus();
+            e.display.input.receivedFocus();
         }
-        dr(a);
+        r$(e);
     }
-    function dv(a, b) {
-        if (a.state.delayingBlurEvent) {
+    function rb(e, t) {
+        if (e.state.delayingBlurEvent) {
             return;
         }
-        if (a.state.focused) {
-            ar(a, "blur", a, b);
-            a.state.focused = false;
-            z(a.display.wrapper, "CodeMirror-focused");
+        if (e.state.focused) {
+            em(e, "blur", e, t);
+            e.state.focused = false;
+            S(e.display.wrapper, "CodeMirror-focused");
         }
-        clearInterval(a.display.blinker);
+        clearInterval(e.display.blinker);
         setTimeout(function() {
-            if (!a.state.focused) {
-                a.display.shift = false;
+            if (!e.state.focused) {
+                e.display.shift = false;
             }
         }, 150);
     }
-    function dw(a) {
-        var b = a.display;
-        var c = b.lineDiv.offsetTop;
-        var d = Math.max(0, b.scroller.getBoundingClientRect().top);
-        var e = b.lineDiv.getBoundingClientRect().top;
-        var f = 0;
-        for(var i = 0; i < b.view.length; i++){
-            var j = b.view[i], k = a.options.lineWrapping;
-            var l = void 0, m = 0;
-            if (j.hidden) {
+    function rx(e) {
+        var t = e.display;
+        var i = t.lineDiv.offsetTop;
+        var r = Math.max(0, t.scroller.getBoundingClientRect().top);
+        var n = t.lineDiv.getBoundingClientRect().top;
+        var o = 0;
+        for(var a = 0; a < t.view.length; a++){
+            var f = t.view[a], u = e.options.lineWrapping;
+            var c = void 0, h = 0;
+            if (f.hidden) {
                 continue;
             }
-            e += j.line.height;
-            if (g && h < 8) {
-                var n = j.node.offsetTop + j.node.offsetHeight;
-                l = n - c;
-                c = n;
+            n += f.line.height;
+            if (l && s < 8) {
+                var d = f.node.offsetTop + f.node.offsetHeight;
+                c = d - i;
+                i = d;
             } else {
-                var o = j.node.getBoundingClientRect();
-                l = o.bottom - o.top;
-                if (!k && j.text.firstChild) {
-                    m = j.text.firstChild.getBoundingClientRect().right - o.left - 1;
+                var p = f.node.getBoundingClientRect();
+                c = p.bottom - p.top;
+                if (!u && f.text.firstChild) {
+                    h = f.text.firstChild.getBoundingClientRect().right - p.left - 1;
                 }
             }
-            var p = j.line.height - l;
-            if (p > 0.005 || p < -0.005) {
-                if (e < d) {
-                    f -= p;
+            var v = f.line.height - c;
+            if (v > 0.005 || v < -0.005) {
+                if (n < r) {
+                    o -= v;
                 }
-                a_(j.line, l);
-                dx(j.line);
-                if (j.rest) {
-                    for(var q = 0; q < j.rest.length; q++){
-                        dx(j.rest[q]);
+                eV(f.line, c);
+                rC(f.line);
+                if (f.rest) {
+                    for(var g = 0; g < f.rest.length; g++){
+                        rC(f.rest[g]);
                     }
                 }
             }
-            if (m > a.display.sizerWidth) {
-                var r = Math.ceil(m / c8(a.display));
-                if (r > a.display.maxLineLength) {
-                    a.display.maxLineLength = r;
-                    a.display.maxLine = j.line;
-                    a.display.maxLineChanged = true;
+            if (h > e.display.sizerWidth) {
+                var m = Math.ceil(h / re(e.display));
+                if (m > e.display.maxLineLength) {
+                    e.display.maxLineLength = m;
+                    e.display.maxLine = f.line;
+                    e.display.maxLineChanged = true;
                 }
             }
         }
-        if (Math.abs(f) > 2) {
-            b.scroller.scrollTop += f;
+        if (Math.abs(o) > 2) {
+            t.scroller.scrollTop += o;
         }
     }
-    function dx(a) {
-        if (a.widgets) {
-            for(var b = 0; b < a.widgets.length; ++b){
-                var c = a.widgets[b], d = c.node.parentNode;
-                if (d) {
-                    c.height = d.offsetHeight;
+    function rC(e) {
+        if (e.widgets) {
+            for(var t = 0; t < e.widgets.length; ++t){
+                var i = e.widgets[t], r = i.node.parentNode;
+                if (r) {
+                    i.height = r.offsetHeight;
                 }
             }
         }
     }
-    function dy(a, b, c) {
-        var d = c && c.top != null ? Math.max(0, c.top) : a.scroller.scrollTop;
-        d = Math.floor(d - cx(a));
-        var e = c && c.bottom != null ? c.bottom : d + a.wrapper.clientHeight;
-        var f = a1(b, d), g = a1(b, e);
-        if (c && c.ensure) {
-            var h = c.ensure.from.line, i = c.ensure.to.line;
-            if (h < f) {
-                f = h;
-                g = a1(b, bW(aY(b, h)) + a.wrapper.clientHeight);
-            } else if (Math.min(i, b.lastLine()) >= g) {
-                f = a1(b, bW(aY(b, i)) - a.wrapper.clientHeight);
-                g = i;
+    function rS(e, t, i) {
+        var r = i && i.top != null ? Math.max(0, i.top) : e.scroller.scrollTop;
+        r = Math.floor(r - iS(e));
+        var n = i && i.bottom != null ? i.bottom : r + e.wrapper.clientHeight;
+        var o = eX(t, r), l = eX(t, n);
+        if (i && i.ensure) {
+            var s = i.ensure.from.line, a = i.ensure.to.line;
+            if (s < o) {
+                o = s;
+                l = eX(t, t6(e2(t, s)) + e.wrapper.clientHeight);
+            } else if (Math.min(a, t.lastLine()) >= l) {
+                o = eX(t, t6(e2(t, a)) - e.wrapper.clientHeight);
+                l = a;
             }
         }
         return {
-            from: f,
-            to: Math.max(g, f + 1)
+            from: o,
+            to: Math.max(l, o + 1)
         };
     }
-    function dz(a, b) {
-        if (as(a, "scrollCursorIntoView")) {
+    function rk(e, t) {
+        if (e$(e, "scrollCursorIntoView")) {
             return;
         }
-        var c = a.display, d = c.sizer.getBoundingClientRect(), e = null;
-        if (b.top + d.top < 0) {
-            e = true;
-        } else if (b.bottom + d.top > (window.innerHeight || document.documentElement.clientHeight)) {
-            e = false;
+        var i = e.display, r = i.sizer.getBoundingClientRect(), n = null;
+        if (t.top + r.top < 0) {
+            n = true;
+        } else if (t.bottom + r.top > (window.innerHeight || document.documentElement.clientHeight)) {
+            n = false;
         }
-        if (e != null && !o) {
-            var f = C("div", "\u200b", null, "position: absolute;\n                         top: " + (b.top - c.viewOffset - cx(a.display)) + "px;\n                         height: " + (b.bottom - b.top + cA(a) + c.barHeight) + "px;\n                         left: " + b.left + "px; width: " + Math.max(2, b.right - b.left) + "px;");
-            a.display.lineSpace.appendChild(f);
-            f.scrollIntoView(e);
-            a.display.lineSpace.removeChild(f);
+        if (n != null && !p) {
+            var o = L("div", "\u200b", null, "position: absolute;\n                         top: " + (t.top - i.viewOffset - iS(e.display)) + "px;\n                         height: " + (t.bottom - t.top + iL(e) + i.barHeight) + "px;\n                         left: " + t.left + "px; width: " + Math.max(2, t.right - t.left) + "px;");
+            e.display.lineSpace.appendChild(o);
+            o.scrollIntoView(n);
+            e.display.lineSpace.removeChild(o);
         }
     }
-    function dA(a, b, c, d) {
-        if (d == null) {
-            d = 0;
+    function rT(e, t, i, r) {
+        if (r == null) {
+            r = 0;
         }
-        var e;
-        if (!a.options.lineWrapping && b == c) {
-            c = b.sticky == "before" ? a4(b.line, b.ch + 1, "before") : b;
-            b = b.ch ? a4(b.line, b.sticky == "before" ? b.ch - 1 : b.ch, "after") : b;
+        var n;
+        if (!e.options.lineWrapping && t == i) {
+            i = t.sticky == "before" ? e9(t.line, t.ch + 1, "before") : t;
+            t = t.ch ? e9(t.line, t.sticky == "before" ? t.ch - 1 : t.ch, "after") : t;
         }
-        for(var f = 0; f < 5; f++){
-            var g = false;
-            var h = cY(a, b);
-            var i = !c || c == b ? h : cY(a, c);
-            e = {
-                left: Math.min(h.left, i.left),
-                top: Math.min(h.top, i.top) - d,
-                right: Math.max(h.left, i.left),
-                bottom: Math.max(h.bottom, i.bottom) + d
+        for(var o = 0; o < 5; o++){
+            var l = false;
+            var s = iU(e, t);
+            var a = !i || i == t ? s : iU(e, i);
+            n = {
+                left: Math.min(s.left, a.left),
+                top: Math.min(s.top, a.top) - r,
+                right: Math.max(s.left, a.left),
+                bottom: Math.max(s.bottom, a.bottom) + r
             };
-            var j = dC(a, e);
-            var k = a.doc.scrollTop, l = a.doc.scrollLeft;
-            if (j.scrollTop != null) {
-                dJ(a, j.scrollTop);
-                if (Math.abs(a.doc.scrollTop - k) > 1) {
-                    g = true;
+            var f = rO(e, n);
+            var u = e.doc.scrollTop, c = e.doc.scrollLeft;
+            if (f.scrollTop != null) {
+                rF(e, f.scrollTop);
+                if (Math.abs(e.doc.scrollTop - u) > 1) {
+                    l = true;
                 }
             }
-            if (j.scrollLeft != null) {
-                dL(a, j.scrollLeft);
-                if (Math.abs(a.doc.scrollLeft - l) > 1) {
-                    g = true;
+            if (f.scrollLeft != null) {
+                r1(e, f.scrollLeft);
+                if (Math.abs(e.doc.scrollLeft - c) > 1) {
+                    l = true;
                 }
             }
-            if (!g) {
+            if (!l) {
                 break;
             }
         }
-        return e;
+        return n;
     }
-    function dB(a, b) {
-        var c = dC(a, b);
-        if (c.scrollTop != null) {
-            dJ(a, c.scrollTop);
+    function rL(e, t) {
+        var i = rO(e, t);
+        if (i.scrollTop != null) {
+            rF(e, i.scrollTop);
         }
-        if (c.scrollLeft != null) {
-            dL(a, c.scrollLeft);
+        if (i.scrollLeft != null) {
+            r1(e, i.scrollLeft);
         }
     }
-    function dC(a, b) {
-        var c = a.display, d = c7(a.display);
-        if (b.top < 0) {
-            b.top = 0;
+    function rO(e, t) {
+        var i = e.display, r = iQ(e.display);
+        if (t.top < 0) {
+            t.top = 0;
         }
-        var e = a.curOp && a.curOp.scrollTop != null ? a.curOp.scrollTop : c.scroller.scrollTop;
-        var f = cC(a), g = {};
-        if (b.bottom - b.top > f) {
-            b.bottom = b.top + f;
+        var n = e.curOp && e.curOp.scrollTop != null ? e.curOp.scrollTop : i.scroller.scrollTop;
+        var o = i0(e), l = {};
+        if (t.bottom - t.top > o) {
+            t.bottom = t.top + o;
         }
-        var h = a.doc.height + cy(c);
-        var i = b.top < d, j = b.bottom > h - d;
-        if (b.top < e) {
-            g.scrollTop = i ? 0 : b.top;
-        } else if (b.bottom > e + f) {
-            var k = Math.min(b.top, (j ? h : b.bottom) - f);
-            if (k != e) {
-                g.scrollTop = k;
+        var s = e.doc.height + ik(i);
+        var a = t.top < r, f = t.bottom > s - r;
+        if (t.top < n) {
+            l.scrollTop = a ? 0 : t.top;
+        } else if (t.bottom > n + o) {
+            var u = Math.min(t.top, (f ? s : t.bottom) - o);
+            if (u != n) {
+                l.scrollTop = u;
             }
         }
-        var l = a.options.fixedGutter ? 0 : c.gutters.offsetWidth;
-        var m = a.curOp && a.curOp.scrollLeft != null ? a.curOp.scrollLeft : c.scroller.scrollLeft - l;
-        var n = cB(a) - c.gutters.offsetWidth;
-        var o = b.right - b.left > n;
-        if (o) {
-            b.right = b.left + n;
+        var c = e.options.fixedGutter ? 0 : i.gutters.offsetWidth;
+        var h = e.curOp && e.curOp.scrollLeft != null ? e.curOp.scrollLeft : i.scroller.scrollLeft - c;
+        var d = iO(e) - i.gutters.offsetWidth;
+        var p = t.right - t.left > d;
+        if (p) {
+            t.right = t.left + d;
         }
-        if (b.left < 10) {
-            g.scrollLeft = 0;
-        } else if (b.left < m) {
-            g.scrollLeft = Math.max(0, b.left + l - (o ? 0 : 10));
-        } else if (b.right > n + m - 3) {
-            g.scrollLeft = b.right + (o ? 0 : 10) - n;
+        if (t.left < 10) {
+            l.scrollLeft = 0;
+        } else if (t.left < h) {
+            l.scrollLeft = Math.max(0, t.left + c - (p ? 0 : 10));
+        } else if (t.right > d + h - 3) {
+            l.scrollLeft = t.right + (p ? 0 : 10) - d;
         }
-        return g;
+        return l;
     }
-    function dD(a, b) {
-        if (b == null) {
+    function r0(e, t) {
+        if (t == null) {
             return;
         }
-        dH(a);
-        a.curOp.scrollTop = (a.curOp.scrollTop == null ? a.doc.scrollTop : a.curOp.scrollTop) + b;
+        rD(e);
+        e.curOp.scrollTop = (e.curOp.scrollTop == null ? e.doc.scrollTop : e.curOp.scrollTop) + t;
     }
-    function dE(a) {
-        dH(a);
-        var b = a.getCursor();
-        a.curOp.scrollToPos = {
-            from: b,
-            to: b,
-            margin: a.options.cursorScrollMargin
+    function rW(e) {
+        rD(e);
+        var t = e.getCursor();
+        e.curOp.scrollToPos = {
+            from: t,
+            to: t,
+            margin: e.options.cursorScrollMargin
         };
     }
-    function dF(a, b, c) {
-        if (b != null || c != null) {
-            dH(a);
+    function rN(e, t, i) {
+        if (t != null || i != null) {
+            rD(e);
         }
-        if (b != null) {
-            a.curOp.scrollLeft = b;
+        if (t != null) {
+            e.curOp.scrollLeft = t;
         }
-        if (c != null) {
-            a.curOp.scrollTop = c;
-        }
-    }
-    function dG(a, b) {
-        dH(a);
-        a.curOp.scrollToPos = b;
-    }
-    function dH(a) {
-        var b = a.curOp.scrollToPos;
-        if (b) {
-            a.curOp.scrollToPos = null;
-            var c = cZ(a, b.from), d = cZ(a, b.to);
-            dI(a, c, d, b.margin);
+        if (i != null) {
+            e.curOp.scrollTop = i;
         }
     }
-    function dI(a, b, c, d) {
-        var e = dC(a, {
-            left: Math.min(b.left, c.left),
-            top: Math.min(b.top, c.top) - d,
-            right: Math.max(b.right, c.right),
-            bottom: Math.max(b.bottom, c.bottom) + d
+    function rA(e, t) {
+        rD(e);
+        e.curOp.scrollToPos = t;
+    }
+    function rD(e) {
+        var t = e.curOp.scrollToPos;
+        if (t) {
+            e.curOp.scrollToPos = null;
+            var i = iV(e, t.from), r = iV(e, t.to);
+            rH(e, i, r, t.margin);
+        }
+    }
+    function rH(e, t, i, r) {
+        var n = rO(e, {
+            left: Math.min(t.left, i.left),
+            top: Math.min(t.top, i.top) - r,
+            right: Math.max(t.right, i.right),
+            bottom: Math.max(t.bottom, i.bottom) + r
         });
-        dF(a, e.scrollLeft, e.scrollTop);
+        rN(e, n.scrollLeft, n.scrollTop);
     }
-    function dJ(a, b) {
-        if (Math.abs(a.doc.scrollTop - b) < 2) {
+    function rF(e, t) {
+        if (Math.abs(e.doc.scrollTop - t) < 2) {
             return;
         }
-        if (!c) {
-            ec(a, {
-                top: b
+        if (!i) {
+            nr(e, {
+                top: t
             });
         }
-        dK(a, b, true);
-        if (c) {
-            ec(a);
+        rM(e, t, true);
+        if (i) {
+            nr(e);
         }
-        d4(a, 100);
+        rq(e, 100);
     }
-    function dK(a, b, c) {
-        b = Math.max(0, Math.min(a.display.scroller.scrollHeight - a.display.scroller.clientHeight, b));
-        if (a.display.scroller.scrollTop == b && !c) {
+    function rM(e, t, i) {
+        t = Math.max(0, Math.min(e.display.scroller.scrollHeight - e.display.scroller.clientHeight, t));
+        if (e.display.scroller.scrollTop == t && !i) {
             return;
         }
-        a.doc.scrollTop = b;
-        a.display.scrollbars.setScrollTop(b);
-        if (a.display.scroller.scrollTop != b) {
-            a.display.scroller.scrollTop = b;
+        e.doc.scrollTop = t;
+        e.display.scrollbars.setScrollTop(t);
+        if (e.display.scroller.scrollTop != t) {
+            e.display.scroller.scrollTop = t;
         }
     }
-    function dL(a, b, c, d) {
-        b = Math.max(0, Math.min(b, a.display.scroller.scrollWidth - a.display.scroller.clientWidth));
-        if ((c ? b == a.doc.scrollLeft : Math.abs(a.doc.scrollLeft - b) < 2) && !d) {
+    function r1(e, t, i, r) {
+        t = Math.max(0, Math.min(t, e.display.scroller.scrollWidth - e.display.scroller.clientWidth));
+        if ((i ? t == e.doc.scrollLeft : Math.abs(e.doc.scrollLeft - t) < 2) && !r) {
             return;
         }
-        a.doc.scrollLeft = b;
-        eg(a);
-        if (a.display.scroller.scrollLeft != b) {
-            a.display.scroller.scrollLeft = b;
+        e.doc.scrollLeft = t;
+        ns(e);
+        if (e.display.scroller.scrollLeft != t) {
+            e.display.scroller.scrollLeft = t;
         }
-        a.display.scrollbars.setScrollLeft(b);
+        e.display.scrollbars.setScrollLeft(t);
     }
-    function dM(a) {
-        var b = a.display, c = b.gutters.offsetWidth;
-        var d = Math.round(a.doc.height + cy(a.display));
+    function rP(e) {
+        var t = e.display, i = t.gutters.offsetWidth;
+        var r = Math.round(e.doc.height + ik(e.display));
         return {
-            clientHeight: b.scroller.clientHeight,
-            viewHeight: b.wrapper.clientHeight,
-            scrollWidth: b.scroller.scrollWidth,
-            clientWidth: b.scroller.clientWidth,
-            viewWidth: b.wrapper.clientWidth,
-            barLeft: a.options.fixedGutter ? c : 0,
-            docHeight: d,
-            scrollHeight: d + cA(a) + b.barHeight,
-            nativeBarWidth: b.nativeBarWidth,
-            gutterWidth: c
+            clientHeight: t.scroller.clientHeight,
+            viewHeight: t.wrapper.clientHeight,
+            scrollWidth: t.scroller.scrollWidth,
+            clientWidth: t.scroller.clientWidth,
+            viewWidth: t.wrapper.clientWidth,
+            barLeft: e.options.fixedGutter ? i : 0,
+            docHeight: r,
+            scrollHeight: r + iL(e) + t.barHeight,
+            nativeBarWidth: t.nativeBarWidth,
+            gutterWidth: i
         };
     }
-    var dN = function(a, b, c) {
-        this.cm = c;
-        var d = (this.vert = C("div", [
-            C("div", null, null, "min-width: 1px")
+    var rz = function(e, t, i) {
+        this.cm = i;
+        var r = (this.vert = L("div", [
+            L("div", null, null, "min-width: 1px")
         ], "CodeMirror-vscrollbar"));
-        var e = (this.horiz = C("div", [
-            C("div", null, null, "height: 100%; min-height: 1px")
+        var n = (this.horiz = L("div", [
+            L("div", null, null, "height: 100%; min-height: 1px")
         ], "CodeMirror-hscrollbar"));
-        d.tabIndex = e.tabIndex = -1;
-        a(d);
-        a(e);
-        ao(d, "scroll", function() {
-            if (d.clientHeight) {
-                b(d.scrollTop, "vertical");
+        r.tabIndex = n.tabIndex = -1;
+        e(r);
+        e(n);
+        ep(r, "scroll", function() {
+            if (r.clientHeight) {
+                t(r.scrollTop, "vertical");
             }
         });
-        ao(e, "scroll", function() {
-            if (e.clientWidth) {
-                b(e.scrollLeft, "horizontal");
+        ep(n, "scroll", function() {
+            if (n.clientWidth) {
+                t(n.scrollLeft, "horizontal");
             }
         });
         this.checkedZeroWidth = false;
-        if (g && h < 8) {
+        if (l && s < 8) {
             this.horiz.style.minHeight = this.vert.style.minWidth = "18px";
         }
     };
-    dN.prototype.update = function(a) {
-        var b = a.scrollWidth > a.clientWidth + 1;
-        var c = a.scrollHeight > a.clientHeight + 1;
-        var d = a.nativeBarWidth;
-        if (c) {
+    rz.prototype.update = function(e) {
+        var t = e.scrollWidth > e.clientWidth + 1;
+        var i = e.scrollHeight > e.clientHeight + 1;
+        var r = e.nativeBarWidth;
+        if (i) {
             this.vert.style.display = "block";
-            this.vert.style.bottom = b ? d + "px" : "0";
-            var e = a.viewHeight - (b ? d : 0);
-            this.vert.firstChild.style.height = Math.max(0, a.scrollHeight - a.clientHeight + e) + "px";
+            this.vert.style.bottom = t ? r + "px" : "0";
+            var n = e.viewHeight - (t ? r : 0);
+            this.vert.firstChild.style.height = Math.max(0, e.scrollHeight - e.clientHeight + n) + "px";
         } else {
             this.vert.scrollTop = 0;
             this.vert.style.display = "";
             this.vert.firstChild.style.height = "0";
         }
-        if (b) {
+        if (t) {
             this.horiz.style.display = "block";
-            this.horiz.style.right = c ? d + "px" : "0";
-            this.horiz.style.left = a.barLeft + "px";
-            var f = a.viewWidth - a.barLeft - (c ? d : 0);
-            this.horiz.firstChild.style.width = Math.max(0, a.scrollWidth - a.clientWidth + f) + "px";
+            this.horiz.style.right = i ? r + "px" : "0";
+            this.horiz.style.left = e.barLeft + "px";
+            var o = e.viewWidth - e.barLeft - (i ? r : 0);
+            this.horiz.firstChild.style.width = Math.max(0, e.scrollWidth - e.clientWidth + o) + "px";
         } else {
             this.horiz.style.display = "";
             this.horiz.firstChild.style.width = "0";
         }
-        if (!this.checkedZeroWidth && a.clientHeight > 0) {
-            if (d == 0) {
+        if (!this.checkedZeroWidth && e.clientHeight > 0) {
+            if (r == 0) {
                 this.zeroWidthHack();
             }
             this.checkedZeroWidth = true;
         }
         return {
-            right: c ? d : 0,
-            bottom: b ? d : 0
+            right: i ? r : 0,
+            bottom: t ? r : 0
         };
     };
-    dN.prototype.setScrollLeft = function(a) {
-        if (this.horiz.scrollLeft != a) {
-            this.horiz.scrollLeft = a;
+    rz.prototype.setScrollLeft = function(e) {
+        if (this.horiz.scrollLeft != e) {
+            this.horiz.scrollLeft = e;
         }
         if (this.disableHoriz) {
             this.enableZeroWidthBar(this.horiz, this.disableHoriz, "horiz");
         }
     };
-    dN.prototype.setScrollTop = function(a) {
-        if (this.vert.scrollTop != a) {
-            this.vert.scrollTop = a;
+    rz.prototype.setScrollTop = function(e) {
+        if (this.vert.scrollTop != e) {
+            this.vert.scrollTop = e;
         }
         if (this.disableVert) {
             this.enableZeroWidthBar(this.vert, this.disableVert, "vert");
         }
     };
-    dN.prototype.zeroWidthHack = function() {
-        var a = s && !n ? "12px" : "18px";
-        this.horiz.style.height = this.vert.style.width = a;
+    rz.prototype.zeroWidthHack = function() {
+        var e = $ && !d ? "12px" : "18px";
+        this.horiz.style.height = this.vert.style.width = e;
         this.horiz.style.pointerEvents = this.vert.style.pointerEvents = "none";
-        this.disableHoriz = new N();
-        this.disableVert = new N();
+        this.disableHoriz = new E();
+        this.disableVert = new E();
     };
-    dN.prototype.enableZeroWidthBar = function(a, b, c) {
-        a.style.pointerEvents = "auto";
-        function d() {
-            var e = a.getBoundingClientRect();
-            var f = c == "vert" ? document.elementFromPoint(e.right - 1, (e.top + e.bottom) / 2) : document.elementFromPoint((e.right + e.left) / 2, e.bottom - 1);
-            if (f != a) {
-                a.style.pointerEvents = "none";
+    rz.prototype.enableZeroWidthBar = function(e, t, i) {
+        e.style.pointerEvents = "auto";
+        function r() {
+            var n = e.getBoundingClientRect();
+            var o = i == "vert" ? document.elementFromPoint(n.right - 1, (n.top + n.bottom) / 2) : document.elementFromPoint((n.right + n.left) / 2, n.bottom - 1);
+            if (o != e) {
+                e.style.pointerEvents = "none";
             } else {
-                b.set(1000, d);
+                t.set(1000, r);
             }
         }
-        b.set(1000, d);
+        t.set(1000, r);
     };
-    dN.prototype.clear = function() {
-        var a = this.horiz.parentNode;
-        a.removeChild(this.horiz);
-        a.removeChild(this.vert);
+    rz.prototype.clear = function() {
+        var e = this.horiz.parentNode;
+        e.removeChild(this.horiz);
+        e.removeChild(this.vert);
     };
-    var dO = function() {};
-    dO.prototype.update = function() {
+    var rE = function() {};
+    rE.prototype.update = function() {
         return {
             bottom: 0,
             right: 0
         };
     };
-    dO.prototype.setScrollLeft = function() {};
-    dO.prototype.setScrollTop = function() {};
-    dO.prototype.clear = function() {};
-    function dP(a, b) {
-        if (!b) {
-            b = dM(a);
+    rE.prototype.setScrollLeft = function() {};
+    rE.prototype.setScrollTop = function() {};
+    rE.prototype.clear = function() {};
+    function rI(e, t) {
+        if (!t) {
+            t = rP(e);
         }
-        var c = a.display.barWidth, d = a.display.barHeight;
-        dQ(a, b);
-        for(var e = 0; (e < 4 && c != a.display.barWidth) || d != a.display.barHeight; e++){
-            if (c != a.display.barWidth && a.options.lineWrapping) {
-                dw(a);
+        var i = e.display.barWidth, r = e.display.barHeight;
+        rR(e, t);
+        for(var n = 0; (n < 4 && i != e.display.barWidth) || r != e.display.barHeight; n++){
+            if (i != e.display.barWidth && e.options.lineWrapping) {
+                rx(e);
             }
-            dQ(a, dM(a));
-            c = a.display.barWidth;
-            d = a.display.barHeight;
+            rR(e, rP(e));
+            i = e.display.barWidth;
+            r = e.display.barHeight;
         }
     }
-    function dQ(a, b) {
-        var c = a.display;
-        var d = c.scrollbars.update(b);
-        c.sizer.style.paddingRight = (c.barWidth = d.right) + "px";
-        c.sizer.style.paddingBottom = (c.barHeight = d.bottom) + "px";
-        c.heightForcer.style.borderBottom = d.bottom + "px solid transparent";
-        if (d.right && d.bottom) {
-            c.scrollbarFiller.style.display = "block";
-            c.scrollbarFiller.style.height = d.bottom + "px";
-            c.scrollbarFiller.style.width = d.right + "px";
+    function rR(e, t) {
+        var i = e.display;
+        var r = i.scrollbars.update(t);
+        i.sizer.style.paddingRight = (i.barWidth = r.right) + "px";
+        i.sizer.style.paddingBottom = (i.barHeight = r.bottom) + "px";
+        i.heightForcer.style.borderBottom = r.bottom + "px solid transparent";
+        if (r.right && r.bottom) {
+            i.scrollbarFiller.style.display = "block";
+            i.scrollbarFiller.style.height = r.bottom + "px";
+            i.scrollbarFiller.style.width = r.right + "px";
         } else {
-            c.scrollbarFiller.style.display = "";
+            i.scrollbarFiller.style.display = "";
         }
-        if (d.bottom && a.options.coverGutterNextToScrollbar && a.options.fixedGutter) {
-            c.gutterFiller.style.display = "block";
-            c.gutterFiller.style.height = d.bottom + "px";
-            c.gutterFiller.style.width = b.gutterWidth + "px";
+        if (r.bottom && e.options.coverGutterNextToScrollbar && e.options.fixedGutter) {
+            i.gutterFiller.style.display = "block";
+            i.gutterFiller.style.height = r.bottom + "px";
+            i.gutterFiller.style.width = t.gutterWidth + "px";
         } else {
-            c.gutterFiller.style.display = "";
+            i.gutterFiller.style.display = "";
         }
     }
-    var dR = {
-        native: dN,
-        null: dO
+    var r3 = {
+        native: rz,
+        null: rE
     };
-    function dS(a) {
-        if (a.display.scrollbars) {
-            a.display.scrollbars.clear();
-            if (a.display.scrollbars.addClass) {
-                z(a.display.wrapper, a.display.scrollbars.addClass);
+    function r7(e) {
+        if (e.display.scrollbars) {
+            e.display.scrollbars.clear();
+            if (e.display.scrollbars.addClass) {
+                S(e.display.wrapper, e.display.scrollbars.addClass);
             }
         }
-        a.display.scrollbars = new dR[a.options.scrollbarStyle](function(b) {
-            a.display.wrapper.insertBefore(b, a.display.scrollbarFiller);
-            ao(b, "mousedown", function() {
-                if (a.state.focused) {
+        e.display.scrollbars = new r3[e.options.scrollbarStyle](function(t) {
+            e.display.wrapper.insertBefore(t, e.display.scrollbarFiller);
+            ep(t, "mousedown", function() {
+                if (e.state.focused) {
                     setTimeout(function() {
-                        return a.display.input.focus();
+                        return e.display.input.focus();
                     }, 0);
                 }
             });
-            b.setAttribute("cm-not-content", "true");
-        }, function(b, c) {
-            if (c == "horizontal") {
-                dL(a, b);
+            t.setAttribute("cm-not-content", "true");
+        }, function(t, i) {
+            if (i == "horizontal") {
+                r1(e, t);
             } else {
-                dJ(a, b);
+                rF(e, t);
             }
-        }, a);
-        if (a.display.scrollbars.addClass) {
-            H(a.display.wrapper, a.display.scrollbars.addClass);
+        }, e);
+        if (e.display.scrollbars.addClass) {
+            D(e.display.wrapper, e.display.scrollbars.addClass);
         }
     }
-    var dT = 0;
-    function dU(a) {
-        a.curOp = {
-            cm: a,
+    var rB = 0;
+    function r4(e) {
+        e.curOp = {
+            cm: e,
             viewChanged: false,
-            startHeight: a.doc.height,
+            startHeight: e.doc.height,
             forceUpdate: false,
             updateInput: 0,
             typing: false,
@@ -4092,2436 +4092,2436 @@
             scrollTop: null,
             scrollToPos: null,
             focus: false,
-            id: ++dT,
+            id: ++rB,
             markArrays: null
         };
-        cd(a.curOp);
+        ir(e.curOp);
     }
-    function dV(a) {
-        var b = a.curOp;
-        if (b) {
-            cf(b, function(a) {
-                for(var b = 0; b < a.ops.length; b++){
-                    a.ops[b].cm.curOp = null;
+    function r6(e) {
+        var t = e.curOp;
+        if (t) {
+            il(t, function(e) {
+                for(var t = 0; t < e.ops.length; t++){
+                    e.ops[t].cm.curOp = null;
                 }
-                dW(a);
+                r5(e);
             });
         }
     }
-    function dW(a) {
-        var b = a.ops;
-        for(var c = 0; c < b.length; c++){
-            dX(b[c]);
+    function r5(e) {
+        var t = e.ops;
+        for(var i = 0; i < t.length; i++){
+            r2(t[i]);
         }
-        for(var d = 0; d < b.length; d++){
-            dY(b[d]);
+        for(var r = 0; r < t.length; r++){
+            rG(t[r]);
         }
-        for(var e = 0; e < b.length; e++){
-            dZ(b[e]);
+        for(var n = 0; n < t.length; n++){
+            rU(t[n]);
         }
-        for(var f = 0; f < b.length; f++){
-            d$(b[f]);
+        for(var o = 0; o < t.length; o++){
+            rV(t[o]);
         }
-        for(var g = 0; g < b.length; g++){
-            d_(b[g]);
-        }
-    }
-    function dX(a) {
-        var b = a.cm, c = b.display;
-        d7(b);
-        if (a.updateMaxLine) {
-            bY(b);
-        }
-        a.mustUpdate = a.viewChanged || a.forceUpdate || a.scrollTop != null || (a.scrollToPos && (a.scrollToPos.from.line < c.viewFrom || a.scrollToPos.to.line >= c.viewTo)) || (c.maxLineChanged && b.options.lineWrapping);
-        a.update = a.mustUpdate && new d6(b, a.mustUpdate && {
-            top: a.scrollTop,
-            ensure: a.scrollToPos
-        }, a.forceUpdate);
-    }
-    function dY(a) {
-        a.updatedDisplay = a.mustUpdate && ea(a.cm, a.update);
-    }
-    function dZ(a) {
-        var b = a.cm, c = b.display;
-        if (a.updatedDisplay) {
-            dw(b);
-        }
-        a.barMeasure = dM(b);
-        if (c.maxLineChanged && !b.options.lineWrapping) {
-            a.adjustWidthTo = cG(b, c.maxLine, c.maxLine.text.length).left + 3;
-            b.display.sizerWidth = a.adjustWidthTo;
-            a.barMeasure.scrollWidth = Math.max(c.scroller.clientWidth, c.sizer.offsetLeft + a.adjustWidthTo + cA(b) + b.display.barWidth);
-            a.maxScrollLeft = Math.max(0, c.sizer.offsetLeft + a.adjustWidthTo - cB(b));
-        }
-        if (a.updatedDisplay || a.selectionChanged) {
-            a.preparedSelection = c.input.prepareSelection();
+        for(var l = 0; l < t.length; l++){
+            rK(t[l]);
         }
     }
-    function d$(a) {
-        var b = a.cm;
-        if (a.adjustWidthTo != null) {
-            b.display.sizer.style.minWidth = a.adjustWidthTo + "px";
-            if (a.maxScrollLeft < b.doc.scrollLeft) {
-                dL(b, Math.min(b.display.scroller.scrollLeft, a.maxScrollLeft), true);
+    function r2(e) {
+        var t = e.cm, i = t.display;
+        rJ(t);
+        if (e.updateMaxLine) {
+            t2(t);
+        }
+        e.mustUpdate = e.viewChanged || e.forceUpdate || e.scrollTop != null || (e.scrollToPos && (e.scrollToPos.from.line < i.viewFrom || e.scrollToPos.to.line >= i.viewTo)) || (i.maxLineChanged && t.options.lineWrapping);
+        e.update = e.mustUpdate && new rZ(t, e.mustUpdate && {
+            top: e.scrollTop,
+            ensure: e.scrollToPos
+        }, e.forceUpdate);
+    }
+    function rG(e) {
+        e.updatedDisplay = e.mustUpdate && nt(e.cm, e.update);
+    }
+    function rU(e) {
+        var t = e.cm, i = t.display;
+        if (e.updatedDisplay) {
+            rx(t);
+        }
+        e.barMeasure = rP(t);
+        if (i.maxLineChanged && !t.options.lineWrapping) {
+            e.adjustWidthTo = iD(t, i.maxLine, i.maxLine.text.length).left + 3;
+            t.display.sizerWidth = e.adjustWidthTo;
+            e.barMeasure.scrollWidth = Math.max(i.scroller.clientWidth, i.sizer.offsetLeft + e.adjustWidthTo + iL(t) + t.display.barWidth);
+            e.maxScrollLeft = Math.max(0, i.sizer.offsetLeft + e.adjustWidthTo - iO(t));
+        }
+        if (e.updatedDisplay || e.selectionChanged) {
+            e.preparedSelection = i.input.prepareSelection();
+        }
+    }
+    function rV(e) {
+        var t = e.cm;
+        if (e.adjustWidthTo != null) {
+            t.display.sizer.style.minWidth = e.adjustWidthTo + "px";
+            if (e.maxScrollLeft < t.doc.scrollLeft) {
+                r1(t, Math.min(t.display.scroller.scrollLeft, e.maxScrollLeft), true);
             }
-            b.display.maxLineChanged = false;
+            t.display.maxLineChanged = false;
         }
-        var c = a.focus && a.focus == G();
-        if (a.preparedSelection) {
-            b.display.input.showSelection(a.preparedSelection, c);
+        var i = e.focus && e.focus == A();
+        if (e.preparedSelection) {
+            t.display.input.showSelection(e.preparedSelection, i);
         }
-        if (a.updatedDisplay || a.startHeight != b.doc.height) {
-            dP(b, a.barMeasure);
+        if (e.updatedDisplay || e.startHeight != t.doc.height) {
+            rI(t, e.barMeasure);
         }
-        if (a.updatedDisplay) {
-            ef(b, a.barMeasure);
+        if (e.updatedDisplay) {
+            nl(t, e.barMeasure);
         }
-        if (a.selectionChanged) {
-            dr(b);
+        if (e.selectionChanged) {
+            r$(t);
         }
-        if (b.state.focused && a.updateInput) {
-            b.display.input.reset(a.typing);
+        if (t.state.focused && e.updateInput) {
+            t.display.input.reset(e.typing);
         }
-        if (c) {
-            ds(a.cm);
+        if (i) {
+            ry(e.cm);
         }
     }
-    function d_(a) {
-        var b = a.cm, c = b.display, d = b.doc;
-        if (a.updatedDisplay) {
-            eb(b, a.update);
+    function rK(e) {
+        var t = e.cm, i = t.display, r = t.doc;
+        if (e.updatedDisplay) {
+            ni(t, e.update);
         }
-        if (c.wheelStartX != null && (a.scrollTop != null || a.scrollLeft != null || a.scrollToPos)) {
-            c.wheelStartX = c.wheelStartY = null;
+        if (i.wheelStartX != null && (e.scrollTop != null || e.scrollLeft != null || e.scrollToPos)) {
+            i.wheelStartX = i.wheelStartY = null;
         }
-        if (a.scrollTop != null) {
-            dK(b, a.scrollTop, a.forceScroll);
+        if (e.scrollTop != null) {
+            rM(t, e.scrollTop, e.forceScroll);
         }
-        if (a.scrollLeft != null) {
-            dL(b, a.scrollLeft, true, true);
+        if (e.scrollLeft != null) {
+            r1(t, e.scrollLeft, true, true);
         }
-        if (a.scrollToPos) {
-            var e = dA(b, bb(d, a.scrollToPos.from), bb(d, a.scrollToPos.to), a.scrollToPos.margin);
-            dz(b, e);
+        if (e.scrollToPos) {
+            var n = rT(t, tt(r, e.scrollToPos.from), tt(r, e.scrollToPos.to), e.scrollToPos.margin);
+            rk(t, n);
         }
-        var f = a.maybeHiddenMarkers, g = a.maybeUnhiddenMarkers;
-        if (f) {
-            for(var h = 0; h < f.length; ++h){
-                if (!f[h].lines.length) {
-                    ar(f[h], "hide");
+        var o = e.maybeHiddenMarkers, l = e.maybeUnhiddenMarkers;
+        if (o) {
+            for(var s = 0; s < o.length; ++s){
+                if (!o[s].lines.length) {
+                    em(o[s], "hide");
                 }
             }
         }
-        if (g) {
-            for(var i = 0; i < g.length; ++i){
-                if (g[i].lines.length) {
-                    ar(g[i], "unhide");
+        if (l) {
+            for(var a = 0; a < l.length; ++a){
+                if (l[a].lines.length) {
+                    em(l[a], "unhide");
                 }
             }
         }
-        if (c.wrapper.offsetHeight) {
-            d.scrollTop = b.display.scroller.scrollTop;
+        if (i.wrapper.offsetHeight) {
+            r.scrollTop = t.display.scroller.scrollTop;
         }
-        if (a.changeObjs) {
-            ar(b, "changes", b, a.changeObjs);
+        if (e.changeObjs) {
+            em(t, "changes", t, e.changeObjs);
         }
-        if (a.update) {
-            a.update.finish();
+        if (e.update) {
+            e.update.finish();
         }
     }
-    function d0(a, b) {
-        if (a.curOp) {
-            return b();
+    function rX(e, t) {
+        if (e.curOp) {
+            return t();
         }
-        dU(a);
+        r4(e);
         try {
-            return b();
+            return t();
         } finally{
-            dV(a);
+            r6(e);
         }
     }
-    function d1(a, b) {
+    function rY(e, t) {
         return function() {
-            if (a.curOp) {
-                return b.apply(a, arguments);
+            if (e.curOp) {
+                return t.apply(e, arguments);
             }
-            dU(a);
+            r4(e);
             try {
-                return b.apply(a, arguments);
+                return t.apply(e, arguments);
             } finally{
-                dV(a);
+                r6(e);
             }
         };
     }
-    function d2(a) {
+    function rj(e) {
         return function() {
             if (this.curOp) {
-                return a.apply(this, arguments);
+                return e.apply(this, arguments);
             }
-            dU(this);
+            r4(this);
             try {
-                return a.apply(this, arguments);
+                return e.apply(this, arguments);
             } finally{
-                dV(this);
+                r6(this);
             }
         };
     }
-    function d3(a) {
+    function r9(e) {
         return function() {
-            var b = this.cm;
-            if (!b || b.curOp) {
-                return a.apply(this, arguments);
+            var t = this.cm;
+            if (!t || t.curOp) {
+                return e.apply(this, arguments);
             }
-            dU(b);
+            r4(t);
             try {
-                return a.apply(this, arguments);
+                return e.apply(this, arguments);
             } finally{
-                dV(b);
+                r6(t);
             }
         };
     }
-    function d4(a, b) {
-        if (a.doc.highlightFrontier < a.display.viewTo) {
-            a.state.highlight.set(b, K(d5, a));
+    function rq(e, t) {
+        if (e.doc.highlightFrontier < e.display.viewTo) {
+            e.state.highlight.set(t, M(r8, e));
         }
     }
-    function d5(a) {
-        var b = a.doc;
-        if (b.highlightFrontier >= a.display.viewTo) {
+    function r8(e) {
+        var t = e.doc;
+        if (t.highlightFrontier >= e.display.viewTo) {
             return;
         }
-        var c = +new Date() + a.options.workTime;
-        var d = bi(a, b.highlightFrontier);
-        var e = [];
-        b.iter(d.line, Math.min(b.first + b.size, a.display.viewTo + 500), function(f) {
-            if (d.line >= a.display.viewFrom) {
-                var g = f.styles;
-                var h = f.text.length > a.options.maxHighlightLength ? aU(b.mode, d.state) : null;
-                var i = bg(a, f, d, true);
-                if (h) {
-                    d.state = h;
+        var i = +new Date() + e.options.workTime;
+        var r = ta(e, t.highlightFrontier);
+        var n = [];
+        t.iter(r.line, Math.min(t.first + t.size, e.display.viewTo + 500), function(o) {
+            if (r.line >= e.display.viewFrom) {
+                var l = o.styles;
+                var s = o.text.length > e.options.maxHighlightLength ? eB(t.mode, r.state) : null;
+                var a = tl(e, o, r, true);
+                if (s) {
+                    r.state = s;
                 }
-                f.styles = i.styles;
-                var j = f.styleClasses, k = i.classes;
-                if (k) {
-                    f.styleClasses = k;
-                } else if (j) {
-                    f.styleClasses = null;
+                o.styles = a.styles;
+                var f = o.styleClasses, u = a.classes;
+                if (u) {
+                    o.styleClasses = u;
+                } else if (f) {
+                    o.styleClasses = null;
                 }
-                var l = !g || g.length != f.styles.length || (j != k && (!j || !k || j.bgClass != k.bgClass || j.textClass != k.textClass));
-                for(var m = 0; !l && m < g.length; ++m){
-                    l = g[m] != f.styles[m];
+                var c = !l || l.length != o.styles.length || (f != u && (!f || !u || f.bgClass != u.bgClass || f.textClass != u.textClass));
+                for(var h = 0; !c && h < l.length; ++h){
+                    c = l[h] != o.styles[h];
                 }
-                if (l) {
-                    e.push(d.line);
+                if (c) {
+                    n.push(r.line);
                 }
-                f.stateAfter = d.save();
-                d.nextLine();
+                o.stateAfter = r.save();
+                r.nextLine();
             } else {
-                if (f.text.length <= a.options.maxHighlightLength) {
-                    bj(a, f.text, d);
+                if (o.text.length <= e.options.maxHighlightLength) {
+                    tf(e, o.text, r);
                 }
-                f.stateAfter = d.line % 5 == 0 ? d.save() : null;
-                d.nextLine();
+                o.stateAfter = r.line % 5 == 0 ? r.save() : null;
+                r.nextLine();
             }
-            if (+new Date() > c) {
-                d4(a, a.options.workDelay);
+            if (+new Date() > i) {
+                rq(e, e.options.workDelay);
                 return true;
             }
         });
-        b.highlightFrontier = d.line;
-        b.modeFrontier = Math.max(b.modeFrontier, d.line);
-        if (e.length) {
-            d0(a, function() {
-                for(var b = 0; b < e.length; b++){
-                    dg(a, e[b], "text");
+        t.highlightFrontier = r.line;
+        t.modeFrontier = Math.max(t.modeFrontier, r.line);
+        if (n.length) {
+            rX(e, function() {
+                for(var t = 0; t < n.length; t++){
+                    ra(e, n[t], "text");
                 }
             });
         }
     }
-    var d6 = function(a, b, c) {
-        var d = a.display;
-        this.viewport = b;
-        this.visible = dy(d, a.doc, b);
-        this.editorIsHidden = !d.wrapper.offsetWidth;
-        this.wrapperHeight = d.wrapper.clientHeight;
-        this.wrapperWidth = d.wrapper.clientWidth;
-        this.oldDisplayWidth = cB(a);
-        this.force = c;
-        this.dims = c9(a);
+    var rZ = function(e, t, i) {
+        var r = e.display;
+        this.viewport = t;
+        this.visible = rS(r, e.doc, t);
+        this.editorIsHidden = !r.wrapper.offsetWidth;
+        this.wrapperHeight = r.wrapper.clientHeight;
+        this.wrapperWidth = r.wrapper.clientWidth;
+        this.oldDisplayWidth = iO(e);
+        this.force = i;
+        this.dims = rt(e);
         this.events = [];
     };
-    d6.prototype.signal = function(a, b) {
-        if (au(a, b)) {
+    rZ.prototype.signal = function(e, t) {
+        if (e_(e, t)) {
             this.events.push(arguments);
         }
     };
-    d6.prototype.finish = function() {
-        for(var a = 0; a < this.events.length; a++){
-            ar.apply(null, this.events[a]);
+    rZ.prototype.finish = function() {
+        for(var e = 0; e < this.events.length; e++){
+            em.apply(null, this.events[e]);
         }
     };
-    function d7(a) {
-        var b = a.display;
-        if (!b.scrollbarsClipped && b.scroller.offsetWidth) {
-            b.nativeBarWidth = b.scroller.offsetWidth - b.scroller.clientWidth;
-            b.heightForcer.style.height = cA(a) + "px";
-            b.sizer.style.marginBottom = -b.nativeBarWidth + "px";
-            b.sizer.style.borderRightWidth = cA(a) + "px";
-            b.scrollbarsClipped = true;
+    function rJ(e) {
+        var t = e.display;
+        if (!t.scrollbarsClipped && t.scroller.offsetWidth) {
+            t.nativeBarWidth = t.scroller.offsetWidth - t.scroller.clientWidth;
+            t.heightForcer.style.height = iL(e) + "px";
+            t.sizer.style.marginBottom = -t.nativeBarWidth + "px";
+            t.sizer.style.borderRightWidth = iL(e) + "px";
+            t.scrollbarsClipped = true;
         }
     }
-    function d8(a) {
-        if (a.hasFocus()) {
+    function rQ(e) {
+        if (e.hasFocus()) {
             return null;
         }
-        var b = G();
-        if (!b || !F(a.display.lineDiv, b)) {
+        var t = A();
+        if (!t || !N(e.display.lineDiv, t)) {
             return null;
         }
-        var c = {
-            activeElt: b
+        var i = {
+            activeElt: t
         };
         if (window.getSelection) {
-            var d = window.getSelection();
-            if (d.anchorNode && d.extend && F(a.display.lineDiv, d.anchorNode)) {
-                c.anchorNode = d.anchorNode;
-                c.anchorOffset = d.anchorOffset;
-                c.focusNode = d.focusNode;
-                c.focusOffset = d.focusOffset;
+            var r = window.getSelection();
+            if (r.anchorNode && r.extend && N(e.display.lineDiv, r.anchorNode)) {
+                i.anchorNode = r.anchorNode;
+                i.anchorOffset = r.anchorOffset;
+                i.focusNode = r.focusNode;
+                i.focusOffset = r.focusOffset;
             }
         }
-        return c;
+        return i;
     }
-    function d9(a) {
-        if (!a || !a.activeElt || a.activeElt == G()) {
+    function ne(e) {
+        if (!e || !e.activeElt || e.activeElt == A()) {
             return;
         }
-        a.activeElt.focus();
-        if (!/^(INPUT|TEXTAREA)$/.test(a.activeElt.nodeName) && a.anchorNode && F(document.body, a.anchorNode) && F(document.body, a.focusNode)) {
-            var b = window.getSelection(), c = document.createRange();
-            c.setEnd(a.anchorNode, a.anchorOffset);
-            c.collapse(false);
-            b.removeAllRanges();
-            b.addRange(c);
-            b.extend(a.focusNode, a.focusOffset);
+        e.activeElt.focus();
+        if (!/^(INPUT|TEXTAREA)$/.test(e.activeElt.nodeName) && e.anchorNode && N(document.body, e.anchorNode) && N(document.body, e.focusNode)) {
+            var t = window.getSelection(), i = document.createRange();
+            i.setEnd(e.anchorNode, e.anchorOffset);
+            i.collapse(false);
+            t.removeAllRanges();
+            t.addRange(i);
+            t.extend(e.focusNode, e.focusOffset);
         }
     }
-    function ea(a, b) {
-        var c = a.display, d = a.doc;
-        if (b.editorIsHidden) {
-            dh(a);
+    function nt(e, t) {
+        var i = e.display, r = e.doc;
+        if (t.editorIsHidden) {
+            rf(e);
             return false;
         }
-        if (!b.force && b.visible.from >= c.viewFrom && b.visible.to <= c.viewTo && (c.updateLineNumbers == null || c.updateLineNumbers >= c.viewTo) && c.renderedView == c.view && dk(a) == 0) {
+        if (!t.force && t.visible.from >= i.viewFrom && t.visible.to <= i.viewTo && (i.updateLineNumbers == null || i.updateLineNumbers >= i.viewTo) && i.renderedView == i.view && rh(e) == 0) {
             return false;
         }
-        if (eh(a)) {
-            dh(a);
-            b.dims = c9(a);
+        if (na(e)) {
+            rf(e);
+            t.dims = rt(e);
         }
-        var e = d.first + d.size;
-        var f = Math.max(b.visible.from - a.options.viewportMargin, d.first);
-        var g = Math.min(e, b.visible.to + a.options.viewportMargin);
-        if (c.viewFrom < f && f - c.viewFrom < 20) {
-            f = Math.max(d.first, c.viewFrom);
+        var n = r.first + r.size;
+        var o = Math.max(t.visible.from - e.options.viewportMargin, r.first);
+        var l = Math.min(n, t.visible.to + e.options.viewportMargin);
+        if (i.viewFrom < o && o - i.viewFrom < 20) {
+            o = Math.max(r.first, i.viewFrom);
         }
-        if (c.viewTo > g && c.viewTo - g < 20) {
-            g = Math.min(e, c.viewTo);
+        if (i.viewTo > l && i.viewTo - l < 20) {
+            l = Math.min(n, i.viewTo);
         }
-        if (bt) {
-            f = bS(a.doc, f);
-            g = bT(a.doc, g);
+        if (ty) {
+            o = t3(e.doc, o);
+            l = t7(e.doc, l);
         }
-        var h = f != c.viewFrom || g != c.viewTo || c.lastWrapHeight != b.wrapperHeight || c.lastWrapWidth != b.wrapperWidth;
-        dj(a, f, g);
-        c.viewOffset = bW(aY(a.doc, c.viewFrom));
-        a.display.mover.style.top = c.viewOffset + "px";
-        var i = dk(a);
-        if (!h && i == 0 && !b.force && c.renderedView == c.view && (c.updateLineNumbers == null || c.updateLineNumbers >= c.viewTo)) {
+        var s = o != i.viewFrom || l != i.viewTo || i.lastWrapHeight != t.wrapperHeight || i.lastWrapWidth != t.wrapperWidth;
+        rc(e, o, l);
+        i.viewOffset = t6(e2(e.doc, i.viewFrom));
+        e.display.mover.style.top = i.viewOffset + "px";
+        var a = rh(e);
+        if (!s && a == 0 && !t.force && i.renderedView == i.view && (i.updateLineNumbers == null || i.updateLineNumbers >= i.viewTo)) {
             return false;
         }
-        var j = d8(a);
-        if (i > 4) {
-            c.lineDiv.style.display = "none";
+        var f = rQ(e);
+        if (a > 4) {
+            i.lineDiv.style.display = "none";
         }
-        ed(a, c.updateLineNumbers, b.dims);
-        if (i > 4) {
-            c.lineDiv.style.display = "";
+        nn(e, i.updateLineNumbers, t.dims);
+        if (a > 4) {
+            i.lineDiv.style.display = "";
         }
-        c.renderedView = c.view;
-        d9(j);
-        A(c.cursorDiv);
-        A(c.selectionDiv);
-        c.gutters.style.height = c.sizer.style.minHeight = 0;
-        if (h) {
-            c.lastWrapHeight = b.wrapperHeight;
-            c.lastWrapWidth = b.wrapperWidth;
-            d4(a, 400);
+        i.renderedView = i.view;
+        ne(f);
+        k(i.cursorDiv);
+        k(i.selectionDiv);
+        i.gutters.style.height = i.sizer.style.minHeight = 0;
+        if (s) {
+            i.lastWrapHeight = t.wrapperHeight;
+            i.lastWrapWidth = t.wrapperWidth;
+            rq(e, 400);
         }
-        c.updateLineNumbers = null;
+        i.updateLineNumbers = null;
         return true;
     }
-    function eb(a, b) {
-        var c = b.viewport;
-        for(var d = true;; d = false){
-            if (!d || !a.options.lineWrapping || b.oldDisplayWidth == cB(a)) {
-                if (c && c.top != null) {
-                    c = {
-                        top: Math.min(a.doc.height + cy(a.display) - cC(a), c.top)
+    function ni(e, t) {
+        var i = t.viewport;
+        for(var r = true;; r = false){
+            if (!r || !e.options.lineWrapping || t.oldDisplayWidth == iO(e)) {
+                if (i && i.top != null) {
+                    i = {
+                        top: Math.min(e.doc.height + ik(e.display) - i0(e), i.top)
                     };
                 }
-                b.visible = dy(a.display, a.doc, c);
-                if (b.visible.from >= a.display.viewFrom && b.visible.to <= a.display.viewTo) {
+                t.visible = rS(e.display, e.doc, i);
+                if (t.visible.from >= e.display.viewFrom && t.visible.to <= e.display.viewTo) {
                     break;
                 }
-            } else if (d) {
-                b.visible = dy(a.display, a.doc, c);
+            } else if (r) {
+                t.visible = rS(e.display, e.doc, i);
             }
-            if (!ea(a, b)) {
+            if (!nt(e, t)) {
                 break;
             }
-            dw(a);
-            var e = dM(a);
-            dl(a);
-            dP(a, e);
-            ef(a, e);
-            b.force = false;
+            rx(e);
+            var n = rP(e);
+            rd(e);
+            rI(e, n);
+            nl(e, n);
+            t.force = false;
         }
-        b.signal(a, "update", a);
-        if (a.display.viewFrom != a.display.reportedViewFrom || a.display.viewTo != a.display.reportedViewTo) {
-            b.signal(a, "viewportChange", a, a.display.viewFrom, a.display.viewTo);
-            a.display.reportedViewFrom = a.display.viewFrom;
-            a.display.reportedViewTo = a.display.viewTo;
-        }
-    }
-    function ec(a, b) {
-        var c = new d6(a, b);
-        if (ea(a, c)) {
-            dw(a);
-            eb(a, c);
-            var d = dM(a);
-            dl(a);
-            dP(a, d);
-            ef(a, d);
-            c.finish();
+        t.signal(e, "update", e);
+        if (e.display.viewFrom != e.display.reportedViewFrom || e.display.viewTo != e.display.reportedViewTo) {
+            t.signal(e, "viewportChange", e, e.display.viewFrom, e.display.viewTo);
+            e.display.reportedViewFrom = e.display.viewFrom;
+            e.display.reportedViewTo = e.display.viewTo;
         }
     }
-    function ed(a, b, c) {
-        var d = a.display, e = a.options.lineNumbers;
-        var f = d.lineDiv, g = f.firstChild;
-        function h(b) {
-            var c = b.nextSibling;
-            if (i && s && a.display.currentWheelTarget == b) {
-                b.style.display = "none";
+    function nr(e, t) {
+        var i = new rZ(e, t);
+        if (nt(e, i)) {
+            rx(e);
+            ni(e, i);
+            var r = rP(e);
+            rd(e);
+            rI(e, r);
+            nl(e, r);
+            i.finish();
+        }
+    }
+    function nn(e, t, i) {
+        var r = e.display, n = e.options.lineNumbers;
+        var o = r.lineDiv, l = o.firstChild;
+        function s(t) {
+            var i = t.nextSibling;
+            if (a && $ && e.display.currentWheelTarget == t) {
+                t.style.display = "none";
             } else {
-                b.parentNode.removeChild(b);
+                t.parentNode.removeChild(t);
             }
-            return c;
+            return i;
         }
-        var j = d.view, k = d.viewFrom;
-        for(var l = 0; l < j.length; l++){
-            var m = j[l];
-            if (m.hidden) ;
-            else if (!m.node || m.node.parentNode != f) {
-                var n = cr(a, m, k, c);
-                f.insertBefore(n, g);
+        var f = r.view, u = r.viewFrom;
+        for(var c = 0; c < f.length; c++){
+            var h = f[c];
+            if (h.hidden) ;
+            else if (!h.node || h.node.parentNode != o) {
+                var d = iy(e, h, u, i);
+                o.insertBefore(d, l);
             } else {
-                while(g != m.node){
-                    g = h(g);
+                while(l != h.node){
+                    l = s(l);
                 }
-                var o = e && b != null && b <= k && m.lineNumber;
-                if (m.changes) {
-                    if (O(m.changes, "gutter") > -1) {
-                        o = false;
+                var p = n && t != null && t <= u && h.lineNumber;
+                if (h.changes) {
+                    if (I(h.changes, "gutter") > -1) {
+                        p = false;
                     }
-                    cj(a, m, k, c);
+                    ic(e, h, u, i);
                 }
-                if (o) {
-                    A(m.lineNumber);
-                    m.lineNumber.appendChild(document.createTextNode(a3(a.options, k)));
+                if (p) {
+                    k(h.lineNumber);
+                    h.lineNumber.appendChild(document.createTextNode(ej(e.options, u)));
                 }
-                g = m.node.nextSibling;
+                l = h.node.nextSibling;
             }
-            k += m.size;
+            u += h.size;
         }
-        while(g){
-            g = h(g);
+        while(l){
+            l = s(l);
         }
     }
-    function ee(a) {
-        var b = a.gutters.offsetWidth;
-        a.sizer.style.marginLeft = b + "px";
-        ch(a, "gutterChanged", a);
+    function no(e) {
+        var t = e.gutters.offsetWidth;
+        e.sizer.style.marginLeft = t + "px";
+        ia(e, "gutterChanged", e);
     }
-    function ef(a, b) {
-        a.display.sizer.style.minHeight = b.docHeight + "px";
-        a.display.heightForcer.style.top = b.docHeight + "px";
-        a.display.gutters.style.height = b.docHeight + a.display.barHeight + cA(a) + "px";
+    function nl(e, t) {
+        e.display.sizer.style.minHeight = t.docHeight + "px";
+        e.display.heightForcer.style.top = t.docHeight + "px";
+        e.display.gutters.style.height = t.docHeight + e.display.barHeight + iL(e) + "px";
     }
-    function eg(a) {
-        var b = a.display, c = b.view;
-        if (!b.alignWidgets && (!b.gutters.firstChild || !a.options.fixedGutter)) {
+    function ns(e) {
+        var t = e.display, i = t.view;
+        if (!t.alignWidgets && (!t.gutters.firstChild || !e.options.fixedGutter)) {
             return;
         }
-        var d = da(b) - b.scroller.scrollLeft + a.doc.scrollLeft;
-        var e = b.gutters.offsetWidth, f = d + "px";
-        for(var g = 0; g < c.length; g++){
-            if (!c[g].hidden) {
-                if (a.options.fixedGutter) {
-                    if (c[g].gutter) {
-                        c[g].gutter.style.left = f;
+        var r = ri(t) - t.scroller.scrollLeft + e.doc.scrollLeft;
+        var n = t.gutters.offsetWidth, o = r + "px";
+        for(var l = 0; l < i.length; l++){
+            if (!i[l].hidden) {
+                if (e.options.fixedGutter) {
+                    if (i[l].gutter) {
+                        i[l].gutter.style.left = o;
                     }
-                    if (c[g].gutterBackground) {
-                        c[g].gutterBackground.style.left = f;
+                    if (i[l].gutterBackground) {
+                        i[l].gutterBackground.style.left = o;
                     }
                 }
-                var h = c[g].alignable;
-                if (h) {
-                    for(var i = 0; i < h.length; i++){
-                        h[i].style.left = f;
+                var s = i[l].alignable;
+                if (s) {
+                    for(var a = 0; a < s.length; a++){
+                        s[a].style.left = o;
                     }
                 }
             }
         }
-        if (a.options.fixedGutter) {
-            b.gutters.style.left = d + e + "px";
+        if (e.options.fixedGutter) {
+            t.gutters.style.left = r + n + "px";
         }
     }
-    function eh(a) {
-        if (!a.options.lineNumbers) {
+    function na(e) {
+        if (!e.options.lineNumbers) {
             return false;
         }
-        var b = a.doc, c = a3(a.options, b.first + b.size - 1), d = a.display;
-        if (c.length != d.lineNumChars) {
-            var e = d.measure.appendChild(C("div", [
-                C("div", c)
+        var t = e.doc, i = ej(e.options, t.first + t.size - 1), r = e.display;
+        if (i.length != r.lineNumChars) {
+            var n = r.measure.appendChild(L("div", [
+                L("div", i)
             ], "CodeMirror-linenumber CodeMirror-gutter-elt"));
-            var f = e.firstChild.offsetWidth, g = e.offsetWidth - f;
-            d.lineGutter.style.width = "";
-            d.lineNumInnerWidth = Math.max(f, d.lineGutter.offsetWidth - g) + 1;
-            d.lineNumWidth = d.lineNumInnerWidth + g;
-            d.lineNumChars = d.lineNumInnerWidth ? c.length : -1;
-            d.lineGutter.style.width = d.lineNumWidth + "px";
-            ee(a.display);
+            var o = n.firstChild.offsetWidth, l = n.offsetWidth - o;
+            r.lineGutter.style.width = "";
+            r.lineNumInnerWidth = Math.max(o, r.lineGutter.offsetWidth - l) + 1;
+            r.lineNumWidth = r.lineNumInnerWidth + l;
+            r.lineNumChars = r.lineNumInnerWidth ? i.length : -1;
+            r.lineGutter.style.width = r.lineNumWidth + "px";
+            no(e.display);
             return true;
         }
         return false;
     }
-    function ei(a, b) {
-        var c = [], d = false;
-        for(var e = 0; e < a.length; e++){
-            var f = a[e], g = null;
-            if (typeof f != "string") {
-                g = f.style;
-                f = f.className;
+    function nf(e, t) {
+        var i = [], r = false;
+        for(var n = 0; n < e.length; n++){
+            var o = e[n], l = null;
+            if (typeof o != "string") {
+                l = o.style;
+                o = o.className;
             }
-            if (f == "CodeMirror-linenumbers") {
-                if (!b) {
+            if (o == "CodeMirror-linenumbers") {
+                if (!t) {
                     continue;
                 } else {
-                    d = true;
+                    r = true;
                 }
             }
-            c.push({
-                className: f,
-                style: g
+            i.push({
+                className: o,
+                style: l
             });
         }
-        if (b && !d) {
-            c.push({
+        if (t && !r) {
+            i.push({
                 className: "CodeMirror-linenumbers",
                 style: null
             });
         }
-        return c;
+        return i;
     }
-    function ej(a) {
-        var b = a.gutters, c = a.gutterSpecs;
-        A(b);
-        a.lineGutter = null;
-        for(var d = 0; d < c.length; ++d){
-            var e = c[d];
-            var f = e.className;
-            var g = e.style;
-            var h = b.appendChild(C("div", null, "CodeMirror-gutter " + f));
-            if (g) {
-                h.style.cssText = g;
+    function nu(e) {
+        var t = e.gutters, i = e.gutterSpecs;
+        k(t);
+        e.lineGutter = null;
+        for(var r = 0; r < i.length; ++r){
+            var n = i[r];
+            var o = n.className;
+            var l = n.style;
+            var s = t.appendChild(L("div", null, "CodeMirror-gutter " + o));
+            if (l) {
+                s.style.cssText = l;
             }
-            if (f == "CodeMirror-linenumbers") {
-                a.lineGutter = h;
-                h.style.width = (a.lineNumWidth || 1) + "px";
+            if (o == "CodeMirror-linenumbers") {
+                e.lineGutter = s;
+                s.style.width = (e.lineNumWidth || 1) + "px";
             }
         }
-        b.style.display = c.length ? "" : "none";
-        ee(a);
+        t.style.display = i.length ? "" : "none";
+        no(e);
     }
-    function ek(a) {
-        ej(a.display);
-        df(a);
-        eg(a);
+    function nc(e) {
+        nu(e.display);
+        rs(e);
+        ns(e);
     }
-    function el(a, b, d, e) {
-        var f = this;
-        this.input = d;
-        f.scrollbarFiller = C("div", null, "CodeMirror-scrollbar-filler");
-        f.scrollbarFiller.setAttribute("cm-not-content", "true");
-        f.gutterFiller = C("div", null, "CodeMirror-gutter-filler");
-        f.gutterFiller.setAttribute("cm-not-content", "true");
-        f.lineDiv = D("div", null, "CodeMirror-code");
-        f.selectionDiv = C("div", null, null, "position: relative; z-index: 1");
-        f.cursorDiv = C("div", null, "CodeMirror-cursors");
-        f.measure = C("div", null, "CodeMirror-measure");
-        f.lineMeasure = C("div", null, "CodeMirror-measure");
-        f.lineSpace = D("div", [
-            f.measure,
-            f.lineMeasure,
-            f.selectionDiv,
-            f.cursorDiv,
-            f.lineDiv
+    function nh(e, t, r, n) {
+        var o = this;
+        this.input = r;
+        o.scrollbarFiller = L("div", null, "CodeMirror-scrollbar-filler");
+        o.scrollbarFiller.setAttribute("cm-not-content", "true");
+        o.gutterFiller = L("div", null, "CodeMirror-gutter-filler");
+        o.gutterFiller.setAttribute("cm-not-content", "true");
+        o.lineDiv = O("div", null, "CodeMirror-code");
+        o.selectionDiv = L("div", null, null, "position: relative; z-index: 1");
+        o.cursorDiv = L("div", null, "CodeMirror-cursors");
+        o.measure = L("div", null, "CodeMirror-measure");
+        o.lineMeasure = L("div", null, "CodeMirror-measure");
+        o.lineSpace = O("div", [
+            o.measure,
+            o.lineMeasure,
+            o.selectionDiv,
+            o.cursorDiv,
+            o.lineDiv
         ], null, "position: relative; outline: none");
-        var j = D("div", [
-            f.lineSpace
+        var f = O("div", [
+            o.lineSpace
         ], "CodeMirror-lines");
-        f.mover = C("div", [
-            j
+        o.mover = L("div", [
+            f
         ], null, "position: relative");
-        f.sizer = C("div", [
-            f.mover
+        o.sizer = L("div", [
+            o.mover
         ], "CodeMirror-sizer");
-        f.sizerWidth = null;
-        f.heightForcer = C("div", null, null, "position: absolute; height: " + P + "px; width: 1px;");
-        f.gutters = C("div", null, "CodeMirror-gutters");
-        f.lineGutter = null;
-        f.scroller = C("div", [
-            f.sizer,
-            f.heightForcer,
-            f.gutters
+        o.sizerWidth = null;
+        o.heightForcer = L("div", null, null, "position: absolute; height: " + R + "px; width: 1px;");
+        o.gutters = L("div", null, "CodeMirror-gutters");
+        o.lineGutter = null;
+        o.scroller = L("div", [
+            o.sizer,
+            o.heightForcer,
+            o.gutters
         ], "CodeMirror-scroll");
-        f.scroller.setAttribute("tabIndex", "-1");
-        f.wrapper = C("div", [
-            f.scrollbarFiller,
-            f.gutterFiller,
-            f.scroller
+        o.scroller.setAttribute("tabIndex", "-1");
+        o.wrapper = L("div", [
+            o.scrollbarFiller,
+            o.gutterFiller,
+            o.scroller
         ], "CodeMirror");
-        f.wrapper.setAttribute("translate", "no");
-        if (g && h < 8) {
-            f.gutters.style.zIndex = -1;
-            f.scroller.style.paddingRight = 0;
+        o.wrapper.setAttribute("translate", "no");
+        if (l && s < 8) {
+            o.gutters.style.zIndex = -1;
+            o.scroller.style.paddingRight = 0;
         }
-        if (!i && !(c && r)) {
-            f.scroller.draggable = true;
+        if (!a && !(i && m)) {
+            o.scroller.draggable = true;
         }
-        if (a) {
-            if (a.appendChild) {
-                a.appendChild(f.wrapper);
+        if (e) {
+            if (e.appendChild) {
+                e.appendChild(o.wrapper);
             } else {
-                a(f.wrapper);
+                e(o.wrapper);
             }
         }
-        f.viewFrom = f.viewTo = b.first;
-        f.reportedViewFrom = f.reportedViewTo = b.first;
-        f.view = [];
-        f.renderedView = null;
-        f.externalMeasured = null;
-        f.viewOffset = 0;
-        f.lastWrapHeight = f.lastWrapWidth = 0;
-        f.updateLineNumbers = null;
-        f.nativeBarWidth = f.barHeight = f.barWidth = 0;
-        f.scrollbarsClipped = false;
-        f.lineNumWidth = f.lineNumInnerWidth = f.lineNumChars = null;
-        f.alignWidgets = false;
-        f.cachedCharWidth = f.cachedTextHeight = f.cachedPaddingH = null;
-        f.maxLine = null;
-        f.maxLineLength = 0;
-        f.maxLineChanged = false;
-        f.wheelDX = f.wheelDY = f.wheelStartX = f.wheelStartY = null;
-        f.shift = false;
-        f.selForContextMenu = null;
-        f.activeTouch = null;
-        f.gutterSpecs = ei(e.gutters, e.lineNumbers);
-        ej(f);
-        d.init(f);
+        o.viewFrom = o.viewTo = t.first;
+        o.reportedViewFrom = o.reportedViewTo = t.first;
+        o.view = [];
+        o.renderedView = null;
+        o.externalMeasured = null;
+        o.viewOffset = 0;
+        o.lastWrapHeight = o.lastWrapWidth = 0;
+        o.updateLineNumbers = null;
+        o.nativeBarWidth = o.barHeight = o.barWidth = 0;
+        o.scrollbarsClipped = false;
+        o.lineNumWidth = o.lineNumInnerWidth = o.lineNumChars = null;
+        o.alignWidgets = false;
+        o.cachedCharWidth = o.cachedTextHeight = o.cachedPaddingH = null;
+        o.maxLine = null;
+        o.maxLineLength = 0;
+        o.maxLineChanged = false;
+        o.wheelDX = o.wheelDY = o.wheelStartX = o.wheelStartY = null;
+        o.shift = false;
+        o.selForContextMenu = null;
+        o.activeTouch = null;
+        o.gutterSpecs = nf(n.gutters, n.lineNumbers);
+        nu(o);
+        r.init(o);
     }
-    var em = 0, en = null;
-    if (g) {
-        en = -0.53;
-    } else if (c) {
-        en = 15;
-    } else if (k) {
-        en = -0.7;
-    } else if (m) {
-        en = -1 / 3;
+    var nd = 0, np = null;
+    if (l) {
+        np = -0.53;
+    } else if (i) {
+        np = 15;
+    } else if (u) {
+        np = -0.7;
+    } else if (h) {
+        np = -1 / 3;
     }
-    function eo(a) {
-        var b = a.wheelDeltaX, c = a.wheelDeltaY;
-        if (b == null && a.detail && a.axis == a.HORIZONTAL_AXIS) {
-            b = a.detail;
+    function nv(e) {
+        var t = e.wheelDeltaX, i = e.wheelDeltaY;
+        if (t == null && e.detail && e.axis == e.HORIZONTAL_AXIS) {
+            t = e.detail;
         }
-        if (c == null && a.detail && a.axis == a.VERTICAL_AXIS) {
-            c = a.detail;
-        } else if (c == null) {
-            c = a.wheelDelta;
+        if (i == null && e.detail && e.axis == e.VERTICAL_AXIS) {
+            i = e.detail;
+        } else if (i == null) {
+            i = e.wheelDelta;
         }
         return {
-            x: b,
-            y: c
+            x: t,
+            y: i
         };
     }
-    function ep(a) {
-        var b = eo(a);
-        b.x *= en;
-        b.y *= en;
-        return b;
+    function ng(e) {
+        var t = nv(e);
+        t.x *= np;
+        t.y *= np;
+        return t;
     }
-    function eq(a, b) {
-        var d = eo(b), e = d.x, f = d.y;
-        var g = en;
-        if (b.deltaMode === 0) {
-            e = b.deltaX;
-            f = b.deltaY;
-            g = 1;
+    function nm(e, t) {
+        var r = nv(t), n = r.x, o = r.y;
+        var l = np;
+        if (t.deltaMode === 0) {
+            n = t.deltaX;
+            o = t.deltaY;
+            l = 1;
         }
-        var h = a.display, j = h.scroller;
-        var k = j.scrollWidth > j.clientWidth;
-        var m = j.scrollHeight > j.clientHeight;
-        if (!((e && k) || (f && m))) {
+        var s = e.display, f = s.scroller;
+        var u = f.scrollWidth > f.clientWidth;
+        var h = f.scrollHeight > f.clientHeight;
+        if (!((n && u) || (o && h))) {
             return;
         }
-        if (f && s && i) {
-            outer: for(var n = b.target, o = h.view; n != j; n = n.parentNode){
-                for(var p = 0; p < o.length; p++){
-                    if (o[p].node == n) {
-                        a.display.currentWheelTarget = n;
+        if (o && $ && a) {
+            outer: for(var d = t.target, p = s.view; d != f; d = d.parentNode){
+                for(var v = 0; v < p.length; v++){
+                    if (p[v].node == d) {
+                        e.display.currentWheelTarget = d;
                         break outer;
                     }
                 }
             }
         }
-        if (e && !c && !l && g != null) {
-            if (f && m) {
-                dJ(a, Math.max(0, j.scrollTop + f * g));
+        if (n && !i && !c && l != null) {
+            if (o && h) {
+                rF(e, Math.max(0, f.scrollTop + o * l));
             }
-            dL(a, Math.max(0, j.scrollLeft + e * g));
-            if (!f || (f && m)) {
-                aw(b);
+            r1(e, Math.max(0, f.scrollLeft + n * l));
+            if (!o || (o && h)) {
+                eb(t);
             }
-            h.wheelStartX = null;
+            s.wheelStartX = null;
             return;
         }
-        if (f && g != null) {
-            var q = f * g;
-            var r = a.doc.scrollTop, t = r + h.wrapper.clientHeight;
-            if (q < 0) {
-                r = Math.max(0, r + q - 50);
+        if (o && l != null) {
+            var g = o * l;
+            var m = e.doc.scrollTop, y = m + s.wrapper.clientHeight;
+            if (g < 0) {
+                m = Math.max(0, m + g - 50);
             } else {
-                t = Math.min(a.doc.height, t + q + 50);
+                y = Math.min(e.doc.height, y + g + 50);
             }
-            ec(a, {
-                top: r,
-                bottom: t
+            nr(e, {
+                top: m,
+                bottom: y
             });
         }
-        if (em < 20 && b.deltaMode !== 0) {
-            if (h.wheelStartX == null) {
-                h.wheelStartX = j.scrollLeft;
-                h.wheelStartY = j.scrollTop;
-                h.wheelDX = e;
-                h.wheelDY = f;
+        if (nd < 20 && t.deltaMode !== 0) {
+            if (s.wheelStartX == null) {
+                s.wheelStartX = f.scrollLeft;
+                s.wheelStartY = f.scrollTop;
+                s.wheelDX = n;
+                s.wheelDY = o;
                 setTimeout(function() {
-                    if (h.wheelStartX == null) {
+                    if (s.wheelStartX == null) {
                         return;
                     }
-                    var a = j.scrollLeft - h.wheelStartX;
-                    var b = j.scrollTop - h.wheelStartY;
-                    var c = (b && h.wheelDY && b / h.wheelDY) || (a && h.wheelDX && a / h.wheelDX);
-                    h.wheelStartX = h.wheelStartY = null;
-                    if (!c) {
+                    var e = f.scrollLeft - s.wheelStartX;
+                    var t = f.scrollTop - s.wheelStartY;
+                    var i = (t && s.wheelDY && t / s.wheelDY) || (e && s.wheelDX && e / s.wheelDX);
+                    s.wheelStartX = s.wheelStartY = null;
+                    if (!i) {
                         return;
                     }
-                    en = (en * em + c) / (em + 1);
-                    ++em;
+                    np = (np * nd + i) / (nd + 1);
+                    ++nd;
                 }, 200);
             } else {
-                h.wheelDX += e;
-                h.wheelDY += f;
+                s.wheelDX += n;
+                s.wheelDY += o;
             }
         }
     }
-    var er = function(a, b) {
-        this.ranges = a;
-        this.primIndex = b;
+    var n$ = function(e, t) {
+        this.ranges = e;
+        this.primIndex = t;
     };
-    er.prototype.primary = function() {
+    n$.prototype.primary = function() {
         return this.ranges[this.primIndex];
     };
-    er.prototype.equals = function(a) {
-        if (a == this) {
+    n$.prototype.equals = function(e) {
+        if (e == this) {
             return true;
         }
-        if (a.primIndex != this.primIndex || a.ranges.length != this.ranges.length) {
+        if (e.primIndex != this.primIndex || e.ranges.length != this.ranges.length) {
             return false;
         }
-        for(var b = 0; b < this.ranges.length; b++){
-            var c = this.ranges[b], d = a.ranges[b];
-            if (!a6(c.anchor, d.anchor) || !a6(c.head, d.head)) {
+        for(var t = 0; t < this.ranges.length; t++){
+            var i = this.ranges[t], r = e.ranges[t];
+            if (!e8(i.anchor, r.anchor) || !e8(i.head, r.head)) {
                 return false;
             }
         }
         return true;
     };
-    er.prototype.deepCopy = function() {
-        var a = [];
-        for(var b = 0; b < this.ranges.length; b++){
-            a[b] = new es(a7(this.ranges[b].anchor), a7(this.ranges[b].head));
+    n$.prototype.deepCopy = function() {
+        var e = [];
+        for(var t = 0; t < this.ranges.length; t++){
+            e[t] = new ny(eZ(this.ranges[t].anchor), eZ(this.ranges[t].head));
         }
-        return new er(a, this.primIndex);
+        return new n$(e, this.primIndex);
     };
-    er.prototype.somethingSelected = function() {
-        for(var a = 0; a < this.ranges.length; a++){
-            if (!this.ranges[a].empty()) {
+    n$.prototype.somethingSelected = function() {
+        for(var e = 0; e < this.ranges.length; e++){
+            if (!this.ranges[e].empty()) {
                 return true;
             }
         }
         return false;
     };
-    er.prototype.contains = function(a, b) {
-        if (!b) {
-            b = a;
+    n$.prototype.contains = function(e, t) {
+        if (!t) {
+            t = e;
         }
-        for(var c = 0; c < this.ranges.length; c++){
-            var d = this.ranges[c];
-            if (a5(b, d.from()) >= 0 && a5(a, d.to()) <= 0) {
-                return c;
+        for(var i = 0; i < this.ranges.length; i++){
+            var r = this.ranges[i];
+            if (eq(t, r.from()) >= 0 && eq(e, r.to()) <= 0) {
+                return i;
             }
         }
         return -1;
     };
-    var es = function(a, b) {
-        this.anchor = a;
-        this.head = b;
+    var ny = function(e, t) {
+        this.anchor = e;
+        this.head = t;
     };
-    es.prototype.from = function() {
-        return a9(this.anchor, this.head);
+    ny.prototype.from = function() {
+        return eQ(this.anchor, this.head);
     };
-    es.prototype.to = function() {
-        return a8(this.anchor, this.head);
+    ny.prototype.to = function() {
+        return eJ(this.anchor, this.head);
     };
-    es.prototype.empty = function() {
+    ny.prototype.empty = function() {
         return (this.head.line == this.anchor.line && this.head.ch == this.anchor.ch);
     };
-    function et(a, b, c) {
-        var d = a && a.options.selectionsMayTouch;
-        var e = b[c];
-        b.sort(function(a, b) {
-            return a5(a.from(), b.from());
+    function n_(e, t, i) {
+        var r = e && e.options.selectionsMayTouch;
+        var n = t[i];
+        t.sort(function(e, t) {
+            return eq(e.from(), t.from());
         });
-        c = O(b, e);
-        for(var f = 1; f < b.length; f++){
-            var g = b[f], h = b[f - 1];
-            var i = a5(h.to(), g.from());
-            if (d && !g.empty() ? i > 0 : i >= 0) {
-                var j = a9(h.from(), g.from()), k = a8(h.to(), g.to());
-                var l = h.empty() ? g.from() == g.head : h.from() == h.head;
-                if (f <= c) {
-                    --c;
+        i = I(t, n);
+        for(var o = 1; o < t.length; o++){
+            var l = t[o], s = t[o - 1];
+            var a = eq(s.to(), l.from());
+            if (r && !l.empty() ? a > 0 : a >= 0) {
+                var f = eQ(s.from(), l.from()), u = eJ(s.to(), l.to());
+                var c = s.empty() ? l.from() == l.head : s.from() == s.head;
+                if (o <= i) {
+                    --i;
                 }
-                b.splice(--f, 2, new es(l ? k : j, l ? j : k));
+                t.splice(--o, 2, new ny(c ? u : f, c ? f : u));
             }
         }
-        return new er(b, c);
+        return new n$(t, i);
     }
-    function eu(a, b) {
-        return new er([
-            new es(a, b || a)
+    function nw(e, t) {
+        return new n$([
+            new ny(e, t || e)
         ], 0);
     }
-    function ev(a) {
-        if (!a.text) {
-            return a.to;
+    function nb(e) {
+        if (!e.text) {
+            return e.to;
         }
-        return a4(a.from.line + a.text.length - 1, X(a.text).length + (a.text.length == 1 ? a.from.ch : 0));
+        return e9(e.from.line + e.text.length - 1, j(e.text).length + (e.text.length == 1 ? e.from.ch : 0));
     }
-    function ew(a, b) {
-        if (a5(a, b.from) < 0) {
-            return a;
+    function nx(e, t) {
+        if (eq(e, t.from) < 0) {
+            return e;
         }
-        if (a5(a, b.to) <= 0) {
-            return ev(b);
+        if (eq(e, t.to) <= 0) {
+            return nb(t);
         }
-        var c = a.line + b.text.length - (b.to.line - b.from.line) - 1, d = a.ch;
-        if (a.line == b.to.line) {
-            d += ev(b).ch - b.to.ch;
+        var i = e.line + t.text.length - (t.to.line - t.from.line) - 1, r = e.ch;
+        if (e.line == t.to.line) {
+            r += nb(t).ch - t.to.ch;
         }
-        return a4(c, d);
+        return e9(i, r);
     }
-    function ex(a, b) {
-        var c = [];
-        for(var d = 0; d < a.sel.ranges.length; d++){
-            var e = a.sel.ranges[d];
-            c.push(new es(ew(e.anchor, b), ew(e.head, b)));
+    function nC(e, t) {
+        var i = [];
+        for(var r = 0; r < e.sel.ranges.length; r++){
+            var n = e.sel.ranges[r];
+            i.push(new ny(nx(n.anchor, t), nx(n.head, t)));
         }
-        return et(a.cm, c, a.sel.primIndex);
+        return n_(e.cm, i, e.sel.primIndex);
     }
-    function ey(a, b, c) {
-        if (a.line == b.line) {
-            return a4(c.line, a.ch - b.ch + c.ch);
+    function nS(e, t, i) {
+        if (e.line == t.line) {
+            return e9(i.line, e.ch - t.ch + i.ch);
         } else {
-            return a4(c.line + (a.line - b.line), a.ch);
+            return e9(i.line + (e.line - t.line), e.ch);
         }
     }
-    function ez(a, b, c) {
-        var d = [];
-        var e = a4(a.first, 0), f = e;
-        for(var g = 0; g < b.length; g++){
-            var h = b[g];
-            var i = ey(h.from, e, f);
-            var j = ey(ev(h), e, f);
-            e = h.to;
-            f = j;
-            if (c == "around") {
-                var k = a.sel.ranges[g], l = a5(k.head, k.anchor) < 0;
-                d[g] = new es(l ? j : i, l ? i : j);
+    function nk(e, t, i) {
+        var r = [];
+        var n = e9(e.first, 0), o = n;
+        for(var l = 0; l < t.length; l++){
+            var s = t[l];
+            var a = nS(s.from, n, o);
+            var f = nS(nb(s), n, o);
+            n = s.to;
+            o = f;
+            if (i == "around") {
+                var u = e.sel.ranges[l], c = eq(u.head, u.anchor) < 0;
+                r[l] = new ny(c ? f : a, c ? a : f);
             } else {
-                d[g] = new es(i, i);
+                r[l] = new ny(a, a);
             }
         }
-        return new er(d, a.sel.primIndex);
+        return new n$(r, e.sel.primIndex);
     }
-    function eA(a) {
-        a.doc.mode = aR(a.options, a.doc.modeOption);
-        eB(a);
+    function nT(e) {
+        e.doc.mode = eR(e.options, e.doc.modeOption);
+        nL(e);
     }
-    function eB(a) {
-        a.doc.iter(function(a) {
-            if (a.stateAfter) {
-                a.stateAfter = null;
+    function nL(e) {
+        e.doc.iter(function(e) {
+            if (e.stateAfter) {
+                e.stateAfter = null;
             }
-            if (a.styles) {
-                a.styles = null;
+            if (e.styles) {
+                e.styles = null;
             }
         });
-        a.doc.modeFrontier = a.doc.highlightFrontier = a.doc.first;
-        d4(a, 100);
-        a.state.modeGen++;
-        if (a.curOp) {
-            df(a);
+        e.doc.modeFrontier = e.doc.highlightFrontier = e.doc.first;
+        rq(e, 100);
+        e.state.modeGen++;
+        if (e.curOp) {
+            rs(e);
         }
     }
-    function eC(a, b) {
-        return (b.from.ch == 0 && b.to.ch == 0 && X(b.text) == "" && (!a.cm || a.cm.options.wholeLineUpdateBefore));
+    function nO(e, t) {
+        return (t.from.ch == 0 && t.to.ch == 0 && j(t.text) == "" && (!e.cm || e.cm.options.wholeLineUpdateBefore));
     }
-    function eD(a, b, c, d) {
-        function e(a) {
-            return c ? c[a] : null;
+    function n0(e, t, i, r) {
+        function n(e) {
+            return i ? i[e] : null;
         }
-        function f(a, c, e) {
-            b$(a, c, e, d);
-            ch(a, "change", a, b);
+        function o(e, i, n) {
+            tU(e, i, n, r);
+            ia(e, "change", e, t);
         }
-        function g(a, b) {
-            var c = [];
-            for(var f = a; f < b; ++f){
-                c.push(new bZ(j[f], e(f), d));
+        function l(e, t) {
+            var i = [];
+            for(var o = e; o < t; ++o){
+                i.push(new tG(f[o], n(o), r));
             }
-            return c;
+            return i;
         }
-        var h = b.from, i = b.to, j = b.text;
-        var k = aY(a, h.line), l = aY(a, i.line);
-        var m = X(j), n = e(j.length - 1), o = i.line - h.line;
-        if (b.full) {
-            a.insert(0, g(0, j.length));
-            a.remove(j.length, a.size - j.length);
-        } else if (eC(a, b)) {
-            var p = g(0, j.length - 1);
-            f(l, l.text, n);
-            if (o) {
-                a.remove(h.line, o);
+        var s = t.from, a = t.to, f = t.text;
+        var u = e2(e, s.line), c = e2(e, a.line);
+        var h = j(f), d = n(f.length - 1), p = a.line - s.line;
+        if (t.full) {
+            e.insert(0, l(0, f.length));
+            e.remove(f.length, e.size - f.length);
+        } else if (nO(e, t)) {
+            var v = l(0, f.length - 1);
+            o(c, c.text, d);
+            if (p) {
+                e.remove(s.line, p);
             }
-            if (p.length) {
-                a.insert(h.line, p);
+            if (v.length) {
+                e.insert(s.line, v);
             }
-        } else if (k == l) {
-            if (j.length == 1) {
-                f(k, k.text.slice(0, h.ch) + m + k.text.slice(i.ch), n);
+        } else if (u == c) {
+            if (f.length == 1) {
+                o(u, u.text.slice(0, s.ch) + h + u.text.slice(a.ch), d);
             } else {
-                var q = g(1, j.length - 1);
-                q.push(new bZ(m + k.text.slice(i.ch), n, d));
-                f(k, k.text.slice(0, h.ch) + j[0], e(0));
-                a.insert(h.line + 1, q);
+                var g = l(1, f.length - 1);
+                g.push(new tG(h + u.text.slice(a.ch), d, r));
+                o(u, u.text.slice(0, s.ch) + f[0], n(0));
+                e.insert(s.line + 1, g);
             }
-        } else if (j.length == 1) {
-            f(k, k.text.slice(0, h.ch) + j[0] + l.text.slice(i.ch), e(0));
-            a.remove(h.line + 1, o);
+        } else if (f.length == 1) {
+            o(u, u.text.slice(0, s.ch) + f[0] + c.text.slice(a.ch), n(0));
+            e.remove(s.line + 1, p);
         } else {
-            f(k, k.text.slice(0, h.ch) + j[0], e(0));
-            f(l, m + l.text.slice(i.ch), n);
-            var r = g(1, j.length - 1);
-            if (o > 1) {
-                a.remove(h.line + 1, o - 1);
+            o(u, u.text.slice(0, s.ch) + f[0], n(0));
+            o(c, h + c.text.slice(a.ch), d);
+            var m = l(1, f.length - 1);
+            if (p > 1) {
+                e.remove(s.line + 1, p - 1);
             }
-            a.insert(h.line + 1, r);
+            e.insert(s.line + 1, m);
         }
-        ch(a, "change", a, b);
+        ia(e, "change", e, t);
     }
-    function eE(a, b, c) {
-        function d(a, e, f) {
-            if (a.linked) {
-                for(var g = 0; g < a.linked.length; ++g){
-                    var h = a.linked[g];
-                    if (h.doc == e) {
+    function nW(e, t, i) {
+        function r(e, n, o) {
+            if (e.linked) {
+                for(var l = 0; l < e.linked.length; ++l){
+                    var s = e.linked[l];
+                    if (s.doc == n) {
                         continue;
                     }
-                    var i = f && h.sharedHist;
-                    if (c && !i) {
+                    var a = o && s.sharedHist;
+                    if (i && !a) {
                         continue;
                     }
-                    b(h.doc, i);
-                    d(h.doc, a, i);
+                    t(s.doc, a);
+                    r(s.doc, e, a);
                 }
             }
         }
-        d(a, null, true);
+        r(e, null, true);
     }
-    function eF(a, b) {
-        if (b.cm) {
+    function nN(e, t) {
+        if (t.cm) {
             throw new Error("This document is already in use.");
         }
-        a.doc = b;
-        b.cm = a;
-        dc(a);
-        eA(a);
-        eG(a);
-        a.options.direction = b.direction;
-        if (!a.options.lineWrapping) {
-            bY(a);
+        e.doc = t;
+        t.cm = e;
+        rn(e);
+        nT(e);
+        nA(e);
+        e.options.direction = t.direction;
+        if (!e.options.lineWrapping) {
+            t2(e);
         }
-        a.options.mode = b.modeOption;
-        df(a);
+        e.options.mode = t.modeOption;
+        rs(e);
     }
-    function eG(a) {
-        (a.doc.direction == "rtl" ? H : z)(a.display.lineDiv, "CodeMirror-rtl");
+    function nA(e) {
+        (e.doc.direction == "rtl" ? D : S)(e.display.lineDiv, "CodeMirror-rtl");
     }
-    function eH(a) {
-        d0(a, function() {
-            eG(a);
-            df(a);
+    function nD(e) {
+        rX(e, function() {
+            nA(e);
+            rs(e);
         });
     }
-    function eI(a) {
+    function nH(e) {
         this.done = [];
         this.undone = [];
-        this.undoDepth = a ? a.undoDepth : Infinity;
+        this.undoDepth = e ? e.undoDepth : Infinity;
         this.lastModTime = this.lastSelTime = 0;
         this.lastOp = this.lastSelOp = null;
         this.lastOrigin = this.lastSelOrigin = null;
-        this.generation = this.maxGeneration = a ? a.maxGeneration : 1;
+        this.generation = this.maxGeneration = e ? e.maxGeneration : 1;
     }
-    function eJ(a, b) {
-        var c = {
-            from: a7(b.from),
-            to: ev(b),
-            text: aZ(a, b.from, b.to)
+    function nF(e, t) {
+        var i = {
+            from: eZ(t.from),
+            to: nb(t),
+            text: eG(e, t.from, t.to)
         };
-        eQ(a, c, b.from.line, b.to.line + 1);
-        eE(a, function(a) {
-            return eQ(a, c, b.from.line, b.to.line + 1);
+        nR(e, i, t.from.line, t.to.line + 1);
+        nW(e, function(e) {
+            return nR(e, i, t.from.line, t.to.line + 1);
         }, true);
-        return c;
+        return i;
     }
-    function eK(a) {
-        while(a.length){
-            var b = X(a);
-            if (b.ranges) {
-                a.pop();
+    function nM(e) {
+        while(e.length){
+            var t = j(e);
+            if (t.ranges) {
+                e.pop();
             } else {
                 break;
             }
         }
     }
-    function eL(a, b) {
-        if (b) {
-            eK(a.done);
-            return X(a.done);
-        } else if (a.done.length && !X(a.done).ranges) {
-            return X(a.done);
-        } else if (a.done.length > 1 && !a.done[a.done.length - 2].ranges) {
-            a.done.pop();
-            return X(a.done);
+    function n1(e, t) {
+        if (t) {
+            nM(e.done);
+            return j(e.done);
+        } else if (e.done.length && !j(e.done).ranges) {
+            return j(e.done);
+        } else if (e.done.length > 1 && !e.done[e.done.length - 2].ranges) {
+            e.done.pop();
+            return j(e.done);
         }
     }
-    function eM(a, b, c, d) {
-        var e = a.history;
-        e.undone.length = 0;
-        var f = +new Date(), g;
-        var h;
-        if ((e.lastOp == d || (e.lastOrigin == b.origin && b.origin && ((b.origin.charAt(0) == "+" && e.lastModTime > f - (a.cm ? a.cm.options.historyEventDelay : 500)) || b.origin.charAt(0) == "*"))) && (g = eL(e, e.lastOp == d))) {
-            h = X(g.changes);
-            if (a5(b.from, b.to) == 0 && a5(b.from, h.to) == 0) {
-                h.to = ev(b);
+    function nP(e, t, i, r) {
+        var n = e.history;
+        n.undone.length = 0;
+        var o = +new Date(), l;
+        var s;
+        if ((n.lastOp == r || (n.lastOrigin == t.origin && t.origin && ((t.origin.charAt(0) == "+" && n.lastModTime > o - (e.cm ? e.cm.options.historyEventDelay : 500)) || t.origin.charAt(0) == "*"))) && (l = n1(n, n.lastOp == r))) {
+            s = j(l.changes);
+            if (eq(t.from, t.to) == 0 && eq(t.from, s.to) == 0) {
+                s.to = nb(t);
             } else {
-                g.changes.push(eJ(a, b));
+                l.changes.push(nF(e, t));
             }
         } else {
-            var i = X(e.done);
-            if (!i || !i.ranges) {
-                eP(a.sel, e.done);
+            var a = j(n.done);
+            if (!a || !a.ranges) {
+                nI(e.sel, n.done);
             }
-            g = {
+            l = {
                 changes: [
-                    eJ(a, b)
+                    nF(e, t)
                 ],
-                generation: e.generation
+                generation: n.generation
             };
-            e.done.push(g);
-            while(e.done.length > e.undoDepth){
-                e.done.shift();
-                if (!e.done[0].ranges) {
-                    e.done.shift();
+            n.done.push(l);
+            while(n.done.length > n.undoDepth){
+                n.done.shift();
+                if (!n.done[0].ranges) {
+                    n.done.shift();
                 }
             }
         }
-        e.done.push(c);
-        e.generation = ++e.maxGeneration;
-        e.lastModTime = e.lastSelTime = f;
-        e.lastOp = e.lastSelOp = d;
-        e.lastOrigin = e.lastSelOrigin = b.origin;
-        if (!h) {
-            ar(a, "historyAdded");
+        n.done.push(i);
+        n.generation = ++n.maxGeneration;
+        n.lastModTime = n.lastSelTime = o;
+        n.lastOp = n.lastSelOp = r;
+        n.lastOrigin = n.lastSelOrigin = t.origin;
+        if (!s) {
+            em(e, "historyAdded");
         }
     }
-    function eN(a, b, c, d) {
-        var e = b.charAt(0);
-        return (e == "*" || (e == "+" && c.ranges.length == d.ranges.length && c.somethingSelected() == d.somethingSelected() && new Date() - a.history.lastSelTime <= (a.cm ? a.cm.options.historyEventDelay : 500)));
+    function nz(e, t, i, r) {
+        var n = t.charAt(0);
+        return (n == "*" || (n == "+" && i.ranges.length == r.ranges.length && i.somethingSelected() == r.somethingSelected() && new Date() - e.history.lastSelTime <= (e.cm ? e.cm.options.historyEventDelay : 500)));
     }
-    function eO(a, b, c, d) {
-        var e = a.history, f = d && d.origin;
-        if (c == e.lastSelOp || (f && e.lastSelOrigin == f && ((e.lastModTime == e.lastSelTime && e.lastOrigin == f) || eN(a, f, X(e.done), b)))) {
-            e.done[e.done.length - 1] = b;
+    function nE(e, t, i, r) {
+        var n = e.history, o = r && r.origin;
+        if (i == n.lastSelOp || (o && n.lastSelOrigin == o && ((n.lastModTime == n.lastSelTime && n.lastOrigin == o) || nz(e, o, j(n.done), t)))) {
+            n.done[n.done.length - 1] = t;
         } else {
-            eP(b, e.done);
+            nI(t, n.done);
         }
-        e.lastSelTime = +new Date();
-        e.lastSelOrigin = f;
-        e.lastSelOp = c;
-        if (d && d.clearRedo !== false) {
-            eK(e.undone);
-        }
-    }
-    function eP(a, b) {
-        var c = X(b);
-        if (!(c && c.ranges && c.equals(a))) {
-            b.push(a);
+        n.lastSelTime = +new Date();
+        n.lastSelOrigin = o;
+        n.lastSelOp = i;
+        if (r && r.clearRedo !== false) {
+            nM(n.undone);
         }
     }
-    function eQ(a, b, c, d) {
-        var e = b["spans_" + a.id], f = 0;
-        a.iter(Math.max(a.first, c), Math.min(a.first + a.size, d), function(c) {
-            if (c.markedSpans) {
-                (e || (e = b["spans_" + a.id] = {}))[f] = c.markedSpans;
+    function nI(e, t) {
+        var i = j(t);
+        if (!(i && i.ranges && i.equals(e))) {
+            t.push(e);
+        }
+    }
+    function nR(e, t, i, r) {
+        var n = t["spans_" + e.id], o = 0;
+        e.iter(Math.max(e.first, i), Math.min(e.first + e.size, r), function(i) {
+            if (i.markedSpans) {
+                (n || (n = t["spans_" + e.id] = {}))[o] = i.markedSpans;
             }
-            ++f;
+            ++o;
         });
     }
-    function eR(a) {
-        if (!a) {
+    function n3(e) {
+        if (!e) {
             return null;
         }
-        var b;
-        for(var c = 0; c < a.length; ++c){
-            if (a[c].marker.explicitlyCleared) {
-                if (!b) {
-                    b = a.slice(0, c);
+        var t;
+        for(var i = 0; i < e.length; ++i){
+            if (e[i].marker.explicitlyCleared) {
+                if (!t) {
+                    t = e.slice(0, i);
                 }
-            } else if (b) {
-                b.push(a[c]);
+            } else if (t) {
+                t.push(e[i]);
             }
         }
-        return !b ? a : b.length ? b : null;
+        return !t ? e : t.length ? t : null;
     }
-    function eS(a, b) {
-        var c = b["spans_" + a.id];
-        if (!c) {
+    function n7(e, t) {
+        var i = t["spans_" + e.id];
+        if (!i) {
             return null;
         }
-        var d = [];
-        for(var e = 0; e < b.text.length; ++e){
-            d.push(eR(c[e]));
+        var r = [];
+        for(var n = 0; n < t.text.length; ++n){
+            r.push(n3(i[n]));
         }
-        return d;
+        return r;
     }
-    function eT(a, b) {
-        var c = eS(a, b);
-        var d = bC(a, b);
-        if (!c) {
-            return d;
+    function nB(e, t) {
+        var i = n7(e, t);
+        var r = tL(e, t);
+        if (!i) {
+            return r;
         }
-        if (!d) {
-            return c;
+        if (!r) {
+            return i;
         }
-        for(var e = 0; e < c.length; ++e){
-            var f = c[e], g = d[e];
-            if (f && g) {
-                spans: for(var h = 0; h < g.length; ++h){
-                    var i = g[h];
-                    for(var j = 0; j < f.length; ++j){
-                        if (f[j].marker == i.marker) {
+        for(var n = 0; n < i.length; ++n){
+            var o = i[n], l = r[n];
+            if (o && l) {
+                spans: for(var s = 0; s < l.length; ++s){
+                    var a = l[s];
+                    for(var f = 0; f < o.length; ++f){
+                        if (o[f].marker == a.marker) {
                             continue spans;
                         }
                     }
-                    f.push(i);
+                    o.push(a);
                 }
-            } else if (g) {
-                c[e] = g;
+            } else if (l) {
+                i[n] = l;
             }
         }
-        return c;
+        return i;
     }
-    function eU(a, b, c) {
-        var d = [];
-        for(var e = 0; e < a.length; ++e){
-            var f = a[e];
-            if (f.ranges) {
-                d.push(c ? er.prototype.deepCopy.call(f) : f);
+    function n4(e, t, i) {
+        var r = [];
+        for(var n = 0; n < e.length; ++n){
+            var o = e[n];
+            if (o.ranges) {
+                r.push(i ? n$.prototype.deepCopy.call(o) : o);
                 continue;
             }
-            var g = f.changes, h = [];
-            d.push({
-                changes: h
+            var l = o.changes, s = [];
+            r.push({
+                changes: s
             });
-            for(var i = 0; i < g.length; ++i){
-                var j = g[i], k = void 0;
-                h.push({
-                    from: j.from,
-                    to: j.to,
-                    text: j.text
+            for(var a = 0; a < l.length; ++a){
+                var f = l[a], u = void 0;
+                s.push({
+                    from: f.from,
+                    to: f.to,
+                    text: f.text
                 });
-                if (b) {
-                    for(var l in j){
-                        if ((k = l.match(/^spans_(\d+)$/))) {
-                            if (O(b, Number(k[1])) > -1) {
-                                X(h)[l] = j[l];
-                                delete j[l];
+                if (t) {
+                    for(var c in f){
+                        if ((u = c.match(/^spans_(\d+)$/))) {
+                            if (I(t, Number(u[1])) > -1) {
+                                j(s)[c] = f[c];
+                                delete f[c];
                             }
                         }
                     }
                 }
             }
         }
-        return d;
+        return r;
     }
-    function eV(a, b, c, d) {
-        if (d) {
-            var e = a.anchor;
-            if (c) {
-                var f = a5(b, e) < 0;
-                if (f != a5(c, e) < 0) {
-                    e = b;
-                    b = c;
-                } else if (f != a5(b, c) < 0) {
-                    b = c;
+    function n6(e, t, i, r) {
+        if (r) {
+            var n = e.anchor;
+            if (i) {
+                var o = eq(t, n) < 0;
+                if (o != eq(i, n) < 0) {
+                    n = t;
+                    t = i;
+                } else if (o != eq(t, i) < 0) {
+                    t = i;
                 }
             }
-            return new es(e, b);
+            return new ny(n, t);
         } else {
-            return new es(c || b, b);
+            return new ny(i || t, t);
         }
     }
-    function eW(a, b, c, d, e) {
-        if (e == null) {
-            e = a.cm && (a.cm.display.shift || a.extend);
+    function n5(e, t, i, r, n) {
+        if (n == null) {
+            n = e.cm && (e.cm.display.shift || e.extend);
         }
-        e0(a, new er([
-            eV(a.sel.primary(), b, c, e)
-        ], 0), d);
+        nX(e, new n$([
+            n6(e.sel.primary(), t, i, n)
+        ], 0), r);
     }
-    function eX(a, b, c) {
-        var d = [];
-        var e = a.cm && (a.cm.display.shift || a.extend);
-        for(var f = 0; f < a.sel.ranges.length; f++){
-            d[f] = eV(a.sel.ranges[f], b[f], null, e);
+    function n2(e, t, i) {
+        var r = [];
+        var n = e.cm && (e.cm.display.shift || e.extend);
+        for(var o = 0; o < e.sel.ranges.length; o++){
+            r[o] = n6(e.sel.ranges[o], t[o], null, n);
         }
-        var g = et(a.cm, d, a.sel.primIndex);
-        e0(a, g, c);
+        var l = n_(e.cm, r, e.sel.primIndex);
+        nX(e, l, i);
     }
-    function eY(a, b, c, d) {
-        var e = a.sel.ranges.slice(0);
-        e[b] = c;
-        e0(a, et(a.cm, e, a.sel.primIndex), d);
+    function nG(e, t, i, r) {
+        var n = e.sel.ranges.slice(0);
+        n[t] = i;
+        nX(e, n_(e.cm, n, e.sel.primIndex), r);
     }
-    function eZ(a, b, c, d) {
-        e0(a, eu(b, c), d);
+    function nU(e, t, i, r) {
+        nX(e, nw(t, i), r);
     }
-    function e$(a, b, c) {
-        var d = {
-            ranges: b.ranges,
-            update: function(b) {
+    function nV(e, t, i) {
+        var r = {
+            ranges: t.ranges,
+            update: function(t) {
                 this.ranges = [];
-                for(var c = 0; c < b.length; c++){
-                    this.ranges[c] = new es(bb(a, b[c].anchor), bb(a, b[c].head));
+                for(var i = 0; i < t.length; i++){
+                    this.ranges[i] = new ny(tt(e, t[i].anchor), tt(e, t[i].head));
                 }
             },
-            origin: c && c.origin
+            origin: i && i.origin
         };
-        ar(a, "beforeSelectionChange", a, d);
-        if (a.cm) {
-            ar(a.cm, "beforeSelectionChange", a.cm, d);
+        em(e, "beforeSelectionChange", e, r);
+        if (e.cm) {
+            em(e.cm, "beforeSelectionChange", e.cm, r);
         }
-        if (d.ranges != b.ranges) {
-            return et(a.cm, d.ranges, d.ranges.length - 1);
+        if (r.ranges != t.ranges) {
+            return n_(e.cm, r.ranges, r.ranges.length - 1);
         } else {
-            return b;
+            return t;
         }
     }
-    function e_(a, b, c) {
-        var d = a.history.done, e = X(d);
-        if (e && e.ranges) {
-            d[d.length - 1] = b;
-            e1(a, b, c);
+    function nK(e, t, i) {
+        var r = e.history.done, n = j(r);
+        if (n && n.ranges) {
+            r[r.length - 1] = t;
+            nY(e, t, i);
         } else {
-            e0(a, b, c);
+            nX(e, t, i);
         }
     }
-    function e0(a, b, c) {
-        e1(a, b, c);
-        eO(a, a.sel, a.cm ? a.cm.curOp.id : NaN, c);
+    function nX(e, t, i) {
+        nY(e, t, i);
+        nE(e, e.sel, e.cm ? e.cm.curOp.id : NaN, i);
     }
-    function e1(a, b, c) {
-        if (au(a, "beforeSelectionChange") || (a.cm && au(a.cm, "beforeSelectionChange"))) {
-            b = e$(a, b, c);
+    function nY(e, t, i) {
+        if (e_(e, "beforeSelectionChange") || (e.cm && e_(e.cm, "beforeSelectionChange"))) {
+            t = nV(e, t, i);
         }
-        var d = (c && c.bias) || (a5(b.primary().head, a.sel.primary().head) < 0 ? -1 : 1);
-        e2(a, e4(a, b, d, true));
-        if (!(c && c.scroll === false) && a.cm && a.cm.getOption("readOnly") != "nocursor") {
-            dE(a.cm);
+        var r = (i && i.bias) || (eq(t.primary().head, e.sel.primary().head) < 0 ? -1 : 1);
+        nj(e, nq(e, t, r, true));
+        if (!(i && i.scroll === false) && e.cm && e.cm.getOption("readOnly") != "nocursor") {
+            rW(e.cm);
         }
     }
-    function e2(a, b) {
-        if (b.equals(a.sel)) {
+    function nj(e, t) {
+        if (t.equals(e.sel)) {
             return;
         }
-        a.sel = b;
-        if (a.cm) {
-            a.cm.curOp.updateInput = 1;
-            a.cm.curOp.selectionChanged = true;
-            at(a.cm);
+        e.sel = t;
+        if (e.cm) {
+            e.cm.curOp.updateInput = 1;
+            e.cm.curOp.selectionChanged = true;
+            ey(e.cm);
         }
-        ch(a, "cursorActivity", a);
+        ia(e, "cursorActivity", e);
     }
-    function e3(a) {
-        e2(a, e4(a, a.sel, null, false));
+    function n9(e) {
+        nj(e, nq(e, e.sel, null, false));
     }
-    function e4(a, b, c, d) {
-        var e;
-        for(var f = 0; f < b.ranges.length; f++){
-            var g = b.ranges[f];
-            var h = b.ranges.length == a.sel.ranges.length && a.sel.ranges[f];
-            var i = e6(a, g.anchor, h && h.anchor, c, d);
-            var j = e6(a, g.head, h && h.head, c, d);
-            if (e || i != g.anchor || j != g.head) {
-                if (!e) {
-                    e = b.ranges.slice(0, f);
+    function nq(e, t, i, r) {
+        var n;
+        for(var o = 0; o < t.ranges.length; o++){
+            var l = t.ranges[o];
+            var s = t.ranges.length == e.sel.ranges.length && e.sel.ranges[o];
+            var a = nZ(e, l.anchor, s && s.anchor, i, r);
+            var f = nZ(e, l.head, s && s.head, i, r);
+            if (n || a != l.anchor || f != l.head) {
+                if (!n) {
+                    n = t.ranges.slice(0, o);
                 }
-                e[f] = new es(i, j);
+                n[o] = new ny(a, f);
             }
         }
-        return e ? et(a.cm, e, b.primIndex) : b;
+        return n ? n_(e.cm, n, t.primIndex) : t;
     }
-    function e5(a, b, c, d, e) {
-        var f = aY(a, b.line);
-        if (f.markedSpans) {
-            for(var g = 0; g < f.markedSpans.length; ++g){
-                var h = f.markedSpans[g], i = h.marker;
-                var j = "selectLeft" in i ? !i.selectLeft : i.inclusiveLeft;
-                var k = "selectRight" in i ? !i.selectRight : i.inclusiveRight;
-                if ((h.from == null || (j ? h.from <= b.ch : h.from < b.ch)) && (h.to == null || (k ? h.to >= b.ch : h.to > b.ch))) {
-                    if (e) {
-                        ar(i, "beforeCursorEnter");
-                        if (i.explicitlyCleared) {
-                            if (!f.markedSpans) {
+    function n8(e, t, i, r, n) {
+        var o = e2(e, t.line);
+        if (o.markedSpans) {
+            for(var l = 0; l < o.markedSpans.length; ++l){
+                var s = o.markedSpans[l], a = s.marker;
+                var f = "selectLeft" in a ? !a.selectLeft : a.inclusiveLeft;
+                var u = "selectRight" in a ? !a.selectRight : a.inclusiveRight;
+                if ((s.from == null || (f ? s.from <= t.ch : s.from < t.ch)) && (s.to == null || (u ? s.to >= t.ch : s.to > t.ch))) {
+                    if (n) {
+                        em(a, "beforeCursorEnter");
+                        if (a.explicitlyCleared) {
+                            if (!o.markedSpans) {
                                 break;
                             } else {
-                                --g;
+                                --l;
                                 continue;
                             }
                         }
                     }
-                    if (!i.atomic) {
+                    if (!a.atomic) {
                         continue;
                     }
-                    if (c) {
-                        var l = i.find(d < 0 ? 1 : -1), m = void 0;
-                        if (d < 0 ? k : j) {
-                            l = e7(a, l, -d, l && l.line == b.line ? f : null);
+                    if (i) {
+                        var c = a.find(r < 0 ? 1 : -1), h = void 0;
+                        if (r < 0 ? u : f) {
+                            c = nJ(e, c, -r, c && c.line == t.line ? o : null);
                         }
-                        if (l && l.line == b.line && (m = a5(l, c)) && (d < 0 ? m < 0 : m > 0)) {
-                            return e5(a, l, b, d, e);
+                        if (c && c.line == t.line && (h = eq(c, i)) && (r < 0 ? h < 0 : h > 0)) {
+                            return n8(e, c, t, r, n);
                         }
                     }
-                    var n = i.find(d < 0 ? -1 : 1);
-                    if (d < 0 ? j : k) {
-                        n = e7(a, n, d, n.line == b.line ? f : null);
+                    var d = a.find(r < 0 ? -1 : 1);
+                    if (r < 0 ? f : u) {
+                        d = nJ(e, d, r, d.line == t.line ? o : null);
                     }
-                    return n ? e5(a, n, b, d, e) : null;
+                    return d ? n8(e, d, t, r, n) : null;
                 }
             }
         }
-        return b;
+        return t;
     }
-    function e6(a, b, c, d, e) {
-        var f = d || 1;
-        var g = e5(a, b, c, f, e) || (!e && e5(a, b, c, f, true)) || e5(a, b, c, -f, e) || (!e && e5(a, b, c, -f, true));
-        if (!g) {
-            a.cantEdit = true;
-            return a4(a.first, 0);
+    function nZ(e, t, i, r, n) {
+        var o = r || 1;
+        var l = n8(e, t, i, o, n) || (!n && n8(e, t, i, o, true)) || n8(e, t, i, -o, n) || (!n && n8(e, t, i, -o, true));
+        if (!l) {
+            e.cantEdit = true;
+            return e9(e.first, 0);
         }
-        return g;
+        return l;
     }
-    function e7(a, b, c, d) {
-        if (c < 0 && b.ch == 0) {
-            if (b.line > a.first) {
-                return bb(a, a4(b.line - 1));
+    function nJ(e, t, i, r) {
+        if (i < 0 && t.ch == 0) {
+            if (t.line > e.first) {
+                return tt(e, e9(t.line - 1));
             } else {
                 return null;
             }
-        } else if (c > 0 && b.ch == (d || aY(a, b.line)).text.length) {
-            if (b.line < a.first + a.size - 1) {
-                return a4(b.line + 1, 0);
+        } else if (i > 0 && t.ch == (r || e2(e, t.line)).text.length) {
+            if (t.line < e.first + e.size - 1) {
+                return e9(t.line + 1, 0);
             } else {
                 return null;
             }
         } else {
-            return new a4(b.line, b.ch + c);
+            return new e9(t.line, t.ch + i);
         }
     }
-    function e8(a) {
-        a.setSelection(a4(a.firstLine(), 0), a4(a.lastLine()), R);
+    function nQ(e) {
+        e.setSelection(e9(e.firstLine(), 0), e9(e.lastLine()), G);
     }
-    function e9(a, b, c) {
-        var d = {
+    function oe(e, t, i) {
+        var r = {
             canceled: false,
-            from: b.from,
-            to: b.to,
-            text: b.text,
-            origin: b.origin,
+            from: t.from,
+            to: t.to,
+            text: t.text,
+            origin: t.origin,
             cancel: function() {
-                return (d.canceled = true);
+                return (r.canceled = true);
             }
         };
-        if (c) {
-            d.update = function(b, c, e, f) {
-                if (b) {
-                    d.from = bb(a, b);
+        if (i) {
+            r.update = function(t, i, n, o) {
+                if (t) {
+                    r.from = tt(e, t);
                 }
-                if (c) {
-                    d.to = bb(a, c);
+                if (i) {
+                    r.to = tt(e, i);
                 }
-                if (e) {
-                    d.text = e;
+                if (n) {
+                    r.text = n;
                 }
-                if (f !== undefined) {
-                    d.origin = f;
+                if (o !== undefined) {
+                    r.origin = o;
                 }
             };
         }
-        ar(a, "beforeChange", a, d);
-        if (a.cm) {
-            ar(a.cm, "beforeChange", a.cm, d);
+        em(e, "beforeChange", e, r);
+        if (e.cm) {
+            em(e.cm, "beforeChange", e.cm, r);
         }
-        if (d.canceled) {
-            if (a.cm) {
-                a.cm.curOp.updateInput = 2;
+        if (r.canceled) {
+            if (e.cm) {
+                e.cm.curOp.updateInput = 2;
             }
             return null;
         }
         return {
-            from: d.from,
-            to: d.to,
-            text: d.text,
-            origin: d.origin
+            from: r.from,
+            to: r.to,
+            text: r.text,
+            origin: r.origin
         };
     }
-    function fa(a, b, c) {
-        if (a.cm) {
-            if (!a.cm.curOp) {
-                return d1(a.cm, fa)(a, b, c);
+    function ot(e, t, i) {
+        if (e.cm) {
+            if (!e.cm.curOp) {
+                return rY(e.cm, ot)(e, t, i);
             }
-            if (a.cm.state.suppressEdits) {
+            if (e.cm.state.suppressEdits) {
                 return;
             }
         }
-        if (au(a, "beforeChange") || (a.cm && au(a.cm, "beforeChange"))) {
-            b = e9(a, b, true);
-            if (!b) {
+        if (e_(e, "beforeChange") || (e.cm && e_(e.cm, "beforeChange"))) {
+            t = oe(e, t, true);
+            if (!t) {
                 return;
             }
         }
-        var d = bs && !c && bE(a, b.from, b.to);
-        if (d) {
-            for(var e = d.length - 1; e >= 0; --e){
-                fb(a, {
-                    from: d[e].from,
-                    to: d[e].to,
-                    text: e ? [
+        var r = t$ && !i && t0(e, t.from, t.to);
+        if (r) {
+            for(var n = r.length - 1; n >= 0; --n){
+                oi(e, {
+                    from: r[n].from,
+                    to: r[n].to,
+                    text: n ? [
                         ""
-                    ] : b.text,
-                    origin: b.origin
+                    ] : t.text,
+                    origin: t.origin
                 });
             }
         } else {
-            fb(a, b);
+            oi(e, t);
         }
     }
-    function fb(a, b) {
-        if (b.text.length == 1 && b.text[0] == "" && a5(b.from, b.to) == 0) {
+    function oi(e, t) {
+        if (t.text.length == 1 && t.text[0] == "" && eq(t.from, t.to) == 0) {
             return;
         }
-        var c = ex(a, b);
-        eM(a, b, c, a.cm ? a.cm.curOp.id : NaN);
-        fe(a, b, c, bC(a, b));
-        var d = [];
-        eE(a, function(a, c) {
-            if (!c && O(d, a.history) == -1) {
-                fj(a.history, b);
-                d.push(a.history);
+        var i = nC(e, t);
+        nP(e, t, i, e.cm ? e.cm.curOp.id : NaN);
+        oo(e, t, i, tL(e, t));
+        var r = [];
+        nW(e, function(e, i) {
+            if (!i && I(r, e.history) == -1) {
+                ou(e.history, t);
+                r.push(e.history);
             }
-            fe(a, b, null, bC(a, b));
+            oo(e, t, null, tL(e, t));
         });
     }
-    function fc(a, b, c) {
-        var d = a.cm && a.cm.state.suppressEdits;
-        if (d && !c) {
+    function or(e, t, i) {
+        var r = e.cm && e.cm.state.suppressEdits;
+        if (r && !i) {
             return;
         }
-        var e = a.history, f, g = a.sel;
-        var h = b == "undo" ? e.done : e.undone, i = b == "undo" ? e.undone : e.done;
-        var j = 0;
-        for(; j < h.length; j++){
-            f = h[j];
-            if (c ? f.ranges && !f.equals(a.sel) : !f.ranges) {
+        var n = e.history, o, l = e.sel;
+        var s = t == "undo" ? n.done : n.undone, a = t == "undo" ? n.undone : n.done;
+        var f = 0;
+        for(; f < s.length; f++){
+            o = s[f];
+            if (i ? o.ranges && !o.equals(e.sel) : !o.ranges) {
                 break;
             }
         }
-        if (j == h.length) {
+        if (f == s.length) {
             return;
         }
-        e.lastOrigin = e.lastSelOrigin = null;
+        n.lastOrigin = n.lastSelOrigin = null;
         for(;;){
-            f = h.pop();
-            if (f.ranges) {
-                eP(f, i);
-                if (c && !f.equals(a.sel)) {
-                    e0(a, f, {
+            o = s.pop();
+            if (o.ranges) {
+                nI(o, a);
+                if (i && !o.equals(e.sel)) {
+                    nX(e, o, {
                         clearRedo: false
                     });
                     return;
                 }
-                g = f;
-            } else if (d) {
-                h.push(f);
+                l = o;
+            } else if (r) {
+                s.push(o);
                 return;
             } else {
                 break;
             }
         }
-        var k = [];
-        eP(g, i);
-        i.push({
-            changes: k,
-            generation: e.generation
+        var u = [];
+        nI(l, a);
+        a.push({
+            changes: u,
+            generation: n.generation
         });
-        e.generation = f.generation || ++e.maxGeneration;
-        var l = au(a, "beforeChange") || (a.cm && au(a.cm, "beforeChange"));
-        var m = function(c) {
-            var d = f.changes[c];
-            d.origin = b;
-            if (l && !e9(a, d, false)) {
-                h.length = 0;
+        n.generation = o.generation || ++n.maxGeneration;
+        var c = e_(e, "beforeChange") || (e.cm && e_(e.cm, "beforeChange"));
+        var h = function(i) {
+            var r = o.changes[i];
+            r.origin = t;
+            if (c && !oe(e, r, false)) {
+                s.length = 0;
                 return {};
             }
-            k.push(eJ(a, d));
-            var e = c ? ex(a, d) : X(h);
-            fe(a, d, e, eT(a, d));
-            if (!c && a.cm) {
-                a.cm.scrollIntoView({
-                    from: d.from,
-                    to: ev(d)
+            u.push(nF(e, r));
+            var n = i ? nC(e, r) : j(s);
+            oo(e, r, n, nB(e, r));
+            if (!i && e.cm) {
+                e.cm.scrollIntoView({
+                    from: r.from,
+                    to: nb(r)
                 });
             }
-            var g = [];
-            eE(a, function(a, b) {
-                if (!b && O(g, a.history) == -1) {
-                    fj(a.history, d);
-                    g.push(a.history);
+            var l = [];
+            nW(e, function(e, t) {
+                if (!t && I(l, e.history) == -1) {
+                    ou(e.history, r);
+                    l.push(e.history);
                 }
-                fe(a, d, null, eT(a, d));
+                oo(e, r, null, nB(e, r));
             });
         };
-        for(var n = f.changes.length - 1; n >= 0; --n){
-            var o = m(n);
-            if (o) return o.v;
+        for(var d = o.changes.length - 1; d >= 0; --d){
+            var p = h(d);
+            if (p) return p.v;
         }
     }
-    function fd(a, b) {
-        if (b == 0) {
+    function on(e, t) {
+        if (t == 0) {
             return;
         }
-        a.first += b;
-        a.sel = new er(Y(a.sel.ranges, function(a) {
-            return new es(a4(a.anchor.line + b, a.anchor.ch), a4(a.head.line + b, a.head.ch));
-        }), a.sel.primIndex);
-        if (a.cm) {
-            df(a.cm, a.first, a.first - b, b);
-            for(var c = a.cm.display, d = c.viewFrom; d < c.viewTo; d++){
-                dg(a.cm, d, "gutter");
+        e.first += t;
+        e.sel = new n$(q(e.sel.ranges, function(e) {
+            return new ny(e9(e.anchor.line + t, e.anchor.ch), e9(e.head.line + t, e.head.ch));
+        }), e.sel.primIndex);
+        if (e.cm) {
+            rs(e.cm, e.first, e.first - t, t);
+            for(var i = e.cm.display, r = i.viewFrom; r < i.viewTo; r++){
+                ra(e.cm, r, "gutter");
             }
         }
     }
-    function fe(a, b, c, d) {
-        if (a.cm && !a.cm.curOp) {
-            return d1(a.cm, fe)(a, b, c, d);
+    function oo(e, t, i, r) {
+        if (e.cm && !e.cm.curOp) {
+            return rY(e.cm, oo)(e, t, i, r);
         }
-        if (b.to.line < a.first) {
-            fd(a, b.text.length - 1 - (b.to.line - b.from.line));
+        if (t.to.line < e.first) {
+            on(e, t.text.length - 1 - (t.to.line - t.from.line));
             return;
         }
-        if (b.from.line > a.lastLine()) {
+        if (t.from.line > e.lastLine()) {
             return;
         }
-        if (b.from.line < a.first) {
-            var e = b.text.length - 1 - (a.first - b.from.line);
-            fd(a, e);
-            b = {
-                from: a4(a.first, 0),
-                to: a4(b.to.line + e, b.to.ch),
+        if (t.from.line < e.first) {
+            var n = t.text.length - 1 - (e.first - t.from.line);
+            on(e, n);
+            t = {
+                from: e9(e.first, 0),
+                to: e9(t.to.line + n, t.to.ch),
                 text: [
-                    X(b.text)
+                    j(t.text)
                 ],
-                origin: b.origin
+                origin: t.origin
             };
         }
-        var f = a.lastLine();
-        if (b.to.line > f) {
-            b = {
-                from: b.from,
-                to: a4(f, aY(a, f).text.length),
+        var o = e.lastLine();
+        if (t.to.line > o) {
+            t = {
+                from: t.from,
+                to: e9(o, e2(e, o).text.length),
                 text: [
-                    b.text[0]
+                    t.text[0]
                 ],
-                origin: b.origin
+                origin: t.origin
             };
         }
-        b.removed = aZ(a, b.from, b.to);
-        if (!c) {
-            c = ex(a, b);
+        t.removed = eG(e, t.from, t.to);
+        if (!i) {
+            i = nC(e, t);
         }
-        if (a.cm) {
-            ff(a.cm, b, d);
+        if (e.cm) {
+            ol(e.cm, t, r);
         } else {
-            eD(a, b, d);
+            n0(e, t, r);
         }
-        e1(a, c, R);
-        if (a.cantEdit && e6(a, a4(a.firstLine(), 0))) {
-            a.cantEdit = false;
+        nY(e, i, G);
+        if (e.cantEdit && nZ(e, e9(e.firstLine(), 0))) {
+            e.cantEdit = false;
         }
     }
-    function ff(a, b, c) {
-        var d = a.doc, e = a.display, f = b.from, g = b.to;
-        var h = false, i = f.line;
-        if (!a.options.lineWrapping) {
-            i = a0(bP(aY(d, f.line)));
-            d.iter(i, g.line + 1, function(a) {
-                if (a == e.maxLine) {
-                    h = true;
+    function ol(e, t, i) {
+        var r = e.doc, n = e.display, o = t.from, l = t.to;
+        var s = false, a = o.line;
+        if (!e.options.lineWrapping) {
+            a = eK(tE(e2(r, o.line)));
+            r.iter(a, l.line + 1, function(e) {
+                if (e == n.maxLine) {
+                    s = true;
                     return true;
                 }
             });
         }
-        if (d.sel.contains(b.from, b.to) > -1) {
-            at(a);
+        if (r.sel.contains(t.from, t.to) > -1) {
+            ey(e);
         }
-        eD(d, b, c, db(a));
-        if (!a.options.lineWrapping) {
-            d.iter(i, f.line + b.text.length, function(a) {
-                var b = bX(a);
-                if (b > e.maxLineLength) {
-                    e.maxLine = a;
-                    e.maxLineLength = b;
-                    e.maxLineChanged = true;
-                    h = false;
+        n0(r, t, i, rr(e));
+        if (!e.options.lineWrapping) {
+            r.iter(a, o.line + t.text.length, function(e) {
+                var t = t5(e);
+                if (t > n.maxLineLength) {
+                    n.maxLine = e;
+                    n.maxLineLength = t;
+                    n.maxLineChanged = true;
+                    s = false;
                 }
             });
-            if (h) {
-                a.curOp.updateMaxLine = true;
+            if (s) {
+                e.curOp.updateMaxLine = true;
             }
         }
-        br(d, f.line);
-        d4(a, 400);
-        var j = b.text.length - (g.line - f.line) - 1;
-        if (b.full) {
-            df(a);
-        } else if (f.line == g.line && b.text.length == 1 && !eC(a.doc, b)) {
-            dg(a, f.line, "text");
+        tm(r, o.line);
+        rq(e, 400);
+        var f = t.text.length - (l.line - o.line) - 1;
+        if (t.full) {
+            rs(e);
+        } else if (o.line == l.line && t.text.length == 1 && !nO(e.doc, t)) {
+            ra(e, o.line, "text");
         } else {
-            df(a, f.line, g.line + 1, j);
+            rs(e, o.line, l.line + 1, f);
         }
-        var k = au(a, "changes"), l = au(a, "change");
-        if (l || k) {
-            var m = {
-                from: f,
-                to: g,
-                text: b.text,
-                removed: b.removed,
-                origin: b.origin
+        var u = e_(e, "changes"), c = e_(e, "change");
+        if (c || u) {
+            var h = {
+                from: o,
+                to: l,
+                text: t.text,
+                removed: t.removed,
+                origin: t.origin
             };
-            if (l) {
-                ch(a, "change", a, m);
+            if (c) {
+                ia(e, "change", e, h);
             }
-            if (k) {
-                (a.curOp.changeObjs || (a.curOp.changeObjs = [])).push(m);
+            if (u) {
+                (e.curOp.changeObjs || (e.curOp.changeObjs = [])).push(h);
             }
         }
-        a.display.selForContextMenu = null;
+        e.display.selForContextMenu = null;
     }
-    function fg(a, b, c, d, e) {
-        var f;
-        if (!d) {
-            d = c;
+    function os(e, t, i, r, n) {
+        var o;
+        if (!r) {
+            r = i;
         }
-        if (a5(d, c) < 0) {
-            (f = [
-                d,
-                c
-            ]), (c = f[0]), (d = f[1]);
+        if (eq(r, i) < 0) {
+            (o = [
+                r,
+                i
+            ]), (i = o[0]), (r = o[1]);
         }
-        if (typeof b == "string") {
-            b = a.splitLines(b);
+        if (typeof t == "string") {
+            t = e.splitLines(t);
         }
-        fa(a, {
-            from: c,
-            to: d,
-            text: b,
-            origin: e
+        ot(e, {
+            from: i,
+            to: r,
+            text: t,
+            origin: n
         });
     }
-    function fh(a, b, c, d) {
-        if (c < a.line) {
-            a.line += d;
-        } else if (b < a.line) {
-            a.line = b;
-            a.ch = 0;
+    function oa(e, t, i, r) {
+        if (i < e.line) {
+            e.line += r;
+        } else if (t < e.line) {
+            e.line = t;
+            e.ch = 0;
         }
     }
-    function fi(a, b, c, d) {
-        for(var e = 0; e < a.length; ++e){
-            var f = a[e], g = true;
-            if (f.ranges) {
-                if (!f.copied) {
-                    f = a[e] = f.deepCopy();
-                    f.copied = true;
+    function of(e, t, i, r) {
+        for(var n = 0; n < e.length; ++n){
+            var o = e[n], l = true;
+            if (o.ranges) {
+                if (!o.copied) {
+                    o = e[n] = o.deepCopy();
+                    o.copied = true;
                 }
-                for(var h = 0; h < f.ranges.length; h++){
-                    fh(f.ranges[h].anchor, b, c, d);
-                    fh(f.ranges[h].head, b, c, d);
+                for(var s = 0; s < o.ranges.length; s++){
+                    oa(o.ranges[s].anchor, t, i, r);
+                    oa(o.ranges[s].head, t, i, r);
                 }
                 continue;
             }
-            for(var i = 0; i < f.changes.length; ++i){
-                var j = f.changes[i];
-                if (c < j.from.line) {
-                    j.from = a4(j.from.line + d, j.from.ch);
-                    j.to = a4(j.to.line + d, j.to.ch);
-                } else if (b <= j.to.line) {
-                    g = false;
+            for(var a = 0; a < o.changes.length; ++a){
+                var f = o.changes[a];
+                if (i < f.from.line) {
+                    f.from = e9(f.from.line + r, f.from.ch);
+                    f.to = e9(f.to.line + r, f.to.ch);
+                } else if (t <= f.to.line) {
+                    l = false;
                     break;
                 }
             }
-            if (!g) {
-                a.splice(0, e + 1);
-                e = 0;
+            if (!l) {
+                e.splice(0, n + 1);
+                n = 0;
             }
         }
     }
-    function fj(a, b) {
-        var c = b.from.line, d = b.to.line, e = b.text.length - (d - c) - 1;
-        fi(a.done, c, d, e);
-        fi(a.undone, c, d, e);
+    function ou(e, t) {
+        var i = t.from.line, r = t.to.line, n = t.text.length - (r - i) - 1;
+        of(e.done, i, r, n);
+        of(e.undone, i, r, n);
     }
-    function fk(a, b, c, d) {
-        var e = b, f = b;
-        if (typeof b == "number") {
-            f = aY(a, ba(a, b));
+    function oc(e, t, i, r) {
+        var n = t, o = t;
+        if (typeof t == "number") {
+            o = e2(e, te(e, t));
         } else {
-            e = a0(b);
+            n = eK(t);
         }
-        if (e == null) {
+        if (n == null) {
             return null;
         }
-        if (d(f, e) && a.cm) {
-            dg(a.cm, e, c);
+        if (r(o, n) && e.cm) {
+            ra(e.cm, n, i);
         }
-        return f;
+        return o;
     }
-    function fl(a) {
-        this.lines = a;
+    function oh(e) {
+        this.lines = e;
         this.parent = null;
-        var b = 0;
-        for(var c = 0; c < a.length; ++c){
-            a[c].parent = this;
-            b += a[c].height;
+        var t = 0;
+        for(var i = 0; i < e.length; ++i){
+            e[i].parent = this;
+            t += e[i].height;
         }
-        this.height = b;
+        this.height = t;
     }
-    fl.prototype = {
+    oh.prototype = {
         chunkSize: function() {
             return this.lines.length;
         },
-        removeInner: function(a, b) {
-            for(var c = a, d = a + b; c < d; ++c){
-                var e = this.lines[c];
-                this.height -= e.height;
-                b_(e);
-                ch(e, "delete");
+        removeInner: function(e, t) {
+            for(var i = e, r = e + t; i < r; ++i){
+                var n = this.lines[i];
+                this.height -= n.height;
+                tV(n);
+                ia(n, "delete");
             }
-            this.lines.splice(a, b);
+            this.lines.splice(e, t);
         },
-        collapse: function(a) {
-            a.push.apply(a, this.lines);
+        collapse: function(e) {
+            e.push.apply(e, this.lines);
         },
-        insertInner: function(a, b, c) {
-            this.height += c;
-            this.lines = this.lines.slice(0, a).concat(b).concat(this.lines.slice(a));
-            for(var d = 0; d < b.length; ++d){
-                b[d].parent = this;
+        insertInner: function(e, t, i) {
+            this.height += i;
+            this.lines = this.lines.slice(0, e).concat(t).concat(this.lines.slice(e));
+            for(var r = 0; r < t.length; ++r){
+                t[r].parent = this;
             }
         },
-        iterN: function(a, b, c) {
-            for(var d = a + b; a < d; ++a){
-                if (c(this.lines[a])) {
+        iterN: function(e, t, i) {
+            for(var r = e + t; e < r; ++e){
+                if (i(this.lines[e])) {
                     return true;
                 }
             }
         }
     };
-    function fm(a) {
-        this.children = a;
-        var b = 0, c = 0;
-        for(var d = 0; d < a.length; ++d){
-            var e = a[d];
-            b += e.chunkSize();
-            c += e.height;
-            e.parent = this;
+    function od(e) {
+        this.children = e;
+        var t = 0, i = 0;
+        for(var r = 0; r < e.length; ++r){
+            var n = e[r];
+            t += n.chunkSize();
+            i += n.height;
+            n.parent = this;
         }
-        this.size = b;
-        this.height = c;
+        this.size = t;
+        this.height = i;
         this.parent = null;
     }
-    fm.prototype = {
+    od.prototype = {
         chunkSize: function() {
             return this.size;
         },
-        removeInner: function(a, b) {
-            this.size -= b;
-            for(var c = 0; c < this.children.length; ++c){
-                var d = this.children[c], e = d.chunkSize();
-                if (a < e) {
-                    var f = Math.min(b, e - a), g = d.height;
-                    d.removeInner(a, f);
-                    this.height -= g - d.height;
-                    if (e == f) {
-                        this.children.splice(c--, 1);
-                        d.parent = null;
+        removeInner: function(e, t) {
+            this.size -= t;
+            for(var i = 0; i < this.children.length; ++i){
+                var r = this.children[i], n = r.chunkSize();
+                if (e < n) {
+                    var o = Math.min(t, n - e), l = r.height;
+                    r.removeInner(e, o);
+                    this.height -= l - r.height;
+                    if (n == o) {
+                        this.children.splice(i--, 1);
+                        r.parent = null;
                     }
-                    if ((b -= f) == 0) {
+                    if ((t -= o) == 0) {
                         break;
                     }
-                    a = 0;
+                    e = 0;
                 } else {
-                    a -= e;
+                    e -= n;
                 }
             }
-            if (this.size - b < 25 && (this.children.length > 1 || !(this.children[0] instanceof fl))) {
-                var h = [];
-                this.collapse(h);
+            if (this.size - t < 25 && (this.children.length > 1 || !(this.children[0] instanceof oh))) {
+                var s = [];
+                this.collapse(s);
                 this.children = [
-                    new fl(h)
+                    new oh(s)
                 ];
                 this.children[0].parent = this;
             }
         },
-        collapse: function(a) {
-            for(var b = 0; b < this.children.length; ++b){
-                this.children[b].collapse(a);
+        collapse: function(e) {
+            for(var t = 0; t < this.children.length; ++t){
+                this.children[t].collapse(e);
             }
         },
-        insertInner: function(a, b, c) {
-            this.size += b.length;
-            this.height += c;
-            for(var d = 0; d < this.children.length; ++d){
-                var e = this.children[d], f = e.chunkSize();
-                if (a <= f) {
-                    e.insertInner(a, b, c);
-                    if (e.lines && e.lines.length > 50) {
-                        var g = (e.lines.length % 25) + 25;
-                        for(var h = g; h < e.lines.length;){
-                            var i = new fl(e.lines.slice(h, (h += 25)));
-                            e.height -= i.height;
-                            this.children.splice(++d, 0, i);
-                            i.parent = this;
+        insertInner: function(e, t, i) {
+            this.size += t.length;
+            this.height += i;
+            for(var r = 0; r < this.children.length; ++r){
+                var n = this.children[r], o = n.chunkSize();
+                if (e <= o) {
+                    n.insertInner(e, t, i);
+                    if (n.lines && n.lines.length > 50) {
+                        var l = (n.lines.length % 25) + 25;
+                        for(var s = l; s < n.lines.length;){
+                            var a = new oh(n.lines.slice(s, (s += 25)));
+                            n.height -= a.height;
+                            this.children.splice(++r, 0, a);
+                            a.parent = this;
                         }
-                        e.lines = e.lines.slice(0, g);
+                        n.lines = n.lines.slice(0, l);
                         this.maybeSpill();
                     }
                     break;
                 }
-                a -= f;
+                e -= o;
             }
         },
         maybeSpill: function() {
             if (this.children.length <= 10) {
                 return;
             }
-            var a = this;
+            var e = this;
             do {
-                var b = a.children.splice(a.children.length - 5, 5);
-                var c = new fm(b);
-                if (!a.parent) {
-                    var d = new fm(a.children);
-                    d.parent = a;
-                    a.children = [
-                        d,
-                        c
+                var t = e.children.splice(e.children.length - 5, 5);
+                var i = new od(t);
+                if (!e.parent) {
+                    var r = new od(e.children);
+                    r.parent = e;
+                    e.children = [
+                        r,
+                        i
                     ];
-                    a = d;
+                    e = r;
                 } else {
-                    a.size -= c.size;
-                    a.height -= c.height;
-                    var e = O(a.parent.children, a);
-                    a.parent.children.splice(e + 1, 0, c);
+                    e.size -= i.size;
+                    e.height -= i.height;
+                    var n = I(e.parent.children, e);
+                    e.parent.children.splice(n + 1, 0, i);
                 }
-                c.parent = a.parent;
-            }while (a.children.length > 10)
-            a.parent.maybeSpill();
+                i.parent = e.parent;
+            }while (e.children.length > 10)
+            e.parent.maybeSpill();
         },
-        iterN: function(a, b, c) {
-            for(var d = 0; d < this.children.length; ++d){
-                var e = this.children[d], f = e.chunkSize();
-                if (a < f) {
-                    var g = Math.min(b, f - a);
-                    if (e.iterN(a, g, c)) {
+        iterN: function(e, t, i) {
+            for(var r = 0; r < this.children.length; ++r){
+                var n = this.children[r], o = n.chunkSize();
+                if (e < o) {
+                    var l = Math.min(t, o - e);
+                    if (n.iterN(e, l, i)) {
                         return true;
                     }
-                    if ((b -= g) == 0) {
+                    if ((t -= l) == 0) {
                         break;
                     }
-                    a = 0;
+                    e = 0;
                 } else {
-                    a -= f;
+                    e -= o;
                 }
             }
         }
     };
-    var fn = function(a, b, c) {
-        if (c) {
-            for(var d in c){
-                if (c.hasOwnProperty(d)) {
-                    this[d] = c[d];
+    var op = function(e, t, i) {
+        if (i) {
+            for(var r in i){
+                if (i.hasOwnProperty(r)) {
+                    this[r] = i[r];
                 }
             }
         }
-        this.doc = a;
-        this.node = b;
+        this.doc = e;
+        this.node = t;
     };
-    fn.prototype.clear = function() {
-        var a = this.doc.cm, b = this.line.widgets, c = this.line, d = a0(c);
-        if (d == null || !b) {
+    op.prototype.clear = function() {
+        var e = this.doc.cm, t = this.line.widgets, i = this.line, r = eK(i);
+        if (r == null || !t) {
             return;
         }
-        for(var e = 0; e < b.length; ++e){
-            if (b[e] == this) {
-                b.splice(e--, 1);
+        for(var n = 0; n < t.length; ++n){
+            if (t[n] == this) {
+                t.splice(n--, 1);
             }
         }
-        if (!b.length) {
-            c.widgets = null;
+        if (!t.length) {
+            i.widgets = null;
         }
-        var f = cv(this);
-        a_(c, Math.max(0, c.height - f));
-        if (a) {
-            d0(a, function() {
-                fo(a, c, -f);
-                dg(a, d, "widget");
+        var o = ix(this);
+        eV(i, Math.max(0, i.height - o));
+        if (e) {
+            rX(e, function() {
+                ov(e, i, -o);
+                ra(e, r, "widget");
             });
-            ch(a, "lineWidgetCleared", a, this, d);
+            ia(e, "lineWidgetCleared", e, this, r);
         }
     };
-    fn.prototype.changed = function() {
-        var a = this;
-        var b = this.height, c = this.doc.cm, d = this.line;
+    op.prototype.changed = function() {
+        var e = this;
+        var t = this.height, i = this.doc.cm, r = this.line;
         this.height = null;
-        var e = cv(this) - b;
-        if (!e) {
+        var n = ix(this) - t;
+        if (!n) {
             return;
         }
-        if (!bU(this.doc, d)) {
-            a_(d, d.height + e);
+        if (!tB(this.doc, r)) {
+            eV(r, r.height + n);
         }
-        if (c) {
-            d0(c, function() {
-                c.curOp.forceUpdate = true;
-                fo(c, d, e);
-                ch(c, "lineWidgetChanged", c, a, a0(d));
+        if (i) {
+            rX(i, function() {
+                i.curOp.forceUpdate = true;
+                ov(i, r, n);
+                ia(i, "lineWidgetChanged", i, e, eK(r));
             });
         }
     };
-    av(fn);
-    function fo(a, b, c) {
-        if (bW(b) < ((a.curOp && a.curOp.scrollTop) || a.doc.scrollTop)) {
-            dD(a, c);
+    ew(op);
+    function ov(e, t, i) {
+        if (t6(t) < ((e.curOp && e.curOp.scrollTop) || e.doc.scrollTop)) {
+            r0(e, i);
         }
     }
-    function fp(a, b, c, d) {
-        var e = new fn(a, c, d);
-        var f = a.cm;
-        if (f && e.noHScroll) {
-            f.display.alignWidgets = true;
+    function og(e, t, i, r) {
+        var n = new op(e, i, r);
+        var o = e.cm;
+        if (o && n.noHScroll) {
+            o.display.alignWidgets = true;
         }
-        fk(a, b, "widget", function(b) {
-            var c = b.widgets || (b.widgets = []);
-            if (e.insertAt == null) {
-                c.push(e);
+        oc(e, t, "widget", function(t) {
+            var i = t.widgets || (t.widgets = []);
+            if (n.insertAt == null) {
+                i.push(n);
             } else {
-                c.splice(Math.min(c.length, Math.max(0, e.insertAt)), 0, e);
+                i.splice(Math.min(i.length, Math.max(0, n.insertAt)), 0, n);
             }
-            e.line = b;
-            if (f && !bU(a, b)) {
-                var d = bW(b) < a.scrollTop;
-                a_(b, b.height + cv(e));
-                if (d) {
-                    dD(f, e.height);
+            n.line = t;
+            if (o && !tB(e, t)) {
+                var r = t6(t) < e.scrollTop;
+                eV(t, t.height + ix(n));
+                if (r) {
+                    r0(o, n.height);
                 }
-                f.curOp.forceUpdate = true;
+                o.curOp.forceUpdate = true;
             }
             return true;
         });
-        if (f) {
-            ch(f, "lineWidgetAdded", f, e, typeof b == "number" ? b : a0(b));
+        if (o) {
+            ia(o, "lineWidgetAdded", o, n, typeof t == "number" ? t : eK(t));
         }
-        return e;
+        return n;
     }
-    var fq = 0;
-    var fr = function(a, b) {
+    var om = 0;
+    var o$ = function(e, t) {
         this.lines = [];
-        this.type = b;
-        this.doc = a;
-        this.id = ++fq;
+        this.type = t;
+        this.doc = e;
+        this.id = ++om;
     };
-    fr.prototype.clear = function() {
+    o$.prototype.clear = function() {
         if (this.explicitlyCleared) {
             return;
         }
-        var a = this.doc.cm, b = a && !a.curOp;
-        if (b) {
-            dU(a);
+        var e = this.doc.cm, t = e && !e.curOp;
+        if (t) {
+            r4(e);
         }
-        if (au(this, "clear")) {
-            var c = this.find();
-            if (c) {
-                ch(this, "clear", c.from, c.to);
+        if (e_(this, "clear")) {
+            var i = this.find();
+            if (i) {
+                ia(this, "clear", i.from, i.to);
             }
         }
-        var d = null, e = null;
-        for(var f = 0; f < this.lines.length; ++f){
-            var g = this.lines[f];
-            var h = bx(g.markedSpans, this);
-            if (a && !this.collapsed) {
-                dg(a, a0(g), "text");
-            } else if (a) {
-                if (h.to != null) {
-                    e = a0(g);
+        var r = null, n = null;
+        for(var o = 0; o < this.lines.length; ++o){
+            var l = this.lines[o];
+            var s = tx(l.markedSpans, this);
+            if (e && !this.collapsed) {
+                ra(e, eK(l), "text");
+            } else if (e) {
+                if (s.to != null) {
+                    n = eK(l);
                 }
-                if (h.from != null) {
-                    d = a0(g);
-                }
-            }
-            g.markedSpans = by(g.markedSpans, h);
-            if (h.from == null && this.collapsed && !bU(this.doc, g) && a) {
-                a_(g, c7(a.display));
-            }
-        }
-        if (a && this.collapsed && !a.options.lineWrapping) {
-            for(var i = 0; i < this.lines.length; ++i){
-                var j = bP(this.lines[i]), k = bX(j);
-                if (k > a.display.maxLineLength) {
-                    a.display.maxLine = j;
-                    a.display.maxLineLength = k;
-                    a.display.maxLineChanged = true;
+                if (s.from != null) {
+                    r = eK(l);
                 }
             }
+            l.markedSpans = tC(l.markedSpans, s);
+            if (s.from == null && this.collapsed && !tB(this.doc, l) && e) {
+                eV(l, iQ(e.display));
+            }
         }
-        if (d != null && a && this.collapsed) {
-            df(a, d, e + 1);
+        if (e && this.collapsed && !e.options.lineWrapping) {
+            for(var a = 0; a < this.lines.length; ++a){
+                var f = tE(this.lines[a]), u = t5(f);
+                if (u > e.display.maxLineLength) {
+                    e.display.maxLine = f;
+                    e.display.maxLineLength = u;
+                    e.display.maxLineChanged = true;
+                }
+            }
+        }
+        if (r != null && e && this.collapsed) {
+            rs(e, r, n + 1);
         }
         this.lines.length = 0;
         this.explicitlyCleared = true;
         if (this.atomic && this.doc.cantEdit) {
             this.doc.cantEdit = false;
-            if (a) {
-                e3(a.doc);
+            if (e) {
+                n9(e.doc);
             }
         }
-        if (a) {
-            ch(a, "markerCleared", a, this, d, e);
+        if (e) {
+            ia(e, "markerCleared", e, this, r, n);
         }
-        if (b) {
-            dV(a);
+        if (t) {
+            r6(e);
         }
         if (this.parent) {
             this.parent.clear();
         }
     };
-    fr.prototype.find = function(a, b) {
-        if (a == null && this.type == "bookmark") {
-            a = 1;
+    o$.prototype.find = function(e, t) {
+        if (e == null && this.type == "bookmark") {
+            e = 1;
         }
-        var c, d;
-        for(var e = 0; e < this.lines.length; ++e){
-            var f = this.lines[e];
-            var g = bx(f.markedSpans, this);
-            if (g.from != null) {
-                c = a4(b ? f : a0(f), g.from);
-                if (a == -1) {
-                    return c;
+        var i, r;
+        for(var n = 0; n < this.lines.length; ++n){
+            var o = this.lines[n];
+            var l = tx(o.markedSpans, this);
+            if (l.from != null) {
+                i = e9(t ? o : eK(o), l.from);
+                if (e == -1) {
+                    return i;
                 }
             }
-            if (g.to != null) {
-                d = a4(b ? f : a0(f), g.to);
-                if (a == 1) {
-                    return d;
+            if (l.to != null) {
+                r = e9(t ? o : eK(o), l.to);
+                if (e == 1) {
+                    return r;
                 }
             }
         }
-        return c && {
-            from: c,
-            to: d
+        return i && {
+            from: i,
+            to: r
         };
     };
-    fr.prototype.changed = function() {
-        var a = this;
-        var b = this.find(-1, true), c = this, d = this.doc.cm;
-        if (!b || !d) {
+    o$.prototype.changed = function() {
+        var e = this;
+        var t = this.find(-1, true), i = this, r = this.doc.cm;
+        if (!t || !r) {
             return;
         }
-        d0(d, function() {
-            var e = b.line, f = a0(b.line);
-            var g = cH(d, f);
-            if (g) {
-                cP(g);
-                d.curOp.selectionChanged = d.curOp.forceUpdate = true;
+        rX(r, function() {
+            var n = t.line, o = eK(t.line);
+            var l = iH(r, o);
+            if (l) {
+                iR(l);
+                r.curOp.selectionChanged = r.curOp.forceUpdate = true;
             }
-            d.curOp.updateMaxLine = true;
-            if (!bU(c.doc, e) && c.height != null) {
-                var h = c.height;
-                c.height = null;
-                var i = cv(c) - h;
-                if (i) {
-                    a_(e, e.height + i);
+            r.curOp.updateMaxLine = true;
+            if (!tB(i.doc, n) && i.height != null) {
+                var s = i.height;
+                i.height = null;
+                var a = ix(i) - s;
+                if (a) {
+                    eV(n, n.height + a);
                 }
             }
-            ch(d, "markerChanged", d, a);
+            ia(r, "markerChanged", r, e);
         });
     };
-    fr.prototype.attachLine = function(a) {
+    o$.prototype.attachLine = function(e) {
         if (!this.lines.length && this.doc.cm) {
-            var b = this.doc.cm.curOp;
-            if (!b.maybeHiddenMarkers || O(b.maybeHiddenMarkers, this) == -1) {
-                (b.maybeUnhiddenMarkers || (b.maybeUnhiddenMarkers = [])).push(this);
+            var t = this.doc.cm.curOp;
+            if (!t.maybeHiddenMarkers || I(t.maybeHiddenMarkers, this) == -1) {
+                (t.maybeUnhiddenMarkers || (t.maybeUnhiddenMarkers = [])).push(this);
             }
         }
-        this.lines.push(a);
+        this.lines.push(e);
     };
-    fr.prototype.detachLine = function(a) {
-        this.lines.splice(O(this.lines, a), 1);
+    o$.prototype.detachLine = function(e) {
+        this.lines.splice(I(this.lines, e), 1);
         if (!this.lines.length && this.doc.cm) {
-            var b = this.doc.cm.curOp;
-            (b.maybeHiddenMarkers || (b.maybeHiddenMarkers = [])).push(this);
+            var t = this.doc.cm.curOp;
+            (t.maybeHiddenMarkers || (t.maybeHiddenMarkers = [])).push(this);
         }
     };
-    av(fr);
-    function fs(a, b, c, d, e) {
-        if (d && d.shared) {
-            return fu(a, b, c, d, e);
+    ew(o$);
+    function oy(e, t, i, r, n) {
+        if (r && r.shared) {
+            return ow(e, t, i, r, n);
         }
-        if (a.cm && !a.cm.curOp) {
-            return d1(a.cm, fs)(a, b, c, d, e);
+        if (e.cm && !e.cm.curOp) {
+            return rY(e.cm, oy)(e, t, i, r, n);
         }
-        var f = new fr(a, e), g = a5(b, c);
-        if (d) {
-            L(d, f, false);
+        var o = new o$(e, n), l = eq(t, i);
+        if (r) {
+            P(r, o, false);
         }
-        if (g > 0 || (g == 0 && f.clearWhenEmpty !== false)) {
-            return f;
+        if (l > 0 || (l == 0 && o.clearWhenEmpty !== false)) {
+            return o;
         }
-        if (f.replacedWith) {
-            f.collapsed = true;
-            f.widgetNode = D("span", [
-                f.replacedWith
+        if (o.replacedWith) {
+            o.collapsed = true;
+            o.widgetNode = O("span", [
+                o.replacedWith
             ], "CodeMirror-widget");
-            if (!d.handleMouseEvents) {
-                f.widgetNode.setAttribute("cm-ignore-events", "true");
+            if (!r.handleMouseEvents) {
+                o.widgetNode.setAttribute("cm-ignore-events", "true");
             }
-            if (d.insertLeft) {
-                f.widgetNode.insertLeft = true;
+            if (r.insertLeft) {
+                o.widgetNode.insertLeft = true;
             }
         }
-        if (f.collapsed) {
-            if (bO(a, b.line, b, c, f) || (b.line != c.line && bO(a, c.line, b, c, f))) {
+        if (o.collapsed) {
+            if (tz(e, t.line, t, i, o) || (t.line != i.line && tz(e, i.line, t, i, o))) {
                 throw new Error("Inserting collapsed marker partially overlapping an existing one");
             }
-            bv();
+            tw();
         }
-        if (f.addToHistory) {
-            eM(a, {
-                from: b,
-                to: c,
+        if (o.addToHistory) {
+            nP(e, {
+                from: t,
+                to: i,
                 origin: "markText"
-            }, a.sel, NaN);
+            }, e.sel, NaN);
         }
-        var h = b.line, i = a.cm, j;
-        a.iter(h, c.line + 1, function(d) {
-            if (i && f.collapsed && !i.options.lineWrapping && bP(d) == i.display.maxLine) {
-                j = true;
+        var s = t.line, a = e.cm, f;
+        e.iter(s, i.line + 1, function(r) {
+            if (a && o.collapsed && !a.options.lineWrapping && tE(r) == a.display.maxLine) {
+                f = true;
             }
-            if (f.collapsed && h != b.line) {
-                a_(d, 0);
+            if (o.collapsed && s != t.line) {
+                eV(r, 0);
             }
-            bz(d, new bw(f, h == b.line ? b.ch : null, h == c.line ? c.ch : null), a.cm && a.cm.curOp);
-            ++h;
+            tS(r, new tb(o, s == t.line ? t.ch : null, s == i.line ? i.ch : null), e.cm && e.cm.curOp);
+            ++s;
         });
-        if (f.collapsed) {
-            a.iter(b.line, c.line + 1, function(b) {
-                if (bU(a, b)) {
-                    a_(b, 0);
+        if (o.collapsed) {
+            e.iter(t.line, i.line + 1, function(t) {
+                if (tB(e, t)) {
+                    eV(t, 0);
                 }
             });
         }
-        if (f.clearOnEnter) {
-            ao(f, "beforeCursorEnter", function() {
-                return f.clear();
+        if (o.clearOnEnter) {
+            ep(o, "beforeCursorEnter", function() {
+                return o.clear();
             });
         }
-        if (f.readOnly) {
-            bu();
-            if (a.history.done.length || a.history.undone.length) {
-                a.clearHistory();
+        if (o.readOnly) {
+            t_();
+            if (e.history.done.length || e.history.undone.length) {
+                e.clearHistory();
             }
         }
-        if (f.collapsed) {
-            f.id = ++fq;
-            f.atomic = true;
+        if (o.collapsed) {
+            o.id = ++om;
+            o.atomic = true;
         }
-        if (i) {
-            if (j) {
-                i.curOp.updateMaxLine = true;
+        if (a) {
+            if (f) {
+                a.curOp.updateMaxLine = true;
             }
-            if (f.collapsed) {
-                df(i, b.line, c.line + 1);
-            } else if (f.className || f.startStyle || f.endStyle || f.css || f.attributes || f.title) {
-                for(var k = b.line; k <= c.line; k++){
-                    dg(i, k, "text");
+            if (o.collapsed) {
+                rs(a, t.line, i.line + 1);
+            } else if (o.className || o.startStyle || o.endStyle || o.css || o.attributes || o.title) {
+                for(var u = t.line; u <= i.line; u++){
+                    ra(a, u, "text");
                 }
             }
-            if (f.atomic) {
-                e3(i.doc);
+            if (o.atomic) {
+                n9(a.doc);
             }
-            ch(i, "markerAdded", i, f);
+            ia(a, "markerAdded", a, o);
         }
-        return f;
+        return o;
     }
-    var ft = function(a, b) {
-        this.markers = a;
-        this.primary = b;
-        for(var c = 0; c < a.length; ++c){
-            a[c].parent = this;
+    var o_ = function(e, t) {
+        this.markers = e;
+        this.primary = t;
+        for(var i = 0; i < e.length; ++i){
+            e[i].parent = this;
         }
     };
-    ft.prototype.clear = function() {
+    o_.prototype.clear = function() {
         if (this.explicitlyCleared) {
             return;
         }
         this.explicitlyCleared = true;
-        for(var a = 0; a < this.markers.length; ++a){
-            this.markers[a].clear();
+        for(var e = 0; e < this.markers.length; ++e){
+            this.markers[e].clear();
         }
-        ch(this, "clear");
+        ia(this, "clear");
     };
-    ft.prototype.find = function(a, b) {
-        return this.primary.find(a, b);
+    o_.prototype.find = function(e, t) {
+        return this.primary.find(e, t);
     };
-    av(ft);
-    function fu(a, b, c, d, e) {
-        d = L(d);
-        d.shared = false;
-        var f = [
-            fs(a, b, c, d, e)
-        ], g = f[0];
-        var h = d.widgetNode;
-        eE(a, function(a) {
-            if (h) {
-                d.widgetNode = h.cloneNode(true);
+    ew(o_);
+    function ow(e, t, i, r, n) {
+        r = P(r);
+        r.shared = false;
+        var o = [
+            oy(e, t, i, r, n)
+        ], l = o[0];
+        var s = r.widgetNode;
+        nW(e, function(e) {
+            if (s) {
+                r.widgetNode = s.cloneNode(true);
             }
-            f.push(fs(a, bb(a, b), bb(a, c), d, e));
-            for(var i = 0; i < a.linked.length; ++i){
-                if (a.linked[i].isParent) {
+            o.push(oy(e, tt(e, t), tt(e, i), r, n));
+            for(var a = 0; a < e.linked.length; ++a){
+                if (e.linked[a].isParent) {
                     return;
                 }
             }
-            g = X(f);
+            l = j(o);
         });
-        return new ft(f, g);
+        return new o_(o, l);
     }
-    function fv(a) {
-        return a.findMarks(a4(a.first, 0), a.clipPos(a4(a.lastLine())), function(a) {
-            return a.parent;
+    function ob(e) {
+        return e.findMarks(e9(e.first, 0), e.clipPos(e9(e.lastLine())), function(e) {
+            return e.parent;
         });
     }
-    function fw(a, b) {
-        for(var c = 0; c < b.length; c++){
-            var d = b[c], e = d.find();
-            var f = a.clipPos(e.from), g = a.clipPos(e.to);
-            if (a5(f, g)) {
-                var h = fs(a, f, g, d.primary, d.primary.type);
-                d.markers.push(h);
-                h.parent = d;
+    function ox(e, t) {
+        for(var i = 0; i < t.length; i++){
+            var r = t[i], n = r.find();
+            var o = e.clipPos(n.from), l = e.clipPos(n.to);
+            if (eq(o, l)) {
+                var s = oy(e, o, l, r.primary, r.primary.type);
+                r.markers.push(s);
+                s.parent = r;
             }
         }
     }
-    function fx(a) {
-        var b = function(b) {
-            var c = a[b], d = [
-                c.primary.doc
+    function oC(e) {
+        var t = function(t) {
+            var i = e[t], r = [
+                i.primary.doc
             ];
-            eE(c.primary.doc, function(a) {
-                return d.push(a);
+            nW(i.primary.doc, function(e) {
+                return r.push(e);
             });
-            for(var e = 0; e < c.markers.length; e++){
-                var f = c.markers[e];
-                if (O(d, f.doc) == -1) {
-                    f.parent = null;
-                    c.markers.splice(e--, 1);
+            for(var n = 0; n < i.markers.length; n++){
+                var o = i.markers[n];
+                if (I(r, o.doc) == -1) {
+                    o.parent = null;
+                    i.markers.splice(n--, 1);
                 }
             }
         };
-        for(var c = 0; c < a.length; c++)b(c);
+        for(var i = 0; i < e.length; i++)t(i);
     }
-    var fy = 0;
-    var fz = function(a, b, c, d, e) {
-        if (!(this instanceof fz)) {
-            return new fz(a, b, c, d, e);
+    var oS = 0;
+    var ok = function(e, t, i, r, n) {
+        if (!(this instanceof ok)) {
+            return new ok(e, t, i, r, n);
         }
-        if (c == null) {
-            c = 0;
+        if (i == null) {
+            i = 0;
         }
-        fm.call(this, [
-            new fl([
-                new bZ("", null)
+        od.call(this, [
+            new oh([
+                new tG("", null)
             ])
         ]);
-        this.first = c;
+        this.first = i;
         this.scrollTop = this.scrollLeft = 0;
         this.cantEdit = false;
         this.cleanGeneration = 1;
-        this.modeFrontier = this.highlightFrontier = c;
-        var f = a4(c, 0);
-        this.sel = eu(f);
-        this.history = new eI(null);
-        this.id = ++fy;
-        this.modeOption = b;
-        this.lineSep = d;
-        this.direction = e == "rtl" ? "rtl" : "ltr";
+        this.modeFrontier = this.highlightFrontier = i;
+        var o = e9(i, 0);
+        this.sel = nw(o);
+        this.history = new nH(null);
+        this.id = ++oS;
+        this.modeOption = t;
+        this.lineSep = r;
+        this.direction = n == "rtl" ? "rtl" : "ltr";
         this.extend = false;
-        if (typeof a == "string") {
-            a = this.splitLines(a);
+        if (typeof e == "string") {
+            e = this.splitLines(e);
         }
-        eD(this, {
-            from: f,
-            to: f,
-            text: a
+        n0(this, {
+            from: o,
+            to: o,
+            text: e
         });
-        e0(this, eu(f), R);
+        nX(this, nw(o), G);
     };
-    fz.prototype = _(fm.prototype, {
-        constructor: fz,
-        iter: function(a, b, c) {
-            if (c) {
-                this.iterN(a - this.first, b - a, c);
+    ok.prototype = Q(od.prototype, {
+        constructor: ok,
+        iter: function(e, t, i) {
+            if (i) {
+                this.iterN(e - this.first, t - e, i);
             } else {
-                this.iterN(this.first, this.first + this.size, a);
+                this.iterN(this.first, this.first + this.size, e);
             }
         },
-        insert: function(a, b) {
-            var c = 0;
-            for(var d = 0; d < b.length; ++d){
-                c += b[d].height;
+        insert: function(e, t) {
+            var i = 0;
+            for(var r = 0; r < t.length; ++r){
+                i += t[r].height;
             }
-            this.insertInner(a - this.first, b, c);
+            this.insertInner(e - this.first, t, i);
         },
-        remove: function(a, b) {
-            this.removeInner(a - this.first, b);
+        remove: function(e, t) {
+            this.removeInner(e - this.first, t);
         },
-        getValue: function(a) {
-            var b = a$(this, this.first, this.first + this.size);
-            if (a === false) {
-                return b;
+        getValue: function(e) {
+            var t = eU(this, this.first, this.first + this.size);
+            if (e === false) {
+                return t;
             }
-            return b.join(a || this.lineSeparator());
+            return t.join(e || this.lineSeparator());
         },
-        setValue: d3(function(a) {
-            var b = a4(this.first, 0), c = this.first + this.size - 1;
-            fa(this, {
-                from: b,
-                to: a4(c, aY(this, c).text.length),
-                text: this.splitLines(a),
+        setValue: r9(function(e) {
+            var t = e9(this.first, 0), i = this.first + this.size - 1;
+            ot(this, {
+                from: t,
+                to: e9(i, e2(this, i).text.length),
+                text: this.splitLines(e),
                 origin: "setValue",
                 full: true
             }, true);
             if (this.cm) {
-                dF(this.cm, 0, 0);
+                rN(this.cm, 0, 0);
             }
-            e0(this, eu(b), R);
+            nX(this, nw(t), G);
         }),
-        replaceRange: function(a, b, c, d) {
-            b = bb(this, b);
-            c = c ? bb(this, c) : b;
-            fg(this, a, b, c, d);
+        replaceRange: function(e, t, i, r) {
+            t = tt(this, t);
+            i = i ? tt(this, i) : t;
+            os(this, e, t, i, r);
         },
-        getRange: function(a, b, c) {
-            var d = aZ(this, bb(this, a), bb(this, b));
-            if (c === false) {
-                return d;
+        getRange: function(e, t, i) {
+            var r = eG(this, tt(this, e), tt(this, t));
+            if (i === false) {
+                return r;
             }
-            if (c === "") {
-                return d.join("");
+            if (i === "") {
+                return r.join("");
             }
-            return d.join(c || this.lineSeparator());
+            return r.join(i || this.lineSeparator());
         },
-        getLine: function(a) {
-            var b = this.getLineHandle(a);
-            return b && b.text;
+        getLine: function(e) {
+            var t = this.getLineHandle(e);
+            return t && t.text;
         },
-        getLineHandle: function(a) {
-            if (a2(this, a)) {
-                return aY(this, a);
+        getLineHandle: function(e) {
+            if (eY(this, e)) {
+                return e2(this, e);
             }
         },
-        getLineNumber: function(a) {
-            return a0(a);
+        getLineNumber: function(e) {
+            return eK(e);
         },
-        getLineHandleVisualStart: function(a) {
-            if (typeof a == "number") {
-                a = aY(this, a);
+        getLineHandleVisualStart: function(e) {
+            if (typeof e == "number") {
+                e = e2(this, e);
             }
-            return bP(a);
+            return tE(e);
         },
         lineCount: function() {
             return this.size;
@@ -6532,21 +6532,21 @@
         lastLine: function() {
             return this.first + this.size - 1;
         },
-        clipPos: function(a) {
-            return bb(this, a);
+        clipPos: function(e) {
+            return tt(this, e);
         },
-        getCursor: function(a) {
-            var b = this.sel.primary(), c;
-            if (a == null || a == "head") {
-                c = b.head;
-            } else if (a == "anchor") {
-                c = b.anchor;
-            } else if (a == "end" || a == "to" || a === false) {
-                c = b.to();
+        getCursor: function(e) {
+            var t = this.sel.primary(), i;
+            if (e == null || e == "head") {
+                i = t.head;
+            } else if (e == "anchor") {
+                i = t.anchor;
+            } else if (e == "end" || e == "to" || e === false) {
+                i = t.to();
             } else {
-                c = b.from();
+                i = t.from();
             }
-            return c;
+            return i;
         },
         listSelections: function() {
             return this.sel.ranges;
@@ -6554,401 +6554,401 @@
         somethingSelected: function() {
             return this.sel.somethingSelected();
         },
-        setCursor: d3(function(a, b, c) {
-            eZ(this, bb(this, typeof a == "number" ? a4(a, b || 0) : a), null, c);
+        setCursor: r9(function(e, t, i) {
+            nU(this, tt(this, typeof e == "number" ? e9(e, t || 0) : e), null, i);
         }),
-        setSelection: d3(function(a, b, c) {
-            eZ(this, bb(this, a), bb(this, b || a), c);
+        setSelection: r9(function(e, t, i) {
+            nU(this, tt(this, e), tt(this, t || e), i);
         }),
-        extendSelection: d3(function(a, b, c) {
-            eW(this, bb(this, a), b && bb(this, b), c);
+        extendSelection: r9(function(e, t, i) {
+            n5(this, tt(this, e), t && tt(this, t), i);
         }),
-        extendSelections: d3(function(a, b) {
-            eX(this, bd(this, a), b);
+        extendSelections: r9(function(e, t) {
+            n2(this, tr(this, e), t);
         }),
-        extendSelectionsBy: d3(function(a, b) {
-            var c = Y(this.sel.ranges, a);
-            eX(this, bd(this, c), b);
+        extendSelectionsBy: r9(function(e, t) {
+            var i = q(this.sel.ranges, e);
+            n2(this, tr(this, i), t);
         }),
-        setSelections: d3(function(a, b, c) {
-            if (!a.length) {
+        setSelections: r9(function(e, t, i) {
+            if (!e.length) {
                 return;
             }
-            var d = [];
-            for(var e = 0; e < a.length; e++){
-                d[e] = new es(bb(this, a[e].anchor), bb(this, a[e].head || a[e].anchor));
+            var r = [];
+            for(var n = 0; n < e.length; n++){
+                r[n] = new ny(tt(this, e[n].anchor), tt(this, e[n].head || e[n].anchor));
             }
-            if (b == null) {
-                b = Math.min(a.length - 1, this.sel.primIndex);
+            if (t == null) {
+                t = Math.min(e.length - 1, this.sel.primIndex);
             }
-            e0(this, et(this.cm, d, b), c);
+            nX(this, n_(this.cm, r, t), i);
         }),
-        addSelection: d3(function(a, b, c) {
-            var d = this.sel.ranges.slice(0);
-            d.push(new es(bb(this, a), bb(this, b || a)));
-            e0(this, et(this.cm, d, d.length - 1), c);
+        addSelection: r9(function(e, t, i) {
+            var r = this.sel.ranges.slice(0);
+            r.push(new ny(tt(this, e), tt(this, t || e)));
+            nX(this, n_(this.cm, r, r.length - 1), i);
         }),
-        getSelection: function(a) {
-            var b = this.sel.ranges, c;
-            for(var d = 0; d < b.length; d++){
-                var e = aZ(this, b[d].from(), b[d].to());
-                c = c ? c.concat(e) : e;
+        getSelection: function(e) {
+            var t = this.sel.ranges, i;
+            for(var r = 0; r < t.length; r++){
+                var n = eG(this, t[r].from(), t[r].to());
+                i = i ? i.concat(n) : n;
             }
-            if (a === false) {
-                return c;
+            if (e === false) {
+                return i;
             } else {
-                return c.join(a || this.lineSeparator());
+                return i.join(e || this.lineSeparator());
             }
         },
-        getSelections: function(a) {
-            var b = [], c = this.sel.ranges;
-            for(var d = 0; d < c.length; d++){
-                var e = aZ(this, c[d].from(), c[d].to());
-                if (a !== false) {
-                    e = e.join(a || this.lineSeparator());
+        getSelections: function(e) {
+            var t = [], i = this.sel.ranges;
+            for(var r = 0; r < i.length; r++){
+                var n = eG(this, i[r].from(), i[r].to());
+                if (e !== false) {
+                    n = n.join(e || this.lineSeparator());
                 }
-                b[d] = e;
+                t[r] = n;
             }
-            return b;
+            return t;
         },
-        replaceSelection: function(a, b, c) {
-            var d = [];
-            for(var e = 0; e < this.sel.ranges.length; e++){
-                d[e] = a;
+        replaceSelection: function(e, t, i) {
+            var r = [];
+            for(var n = 0; n < this.sel.ranges.length; n++){
+                r[n] = e;
             }
-            this.replaceSelections(d, b, c || "+input");
+            this.replaceSelections(r, t, i || "+input");
         },
-        replaceSelections: d3(function(a, b, c) {
-            var d = [], e = this.sel;
-            for(var f = 0; f < e.ranges.length; f++){
-                var g = e.ranges[f];
-                d[f] = {
-                    from: g.from(),
-                    to: g.to(),
-                    text: this.splitLines(a[f]),
-                    origin: c
+        replaceSelections: r9(function(e, t, i) {
+            var r = [], n = this.sel;
+            for(var o = 0; o < n.ranges.length; o++){
+                var l = n.ranges[o];
+                r[o] = {
+                    from: l.from(),
+                    to: l.to(),
+                    text: this.splitLines(e[o]),
+                    origin: i
                 };
             }
-            var h = b && b != "end" && ez(this, d, b);
-            for(var i = d.length - 1; i >= 0; i--){
-                fa(this, d[i]);
+            var s = t && t != "end" && nk(this, r, t);
+            for(var a = r.length - 1; a >= 0; a--){
+                ot(this, r[a]);
             }
-            if (h) {
-                e_(this, h);
+            if (s) {
+                nK(this, s);
             } else if (this.cm) {
-                dE(this.cm);
+                rW(this.cm);
             }
         }),
-        undo: d3(function() {
-            fc(this, "undo");
+        undo: r9(function() {
+            or(this, "undo");
         }),
-        redo: d3(function() {
-            fc(this, "redo");
+        redo: r9(function() {
+            or(this, "redo");
         }),
-        undoSelection: d3(function() {
-            fc(this, "undo", true);
+        undoSelection: r9(function() {
+            or(this, "undo", true);
         }),
-        redoSelection: d3(function() {
-            fc(this, "redo", true);
+        redoSelection: r9(function() {
+            or(this, "redo", true);
         }),
-        setExtending: function(a) {
-            this.extend = a;
+        setExtending: function(e) {
+            this.extend = e;
         },
         getExtending: function() {
             return this.extend;
         },
         historySize: function() {
-            var a = this.history, b = 0, c = 0;
-            for(var d = 0; d < a.done.length; d++){
-                if (!a.done[d].ranges) {
-                    ++b;
+            var e = this.history, t = 0, i = 0;
+            for(var r = 0; r < e.done.length; r++){
+                if (!e.done[r].ranges) {
+                    ++t;
                 }
             }
-            for(var e = 0; e < a.undone.length; e++){
-                if (!a.undone[e].ranges) {
-                    ++c;
+            for(var n = 0; n < e.undone.length; n++){
+                if (!e.undone[n].ranges) {
+                    ++i;
                 }
             }
             return {
-                undo: b,
-                redo: c
+                undo: t,
+                redo: i
             };
         },
         clearHistory: function() {
-            var a = this;
-            this.history = new eI(this.history);
-            eE(this, function(b) {
-                return (b.history = a.history);
+            var e = this;
+            this.history = new nH(this.history);
+            nW(this, function(t) {
+                return (t.history = e.history);
             }, true);
         },
         markClean: function() {
             this.cleanGeneration = this.changeGeneration(true);
         },
-        changeGeneration: function(a) {
-            if (a) {
+        changeGeneration: function(e) {
+            if (e) {
                 this.history.lastOp = this.history.lastSelOp = this.history.lastOrigin = null;
             }
             return this.history.generation;
         },
-        isClean: function(a) {
-            return this.history.generation == (a || this.cleanGeneration);
+        isClean: function(e) {
+            return this.history.generation == (e || this.cleanGeneration);
         },
         getHistory: function() {
             return {
-                done: eU(this.history.done),
-                undone: eU(this.history.undone)
+                done: n4(this.history.done),
+                undone: n4(this.history.undone)
             };
         },
-        setHistory: function(a) {
-            var b = (this.history = new eI(this.history));
-            b.done = eU(a.done.slice(0), null, true);
-            b.undone = eU(a.undone.slice(0), null, true);
+        setHistory: function(e) {
+            var t = (this.history = new nH(this.history));
+            t.done = n4(e.done.slice(0), null, true);
+            t.undone = n4(e.undone.slice(0), null, true);
         },
-        setGutterMarker: d3(function(a, b, c) {
-            return fk(this, a, "gutter", function(a) {
-                var d = a.gutterMarkers || (a.gutterMarkers = {});
-                d[b] = c;
-                if (!c && ad(d)) {
-                    a.gutterMarkers = null;
+        setGutterMarker: r9(function(e, t, i) {
+            return oc(this, e, "gutter", function(e) {
+                var r = e.gutterMarkers || (e.gutterMarkers = {});
+                r[t] = i;
+                if (!i && er(r)) {
+                    e.gutterMarkers = null;
                 }
                 return true;
             });
         }),
-        clearGutter: d3(function(a) {
-            var b = this;
-            this.iter(function(c) {
-                if (c.gutterMarkers && c.gutterMarkers[a]) {
-                    fk(b, c, "gutter", function() {
-                        c.gutterMarkers[a] = null;
-                        if (ad(c.gutterMarkers)) {
-                            c.gutterMarkers = null;
+        clearGutter: r9(function(e) {
+            var t = this;
+            this.iter(function(i) {
+                if (i.gutterMarkers && i.gutterMarkers[e]) {
+                    oc(t, i, "gutter", function() {
+                        i.gutterMarkers[e] = null;
+                        if (er(i.gutterMarkers)) {
+                            i.gutterMarkers = null;
                         }
                         return true;
                     });
                 }
             });
         }),
-        lineInfo: function(a) {
-            var b;
-            if (typeof a == "number") {
-                if (!a2(this, a)) {
+        lineInfo: function(e) {
+            var t;
+            if (typeof e == "number") {
+                if (!eY(this, e)) {
                     return null;
                 }
-                b = a;
-                a = aY(this, a);
-                if (!a) {
+                t = e;
+                e = e2(this, e);
+                if (!e) {
                     return null;
                 }
             } else {
-                b = a0(a);
-                if (b == null) {
+                t = eK(e);
+                if (t == null) {
                     return null;
                 }
             }
             return {
-                line: b,
-                handle: a,
-                text: a.text,
-                gutterMarkers: a.gutterMarkers,
-                textClass: a.textClass,
-                bgClass: a.bgClass,
-                wrapClass: a.wrapClass,
-                widgets: a.widgets
+                line: t,
+                handle: e,
+                text: e.text,
+                gutterMarkers: e.gutterMarkers,
+                textClass: e.textClass,
+                bgClass: e.bgClass,
+                wrapClass: e.wrapClass,
+                widgets: e.widgets
             };
         },
-        addLineClass: d3(function(a, b, c) {
-            return fk(this, a, b == "gutter" ? "gutter" : "class", function(a) {
-                var d = b == "text" ? "textClass" : b == "background" ? "bgClass" : b == "gutter" ? "gutterClass" : "wrapClass";
-                if (!a[d]) {
-                    a[d] = c;
-                } else if (y(c).test(a[d])) {
+        addLineClass: r9(function(e, t, i) {
+            return oc(this, e, t == "gutter" ? "gutter" : "class", function(e) {
+                var r = t == "text" ? "textClass" : t == "background" ? "bgClass" : t == "gutter" ? "gutterClass" : "wrapClass";
+                if (!e[r]) {
+                    e[r] = i;
+                } else if (C(i).test(e[r])) {
                     return false;
                 } else {
-                    a[d] += " " + c;
+                    e[r] += " " + i;
                 }
                 return true;
             });
         }),
-        removeLineClass: d3(function(a, b, c) {
-            return fk(this, a, b == "gutter" ? "gutter" : "class", function(a) {
-                var d = b == "text" ? "textClass" : b == "background" ? "bgClass" : b == "gutter" ? "gutterClass" : "wrapClass";
-                var e = a[d];
-                if (!e) {
+        removeLineClass: r9(function(e, t, i) {
+            return oc(this, e, t == "gutter" ? "gutter" : "class", function(e) {
+                var r = t == "text" ? "textClass" : t == "background" ? "bgClass" : t == "gutter" ? "gutterClass" : "wrapClass";
+                var n = e[r];
+                if (!n) {
                     return false;
-                } else if (c == null) {
-                    a[d] = null;
+                } else if (i == null) {
+                    e[r] = null;
                 } else {
-                    var f = e.match(y(c));
-                    if (!f) {
+                    var o = n.match(C(i));
+                    if (!o) {
                         return false;
                     }
-                    var g = f.index + f[0].length;
-                    a[d] = e.slice(0, f.index) + (!f.index || g == e.length ? "" : " ") + e.slice(g) || null;
+                    var l = o.index + o[0].length;
+                    e[r] = n.slice(0, o.index) + (!o.index || l == n.length ? "" : " ") + n.slice(l) || null;
                 }
                 return true;
             });
         }),
-        addLineWidget: d3(function(a, b, c) {
-            return fp(this, a, b, c);
+        addLineWidget: r9(function(e, t, i) {
+            return og(this, e, t, i);
         }),
-        removeLineWidget: function(a) {
-            a.clear();
+        removeLineWidget: function(e) {
+            e.clear();
         },
-        markText: function(a, b, c) {
-            return fs(this, bb(this, a), bb(this, b), c, (c && c.type) || "range");
+        markText: function(e, t, i) {
+            return oy(this, tt(this, e), tt(this, t), i, (i && i.type) || "range");
         },
-        setBookmark: function(a, b) {
-            var c = {
-                replacedWith: b && (b.nodeType == null ? b.widget : b),
-                insertLeft: b && b.insertLeft,
+        setBookmark: function(e, t) {
+            var i = {
+                replacedWith: t && (t.nodeType == null ? t.widget : t),
+                insertLeft: t && t.insertLeft,
                 clearWhenEmpty: false,
-                shared: b && b.shared,
-                handleMouseEvents: b && b.handleMouseEvents
+                shared: t && t.shared,
+                handleMouseEvents: t && t.handleMouseEvents
             };
-            a = bb(this, a);
-            return fs(this, a, a, c, "bookmark");
+            e = tt(this, e);
+            return oy(this, e, e, i, "bookmark");
         },
-        findMarksAt: function(a) {
-            a = bb(this, a);
-            var b = [], c = aY(this, a.line).markedSpans;
-            if (c) {
-                for(var d = 0; d < c.length; ++d){
-                    var e = c[d];
-                    if ((e.from == null || e.from <= a.ch) && (e.to == null || e.to >= a.ch)) {
-                        b.push(e.marker.parent || e.marker);
+        findMarksAt: function(e) {
+            e = tt(this, e);
+            var t = [], i = e2(this, e.line).markedSpans;
+            if (i) {
+                for(var r = 0; r < i.length; ++r){
+                    var n = i[r];
+                    if ((n.from == null || n.from <= e.ch) && (n.to == null || n.to >= e.ch)) {
+                        t.push(n.marker.parent || n.marker);
                     }
                 }
             }
-            return b;
+            return t;
         },
-        findMarks: function(a, b, c) {
-            a = bb(this, a);
-            b = bb(this, b);
-            var d = [], e = a.line;
-            this.iter(a.line, b.line + 1, function(f) {
-                var g = f.markedSpans;
-                if (g) {
-                    for(var h = 0; h < g.length; h++){
-                        var i = g[h];
-                        if (!((i.to != null && e == a.line && a.ch >= i.to) || (i.from == null && e != a.line) || (i.from != null && e == b.line && i.from >= b.ch)) && (!c || c(i.marker))) {
-                            d.push(i.marker.parent || i.marker);
+        findMarks: function(e, t, i) {
+            e = tt(this, e);
+            t = tt(this, t);
+            var r = [], n = e.line;
+            this.iter(e.line, t.line + 1, function(o) {
+                var l = o.markedSpans;
+                if (l) {
+                    for(var s = 0; s < l.length; s++){
+                        var a = l[s];
+                        if (!((a.to != null && n == e.line && e.ch >= a.to) || (a.from == null && n != e.line) || (a.from != null && n == t.line && a.from >= t.ch)) && (!i || i(a.marker))) {
+                            r.push(a.marker.parent || a.marker);
                         }
                     }
                 }
-                ++e;
+                ++n;
             });
-            return d;
+            return r;
         },
         getAllMarks: function() {
-            var a = [];
-            this.iter(function(b) {
-                var c = b.markedSpans;
-                if (c) {
-                    for(var d = 0; d < c.length; ++d){
-                        if (c[d].from != null) {
-                            a.push(c[d].marker);
+            var e = [];
+            this.iter(function(t) {
+                var i = t.markedSpans;
+                if (i) {
+                    for(var r = 0; r < i.length; ++r){
+                        if (i[r].from != null) {
+                            e.push(i[r].marker);
                         }
                     }
                 }
             });
-            return a;
+            return e;
         },
-        posFromIndex: function(a) {
-            var b, c = this.first, d = this.lineSeparator().length;
-            this.iter(function(e) {
-                var f = e.text.length + d;
-                if (f > a) {
-                    b = a;
+        posFromIndex: function(e) {
+            var t, i = this.first, r = this.lineSeparator().length;
+            this.iter(function(n) {
+                var o = n.text.length + r;
+                if (o > e) {
+                    t = e;
                     return true;
                 }
-                a -= f;
-                ++c;
+                e -= o;
+                ++i;
             });
-            return bb(this, a4(c, b));
+            return tt(this, e9(i, t));
         },
-        indexFromPos: function(a) {
-            a = bb(this, a);
-            var b = a.ch;
-            if (a.line < this.first || a.ch < 0) {
+        indexFromPos: function(e) {
+            e = tt(this, e);
+            var t = e.ch;
+            if (e.line < this.first || e.ch < 0) {
                 return 0;
             }
-            var c = this.lineSeparator().length;
-            this.iter(this.first, a.line, function(a) {
-                b += a.text.length + c;
+            var i = this.lineSeparator().length;
+            this.iter(this.first, e.line, function(e) {
+                t += e.text.length + i;
             });
-            return b;
+            return t;
         },
-        copy: function(a) {
-            var b = new fz(a$(this, this.first, this.first + this.size), this.modeOption, this.first, this.lineSep, this.direction);
-            b.scrollTop = this.scrollTop;
-            b.scrollLeft = this.scrollLeft;
-            b.sel = this.sel;
-            b.extend = false;
-            if (a) {
-                b.history.undoDepth = this.history.undoDepth;
-                b.setHistory(this.getHistory());
+        copy: function(e) {
+            var t = new ok(eU(this, this.first, this.first + this.size), this.modeOption, this.first, this.lineSep, this.direction);
+            t.scrollTop = this.scrollTop;
+            t.scrollLeft = this.scrollLeft;
+            t.sel = this.sel;
+            t.extend = false;
+            if (e) {
+                t.history.undoDepth = this.history.undoDepth;
+                t.setHistory(this.getHistory());
             }
-            return b;
+            return t;
         },
-        linkedDoc: function(a) {
-            if (!a) {
-                a = {};
+        linkedDoc: function(e) {
+            if (!e) {
+                e = {};
             }
-            var b = this.first, c = this.first + this.size;
-            if (a.from != null && a.from > b) {
-                b = a.from;
+            var t = this.first, i = this.first + this.size;
+            if (e.from != null && e.from > t) {
+                t = e.from;
             }
-            if (a.to != null && a.to < c) {
-                c = a.to;
+            if (e.to != null && e.to < i) {
+                i = e.to;
             }
-            var d = new fz(a$(this, b, c), a.mode || this.modeOption, b, this.lineSep, this.direction);
-            if (a.sharedHist) {
-                d.history = this.history;
+            var r = new ok(eU(this, t, i), e.mode || this.modeOption, t, this.lineSep, this.direction);
+            if (e.sharedHist) {
+                r.history = this.history;
             }
             (this.linked || (this.linked = [])).push({
-                doc: d,
-                sharedHist: a.sharedHist
+                doc: r,
+                sharedHist: e.sharedHist
             });
-            d.linked = [
+            r.linked = [
                 {
                     doc: this,
                     isParent: true,
-                    sharedHist: a.sharedHist
+                    sharedHist: e.sharedHist
                 }, 
             ];
-            fw(d, fv(this));
-            return d;
+            ox(r, ob(this));
+            return r;
         },
-        unlinkDoc: function(a) {
-            if (a instanceof gD) {
-                a = a.doc;
+        unlinkDoc: function(e) {
+            if (e instanceof l0) {
+                e = e.doc;
             }
             if (this.linked) {
-                for(var b = 0; b < this.linked.length; ++b){
-                    var c = this.linked[b];
-                    if (c.doc != a) {
+                for(var t = 0; t < this.linked.length; ++t){
+                    var i = this.linked[t];
+                    if (i.doc != e) {
                         continue;
                     }
-                    this.linked.splice(b, 1);
-                    a.unlinkDoc(this);
-                    fx(fv(this));
+                    this.linked.splice(t, 1);
+                    e.unlinkDoc(this);
+                    oC(ob(this));
                     break;
                 }
             }
-            if (a.history == this.history) {
-                var d = [
-                    a.id
+            if (e.history == this.history) {
+                var r = [
+                    e.id
                 ];
-                eE(a, function(a) {
-                    return d.push(a.id);
+                nW(e, function(e) {
+                    return r.push(e.id);
                 }, true);
-                a.history = new eI(null);
-                a.history.done = eU(this.history.done, d);
-                a.history.undone = eU(this.history.undone, d);
+                e.history = new nH(null);
+                e.history.done = n4(this.history.done, r);
+                e.history.undone = n4(this.history.undone, r);
             }
         },
-        iterLinkedDocs: function(a) {
-            eE(this, a);
+        iterLinkedDocs: function(e) {
+            nW(this, e);
         },
         getMode: function() {
             return this.mode;
@@ -6956,207 +6956,207 @@
         getEditor: function() {
             return this.cm;
         },
-        splitLines: function(a) {
+        splitLines: function(e) {
             if (this.lineSep) {
-                return a.split(this.lineSep);
+                return e.split(this.lineSep);
             }
-            return aH(a);
+            return eA(e);
         },
         lineSeparator: function() {
             return this.lineSep || "\n";
         },
-        setDirection: d3(function(a) {
-            if (a != "rtl") {
-                a = "ltr";
+        setDirection: r9(function(e) {
+            if (e != "rtl") {
+                e = "ltr";
             }
-            if (a == this.direction) {
+            if (e == this.direction) {
                 return;
             }
-            this.direction = a;
-            this.iter(function(a) {
-                return (a.order = null);
+            this.direction = e;
+            this.iter(function(e) {
+                return (e.order = null);
             });
             if (this.cm) {
-                eH(this.cm);
+                nD(this.cm);
             }
         })
     });
-    fz.prototype.eachLine = fz.prototype.iter;
-    var fA = 0;
-    function fB(a) {
-        var b = this;
-        fE(b);
-        if (as(b, a) || cw(b.display, a)) {
+    ok.prototype.eachLine = ok.prototype.iter;
+    var oT = 0;
+    function oL(e) {
+        var t = this;
+        oW(t);
+        if (e$(t, e) || iC(t.display, e)) {
             return;
         }
-        aw(a);
-        if (g) {
-            fA = +new Date();
+        eb(e);
+        if (l) {
+            oT = +new Date();
         }
-        var c = dd(b, a, true), d = a.dataTransfer.files;
-        if (!c || b.isReadOnly()) {
+        var i = ro(t, e, true), r = e.dataTransfer.files;
+        if (!i || t.isReadOnly()) {
             return;
         }
-        if (d && d.length && window.FileReader && window.File) {
-            var e = d.length, f = Array(e), h = 0;
-            var i = function() {
-                if (++h == e) {
-                    d1(b, function() {
-                        c = bb(b.doc, c);
-                        var a = {
-                            from: c,
-                            to: c,
-                            text: b.doc.splitLines(f.filter(function(a) {
-                                return a != null;
-                            }).join(b.doc.lineSeparator())),
+        if (r && r.length && window.FileReader && window.File) {
+            var n = r.length, o = Array(n), s = 0;
+            var a = function() {
+                if (++s == n) {
+                    rY(t, function() {
+                        i = tt(t.doc, i);
+                        var e = {
+                            from: i,
+                            to: i,
+                            text: t.doc.splitLines(o.filter(function(e) {
+                                return e != null;
+                            }).join(t.doc.lineSeparator())),
                             origin: "paste"
                         };
-                        fa(b.doc, a);
-                        e_(b.doc, eu(bb(b.doc, c), bb(b.doc, ev(a))));
+                        ot(t.doc, e);
+                        nK(t.doc, nw(tt(t.doc, i), tt(t.doc, nb(e))));
                     })();
                 }
             };
-            var j = function(a, c) {
-                if (b.options.allowDropFileTypes && O(b.options.allowDropFileTypes, a.type) == -1) {
-                    i();
+            var f = function(e, i) {
+                if (t.options.allowDropFileTypes && I(t.options.allowDropFileTypes, e.type) == -1) {
+                    a();
                     return;
                 }
-                var d = new FileReader();
-                d.onerror = function() {
-                    return i();
+                var r = new FileReader();
+                r.onerror = function() {
+                    return a();
                 };
-                d.onload = function() {
-                    var a = d.result;
-                    if (/[\x00-\x08\x0e-\x1f]{2}/.test(a)) {
-                        i();
+                r.onload = function() {
+                    var e = r.result;
+                    if (/[\x00-\x08\x0e-\x1f]{2}/.test(e)) {
+                        a();
                         return;
                     }
-                    f[c] = a;
-                    i();
+                    o[i] = e;
+                    a();
                 };
-                d.readAsText(a);
+                r.readAsText(e);
             };
-            for(var k = 0; k < d.length; k++){
-                j(d[k], k);
+            for(var u = 0; u < r.length; u++){
+                f(r[u], u);
             }
         } else {
-            if (b.state.draggingText && b.doc.sel.contains(c) > -1) {
-                b.state.draggingText(a);
+            if (t.state.draggingText && t.doc.sel.contains(i) > -1) {
+                t.state.draggingText(e);
                 setTimeout(function() {
-                    return b.display.input.focus();
+                    return t.display.input.focus();
                 }, 20);
                 return;
             }
             try {
-                var l = a.dataTransfer.getData("Text");
-                if (l) {
-                    var m;
-                    if (b.state.draggingText && !b.state.draggingText.copy) {
-                        m = b.listSelections();
+                var c = e.dataTransfer.getData("Text");
+                if (c) {
+                    var h;
+                    if (t.state.draggingText && !t.state.draggingText.copy) {
+                        h = t.listSelections();
                     }
-                    e1(b.doc, eu(c, c));
-                    if (m) {
-                        for(var n = 0; n < m.length; ++n){
-                            fg(b.doc, "", m[n].anchor, m[n].head, "drag");
+                    nY(t.doc, nw(i, i));
+                    if (h) {
+                        for(var d = 0; d < h.length; ++d){
+                            os(t.doc, "", h[d].anchor, h[d].head, "drag");
                         }
                     }
-                    b.replaceSelection(l, "around", "paste");
-                    b.display.input.focus();
+                    t.replaceSelection(c, "around", "paste");
+                    t.display.input.focus();
                 }
-            } catch (o) {}
+            } catch (p) {}
         }
     }
-    function fC(a, b) {
-        if (g && (!a.state.draggingText || +new Date() - fA < 100)) {
-            az(b);
+    function oO(e, t) {
+        if (l && (!e.state.draggingText || +new Date() - oT < 100)) {
+            eS(t);
             return;
         }
-        if (as(a, b) || cw(a.display, b)) {
+        if (e$(e, t) || iC(e.display, t)) {
             return;
         }
-        b.dataTransfer.setData("Text", a.getSelection());
-        b.dataTransfer.effectAllowed = "copyMove";
-        if (b.dataTransfer.setDragImage && !m) {
-            var c = C("img", null, null, "position: fixed; left: 0; top: 0;");
-            c.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-            if (l) {
-                c.width = c.height = 1;
-                a.display.wrapper.appendChild(c);
-                c._top = c.offsetTop;
+        t.dataTransfer.setData("Text", e.getSelection());
+        t.dataTransfer.effectAllowed = "copyMove";
+        if (t.dataTransfer.setDragImage && !h) {
+            var i = L("img", null, null, "position: fixed; left: 0; top: 0;");
+            i.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+            if (c) {
+                i.width = i.height = 1;
+                e.display.wrapper.appendChild(i);
+                i._top = i.offsetTop;
             }
-            b.dataTransfer.setDragImage(c, 0, 0);
-            if (l) {
-                c.parentNode.removeChild(c);
+            t.dataTransfer.setDragImage(i, 0, 0);
+            if (c) {
+                i.parentNode.removeChild(i);
             }
         }
     }
-    function fD(a, b) {
-        var c = dd(a, b);
-        if (!c) {
+    function o0(e, t) {
+        var i = ro(e, t);
+        if (!i) {
             return;
         }
-        var d = document.createDocumentFragment();
-        dn(a, c, d);
-        if (!a.display.dragCursor) {
-            a.display.dragCursor = C("div", null, "CodeMirror-cursors CodeMirror-dragcursors");
-            a.display.lineSpace.insertBefore(a.display.dragCursor, a.display.cursorDiv);
+        var r = document.createDocumentFragment();
+        rv(e, i, r);
+        if (!e.display.dragCursor) {
+            e.display.dragCursor = L("div", null, "CodeMirror-cursors CodeMirror-dragcursors");
+            e.display.lineSpace.insertBefore(e.display.dragCursor, e.display.cursorDiv);
         }
-        B(a.display.dragCursor, d);
+        T(e.display.dragCursor, r);
     }
-    function fE(a) {
-        if (a.display.dragCursor) {
-            a.display.lineSpace.removeChild(a.display.dragCursor);
-            a.display.dragCursor = null;
+    function oW(e) {
+        if (e.display.dragCursor) {
+            e.display.lineSpace.removeChild(e.display.dragCursor);
+            e.display.dragCursor = null;
         }
     }
-    function fF(a) {
+    function oN(e) {
         if (!document.getElementsByClassName) {
             return;
         }
-        var b = document.getElementsByClassName("CodeMirror"), c = [];
-        for(var d = 0; d < b.length; d++){
-            var e = b[d].CodeMirror;
-            if (e) {
-                c.push(e);
+        var t = document.getElementsByClassName("CodeMirror"), i = [];
+        for(var r = 0; r < t.length; r++){
+            var n = t[r].CodeMirror;
+            if (n) {
+                i.push(n);
             }
         }
-        if (c.length) {
-            c[0].operation(function() {
-                for(var b = 0; b < c.length; b++){
-                    a(c[b]);
+        if (i.length) {
+            i[0].operation(function() {
+                for(var t = 0; t < i.length; t++){
+                    e(i[t]);
                 }
             });
         }
     }
-    var fG = false;
-    function fH() {
-        if (fG) {
+    var oA = false;
+    function oD() {
+        if (oA) {
             return;
         }
-        fI();
-        fG = true;
+        oH();
+        oA = true;
     }
-    function fI() {
-        var a;
-        ao(window, "resize", function() {
-            if (a == null) {
-                a = setTimeout(function() {
-                    a = null;
-                    fF(fJ);
+    function oH() {
+        var e;
+        ep(window, "resize", function() {
+            if (e == null) {
+                e = setTimeout(function() {
+                    e = null;
+                    oN(oF);
                 }, 100);
             }
         });
-        ao(window, "blur", function() {
-            return fF(dv);
+        ep(window, "blur", function() {
+            return oN(rb);
         });
     }
-    function fJ(a) {
-        var b = a.display;
-        b.cachedCharWidth = b.cachedTextHeight = b.cachedPaddingH = null;
-        b.scrollbarsClipped = false;
-        a.setSize();
+    function oF(e) {
+        var t = e.display;
+        t.cachedCharWidth = t.cachedTextHeight = t.cachedPaddingH = null;
+        t.scrollbarsClipped = false;
+        e.setSize();
     }
-    var fK = {
+    var oM = {
         3: "Pause",
         8: "Backspace",
         9: "Tab",
@@ -7214,17 +7214,17 @@
         63277: "PageDown",
         63302: "Insert"
     };
-    for(var fL = 0; fL < 10; fL++){
-        fK[fL + 48] = fK[fL + 96] = String(fL);
+    for(var o1 = 0; o1 < 10; o1++){
+        oM[o1 + 48] = oM[o1 + 96] = String(o1);
     }
-    for(var fM = 65; fM <= 90; fM++){
-        fK[fM] = String.fromCharCode(fM);
+    for(var oP = 65; oP <= 90; oP++){
+        oM[oP] = String.fromCharCode(oP);
     }
-    for(var fN = 1; fN <= 12; fN++){
-        fK[fN + 111] = fK[fN + 63235] = "F" + fN;
+    for(var oz = 1; oz <= 12; oz++){
+        oM[oz + 111] = oM[oz + 63235] = "F" + oz;
     }
-    var fO = {};
-    fO.basic = {
+    var oE = {};
+    oE.basic = {
         Left: "goCharLeft",
         Right: "goCharRight",
         Up: "goLineUp",
@@ -7242,7 +7242,7 @@
         Insert: "toggleOverwrite",
         Esc: "singleSelection"
     };
-    fO.pcDefault = {
+    oE.pcDefault = {
         "Ctrl-A": "selectAll",
         "Ctrl-D": "deleteLine",
         "Ctrl-Z": "undo",
@@ -7271,7 +7271,7 @@
         "Alt-U": "redoSelection",
         fallthrough: "basic"
     };
-    fO.emacsy = {
+    oE.emacsy = {
         "Ctrl-F": "goCharRight",
         "Ctrl-B": "goCharLeft",
         "Ctrl-P": "goLineUp",
@@ -7287,7 +7287,7 @@
         "Ctrl-T": "transposeChars",
         "Ctrl-O": "openLine"
     };
-    fO.macDefault = {
+    oE.macDefault = {
         "Cmd-A": "selectAll",
         "Cmd-D": "deleteLine",
         "Cmd-Z": "undo",
@@ -7323,1407 +7323,1407 @@
             "emacsy"
         ]
     };
-    fO["default"] = s ? fO.macDefault : fO.pcDefault;
-    function fP(a) {
-        var b = a.split(/-(?!$)/);
-        a = b[b.length - 1];
-        var c, d, e, f;
-        for(var g = 0; g < b.length - 1; g++){
-            var h = b[g];
-            if (/^(cmd|meta|m)$/i.test(h)) {
-                f = true;
-            } else if (/^a(lt)?$/i.test(h)) {
-                c = true;
-            } else if (/^(c|ctrl|control)$/i.test(h)) {
-                d = true;
-            } else if (/^s(hift)?$/i.test(h)) {
-                e = true;
+    oE["default"] = $ ? oE.macDefault : oE.pcDefault;
+    function oI(e) {
+        var t = e.split(/-(?!$)/);
+        e = t[t.length - 1];
+        var i, r, n, o;
+        for(var l = 0; l < t.length - 1; l++){
+            var s = t[l];
+            if (/^(cmd|meta|m)$/i.test(s)) {
+                o = true;
+            } else if (/^a(lt)?$/i.test(s)) {
+                i = true;
+            } else if (/^(c|ctrl|control)$/i.test(s)) {
+                r = true;
+            } else if (/^s(hift)?$/i.test(s)) {
+                n = true;
             } else {
-                throw new Error("Unrecognized modifier name: " + h);
+                throw new Error("Unrecognized modifier name: " + s);
             }
         }
-        if (c) {
-            a = "Alt-" + a;
+        if (i) {
+            e = "Alt-" + e;
         }
-        if (d) {
-            a = "Ctrl-" + a;
+        if (r) {
+            e = "Ctrl-" + e;
         }
-        if (f) {
-            a = "Cmd-" + a;
+        if (o) {
+            e = "Cmd-" + e;
         }
-        if (e) {
-            a = "Shift-" + a;
+        if (n) {
+            e = "Shift-" + e;
         }
-        return a;
+        return e;
     }
-    function fQ(a) {
-        var b = {};
-        for(var c in a){
-            if (a.hasOwnProperty(c)) {
-                var d = a[c];
-                if (/^(name|fallthrough|(de|at)tach)$/.test(c)) {
+    function oR(e) {
+        var t = {};
+        for(var i in e){
+            if (e.hasOwnProperty(i)) {
+                var r = e[i];
+                if (/^(name|fallthrough|(de|at)tach)$/.test(i)) {
                     continue;
                 }
-                if (d == "...") {
-                    delete a[c];
+                if (r == "...") {
+                    delete e[i];
                     continue;
                 }
-                var e = Y(c.split(" "), fP);
-                for(var f = 0; f < e.length; f++){
-                    var g = void 0, h = void 0;
-                    if (f == e.length - 1) {
-                        h = e.join(" ");
-                        g = d;
+                var n = q(i.split(" "), oI);
+                for(var o = 0; o < n.length; o++){
+                    var l = void 0, s = void 0;
+                    if (o == n.length - 1) {
+                        s = n.join(" ");
+                        l = r;
                     } else {
-                        h = e.slice(0, f + 1).join(" ");
-                        g = "...";
+                        s = n.slice(0, o + 1).join(" ");
+                        l = "...";
                     }
-                    var i = b[h];
-                    if (!i) {
-                        b[h] = g;
-                    } else if (i != g) {
-                        throw new Error("Inconsistent bindings for " + h);
+                    var a = t[s];
+                    if (!a) {
+                        t[s] = l;
+                    } else if (a != l) {
+                        throw new Error("Inconsistent bindings for " + s);
                     }
                 }
-                delete a[c];
+                delete e[i];
             }
         }
-        for(var j in b){
-            a[j] = b[j];
+        for(var f in t){
+            e[f] = t[f];
         }
-        return a;
+        return e;
     }
-    function fR(a, b, c, d) {
-        b = fV(b);
-        var e = b.call ? b.call(a, d) : b[a];
-        if (e === false) {
+    function o3(e, t, i, r) {
+        t = o6(t);
+        var n = t.call ? t.call(e, r) : t[e];
+        if (n === false) {
             return "nothing";
         }
-        if (e === "...") {
+        if (n === "...") {
             return "multi";
         }
-        if (e != null && c(e)) {
+        if (n != null && i(n)) {
             return "handled";
         }
-        if (b.fallthrough) {
-            if (Object.prototype.toString.call(b.fallthrough) != "[object Array]") {
-                return fR(a, b.fallthrough, c, d);
+        if (t.fallthrough) {
+            if (Object.prototype.toString.call(t.fallthrough) != "[object Array]") {
+                return o3(e, t.fallthrough, i, r);
             }
-            for(var f = 0; f < b.fallthrough.length; f++){
-                var g = fR(a, b.fallthrough[f], c, d);
-                if (g) {
-                    return g;
+            for(var o = 0; o < t.fallthrough.length; o++){
+                var l = o3(e, t.fallthrough[o], i, r);
+                if (l) {
+                    return l;
                 }
             }
         }
     }
-    function fS(a) {
-        var b = typeof a == "string" ? a : fK[a.keyCode];
-        return (b == "Ctrl" || b == "Alt" || b == "Shift" || b == "Mod");
+    function o7(e) {
+        var t = typeof e == "string" ? e : oM[e.keyCode];
+        return (t == "Ctrl" || t == "Alt" || t == "Shift" || t == "Mod");
     }
-    function fT(a, b, c) {
-        var d = a;
-        if (b.altKey && d != "Alt") {
-            a = "Alt-" + a;
+    function oB(e, t, i) {
+        var r = e;
+        if (t.altKey && r != "Alt") {
+            e = "Alt-" + e;
         }
-        if ((w ? b.metaKey : b.ctrlKey) && d != "Ctrl") {
-            a = "Ctrl-" + a;
+        if ((b ? t.metaKey : t.ctrlKey) && r != "Ctrl") {
+            e = "Ctrl-" + e;
         }
-        if ((w ? b.ctrlKey : b.metaKey) && d != "Mod") {
-            a = "Cmd-" + a;
+        if ((b ? t.ctrlKey : t.metaKey) && r != "Mod") {
+            e = "Cmd-" + e;
         }
-        if (!c && b.shiftKey && d != "Shift") {
-            a = "Shift-" + a;
+        if (!i && t.shiftKey && r != "Shift") {
+            e = "Shift-" + e;
         }
-        return a;
+        return e;
     }
-    function fU(a, b) {
-        if (l && a.keyCode == 34 && a["char"]) {
+    function o4(e, t) {
+        if (c && e.keyCode == 34 && e["char"]) {
             return false;
         }
-        var c = fK[a.keyCode];
-        if (c == null || a.altGraphKey) {
+        var i = oM[e.keyCode];
+        if (i == null || e.altGraphKey) {
             return false;
         }
-        if (a.keyCode == 3 && a.code) {
-            c = a.code;
+        if (e.keyCode == 3 && e.code) {
+            i = e.code;
         }
-        return fT(c, a, b);
+        return oB(i, e, t);
     }
-    function fV(a) {
-        return typeof a == "string" ? fO[a] : a;
+    function o6(e) {
+        return typeof e == "string" ? oE[e] : e;
     }
-    function fW(a, b) {
-        var c = a.doc.sel.ranges, d = [];
-        for(var e = 0; e < c.length; e++){
-            var f = b(c[e]);
-            while(d.length && a5(f.from, X(d).to) <= 0){
-                var g = d.pop();
-                if (a5(g.from, f.from) < 0) {
-                    f.from = g.from;
+    function o5(e, t) {
+        var i = e.doc.sel.ranges, r = [];
+        for(var n = 0; n < i.length; n++){
+            var o = t(i[n]);
+            while(r.length && eq(o.from, j(r).to) <= 0){
+                var l = r.pop();
+                if (eq(l.from, o.from) < 0) {
+                    o.from = l.from;
                     break;
                 }
             }
-            d.push(f);
+            r.push(o);
         }
-        d0(a, function() {
-            for(var b = d.length - 1; b >= 0; b--){
-                fg(a.doc, "", d[b].from, d[b].to, "+delete");
+        rX(e, function() {
+            for(var t = r.length - 1; t >= 0; t--){
+                os(e.doc, "", r[t].from, r[t].to, "+delete");
             }
-            dE(a);
+            rW(e);
         });
     }
-    function fX(a, b, c) {
-        var d = ag(a.text, b + c, c);
-        return d < 0 || d > a.text.length ? null : d;
+    function o2(e, t, i) {
+        var r = el(e.text, t + i, i);
+        return r < 0 || r > e.text.length ? null : r;
     }
-    function fY(a, b, c) {
-        var d = fX(a, b.ch, c);
-        return d == null ? null : new a4(b.line, d, c < 0 ? "after" : "before");
+    function oG(e, t, i) {
+        var r = o2(e, t.ch, i);
+        return r == null ? null : new e9(t.line, r, i < 0 ? "after" : "before");
     }
-    function fZ(a, b, c, d, e) {
-        if (a) {
-            if (b.doc.direction == "rtl") {
-                e = -e;
+    function oU(e, t, i, r, n) {
+        if (e) {
+            if (t.doc.direction == "rtl") {
+                n = -n;
             }
-            var f = am(c, b.doc.direction);
-            if (f) {
-                var g = e < 0 ? X(f) : f[0];
-                var h = e < 0 == (g.level == 1);
-                var i = h ? "after" : "before";
-                var j;
-                if (g.level > 0 || b.doc.direction == "rtl") {
-                    var k = cI(b, c);
-                    j = e < 0 ? c.text.length - 1 : 0;
-                    var l = cJ(b, k, j).top;
-                    j = ah(function(a) {
-                        return (cJ(b, k, a).top == l);
-                    }, e < 0 == (g.level == 1) ? g.from : g.to - 1, j);
-                    if (i == "before") {
-                        j = fX(c, j, 1);
+            var o = eh(i, t.doc.direction);
+            if (o) {
+                var l = n < 0 ? j(o) : o[0];
+                var s = n < 0 == (l.level == 1);
+                var a = s ? "after" : "before";
+                var f;
+                if (l.level > 0 || t.doc.direction == "rtl") {
+                    var u = iF(t, i);
+                    f = n < 0 ? i.text.length - 1 : 0;
+                    var c = iM(t, u, f).top;
+                    f = es(function(e) {
+                        return (iM(t, u, e).top == c);
+                    }, n < 0 == (l.level == 1) ? l.from : l.to - 1, f);
+                    if (a == "before") {
+                        f = o2(i, f, 1);
                     }
                 } else {
-                    j = e < 0 ? g.to : g.from;
+                    f = n < 0 ? l.to : l.from;
                 }
-                return new a4(d, j, i);
+                return new e9(r, f, a);
             }
         }
-        return new a4(d, e < 0 ? c.text.length : 0, e < 0 ? "before" : "after");
+        return new e9(r, n < 0 ? i.text.length : 0, n < 0 ? "before" : "after");
     }
-    function f$(a, b, c, d) {
-        var e = am(b, a.doc.direction);
-        if (!e) {
-            return fY(b, c, d);
+    function oV(e, t, i, r) {
+        var n = eh(t, e.doc.direction);
+        if (!n) {
+            return oG(t, i, r);
         }
-        if (c.ch >= b.text.length) {
-            c.ch = b.text.length;
-            c.sticky = "before";
-        } else if (c.ch <= 0) {
-            c.ch = 0;
-            c.sticky = "after";
+        if (i.ch >= t.text.length) {
+            i.ch = t.text.length;
+            i.sticky = "before";
+        } else if (i.ch <= 0) {
+            i.ch = 0;
+            i.sticky = "after";
         }
-        var f = ak(e, c.ch, c.sticky), g = e[f];
-        if (a.doc.direction == "ltr" && g.level % 2 == 0 && (d > 0 ? g.to > c.ch : g.from < c.ch)) {
-            return fY(b, c, d);
+        var o = eu(n, i.ch, i.sticky), l = n[o];
+        if (e.doc.direction == "ltr" && l.level % 2 == 0 && (r > 0 ? l.to > i.ch : l.from < i.ch)) {
+            return oG(t, i, r);
         }
-        var h = function(a, c) {
-            return fX(b, a instanceof a4 ? a.ch : a, c);
+        var s = function(e, i) {
+            return o2(t, e instanceof e9 ? e.ch : e, i);
         };
-        var i;
-        var j = function(c) {
-            if (!a.options.lineWrapping) {
+        var a;
+        var f = function(i) {
+            if (!e.options.lineWrapping) {
                 return {
                     begin: 0,
-                    end: b.text.length
+                    end: t.text.length
                 };
             }
-            i = i || cI(a, b);
-            return c1(a, b, i, c);
+            a = a || iF(e, t);
+            return ij(e, t, a, i);
         };
-        var k = j(c.sticky == "before" ? h(c, -1) : c.ch);
-        if (a.doc.direction == "rtl" || g.level == 1) {
-            var l = (g.level == 1) == d < 0;
-            var m = h(c, l ? 1 : -1);
-            if (m != null && (!l ? m >= g.from && m >= k.begin : m <= g.to && m <= k.end)) {
-                var n = l ? "before" : "after";
-                return new a4(c.line, m, n);
+        var u = f(i.sticky == "before" ? s(i, -1) : i.ch);
+        if (e.doc.direction == "rtl" || l.level == 1) {
+            var c = (l.level == 1) == r < 0;
+            var h = s(i, c ? 1 : -1);
+            if (h != null && (!c ? h >= l.from && h >= u.begin : h <= l.to && h <= u.end)) {
+                var d = c ? "before" : "after";
+                return new e9(i.line, h, d);
             }
         }
-        var o = function(a, b, d) {
-            var f = function(a, b) {
-                return b ? new a4(c.line, h(a, 1), "before") : new a4(c.line, a, "after");
+        var p = function(e, t, r) {
+            var o = function(e, t) {
+                return t ? new e9(i.line, s(e, 1), "before") : new e9(i.line, e, "after");
             };
-            for(; a >= 0 && a < e.length; a += b){
-                var g = e[a];
-                var i = b > 0 == (g.level != 1);
-                var j = i ? d.begin : h(d.end, -1);
-                if (g.from <= j && j < g.to) {
-                    return f(j, i);
+            for(; e >= 0 && e < n.length; e += t){
+                var l = n[e];
+                var a = t > 0 == (l.level != 1);
+                var f = a ? r.begin : s(r.end, -1);
+                if (l.from <= f && f < l.to) {
+                    return o(f, a);
                 }
-                j = i ? g.from : h(g.to, -1);
-                if (d.begin <= j && j < d.end) {
-                    return f(j, i);
+                f = a ? l.from : s(l.to, -1);
+                if (r.begin <= f && f < r.end) {
+                    return o(f, a);
                 }
             }
         };
-        var p = o(f + d, d, k);
-        if (p) {
-            return p;
+        var v = p(o + r, r, u);
+        if (v) {
+            return v;
         }
-        var q = d > 0 ? k.end : h(k.begin, -1);
-        if (q != null && !(d > 0 && q == b.text.length)) {
-            p = o(d > 0 ? 0 : e.length - 1, d, j(q));
-            if (p) {
-                return p;
+        var g = r > 0 ? u.end : s(u.begin, -1);
+        if (g != null && !(r > 0 && g == t.text.length)) {
+            v = p(r > 0 ? 0 : n.length - 1, r, f(g));
+            if (v) {
+                return v;
             }
         }
         return null;
     }
-    var f_ = {
-        selectAll: e8,
-        singleSelection: function(a) {
-            return a.setSelection(a.getCursor("anchor"), a.getCursor("head"), R);
+    var oK = {
+        selectAll: nQ,
+        singleSelection: function(e) {
+            return e.setSelection(e.getCursor("anchor"), e.getCursor("head"), G);
         },
-        killLine: function(a) {
-            return fW(a, function(b) {
-                if (b.empty()) {
-                    var c = aY(a.doc, b.head.line).text.length;
-                    if (b.head.ch == c && b.head.line < a.lastLine()) {
+        killLine: function(e) {
+            return o5(e, function(t) {
+                if (t.empty()) {
+                    var i = e2(e.doc, t.head.line).text.length;
+                    if (t.head.ch == i && t.head.line < e.lastLine()) {
                         return {
-                            from: b.head,
-                            to: a4(b.head.line + 1, 0)
+                            from: t.head,
+                            to: e9(t.head.line + 1, 0)
                         };
                     } else {
                         return {
-                            from: b.head,
-                            to: a4(b.head.line, c)
+                            from: t.head,
+                            to: e9(t.head.line, i)
                         };
                     }
                 } else {
                     return {
-                        from: b.from(),
-                        to: b.to()
+                        from: t.from(),
+                        to: t.to()
                     };
                 }
             });
         },
-        deleteLine: function(a) {
-            return fW(a, function(b) {
+        deleteLine: function(e) {
+            return o5(e, function(t) {
                 return {
-                    from: a4(b.from().line, 0),
-                    to: bb(a.doc, a4(b.to().line + 1, 0))
+                    from: e9(t.from().line, 0),
+                    to: tt(e.doc, e9(t.to().line + 1, 0))
                 };
             });
         },
-        delLineLeft: function(a) {
-            return fW(a, function(a) {
+        delLineLeft: function(e) {
+            return o5(e, function(e) {
                 return {
-                    from: a4(a.from().line, 0),
-                    to: a.from()
+                    from: e9(e.from().line, 0),
+                    to: e.from()
                 };
             });
         },
-        delWrappedLineLeft: function(a) {
-            return fW(a, function(b) {
-                var c = a.charCoords(b.head, "div").top + 5;
-                var d = a.coordsChar({
+        delWrappedLineLeft: function(e) {
+            return o5(e, function(t) {
+                var i = e.charCoords(t.head, "div").top + 5;
+                var r = e.coordsChar({
                     left: 0,
-                    top: c
+                    top: i
                 }, "div");
                 return {
-                    from: d,
-                    to: b.from()
+                    from: r,
+                    to: t.from()
                 };
             });
         },
-        delWrappedLineRight: function(a) {
-            return fW(a, function(b) {
-                var c = a.charCoords(b.head, "div").top + 5;
-                var d = a.coordsChar({
-                    left: a.display.lineDiv.offsetWidth + 100,
-                    top: c
+        delWrappedLineRight: function(e) {
+            return o5(e, function(t) {
+                var i = e.charCoords(t.head, "div").top + 5;
+                var r = e.coordsChar({
+                    left: e.display.lineDiv.offsetWidth + 100,
+                    top: i
                 }, "div");
                 return {
-                    from: b.from(),
-                    to: d
+                    from: t.from(),
+                    to: r
                 };
             });
         },
-        undo: function(a) {
-            return a.undo();
+        undo: function(e) {
+            return e.undo();
         },
-        redo: function(a) {
-            return a.redo();
+        redo: function(e) {
+            return e.redo();
         },
-        undoSelection: function(a) {
-            return a.undoSelection();
+        undoSelection: function(e) {
+            return e.undoSelection();
         },
-        redoSelection: function(a) {
-            return a.redoSelection();
+        redoSelection: function(e) {
+            return e.redoSelection();
         },
-        goDocStart: function(a) {
-            return a.extendSelection(a4(a.firstLine(), 0));
+        goDocStart: function(e) {
+            return e.extendSelection(e9(e.firstLine(), 0));
         },
-        goDocEnd: function(a) {
-            return a.extendSelection(a4(a.lastLine()));
+        goDocEnd: function(e) {
+            return e.extendSelection(e9(e.lastLine()));
         },
-        goLineStart: function(a) {
-            return a.extendSelectionsBy(function(b) {
-                return f0(a, b.head.line);
+        goLineStart: function(e) {
+            return e.extendSelectionsBy(function(t) {
+                return oX(e, t.head.line);
             }, {
                 origin: "+move",
                 bias: 1
             });
         },
-        goLineStartSmart: function(a) {
-            return a.extendSelectionsBy(function(b) {
-                return f2(a, b.head);
+        goLineStartSmart: function(e) {
+            return e.extendSelectionsBy(function(t) {
+                return oj(e, t.head);
             }, {
                 origin: "+move",
                 bias: 1
             });
         },
-        goLineEnd: function(a) {
-            return a.extendSelectionsBy(function(b) {
-                return f1(a, b.head.line);
+        goLineEnd: function(e) {
+            return e.extendSelectionsBy(function(t) {
+                return oY(e, t.head.line);
             }, {
                 origin: "+move",
                 bias: -1
             });
         },
-        goLineRight: function(a) {
-            return a.extendSelectionsBy(function(b) {
-                var c = a.cursorCoords(b.head, "div").top + 5;
-                return a.coordsChar({
-                    left: a.display.lineDiv.offsetWidth + 100,
-                    top: c
+        goLineRight: function(e) {
+            return e.extendSelectionsBy(function(t) {
+                var i = e.cursorCoords(t.head, "div").top + 5;
+                return e.coordsChar({
+                    left: e.display.lineDiv.offsetWidth + 100,
+                    top: i
                 }, "div");
-            }, T);
+            }, V);
         },
-        goLineLeft: function(a) {
-            return a.extendSelectionsBy(function(b) {
-                var c = a.cursorCoords(b.head, "div").top + 5;
-                return a.coordsChar({
+        goLineLeft: function(e) {
+            return e.extendSelectionsBy(function(t) {
+                var i = e.cursorCoords(t.head, "div").top + 5;
+                return e.coordsChar({
                     left: 0,
-                    top: c
+                    top: i
                 }, "div");
-            }, T);
+            }, V);
         },
-        goLineLeftSmart: function(a) {
-            return a.extendSelectionsBy(function(b) {
-                var c = a.cursorCoords(b.head, "div").top + 5;
-                var d = a.coordsChar({
+        goLineLeftSmart: function(e) {
+            return e.extendSelectionsBy(function(t) {
+                var i = e.cursorCoords(t.head, "div").top + 5;
+                var r = e.coordsChar({
                     left: 0,
-                    top: c
+                    top: i
                 }, "div");
-                if (d.ch < a.getLine(d.line).search(/\S/)) {
-                    return f2(a, b.head);
+                if (r.ch < e.getLine(r.line).search(/\S/)) {
+                    return oj(e, t.head);
                 }
-                return d;
-            }, T);
+                return r;
+            }, V);
         },
-        goLineUp: function(a) {
-            return a.moveV(-1, "line");
+        goLineUp: function(e) {
+            return e.moveV(-1, "line");
         },
-        goLineDown: function(a) {
-            return a.moveV(1, "line");
+        goLineDown: function(e) {
+            return e.moveV(1, "line");
         },
-        goPageUp: function(a) {
-            return a.moveV(-1, "page");
+        goPageUp: function(e) {
+            return e.moveV(-1, "page");
         },
-        goPageDown: function(a) {
-            return a.moveV(1, "page");
+        goPageDown: function(e) {
+            return e.moveV(1, "page");
         },
-        goCharLeft: function(a) {
-            return a.moveH(-1, "char");
+        goCharLeft: function(e) {
+            return e.moveH(-1, "char");
         },
-        goCharRight: function(a) {
-            return a.moveH(1, "char");
+        goCharRight: function(e) {
+            return e.moveH(1, "char");
         },
-        goColumnLeft: function(a) {
-            return a.moveH(-1, "column");
+        goColumnLeft: function(e) {
+            return e.moveH(-1, "column");
         },
-        goColumnRight: function(a) {
-            return a.moveH(1, "column");
+        goColumnRight: function(e) {
+            return e.moveH(1, "column");
         },
-        goWordLeft: function(a) {
-            return a.moveH(-1, "word");
+        goWordLeft: function(e) {
+            return e.moveH(-1, "word");
         },
-        goGroupRight: function(a) {
-            return a.moveH(1, "group");
+        goGroupRight: function(e) {
+            return e.moveH(1, "group");
         },
-        goGroupLeft: function(a) {
-            return a.moveH(-1, "group");
+        goGroupLeft: function(e) {
+            return e.moveH(-1, "group");
         },
-        goWordRight: function(a) {
-            return a.moveH(1, "word");
+        goWordRight: function(e) {
+            return e.moveH(1, "word");
         },
-        delCharBefore: function(a) {
-            return a.deleteH(-1, "codepoint");
+        delCharBefore: function(e) {
+            return e.deleteH(-1, "codepoint");
         },
-        delCharAfter: function(a) {
-            return a.deleteH(1, "char");
+        delCharAfter: function(e) {
+            return e.deleteH(1, "char");
         },
-        delWordBefore: function(a) {
-            return a.deleteH(-1, "word");
+        delWordBefore: function(e) {
+            return e.deleteH(-1, "word");
         },
-        delWordAfter: function(a) {
-            return a.deleteH(1, "word");
+        delWordAfter: function(e) {
+            return e.deleteH(1, "word");
         },
-        delGroupBefore: function(a) {
-            return a.deleteH(-1, "group");
+        delGroupBefore: function(e) {
+            return e.deleteH(-1, "group");
         },
-        delGroupAfter: function(a) {
-            return a.deleteH(1, "group");
+        delGroupAfter: function(e) {
+            return e.deleteH(1, "group");
         },
-        indentAuto: function(a) {
-            return a.indentSelection("smart");
+        indentAuto: function(e) {
+            return e.indentSelection("smart");
         },
-        indentMore: function(a) {
-            return a.indentSelection("add");
+        indentMore: function(e) {
+            return e.indentSelection("add");
         },
-        indentLess: function(a) {
-            return a.indentSelection("subtract");
+        indentLess: function(e) {
+            return e.indentSelection("subtract");
         },
-        insertTab: function(a) {
-            return a.replaceSelection("\t");
+        insertTab: function(e) {
+            return e.replaceSelection("\t");
         },
-        insertSoftTab: function(a) {
-            var b = [], c = a.listSelections(), d = a.options.tabSize;
-            for(var e = 0; e < c.length; e++){
-                var f = c[e].from();
-                var g = M(a.getLine(f.line), f.ch, d);
-                b.push(W(d - (g % d)));
+        insertSoftTab: function(e) {
+            var t = [], i = e.listSelections(), r = e.options.tabSize;
+            for(var n = 0; n < i.length; n++){
+                var o = i[n].from();
+                var l = z(e.getLine(o.line), o.ch, r);
+                t.push(Y(r - (l % r)));
             }
-            a.replaceSelections(b);
+            e.replaceSelections(t);
         },
-        defaultTab: function(a) {
-            if (a.somethingSelected()) {
-                a.indentSelection("add");
+        defaultTab: function(e) {
+            if (e.somethingSelected()) {
+                e.indentSelection("add");
             } else {
-                a.execCommand("insertTab");
+                e.execCommand("insertTab");
             }
         },
-        transposeChars: function(a) {
-            return d0(a, function() {
-                var b = a.listSelections(), c = [];
-                for(var d = 0; d < b.length; d++){
-                    if (!b[d].empty()) {
+        transposeChars: function(e) {
+            return rX(e, function() {
+                var t = e.listSelections(), i = [];
+                for(var r = 0; r < t.length; r++){
+                    if (!t[r].empty()) {
                         continue;
                     }
-                    var e = b[d].head, f = aY(a.doc, e.line).text;
-                    if (f) {
-                        if (e.ch == f.length) {
-                            e = new a4(e.line, e.ch - 1);
+                    var n = t[r].head, o = e2(e.doc, n.line).text;
+                    if (o) {
+                        if (n.ch == o.length) {
+                            n = new e9(n.line, n.ch - 1);
                         }
-                        if (e.ch > 0) {
-                            e = new a4(e.line, e.ch + 1);
-                            a.replaceRange(f.charAt(e.ch - 1) + f.charAt(e.ch - 2), a4(e.line, e.ch - 2), e, "+transpose");
-                        } else if (e.line > a.doc.first) {
-                            var g = aY(a.doc, e.line - 1).text;
-                            if (g) {
-                                e = new a4(e.line, 1);
-                                a.replaceRange(f.charAt(0) + a.doc.lineSeparator() + g.charAt(g.length - 1), a4(e.line - 1, g.length - 1), e, "+transpose");
+                        if (n.ch > 0) {
+                            n = new e9(n.line, n.ch + 1);
+                            e.replaceRange(o.charAt(n.ch - 1) + o.charAt(n.ch - 2), e9(n.line, n.ch - 2), n, "+transpose");
+                        } else if (n.line > e.doc.first) {
+                            var l = e2(e.doc, n.line - 1).text;
+                            if (l) {
+                                n = new e9(n.line, 1);
+                                e.replaceRange(o.charAt(0) + e.doc.lineSeparator() + l.charAt(l.length - 1), e9(n.line - 1, l.length - 1), n, "+transpose");
                             }
                         }
                     }
-                    c.push(new es(e, e));
+                    i.push(new ny(n, n));
                 }
-                a.setSelections(c);
+                e.setSelections(i);
             });
         },
-        newlineAndIndent: function(a) {
-            return d0(a, function() {
-                var b = a.listSelections();
-                for(var c = b.length - 1; c >= 0; c--){
-                    a.replaceRange(a.doc.lineSeparator(), b[c].anchor, b[c].head, "+input");
+        newlineAndIndent: function(e) {
+            return rX(e, function() {
+                var t = e.listSelections();
+                for(var i = t.length - 1; i >= 0; i--){
+                    e.replaceRange(e.doc.lineSeparator(), t[i].anchor, t[i].head, "+input");
                 }
-                b = a.listSelections();
-                for(var d = 0; d < b.length; d++){
-                    a.indentLine(b[d].from().line, null, true);
+                t = e.listSelections();
+                for(var r = 0; r < t.length; r++){
+                    e.indentLine(t[r].from().line, null, true);
                 }
-                dE(a);
+                rW(e);
             });
         },
-        openLine: function(a) {
-            return a.replaceSelection("\n", "start");
+        openLine: function(e) {
+            return e.replaceSelection("\n", "start");
         },
-        toggleOverwrite: function(a) {
-            return a.toggleOverwrite();
+        toggleOverwrite: function(e) {
+            return e.toggleOverwrite();
         }
     };
-    function f0(a, b) {
-        var c = aY(a.doc, b);
-        var d = bP(c);
-        if (d != c) {
-            b = a0(d);
+    function oX(e, t) {
+        var i = e2(e.doc, t);
+        var r = tE(i);
+        if (r != i) {
+            t = eK(r);
         }
-        return fZ(true, a, d, b, 1);
+        return oU(true, e, r, t, 1);
     }
-    function f1(a, b) {
-        var c = aY(a.doc, b);
-        var d = bQ(c);
-        if (d != c) {
-            b = a0(d);
+    function oY(e, t) {
+        var i = e2(e.doc, t);
+        var r = tI(i);
+        if (r != i) {
+            t = eK(r);
         }
-        return fZ(true, a, c, b, -1);
+        return oU(true, e, i, t, -1);
     }
-    function f2(a, b) {
-        var c = f0(a, b.line);
-        var d = aY(a.doc, c.line);
-        var e = am(d, a.doc.direction);
-        if (!e || e[0].level == 0) {
-            var f = Math.max(c.ch, d.text.search(/\S/));
-            var g = b.line == c.line && b.ch <= f && b.ch;
-            return a4(c.line, g ? 0 : f, c.sticky);
+    function oj(e, t) {
+        var i = oX(e, t.line);
+        var r = e2(e.doc, i.line);
+        var n = eh(r, e.doc.direction);
+        if (!n || n[0].level == 0) {
+            var o = Math.max(i.ch, r.text.search(/\S/));
+            var l = t.line == i.line && t.ch <= o && t.ch;
+            return e9(i.line, l ? 0 : o, i.sticky);
         }
-        return c;
+        return i;
     }
-    function f3(a, b, c) {
-        if (typeof b == "string") {
-            b = f_[b];
-            if (!b) {
+    function o9(e, t, i) {
+        if (typeof t == "string") {
+            t = oK[t];
+            if (!t) {
                 return false;
             }
         }
-        a.display.input.ensurePolled();
-        var d = a.display.shift, e = false;
+        e.display.input.ensurePolled();
+        var r = e.display.shift, n = false;
         try {
-            if (a.isReadOnly()) {
-                a.state.suppressEdits = true;
+            if (e.isReadOnly()) {
+                e.state.suppressEdits = true;
             }
-            if (c) {
-                a.display.shift = false;
+            if (i) {
+                e.display.shift = false;
             }
-            e = b(a) != Q;
+            n = t(e) != B;
         } finally{
-            a.display.shift = d;
-            a.state.suppressEdits = false;
+            e.display.shift = r;
+            e.state.suppressEdits = false;
         }
-        return e;
+        return n;
     }
-    function f4(a, b, c) {
-        for(var d = 0; d < a.state.keyMaps.length; d++){
-            var e = fR(b, a.state.keyMaps[d], c, a);
-            if (e) {
-                return e;
+    function oq(e, t, i) {
+        for(var r = 0; r < e.state.keyMaps.length; r++){
+            var n = o3(t, e.state.keyMaps[r], i, e);
+            if (n) {
+                return n;
             }
         }
-        return ((a.options.extraKeys && fR(b, a.options.extraKeys, c, a)) || fR(b, a.options.keyMap, c, a));
+        return ((e.options.extraKeys && o3(t, e.options.extraKeys, i, e)) || o3(t, e.options.keyMap, i, e));
     }
-    var f5 = new N();
-    function f6(a, b, c, d) {
-        var e = a.state.keySeq;
-        if (e) {
-            if (fS(b)) {
+    var o8 = new E();
+    function oZ(e, t, i, r) {
+        var n = e.state.keySeq;
+        if (n) {
+            if (o7(t)) {
                 return "handled";
             }
-            if (/\'$/.test(b)) {
-                a.state.keySeq = null;
+            if (/\'$/.test(t)) {
+                e.state.keySeq = null;
             } else {
-                f5.set(50, function() {
-                    if (a.state.keySeq == e) {
-                        a.state.keySeq = null;
-                        a.display.input.reset();
+                o8.set(50, function() {
+                    if (e.state.keySeq == n) {
+                        e.state.keySeq = null;
+                        e.display.input.reset();
                     }
                 });
             }
-            if (f7(a, e + " " + b, c, d)) {
+            if (oJ(e, n + " " + t, i, r)) {
                 return true;
             }
         }
-        return f7(a, b, c, d);
+        return oJ(e, t, i, r);
     }
-    function f7(a, b, c, d) {
-        var e = f4(a, b, d);
-        if (e == "multi") {
-            a.state.keySeq = b;
+    function oJ(e, t, i, r) {
+        var n = oq(e, t, r);
+        if (n == "multi") {
+            e.state.keySeq = t;
         }
-        if (e == "handled") {
-            ch(a, "keyHandled", a, b, c);
+        if (n == "handled") {
+            ia(e, "keyHandled", e, t, i);
         }
-        if (e == "handled" || e == "multi") {
-            aw(c);
-            dr(a);
+        if (n == "handled" || n == "multi") {
+            eb(i);
+            r$(e);
         }
-        return !!e;
+        return !!n;
     }
-    function f8(a, b) {
-        var c = fU(b, true);
-        if (!c) {
+    function oQ(e, t) {
+        var i = o4(t, true);
+        if (!i) {
             return false;
         }
-        if (b.shiftKey && !a.state.keySeq) {
-            return (f6(a, "Shift-" + c, b, function(b) {
-                return f3(a, b, true);
-            }) || f6(a, c, b, function(b) {
-                if (typeof b == "string" ? /^go[A-Z]/.test(b) : b.motion) {
-                    return f3(a, b);
+        if (t.shiftKey && !e.state.keySeq) {
+            return (oZ(e, "Shift-" + i, t, function(t) {
+                return o9(e, t, true);
+            }) || oZ(e, i, t, function(t) {
+                if (typeof t == "string" ? /^go[A-Z]/.test(t) : t.motion) {
+                    return o9(e, t);
                 }
             }));
         } else {
-            return f6(a, c, b, function(b) {
-                return f3(a, b);
+            return oZ(e, i, t, function(t) {
+                return o9(e, t);
             });
         }
     }
-    function f9(a, b, c) {
-        return f6(a, "'" + c + "'", b, function(b) {
-            return f3(a, b, true);
+    function le(e, t, i) {
+        return oZ(e, "'" + i + "'", t, function(t) {
+            return o9(e, t, true);
         });
     }
-    var ga = null;
-    function gb(a) {
-        var b = this;
-        if (a.target && a.target != b.display.input.getField()) {
+    var lt = null;
+    function li(e) {
+        var t = this;
+        if (e.target && e.target != t.display.input.getField()) {
             return;
         }
-        b.curOp.focus = G();
-        if (as(b, a)) {
+        t.curOp.focus = A();
+        if (e$(t, e)) {
             return;
         }
-        if (g && h < 11 && a.keyCode == 27) {
-            a.returnValue = false;
+        if (l && s < 11 && e.keyCode == 27) {
+            e.returnValue = false;
         }
-        var d = a.keyCode;
-        b.display.shift = d == 16 || a.shiftKey;
-        var e = f8(b, a);
-        if (l) {
-            ga = e ? d : null;
-            if (!e && d == 88 && !aJ && (s ? a.metaKey : a.ctrlKey)) {
-                b.replaceSelection("", null, "cut");
+        var r = e.keyCode;
+        t.display.shift = r == 16 || e.shiftKey;
+        var n = oQ(t, e);
+        if (c) {
+            lt = n ? r : null;
+            if (!n && r == 88 && !eH && ($ ? e.metaKey : e.ctrlKey)) {
+                t.replaceSelection("", null, "cut");
             }
         }
-        if (c && !s && !e && d == 46 && a.shiftKey && !a.ctrlKey && document.execCommand) {
+        if (i && !$ && !n && r == 46 && e.shiftKey && !e.ctrlKey && document.execCommand) {
             document.execCommand("cut");
         }
-        if (d == 18 && !/\bCodeMirror-crosshair\b/.test(b.display.lineDiv.className)) {
-            gc(b);
+        if (r == 18 && !/\bCodeMirror-crosshair\b/.test(t.display.lineDiv.className)) {
+            lr(t);
         }
     }
-    function gc(a) {
-        var b = a.display.lineDiv;
-        H(b, "CodeMirror-crosshair");
-        function c(a) {
-            if (a.keyCode == 18 || !a.altKey) {
-                z(b, "CodeMirror-crosshair");
-                aq(document, "keyup", c);
-                aq(document, "mouseover", c);
+    function lr(e) {
+        var t = e.display.lineDiv;
+        D(t, "CodeMirror-crosshair");
+        function i(e) {
+            if (e.keyCode == 18 || !e.altKey) {
+                S(t, "CodeMirror-crosshair");
+                eg(document, "keyup", i);
+                eg(document, "mouseover", i);
             }
         }
-        ao(document, "keyup", c);
-        ao(document, "mouseover", c);
+        ep(document, "keyup", i);
+        ep(document, "mouseover", i);
     }
-    function gd(a) {
-        if (a.keyCode == 16) {
+    function ln(e) {
+        if (e.keyCode == 16) {
             this.doc.sel.shift = false;
         }
-        as(this, a);
+        e$(this, e);
     }
-    function ge(a) {
-        var b = this;
-        if (a.target && a.target != b.display.input.getField()) {
+    function lo(e) {
+        var t = this;
+        if (e.target && e.target != t.display.input.getField()) {
             return;
         }
-        if (cw(b.display, a) || as(b, a) || (a.ctrlKey && !a.altKey) || (s && a.metaKey)) {
+        if (iC(t.display, e) || e$(t, e) || (e.ctrlKey && !e.altKey) || ($ && e.metaKey)) {
             return;
         }
-        var c = a.keyCode, d = a.charCode;
-        if (l && c == ga) {
-            ga = null;
-            aw(a);
+        var i = e.keyCode, r = e.charCode;
+        if (c && i == lt) {
+            lt = null;
+            eb(e);
             return;
         }
-        if (l && (!a.which || a.which < 10) && f8(b, a)) {
+        if (c && (!e.which || e.which < 10) && oQ(t, e)) {
             return;
         }
-        var e = String.fromCharCode(d == null ? c : d);
-        if (e == "\x08") {
+        var n = String.fromCharCode(r == null ? i : r);
+        if (n == "\x08") {
             return;
         }
-        if (f9(b, a, e)) {
+        if (le(t, e, n)) {
             return;
         }
-        b.display.input.onKeyPress(a);
+        t.display.input.onKeyPress(e);
     }
-    var gf = 400;
-    var gg = function(a, b, c) {
-        this.time = a;
-        this.pos = b;
-        this.button = c;
+    var ll = 400;
+    var ls = function(e, t, i) {
+        this.time = e;
+        this.pos = t;
+        this.button = i;
     };
-    gg.prototype.compare = function(a, b, c) {
-        return (this.time + gf > a && a5(b, this.pos) == 0 && c == this.button);
+    ls.prototype.compare = function(e, t, i) {
+        return (this.time + ll > e && eq(t, this.pos) == 0 && i == this.button);
     };
-    var gh, gi;
-    function gj(a, b) {
-        var c = +new Date();
-        if (gi && gi.compare(c, a, b)) {
-            gh = gi = null;
+    var la, lf;
+    function lu(e, t) {
+        var i = +new Date();
+        if (lf && lf.compare(i, e, t)) {
+            la = lf = null;
             return "triple";
-        } else if (gh && gh.compare(c, a, b)) {
-            gi = new gg(c, a, b);
-            gh = null;
+        } else if (la && la.compare(i, e, t)) {
+            lf = new ls(i, e, t);
+            la = null;
             return "double";
         } else {
-            gh = new gg(c, a, b);
-            gi = null;
+            la = new ls(i, e, t);
+            lf = null;
             return "single";
         }
     }
-    function gk(a) {
-        var b = this, c = b.display;
-        if (as(b, a) || (c.activeTouch && c.input.supportsTouch())) {
+    function lc(e) {
+        var t = this, i = t.display;
+        if (e$(t, e) || (i.activeTouch && i.input.supportsTouch())) {
             return;
         }
-        c.input.ensurePolled();
-        c.shift = a.shiftKey;
-        if (cw(c, a)) {
-            if (!i) {
-                c.scroller.draggable = false;
+        i.input.ensurePolled();
+        i.shift = e.shiftKey;
+        if (iC(i, e)) {
+            if (!a) {
+                i.scroller.draggable = false;
                 setTimeout(function() {
-                    return (c.scroller.draggable = true);
+                    return (i.scroller.draggable = true);
                 }, 100);
             }
             return;
         }
-        if (gt(b, a)) {
+        if (l_(t, e)) {
             return;
         }
-        var d = dd(b, a), e = aB(a), f = d ? gj(d, e) : "single";
+        var r = ro(t, e), n = eT(e), o = r ? lu(r, n) : "single";
         window.focus();
-        if (e == 1 && b.state.selectingText) {
-            b.state.selectingText(a);
+        if (n == 1 && t.state.selectingText) {
+            t.state.selectingText(e);
         }
-        if (d && gl(b, e, d, f, a)) {
+        if (r && lh(t, n, r, o, e)) {
             return;
         }
-        if (e == 1) {
-            if (d) {
-                gn(b, d, f, a);
-            } else if (aA(a) == c.scroller) {
-                aw(a);
+        if (n == 1) {
+            if (r) {
+                lp(t, r, o, e);
+            } else if (ek(e) == i.scroller) {
+                eb(e);
             }
-        } else if (e == 2) {
-            if (d) {
-                eW(b.doc, d);
+        } else if (n == 2) {
+            if (r) {
+                n5(t.doc, r);
             }
             setTimeout(function() {
-                return c.input.focus();
+                return i.input.focus();
             }, 20);
-        } else if (e == 3) {
+        } else if (n == 3) {
             if (x) {
-                b.display.input.onContextMenu(a);
+                t.display.input.onContextMenu(e);
             } else {
-                dt(b);
+                r_(t);
             }
         }
     }
-    function gl(a, b, c, d, e) {
-        var f = "Click";
-        if (d == "double") {
-            f = "Double" + f;
-        } else if (d == "triple") {
-            f = "Triple" + f;
+    function lh(e, t, i, r, n) {
+        var o = "Click";
+        if (r == "double") {
+            o = "Double" + o;
+        } else if (r == "triple") {
+            o = "Triple" + o;
         }
-        f = (b == 1 ? "Left" : b == 2 ? "Middle" : "Right") + f;
-        return f6(a, fT(f, e), e, function(b) {
-            if (typeof b == "string") {
-                b = f_[b];
+        o = (t == 1 ? "Left" : t == 2 ? "Middle" : "Right") + o;
+        return oZ(e, oB(o, n), n, function(t) {
+            if (typeof t == "string") {
+                t = oK[t];
             }
-            if (!b) {
+            if (!t) {
                 return false;
             }
-            var d = false;
+            var r = false;
             try {
-                if (a.isReadOnly()) {
-                    a.state.suppressEdits = true;
+                if (e.isReadOnly()) {
+                    e.state.suppressEdits = true;
                 }
-                d = b(a, c) != Q;
+                r = t(e, i) != B;
             } finally{
-                a.state.suppressEdits = false;
+                e.state.suppressEdits = false;
             }
-            return d;
+            return r;
         });
     }
-    function gm(a, b, c) {
-        var d = a.getOption("configureMouse");
-        var e = d ? d(a, b, c) : {};
-        if (e.unit == null) {
-            var f = t ? c.shiftKey && c.metaKey : c.altKey;
-            e.unit = f ? "rectangle" : b == "single" ? "char" : b == "double" ? "word" : "line";
+    function ld(e, t, i) {
+        var r = e.getOption("configureMouse");
+        var n = r ? r(e, t, i) : {};
+        if (n.unit == null) {
+            var o = y ? i.shiftKey && i.metaKey : i.altKey;
+            n.unit = o ? "rectangle" : t == "single" ? "char" : t == "double" ? "word" : "line";
         }
-        if (e.extend == null || a.doc.extend) {
-            e.extend = a.doc.extend || c.shiftKey;
+        if (n.extend == null || e.doc.extend) {
+            n.extend = e.doc.extend || i.shiftKey;
         }
-        if (e.addNew == null) {
-            e.addNew = s ? c.metaKey : c.ctrlKey;
+        if (n.addNew == null) {
+            n.addNew = $ ? i.metaKey : i.ctrlKey;
         }
-        if (e.moveOnDrag == null) {
-            e.moveOnDrag = !(s ? c.altKey : c.ctrlKey);
+        if (n.moveOnDrag == null) {
+            n.moveOnDrag = !($ ? i.altKey : i.ctrlKey);
         }
-        return e;
+        return n;
     }
-    function gn(a, b, c, d) {
-        if (g) {
-            setTimeout(K(ds, a), 0);
+    function lp(e, t, i, r) {
+        if (l) {
+            setTimeout(M(ry, e), 0);
         } else {
-            a.curOp.focus = G();
+            e.curOp.focus = A();
         }
-        var e = gm(a, c, d);
-        var f = a.doc.sel, h;
-        if (a.options.dragDrop && aC && !a.isReadOnly() && c == "single" && (h = f.contains(b)) > -1 && (a5((h = f.ranges[h]).from(), b) < 0 || b.xRel > 0) && (a5(h.to(), b) > 0 || b.xRel < 0)) {
-            go(a, d, b, e);
+        var n = ld(e, i, r);
+        var o = e.doc.sel, s;
+        if (e.options.dragDrop && eL && !e.isReadOnly() && i == "single" && (s = o.contains(t)) > -1 && (eq((s = o.ranges[s]).from(), t) < 0 || t.xRel > 0) && (eq(s.to(), t) > 0 || t.xRel < 0)) {
+            lv(e, r, t, n);
         } else {
-            gq(a, d, b, e);
+            lm(e, r, t, n);
         }
     }
-    function go(a, b, c, d) {
-        var e = a.display, f = false;
-        var j = d1(a, function(b) {
-            if (i) {
-                e.scroller.draggable = false;
+    function lv(e, t, i, r) {
+        var n = e.display, o = false;
+        var f = rY(e, function(t) {
+            if (a) {
+                n.scroller.draggable = false;
             }
-            a.state.draggingText = false;
-            if (a.state.delayingBlurEvent) {
-                if (a.hasFocus()) {
-                    a.state.delayingBlurEvent = false;
+            e.state.draggingText = false;
+            if (e.state.delayingBlurEvent) {
+                if (e.hasFocus()) {
+                    e.state.delayingBlurEvent = false;
                 } else {
-                    dt(a);
+                    r_(e);
                 }
             }
-            aq(e.wrapper.ownerDocument, "mouseup", j);
-            aq(e.wrapper.ownerDocument, "mousemove", k);
-            aq(e.scroller, "dragstart", l);
-            aq(e.scroller, "drop", j);
-            if (!f) {
-                aw(b);
-                if (!d.addNew) {
-                    eW(a.doc, c, null, null, d.extend);
+            eg(n.wrapper.ownerDocument, "mouseup", f);
+            eg(n.wrapper.ownerDocument, "mousemove", u);
+            eg(n.scroller, "dragstart", c);
+            eg(n.scroller, "drop", f);
+            if (!o) {
+                eb(t);
+                if (!r.addNew) {
+                    n5(e.doc, i, null, null, r.extend);
                 }
-                if ((i && !m) || (g && h == 9)) {
+                if ((a && !h) || (l && s == 9)) {
                     setTimeout(function() {
-                        e.wrapper.ownerDocument.body.focus({
+                        n.wrapper.ownerDocument.body.focus({
                             preventScroll: true
                         });
-                        e.input.focus();
+                        n.input.focus();
                     }, 20);
                 } else {
-                    e.input.focus();
+                    n.input.focus();
                 }
             }
         });
-        var k = function(a) {
-            f = f || Math.abs(b.clientX - a.clientX) + Math.abs(b.clientY - a.clientY) >= 10;
+        var u = function(e) {
+            o = o || Math.abs(t.clientX - e.clientX) + Math.abs(t.clientY - e.clientY) >= 10;
         };
-        var l = function() {
-            return (f = true);
+        var c = function() {
+            return (o = true);
         };
-        if (i) {
-            e.scroller.draggable = true;
+        if (a) {
+            n.scroller.draggable = true;
         }
-        a.state.draggingText = j;
-        j.copy = !d.moveOnDrag;
-        ao(e.wrapper.ownerDocument, "mouseup", j);
-        ao(e.wrapper.ownerDocument, "mousemove", k);
-        ao(e.scroller, "dragstart", l);
-        ao(e.scroller, "drop", j);
-        a.state.delayingBlurEvent = true;
+        e.state.draggingText = f;
+        f.copy = !r.moveOnDrag;
+        ep(n.wrapper.ownerDocument, "mouseup", f);
+        ep(n.wrapper.ownerDocument, "mousemove", u);
+        ep(n.scroller, "dragstart", c);
+        ep(n.scroller, "drop", f);
+        e.state.delayingBlurEvent = true;
         setTimeout(function() {
-            return e.input.focus();
+            return n.input.focus();
         }, 20);
-        if (e.scroller.dragDrop) {
-            e.scroller.dragDrop();
+        if (n.scroller.dragDrop) {
+            n.scroller.dragDrop();
         }
     }
-    function gp(a, b, c) {
-        if (c == "char") {
-            return new es(b, b);
+    function lg(e, t, i) {
+        if (i == "char") {
+            return new ny(t, t);
         }
-        if (c == "word") {
-            return a.findWordAt(b);
+        if (i == "word") {
+            return e.findWordAt(t);
         }
-        if (c == "line") {
-            return new es(a4(b.line, 0), bb(a.doc, a4(b.line + 1, 0)));
+        if (i == "line") {
+            return new ny(e9(t.line, 0), tt(e.doc, e9(t.line + 1, 0)));
         }
-        var d = c(a, b);
-        return new es(d.from, d.to);
+        var r = i(e, t);
+        return new ny(r.from, r.to);
     }
-    function gq(a, b, c, d) {
-        if (g) {
-            dt(a);
+    function lm(e, t, i, r) {
+        if (l) {
+            r_(e);
         }
-        var e = a.display, f = a.doc;
-        aw(b);
-        var h, i, j = f.sel, k = j.ranges;
-        if (d.addNew && !d.extend) {
-            i = f.sel.contains(c);
-            if (i > -1) {
-                h = k[i];
+        var n = e.display, o = e.doc;
+        eb(t);
+        var s, a, f = o.sel, u = f.ranges;
+        if (r.addNew && !r.extend) {
+            a = o.sel.contains(i);
+            if (a > -1) {
+                s = u[a];
             } else {
-                h = new es(c, c);
+                s = new ny(i, i);
             }
         } else {
-            h = f.sel.primary();
-            i = f.sel.primIndex;
+            s = o.sel.primary();
+            a = o.sel.primIndex;
         }
-        if (d.unit == "rectangle") {
-            if (!d.addNew) {
-                h = new es(c, c);
+        if (r.unit == "rectangle") {
+            if (!r.addNew) {
+                s = new ny(i, i);
             }
-            c = dd(a, b, true, true);
-            i = -1;
+            i = ro(e, t, true, true);
+            a = -1;
         } else {
-            var l = gp(a, c, d.unit);
-            if (d.extend) {
-                h = eV(h, l.anchor, l.head, d.extend);
+            var c = lg(e, i, r.unit);
+            if (r.extend) {
+                s = n6(s, c.anchor, c.head, r.extend);
             } else {
-                h = l;
+                s = c;
             }
         }
-        if (!d.addNew) {
-            i = 0;
-            e0(f, new er([
-                h
-            ], 0), S);
-            j = f.sel;
-        } else if (i == -1) {
-            i = k.length;
-            e0(f, et(a, k.concat([
-                h
-            ]), i), {
+        if (!r.addNew) {
+            a = 0;
+            nX(o, new n$([
+                s
+            ], 0), U);
+            f = o.sel;
+        } else if (a == -1) {
+            a = u.length;
+            nX(o, n_(e, u.concat([
+                s
+            ]), a), {
                 scroll: false,
                 origin: "*mouse"
             });
-        } else if (k.length > 1 && k[i].empty() && d.unit == "char" && !d.extend) {
-            e0(f, et(a, k.slice(0, i).concat(k.slice(i + 1)), 0), {
+        } else if (u.length > 1 && u[a].empty() && r.unit == "char" && !r.extend) {
+            nX(o, n_(e, u.slice(0, a).concat(u.slice(a + 1)), 0), {
                 scroll: false,
                 origin: "*mouse"
             });
-            j = f.sel;
+            f = o.sel;
         } else {
-            eY(f, i, h, S);
+            nG(o, a, s, U);
         }
-        var m = c;
-        function n(b) {
-            if (a5(m, b) == 0) {
+        var h = i;
+        function d(t) {
+            if (eq(h, t) == 0) {
                 return;
             }
-            m = b;
-            if (d.unit == "rectangle") {
-                var e = [], g = a.options.tabSize;
-                var k = M(aY(f, c.line).text, c.ch, g);
-                var l = M(aY(f, b.line).text, b.ch, g);
-                var n = Math.min(k, l), o = Math.max(k, l);
-                for(var p = Math.min(c.line, b.line), q = Math.min(a.lastLine(), Math.max(c.line, b.line)); p <= q; p++){
-                    var r = aY(f, p).text, s = U(r, n, g);
-                    if (n == o) {
-                        e.push(new es(a4(p, s), a4(p, s)));
-                    } else if (r.length > s) {
-                        e.push(new es(a4(p, s), a4(p, U(r, o, g))));
+            h = t;
+            if (r.unit == "rectangle") {
+                var n = [], l = e.options.tabSize;
+                var u = z(e2(o, i.line).text, i.ch, l);
+                var c = z(e2(o, t.line).text, t.ch, l);
+                var d = Math.min(u, c), p = Math.max(u, c);
+                for(var v = Math.min(i.line, t.line), g = Math.min(e.lastLine(), Math.max(i.line, t.line)); v <= g; v++){
+                    var m = e2(o, v).text, $ = K(m, d, l);
+                    if (d == p) {
+                        n.push(new ny(e9(v, $), e9(v, $)));
+                    } else if (m.length > $) {
+                        n.push(new ny(e9(v, $), e9(v, K(m, p, l))));
                     }
                 }
-                if (!e.length) {
-                    e.push(new es(c, c));
+                if (!n.length) {
+                    n.push(new ny(i, i));
                 }
-                e0(f, et(a, j.ranges.slice(0, i).concat(e), i), {
+                nX(o, n_(e, f.ranges.slice(0, a).concat(n), a), {
                     origin: "*mouse",
                     scroll: false
                 });
-                a.scrollIntoView(b);
+                e.scrollIntoView(t);
             } else {
-                var t = h;
-                var u = gp(a, b, d.unit);
-                var v = t.anchor, w;
-                if (a5(u.anchor, v) > 0) {
-                    w = u.head;
-                    v = a9(t.from(), u.anchor);
+                var y = s;
+                var _ = lg(e, t, r.unit);
+                var w = y.anchor, b;
+                if (eq(_.anchor, w) > 0) {
+                    b = _.head;
+                    w = eQ(y.from(), _.anchor);
                 } else {
-                    w = u.anchor;
-                    v = a8(t.to(), u.head);
+                    b = _.anchor;
+                    w = eJ(y.to(), _.head);
                 }
-                var x = j.ranges.slice(0);
-                x[i] = gr(a, new es(bb(f, v), w));
-                e0(f, et(a, x, i), S);
+                var x = f.ranges.slice(0);
+                x[a] = l$(e, new ny(tt(o, w), b));
+                nX(o, n_(e, x, a), U);
             }
         }
-        var o = e.wrapper.getBoundingClientRect();
-        var p = 0;
-        function q(b) {
-            var c = ++p;
-            var g = dd(a, b, true, d.unit == "rectangle");
-            if (!g) {
+        var p = n.wrapper.getBoundingClientRect();
+        var v = 0;
+        function g(t) {
+            var i = ++v;
+            var l = ro(e, t, true, r.unit == "rectangle");
+            if (!l) {
                 return;
             }
-            if (a5(g, m) != 0) {
-                a.curOp.focus = G();
-                n(g);
-                var h = dy(e, f);
-                if (g.line >= h.to || g.line < h.from) {
-                    setTimeout(d1(a, function() {
-                        if (p == c) {
-                            q(b);
+            if (eq(l, h) != 0) {
+                e.curOp.focus = A();
+                d(l);
+                var s = rS(n, o);
+                if (l.line >= s.to || l.line < s.from) {
+                    setTimeout(rY(e, function() {
+                        if (v == i) {
+                            g(t);
                         }
                     }), 150);
                 }
             } else {
-                var i = b.clientY < o.top ? -20 : b.clientY > o.bottom ? 20 : 0;
-                if (i) {
-                    setTimeout(d1(a, function() {
-                        if (p != c) {
+                var a = t.clientY < p.top ? -20 : t.clientY > p.bottom ? 20 : 0;
+                if (a) {
+                    setTimeout(rY(e, function() {
+                        if (v != i) {
                             return;
                         }
-                        e.scroller.scrollTop += i;
-                        q(b);
+                        n.scroller.scrollTop += a;
+                        g(t);
                     }), 50);
                 }
             }
         }
-        function r(b) {
-            a.state.selectingText = false;
-            p = Infinity;
-            if (b) {
-                aw(b);
-                e.input.focus();
+        function m(t) {
+            e.state.selectingText = false;
+            v = Infinity;
+            if (t) {
+                eb(t);
+                n.input.focus();
             }
-            aq(e.wrapper.ownerDocument, "mousemove", s);
-            aq(e.wrapper.ownerDocument, "mouseup", t);
-            f.history.lastSelOrigin = null;
+            eg(n.wrapper.ownerDocument, "mousemove", $);
+            eg(n.wrapper.ownerDocument, "mouseup", y);
+            o.history.lastSelOrigin = null;
         }
-        var s = d1(a, function(a) {
-            if (a.buttons === 0 || !aB(a)) {
-                r(a);
+        var $ = rY(e, function(e) {
+            if (e.buttons === 0 || !eT(e)) {
+                m(e);
             } else {
-                q(a);
+                g(e);
             }
         });
-        var t = d1(a, r);
-        a.state.selectingText = t;
-        ao(e.wrapper.ownerDocument, "mousemove", s);
-        ao(e.wrapper.ownerDocument, "mouseup", t);
+        var y = rY(e, m);
+        e.state.selectingText = y;
+        ep(n.wrapper.ownerDocument, "mousemove", $);
+        ep(n.wrapper.ownerDocument, "mouseup", y);
     }
-    function gr(a, b) {
-        var c = b.anchor;
-        var d = b.head;
-        var e = aY(a.doc, c.line);
-        if (a5(c, d) == 0 && c.sticky == d.sticky) {
-            return b;
+    function l$(e, t) {
+        var i = t.anchor;
+        var r = t.head;
+        var n = e2(e.doc, i.line);
+        if (eq(i, r) == 0 && i.sticky == r.sticky) {
+            return t;
         }
-        var f = am(e);
-        if (!f) {
-            return b;
+        var o = eh(n);
+        if (!o) {
+            return t;
         }
-        var g = ak(f, c.ch, c.sticky), h = f[g];
-        if (h.from != c.ch && h.to != c.ch) {
-            return b;
+        var l = eu(o, i.ch, i.sticky), s = o[l];
+        if (s.from != i.ch && s.to != i.ch) {
+            return t;
         }
-        var i = g + ((h.from == c.ch) == (h.level != 1) ? 0 : 1);
-        if (i == 0 || i == f.length) {
-            return b;
+        var a = l + ((s.from == i.ch) == (s.level != 1) ? 0 : 1);
+        if (a == 0 || a == o.length) {
+            return t;
         }
-        var j;
-        if (d.line != c.line) {
-            j = (d.line - c.line) * (a.doc.direction == "ltr" ? 1 : -1) > 0;
+        var f;
+        if (r.line != i.line) {
+            f = (r.line - i.line) * (e.doc.direction == "ltr" ? 1 : -1) > 0;
         } else {
-            var k = ak(f, d.ch, d.sticky);
-            var l = k - g || (d.ch - c.ch) * (h.level == 1 ? -1 : 1);
-            if (k == i - 1 || k == i) {
-                j = l < 0;
+            var u = eu(o, r.ch, r.sticky);
+            var c = u - l || (r.ch - i.ch) * (s.level == 1 ? -1 : 1);
+            if (u == a - 1 || u == a) {
+                f = c < 0;
             } else {
-                j = l > 0;
+                f = c > 0;
             }
         }
-        var m = f[i + (j ? -1 : 0)];
-        var n = j == (m.level == 1);
-        var o = n ? m.from : m.to, p = n ? "after" : "before";
-        return c.ch == o && c.sticky == p ? b : new es(new a4(c.line, o, p), d);
+        var h = o[a + (f ? -1 : 0)];
+        var d = f == (h.level == 1);
+        var p = d ? h.from : h.to, v = d ? "after" : "before";
+        return i.ch == p && i.sticky == v ? t : new ny(new e9(i.line, p, v), r);
     }
-    function gs(a, b, c, d) {
-        var e, f;
-        if (b.touches) {
-            e = b.touches[0].clientX;
-            f = b.touches[0].clientY;
+    function ly(e, t, i, r) {
+        var n, o;
+        if (t.touches) {
+            n = t.touches[0].clientX;
+            o = t.touches[0].clientY;
         } else {
             try {
-                e = b.clientX;
-                f = b.clientY;
-            } catch (g) {
+                n = t.clientX;
+                o = t.clientY;
+            } catch (l) {
                 return false;
             }
         }
-        if (e >= Math.floor(a.display.gutters.getBoundingClientRect().right)) {
+        if (n >= Math.floor(e.display.gutters.getBoundingClientRect().right)) {
             return false;
         }
-        if (d) {
-            aw(b);
+        if (r) {
+            eb(t);
         }
-        var h = a.display;
-        var i = h.lineDiv.getBoundingClientRect();
-        if (f > i.bottom || !au(a, c)) {
-            return ay(b);
+        var s = e.display;
+        var a = s.lineDiv.getBoundingClientRect();
+        if (o > a.bottom || !e_(e, i)) {
+            return eC(t);
         }
-        f -= i.top - h.viewOffset;
-        for(var j = 0; j < a.display.gutterSpecs.length; ++j){
-            var k = h.gutters.childNodes[j];
-            if (k && k.getBoundingClientRect().right >= e) {
-                var l = a1(a.doc, f);
-                var m = a.display.gutterSpecs[j];
-                ar(a, c, a, l, m.className, b);
-                return ay(b);
+        o -= a.top - s.viewOffset;
+        for(var f = 0; f < e.display.gutterSpecs.length; ++f){
+            var u = s.gutters.childNodes[f];
+            if (u && u.getBoundingClientRect().right >= n) {
+                var c = eX(e.doc, o);
+                var h = e.display.gutterSpecs[f];
+                em(e, i, e, c, h.className, t);
+                return eC(t);
             }
         }
     }
-    function gt(a, b) {
-        return gs(a, b, "gutterClick", true);
+    function l_(e, t) {
+        return ly(e, t, "gutterClick", true);
     }
-    function gu(a, b) {
-        if (cw(a.display, b) || gv(a, b)) {
+    function lw(e, t) {
+        if (iC(e.display, t) || lb(e, t)) {
             return;
         }
-        if (as(a, b, "contextmenu")) {
+        if (e$(e, t, "contextmenu")) {
             return;
         }
         if (!x) {
-            a.display.input.onContextMenu(b);
+            e.display.input.onContextMenu(t);
         }
     }
-    function gv(a, b) {
-        if (!au(a, "gutterContextMenu")) {
+    function lb(e, t) {
+        if (!e_(e, "gutterContextMenu")) {
             return false;
         }
-        return gs(a, b, "gutterContextMenu", false);
+        return ly(e, t, "gutterContextMenu", false);
     }
-    function gw(a) {
-        a.display.wrapper.className = a.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + a.options.theme.replace(/(^|\s)\s*/g, " cm-s-");
-        cR(a);
+    function lx(e) {
+        e.display.wrapper.className = e.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + e.options.theme.replace(/(^|\s)\s*/g, " cm-s-");
+        i7(e);
     }
-    var gx = {
+    var lC = {
         toString: function() {
             return "CodeMirror.Init";
         }
     };
-    var gy = {};
-    var gz = {};
-    function gA(a) {
-        var b = a.optionHandlers;
-        function c(c, d, e, f) {
-            a.defaults[c] = d;
-            if (e) {
-                b[c] = f ? function(a, b, c) {
-                    if (c != gx) {
-                        e(a, b, c);
+    var lS = {};
+    var lk = {};
+    function lT(e) {
+        var t = e.optionHandlers;
+        function i(i, r, n, o) {
+            e.defaults[i] = r;
+            if (n) {
+                t[i] = o ? function(e, t, i) {
+                    if (i != lC) {
+                        n(e, t, i);
                     }
-                } : e;
+                } : n;
             }
         }
-        a.defineOption = c;
-        a.Init = gx;
-        c("value", "", function(a, b) {
-            return a.setValue(b);
+        e.defineOption = i;
+        e.Init = lC;
+        i("value", "", function(e, t) {
+            return e.setValue(t);
         }, true);
-        c("mode", null, function(a, b) {
-            a.doc.modeOption = b;
-            eA(a);
+        i("mode", null, function(e, t) {
+            e.doc.modeOption = t;
+            nT(e);
         }, true);
-        c("indentUnit", 2, eA, true);
-        c("indentWithTabs", false);
-        c("smartIndent", true);
-        c("tabSize", 4, function(a) {
-            eB(a);
-            cR(a);
-            df(a);
+        i("indentUnit", 2, nT, true);
+        i("indentWithTabs", false);
+        i("smartIndent", true);
+        i("tabSize", 4, function(e) {
+            nL(e);
+            i7(e);
+            rs(e);
         }, true);
-        c("lineSeparator", null, function(a, b) {
-            a.doc.lineSep = b;
-            if (!b) {
+        i("lineSeparator", null, function(e, t) {
+            e.doc.lineSep = t;
+            if (!t) {
                 return;
             }
-            var c = [], d = a.doc.first;
-            a.doc.iter(function(a) {
-                for(var e = 0;;){
-                    var f = a.text.indexOf(b, e);
-                    if (f == -1) {
+            var i = [], r = e.doc.first;
+            e.doc.iter(function(e) {
+                for(var n = 0;;){
+                    var o = e.text.indexOf(t, n);
+                    if (o == -1) {
                         break;
                     }
-                    e = f + b.length;
-                    c.push(a4(d, f));
+                    n = o + t.length;
+                    i.push(e9(r, o));
                 }
-                d++;
+                r++;
             });
-            for(var e = c.length - 1; e >= 0; e--){
-                fg(a.doc, b, c[e], a4(c[e].line, c[e].ch + b.length));
+            for(var n = i.length - 1; n >= 0; n--){
+                os(e.doc, t, i[n], e9(i[n].line, i[n].ch + t.length));
             }
         });
-        c("specialChars", /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g, function(a, b, c) {
-            a.state.specialChars = new RegExp(b.source + (b.test("\t") ? "" : "|\t"), "g");
-            if (c != gx) {
-                a.refresh();
+        i("specialChars", /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g, function(e, t, i) {
+            e.state.specialChars = new RegExp(t.source + (t.test("\t") ? "" : "|\t"), "g");
+            if (i != lC) {
+                e.refresh();
             }
         });
-        c("specialCharPlaceholder", b4, function(a) {
-            return a.refresh();
+        i("specialCharPlaceholder", t9, function(e) {
+            return e.refresh();
         }, true);
-        c("electricChars", true);
-        c("inputStyle", r ? "contenteditable" : "textarea", function() {
+        i("electricChars", true);
+        i("inputStyle", m ? "contenteditable" : "textarea", function() {
             throw new Error("inputStyle can not (yet) be changed in a running editor");
         }, true);
-        c("spellcheck", false, function(a, b) {
-            return (a.getInputField().spellcheck = b);
+        i("spellcheck", false, function(e, t) {
+            return (e.getInputField().spellcheck = t);
         }, true);
-        c("autocorrect", false, function(a, b) {
-            return (a.getInputField().autocorrect = b);
+        i("autocorrect", false, function(e, t) {
+            return (e.getInputField().autocorrect = t);
         }, true);
-        c("autocapitalize", false, function(a, b) {
-            return (a.getInputField().autocapitalize = b);
+        i("autocapitalize", false, function(e, t) {
+            return (e.getInputField().autocapitalize = t);
         }, true);
-        c("rtlMoveVisually", !u);
-        c("wholeLineUpdateBefore", true);
-        c("theme", "default", function(a) {
-            gw(a);
-            ek(a);
+        i("rtlMoveVisually", !_);
+        i("wholeLineUpdateBefore", true);
+        i("theme", "default", function(e) {
+            lx(e);
+            nc(e);
         }, true);
-        c("keyMap", "default", function(a, b, c) {
-            var d = fV(b);
-            var e = c != gx && fV(c);
-            if (e && e.detach) {
-                e.detach(a, d);
+        i("keyMap", "default", function(e, t, i) {
+            var r = o6(t);
+            var n = i != lC && o6(i);
+            if (n && n.detach) {
+                n.detach(e, r);
             }
-            if (d.attach) {
-                d.attach(a, e || null);
-            }
-        });
-        c("extraKeys", null);
-        c("configureMouse", null);
-        c("lineWrapping", false, gC, true);
-        c("gutters", [], function(a, b) {
-            a.display.gutterSpecs = ei(b, a.options.lineNumbers);
-            ek(a);
-        }, true);
-        c("fixedGutter", true, function(a, b) {
-            a.display.gutters.style.left = b ? da(a.display) + "px" : "0";
-            a.refresh();
-        }, true);
-        c("coverGutterNextToScrollbar", false, function(a) {
-            return dP(a);
-        }, true);
-        c("scrollbarStyle", "native", function(a) {
-            dS(a);
-            dP(a);
-            a.display.scrollbars.setScrollTop(a.doc.scrollTop);
-            a.display.scrollbars.setScrollLeft(a.doc.scrollLeft);
-        }, true);
-        c("lineNumbers", false, function(a, b) {
-            a.display.gutterSpecs = ei(a.options.gutters, b);
-            ek(a);
-        }, true);
-        c("firstLineNumber", 1, ek, true);
-        c("lineNumberFormatter", function(a) {
-            return a;
-        }, ek, true);
-        c("showCursorWhenSelecting", false, dl, true);
-        c("resetSelectionOnContextMenu", true);
-        c("lineWiseCopyCut", true);
-        c("pasteLinesPerSelection", true);
-        c("selectionsMayTouch", false);
-        c("readOnly", false, function(a, b) {
-            if (b == "nocursor") {
-                dv(a);
-                a.display.input.blur();
-            }
-            a.display.input.readOnlyChanged(b);
-        });
-        c("screenReaderLabel", null, function(a, b) {
-            b = b === "" ? null : b;
-            a.display.input.screenReaderLabelChanged(b);
-        });
-        c("disableInput", false, function(a, b) {
-            if (!b) {
-                a.display.input.reset();
-            }
-        }, true);
-        c("dragDrop", true, gB);
-        c("allowDropFileTypes", null);
-        c("cursorBlinkRate", 530);
-        c("cursorScrollMargin", 0);
-        c("cursorHeight", 1, dl, true);
-        c("singleCursorHeightPerLine", true, dl, true);
-        c("workTime", 100);
-        c("workDelay", 100);
-        c("flattenSpans", true, eB, true);
-        c("addModeClass", false, eB, true);
-        c("pollInterval", 100);
-        c("undoDepth", 200, function(a, b) {
-            return (a.doc.history.undoDepth = b);
-        });
-        c("historyEventDelay", 1250);
-        c("viewportMargin", 10, function(a) {
-            return a.refresh();
-        }, true);
-        c("maxHighlightLength", 10000, eB, true);
-        c("moveInputWithCursor", true, function(a, b) {
-            if (!b) {
-                a.display.input.resetPosition();
+            if (r.attach) {
+                r.attach(e, n || null);
             }
         });
-        c("tabindex", null, function(a, b) {
-            return (a.display.input.getField().tabIndex = b || "");
-        });
-        c("autofocus", null);
-        c("direction", "ltr", function(a, b) {
-            return a.doc.setDirection(b);
+        i("extraKeys", null);
+        i("configureMouse", null);
+        i("lineWrapping", false, lO, true);
+        i("gutters", [], function(e, t) {
+            e.display.gutterSpecs = nf(t, e.options.lineNumbers);
+            nc(e);
         }, true);
-        c("phrases", null);
+        i("fixedGutter", true, function(e, t) {
+            e.display.gutters.style.left = t ? ri(e.display) + "px" : "0";
+            e.refresh();
+        }, true);
+        i("coverGutterNextToScrollbar", false, function(e) {
+            return rI(e);
+        }, true);
+        i("scrollbarStyle", "native", function(e) {
+            r7(e);
+            rI(e);
+            e.display.scrollbars.setScrollTop(e.doc.scrollTop);
+            e.display.scrollbars.setScrollLeft(e.doc.scrollLeft);
+        }, true);
+        i("lineNumbers", false, function(e, t) {
+            e.display.gutterSpecs = nf(e.options.gutters, t);
+            nc(e);
+        }, true);
+        i("firstLineNumber", 1, nc, true);
+        i("lineNumberFormatter", function(e) {
+            return e;
+        }, nc, true);
+        i("showCursorWhenSelecting", false, rd, true);
+        i("resetSelectionOnContextMenu", true);
+        i("lineWiseCopyCut", true);
+        i("pasteLinesPerSelection", true);
+        i("selectionsMayTouch", false);
+        i("readOnly", false, function(e, t) {
+            if (t == "nocursor") {
+                rb(e);
+                e.display.input.blur();
+            }
+            e.display.input.readOnlyChanged(t);
+        });
+        i("screenReaderLabel", null, function(e, t) {
+            t = t === "" ? null : t;
+            e.display.input.screenReaderLabelChanged(t);
+        });
+        i("disableInput", false, function(e, t) {
+            if (!t) {
+                e.display.input.reset();
+            }
+        }, true);
+        i("dragDrop", true, lL);
+        i("allowDropFileTypes", null);
+        i("cursorBlinkRate", 530);
+        i("cursorScrollMargin", 0);
+        i("cursorHeight", 1, rd, true);
+        i("singleCursorHeightPerLine", true, rd, true);
+        i("workTime", 100);
+        i("workDelay", 100);
+        i("flattenSpans", true, nL, true);
+        i("addModeClass", false, nL, true);
+        i("pollInterval", 100);
+        i("undoDepth", 200, function(e, t) {
+            return (e.doc.history.undoDepth = t);
+        });
+        i("historyEventDelay", 1250);
+        i("viewportMargin", 10, function(e) {
+            return e.refresh();
+        }, true);
+        i("maxHighlightLength", 10000, nL, true);
+        i("moveInputWithCursor", true, function(e, t) {
+            if (!t) {
+                e.display.input.resetPosition();
+            }
+        });
+        i("tabindex", null, function(e, t) {
+            return (e.display.input.getField().tabIndex = t || "");
+        });
+        i("autofocus", null);
+        i("direction", "ltr", function(e, t) {
+            return e.doc.setDirection(t);
+        }, true);
+        i("phrases", null);
     }
-    function gB(a, b, c) {
-        var d = c && c != gx;
-        if (!b != !d) {
-            var e = a.display.dragFunctions;
-            var f = b ? ao : aq;
-            f(a.display.scroller, "dragstart", e.start);
-            f(a.display.scroller, "dragenter", e.enter);
-            f(a.display.scroller, "dragover", e.over);
-            f(a.display.scroller, "dragleave", e.leave);
-            f(a.display.scroller, "drop", e.drop);
+    function lL(e, t, i) {
+        var r = i && i != lC;
+        if (!t != !r) {
+            var n = e.display.dragFunctions;
+            var o = t ? ep : eg;
+            o(e.display.scroller, "dragstart", n.start);
+            o(e.display.scroller, "dragenter", n.enter);
+            o(e.display.scroller, "dragover", n.over);
+            o(e.display.scroller, "dragleave", n.leave);
+            o(e.display.scroller, "drop", n.drop);
         }
     }
-    function gC(a) {
-        if (a.options.lineWrapping) {
-            H(a.display.wrapper, "CodeMirror-wrap");
-            a.display.sizer.style.minWidth = "";
-            a.display.sizerWidth = null;
+    function lO(e) {
+        if (e.options.lineWrapping) {
+            D(e.display.wrapper, "CodeMirror-wrap");
+            e.display.sizer.style.minWidth = "";
+            e.display.sizerWidth = null;
         } else {
-            z(a.display.wrapper, "CodeMirror-wrap");
-            bY(a);
+            S(e.display.wrapper, "CodeMirror-wrap");
+            t2(e);
         }
-        dc(a);
-        df(a);
-        cR(a);
+        rn(e);
+        rs(e);
+        i7(e);
         setTimeout(function() {
-            return dP(a);
+            return rI(e);
         }, 100);
     }
-    function gD(a, b) {
-        var c = this;
-        if (!(this instanceof gD)) {
-            return new gD(a, b);
+    function l0(e, t) {
+        var i = this;
+        if (!(this instanceof l0)) {
+            return new l0(e, t);
         }
-        this.options = b = b ? L(b) : {};
-        L(gy, b, false);
-        var d = b.value;
-        if (typeof d == "string") {
-            d = new fz(d, b.mode, null, b.lineSeparator, b.direction);
-        } else if (b.mode) {
-            d.modeOption = b.mode;
+        this.options = t = t ? P(t) : {};
+        P(lS, t, false);
+        var r = t.value;
+        if (typeof r == "string") {
+            r = new ok(r, t.mode, null, t.lineSeparator, t.direction);
+        } else if (t.mode) {
+            r.modeOption = t.mode;
         }
-        this.doc = d;
-        var e = new gD.inputStyles[b.inputStyle](this);
-        var f = (this.display = new el(a, d, e, b));
-        f.wrapper.CodeMirror = this;
-        gw(this);
-        if (b.lineWrapping) {
+        this.doc = r;
+        var n = new l0.inputStyles[t.inputStyle](this);
+        var o = (this.display = new nh(e, r, n, t));
+        o.wrapper.CodeMirror = this;
+        lx(this);
+        if (t.lineWrapping) {
             this.display.wrapper.className += " CodeMirror-wrap";
         }
-        dS(this);
+        r7(this);
         this.state = {
             keyMaps: [],
             overlays: [],
@@ -8736,633 +8736,633 @@
             cutIncoming: -1,
             selectingText: false,
             draggingText: false,
-            highlight: new N(),
+            highlight: new E(),
             keySeq: null,
             specialChars: null
         };
-        if (b.autofocus && !r) {
-            f.input.focus();
+        if (t.autofocus && !m) {
+            o.input.focus();
         }
-        if (g && h < 11) {
+        if (l && s < 11) {
             setTimeout(function() {
-                return c.display.input.reset(true);
+                return i.display.input.reset(true);
             }, 20);
         }
-        gE(this);
-        fH();
-        dU(this);
+        lW(this);
+        oD();
+        r4(this);
         this.curOp.forceUpdate = true;
-        eF(this, d);
-        if ((b.autofocus && !r) || this.hasFocus()) {
+        nN(this, r);
+        if ((t.autofocus && !m) || this.hasFocus()) {
             setTimeout(function() {
-                if (c.hasFocus() && !c.state.focused) {
-                    du(c);
+                if (i.hasFocus() && !i.state.focused) {
+                    rw(i);
                 }
             }, 20);
         } else {
-            dv(this);
+            rb(this);
         }
-        for(var j in gz){
-            if (gz.hasOwnProperty(j)) {
-                gz[j](this, b[j], gx);
+        for(var f in lk){
+            if (lk.hasOwnProperty(f)) {
+                lk[f](this, t[f], lC);
             }
         }
-        eh(this);
-        if (b.finishInit) {
-            b.finishInit(this);
+        na(this);
+        if (t.finishInit) {
+            t.finishInit(this);
         }
-        for(var k = 0; k < gF.length; ++k){
-            gF[k](this);
+        for(var u = 0; u < lN.length; ++u){
+            lN[u](this);
         }
-        dV(this);
-        if (i && b.lineWrapping && getComputedStyle(f.lineDiv).textRendering == "optimizelegibility") {
-            f.lineDiv.style.textRendering = "auto";
+        r6(this);
+        if (a && t.lineWrapping && getComputedStyle(o.lineDiv).textRendering == "optimizelegibility") {
+            o.lineDiv.style.textRendering = "auto";
         }
     }
-    gD.defaults = gy;
-    gD.optionHandlers = gz;
-    function gE(a) {
-        var b = a.display;
-        ao(b.scroller, "mousedown", d1(a, gk));
-        if (g && h < 11) {
-            ao(b.scroller, "dblclick", d1(a, function(b) {
-                if (as(a, b)) {
+    l0.defaults = lS;
+    l0.optionHandlers = lk;
+    function lW(e) {
+        var t = e.display;
+        ep(t.scroller, "mousedown", rY(e, lc));
+        if (l && s < 11) {
+            ep(t.scroller, "dblclick", rY(e, function(t) {
+                if (e$(e, t)) {
                     return;
                 }
-                var c = dd(a, b);
-                if (!c || gt(a, b) || cw(a.display, b)) {
+                var i = ro(e, t);
+                if (!i || l_(e, t) || iC(e.display, t)) {
                     return;
                 }
-                aw(b);
-                var d = a.findWordAt(c);
-                eW(a.doc, d.anchor, d.head);
+                eb(t);
+                var r = e.findWordAt(i);
+                n5(e.doc, r.anchor, r.head);
             }));
         } else {
-            ao(b.scroller, "dblclick", function(b) {
-                return as(a, b) || aw(b);
+            ep(t.scroller, "dblclick", function(t) {
+                return e$(e, t) || eb(t);
             });
         }
-        ao(b.scroller, "contextmenu", function(b) {
-            return gu(a, b);
+        ep(t.scroller, "contextmenu", function(t) {
+            return lw(e, t);
         });
-        ao(b.input.getField(), "contextmenu", function(c) {
-            if (!b.scroller.contains(c.target)) {
-                gu(a, c);
+        ep(t.input.getField(), "contextmenu", function(i) {
+            if (!t.scroller.contains(i.target)) {
+                lw(e, i);
             }
         });
-        var c, d = {
+        var i, r = {
             end: 0
         };
-        function e() {
-            if (b.activeTouch) {
-                c = setTimeout(function() {
-                    return (b.activeTouch = null);
+        function n() {
+            if (t.activeTouch) {
+                i = setTimeout(function() {
+                    return (t.activeTouch = null);
                 }, 1000);
-                d = b.activeTouch;
-                d.end = +new Date();
+                r = t.activeTouch;
+                r.end = +new Date();
             }
         }
-        function f(a) {
-            if (a.touches.length != 1) {
+        function o(e) {
+            if (e.touches.length != 1) {
                 return false;
             }
-            var b = a.touches[0];
-            return b.radiusX <= 1 && b.radiusY <= 1;
+            var t = e.touches[0];
+            return t.radiusX <= 1 && t.radiusY <= 1;
         }
-        function i(a, b) {
-            if (b.left == null) {
+        function a(e, t) {
+            if (t.left == null) {
                 return true;
             }
-            var c = b.left - a.left, d = b.top - a.top;
-            return c * c + d * d > 20 * 20;
+            var i = t.left - e.left, r = t.top - e.top;
+            return i * i + r * r > 20 * 20;
         }
-        ao(b.scroller, "touchstart", function(e) {
-            if (!as(a, e) && !f(e) && !gt(a, e)) {
-                b.input.ensurePolled();
-                clearTimeout(c);
-                var g = +new Date();
-                b.activeTouch = {
-                    start: g,
+        ep(t.scroller, "touchstart", function(n) {
+            if (!e$(e, n) && !o(n) && !l_(e, n)) {
+                t.input.ensurePolled();
+                clearTimeout(i);
+                var l = +new Date();
+                t.activeTouch = {
+                    start: l,
                     moved: false,
-                    prev: g - d.end <= 300 ? d : null
+                    prev: l - r.end <= 300 ? r : null
                 };
-                if (e.touches.length == 1) {
-                    b.activeTouch.left = e.touches[0].pageX;
-                    b.activeTouch.top = e.touches[0].pageY;
+                if (n.touches.length == 1) {
+                    t.activeTouch.left = n.touches[0].pageX;
+                    t.activeTouch.top = n.touches[0].pageY;
                 }
             }
         });
-        ao(b.scroller, "touchmove", function() {
-            if (b.activeTouch) {
-                b.activeTouch.moved = true;
+        ep(t.scroller, "touchmove", function() {
+            if (t.activeTouch) {
+                t.activeTouch.moved = true;
             }
         });
-        ao(b.scroller, "touchend", function(c) {
-            var d = b.activeTouch;
-            if (d && !cw(b, c) && d.left != null && !d.moved && new Date() - d.start < 300) {
-                var f = a.coordsChar(b.activeTouch, "page"), g;
-                if (!d.prev || i(d, d.prev)) {
-                    g = new es(f, f);
-                } else if (!d.prev.prev || i(d, d.prev.prev)) {
-                    g = a.findWordAt(f);
+        ep(t.scroller, "touchend", function(i) {
+            var r = t.activeTouch;
+            if (r && !iC(t, i) && r.left != null && !r.moved && new Date() - r.start < 300) {
+                var o = e.coordsChar(t.activeTouch, "page"), l;
+                if (!r.prev || a(r, r.prev)) {
+                    l = new ny(o, o);
+                } else if (!r.prev.prev || a(r, r.prev.prev)) {
+                    l = e.findWordAt(o);
                 } else {
-                    g = new es(a4(f.line, 0), bb(a.doc, a4(f.line + 1, 0)));
+                    l = new ny(e9(o.line, 0), tt(e.doc, e9(o.line + 1, 0)));
                 }
-                a.setSelection(g.anchor, g.head);
-                a.focus();
-                aw(c);
+                e.setSelection(l.anchor, l.head);
+                e.focus();
+                eb(i);
             }
-            e();
+            n();
         });
-        ao(b.scroller, "touchcancel", e);
-        ao(b.scroller, "scroll", function() {
-            if (b.scroller.clientHeight) {
-                dJ(a, b.scroller.scrollTop);
-                dL(a, b.scroller.scrollLeft, true);
-                ar(a, "scroll", a);
+        ep(t.scroller, "touchcancel", n);
+        ep(t.scroller, "scroll", function() {
+            if (t.scroller.clientHeight) {
+                rF(e, t.scroller.scrollTop);
+                r1(e, t.scroller.scrollLeft, true);
+                em(e, "scroll", e);
             }
         });
-        ao(b.scroller, "mousewheel", function(b) {
-            return eq(a, b);
+        ep(t.scroller, "mousewheel", function(t) {
+            return nm(e, t);
         });
-        ao(b.scroller, "DOMMouseScroll", function(b) {
-            return eq(a, b);
+        ep(t.scroller, "DOMMouseScroll", function(t) {
+            return nm(e, t);
         });
-        ao(b.wrapper, "scroll", function() {
-            return (b.wrapper.scrollTop = b.wrapper.scrollLeft = 0);
+        ep(t.wrapper, "scroll", function() {
+            return (t.wrapper.scrollTop = t.wrapper.scrollLeft = 0);
         });
-        b.dragFunctions = {
-            enter: function(b) {
-                if (!as(a, b)) {
-                    az(b);
+        t.dragFunctions = {
+            enter: function(t) {
+                if (!e$(e, t)) {
+                    eS(t);
                 }
             },
-            over: function(b) {
-                if (!as(a, b)) {
-                    fD(a, b);
-                    az(b);
+            over: function(t) {
+                if (!e$(e, t)) {
+                    o0(e, t);
+                    eS(t);
                 }
             },
-            start: function(b) {
-                return fC(a, b);
+            start: function(t) {
+                return oO(e, t);
             },
-            drop: d1(a, fB),
-            leave: function(b) {
-                if (!as(a, b)) {
-                    fE(a);
+            drop: rY(e, oL),
+            leave: function(t) {
+                if (!e$(e, t)) {
+                    oW(e);
                 }
             }
         };
-        var j = b.input.getField();
-        ao(j, "keyup", function(b) {
-            return gd.call(a, b);
+        var f = t.input.getField();
+        ep(f, "keyup", function(t) {
+            return ln.call(e, t);
         });
-        ao(j, "keydown", d1(a, gb));
-        ao(j, "keypress", d1(a, ge));
-        ao(j, "focus", function(b) {
-            return du(a, b);
+        ep(f, "keydown", rY(e, li));
+        ep(f, "keypress", rY(e, lo));
+        ep(f, "focus", function(t) {
+            return rw(e, t);
         });
-        ao(j, "blur", function(b) {
-            return dv(a, b);
+        ep(f, "blur", function(t) {
+            return rb(e, t);
         });
     }
-    var gF = [];
-    gD.defineInitHook = function(a) {
-        return gF.push(a);
+    var lN = [];
+    l0.defineInitHook = function(e) {
+        return lN.push(e);
     };
-    function gG(a, b, c, d) {
-        var e = a.doc, f;
-        if (c == null) {
-            c = "add";
+    function lA(e, t, i, r) {
+        var n = e.doc, o;
+        if (i == null) {
+            i = "add";
         }
-        if (c == "smart") {
-            if (!e.mode.indent) {
-                c = "prev";
+        if (i == "smart") {
+            if (!n.mode.indent) {
+                i = "prev";
             } else {
-                f = bi(a, b).state;
+                o = ta(e, t).state;
             }
         }
-        var g = a.options.tabSize;
-        var h = aY(e, b), i = M(h.text, null, g);
-        if (h.stateAfter) {
-            h.stateAfter = null;
+        var l = e.options.tabSize;
+        var s = e2(n, t), a = z(s.text, null, l);
+        if (s.stateAfter) {
+            s.stateAfter = null;
         }
-        var j = h.text.match(/^\s*/)[0], k;
-        if (!d && !/\S/.test(h.text)) {
-            k = 0;
-            c = "not";
-        } else if (c == "smart") {
-            k = e.mode.indent(f, h.text.slice(j.length), h.text);
-            if (k == Q || k > 150) {
-                if (!d) {
+        var f = s.text.match(/^\s*/)[0], u;
+        if (!r && !/\S/.test(s.text)) {
+            u = 0;
+            i = "not";
+        } else if (i == "smart") {
+            u = n.mode.indent(o, s.text.slice(f.length), s.text);
+            if (u == B || u > 150) {
+                if (!r) {
                     return;
                 }
-                c = "prev";
+                i = "prev";
             }
         }
-        if (c == "prev") {
-            if (b > e.first) {
-                k = M(aY(e, b - 1).text, null, g);
+        if (i == "prev") {
+            if (t > n.first) {
+                u = z(e2(n, t - 1).text, null, l);
             } else {
-                k = 0;
+                u = 0;
             }
-        } else if (c == "add") {
-            k = i + a.options.indentUnit;
-        } else if (c == "subtract") {
-            k = i - a.options.indentUnit;
-        } else if (typeof c == "number") {
-            k = i + c;
+        } else if (i == "add") {
+            u = a + e.options.indentUnit;
+        } else if (i == "subtract") {
+            u = a - e.options.indentUnit;
+        } else if (typeof i == "number") {
+            u = a + i;
         }
-        k = Math.max(0, k);
-        var l = "", m = 0;
-        if (a.options.indentWithTabs) {
-            for(var n = Math.floor(k / g); n; --n){
-                m += g;
-                l += "\t";
+        u = Math.max(0, u);
+        var c = "", h = 0;
+        if (e.options.indentWithTabs) {
+            for(var d = Math.floor(u / l); d; --d){
+                h += l;
+                c += "\t";
             }
         }
-        if (m < k) {
-            l += W(k - m);
+        if (h < u) {
+            c += Y(u - h);
         }
-        if (l != j) {
-            fg(e, l, a4(b, 0), a4(b, j.length), "+input");
-            h.stateAfter = null;
+        if (c != f) {
+            os(n, c, e9(t, 0), e9(t, f.length), "+input");
+            s.stateAfter = null;
             return true;
         } else {
-            for(var o = 0; o < e.sel.ranges.length; o++){
-                var p = e.sel.ranges[o];
-                if (p.head.line == b && p.head.ch < j.length) {
-                    var q = a4(b, j.length);
-                    eY(e, o, new es(q, q));
+            for(var p = 0; p < n.sel.ranges.length; p++){
+                var v = n.sel.ranges[p];
+                if (v.head.line == t && v.head.ch < f.length) {
+                    var g = e9(t, f.length);
+                    nG(n, p, new ny(g, g));
                     break;
                 }
             }
         }
     }
-    var gH = null;
-    function gI(a) {
-        gH = a;
+    var lD = null;
+    function lH(e) {
+        lD = e;
     }
-    function gJ(a, b, c, d, e) {
-        var f = a.doc;
-        a.display.shift = false;
-        if (!d) {
-            d = f.sel;
+    function lF(e, t, i, r, n) {
+        var o = e.doc;
+        e.display.shift = false;
+        if (!r) {
+            r = o.sel;
         }
-        var g = +new Date() - 200;
-        var h = e == "paste" || a.state.pasteIncoming > g;
-        var i = aH(b), j = null;
-        if (h && d.ranges.length > 1) {
-            if (gH && gH.text.join("\n") == b) {
-                if (d.ranges.length % gH.text.length == 0) {
-                    j = [];
-                    for(var k = 0; k < gH.text.length; k++){
-                        j.push(f.splitLines(gH.text[k]));
+        var l = +new Date() - 200;
+        var s = n == "paste" || e.state.pasteIncoming > l;
+        var a = eA(t), f = null;
+        if (s && r.ranges.length > 1) {
+            if (lD && lD.text.join("\n") == t) {
+                if (r.ranges.length % lD.text.length == 0) {
+                    f = [];
+                    for(var u = 0; u < lD.text.length; u++){
+                        f.push(o.splitLines(lD.text[u]));
                     }
                 }
-            } else if (i.length == d.ranges.length && a.options.pasteLinesPerSelection) {
-                j = Y(i, function(a) {
+            } else if (a.length == r.ranges.length && e.options.pasteLinesPerSelection) {
+                f = q(a, function(e) {
                     return [
-                        a
+                        e
                     ];
                 });
             }
         }
-        var l = a.curOp.updateInput;
-        for(var m = d.ranges.length - 1; m >= 0; m--){
-            var n = d.ranges[m];
-            var o = n.from(), p = n.to();
-            if (n.empty()) {
-                if (c && c > 0) {
-                    o = a4(o.line, o.ch - c);
-                } else if (a.state.overwrite && !h) {
-                    p = a4(p.line, Math.min(aY(f, p.line).text.length, p.ch + X(i).length));
-                } else if (h && gH && gH.lineWise && gH.text.join("\n") == i.join("\n")) {
-                    o = p = a4(o.line, 0);
+        var c = e.curOp.updateInput;
+        for(var h = r.ranges.length - 1; h >= 0; h--){
+            var d = r.ranges[h];
+            var p = d.from(), v = d.to();
+            if (d.empty()) {
+                if (i && i > 0) {
+                    p = e9(p.line, p.ch - i);
+                } else if (e.state.overwrite && !s) {
+                    v = e9(v.line, Math.min(e2(o, v.line).text.length, v.ch + j(a).length));
+                } else if (s && lD && lD.lineWise && lD.text.join("\n") == a.join("\n")) {
+                    p = v = e9(p.line, 0);
                 }
             }
-            var q = {
-                from: o,
-                to: p,
-                text: j ? j[m % j.length] : i,
-                origin: e || (h ? "paste" : a.state.cutIncoming > g ? "cut" : "+input")
+            var g = {
+                from: p,
+                to: v,
+                text: f ? f[h % f.length] : a,
+                origin: n || (s ? "paste" : e.state.cutIncoming > l ? "cut" : "+input")
             };
-            fa(a.doc, q);
-            ch(a, "inputRead", a, q);
+            ot(e.doc, g);
+            ia(e, "inputRead", e, g);
         }
-        if (b && !h) {
-            gL(a, b);
+        if (t && !s) {
+            l1(e, t);
         }
-        dE(a);
-        if (a.curOp.updateInput < 2) {
-            a.curOp.updateInput = l;
+        rW(e);
+        if (e.curOp.updateInput < 2) {
+            e.curOp.updateInput = c;
         }
-        a.curOp.typing = true;
-        a.state.pasteIncoming = a.state.cutIncoming = -1;
+        e.curOp.typing = true;
+        e.state.pasteIncoming = e.state.cutIncoming = -1;
     }
-    function gK(a, b) {
-        var c = a.clipboardData && a.clipboardData.getData("Text");
-        if (c) {
-            a.preventDefault();
-            if (!b.isReadOnly() && !b.options.disableInput) {
-                d0(b, function() {
-                    return gJ(b, c, 0, null, "paste");
+    function lM(e, t) {
+        var i = e.clipboardData && e.clipboardData.getData("Text");
+        if (i) {
+            e.preventDefault();
+            if (!t.isReadOnly() && !t.options.disableInput) {
+                rX(t, function() {
+                    return lF(t, i, 0, null, "paste");
                 });
             }
             return true;
         }
     }
-    function gL(a, b) {
-        if (!a.options.electricChars || !a.options.smartIndent) {
+    function l1(e, t) {
+        if (!e.options.electricChars || !e.options.smartIndent) {
             return;
         }
-        var c = a.doc.sel;
-        for(var d = c.ranges.length - 1; d >= 0; d--){
-            var e = c.ranges[d];
-            if (e.head.ch > 100 || (d && c.ranges[d - 1].head.line == e.head.line)) {
+        var i = e.doc.sel;
+        for(var r = i.ranges.length - 1; r >= 0; r--){
+            var n = i.ranges[r];
+            if (n.head.ch > 100 || (r && i.ranges[r - 1].head.line == n.head.line)) {
                 continue;
             }
-            var f = a.getModeAt(e.head);
-            var g = false;
-            if (f.electricChars) {
-                for(var h = 0; h < f.electricChars.length; h++){
-                    if (b.indexOf(f.electricChars.charAt(h)) > -1) {
-                        g = gG(a, e.head.line, "smart");
+            var o = e.getModeAt(n.head);
+            var l = false;
+            if (o.electricChars) {
+                for(var s = 0; s < o.electricChars.length; s++){
+                    if (t.indexOf(o.electricChars.charAt(s)) > -1) {
+                        l = lA(e, n.head.line, "smart");
                         break;
                     }
                 }
-            } else if (f.electricInput) {
-                if (f.electricInput.test(aY(a.doc, e.head.line).text.slice(0, e.head.ch))) {
-                    g = gG(a, e.head.line, "smart");
+            } else if (o.electricInput) {
+                if (o.electricInput.test(e2(e.doc, n.head.line).text.slice(0, n.head.ch))) {
+                    l = lA(e, n.head.line, "smart");
                 }
             }
-            if (g) {
-                ch(a, "electricInput", a, e.head.line);
+            if (l) {
+                ia(e, "electricInput", e, n.head.line);
             }
         }
     }
-    function gM(a) {
-        var b = [], c = [];
-        for(var d = 0; d < a.doc.sel.ranges.length; d++){
-            var e = a.doc.sel.ranges[d].head.line;
-            var f = {
-                anchor: a4(e, 0),
-                head: a4(e + 1, 0)
+    function lP(e) {
+        var t = [], i = [];
+        for(var r = 0; r < e.doc.sel.ranges.length; r++){
+            var n = e.doc.sel.ranges[r].head.line;
+            var o = {
+                anchor: e9(n, 0),
+                head: e9(n + 1, 0)
             };
-            c.push(f);
-            b.push(a.getRange(f.anchor, f.head));
+            i.push(o);
+            t.push(e.getRange(o.anchor, o.head));
         }
         return {
-            text: b,
-            ranges: c
+            text: t,
+            ranges: i
         };
     }
-    function gN(a, b, c, d) {
-        a.setAttribute("autocorrect", c ? "" : "off");
-        a.setAttribute("autocapitalize", d ? "" : "off");
-        a.setAttribute("spellcheck", !!b);
+    function lz(e, t, i, r) {
+        e.setAttribute("autocorrect", i ? "" : "off");
+        e.setAttribute("autocapitalize", r ? "" : "off");
+        e.setAttribute("spellcheck", !!t);
     }
-    function gO() {
-        var a = C("textarea", null, null, "position: absolute; bottom: -1em; padding: 0; width: 1px; height: 1em; min-height: 1em; outline: none");
-        var b = C("div", [
-            a
+    function lE() {
+        var e = L("textarea", null, null, "position: absolute; bottom: -1em; padding: 0; width: 1px; height: 1em; min-height: 1em; outline: none");
+        var t = L("div", [
+            e
         ], null, "overflow: hidden; position: relative; width: 3px; height: 0px;");
-        if (i) {
-            a.style.width = "1000px";
+        if (a) {
+            e.style.width = "1000px";
         } else {
-            a.setAttribute("wrap", "off");
+            e.setAttribute("wrap", "off");
         }
-        if (p) {
-            a.style.border = "1px solid black";
+        if (v) {
+            e.style.border = "1px solid black";
         }
-        gN(a);
-        return b;
+        lz(e);
+        return t;
     }
-    function gP(a) {
-        var b = a.optionHandlers;
-        var c = (a.helpers = {});
-        a.prototype = {
-            constructor: a,
+    function lI(e) {
+        var t = e.optionHandlers;
+        var i = (e.helpers = {});
+        e.prototype = {
+            constructor: e,
             focus: function() {
                 window.focus();
                 this.display.input.focus();
             },
-            setOption: function(a, c) {
-                var d = this.options, e = d[a];
-                if (d[a] == c && a != "mode") {
+            setOption: function(e, i) {
+                var r = this.options, n = r[e];
+                if (r[e] == i && e != "mode") {
                     return;
                 }
-                d[a] = c;
-                if (b.hasOwnProperty(a)) {
-                    d1(this, b[a])(this, c, e);
+                r[e] = i;
+                if (t.hasOwnProperty(e)) {
+                    rY(this, t[e])(this, i, n);
                 }
-                ar(this, "optionChange", this, a);
+                em(this, "optionChange", this, e);
             },
-            getOption: function(a) {
-                return this.options[a];
+            getOption: function(e) {
+                return this.options[e];
             },
             getDoc: function() {
                 return this.doc;
             },
-            addKeyMap: function(a, b) {
-                this.state.keyMaps[b ? "push" : "unshift"](fV(a));
+            addKeyMap: function(e, t) {
+                this.state.keyMaps[t ? "push" : "unshift"](o6(e));
             },
-            removeKeyMap: function(a) {
-                var b = this.state.keyMaps;
-                for(var c = 0; c < b.length; ++c){
-                    if (b[c] == a || b[c].name == a) {
-                        b.splice(c, 1);
+            removeKeyMap: function(e) {
+                var t = this.state.keyMaps;
+                for(var i = 0; i < t.length; ++i){
+                    if (t[i] == e || t[i].name == e) {
+                        t.splice(i, 1);
                         return true;
                     }
                 }
             },
-            addOverlay: d2(function(b, c) {
-                var d = b.token ? b : a.getMode(this.options, b);
-                if (d.startState) {
+            addOverlay: rj(function(t, i) {
+                var r = t.token ? t : e.getMode(this.options, t);
+                if (r.startState) {
                     throw new Error("Overlays may not be stateful.");
                 }
                 Z(this.state.overlays, {
-                    mode: d,
-                    modeSpec: b,
-                    opaque: c && c.opaque,
-                    priority: (c && c.priority) || 0
-                }, function(a) {
-                    return a.priority;
+                    mode: r,
+                    modeSpec: t,
+                    opaque: i && i.opaque,
+                    priority: (i && i.priority) || 0
+                }, function(e) {
+                    return e.priority;
                 });
                 this.state.modeGen++;
-                df(this);
+                rs(this);
             }),
-            removeOverlay: d2(function(a) {
-                var b = this.state.overlays;
-                for(var c = 0; c < b.length; ++c){
-                    var d = b[c].modeSpec;
-                    if (d == a || (typeof a == "string" && d.name == a)) {
-                        b.splice(c, 1);
+            removeOverlay: rj(function(e) {
+                var t = this.state.overlays;
+                for(var i = 0; i < t.length; ++i){
+                    var r = t[i].modeSpec;
+                    if (r == e || (typeof e == "string" && r.name == e)) {
+                        t.splice(i, 1);
                         this.state.modeGen++;
-                        df(this);
+                        rs(this);
                         return;
                     }
                 }
             }),
-            indentLine: d2(function(a, b, c) {
-                if (typeof b != "string" && typeof b != "number") {
-                    if (b == null) {
-                        b = this.options.smartIndent ? "smart" : "prev";
+            indentLine: rj(function(e, t, i) {
+                if (typeof t != "string" && typeof t != "number") {
+                    if (t == null) {
+                        t = this.options.smartIndent ? "smart" : "prev";
                     } else {
-                        b = b ? "add" : "subtract";
+                        t = t ? "add" : "subtract";
                     }
                 }
-                if (a2(this.doc, a)) {
-                    gG(this, a, b, c);
+                if (eY(this.doc, e)) {
+                    lA(this, e, t, i);
                 }
             }),
-            indentSelection: d2(function(a) {
-                var b = this.doc.sel.ranges, c = -1;
-                for(var d = 0; d < b.length; d++){
-                    var e = b[d];
-                    if (!e.empty()) {
-                        var f = e.from(), g = e.to();
-                        var h = Math.max(c, f.line);
-                        c = Math.min(this.lastLine(), g.line - (g.ch ? 0 : 1)) + 1;
-                        for(var i = h; i < c; ++i){
-                            gG(this, i, a);
+            indentSelection: rj(function(e) {
+                var t = this.doc.sel.ranges, i = -1;
+                for(var r = 0; r < t.length; r++){
+                    var n = t[r];
+                    if (!n.empty()) {
+                        var o = n.from(), l = n.to();
+                        var s = Math.max(i, o.line);
+                        i = Math.min(this.lastLine(), l.line - (l.ch ? 0 : 1)) + 1;
+                        for(var a = s; a < i; ++a){
+                            lA(this, a, e);
                         }
-                        var j = this.doc.sel.ranges;
-                        if (f.ch == 0 && b.length == j.length && j[d].from().ch > 0) {
-                            eY(this.doc, d, new es(f, j[d].to()), R);
+                        var f = this.doc.sel.ranges;
+                        if (o.ch == 0 && t.length == f.length && f[r].from().ch > 0) {
+                            nG(this.doc, r, new ny(o, f[r].to()), G);
                         }
-                    } else if (e.head.line > c) {
-                        gG(this, e.head.line, a, true);
-                        c = e.head.line;
-                        if (d == this.doc.sel.primIndex) {
-                            dE(this);
+                    } else if (n.head.line > i) {
+                        lA(this, n.head.line, e, true);
+                        i = n.head.line;
+                        if (r == this.doc.sel.primIndex) {
+                            rW(this);
                         }
                     }
                 }
             }),
-            getTokenAt: function(a, b) {
-                return bn(this, a, b);
+            getTokenAt: function(e, t) {
+                return td(this, e, t);
             },
-            getLineTokens: function(a, b) {
-                return bn(this, a4(a), b, true);
+            getLineTokens: function(e, t) {
+                return td(this, e9(e), t, true);
             },
-            getTokenTypeAt: function(a) {
-                a = bb(this.doc, a);
-                var b = bh(this, aY(this.doc, a.line));
-                var c = 0, d = (b.length - 1) / 2, e = a.ch;
-                var f;
-                if (e == 0) {
-                    f = b[2];
+            getTokenTypeAt: function(e) {
+                e = tt(this.doc, e);
+                var t = ts(this, e2(this.doc, e.line));
+                var i = 0, r = (t.length - 1) / 2, n = e.ch;
+                var o;
+                if (n == 0) {
+                    o = t[2];
                 } else {
                     for(;;){
-                        var g = (c + d) >> 1;
-                        if ((g ? b[g * 2 - 1] : 0) >= e) {
-                            d = g;
-                        } else if (b[g * 2 + 1] < e) {
-                            c = g + 1;
+                        var l = (i + r) >> 1;
+                        if ((l ? t[l * 2 - 1] : 0) >= n) {
+                            r = l;
+                        } else if (t[l * 2 + 1] < n) {
+                            i = l + 1;
                         } else {
-                            f = b[g * 2 + 2];
+                            o = t[l * 2 + 2];
                             break;
                         }
                     }
                 }
-                var h = f ? f.indexOf("overlay ") : -1;
-                return h < 0 ? f : h == 0 ? null : f.slice(0, h - 1);
+                var s = o ? o.indexOf("overlay ") : -1;
+                return s < 0 ? o : s == 0 ? null : o.slice(0, s - 1);
             },
-            getModeAt: function(b) {
-                var c = this.doc.mode;
-                if (!c.innerMode) {
-                    return c;
+            getModeAt: function(t) {
+                var i = this.doc.mode;
+                if (!i.innerMode) {
+                    return i;
                 }
-                return a.innerMode(c, this.getTokenAt(b).state).mode;
+                return e.innerMode(i, this.getTokenAt(t).state).mode;
             },
-            getHelper: function(a, b) {
-                return this.getHelpers(a, b)[0];
+            getHelper: function(e, t) {
+                return this.getHelpers(e, t)[0];
             },
-            getHelpers: function(a, b) {
-                var d = [];
-                if (!c.hasOwnProperty(b)) {
-                    return d;
+            getHelpers: function(e, t) {
+                var r = [];
+                if (!i.hasOwnProperty(t)) {
+                    return r;
                 }
-                var e = c[b], f = this.getModeAt(a);
-                if (typeof f[b] == "string") {
-                    if (e[f[b]]) {
-                        d.push(e[f[b]]);
+                var n = i[t], o = this.getModeAt(e);
+                if (typeof o[t] == "string") {
+                    if (n[o[t]]) {
+                        r.push(n[o[t]]);
                     }
-                } else if (f[b]) {
-                    for(var g = 0; g < f[b].length; g++){
-                        var h = e[f[b][g]];
-                        if (h) {
-                            d.push(h);
+                } else if (o[t]) {
+                    for(var l = 0; l < o[t].length; l++){
+                        var s = n[o[t][l]];
+                        if (s) {
+                            r.push(s);
                         }
                     }
-                } else if (f.helperType && e[f.helperType]) {
-                    d.push(e[f.helperType]);
-                } else if (e[f.name]) {
-                    d.push(e[f.name]);
+                } else if (o.helperType && n[o.helperType]) {
+                    r.push(n[o.helperType]);
+                } else if (n[o.name]) {
+                    r.push(n[o.name]);
                 }
-                for(var i = 0; i < e._global.length; i++){
-                    var j = e._global[i];
-                    if (j.pred(f, this) && O(d, j.val) == -1) {
-                        d.push(j.val);
+                for(var a = 0; a < n._global.length; a++){
+                    var f = n._global[a];
+                    if (f.pred(o, this) && I(r, f.val) == -1) {
+                        r.push(f.val);
                     }
                 }
-                return d;
+                return r;
             },
-            getStateAfter: function(a, b) {
-                var c = this.doc;
-                a = ba(c, a == null ? c.first + c.size - 1 : a);
-                return bi(this, a + 1, b).state;
+            getStateAfter: function(e, t) {
+                var i = this.doc;
+                e = te(i, e == null ? i.first + i.size - 1 : e);
+                return ta(this, e + 1, t).state;
             },
-            cursorCoords: function(a, b) {
-                var c, d = this.doc.sel.primary();
-                if (a == null) {
-                    c = d.head;
-                } else if (typeof a == "object") {
-                    c = bb(this.doc, a);
+            cursorCoords: function(e, t) {
+                var i, r = this.doc.sel.primary();
+                if (e == null) {
+                    i = r.head;
+                } else if (typeof e == "object") {
+                    i = tt(this.doc, e);
                 } else {
-                    c = a ? d.from() : d.to();
+                    i = e ? r.from() : r.to();
                 }
-                return cY(this, c, b || "page");
+                return iU(this, i, t || "page");
             },
-            charCoords: function(a, b) {
-                return cX(this, bb(this.doc, a), b || "page");
+            charCoords: function(e, t) {
+                return iG(this, tt(this.doc, e), t || "page");
             },
-            coordsChar: function(a, b) {
-                a = cW(this, a, b || "page");
-                return c_(this, a.left, a.top);
+            coordsChar: function(e, t) {
+                e = i2(this, e, t || "page");
+                return iX(this, e.left, e.top);
             },
-            lineAtHeight: function(a, b) {
-                a = cW(this, {
-                    top: a,
+            lineAtHeight: function(e, t) {
+                e = i2(this, {
+                    top: e,
                     left: 0
-                }, b || "page").top;
-                return a1(this.doc, a + this.display.viewOffset);
+                }, t || "page").top;
+                return eX(this.doc, e + this.display.viewOffset);
             },
-            heightAtLine: function(a, b, c) {
-                var d = false, e;
-                if (typeof a == "number") {
-                    var f = this.doc.first + this.doc.size - 1;
-                    if (a < this.doc.first) {
-                        a = this.doc.first;
-                    } else if (a > f) {
-                        a = f;
-                        d = true;
+            heightAtLine: function(e, t, i) {
+                var r = false, n;
+                if (typeof e == "number") {
+                    var o = this.doc.first + this.doc.size - 1;
+                    if (e < this.doc.first) {
+                        e = this.doc.first;
+                    } else if (e > o) {
+                        e = o;
+                        r = true;
                     }
-                    e = aY(this.doc, a);
+                    n = e2(this.doc, e);
                 } else {
-                    e = a;
+                    n = e;
                 }
-                return (cV(this, e, {
+                return (i5(this, n, {
                     top: 0,
                     left: 0
-                }, b || "page", c || d).top + (d ? this.doc.height - bW(e) : 0));
+                }, t || "page", i || r).top + (r ? this.doc.height - t6(n) : 0));
             },
             defaultTextHeight: function() {
-                return c7(this.display);
+                return iQ(this.display);
             },
             defaultCharWidth: function() {
-                return c8(this.display);
+                return re(this.display);
             },
             getViewport: function() {
                 return {
@@ -9370,304 +9370,304 @@
                     to: this.display.viewTo
                 };
             },
-            addWidget: function(a, b, c, d, e) {
-                var f = this.display;
-                a = cY(this, bb(this.doc, a));
-                var g = a.bottom, h = a.left;
-                b.style.position = "absolute";
-                b.setAttribute("cm-ignore-events", "true");
-                this.display.input.setUneditable(b);
-                f.sizer.appendChild(b);
-                if (d == "over") {
-                    g = a.top;
-                } else if (d == "above" || d == "near") {
-                    var i = Math.max(f.wrapper.clientHeight, this.doc.height), j = Math.max(f.sizer.clientWidth, f.lineSpace.clientWidth);
-                    if ((d == "above" || a.bottom + b.offsetHeight > i) && a.top > b.offsetHeight) {
-                        g = a.top - b.offsetHeight;
-                    } else if (a.bottom + b.offsetHeight <= i) {
-                        g = a.bottom;
+            addWidget: function(e, t, i, r, n) {
+                var o = this.display;
+                e = iU(this, tt(this.doc, e));
+                var l = e.bottom, s = e.left;
+                t.style.position = "absolute";
+                t.setAttribute("cm-ignore-events", "true");
+                this.display.input.setUneditable(t);
+                o.sizer.appendChild(t);
+                if (r == "over") {
+                    l = e.top;
+                } else if (r == "above" || r == "near") {
+                    var a = Math.max(o.wrapper.clientHeight, this.doc.height), f = Math.max(o.sizer.clientWidth, o.lineSpace.clientWidth);
+                    if ((r == "above" || e.bottom + t.offsetHeight > a) && e.top > t.offsetHeight) {
+                        l = e.top - t.offsetHeight;
+                    } else if (e.bottom + t.offsetHeight <= a) {
+                        l = e.bottom;
                     }
-                    if (h + b.offsetWidth > j) {
-                        h = j - b.offsetWidth;
+                    if (s + t.offsetWidth > f) {
+                        s = f - t.offsetWidth;
                     }
                 }
-                b.style.top = g + "px";
-                b.style.left = b.style.right = "";
-                if (e == "right") {
-                    h = f.sizer.clientWidth - b.offsetWidth;
-                    b.style.right = "0px";
+                t.style.top = l + "px";
+                t.style.left = t.style.right = "";
+                if (n == "right") {
+                    s = o.sizer.clientWidth - t.offsetWidth;
+                    t.style.right = "0px";
                 } else {
-                    if (e == "left") {
-                        h = 0;
-                    } else if (e == "middle") {
-                        h = (f.sizer.clientWidth - b.offsetWidth) / 2;
+                    if (n == "left") {
+                        s = 0;
+                    } else if (n == "middle") {
+                        s = (o.sizer.clientWidth - t.offsetWidth) / 2;
                     }
-                    b.style.left = h + "px";
+                    t.style.left = s + "px";
                 }
-                if (c) {
-                    dB(this, {
-                        left: h,
-                        top: g,
-                        right: h + b.offsetWidth,
-                        bottom: g + b.offsetHeight
+                if (i) {
+                    rL(this, {
+                        left: s,
+                        top: l,
+                        right: s + t.offsetWidth,
+                        bottom: l + t.offsetHeight
                     });
                 }
             },
-            triggerOnKeyDown: d2(gb),
-            triggerOnKeyPress: d2(ge),
-            triggerOnKeyUp: gd,
-            triggerOnMouseDown: d2(gk),
-            execCommand: function(a) {
-                if (f_.hasOwnProperty(a)) {
-                    return f_[a].call(null, this);
+            triggerOnKeyDown: rj(li),
+            triggerOnKeyPress: rj(lo),
+            triggerOnKeyUp: ln,
+            triggerOnMouseDown: rj(lc),
+            execCommand: function(e) {
+                if (oK.hasOwnProperty(e)) {
+                    return oK[e].call(null, this);
                 }
             },
-            triggerElectric: d2(function(a) {
-                gL(this, a);
+            triggerElectric: rj(function(e) {
+                l1(this, e);
             }),
-            findPosH: function(a, b, c, d) {
-                var e = 1;
-                if (b < 0) {
-                    e = -1;
-                    b = -b;
+            findPosH: function(e, t, i, r) {
+                var n = 1;
+                if (t < 0) {
+                    n = -1;
+                    t = -t;
                 }
-                var f = bb(this.doc, a);
-                for(var g = 0; g < b; ++g){
-                    f = gQ(this.doc, f, e, c, d);
-                    if (f.hitSide) {
+                var o = tt(this.doc, e);
+                for(var l = 0; l < t; ++l){
+                    o = lR(this.doc, o, n, i, r);
+                    if (o.hitSide) {
                         break;
                     }
                 }
-                return f;
+                return o;
             },
-            moveH: d2(function(a, b) {
-                var c = this;
-                this.extendSelectionsBy(function(d) {
-                    if (c.display.shift || c.doc.extend || d.empty()) {
-                        return gQ(c.doc, d.head, a, b, c.options.rtlMoveVisually);
+            moveH: rj(function(e, t) {
+                var i = this;
+                this.extendSelectionsBy(function(r) {
+                    if (i.display.shift || i.doc.extend || r.empty()) {
+                        return lR(i.doc, r.head, e, t, i.options.rtlMoveVisually);
                     } else {
-                        return a < 0 ? d.from() : d.to();
+                        return e < 0 ? r.from() : r.to();
                     }
-                }, T);
+                }, V);
             }),
-            deleteH: d2(function(a, b) {
-                var c = this.doc.sel, d = this.doc;
-                if (c.somethingSelected()) {
-                    d.replaceSelection("", null, "+delete");
+            deleteH: rj(function(e, t) {
+                var i = this.doc.sel, r = this.doc;
+                if (i.somethingSelected()) {
+                    r.replaceSelection("", null, "+delete");
                 } else {
-                    fW(this, function(c) {
-                        var e = gQ(d, c.head, a, b, false);
-                        return a < 0 ? {
-                            from: e,
-                            to: c.head
+                    o5(this, function(i) {
+                        var n = lR(r, i.head, e, t, false);
+                        return e < 0 ? {
+                            from: n,
+                            to: i.head
                         } : {
-                            from: c.head,
-                            to: e
+                            from: i.head,
+                            to: n
                         };
                     });
                 }
             }),
-            findPosV: function(a, b, c, d) {
-                var e = 1, f = d;
-                if (b < 0) {
-                    e = -1;
-                    b = -b;
+            findPosV: function(e, t, i, r) {
+                var n = 1, o = r;
+                if (t < 0) {
+                    n = -1;
+                    t = -t;
                 }
-                var g = bb(this.doc, a);
-                for(var h = 0; h < b; ++h){
-                    var i = cY(this, g, "div");
-                    if (f == null) {
-                        f = i.left;
+                var l = tt(this.doc, e);
+                for(var s = 0; s < t; ++s){
+                    var a = iU(this, l, "div");
+                    if (o == null) {
+                        o = a.left;
                     } else {
-                        i.left = f;
+                        a.left = o;
                     }
-                    g = gR(this, i, e, c);
-                    if (g.hitSide) {
+                    l = l3(this, a, n, i);
+                    if (l.hitSide) {
                         break;
                     }
                 }
-                return g;
+                return l;
             },
-            moveV: d2(function(a, b) {
-                var c = this;
-                var d = this.doc, e = [];
-                var f = !this.display.shift && !d.extend && d.sel.somethingSelected();
-                d.extendSelectionsBy(function(g) {
-                    if (f) {
-                        return a < 0 ? g.from() : g.to();
+            moveV: rj(function(e, t) {
+                var i = this;
+                var r = this.doc, n = [];
+                var o = !this.display.shift && !r.extend && r.sel.somethingSelected();
+                r.extendSelectionsBy(function(l) {
+                    if (o) {
+                        return e < 0 ? l.from() : l.to();
                     }
-                    var h = cY(c, g.head, "div");
-                    if (g.goalColumn != null) {
-                        h.left = g.goalColumn;
+                    var s = iU(i, l.head, "div");
+                    if (l.goalColumn != null) {
+                        s.left = l.goalColumn;
                     }
-                    e.push(h.left);
-                    var i = gR(c, h, a, b);
-                    if (b == "page" && g == d.sel.primary()) {
-                        dD(c, cX(c, i, "div").top - h.top);
+                    n.push(s.left);
+                    var a = l3(i, s, e, t);
+                    if (t == "page" && l == r.sel.primary()) {
+                        r0(i, iG(i, a, "div").top - s.top);
                     }
-                    return i;
-                }, T);
-                if (e.length) {
-                    for(var g = 0; g < d.sel.ranges.length; g++){
-                        d.sel.ranges[g].goalColumn = e[g];
+                    return a;
+                }, V);
+                if (n.length) {
+                    for(var l = 0; l < r.sel.ranges.length; l++){
+                        r.sel.ranges[l].goalColumn = n[l];
                     }
                 }
             }),
-            findWordAt: function(a) {
-                var b = this.doc, c = aY(b, a.line).text;
-                var d = a.ch, e = a.ch;
-                if (c) {
-                    var f = this.getHelper(a, "wordChars");
-                    if ((a.sticky == "before" || e == c.length) && d) {
-                        --d;
+            findWordAt: function(e) {
+                var t = this.doc, i = e2(t, e.line).text;
+                var r = e.ch, n = e.ch;
+                if (i) {
+                    var o = this.getHelper(e, "wordChars");
+                    if ((e.sticky == "before" || n == i.length) && r) {
+                        --r;
                     } else {
-                        ++e;
+                        ++n;
                     }
-                    var g = c.charAt(d);
-                    var h = ac(g, f) ? function(a) {
-                        return ac(a, f);
-                    } : /\s/.test(g) ? function(a) {
-                        return /\s/.test(a);
-                    } : function(a) {
-                        return !/\s/.test(a) && !ac(a);
+                    var l = i.charAt(r);
+                    var s = ei(l, o) ? function(e) {
+                        return ei(e, o);
+                    } : /\s/.test(l) ? function(e) {
+                        return /\s/.test(e);
+                    } : function(e) {
+                        return !/\s/.test(e) && !ei(e);
                     };
-                    while(d > 0 && h(c.charAt(d - 1))){
-                        --d;
+                    while(r > 0 && s(i.charAt(r - 1))){
+                        --r;
                     }
-                    while(e < c.length && h(c.charAt(e))){
-                        ++e;
+                    while(n < i.length && s(i.charAt(n))){
+                        ++n;
                     }
                 }
-                return new es(a4(a.line, d), a4(a.line, e));
+                return new ny(e9(e.line, r), e9(e.line, n));
             },
-            toggleOverwrite: function(a) {
-                if (a != null && a == this.state.overwrite) {
+            toggleOverwrite: function(e) {
+                if (e != null && e == this.state.overwrite) {
                     return;
                 }
                 if ((this.state.overwrite = !this.state.overwrite)) {
-                    H(this.display.cursorDiv, "CodeMirror-overwrite");
+                    D(this.display.cursorDiv, "CodeMirror-overwrite");
                 } else {
-                    z(this.display.cursorDiv, "CodeMirror-overwrite");
+                    S(this.display.cursorDiv, "CodeMirror-overwrite");
                 }
-                ar(this, "overwriteToggle", this, this.state.overwrite);
+                em(this, "overwriteToggle", this, this.state.overwrite);
             },
             hasFocus: function() {
-                return this.display.input.getField() == G();
+                return this.display.input.getField() == A();
             },
             isReadOnly: function() {
                 return !!(this.options.readOnly || this.doc.cantEdit);
             },
-            scrollTo: d2(function(a, b) {
-                dF(this, a, b);
+            scrollTo: rj(function(e, t) {
+                rN(this, e, t);
             }),
             getScrollInfo: function() {
-                var a = this.display.scroller;
+                var e = this.display.scroller;
                 return {
-                    left: a.scrollLeft,
-                    top: a.scrollTop,
-                    height: a.scrollHeight - cA(this) - this.display.barHeight,
-                    width: a.scrollWidth - cA(this) - this.display.barWidth,
-                    clientHeight: cC(this),
-                    clientWidth: cB(this)
+                    left: e.scrollLeft,
+                    top: e.scrollTop,
+                    height: e.scrollHeight - iL(this) - this.display.barHeight,
+                    width: e.scrollWidth - iL(this) - this.display.barWidth,
+                    clientHeight: i0(this),
+                    clientWidth: iO(this)
                 };
             },
-            scrollIntoView: d2(function(a, b) {
-                if (a == null) {
-                    a = {
+            scrollIntoView: rj(function(e, t) {
+                if (e == null) {
+                    e = {
                         from: this.doc.sel.primary().head,
                         to: null
                     };
-                    if (b == null) {
-                        b = this.options.cursorScrollMargin;
+                    if (t == null) {
+                        t = this.options.cursorScrollMargin;
                     }
-                } else if (typeof a == "number") {
-                    a = {
-                        from: a4(a, 0),
+                } else if (typeof e == "number") {
+                    e = {
+                        from: e9(e, 0),
                         to: null
                     };
-                } else if (a.from == null) {
-                    a = {
-                        from: a,
+                } else if (e.from == null) {
+                    e = {
+                        from: e,
                         to: null
                     };
                 }
-                if (!a.to) {
-                    a.to = a.from;
+                if (!e.to) {
+                    e.to = e.from;
                 }
-                a.margin = b || 0;
-                if (a.from.line != null) {
-                    dG(this, a);
+                e.margin = t || 0;
+                if (e.from.line != null) {
+                    rA(this, e);
                 } else {
-                    dI(this, a.from, a.to, a.margin);
+                    rH(this, e.from, e.to, e.margin);
                 }
             }),
-            setSize: d2(function(a, b) {
-                var c = this;
-                var d = function(a) {
-                    return typeof a == "number" || /^\d+$/.test(String(a)) ? a + "px" : a;
+            setSize: rj(function(e, t) {
+                var i = this;
+                var r = function(e) {
+                    return typeof e == "number" || /^\d+$/.test(String(e)) ? e + "px" : e;
                 };
-                if (a != null) {
-                    this.display.wrapper.style.width = d(a);
+                if (e != null) {
+                    this.display.wrapper.style.width = r(e);
                 }
-                if (b != null) {
-                    this.display.wrapper.style.height = d(b);
+                if (t != null) {
+                    this.display.wrapper.style.height = r(t);
                 }
                 if (this.options.lineWrapping) {
-                    cQ(this);
+                    i3(this);
                 }
-                var e = this.display.viewFrom;
-                this.doc.iter(e, this.display.viewTo, function(a) {
-                    if (a.widgets) {
-                        for(var b = 0; b < a.widgets.length; b++){
-                            if (a.widgets[b].noHScroll) {
-                                dg(c, e, "widget");
+                var n = this.display.viewFrom;
+                this.doc.iter(n, this.display.viewTo, function(e) {
+                    if (e.widgets) {
+                        for(var t = 0; t < e.widgets.length; t++){
+                            if (e.widgets[t].noHScroll) {
+                                ra(i, n, "widget");
                                 break;
                             }
                         }
                     }
-                    ++e;
+                    ++n;
                 });
                 this.curOp.forceUpdate = true;
-                ar(this, "refresh", this);
+                em(this, "refresh", this);
             }),
-            operation: function(a) {
-                return d0(this, a);
+            operation: function(e) {
+                return rX(this, e);
             },
             startOperation: function() {
-                return dU(this);
+                return r4(this);
             },
             endOperation: function() {
-                return dV(this);
+                return r6(this);
             },
-            refresh: d2(function() {
-                var a = this.display.cachedTextHeight;
-                df(this);
+            refresh: rj(function() {
+                var e = this.display.cachedTextHeight;
+                rs(this);
                 this.curOp.forceUpdate = true;
-                cR(this);
-                dF(this, this.doc.scrollLeft, this.doc.scrollTop);
-                ee(this.display);
-                if (a == null || Math.abs(a - c7(this.display)) > 0.5 || this.options.lineWrapping) {
-                    dc(this);
+                i7(this);
+                rN(this, this.doc.scrollLeft, this.doc.scrollTop);
+                no(this.display);
+                if (e == null || Math.abs(e - iQ(this.display)) > 0.5 || this.options.lineWrapping) {
+                    rn(this);
                 }
-                ar(this, "refresh", this);
+                em(this, "refresh", this);
             }),
-            swapDoc: d2(function(a) {
-                var b = this.doc;
-                b.cm = null;
+            swapDoc: rj(function(e) {
+                var t = this.doc;
+                t.cm = null;
                 if (this.state.selectingText) {
                     this.state.selectingText();
                 }
-                eF(this, a);
-                cR(this);
+                nN(this, e);
+                i7(this);
                 this.display.input.reset();
-                dF(this, a.scrollLeft, a.scrollTop);
+                rN(this, e.scrollLeft, e.scrollTop);
                 this.curOp.forceScroll = true;
-                ch(this, "swapDoc", this, b);
-                return b;
+                ia(this, "swapDoc", this, t);
+                return t;
             }),
-            phrase: function(a) {
-                var b = this.options.phrases;
-                return b && Object.prototype.hasOwnProperty.call(b, a) ? b[a] : a;
+            phrase: function(e) {
+                var t = this.options.phrases;
+                return t && Object.prototype.hasOwnProperty.call(t, e) ? t[e] : e;
             },
             getInputField: function() {
                 return this.display.input.getField();
@@ -9682,395 +9682,395 @@
                 return this.display.gutters;
             }
         };
-        av(a);
-        a.registerHelper = function(b, d, e) {
-            if (!c.hasOwnProperty(b)) {
-                c[b] = a[b] = {
+        ew(e);
+        e.registerHelper = function(t, r, n) {
+            if (!i.hasOwnProperty(t)) {
+                i[t] = e[t] = {
                     _global: []
                 };
             }
-            c[b][d] = e;
+            i[t][r] = n;
         };
-        a.registerGlobalHelper = function(b, d, e, f) {
-            a.registerHelper(b, d, f);
-            c[b]._global.push({
-                pred: e,
-                val: f
+        e.registerGlobalHelper = function(t, r, n, o) {
+            e.registerHelper(t, r, o);
+            i[t]._global.push({
+                pred: n,
+                val: o
             });
         };
     }
-    function gQ(a, b, c, d, e) {
-        var f = b;
-        var g = c;
-        var h = aY(a, b.line);
-        var i = e && a.direction == "rtl" ? -c : c;
-        function j() {
-            var c = b.line + i;
-            if (c < a.first || c >= a.first + a.size) {
+    function lR(e, t, i, r, n) {
+        var o = t;
+        var l = i;
+        var s = e2(e, t.line);
+        var a = n && e.direction == "rtl" ? -i : i;
+        function f() {
+            var i = t.line + a;
+            if (i < e.first || i >= e.first + e.size) {
                 return false;
             }
-            b = new a4(c, b.ch, b.sticky);
-            return (h = aY(a, c));
+            t = new e9(i, t.ch, t.sticky);
+            return (s = e2(e, i));
         }
-        function k(f) {
-            var g;
-            if (d == "codepoint") {
-                var k = h.text.charCodeAt(b.ch + (c > 0 ? 0 : -1));
-                if (isNaN(k)) {
-                    g = null;
+        function u(o) {
+            var l;
+            if (r == "codepoint") {
+                var u = s.text.charCodeAt(t.ch + (i > 0 ? 0 : -1));
+                if (isNaN(u)) {
+                    l = null;
                 } else {
-                    var l = c > 0 ? k >= 0xd800 && k < 0xdc00 : k >= 0xdc00 && k < 0xdfff;
-                    g = new a4(b.line, Math.max(0, Math.min(h.text.length, b.ch + c * (l ? 2 : 1))), -c);
+                    var c = i > 0 ? u >= 0xd800 && u < 0xdc00 : u >= 0xdc00 && u < 0xdfff;
+                    l = new e9(t.line, Math.max(0, Math.min(s.text.length, t.ch + i * (c ? 2 : 1))), -i);
                 }
-            } else if (e) {
-                g = f$(a.cm, h, b, c);
+            } else if (n) {
+                l = oV(e.cm, s, t, i);
             } else {
-                g = fY(h, b, c);
+                l = oG(s, t, i);
             }
-            if (g == null) {
-                if (!f && j()) {
-                    b = fZ(e, a.cm, h, b.line, i);
+            if (l == null) {
+                if (!o && f()) {
+                    t = oU(n, e.cm, s, t.line, a);
                 } else {
                     return false;
                 }
             } else {
-                b = g;
+                t = l;
             }
             return true;
         }
-        if (d == "char" || d == "codepoint") {
-            k();
-        } else if (d == "column") {
-            k(true);
-        } else if (d == "word" || d == "group") {
-            var l = null, m = d == "group";
-            var n = a.cm && a.cm.getHelper(b, "wordChars");
-            for(var o = true;; o = false){
-                if (c < 0 && !k(!o)) {
+        if (r == "char" || r == "codepoint") {
+            u();
+        } else if (r == "column") {
+            u(true);
+        } else if (r == "word" || r == "group") {
+            var c = null, h = r == "group";
+            var d = e.cm && e.cm.getHelper(t, "wordChars");
+            for(var p = true;; p = false){
+                if (i < 0 && !u(!p)) {
                     break;
                 }
-                var p = h.text.charAt(b.ch) || "\n";
-                var q = ac(p, n) ? "w" : m && p == "\n" ? "n" : !m || /\s/.test(p) ? null : "p";
-                if (m && !o && !q) {
-                    q = "s";
+                var v = s.text.charAt(t.ch) || "\n";
+                var g = ei(v, d) ? "w" : h && v == "\n" ? "n" : !h || /\s/.test(v) ? null : "p";
+                if (h && !p && !g) {
+                    g = "s";
                 }
-                if (l && l != q) {
-                    if (c < 0) {
-                        c = 1;
-                        k();
-                        b.sticky = "after";
+                if (c && c != g) {
+                    if (i < 0) {
+                        i = 1;
+                        u();
+                        t.sticky = "after";
                     }
                     break;
                 }
-                if (q) {
-                    l = q;
+                if (g) {
+                    c = g;
                 }
-                if (c > 0 && !k(!o)) {
+                if (i > 0 && !u(!p)) {
                     break;
                 }
             }
         }
-        var r = e6(a, b, f, g, true);
-        if (a6(f, r)) {
-            r.hitSide = true;
+        var m = nZ(e, t, o, l, true);
+        if (e8(o, m)) {
+            m.hitSide = true;
         }
-        return r;
+        return m;
     }
-    function gR(a, b, c, d) {
-        var e = a.doc, f = b.left, g;
-        if (d == "page") {
-            var h = Math.min(a.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight);
-            var i = Math.max(h - 0.5 * c7(a.display), 3);
-            g = (c > 0 ? b.bottom : b.top) + c * i;
-        } else if (d == "line") {
-            g = c > 0 ? b.bottom + 3 : b.top - 3;
+    function l3(e, t, i, r) {
+        var n = e.doc, o = t.left, l;
+        if (r == "page") {
+            var s = Math.min(e.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight);
+            var a = Math.max(s - 0.5 * iQ(e.display), 3);
+            l = (i > 0 ? t.bottom : t.top) + i * a;
+        } else if (r == "line") {
+            l = i > 0 ? t.bottom + 3 : t.top - 3;
         }
-        var j;
+        var f;
         for(;;){
-            j = c_(a, f, g);
-            if (!j.outside) {
+            f = iX(e, o, l);
+            if (!f.outside) {
                 break;
             }
-            if (c < 0 ? g <= 0 : g >= e.height) {
-                j.hitSide = true;
+            if (i < 0 ? l <= 0 : l >= n.height) {
+                f.hitSide = true;
                 break;
             }
-            g += c * 5;
+            l += i * 5;
         }
-        return j;
+        return f;
     }
-    var gS = function(a) {
-        this.cm = a;
+    var l7 = function(e) {
+        this.cm = e;
         this.lastAnchorNode = this.lastAnchorOffset = this.lastFocusNode = this.lastFocusOffset = null;
-        this.polling = new N();
+        this.polling = new E();
         this.composing = null;
         this.gracePeriod = false;
         this.readDOMTimeout = null;
     };
-    gS.prototype.init = function(a) {
-        var b = this;
-        var c = this, d = c.cm;
-        var e = (c.div = a.lineDiv);
-        e.contentEditable = true;
-        gN(e, d.options.spellcheck, d.options.autocorrect, d.options.autocapitalize);
-        function f(a) {
-            for(var b = a.target; b; b = b.parentNode){
-                if (b == e) {
+    l7.prototype.init = function(e) {
+        var t = this;
+        var i = this, r = i.cm;
+        var n = (i.div = e.lineDiv);
+        n.contentEditable = true;
+        lz(n, r.options.spellcheck, r.options.autocorrect, r.options.autocapitalize);
+        function o(e) {
+            for(var t = e.target; t; t = t.parentNode){
+                if (t == n) {
                     return true;
                 }
-                if (/\bCodeMirror-(?:line)?widget\b/.test(b.className)) {
+                if (/\bCodeMirror-(?:line)?widget\b/.test(t.className)) {
                     break;
                 }
             }
             return false;
         }
-        ao(e, "paste", function(a) {
-            if (!f(a) || as(d, a) || gK(a, d)) {
+        ep(n, "paste", function(e) {
+            if (!o(e) || e$(r, e) || lM(e, r)) {
                 return;
             }
-            if (h <= 11) {
-                setTimeout(d1(d, function() {
-                    return b.updateFromDOM();
+            if (s <= 11) {
+                setTimeout(rY(r, function() {
+                    return t.updateFromDOM();
                 }), 20);
             }
         });
-        ao(e, "compositionstart", function(a) {
-            b.composing = {
-                data: a.data,
+        ep(n, "compositionstart", function(e) {
+            t.composing = {
+                data: e.data,
                 done: false
             };
         });
-        ao(e, "compositionupdate", function(a) {
-            if (!b.composing) {
-                b.composing = {
-                    data: a.data,
+        ep(n, "compositionupdate", function(e) {
+            if (!t.composing) {
+                t.composing = {
+                    data: e.data,
                     done: false
                 };
             }
         });
-        ao(e, "compositionend", function(a) {
-            if (b.composing) {
-                if (a.data != b.composing.data) {
-                    b.readFromDOMSoon();
+        ep(n, "compositionend", function(e) {
+            if (t.composing) {
+                if (e.data != t.composing.data) {
+                    t.readFromDOMSoon();
                 }
-                b.composing.done = true;
+                t.composing.done = true;
             }
         });
-        ao(e, "touchstart", function() {
-            return c.forceCompositionEnd();
+        ep(n, "touchstart", function() {
+            return i.forceCompositionEnd();
         });
-        ao(e, "input", function() {
-            if (!b.composing) {
-                b.readFromDOMSoon();
+        ep(n, "input", function() {
+            if (!t.composing) {
+                t.readFromDOMSoon();
             }
         });
-        function g(a) {
-            if (!f(a) || as(d, a)) {
+        function l(e) {
+            if (!o(e) || e$(r, e)) {
                 return;
             }
-            if (d.somethingSelected()) {
-                gI({
+            if (r.somethingSelected()) {
+                lH({
                     lineWise: false,
-                    text: d.getSelections()
+                    text: r.getSelections()
                 });
-                if (a.type == "cut") {
-                    d.replaceSelection("", null, "cut");
+                if (e.type == "cut") {
+                    r.replaceSelection("", null, "cut");
                 }
-            } else if (!d.options.lineWiseCopyCut) {
+            } else if (!r.options.lineWiseCopyCut) {
                 return;
             } else {
-                var b = gM(d);
-                gI({
+                var t = lP(r);
+                lH({
                     lineWise: true,
-                    text: b.text
+                    text: t.text
                 });
-                if (a.type == "cut") {
-                    d.operation(function() {
-                        d.setSelections(b.ranges, 0, R);
-                        d.replaceSelection("", null, "cut");
+                if (e.type == "cut") {
+                    r.operation(function() {
+                        r.setSelections(t.ranges, 0, G);
+                        r.replaceSelection("", null, "cut");
                     });
                 }
             }
-            if (a.clipboardData) {
-                a.clipboardData.clearData();
-                var g = gH.text.join("\n");
-                a.clipboardData.setData("Text", g);
-                if (a.clipboardData.getData("Text") == g) {
-                    a.preventDefault();
+            if (e.clipboardData) {
+                e.clipboardData.clearData();
+                var l = lD.text.join("\n");
+                e.clipboardData.setData("Text", l);
+                if (e.clipboardData.getData("Text") == l) {
+                    e.preventDefault();
                     return;
                 }
             }
-            var h = gO(), i = h.firstChild;
-            d.display.lineSpace.insertBefore(h, d.display.lineSpace.firstChild);
-            i.value = gH.text.join("\n");
-            var j = G();
-            J(i);
+            var s = lE(), a = s.firstChild;
+            r.display.lineSpace.insertBefore(s, r.display.lineSpace.firstChild);
+            a.value = lD.text.join("\n");
+            var f = A();
+            F(a);
             setTimeout(function() {
-                d.display.lineSpace.removeChild(h);
-                j.focus();
-                if (j == e) {
-                    c.showPrimarySelection();
+                r.display.lineSpace.removeChild(s);
+                f.focus();
+                if (f == n) {
+                    i.showPrimarySelection();
                 }
             }, 50);
         }
-        ao(e, "copy", g);
-        ao(e, "cut", g);
+        ep(n, "copy", l);
+        ep(n, "cut", l);
     };
-    gS.prototype.screenReaderLabelChanged = function(a) {
-        if (a) {
-            this.div.setAttribute("aria-label", a);
+    l7.prototype.screenReaderLabelChanged = function(e) {
+        if (e) {
+            this.div.setAttribute("aria-label", e);
         } else {
             this.div.removeAttribute("aria-label");
         }
     };
-    gS.prototype.prepareSelection = function() {
-        var a = dm(this.cm, false);
-        a.focus = G() == this.div;
-        return a;
+    l7.prototype.prepareSelection = function() {
+        var e = rp(this.cm, false);
+        e.focus = A() == this.div;
+        return e;
     };
-    gS.prototype.showSelection = function(a, b) {
-        if (!a || !this.cm.display.view.length) {
+    l7.prototype.showSelection = function(e, t) {
+        if (!e || !this.cm.display.view.length) {
             return;
         }
-        if (a.focus || b) {
+        if (e.focus || t) {
             this.showPrimarySelection();
         }
-        this.showMultipleSelections(a);
+        this.showMultipleSelections(e);
     };
-    gS.prototype.getSelection = function() {
+    l7.prototype.getSelection = function() {
         return this.cm.display.wrapper.ownerDocument.getSelection();
     };
-    gS.prototype.showPrimarySelection = function() {
-        var a = this.getSelection(), b = this.cm, d = b.doc.sel.primary();
-        var e = d.from(), f = d.to();
-        if (b.display.viewTo == b.display.viewFrom || e.line >= b.display.viewTo || f.line < b.display.viewFrom) {
-            a.removeAllRanges();
+    l7.prototype.showPrimarySelection = function() {
+        var e = this.getSelection(), t = this.cm, r = t.doc.sel.primary();
+        var n = r.from(), o = r.to();
+        if (t.display.viewTo == t.display.viewFrom || n.line >= t.display.viewTo || o.line < t.display.viewFrom) {
+            e.removeAllRanges();
             return;
         }
-        var g = gX(b, a.anchorNode, a.anchorOffset);
-        var h = gX(b, a.focusNode, a.focusOffset);
-        if (g && !g.bad && h && !h.bad && a5(a9(g, h), e) == 0 && a5(a8(g, h), f) == 0) {
+        var l = l2(t, e.anchorNode, e.anchorOffset);
+        var s = l2(t, e.focusNode, e.focusOffset);
+        if (l && !l.bad && s && !s.bad && eq(eQ(l, s), n) == 0 && eq(eJ(l, s), o) == 0) {
             return;
         }
-        var i = b.display.view;
-        var j = (e.line >= b.display.viewFrom && gT(b, e)) || {
-            node: i[0].measure.map[2],
+        var a = t.display.view;
+        var f = (n.line >= t.display.viewFrom && lB(t, n)) || {
+            node: a[0].measure.map[2],
             offset: 0
         };
-        var k = f.line < b.display.viewTo && gT(b, f);
-        if (!k) {
-            var l = i[i.length - 1].measure;
-            var m = l.maps ? l.maps[l.maps.length - 1] : l.map;
-            k = {
-                node: m[m.length - 1],
-                offset: m[m.length - 2] - m[m.length - 3]
+        var u = o.line < t.display.viewTo && lB(t, o);
+        if (!u) {
+            var c = a[a.length - 1].measure;
+            var h = c.maps ? c.maps[c.maps.length - 1] : c.map;
+            u = {
+                node: h[h.length - 1],
+                offset: h[h.length - 2] - h[h.length - 3]
             };
         }
-        if (!j || !k) {
-            a.removeAllRanges();
+        if (!f || !u) {
+            e.removeAllRanges();
             return;
         }
-        var n = a.rangeCount && a.getRangeAt(0), o;
+        var d = e.rangeCount && e.getRangeAt(0), p;
         try {
-            o = E(j.node, j.offset, k.offset, k.node);
-        } catch (p) {}
-        if (o) {
-            if (!c && b.state.focused) {
-                a.collapse(j.node, j.offset);
-                if (!o.collapsed) {
-                    a.removeAllRanges();
-                    a.addRange(o);
+            p = W(f.node, f.offset, u.offset, u.node);
+        } catch (v) {}
+        if (p) {
+            if (!i && t.state.focused) {
+                e.collapse(f.node, f.offset);
+                if (!p.collapsed) {
+                    e.removeAllRanges();
+                    e.addRange(p);
                 }
             } else {
-                a.removeAllRanges();
-                a.addRange(o);
+                e.removeAllRanges();
+                e.addRange(p);
             }
-            if (n && a.anchorNode == null) {
-                a.addRange(n);
-            } else if (c) {
+            if (d && e.anchorNode == null) {
+                e.addRange(d);
+            } else if (i) {
                 this.startGracePeriod();
             }
         }
         this.rememberSelection();
     };
-    gS.prototype.startGracePeriod = function() {
-        var a = this;
+    l7.prototype.startGracePeriod = function() {
+        var e = this;
         clearTimeout(this.gracePeriod);
         this.gracePeriod = setTimeout(function() {
-            a.gracePeriod = false;
-            if (a.selectionChanged()) {
-                a.cm.operation(function() {
-                    return (a.cm.curOp.selectionChanged = true);
+            e.gracePeriod = false;
+            if (e.selectionChanged()) {
+                e.cm.operation(function() {
+                    return (e.cm.curOp.selectionChanged = true);
                 });
             }
         }, 20);
     };
-    gS.prototype.showMultipleSelections = function(a) {
-        B(this.cm.display.cursorDiv, a.cursors);
-        B(this.cm.display.selectionDiv, a.selection);
+    l7.prototype.showMultipleSelections = function(e) {
+        T(this.cm.display.cursorDiv, e.cursors);
+        T(this.cm.display.selectionDiv, e.selection);
     };
-    gS.prototype.rememberSelection = function() {
-        var a = this.getSelection();
-        this.lastAnchorNode = a.anchorNode;
-        this.lastAnchorOffset = a.anchorOffset;
-        this.lastFocusNode = a.focusNode;
-        this.lastFocusOffset = a.focusOffset;
+    l7.prototype.rememberSelection = function() {
+        var e = this.getSelection();
+        this.lastAnchorNode = e.anchorNode;
+        this.lastAnchorOffset = e.anchorOffset;
+        this.lastFocusNode = e.focusNode;
+        this.lastFocusOffset = e.focusOffset;
     };
-    gS.prototype.selectionInEditor = function() {
-        var a = this.getSelection();
-        if (!a.rangeCount) {
+    l7.prototype.selectionInEditor = function() {
+        var e = this.getSelection();
+        if (!e.rangeCount) {
             return false;
         }
-        var b = a.getRangeAt(0).commonAncestorContainer;
-        return F(this.div, b);
+        var t = e.getRangeAt(0).commonAncestorContainer;
+        return N(this.div, t);
     };
-    gS.prototype.focus = function() {
+    l7.prototype.focus = function() {
         if (this.cm.options.readOnly != "nocursor") {
-            if (!this.selectionInEditor() || G() != this.div) {
+            if (!this.selectionInEditor() || A() != this.div) {
                 this.showSelection(this.prepareSelection(), true);
             }
             this.div.focus();
         }
     };
-    gS.prototype.blur = function() {
+    l7.prototype.blur = function() {
         this.div.blur();
     };
-    gS.prototype.getField = function() {
+    l7.prototype.getField = function() {
         return this.div;
     };
-    gS.prototype.supportsTouch = function() {
+    l7.prototype.supportsTouch = function() {
         return true;
     };
-    gS.prototype.receivedFocus = function() {
-        var a = this;
-        var b = this;
+    l7.prototype.receivedFocus = function() {
+        var e = this;
+        var t = this;
         if (this.selectionInEditor()) {
             setTimeout(function() {
-                return a.pollSelection();
+                return e.pollSelection();
             }, 20);
         } else {
-            d0(this.cm, function() {
-                return (b.cm.curOp.selectionChanged = true);
+            rX(this.cm, function() {
+                return (t.cm.curOp.selectionChanged = true);
             });
         }
-        function c() {
-            if (b.cm.state.focused) {
-                b.pollSelection();
-                b.polling.set(b.cm.options.pollInterval, c);
+        function i() {
+            if (t.cm.state.focused) {
+                t.pollSelection();
+                t.polling.set(t.cm.options.pollInterval, i);
             }
         }
-        this.polling.set(this.cm.options.pollInterval, c);
+        this.polling.set(this.cm.options.pollInterval, i);
     };
-    gS.prototype.selectionChanged = function() {
-        var a = this.getSelection();
-        return (a.anchorNode != this.lastAnchorNode || a.anchorOffset != this.lastAnchorOffset || a.focusNode != this.lastFocusNode || a.focusOffset != this.lastFocusOffset);
+    l7.prototype.selectionChanged = function() {
+        var e = this.getSelection();
+        return (e.anchorNode != this.lastAnchorNode || e.anchorOffset != this.lastAnchorOffset || e.focusNode != this.lastFocusNode || e.focusOffset != this.lastFocusOffset);
     };
-    gS.prototype.pollSelection = function() {
+    l7.prototype.pollSelection = function() {
         if (this.readDOMTimeout != null || this.gracePeriod || !this.selectionChanged()) {
             return;
         }
-        var a = this.getSelection(), b = this.cm;
-        if (q && k && this.cm.display.gutterSpecs.length && gU(a.anchorNode)) {
+        var e = this.getSelection(), t = this.cm;
+        if (g && u && this.cm.display.gutterSpecs.length && l4(e.anchorNode)) {
             this.cm.triggerOnKeyDown({
                 type: "keydown",
                 keyCode: 8,
@@ -10084,100 +10084,100 @@
             return;
         }
         this.rememberSelection();
-        var c = gX(b, a.anchorNode, a.anchorOffset);
-        var d = gX(b, a.focusNode, a.focusOffset);
-        if (c && d) {
-            d0(b, function() {
-                e0(b.doc, eu(c, d), R);
-                if (c.bad || d.bad) {
-                    b.curOp.selectionChanged = true;
+        var i = l2(t, e.anchorNode, e.anchorOffset);
+        var r = l2(t, e.focusNode, e.focusOffset);
+        if (i && r) {
+            rX(t, function() {
+                nX(t.doc, nw(i, r), G);
+                if (i.bad || r.bad) {
+                    t.curOp.selectionChanged = true;
                 }
             });
         }
     };
-    gS.prototype.pollContent = function() {
+    l7.prototype.pollContent = function() {
         if (this.readDOMTimeout != null) {
             clearTimeout(this.readDOMTimeout);
             this.readDOMTimeout = null;
         }
-        var a = this.cm, b = a.display, c = a.doc.sel.primary();
-        var d = c.from(), e = c.to();
-        if (d.ch == 0 && d.line > a.firstLine()) {
-            d = a4(d.line - 1, aY(a.doc, d.line - 1).length);
+        var e = this.cm, t = e.display, i = e.doc.sel.primary();
+        var r = i.from(), n = i.to();
+        if (r.ch == 0 && r.line > e.firstLine()) {
+            r = e9(r.line - 1, e2(e.doc, r.line - 1).length);
         }
-        if (e.ch == aY(a.doc, e.line).text.length && e.line < a.lastLine()) {
-            e = a4(e.line + 1, 0);
+        if (n.ch == e2(e.doc, n.line).text.length && n.line < e.lastLine()) {
+            n = e9(n.line + 1, 0);
         }
-        if (d.line < b.viewFrom || e.line > b.viewTo - 1) {
+        if (r.line < t.viewFrom || n.line > t.viewTo - 1) {
             return false;
         }
-        var f, g, h;
-        if (d.line == b.viewFrom || (f = de(a, d.line)) == 0) {
-            g = a0(b.view[0].line);
-            h = b.view[0].node;
+        var o, l, s;
+        if (r.line == t.viewFrom || (o = rl(e, r.line)) == 0) {
+            l = eK(t.view[0].line);
+            s = t.view[0].node;
         } else {
-            g = a0(b.view[f].line);
-            h = b.view[f - 1].node.nextSibling;
+            l = eK(t.view[o].line);
+            s = t.view[o - 1].node.nextSibling;
         }
-        var i = de(a, e.line);
-        var j, k;
-        if (i == b.view.length - 1) {
-            j = b.viewTo - 1;
-            k = b.lineDiv.lastChild;
+        var a = rl(e, n.line);
+        var f, u;
+        if (a == t.view.length - 1) {
+            f = t.viewTo - 1;
+            u = t.lineDiv.lastChild;
         } else {
-            j = a0(b.view[i + 1].line) - 1;
-            k = b.view[i + 1].node.previousSibling;
+            f = eK(t.view[a + 1].line) - 1;
+            u = t.view[a + 1].node.previousSibling;
         }
-        if (!h) {
+        if (!s) {
             return false;
         }
-        var l = a.doc.splitLines(gW(a, h, k, g, j));
-        var m = aZ(a.doc, a4(g, 0), a4(j, aY(a.doc, j).text.length));
-        while(l.length > 1 && m.length > 1){
-            if (X(l) == X(m)) {
-                l.pop();
-                m.pop();
-                j--;
-            } else if (l[0] == m[0]) {
-                l.shift();
-                m.shift();
-                g++;
+        var c = e.doc.splitLines(l5(e, s, u, l, f));
+        var h = eG(e.doc, e9(l, 0), e9(f, e2(e.doc, f).text.length));
+        while(c.length > 1 && h.length > 1){
+            if (j(c) == j(h)) {
+                c.pop();
+                h.pop();
+                f--;
+            } else if (c[0] == h[0]) {
+                c.shift();
+                h.shift();
+                l++;
             } else {
                 break;
             }
         }
-        var n = 0, o = 0;
-        var p = l[0], q = m[0], r = Math.min(p.length, q.length);
-        while(n < r && p.charCodeAt(n) == q.charCodeAt(n)){
-            ++n;
+        var d = 0, p = 0;
+        var v = c[0], g = h[0], m = Math.min(v.length, g.length);
+        while(d < m && v.charCodeAt(d) == g.charCodeAt(d)){
+            ++d;
         }
-        var s = X(l), t = X(m);
-        var u = Math.min(s.length - (l.length == 1 ? n : 0), t.length - (m.length == 1 ? n : 0));
-        while(o < u && s.charCodeAt(s.length - o - 1) == t.charCodeAt(t.length - o - 1)){
-            ++o;
+        var $ = j(c), y = j(h);
+        var _ = Math.min($.length - (c.length == 1 ? d : 0), y.length - (h.length == 1 ? d : 0));
+        while(p < _ && $.charCodeAt($.length - p - 1) == y.charCodeAt(y.length - p - 1)){
+            ++p;
         }
-        if (l.length == 1 && m.length == 1 && g == d.line) {
-            while(n && n > d.ch && s.charCodeAt(s.length - o - 1) == t.charCodeAt(t.length - o - 1)){
-                n--;
-                o++;
+        if (c.length == 1 && h.length == 1 && l == r.line) {
+            while(d && d > r.ch && $.charCodeAt($.length - p - 1) == y.charCodeAt(y.length - p - 1)){
+                d--;
+                p++;
             }
         }
-        l[l.length - 1] = s.slice(0, s.length - o).replace(/^\u200b+/, "");
-        l[0] = l[0].slice(n).replace(/\u200b+$/, "");
-        var v = a4(g, n);
-        var w = a4(j, m.length ? X(m).length - o : 0);
-        if (l.length > 1 || l[0] || a5(v, w)) {
-            fg(a.doc, l, v, w, "+input");
+        c[c.length - 1] = $.slice(0, $.length - p).replace(/^\u200b+/, "");
+        c[0] = c[0].slice(d).replace(/\u200b+$/, "");
+        var w = e9(l, d);
+        var b = e9(f, h.length ? j(h).length - p : 0);
+        if (c.length > 1 || c[0] || eq(w, b)) {
+            os(e.doc, c, w, b, "+input");
             return true;
         }
     };
-    gS.prototype.ensurePolled = function() {
+    l7.prototype.ensurePolled = function() {
         this.forceCompositionEnd();
     };
-    gS.prototype.reset = function() {
+    l7.prototype.reset = function() {
         this.forceCompositionEnd();
     };
-    gS.prototype.forceCompositionEnd = function() {
+    l7.prototype.forceCompositionEnd = function() {
         if (!this.composing) {
             return;
         }
@@ -10187,726 +10187,726 @@
         this.div.blur();
         this.div.focus();
     };
-    gS.prototype.readFromDOMSoon = function() {
-        var a = this;
+    l7.prototype.readFromDOMSoon = function() {
+        var e = this;
         if (this.readDOMTimeout != null) {
             return;
         }
         this.readDOMTimeout = setTimeout(function() {
-            a.readDOMTimeout = null;
-            if (a.composing) {
-                if (a.composing.done) {
-                    a.composing = null;
+            e.readDOMTimeout = null;
+            if (e.composing) {
+                if (e.composing.done) {
+                    e.composing = null;
                 } else {
                     return;
                 }
             }
-            a.updateFromDOM();
+            e.updateFromDOM();
         }, 80);
     };
-    gS.prototype.updateFromDOM = function() {
-        var a = this;
+    l7.prototype.updateFromDOM = function() {
+        var e = this;
         if (this.cm.isReadOnly() || !this.pollContent()) {
-            d0(this.cm, function() {
-                return df(a.cm);
+            rX(this.cm, function() {
+                return rs(e.cm);
             });
         }
     };
-    gS.prototype.setUneditable = function(a) {
-        a.contentEditable = "false";
+    l7.prototype.setUneditable = function(e) {
+        e.contentEditable = "false";
     };
-    gS.prototype.onKeyPress = function(a) {
-        if (a.charCode == 0 || this.composing) {
+    l7.prototype.onKeyPress = function(e) {
+        if (e.charCode == 0 || this.composing) {
             return;
         }
-        a.preventDefault();
+        e.preventDefault();
         if (!this.cm.isReadOnly()) {
-            d1(this.cm, gJ)(this.cm, String.fromCharCode(a.charCode == null ? a.keyCode : a.charCode), 0);
+            rY(this.cm, lF)(this.cm, String.fromCharCode(e.charCode == null ? e.keyCode : e.charCode), 0);
         }
     };
-    gS.prototype.readOnlyChanged = function(a) {
-        this.div.contentEditable = String(a != "nocursor");
+    l7.prototype.readOnlyChanged = function(e) {
+        this.div.contentEditable = String(e != "nocursor");
     };
-    gS.prototype.onContextMenu = function() {};
-    gS.prototype.resetPosition = function() {};
-    gS.prototype.needsContentAttribute = true;
-    function gT(a, b) {
-        var c = cH(a, b.line);
-        if (!c || c.hidden) {
+    l7.prototype.onContextMenu = function() {};
+    l7.prototype.resetPosition = function() {};
+    l7.prototype.needsContentAttribute = true;
+    function lB(e, t) {
+        var i = iH(e, t.line);
+        if (!i || i.hidden) {
             return null;
         }
-        var d = aY(a.doc, b.line);
-        var e = cE(c, d, b.line);
-        var f = am(d, a.doc.direction), g = "left";
-        if (f) {
-            var h = ak(f, b.ch);
-            g = h % 2 ? "right" : "left";
+        var r = e2(e.doc, t.line);
+        var n = iN(i, r, t.line);
+        var o = eh(r, e.doc.direction), l = "left";
+        if (o) {
+            var s = eu(o, t.ch);
+            l = s % 2 ? "right" : "left";
         }
-        var i = cL(e.map, b.ch, g);
-        i.offset = i.collapse == "right" ? i.end : i.start;
-        return i;
+        var a = iP(n.map, t.ch, l);
+        a.offset = a.collapse == "right" ? a.end : a.start;
+        return a;
     }
-    function gU(a) {
-        for(var b = a; b; b = b.parentNode){
-            if (/CodeMirror-gutter-wrapper/.test(b.className)) {
+    function l4(e) {
+        for(var t = e; t; t = t.parentNode){
+            if (/CodeMirror-gutter-wrapper/.test(t.className)) {
                 return true;
             }
         }
         return false;
     }
-    function gV(a, b) {
-        if (b) {
-            a.bad = true;
+    function l6(e, t) {
+        if (t) {
+            e.bad = true;
         }
-        return a;
+        return e;
     }
-    function gW(a, b, c, d, e) {
-        var f = "", g = false, h = a.doc.lineSeparator(), i = false;
-        function j(a) {
-            return function(b) {
-                return b.id == a;
+    function l5(e, t, i, r, n) {
+        var o = "", l = false, s = e.doc.lineSeparator(), a = false;
+        function f(e) {
+            return function(t) {
+                return t.id == e;
             };
         }
-        function k() {
-            if (g) {
-                f += h;
-                if (i) {
-                    f += h;
+        function u() {
+            if (l) {
+                o += s;
+                if (a) {
+                    o += s;
                 }
-                g = i = false;
+                l = a = false;
             }
         }
-        function l(a) {
-            if (a) {
-                k();
-                f += a;
+        function c(e) {
+            if (e) {
+                u();
+                o += e;
             }
         }
-        function m(b) {
-            if (b.nodeType == 1) {
-                var c = b.getAttribute("cm-text");
-                if (c) {
-                    l(c);
+        function h(t) {
+            if (t.nodeType == 1) {
+                var i = t.getAttribute("cm-text");
+                if (i) {
+                    c(i);
                     return;
                 }
-                var f = b.getAttribute("cm-marker"), n;
-                if (f) {
-                    var o = a.findMarks(a4(d, 0), a4(e + 1, 0), j(+f));
-                    if (o.length && (n = o[0].find(0))) {
-                        l(aZ(a.doc, n.from, n.to).join(h));
+                var o = t.getAttribute("cm-marker"), d;
+                if (o) {
+                    var p = e.findMarks(e9(r, 0), e9(n + 1, 0), f(+o));
+                    if (p.length && (d = p[0].find(0))) {
+                        c(eG(e.doc, d.from, d.to).join(s));
                     }
                     return;
                 }
-                if (b.getAttribute("contenteditable") == "false") {
+                if (t.getAttribute("contenteditable") == "false") {
                     return;
                 }
-                var p = /^(pre|div|p|li|table|br)$/i.test(b.nodeName);
-                if (!/^br$/i.test(b.nodeName) && b.textContent.length == 0) {
+                var v = /^(pre|div|p|li|table|br)$/i.test(t.nodeName);
+                if (!/^br$/i.test(t.nodeName) && t.textContent.length == 0) {
                     return;
                 }
-                if (p) {
-                    k();
+                if (v) {
+                    u();
                 }
-                for(var q = 0; q < b.childNodes.length; q++){
-                    m(b.childNodes[q]);
+                for(var g = 0; g < t.childNodes.length; g++){
+                    h(t.childNodes[g]);
                 }
-                if (/^(pre|p)$/i.test(b.nodeName)) {
-                    i = true;
+                if (/^(pre|p)$/i.test(t.nodeName)) {
+                    a = true;
                 }
-                if (p) {
-                    g = true;
+                if (v) {
+                    l = true;
                 }
-            } else if (b.nodeType == 3) {
-                l(b.nodeValue.replace(/\u200b/g, "").replace(/\u00a0/g, " "));
+            } else if (t.nodeType == 3) {
+                c(t.nodeValue.replace(/\u200b/g, "").replace(/\u00a0/g, " "));
             }
         }
         for(;;){
-            m(b);
-            if (b == c) {
+            h(t);
+            if (t == i) {
                 break;
             }
-            b = b.nextSibling;
-            i = false;
+            t = t.nextSibling;
+            a = false;
         }
-        return f;
+        return o;
     }
-    function gX(a, b, c) {
-        var d;
-        if (b == a.display.lineDiv) {
-            d = a.display.lineDiv.childNodes[c];
-            if (!d) {
-                return gV(a.clipPos(a4(a.display.viewTo - 1)), true);
+    function l2(e, t, i) {
+        var r;
+        if (t == e.display.lineDiv) {
+            r = e.display.lineDiv.childNodes[i];
+            if (!r) {
+                return l6(e.clipPos(e9(e.display.viewTo - 1)), true);
             }
-            b = null;
-            c = 0;
+            t = null;
+            i = 0;
         } else {
-            for(d = b;; d = d.parentNode){
-                if (!d || d == a.display.lineDiv) {
+            for(r = t;; r = r.parentNode){
+                if (!r || r == e.display.lineDiv) {
                     return null;
                 }
-                if (d.parentNode && d.parentNode == a.display.lineDiv) {
+                if (r.parentNode && r.parentNode == e.display.lineDiv) {
                     break;
                 }
             }
         }
-        for(var e = 0; e < a.display.view.length; e++){
-            var f = a.display.view[e];
-            if (f.node == d) {
-                return gY(f, b, c);
+        for(var n = 0; n < e.display.view.length; n++){
+            var o = e.display.view[n];
+            if (o.node == r) {
+                return lG(o, t, i);
             }
         }
     }
-    function gY(a, b, c) {
-        var d = a.text.firstChild, e = false;
-        if (!b || !F(d, b)) {
-            return gV(a4(a0(a.line), 0), true);
+    function lG(e, t, i) {
+        var r = e.text.firstChild, n = false;
+        if (!t || !N(r, t)) {
+            return l6(e9(eK(e.line), 0), true);
         }
-        if (b == d) {
-            e = true;
-            b = d.childNodes[c];
-            c = 0;
-            if (!b) {
-                var f = a.rest ? X(a.rest) : a.line;
-                return gV(a4(a0(f), f.text.length), e);
+        if (t == r) {
+            n = true;
+            t = r.childNodes[i];
+            i = 0;
+            if (!t) {
+                var o = e.rest ? j(e.rest) : e.line;
+                return l6(e9(eK(o), o.text.length), n);
             }
         }
-        var g = b.nodeType == 3 ? b : null, h = b;
-        if (!g && b.childNodes.length == 1 && b.firstChild.nodeType == 3) {
-            g = b.firstChild;
-            if (c) {
-                c = g.nodeValue.length;
+        var l = t.nodeType == 3 ? t : null, s = t;
+        if (!l && t.childNodes.length == 1 && t.firstChild.nodeType == 3) {
+            l = t.firstChild;
+            if (i) {
+                i = l.nodeValue.length;
             }
         }
-        while(h.parentNode != d){
-            h = h.parentNode;
+        while(s.parentNode != r){
+            s = s.parentNode;
         }
-        var i = a.measure, j = i.maps;
-        function k(b, c, d) {
-            for(var e = -1; e < (j ? j.length : 0); e++){
-                var f = e < 0 ? i.map : j[e];
-                for(var g = 0; g < f.length; g += 3){
-                    var h = f[g + 2];
-                    if (h == b || h == c) {
-                        var k = a0(e < 0 ? a.line : a.rest[e]);
-                        var l = f[g] + d;
-                        if (d < 0 || h != b) {
-                            l = f[g + (d ? 1 : 0)];
+        var a = e.measure, f = a.maps;
+        function u(t, i, r) {
+            for(var n = -1; n < (f ? f.length : 0); n++){
+                var o = n < 0 ? a.map : f[n];
+                for(var l = 0; l < o.length; l += 3){
+                    var s = o[l + 2];
+                    if (s == t || s == i) {
+                        var u = eK(n < 0 ? e.line : e.rest[n]);
+                        var c = o[l] + r;
+                        if (r < 0 || s != t) {
+                            c = o[l + (r ? 1 : 0)];
                         }
-                        return a4(k, l);
+                        return e9(u, c);
                     }
                 }
             }
         }
-        var l = k(g, h, c);
-        if (l) {
-            return gV(l, e);
+        var c = u(l, s, i);
+        if (c) {
+            return l6(c, n);
         }
-        for(var m = h.nextSibling, n = g ? g.nodeValue.length - c : 0; m; m = m.nextSibling){
-            l = k(m, m.firstChild, 0);
-            if (l) {
-                return gV(a4(l.line, l.ch - n), e);
+        for(var h = s.nextSibling, d = l ? l.nodeValue.length - i : 0; h; h = h.nextSibling){
+            c = u(h, h.firstChild, 0);
+            if (c) {
+                return l6(e9(c.line, c.ch - d), n);
             } else {
-                n += m.textContent.length;
+                d += h.textContent.length;
             }
         }
-        for(var o = h.previousSibling, p = c; o; o = o.previousSibling){
-            l = k(o, o.firstChild, -1);
-            if (l) {
-                return gV(a4(l.line, l.ch + p), e);
+        for(var p = s.previousSibling, v = i; p; p = p.previousSibling){
+            c = u(p, p.firstChild, -1);
+            if (c) {
+                return l6(e9(c.line, c.ch + v), n);
             } else {
-                p += o.textContent.length;
+                v += p.textContent.length;
             }
         }
     }
-    var gZ = function(a) {
-        this.cm = a;
+    var lU = function(e) {
+        this.cm = e;
         this.prevInput = "";
         this.pollingFast = false;
-        this.polling = new N();
+        this.polling = new E();
         this.hasSelection = false;
         this.composing = null;
     };
-    gZ.prototype.init = function(a) {
-        var b = this;
-        var c = this, d = this.cm;
-        this.createField(a);
-        var e = this.textarea;
-        a.wrapper.insertBefore(this.wrapper, a.wrapper.firstChild);
-        if (p) {
-            e.style.width = "0px";
+    lU.prototype.init = function(e) {
+        var t = this;
+        var i = this, r = this.cm;
+        this.createField(e);
+        var n = this.textarea;
+        e.wrapper.insertBefore(this.wrapper, e.wrapper.firstChild);
+        if (v) {
+            n.style.width = "0px";
         }
-        ao(e, "input", function() {
-            if (g && h >= 9 && b.hasSelection) {
-                b.hasSelection = null;
+        ep(n, "input", function() {
+            if (l && s >= 9 && t.hasSelection) {
+                t.hasSelection = null;
             }
-            c.poll();
+            i.poll();
         });
-        ao(e, "paste", function(a) {
-            if (as(d, a) || gK(a, d)) {
+        ep(n, "paste", function(e) {
+            if (e$(r, e) || lM(e, r)) {
                 return;
             }
-            d.state.pasteIncoming = +new Date();
-            c.fastPoll();
+            r.state.pasteIncoming = +new Date();
+            i.fastPoll();
         });
-        function f(a) {
-            if (as(d, a)) {
+        function o(e) {
+            if (e$(r, e)) {
                 return;
             }
-            if (d.somethingSelected()) {
-                gI({
+            if (r.somethingSelected()) {
+                lH({
                     lineWise: false,
-                    text: d.getSelections()
+                    text: r.getSelections()
                 });
-            } else if (!d.options.lineWiseCopyCut) {
+            } else if (!r.options.lineWiseCopyCut) {
                 return;
             } else {
-                var b = gM(d);
-                gI({
+                var t = lP(r);
+                lH({
                     lineWise: true,
-                    text: b.text
+                    text: t.text
                 });
-                if (a.type == "cut") {
-                    d.setSelections(b.ranges, null, R);
+                if (e.type == "cut") {
+                    r.setSelections(t.ranges, null, G);
                 } else {
-                    c.prevInput = "";
-                    e.value = b.text.join("\n");
-                    J(e);
+                    i.prevInput = "";
+                    n.value = t.text.join("\n");
+                    F(n);
                 }
             }
-            if (a.type == "cut") {
-                d.state.cutIncoming = +new Date();
+            if (e.type == "cut") {
+                r.state.cutIncoming = +new Date();
             }
         }
-        ao(e, "cut", f);
-        ao(e, "copy", f);
-        ao(a.scroller, "paste", function(b) {
-            if (cw(a, b) || as(d, b)) {
+        ep(n, "cut", o);
+        ep(n, "copy", o);
+        ep(e.scroller, "paste", function(t) {
+            if (iC(e, t) || e$(r, t)) {
                 return;
             }
-            if (!e.dispatchEvent) {
-                d.state.pasteIncoming = +new Date();
-                c.focus();
+            if (!n.dispatchEvent) {
+                r.state.pasteIncoming = +new Date();
+                i.focus();
                 return;
             }
-            var f = new Event("paste");
-            f.clipboardData = b.clipboardData;
-            e.dispatchEvent(f);
+            var o = new Event("paste");
+            o.clipboardData = t.clipboardData;
+            n.dispatchEvent(o);
         });
-        ao(a.lineSpace, "selectstart", function(b) {
-            if (!cw(a, b)) {
-                aw(b);
+        ep(e.lineSpace, "selectstart", function(t) {
+            if (!iC(e, t)) {
+                eb(t);
             }
         });
-        ao(e, "compositionstart", function() {
-            var a = d.getCursor("from");
-            if (c.composing) {
-                c.composing.range.clear();
+        ep(n, "compositionstart", function() {
+            var e = r.getCursor("from");
+            if (i.composing) {
+                i.composing.range.clear();
             }
-            c.composing = {
-                start: a,
-                range: d.markText(a, d.getCursor("to"), {
+            i.composing = {
+                start: e,
+                range: r.markText(e, r.getCursor("to"), {
                     className: "CodeMirror-composing"
                 })
             };
         });
-        ao(e, "compositionend", function() {
-            if (c.composing) {
-                c.poll();
-                c.composing.range.clear();
-                c.composing = null;
+        ep(n, "compositionend", function() {
+            if (i.composing) {
+                i.poll();
+                i.composing.range.clear();
+                i.composing = null;
             }
         });
     };
-    gZ.prototype.createField = function(a) {
-        this.wrapper = gO();
+    lU.prototype.createField = function(e) {
+        this.wrapper = lE();
         this.textarea = this.wrapper.firstChild;
     };
-    gZ.prototype.screenReaderLabelChanged = function(a) {
-        if (a) {
-            this.textarea.setAttribute("aria-label", a);
+    lU.prototype.screenReaderLabelChanged = function(e) {
+        if (e) {
+            this.textarea.setAttribute("aria-label", e);
         } else {
             this.textarea.removeAttribute("aria-label");
         }
     };
-    gZ.prototype.prepareSelection = function() {
-        var a = this.cm, b = a.display, c = a.doc;
-        var d = dm(a);
-        if (a.options.moveInputWithCursor) {
-            var e = cY(a, c.sel.primary().head, "div");
-            var f = b.wrapper.getBoundingClientRect(), g = b.lineDiv.getBoundingClientRect();
-            d.teTop = Math.max(0, Math.min(b.wrapper.clientHeight - 10, e.top + g.top - f.top));
-            d.teLeft = Math.max(0, Math.min(b.wrapper.clientWidth - 10, e.left + g.left - f.left));
+    lU.prototype.prepareSelection = function() {
+        var e = this.cm, t = e.display, i = e.doc;
+        var r = rp(e);
+        if (e.options.moveInputWithCursor) {
+            var n = iU(e, i.sel.primary().head, "div");
+            var o = t.wrapper.getBoundingClientRect(), l = t.lineDiv.getBoundingClientRect();
+            r.teTop = Math.max(0, Math.min(t.wrapper.clientHeight - 10, n.top + l.top - o.top));
+            r.teLeft = Math.max(0, Math.min(t.wrapper.clientWidth - 10, n.left + l.left - o.left));
         }
-        return d;
+        return r;
     };
-    gZ.prototype.showSelection = function(a) {
-        var b = this.cm, c = b.display;
-        B(c.cursorDiv, a.cursors);
-        B(c.selectionDiv, a.selection);
-        if (a.teTop != null) {
-            this.wrapper.style.top = a.teTop + "px";
-            this.wrapper.style.left = a.teLeft + "px";
+    lU.prototype.showSelection = function(e) {
+        var t = this.cm, i = t.display;
+        T(i.cursorDiv, e.cursors);
+        T(i.selectionDiv, e.selection);
+        if (e.teTop != null) {
+            this.wrapper.style.top = e.teTop + "px";
+            this.wrapper.style.left = e.teLeft + "px";
         }
     };
-    gZ.prototype.reset = function(a) {
+    lU.prototype.reset = function(e) {
         if (this.contextMenuPending || this.composing) {
             return;
         }
-        var b = this.cm;
-        if (b.somethingSelected()) {
+        var t = this.cm;
+        if (t.somethingSelected()) {
             this.prevInput = "";
-            var c = b.getSelection();
-            this.textarea.value = c;
-            if (b.state.focused) {
-                J(this.textarea);
+            var i = t.getSelection();
+            this.textarea.value = i;
+            if (t.state.focused) {
+                F(this.textarea);
             }
-            if (g && h >= 9) {
-                this.hasSelection = c;
+            if (l && s >= 9) {
+                this.hasSelection = i;
             }
-        } else if (!a) {
+        } else if (!e) {
             this.prevInput = this.textarea.value = "";
-            if (g && h >= 9) {
+            if (l && s >= 9) {
                 this.hasSelection = null;
             }
         }
     };
-    gZ.prototype.getField = function() {
+    lU.prototype.getField = function() {
         return this.textarea;
     };
-    gZ.prototype.supportsTouch = function() {
+    lU.prototype.supportsTouch = function() {
         return false;
     };
-    gZ.prototype.focus = function() {
-        if (this.cm.options.readOnly != "nocursor" && (!r || G() != this.textarea)) {
+    lU.prototype.focus = function() {
+        if (this.cm.options.readOnly != "nocursor" && (!m || A() != this.textarea)) {
             try {
                 this.textarea.focus();
-            } catch (a) {}
+            } catch (e) {}
         }
     };
-    gZ.prototype.blur = function() {
+    lU.prototype.blur = function() {
         this.textarea.blur();
     };
-    gZ.prototype.resetPosition = function() {
+    lU.prototype.resetPosition = function() {
         this.wrapper.style.top = this.wrapper.style.left = 0;
     };
-    gZ.prototype.receivedFocus = function() {
+    lU.prototype.receivedFocus = function() {
         this.slowPoll();
     };
-    gZ.prototype.slowPoll = function() {
-        var a = this;
+    lU.prototype.slowPoll = function() {
+        var e = this;
         if (this.pollingFast) {
             return;
         }
         this.polling.set(this.cm.options.pollInterval, function() {
-            a.poll();
-            if (a.cm.state.focused) {
-                a.slowPoll();
+            e.poll();
+            if (e.cm.state.focused) {
+                e.slowPoll();
             }
         });
     };
-    gZ.prototype.fastPoll = function() {
-        var a = false, b = this;
-        b.pollingFast = true;
-        function c() {
-            var d = b.poll();
-            if (!d && !a) {
-                a = true;
-                b.polling.set(60, c);
+    lU.prototype.fastPoll = function() {
+        var e = false, t = this;
+        t.pollingFast = true;
+        function i() {
+            var r = t.poll();
+            if (!r && !e) {
+                e = true;
+                t.polling.set(60, i);
             } else {
-                b.pollingFast = false;
-                b.slowPoll();
+                t.pollingFast = false;
+                t.slowPoll();
             }
         }
-        b.polling.set(20, c);
+        t.polling.set(20, i);
     };
-    gZ.prototype.poll = function() {
-        var a = this;
-        var b = this.cm, c = this.textarea, d = this.prevInput;
-        if (this.contextMenuPending || !b.state.focused || (aI(c) && !d && !this.composing) || b.isReadOnly() || b.options.disableInput || b.state.keySeq) {
+    lU.prototype.poll = function() {
+        var e = this;
+        var t = this.cm, i = this.textarea, r = this.prevInput;
+        if (this.contextMenuPending || !t.state.focused || (eD(i) && !r && !this.composing) || t.isReadOnly() || t.options.disableInput || t.state.keySeq) {
             return false;
         }
-        var e = c.value;
-        if (e == d && !b.somethingSelected()) {
+        var n = i.value;
+        if (n == r && !t.somethingSelected()) {
             return false;
         }
-        if ((g && h >= 9 && this.hasSelection === e) || (s && /[\uf700-\uf7ff]/.test(e))) {
-            b.display.input.reset();
+        if ((l && s >= 9 && this.hasSelection === n) || ($ && /[\uf700-\uf7ff]/.test(n))) {
+            t.display.input.reset();
             return false;
         }
-        if (b.doc.sel == b.display.selForContextMenu) {
-            var f = e.charCodeAt(0);
-            if (f == 0x200b && !d) {
-                d = "\u200b";
+        if (t.doc.sel == t.display.selForContextMenu) {
+            var o = n.charCodeAt(0);
+            if (o == 0x200b && !r) {
+                r = "\u200b";
             }
-            if (f == 0x21da) {
+            if (o == 0x21da) {
                 this.reset();
                 return this.cm.execCommand("undo");
             }
         }
-        var i = 0, j = Math.min(d.length, e.length);
-        while(i < j && d.charCodeAt(i) == e.charCodeAt(i)){
-            ++i;
+        var a = 0, f = Math.min(r.length, n.length);
+        while(a < f && r.charCodeAt(a) == n.charCodeAt(a)){
+            ++a;
         }
-        d0(b, function() {
-            gJ(b, e.slice(i), d.length - i, null, a.composing ? "*compose" : null);
-            if (e.length > 1000 || e.indexOf("\n") > -1) {
-                c.value = a.prevInput = "";
+        rX(t, function() {
+            lF(t, n.slice(a), r.length - a, null, e.composing ? "*compose" : null);
+            if (n.length > 1000 || n.indexOf("\n") > -1) {
+                i.value = e.prevInput = "";
             } else {
-                a.prevInput = e;
+                e.prevInput = n;
             }
-            if (a.composing) {
-                a.composing.range.clear();
-                a.composing.range = b.markText(a.composing.start, b.getCursor("to"), {
+            if (e.composing) {
+                e.composing.range.clear();
+                e.composing.range = t.markText(e.composing.start, t.getCursor("to"), {
                     className: "CodeMirror-composing"
                 });
             }
         });
         return true;
     };
-    gZ.prototype.ensurePolled = function() {
+    lU.prototype.ensurePolled = function() {
         if (this.pollingFast && this.poll()) {
             this.pollingFast = false;
         }
     };
-    gZ.prototype.onKeyPress = function() {
-        if (g && h >= 9) {
+    lU.prototype.onKeyPress = function() {
+        if (l && s >= 9) {
             this.hasSelection = null;
         }
         this.fastPoll();
     };
-    gZ.prototype.onContextMenu = function(a) {
-        var b = this, c = b.cm, d = c.display, e = b.textarea;
-        if (b.contextMenuPending) {
-            b.contextMenuPending();
+    lU.prototype.onContextMenu = function(e) {
+        var t = this, i = t.cm, r = i.display, n = t.textarea;
+        if (t.contextMenuPending) {
+            t.contextMenuPending();
         }
-        var f = dd(c, a), j = d.scroller.scrollTop;
-        if (!f || l) {
+        var o = ro(i, e), f = r.scroller.scrollTop;
+        if (!o || c) {
             return;
         }
-        var k = c.options.resetSelectionOnContextMenu;
-        if (k && c.doc.sel.contains(f) == -1) {
-            d1(c, e0)(c.doc, eu(f), R);
+        var u = i.options.resetSelectionOnContextMenu;
+        if (u && i.doc.sel.contains(o) == -1) {
+            rY(i, nX)(i.doc, nw(o), G);
         }
-        var m = e.style.cssText, n = b.wrapper.style.cssText;
-        var o = b.wrapper.offsetParent.getBoundingClientRect();
-        b.wrapper.style.cssText = "position: static";
-        e.style.cssText = "position: absolute; width: 30px; height: 30px;\n      top: " + (a.clientY - o.top - 5) + "px; left: " + (a.clientX - o.left - 5) + "px;\n      z-index: 1000; background: " + (g ? "rgba(255, 255, 255, .05)" : "transparent") + ";\n      outline: none; border-width: 0; outline: none; overflow: hidden; opacity: .05; filter: alpha(opacity=5);";
-        var p;
-        if (i) {
-            p = window.scrollY;
+        var h = n.style.cssText, d = t.wrapper.style.cssText;
+        var p = t.wrapper.offsetParent.getBoundingClientRect();
+        t.wrapper.style.cssText = "position: static";
+        n.style.cssText = "position: absolute; width: 30px; height: 30px;\n      top: " + (e.clientY - p.top - 5) + "px; left: " + (e.clientX - p.left - 5) + "px;\n      z-index: 1000; background: " + (l ? "rgba(255, 255, 255, .05)" : "transparent") + ";\n      outline: none; border-width: 0; outline: none; overflow: hidden; opacity: .05; filter: alpha(opacity=5);";
+        var v;
+        if (a) {
+            v = window.scrollY;
         }
-        d.input.focus();
-        if (i) {
-            window.scrollTo(null, p);
+        r.input.focus();
+        if (a) {
+            window.scrollTo(null, v);
         }
-        d.input.reset();
-        if (!c.somethingSelected()) {
-            e.value = b.prevInput = " ";
+        r.input.reset();
+        if (!i.somethingSelected()) {
+            n.value = t.prevInput = " ";
         }
-        b.contextMenuPending = r;
-        d.selForContextMenu = c.doc.sel;
-        clearTimeout(d.detectingSelectAll);
-        function q() {
-            if (e.selectionStart != null) {
-                var a = c.somethingSelected();
-                var f = "\u200b" + (a ? e.value : "");
-                e.value = "\u21da";
-                e.value = f;
-                b.prevInput = a ? "" : "\u200b";
-                e.selectionStart = 1;
-                e.selectionEnd = f.length;
-                d.selForContextMenu = c.doc.sel;
+        t.contextMenuPending = m;
+        r.selForContextMenu = i.doc.sel;
+        clearTimeout(r.detectingSelectAll);
+        function g() {
+            if (n.selectionStart != null) {
+                var e = i.somethingSelected();
+                var o = "\u200b" + (e ? n.value : "");
+                n.value = "\u21da";
+                n.value = o;
+                t.prevInput = e ? "" : "\u200b";
+                n.selectionStart = 1;
+                n.selectionEnd = o.length;
+                r.selForContextMenu = i.doc.sel;
             }
         }
-        function r() {
-            if (b.contextMenuPending != r) {
+        function m() {
+            if (t.contextMenuPending != m) {
                 return;
             }
-            b.contextMenuPending = false;
-            b.wrapper.style.cssText = n;
-            e.style.cssText = m;
-            if (g && h < 9) {
-                d.scrollbars.setScrollTop((d.scroller.scrollTop = j));
+            t.contextMenuPending = false;
+            t.wrapper.style.cssText = d;
+            n.style.cssText = h;
+            if (l && s < 9) {
+                r.scrollbars.setScrollTop((r.scroller.scrollTop = f));
             }
-            if (e.selectionStart != null) {
-                if (!g || (g && h < 9)) {
-                    q();
+            if (n.selectionStart != null) {
+                if (!l || (l && s < 9)) {
+                    g();
                 }
-                var a = 0, f = function() {
-                    if (d.selForContextMenu == c.doc.sel && e.selectionStart == 0 && e.selectionEnd > 0 && b.prevInput == "\u200b") {
-                        d1(c, e8)(c);
-                    } else if (a++ < 10) {
-                        d.detectingSelectAll = setTimeout(f, 500);
+                var e = 0, o = function() {
+                    if (r.selForContextMenu == i.doc.sel && n.selectionStart == 0 && n.selectionEnd > 0 && t.prevInput == "\u200b") {
+                        rY(i, nQ)(i);
+                    } else if (e++ < 10) {
+                        r.detectingSelectAll = setTimeout(o, 500);
                     } else {
-                        d.selForContextMenu = null;
-                        d.input.reset();
+                        r.selForContextMenu = null;
+                        r.input.reset();
                     }
                 };
-                d.detectingSelectAll = setTimeout(f, 200);
+                r.detectingSelectAll = setTimeout(o, 200);
             }
         }
-        if (g && h >= 9) {
-            q();
+        if (l && s >= 9) {
+            g();
         }
         if (x) {
-            az(a);
-            var s = function() {
-                aq(window, "mouseup", s);
-                setTimeout(r, 20);
+            eS(e);
+            var $ = function() {
+                eg(window, "mouseup", $);
+                setTimeout(m, 20);
             };
-            ao(window, "mouseup", s);
+            ep(window, "mouseup", $);
         } else {
-            setTimeout(r, 50);
+            setTimeout(m, 50);
         }
     };
-    gZ.prototype.readOnlyChanged = function(a) {
-        if (!a) {
+    lU.prototype.readOnlyChanged = function(e) {
+        if (!e) {
             this.reset();
         }
-        this.textarea.disabled = a == "nocursor";
-        this.textarea.readOnly = !!a;
+        this.textarea.disabled = e == "nocursor";
+        this.textarea.readOnly = !!e;
     };
-    gZ.prototype.setUneditable = function() {};
-    gZ.prototype.needsContentAttribute = false;
-    function g$(a, b) {
-        b = b ? L(b) : {};
-        b.value = a.value;
-        if (!b.tabindex && a.tabIndex) {
-            b.tabindex = a.tabIndex;
+    lU.prototype.setUneditable = function() {};
+    lU.prototype.needsContentAttribute = false;
+    function lV(e, t) {
+        t = t ? P(t) : {};
+        t.value = e.value;
+        if (!t.tabindex && e.tabIndex) {
+            t.tabindex = e.tabIndex;
         }
-        if (!b.placeholder && a.placeholder) {
-            b.placeholder = a.placeholder;
+        if (!t.placeholder && e.placeholder) {
+            t.placeholder = e.placeholder;
         }
-        if (b.autofocus == null) {
-            var c = G();
-            b.autofocus = c == a || (a.getAttribute("autofocus") != null && c == document.body);
+        if (t.autofocus == null) {
+            var i = A();
+            t.autofocus = i == e || (e.getAttribute("autofocus") != null && i == document.body);
         }
-        function d() {
-            a.value = i.getValue();
+        function r() {
+            e.value = a.getValue();
         }
-        var e;
-        if (a.form) {
-            ao(a.form, "submit", d);
-            if (!b.leaveSubmitMethodAlone) {
-                var f = a.form;
-                e = f.submit;
+        var n;
+        if (e.form) {
+            ep(e.form, "submit", r);
+            if (!t.leaveSubmitMethodAlone) {
+                var o = e.form;
+                n = o.submit;
                 try {
-                    var g = (f.submit = function() {
-                        d();
-                        f.submit = e;
-                        f.submit();
-                        f.submit = g;
+                    var l = (o.submit = function() {
+                        r();
+                        o.submit = n;
+                        o.submit();
+                        o.submit = l;
                     });
-                } catch (h) {}
+                } catch (s) {}
             }
         }
-        b.finishInit = function(c) {
-            c.save = d;
-            c.getTextArea = function() {
-                return a;
+        t.finishInit = function(i) {
+            i.save = r;
+            i.getTextArea = function() {
+                return e;
             };
-            c.toTextArea = function() {
-                c.toTextArea = isNaN;
-                d();
-                a.parentNode.removeChild(c.getWrapperElement());
-                a.style.display = "";
-                if (a.form) {
-                    aq(a.form, "submit", d);
-                    if (!b.leaveSubmitMethodAlone && typeof a.form.submit == "function") {
-                        a.form.submit = e;
+            i.toTextArea = function() {
+                i.toTextArea = isNaN;
+                r();
+                e.parentNode.removeChild(i.getWrapperElement());
+                e.style.display = "";
+                if (e.form) {
+                    eg(e.form, "submit", r);
+                    if (!t.leaveSubmitMethodAlone && typeof e.form.submit == "function") {
+                        e.form.submit = n;
                     }
                 }
             };
         };
-        a.style.display = "none";
-        var i = gD(function(b) {
-            return a.parentNode.insertBefore(b, a.nextSibling);
-        }, b);
-        return i;
+        e.style.display = "none";
+        var a = l0(function(t) {
+            return e.parentNode.insertBefore(t, e.nextSibling);
+        }, t);
+        return a;
     }
-    function g_(a) {
-        a.off = aq;
-        a.on = ao;
-        a.wheelEventPixels = ep;
-        a.Doc = fz;
-        a.splitLines = aH;
-        a.countColumn = M;
-        a.findColumn = U;
-        a.isWordChar = ab;
-        a.Pass = Q;
-        a.signal = ar;
-        a.Line = bZ;
-        a.changeEnd = ev;
-        a.scrollbarModel = dR;
-        a.Pos = a4;
-        a.cmpPos = a5;
-        a.modes = aM;
-        a.mimeModes = aN;
-        a.resolveMode = aQ;
-        a.getMode = aR;
-        a.modeExtensions = aS;
-        a.extendMode = aT;
-        a.copyState = aU;
-        a.startState = aW;
-        a.innerMode = aV;
-        a.commands = f_;
-        a.keyMap = fO;
-        a.keyName = fU;
-        a.isModifierKey = fS;
-        a.lookupKey = fR;
-        a.normalizeKeyMap = fQ;
-        a.StringStream = aX;
-        a.SharedTextMarker = ft;
-        a.TextMarker = fr;
-        a.LineWidget = fn;
-        a.e_preventDefault = aw;
-        a.e_stopPropagation = ax;
-        a.e_stop = az;
-        a.addClass = H;
-        a.contains = F;
-        a.rmClass = z;
-        a.keyNames = fK;
+    function lK(e) {
+        e.off = eg;
+        e.on = ep;
+        e.wheelEventPixels = ng;
+        e.Doc = ok;
+        e.splitLines = eA;
+        e.countColumn = z;
+        e.findColumn = K;
+        e.isWordChar = et;
+        e.Pass = B;
+        e.signal = em;
+        e.Line = tG;
+        e.changeEnd = nb;
+        e.scrollbarModel = r3;
+        e.Pos = e9;
+        e.cmpPos = eq;
+        e.modes = e1;
+        e.mimeModes = eP;
+        e.resolveMode = eI;
+        e.getMode = eR;
+        e.modeExtensions = e3;
+        e.extendMode = e7;
+        e.copyState = eB;
+        e.startState = e6;
+        e.innerMode = e4;
+        e.commands = oK;
+        e.keyMap = oE;
+        e.keyName = o4;
+        e.isModifierKey = o7;
+        e.lookupKey = o3;
+        e.normalizeKeyMap = oR;
+        e.StringStream = e5;
+        e.SharedTextMarker = o_;
+        e.TextMarker = o$;
+        e.LineWidget = op;
+        e.e_preventDefault = eb;
+        e.e_stopPropagation = ex;
+        e.e_stop = eS;
+        e.addClass = D;
+        e.contains = N;
+        e.rmClass = S;
+        e.keyNames = oM;
     }
-    gA(gD);
-    gP(gD);
-    var g0 = "iter insert remove copy getEditor constructor".split(" ");
-    for(var g1 in fz.prototype){
-        if (fz.prototype.hasOwnProperty(g1) && O(g0, g1) < 0) {
-            gD.prototype[g1] = (function(a) {
+    lT(l0);
+    lI(l0);
+    var lX = "iter insert remove copy getEditor constructor".split(" ");
+    for(var lY in ok.prototype){
+        if (ok.prototype.hasOwnProperty(lY) && I(lX, lY) < 0) {
+            l0.prototype[lY] = (function(e) {
                 return function() {
-                    return a.apply(this.doc, arguments);
+                    return e.apply(this.doc, arguments);
                 };
-            })(fz.prototype[g1]);
+            })(ok.prototype[lY]);
         }
     }
-    av(fz);
-    gD.inputStyles = {
-        textarea: gZ,
-        contenteditable: gS
+    ew(ok);
+    l0.inputStyles = {
+        textarea: lU,
+        contenteditable: l7
     };
-    gD.defineMode = function(a) {
-        if (!gD.defaults.mode && a != "null") {
-            gD.defaults.mode = a;
+    l0.defineMode = function(e) {
+        if (!l0.defaults.mode && e != "null") {
+            l0.defaults.mode = e;
         }
-        aO.apply(this, arguments);
+        ez.apply(this, arguments);
     };
-    gD.defineMIME = aP;
-    gD.defineMode("null", function() {
+    l0.defineMIME = eE;
+    l0.defineMode("null", function() {
         return {
-            token: function(a) {
-                return a.skipToEnd();
+            token: function(e) {
+                return e.skipToEnd();
             }
         };
     });
-    gD.defineMIME("text/plain", "null");
-    gD.defineExtension = function(a, b) {
-        gD.prototype[a] = b;
+    l0.defineMIME("text/plain", "null");
+    l0.defineExtension = function(e, t) {
+        l0.prototype[e] = t;
     };
-    gD.defineDocExtension = function(a, b) {
-        fz.prototype[a] = b;
+    l0.defineDocExtension = function(e, t) {
+        ok.prototype[e] = t;
     };
-    gD.fromTextArea = g$;
-    g_(gD);
-    gD.version = "5.65.1";
-    return gD;
+    l0.fromTextArea = lV;
+    lK(l0);
+    l0.version = "5.65.1";
+    return l0;
 });

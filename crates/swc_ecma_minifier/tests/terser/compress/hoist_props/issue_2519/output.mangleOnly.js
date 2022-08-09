@@ -3,10 +3,10 @@ function a() {
         minX: 5,
         maxX: 6
     };
-    var b = 1;
-    var c = {
+    var n = 1;
+    var r = {
         x: (a.maxX + a.minX) / 2
     };
-    return c.x * b;
+    return r.x * n;
 }
 console.log(a());

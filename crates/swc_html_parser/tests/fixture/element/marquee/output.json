@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -188,7 +191,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "direction",
-                  "value": "up"
+                  "rawName": "direction",
+                  "value": "up",
+                  "rawValue": "\"up\""
                 }
               ],
               "children": [
@@ -236,7 +241,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "direction",
-                  "value": "down"
+                  "rawName": "direction",
+                  "value": "down",
+                  "rawValue": "\"down\""
                 },
                 {
                   "type": "Attribute",
@@ -248,7 +255,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "250"
+                  "rawName": "width",
+                  "value": "250",
+                  "rawValue": "\"250\""
                 },
                 {
                   "type": "Attribute",
@@ -260,7 +269,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "200"
+                  "rawName": "height",
+                  "value": "200",
+                  "rawValue": "\"200\""
                 },
                 {
                   "type": "Attribute",
@@ -272,7 +283,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "behavior",
-                  "value": "alternate"
+                  "rawName": "behavior",
+                  "value": "alternate",
+                  "rawValue": "\"alternate\""
                 },
                 {
                   "type": "Attribute",
@@ -284,7 +297,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "style",
-                  "value": "border:solid"
+                  "rawName": "style",
+                  "value": "border:solid",
+                  "rawValue": "\"border:solid\""
                 }
               ],
               "children": [
@@ -318,7 +333,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "behavior",
-                      "value": "alternate"
+                      "rawName": "behavior",
+                      "value": "alternate",
+                      "rawValue": "\"alternate\""
                     }
                   ],
                   "children": [

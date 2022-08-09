@@ -1,4 +1,3 @@
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // ElementList:  ( Modified )
 //      Elisionopt   AssignmentExpression
 //      Elisionopt   SpreadElement
@@ -6,6 +5,7 @@ import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 //      ElementList, Elisionopt   SpreadElement
 // SpreadElement:
 //      ...   AssignmentExpression
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 var a0 = [
     ,
     ,

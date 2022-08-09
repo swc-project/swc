@@ -1,3 +1,3 @@
-var a = [];
-a.push("PASS");
-for(var b in a)console.log(a[b]);
+var r = [];
+r.push("PASS");
+for(var a in r)console.log(r[a]);

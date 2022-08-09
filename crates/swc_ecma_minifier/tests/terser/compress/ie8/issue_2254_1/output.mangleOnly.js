@@ -1,11 +1,11 @@
 "eeeeee";
 try {
-    console.log(b("PASS"));
-} catch (a) {}
-function b(a) {
+    console.log(c("PASS"));
+} catch (t) {}
+function c(t) {
     try {
         throw "FAIL";
-    } catch (b) {
-        return a;
+    } catch (c) {
+        return t;
     }
 }

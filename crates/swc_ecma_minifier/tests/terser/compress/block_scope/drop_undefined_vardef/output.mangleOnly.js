@@ -1,2 +1,2 @@
-let a = undefined;
-const b = undefined;
+let t = undefined;
+const c = undefined;

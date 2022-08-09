@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -63,7 +64,9 @@
               "namespace": null,
               "prefix": null,
               "name": "789",
-              "value": "012"
+              "rawName": "789",
+              "value": "012",
+              "rawValue": "012"
             }
           ],
           "children": [],

@@ -1,13 +1,13 @@
+// @strict: true
+// @target: esnext, es2022
+// @lib: esnext, es2022
+// @useDefineForClassFields: false
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
 import _class_static_private_field_update from "@swc/helpers/src/_class_static_private_field_update.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
-// @strict: true
-// @target: esnext, es2022
-// @lib: esnext, es2022
-// @useDefineForClassFields: false
 class A {
     constructor(){
         _class_static_private_method_get(A, A, foo).call(A, 30);

@@ -1,12 +1,11 @@
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-use swc_common::plugin::{
+use swc_common::plugin::serialized::{
     deserialize_from_ptr, deserialize_from_ptr_into_fallible, PluginSerializedBytes,
     VersionedSerializable,
 };
 
 /// A struct to exchange allocated data between memory spaces.
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)]
-#[archive_attr(repr(C), derive(bytecheck::CheckBytes))]
 pub struct AllocatedBytesPtr(pub i32, pub i32);
 
 /// Performs an interop while calling host fn to get non-determined size return

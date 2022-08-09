@@ -1,14 +1,14 @@
 export const obj = {
     preventDefault: function() {
-        var a = this.originalEvent;
+        var e = this.originalEvent;
         this.isDefaultPrevented = returnTrue;
-        if (!a) {
+        if (!e) {
             return;
         }
-        if (a.preventDefault) {
-            a.preventDefault();
+        if (e.preventDefault) {
+            e.preventDefault();
         } else {
-            a.returnValue = false;
+            e.returnValue = false;
         }
     }
 };

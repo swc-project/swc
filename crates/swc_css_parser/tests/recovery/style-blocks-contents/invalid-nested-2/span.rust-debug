@@ -174,10 +174,10 @@
    : ^^^^^^^
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
  3 | & test;
-   : ^^^^^^^
+   : ^
    `----
 
   x Delim { value: '&' }
@@ -186,16 +186,34 @@
    : ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :  ^
+   `----
+
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
  3 | & test;
    :  ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :   ^^^^
+   `----
+
   x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
  3 | & test;
    :   ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :       ^
    `----
 
   x Semi

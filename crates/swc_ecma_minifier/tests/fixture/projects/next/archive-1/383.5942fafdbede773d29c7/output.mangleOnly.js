@@ -4,75 +4,75 @@
         383
     ],
     {
-        6086: function(a, b, c) {
-            c.d(b, {
+        6086: function(n, r, t) {
+            t.d(r, {
                 Z: function() {
-                    return e;
+                    return u;
                 }
             });
-            function d(a, b, c, d, e, f, g) {
+            function e(n, r, t, e, u, c, a) {
                 try {
-                    var h = a[f](g);
-                    var i = h.value;
-                } catch (j) {
-                    c(j);
+                    var i = n[c](a);
+                    var s = i.value;
+                } catch (f) {
+                    t(f);
                     return;
                 }
-                if (h.done) {
-                    b(i);
+                if (i.done) {
+                    r(s);
                 } else {
-                    Promise.resolve(i).then(d, e);
+                    Promise.resolve(s).then(e, u);
                 }
             }
-            function e(a) {
+            function u(n) {
                 return function() {
-                    var b = this, c = arguments;
-                    return new Promise(function(e, f) {
-                        var g = a.apply(b, c);
-                        function h(a) {
-                            d(g, e, f, h, i, "next", a);
+                    var r = this, t = arguments;
+                    return new Promise(function(u, c) {
+                        var a = n.apply(r, t);
+                        function i(n) {
+                            e(a, u, c, i, s, "next", n);
                         }
-                        function i(a) {
-                            d(g, e, f, h, i, "throw", a);
+                        function s(n) {
+                            e(a, u, c, i, s, "throw", n);
                         }
-                        h(undefined);
+                        i(undefined);
                     });
                 };
             }
         },
-        1383: function(a, b, c) {
-            c.r(b);
-            var d = c(4512);
-            var e = c(7945);
-            var f = c.n(e);
-            var g = c(6086);
-            var h = c(4652);
-            var i = (0, h.default)((0, g.Z)(f().mark(function a() {
-                return f().wrap(function a(b) {
+        1383: function(n, r, t) {
+            t.r(r);
+            var e = t(4512);
+            var u = t(7945);
+            var c = t.n(u);
+            var a = t(6086);
+            var i = t(4652);
+            var s = (0, i.default)((0, a.Z)(c().mark(function n() {
+                return c().wrap(function n(r) {
                     while(1){
-                        switch((b.prev = b.next)){
+                        switch((r.prev = r.next)){
                             case 0:
-                                return b.abrupt("return", function() {
-                                    return (0, d.jsx)("div", {
+                                return r.abrupt("return", function() {
+                                    return (0, e.jsx)("div", {
                                         children: "Browser hydrated"
                                     });
                                 });
                             case 1:
                             case "end":
-                                return b.stop();
+                                return r.stop();
                         }
                     }
-                }, a);
+                }, n);
             })), {
                 ssr: false
             });
-            b["default"] = function() {
-                return (0, d.jsxs)("div", {
+            r["default"] = function() {
+                return (0, e.jsxs)("div", {
                     children: [
-                        (0, d.jsx)("div", {
+                        (0, e.jsx)("div", {
                             children: "Nested 2"
                         }),
-                        (0, d.jsx)(i, {}), 
+                        (0, e.jsx)(s, {}), 
                     ]
                 });
             };

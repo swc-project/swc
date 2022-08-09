@@ -1,4 +1,4 @@
-console.log((function(a) {
+console.log((function(n) {
     arguments[0] = 2;
-    return a;
+    return n;
 })(1));

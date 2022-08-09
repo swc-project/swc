@@ -1,4 +1,4 @@
-var a = {
+var r = {
     foo: function() {
         return Bar.bar();
     }

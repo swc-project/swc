@@ -1,9 +1,9 @@
-function a() {
-    return a;
-    var a;
+function n() {
+    return n;
+    var n;
 }
-function b() {
-    return a;
-    var a = 1;
+function r() {
+    return n;
+    var n = 1;
 }
-console.log(a(), b());
+console.log(n(), r());

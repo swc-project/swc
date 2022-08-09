@@ -1,5 +1,3 @@
-// @Filename: use.js
-import * as s from './mod';
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -13,6 +11,8 @@ module.exports.Classic = class {
         this.p = 1;
     }
 };
+// @Filename: use.js
+import * as s from './mod';
 var k = new s.n.K();
 k.x;
 var classic = new s.Classic();

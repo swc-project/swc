@@ -698,8 +698,6 @@ where
         self.changed = true;
         report_change!("inline: Inlining an iife");
 
-        let mut exprs = vec![];
-
         // We remap variables.
         let mut remap = HashMap::default();
         let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
@@ -738,48 +736,59 @@ where
         }
         body.visit_mut_with(&mut Remapper { vars: remap });
 
-        {
-            let vars = params
-                .iter()
-                .cloned()
-                .map(BindingIdent::from)
-                .map(Pat::Ident)
-                .map(|name| VarDeclarator {
-                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                    name,
-                    init: Default::default(),
-                    definite: Default::default(),
-                })
-                .collect::<Vec<_>>();
+        // TODO: temporary workaround as swc currently cannot inline
+        // let a; a = 1; console.log(a)
+        let mut vars = Vec::new();
+        let mut exprs = Vec::new();
+        let param_len = params.len();
 
-            if !vars.is_empty() {
-                trace_op!("iife: Creating variables: {:?}", vars);
-
-                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: vars,
-                })));
-            }
-        }
-
-        for (idx, param) in params.iter().enumerate() {
+        for (idx, param) in params.into_iter().enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
-            if let Some(arg) = arg {
-                exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                    op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
-                    right: arg,
-                })));
-            }
+            let init = if let Some(arg) = arg {
+                let (expr, init) = if !arg.is_lit() {
+                    (
+                        Expr::Assign(AssignExpr {
+                            span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                            op: op!("="),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
+                            right: arg,
+                        }),
+                        None,
+                    )
+                } else {
+                    (Expr::Ident(param.clone()), Some(arg))
+                };
+
+                exprs.push(expr.into());
+
+                init
+            } else {
+                None
+            };
+
+            vars.push(VarDeclarator {
+                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                name: Pat::Ident(param.into()),
+                init,
+                definite: Default::default(),
+            });
         }
 
-        if args.len() > params.len() {
-            for arg in &mut args[params.len()..] {
+        if args.len() > param_len {
+            for arg in &mut args[param_len..] {
                 exprs.push(arg.expr.take());
             }
+        }
+
+        if !vars.is_empty() {
+            trace_op!("iife: Creating variables: {:?}", vars);
+
+            self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                kind: VarDeclKind::Var,
+                declare: Default::default(),
+                decls: vars,
+            })));
         }
 
         for mut stmt in body.stmts.take() {

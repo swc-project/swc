@@ -1,4 +1,4 @@
-const a = (a)=>+a;
-const b = a("42.0");
-const c = a("abc");
-console.log(b, c);
+const o = (o)=>+o;
+const c = o("42.0");
+const n = o("abc");
+console.log(c, n);

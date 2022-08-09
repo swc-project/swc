@@ -1,5 +1,5 @@
 var a = 1;
-var b = {
+var r = {
     get "a-b" () {
         return a;
     },
@@ -7,4 +7,4 @@ var b = {
         a = c;
     }
 };
-console.log(b["a-b"], (b["a-b"] = 2), b["a-b"]);
+console.log(r["a-b"], (r["a-b"] = 2), r["a-b"]);

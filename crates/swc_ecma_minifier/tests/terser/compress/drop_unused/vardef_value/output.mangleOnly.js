@@ -1,7 +1,7 @@
-function a() {
-    function a() {
+function n() {
+    function n() {
         return x();
     }
-    var b = a();
-    return b(42);
+    var r = n();
+    return r(42);
 }

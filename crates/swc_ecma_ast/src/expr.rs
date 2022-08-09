@@ -6,7 +6,7 @@ use serde::{
     Deserialize, Deserializer, Serialize,
 };
 use string_enum::StringEnum;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
@@ -819,10 +819,6 @@ pub struct MetaPropExpr {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
-)]
 pub enum MetaPropKind {
     /// `new.target`
     NewTarget,
@@ -899,12 +895,9 @@ pub struct TplElement {
     ///
     /// If you are going to use codegen right after creating a [TplElement], you
     /// don't have to worry about this value.
+    pub cooked: Option<Atom>,
 
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub cooked: Option<JsWord>,
-
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub raw: JsWord,
+    pub raw: Atom,
 }
 
 impl Take for TplElement {
@@ -913,7 +906,7 @@ impl Take for TplElement {
             span: DUMMY_SP,
             tail: Default::default(),
             cooked: None,
-            raw: "".into(),
+            raw: Default::default(),
         }
     }
 }
@@ -1006,7 +999,6 @@ impl Take for Import {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(

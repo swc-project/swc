@@ -1,13 +1,13 @@
-function a(b, c, f) {
-    var g = b();
-    var h = c();
-    var i = f;
-    switch(g){
+function a(c, r, s) {
+    var t = c();
+    var v = r();
+    var f = s;
+    switch(t){
         default:
             d();
-        case h:
+        case v:
             e();
-        case i:
+        case f:
             a();
     }
 }

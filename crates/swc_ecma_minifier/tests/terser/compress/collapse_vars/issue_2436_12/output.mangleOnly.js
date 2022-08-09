@@ -1,6 +1,6 @@
-function a() {}
-function b() {
-    var b = this.$$lastCommittedViewValue;
-    var c = b;
-    return a(c) ? c : null;
+function t() {}
+function n() {
+    var n = this.$$lastCommittedViewValue;
+    var i = n;
+    return t(i) ? i : null;
 }

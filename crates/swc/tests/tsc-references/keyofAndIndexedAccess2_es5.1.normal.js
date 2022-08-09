@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @strict: true
 // @target: esnext
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function f1(obj, k0, k1, k2) {
     obj[k0] = 1;
     obj[k0] = 2;
@@ -104,13 +104,13 @@ var actions = [
 ];
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    var _loop = function(_iterator, _step) {
+    var _loop = function() {
         var action = _step.value;
         window[action] = function(x, y) {
             window[action](x, y);
         };
     };
-    for(var _iterator = actions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true)_loop(_iterator, _step);
+    for(var _iterator = actions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true)_loop();
 } catch (err) {
     _didIteratorError = true;
     _iteratorError = err;

@@ -1,5 +1,3 @@
-// @Filename: b.js
-import MC from './a';
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -9,5 +7,7 @@ export default function MyClass() {};
 MyClass.bar = class C {
 };
 MyClass.bar;
+// @Filename: b.js
+import MC from './a';
 MC.bar;
 /** @type {MC.bar} */ var x;

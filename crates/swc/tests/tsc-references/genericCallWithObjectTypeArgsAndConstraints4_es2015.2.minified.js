@@ -1,8 +1,5 @@
-var c, d;
-function foo(t, t2) {
-    return (x)=>t2;
-}
-foo(c, d), foo(d, c), foo(c, {
+var t2, t21, c, t22, t23, t24;
+t21 = void 0, t22 = c, t23 = {
     x: '',
     foo: c
-}), foo(null, null), foo({}, null), foo(null, {}), foo({}, {}), foo(()=>{}, ()=>{}), foo(()=>{}, ()=>1);
+}, t24 = {}, t2 = {}, (x)=>t2;

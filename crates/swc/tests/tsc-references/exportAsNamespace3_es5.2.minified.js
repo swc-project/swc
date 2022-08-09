@@ -1,11 +1,12 @@
-import * as _ns from "./0";
-import * as foo from "./1";
 export var a = 1;
 export var b = 2;
+import * as _ns from "./0";
 ns.a, ns.b;
 var ns = {
     a: 1,
     b: 2
 };
-ns.a, ns.b, foo.ns.a, foo.ns.b;
+ns.a, ns.b;
 export { _ns as ns };
+import * as foo from "./1";
+foo.ns.a, foo.ns.b;

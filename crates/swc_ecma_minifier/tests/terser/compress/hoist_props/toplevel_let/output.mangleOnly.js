@@ -1,5 +1,5 @@
-let a = {
+let b = {
     b: 1,
     c: 2
 };
-console.log(a.b + a.c);
+console.log(b.b + b.c);

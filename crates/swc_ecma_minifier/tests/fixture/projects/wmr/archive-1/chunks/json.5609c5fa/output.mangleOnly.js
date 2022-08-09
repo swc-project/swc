@@ -1,13 +1,13 @@
-import { a as a, y as b, m as c } from "../index.f66dda46.js";
-const d = {
+import { a as t, y as n, m as i } from "../index.f66dda46.js";
+const o = {
     foo: 42,
     bar: "bar"
 };
-function e() {
-    const [e, f] = a(null);
-    b(()=>{
-        fetch("./pages/foo.json").then((a)=>a.json()).then((a)=>f(a));
+function r() {
+    const [r, p] = t(null);
+    n(()=>{
+        fetch("./pages/foo.json").then((t)=>t.json()).then((t)=>p(t));
     }, []);
-    return c`<div><p>import: ${JSON.stringify(d)}</p><p>fetch: ${JSON.stringify(e)}</p></div>`;
+    return i`<div><p>import: ${JSON.stringify(o)}</p><p>fetch: ${JSON.stringify(r)}</p></div>`;
 }
-export { e as JSONView };
+export { r as JSONView };

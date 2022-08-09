@@ -1,4 +1,4 @@
-use swc_common::plugin::{PluginSerializedBytes, VersionedSerializable};
+use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_plugin_proxy::AllocatedBytesPtr;
 use wasmer::{Array, Memory, NativeFunc, WasmPtr};
 

@@ -36,7 +36,7 @@
           "type": "Element",
           "span": {
             "start": 1,
-            "end": 17,
+            "end": 43,
             "ctxt": 0
           },
           "tagName": "body",
@@ -52,7 +52,9 @@
               "namespace": null,
               "prefix": null,
               "name": "foo",
-              "value": "bar"
+              "rawName": "foo",
+              "value": "bar",
+              "rawValue": "'bar'"
             },
             {
               "type": "Attribute",
@@ -64,7 +66,9 @@
               "namespace": null,
               "prefix": null,
               "name": "yo",
-              "value": "mama"
+              "rawName": "yo",
+              "value": "mama",
+              "rawValue": "'mama'"
             }
           ],
           "children": [],

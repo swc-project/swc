@@ -1,5 +1,5 @@
-function a(a, b, c) {
-    return a < b ? a * b + c : a * c - b;
+function r(r, n, o) {
+    return r < n ? r * n + o : r * o - n;
 }
-for(var b = 0, c = 0; c < 10; c++)b += a(c, c + 1, 3 * c);
-console.log(b);
+for(var n = 0, o = 0; o < 10; o++)n += r(o, o + 1, 3 * o);
+console.log(n);

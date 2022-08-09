@@ -1,3 +1,4 @@
+// @strict: true
 if (q.a !== undefined) {
     q.a.aProp;
 } else {

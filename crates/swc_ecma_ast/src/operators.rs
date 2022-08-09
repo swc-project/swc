@@ -7,10 +7,6 @@ use swc_common::EqIgnoreSpan;
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
-)]
 pub enum BinaryOp {
     /// `==`
     EqEq,
@@ -116,10 +112,6 @@ impl BinaryOp {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
-)]
 pub enum AssignOp {
     /// `=`
     Assign,
@@ -181,6 +173,10 @@ impl AssignOp {
             op!("??=") => Some(op!("??")),
         }
     }
+
+    pub fn may_short_circuit(&self) -> bool {
+        matches!(self, op!("??=") | op!("||=") | op!("&&="))
+    }
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -188,10 +184,6 @@ impl AssignOp {
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
 )]
 pub enum UpdateOp {
     /// `++`
@@ -205,10 +197,6 @@ pub enum UpdateOp {
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    archive_attr(repr(u32), derive(bytecheck::CheckBytes))
 )]
 pub enum UnaryOp {
     /// `-`

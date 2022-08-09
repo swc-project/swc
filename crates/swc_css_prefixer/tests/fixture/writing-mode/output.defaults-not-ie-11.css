@@ -1,0 +1,54 @@
+.one {
+  writing-mode: horizontal-tb;
+}
+.two {
+  writing-mode: vertical-rl;
+}
+.three {
+  writing-mode: vertical-lr;
+}
+.rtl-vertical-rl {
+  writing-mode: vertical-rl;
+  direction: rtl;
+}
+.rtl-vertical-lr {
+  writing-mode: vertical-lr;
+  direction: rtl;
+}
+.rtl-horizontal-tb {
+  writing-mode: horizontal-tb;
+  direction: rtl;
+}
+.rtl-horizontal-tb-override-direction {
+  writing-mode: horizontal-tb;
+  direction: rtl;
+  direction: ltr;
+}
+.class {
+  writing-mode: none;
+}
+.class {
+  writing-mode: vertical-lr;
+}
+.class {
+  writing-mode: vertical-rl;
+}
+.class {
+  writing-mode: horizontal-tb;
+}
+.class {
+  writing-mode: sideways-rl;
+}
+.class {
+  writing-mode: sideways-lr;
+}
+@viewport{
+  writing-mode: horizontal-tb;
+  direction: rtl;
+}
+@keyframes test {
+  100% {
+    writing-mode: horizontal-tb;
+    direction: rtl;
+  }
+}

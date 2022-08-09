@@ -1,9 +1,9 @@
-function a(b, c) {
-    (b || c).c = "PASS";
+function o(n, t) {
+    (n || t).c = "PASS";
     (function() {
-        return a(b, c);
+        return o(n, t);
     }.prototype.foo = "bar");
 }
-var b = {};
-a(null, b);
-console.log(b.c);
+var n = {};
+o(null, n);
+console.log(n.c);

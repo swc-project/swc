@@ -1,5 +1,5 @@
 (function() {
-    var a = [
+    var e = [
         {
             type: 0,
             target: null,
@@ -19,22 +19,22 @@
             propName: null
         }, 
     ];
-    function b(a) {
-        var b = [];
-        for(var d = 0; d < a.length; d++){
-            var e = a[d];
-            var f = c(e.eventName);
-            b.push(f);
+    function n(e) {
+        var n = [];
+        for(var r = 0; r < e.length; r++){
+            var a = e[r];
+            var u = t(a.eventName);
+            n.push(u);
         }
-        var g, h;
-        return b;
+        var l, o;
+        return n;
     }
-    function c(a) {
+    function t(e) {
         return function() {
-            return console.log(a);
+            return console.log(e);
         };
     }
-    b(a).forEach(function(a) {
-        return a();
+    n(e).forEach(function(e) {
+        return e();
     });
 })();

@@ -1,3 +1,4 @@
+// @strictNullChecks: true
 function f1() {
     var x = foo();
     if (x) {

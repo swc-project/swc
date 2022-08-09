@@ -1,13 +1,13 @@
-function a() {
-    function a() {
+function n() {
+    function n() {
         x();
-        return b;
+        return r;
     }
-    var b = d();
-    var c = 2;
-    return b + c;
-    function d() {
+    var r = u();
+    var t = 2;
+    return r + t;
+    function u() {
         y();
-        return c;
+        return t;
     }
 }

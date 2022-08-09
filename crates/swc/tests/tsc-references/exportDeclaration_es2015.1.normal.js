@@ -1,5 +1,7 @@
 // @Filename: /a.ts
 class A {
 }
-new A();
 export { };
+// @Filename: /b.ts
+import { A } from './a';
+new A();

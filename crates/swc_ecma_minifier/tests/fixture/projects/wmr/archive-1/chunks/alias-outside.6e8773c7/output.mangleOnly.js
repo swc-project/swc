@@ -1,7 +1,7 @@
-import { m as a } from "../index.f66dda46.js";
-const b = "it works";
-const c = "it works";
-function d() {
-    return a`<div><p>Inside: ${c}</p><p>Outside: ${b}</p></div>`;
+import { m as t } from "../index.f66dda46.js";
+const i = "it works";
+const n = "it works";
+function o() {
+    return t`<div><p>Inside: ${n}</p><p>Outside: ${i}</p></div>`;
 }
-export default d;
+export default o;

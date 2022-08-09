@@ -1,5 +1,3 @@
-// @Filename: b.ts
-import { D } from "./a";
 // @preserveValueImports: true
 // @isolatedModules: true,false
 // @module: esnext
@@ -7,10 +5,18 @@ import { D } from "./a";
 export default {};
 export const b = 0;
 export const c = 1;
+// @Filename: b.ts
+export { };
+// @Filename: c.ts
+export { };
+// @Filename: d.ts
+module.exports = {};
+export { };
 // @Filename: e.ts
 const D = require("./d");
 const DD = require("./d");
 DD;
+export { };
+// @Filename: f.ts
+import { b } from "./a";
 b;
-// @Filename: d.ts
-module.exports = {};

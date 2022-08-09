@@ -1,24 +1,24 @@
-function a() {
-    var a = sideeffect(), b = g1 + g2;
-    var c = b / 4, d = "Bar" + c;
-    if ("x" != d) {
+function r() {
+    var r = sideeffect(), e = g1 + g2;
+    var n = e / 4, t = "Bar" + n;
+    if ("x" != t) {
         return g9;
     } else return g5;
 }
-function b() {
-    var a = g1 + g2, b = sideeffect();
-    var c = a / 4;
-    var d = "Bar" + c;
-    if ("x" != d) {
+function e() {
+    var r = g1 + g2, e = sideeffect();
+    var n = r / 4;
+    var t = "Bar" + n;
+    if ("x" != t) {
         return g9;
     } else return g5;
 }
-function c(a) {
-    if (a) {
-        var b = 1;
-        return b;
+function n(r) {
+    if (r) {
+        var e = 1;
+        return e;
     } else {
-        var c = 2;
-        return c;
+        var n = 2;
+        return n;
     }
 }

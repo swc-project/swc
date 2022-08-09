@@ -1,9 +1,9 @@
-function a(a) {
+function t(t) {
     try {
         throw "Stuff";
-    } catch (b) {
-        console.log("caught: " + b);
+    } catch (o) {
+        console.log("caught: " + o);
     }
     console.log("undefined is " + undefined);
-    return a === undefined;
+    return t === undefined;
 }

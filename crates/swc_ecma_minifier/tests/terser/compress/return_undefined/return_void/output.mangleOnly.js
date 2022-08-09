@@ -1,6 +1,6 @@
-function a() {
-    function a() {
+function n() {
+    function n() {
         h();
     }
-    return a();
+    return n();
 }

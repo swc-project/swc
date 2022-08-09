@@ -1,11 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-// @filename: main.js
-import A from "./mod1";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @esModuleInterop: true
 // @filename: mod1.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Alias = /*#__PURE__*/ function() {
     "use strict";
     function Alias() {
@@ -18,6 +16,8 @@ var Alias = /*#__PURE__*/ function() {
     return Alias;
 }();
 module.exports = Alias;
+// @filename: main.js
+import A from "./mod1";
 A.prototype.foo = 0;
 A.prototype.func = function() {
     this._func = 0;

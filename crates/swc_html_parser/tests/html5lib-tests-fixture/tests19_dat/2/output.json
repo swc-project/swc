@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -50,7 +51,8 @@
             "end": 43,
             "ctxt": 0
           },
-          "data": "foo"
+          "data": "foo",
+          "raw": "<!--foo-->"
         },
         {
           "type": "Element",

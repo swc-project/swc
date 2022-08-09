@@ -15,21 +15,44 @@ macro_rules! fail_todo {
     };
 }
 
+macro_rules! impl_enum_body {
+    ($E:ident, $s:expr, $cx:expr,[ $($v:ident),* ]) => {
+        match $s {
+            $(
+                $E::$v(inner) => pmutil::q!(
+                    Vars {
+                        val: crate::ast::ToCode::to_code(inner, $cx),
+                    },
+                    { swc_core::ast::$E::$v(val) }
+                )
+                .parse(),
+            )*
+        }
+    };
+}
+
 macro_rules! impl_enum {
     ($E:ident, [ $($v:ident),* ]) => {
         impl crate::ast::ToCode for $E {
             fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
-                match self {
-                    $(
-                        $E::$v(inner) => pmutil::q!(
-                            Vars {
-                                val: crate::ast::ToCode::to_code(inner, cx),
-                            },
-                            { swc_ecma_quote::swc_ecma_ast::$E::$v(val) }
-                        )
-                        .parse(),
-                    )*
+                impl_enum_body!($E, self, cx, [ $($v),* ])
+            }
+        }
+    };
+
+
+    ($E:ident, [ $($v:ident),* ], true) => {
+        impl crate::ast::ToCode for $E {
+            fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
+                if let Self::Ident(i) = self {
+                    if let Some(var_name) = i.sym.strip_prefix('$') {
+                        if let Some(var) = cx.var(crate::ctxt::VarPos::$E, var_name) {
+                            return var.get_expr();
+                        }
+                    }
                 }
+
+                impl_enum_body!($E, self, cx, [ $($v),* ])
             }
         }
     };
@@ -111,13 +134,17 @@ impl_struct!(Invalid, [span]);
 
 impl ToCode for Span {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!({ swc_ecma_quote::swc_common::DUMMY_SP }).parse()
+        q!({ swc_core::common::DUMMY_SP }).parse()
     }
 }
 
 impl_enum!(ModuleItem, [ModuleDecl, Stmt]);
 
-impl_enum!(Pat, [Ident, Array, Rest, Object, Assign, Invalid, Expr]);
+impl_enum!(
+    Pat,
+    [Ident, Array, Rest, Object, Assign, Invalid, Expr],
+    true
+);
 impl_enum!(Lit, [Str, Bool, Null, Num, BigInt, Regex, JSXText]);
 impl_enum!(
     ClassMember,

@@ -16,13 +16,14 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
       "span": {
         "start": 16,
-        "end": 50,
+        "end": 54,
         "ctxt": 0
       },
       "tagName": "html",

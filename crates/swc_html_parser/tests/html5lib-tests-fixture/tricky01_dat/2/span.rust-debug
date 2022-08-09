@@ -190,13 +190,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
  4 | <b><p><i>Bold and Italic</b> Italic</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
  4 | <b><p><i>Bold and Italic</b> Italic</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

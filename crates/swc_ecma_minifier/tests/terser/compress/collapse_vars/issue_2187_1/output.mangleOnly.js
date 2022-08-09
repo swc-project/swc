@@ -1,8 +1,8 @@
-var a = 1;
-!(function(a) {
-    a();
-    var b = 2;
-    console.log(b);
+var n = 1;
+!(function(n) {
+    n();
+    var o = 2;
+    console.log(o);
 })(function() {
-    console.log(a);
+    console.log(n);
 });

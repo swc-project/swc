@@ -1,3 +1,8 @@
+// @allowJs: true
+// @checkJs: true
+// @noEmit: true
+// @module: commonjs
+// @filename: node.d.ts
 // @filename: a-ext.js
 exports.A = function() {
     this.x = 1;

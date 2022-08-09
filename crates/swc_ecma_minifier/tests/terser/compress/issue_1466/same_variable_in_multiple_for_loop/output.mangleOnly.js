@@ -1,9 +1,9 @@
-for(let a = 0; a < 3; a++){
-    let b = 100;
-    console.log(a, b);
-    for(let c = 0; c < 2; c++){
-        console.log(c, b);
-        let d = 2;
-        console.log(d);
+for(let l = 0; l < 3; l++){
+    let o = 100;
+    console.log(l, o);
+    for(let e = 0; e < 2; e++){
+        console.log(e, o);
+        let t = 2;
+        console.log(t);
     }
 }

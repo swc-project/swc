@@ -1,7 +1,7 @@
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 // @declaration: true
 // @target: es2015
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 class A {
     quux() {}
     constructor(){

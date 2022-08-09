@@ -1,11 +1,11 @@
 (function() {
-    function a() {
-        return b ? "foo" : "bar";
+    function o() {
+        return n ? "foo" : "bar";
     }
-    var b = true;
-    var c = {
-        foo: a
+    var n = true;
+    var r = {
+        foo: o
     };
-    console.log(a());
-    console.log(c.foo());
+    console.log(o());
+    console.log(r.foo());
 })();

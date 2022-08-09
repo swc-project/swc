@@ -1,6 +1,7 @@
-import * as _a from './b';
-import { a } from './c';
 export class A {
 }
-new a.A();
+export { };
+import * as _a from './b';
 export { _a as a };
+import { a } from './c';
+new a.A();

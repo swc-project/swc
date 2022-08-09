@@ -636,7 +636,7 @@ where
                             return Ok(TsLit::Str(Str {
                                 span,
                                 raw: None,
-                                value: v.into(),
+                                value: JsWord::from(&**v),
                             }));
                         }
                     }
@@ -699,7 +699,7 @@ where
                                 Expr::Lit(Lit::Str(Str {
                                     span: v.span,
                                     raw: None,
-                                    value,
+                                    value: JsWord::from(&*value),
                                 }))
                             }
                             TsLit::BigInt(v) => Expr::Lit(Lit::BigInt(v)),

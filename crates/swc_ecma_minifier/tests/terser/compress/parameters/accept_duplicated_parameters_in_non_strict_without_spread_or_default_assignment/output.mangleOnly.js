@@ -1,2 +1,2 @@
-function a(a, a) {}
-function b({ c: a , c: a  }) {}
+function c(c, c) {}
+function n({ c: c , c: c  }) {}

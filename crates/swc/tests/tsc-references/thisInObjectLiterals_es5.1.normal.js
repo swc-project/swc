@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noImplicitAny: true
 // @noImplicitThis: true
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var MyClass = /*#__PURE__*/ function() {
     "use strict";
     function MyClass() {

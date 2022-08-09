@@ -1,13 +1,13 @@
 (function() {
-    function a(a) {
-        return class extends a {
+    function n(n) {
+        return class extends n {
         };
     }
-    function b(a) {
-        return class extends a {
+    function e(n) {
+        return class extends n {
         };
     }
-    console.log(new (class extends a(b(Array)) {
+    console.log(new (class extends n(e(Array)) {
     })().concat([
         "PASS"
     ])[0]);

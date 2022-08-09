@@ -4,6 +4,9 @@
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
+#[doc(hidden)]
+pub extern crate swc_common;
+
 use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
@@ -1274,6 +1277,16 @@ pub trait ExprExt {
                 ..
             }) => left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx),
 
+            Expr::Member(MemberExpr { obj, prop, .. }) if obj.is_object() => {
+                if obj.may_have_side_effects(ctx) {
+                    return true;
+                }
+                match prop {
+                    MemberProp::Computed(c) => c.expr.may_have_side_effects(ctx),
+                    MemberProp::Ident(_) | MemberProp::PrivateName(_) => false,
+                }
+            }
+
             //TODO
             Expr::Tpl(_) => true,
             Expr::TaggedTpl(_) => true,
@@ -1331,12 +1344,12 @@ pub trait ExprExt {
                     || alt.may_have_side_effects(ctx)
             }
 
-            Expr::Object(ObjectLit { ref props, .. }) => props.iter().any(|node| match node {
+            Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
                 PropOrSpread::Prop(node) => match &**node {
                     Prop::Shorthand(..) => false,
-                    Prop::KeyValue(KeyValueProp { ref key, ref value }) => {
-                        let k = match *key {
-                            PropName::Computed(ref e) => e.expr.may_have_side_effects(ctx),
+                    Prop::KeyValue(KeyValueProp { key, value }) => {
+                        let k = match key {
+                            PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
                             _ => false,
                         };
 
@@ -1344,7 +1357,8 @@ pub trait ExprExt {
                     }
                     _ => true,
                 },
-                PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.may_have_side_effects(ctx),
+                // may trigger getter
+                PropOrSpread::Spread(_) => true,
             }),
 
             Expr::JSXMember(..)
@@ -2481,7 +2495,11 @@ pub struct TopLevelAwait {
 impl Visit for TopLevelAwait {
     noop_visit_type!();
 
-    fn visit_stmts(&mut self, _: &[Stmt]) {}
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if !self.found {
+            n.visit_children_with(self);
+        }
+    }
 
     fn visit_param(&mut self, _: &Param) {}
 
@@ -2501,6 +2519,37 @@ impl Visit for TopLevelAwait {
             }) => computed.visit_children_with(self),
             _ => (),
         };
+    }
+
+    fn visit_prop(&mut self, prop: &Prop) {
+        match prop {
+            Prop::KeyValue(KeyValueProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | Prop::Getter(GetterProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | Prop::Setter(SetterProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | Prop::Method(MethodProp {
+                key: PropName::Computed(computed),
+                ..
+            }) => computed.visit_children_with(self),
+            _ => {}
+        }
+    }
+
+    fn visit_for_of_stmt(&mut self, for_of_stmt: &ForOfStmt) {
+        if for_of_stmt.await_token.is_some() {
+            self.found = true;
+            return;
+        }
+
+        for_of_stmt.visit_children_with(self);
     }
 
     fn visit_await_expr(&mut self, _: &AwaitExpr) {
@@ -2565,5 +2614,26 @@ mod test {
             None,
         );
         p.parse_module().unwrap()
+    }
+
+    fn has_top_level_await(text: &str) -> bool {
+        let module = parse_module(text);
+        contains_top_level_await(&module)
+    }
+
+    #[test]
+    fn top_level_await_block() {
+        assert!(has_top_level_await("if (maybe) { await test; }"))
+    }
+
+    #[test]
+    fn top_level_await_for_of() {
+        assert!(has_top_level_await("for await (let iter of []){}"))
+    }
+
+    #[test]
+    fn top_level_export_await() {
+        assert!(has_top_level_await("export const foo = await 1;"));
+        assert!(has_top_level_await("export default await 1;"));
     }
 }

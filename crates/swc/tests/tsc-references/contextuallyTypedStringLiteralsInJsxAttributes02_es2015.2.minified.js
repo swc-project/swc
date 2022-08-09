@@ -4,7 +4,7 @@ export function MainButton(props) {
     return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);
 }
 _extends({}, {
-    onClick (k) {
+    onClick: (k)=>{
         console.log(k);
     }
 }, {
@@ -16,7 +16,7 @@ _extends({}, {
 });
 export function NoOverload() {}
 _extends({}, {
-    onClick (k) {
+    onClick: (k)=>{
         console.log(k);
     }
 }, {

@@ -1,9 +1,8 @@
+// @target: es2015
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
-// @target: es2015
-var array = [];
-for(var i = 0; i < 10; ++i){
+var _loop = function(i) {
     var method = function method() {};
     var get_accessor = function get_accessor() {
         return 42;
@@ -23,4 +22,6 @@ for(var i = 0; i < 10; ++i){
             value: "hello"
         });
     }, _C));
-}
+};
+var array = [];
+for(var i = 0; i < 10; ++i)_loop(i);

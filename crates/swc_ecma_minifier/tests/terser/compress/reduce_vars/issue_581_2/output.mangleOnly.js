@@ -1,6 +1,6 @@
 (function() {
-    return (function(a) {
-        return a();
+    return (function(e) {
+        return e();
     })(()=>{
         console.log(this.message);
     });

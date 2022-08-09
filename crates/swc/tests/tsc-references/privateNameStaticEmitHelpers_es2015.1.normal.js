@@ -1,9 +1,9 @@
-import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
-import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 // @target: es2015
 // @importHelpers: true
 // @isolatedModules: true
 // @filename: main.ts
+import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
+import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 export class S {
 }
 var _c = {
@@ -20,3 +20,6 @@ function b() {
 function get_c() {
     return _class_static_private_method_get(S, S, b).call(S);
 }
+// @filename: tslib.d.ts
+// these are pre-TS4.3 versions of emit helpers, which only supported private instance fields
+export { };

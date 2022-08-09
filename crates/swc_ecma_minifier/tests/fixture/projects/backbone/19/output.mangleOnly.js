@@ -1,25 +1,25 @@
 export const obj = {
-    navigate: function(a, b) {
+    navigate: function(t, e) {
         if (!History.started) return false;
-        if (!b || b === true) b = {
-            trigger: !!b
+        if (!e || e === true) e = {
+            trigger: !!e
         };
-        var c = this.root + (a = this.getFragment(a || ""));
-        a = a.replace(pathStripper, "");
-        if (this.fragment === a) return;
-        this.fragment = a;
-        if (a === "" && c !== "/") c = c.slice(0, -1);
+        var i = this.root + (t = this.getFragment(t || ""));
+        t = t.replace(pathStripper, "");
+        if (this.fragment === t) return;
+        this.fragment = t;
+        if (t === "" && i !== "/") i = i.slice(0, -1);
         if (this._hasPushState) {
-            this.history[b.replace ? "replaceState" : "pushState"]({}, document.title, c);
+            this.history[e.replace ? "replaceState" : "pushState"]({}, document.title, i);
         } else if (this._wantsHashChange) {
-            this._updateHash(this.location, a, b.replace);
-            if (this.iframe && a !== this.getFragment(this.getHash(this.iframe))) {
-                if (!b.replace) this.iframe.document.open().close();
-                this._updateHash(this.iframe.location, a, b.replace);
+            this._updateHash(this.location, t, e.replace);
+            if (this.iframe && t !== this.getFragment(this.getHash(this.iframe))) {
+                if (!e.replace) this.iframe.document.open().close();
+                this._updateHash(this.iframe.location, t, e.replace);
             }
         } else {
-            return this.location.assign(c);
+            return this.location.assign(i);
         }
-        if (b.trigger) return this.loadUrl(a);
+        if (e.trigger) return this.loadUrl(t);
     }
 };

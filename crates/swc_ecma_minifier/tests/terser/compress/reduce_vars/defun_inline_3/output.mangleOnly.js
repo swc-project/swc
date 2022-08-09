@@ -1,6 +1,6 @@
-function a() {
-    return a(2);
-    function a(a) {
-        return a;
+function n() {
+    return n(2);
+    function n(n) {
+        return n;
     }
 }

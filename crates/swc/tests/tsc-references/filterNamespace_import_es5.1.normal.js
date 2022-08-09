@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @Filename: /ns.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var ns;
 (function(ns) {
     var Class = function Class() {
@@ -18,6 +18,7 @@ var ns;
     })(nested = ns.nested || (ns.nested = {}));
 })(ns || (ns = {}));
 export default ns;
+// @Filename: /a.ts
 ns.Class; // Error
 ns.Value; // Error
 var c;
@@ -25,3 +26,4 @@ var t = "";
 var n = {
     a: ""
 };
+export { };

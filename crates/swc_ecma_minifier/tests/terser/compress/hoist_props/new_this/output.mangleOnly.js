@@ -1,8 +1,8 @@
-var a = {
+var b = {
     a: 1,
     b: 2,
-    f: function(a) {
-        this.b = a;
+    f: function(b) {
+        this.b = b;
     }
 };
-console.log(new a.f(a.a).b, a.b);
+console.log(new b.f(b.a).b, b.b);

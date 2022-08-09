@@ -1,3 +1,5 @@
+// @target: esnext
+// @declaration: true
 function Mixin(baseClass) {
     class MixinClass extends baseClass {
         mixinMethod() {}

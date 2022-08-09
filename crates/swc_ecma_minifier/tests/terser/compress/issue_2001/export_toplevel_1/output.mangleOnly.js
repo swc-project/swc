@@ -1,3 +1,3 @@
-function a() {}
+function n() {}
 export function g() {}
-export default function b() {};
+export default function t() {};

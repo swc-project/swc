@@ -1,6 +1,6 @@
-function a() {}
+function n() {}
 console.log({
-    a: a(),
+    a: n(),
     p: function() {
         return 42;
     }

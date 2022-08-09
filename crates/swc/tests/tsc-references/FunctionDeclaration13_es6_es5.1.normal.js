@@ -1,6 +1,6 @@
+// @target: es6
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(foo);
-// @target: es6
 function foo() {
     var v;
     return regeneratorRuntime.wrap(function foo$(_ctx) {

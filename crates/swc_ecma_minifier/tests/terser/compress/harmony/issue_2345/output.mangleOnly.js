@@ -5,11 +5,11 @@ console.log([
         1
     ]
 ].join("-"));
-var a = [
+var o = [
     3,
     2,
     1
 ];
 console.log([
-    ...a
+    ...o
 ].join("-"));

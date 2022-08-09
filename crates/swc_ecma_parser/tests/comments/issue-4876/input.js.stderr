@@ -1,0 +1,34 @@
+
+  > Leading (lo)
+
+Error: 
+  > !
+  | 
+  |  something v5.1.0
+  | 
+  | more
+  | 
+  | else
+  | 
+    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
+ 10 | console.log(1);
+    : ^
+    `----
+
+  > Leading (lo)
+
+Error: 
+  >  a
+    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
+ 10 | console.log(1);
+    : ^
+    `----
+
+  > Trailing (hi)
+
+Error: 
+  >  b
+    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
+ 10 | console.log(1);
+    :                ^
+    `----

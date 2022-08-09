@@ -1,3 +1,4 @@
+// @target: es2015
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
@@ -38,7 +39,6 @@ function _templateObject2() {
     return data;
 }
 var _method = /*#__PURE__*/ new WeakSet(), _method2 = /*#__PURE__*/ new WeakSet();
-// @target: es2015
 var AA = /*#__PURE__*/ function() {
     "use strict";
     function AA() {

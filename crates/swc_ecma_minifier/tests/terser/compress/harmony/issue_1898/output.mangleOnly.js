@@ -1,21 +1,21 @@
-class a {
+class o {
     bar() {
-        for (const a of [
+        for (const o of [
             6,
             5
         ]){
-            for (let b of [
+            for (let f of [
                 4,
                 3
             ]){
-                for (var c of [
+                for (var r of [
                     2,
                     1
                 ]){
-                    console.log(a, b, c);
+                    console.log(o, f, r);
                 }
             }
         }
     }
 }
-new a().bar();
+new o().bar();

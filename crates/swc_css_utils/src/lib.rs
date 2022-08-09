@@ -17,7 +17,7 @@ impl VisitMut for IdentReplacer<'_> {
 
         if &*n.value.to_lowercase() == self.from {
             n.value = self.to.into();
-            n.raw = self.to.into();
+            n.raw = None;
         }
     }
 }
@@ -40,7 +40,7 @@ impl VisitMut for FunctionNameReplacer<'_> {
 
         if &*n.name.value.to_lowercase() == self.from {
             n.name.value = self.to.into();
-            n.name.raw = self.to.into();
+            n.name.raw = None;
         }
     }
 }
@@ -63,7 +63,7 @@ impl VisitMut for PseudoClassSelectorNameReplacer<'_> {
 
         if &*n.name.value.to_lowercase() == self.from {
             n.name.value = self.to.into();
-            n.name.raw = self.to.into();
+            n.name.raw = None;
         }
     }
 }
@@ -86,7 +86,7 @@ impl VisitMut for PseudoElementSelectorNameReplacer<'_> {
 
         if &*n.name.value.to_lowercase() == self.from {
             n.name.value = self.to.into();
-            n.name.raw = self.to.into();
+            n.name.raw = None;
         }
     }
 }
@@ -116,7 +116,7 @@ impl VisitMut for PseudoElementOnPseudoClassReplacer<'_> {
                     name: Ident {
                         span: name.span,
                         value: self.to.into(),
-                        raw: self.to.into(),
+                        raw: None,
                     },
                     children: None,
                 })

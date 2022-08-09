@@ -589,7 +589,7 @@
             "Webkit",
             "Moz",
             "O"
-        ], operamini = window.operamini && "[object OperaMini]" === ({}).toString.call(window.operamini), bb = window.blackberry && !propExists("-webkit-transform");
+        ], webos = "palmGetResource" in window, operamini = window.operamini && "[object OperaMini]" === ({}).toString.call(window.operamini), bb = window.blackberry && !propExists("-webkit-transform");
         $.extend($.mobile, {
             browser: {}
         }), $.mobile.browser.oldIE = function() {
@@ -613,7 +613,7 @@
             }(),
             boxShadow: !!propExists("boxShadow") && !bb,
             fixedPosition: (w = window, ua = navigator.userAgent, platform = navigator.platform, wkmatch = ua.match(/AppleWebKit\/([0-9]+)/), wkversion = !!wkmatch && wkmatch[1], ffmatch = ua.match(/Fennec\/([0-9]+)/), ffversion = !!ffmatch && ffmatch[1], operammobilematch = ua.match(/Opera Mobi\/([0-9]+)/), omversion = !!operammobilematch && operammobilematch[1], !((platform.indexOf("iPhone") > -1 || platform.indexOf("iPad") > -1 || platform.indexOf("iPod") > -1) && wkversion && wkversion < 534 || w.operamini && "[object OperaMini]" === ({}).toString.call(w.operamini) || operammobilematch && omversion < 7458 || ua.indexOf("Android") > -1 && wkversion && wkversion < 533 || ffversion && ffversion < 6 || "palmGetResource" in window && wkversion && wkversion < 534 || ua.indexOf("MeeGo") > -1 && ua.indexOf("NokiaBrowser/8.5.0") > -1)),
-            scrollTop: ("pageXOffset" in window || "scrollTop" in document1.documentElement || "scrollTop" in fakeBody[0]) && !("palmGetResource" in window) && !operamini,
+            scrollTop: ("pageXOffset" in window || "scrollTop" in document1.documentElement || "scrollTop" in fakeBody[0]) && !webos && !operamini,
             dynamicBaseTag: (fauxBase = location.protocol + "//" + location.host + location.pathname + "ui-dir/", base = $("head base"), fauxEle = null, href = "", base.length ? href = base.attr("href") : base = fauxEle = $("<base>", {
                 href: fauxBase
             }).appendTo("head"), rebase = $("<a href='testurl' />").prependTo(fakeBody)[0].href, base[0].href = href || location.pathname, fauxEle && fauxEle.remove(), 0 === rebase.indexOf(fauxBase)),
@@ -1385,9 +1385,9 @@
         go: function(steps) {
             if ($16.mobile.hashListeningEnabled) window.history.go(steps);
             else {
-                var activeIndex = $16.mobile.navigate.history.activeIndex, index = activeIndex + parseInt(steps, 10), url = $16.mobile.navigate.history.stack[index].url, direction = steps >= 1 ? "forward" : "back";
+                var activeIndex = $16.mobile.navigate.history.activeIndex, index = activeIndex + parseInt(steps, 10), url = $16.mobile.navigate.history.stack[index].url;
                 $16.mobile.navigate.history.activeIndex = index, $16.mobile.navigate.history.previousIndex = activeIndex, this.change(url, {
-                    direction: direction,
+                    direction: steps >= 1 ? "forward" : "back",
                     changeHash: !1,
                     fromHashChange: !0
                 });
@@ -4128,12 +4128,10 @@
             },
             close: function(immediate) {
                 if (this._open) {
-                    var self = this, o = this.options, _closePanel = function() {
-                        self.element.removeClass(o.classes.panelOpen), "overlay" !== o.display && (self._wrapper.removeClass(self._pageContentOpenClasses), self._fixedToolbars().removeClass(self._pageContentOpenClasses)), !immediate && $.support.cssTransform3d && o.animate ? self.element.animationComplete(complete, "transition") : setTimeout(complete, 0), self._modal && self._modal.removeClass(self._modalOpenClasses);
-                    }, complete = function() {
+                    var self = this, o = this.options, complete = function() {
                         o.theme && "overlay" !== o.display && self._page().parent().removeClass(o.classes.pageContainer + "-themed " + o.classes.pageContainer + "-" + o.theme), self.element.addClass(o.classes.panelClosed), "overlay" !== o.display && (self._page().parent().removeClass(o.classes.pageContainer), self._wrapper.removeClass(o.classes.pageContentPrefix + "-open"), self._fixedToolbars().removeClass(o.classes.pageContentPrefix + "-open")), $.support.cssTransform3d && o.animate && "overlay" !== o.display && (self._wrapper.removeClass(o.classes.animate), self._fixedToolbars().removeClass(o.classes.animate)), self._fixPanel(), self._unbindFixListener(), $.mobile.resetActivePageHeight(), self._page().jqmRemoveData("panel"), self._trigger("close"), self._openedPage = null;
                     };
-                    self._trigger("beforeclose"), _closePanel(), self._open = !1;
+                    self._trigger("beforeclose"), self.element.removeClass(o.classes.panelOpen), "overlay" !== o.display && (self._wrapper.removeClass(self._pageContentOpenClasses), self._fixedToolbars().removeClass(self._pageContentOpenClasses)), !immediate && $.support.cssTransform3d && o.animate ? self.element.animationComplete(complete, "transition") : setTimeout(complete, 0), self._modal && self._modal.removeClass(self._modalOpenClasses), self._open = !1;
                 }
             },
             toggle: function() {

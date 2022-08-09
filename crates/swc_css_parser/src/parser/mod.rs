@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use serde::{Deserialize, Serialize};
 use swc_css_ast::*;
 
 use self::input::{Buffer, ParserInput};
@@ -18,13 +19,17 @@ mod value;
 
 pub type PResult<T> = Result<T, Error>;
 
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(
+    Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
+)]
+#[serde(rename_all = "camelCase")]
 pub struct ParserConfig {
     /// If this is `true`, **wrong** comments starting with `//` will be treated
     /// as a comment.
     ///
     /// This option exists because there are so many css-in-js tools and people
     /// use `//` as a comment because it's javascript file.
+    #[serde(default)]
     pub allow_wrong_line_comments: bool,
 }
 
@@ -49,6 +54,7 @@ struct Ctx {
     block_contents_grammar: BlockContentsGrammar,
 
     in_supports_at_rule: bool,
+    in_import_at_rule: bool,
     in_page_at_rule: bool,
 }
 

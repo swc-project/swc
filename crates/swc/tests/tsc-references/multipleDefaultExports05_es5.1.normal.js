@@ -1,16 +1,28 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var AA1 = function AA1() {
-    "use strict";
-    _class_call_check(this, AA1);
-};
-export { AA1 as default };
-var BB1 = function BB1() {
-    "use strict";
-    _class_call_check(this, BB1);
-};
-export { BB1 as default };
-var CC1 = function CC1() {
-    "use strict";
-    _class_call_check(this, CC1);
-};
-export { CC1 as default };
+//!
+//!  x the name `default` is exported multiple times
+//!   ,-[4:1]
+//! 4 | export default class AA1 {}
+//!   : ^^^^^^^^^^^^^|^^^^^^^^^^^^^
+//!   :              `-- previous exported here
+//! 5 | 
+//! 6 | export default class BB1 {}
+//!   : ^^^^^^^^^^^^^|^^^^^^^^^^^^^
+//!   :              `-- exported more than once
+//!   `----
+//!
+//!Error: 
+//!  > Exported identifiers must be unique
+//!
+//!  x the name `default` is exported multiple times
+//!   ,-[6:1]
+//! 6 | export default class BB1 {}
+//!   : ^^^^^^^^^^^^^|^^^^^^^^^^^^^
+//!   :              `-- previous exported here
+//! 7 | 
+//! 8 | export default class CC1 {}
+//!   : ^^^^^^^^^^^^^|^^^^^^^^^^^^^
+//!   :              `-- exported more than once
+//!   `----
+//!
+//!Error: 
+//!  > Exported identifiers must be unique

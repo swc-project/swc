@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -82,7 +83,7 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 16,
+                    "start": 25,
                     "end": 39,
                     "ctxt": 0
                   },

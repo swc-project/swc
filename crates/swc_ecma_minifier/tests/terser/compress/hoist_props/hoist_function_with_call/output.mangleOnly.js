@@ -1,8 +1,8 @@
-var a = {
-    p: function a(b) {
-        return 10 * b;
+var p = {
+    p: function p(n) {
+        return 10 * n;
     },
     x: 1,
     y: 2
 };
-console.log(a.p.name, a.p === a.p, a.p(a.x), a.p(a.y));
+console.log(p.p.name, p.p === p.p, p.p(p.x), p.p(p.y));

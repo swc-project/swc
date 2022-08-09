@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +156,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "test.html"
+                  "rawName": "src",
+                  "value": "test.html",
+                  "rawValue": "\"test.html\""
                 },
                 {
                   "type": "Attribute",
@@ -165,7 +170,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "frameborder",
-                  "value": "0"
+                  "rawName": "frameborder",
+                  "value": "0",
+                  "rawValue": "\"0\""
                 }
               ],
               "children": [],
@@ -202,7 +209,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "src",
-                  "value": "banner.html"
+                  "rawName": "src",
+                  "value": "banner.html",
+                  "rawValue": "\"banner.html\""
                 },
                 {
                   "type": "Attribute",
@@ -214,7 +223,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "width",
-                  "value": "468"
+                  "rawName": "width",
+                  "value": "468",
+                  "rawValue": "\"468\""
                 },
                 {
                   "type": "Attribute",
@@ -226,7 +237,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "height",
-                  "value": "60"
+                  "rawName": "height",
+                  "value": "60",
+                  "rawValue": "\"60\""
                 },
                 {
                   "type": "Attribute",
@@ -238,7 +251,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "align",
-                  "value": "left"
+                  "rawName": "align",
+                  "value": "left",
+                  "rawValue": "\"left\""
                 }
               ],
               "children": [

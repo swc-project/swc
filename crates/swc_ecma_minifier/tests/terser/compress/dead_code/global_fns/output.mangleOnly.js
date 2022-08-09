@@ -22,13 +22,13 @@ unescape(1, 2);
 URIError(1, 2);
 try {
     Function(1, 2);
-} catch (a) {
-    console.log(a.name);
+} catch (_) {
+    console.log(_.name);
 }
 try {
     RegExp(1, 2);
-} catch (b) {
-    console.log(b.name);
+} catch (a) {
+    console.log(a.name);
 }
 try {
     Array(NaN);

@@ -1,4 +1,4 @@
-var a = {
+var p = {
     propa: 1,
     get propb () {
         return 2;
@@ -8,7 +8,7 @@ var a = {
         return 4;
     }
 };
-var b = {
+var r = {
     propa: 5,
     get propb () {
         return 6;
@@ -18,13 +18,13 @@ var b = {
         return 8;
     }
 };
-var c = {};
-Object.defineProperty(c, "propa", {
+var o = {};
+Object.defineProperty(o, "propa", {
     value: 9
 });
-Object.defineProperty(c, "propc", {
+Object.defineProperty(o, "propc", {
     value: 10
 });
-console.log(a.propa, a.propb, a.propc, a["propc"], a.propd, a["propd"]);
-console.log(b["propa"], b["propb"], b.propc, b["propc"], b.propd, b["propd"]);
-console.log(c.propa, c["propc"]);
+console.log(p.propa, p.propb, p.propc, p["propc"], p.propd, p["propd"]);
+console.log(r["propa"], r["propb"], r.propc, r["propc"], r.propd, r["propd"]);
+console.log(o.propa, o["propc"]);

@@ -1,9 +1,9 @@
 !(function() {
-    function a() {
-        b();
+    function n() {
+        o();
     }
-    function b() {
-        a();
+    function o() {
+        n();
     }
     console.log("PASS");
 })();

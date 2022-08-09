@@ -1,15 +1,15 @@
-function a() {
-    var a = {
+function b() {
+    var b = {
         b: 1
     };
-    console.log(a.b + 3);
+    console.log(b.b + 3);
 }
-function b() {
-    var a = {
+function c() {
+    var b = {
         b: {
             c: 1
         },
         d: 2
     };
-    console.log(a.b + 3, a.d + 4, a.b.c + 5, a.d.c + 6);
+    console.log(b.b + 3, b.d + 4, b.b.c + 5, b.d.c + 6);
 }

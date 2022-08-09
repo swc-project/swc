@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 7,
+        "end": 289,
         "ctxt": 0
       },
       "tagName": "html",
@@ -63,7 +63,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "color",
-                  "value": "red"
+                  "rawName": "color",
+                  "value": "red",
+                  "rawValue": "red"
                 }
               ],
               "children": [
@@ -121,7 +123,7 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 8,
+                        "start": 44,
                         "end": 66,
                         "ctxt": 0
                       },
@@ -138,7 +140,9 @@
                           "namespace": null,
                           "prefix": null,
                           "name": "color",
-                          "value": "red"
+                          "rawName": "color",
+                          "value": "red",
+                          "rawValue": "red"
                         }
                       ],
                       "children": [
@@ -235,7 +239,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "color",
-                      "value": "red"
+                      "rawName": "color",
+                      "value": "red",
+                      "rawValue": "red"
                     }
                   ],
                   "children": [
@@ -302,7 +308,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "color",
-                  "value": "red"
+                  "rawName": "color",
+                  "value": "red",
+                  "rawValue": "red"
                 }
               ],
               "children": [
@@ -349,7 +357,7 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 131,
+                    "start": 178,
                     "end": 210,
                     "ctxt": 0
                   },
@@ -366,14 +374,16 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "color",
-                      "value": "red"
+                      "rawName": "color",
+                      "value": "red",
+                      "rawValue": "red"
                     }
                   ],
                   "children": [
                     {
                       "type": "Element",
                       "span": {
-                        "start": 152,
+                        "start": 178,
                         "end": 198,
                         "ctxt": 0
                       },

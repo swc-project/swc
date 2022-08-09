@@ -1,12 +1,12 @@
 "aaaaaaaa";
-var a = 1, b = "FAIL";
+var t = 1, r = "FAIL";
 try {
     throw 1;
 } catch (c) {
     try {
         throw 0;
-    } catch (d) {
-        if (c) b = "PASS";
+    } catch (h) {
+        if (c) r = "PASS";
     }
 }
-console.log(b);
+console.log(r);

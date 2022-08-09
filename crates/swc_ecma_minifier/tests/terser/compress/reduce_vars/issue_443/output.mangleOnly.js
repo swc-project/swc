@@ -1,8 +1,8 @@
-const a = "PASS";
-var b = ()=>{
-    if (a) return a;
+const r = "PASS";
+var t = ()=>{
+    if (r) return r;
 };
 {
-    let c = b();
-    console.log(c);
+    let e = t();
+    console.log(e);
 }

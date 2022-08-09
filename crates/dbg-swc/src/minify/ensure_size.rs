@@ -3,7 +3,7 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result};
 use clap::Args;
 use rayon::prelude::*;
 use swc_common::{SourceFile, SourceMap, GLOBALS};
@@ -44,17 +44,42 @@ impl EnsureSize {
                 .collect::<Result<Vec<_>>>()
         })?;
 
-        if results.is_empty() {
-            return Ok(());
-        }
-        for report in &results {
-            println!("{}", report.fm.name);
+        for f in &results {
+            println!();
+            println!("{}", f.fm.name);
+
+            if let Some(terser) = &f.terser {
+                if f.swc.mangled_size > terser.mangled_size {
+                    println!("  Mangled");
+                    println!("    swc: {} bytes", f.swc.mangled_size);
+                    println!("    terser: {} bytes", terser.mangled_size);
+                }
+
+                if f.swc.no_mangle_size > terser.no_mangle_size {
+                    println!("  No-mangle");
+                    println!("    swc: {} bytes", f.swc.no_mangle_size);
+                    println!("    terser: {} bytes", terser.no_mangle_size);
+                }
+            }
         }
 
-        bail!("found some issues")
+        println!("Total");
+        println!(
+            "  swc: {} bytes",
+            results.iter().map(|f| f.swc.mangled_size).sum::<usize>()
+        );
+        println!(
+            "  terser: {} bytes",
+            results
+                .iter()
+                .flat_map(|f| f.terser.map(|v| v.mangled_size))
+                .sum::<usize>()
+        );
+
+        Ok(())
     }
 
-    fn check_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<Option<SizeIssue>> {
+    fn check_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<Option<FileSize>> {
         wrap_task(|| {
             info!("Checking {}", js_file.display());
 
@@ -76,7 +101,7 @@ impl EnsureSize {
 
             // eprintln!("The output size of swc minifier: {}", code_mangled.len());
 
-            let mut size_issue = SizeIssue {
+            let mut file_size = FileSize {
                 fm,
                 swc: MinifierOutput {
                     mangled_size: code_mangled.len(),
@@ -90,43 +115,27 @@ impl EnsureSize {
                 let terser_mangled = get_terser_output(js_file, true, true)?;
                 let terser_no_mangle = get_terser_output(js_file, true, false)?;
 
-                if terser_mangled.len() < code_mangled.len() {
-                    // eprintln!("The output size of terser: {}", terser_mangled.len());
-                    // eprintln!(
-                    //     "The output size of terser without mangler: {}",
-                    //     terser_no_mangle.len()
-                    // );
-
-                    size_issue.terser = Some(MinifierOutput {
-                        mangled_size: terser_mangled.len(),
-                        no_mangle_size: terser_no_mangle.len(),
-                    });
-                }
+                file_size.terser = Some(MinifierOutput {
+                    mangled_size: terser_mangled.len(),
+                    no_mangle_size: terser_no_mangle.len(),
+                });
             }
 
             if !self.no_esbuild {
                 let esbuild_mangled = get_esbuild_output(js_file, true)?;
                 let esbuild_no_mangle = get_esbuild_output(js_file, false)?;
 
-                if esbuild_mangled.len() < code_mangled.len() {
-                    // eprintln!("The output size of esbuild: {}", esbuild_mangled.len());
-                    // eprintln!(
-                    //     "The output size of esbuild without mangler: {}",
-                    //     esbuild_no_mangle.len()
-                    // );
-
-                    size_issue.esbuild = Some(MinifierOutput {
-                        mangled_size: esbuild_mangled.len(),
-                        no_mangle_size: esbuild_no_mangle.len(),
-                    });
-                }
+                file_size.esbuild = Some(MinifierOutput {
+                    mangled_size: esbuild_mangled.len(),
+                    no_mangle_size: esbuild_no_mangle.len(),
+                });
             }
 
-            if size_issue.terser.is_none() && size_issue.esbuild.is_none() {
+            if file_size.terser.is_none() && file_size.esbuild.is_none() {
                 return Ok(None);
             }
 
-            Ok(Some(size_issue))
+            Ok(Some(file_size))
         })
         .with_context(|| format!("failed to check file: {}", js_file.display()))
     }
@@ -134,7 +143,7 @@ impl EnsureSize {
 
 #[allow(unused)]
 #[derive(Debug)]
-struct SizeIssue {
+struct FileSize {
     fm: Arc<SourceFile>,
 
     swc: MinifierOutput,
@@ -145,7 +154,7 @@ struct SizeIssue {
 }
 
 #[allow(unused)]
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 struct MinifierOutput {
     mangled_size: usize,
     no_mangle_size: usize,

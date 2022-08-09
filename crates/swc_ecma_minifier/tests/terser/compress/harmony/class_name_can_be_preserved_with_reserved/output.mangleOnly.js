@@ -2,15 +2,15 @@ function a() {
     class a {
     }
     a.bar;
-    class b {
+    class s {
     }
-    b.foo;
+    s.foo;
 }
-function b() {
+function s() {
     var a = class a {
     };
     a.bar;
-    var b = class a {
+    var s = class a {
     };
-    b.bar;
+    s.bar;
 }

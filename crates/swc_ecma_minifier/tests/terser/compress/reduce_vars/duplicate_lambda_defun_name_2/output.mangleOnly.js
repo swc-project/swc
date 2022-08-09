@@ -1,4 +1,4 @@
-console.log((function a(b) {
-    function a() {}
-    return a.length;
+console.log((function n(t) {
+    function n() {}
+    return n.length;
 })());

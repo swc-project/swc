@@ -8,11 +8,13 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
 };
-use swc::{
-    config::{ErrorFormat, ParseOptions},
-    Compiler,
+use swc_core::{
+    base::{
+        config::{ErrorFormat, ParseOptions},
+        Compiler,
+    },
+    common::{comments::Comments, FileName},
 };
-use swc_common::{comments::Comments, FileName};
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::{get_compiler, util::try_with};

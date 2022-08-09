@@ -1,4 +1,4 @@
-var a = {
+var o = {
     foo: function() {
         console.log("foo");
     },
@@ -6,5 +6,5 @@ var a = {
         console.log("bar");
     }
 };
-var b = new a.foo();
-var c = a.bar();
+var a = new o.foo();
+var r = o.bar();

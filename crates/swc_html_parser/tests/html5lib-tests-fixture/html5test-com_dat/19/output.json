@@ -116,7 +116,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "type",
-                      "value": "hidden"
+                      "rawName": "type",
+                      "value": "hidden",
+                      "rawValue": "hidden"
                     }
                   ],
                   "children": [],

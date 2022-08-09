@@ -1,12 +1,12 @@
-var a = 1;
+var n = 1;
 !(function() {
     do {
-        a *= 10;
-    }while (b())
-    function b() {
+        n *= 10;
+    }while (o())
+    function o() {
         return (function() {
-            return (a = 2 + a) < 100;
-        })((a = a + 3));
+            return (n = 2 + n) < 100;
+        })((n = n + 3));
     }
 })();
-console.log(a);
+console.log(n);

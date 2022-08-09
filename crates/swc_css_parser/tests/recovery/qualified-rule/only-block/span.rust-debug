@@ -26,8 +26,6 @@
  3 | `-> }
    `----
 
-  x Tokens
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
  1 | ,-> {

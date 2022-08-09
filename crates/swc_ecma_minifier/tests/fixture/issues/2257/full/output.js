@@ -1453,7 +1453,7 @@
                 return getPrototypeOf(o);
             }
             function _superPropBase(object, property) {
-                for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
+                for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = getPrototypeOf(object)););
                 return object;
             }
             function get(target, property, receiver) {
@@ -1484,7 +1484,7 @@
                         writable: !0,
                         configurable: !0
                     }
-                }), superClass && _set_prototype_of_setPrototypeOf(subClass, superClass);
+                }), superClass && setPrototypeOf(subClass, superClass);
             }
             function _inheritsLoose(subClass, superClass) {
                 subClass.prototype = Object.create(superClass.prototype), subClass.prototype.constructor = subClass, subClass.__proto__ = superClass;
@@ -1661,7 +1661,8 @@
                         _cache.set(Class, Wrapper);
                     }
                     function Wrapper() {
-                        return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+                        var o;
+                        return _construct(Class, arguments, (o = this, getPrototypeOf(o)).constructor);
                     }
                     return Wrapper.prototype = Object.create(Class.prototype, {
                         constructor: {
@@ -1670,7 +1671,7 @@
                             writable: !0,
                             configurable: !0
                         }
-                    }), _set_prototype_of_setPrototypeOf(Wrapper, Class);
+                    }), setPrototypeOf(Wrapper, Class);
                 })(Class);
             }
             function _wrapNativeSuper(Class) {
@@ -3461,8 +3462,8 @@
                 nativeDateToISOString.call(new Date(NaN));
             }) ? function() {
                 if (!isFinite(getTime.call(this))) throw RangeError("Invalid time value");
-                var date = this, year = date.getUTCFullYear(), milliseconds = date.getUTCMilliseconds(), sign = year < 0 ? "-" : year > 9999 ? "+" : "";
-                return sign + padStart(abs(year), sign ? 6 : 4, 0) + "-" + padStart(date.getUTCMonth() + 1, 2, 0) + "-" + padStart(date.getUTCDate(), 2, 0) + "T" + padStart(date.getUTCHours(), 2, 0) + ":" + padStart(date.getUTCMinutes(), 2, 0) + ":" + padStart(date.getUTCSeconds(), 2, 0) + "." + padStart(milliseconds, 3, 0) + "Z";
+                var year = this.getUTCFullYear(), milliseconds = this.getUTCMilliseconds(), sign = year < 0 ? "-" : year > 9999 ? "+" : "";
+                return sign + padStart(abs(year), sign ? 6 : 4, 0) + "-" + padStart(this.getUTCMonth() + 1, 2, 0) + "-" + padStart(this.getUTCDate(), 2, 0) + "T" + padStart(this.getUTCHours(), 2, 0) + ":" + padStart(this.getUTCMinutes(), 2, 0) + ":" + padStart(this.getUTCSeconds(), 2, 0) + "." + padStart(milliseconds, 3, 0) + "Z";
             } : nativeDateToISOString;
         },
         6672: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -9643,16 +9644,12 @@
                 }
                 var forceNextPop = !1;
                 function handlePop(location) {
-                    if (forceNextPop) forceNextPop = !1, setState();
-                    else {
-                        var action = "POP";
-                        transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function(ok) {
-                            ok ? setState({
-                                action: action,
-                                location: location
-                            }) : revertPop(location);
-                        });
-                    }
+                    forceNextPop ? (forceNextPop = !1, setState()) : transitionManager.confirmTransitionTo(location, "POP", getUserConfirmation, function(ok) {
+                        ok ? setState({
+                            action: "POP",
+                            location: location
+                        }) : revertPop(location);
+                    });
                 }
                 function revertPop(fromLocation) {
                     var toLocation = history.location, toIndex = allKeys.indexOf(toLocation.key);
@@ -9798,16 +9795,12 @@
                     }
                 }
                 function handlePop(location) {
-                    if (forceNextPop) forceNextPop = !1, setState();
-                    else {
-                        var action = "POP";
-                        transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function(ok) {
-                            ok ? setState({
-                                action: action,
-                                location: location
-                            }) : revertPop(location);
-                        });
-                    }
+                    forceNextPop ? (forceNextPop = !1, setState()) : transitionManager.confirmTransitionTo(location, "POP", getUserConfirmation, function(ok) {
+                        ok ? setState({
+                            action: "POP",
+                            location: location
+                        }) : revertPop(location);
+                    });
                 }
                 function revertPop(fromLocation) {
                     var toLocation = history.location, toIndex = allPaths.lastIndexOf(createPath(toLocation));
@@ -15411,9 +15404,6 @@
             function ok(a, b) {
                 nk(a, b), (a = a.alternate) && nk(a, b);
             }
-            function pk() {
-                return null;
-            }
             function qk(a, b, c) {
                 var d = null != c && null != c.hydrationOptions && c.hydrationOptions.mutableSources || null;
                 if (c = new jk(a, b, null != c && !0 === c.hydrate), b = nh(3, null, null, 2 === b ? 7 : 1 === b ? 3 : 0), c.current = b, b.stateNode = c, xg(b), a[ff] = c.current, cf(8 === a.nodeType ? a.parentNode : a), d) for(a = 0; a < d.length; a++){
@@ -15736,7 +15726,9 @@
                 findHostInstanceByFiber: function(a) {
                     return null === (a = cc(a)) ? null : a.stateNode;
                 },
-                findFiberByHostInstance: wk.findFiberByHostInstance || pk,
+                findFiberByHostInstance: wk.findFiberByHostInstance || function() {
+                    return null;
+                },
                 findHostInstancesForRefresh: null,
                 scheduleRefresh: null,
                 scheduleRoot: null,

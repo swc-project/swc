@@ -1,7 +1,7 @@
 (function() {
-    var a = 1;
-    const b = {
-        prop: a
+    var n = 1;
+    const r = {
+        prop: n
     };
-    return b;
+    return r;
 })();

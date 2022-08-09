@@ -1,4 +1,4 @@
-function a(a) {
-    return typeof a;
+function o(o) {
+    return typeof o;
 }
-console.log(typeof a, a());
+console.log(typeof o, o());

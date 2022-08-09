@@ -116,6 +116,7 @@ impl UsageVisitor {
             if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
                 if let Some(features) = map.get_data(prop) {
                     self.add(features);
+                    return;
                 }
             }
         }

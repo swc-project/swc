@@ -1,2 +1,2 @@
-(function(a, ...b) {});
-(function(...a) {});
+(function(n, ...c) {});
+(function(...n) {});

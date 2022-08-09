@@ -1,36 +1,36 @@
-function a(a) {
-    return a ? -1 : -1;
+function n(n) {
+    return n ? -1 : -1;
 }
-function b(a) {
-    return a ? +2 : +2;
+function t(n) {
+    return n ? +2 : +2;
 }
-function c(a) {
-    return a ? ~3 : ~3;
+function r(n) {
+    return n ? ~3 : ~3;
 }
-function d(a) {
-    return a ? !4 : !4;
+function u(n) {
+    return n ? !4 : !4;
 }
-function e(a) {
-    return a ? void 5 : void 5;
+function o(n) {
+    return n ? void 5 : void 5;
 }
-function f(a) {
-    return a ? typeof 6 : typeof 6;
+function e(n) {
+    return n ? typeof 6 : typeof 6;
 }
-function h() {
+function f() {
     return g() ? -1 : -1;
 }
 function i() {
     return g() ? +2 : +2;
 }
-function j() {
+function c() {
     return g() ? ~3 : ~3;
 }
-function k() {
+function d() {
     return g() ? !4 : !4;
 }
-function l() {
+function p() {
     return g() ? void 5 : void 5;
 }
-function m() {
+function v() {
     return g() ? typeof 6 : typeof 6;
 }

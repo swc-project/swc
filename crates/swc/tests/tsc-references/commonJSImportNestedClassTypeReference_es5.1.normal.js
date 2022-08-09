@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @allowJs: true
 // @checkJs: true
 // @strict: true
@@ -10,6 +9,7 @@ var K = require("./mod1").K;
     k.values();
 }
 // @filename: mod1.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var NS = {};
 NS.K = /*#__PURE__*/ function() {
     "use strict";

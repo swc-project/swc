@@ -1,6 +1,6 @@
-var a = 1;
+var c = 1;
 !(function() {
-    switch(a++){
+    switch(c++){
     }
 })();
-console.log(a);
+console.log(c);

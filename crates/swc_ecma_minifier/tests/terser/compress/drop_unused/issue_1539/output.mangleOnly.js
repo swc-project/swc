@@ -1,5 +1,5 @@
-function a() {
-    var a, b;
-    a = b = 42;
-    return a;
+function n() {
+    var n, r;
+    n = r = 42;
+    return n;
 }

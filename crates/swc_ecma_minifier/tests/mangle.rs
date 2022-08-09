@@ -241,7 +241,7 @@ function func2() {
     let expected = "function func1() {
     console.log(1);
 }
-function a() {
+function n() {
     console.log(2);
 }";
 
@@ -268,7 +268,7 @@ class Class2 {
     let expected = "class Class1 {
     hello1 = 1;
 }
-class a {
+class l {
     hello2 = 2;
 }";
 
@@ -292,10 +292,10 @@ class Class2 {
     hello2 = 2;
 }";
 
-    let expected = "class a {
+    let expected = "class l {
     a = 1;
 }
-class b {
+class s {
     hello2 = 2;
 }";
 
@@ -323,10 +323,10 @@ class Class2 {
     #hello2 = 2;
 }";
 
-    let expected = "class a {
+    let expected = "class s {
     #a = 1;
 }
-class b {
+class a {
     #b = 2;
 }";
 
@@ -350,10 +350,10 @@ class Class2 {
     #hello2 = 2;
 }";
 
-    let expected = "class a {
+    let expected = "class s {
     #hello1 = 1;
 }
-class b {
+class a {
     #hello2 = 2;
 }";
 

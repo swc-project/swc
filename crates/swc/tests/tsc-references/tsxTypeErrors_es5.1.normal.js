@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@jsx: preserve
 // A built-in element (OK)
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var a1 = /*#__PURE__*/ React.createElement("div", {
     id: "foo"
 });

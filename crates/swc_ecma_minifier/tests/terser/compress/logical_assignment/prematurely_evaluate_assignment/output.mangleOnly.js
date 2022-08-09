@@ -1,7 +1,7 @@
+var l = null;
 var a = null;
-var b = null;
-var c = "FAIL";
-a ||= "PASS";
-b ??= "PASS";
-c &&= "PASS";
-console.log(a, b, c);
+var r = "FAIL";
+l ||= "PASS";
+a ??= "PASS";
+r &&= "PASS";
+console.log(l, a, r);

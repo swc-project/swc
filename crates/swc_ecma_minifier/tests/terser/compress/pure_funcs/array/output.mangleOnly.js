@@ -1,5 +1,5 @@
-var a;
-function b(b) {
-    Math.floor(a / b);
-    Math.floor(c / b);
+var o;
+function f(f) {
+    Math.floor(o / f);
+    Math.floor(c / f);
 }

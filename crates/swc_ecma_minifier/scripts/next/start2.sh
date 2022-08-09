@@ -22,20 +22,7 @@ nextJsDir="$(pwd)"
 
 # Ensure that next-swc is up to date
 echo "----- ⚠️  Building next-swc"
-(cd ./packages/next-swc && yarn build-native)
-
-# Install dependencies
-echo "----- ⚠️  Installing dependencies"
-if [ ! -d "$dir/node_modules" ]; then
-    if test -f "$dir/yarn.lock"; then
-        echo "  Using yarn"
-        # (cd $dir && yarn)
-    else
-        echo "  Using yarn"
-        # (cd $dir && npm ci)
-    fi
-fi
-
+(cd ./packages/next-swc && pnpm build-native)
 
 echo "----- ⚠️  Removing cache"
 (cd $dir && rm -rf .next)

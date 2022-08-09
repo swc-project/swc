@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@filename: part1.ts
 var A;
 (function(A) {
@@ -13,6 +12,9 @@ var A;
         Utils.mirror = mirror;
     })(Utils = A.Utils || (A.Utils = {}));
 })(A || (A = {}));
+//@filename: part2.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var A;
 (function(A) {
     var Origin = A.Origin = {
         x: 0,

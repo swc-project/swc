@@ -1,5 +1,5 @@
-import _define_property from "@swc/helpers/src/_define_property.mjs";
 // @target: es5,esnext
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var K = {
     a: "a",
     b: "b"

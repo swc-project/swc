@@ -1,8 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -10,7 +5,12 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 /**
  * @constructor
  * @param {number} numberOxen
- */ function Wagon(numberOxen) {
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+function Wagon(numberOxen) {
     this.numberOxen = numberOxen;
 }
 /** @param {Wagon[]=} wagons */ Wagon.circle = function(wagons) {
@@ -55,9 +55,9 @@ var Sql = /*#__PURE__*/ function(Wagon) {
 var db = new Sql();
 db.numberOxen = db.foonly;
 // error, can't extend a TS constructor function
-var Drakkhen = /*#__PURE__*/ function(Dragon) {
+var Drakkhen = /*#__PURE__*/ function(Dragon1) {
     "use strict";
-    _inherits(Drakkhen, Dragon);
+    _inherits(Drakkhen, Dragon1);
     var _super = _create_super(Drakkhen);
     function Drakkhen() {
         _class_call_check(this, Drakkhen);
@@ -68,7 +68,10 @@ var Drakkhen = /*#__PURE__*/ function(Dragon) {
 // @Filename: second.ts
 /**
  * @constructor
- */ function Dragon(numberEaten) {
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+function Dragon(numberEaten) {
     this.numberEaten = numberEaten;
 }
 // error!
@@ -83,9 +86,9 @@ var Firedrake = /*#__PURE__*/ function(Dragon) {
     return Firedrake;
 }(Dragon);
 // ok
-var Conestoga = /*#__PURE__*/ function(Wagon) {
+var Conestoga = /*#__PURE__*/ function(Wagon1) {
     "use strict";
-    _inherits(Conestoga, Wagon);
+    _inherits(Conestoga, Wagon1);
     var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
         _class_call_check(this, Conestoga);
@@ -107,7 +110,10 @@ c.numberOxen;
 /**
  * @template T
  * @param {T} flavour
- */ function Soup(flavour) {
+ */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+function Soup(flavour) {
     this.flavour = flavour;
 }
 /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ var Chowder = /*#__PURE__*/ function(Soup) {

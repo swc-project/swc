@@ -1,9 +1,9 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @lib: esnext
 // @Filename: bug25127.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Entry = /*#__PURE__*/ function() {
     "use strict";
     function Entry() {

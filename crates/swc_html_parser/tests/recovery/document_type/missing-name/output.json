@@ -16,7 +16,8 @@
       },
       "name": null,
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE>"
     },
     {
       "type": "Element",
@@ -84,7 +85,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "href",
-                  "value": "https://www.w3schools.com"
+                  "rawName": "href",
+                  "value": "https://www.w3schools.com",
+                  "rawValue": "https://www.w3schools.com"
                 }
               ],
               "children": [

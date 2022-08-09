@@ -4,7 +4,7 @@ switch(function() {
 }){
     case xxx:
         for(; console.log("FAIL");){
-            function a() {}
+            function n() {}
         }
         break;
 }

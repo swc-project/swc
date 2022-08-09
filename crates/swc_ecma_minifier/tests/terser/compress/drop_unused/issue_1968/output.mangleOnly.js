@@ -1,8 +1,8 @@
-function a(a) {
-    var b;
-    if (a) {
-        let c;
-        return (b = 2) + (c = 3);
+function n(n) {
+    var r;
+    if (n) {
+        let t;
+        return (r = 2) + (t = 3);
     }
 }
-console.log(a(1));
+console.log(n(1));

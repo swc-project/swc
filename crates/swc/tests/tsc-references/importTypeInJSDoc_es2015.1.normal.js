@@ -1,3 +1,10 @@
+// @target: es6
+// @outDir: ./out
+// @allowJs: true
+// @checkJs: true
+// @filename: externs.d.ts
+module.exports = MyClass;
+export { };
 // @filename: index.js
 /**
  * @typedef {import("./externs")} Foo
@@ -9,10 +16,3 @@ const q = /** @type {import("./externs").Bar} */ ({
     doer: (q)=>q
 });
 const r = /** @type {typeof import("./externs").Bar} */ ((r)=>r);
-module.exports = MyClass;
-// @target: es6
-// @outDir: ./out
-// @allowJs: true
-// @checkJs: true
-// @filename: externs.d.ts
-export { };

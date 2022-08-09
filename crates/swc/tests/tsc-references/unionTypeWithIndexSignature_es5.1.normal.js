@@ -1,3 +1,5 @@
+// @target: esnext
+// @strict: true
 u.foo = "bye";
 u.baz = "hi";
 v.foo = false;

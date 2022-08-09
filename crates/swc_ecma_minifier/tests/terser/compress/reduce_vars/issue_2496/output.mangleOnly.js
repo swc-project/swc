@@ -1,18 +1,18 @@
-function a(a) {
-    a();
+function s(s) {
+    s();
 }
-class b {
-    constructor(a){
-        this.message = a;
+class e {
+    constructor(s){
+        this.message = s;
     }
     go() {
         this.message = "PASS";
         console.log(this.message);
     }
     run() {
-        a(()=>{
+        s(()=>{
             this.go();
         });
     }
 }
-new b("FAIL").run();
+new e("FAIL").run();

@@ -19,12 +19,6 @@ var E, Flag, Shape = function() {
     "use strict";
     _class_call_check(this, Options);
 };
-function getProperty(obj, key) {
-    return obj[key];
-}
-function setProperty(obj, key, value) {
-    obj[key] = value;
-}
 !function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
 }(E || (E = {}));
@@ -53,7 +47,8 @@ var Component = function() {
     }, _proto.set = function(key, value) {
         this[key] = value;
     }, _proto.foo = function() {
-        this.x, this.x, this.get("x"), getProperty(this, "x"), this.x = 42, this.x = 42, this.set("x", 42), setProperty(this, "x", 42);
+        var obj, obj1;
+        this.x, this.x, this.get("x"), obj = this, obj.x, this.x = 42, this.x = 42, this.set("x", 42), obj1 = this, obj1.x = 42;
     }, C1;
 }(), Base = function() {
     "use strict";
@@ -80,10 +75,12 @@ var Component = function() {
 }(Base), OtherPerson = function() {
     "use strict";
     function OtherPerson(parts) {
-        _class_call_check(this, OtherPerson), setProperty(this, "parts", parts);
+        var obj, value;
+        _class_call_check(this, OtherPerson), obj = this, value = parts, obj.parts = value;
     }
     return OtherPerson.prototype.getParts = function() {
-        return getProperty(this, "parts");
+        var obj;
+        return obj = this, obj.parts;
     }, OtherPerson;
 }();
 one(function() {}), on({

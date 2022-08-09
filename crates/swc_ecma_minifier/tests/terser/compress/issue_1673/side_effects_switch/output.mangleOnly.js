@@ -1,10 +1,10 @@
-function a() {
-    function a() {
+function c() {
+    function c() {
         switch(0){
             default:
             case console.log("PASS"):
         }
     }
-    a();
+    c();
 }
-a();
+c();

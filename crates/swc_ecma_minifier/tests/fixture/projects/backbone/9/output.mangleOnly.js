@@ -1,17 +1,17 @@
 (function() {
     var a = this;
-    var b = a.Backbone;
-    var c = [];
-    var d = c.push;
-    var e = c.slice;
-    var f = c.splice;
-    var g;
+    var r = a.Backbone;
+    var v = [];
+    var e = v.push;
+    var c = v.slice;
+    var i = v.splice;
+    var o;
     if (typeof exports !== "undefined") {
-        g = exports;
+        o = exports;
     } else {
-        g = a.Backbone = {};
+        o = a.Backbone = {};
     }
-    g.VERSION = "1.1.0";
-    var h = a._;
-    console.log(g);
+    o.VERSION = "1.1.0";
+    var s = a._;
+    console.log(o);
 })();

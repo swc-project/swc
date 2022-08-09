@@ -1,24 +1,24 @@
-function d() {
+function n() {
     return a == b ? x : true;
 }
-function e() {
+function r() {
     return a == b ? x : false;
 }
-function f() {
+function t() {
     return a < b ? x : !0;
 }
-function g() {
+function u() {
     return a < b ? x : !1;
 }
-function h() {
+function e() {
     return c ? x : true;
 }
-function i() {
+function f() {
     return c ? x : !1;
 }
-function j() {
+function i() {
     return !c ? x : !0;
 }
-function k() {
+function o() {
     return !c ? x : false;
 }

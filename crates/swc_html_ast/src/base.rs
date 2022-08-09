@@ -48,6 +48,7 @@ pub struct DocumentType {
     pub name: Option<JsWord>,
     pub public_id: Option<JsWord>,
     pub system_id: Option<JsWord>,
+    pub raw: Option<JsWord>,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -86,7 +87,9 @@ pub struct Attribute {
     pub namespace: Option<Namespace>,
     pub prefix: Option<JsWord>,
     pub name: JsWord,
+    pub raw_name: Option<JsWord>,
     pub value: Option<JsWord>,
+    pub raw_value: Option<JsWord>,
 }
 
 #[ast_node("Text")]
@@ -102,4 +105,5 @@ pub struct Text {
 pub struct Comment {
     pub span: Span,
     pub data: JsWord,
+    pub raw: Option<JsWord>,
 }

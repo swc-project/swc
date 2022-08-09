@@ -1,24 +1,24 @@
-function a(a) {
-    var b = a, c = 3 - a;
-    while(c){
-        return b;
+function r(r) {
+    var n = r, e = 3 - r;
+    while(e){
+        return n;
     }
-    var d = a * a;
-    return d;
+    var t = r * r;
+    return t;
 }
-function b(a) {
-    var b = 7;
-    while(a){
-        return b;
+function n(r) {
+    var n = 7;
+    while(r){
+        return n;
     }
-    var c = a * a;
-    return c;
+    var e = r * r;
+    return e;
 }
-function c(a) {
-    var b = 5 - a;
-    while(a){
-        return b;
+function e(r) {
+    var n = 5 - r;
+    while(r){
+        return n;
     }
-    var c = a * a;
-    return c;
+    var e = r * r;
+    return e;
 }

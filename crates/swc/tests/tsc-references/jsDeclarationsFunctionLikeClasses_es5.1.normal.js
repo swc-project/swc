@@ -1,4 +1,3 @@
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -8,13 +7,15 @@ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 /**
  * @param {number} x
  * @param {number} y
- */ export function Point(x, y) {
+ */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+export function Point(x, y) {
     if (!_instanceof(this, Point)) {
         return new Point(x, y);
     }
     this.x = x;
     this.y = y;
 }
+// @filename: referencer.js
 /**
  * @param {Point} p
  */ export function magnitude(p) {

@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE html>"
     },
     {
       "type": "Element",
@@ -84,7 +85,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "title",
-                  "value": "I'm a header"
+                  "rawName": "title",
+                  "value": "I'm a header",
+                  "rawValue": "\"I'm a header\""
                 }
               ],
               "children": [
@@ -132,7 +135,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "title",
-                  "value": "I'm a tooltip"
+                  "rawName": "title",
+                  "value": "I'm a tooltip",
+                  "rawValue": "\"I'm a tooltip\""
                 }
               ],
               "children": [

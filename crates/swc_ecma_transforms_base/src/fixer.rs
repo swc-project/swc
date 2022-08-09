@@ -100,9 +100,13 @@ impl Fixer<'_> {
     fn wrap_callee(&mut self, e: &mut Expr) {
         if match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
-            Expr::Cond(..) | Expr::Bin(..) | Expr::Lit(..) | Expr::Unary(..) | Expr::Object(..) => {
-                true
-            }
+            Expr::Cond(..)
+            | Expr::Bin(..)
+            | Expr::Lit(..)
+            | Expr::Unary(..)
+            | Expr::Object(..)
+            | Expr::Await(..)
+            | Expr::Yield(..) => true,
             _ => false,
         } {
             self.wrap(e)
@@ -252,7 +256,10 @@ impl VisitMut for Fixer<'_> {
             Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                 if *op_of_rhs == expr.op {
                     match expr.op {
-                        op!("&&") | op!("||") => {}
+                        // `a && (b && c)` == `a && b && c`
+                        // `a || (b || c)` == `a || b || c`
+                        // `a ** (b ** c)` == `a ** b ** c`
+                        op!("&&") | op!("||") | op!("**") => {}
                         _ => {
                             self.wrap(&mut expr.right);
                         }
@@ -289,7 +296,6 @@ impl VisitMut for Fixer<'_> {
                 || expr.op == op!("!==") => {}
 
             Expr::Seq(..)
-            | Expr::Update(UpdateExpr { prefix: false, .. })
             | Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             })
@@ -648,10 +654,12 @@ impl VisitMut for Fixer<'_> {
                 right,
                 ..
             }) if n.op == op!(unary, "-")
-                && matches!(
-                    (&**left, &**right),
-                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..)))
-                ) => {}
+                && match (&**left, &**right) {
+                    (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(..))) => {
+                        !l.value.is_sign_negative()
+                    }
+                    _ => false,
+                } => {}
 
             Expr::Assign(..)
             | Expr::Bin(..)
@@ -900,6 +908,8 @@ impl Fixer<'_> {
                 ..
             }) => {
                 match &**expr {
+                    // `(a?.b).c !== a?.b.c`
+                    Expr::OptChain(..) => return,
                     Expr::Bin(bin_expr) if bin_expr.left.is_object() => {
                         return;
                     }
@@ -1620,4 +1630,16 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_5109_1, "(0, b)?.()");
     identical!(issue_5109_2, "1 + (0, b)?.()");
     identical!(issue_5109_3, "(0, a)() ? undefined : (0, b)?.()");
+
+    identical!(
+        issue_5313,
+        "
+        async function* foo() {
+            (await a)();
+            (yield b)();
+        }
+        "
+    );
+
+    identical!(bin_and_unary, "console.log(a++ && b--)");
 }

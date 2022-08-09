@@ -9,10 +9,19 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
+use swc_ecma_visit::Fold;
+
+fn tr() -> impl Fold {
+    let unresolved_mark = Mark::new();
+    chain!(
+        resolver(unresolved_mark, Mark::new(), false),
+        block_scoping(unresolved_mark)
+    )
+}
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     for_loop,
     "for (const key in obj) {
             const bar = obj[key];
@@ -48,7 +57,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     for_let_loop,
     "let functions = [];
 for (let i = 0; i < 10; i++) {
@@ -73,7 +82,7 @@ functions[7]();
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     for_let_loop_exec,
     "let functions = [];
 for (let i = 0; i < 10; i++) {
@@ -88,7 +97,7 @@ expect(functions[7]()).toBe(7);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     for_let_of_exec,
     "let functions = [];
 for (let i of [1, 3, 5, 7, 9]) {
@@ -103,7 +112,7 @@ expect(functions[1]()).toBe(3);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(for_of(Default::default()), block_scoping()),
+    |_| chain!(for_of(Default::default()), block_scoping(Mark::new())),
     issue_609_1,
     "let functions = [];
 for (let i of [1, 3, 5, 7, 9]) {
@@ -118,7 +127,7 @@ expect(functions[1]()).toBe(3);
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     issue_662,
     "function foo(parts) {
   let match = null;
@@ -166,90 +175,87 @@ foo();"
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     issue_686,
     "module.exports = function(values) {
-    var vars = [];
-    var elem = null, name, val;
-    for (var i = 0; i < this.elements.length; i++) {
-      elem = this.elements[i];
-      name = elem.name;
-      if (!name) continue;
-      val = values[name];
-      if (val == null) val = '';
-      switch (elem.type) {
-      case 'submit':
-        break;
-      case 'radio':
-      case 'checkbox':
-        elem.checked = val.some(function(str) {
-          return str.toString() == elem.value;
-        });
-        break;
-      case 'select-multiple':
-        elem.fill(val);
-        break;
-      case 'textarea':
-        elem.innerText = val;
-        break;
-      case 'hidden':
-        break;
-      default:
-        if (elem.fill) {
+      var vars = [];
+      var elem = null, name, val;
+      for (var i = 0; i < this.elements.length; i++) {
+        elem = this.elements[i];
+        name = elem.name;
+        if (!name) continue;
+        val = values[name];
+        if (val == null) val = '';
+        switch (elem.type) {
+        case 'submit':
+          break;
+        case 'radio':
+        case 'checkbox':
+          elem.checked = val.some(function(str) {
+            return str.toString() == elem.value;
+          });
+          break;
+        case 'select-multiple':
           elem.fill(val);
-        } else {
-          elem.value = val;
+          break;
+        case 'textarea':
+          elem.innerText = val;
+          break;
+        case 'hidden':
+          break;
+        default:
+          if (elem.fill) {
+            elem.fill(val);
+          } else {
+            elem.value = val;
+          }
+          break;
         }
-        break;
       }
-    }
-    return vars;
-  };",
-    "
-        module.exports = function(values) {
-            var _this = this, _loop = function(i) {
-                elem = _this.elements[i];
-                name = elem.name;
-                if (!name) return \"continue\";
-                val = values[name];
-                if (val == null) val = '';
-                switch(elem.type){
-                    case 'submit':
-                        break;
-                    case 'radio':
-                    case 'checkbox':
-                        elem.checked = val.some(function(str) {
-                            return str.toString() == elem.value;
-                        });
-                        break;
-                    case 'select-multiple':
-                        elem.fill(val);
-                        break;
-                    case 'textarea':
-                        elem.innerText = val;
-                        break;
-                    case 'hidden':
-                        break;
-                    default:
-                        if (elem.fill) {
-                            elem.fill(val);
-                        } else {
-                            elem.value = val;
-                        }
-                        break;
-                }
-            };
-            var vars = [];
-            var elem = null, name, val;
-            for(var i = 0; i < this.elements.length; i++)_loop(i);
-            return vars;
-        };
-        "
+      return vars;
+    };",
+    "module.exports = function(values) {
+      var vars = [];
+      var elem = null, name, val;
+      for (var i = 0; i < this.elements.length; i++) {
+        elem = this.elements[i];
+        name = elem.name;
+        if (!name) continue;
+        val = values[name];
+        if (val == null) val = '';
+        switch (elem.type) {
+        case 'submit':
+          break;
+        case 'radio':
+        case 'checkbox':
+          elem.checked = val.some(function(str) {
+            return str.toString() == elem.value;
+          });
+          break;
+        case 'select-multiple':
+          elem.fill(val);
+          break;
+        case 'textarea':
+          elem.innerText = val;
+          break;
+        case 'hidden':
+          break;
+        default:
+          if (elem.fill) {
+            elem.fill(val);
+          } else {
+            elem.value = val;
+          }
+          break;
+        }
+      }
+      return vars;
+    };"
 );
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     issue_723_1,
     "function foo() {
   const lod = { 0: { mig: 'bana' }};
@@ -489,7 +495,7 @@ test!(
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
+            async_to_generator(Default::default(), mark),
             es2015::es2015(
                 mark,
                 Some(comments.clone()),
@@ -564,7 +570,7 @@ test_exec!(
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default()),
+            async_to_generator(Default::default(), mark),
             es2015::es2015(
                 mark,
                 Some(comments.clone()),
@@ -589,7 +595,7 @@ test_exec!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     issue_1231_1,
     "
     function combineOverlappingMatches(matches) {
@@ -640,7 +646,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     issue_1415_1,
     "
     export function test(items) {
@@ -715,13 +721,16 @@ test!(
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
+        let mark = Mark::new();
+        chain!(
+            resolver(mark, Mark::new(), false),
+            es2015::es2015(
+                mark,
+                Some(comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
         )
     },
     arguments_loop,
@@ -735,13 +744,12 @@ test!(
         ",
     "
         function test() {
-            var _arguments = arguments, _loop = function(i) {
-                var arg = _arguments[i];
-                console.log(function() {
-                    return arg;
-                }());
-            };
-            for(var i = 0; i < arguments.length; i++)_loop(i);
+            for (var i = 0; i < arguments.length; i++) {
+              var arg = arguments[i];
+              console.log(function () {
+                return arg
+              }());
+            }
         }
         "
 );
@@ -769,13 +777,12 @@ test!(
         ",
     "
         function test(a) {
-            var _loop = function(i) {
-                var arg = a.arguments[i];
-                console.log(function() {
-                    return arg;
-                }());
-            };
-            for(var i = 0; i < a.arguments.length; i++)_loop(i);
+            for (var i = 0; i < a.arguments.length; i++) {
+              var arg = a.arguments[i];
+              console.log(function () {
+                return arg
+              }());
+            }
         }
         "
 );
@@ -784,12 +791,15 @@ compare_stdout!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
+        chain!(
+            resolver(mark, Mark::new(), false),
+            es2015::es2015(
+                mark,
+                Some(comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
         )
     },
     arguments_arrow,
@@ -826,19 +836,16 @@ test!(
         ",
     "
         function test() {
-            var _loop = function(i) {
-                console.log(function() {
-                    return arguments[i];
-                }());
-            };
-            for(var i = 0; i < arguments.length; i++)_loop(i);
+            for (var i = 0; i < arguments.length; i++) {
+              console.log(function () { return arguments[i] }());
+            }
         }
         "
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| tr(),
     issue_1462_1,
     "
     export default function _objectSpread(target) {
@@ -853,7 +860,7 @@ test!(
             }
 
             ownKeys.forEach(function (key) {
-            defineProperty(target, key, source[key]);
+                defineProperty(target, key, source[key]);
             });
         }
 
@@ -862,21 +869,21 @@ test!(
     ",
     "
     export default function _objectSpread(target) {
-        var _arguments = arguments, _loop = function(i) {
-            var source = _arguments[i] != null ? _arguments[i] : {
-            };
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i] != null ? arguments[i] : {};
             var ownKeys = Object.keys(source);
+
             if (typeof Object.getOwnPropertySymbols === 'function') {
-                ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) \
-     {
-                    return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                }));
+            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+            }));
             }
-            ownKeys.forEach(function(key) {
+
+            ownKeys.forEach(function (key) {
                 defineProperty(target, key, source[key]);
             });
-        };
-        for(var i = 1; i < arguments.length; i++)_loop(i);
+        }
+
         return target;
     }
     "
@@ -884,7 +891,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     issue_2027_1,
     "
     const keys = {
@@ -960,7 +967,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| tr(),
     issue_2998_1,
     "
     let a = 5;
@@ -973,14 +980,14 @@ for (let b = 0; b < a; b++) {
     var a = 5;
 for(var b = 0; b < a; b++){
     var c = 0, b1 = 10, d = 100;
-    console.log(b);
+    console.log(b1);
 }
     "
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     issue_2998_2,
     "
     for (var a; ;) { }
@@ -994,7 +1001,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     issue_4196,
     "
     for (let i = 0; i < 2; i++) {
@@ -1025,7 +1032,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Mark::new()),
     labeled_break,
     "
     a:
@@ -1063,7 +1070,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| tr(),
     issue_2998_3,
     "let a = 5;
 const expected = [];
@@ -1071,7 +1078,7 @@ for (let b = 0; b < a; b++) {
     let c = 0, b = 10, d = 100;
     expected.push(b);
 }
-expect(expected).toEqual([0,1,2,3,4]);
+expect(expected).toEqual([10,10,10,10,10]);
 "
 );
 
@@ -1080,7 +1087,13 @@ fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| chain!(resolver(Mark::new(), Mark::new(), false), block_scoping()),
+        |_| {
+            let unresolved_mark = Mark::new();
+            chain!(
+                resolver(unresolved_mark, Mark::new(), false),
+                block_scoping(unresolved_mark)
+            )
+        },
         &input,
     );
 }
@@ -1091,7 +1104,13 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|_| chain!(resolver(Mark::new(), Mark::new(), false), block_scoping()),
+        &|_| {
+            let unresolved_mark = Mark::new();
+            chain!(
+                resolver(unresolved_mark, Mark::new(), false),
+                block_scoping(unresolved_mark)
+            )
+        },
         &input,
         &output,
     );

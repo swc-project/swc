@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -140,7 +143,8 @@
                 "end": 97,
                 "ctxt": 0
               },
-              "data": " test "
+              "data": " test ",
+              "raw": "<!-- test -->"
             },
             {
               "type": "Text",
@@ -159,7 +163,8 @@
                 "end": 111,
                 "ctxt": 0
               },
-              "data": " foo "
+              "data": " foo ",
+              "raw": "<!-- foo -->"
             },
             {
               "type": "Element",
@@ -193,7 +198,8 @@
                 "end": 142,
                 "ctxt": 0
               },
-              "data": " bar\n\nmoo "
+              "data": " bar\n\nmoo ",
+              "raw": "<!-- bar\n\nmoo -->"
             },
             {
               "type": "Text",

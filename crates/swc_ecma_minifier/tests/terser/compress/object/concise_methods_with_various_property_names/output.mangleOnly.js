@@ -1,5 +1,5 @@
-var a = "bar";
-var b = {
+var r = "bar";
+var t = {
     bar () {
         return this.get;
     },
@@ -12,7 +12,7 @@ var b = {
     five () {
         return 5;
     },
-    10 (a) {
-        this._ten = a;
+    10 (r) {
+        this._ten = r;
     }
 };

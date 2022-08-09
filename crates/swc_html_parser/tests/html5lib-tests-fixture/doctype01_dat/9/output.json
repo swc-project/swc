@@ -16,7 +16,8 @@
       },
       "name": "potato",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!DOCTYPE potato sYstEM>"
     },
     {
       "type": "Element",

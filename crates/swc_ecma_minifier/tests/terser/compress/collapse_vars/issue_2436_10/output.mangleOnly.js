@@ -1,17 +1,17 @@
-var a = {
+var n = {
     a: 1,
     b: 2
 };
-function b(b) {
-    a = {
+function r(r) {
+    n = {
         b: 3
     };
-    return b;
+    return r;
 }
-console.log((function(a) {
+console.log((function(n) {
     return [
-        a.a,
-        b(a.b),
-        a.b
+        n.a,
+        r(n.b),
+        n.b
     ];
-})(a).join(" "));
+})(n).join(" "));

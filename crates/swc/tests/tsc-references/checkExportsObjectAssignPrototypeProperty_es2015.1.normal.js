@@ -1,5 +1,3 @@
-// @filename: validator.ts
-import "./";
 // @allowJs: true
 // @noEmit: true
 // @strict: true
@@ -39,6 +37,8 @@ Object.defineProperty(Person.prototype, "setonlyAccessor", {
     }
 });
 module.exports = Person;
+// @filename: validator.ts
+import "./";
 const Person = require("./mod1");
 const m1 = new Person("Name");
 m1.thing;

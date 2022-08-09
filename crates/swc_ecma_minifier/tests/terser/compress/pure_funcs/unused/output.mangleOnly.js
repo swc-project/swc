@@ -1,7 +1,7 @@
-function a() {
-    var a = pure(1);
-    var b = pure(2);
-    var c = pure(b);
-    var d = pure(pure(side_effects()));
+function r() {
+    var r = pure(1);
+    var a = pure(2);
+    var v = pure(a);
+    var n = pure(pure(side_effects()));
     return pure(3);
 }

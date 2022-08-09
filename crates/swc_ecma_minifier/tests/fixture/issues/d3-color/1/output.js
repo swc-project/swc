@@ -1,7 +1,7 @@
 import define, { extend } from "./define.js";
 import { Color, rgbConvert, Rgb, darker, brighter } from "./color.js";
 import { deg2rad, rad2deg } from "./math.js";
-var BC_DA = -0.5210501878999999 - 0.1347134789;
+var BC_DA = -1.78277 * 0.29227 - 0.1347134789;
 export default function cubehelix(h, s, l, opacity) {
     return 1 === arguments.length ? function(o) {
         if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);

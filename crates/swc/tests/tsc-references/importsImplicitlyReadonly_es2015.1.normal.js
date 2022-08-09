@@ -1,16 +1,33 @@
-import * as a1 from "./a";
 // @module: commonjs
 // @filename: a.ts
 export var x = 1;
 var y = 1;
 export { y };
-const a2 = require("./a");
-const a3 = a1;
-x = 1; // Error
-y = 1; // Error
-a1.x = 1; // Error
-a1.y = 1; // Error
-a2.x = 1;
-a2.y = 1;
-a3.x = 1;
-a3.y = 1;
+// @filename: b.ts
+//!
+//!  x cannot reassign to an imported binding
+//!   ,-[2:1]
+//! 2 | import { x, y } from "./a";
+//!   :          |
+//!   :          `-- imported binding
+//! 3 | import * as a1 from "./a";
+//! 4 | import a2 = require("./a");
+//! 5 | const a3 = a1;
+//! 6 | 
+//! 7 | x = 1;     // Error
+//!   : ^
+//!   `----
+//!
+//!  x cannot reassign to an imported binding
+//!   ,-[2:1]
+//! 2 | import { x, y } from "./a";
+//!   :             |
+//!   :             `-- imported binding
+//! 3 | import * as a1 from "./a";
+//! 4 | import a2 = require("./a");
+//! 5 | const a3 = a1;
+//! 6 | 
+//! 7 | x = 1;     // Error
+//! 8 | y = 1;     // Error
+//!   : ^
+//!   `----

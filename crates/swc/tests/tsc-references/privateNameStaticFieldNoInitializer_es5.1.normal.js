@@ -1,6 +1,6 @@
+// @target: es2015, es2022, esnext
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var _class, _x;
-// @target: es2015, es2022, esnext
 var C = (_class = function _class() {
     "use strict";
     _class_call_check(this, _class);

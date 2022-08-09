@@ -1,16 +1,16 @@
-function a(a) {
-    function a() {
+function n(n) {
+    function n() {
         return 1;
     }
-    function b() {
+    function t() {
         return 2;
     }
-    function c() {
+    function r() {
         return 3;
     }
-    b.inject = [];
-    c = function() {
+    t.inject = [];
+    r = function() {
         return 4;
     };
-    return a() + b() + c();
+    return n() + t() + r();
 }

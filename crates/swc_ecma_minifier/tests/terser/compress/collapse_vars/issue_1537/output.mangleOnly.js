@@ -1,4 +1,4 @@
-var a = "";
-for(a in {
+var r = "";
+for(r in {
     prop: "val"
 }){}

@@ -28,7 +28,7 @@ fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
         ),
         display_name(),
         classes(Some(t.comments.clone()), Default::default()),
-        arrow(),
+        arrow(unresolved_mark),
     )
 }
 

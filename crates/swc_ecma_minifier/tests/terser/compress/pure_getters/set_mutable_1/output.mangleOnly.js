@@ -1,5 +1,5 @@
-!(function a() {
-    a.foo += "";
-    if (a.foo) console.log("PASS");
+!(function o() {
+    o.foo += "";
+    if (o.foo) console.log("PASS");
     else console.log("FAIL");
 })();

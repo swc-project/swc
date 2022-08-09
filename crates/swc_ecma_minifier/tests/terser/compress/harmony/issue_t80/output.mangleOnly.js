@@ -1,14 +1,14 @@
-function a(a = []) {
-    var b, c = "unused";
+function n(n = []) {
+    var i, l = "unused";
     if (arguments.length == 1) {
-        a = [
-            a
+        n = [
+            n
         ];
     }
-    return a;
+    return n;
 }
 console.log(JSON.stringify([
-    a(),
-    a(null),
-    a(5, 6)
+    n(),
+    n(null),
+    n(5, 6)
 ]));

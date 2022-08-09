@@ -6,3 +6,4 @@ var ns;
 }(ns || (ns = {}));
 export default ns;
 ns.Class, ns.Value;
+export { };

@@ -613,8 +613,8 @@
                             mouseleave: "mouseout",
                             mouseenter: "mouseover"
                         }[type], function(event) {
-                            var target = this, related = event.relatedTarget;
-                            related && (related === target || contains(target, related)) || handle(event, type);
+                            var related = event.relatedTarget;
+                            related && (related === this || contains(this, related)) || handle(event, type);
                         });
                     } else addEventListenerFn(element, type, handle), events1[type] = [];
                     eventFns = events1[type];
@@ -912,7 +912,7 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
-            var interval, setTimeout2;
+            var setTimeout2;
             return isUndefined(pollTimeout) && (setTimeout2 = setTimeout1, forEach(pollFns, function(pollFn) {
                 pollFn();
             }), pollTimeout = setTimeout2(check, 100)), pollFns.push(fn), fn;

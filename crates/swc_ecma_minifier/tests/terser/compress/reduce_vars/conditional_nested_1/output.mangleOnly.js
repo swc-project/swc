@@ -1,10 +1,10 @@
-var a = 1, b = 0;
-(function c(d) {
-    function e() {
-        d && (d.a = 0);
-        d && (d.a = 0);
-        d && (d[b++] *= 0);
+var n = 1, $ = 0;
+(function a(o) {
+    function c() {
+        o && (o.a = 0);
+        o && (o.a = 0);
+        o && (o[$++] *= 0);
     }
-    e(a-- && c(e((d = 42))));
+    c(n-- && a(c((o = 42))));
 })();
-console.log(b);
+console.log($);

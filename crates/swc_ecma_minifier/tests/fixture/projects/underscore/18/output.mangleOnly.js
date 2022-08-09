@@ -1,10 +1,10 @@
-_.sortedIndex = function(a, b, c, d) {
-    c = c == null ? _.identity : lookupIterator(c);
-    var e = c.call(d, b);
-    var f = 0, g = a.length;
-    while(f < g){
-        var h = (f + g) >>> 1;
-        c.call(d, a[h]) < e ? (f = h + 1) : (g = h);
+_.sortedIndex = function(l, n, e, r) {
+    e = e == null ? _.identity : lookupIterator(e);
+    var t = e.call(r, n);
+    var a = 0, i = l.length;
+    while(a < i){
+        var c = (a + i) >>> 1;
+        e.call(r, l[c]) < t ? (a = c + 1) : (i = c);
     }
-    return f;
+    return a;
 };

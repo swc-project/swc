@@ -1,7 +1,7 @@
-var a = 10;
-function b() {
-    var b;
-    if (delete b) a--;
+var e = 10;
+function a() {
+    var a;
+    if (delete a) e--;
 }
-b();
-console.log(a);
+a();
+console.log(e);

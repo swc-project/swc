@@ -1,5 +1,5 @@
-import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 // @target: es2015
+import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 class X {
     constructor(){
         _class_static_private_method_get(X, X, m).call(X);

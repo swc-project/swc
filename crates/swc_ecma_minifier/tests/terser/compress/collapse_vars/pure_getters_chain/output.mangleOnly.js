@@ -1,8 +1,8 @@
-function a(a, b) {
-    var c = a[1], d = a[2], e = a[3], f = a[5];
-    return c <= 23 && d <= 59 && e <= 59 && (!b || f);
+function n(n, r) {
+    var o = n[1], t = n[2], u = n[3], _ = n[5];
+    return o <= 23 && t <= 59 && u <= 59 && (!r || _);
 }
-console.log(a([
+console.log(n([
     ,
     23,
     59,

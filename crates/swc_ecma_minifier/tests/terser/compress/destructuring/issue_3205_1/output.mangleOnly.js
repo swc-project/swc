@@ -1,11 +1,11 @@
-function a(a) {
-    function b() {
-        var { b: b , c: c  } = a;
-        console.log(b, c);
+function c(c) {
+    function n() {
+        var { b: n , c: o  } = c;
+        console.log(n, o);
     }
-    b();
+    n();
 }
-a({
+c({
     b: 2,
     c: 3
 });

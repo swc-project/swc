@@ -1,6 +1,6 @@
-var a = {
-    f: (a)=>{
-        console.log(a);
+var f = {
+    f: (f)=>{
+        console.log(f);
     }
 };
-a.f(a.f);
+f.f(f.f);

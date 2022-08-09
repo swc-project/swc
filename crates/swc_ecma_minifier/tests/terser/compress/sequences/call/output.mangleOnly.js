@@ -1,19 +1,19 @@
-var a = (function() {
+var n = (function() {
     return this;
 })();
-function b() {
+function t() {
     console.log("foo");
 }
-b.c = function() {
-    console.log(this === b ? "bar" : "baz");
+t.c = function() {
+    console.log(this === t ? "bar" : "baz");
 };
-(a, b)();
-(a, b.c)();
-(a, function() {
-    console.log(this === a);
+(n, t)();
+(n, t.c)();
+(n, function() {
+    console.log(this === n);
 })();
-new (a, b)();
-new (a, b.c)();
-new (a, function() {
-    console.log(this === a);
+new (n, t)();
+new (n, t.c)();
+new (n, function() {
+    console.log(this === n);
 })();

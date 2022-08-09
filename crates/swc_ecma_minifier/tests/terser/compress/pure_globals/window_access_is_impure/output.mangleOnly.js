@@ -1,5 +1,5 @@
 try {
     window;
-} catch (a) {
+} catch (c) {
     console.log("PASS");
 }

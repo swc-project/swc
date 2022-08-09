@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -405,7 +406,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "label",
-                      "value": "Group 1"
+                      "rawName": "label",
+                      "value": "Group 1",
+                      "rawValue": "\"Group 1\""
                     }
                   ],
                   "children": [
@@ -468,7 +471,9 @@
                       "namespace": null,
                       "prefix": null,
                       "name": "label",
-                      "value": "Group 2"
+                      "rawName": "label",
+                      "value": "Group 2",
+                      "rawValue": "\"Group 2\""
                     }
                   ],
                   "children": [

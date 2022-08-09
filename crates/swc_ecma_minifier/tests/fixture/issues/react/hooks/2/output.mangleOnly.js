@@ -1,13 +1,13 @@
-function a(a, b) {
-    var c = (0, authenticate.LP)();
-    var d = (0, use_team.ZP)(), e = d.team;
-    var f = e === null || e === void 0 ? void 0 : e.id;
-    return (0, index_esm.ZP)(a ? "".concat(api_endpoints.Ms, "/git-branches").concat((0, qs.c)({
-        projectId: a,
-        teamId: f
-    })) : "", function(a) {
-        return (0, fetch_api.Z)(a, c, {
+function r(r, t) {
+    var n = (0, authenticate.LP)();
+    var o = (0, use_team.ZP)(), c = o.team;
+    var a = c === null || c === void 0 ? void 0 : c.id;
+    return (0, index_esm.ZP)(r ? "".concat(api_endpoints.Ms, "/git-branches").concat((0, qs.c)({
+        projectId: r,
+        teamId: a
+    })) : "", function(r) {
+        return (0, fetch_api.Z)(r, n, {
             throwOnHTTPError: true
         });
-    }, b);
+    }, t);
 }

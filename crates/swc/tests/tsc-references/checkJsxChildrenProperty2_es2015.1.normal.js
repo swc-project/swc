@@ -1,10 +1,10 @@
-import _extends from "@swc/helpers/src/_extends.mjs";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 // @strictNullChecks: true
+import _extends from "@swc/helpers/src/_extends.mjs";
 const React = require('react');
 function Comp(p) {
     return /*#__PURE__*/ React.createElement("div", null, p.b);

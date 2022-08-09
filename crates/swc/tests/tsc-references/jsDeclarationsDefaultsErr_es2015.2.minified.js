@@ -5,7 +5,7 @@ class Cls {
 }
 Cls.y = "ok";
 export default Cls;
-class C {
-}
+export default class C {
+};
 let x = 12;
-export { C as default, x as default };
+export { x as default };

@@ -1,0 +1,9 @@
+.class {
+  flow-into: table-content;
+}
+.class {
+  flow-from: none;
+}
+.class {
+  region-fragment: break;
+}

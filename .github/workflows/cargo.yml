@@ -54,7 +54,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macos-10.15
+          - macos-latest
           - windows-latest
     steps:
       - uses: actions/checkout@v3
@@ -66,6 +66,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
+          toolchain: 1.60
 
       - uses: actions/setup-node@v3
         with:
@@ -115,7 +116,7 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin-transform-schema-v1
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest
           - crate: swc
             os: windows-latest
           - crate: swc_atoms
@@ -136,7 +137,7 @@ jobs:
           - crate: swc_common
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin-transform-schema-vtest
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest
           - crate: swc_common
             os: windows-latest
           - crate: swc_config
@@ -281,6 +282,22 @@ jobs:
             os: ubuntu-latest
           - crate: swc_html_visit
             os: ubuntu-latest
+          - crate: swc_xml
+            os: ubuntu-latest
+          - crate: swc_xml_ast
+            os: ubuntu-latest
+          - crate: swc_xml_codegen
+            os: ubuntu-latest
+          - crate: swc_xml_codegen
+            os: windows-latest
+          - crate: swc_xml_codegen_macros
+            os: ubuntu-latest
+          - crate: swc_xml_parser
+            os: ubuntu-latest
+          - crate: swc_xml_parser
+            os: windows-latest
+          - crate: swc_xml_visit
+            os: ubuntu-latest
           - crate: swc_macros_common
             os: ubuntu-latest
           - crate: swc_node_base
@@ -380,7 +397,7 @@ jobs:
       - name: Verify dependencies
         shell: bash
         run: |
-          jest -v && mocha --version
+          jest --version && mocha --version
 
       - name: Configure execution cache
         shell: bash
@@ -398,14 +415,24 @@ jobs:
             swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != 'swc_plugin_runner'
+        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote'
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }}
+
+      - name: Run cargo test (core)
+        if: matrix.settings.crate == 'swc_core'
+        run: |
+          cargo test --color always -p swc_core --features quote --features common --features utils
 
       - name: Run cargo test (plugin)
         if: matrix.settings.crate == 'swc_plugin_runner'
         run: |
-          cargo test --color always -p swc_plugin_runner --features plugin-transform-schema-v1
+          cargo test --color always -p swc_plugin_runner --features plugin_transform_schema_v1
+
+      - name: Run cargo test (swc_ecma_minifier)
+        if: matrix.settings.crate == 'swc_ecma_minifier'
+        run: |
+          cargo test --color always -p swc_ecma_minifier --features concurrent
 
       - name: Run cargo test (all features)
         if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'

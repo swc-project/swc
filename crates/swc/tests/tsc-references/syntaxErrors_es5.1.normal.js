@@ -1,3 +1,7 @@
+// @checkJs: true
+// @allowJs: true
+// @noEmit: true
+// @Filename: dummyType.d.ts
 // @Filename: badTypeArguments.js
 /** @param {C.<>} x */ /** @param {C.<number,>} y */ // @ts-ignore
 /** @param {C.<number,>} skipped */ function f(x, y, skipped) {

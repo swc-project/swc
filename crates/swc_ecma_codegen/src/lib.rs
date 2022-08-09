@@ -9,7 +9,7 @@ use std::{borrow::Cow, fmt::Write, io};
 
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     comments::{CommentKind, Comments},
     sync::Lrc,
@@ -86,11 +86,14 @@ where
         match *node {
             Program::Module(ref m) => emit!(m),
             Program::Script(ref s) => emit!(s),
+            // TODO: reenable once experimental_metadata breaking change is merged
+            // _ => unreachable!(),
         }
     }
 
     #[emitter]
     pub fn emit_module(&mut self, node: &Module) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
         srcmap!(node, true);
 
         if let Some(ref shebang) = node.shebang {
@@ -103,6 +106,7 @@ where
         }
 
         srcmap!(node, false);
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
     #[emitter]
@@ -509,7 +513,7 @@ where
         }
     }
 
-    fn emit_js_word(&mut self, span: Span, value: &JsWord) -> Result {
+    fn emit_atom(&mut self, span: Span, value: &Atom) -> Result {
         self.wr.write_str_lit(span, value)?;
 
         Ok(())
@@ -632,9 +636,10 @@ where
         Ok(striped_raw
             .map(|raw| {
                 if raw.bytes().all(|c| c.is_ascii_digit()) {
-                    // Legacy octal contains only digits, but `value` and `raw` are
-                    // different
-                    if !num.value.to_string().eq(&raw) {
+                    // Maybe legacy octal
+                    // Do we really need to support pre es5?
+                    let slice = raw.as_bytes();
+                    if slice.len() >= 2 && slice[0] == b'0' {
                         return false;
                     }
 
@@ -659,7 +664,14 @@ where
         self.emit_leading_comments_of_span(v.span, false)?;
 
         if self.cfg.minify {
-            self.wr.write_lit(v.span, &v.value.to_string())?;
+            let value = if v.value >= 10000000000000000_i64.into() {
+                format!("0x{}", v.value.to_str_radix(16))
+            } else if v.value <= (-10000000000000000_i64).into() {
+                format!("-0x{}", (-v.value.clone()).to_str_radix(16))
+            } else {
+                v.value.to_string()
+            };
+            self.wr.write_lit(v.span, &value)?;
             self.wr.write_lit(v.span, "n")?;
         } else {
             match &v.raw {
@@ -1065,8 +1077,14 @@ where
             if is_kwd_op {
                 node.left.ends_with_alpha_num()
             } else {
+                // space is mandatory to avoid outputting -->
                 match *node.left {
-                    Expr::Update(UpdateExpr { prefix: false, .. }) => true,
+                    Expr::Update(UpdateExpr {
+                        prefix: false, op, ..
+                    }) => matches!(
+                        (op, node.op),
+                        (op!("--"), op!(">") | op!(">>") | op!(">>>") | op!(">="))
+                    ),
                     _ => false,
                 }
             }
@@ -1088,31 +1106,7 @@ where
             if is_kwd_op {
                 node.right.starts_with_alpha_num()
             } else {
-                match (node.op, &*node.right) {
-                    (
-                        _,
-                        Expr::Unary(UnaryExpr {
-                            op: op!("typeof") | op!("void") | op!("delete"),
-                            ..
-                        }),
-                    ) => false,
-
-                    (op!("||") | op!("&&"), Expr::Unary(UnaryExpr { op: op!("!"), .. })) => false,
-
-                    (op!("*") | op!("/"), Expr::Unary(..)) => false,
-
-                    (
-                        op!("||") | op!("&&"),
-                        Expr::Unary(UnaryExpr {
-                            op: op!(unary, "+") | op!(unary, "-") | op!("!"),
-                            ..
-                        }),
-                    ) => false,
-
-                    (_, r) if is_space_require_before_rhs(r) => true,
-
-                    _ => false,
-                }
+                require_space_before_rhs(&*node.right, &node.op)
             }
         } else {
             is_kwd_op
@@ -1220,6 +1214,7 @@ where
                 }
             }
             emit!(node.super_class);
+            emit!(node.super_type_params);
         }
 
         formatting_space!();
@@ -1258,8 +1253,8 @@ where
             MethodKind::Method => {
                 if n.function.is_async {
                     keyword!("async");
+                    space!();
                 }
-                space!();
                 if n.function.is_generator {
                     punct!("*");
                 }
@@ -3600,13 +3595,36 @@ fn handle_invalid_unicodes(s: &str) -> Cow<str> {
     Cow::Owned(s.replace("\\\0", "\\"))
 }
 
-fn is_space_require_before_rhs(rhs: &Expr) -> bool {
+fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
     match rhs {
-        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() => true,
+        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && *op == op!(bin, "-") => true,
 
-        Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
+        Expr::Update(UpdateExpr {
+            prefix: true,
+            op: update,
+            ..
+        }) => matches!(
+            (op, update),
+            (op!(bin, "-"), op!("--")) | (op!(bin, "+"), op!("++"))
+        ),
 
-        Expr::Bin(BinExpr { left, .. }) => is_space_require_before_rhs(left),
+        // space is mandatory to avoid outputting <!--
+        Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) if *op == op!("<") || *op == op!("<<") => {
+            if let Expr::Update(UpdateExpr { op: op!("--"), .. }) = &**arg {
+                true
+            } else {
+                false
+            }
+        }
+
+        Expr::Unary(UnaryExpr { op: unary, .. }) => matches!(
+            (op, unary),
+            (op!(bin, "-"), op!(unary, "-")) | (op!(bin, "+"), op!(unary, "+"))
+        ),
+
+        Expr::Bin(BinExpr { left, .. }) => require_space_before_rhs(left, op),
 
         _ => false,
     }
@@ -3621,7 +3639,7 @@ fn minify_number(num: f64) -> String {
 
     let mut original = printed.clone();
 
-    if num.fract() == 0.0 && num.is_sign_positive() && num <= (0x7fffffffffffffff_i64 as f64) {
+    if num.fract() == 0.0 && (i64::MIN as f64) <= num && num <= (i64::MAX as f64) {
         let hex = format!("{:#x}", num as i64);
 
         if hex.len() < printed.len() {
@@ -3631,6 +3649,10 @@ fn minify_number(num: f64) -> String {
 
     if original.starts_with("0.") {
         original.replace_range(0..1, "");
+    }
+
+    if original.starts_with("-0.") {
+        original.replace_range(1..2, "");
     }
 
     if original.starts_with(".000") {

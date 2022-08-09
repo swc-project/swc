@@ -1,4 +1,4 @@
-function a(a) {
-    return (a = x());
-    return a;
+function n(n) {
+    return (n = x());
+    return n;
 }

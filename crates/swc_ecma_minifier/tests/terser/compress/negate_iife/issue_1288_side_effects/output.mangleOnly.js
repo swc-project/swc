@@ -1,6 +1,6 @@
 if (w) ;
 else {
-    (function a() {})();
+    (function n() {})();
 }
 if (!x) {
     (function() {
@@ -8,6 +8,6 @@ if (!x) {
     })();
 }
 if (y) (function() {})();
-else (function(a) {
-    return a;
+else (function(n) {
+    return n;
 })(0);

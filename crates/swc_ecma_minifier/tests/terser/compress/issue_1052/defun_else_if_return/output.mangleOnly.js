@@ -1,6 +1,6 @@
-function a() {
-    function a() {}
-    if (window) function b() {}
+function n() {
+    function n() {}
+    if (window) function f() {}
     else return;
-    function c() {}
+    function i() {}
 }

@@ -1,17 +1,17 @@
-export default function a(a) {
-    var b = a, c = [];
+export default function t(t) {
+    var n = t, e = [];
     return {
         getState: function() {
-            return b;
+            return n;
         },
-        setState: function(a) {
-            b = a, c.forEach(function(a) {
-                return a();
+        setState: function(t) {
+            n = t, e.forEach(function(t) {
+                return t();
             });
         },
-        subscribe: function(a) {
-            return c.push(a), function() {
-                c.splice(c.indexOf(a), 1);
+        subscribe: function(t) {
+            return e.push(t), function() {
+                e.splice(e.indexOf(t), 1);
             };
         }
     };

@@ -1,5 +1,3 @@
-// @filename: m2.ts
-import Entity from "m1";
 // @module: commonjs
 // @target: ES5
 // @filename: m1.ts
@@ -11,6 +9,8 @@ export var Decl;
     var x = Decl.x = 10;
     var y = Decl.y = 20;
 })(Decl || (Decl = {}));
+// @filename: m2.ts
+import Entity from "m1";
 Entity();
 var x;
 var y;

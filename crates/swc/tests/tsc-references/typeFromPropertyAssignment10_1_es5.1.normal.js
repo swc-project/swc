@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -8,6 +7,7 @@ var Outer = Outer !== null && Outer !== void 0 ? Outer : {};
 var _app;
 Outer.app = (_app = Outer.app) !== null && _app !== void 0 ? _app : {};
 // @Filename: someview.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 Outer.app.SomeView = function() {
     var SomeView = function SomeView() {
         var me = this;

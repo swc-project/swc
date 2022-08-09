@@ -1,12 +1,12 @@
-function foo1() {
-    return 123;
+function foo2() {
+    return [];
 }
 function foo3() {
     return "";
 }
-foo1.toFixed = "", (function() {
-    return [];
-}).join = "", foo3.trim = "", (function() {
+(function() {
+    return 123;
+}).toFixed = "", foo2.join = "", foo3.trim = "", (function() {
     return {
         x: 123
     };

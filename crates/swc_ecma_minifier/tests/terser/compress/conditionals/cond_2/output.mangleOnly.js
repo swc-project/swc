@@ -1,7 +1,7 @@
-function a(a, b, c) {
-    if (c) {
-        a = new b(1);
+function e(e, n, f) {
+    if (f) {
+        e = new n(1);
     } else {
-        a = new b(2);
+        e = new n(2);
     }
 }

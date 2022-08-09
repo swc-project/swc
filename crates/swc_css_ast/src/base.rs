@@ -3,8 +3,8 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
     AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
-    Dimension, Hue, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str,
-    TokenAndSpan, Tokens, UnicodeRange, Url,
+    Dimension, Hue, Ident, Integer, KeyframeBlock, LayerName, Number, Percentage, Ratio,
+    SelectorList, Str, TokenAndSpan, Tokens, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -38,23 +38,23 @@ pub struct QualifiedRule {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum QualifiedRulePrelude {
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
     #[tag("SelectorList")]
     SelectorList(SelectorList),
-    #[tag("Tokens")]
-    Invalid(Tokens),
 }
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum StyleBlock {
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
     #[tag("AtRule")]
     AtRule(AtRule),
     #[tag("Declaration")]
     Declaration(Declaration),
     #[tag("QualifiedRule")]
     QualifiedRule(QualifiedRule),
-    #[tag("Tokens")]
-    Invalid(Tokens),
 }
 
 #[ast_node("SimpleBlock")]
@@ -74,6 +74,13 @@ pub struct Function {
     pub span: Span,
     pub name: Ident,
     pub value: Vec<ComponentValue>,
+}
+
+#[ast_node("ListOfComponentValues")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ListOfComponentValues {
+    pub span: Span,
+    pub children: Vec<ComponentValue>,
 }
 
 #[ast_node]
@@ -134,6 +141,8 @@ pub enum ComponentValue {
     CalcSum(CalcSum),
     #[tag("ComplexSelector")]
     ComplexSelector(ComplexSelector),
+    #[tag("LayerName")]
+    LayerName(LayerName),
 }
 
 #[ast_node]

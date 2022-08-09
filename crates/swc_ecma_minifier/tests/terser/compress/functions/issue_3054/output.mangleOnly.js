@@ -1,10 +1,10 @@
 "use strict";
-function a() {
+function n() {
     return {
         a: true
     };
 }
-console.log((function(b) {
-    b = false;
-    return a();
-})().a, a.call().a);
+console.log((function(a) {
+    a = false;
+    return n();
+})().a, n.call().a);

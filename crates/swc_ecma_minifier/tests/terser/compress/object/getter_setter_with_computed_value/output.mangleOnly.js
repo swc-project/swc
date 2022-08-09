@@ -1,17 +1,17 @@
-class b {
+class e {
     get ["a"]() {
         return "A";
     }
-    set ["a"](b) {
+    set ["a"](e) {
         do_something(a);
     }
 }
-var c = {
+var s = {
     get [a.b] () {
         return 42;
     }
 };
-class d extends Array {
+class t extends Array {
     get [Symbol.species]() {
         return Array;
     }

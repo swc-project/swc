@@ -1,7 +1,7 @@
-var a = function() {
-    var a = 7, arguments = 5, b = function() {
+var n = function() {
+    var n = 7, arguments = 5, o = function() {
         console.log(arguments);
     };
-    b(a, 1);
+    o(n, 1);
 };
-a();
+n();

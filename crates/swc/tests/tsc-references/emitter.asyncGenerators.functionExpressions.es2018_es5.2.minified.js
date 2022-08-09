@@ -1,6 +1,3 @@
-import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
@@ -11,7 +8,10 @@ _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+}));
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
     var x;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -25,7 +25,10 @@ _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+}));
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
     var x;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -38,7 +41,13 @@ _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+}));
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
     var x;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -53,7 +62,13 @@ _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+}));
+import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
     var x;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -76,7 +91,11 @@ _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+}));
+import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
     var x;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -89,7 +108,10 @@ _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+}));
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:

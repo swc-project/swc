@@ -1,4 +1,3 @@
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -7,7 +6,8 @@ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // @filename: source.js
 /**
  * @param {number} len
- */ export function Vec(len) {
+ */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+export function Vec(len) {
     /**
      * @type {number[]}
      */ this.storage = new Array(len);
@@ -63,4 +63,6 @@ Point2D.prototype = {
         this.storage[1] = y;
     }
 };
+// @filename: referencer.js
+import { Point2D } from "./source";
 export var origin = new Point2D(0, 0); // export const res = Point2D(2, 3).dot(origin); // TODO: when __proto__ works, validate this

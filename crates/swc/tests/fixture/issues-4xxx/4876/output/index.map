@@ -1,0 +1,14 @@
+{
+  "mappings": "AAAA;;;;;;;AAOA,GACA,IAAI;AACJA,OAAO,CAACC,GAAG,CAAC,CAAC,CAAC,CAAC,CACf,IAAI",
+  "names": [
+    "console",
+    "log"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "/*!\n\n something v5.1.0\n\nmore\n\nelse\n*/\n// a\nconsole.log(1);\n// b"
+  ],
+  "version": 3
+}

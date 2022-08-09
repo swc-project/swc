@@ -1703,9 +1703,6 @@
                     return !0;
                 }
             }
-            function forceDOMFlush(view) {
-                return endComposition(view);
-            }
             editHandlers.keydown = function(view, event) {
                 if (view.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view, event)) {
                     if (229 != event.keyCode && view.domObserver.forceFlush(), view.lastKeyCode = event.keyCode, view.lastKeyCodeTime = Date.now(), !result.ios || 13 != event.keyCode || event.ctrlKey || event.altKey || event.metaKey) {
@@ -1754,7 +1751,7 @@
             var selectNodeModifier = result.mac ? "metaKey" : "ctrlKey";
             handlers.mousedown = function(view, event) {
                 view.shiftKey = event.shiftKey;
-                var event1, click, dx, dy, flushed = forceDOMFlush(view), now = Date.now(), type = "singleClick";
+                var event1, click, dx, dy, flushed = endComposition(view), now = Date.now(), type = "singleClick";
                 now - view.lastClick.time < 500 && (event1 = event, dx = (click = view.lastClick).x - event1.clientX, dy = click.y - event1.clientY, dx * dx + dy * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
                     time: now,
                     x: event.clientX,
@@ -1818,9 +1815,9 @@
             }, MouseDown.prototype.move = function(event) {
                 !this.allowDefault && (Math.abs(this.event.x - event.clientX) > 4 || Math.abs(this.event.y - event.clientY) > 4) && (this.allowDefault = !0), setSelectionOrigin(this.view, "pointer"), 0 == event.buttons && this.done();
             }, handlers.touchdown = function(view) {
-                forceDOMFlush(view), setSelectionOrigin(view, "pointer");
+                endComposition(view), setSelectionOrigin(view, "pointer");
             }, handlers.contextmenu = function(view) {
-                return forceDOMFlush(view);
+                return endComposition(view);
             };
             var timeoutComposition = result.android ? 5000 : -1;
             function scheduleComposeEnd(view, delay) {

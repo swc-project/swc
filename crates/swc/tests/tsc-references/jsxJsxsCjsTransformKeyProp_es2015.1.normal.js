@@ -1,8 +1,8 @@
-import _extends from "@swc/helpers/src/_extends.mjs";
 // @jsx: react-jsx,react-jsxdev
 // @strict: true
 // @module: commonjs
 /// <reference path="/.lib/react16.d.ts" />
+import _extends from "@swc/helpers/src/_extends.mjs";
 const props = {
     answer: 42
 };

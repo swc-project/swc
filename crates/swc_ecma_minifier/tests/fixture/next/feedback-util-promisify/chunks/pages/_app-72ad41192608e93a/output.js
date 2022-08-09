@@ -313,9 +313,6 @@
                         function asciiWrite(e, r, t, f) {
                             return blitBuffer(asciiToBytes(r), e, t, f);
                         }
-                        function latin1Write(e, r, t, f) {
-                            return asciiWrite(e, r, t, f);
-                        }
                         function base64Write(e, r, t, f) {
                             return blitBuffer(base64ToBytes(r), e, t, f);
                         }
@@ -509,7 +506,7 @@
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                             else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                            var n = this.length - r;
+                            var e1, n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
                             for(var i = !1;;)switch(f){
@@ -522,7 +519,7 @@
                                     return asciiWrite(this, e, r, t);
                                 case "latin1":
                                 case "binary":
-                                    return latin1Write(this, e, r, t);
+                                    return e1 = this, asciiWrite(e1, e, r, t);
                                 case "base64":
                                     return base64Write(this, e, r, t);
                                 case "ucs2":
@@ -1833,6 +1830,9 @@
                         function isWeakSetToString(r) {
                             return "[object WeakSet]" === f(r);
                         }
+                        function isWeakSet(r) {
+                            return isWeakSetToString(r);
+                        }
                         function isArrayBufferToString(r) {
                             return "[object ArrayBuffer]" === f(r);
                         }
@@ -1877,9 +1877,7 @@
                             return "undefined" != typeof Set && (isSetToString.working ? isSetToString(r) : r instanceof Set);
                         }, isWeakMapToString.working = "undefined" != typeof WeakMap && isWeakMapToString(new WeakMap()), t.isWeakMap = function(r) {
                             return "undefined" != typeof WeakMap && (isWeakMapToString.working ? isWeakMapToString(r) : r instanceof WeakMap);
-                        }, isWeakSetToString.working = "undefined" != typeof WeakSet && isWeakSetToString(new WeakSet()), t.isWeakSet = function(r) {
-                            return isWeakSetToString(r);
-                        }, isArrayBufferToString.working = "undefined" != typeof ArrayBuffer && isArrayBufferToString(new ArrayBuffer()), t.isArrayBuffer = isArrayBuffer, isDataViewToString.working = "undefined" != typeof ArrayBuffer && "undefined" != typeof DataView && isDataViewToString(new DataView(new ArrayBuffer(1), 0, 1)), t.isDataView = isDataView;
+                        }, isWeakSetToString.working = "undefined" != typeof WeakSet && isWeakSetToString(new WeakSet()), t.isWeakSet = isWeakSet, isArrayBufferToString.working = "undefined" != typeof ArrayBuffer && isArrayBufferToString(new ArrayBuffer()), t.isArrayBuffer = isArrayBuffer, isDataViewToString.working = "undefined" != typeof ArrayBuffer && "undefined" != typeof DataView && isDataViewToString(new DataView(new ArrayBuffer(1), 0, 1)), t.isDataView = isDataView;
                         var g = "undefined" != typeof SharedArrayBuffer ? SharedArrayBuffer : void 0;
                         function isSharedArrayBufferToString(r) {
                             return "[object SharedArrayBuffer]" === f(r);
@@ -2068,9 +2066,6 @@
                         function isNull(r) {
                             return null === r;
                         }
-                        function isNullOrUndefined(r) {
-                            return null == r;
-                        }
                         function isNumber(r) {
                             return "number" == typeof r;
                         }
@@ -2174,7 +2169,9 @@
                             string: "green",
                             date: "magenta",
                             regexp: "red"
-                        }, t.types = e(3), t.isArray = isArray, t.isBoolean = isBoolean, t.isNull = isNull, t.isNullOrUndefined = isNullOrUndefined, t.isNumber = isNumber, t.isString = isString, t.isSymbol = function(r) {
+                        }, t.types = e(3), t.isArray = isArray, t.isBoolean = isBoolean, t.isNull = isNull, t.isNullOrUndefined = function(r) {
+                            return null == r;
+                        }, t.isNumber = isNumber, t.isString = isString, t.isSymbol = function(r) {
                             return "symbol" == typeof r;
                         }, t.isUndefined = isUndefined, t.isRegExp = isRegExp, t.types.isRegExp = isRegExp, t.isObject = isObject, t.isDate = isDate, t.types.isDate = isDate, t.isError = isError, t.types.isNativeError = isError, t.isFunction = isFunction, t.isPrimitive = function(r) {
                             return null === r || "boolean" == typeof r || "number" == typeof r || "string" == typeof r || "symbol" == typeof r || void 0 === r;

@@ -1,22 +1,22 @@
 function a() {
     var a = "foo";
-    var b = [
+    var r = [
         ,
         ,
         1
     ];
-    var [c] = b;
-    f(c);
+    var [v] = r;
+    f(v);
 }
-function b() {
+function r() {
     var a = "foo";
-    var c = [
+    var v = [
         {
             a: [
                 1
             ]
         }
     ];
-    var [{ b: c  }] = c;
-    f(b);
+    var [{ b: v  }] = v;
+    f(r);
 }

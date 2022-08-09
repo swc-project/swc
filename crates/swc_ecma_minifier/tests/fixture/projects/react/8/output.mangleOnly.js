@@ -1,84 +1,84 @@
-function a(b, c, d, e, f) {
-    const g = ".";
-    var h = typeof b;
-    if (h === "undefined" || h === "boolean") {
-        b = null;
+function e(r, a, i, f, t) {
+    const l = ".";
+    var s = typeof r;
+    if (s === "undefined" || s === "boolean") {
+        r = null;
     }
-    var i = false;
-    if (b === null) {
-        i = true;
+    var v = false;
+    if (r === null) {
+        v = true;
     } else {
-        switch(h){
+        switch(s){
             case "string":
             case "number":
-                i = true;
+                v = true;
                 break;
             case "object":
-                switch(b.$$typeof){
+                switch(r.$$typeof){
                     case REACT_ELEMENT_TYPE:
                     case REACT_PORTAL_TYPE:
-                        i = true;
+                        v = true;
                 }
         }
     }
-    if (i) {
-        var j = b;
-        var k = f(j);
-        var l = e === "" ? g + getElementKey(j, 0) : e;
-        if (Array.isArray(k)) {
-            var m = "";
-            if (l != null) {
-                m = escapeUserProvidedKey(l) + "/";
+    if (v) {
+        var n = r;
+        var u = t(n);
+        var c = f === "" ? l + getElementKey(n, 0) : f;
+        if (Array.isArray(u)) {
+            var o = "";
+            if (c != null) {
+                o = escapeUserProvidedKey(c) + "/";
             }
-            a(k, c, m, "", function(a) {
-                return a;
+            e(u, a, o, "", function(e) {
+                return e;
             });
-        } else if (k != null) {
-            if (isValidElement(k)) {
-                k = cloneAndReplaceKey(k, d + (k.key && (!j || j.key !== k.key) ? escapeUserProvidedKey("" + k.key) + "/" : "") + l);
+        } else if (u != null) {
+            if (isValidElement(u)) {
+                u = cloneAndReplaceKey(u, i + (u.key && (!n || n.key !== u.key) ? escapeUserProvidedKey("" + u.key) + "/" : "") + c);
             }
-            c.push(k);
+            a.push(u);
         }
         return 1;
     }
-    var n;
-    var o;
-    var p = 0;
-    var q = e === "" ? g : e + SUBSEPARATOR;
-    if (Array.isArray(b)) {
-        for(var r = 0; r < b.length; r++){
-            n = b[r];
-            o = q + getElementKey(n, r);
-            p += a(n, c, d, o, f);
+    var y;
+    var h;
+    var k = 0;
+    var p = f === "" ? l : f + SUBSEPARATOR;
+    if (Array.isArray(r)) {
+        for(var w = 0; w < r.length; w++){
+            y = r[w];
+            h = p + getElementKey(y, w);
+            k += e(y, a, i, h, t);
         }
     } else {
-        var s = getIteratorFn(b);
-        if (typeof s === "function") {
-            var t = b;
+        var $ = getIteratorFn(r);
+        if (typeof $ === "function") {
+            var A = r;
             {
-                if (s === t.entries) {
+                if ($ === A.entries) {
                     if (!didWarnAboutMaps) {
                         warn("Using Maps as children is not supported. " + "Use an array of keyed ReactElements instead.");
                     }
                     didWarnAboutMaps = true;
                 }
             }
-            var u = s.call(t);
-            var v;
-            var w = 0;
-            while(!(v = u.next()).done){
-                n = v.value;
-                o = q + getElementKey(n, w++);
-                p += a(n, c, d, o, f);
+            var b = $.call(A);
+            var d;
+            var g = 0;
+            while(!(d = b.next()).done){
+                y = d.value;
+                h = p + getElementKey(y, g++);
+                k += e(y, a, i, h, t);
             }
-        } else if (h === "object") {
-            var x = "" + b;
+        } else if (s === "object") {
+            var j = "" + r;
             {
                 {
-                    throw Error("Objects are not valid as a React child (found: " + (x === "[object Object]" ? "object with keys {" + Object.keys(b).join(", ") + "}" : x) + "). If you meant to render a collection of children, use an array instead.");
+                    throw Error("Objects are not valid as a React child (found: " + (j === "[object Object]" ? "object with keys {" + Object.keys(r).join(", ") + "}" : j) + "). If you meant to render a collection of children, use an array instead.");
                 }
             }
         }
     }
-    return p;
+    return k;
 }

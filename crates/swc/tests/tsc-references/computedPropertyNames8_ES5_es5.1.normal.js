@@ -1,5 +1,5 @@
-import _define_property from "@swc/helpers/src/_define_property.mjs";
 // @target: es5
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 function f() {
     var t;
     var u;

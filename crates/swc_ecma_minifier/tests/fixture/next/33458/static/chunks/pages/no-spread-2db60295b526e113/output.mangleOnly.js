@@ -3,87 +3,87 @@
         492
     ],
     {
-        5467: function(a, b, c) {
+        5467: function(n, u, a) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/no-spread",
                 function() {
-                    return c(1918);
+                    return a(1918);
                 }, 
             ]);
             if (false) {}
         },
-        2726: function(a, b, c) {
+        2726: function(n, u, a) {
             "use strict";
-            c.d(b, {
+            a.d(u, {
                 Z: function() {
-                    return i;
+                    return f;
                 }
             });
-            var d = c(5893);
-            var e = c(7294);
-            function f(a) {
-                var b = a.value, c = a.onChange;
-                return (0, d.jsx)("input", {
-                    value: b,
-                    onChange: c
+            var r = a(5893);
+            var e = a(7294);
+            function t(n) {
+                var u = n.value, a = n.onChange;
+                return (0, r.jsx)("input", {
+                    value: u,
+                    onChange: a
                 });
             }
-            var g = f;
-            function h(a) {
-                var b = a.value, c = a.onChange;
+            var o = t;
+            function v(n) {
+                var u = n.value, a = n.onChange;
                 (0, e.useEffect)(function() {
                     console.log("EFFECT");
                 }, []);
-                return (0, d.jsx)(g, {
-                    value: b,
-                    onChange: c
+                return (0, r.jsx)(o, {
+                    value: u,
+                    onChange: a
                 });
             }
-            var i = h;
+            var f = v;
         },
-        1918: function(a, b, c) {
+        1918: function(n, u, a) {
             "use strict";
-            c.r(b);
-            c.d(b, {
+            a.r(u);
+            a.d(u, {
                 default: function() {
-                    return i;
+                    return f;
                 }
             });
-            var d = c(5893);
-            var e = c(7294);
-            var f = c(2726);
-            function g(a) {
-                var b = a.value, c = a.onChange;
-                return (0, d.jsx)(f.Z, {
-                    value: b,
-                    onChange: c
+            var r = a(5893);
+            var e = a(7294);
+            var t = a(2726);
+            function o(n) {
+                var u = n.value, a = n.onChange;
+                return (0, r.jsx)(t.Z, {
+                    value: u,
+                    onChange: a
                 });
             }
-            var h = g;
-            function i() {
-                var a = (0, e.useState)(""), b = a[0], c = a[1];
-                var f = (0, e.useCallback)(function(a) {
-                    c(a.target.value);
+            var v = o;
+            function f() {
+                var n = (0, e.useState)(""), u = n[0], a = n[1];
+                var t = (0, e.useCallback)(function(n) {
+                    a(n.target.value);
                 }, []);
-                return (0, d.jsx)(h, {
-                    onChange: f,
-                    value: b
+                return (0, r.jsx)(v, {
+                    onChange: t,
+                    value: u
                 });
             }
         }
     },
-    function(a) {
-        var b = function(b) {
-            return a((a.s = b));
+    function(n) {
+        var u = function(u) {
+            return n((n.s = u));
         };
-        a.O(0, [
+        n.O(0, [
             774,
             888,
             179
         ], function() {
-            return b(5467);
+            return u(5467);
         });
-        var c = a.O();
-        _N_E = c;
+        var a = n.O();
+        _N_E = a;
     }, 
 ]);

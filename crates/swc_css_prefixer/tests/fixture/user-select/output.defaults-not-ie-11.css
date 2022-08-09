@@ -1,0 +1,12 @@
+a {
+  -webkit-user-select: none;
+  user-select: none;
+}
+b {
+  -webkit-user-select: contain;
+  user-select: contain;
+}
+.all {
+  -webkit-user-select: all;
+  user-select: all;
+}

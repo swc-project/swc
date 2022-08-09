@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "crates/swc_core",
   "crates/dbg-swc",
   "crates/jsdoc",
   "crates/binding_core_node",
@@ -19,6 +20,7 @@ members = [
   "crates/swc_plugin_testing",
   "crates/swc_plugin_proxy",
   "crates/swc_timer",
+  "crates/swc_xml",
 ]
 
 [profile.release]

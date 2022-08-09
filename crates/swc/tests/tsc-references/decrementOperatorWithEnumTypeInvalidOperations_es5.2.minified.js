@@ -1,4 +1,18 @@
-var ENUM, ENUM1;
-!function(ENUM1) {
-    ENUM1[ENUM1.A = 0] = "A", ENUM1[ENUM1.B = 1] = "B", ENUM1[ENUM1[""] = 2] = "";
-}(ENUM1 || (ENUM1 = {})), --ENUM, --ENUM1, ENUM--, ENUM1--, --ENUM.A + ENUM.B, ENUM.A + ENUM.B--, --ENUM, --ENUM1, ENUM--, ENUM1--;
+//!
+//!  x The left-hand side of an assignment expression must be a variable or a property access.
+//!    ,----
+//! 14 | var ResultIsNumber5 = --(ENUM["A"] + ENUM.B);
+//!    :                         ^^^^^^^^^^^^^^^^^^^^
+//!    `----
+//!
+//!  x The left-hand side of an assignment expression must be a variable or a property access.
+//!    ,----
+//! 15 | var ResultIsNumber6 = (ENUM.A + ENUM["B"])--;
+//!    :                       ^^^^^^^^^^^^^^^^^^^^
+//!    `----
+//!
+//!
+//!Caused by:
+//!    0: failed to process input file
+//!    1: error was recoverable, but proceeding would result in wrong codegen
+//!    2: Syntax Error

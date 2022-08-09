@@ -1,20 +1,20 @@
 function a(a) {
-    var b = function(a) {
-        var b = a.data;
-        return b && b.a != b.b;
+    var r = function(a) {
+        var r = a.data;
+        return r && r.a != r.b;
     };
-    while(b(a)){
+    while(r(a)){
         a = a.data;
     }
     return a;
 }
-var b = {
+var r = {
     a: 1,
     b: 2,
     data: {
         a: "hello"
     }
 };
-console.log(a(b).a, a({
+console.log(a(r).a, a({
     a: "world"
 }).a);

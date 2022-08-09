@@ -1,15 +1,15 @@
-function a(a, b) {
-    var c;
-    if (a) return (c = b), c || a;
-    else (c = a), c(b);
+function i(i, n) {
+    var r;
+    if (i) return (r = n), r || i;
+    else (r = i), r(n);
 }
-function b(a, b) {
-    var c;
-    while(a)(c = b), (a = c + b);
+function n(i, n) {
+    var r;
+    while(i)(r = n), (i = r + n);
     do {
-        throw ((c = a + b), c);
-    }while (c)
+        throw ((r = i + n), r);
+    }while (r)
 }
-function c(a, b) {
-    for(; a < b; a++)if (((c = a), c && b)) var c = ((c = b(a)), c);
+function r(i, n) {
+    for(; i < n; i++)if (((r = i), r && n)) var r = ((r = n(i)), r);
 }

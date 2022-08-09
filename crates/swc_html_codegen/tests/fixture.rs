@@ -326,6 +326,18 @@ fn verify_document_fragment(
 struct DropSpan;
 
 impl VisitMut for DropSpan {
+    fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
+        n.visit_mut_children_with(self);
+
+        n.raw = None;
+    }
+
+    fn visit_mut_comment(&mut self, n: &mut Comment) {
+        n.visit_mut_children_with(self);
+
+        n.raw = None;
+    }
+
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
@@ -338,6 +350,13 @@ impl VisitMut for DropSpan {
         // In normal output we respect `is_self_closing`
         // In minified output we always avoid end tag for SVG and MathML namespace
         n.is_self_closing = Default::default();
+    }
+
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
+        n.visit_mut_children_with(self);
+
+        n.raw_name = None;
+        n.raw_value = None;
     }
 
     fn visit_mut_span(&mut self, n: &mut Span) {

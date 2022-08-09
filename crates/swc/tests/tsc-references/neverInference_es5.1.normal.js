@@ -1,3 +1,6 @@
+// @lib: es2015
+// @strict: true
+// @target: es2015
 var neverArray = [];
 var a1 = f1([]); // never
 var a2 = f1(neverArray); // never

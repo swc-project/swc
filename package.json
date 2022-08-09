@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.2.211",
+    "version": "1.2.224",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -54,14 +54,15 @@
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md",
         "prepare": "husky install && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
+        "postinstall": "node postinstall.js",
         "artifacts": "napi artifacts --dist scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
-        "build:wasm": "npm-run-all \"pack -- build ./crates/wasm --scope swc {1} -t {2} --features plugin\" --",
+        "build:wasm": "npm-run-all \"pack -- build ./crates/binding_core_wasm --scope swc {1} -t {2} --features plugin\" --",
         "build": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p binding_core_node --release",
         "build:dev": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p binding_core_node",
-        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest node-swc/__tests__",
+        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config ./node-swc/jest.config.js",
         "version": "napi version -p scripts/npm"
     },
     "lint-staged": {
@@ -95,9 +96,10 @@
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
         "@napi-rs/cli": "^2.10.0",
+        "@swc/core": "^1.2.220",
         "@swc/helpers": "^0.4.2",
         "@taplo/cli": "^0.3.2",
-        "@types/jest": "^26.0.23",
+        "@types/jest": "^28.1.4",
         "@types/node": "^14.14.41",
         "acorn": "^8.6.0",
         "acorn-jsx": "^5.3.2",
@@ -110,8 +112,9 @@
         "cross-env": "^7.0.3",
         "cspell": "^5.12.3",
         "expect": "^27.4.2",
+        "glob": "^8.0.3",
         "husky": "^7.0.2",
-        "jest": "^27.0.1",
+        "jest": "^28.1.2",
         "js-beautify": "^1.14.3",
         "lint-staged": "^12.3.6",
         "lodash": "^4.17.21",
@@ -148,5 +151,26 @@
         "@swc/core-win32-arm64-msvc": "1.2.146",
         "@swc/core-win32-ia32-msvc": "1.2.146",
         "@swc/core-win32-x64-msvc": "1.2.146"
-    }
+    },
+    "files": [
+        "CHANGELOG.md",
+        "Visitor.d.ts",
+        "index.d.ts",
+        "spack.js",
+        "util.d.ts",
+        "LICENSE",
+        "Visitor.js",
+        "binding.d.ts",
+        "index.js",
+        "run_swcx.js",
+        "types.d.ts",
+        "util.js",
+        "README.md",
+        "binding.js",
+        "package.json",
+        "spack.d.ts",
+        "types.js",
+        "postinstall.js",
+        "crates/binding_core_wasm/pkg/binding_core_wasm.d.ts"
+    ]
 }

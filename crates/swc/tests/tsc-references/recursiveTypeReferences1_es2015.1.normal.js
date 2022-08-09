@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 const a0 = 1;
 const a1 = [
     1,

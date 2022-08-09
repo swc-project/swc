@@ -1,19 +1,19 @@
-function a() {
-    b();
+function e() {
+    n();
 }
-function b() {
+function n() {
     if (xhrDesc) {
-        var a = new XMLHttpRequest();
-        var b = !!a.onreadystatechange;
+        var e = new XMLHttpRequest();
+        var n = !!e.onreadystatechange;
         Object.defineProperty(XMLHttpRequest.prototype, "onreadystatechange", xhrDesc || {});
-        return b;
+        return n;
     } else {
-        var a = new XMLHttpRequest();
-        var c = function() {};
-        a.onreadystatechange = c;
-        var b = a[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === c;
-        a.onreadystatechange = null;
-        return b;
+        var e = new XMLHttpRequest();
+        var r = function() {};
+        e.onreadystatechange = r;
+        var n = e[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === r;
+        e.onreadystatechange = null;
+        return n;
     }
 }
-a();
+e();

@@ -1,6 +1,6 @@
 (function() {
     do {
         continue;
-        var a = "defined";
-    }while (a && a.c)
+        var n = "defined";
+    }while (n && n.c)
 })();

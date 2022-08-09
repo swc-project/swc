@@ -1,6 +1,6 @@
-console.log((function(a) {
+console.log((function(n) {
     return {
-        x: a.a,
-        y: a.b
+        x: n.a,
+        y: n.b
     };
 })(o));

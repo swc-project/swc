@@ -233,5 +233,541 @@ big
     <rect x="0" y="0" width="200" height="200" style="filter: url(#diffuseLighting);" />
 </svg>
 
+<svg viewBox="-1 -1 162 92" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <path id="smiley" d="M50,10 A40,40,1,1,1,50,90 A40,40,1,1,1,50,10 M30,40 Q36,35,42,40 M58,40 Q64,35,70,40 M30,60 Q50,75,70,60 Q50,75,30,60" />
+    </defs>
+
+    <!-- (width>height) meet -->
+    <rect x="0" y="0" width="20" height="10">
+        <title>xMidYMid meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="20" height="10"
+         preserveAspectRatio="xMidYMid meet" x="0" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <rect x="25" y="0" width="20" height="10">
+        <title>xMinYMid meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="20" height="10"
+         preserveAspectRatio="xMinYMid meet" x="25" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <rect x="50" y="0" width="20" height="10">
+        <title>xMaxYMid meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="20" height="10"
+         preserveAspectRatio="xMaxYMid meet" x="50" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <!-- (width>height) slice -->
+    <rect x="0" y="15" width="20" height="10">
+        <title>xMidYMin slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="20" height="10"
+         preserveAspectRatio="xMidYMin slice" x="0" y="15">
+        <use href="#smiley" />
+    </svg>
+
+    <rect x="25" y="15" width="20" height="10">
+        <title>xMidYMid slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="20" height="10"
+         preserveAspectRatio="xMidYMid slice" x="25" y="15">
+        <use href="#smiley" />
+    </svg>
+
+    <rect x="50" y="15" width="20" height="10">
+        <title>xMidYMax slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="20" height="10"
+         preserveAspectRatio="xMidYMax slice" x="50" y="15">
+        <use href="#smiley" />
+    </svg>
+
+    <!-- (width<height) meet -->
+    <rect x="75" y="0" width="10" height="25">
+        <title>xMidYMin meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="10" height="25"
+         preserveAspectRatio="xMidYMin meet" x="75" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <rect x="90" y="0" width="10" height="25">
+        <title>xMidYMid meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="10" height="25"
+         preserveAspectRatio="xMidYMid meet" x="90" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <rect x="105" y="0" width="10" height="25">
+        <title>xMidYMax meet</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="10" height="25"
+         preserveAspectRatio="xMidYMax meet" x="105" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <!-- (width<height) slice -->
+    <rect x="120" y="0" width="10" height="25">
+        <title>xMinYMid slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="10" height="25"
+         preserveAspectRatio="xMinYMid slice" x="120" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <rect x="135" y="0" width="10" height="25">
+        <title>xMidYMid slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="10" height="25"
+         preserveAspectRatio="xMidYMid slice" x="135" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <rect x="150" y="0" width="10" height="25">
+        <title>xMaxYMid slice</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="10" height="25"
+         preserveAspectRatio="xMaxYMid slice" x="150" y="0">
+        <use href="#smiley" />
+    </svg>
+
+    <!-- none -->
+    <rect x="0" y="30" width="160" height="60">
+        <title>none</title>
+    </rect>
+    <svg viewBox="0 0 100 100" width="160" height="60"
+         preserveAspectRatio="none" x="0" y="30">
+        <use href="#smiley" />
+    </svg>
+</svg>
+
+<svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Default fill opacity: 1 -->
+    <circle cx="50" cy="50" r="40" fill-opacity="1" />
+
+    <!-- Fill opacity as a number -->
+    <circle cx="150" cy="50" r="40"
+            fill-opacity="0.7" />
+
+    <!-- Fill opacity as a percentage -->
+    <circle cx="250" cy="50" r="40"
+            fill-opacity="50%" />
+
+    <!-- Fill opacity as a CSS property -->
+    <circle cx="350" cy="50" r="40"
+            style="fill-opacity: .25;" />
+</svg>
+
+<svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+    <text y="20" xml:space="default">Default   spacing</text>
+    <text y="40" xml:space="preserve" alignment-baseline="auto">Preserved   spacing</text>
+</svg>
+
+<svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Simple rectangle -->
+    <rect width="100" height="100" onclick="alert('test' + 'test');" />
+    <rect width="100" height="100" onclick="javascript:alert('test' + 'test');" />
+
+    <!-- Rounded corner rectangle -->
+    <rect x="120" width="100" height="100" rx="15" />
+</svg>
+
+<svg>
+    <a href="  test.html  " ondragexit="alert( 'test' + 'test' )" rel="
+    nofollow
+    noindex
+">Test</a>
+</svg>
+
+<svg viewBox="0 0 100 100" width="160" height="60"
+     preserveAspectRatio="   xMidYMid    meet   " x="0" y="30">
+    <use href="#smiley" />
+</svg>
+
+<svg viewBox="-10 -10 120 120" xmlns="http://www.w3.org/2000/svg">
+    <!-- polygon is an closed shape -->
+    <polygon stroke="black" fill="none"
+             points="
+
+             50
+
+             ,
+
+             0
+
+             21
+
+             ,
+
+             90
+
+              98
+
+              ,
+
+              35
+
+              2,
+
+              35
+
+              79,
+
+              90" />
+</svg>
+
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="10" r="10">
+        <animate attributeName=cx dur=4s repeatCount=indefinite values="
+        60;
+        110;
+        60;
+        10;
+        60
+        " keyTimes="
+        0
+        ;
+        0.25 ;
+        0.5 ;
+        0.75 ;
+        1"/>
+        <animate attributeName="cy" dur="4s" repeatCount="indefinite"
+                 values="       10; 60; 110; 60; 10        " keyTimes="0; 0.25; 0.5; 0.75; 1"/>
+    </circle>
+</svg>
+
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="10" r="10">
+        <animate attributeName="cx" dur="4s" calcMode="spline" repeatCount="indefinite"
+                 values="60; 110; 60; 10; 60" keyTimes="0; 0.25; 0.5; 0.75; 1"
+                 keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1"/>
+        <animate attributeName="cy" dur="4s" calcMode="spline" repeatCount="indefinite"
+                 values="10; 60; 110; 60; 10" keyTimes="0; 0.25; 0.5; 0.75; 1"
+                 keySplines="
+
+                 0.5 0
+
+                 0.5
+
+                 1
+
+                 ; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1"
+        />
+    </circle>
+</svg>
+
+<svg viewBox="
+-5
+-5
+10
+10
+" xmlns="http://www.w3.org/2000/svg">
+    <!--
+    The point of coordinate 0,0 is now in the center of the viewport,
+    and 100% is still resolve to a width or height of 10 user units so
+    the rectangle looks shifted to the bottom/right corner of the viewport
+    -->
+    <rect x="0" y="0" width="100%" height="100%"/>
+
+    <!--
+    With the point of coordinate 0,0 in the center of the viewport the
+    value 50% is resolve to 5 which means the center of the circle is
+    in the bottom/right corner of the viewport.
+    -->
+    <circle cx="50%" cy="50%" r="4" fill="white"/>
+</svg>
+
+<svg viewBox="0 0 30 10" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dashes and gaps of various sizes with an even number of values -->
+    <line x1="0" y1="9" x2="30" y2="9" stroke="black"
+          stroke-dasharray="
+
+          4
+
+          1
+
+          2
+
+          3
+
+" />
+    <rect x="11" y="1" width="8" height="8" stroke="green"
+          clip-path="
+
+          circle()
+
+
+          fill-box
+
+    " />
+</svg>
+
+<svg id="svg_css_ex1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="red"
+          d="M 10,30
+       A 20,20 0,0,1 50,30
+       A 20,20 0,0,1 90,30
+       Q 90,60 50,90
+       Q 10,60 10,30 z
+       " />
+</svg>
+
+<svg width="120" height="120"  viewBox="0 0 120 120"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!-- animated rectangles -->
+    <rect x="10" y="35" height="15" width="0">
+        <animate attributeType="XML" attributeName="width" to="50"
+                 id="first"
+                 begin="
+                 0s;
+
+                 third.end
+
+                "
+                end="
+                 0s;
+
+                 third.end
+
+                "
+                dur="4s" />
+    </rect>
+
+    <rect x="60" y="60" height="15" width="0">
+        <animate attributeType="XML" attributeName="width" to="25"
+                 id="second" begin="first.end" dur="2s" />
+    </rect>
+
+    <rect x="85" y="85" height="15" width="0">
+        <animate attributeType="XML" attributeName="width" to="25"
+                 id="third" begin="second.end" dur="2s" />
+    </rect>
+
+    <!-- grid -->
+    <text x="10" y="20" text-anchor="middle">0s</text>
+    <line x1="10" y1="25" x2="10" y2="105" stroke="grey" stroke-width=".5" />
+    <text x="35" y="20" text-anchor="middle">2s</text>
+    <line x1="35" y1="25" x2="35" y2="105" stroke="grey" stroke-width=".5" />
+    <text x="60" y="20" text-anchor="middle">4s</text>
+    <line x1="60" y1="25" x2="60" y2="105" stroke="grey" stroke-width=".5" />
+    <text x="85" y="20" text-anchor="middle">6s</text>
+    <line x1="85" y1="25" x2="85" y2="105" stroke="grey" stroke-width=".5" />
+    <text x="110" y="20" text-anchor="middle">8s</text>
+    <line x1="110" y1="25" x2="110" y2="105" stroke="grey" stroke-width=".5" />
+
+    <line x1="10" y1="30" x2="110" y2="30" stroke="grey" stroke-width=".5" />
+    <line x1="10" y1="105" x2="110" y2="105" stroke="grey" stroke-width=".5" />
+</svg>
+
+<svg>
+    <filter id="colorMeTheSame">
+        <feColorMatrix in="SourceGraphic"
+                       type="matrix"
+                       values="1 0 0 0 0
+                0
+                 1 0 0 0
+
+
+                0 0
+
+                1 0 0
+                0 0 0
+                1 0" />
+    </filter>
+</svg>
+
+<svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+    <filter id="convolveMatrix1" x="0" y="0" width="100%" height="100%">
+        <feConvolveMatrix kernelMatrix="
+
+        1
+
+        1
+        0 0 0
+
+        0 0 0
+
+        -1"/>
+    </filter>
+    <filter id="convolveMatrix2" x="0" y="0" width="100%" height="100%">
+        <feConvolveMatrix kernelMatrix="-1 0 0 0 0 0 0 0 1"/>
+    </filter>
+
+    <image xlink:href="//developer.mozilla.org/files/6457/mdn_logo_only_color.png" width="200" height="200"
+           style="filter:url(#convolveMatrix1);"/>
+    <image xlink:href="//developer.mozilla.org/files/6457/mdn_logo_only_color.png" width="200" height="200"
+           style="filter:url(#convolveMatrix2); transform:translateX(220px);"/>
+</svg>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Apply a transform on the tile -->
+    <pattern id="p1" width=".25" height=".25"
+             patternTransform="rotate(20)
+                             skewX(30)
+                             scale(1 0.5)">
+        <circle cx="10" cy="10" r="10" />
+    </pattern>
+
+    <!-- Apply the transformed pattern tile -->
+    <rect x="10" y="10" width="80" height="80"
+          fill="url(#p1)" />
+</svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en"
+     viewBox="0 0 200 500">
+    <title>Scream—Comic Book text</title>
+    <style>
+        @font-face {
+            font-family: 'SequentialistBB';
+            src: url('fonts/SequentialistBB.woff2') format('woff2'),
+            url('fonts/SequentialistBB.woff') format('woff');
+            font-style: normal;
+            font-weight: 400;
+        }
+        text {
+            font-family: SequentialistBB,
+            Papyrus-condensed, Impact,
+            sans-serif-condensed, sans-serif;
+            font-stretch: condensed;
+            writing-mode: tb;           /* SVG 1 syntax */
+            glyph-orientation-vertical: 0;
+            writing-mode: vertical-rl;  /* CSS3 syntax */
+            text-orientation: upright;
+            font-size: 28px;
+        }
+        tspan { font-size: 75%; }
+        path {
+            fill: #fff;
+            stroke: #000;
+            stroke-width: 2;
+        }
+    </style>
+    <path d="M175,495 L140,465 C30,500 40,400 30,200
+             S70,10 100,10 S170,0 170,200 S170,400 150,450 Z" />
+    <text x="100" y="12"
+          rotate="0 15 30 45 60 75 90 105 120 135 150 165 180
+                  195 210 225 240 255 270 285 300 315 330 345 360"
+          textLength="450">
+        AAAaaaa<tspan>aaaa<tspan>aaaa<tspan>aahhh!</tspan
+        >!</tspan>!</tspan>!</text>
+</svg>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path id="MyPath" fill="none" stroke="silver"
+
+          d="
+          M10,90 Q90,90 90,45
+
+          Q90,10 50,10 Q10,10 10,40 Q10,70
+
+          45,70
+
+          Q70,70
+          75,50" />
+
+    <text>
+        <textPath path="M10,90
+
+        Q90,90 90,45
+
+         Q90,10 50,10
+          Q10,10 10,40 Q10,70 45,70 Q70,70
+
+           75,50">
+            Quick brown fox jumps over the lazy dog.
+        </textPath>
+    </text>
+</svg>
+
+<svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="gradient" gradientUnits="userSpaceOnUse"
+                        x1="0" y1="0" x2="200" y2="0">
+            <stop offset="0" stop-color="#ff0000" />
+            <stop offset="0.5" stop-color="#00ff00" />
+            <stop offset="1" stop-color="#0000ff" />
+        </linearGradient>
+    </defs>
+
+    <filter id="componentTransfer1" x="0" y="0" width="100%" height="100%">
+        <feComponentTransfer>
+            <feFuncR type="table" tableValues="
+
+            0
+
+             1
+
+"/>
+            <feFuncG type="table" tableValues="  0      1      "/>
+            <feFuncB type="table" tableValues="0 1"/>
+        </feComponentTransfer>
+    </filter>
+    <filter id="componentTransfer2" x="0" y="0" width="100%" height="100%">
+        <feComponentTransfer>
+            <feFuncR type="table" tableValues="1 0"/>
+            <feFuncG type="table" tableValues="1 0"/>
+            <feFuncB type="table" tableValues="1 0"/>
+        </feComponentTransfer>
+    </filter>
+
+    <rect x="0" y="0" width="200" height="200" fill="url(#gradient)"
+          style="filter: url(#componentTransfer1);" />
+    <rect x="0" y="0" width="200" height="200" fill="url(#gradient)"
+          style="filter: url(#componentTransfer2); transform: translateX(220px);" />
+</svg>
+
+<svg width="450" height="1170" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Testing : http://www.w3.org/TR/SVG11/feature#SVG -->
+    <rect class="ko" x="10" y="10" height="25" width="430" />
+    <rect class="ok" x="10" y="10" height="25" width="430"
+          requiredFeatures="
+          http://www.w3.org/TR/SVG11/feature#SVG http://www.w3.org/TR/SVG11/feature#SVG
+" />
+</svg>
+
+<svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+    <radialGradient id="gradient1" gradientUnits="userSpaceOnUse"
+                    cx="100" cy="100" r="100" fx="100" fy="100">
+        <stop offset="0%" stop-color="darkblue" />
+        <stop offset="50%" stop-color="skyblue" />
+        <stop offset="100%" stop-color="darkblue" />
+    </radialGradient>
+    <radialGradient id="gradient2" gradientUnits="userSpaceOnUse"
+                    cx="100" cy="100" r="100" fx="100" fy="100"
+                    gradientTransform="
+                    skewX(20)
+                    translate(-35, 0)
+">
+        <stop offset="0%" stop-color="darkblue" />
+        <stop offset="50%" stop-color="skyblue" />
+        <stop offset="100%" stop-color="darkblue" />
+    </radialGradient>
+
+    <rect x="0" y="0" width="200" height="200" fill="url(#gradient1)" />
+    <rect x="0" y="0" width="200" height="200" fill="url(#gradient2)" style="transform: translateX(220px);" />
+</svg>
+
+<svg viewBox="-40 0 150 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g fill="grey"
+       transform="rotate(-10   50    100)
+                translate(-36   45.5)
+                skewX(40)
+                scale(1 0.5)">
+        <path id="heart" d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z" />
+    </g>
+
+    <use xlink:href="#heart" fill="none" stroke="red"/>
+</svg>
+
 </body>
 </html>

@@ -1,10 +1,15 @@
+export { };
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import { A } from "./a";
-import { BB } from "./d";
 var B = function() {
     "use strict";
     _class_call_check(this, B);
 };
+export { };
+export { };
 export { A as AA } from "./a";
 export { B as BB } from "./b";
-export { B as BB };
+export { };
+export { };
+export { };
+export { };
+export { };

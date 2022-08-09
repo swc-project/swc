@@ -1,7 +1,7 @@
-function a(a, b) {
-    var c = "";
-    var d = b ? ">" : "<";
-    if (a) c += "=";
-    return (c += d);
+function r(r, $) {
+    var _ = "";
+    var n = $ ? ">" : "<";
+    if (r) _ += "=";
+    return (_ += n);
 }
-console.log(a(0, 0), a(0, 1), a(1, 0), a(1, 1));
+console.log(r(0, 0), r(0, 1), r(1, 0), r(1, 1));

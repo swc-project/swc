@@ -1,0 +1,179 @@
+a {
+  -js-display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-flow: row;
+  order: 0;
+  flex: 0 1 2;
+  transition: flex 200ms;
+}
+.inline {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  align-self: auto;
+  align-content: stretch;
+  flex: auto;
+}
+.a {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  align-self: flex-start;
+  flex: none;
+}
+.b {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  align-self: flex-end;
+  flex-shrink: 1;
+}
+.c {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: reverse-wrap;
+  align-content: center;
+  align-self: center;
+  flex-basis: auto;
+}
+.e {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: baseline;
+  align-content: space-between;
+  align-self: baseline;
+}
+.f {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  align-content: space-around;
+  align-self: stretch;
+}
+.g {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex: calc(1em + 1px) 0 0;
+}
+.h {
+  flex-flow: column wrap;
+}
+.i {
+  flex-flow: nowrap;
+}
+.inherit {
+  order: inherit;
+  flex-direction: inherit;
+}
+@supports (display: flex) {
+  .foo {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+@supports (flex: auto) {
+  .foo {
+    flex: auto;
+  }
+}
+.class {
+  flex: inherit;
+}
+.class {
+  flex-grow: 1;
+}
+.class {
+  flex-shrink: 1;
+}
+.class {
+  flex-basis: auto;
+}
+.class {
+  align-self: auto;
+}
+.class {
+  align-self: flex-start;
+}
+.class {
+  align-self: flex-end;
+}
+.class {
+  align-content: center;
+}
+.class {
+  align-content: flex-start;
+}
+.class {
+  align-content: flex-end;
+}
+.class {
+  align-items: stretch;
+}
+.class {
+  justify-content: flex-end;
+}
+.class {
+  justify-content: flex-start;
+}
+.class {
+  justify-content: stretch;
+}
+.class {
+  justify-content: space-between;
+}
+.class {
+  justify-items: center;
+}
+.class {
+  order: 1;
+}
+.class {
+  flex-direction: column;
+}
+.class {
+  flex-flow: wrap column;
+}
+.class-17 {
+  flex-direction: row;
+}

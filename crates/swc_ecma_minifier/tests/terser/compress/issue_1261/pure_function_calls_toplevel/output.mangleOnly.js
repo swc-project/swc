@@ -1,22 +1,22 @@
 (function() {
     console.log("iife0");
 })();
-var b = (function() {
+var n = (function() {
     console.log("iife1");
-    function b() {}
-    return b;
+    function n() {}
+    return n;
 })();
 (function() {
-    var b = (function() {
+    var n = (function() {
         console.log("iife2");
-        function b() {}
-        return b;
+        function n() {}
+        return n;
     })();
 })();
-var d = (function() {
-    function b() {}
-    b.prototype.method = function() {};
-    return b;
+var o = (function() {
+    function n() {}
+    n.prototype.method = function() {};
+    return n;
 })();
 bar(), baz(), quux();
 a.b(), c.d.e(), f.g();

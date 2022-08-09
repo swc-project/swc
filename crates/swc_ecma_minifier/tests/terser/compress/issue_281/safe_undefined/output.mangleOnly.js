@@ -1,7 +1,7 @@
-var a, c;
-console.log((function(e) {
+var n, r;
+console.log((function(t) {
     return function() {
-        if (a) return b;
-        if (c) return d;
+        if (n) return b;
+        if (r) return d;
     };
 })(1)());

@@ -1,4 +1,3 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 // @lib: es2020
 // @module: es2020
 // @target: es2020
@@ -15,6 +14,8 @@ export function foo() {
 export function backup() {
     return "backup";
 }
+// @filename: 2.ts
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 class C {
     method() {
         const loadAsync = import("./0");

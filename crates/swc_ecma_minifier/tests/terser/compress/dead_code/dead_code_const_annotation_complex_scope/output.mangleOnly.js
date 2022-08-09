@@ -1,19 +1,19 @@
 var a;
-var b = "test";
-var c = false;
-var d;
-if (c) {
+var r = "test";
+var v = false;
+var f;
+if (v) {
     console.log("unreachable");
-    var e;
-    function f() {}
+    var i;
+    function l() {}
 }
-if (b === "test") {
-    var g = "good";
-    var h = "beef";
-    var i = "bad";
-    if (h === "pork") {
+if (r === "test") {
+    var o = "good";
+    var e = "beef";
+    var g = "bad";
+    if (e === "pork") {
         console.log("also unreachable");
-    } else if (i === "good") {
+    } else if (g === "good") {
         console.log("reached, not const");
     }
 }

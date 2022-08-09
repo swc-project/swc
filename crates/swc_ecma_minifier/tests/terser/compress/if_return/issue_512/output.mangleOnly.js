@@ -1,4 +1,4 @@
-function a() {
+function n() {
     if (b()) {
         c();
         return;

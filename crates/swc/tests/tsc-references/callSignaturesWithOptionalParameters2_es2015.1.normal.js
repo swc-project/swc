@@ -1,3 +1,4 @@
+// Optional parameters should be valid in all the below casts
 function foo(x) {}
 foo(1);
 foo();

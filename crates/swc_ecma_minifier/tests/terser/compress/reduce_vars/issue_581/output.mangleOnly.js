@@ -1,13 +1,13 @@
-class a {
+class e {
     method() {
-        const a = "FAIL";
-        return b(a, ()=>console.log(this.message()));
+        const e = "FAIL";
+        return s(e, ()=>console.log(this.message()));
     }
     message() {
         return "PASS";
     }
 }
-function b(a, b) {
-    return b(a);
+function s(e, s) {
+    return s(e);
 }
-new a().method();
+new e().method();

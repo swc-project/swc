@@ -1,3 +1,3 @@
-var a = {};
-a[/rx/] = 1;
-console.log(a[/rx/]);
+var r = {};
+r[/rx/] = 1;
+console.log(r[/rx/]);

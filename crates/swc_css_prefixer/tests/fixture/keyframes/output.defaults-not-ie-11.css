@@ -1,0 +1,29 @@
+@keyframes anim {
+  from {
+    top: calc(10% + 10px);
+    transform: rotate(10deg);
+  }
+  50% {
+    top: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  to {
+    top: calc(10%);
+    transform: rotate(0);
+  }
+}
+@media screen {
+  @keyframes inside {}
+}
+@keyframes spaces {
+  from {
+    color: black;
+  }
+  to {
+    color: white;
+  }
+}

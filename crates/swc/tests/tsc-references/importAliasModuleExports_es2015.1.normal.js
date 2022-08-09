@@ -1,5 +1,3 @@
-// @filename: main.js
-import A from './mod1';
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -11,6 +9,8 @@ class Alias {
     }
 }
 module.exports = Alias;
+// @filename: main.js
+import A from './mod1';
 A.prototype.foo = 0;
 A.prototype.func = function() {
     this._func = 0;

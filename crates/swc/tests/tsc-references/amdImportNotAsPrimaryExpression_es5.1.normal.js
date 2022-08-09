@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @module: amd
 // @Filename: foo_0.ts
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var C1 = function C1() {
     "use strict";
     _class_call_check(this, C1);
@@ -20,3 +20,4 @@ var x = {};
 var y = false;
 var z;
 var e = 0;
+export { };

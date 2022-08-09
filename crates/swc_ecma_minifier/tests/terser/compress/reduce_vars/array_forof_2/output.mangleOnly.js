@@ -1,7 +1,7 @@
-var a = [];
-for (var b of [
+var o = [];
+for (var r of [
     1,
     2,
     3
-])a.push(b);
-console.log(a.length);
+])o.push(r);
+console.log(o.length);

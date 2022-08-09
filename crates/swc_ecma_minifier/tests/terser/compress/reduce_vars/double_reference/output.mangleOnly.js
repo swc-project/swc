@@ -1,6 +1,6 @@
-function a() {
-    var a = function a() {
-        a();
+function n() {
+    var n = function n() {
+        n();
     };
-    a();
+    n();
 }

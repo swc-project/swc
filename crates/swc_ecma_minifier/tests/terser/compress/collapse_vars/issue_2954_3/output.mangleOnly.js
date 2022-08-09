@@ -1,11 +1,11 @@
-var a = "FAIL_1", b;
+var l = "FAIL_1", n;
 try {} finally{
     do {
-        b = (function() {
+        n = (function() {
             throw new Error("PASS");
         })();
-        a = "FAIL_2";
-        b && b.c;
+        l = "FAIL_2";
+        n && n.c;
     }while (0)
 }
-console.log(a);
+console.log(l);

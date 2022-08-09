@@ -1,4 +1,3 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @noEmit: true
 // @checkJs: true
 // @allowJs: true
@@ -10,6 +9,7 @@ y.name;
 /** @type {Outer.Inner} should be instance type, not static type */ var x;
 x.name;
 // @Filename: def.js
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Outer = {};
 Outer.Inner = /*#__PURE__*/ function() {
     "use strict";

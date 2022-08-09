@@ -1,10 +1,10 @@
-function a(a) {
-    this.f = a;
+function n(n) {
+    this.f = n;
 }
-new a(function() {
-    (function(a) {
-        (function(a) {
-            console.log(a);
-        })(a);
+new n(function() {
+    (function(n) {
+        (function(n) {
+            console.log(n);
+        })(n);
     })(7);
 }).f();

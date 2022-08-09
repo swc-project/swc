@@ -1,11 +1,11 @@
-let { x: a , y: b  } = {
+let { x: l , y: o  } = {
     x: 2
 };
-var { U: c , V: d  } = {
+var { U: t , V: x  } = {
     V: 3
 };
-const { C: e , D: f  } = {
+const { C: C , D: D  } = {
     C: 1,
     D: 4
 };
-console.log(a, d);
+console.log(l, x);

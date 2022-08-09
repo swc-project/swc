@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: input.js
 // @out: output.js
 // @allowJs: true
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function C() {
     this.m = null;
 }

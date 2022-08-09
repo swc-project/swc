@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -38,7 +39,9 @@
           "namespace": null,
           "prefix": null,
           "name": "lang",
-          "value": "en"
+          "rawName": "lang",
+          "value": "en",
+          "rawValue": "\"en\""
         }
       ],
       "children": [
@@ -153,7 +156,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "behavior",
-                  "value": ""
+                  "rawName": "behavior",
+                  "value": "",
+                  "rawValue": "\"\""
                 },
                 {
                   "type": "Attribute",
@@ -165,7 +170,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "direction",
-                  "value": ""
+                  "rawName": "direction",
+                  "value": "",
+                  "rawValue": "\"\""
                 }
               ],
               "children": [

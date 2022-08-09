@@ -1,10 +1,10 @@
-var a = 0;
-(function b(c) {
-    var d = 2;
+var l = 0;
+(function n(u) {
+    var o = 2;
     do {
-        c && c[c];
-        c && (c.null = -4);
-        a++;
-    }while (c.null && --d > 0)
+        u && u[u];
+        u && (u.null = -4);
+        l++;
+    }while (u.null && --o > 0)
 })(true);
-console.log(a);
+console.log(l);

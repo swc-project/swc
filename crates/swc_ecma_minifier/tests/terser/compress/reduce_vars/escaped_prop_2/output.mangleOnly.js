@@ -1,11 +1,11 @@
-var a = {
+var o = {
     o: {
         a: 1
     }
 };
-(function(a) {
-    a.a++;
-})(a.o);
-(function(a) {
-    console.log(a.a);
-})(a.o);
+(function(o) {
+    o.a++;
+})(o.o);
+(function(o) {
+    console.log(o.a);
+})(o.o);

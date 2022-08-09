@@ -1,20 +1,20 @@
-function a(a) {
+function n(n) {
     return function() {
-        function b(a) {
-            return a * a;
+        function r(n) {
+            return n * n;
         }
         return [
             function() {
-                function a(a) {
-                    return a * a;
+                function n(n) {
+                    return n * n;
                 }
-                return a;
+                return n;
             },
             function() {
-                function b(a) {
-                    return a * a;
+                function r(n) {
+                    return n * n;
                 }
-                return a(b);
+                return n(r);
             }, 
         ];
     };

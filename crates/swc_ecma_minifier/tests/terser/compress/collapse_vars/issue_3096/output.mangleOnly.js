@@ -1,8 +1,8 @@
 console.log((function() {
-    var a = [
+    var r = [
         "a",
         "b"
     ];
-    var b = a.pop();
-    return a + "" + b;
+    var n = r.pop();
+    return r + "" + n;
 })());

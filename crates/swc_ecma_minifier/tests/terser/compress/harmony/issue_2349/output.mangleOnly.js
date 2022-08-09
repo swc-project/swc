@@ -1,8 +1,8 @@
-function a(a, b) {
-    const c = a.get();
-    return c.map(({ [b]: a  })=>a);
+function t(t, n) {
+    const e = t.get();
+    return e.map(({ [n]: t  })=>t);
 }
-console.log(a({
+console.log(t({
     get: ()=>[
             {
                 blah: 42

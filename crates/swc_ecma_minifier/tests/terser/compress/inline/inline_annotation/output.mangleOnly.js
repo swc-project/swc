@@ -1,5 +1,5 @@
-function a() {
+function n() {
     return external();
 }
-a();
-a();
+n();
+n();

@@ -1,3 +1,4 @@
+//@target: ES6
 foo("", function*() {
     yield* {
         *[Symbol.iterator] () {

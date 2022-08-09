@@ -1,3 +1,5 @@
+// @strict: true
+// @declaration: true
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 f1("foo", "abc");
 f1("foo", 10, true);

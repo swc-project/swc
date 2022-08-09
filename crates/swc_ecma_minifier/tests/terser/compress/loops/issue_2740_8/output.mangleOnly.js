@@ -1,3 +1,3 @@
-var a = 9, b = 0;
-for(const c = 1; c < 3; ++b)break;
-console.log(a, b);
+var o = 9, r = 0;
+for(const a = 1; a < 3; ++r)break;
+console.log(o, r);

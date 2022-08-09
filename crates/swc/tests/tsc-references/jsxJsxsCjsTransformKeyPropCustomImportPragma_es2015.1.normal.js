@@ -1,16 +1,13 @@
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
-import { jsx as _jsx } from "preact/jsx-runtime";
-import { createElement as _createElement } from "react";
-// @filename: react.tsx
-/// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource react */ import "./preact";
 // @jsx: react-jsx,react-jsxdev
 // @strict: true
 // @module: commonjs
 // @filename: preact.tsx
 /// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource preact */ const props = {
+/* @jsxImportSource preact */ import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+import { jsx as _jsx } from "preact/jsx-runtime";
+import { createElement as _createElement } from "react";
+const props = {
     answer: 42
 };
 const a = /*#__PURE__*/ _jsx("div", _object_spread_props(_object_spread({}, props), {
@@ -19,6 +16,14 @@ const a = /*#__PURE__*/ _jsx("div", _object_spread_props(_object_spread({}, prop
 const b = /*#__PURE__*/ _createElement("div", _object_spread_props(_object_spread({}, props), {
     key: "bar"
 }), "text");
+export { };
+// @filename: react.tsx
+/// <reference path="/.lib/react16.d.ts" />
+/* @jsxImportSource react */ import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+import { jsx as _jsx } from "react/jsx-runtime";
+import { createElement as _createElement } from "react";
+import "./preact";
 const props2 = {
     answer: 42
 };

@@ -1,12 +1,12 @@
-function a(a, b) {
-    if (b.val === a.val) {
+function e(e, r) {
+    if (r.val === e.val) {
         return 0;
     }
-    if (typeof a.val === "object" && typeof b.val === "object") {
-        if (a.key === undefined || b.key === undefined) {
+    if (typeof e.val === "object" && typeof r.val === "object") {
+        if (e.key === undefined || r.key === undefined) {
             return 1;
         }
-        if (a.key === b.key) {
+        if (e.key === r.key) {
             return 0;
         }
     }

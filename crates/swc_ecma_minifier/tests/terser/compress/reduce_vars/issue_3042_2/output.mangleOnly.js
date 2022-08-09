@@ -1,18 +1,18 @@
-function a() {
-    this.isFoo = function(b) {
-        return b instanceof a;
+function o() {
+    this.isFoo = function(s) {
+        return s instanceof o;
     };
 }
-function b() {
+function s() {
     this.foos = [
         1,
         1
     ].map(function() {
-        return new a();
+        return new o();
     });
 }
-var c = new b();
-console.log(c.foos[0].isFoo(c.foos[0]));
-console.log(c.foos[0].isFoo(c.foos[1]));
-console.log(c.foos[1].isFoo(c.foos[0]));
-console.log(c.foos[1].isFoo(c.foos[1]));
+var f = new s();
+console.log(f.foos[0].isFoo(f.foos[0]));
+console.log(f.foos[0].isFoo(f.foos[1]));
+console.log(f.foos[1].isFoo(f.foos[0]));
+console.log(f.foos[1].isFoo(f.foos[1]));

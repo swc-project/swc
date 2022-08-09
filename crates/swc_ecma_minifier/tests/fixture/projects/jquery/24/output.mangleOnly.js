@@ -1,74 +1,74 @@
 export const obj = {
-    buildFragment: function(a, b, c, d) {
-        var e, f, g, h, i, j, k, l = a.length, m = createSafeFragment(b), n = [], o = 0;
-        for(; o < l; o++){
-            f = a[o];
-            if (f || f === 0) {
-                if (jQuery.type(f) === "object") {
-                    jQuery.merge(n, f.nodeType ? [
-                        f
-                    ] : f);
-                } else if (!rhtml.test(f)) {
-                    n.push(b.createTextNode(f));
+    buildFragment: function(e, t, i, l) {
+        var d, h, n, o, r, s, p, a = e.length, f = createSafeFragment(t), c = [], u = 0;
+        for(; u < a; u++){
+            h = e[u];
+            if (h || h === 0) {
+                if (jQuery.type(h) === "object") {
+                    jQuery.merge(c, h.nodeType ? [
+                        h
+                    ] : h);
+                } else if (!rhtml.test(h)) {
+                    c.push(t.createTextNode(h));
                 } else {
-                    h = h || m.appendChild(b.createElement("div"));
-                    i = (rtagName.exec(f) || [
+                    o = o || f.appendChild(t.createElement("div"));
+                    r = (rtagName.exec(h) || [
                         "",
                         ""
                     ])[1].toLowerCase();
-                    k = wrapMap[i] || wrapMap._default;
-                    h.innerHTML = k[1] + f.replace(rxhtmlTag, "<$1></$2>") + k[2];
-                    e = k[0];
-                    while(e--){
-                        h = h.lastChild;
+                    p = wrapMap[r] || wrapMap._default;
+                    o.innerHTML = p[1] + h.replace(rxhtmlTag, "<$1></$2>") + p[2];
+                    d = p[0];
+                    while(d--){
+                        o = o.lastChild;
                     }
-                    if (!jQuery.support.leadingWhitespace && rleadingWhitespace.test(f)) {
-                        n.push(b.createTextNode(rleadingWhitespace.exec(f)[0]));
+                    if (!jQuery.support.leadingWhitespace && rleadingWhitespace.test(h)) {
+                        c.push(t.createTextNode(rleadingWhitespace.exec(h)[0]));
                     }
                     if (!jQuery.support.tbody) {
-                        f = i === "table" && !rtbody.test(f) ? h.firstChild : k[1] === "<table>" && !rtbody.test(f) ? h : 0;
-                        e = f && f.childNodes.length;
-                        while(e--){
-                            if (jQuery.nodeName((j = f.childNodes[e]), "tbody") && !j.childNodes.length) {
-                                f.removeChild(j);
+                        h = r === "table" && !rtbody.test(h) ? o.firstChild : p[1] === "<table>" && !rtbody.test(h) ? o : 0;
+                        d = h && h.childNodes.length;
+                        while(d--){
+                            if (jQuery.nodeName((s = h.childNodes[d]), "tbody") && !s.childNodes.length) {
+                                h.removeChild(s);
                             }
                         }
                     }
-                    jQuery.merge(n, h.childNodes);
-                    h.textContent = "";
-                    while(h.firstChild){
-                        h.removeChild(h.firstChild);
+                    jQuery.merge(c, o.childNodes);
+                    o.textContent = "";
+                    while(o.firstChild){
+                        o.removeChild(o.firstChild);
                     }
-                    h = m.lastChild;
+                    o = f.lastChild;
                 }
             }
         }
-        if (h) {
-            m.removeChild(h);
+        if (o) {
+            f.removeChild(o);
         }
         if (!jQuery.support.appendChecked) {
-            jQuery.grep(getAll(n, "input"), fixDefaultChecked);
+            jQuery.grep(getAll(c, "input"), fixDefaultChecked);
         }
-        o = 0;
-        while((f = n[o++])){
-            if (d && jQuery.inArray(f, d) !== -1) {
+        u = 0;
+        while((h = c[u++])){
+            if (l && jQuery.inArray(h, l) !== -1) {
                 continue;
             }
-            g = jQuery.contains(f.ownerDocument, f);
-            h = getAll(m.appendChild(f), "script");
-            if (g) {
-                setGlobalEval(h);
+            n = jQuery.contains(h.ownerDocument, h);
+            o = getAll(f.appendChild(h), "script");
+            if (n) {
+                setGlobalEval(o);
             }
-            if (c) {
-                e = 0;
-                while((f = h[e++])){
-                    if (rscriptType.test(f.type || "")) {
-                        c.push(f);
+            if (i) {
+                d = 0;
+                while((h = o[d++])){
+                    if (rscriptType.test(h.type || "")) {
+                        i.push(h);
                     }
                 }
             }
         }
-        h = null;
-        return m;
+        o = null;
+        return f;
     }
 };

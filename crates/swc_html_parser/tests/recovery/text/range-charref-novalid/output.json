@@ -16,7 +16,8 @@
       },
       "name": "html",
       "publicId": null,
-      "systemId": null
+      "systemId": null,
+      "raw": "<!doctype html>"
     },
     {
       "type": "Element",
@@ -60,7 +61,9 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "charset",
-                  "value": "utf-8"
+                  "rawName": "charset",
+                  "value": "utf-8",
+                  "rawValue": "utf-8"
                 }
               ],
               "children": [],

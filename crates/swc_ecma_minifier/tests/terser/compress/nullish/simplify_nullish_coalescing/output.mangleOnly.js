@@ -1,5 +1,5 @@
-const a = id("one");
-const b = null;
-const c = "two";
-console.log(b ?? a);
-console.log(c ?? a);
+const o = id("one");
+const l = null;
+const n = "two";
+console.log(l ?? o);
+console.log(n ?? o);

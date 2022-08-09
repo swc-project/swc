@@ -80,6 +80,12 @@ impl DuplicateExports {
 impl Visit for DuplicateExports {
     noop_visit_type!();
 
+    fn visit_ts_module_decl(&mut self, d: &TsModuleDecl) {
+        if !d.declare {
+            d.visit_children_with(self);
+        }
+    }
+
     fn visit_export_default_decl(&mut self, d: &ExportDefaultDecl) {
         if matches!(
             d.decl,
@@ -134,6 +140,12 @@ impl Visit for DuplicateExports {
             ModuleExportName::Ident(name) => self.add(name),
             ModuleExportName::Str(..) => {}
         };
+    }
+
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
+        if n.is_export && !n.is_type_only && !n.declare {
+            self.add(&n.id)
+        }
     }
 
     fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {

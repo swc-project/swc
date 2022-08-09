@@ -9,9 +9,11 @@ use napi::{
     Env, JsBuffer, JsBufferValue, Ref, Task,
 };
 use path_clean::clean;
-use swc::{config::Options, Compiler, TransformOutput};
-use swc_common::FileName;
-use swc_ecma_ast::Program;
+use swc_core::{
+    ast::Program,
+    base::{config::Options, Compiler, TransformOutput},
+    common::FileName,
+};
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 use tracing::instrument;
 

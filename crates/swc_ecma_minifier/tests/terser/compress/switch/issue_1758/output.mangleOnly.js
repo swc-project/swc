@@ -1,6 +1,6 @@
-var a = 1, b = 2;
+var a = 1, l = 2;
 switch(a--){
     default:
-        b++;
+        l++;
 }
-console.log(a, b);
+console.log(a, l);

@@ -1,5 +1,5 @@
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 // @strict: true
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 function f(cnd) {
     // Type is a union of 2^(n-1) members, where n is the number of spread objects
     return _object_spread({}, cnd[1] && cnd[2] && {

@@ -1,12 +1,12 @@
-function a() {
-    var a = 3;
+function n() {
+    var n = 3;
     return function() {
-        return a;
+        return n;
     };
 }
-function b(a) {
-    var b = a;
+function r(n) {
+    var r = n;
     return function() {
-        return b;
+        return r;
     };
 }

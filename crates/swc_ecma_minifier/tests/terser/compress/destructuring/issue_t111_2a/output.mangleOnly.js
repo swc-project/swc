@@ -1,1 +1,1 @@
-var a = (a)=>(console.log(a), a), b = a(1), {} = a(2), c = a(3), d = a(4);
+var a = (a)=>(console.log(a), a), g = a(1), {} = a(2), l = a(3), o = a(4);

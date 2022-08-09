@@ -1,11 +1,11 @@
 global.same_name = "PASS";
-function a(a) {
-    if (a) c(a);
+function n(n) {
+    if (n) i(n);
 }
-function b() {
+function f() {
     console.log(same_name);
 }
-function c() {
-    b();
+function i() {
+    f();
 }
-a("FAIL");
+n("FAIL");

@@ -1,12 +1,12 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _class, _class1;
 // @target: esnext,es2015,es5
 // @noTypesAndSymbols: true
 // @noEmit: true
 // @useDefineForClassFields: false
 // https://github.com/microsoft/TypeScript/issues/36295
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+var _class, _class1;
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

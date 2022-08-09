@@ -829,14 +829,28 @@ where
                 return Some(e.take());
             }
 
-            Expr::MetaProp(_)
-            | Expr::Await(_)
-            | Expr::New(..)
-            | Expr::Call(..)
-            | Expr::Yield(_)
-            | Expr::Assign(_)
-            | Expr::PrivateName(_)
-            | Expr::Update(_) => return Some(e.take()),
+            Expr::Assign(AssignExpr {
+                op, left, right, ..
+            }) if left.is_expr() && !op.may_short_circuit() => {
+                if let PatOrExpr::Expr(expr) = left {
+                    if let Expr::Member(m) = &**expr {
+                        if !expr.may_have_side_effects(&self.expr_ctx) && m.obj.is_object() {
+                            if self.should_preserve_property_access(
+                                &m.obj,
+                                PropertyAccessOpts {
+                                    allow_getter: true,
+                                    only_ident: false,
+                                },
+                            ) {
+                                return Some(e.take());
+                            } else {
+                                return Some(*right.take());
+                            }
+                        }
+                    }
+                }
+                return Some(e.take());
+            }
 
             // We drop `f.g` in
             //
@@ -862,6 +876,15 @@ where
 
             // TODO: Check if it is a pure property access.
             Expr::Member(_) => return Some(e.take()),
+
+            Expr::MetaProp(_)
+            | Expr::Await(_)
+            | Expr::New(..)
+            | Expr::Call(..)
+            | Expr::Yield(_)
+            | Expr::Assign(_)
+            | Expr::PrivateName(_)
+            | Expr::Update(_) => return Some(e.take()),
 
             // Not supported. (At least at the moment)
             Expr::JSXMember(_)
@@ -1844,6 +1867,7 @@ where
         {
             let ctx = Ctx {
                 in_var_decl_of_for_in_or_of_loop: true,
+                is_exact_lhs_of_assign: n.left.is_pat(),
                 ..self.ctx
             };
             n.left.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1865,6 +1889,7 @@ where
         {
             let ctx = Ctx {
                 in_var_decl_of_for_in_or_of_loop: true,
+                is_exact_lhs_of_assign: n.left.is_pat(),
                 ..self.ctx
             };
             n.left.visit_mut_with(&mut *self.with_ctx(ctx));

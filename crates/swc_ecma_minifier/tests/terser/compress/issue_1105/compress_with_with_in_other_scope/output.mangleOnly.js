@@ -6,6 +6,6 @@ function foo() {
     doSomething(o);
 }
 function bar() {
-    var a = 42;
+    var n = 42;
     return something();
 }

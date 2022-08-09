@@ -1,5 +1,3 @@
-// @filename: importer.js
-import { j, k } from './assignmentToVoidZero2';
 // @filename: assignmentToVoidZero2.js
 // @declaration: true
 // @module: commonjs
@@ -19,4 +17,6 @@ function C() {
 }
 var c = new C();
 c.p + c.q;
+// @filename: importer.js
+import { j, k } from './assignmentToVoidZero2';
 j + k;

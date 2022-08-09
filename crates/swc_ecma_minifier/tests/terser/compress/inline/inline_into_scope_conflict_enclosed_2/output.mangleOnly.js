@@ -1,17 +1,17 @@
 global.same_name = ()=>console.log("PASS");
-function a(a) {
-    console.log(a === undefined ? "PASS" : "FAIL");
-    b();
+function n(n) {
+    console.log(n === undefined ? "PASS" : "FAIL");
+    o();
 }
-function b() {
-    return c();
+function o() {
+    return t();
 }
-function c() {
-    for (const a of [
+function t() {
+    for (const n of [
         1
     ]){
         same_name();
         return;
     }
 }
-a();
+n();

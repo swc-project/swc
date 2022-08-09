@@ -1,14 +1,14 @@
 (function() {
-    var a, b = {};
-    function c(a) {
+    var n, o = {};
+    function f(n) {
         return function() {
-            console.log(a);
+            console.log(n);
         };
     }
-    for(a in {
+    for(n in {
         a: 1,
         b: 2,
         c: 3
-    })b[a] = c(a);
-    for(a in b)b[a]();
+    })o[n] = f(n);
+    for(n in o)o[n]();
 })();

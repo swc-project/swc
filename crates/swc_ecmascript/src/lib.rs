@@ -17,6 +17,9 @@ pub use swc_ecma_parser as parser;
 #[cfg(feature = "preset_env")]
 #[cfg_attr(docsrs, doc(cfg(feature = "preset_env")))]
 pub use swc_ecma_preset_env as preset_env;
+#[cfg(feature = "swc_ecma_quote")]
+#[cfg_attr(docsrs, doc(cfg(feature = "parser")))]
+pub use swc_ecma_quote as quote;
 #[cfg(feature = "transforms")]
 #[cfg_attr(docsrs, doc(cfg(feature = "transforms")))]
 pub use swc_ecma_transforms as transforms;

@@ -1,3 +1,7 @@
+// @target: esnext
+// @strictNullChecks: true
+// @noImplicitReturns: true
+// @noImplicitAny: true
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g6);
 var _marked1 = regeneratorRuntime.mark(g5);
@@ -5,10 +9,6 @@ var _marked2 = regeneratorRuntime.mark(g4);
 var _marked3 = regeneratorRuntime.mark(g3);
 var _marked4 = regeneratorRuntime.mark(g2);
 var _marked5 = regeneratorRuntime.mark(g);
-// @target: esnext
-// @strictNullChecks: true
-// @noImplicitReturns: true
-// @noImplicitAny: true
 function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
