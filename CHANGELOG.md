@@ -11,6 +11,9 @@
 - **(es)** Temporarily disable `bytecheck` (#5414) ([2b5080e](https://github.com/swc-project/swc/commit/2b5080e291344337719035706f9ade6cdd4b4467))
 
 
+- **(es/ast)** Fix json deserialization of `AssignExpr` (#5179) ([53627af](https://github.com/swc-project/swc/commit/53627aff442422f421a961bb72eec05ae61dabb6))
+
+
 - **(es/fixer)** Remove useless parentheses around `**` (#5424) ([7116636](https://github.com/swc-project/swc/commit/71166360cc09a1911f49c09053c01578cb7c65e3))
 
 
