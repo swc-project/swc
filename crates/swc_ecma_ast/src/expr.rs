@@ -553,12 +553,10 @@ impl<'de> Deserialize<'de> for AssignExpr {
                 let right = right_field.ok_or_else(|| de::Error::missing_field("right"))?;
 
                 if op != AssignOp::Assign {
-                    left = match left {
-                        PatOrExpr::Pat(pat) => match *pat {
-                            Pat::Ident(ident) => PatOrExpr::Expr(Box::new(Expr::Ident(ident.id))),
-                            pat => PatOrExpr::Pat(Box::new(pat)),
-                        },
-                        left => left,
+                    if let PatOrExpr::Pat(ref pat) = left {
+                        if let Pat::Ident(ident) = &**pat {
+                            left = PatOrExpr::Expr(Box::new(Expr::Ident(ident.id.clone())));
+                        }
                     }
                 }
 
