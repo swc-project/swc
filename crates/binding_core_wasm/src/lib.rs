@@ -13,6 +13,10 @@ use swc_core::{
         config::{ErrorFormat, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
         try_with_handler, Compiler,
     },
+    binding_macros::{
+        build_minify, build_minify_sync, build_parse, build_parse_sync, build_print,
+        build_print_sync,
+    },
     common::{comments::Comments, FileName, FilePathMapping, SourceMap},
 };
 use wasm_bindgen::{prelude::*, JsCast};
@@ -63,154 +67,11 @@ export function transform(
 export function transformSync(code: string | Program, opts?: Options, experimental_plugin_bytes_resolver?: any): Output;
 "#;
 
-#[wasm_bindgen(
-    js_name = "minifySync",
-    typescript_type = "minifySync",
-    skip_typescript
-)]
-pub fn minify_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
-    console_error_panic_hook::set_once();
+build_minify_sync!(#[wasm_bindgen(js_name = "minifySync", typescript_type = "minifySync", skip_typescript)]);
+build_minify!(#[wasm_bindgen(js_name = "minify", typescript_type = "minify", skip_typescript)]);
 
-    let c = compiler();
-
-    try_with_handler(
-        c.cm.clone(),
-        swc_core::base::HandlerOpts {
-            ..Default::default()
-        },
-        |handler| {
-            c.run(|| {
-                let opts = if opts.is_null() || opts.is_undefined() {
-                    Default::default()
-                } else {
-                    opts.into_serde().context("failed to parse options")?
-                };
-
-                let fm = c.cm.new_source_file(FileName::Anon, s.into());
-                let program = c
-                    .minify(fm, handler, &opts)
-                    .context("failed to minify file")?;
-
-                JsValue::from_serde(&program).context("failed to serialize json")
-            })
-        },
-    )
-    .map_err(|e| convert_err(e, ErrorFormat::Normal))
-}
-
-#[wasm_bindgen(js_name = "minify", typescript_type = "minify", skip_typescript)]
-pub fn minify(s: JsString, opts: JsValue) -> js_sys::Promise {
-    // TODO: This'll be properly scheduled once wasm have standard backed thread
-    // support.
-    future_to_promise(async { minify_sync(s, opts) })
-}
-
-#[wasm_bindgen(js_name = "parseSync", typescript_type = "parseSync", skip_typescript)]
-pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
-    console_error_panic_hook::set_once();
-
-    let c = compiler();
-
-    try_with_handler(
-        c.cm.clone(),
-        swc_core::base::HandlerOpts {
-            ..Default::default()
-        },
-        |handler| {
-            c.run(|| {
-                let opts: ParseOptions = if opts.is_null() || opts.is_undefined() {
-                    Default::default()
-                } else {
-                    opts.into_serde().context("failed to parse options")?
-                };
-
-                let fm = c.cm.new_source_file(FileName::Anon, s.into());
-
-                let cmts = c.comments().clone();
-                let comments = if opts.comments {
-                    Some(&cmts as &dyn Comments)
-                } else {
-                    None
-                };
-
-                let program = c
-                    .parse_js(
-                        fm,
-                        handler,
-                        opts.target,
-                        opts.syntax,
-                        opts.is_module,
-                        comments,
-                    )
-                    .context("failed to parse code")?;
-
-                JsValue::from_serde(&program).context("failed to serialize json")
-            })
-        },
-    )
-    .map_err(|e| convert_err(e, ErrorFormat::Normal))
-}
-
-#[wasm_bindgen(js_name = "parse", typescript_type = "parse", skip_typescript)]
-pub fn parse(s: JsString, opts: JsValue) -> js_sys::Promise {
-    // TODO: This'll be properly scheduled once wasm have standard backed thread
-    // support.
-    future_to_promise(async { parse_sync(s, opts) })
-}
-
-#[wasm_bindgen(js_name = "printSync", typescript_type = "printSync", skip_typescript)]
-pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
-    console_error_panic_hook::set_once();
-
-    let c = compiler();
-
-    try_with_handler(
-        c.cm.clone(),
-        swc_core::base::HandlerOpts {
-            ..Default::default()
-        },
-        |_handler| {
-            c.run(|| {
-                let opts: Options = if opts.is_null() || opts.is_undefined() {
-                    Default::default()
-                } else {
-                    opts.into_serde().context("failed to parse options")?
-                };
-
-                let program: Program = s.into_serde().context("failed to deserialize program")?;
-
-                let s = c
-                    .print(
-                        &program,
-                        None,
-                        None,
-                        true,
-                        opts.codegen_target().unwrap_or(EsVersion::Es2020),
-                        opts.source_maps
-                            .clone()
-                            .unwrap_or(SourceMapsConfig::Bool(false)),
-                        &Default::default(),
-                        None,
-                        opts.config.minify.into(),
-                        None,
-                        opts.config.emit_source_map_columns.into_bool(),
-                        false,
-                    )
-                    .context("failed to print code")?;
-
-                JsValue::from_serde(&s).context("failed to serialize json")
-            })
-        },
-    )
-    .map_err(|e| convert_err(e, ErrorFormat::Normal))
-}
-
-#[wasm_bindgen(js_name = "print", typescript_type = "print", skip_typescript)]
-pub fn print(s: JsValue, opts: JsValue) -> js_sys::Promise {
-    // TODO: This'll be properly scheduled once wasm have standard backed thread
-    // support.
-    future_to_promise(async { print_sync(s, opts) })
-}
+build_parse_sync!(#[wasm_bindgen(js_name = "parseSync", typescript_type = "parseSync", skip_typescript)]);
+build_parse!(#[wasm_bindgen(js_name = "parse", typescript_type = "parse", skip_typescript)]);
 
 #[wasm_bindgen(
     js_name = "transformSync",
@@ -323,6 +184,9 @@ pub fn transform(
     // support.
     future_to_promise(async { transform_sync(s, opts, experimental_plugin_bytes_resolver) })
 }
+
+build_print_sync!(#[wasm_bindgen(js_name = "printSync", typescript_type = "printSync", skip_typescript)]);
+build_print!(#[wasm_bindgen(js_name = "print", typescript_type = "print", skip_typescript)]);
 
 /// Get global sourcemap
 fn compiler() -> Arc<Compiler> {

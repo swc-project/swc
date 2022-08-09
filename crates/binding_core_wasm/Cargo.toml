@@ -33,6 +33,7 @@ swc_core = { path = "../swc_core", features = [
   "common",
   "common_perf",
   "base",
+  "binding_macro_wasm",
 ] }
 tracing = { version = "0.1.35", features = ["release_max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = [
