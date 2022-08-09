@@ -5,6 +5,9 @@
 
 
 
+- **(cli)** Update plugin template (#5421) ([ce3bbe4](https://github.com/swc-project/swc/commit/ce3bbe4bb069b96252fde666904f593b176d6633))
+
+
 - **(es)** Temporarily disable `bytecheck` (#5414) ([2b5080e](https://github.com/swc-project/swc/commit/2b5080e291344337719035706f9ade6cdd4b4467))
 
 
