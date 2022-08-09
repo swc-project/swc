@@ -519,7 +519,7 @@ impl<'de> Deserialize<'de> for AssignExpr {
                 let mut left_field: Option<PatOrExpr> = None;
                 let mut right_field: Option<Box<Expr>> = None;
 
-                while let Some(key) = map.next_key::<&str>()? {
+                while let Some(key) = map.next_key()? {
                     match key {
                         "span" => {
                             if span_field.is_some() {
