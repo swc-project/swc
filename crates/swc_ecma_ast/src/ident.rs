@@ -111,7 +111,7 @@ impl From<Ident> for BindingIdent {
 pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub sym: JsWord,
 
     /// TypeScript only. Used in case of an optional parameter.

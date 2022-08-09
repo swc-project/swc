@@ -45,13 +45,29 @@ pub enum Child {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct DocumentType {
     pub span: Span,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub name: Option<JsWord>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub public_id: Option<JsWord>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub system_id: Option<JsWord>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<JsWord>,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
 pub enum Namespace {
     /// `http://www.w3.org/1999/xhtml`
     HTML,
@@ -71,6 +87,7 @@ pub enum Namespace {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Element {
     pub span: Span,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub tag_name: JsWord,
     pub namespace: Namespace,
     pub attributes: Vec<Attribute>,
@@ -85,10 +102,15 @@ pub struct Element {
 pub struct Attribute {
     pub span: Span,
     pub namespace: Option<Namespace>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub prefix: Option<JsWord>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub name: JsWord,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw_name: Option<JsWord>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: Option<JsWord>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw_value: Option<JsWord>,
 }
 
@@ -96,7 +118,9 @@ pub struct Attribute {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Text {
     pub span: Span,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub data: JsWord,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<JsWord>,
 }
 
@@ -104,6 +128,8 @@ pub struct Text {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Comment {
     pub span: Span,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub data: JsWord,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<JsWord>,
 }

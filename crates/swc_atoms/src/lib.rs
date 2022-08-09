@@ -279,3 +279,107 @@ where
         Ok(s.into())
     }
 }
+
+#[cfg(feature = "rkyv")]
+#[derive(Debug, Clone, Copy)]
+pub struct EncodeJsWord;
+
+#[cfg(feature = "rkyv")]
+impl rkyv::with::ArchiveWith<crate::JsWord> for EncodeJsWord {
+    type Archived = rkyv::Archived<String>;
+    type Resolver = rkyv::Resolver<String>;
+
+    unsafe fn resolve_with(
+        field: &crate::JsWord,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        use rkyv::Archive;
+
+        let s = field.to_string();
+        s.resolve(pos, resolver, out);
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<S> rkyv::with::SerializeWith<crate::JsWord, S> for EncodeJsWord
+where
+    S: ?Sized + rkyv::ser::Serializer,
+{
+    fn serialize_with(
+        field: &crate::JsWord,
+        serializer: &mut S,
+    ) -> Result<Self::Resolver, S::Error> {
+        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, crate::JsWord, D> for EncodeJsWord
+where
+    D: ?Sized + rkyv::Fallible,
+{
+    fn deserialize_with(
+        field: &rkyv::Archived<String>,
+        deserializer: &mut D,
+    ) -> Result<crate::JsWord, D::Error> {
+        use rkyv::Deserialize;
+
+        let s: String = field.deserialize(deserializer)?;
+
+        Ok(s.into())
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl rkyv::with::ArchiveWith<Option<crate::JsWord>> for EncodeJsWord {
+    type Archived = rkyv::Archived<Option<String>>;
+    type Resolver = rkyv::Resolver<Option<String>>;
+
+    unsafe fn resolve_with(
+        field: &Option<crate::JsWord>,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        use rkyv::Archive;
+
+        let s = field.as_ref().map(|s| s.to_string());
+        s.resolve(pos, resolver, out);
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<S> rkyv::with::SerializeWith<Option<crate::JsWord>, S> for EncodeJsWord
+where
+    S: ?Sized + rkyv::ser::Serializer,
+{
+    fn serialize_with(
+        value: &Option<crate::JsWord>,
+        serializer: &mut S,
+    ) -> Result<Self::Resolver, S::Error> {
+        value
+            .as_ref()
+            .map(|value| rkyv::string::ArchivedString::serialize_from_str(value, serializer))
+            .transpose()
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<Option<String>>, Option<crate::JsWord>, D>
+    for EncodeJsWord
+where
+    D: ?Sized + rkyv::Fallible,
+{
+    fn deserialize_with(
+        field: &rkyv::Archived<Option<String>>,
+        deserializer: &mut D,
+    ) -> Result<Option<crate::JsWord>, D::Error> {
+        use rkyv::Deserialize;
+
+        let s: Option<String> = field.deserialize(deserializer)?;
+
+        Ok(s.map(|s| s.into()))
+    }
+}

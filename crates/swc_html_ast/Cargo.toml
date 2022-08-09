@@ -1,5 +1,8 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>", "Alexander Akait <sheo13666q@gmail.com>"]
+authors = [
+  "강동윤 <kdy1997.dev@gmail.com>",
+  "Alexander Akait <sheo13666q@gmail.com>",
+]
 description = "AST definitions of html"
 documentation = "https://rustdoc.swc.rs/swc_html_ast/"
 edition = "2021"
@@ -11,9 +14,14 @@ version = "0.24.0"
 [lib]
 bench = false
 
+[features]
+rkyv-impl = ["rkyv", "bytecheck", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+
 [dependencies]
-is-macro = "0.2.0"
-serde = {version = "1.0.127", features = ["derive"]}
-string_enum = {version = "0.3.1", path = "../string_enum/"}
-swc_atoms = {version = "0.4.0", path = "../swc_atoms"}
-swc_common = { version = "0.27.0", path = "../swc_common"}
+bytecheck   = { version = "0.6.9", optional = true }
+is-macro    = "0.2.0"
+rkyv        = { version = "0.7.39", optional = true }
+serde       = { version = "1.0.127", features = ["derive"] }
+string_enum = { version = "0.3.1", path = "../string_enum/" }
+swc_atoms   = { version = "0.4.0", path = "../swc_atoms" }
+swc_common  = { version = "0.27.0", path = "../swc_common" }

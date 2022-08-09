@@ -3167,7 +3167,9 @@ dependencies = [
 name = "swc_css_ast"
 version = "0.105.0"
 dependencies = [
+ "bytecheck",
  "is-macro",
+ "rkyv",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -3951,7 +3953,9 @@ dependencies = [
 name = "swc_html_ast"
 version = "0.24.0"
 dependencies = [
+ "bytecheck",
  "is-macro",
+ "rkyv",
  "serde",
  "string_enum",
  "swc_atoms",
