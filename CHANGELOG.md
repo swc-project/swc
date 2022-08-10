@@ -31,6 +31,9 @@
 
 - **(dbg-swc)** Improve minifier comparator (#5411) ([d1da899](https://github.com/swc-project/swc/commit/d1da89939f169437e67031833ea09237968dd620))
 
+
+- **(swc_core)** Add macros for wasm bindings (#5430) ([5348195](https://github.com/swc-project/swc/commit/5348195996c7ac70d584ab3be0d87a3ac931c44c))
+
 ### Testing
 
 

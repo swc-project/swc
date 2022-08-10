@@ -3053,7 +3053,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.89.0"
+version = "0.90.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3132,7 +3132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.5.1"
+version = "0.6.0"
 dependencies = [
  "binding_macros",
  "once_cell",
