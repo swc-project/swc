@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_css_ast"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.105.0"
+version       = "0.105.1"
 
 [lib]
 bench = false

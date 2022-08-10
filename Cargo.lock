@@ -3173,7 +3173,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.105.0"
+version = "0.105.1"
 dependencies = [
  "bytecheck",
  "is-macro",

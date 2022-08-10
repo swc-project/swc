@@ -29,6 +29,9 @@
 
 
 
+- **(ast)** Make css/html ast serializable (#5427) ([56b1036](https://github.com/swc-project/swc/commit/56b10367a3acdc6e0a034ce7c6c8562bbaa9ddc6))
+
+
 - **(dbg-swc)** Improve minifier comparator (#5411) ([d1da899](https://github.com/swc-project/swc/commit/d1da89939f169437e67031833ea09237968dd620))
 
 
