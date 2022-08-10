@@ -1,7 +1,6 @@
 use std::any::type_name;
 
 use anyhow::Error;
-use bytecheck::CheckBytes;
 use rkyv::{with::AsBox, Archive, Deserialize, Serialize};
 
 /**
@@ -182,26 +181,18 @@ where
 /// swc_plugin_macro can use this to validate compatiblility before attempt to
 /// serialize.
 #[derive(Archive, Deserialize, Serialize)]
-#[repr(transparent)]
-#[archive_attr(repr(transparent), derive(CheckBytes))]
-pub struct VersionedSerializable<T>(#[with(AsBox)] (u32, T));
+pub struct VersionedSerializable<T>(#[with(AsBox)] T);
 
 impl<T> VersionedSerializable<T> {
     pub fn new(value: T) -> Self {
-        // TODO: we'll add compile time flag to augment schema version.
-        // User should not try to set version by themselves.
-        VersionedSerializable((1, value))
-    }
-
-    pub fn version(&self) -> u32 {
-        self.0 .0
+        VersionedSerializable(value)
     }
 
     pub fn inner(&self) -> &T {
-        &self.0 .1
+        &self.0
     }
 
     pub fn into_inner(self) -> T {
-        self.0 .1
+        self.0
     }
 }
