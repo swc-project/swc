@@ -69,6 +69,18 @@ pub struct Combinator {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
 pub enum CombinatorValue {
     /// ` `
     Descendant,
@@ -176,6 +188,18 @@ pub struct AttributeSelector {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
 pub enum AttributeSelectorMatcherValue {
     /// `=`
     Equals,
@@ -273,8 +297,10 @@ pub enum AnPlusB {
 pub struct AnPlusBNotation {
     pub span: Span,
     pub a: Option<i32>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub a_raw: Option<JsWord>,
     pub b: Option<i32>,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub b_raw: Option<JsWord>,
 }
 

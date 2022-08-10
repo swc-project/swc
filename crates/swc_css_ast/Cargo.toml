@@ -1,19 +1,26 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "AST definitions of css"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "AST definitions of css"
 documentation = "https://rustdoc.swc.rs/swc_css_ast/"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_css_ast"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.105.0"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_css_ast"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.105.0"
 
 [lib]
 bench = false
 
+[features]
+default   = []
+rkyv-impl = ["rkyv", "bytecheck", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+
+
 [dependencies]
-is-macro = "0.2.0"
-serde = {version = "1.0.127", features = ["derive"]}
-string_enum = {version = "0.3.1", path = "../string_enum/"}
-swc_atoms = {version = "0.4.0", path = "../swc_atoms"}
-swc_common = { version = "0.27.0", path = "../swc_common"}
+bytecheck   = { version = "0.6.9", optional = true }
+is-macro    = "0.2.0"
+rkyv        = { version = "0.7.39", optional = true }
+serde       = { version = "1.0.127", features = ["derive"] }
+string_enum = { version = "0.3.1", path = "../string_enum/" }
+swc_atoms   = { version = "0.4.0", path = "../swc_atoms" }
+swc_common  = { version = "0.27.0", path = "../swc_common" }

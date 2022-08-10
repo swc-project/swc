@@ -159,7 +159,7 @@ impl From<BigIntValue> for BigInt {
 pub struct Str {
     pub span: Span,
 
-    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
 
     /// Use `None` value only for transformations to avoid recalculate escaped

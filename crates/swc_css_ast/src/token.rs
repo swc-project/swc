@@ -31,54 +31,88 @@ pub enum NumberType {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
 pub enum Token {
     Ident {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: JsWord,
     },
 
     Function {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: JsWord,
     },
 
     /// `@`
     AtKeyword {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: JsWord,
     },
 
     /// `#`
     Hash {
         is_id: bool,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: JsWord,
     },
 
     String {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: JsWord,
     },
 
     BadString {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: JsWord,
     },
 
     /// `url(value)`
     Url {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         name: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_name: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         before: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         after: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_value: JsWord,
     },
 
     BadUrl {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         name: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_name: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_value: JsWord,
     },
 
@@ -88,6 +122,7 @@ pub enum Token {
 
     Number {
         value: f64,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: JsWord,
         #[serde(rename = "type")]
         type_flag: NumberType,
@@ -95,13 +130,17 @@ pub enum Token {
 
     Percentage {
         value: f64,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: JsWord,
     },
 
     Dimension {
         value: f64,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_value: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         unit: JsWord,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_unit: JsWord,
         #[serde(rename = "type")]
         type_flag: NumberType,
@@ -109,6 +148,7 @@ pub enum Token {
 
     /// One or more whitespace.
     WhiteSpace {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
     },
 
