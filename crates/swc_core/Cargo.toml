@@ -206,7 +206,7 @@ __plugin_transform_schema_test = [
 
 ## Common
 __base              = ["swc"]
-__binding_macros    = ["binding_macros"]
+__binding_macros    = ["common", "__base", "__transforms", "ast", "binding_macros"]
 __common            = ["swc_common"]
 __testing_transform = ["swc_ecma_transforms_testing"]
 __transforms        = ["swc_ecma_transforms"]
