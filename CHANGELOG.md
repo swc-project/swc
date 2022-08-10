@@ -17,6 +17,9 @@
 - **(es/fixer)** Remove useless parentheses around `**` (#5424) ([7116636](https://github.com/swc-project/swc/commit/71166360cc09a1911f49c09053c01578cb7c65e3))
 
 
+- **(es/fixer)** Remove needless parens for nested `??` (#5432) ([e359903](https://github.com/swc-project/swc/commit/e35990390b271fffca7e4e7a89971d82df0dc2e6))
+
+
 - **(es/utils)** Allow `quote_ident!` working with `swc_core` (#5409) ([c227325](https://github.com/swc-project/swc/commit/c2273255c0c2b90e606c5880b8e80a5cd8c370bf))
 
 
