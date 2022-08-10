@@ -1,15 +1,6 @@
-use swc_core::{
-    ast::{EsVersion, Program},
-    base::{
-        config::{ErrorFormat, Options, ParseOptions, SourceMapsConfig},
-        try_with_handler,
-    },
-    binding_macros::{
-        build_minify, build_minify_sync, build_parse, build_parse_sync, build_print,
-        build_print_sync, build_transform, build_transform_sync,
-    },
-    common::{comments::Comments, FileName},
-    transforms::pass::noop,
+use swc_core::binding_macros::{
+    build_minify, build_minify_sync, build_parse, build_parse_sync, build_print, build_print_sync,
+    build_transform, build_transform_sync,
 };
 use wasm_bindgen::{prelude::*, JsCast, JsValue};
 mod types;

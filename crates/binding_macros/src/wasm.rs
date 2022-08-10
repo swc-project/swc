@@ -1,18 +1,26 @@
 use std::sync::Arc;
 
-// reexports for the macro usage
 #[doc(hidden)]
 pub use anyhow;
 use anyhow::Error;
-// reexports for the macro usage
 #[doc(hidden)]
 pub use js_sys;
 use once_cell::sync::Lazy;
 use swc::{config::ErrorFormat, Compiler};
+#[doc(hidden)]
+pub use swc::{
+    config::{Options, ParseOptions, SourceMapsConfig},
+    try_with_handler,
+};
+#[doc(hidden)]
+pub use swc_common::{comments, FileName};
 use swc_common::{FilePathMapping, SourceMap};
 #[doc(hidden)]
+pub use swc_ecma_ast::{EsVersion, Program};
+#[doc(hidden)]
+pub use swc_ecma_transforms::pass::noop;
+#[doc(hidden)]
 pub use wasm_bindgen::JsValue;
-// reexports for the macro usage
 #[doc(hidden)]
 pub use wasm_bindgen_futures::future_to_promise;
 
@@ -30,8 +38,14 @@ pub fn compiler() -> Arc<Compiler> {
 }
 
 #[doc(hidden)]
-pub fn convert_err(err: Error, error_format: ErrorFormat) -> wasm_bindgen::prelude::JsValue {
-    error_format.format(&err).into()
+pub fn convert_err(
+    err: Error,
+    error_format: Option<ErrorFormat>,
+) -> wasm_bindgen::prelude::JsValue {
+    error_format
+        .unwrap_or(ErrorFormat::Normal)
+        .format(&err)
+        .into()
 }
 
 #[macro_export]
@@ -44,7 +58,7 @@ macro_rules! build_minify_sync {
     pub fn minify_sync(s: $crate::wasm::js_sys::JsString, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
       let c = $crate::wasm::compiler();
 
-      try_with_handler(
+      $crate::wasm::try_with_handler(
           c.cm.clone(),
           $opt,
           |handler| {
@@ -55,14 +69,14 @@ macro_rules! build_minify_sync {
                     $crate::wasm::anyhow::Context::context(opts.into_serde(), "failed to parse options")?
                   };
 
-                  let fm = c.cm.new_source_file(FileName::Anon, s.into());
+                  let fm = c.cm.new_source_file($crate::wasm::FileName::Anon, s.into());
                   let program = $crate::wasm::anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
 
                   $crate::wasm::anyhow::Context::context($crate::wasm::JsValue::from_serde(&program), "failed to serialize json")
               })
           },
       )
-      .map_err(|e| $crate::wasm::convert_err(e, ErrorFormat::Normal))
+      .map_err(|e| $crate::wasm::convert_err(e, None))
     }
   };
 }
@@ -93,22 +107,22 @@ macro_rules! build_parse_sync {
     pub fn parse_sync(s: $crate::wasm::js_sys::JsString, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
       let c = $crate::wasm::compiler();
 
-      try_with_handler(
+      $crate::wasm::try_with_handler(
           c.cm.clone(),
           $opt,
           |handler| {
               c.run(|| {
-                  let opts: ParseOptions = if opts.is_null() || opts.is_undefined() {
+                  let opts: $crate::wasm::ParseOptions = if opts.is_null() || opts.is_undefined() {
                       Default::default()
                   } else {
                       $crate::wasm::anyhow::Context::context(opts.into_serde(), "failed to parse options")?
                   };
 
-                  let fm = c.cm.new_source_file(FileName::Anon, s.into());
+                  let fm = c.cm.new_source_file($crate::wasm::FileName::Anon, s.into());
 
                   let cmts = c.comments().clone();
                   let comments = if opts.comments {
-                      Some(&cmts as &dyn Comments)
+                      Some(&cmts as &dyn $crate::wasm::comments::Comments)
                   } else {
                       None
                   };
@@ -130,7 +144,7 @@ macro_rules! build_parse_sync {
               })
           },
       )
-      .map_err(|e| $crate::wasm::convert_err(e, ErrorFormat::Normal))
+      .map_err(|e| $crate::wasm::convert_err(e, None))
     }
   };
 }
@@ -161,28 +175,28 @@ macro_rules! build_print_sync {
     pub fn print_sync(s: $crate::wasm::JsValue, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
       let c = $crate::wasm::compiler();
 
-      try_with_handler(
+      $crate::wasm::try_with_handler(
           c.cm.clone(),
           $opt,
           |_handler| {
               c.run(|| {
-                  let opts: Options = if opts.is_null() || opts.is_undefined() {
+                  let opts: $crate::wasm::Options = if opts.is_null() || opts.is_undefined() {
                       Default::default()
                   } else {
                     $crate::wasm::anyhow::Context::context(opts.into_serde(), "failed to parse options")?
                   };
 
-                  let program: Program = $crate::wasm::anyhow::Context::context(s.into_serde(), "failed to deserialize program")?;
+                  let program: $crate::wasm::Program = $crate::wasm::anyhow::Context::context(s.into_serde(), "failed to deserialize program")?;
                   let s = $crate::wasm::anyhow::Context::context(c
                     .print(
                         &program,
                         None,
                         None,
                         true,
-                        opts.codegen_target().unwrap_or(EsVersion::Es2020),
+                        opts.codegen_target().unwrap_or($crate::wasm::EsVersion::Es2020),
                         opts.source_maps
                             .clone()
-                            .unwrap_or(SourceMapsConfig::Bool(false)),
+                            .unwrap_or($crate::wasm::SourceMapsConfig::Bool(false)),
                         &Default::default(),
                         None,
                         opts.config.minify.into(),
@@ -195,7 +209,7 @@ macro_rules! build_print_sync {
               })
           },
       )
-      .map_err(|e| $crate::wasm::convert_err(e, ErrorFormat::Normal))
+      .map_err(|e| $crate::wasm::convert_err(e, None))
     }
   };
 }
@@ -220,9 +234,12 @@ macro_rules! build_print {
 #[macro_export]
 macro_rules! build_transform_sync {
   ($(#[$m:meta])*) => {
-    build_transform_sync!($(#[$m])*, Default::default());
+    build_transform_sync!($(#[$m])*, |_, _| $crate::wasm::noop(), |_, _| $crate::wasm::noop(), Default::default());
   };
-  ($(#[$m:meta])*, $opt: expr) => {
+  ($(#[$m:meta])*, $before_pass: expr, $after_pass: expr) => {
+    build_transform_sync!($(#[$m])*, $before_pass, $after_pass, Default::default());
+  };
+  ($(#[$m:meta])*, $before_pass: expr, $after_pass: expr, $opt: expr) => {
     $(#[$m])*
     #[allow(unused_variables)]
     pub fn transform_sync(
@@ -276,16 +293,16 @@ macro_rules! build_transform_sync {
             }
         }
 
-        let opts: Options = if opts.is_null() || opts.is_undefined() {
+        let opts: $crate::wasm::Options = if opts.is_null() || opts.is_undefined() {
             Default::default()
         } else {
           $crate::wasm::anyhow::Context::context(opts.into_serde(), "failed to parse options")
-                .map_err(|e| $crate::wasm::convert_err(e, ErrorFormat::Normal))?
+                .map_err(|e| $crate::wasm::convert_err(e, None))?
         };
 
         let error_format = opts.experimental.error_format.unwrap_or_default();
 
-        try_with_handler(
+        $crate::wasm::try_with_handler(
             c.cm.clone(),
             $opt,
             |handler| {
@@ -295,9 +312,9 @@ macro_rules! build_transform_sync {
                       Ok(s) => {
                           let fm = c.cm.new_source_file(
                               if opts.filename.is_empty() {
-                                  FileName::Anon
+                                $crate::wasm::FileName::Anon
                               } else {
-                                  FileName::Real(opts.filename.clone().into())
+                                $crate::wasm::FileName::Real(opts.filename.clone().into())
                               },
                               s.into(),
                           );
@@ -310,8 +327,8 @@ macro_rules! build_transform_sync {
                               None,
                               handler,
                               &opts,
-                              |_, _| noop(),
-                              |_, _| noop(),
+                              $before_pass,
+                              $after_pass,
                           ), "failed to process js file"
                           )?
                       }
@@ -323,7 +340,7 @@ macro_rules! build_transform_sync {
               })
             },
         )
-        .map_err(|e| $crate::wasm::convert_err(e, error_format))
+        .map_err(|e| $crate::wasm::convert_err(e, Some(error_format)))
     }
   };
 }

@@ -21,12 +21,8 @@ plugin = ["swc_core/plugin_transform_host_js"]
 
 [dependencies]
 swc_core = { path = "../swc_core", features = [
-  "ast",
-  "common",
   "common_perf",
-  "base",
   "binding_macro_wasm",
-  "transforms",
 ] }
 wasm-bindgen = { version = "0.2.82", features = [
   "serde-serialize",
