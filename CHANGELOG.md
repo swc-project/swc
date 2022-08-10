@@ -37,6 +37,12 @@
 
 - **(swc_core)** Add macros for wasm bindings (#5430) ([5348195](https://github.com/swc-project/swc/commit/5348195996c7ac70d584ab3be0d87a3ac931c44c))
 
+### Refactor
+
+
+
+- **(binding/macros)** Update import references (#5431) ([f43461d](https://github.com/swc-project/swc/commit/f43461d6459bf351d6379552d7e2e9c55656e4c1))
+
 ### Testing
 
 
