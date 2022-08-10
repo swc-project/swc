@@ -1430,7 +1430,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
             left,
             op,
             right,
-        }) if op != op!("&&") && op != op!("||") && op != op!("??") => {
+        }) if !op.may_short_circuit() => {
             let left = ignore_result(*left, true, ctx);
             let right = ignore_result(*right, true, ctx);
 
