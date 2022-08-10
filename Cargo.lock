@@ -3126,7 +3126,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "once_cell",
  "swc",
@@ -3138,6 +3138,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_quote_macros",
  "swc_ecma_transforms",
+ "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_node_base",
@@ -3299,7 +3300,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.0"
+version = "0.90.1"
 dependencies = [
  "arbitrary",
  "bitflags",
@@ -3580,7 +3581,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.103.0"
+version = "0.103.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -4578,9 +4579,9 @@ dependencies = [
 
 [[package]]
 name = "toml"
-version = "0.5.8"
+version = "0.5.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a31142970826733df8241ef35dc040ef98c679ab14d7c3e54d827099b3acecaa"
+checksum = "8d82e1a7758622a465f8cee077614c73484dac5b836c02ff6a40d5d1010324d7"
 dependencies = [
  "serde",
 ]

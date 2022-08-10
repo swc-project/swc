@@ -256,7 +256,10 @@ impl VisitMut for Fixer<'_> {
             Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                 if *op_of_rhs == expr.op {
                     match expr.op {
-                        op!("&&") | op!("||") => {}
+                        // `a && (b && c)` == `a && b && c`
+                        // `a || (b || c)` == `a || b || c`
+                        // `a ** (b ** c)` == `a ** b ** c`
+                        op!("&&") | op!("||") | op!("**") => {}
                         _ => {
                             self.wrap(&mut expr.right);
                         }

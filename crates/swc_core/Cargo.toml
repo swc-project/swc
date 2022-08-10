@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "swc_core"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.5.0"
+version     = "0.5.1"
 
   [package.metadata.docs.rs]
   features = [
@@ -83,13 +83,16 @@ quote = [
 utils = ["__utils", "__common"]
 
 # Enable swc_ecma_transforms base features
-transforms = ["__transforms"]
+transforms = ["__transforms", "__testing_transform"]
 
 # Enable swc_bundler
 bundler = ["swc_bundler"]
 
 # Enable swc_ecma_loader
 loader = ["swc_ecma_loader"]
+
+# Enable swc_ecma_transforms_testing
+testing_transform = ["__testing_transform"]
 
 # Enable swc_ecma_ast / swc_atoms support.
 # TODO: currently both are enabled at once, we may want to separate them.
@@ -102,7 +105,11 @@ trace_macro = ["swc_trace_macro"]
 
 ## Plugins
 # Top level features should be enabled to write plugins for the custom transform.
-plugin_transform = ["__plugin_transform", "__plugin_transform_schema_v1"]
+plugin_transform = [
+  "__plugin_transform",
+  "__plugin_transform_schema_v1",
+  "__testing_transform",
+]
 
 # Host features to enable plugin `runner` runtime.
 # native feature is for the host environment does not have, or cannot access
@@ -195,10 +202,11 @@ __plugin_transform_schema_test = [
 ]
 
 ## Common
-__base       = ["swc"]
-__common     = ["swc_common"]
-__transforms = ["swc_ecma_transforms"]
-__utils      = ["swc_ecma_utils"]
+__base              = ["swc"]
+__common            = ["swc_common"]
+__testing_transform = ["swc_ecma_transforms_testing"]
+__transforms        = ["swc_ecma_transforms"]
+__utils             = ["swc_ecma_utils"]
 
 [dependencies]
 # 3rd party dependencies
@@ -207,22 +215,23 @@ wasmer      = { optional = true, version = "2.3.0", default-features = false }
 wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
-swc                   = { optional = true, version = "0.213.0", path = "../swc" }
-swc_atoms             = { optional = true, version = "0.4.0", path = "../swc_atoms" }
-swc_bundler           = { optional = true, version = "0.176.0", path = "../swc_bundler" }
-swc_common            = { optional = true, version = "0.27.0", path = "../swc_common" }
-swc_ecma_ast          = { optional = true, version = "0.90.0", path = "../swc_ecma_ast" }
-swc_ecma_loader       = { optional = true, version = "0.39.0", path = "../swc_ecma_loader" }
-swc_ecma_parser       = { optional = true, version = "0.117.0", path = "../swc_ecma_parser" }
-swc_ecma_quote_macros = { optional = true, version = "0.28.0", path = "../swc_ecma_quote_macros" }
-swc_ecma_transforms   = { optional = true, version = "0.182.0", path = "../swc_ecma_transforms" }
-swc_ecma_utils        = { optional = true, version = "0.99.0", path = "../swc_ecma_utils" }
-swc_ecma_visit        = { optional = true, version = "0.76.0", path = "../swc_ecma_visit" }
-swc_node_base         = { optional = true, version = "0.5.5", path = "../swc_node_base" }
-swc_plugin            = { optional = true, version = "0.89.0", path = "../swc_plugin" }
-swc_plugin_macro      = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
-swc_plugin_proxy      = { optional = true, version = "0.18.0", path = "../swc_plugin_proxy" }
-swc_trace_macro       = { optional = true, version = "0.1.0", path = "../swc_trace_macro" }
+swc                         = { optional = true, version = "0.213.0", path = "../swc" }
+swc_atoms                   = { optional = true, version = "0.4.0", path = "../swc_atoms" }
+swc_bundler                 = { optional = true, version = "0.176.0", path = "../swc_bundler" }
+swc_common                  = { optional = true, version = "0.27.0", path = "../swc_common" }
+swc_ecma_ast                = { optional = true, version = "0.90.0", path = "../swc_ecma_ast" }
+swc_ecma_loader             = { optional = true, version = "0.39.0", path = "../swc_ecma_loader" }
+swc_ecma_parser             = { optional = true, version = "0.117.0", path = "../swc_ecma_parser" }
+swc_ecma_quote_macros       = { optional = true, version = "0.28.0", path = "../swc_ecma_quote_macros" }
+swc_ecma_transforms         = { optional = true, version = "0.182.0", path = "../swc_ecma_transforms" }
+swc_ecma_transforms_testing = { optional = true, version = "0.105.0", path = "../swc_ecma_transforms_testing" }
+swc_ecma_utils              = { optional = true, version = "0.99.0", path = "../swc_ecma_utils" }
+swc_ecma_visit              = { optional = true, version = "0.76.0", path = "../swc_ecma_visit" }
+swc_node_base               = { optional = true, version = "0.5.5", path = "../swc_node_base" }
+swc_plugin                  = { optional = true, version = "0.89.0", path = "../swc_plugin" }
+swc_plugin_macro            = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
+swc_plugin_proxy            = { optional = true, version = "0.18.0", path = "../swc_plugin_proxy" }
+swc_trace_macro             = { optional = true, version = "0.1.0", path = "../swc_trace_macro" }
 # TODO: eventually swc_plugin_runner needs to remove default features
 swc_plugin_runner = { optional = true, version = "0.71.0", path = "../swc_plugin_runner", default-features = false }
 
