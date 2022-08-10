@@ -255,14 +255,10 @@ impl VisitMut for Fixer<'_> {
             }
             Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                 if *op_of_rhs == expr.op {
-                    match expr.op {
-                        // `a && (b && c)` == `a && b && c`
-                        // `a || (b || c)` == `a || b || c`
-                        // `a ** (b ** c)` == `a ** b ** c`
-                        op!("&&") | op!("||") | op!("**") => {}
-                        _ => {
-                            self.wrap(&mut expr.right);
-                        }
+                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#precedence_and_associativity
+                    // `**` is the only right associative operator in js
+                    if !(expr.op.may_short_circuit() || expr.op == op!("**")) {
+                        self.wrap(&mut expr.right);
                     }
                 } else if op_of_rhs.precedence() <= expr.op.precedence()
                     || (*op_of_rhs == op!("&&") && expr.op == op!("??"))
@@ -274,7 +270,7 @@ impl VisitMut for Fixer<'_> {
         };
 
         match &mut *expr.left {
-            Expr::Bin(BinExpr { op: op!("??"), .. }) => {
+            Expr::Bin(BinExpr { op: op!("??"), .. }) if expr.op != op!("??") => {
                 self.wrap(&mut expr.left);
             }
 
@@ -321,8 +317,11 @@ impl VisitMut for Fixer<'_> {
         }
 
         if let op!("??") = expr.op {
-            if let Expr::Bin(..) = &mut *expr.left {
-                self.wrap(&mut expr.left);
+            match &*expr.left {
+                Expr::Bin(BinExpr { op, .. }) if *op != op!("??") => {
+                    self.wrap(&mut expr.left);
+                }
+                _ => (),
             }
         }
     }
@@ -1640,6 +1639,8 @@ var store = global[SHARED] || (global[SHARED] = {});
         }
         "
     );
+
+    identical!(issue_5417, "console.log(a ?? b ?? c)");
 
     identical!(bin_and_unary, "console.log(a++ && b--)");
 }
