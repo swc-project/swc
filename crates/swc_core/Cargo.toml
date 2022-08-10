@@ -103,6 +103,9 @@ ast = ["swc_ecma_ast", "swc_atoms"]
 # we may encapsulate `tracing` package into swc_core.
 trace_macro = ["swc_trace_macro"]
 
+binding_macro_native = ["__binding_macros", "binding_macros/binding_native"]
+binding_macro_wasm   = ["__binding_macros", "binding_macros/binding_wasm"]
+
 ## Plugins
 # Top level features should be enabled to write plugins for the custom transform.
 plugin_transform = [
@@ -203,6 +206,7 @@ __plugin_transform_schema_test = [
 
 ## Common
 __base              = ["swc"]
+__binding_macros    = ["common", "__base", "__transforms", "ast", "binding_macros"]
 __common            = ["swc_common"]
 __testing_transform = ["swc_ecma_transforms_testing"]
 __transforms        = ["swc_ecma_transforms"]
@@ -215,6 +219,7 @@ wasmer      = { optional = true, version = "2.3.0", default-features = false }
 wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
+binding_macros              = { optional = true, version = "0.1.0", path = "../binding_macros" }
 swc                         = { optional = true, version = "0.213.0", path = "../swc" }
 swc_atoms                   = { optional = true, version = "0.4.0", path = "../swc_atoms" }
 swc_bundler                 = { optional = true, version = "0.176.0", path = "../swc_bundler" }

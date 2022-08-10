@@ -99,6 +99,12 @@ pub mod testing_transform {
     pub use swc_ecma_transforms_testing::*;
 }
 
+#[cfg(any(docsrs, feature = "__binding_macros"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "__binding_macros")))]
+pub mod binding_macros {
+    pub use binding_macros::*;
+}
+
 #[cfg(any(docsrs, feature = "allocator_node"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;
