@@ -20,7 +20,7 @@ pub use swc_ecma_ast::{EsVersion, Program};
 #[doc(hidden)]
 pub use swc_ecma_transforms::pass::noop;
 #[doc(hidden)]
-pub use wasm_bindgen::JsValue;
+pub use wasm_bindgen::{JsCast, JsValue};
 #[doc(hidden)]
 pub use wasm_bindgen_futures::future_to_promise;
 
@@ -275,7 +275,7 @@ macro_rules! build_transform_sync {
 
                     //https://github.com/rustwasm/wasm-bindgen/issues/2017#issue-573013044
                     //We may use https://github.com/cloudflare/serde-wasm-bindgen instead later
-                    let data = if JsCast::is_instance_of::<Uint8Array>(&buffer) {
+                    let data = if $crate::wasm::JsCast::is_instance_of::<Uint8Array>(&buffer) {
                         JsValue::from(Array::from(&buffer))
                     } else {
                         buffer
@@ -307,7 +307,7 @@ macro_rules! build_transform_sync {
             $opt,
             |handler| {
                 c.run(|| {
-                  let s = JsCast::dyn_into::<$crate::wasm::js_sys::JsString>(s);
+                  let s = $crate::wasm::JsCast::dyn_into::<$crate::wasm::js_sys::JsString>(s);
                   let out = match s {
                       Ok(s) => {
                           let fm = c.cm.new_source_file(
