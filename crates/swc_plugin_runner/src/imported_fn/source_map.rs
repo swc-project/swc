@@ -38,6 +38,7 @@ impl SourceMapHostEnvironment {
     }
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn lookup_char_pos_proxy(
     env: &SourceMapHostEnvironment,
     byte_pos: u32,
@@ -65,11 +66,13 @@ pub fn lookup_char_pos_proxy(
     }
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn doctest_offset_line_proxy(env: &SourceMapHostEnvironment, orig: u32) -> u32 {
     (env.source_map.lock()).doctest_offset_line(orig as usize) as u32
 }
 
 #[allow(clippy::too_many_arguments)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn merge_spans_proxy(
     env: &SourceMapHostEnvironment,
     lhs_lo: u32,
@@ -108,6 +111,7 @@ pub fn merge_spans_proxy(
     }
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn span_to_lines_proxy(
     env: &SourceMapHostEnvironment,
     span_lo: u32,
@@ -142,6 +146,7 @@ pub fn span_to_lines_proxy(
     }
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn lookup_byte_offset_proxy(
     env: &SourceMapHostEnvironment,
     byte_pos: u32,
@@ -170,6 +175,7 @@ pub fn lookup_byte_offset_proxy(
     }
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn span_to_string_proxy(
     env: &SourceMapHostEnvironment,
     span_lo: u32,
@@ -203,6 +209,7 @@ pub fn span_to_string_proxy(
     }
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn span_to_filename_proxy(
     env: &SourceMapHostEnvironment,
     span_lo: u32,

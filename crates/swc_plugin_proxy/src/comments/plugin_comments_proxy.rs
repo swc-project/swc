@@ -3,6 +3,7 @@ use swc_common::{
     comments::{Comment, Comments},
     BytePos,
 };
+use swc_trace_macro::swc_trace;
 
 #[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
@@ -39,6 +40,7 @@ extern "C" {
 pub struct PluginCommentsProxy;
 
 #[cfg(feature = "plugin-mode")]
+#[swc_trace]
 impl PluginCommentsProxy {
     /// Copy guest memory's struct into host via CommentHostEnvironment's
     /// comment_buffer as serialized to pass param from guest to the host for
@@ -73,6 +75,7 @@ impl PluginCommentsProxy {
 
 #[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[swc_trace]
 impl Comments for PluginCommentsProxy {
     fn add_leading(&self, pos: BytePos, cmt: Comment) {
         self.allocate_comments_buffer_to_host(cmt);

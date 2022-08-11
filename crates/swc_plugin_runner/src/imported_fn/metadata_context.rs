@@ -41,6 +41,7 @@ impl MetadataContextHostEnvironment {
 
 /// Copy given serialized byte into host's comment buffer, subsequent proxy call
 /// in the host can read it.
+#[tracing::instrument(level = "info", skip_all)]
 pub fn copy_context_key_to_host_env(
     env: &MetadataContextHostEnvironment,
     bytes_ptr: i32,
@@ -52,6 +53,7 @@ pub fn copy_context_key_to_host_env(
     }
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn get_transform_plugin_config(
     env: &MetadataContextHostEnvironment,
     allocated_ret_ptr: i32,
@@ -83,6 +85,7 @@ pub fn get_transform_plugin_config(
     0
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn get_transform_context(
     env: &MetadataContextHostEnvironment,
     key: u32,
@@ -113,6 +116,7 @@ pub fn get_transform_context(
     0
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn get_experimental_transform_context(
     env: &MetadataContextHostEnvironment,
     allocated_ret_ptr: i32,
@@ -150,6 +154,7 @@ pub fn get_experimental_transform_context(
     0
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn get_raw_experiemtal_transform_context(
     env: &MetadataContextHostEnvironment,
     allocated_ret_ptr: i32,

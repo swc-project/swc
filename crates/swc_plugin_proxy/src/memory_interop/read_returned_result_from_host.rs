@@ -17,6 +17,7 @@ pub struct AllocatedBytesPtr(pub i32, pub i32);
 /// Returns a struct AllocatedBytesPtr to the ptr for actual return value if
 /// host fn allocated return value, None otherwise.
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[tracing::instrument(level = "info", skip_all)]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
     F: FnOnce(i32) -> i32,
@@ -58,6 +59,7 @@ where
 ///
 /// This fn is for the Infallible types works for most of the cases.
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(i32) -> i32,
@@ -84,6 +86,7 @@ where
 /// shared pointers like Arc, Rc rkyv requires trait bounds to the
 /// SharedSerializeRegistry which cannot be infallible.
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(i32) -> i32,
