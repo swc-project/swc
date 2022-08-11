@@ -440,7 +440,7 @@ jobs:
           cargo test --color always -p ${{ matrix.settings.crate }} --all-features
 
       - name: Run cargo test (concurrent)
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && matrix.settings.crate != 'swc_ecma_minifier'
         shell: bash
         run: |
           ./scripts/ci/test-concurrent.sh ${{ matrix.settings.crate }}
