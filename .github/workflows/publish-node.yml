@@ -289,7 +289,7 @@ jobs:
           rm -rf crates/swc_ecma_codegen/tests/test262-min
       - name: Build
         id: build
-        uses: vmactions/freebsd-vm@v0.2.0
+        uses: vmactions/freebsd-vm@v0.2.3
         env:
           DEBUG: napi:*
           RUSTUP_HOME: /usr/local/rustup
