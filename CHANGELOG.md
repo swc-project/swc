@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Documentation
+
+
+
+- **(swc_core)** Fix rustdoc (#5446) ([2e883a7](https://github.com/swc-project/swc/commit/2e883a72d71a79d2f3ef80675025e820472d57d1))
+
 ### Build
 
 
