@@ -15,7 +15,7 @@ version = "0.14.0"
 bench = false
 
 [dependencies]
-ahash = "0.7.6"
-dashmap = "5.1.0"
-swc_atoms = { version = "0.4.0", path = "../swc_atoms" }
+ahash      = "0.7.6"
+dashmap    = "5.1.0"
+swc_atoms  = { version = "0.4.1", path = "../swc_atoms" }
 swc_common = { version = "0.27.0", path = "../swc_common" }

@@ -759,7 +759,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.42.0"
+version = "0.42.1"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2926,7 +2926,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.213.0"
+version = "0.213.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2982,7 +2982,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -2995,7 +2995,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.176.0"
+version = "0.176.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3040,7 +3040,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cached"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3074,7 +3074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.0"
+version = "0.27.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3132,7 +3132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "binding_macros",
  "once_cell",

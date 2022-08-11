@@ -1175,7 +1175,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -1188,7 +1188,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.0"
+version = "0.27.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1219,7 +1219,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -1235,7 +1235,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.2"
+version = "0.90.3"
 dependencies = [
  "bitflags",
  "bytecheck",

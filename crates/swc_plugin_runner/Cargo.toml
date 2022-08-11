@@ -1,12 +1,12 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Runner for swc plugins. This crate is INTERNAL crate and used by swc itself."
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Runner for swc plugins. This crate is INTERNAL crate and used by swc itself."
 documentation = "https://rustdoc.swc.rs/swc_plugin_runner/"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_plugin_runner"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.71.1"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_plugin_runner"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.71.1"
 
 [lib]
 bench = false
@@ -18,13 +18,9 @@ default = ["filesystem_cache"]
 filesystem_cache = ["wasmer-cache"]
 # Supports a cache allow to store wasm module in-memory. This avoids recompilation
 # to the same module in a single procress lifecycle.
-memory_cache = []
-plugin_transform_schema_v1 = [
-  "swc_common/plugin_transform_schema_v1"
-]
-plugin_transform_schema_vtest = [
-  "swc_common/plugin_transform_schema_vtest",
-]
+memory_cache                  = []
+plugin_transform_schema_v1    = ["swc_common/plugin_transform_schema_v1"]
+plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
 [dependencies]
 anyhow = "1.0.42"
@@ -34,7 +30,7 @@ serde = { version = "1.0.126", features = ["derive"] }
 serde_json = "1.0.64"
 swc_common = { version = "0.27.0", path = "../swc_common", features = [
   "plugin-rt",
-  "concurrent"
+  "concurrent",
 ] }
 swc_ecma_ast = { version = "0.90.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
@@ -50,17 +46,17 @@ wasmer-wasi = { version = "2.3.0", default-features = false }
 wasmer-cache = { version = "2.3.0", optional = true }
 
 [dev-dependencies]
-criterion = "0.3"
-swc_atoms = { version = "0.4.0", path = '../swc_atoms' }
+criterion       = "0.3"
+swc_atoms       = { version = "0.4.0", path = '../swc_atoms' }
 swc_ecma_loader = { version = "0.39.0", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "0.117.0", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "0.76.0", path = "../swc_ecma_visit" }
-swc_node_base = { path = "../swc_node_base" }
-testing = { version = "0.29.0", path = "../testing" }
+swc_ecma_visit  = { version = "0.76.0", path = "../swc_ecma_visit" }
+swc_node_base   = { path = "../swc_node_base" }
+testing         = { version = "0.29.0", path = "../testing" }
 # This allows we can run non-wasm32 target build command while some pkg select features for wasmer/js omits its transitive deps
-wasmer = "2.3.0"
+wasmer      = "2.3.0"
 wasmer-wasi = "2.3.0"
 
 [[bench]]
 harness = false
-name = "invoke"
+name    = "invoke"

@@ -1,25 +1,25 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "JsDoc parser writen in rust"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "JsDoc parser writen in rust"
 documentation = "https://rustdoc.swc.rs/jsdoc/"
-edition = "2021"
-include = ["Cargo.toml", "src/**/*.rs"]
-license = "Apache-2.0"
-name = "jsdoc"
-version = "0.86.0"
+edition       = "2021"
+include       = ["Cargo.toml", "src/**/*.rs"]
+license       = "Apache-2.0"
+name          = "jsdoc"
+version       = "0.86.0"
 
 [lib]
 bench = false
 
 [dependencies]
-nom = "7.1.0"
-serde = {version = "1", features = ["derive"]}
-swc_atoms = {version = "0.4.0", path = "../swc_atoms"}
-swc_common = { version = "0.27.0", path = "../swc_common"}
+nom        = "7.1.0"
+serde      = { version = "1", features = ["derive"] }
+swc_atoms  = { version = "0.4.1", path = "../swc_atoms" }
+swc_common = { version = "0.27.0", path = "../swc_common" }
 
 [dev-dependencies]
-anyhow = "1"
-dashmap = "5.1.0"
-swc_ecma_ast = {version = "0.90.0", path = "../swc_ecma_ast"}
-swc_ecma_parser = {version = "0.117.0", path = "../swc_ecma_parser"}
-testing = {version = "0.29.0", path = "../testing"}
+anyhow          = "1"
+dashmap         = "5.1.0"
+swc_ecma_ast    = { version = "0.90.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.117.0", path = "../swc_ecma_parser" }
+testing         = { version = "0.29.0", path = "../testing" }

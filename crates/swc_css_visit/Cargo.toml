@@ -1,27 +1,27 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Visitor for css"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Visitor for css"
 documentation = "https://rustdoc.swc.rs/swc_css_visit/"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_css_visit"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.104.0"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_css_visit"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.104.0"
 
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
 
 [features]
 default = ["serde"]
-path = []
+path    = []
 
 [dependencies]
-serde = {version = "1", optional = true}
-swc_atoms = {version = "0.4.0", path = "../swc_atoms"}
-swc_common = {version = "0.27.0", path = "../swc_common"}
-swc_css_ast = {version = "0.105.0", path = "../swc_css_ast"}
-swc_visit = {version = "0.5.1", path = "../swc_visit"}
+serde       = { version = "1", optional = true }
+swc_atoms   = { version = "0.4.1", path = "../swc_atoms" }
+swc_common  = { version = "0.27.0", path = "../swc_common" }
+swc_css_ast = { version = "0.105.0", path = "../swc_css_ast" }
+swc_visit   = { version = "0.5.1", path = "../swc_visit" }
