@@ -3307,7 +3307,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.2"
+version = "0.90.3"
 dependencies = [
  "arbitrary",
  "bitflags",
