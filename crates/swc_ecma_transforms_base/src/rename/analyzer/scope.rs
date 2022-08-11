@@ -102,15 +102,6 @@ impl Scope {
 
         // let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope_single_thread(
-            renamer,
-            to,
-            previous,
-            reverse,
-            queue,
-            preserved_symbols,
-        );
-
         for child in &mut self.children {
             child.rename_single_thread(
                 renamer,
@@ -120,6 +111,15 @@ impl Scope {
                 preserved_symbols,
             );
         }
+
+        self.rename_one_scope_single_thread(
+            renamer,
+            to,
+            previous,
+            reverse,
+            queue,
+            preserved_symbols,
+        );
     }
 
     fn rename_one_scope_single_thread<R>(
@@ -203,16 +203,6 @@ impl Scope {
 
         let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope_parallel(
-            renamer,
-            to,
-            previous,
-            &mut cloned_reverse,
-            queue,
-            preserved,
-            preserved_symbols,
-        );
-
         #[cfg(feature = "concurrent-renamer")]
         if parallel {
             #[cfg(not(target_arch = "wasm32"))]
@@ -241,20 +231,32 @@ impl Scope {
             for (k, v) in iter.into_iter().flatten() {
                 to.entry(k).or_insert(v);
             }
-            return;
         }
 
-        for child in &mut self.children {
-            child.rename_parallel(
-                renamer,
-                to,
-                &Default::default(),
-                &cloned_reverse,
-                preserved,
-                preserved_symbols,
-                parallel,
-            );
+        #[cfg(not(feature = "concurrent-renamer"))]
+        {
+            for child in &mut self.children {
+                child.rename_parallel(
+                    renamer,
+                    to,
+                    &Default::default(),
+                    &cloned_reverse,
+                    preserved,
+                    preserved_symbols,
+                    parallel,
+                );
+            }
         }
+
+        self.rename_one_scope_parallel(
+            renamer,
+            to,
+            previous,
+            &mut cloned_reverse,
+            queue,
+            preserved,
+            preserved_symbols,
+        );
     }
 
     fn rename_one_scope_parallel<R>(
