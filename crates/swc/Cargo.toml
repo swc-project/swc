@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.213.1"
+version       = "0.213.2"
 
 [lib]
 bench = false
@@ -82,17 +82,17 @@ swc_ecma_transforms = { version = "0.182.0", path = "../swc_ecma_transforms", fe
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "0.103.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "0.103.2", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "0.121.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_optimization = { version = "0.151.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "0.151.1", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "0.99.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.76.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "0.11.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.14.0", path = "../swc_node_comments" }
-swc_plugin_proxy = { version = "0.18.0", path = "../swc_plugin_proxy", optional = true }
+swc_plugin_proxy = { version = "0.18.1", path = "../swc_plugin_proxy", optional = true }
 swc_plugin_runner = { version = "0.71.0", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "0.15.0", path = "../swc_timer" }
-swc_visit = { version = "0.5.1", path = "../swc_visit" }
+swc_visit = { version = "0.5.2", path = "../swc_visit" }
 tracing = "0.1.32"
 
   [dependencies.napi-derive]
