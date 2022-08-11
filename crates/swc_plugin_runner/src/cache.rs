@@ -188,6 +188,7 @@ impl PluginModuleCache {
     }
 
     #[cfg(feature = "memory_cache")]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
@@ -220,6 +221,7 @@ impl PluginModuleCache {
     /// This interface is not a public, but also will likely change anytime
     /// while stablizing plugin interface.
     #[cfg(feature = "memory_cache")]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn store_once(&self, module_name: &str, module_bytes: Vec<u8>) {
         // We use path as canonical id for the cache
         let binary_path = PathBuf::from(module_name);

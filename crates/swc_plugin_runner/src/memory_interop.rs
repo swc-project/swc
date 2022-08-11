@@ -66,6 +66,7 @@ where
 /// non-deterministic size like `Vec<Comment>`. Guest pre-allocates a struct to
 /// contain ptr to the value, host in here allocates guest memory for the actual
 /// value then returns its ptr with length to the preallocated struct.
+#[tracing::instrument(level = "info", skip_all)]
 pub fn allocate_return_values_into_guest(
     memory: &Memory,
     alloc_guest_memory: &NativeFunc<u32, i32>,

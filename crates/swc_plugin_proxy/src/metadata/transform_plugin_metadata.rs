@@ -1,5 +1,6 @@
 #[cfg(feature = "plugin-mode")]
 use swc_common::Mark;
+use swc_trace_macro::swc_trace;
 
 #[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
@@ -37,6 +38,7 @@ extern "C" {
 }
 
 #[cfg(feature = "plugin-mode")]
+#[swc_trace]
 impl TransformPluginProgramMetadata {
     /// Returns current plugin's configuration as a JSON string.
     /// Plugin may need to deserialize this string manually.
