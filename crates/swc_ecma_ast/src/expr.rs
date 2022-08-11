@@ -464,7 +464,6 @@ impl Take for ClassExpr {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(C), derive(bytecheck::CheckBytes)))]
 #[serde(tag = "type")]
 #[serde(rename_all = "camelCase")]
 #[serde(rename = "AssignmentExpression")]
