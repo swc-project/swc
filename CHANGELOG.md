@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Build
+
+
+
+- **(atoms)** Bump `swc_atoms` (#5442) ([e25b37d](https://github.com/swc-project/swc/commit/e25b37d57993aed9bbcd506e3d1dfea8d6992b09))
+
+## [1.2.225] - 2022-08-11
+
 ### Bug Fixes
 
 
