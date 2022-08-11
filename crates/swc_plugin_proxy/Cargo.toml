@@ -1,11 +1,11 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
 description = "Proxy structs to the hosts original structs for the plugin"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_plugin_proxy"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.18.0"
+edition     = "2021"
+license     = "Apache-2.0"
+name        = "swc_plugin_proxy"
+repository  = "https://github.com/swc-project/swc.git"
+version     = "0.18.0"
 
 [lib]
 bench = false
@@ -23,4 +23,6 @@ rkyv = "0.7.39"
 swc_common = { version = "0.27.0", path = "../swc_common", features = [
   "plugin-base",
 ] }
-swc_ecma_ast = {version = "0.90.0", path = "../swc_ecma_ast"}
+swc_ecma_ast = { version = "0.90.0", path = "../swc_ecma_ast" }
+swc_trace_macro = { version = "0.1.0", path = "../swc_trace_macro" }
+tracing = "0.1.32"

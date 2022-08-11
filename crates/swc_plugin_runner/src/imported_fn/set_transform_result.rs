@@ -30,6 +30,7 @@ impl TransformResultHostEnvironment {
 /// This is an `imported` fn - when we instantiate plugin module, we inject this
 /// fn into plugin's export space. Once transform completes, plugin will call
 /// this to set its result back to host.
+#[tracing::instrument(level = "info", skip_all)]
 pub fn set_transform_result(
     env: &TransformResultHostEnvironment,
     bytes_ptr: i32,

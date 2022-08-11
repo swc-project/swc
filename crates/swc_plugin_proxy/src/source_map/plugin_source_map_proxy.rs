@@ -10,6 +10,7 @@ use swc_common::{
 };
 #[cfg(feature = "plugin-mode")]
 use swc_ecma_ast::SourceMapperExt;
+use swc_trace_macro::swc_trace;
 
 #[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
@@ -54,6 +55,7 @@ extern "C" {
 pub struct PluginSourceMapProxy;
 
 #[cfg(feature = "plugin-mode")]
+#[swc_trace]
 impl PluginSourceMapProxy {
     /*
     fn sss<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, SpanSnippetError>
