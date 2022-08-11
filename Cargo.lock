@@ -2926,7 +2926,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.213.1"
+version = "0.213.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2995,7 +2995,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.176.1"
+version = "0.176.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3074,7 +3074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.1"
+version = "0.27.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3132,7 +3132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.6.2"
+version = "0.6.3"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3427,7 +3427,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.143.0"
+version = "0.143.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3563,7 +3563,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.182.0"
+version = "0.182.1"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3588,7 +3588,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.103.1"
+version = "0.103.2"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -3698,7 +3698,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.151.0"
+version = "0.151.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3839,7 +3839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.76.0"
+version = "0.76.1"
 dependencies = [
  "num-bigint",
  "serde",
@@ -3868,7 +3868,7 @@ dependencies = [
 
 [[package]]
 name = "swc_eq_ignore_macros"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -4151,7 +4151,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.18.0"
+version = "0.18.1"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
@@ -4164,7 +4164,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.71.1"
+version = "0.71.2"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4210,7 +4210,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.5.1"
+version = "0.5.2"
 dependencies = [
  "either",
  "swc_visit_macros",
@@ -4218,7 +4218,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.5.2"
+version = "0.5.3"
 dependencies = [
  "Inflector",
  "pmutil",
@@ -4293,7 +4293,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "serde",
  "swc_atoms",

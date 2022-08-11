@@ -31,7 +31,7 @@ swc_ecma_loader = { version = "0.39.0", path = "../swc_ecma_loader", features = 
   "node",
 ] }
 swc_ecma_parser = { version = "0.117.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.103.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "0.103.2", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils = { version = "0.99.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.76.0", path = "../swc_ecma_visit" }
 tracing = "0.1.32"
