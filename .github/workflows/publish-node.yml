@@ -259,10 +259,10 @@ jobs:
       - name: Cleanup useless files to speedup
         run: |
           rm -rf .git
-          rm -rf crates/swc_css_parser/tests/errors
-          rm -rf crates/swc_css_parser/fixture
-          rm -rf crates/swc_css_parser/line-comment
-          rm -rf crates/swc_css_parser/recovery
+          rm -rf crates/jsdoc/tests/fixtures
+          rm -rf crates/swc_css_minifier/tests
+          rm -rf crates/swc_css_parser/tests
+          rm -rf crates/swc_css_prefixer/tests
           rm -rf crates/swc_estree_compat/tests/fixtures
           rm -rf crates/swc/tests/deno-unit
           rm -rf crates/swc/tests/env
@@ -279,6 +279,7 @@ jobs:
           rm -rf crates/swc_bundler/tests
           rm -rf crates/swc_ecma_parser/tests/tsc
           rm -rf crates/swc_ecma_parser/tests/typescript
+          rm -rf crates/swc_ecma_minifier/tests/fixture
           rm -rf crates/swc_ecma_minifier/tests/terser
           rm -rf crates/swc_ecma_minifier/tests/compress
           rm -rf crates/swc_ecma_minifier/tests/exec
