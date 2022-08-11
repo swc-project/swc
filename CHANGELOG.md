@@ -41,6 +41,9 @@
 - **(dbg-swc)** Improve minifier comparator (#5411) ([d1da899](https://github.com/swc-project/swc/commit/d1da89939f169437e67031833ea09237968dd620))
 
 
+- **(plugin)** Add some tracing for plugin host (#5438) ([001607f](https://github.com/swc-project/swc/commit/001607f3411825cc74fd73e0a378616c94603a9f))
+
+
 - **(swc_core)** Add macros for wasm bindings (#5430) ([5348195](https://github.com/swc-project/swc/commit/5348195996c7ac70d584ab3be0d87a3ac931c44c))
 
 ### Refactor
