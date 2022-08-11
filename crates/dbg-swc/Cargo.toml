@@ -1,28 +1,30 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Debug utilities"
-edition = "2021"
-license = "Apache-2.0"
-name = "dbg-swc"
-repository = "https://github.com/kdy1/dbg-swc.git"
-version = "0.42.0"
+edition     = "2021"
+license     = "Apache-2.0"
+name        = "dbg-swc"
+repository  = "https://github.com/kdy1/dbg-swc.git"
+version     = "0.42.1"
 
 [[bin]]
 bench = false
-name = "dbg-swc"
+name  = "dbg-swc"
 
 [dependencies]
 anyhow = "1.0.57"
 clap = { version = "3", features = ["derive"] }
 rayon = "1.5.2"
 sha1 = "0.10.1"
-swc_atoms = { version = "0.4.0", path = "../swc_atoms" }
+swc_atoms = { version = "0.4.1", path = "../swc_atoms" }
 swc_common = { version = "0.27.0", features = [
   "concurrent",
 ], path = "../swc_common" }
 swc_ecma_ast = { version = "0.90.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.121.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "0.143.0", path = "../swc_ecma_minifier", features = ["concurrent"] }
+swc_ecma_minifier = { version = "0.143.0", path = "../swc_ecma_minifier", features = [
+  "concurrent",
+] }
 swc_ecma_parser = { version = "0.117.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.103.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "0.76.0", path = "../swc_ecma_visit" }

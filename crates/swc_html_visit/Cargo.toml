@@ -1,5 +1,8 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>", "Alexander Akait <sheo13666q@gmail.com>"]
+authors = [
+  "강동윤 <kdy1997.dev@gmail.com>",
+  "Alexander Akait <sheo13666q@gmail.com>",
+]
 description = "Visitor for html"
 documentation = "https://rustdoc.swc.rs/swc_html_visit/"
 edition = "2021"
@@ -8,20 +11,20 @@ name = "swc_html_visit"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.24.0"
 
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
 
 [features]
 default = ["serde"]
-path = []
+path    = []
 
 [dependencies]
-serde = {version = "1", optional = true}
-swc_atoms = {version = "0.4.0", path = "../swc_atoms"}
-swc_common = {version = "0.27.0", path = "../swc_common"}
-swc_html_ast = {version = "0.24.0", path = "../swc_html_ast"}
-swc_visit = {version = "0.5.1", path = "../swc_visit"}
+serde        = { version = "1", optional = true }
+swc_atoms    = { version = "0.4.1", path = "../swc_atoms" }
+swc_common   = { version = "0.27.0", path = "../swc_common" }
+swc_html_ast = { version = "0.24.0", path = "../swc_html_ast" }
+swc_visit    = { version = "0.5.1", path = "../swc_visit" }

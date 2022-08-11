@@ -1,12 +1,12 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Linter for the swc project"
-edition = "2021"
-include = ["Cargo.toml", "src/**/*.rs"]
-license = "Apache-2.0"
-name = "swc_ecma_lints"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.58.0"
+edition     = "2021"
+include     = ["Cargo.toml", "src/**/*.rs"]
+license     = "Apache-2.0"
+name        = "swc_ecma_lints"
+repository  = "https://github.com/swc-project/swc.git"
+version     = "0.58.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -20,7 +20,7 @@ parking_lot = "0.12.0"
 rayon = "1.5.1"
 regex = "1"
 serde = { version = "1.0.133", features = ["derive"] }
-swc_atoms = { version = "0.4.0", path = "../swc_atoms" }
+swc_atoms = { version = "0.4.1", path = "../swc_atoms" }
 swc_common = { version = "0.27.0", path = "../swc_common", features = [
   "concurrent",
 ] }
@@ -30,10 +30,10 @@ swc_ecma_utils = { version = "0.99.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.76.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "0.121.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "0.117.0", path = "../swc_ecma_parser" }
+swc_ecma_codegen         = { version = "0.121.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser          = { version = "0.117.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.103.0", path = "../swc_ecma_transforms_base" }
-testing = { version = "0.29.0", path = "../testing" }
+testing                  = { version = "0.29.0", path = "../testing" }
 
 [features]
 non_critical_lints = []

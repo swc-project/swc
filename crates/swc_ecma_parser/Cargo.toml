@@ -1,50 +1,50 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Feature-complete es2019 parser."
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Feature-complete es2019 parser."
 documentation = "https://rustdoc.swc.rs/swc_ecma_parser/"
-edition = "2021"
-include = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
-license = "Apache-2.0"
-name = "swc_ecma_parser"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.117.0"
+edition       = "2021"
+include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
+license       = "Apache-2.0"
+name          = "swc_ecma_parser"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.117.0"
 
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
 
 [features]
 # Used for debugging
-debug = []
-default = ["typescript"]
+debug      = []
+default    = ["typescript"]
 typescript = []
-verify = ["swc_ecma_visit"]
+verify     = ["swc_ecma_visit"]
 
 [dependencies]
-either = { version = "1.4" }
-enum_kind = { version = "0.2.1", path = "../enum_kind" }
-lexical = { version = "6.1.0", features = ["power-of-two"] }
-num-bigint = "0.4"
-serde = { version = "1", features = ["derive"] }
-smallvec = "1.8.0"
-swc_atoms = { version = "0.4.0", path = "../swc_atoms" }
-swc_common = { version = "0.27.0", path = "../swc_common" }
-swc_ecma_ast = { version = "0.90.0", path = "../swc_ecma_ast" }
+either         = { version = "1.4" }
+enum_kind      = { version = "0.2.1", path = "../enum_kind" }
+lexical        = { version = "6.1.0", features = ["power-of-two"] }
+num-bigint     = "0.4"
+serde          = { version = "1", features = ["derive"] }
+smallvec       = "1.8.0"
+swc_atoms      = { version = "0.4.1", path = "../swc_atoms" }
+swc_common     = { version = "0.27.0", path = "../swc_common" }
+swc_ecma_ast   = { version = "0.90.0", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "0.76.0", path = "../swc_ecma_visit", optional = true }
-tracing = "0.1.32"
-typed-arena = "2.0.1"
+tracing        = "0.1.32"
+typed-arena    = "2.0.1"
 
 [dev-dependencies]
-criterion = "0.3"
+criterion         = "0.3"
 pretty_assertions = "1.1"
-serde_json = "1"
-swc_ecma_visit = { version = "0.76.0", path = "../swc_ecma_visit" }
-swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
-testing = { version = "0.29.0", path = "../testing" }
-walkdir = "2"
+serde_json        = "1"
+swc_ecma_visit    = { version = "0.76.0", path = "../swc_ecma_visit" }
+swc_node_base     = { version = "0.5.0", path = "../swc_node_base" }
+testing           = { version = "0.29.0", path = "../testing" }
+walkdir           = "2"
 
 [[example]]
 name = "lexer"
@@ -54,12 +54,12 @@ name = "typescript"
 
 [[bench]]
 harness = false
-name = "compare"
+name    = "compare"
 
 [[bench]]
 harness = false
-name = "lexer"
+name    = "lexer"
 
 [[bench]]
 harness = false
-name = "parser"
+name    = "parser"
