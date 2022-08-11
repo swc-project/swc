@@ -14,7 +14,6 @@ version       = "0.6.2"
     "base",
     "base_node",
     "common",
-    "common_concurrent",
     "visit",
     "quote",
     "utils",
@@ -24,8 +23,6 @@ version       = "0.6.2"
     "ast",
     "trace_macro",
     "plugin_transform",
-    "plugin_transform_host_js",
-    "plugin_transform_host_native",
   ]
   rustdoc-args = ["--cfg", "docsrs"]
 
@@ -74,8 +71,7 @@ visit = ["swc_ecma_visit"]
 quote = [
   # Dependent features
   "__common",
-  "ast",
-  # Enable optional package
+  "ast",                   # Enable optional package
   "swc_ecma_quote_macros",
 ]
 
@@ -141,8 +137,7 @@ plugin_transform_host_native = [
 # swc_core.
 __plugin_transform_host_schema_v1 = [
   # Dependent features
-  "__plugin_transform_schema_v1",
-  # Enable optional features
+  "__plugin_transform_schema_v1",                 # Enable optional features
   "swc/plugin_transform_schema_v1",
   "swc_plugin_runner/plugin_transform_schema_v1",
 ]
@@ -151,8 +146,7 @@ __plugin_transform_schema_v1 = ["swc_common/plugin_transform_schema_v1"]
 # Do not use: testing purpose only
 __plugin_transform_host_schema_vtest = [
   # Dependent features
-  "__plugin_transform_schema_vtest",
-  # Enable optional features
+  "__plugin_transform_schema_vtest",                 # Enable optional features
   "swc/plugin_transform_schema_vtest",
   "swc_plugin_runner/plugin_transform_schema_vtest",
 ]
@@ -165,8 +159,7 @@ __plugin_transform = [
   # Dependent features
   "visit",
   "__common",
-  "ast",
-  # Enable optional packages
+  "ast",                          # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
   "swc_common/plugin-mode",
   "swc_plugin_proxy/plugin-mode",
@@ -178,8 +171,7 @@ __plugin_transform = [
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
   # Dependent features
-  "__common",
-  # Enable optional packages
+  "__common", # Enable optional packages
   # TODO: we may simply flag around downlevel plugin feature
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",
