@@ -1,0 +1,20 @@
+[workspace]
+
+[package]
+edition = "2021"
+name    = "swc_core_native_build"
+publish = false
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# mimic feature set of binding_node
+swc_core = { path = "../../../../target/package/swc_core_test_fixture", features = [
+  "ast",
+  "common_concurrent",
+  "bundler",
+  "loader",
+  "base_concurrent",
+] }
