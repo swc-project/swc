@@ -1,12 +1,12 @@
 [package]
-authors     = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
-description = "TBD"
-edition     = "2021"
-license     = "Apache-2.0"
-name        = "swc_core"
-repository  = "https://github.com/swc-project/swc.git"
-version     = "0.6.1"
-
+authors       = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
+description   = "TBD"
+documentation = "https://rustdoc.swc.rs/swc_core/"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_core"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.6.1"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
