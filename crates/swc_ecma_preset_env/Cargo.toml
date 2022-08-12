@@ -6,7 +6,7 @@ edition       = "2021"
 include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_preset_env"
-version       = "0.158.0"
+version       = "0.158.1"
 
 [lib]
 bench = false
@@ -23,22 +23,22 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 st-map = "0.1.2"
 string_enum = { version = "0.3.1", path = "../string_enum" }
-swc_atoms = { version = "0.4.2", path = "../swc_atoms" }
-swc_common = { version = "0.27.3", path = "../swc_common" }
-swc_ecma_ast = { version = "0.90.4", path = "../swc_ecma_ast" }
-swc_ecma_transforms = { version = "0.183.0", path = "../swc_ecma_transforms", features = [
+swc_atoms = { version = "0.4.3", path = "../swc_atoms" }
+swc_common = { version = "0.27.4", path = "../swc_common" }
+swc_ecma_ast = { version = "0.90.5", path = "../swc_ecma_ast" }
+swc_ecma_transforms = { version = "0.183.1", path = "../swc_ecma_transforms", features = [
   "compat",
   "proposal",
 ] }
-swc_ecma_utils = { version = "0.99.1", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.76.2", path = "../swc_ecma_visit" }
+swc_ecma_utils = { version = "0.99.2", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.76.3", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 criterion         = "0.3"
 pretty_assertions = "1.1"
-swc_ecma_codegen  = { version = "0.121.1", path = "../swc_ecma_codegen" }
-swc_ecma_parser   = { version = "0.117.1", path = "../swc_ecma_parser" }
-testing           = { version = "0.29.1", path = "../testing" }
+swc_ecma_codegen  = { version = "0.121.2", path = "../swc_ecma_codegen" }
+swc_ecma_parser   = { version = "0.117.2", path = "../swc_ecma_parser" }
+testing           = { version = "0.29.2", path = "../testing" }
 
 [[bench]]
 harness = false
