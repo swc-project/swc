@@ -31,6 +31,9 @@
 
 - **(swc_core)** Fix dep on `quote_macros` (#5415) ([420d936](https://github.com/swc-project/swc/commit/420d936c50265c958b3811772ee15fb468afcf58))
 
+
+- **(swc_core)** Apply plugin features (#5457) ([3760ba0](https://github.com/swc-project/swc/commit/3760ba07b10f5d29b6fe025d6721750885bcfeec))
+
 ### Documentation
 
 
