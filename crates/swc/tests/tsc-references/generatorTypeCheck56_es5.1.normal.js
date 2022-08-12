@@ -1,7 +1,7 @@
 //@target: ES6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 function g() {
     var x;
     return regeneratorRuntime.wrap(function g$(_ctx) {
@@ -13,7 +13,7 @@ function g() {
                         _class_call_check(this, C);
                     }
                     var _proto = C.prototype;
-                    _proto[yield 0] = regeneratorRuntime.mark(function _callee() {
+                    _proto[yield 0] = /*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:

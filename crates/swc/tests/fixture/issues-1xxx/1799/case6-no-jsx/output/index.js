@@ -13,7 +13,7 @@ var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.
 var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
 var _react = /*#__PURE__*/ _interopRequireDefault(require("react"));
 function Foo() {
-    return call(_asyncToGenerator(_regeneratorRuntime.default.mark(function _callee(e) {
+    return call(/*#__PURE__*/ _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee(e) {
         return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

@@ -10,7 +10,7 @@ concatMaybe([
 ], 4);
 // Repros from #32247
 var g = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(com) {
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(com) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

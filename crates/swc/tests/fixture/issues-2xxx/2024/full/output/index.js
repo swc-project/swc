@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
 var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
-_asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
+_asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee() {
     var sleep, result;
     return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

@@ -9,37 +9,3 @@ function _inferReturnType2() {
         }()), _await_async_generator);
     })).apply(this, arguments);
 }
-_wrap_async_generator(function*() {
-    yield "a";
-}), _wrap_async_generator(function*() {
-    yield* _async_generator_delegate(_async_iterator([
-        "a",
-        "b"
-    ]), _await_async_generator);
-}), _wrap_async_generator(function*() {
-    yield* _async_generator_delegate(_async_iterator(_wrap_async_generator(function*() {
-        yield "a";
-    })()), _await_async_generator);
-}), _wrap_async_generator(function*() {
-    yield "a";
-}), _wrap_async_generator(function*() {
-    yield* _async_generator_delegate(_async_iterator([
-        "a",
-        "b"
-    ]), _await_async_generator);
-}), _wrap_async_generator(function*() {
-    yield* _async_generator_delegate(_async_iterator(_wrap_async_generator(function*() {
-        yield "a";
-    })()), _await_async_generator);
-}), _wrap_async_generator(function*() {
-    yield "a";
-}), _wrap_async_generator(function*() {
-    yield* _async_generator_delegate(_async_iterator([
-        "a",
-        "b"
-    ]), _await_async_generator);
-}), _wrap_async_generator(function*() {
-    yield* _async_generator_delegate(_async_iterator(_wrap_async_generator(function*() {
-        yield "a";
-    })()), _await_async_generator);
-});

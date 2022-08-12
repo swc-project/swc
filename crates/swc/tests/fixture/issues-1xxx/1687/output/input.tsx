@@ -11,7 +11,7 @@ import { Button, ConfigProvider } from "antd";
 function App() {
     var ref = _sliced_to_array(useState({}), 2), state = ref[0], setState = ref[1];
     useEffect(function() {
-        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

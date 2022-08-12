@@ -6,7 +6,7 @@ function lol() {
     return _lol.apply(this, arguments);
 }
 function _lol() {
-    _lol = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _lol = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -27,7 +27,7 @@ function main() {
     return _main.apply(this, arguments);
 }
 function _main() {
-    _main = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _main = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

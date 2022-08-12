@@ -7,7 +7,7 @@ function foo() {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _foo = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var v;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

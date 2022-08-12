@@ -3,7 +3,7 @@
 import regeneratorRuntime from "regenerator-runtime";
 var M;
 (function(M) {
-    var generator = regeneratorRuntime.mark(function generator() {
+    var generator = /*#__PURE__*/ regeneratorRuntime.mark(function generator() {
         return regeneratorRuntime.wrap(function generator$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

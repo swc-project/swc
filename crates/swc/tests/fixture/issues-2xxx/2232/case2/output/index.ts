@@ -3,7 +3,7 @@ import _object_without_properties from "@swc/helpers/src/_object_without_propert
 import regeneratorRuntime from "regenerator-runtime";
 var resolver = {
     sendSomeMessage: function sendSomeMessage(_parent, _param, _param1) {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var _input, toNumber, messageBody, all, dataSources;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

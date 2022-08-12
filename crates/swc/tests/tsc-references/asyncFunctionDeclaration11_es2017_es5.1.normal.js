@@ -6,7 +6,7 @@ function _await() {
     return _await1.apply(this, arguments);
 }
 function _await1() {
-    _await1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _await1 = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

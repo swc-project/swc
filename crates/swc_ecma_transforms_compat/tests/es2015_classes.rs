@@ -6549,7 +6549,11 @@ test!(
         chain!(
             es2022::es2022(Some(t.comments.clone()), Default::default()),
             es2018::es2018(Default::default()),
-            es2017::es2017(Default::default(), unresolved_mark),
+            es2017::es2017(
+                Default::default(),
+                Some(t.comments.clone()),
+                unresolved_mark
+            ),
             es2016::es2016(),
             es2015::es2015(
                 unresolved_mark,
