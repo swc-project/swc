@@ -448,8 +448,8 @@ impl OptChaining {
                                         this_as_super = Expr::This(ThisExpr { span: m.obj.span });
                                         &this_as_super
                                     }
-                                    Expr::Member(m) => &*m.obj,
-                                    _ => &*call.callee,
+                                    Expr::Member(m) => &m.obj,
+                                    _ => &call.callee,
                                 },
                                 "_obj",
                             )
