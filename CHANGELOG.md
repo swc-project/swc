@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/compat)** Add pure comments for generator and async transform (#5463) ([5a06271](https://github.com/swc-project/swc/commit/5a06271116c0d341e6f4c5b4bae23513c54e93ff))
+
 ### Miscellaneous Tasks
 
 

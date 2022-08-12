@@ -198,7 +198,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -759,7 +759,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.42.2"
+version = "0.43.0"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2926,7 +2926,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.213.3"
+version = "0.214.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2995,7 +2995,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.176.3"
+version = "0.177.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3053,7 +3053,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.90.1"
+version = "0.91.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3132,7 +3132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.6.5"
+version = "0.7.0"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3427,7 +3427,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.143.2"
+version = "0.144.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3493,7 +3493,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.157.1"
+version = "0.158.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3563,7 +3563,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.182.2"
+version = "0.183.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3627,7 +3627,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.121.1"
+version = "0.122.0"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3668,7 +3668,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.138.1"
+version = "0.139.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3698,7 +3698,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.151.2"
+version = "0.152.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3727,7 +3727,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.129.1"
+version = "0.130.0"
 dependencies = [
  "either",
  "serde",
@@ -3750,7 +3750,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.140.1"
+version = "0.141.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3802,7 +3802,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.144.1"
+version = "0.145.0"
 dependencies = [
  "criterion",
  "serde",
@@ -3852,7 +3852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.188.1"
+version = "0.189.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3900,7 +3900,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.135.1"
+version = "0.136.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3948,7 +3948,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.56.1"
+version = "0.57.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4000,7 +4000,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.53.1"
+version = "0.54.0"
 dependencies = [
  "once_cell",
  "serde",
