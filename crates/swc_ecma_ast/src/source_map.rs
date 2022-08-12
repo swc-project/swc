@@ -137,7 +137,7 @@ impl SourceMapperExt for dyn SourceMapper {
 }
 impl SourceMapperExt for Arc<SourceMapperDyn> {
     fn get_code_map(&self) -> &dyn SourceMapper {
-        &**self
+        self
     }
 }
 impl SourceMapperExt for Rc<SourceMapperDyn> {
