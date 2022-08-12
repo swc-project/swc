@@ -244,9 +244,6 @@ jobs:
     runs-on: macos-12
     name: Build FreeBSD
     steps:
-      - name: tune mac network
-        run: sudo sysctl -w net.link.generic.system.hwcksum_tx=0 && sudo sysctl -w net.link.generic.system.hwcksum_rx=0
-
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
@@ -312,7 +309,7 @@ jobs:
           prepare: |
             pkg install -y curl node14
             curl -qL https://www.npmjs.com/install.sh | sh
-            npm install -g yarn
+            npm install --location=global --ignore-scripts yarn
             curl https://sh.rustup.rs -sSf --output rustup.sh
             sh rustup.sh -y --profile minimal --default-toolchain stable
             export PATH="/usr/local/cargo/bin:$PATH"
