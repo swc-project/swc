@@ -357,7 +357,7 @@ impl FieldInitFinder {
                 Expr::Ident(i) => {
                     self.accessed.insert(i.into());
                 }
-                Expr::Member(..) => self.check_lhs_expr_of_assign(&*m.obj),
+                Expr::Member(..) => self.check_lhs_expr_of_assign(&m.obj),
                 _ => {}
             }
         }

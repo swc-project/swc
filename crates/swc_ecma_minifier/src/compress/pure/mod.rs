@@ -490,7 +490,7 @@ impl VisitMut for Pure<'_> {
         self.merge_for_if_break(s);
 
         if let Some(test) = &mut s.test {
-            self.optimize_expr_in_bool_ctx(&mut **test, false);
+            self.optimize_expr_in_bool_ctx(test, false);
         }
 
         if let Stmt::Block(body) = &mut *s.body {
@@ -670,7 +670,7 @@ impl VisitMut for Pure<'_> {
 
             if !is_last {
                 self.ignore_return_value(
-                    &mut **e,
+                    e,
                     DropOpts {
                         drop_zero: can_drop_zero,
                         drop_global_refs_if_unused: false,

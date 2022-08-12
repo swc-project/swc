@@ -891,13 +891,13 @@ impl<I: Tokens> Parser<I> {
                     self.pat_is_valid_argument_in_strict(pat)
                 }
             }
-            Pat::Rest(r) => self.pat_is_valid_argument_in_strict(&*r.arg),
+            Pat::Rest(r) => self.pat_is_valid_argument_in_strict(&r.arg),
             Pat::Object(obj) => {
                 for prop in obj.props.iter() {
                     match prop {
                         ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
                         | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
-                            self.pat_is_valid_argument_in_strict(&**value)
+                            self.pat_is_valid_argument_in_strict(value)
                         }
                         ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
                             if key.is_reserved_in_strict_bind() {
@@ -910,7 +910,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
             }
-            Pat::Assign(a) => self.pat_is_valid_argument_in_strict(&*a.left),
+            Pat::Assign(a) => self.pat_is_valid_argument_in_strict(&a.left),
             Pat::Invalid(_) | Pat::Expr(_) => (),
         }
     }

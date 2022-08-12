@@ -104,7 +104,7 @@ impl Visit for DotNotation {
                 Expr::Lit(Lit::Str(lit_str)) => {
                     let quote_type = resolve_string_quote_type(lit_str).unwrap();
 
-                    self.check(prop.span, quote_type, &*lit_str.value);
+                    self.check(prop.span, quote_type, &lit_str.value);
                 }
                 Expr::Member(member) => {
                     member.visit_children_with(self);
