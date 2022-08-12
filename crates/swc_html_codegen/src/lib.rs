@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
+#![allow(clippy::match_like_matches_macro)]
 
 pub use std::fmt::Result;
 use std::{iter::Peekable, str::Chars};
