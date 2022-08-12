@@ -269,17 +269,8 @@ where
                             if element.namespace == Namespace::HTML
                                 && &*element.tag_name == "col" =>
                         {
-                            match prev {
-                                // We don't need to check on omitted end tag, because we always
-                                // omit an end tag
-                                Some(Child::Element(element))
-                                    if element.namespace == Namespace::HTML
-                                        && &*element.tag_name == "colgroup" =>
-                                {
-                                    false
-                                }
-                                _ => true,
-                            }
+                            !matches!(prev, Some(Child::Element(element)) if element.namespace == Namespace::HTML
+                                        && &*element.tag_name == "colgroup")
                         }
                         _ => false,
                     } =>
@@ -296,20 +287,11 @@ where
                             if element.namespace == Namespace::HTML
                                 && &*element.tag_name == "tr" =>
                         {
-                            match prev {
-                                // We don't need to check on omitted end tag, because we always
-                                // omit an end tag
-                                Some(Child::Element(element))
-                                    if element.namespace == Namespace::HTML
-                                        && matches!(
-                                            &*element.tag_name,
-                                            "tbody" | "thead" | "tfoot"
-                                        ) =>
-                                {
-                                    false
-                                }
-                                _ => true,
-                            }
+                            !matches!(prev, Some(Child::Element(element)) if element.namespace == Namespace::HTML
+                            && matches!(
+                                &*element.tag_name,
+                                "tbody" | "thead" | "tfoot"
+                            ))
                         }
                         _ => false,
                     } =>
