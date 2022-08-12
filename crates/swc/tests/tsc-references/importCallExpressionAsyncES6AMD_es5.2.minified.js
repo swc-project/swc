@@ -22,9 +22,7 @@ function _fn() {
 }
 export var cl1 = function() {
     "use strict";
-    function cl1() {
-        _class_call_check(this, cl1);
-    }
+    function cl1() {}
     return cl1.prototype.m = function() {
         return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var req;
@@ -60,7 +58,7 @@ export var obj = {
 };
 export var cl2 = function() {
     "use strict";
-    _class_call_check(this, cl2), this.p = {
+    this.p = {
         m: _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var req;
             return regeneratorRuntime.wrap(function(_ctx) {

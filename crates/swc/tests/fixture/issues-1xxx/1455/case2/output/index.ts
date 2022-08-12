@@ -8,7 +8,7 @@ var obj = {
         };
     },
     byPlatform: function() {
-        var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(platform) {
+        var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(platform) {
             var result;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

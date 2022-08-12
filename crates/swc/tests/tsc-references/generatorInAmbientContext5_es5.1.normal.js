@@ -8,7 +8,7 @@ var C = /*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     var _proto = C.prototype;
-    _proto.generator = regeneratorRuntime.mark(function generator() {
+    _proto.generator = /*#__PURE__*/ regeneratorRuntime.mark(function generator() {
         return regeneratorRuntime.wrap(function generator$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

@@ -35,7 +35,7 @@ var C = /*#__PURE__*/ function() {
         this.myModule.then(function(Zero) {
             console.log(Zero.foo());
         }, function() {
-            var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(err) {
+            var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(err) {
                 var one;
                 return regeneratorRuntime.wrap(function _callee$(_ctx) {
                     while(1)switch(_ctx.prev = _ctx.next){

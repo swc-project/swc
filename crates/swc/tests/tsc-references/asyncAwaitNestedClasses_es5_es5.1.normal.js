@@ -27,7 +27,7 @@ A.B = (_B = /*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     C.func = function func() {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

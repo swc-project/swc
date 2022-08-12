@@ -1,7 +1,7 @@
 //@target: ES6
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 function g() {
     var x;
     return regeneratorRuntime.wrap(function g$(_ctx) {
@@ -13,7 +13,7 @@ function g() {
                 return 0;
             case 4:
                 _ctx.t2 = _ctx.sent;
-                _ctx.t3 = regeneratorRuntime.mark(function _callee() {
+                _ctx.t3 = /*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:

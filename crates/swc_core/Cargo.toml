@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.6.5"
+version       = "0.7.0"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -214,16 +214,16 @@ wasmer      = { optional = true, version = "2.3.0", default-features = false }
 wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
-binding_macros              = { optional = true, version = "0.1.2", path = "../binding_macros" }
-swc                         = { optional = true, version = "0.213.3", path = "../swc" }
+binding_macros              = { optional = true, version = "0.2.0", path = "../binding_macros" }
+swc                         = { optional = true, version = "0.214.0", path = "../swc" }
 swc_atoms                   = { optional = true, version = "0.4.2", path = "../swc_atoms" }
-swc_bundler                 = { optional = true, version = "0.176.3", path = "../swc_bundler" }
+swc_bundler                 = { optional = true, version = "0.177.0", path = "../swc_bundler" }
 swc_common                  = { optional = true, version = "0.27.3", path = "../swc_common" }
 swc_ecma_ast                = { optional = true, version = "0.90.4", path = "../swc_ecma_ast" }
 swc_ecma_loader             = { optional = true, version = "0.39.1", path = "../swc_ecma_loader" }
 swc_ecma_parser             = { optional = true, version = "0.117.1", path = "../swc_ecma_parser" }
 swc_ecma_quote_macros       = { optional = true, version = "0.28.1", path = "../swc_ecma_quote_macros" }
-swc_ecma_transforms         = { optional = true, version = "0.182.2", path = "../swc_ecma_transforms" }
+swc_ecma_transforms         = { optional = true, version = "0.183.0", path = "../swc_ecma_transforms" }
 swc_ecma_transforms_testing = { optional = true, version = "0.105.1", path = "../swc_ecma_transforms_testing" }
 swc_ecma_utils              = { optional = true, version = "0.99.1", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { optional = true, version = "0.76.2", path = "../swc_ecma_visit" }

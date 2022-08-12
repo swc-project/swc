@@ -1,7 +1,7 @@
 //@target: ES6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);

@@ -42,7 +42,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var a, b;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -75,7 +75,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_set = function(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var f, a, b, ref, ref1;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -105,8 +105,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_get("x").call(_this1);
                         });
-                        // property access in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // property access in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -117,8 +117,8 @@ var B = /*#__PURE__*/ function(A) {
                                 }
                             }, _callee);
                         }));
-                        // element access in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // element access in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -142,7 +142,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var a;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -153,8 +153,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_get_x().call(_this1);
                         });
-                        // property access in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // property access in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -180,7 +180,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_set_x = function(_value) {
             return _set(_get_prototype_of(B.prototype), "x", _value, _this, true);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var f, ref;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -196,8 +196,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_set_x(f);
                         });
-                        // property access (assign) in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // property access (assign) in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -221,7 +221,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var a;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -232,8 +232,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_get("x").call(_this1);
                         });
-                        // element access in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // element access in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -259,7 +259,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_set = function(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var f, ref;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -275,8 +275,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_set("x", f);
                         });
-                        // element access (assign) in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // element access (assign) in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -300,7 +300,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         };
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var a;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -311,8 +311,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_get_x().call(_this1);
                         });
-                        // property access in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // property access in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -338,7 +338,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_set_x = function(_value) {
             return _set(_get_prototype_of(B.prototype), "x", _value, _this, true);
         };
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var f, ref;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -354,8 +354,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_set_x(f);
                         });
-                        // property access (assign) in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // property access (assign) in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -379,7 +379,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var a;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -390,8 +390,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_get("x").call(_this1);
                         });
-                        // element access in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // element access in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -417,7 +417,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_set = function(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
         };
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var f, ref;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -433,8 +433,8 @@ var B = /*#__PURE__*/ function(A) {
                         (function() {
                             return _superprop_set("x", f);
                         });
-                        // element access (assign) in async arrow
-                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                        /*#__PURE__*/ // element access (assign) in async arrow
+                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:

@@ -8,7 +8,7 @@ export function fn() {
     return _fn.apply(this, arguments);
 }
 function _fn() {
-    _fn = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _fn = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -33,7 +33,7 @@ export var cl1 = /*#__PURE__*/ function() {
     }
     var _proto = cl1.prototype;
     _proto.m = function m() {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var req;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -53,7 +53,7 @@ export var cl1 = /*#__PURE__*/ function() {
     return cl1;
 }();
 export var obj = {
-    m: _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    m: /*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -74,7 +74,7 @@ export var cl2 = function cl2() {
     "use strict";
     _class_call_check(this, cl2);
     this.p = {
-        m: _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        m: /*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var req;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -93,7 +93,7 @@ export var cl2 = function cl2() {
     };
 };
 export var l = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

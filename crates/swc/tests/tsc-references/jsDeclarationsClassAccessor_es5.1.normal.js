@@ -41,7 +41,7 @@ export var Argument = /*#__PURE__*/ function(Base) {
     var _proto = Argument.prototype;
     /**
      * @param {*} defs
-     */ _proto.validate = regeneratorRuntime.mark(function validate(defs) {
+     */ _proto.validate = /*#__PURE__*/ regeneratorRuntime.mark(function validate(defs) {
         return regeneratorRuntime.wrap(function validate$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
