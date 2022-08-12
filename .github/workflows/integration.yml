@@ -82,6 +82,7 @@ jobs:
 
       - name: Prepare
         run: |
+          rustup target add wasm32-wasi
           yarn
 
           yarn build:dev
