@@ -261,6 +261,7 @@ jobs:
           rm -rf .git
           rm -rf crates/jsdoc/tests/fixtures
           rm -rf crates/swc_css_minifier/tests
+          rm -rf crates/swc_css_codegen/tests
           rm -rf crates/swc_css_parser/tests
           rm -rf crates/swc_css_prefixer/tests
           rm -rf crates/swc_estree_compat/tests/fixtures
