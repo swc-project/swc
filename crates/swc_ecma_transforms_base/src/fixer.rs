@@ -127,7 +127,7 @@ impl VisitMut for Fixer<'_> {
         node.visit_mut_children_with(self);
         match &mut node.body {
             BlockStmtOrExpr::Expr(e) if e.is_seq() => {
-                self.wrap(&mut **e);
+                self.wrap(e);
             }
 
             BlockStmtOrExpr::Expr(e) if e.is_assign() => {
@@ -136,7 +136,7 @@ impl VisitMut for Fixer<'_> {
                         PatOrExpr::Pat(l) => match &**l {
                             Pat::Ident(..) | Pat::Expr(..) => {}
                             _ => {
-                                self.wrap(&mut **e);
+                                self.wrap(e);
                             }
                         },
                         PatOrExpr::Expr(..) => {}
@@ -174,7 +174,7 @@ impl VisitMut for Fixer<'_> {
         node.visit_mut_children_with(self);
 
         if let Expr::Seq(..) = &*node.right {
-            self.wrap(&mut *node.right);
+            self.wrap(&mut node.right);
         }
     }
 
@@ -356,7 +356,7 @@ impl VisitMut for Fixer<'_> {
 
         match body {
             BlockStmtOrExpr::Expr(expr) if expr.is_object() => {
-                self.wrap(&mut **expr);
+                self.wrap(expr);
             }
 
             _ => {}
@@ -366,7 +366,7 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         let old = self.visit_call(&mut node.args, &mut node.callee);
         if let Callee::Expr(e) = &mut node.callee {
-            self.wrap_callee(&mut **e)
+            self.wrap_callee(e)
         }
 
         self.ctx = old;
@@ -375,7 +375,7 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
         let old = self.visit_call(&mut node.args, &mut node.callee);
 
-        self.wrap_callee(&mut *node.callee);
+        self.wrap_callee(&mut node.callee);
 
         self.ctx = old;
     }
@@ -393,7 +393,7 @@ impl VisitMut for Fixer<'_> {
                     || e.is_cond()
                     || e.is_unary() =>
             {
-                self.wrap(&mut **e)
+                self.wrap(e)
             }
             _ => {}
         };
@@ -451,7 +451,7 @@ impl VisitMut for Fixer<'_> {
         s.expr.visit_mut_with(self);
         self.ctx = old;
 
-        self.handle_expr_stmt(&mut *s.expr);
+        self.handle_expr_stmt(&mut s.expr);
     }
 
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
@@ -533,7 +533,7 @@ impl VisitMut for Fixer<'_> {
                     || (obj.is_call() && matches!(self.ctx, Context::Callee { is_new: true }))
                     || matches!(**obj, Expr::New(NewExpr { args: None, .. })) =>
             {
-                self.wrap(&mut **obj);
+                self.wrap(obj);
             }
 
             _ => {}
@@ -839,7 +839,7 @@ impl Fixer<'_> {
                 base: OptChainBase::Call(OptCall { callee, .. }),
                 ..
             }) if callee.is_arrow() || callee.is_await_expr() || callee.is_assign() => {
-                self.wrap(&mut **callee);
+                self.wrap(callee);
             }
 
             // Function expression cannot start with `function`
@@ -855,7 +855,7 @@ impl Fixer<'_> {
 
                 Context::Callee { is_new: true } => self.wrap(e),
 
-                _ => self.wrap(&mut **callee),
+                _ => self.wrap(callee),
             },
             _ => {}
         }
@@ -917,7 +917,7 @@ impl Fixer<'_> {
 
                 let expr_span = expr.span();
                 let paren_span = *paren_span;
-                self.unwrap_expr(&mut **expr);
+                self.unwrap_expr(expr);
                 *e = *expr.take();
 
                 self.span_map.insert(expr_span, paren_span);

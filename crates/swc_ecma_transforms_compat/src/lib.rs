@@ -1,6 +1,7 @@
 //! New-generation javascript to old-javascript compiler.
 #![deny(clippy::all)]
 #![allow(clippy::vec_box)]
+#![allow(clippy::match_like_matches_macro)]
 
 pub use self::{
     bugfixes::bugfixes, es2015::es2015, es2016::es2016, es2017::es2017, es2018::es2018,

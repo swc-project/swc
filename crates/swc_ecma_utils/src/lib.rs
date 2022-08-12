@@ -1,4 +1,6 @@
 #![deny(clippy::all)]
+#![allow(clippy::explicit_auto_deref)]
+#![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
 
 #[doc(hidden)]
@@ -418,7 +420,7 @@ impl StmtExt for Box<Stmt> {
     }
 
     fn terminates(&self) -> bool {
-        (&**self).terminates()
+        (**self).terminates()
     }
 }
 

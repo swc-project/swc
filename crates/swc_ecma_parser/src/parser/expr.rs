@@ -1100,7 +1100,7 @@ impl<I: Tokens> Parser<I> {
                 let result = self.try_parse_ts(|p| {
                     if !no_call
                         && p.at_possible_async(match &mut_obj_opt {
-                            Some(Callee::Expr(ref expr)) => &**expr,
+                            Some(Callee::Expr(ref expr)) => expr,
                             _ => unreachable!(),
                         })?
                     {

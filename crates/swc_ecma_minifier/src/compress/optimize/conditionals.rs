@@ -276,7 +276,7 @@ where
             return;
         }
 
-        let cons = match extract_expr_stmt(&mut *stmt.cons) {
+        let cons = match extract_expr_stmt(&mut stmt.cons) {
             Some(v) => v,
             None => return,
         };
@@ -356,7 +356,7 @@ where
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
-                if self.data.contains_unresolved(&**test) {
+                if self.data.contains_unresolved(test) {
                     return None;
                 }
 
@@ -475,7 +475,7 @@ where
             }
 
             (Expr::New(cons), Expr::New(alt)) => {
-                if self.data.contains_unresolved(&**test) {
+                if self.data.contains_unresolved(test) {
                     return None;
                 }
 

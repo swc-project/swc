@@ -128,7 +128,7 @@ impl Pure<'_> {
                 cur_str_value.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
             } else {
                 let mut e = tpl.exprs[idx / 2].take();
-                self.eval_nested_tpl(&mut *e);
+                self.eval_nested_tpl(&mut e);
 
                 match *e {
                     Expr::Tpl(mut e) => {

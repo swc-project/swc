@@ -852,7 +852,7 @@ impl<'a> VisitMut for Resolver<'a> {
             n.left.visit_mut_with(child);
             n.right.visit_mut_with(child);
 
-            child.visit_mut_stmt_within_child_scope(&mut *n.body);
+            child.visit_mut_stmt_within_child_scope(&mut n.body);
         });
     }
 
@@ -861,7 +861,7 @@ impl<'a> VisitMut for Resolver<'a> {
             n.left.visit_mut_with(child);
             n.right.visit_mut_with(child);
 
-            child.visit_mut_stmt_within_child_scope(&mut *n.body);
+            child.visit_mut_stmt_within_child_scope(&mut n.body);
         });
     }
 
@@ -874,7 +874,7 @@ impl<'a> VisitMut for Resolver<'a> {
             child.ident_type = IdentType::Ref;
             n.update.visit_mut_with(child);
 
-            child.visit_mut_stmt_within_child_scope(&mut *n.body);
+            child.visit_mut_stmt_within_child_scope(&mut n.body);
         });
     }
 
