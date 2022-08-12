@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.6.3"
+version       = "0.6.4"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -154,24 +154,27 @@ __plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
 ## Plugins
 
-# Internal flags for any transform plugin feature
 __plugin_transform = [
   # Dependent features
   "visit",
   "__common",
   "ast",                          # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
+  "swc_atoms/rkyv-impl",
   "swc_common/plugin-mode",
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
   "swc_plugin",
   "once_cell",
-]
+] # Internal flags for any transform plugin feature
 
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
   # Dependent features
-  "__common", # Enable optional packages
+  "__common",               # Enable optional packages
+  "swc_ecma_ast/rkyv-impl",
+  "swc_atoms/rkyv-impl",
+  "swc_common/plugin-rt",
   # TODO: we may simply flag around downlevel plugin feature
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",
