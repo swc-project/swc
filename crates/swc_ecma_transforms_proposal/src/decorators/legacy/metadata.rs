@@ -382,7 +382,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 ..
             }) => *undefined(span),
 
-            TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &*ty.type_ann),
+            TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &ty.type_ann),
 
             TsType::TsFnOrConstructorType(_) => quote_ident!("Function").into(),
 
@@ -467,7 +467,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         None => return *undefined(DUMMY_SP),
     };
 
-    serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), &**param)
+    serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), param)
 }
 
 fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
