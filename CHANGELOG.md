@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix bot script ([d298b20](https://github.com/swc-project/swc/commit/d298b20c7a334cad75889ce8b3a35718b2b66880))
+
+
+- **(ci)** Update rustc ([6c08ab9](https://github.com/swc-project/swc/commit/6c08ab9cf0e441b90aec280dfc8da3cb91707ac6))
+
+
+- **(ci)** Fix lints (#5462) ([3eb1f4b](https://github.com/swc-project/swc/commit/3eb1f4b2b153aeb8551a83b4995b7ae8ee188046))
+
+## [1.2.226] - 2022-08-12
+
 ### Bug Fixes
 
 
@@ -18,6 +32,9 @@
 
 
 - **(es/fixer)** Remove needless parens for nested `??` (#5432) ([e359903](https://github.com/swc-project/swc/commit/e35990390b271fffca7e4e7a89971d82df0dc2e6))
+
+
+- **(es/helpers)** Correct import path (#5460) ([efb3d70](https://github.com/swc-project/swc/commit/efb3d7035a3fda44ed7094805734c8d66c77d130))
 
 
 - **(es/utils)** Allow `quote_ident!` working with `swc_core` (#5409) ([c227325](https://github.com/swc-project/swc/commit/c2273255c0c2b90e606c5880b8e80a5cd8c370bf))
@@ -63,6 +80,9 @@
 
 
 - **(ci)** Reduce CI time (#5440) ([4bdb6a1](https://github.com/swc-project/swc/commit/4bdb6a1de426f57f0f96c2e8f3311333d1446030))
+
+
+- **(ci)** Fix publish action (#5443) ([31bd2c8](https://github.com/swc-project/swc/commit/31bd2c8abbc476e563f0172dbc642912d9d9e1b4))
 
 
 - **(html/utils)** Fix cargo package metadata (#5439) ([0e79d31](https://github.com/swc-project/swc/commit/0e79d31a98624bb414ca5b3ddafd5080331d9898))
