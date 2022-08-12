@@ -127,7 +127,7 @@ impl VisitMut for Fixer<'_> {
         node.visit_mut_children_with(self);
         match &mut node.body {
             BlockStmtOrExpr::Expr(e) if e.is_seq() => {
-                self.wrap(&mut **e);
+                self.wrap(e);
             }
 
             BlockStmtOrExpr::Expr(e) if e.is_assign() => {
@@ -136,7 +136,7 @@ impl VisitMut for Fixer<'_> {
                         PatOrExpr::Pat(l) => match &**l {
                             Pat::Ident(..) | Pat::Expr(..) => {}
                             _ => {
-                                self.wrap(&mut **e);
+                                self.wrap(e);
                             }
                         },
                         PatOrExpr::Expr(..) => {}
@@ -174,7 +174,7 @@ impl VisitMut for Fixer<'_> {
         node.visit_mut_children_with(self);
 
         if let Expr::Seq(..) = &*node.right {
-            self.wrap(&mut *node.right);
+            self.wrap(&mut node.right);
         }
     }
 

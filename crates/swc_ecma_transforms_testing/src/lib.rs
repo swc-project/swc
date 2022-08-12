@@ -204,7 +204,7 @@ impl<'a> Tester<'a> {
         }
 
         let r = wr.0.read().unwrap();
-        let s = String::from_utf8_lossy(&*r);
+        let s = String::from_utf8_lossy(&r);
         s.to_string()
     }
 }
