@@ -123,7 +123,7 @@
 #![allow(clippy::unnecessary_unwrap)]
 #![allow(clippy::vec_box)]
 #![allow(clippy::wrong_self_convention)]
-
+#[allow(clippy::match_like_matches_macro)]
 use error::Error;
 use lexer::Lexer;
 use serde::{Deserialize, Serialize};
