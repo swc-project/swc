@@ -1517,7 +1517,7 @@ impl Minifier<'_> {
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
         );
 
-        let program = swc_ecma_minifier::optimize(
+        let mut program = swc_ecma_minifier::optimize(
             program,
             cm.clone(),
             if options.parser.comments {
@@ -1533,17 +1533,21 @@ impl Minifier<'_> {
             },
         );
 
+        swc_ecma_visit::VisitMutWith::visit_mut_with(
+            &mut program,
+            &mut swc_ecma_transforms_base::fixer::fixer(if options.parser.comments {
+                Some(&comments)
+            } else {
+                None
+            }),
+        );
+
         let mut buf = vec![];
 
         {
-            let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                cm.clone(),
-                "\n",
-                &mut buf,
-                None,
-            )) as Box<dyn swc_ecma_codegen::text_writer::WriteJs>;
+            let wr = swc_ecma_codegen::text_writer::JsWriter::new(cm.clone(), "\n", &mut buf, None);
 
-            wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+            let wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
 
             options.codegen.minify = true;
             options.codegen.target = options.parser.target;

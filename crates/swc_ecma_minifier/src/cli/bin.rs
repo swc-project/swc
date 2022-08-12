@@ -1,7 +1,7 @@
 use std::{env::args, io, path::Path};
 use swc_common::{input::SourceFileInput, sync::Lrc, FilePathMapping, Mark, SourceMap};
 use swc_ecma_ast::Module;
-use swc_ecma_codegen::text_writer::JsWriter;
+use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MinifyOptions},
@@ -33,7 +33,9 @@ fn print_js(cm: Lrc<SourceMap>, module: &Module) {
         cfg: swc_ecma_codegen::Config { minify: true },
         cm: cm.clone(),
         comments: None,
-        wr: Box::new(JsWriter::new(cm.clone(), "\n", &stdout, None)),
+        wr: Box::new(omit_trailing_semi(
+            JsWriter::new(cm.clone(), "\n", &stdout, None),
+        )),
     };
     emitter.emit_module(module).unwrap();
 

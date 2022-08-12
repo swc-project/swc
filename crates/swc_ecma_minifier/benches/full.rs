@@ -6,7 +6,7 @@ use std::fs::read_to_string;
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
-use swc_ecma_codegen::text_writer::JsWriter;
+use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
 use swc_ecma_minifier::{
     optimize,
     option::{CompressOptions, ExtraOptions, MangleOptions, MinifyOptions},
@@ -118,7 +118,7 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
             },
             cm: cm.clone(),
             comments: None,
-            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
+            wr: Box::new(omit_trailing_semi(JsWriter::new(cm, "\n", &mut buf, None))),
         };
 
         for n in nodes {

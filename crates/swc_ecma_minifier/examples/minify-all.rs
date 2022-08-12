@@ -7,7 +7,7 @@ use std::{env, fs, path::PathBuf, time::Instant};
 use anyhow::Result;
 use rayon::prelude::*;
 use swc_common::{sync::Lrc, Mark, SourceMap, GLOBALS};
-use swc_ecma_codegen::text_writer::JsWriter;
+use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
@@ -121,7 +121,7 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
             },
             cm: cm.clone(),
             comments: None,
-            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
+            wr: Box::new(omit_trailing_semi(JsWriter::new(cm, "\n", &mut buf, None))),
         };
 
         for n in nodes {
