@@ -178,7 +178,7 @@ impl Mark {
         // This code path executed inside of the guest memory context.
         // In here, preallocate memory for the context.
         let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(
-            &crate::plugin::serialized::VersionedSerializable::new(MutableMarkContext(0, 0, 0)),
+            &MutableMarkContext(0, 0, 0),
         )
         .expect("Should be serializable");
         let (ptr, len) = serialized.as_ptr();
@@ -196,7 +196,6 @@ impl Mark {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
-            .into_inner()
         };
         self = Mark::from_u32(context.0);
 
@@ -220,7 +219,7 @@ impl Mark {
     #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
         let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(
-            &crate::plugin::serialized::VersionedSerializable::new(MutableMarkContext(0, 0, 0)),
+            &MutableMarkContext(0, 0, 0),
         )
         .expect("Should be serializable");
         let (ptr, len) = serialized.as_ptr();
@@ -235,7 +234,6 @@ impl Mark {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
-            .into_inner()
         };
         a = Mark::from_u32(context.0);
         b = Mark::from_u32(context.1);
@@ -385,8 +383,7 @@ impl SyntaxContext {
 
     #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
     pub fn remove_mark(&mut self) -> Mark {
-        let context =
-            crate::plugin::serialized::VersionedSerializable::new(MutableMarkContext(0, 0, 0));
+        let context = MutableMarkContext(0, 0, 0);
         let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(&context)
             .expect("Should be serializable");
         let (ptr, len) = serialized.as_ptr();
@@ -401,7 +398,6 @@ impl SyntaxContext {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
-            .into_inner()
         };
 
         *self = SyntaxContext(context.0);
