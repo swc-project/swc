@@ -1,6 +1,6 @@
 {
     "name": "@swc/helpers",
-    "version": "0.4.3",
+    "version": "0.4.6",
     "description": "External helpers for the swc project.",
     "esnext": "src/index.mjs",
     "module": "src/index.mjs",
@@ -13,6 +13,10 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
     },
     "keywords": [
         "swc",

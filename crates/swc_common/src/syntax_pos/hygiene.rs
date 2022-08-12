@@ -306,7 +306,7 @@ impl HygieneData {
     fn with<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
         GLOBALS.with(|globals| {
             #[cfg(feature = "parking_lot")]
-            return f(&mut *globals.hygiene_data.lock());
+            return f(&mut globals.hygiene_data.lock());
 
             #[cfg(not(feature = "parking_lot"))]
             return f(&mut *globals.hygiene_data.lock().unwrap());

@@ -120,7 +120,7 @@ impl Radix {
 
     fn check(&self, call_expr: &CallExpr, obj: Option<JsWord>, prop: JsWord) {
         if let Some(obj) = obj {
-            let obj: &str = &*obj;
+            let obj: &str = &obj;
 
             if !OBJ_NAMES.contains(&obj) {
                 return;

@@ -183,7 +183,7 @@ impl Visit for PreferRegexLiterals {
             return;
         }
 
-        self.check(&*ident.sym);
+        self.check(&ident.sym);
     }
 
     fn visit_member_expr(&mut self, member_expr: &MemberExpr) {
@@ -209,7 +209,7 @@ impl Visit for PreferRegexLiterals {
 
         match &member_expr.prop {
             MemberProp::Ident(ident) => {
-                self.check(&*ident.sym);
+                self.check(&ident.sym);
             }
             MemberProp::Computed(comp) => {
                 if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {

@@ -147,7 +147,7 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
             i.span = i.span.apply_mark(mark);
         }
         Expr::Member(MemberExpr { obj, .. }) => {
-            apply_mark(&mut **obj, mark);
+            apply_mark(obj, mark);
         }
         _ => {}
     }

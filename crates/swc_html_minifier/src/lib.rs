@@ -1129,7 +1129,7 @@ impl Minifier<'_> {
                                 // behavior of spaces
                                 let is_custom_element = if let Some(Child::Element(element)) = &prev
                                 {
-                                    self.is_custom_element(&*element.tag_name)
+                                    self.is_custom_element(&element.tag_name)
                                 } else {
                                     false
                                 };

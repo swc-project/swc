@@ -596,7 +596,7 @@ impl VisitMut for Remover {
 
                     let remove_break = |stmts: Vec<Stmt>| {
                         debug_assert!(
-                            !has_conditional_stopper(&*stmts) || has_unconditional_stopper(&*stmts)
+                            !has_conditional_stopper(&stmts) || has_unconditional_stopper(&stmts)
                         );
 
                         let mut done = false;

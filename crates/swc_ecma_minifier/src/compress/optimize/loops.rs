@@ -143,7 +143,7 @@ where
             Some(init) => match init {
                 VarDeclOrExpr::VarDecl(_) => {}
                 VarDeclOrExpr::Expr(init) => {
-                    let new = self.ignore_return_value(&mut **init);
+                    let new = self.ignore_return_value(init);
                     if let Some(new) = new {
                         *init = Box::new(new);
                     } else {

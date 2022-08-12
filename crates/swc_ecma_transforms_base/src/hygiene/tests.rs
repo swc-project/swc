@@ -102,7 +102,7 @@ where
             println!("----- Actual -----\n{}", actual);
             println!("----- Diff -----");
 
-            assert_eq!(DebugUsingDisplay(&*actual), DebugUsingDisplay(&*expected));
+            assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));
         }
 
         Ok(())
