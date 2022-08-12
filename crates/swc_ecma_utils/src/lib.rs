@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
-#![allow(clippy::vec_box)]
 #![allow(clippy::explicit_auto_deref)]
+#![allow(clippy::match_like_matches_macro)]
+#![allow(clippy::vec_box)]
 
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
