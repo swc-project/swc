@@ -420,7 +420,7 @@ impl StmtExt for Box<Stmt> {
     }
 
     fn terminates(&self) -> bool {
-        (&**self).terminates()
+        (**self).terminates()
     }
 }
 

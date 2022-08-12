@@ -1106,7 +1106,7 @@ where
             if is_kwd_op {
                 node.right.starts_with_alpha_num()
             } else {
-                require_space_before_rhs(&node.right, &node.op)
+                require_space_before_rhs(&nodwe.right, &node.op)
             }
         } else {
             is_kwd_op
