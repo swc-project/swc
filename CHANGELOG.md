@@ -1,20 +1,6 @@
 # Changelog
 ## [unreleased]
 
-### Documentation
-
-
-
-- **(swc_core)** Fix rustdoc (#5446) ([2e883a7](https://github.com/swc-project/swc/commit/2e883a72d71a79d2f3ef80675025e820472d57d1))
-
-### Build
-
-
-
-- **(atoms)** Bump `swc_atoms` (#5442) ([e25b37d](https://github.com/swc-project/swc/commit/e25b37d57993aed9bbcd506e3d1dfea8d6992b09))
-
-## [1.2.225] - 2022-08-11
-
 ### Bug Fixes
 
 
@@ -44,6 +30,15 @@
 
 
 - **(swc_core)** Fix dep on `quote_macros` (#5415) ([420d936](https://github.com/swc-project/swc/commit/420d936c50265c958b3811772ee15fb468afcf58))
+
+### Documentation
+
+
+
+- **(swc_core)** Fix rustdoc (#5446) ([2e883a7](https://github.com/swc-project/swc/commit/2e883a72d71a79d2f3ef80675025e820472d57d1))
+
+
+- **(swc_core)** Fix rustdoc, really (#5447) ([9d793f1](https://github.com/swc-project/swc/commit/9d793f1cd3f2e23ba5b286783e0633a13690f1c2))
 
 ### Features
 
@@ -80,6 +75,15 @@
 
 
 - **(es/minifier)** Organize simple size tests (#5402) ([7b8658e](https://github.com/swc-project/swc/commit/7b8658eef27cba4b1ed761d609c71f1c7bddaf9c))
+
+### Build
+
+
+
+- **(atoms)** Bump `swc_atoms` (#5442) ([e25b37d](https://github.com/swc-project/swc/commit/e25b37d57993aed9bbcd506e3d1dfea8d6992b09))
+
+
+- **(es)** Bump up packages (#5451) ([072eb13](https://github.com/swc-project/swc/commit/072eb13bf1e593f9daaa702b2034bcd5d416aee5))
 
 ## [1.2.224] - 2022-08-06
 
