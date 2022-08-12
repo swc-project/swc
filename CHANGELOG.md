@@ -19,6 +19,12 @@
 
 - **(ci)** Fix lints (#5462) ([3eb1f4b](https://github.com/swc-project/swc/commit/3eb1f4b2b153aeb8551a83b4995b7ae8ee188046))
 
+### Build
+
+
+
+- **(plugin)** Downgrade `rkyv` (#5459) ([d36e48e](https://github.com/swc-project/swc/commit/d36e48efbfbe7ebd202f65d31735d4888fbd22f5))
+
 ## [1.2.226] - 2022-08-12
 
 ### Bug Fixes
