@@ -648,12 +648,11 @@ where
                     let state = self.input.state();
 
                     match parse_prelude(self) {
-                        Ok(prelude) => match prelude {
-                            Some(prelude) => {
+                        Ok(prelude) => {
+                            if let Some(prelude) = prelude {
                                 at_rule.prelude = Some(prelude);
                             }
-                            None => {}
-                        },
+                        }
                         Err(err) => {
                             if *err.kind() != ErrorKind::Ignore {
                                 self.errors.push(err);
