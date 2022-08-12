@@ -183,7 +183,7 @@ impl Visit for PreferRegexLiterals {
             return;
         }
 
-        self.check(&*ident.sym);
+        self.check(&ident.sym);
     }
 
     fn visit_member_expr(&mut self, member_expr: &MemberExpr) {

@@ -246,7 +246,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                             left: Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,
                                 op: op!("typeof"),
-                                arg: expr.clone(),
+                                arg: expr,
                             })),
                             op: op!("==="),
                             right: Box::new(Expr::Lit(Lit::Str(Str {
