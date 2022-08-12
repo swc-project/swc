@@ -264,6 +264,8 @@ jobs:
           rm -rf crates/swc_css_parser/tests
           rm -rf crates/swc_css_prefixer/tests
           rm -rf crates/swc_estree_compat/tests/fixtures
+          rm -rf crates/swc_html_parser/tests
+          rm -rf crates/swc_node_bundler/tests
           rm -rf crates/swc/tests/deno-unit
           rm -rf crates/swc/tests/env
           rm -rf crates/swc/tests/fixture
