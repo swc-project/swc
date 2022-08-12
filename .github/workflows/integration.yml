@@ -8,6 +8,9 @@ env:
 jobs:
   publish-test:
     name: node-api
+    env:
+      # TODO: Remove this
+      DISABLE_PLUGIN_E2E_TESTS: true
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
@@ -55,9 +58,6 @@ jobs:
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
-    env:
-      # TODO: Remove this
-      DISABLE_PLUGIN_E2E_TESTS: true
     steps:
       - uses: actions/checkout@v3
 
