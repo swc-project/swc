@@ -81,8 +81,8 @@ fn negate_inner(
         }) if is_ok_to_negate_rhs(expr_ctx, right) => {
             trace_op!("negate: a && b => !a || !b");
 
-            let a = negate_inner(expr_ctx, &mut **left, in_bool_ctx, false);
-            let b = negate_inner(expr_ctx, &mut **right, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(expr_ctx, left, in_bool_ctx, false);
+            let b = negate_inner(expr_ctx, right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("||");
             return a || b;
         }
@@ -95,8 +95,8 @@ fn negate_inner(
         }) if is_ok_to_negate_rhs(expr_ctx, right) => {
             trace_op!("negate: a || b => !a && !b");
 
-            let a = negate_inner(expr_ctx, &mut **left, in_bool_ctx, false);
-            let b = negate_inner(expr_ctx, &mut **right, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(expr_ctx, left, in_bool_ctx, false);
+            let b = negate_inner(expr_ctx, right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("&&");
             return a || b;
         }
@@ -106,8 +106,8 @@ fn negate_inner(
         {
             trace_op!("negate: cond");
 
-            let a = negate_inner(expr_ctx, &mut **cons, in_bool_ctx, false);
-            let b = negate_inner(expr_ctx, &mut **alt, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(expr_ctx, cons, in_bool_ctx, false);
+            let b = negate_inner(expr_ctx, alt, in_bool_ctx, is_ret_val_ignored);
             return a || b;
         }
 
@@ -115,7 +115,7 @@ fn negate_inner(
             if let Some(last) = exprs.last_mut() {
                 trace_op!("negate: seq");
 
-                return negate_inner(expr_ctx, &mut **last, in_bool_ctx, is_ret_val_ignored);
+                return negate_inner(expr_ctx, last, in_bool_ctx, is_ret_val_ignored);
             }
         }
 
