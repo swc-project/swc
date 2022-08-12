@@ -492,3 +492,19 @@ pub enum CalcValue {
     #[tag("Function")]
     Function(Function),
 }
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum FamilyName {
+    #[tag("Str")]
+    Str(Str),
+    #[tag("SequenceOfCustomIdents")]
+    SequenceOfCustomIdents(SequenceOfCustomIdents),
+}
+
+#[ast_node("SequenceOfCustomIdents")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct SequenceOfCustomIdents {
+    pub span: Span,
+    pub value: Vec<CustomIdent>,
+}

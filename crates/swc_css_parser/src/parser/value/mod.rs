@@ -2994,6 +2994,45 @@ where
     }
 }
 
+impl<I> Parse<FamilyName> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<FamilyName> {
+        match cur!(self) {
+            tok!("string") => Ok(FamilyName::Str(self.parse()?)),
+            tok!("ident") => {
+                let span = self.input.cur_span()?;
+
+                let mut value = vec![self.parse()?];
+
+                loop {
+                    self.input.skip_ws()?;
+
+                    if !is!(self, "ident") {
+                        break;
+                    }
+
+                    value.push(self.parse()?);
+                }
+
+                Ok(FamilyName::SequenceOfCustomIdents(SequenceOfCustomIdents {
+                    span: span!(self, span.lo),
+                    value,
+                }))
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'string' or 'ident' tokens"),
+                ));
+            }
+        }
+    }
+}
+
 fn is_math_function(name: &str) -> bool {
     matches!(
         &*name.to_ascii_lowercase(),
