@@ -147,10 +147,7 @@ where
                 emit!(self, n)
             }
             AtRulePrelude::FontFeatureValuesPrelude(n) => {
-                let need_space = match n.font_family.get(0) {
-                    Some(FamilyName::Str(_)) => false,
-                    _ => true,
-                };
+                let need_space = !matches!(n.font_family.get(0), Some(FamilyName::Str(_)));
 
                 if need_space {
                     space!(self);
