@@ -259,11 +259,14 @@ jobs:
       - name: Cleanup useless files to speedup
         run: |
           rm -rf .git
-          rm -rf crates/swc_css_parser/tests/errors
-          rm -rf crates/swc_css_parser/fixture
-          rm -rf crates/swc_css_parser/line-comment
-          rm -rf crates/swc_css_parser/recovery
+          rm -rf crates/jsdoc/tests/fixtures
+          rm -rf crates/swc_css_minifier/tests
+          rm -rf crates/swc_css_codegen/tests
+          rm -rf crates/swc_css_parser/tests
+          rm -rf crates/swc_css_prefixer/tests
           rm -rf crates/swc_estree_compat/tests/fixtures
+          rm -rf crates/swc_html_parser/tests
+          rm -rf crates/swc_node_bundler/tests
           rm -rf crates/swc/tests/deno-unit
           rm -rf crates/swc/tests/env
           rm -rf crates/swc/tests/fixture
@@ -278,7 +281,9 @@ jobs:
           rm -rf crates/swc/tests/tsc-references
           rm -rf crates/swc_bundler/tests
           rm -rf crates/swc_ecma_parser/tests/tsc
+          rm -rf crates/swc_ecma_transforms_module/tests
           rm -rf crates/swc_ecma_parser/tests/typescript
+          rm -rf crates/swc_ecma_minifier/tests/fixture
           rm -rf crates/swc_ecma_minifier/tests/terser
           rm -rf crates/swc_ecma_minifier/tests/compress
           rm -rf crates/swc_ecma_minifier/tests/exec
@@ -289,7 +294,7 @@ jobs:
           rm -rf crates/swc_ecma_codegen/tests/test262-min
       - name: Build
         id: build
-        uses: vmactions/freebsd-vm@v0.2.0
+        uses: vmactions/freebsd-vm@v0.2.3
         env:
           DEBUG: napi:*
           RUSTUP_HOME: /usr/local/rustup
@@ -304,7 +309,7 @@ jobs:
           prepare: |
             pkg install -y curl node14
             curl -qL https://www.npmjs.com/install.sh | sh
-            npm install -g yarn
+            npm install --location=global --ignore-scripts yarn
             curl https://sh.rustup.rs -sSf --output rustup.sh
             sh rustup.sh -y --profile minimal --default-toolchain stable
             export PATH="/usr/local/cargo/bin:$PATH"
