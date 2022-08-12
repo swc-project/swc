@@ -588,13 +588,13 @@ where
                 }
             }
             Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                vec![Mergable::Expr(&mut **arg)]
+                vec![Mergable::Expr(arg)]
             }
             Stmt::If(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut *s.test)]
+                vec![Mergable::Expr(&mut s.test)]
             }
             Stmt::Throw(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut *s.arg)]
+                vec![Mergable::Expr(&mut s.arg)]
             }
 
             _ => return None,
