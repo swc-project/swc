@@ -9,7 +9,7 @@ function f(a) {
     return _f.apply(this, arguments);
 }
 function _f() {
-    _f = _wrap_async_generator(regeneratorRuntime.mark(function _callee(a) {
+    _f = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(a) {
         var _b, c;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

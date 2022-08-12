@@ -13,7 +13,7 @@ var C = /*#__PURE__*/ function() {
         var other = function other() {};
         var _this = this, _arguments = arguments;
         var fn = function() {
-            var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+            var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                 return regeneratorRuntime.wrap(function _callee$(_ctx) {
                     while(1)switch(_ctx.prev = _ctx.next){
                         case 0:

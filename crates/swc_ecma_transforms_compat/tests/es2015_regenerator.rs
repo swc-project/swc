@@ -18,7 +18,7 @@ fn tr(_: ()) -> impl Fold {
     let top_level_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        regenerator(Default::default(), unresolved_mark)
+        regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
     )
 }
 
@@ -27,8 +27,8 @@ fn tr_with_async() -> impl Fold {
     let top_level_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        async_to_generator(Default::default(), unresolved_mark),
-        regenerator(Default::default(), unresolved_mark)
+        async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+        regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
     )
 }
 
@@ -944,7 +944,11 @@ test_exec!(
     |t| {
         let unresolved_mark = Mark::new();
         chain!(
-            es2017(Default::default(), unresolved_mark),
+            es2017(
+                Default::default(),
+                Some(t.comments.clone()),
+                unresolved_mark
+            ),
             es2016(),
             es2015(
                 unresolved_mark,
@@ -966,9 +970,13 @@ test_exec!(
     |_| {
         let unresolved_mark = Mark::new();
         chain!(
-            async_to_generator(Default::default(), unresolved_mark),
+            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
             es2015::for_of(Default::default()),
-            es2015::regenerator(Default::default(), unresolved_mark),
+            es2015::regenerator::<SingleThreadedComments>(
+                Default::default(),
+                None,
+                unresolved_mark
+            ),
         )
     },
     issue_600_exact_passes,
@@ -981,7 +989,11 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     issue_600_min,
     "function* foo() {
         try {
@@ -1005,7 +1017,11 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     issue_831_1,
     "function* myGenerator() {
         yield* [1,2,3];
@@ -1025,7 +1041,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        es2015::regenerator(Default::default(), mark)
+        es2015::regenerator::<SingleThreadedComments>(Default::default(), None, mark)
     },
     issue_831_3,
     "export function* myGenerator() {
@@ -1053,7 +1069,11 @@ export function myGenerator() {
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     delegate_context,
     "function* a() {
         yield 5;
@@ -1068,7 +1088,11 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     issue_849_1,
     "function* gen() { yield 1 };
 function genFactory() { return function*() { yield 1 }; }
@@ -1079,7 +1103,11 @@ expect(v.next()).toEqual({ done: true })"
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     issue_853_1,
     "function throwingFn() { throw 'Error' }
 function* gen() {
@@ -1763,7 +1791,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default(), mark),
+            async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             es2015::<SingleThreadedComments>(mark, None, Default::default())
         )
     },
@@ -1802,7 +1830,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default(), mark),
+            async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             es2016(),
             es2015::<SingleThreadedComments>(mark, None, Default::default()),
         )
@@ -1845,7 +1873,7 @@ test!(
             es2022(Some(t.comments.clone()), Default::default()),
             es2021(),
             es2018(Default::default()),
-            es2017(Default::default(), mark),
+            es2017(Default::default(), Some(t.comments.clone()), mark),
             es2016(),
             es2015::<SingleThreadedComments>(mark, None, Default::default()),
         )
@@ -2105,9 +2133,9 @@ test_exec!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default(), mark),
+            async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             es2015::for_of(Default::default()),
-            regenerator(Default::default(), mark)
+            regenerator::<SingleThreadedComments>(Default::default(), None, mark)
         )
     },
     issue_1918_1,

@@ -3,7 +3,7 @@
 // @noEmit: true
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-f1(regeneratorRuntime.mark(function _callee() {
+f1(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
     var a;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
@@ -19,7 +19,7 @@ f1(regeneratorRuntime.mark(function _callee() {
         }
     }, _callee);
 }));
-f2(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+f2(/*#__PURE__*/ _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
     var a;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

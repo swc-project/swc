@@ -1,5 +1,5 @@
 import regeneratorRuntime from "custom";
-var _marked = regeneratorRuntime.mark(gen);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(gen);
 function gen() {
     return regeneratorRuntime.wrap(function gen$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

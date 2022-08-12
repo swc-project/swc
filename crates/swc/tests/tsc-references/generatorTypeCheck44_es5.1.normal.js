@@ -1,7 +1,7 @@
 //@target: ES6
 import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_properties.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 function g() {
     var _obj, _mutatorMap, x;
     return regeneratorRuntime.wrap(function g$(_ctx) {

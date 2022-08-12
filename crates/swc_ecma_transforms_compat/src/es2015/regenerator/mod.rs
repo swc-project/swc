@@ -2,7 +2,7 @@ use std::mem::take;
 
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -36,9 +36,14 @@ pub struct Config {
 /// `require` should not be shadowed by other `require` declaration in the
 /// file.
 #[tracing::instrument(level = "info", skip_all)]
-pub fn regenerator(config: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
+pub fn regenerator<C: Comments>(
+    config: Config,
+    comments: Option<C>,
+    unresolved_mark: Mark,
+) -> impl Fold + VisitMut {
     as_folder(Regenerator {
         config,
+        comments,
         unresolved_mark,
         regenerator_runtime: Default::default(),
         top_level_vars: Default::default(),
@@ -46,8 +51,9 @@ pub fn regenerator(config: Config, unresolved_mark: Mark) -> impl Fold + VisitMu
 }
 
 #[derive(Debug)]
-struct Regenerator {
+struct Regenerator<C: Comments> {
     config: Config,
+    comments: Option<C>,
     unresolved_mark: Mark,
     /// [Some] if used.
     regenerator_runtime: Option<Ident>,
@@ -75,7 +81,7 @@ fn require_rt(unresolved_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
 }
 
 #[swc_trace]
-impl Regenerator {
+impl<C: Comments> Regenerator<C> {
     fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
         T: VisitMutWith<Self> + StmtLike,
@@ -107,10 +113,32 @@ impl Regenerator {
 
         *items = new;
     }
+
+    fn regenerator_mark(&mut self, args: Vec<ExprOrSpread>) -> Expr {
+        let span = if let Some(c) = &mut self.comments {
+            let span = Span::dummy_with_cmt();
+            c.add_pure_comment(span.lo);
+            span
+        } else {
+            DUMMY_SP
+        };
+
+        Expr::Call(CallExpr {
+            span,
+            callee: self
+                .regenerator_runtime
+                .clone()
+                .unwrap()
+                .make_member(quote_ident!("mark"))
+                .as_callee(),
+            args,
+            type_args: None,
+        })
+    }
 }
 
 #[swc_trace]
-impl VisitMut for Regenerator {
+impl<C: Comments> VisitMut for Regenerator<C> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -135,21 +163,11 @@ impl VisitMut for Regenerator {
                 function,
             );
 
-            *e = Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: self
-                    .regenerator_runtime
-                    .clone()
-                    .unwrap()
-                    .make_member(quote_ident!("mark"))
-                    .as_callee(),
-                args: vec![FnExpr {
-                    ident,
-                    function: function.take(),
-                }
-                .as_arg()],
-                type_args: None,
-            });
+            *e = self.regenerator_mark(vec![FnExpr {
+                ident,
+                function: function.take(),
+            }
+            .as_arg()]);
         }
     }
 
@@ -166,21 +184,12 @@ impl VisitMut for Regenerator {
 
         if f.function.is_generator {
             let marked = private_ident!("_marked");
+            let init = self.regenerator_mark(vec![f.ident.clone().as_arg()]).into();
 
             self.top_level_vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: marked.clone().into(),
-                init: Some(Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: self
-                        .regenerator_runtime
-                        .clone()
-                        .unwrap()
-                        .make_member(quote_ident!("mark"))
-                        .as_callee(),
-                    args: vec![f.ident.clone().as_arg()],
-                    type_args: None,
-                }))),
+                init: Some(init),
                 definite: false,
             });
 
@@ -258,21 +267,11 @@ impl VisitMut for Regenerator {
             let marked = private_ident!("_callee");
             let ident = self.visit_mut_fn(Some(marked.clone()), marked, &mut p.function);
 
-            let mark_expr = Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: self
-                    .regenerator_runtime
-                    .clone()
-                    .unwrap()
-                    .make_member(quote_ident!("mark"))
-                    .as_callee(),
-                args: vec![FnExpr {
-                    ident,
-                    function: p.function.take(),
-                }
-                .as_arg()],
-                type_args: None,
-            });
+            let mark_expr = self.regenerator_mark(vec![FnExpr {
+                ident,
+                function: p.function.take(),
+            }
+            .as_arg()]);
 
             p.function = Function {
                 span: DUMMY_SP,
@@ -329,7 +328,7 @@ impl VisitMut for Regenerator {
 }
 
 #[swc_trace]
-impl Regenerator {
+impl<C: Comments> Regenerator<C> {
     fn visit_mut_fn(
         &mut self,
         i: Option<Ident>,

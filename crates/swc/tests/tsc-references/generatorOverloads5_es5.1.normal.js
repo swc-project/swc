@@ -2,7 +2,7 @@
 import regeneratorRuntime from "regenerator-runtime";
 var M;
 (function(M) {
-    var f = regeneratorRuntime.mark(function f(s) {
+    var f = /*#__PURE__*/ regeneratorRuntime.mark(function f(s) {
         return regeneratorRuntime.wrap(function f$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

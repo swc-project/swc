@@ -1,5 +1,5 @@
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(foo);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(foo);
 function foo() {
     var val;
     return regeneratorRuntime.wrap(function foo$(_ctx) {

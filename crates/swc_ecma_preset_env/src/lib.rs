@@ -184,6 +184,7 @@ where
                 ignore_function_name: loose || assumptions.ignore_function_name,
                 ignore_function_length: loose || assumptions.ignore_function_length,
             },
+            comments.clone(),
             global_mark
         )
     );
@@ -206,7 +207,7 @@ where
         pass,
         Classes,
         es2015::classes(
-            comments,
+            comments.clone(),
             es2015::classes::Config {
                 constant_super: loose || assumptions.constant_super,
                 no_class_calls: loose || assumptions.no_class_calls,
@@ -262,7 +263,7 @@ where
     let pass = add!(
         pass,
         Regenerator,
-        es2015::regenerator(Default::default(), global_mark),
+        es2015::regenerator(Default::default(), comments, global_mark),
         true
     );
     let pass = add!(pass, BlockScoping, es2015::block_scoping(global_mark), true);

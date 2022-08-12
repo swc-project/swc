@@ -6,7 +6,7 @@ export { };
 // @filename: index.ts
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-module.exports = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+module.exports = /*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
     var something;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

@@ -3,10 +3,10 @@
 // @noImplicitReturns: true
 // @noImplicitAny: true
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g4);
-var _marked1 = regeneratorRuntime.mark(g3);
-var _marked2 = regeneratorRuntime.mark(g2);
-var _marked3 = regeneratorRuntime.mark(g1);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g4);
+var _marked1 = /*#__PURE__*/ regeneratorRuntime.mark(g3);
+var _marked2 = /*#__PURE__*/ regeneratorRuntime.mark(g2);
+var _marked3 = /*#__PURE__*/ regeneratorRuntime.mark(g1);
 function g1() {
     var x;
     return regeneratorRuntime.wrap(function g1$(_ctx) {

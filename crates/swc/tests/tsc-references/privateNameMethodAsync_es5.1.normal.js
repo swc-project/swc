@@ -6,7 +6,7 @@ import _class_private_method_get from "@swc/helpers/src/_class_private_method_ge
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(baz);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(baz);
 var _bar, _baz, _qux, _class;
 var C = (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), _qux = /*#__PURE__*/ new WeakSet(), _class = /*#__PURE__*/ function() {
     "use strict";
@@ -19,7 +19,7 @@ var C = (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(),
     var _proto = _class.prototype;
     _proto.foo = function foo() {
         var _this = this;
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var b;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -55,7 +55,7 @@ function bar() {
     return _bar1.apply(this, arguments);
 }
 function _bar1() {
-    _bar1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _bar1 = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -87,7 +87,7 @@ function qux() {
     return _qux1.apply(this, arguments);
 }
 function _qux1() {
-    _qux1 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _qux1 = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

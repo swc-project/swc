@@ -34,7 +34,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         var _this1 = this, _superprop_get_method = function() {
             return _get(_get_prototype_of(Derived.prototype), "method", _this);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var ref;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

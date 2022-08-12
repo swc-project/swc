@@ -4,7 +4,7 @@
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var f1 = function() {
-    var _ref = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -21,7 +21,7 @@ var f1 = function() {
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var f2 = function() {
-    var _ref = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -44,7 +44,7 @@ var f2 = function() {
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var f3 = function() {
-    var _ref = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -70,7 +70,7 @@ import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs"
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var f4 = function() {
-    var _ref = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -97,12 +97,12 @@ import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs"
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var f5 = function() {
-    var _ref = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -131,7 +131,7 @@ import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs"
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var f6 = function() {
-    var _ref = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -154,7 +154,7 @@ var f6 = function() {
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var f7 = function() {
-    var _ref = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
