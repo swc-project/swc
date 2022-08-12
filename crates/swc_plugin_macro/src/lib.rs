@@ -46,8 +46,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
         impl swc_core::common::errors::Emitter for PluginDiagnosticsEmitter {
             #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
             fn emit(&mut self, db: &swc_core::common::errors::DiagnosticBuilder<'_>) {
-                let diagnostic = swc_core::common::plugin::serialized::VersionedSerializable::new((*db.diagnostic).clone());
-                let diag = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(&diagnostic)
+                let diag = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(&*db.diagnostic)
                     .expect("Should able to serialize Diagnostic");
                 let (ptr, len) = diag.as_ptr();
 
@@ -70,7 +69,6 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
         /// Internal function plugin_macro uses to create ptr to PluginError.
         fn construct_error_ptr(plugin_error: swc_core::common::plugin::serialized::PluginError) -> i32 {
-            let plugin_error = swc_core::common::plugin::serialized::VersionedSerializable::new(plugin_error);
             let ret = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(&plugin_error).expect("Should able to serialize PluginError");
             let (ptr, len) = ret.as_ptr();
 
@@ -96,7 +94,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             unresolved_mark: u32, should_enable_comments_proxy: i32) -> i32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
-            let program = unsafe { swc_core::common::plugin::serialized::deserialize_from_ptr(ast_ptr, ast_ptr_len).map(|v| v.into_inner()) };
+            let program = unsafe { swc_core::common::plugin::serialized::deserialize_from_ptr(ast_ptr, ast_ptr_len) };
             if program.is_err() {
                 let err = swc_core::common::plugin::serialized::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
                 return construct_error_ptr(err);
@@ -131,7 +129,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
             // Serialize transformed result, return back to the host.
             let serialized_result = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(
-                &swc_core::common::plugin::serialized::VersionedSerializable::new(transformed_program)
+                &transformed_program
             );
 
             if serialized_result.is_err() {
