@@ -2926,7 +2926,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.214.1"
+version = "0.214.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3132,7 +3132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -4142,7 +4142,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.0"
+version = "0.9.1"
 dependencies = [
  "proc-macro2",
  "quote",
