@@ -19,6 +19,7 @@ env:
   # https://github.com/swc-project/swc/pull/3742
   RUST_MIN_STACK: 4194304
   CI: 1
+  CARGO_TERM_COLOR: "always"
 
 jobs:
   check-license:
