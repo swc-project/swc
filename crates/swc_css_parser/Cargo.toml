@@ -1,6 +1,6 @@
 [package]
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
-description   = "CSS paresr"
+description   = "CSS parser"
 documentation = "https://rustdoc.swc.rs/swc_css_parser/"
 edition       = "2021"
 include       = ["Cargo.toml", "src/**/*.rs"]
