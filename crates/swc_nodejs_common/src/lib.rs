@@ -8,21 +8,6 @@ use std::any::type_name;
 use anyhow::Context;
 use napi::Status;
 use serde::de::DeserializeOwned;
-use tracing_subscriber::EnvFilter;
-
-/// Trying to initialize default subscriber if global dispatch is not set.
-/// This can be called multiple time, however subsequent calls will be ignored
-/// as tracing_subscriber only allows single global dispatch.
-pub fn init_default_trace_subscriber() {
-    let _unused = tracing_subscriber::FmtSubscriber::builder()
-        .without_time()
-        .with_target(false)
-        .with_writer(std::io::stderr)
-        .with_ansi(true)
-        .with_env_filter(EnvFilter::from_env("SWC_LOG"))
-        .pretty()
-        .try_init();
-}
 
 pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
     fn convert_err(self) -> napi::Result<T> {

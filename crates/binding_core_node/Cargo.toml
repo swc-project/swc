@@ -57,5 +57,4 @@ swc_core = { path = "../swc_core", features = [
   "base_concurrent",
 ] }
 
-swc_node_bundler  = { path = "../swc_node_bundler" }
-swc_nodejs_common = { path = "../swc_nodejs_common" }
+swc_node_bundler = { path = "../swc_node_bundler" }

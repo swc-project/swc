@@ -1,5 +1,6 @@
 #[cfg(feature = "plugin-mode")]
 use swc_common::Mark;
+#[cfg(feature = "plugin-mode")]
 use swc_trace_macro::swc_trace;
 
 #[cfg(feature = "plugin-mode")]

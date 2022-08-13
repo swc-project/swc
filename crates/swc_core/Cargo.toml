@@ -49,7 +49,14 @@ allocator_node = ["swc_node_base"]
 # it is named as 'base' instead.
 base            = ["__base"]
 base_concurrent = ["__base", "swc/concurrent"]
-base_node       = ["__base", "swc/node"]
+# Enables n-api related features.
+base_node = [
+  "__base",
+  "swc/node",
+  # Assume if anyone enables n-api related codes, they may would like to use
+  # some utility functions as well.
+  "swc_nodejs_common",
+]
 
 # Enable swc_common reexports.
 #
@@ -228,6 +235,7 @@ swc_ecma_transforms_testing = { optional = true, version = "0.105.4", path = "..
 swc_ecma_utils              = { optional = true, version = "0.99.4", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { optional = true, version = "0.76.5", path = "../swc_ecma_visit" }
 swc_node_base               = { optional = true, version = "0.5.5", path = "../swc_node_base" }
+swc_nodejs_common           = { optional = true, version = "0.0.1", path = "../swc_nodejs_common" }
 swc_plugin                  = { optional = true, version = "0.89.0", path = "../swc_plugin" }
 swc_plugin_macro            = { optional = true, version = "0.9.2", path = "../swc_plugin_macro" }
 swc_plugin_proxy            = { optional = true, version = "0.18.5", path = "../swc_plugin_proxy" }

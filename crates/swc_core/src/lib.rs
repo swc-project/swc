@@ -105,6 +105,12 @@ pub mod binding_macros {
     pub use binding_macros::*;
 }
 
+#[cfg(feature = "base_node")]
+#[cfg_attr(docsrs, doc(cfg(feature = "base_node")))]
+pub mod node {
+    pub use swc_nodejs_common::*;
+}
+
 #[cfg(feature = "allocator_node")]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;

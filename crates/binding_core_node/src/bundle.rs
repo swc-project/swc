@@ -23,8 +23,8 @@ use swc_core::{
     bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
     common::{collections::AHashMap, Span},
     loader::{TargetEnv, NODE_BUILTINS},
+    node::{get_deserialized, MapErr},
 };
-use swc_nodejs_common::{get_deserialized, MapErr};
 
 use crate::get_compiler;
 
@@ -188,7 +188,7 @@ pub(crate) fn bundle(
     conf_items: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<BundleTask>> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
 
     let c: Arc<Compiler> = get_compiler();
 
