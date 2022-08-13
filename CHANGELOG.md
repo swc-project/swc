@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(css/parser)** Parse `@font-feature-values` at-rule (#5468) ([eebdfdb](https://github.com/swc-project/swc/commit/eebdfdb2a08c95f7fd3a8a5c21527675c22442ec))
+
+## [1.2.229] - 2022-08-13
+
 ### Bug Fixes
 
 
