@@ -1,0 +1,25 @@
+@font-feature-values "Otaru Kisa" {
+    @annotation { circled: 1; black-boxed: 3; }
+}
+
+@font-feature-values Otaru {
+    @annotation { circled: 1; black-boxed: 3; }
+}
+
+@font-feature-values Otaru Kisa {
+    @annotation { circled: 1; black-boxed: 3; }
+}
+
+@font-feature-values Taisho Gothic {
+    @annotation { boxed: 1; circled: 4; }
+}
+
+@font-feature-values Taisho Gothic, Bar {
+    @annotation { boxed: 1; circled: 4; }
+}
+
+h3.title {
+    /* circled form defined for both fonts */
+    font-family: Otaru Kisa, Taisho Gothic;
+    font-variant: annotation(circled);
+}

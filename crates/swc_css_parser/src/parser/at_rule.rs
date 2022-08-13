@@ -117,6 +117,29 @@ where
 
                     Ok(Some(prelude))
                 }
+                "font-feature-values" => {
+                    parser.input.skip_ws()?;
+
+                    let prelude = AtRulePrelude::FontFeatureValuesPrelude(parser.parse()?);
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
+                "stylistic" | "historical-forms" | "styleset" | "character-variant" | "swash"
+                | "ornaments" | "annotation"
+                    if parser.ctx.in_font_feature_values_at_rule =>
+                {
+                    parser.input.skip_ws()?;
+
+                    Ok(None)
+                }
                 "layer" => {
                     parser.input.skip_ws()?;
 
@@ -501,6 +524,13 @@ where
                 | "-ms-viewport"
                 | "font-face"
                 | "font-palette-values"
+                | "stylistic"
+                | "historical-forms"
+                | "styleset"
+                | "character-variant"
+                | "swash"
+                | "ornaments"
+                | "annotation"
                 | "property"
                 | "color-profile"
                 | "counter-style"
@@ -520,6 +550,11 @@ where
                 | "right-top"
                 | "right-middle"
                 | "right-bottom" => Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                    ..parser.ctx
+                },
+                "font-feature-values" => Ctx {
+                    in_font_feature_values_at_rule: true,
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
@@ -731,6 +766,34 @@ where
                 Err(Error::new(span, ErrorKind::Expected("ident or string")))
             }
         }
+    }
+}
+
+impl<I> Parse<FontFeatureValuesPrelude> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<FontFeatureValuesPrelude> {
+        let span = self.input.cur_span()?;
+
+        let mut font_family = vec![self.parse()?];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            font_family.push(self.parse()?);
+        }
+
+        Ok(FontFeatureValuesPrelude {
+            span: span!(self, span.lo),
+            font_family,
+        })
     }
 }
 

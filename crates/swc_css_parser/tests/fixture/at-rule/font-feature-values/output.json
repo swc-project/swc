@@ -1,0 +1,1021 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 1,
+    "end": 564,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 1,
+        "end": 86,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2,
+          "end": 21,
+          "ctxt": 0
+        },
+        "value": "font-feature-values",
+        "raw": "font-feature-values"
+      },
+      "prelude": {
+        "type": "FontFeatureValuesPrelude",
+        "span": {
+          "start": 22,
+          "end": 35,
+          "ctxt": 0
+        },
+        "fontFamily": [
+          {
+            "type": "String",
+            "span": {
+              "start": 22,
+              "end": 34,
+              "ctxt": 0
+            },
+            "value": "Otaru Kisa",
+            "raw": "\"Otaru Kisa\""
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 35,
+          "end": 86,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "AtRule",
+            "span": {
+              "start": 41,
+              "end": 84,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 42,
+                "end": 52,
+                "ctxt": 0
+              },
+              "value": "annotation",
+              "raw": "annotation"
+            },
+            "prelude": null,
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 53,
+                "end": 84,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 55,
+                    "end": 65,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 55,
+                      "end": 62,
+                      "ctxt": 0
+                    },
+                    "value": "circled",
+                    "raw": "circled"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 64,
+                        "end": 65,
+                        "ctxt": 0
+                      },
+                      "value": 1,
+                      "raw": "1"
+                    }
+                  ],
+                  "important": null
+                },
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 67,
+                    "end": 81,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 67,
+                      "end": 78,
+                      "ctxt": 0
+                    },
+                    "value": "black-boxed",
+                    "raw": "black-boxed"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 80,
+                        "end": 81,
+                        "ctxt": 0
+                      },
+                      "value": 3,
+                      "raw": "3"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 88,
+        "end": 166,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 89,
+          "end": 108,
+          "ctxt": 0
+        },
+        "value": "font-feature-values",
+        "raw": "font-feature-values"
+      },
+      "prelude": {
+        "type": "FontFeatureValuesPrelude",
+        "span": {
+          "start": 109,
+          "end": 115,
+          "ctxt": 0
+        },
+        "fontFamily": [
+          {
+            "type": "SequenceOfCustomIdents",
+            "span": {
+              "start": 109,
+              "end": 115,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "CustomIdent",
+                "span": {
+                  "start": 109,
+                  "end": 114,
+                  "ctxt": 0
+                },
+                "value": "Otaru",
+                "raw": "Otaru"
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 115,
+          "end": 166,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "AtRule",
+            "span": {
+              "start": 121,
+              "end": 164,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 122,
+                "end": 132,
+                "ctxt": 0
+              },
+              "value": "annotation",
+              "raw": "annotation"
+            },
+            "prelude": null,
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 133,
+                "end": 164,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 135,
+                    "end": 145,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 135,
+                      "end": 142,
+                      "ctxt": 0
+                    },
+                    "value": "circled",
+                    "raw": "circled"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 144,
+                        "end": 145,
+                        "ctxt": 0
+                      },
+                      "value": 1,
+                      "raw": "1"
+                    }
+                  ],
+                  "important": null
+                },
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 147,
+                    "end": 161,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 147,
+                      "end": 158,
+                      "ctxt": 0
+                    },
+                    "value": "black-boxed",
+                    "raw": "black-boxed"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 160,
+                        "end": 161,
+                        "ctxt": 0
+                      },
+                      "value": 3,
+                      "raw": "3"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 168,
+        "end": 251,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 169,
+          "end": 188,
+          "ctxt": 0
+        },
+        "value": "font-feature-values",
+        "raw": "font-feature-values"
+      },
+      "prelude": {
+        "type": "FontFeatureValuesPrelude",
+        "span": {
+          "start": 189,
+          "end": 200,
+          "ctxt": 0
+        },
+        "fontFamily": [
+          {
+            "type": "SequenceOfCustomIdents",
+            "span": {
+              "start": 189,
+              "end": 200,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "CustomIdent",
+                "span": {
+                  "start": 189,
+                  "end": 194,
+                  "ctxt": 0
+                },
+                "value": "Otaru",
+                "raw": "Otaru"
+              },
+              {
+                "type": "CustomIdent",
+                "span": {
+                  "start": 195,
+                  "end": 199,
+                  "ctxt": 0
+                },
+                "value": "Kisa",
+                "raw": "Kisa"
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 200,
+          "end": 251,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "AtRule",
+            "span": {
+              "start": 206,
+              "end": 249,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 207,
+                "end": 217,
+                "ctxt": 0
+              },
+              "value": "annotation",
+              "raw": "annotation"
+            },
+            "prelude": null,
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 218,
+                "end": 249,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 220,
+                    "end": 230,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 220,
+                      "end": 227,
+                      "ctxt": 0
+                    },
+                    "value": "circled",
+                    "raw": "circled"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 229,
+                        "end": 230,
+                        "ctxt": 0
+                      },
+                      "value": 1,
+                      "raw": "1"
+                    }
+                  ],
+                  "important": null
+                },
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 232,
+                    "end": 246,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 232,
+                      "end": 243,
+                      "ctxt": 0
+                    },
+                    "value": "black-boxed",
+                    "raw": "black-boxed"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 245,
+                        "end": 246,
+                        "ctxt": 0
+                      },
+                      "value": 3,
+                      "raw": "3"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 253,
+        "end": 333,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 254,
+          "end": 273,
+          "ctxt": 0
+        },
+        "value": "font-feature-values",
+        "raw": "font-feature-values"
+      },
+      "prelude": {
+        "type": "FontFeatureValuesPrelude",
+        "span": {
+          "start": 274,
+          "end": 288,
+          "ctxt": 0
+        },
+        "fontFamily": [
+          {
+            "type": "SequenceOfCustomIdents",
+            "span": {
+              "start": 274,
+              "end": 288,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "CustomIdent",
+                "span": {
+                  "start": 274,
+                  "end": 280,
+                  "ctxt": 0
+                },
+                "value": "Taisho",
+                "raw": "Taisho"
+              },
+              {
+                "type": "CustomIdent",
+                "span": {
+                  "start": 281,
+                  "end": 287,
+                  "ctxt": 0
+                },
+                "value": "Gothic",
+                "raw": "Gothic"
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 288,
+          "end": 333,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "AtRule",
+            "span": {
+              "start": 294,
+              "end": 331,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 295,
+                "end": 305,
+                "ctxt": 0
+              },
+              "value": "annotation",
+              "raw": "annotation"
+            },
+            "prelude": null,
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 306,
+                "end": 331,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 308,
+                    "end": 316,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 308,
+                      "end": 313,
+                      "ctxt": 0
+                    },
+                    "value": "boxed",
+                    "raw": "boxed"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 315,
+                        "end": 316,
+                        "ctxt": 0
+                      },
+                      "value": 1,
+                      "raw": "1"
+                    }
+                  ],
+                  "important": null
+                },
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 318,
+                    "end": 328,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 318,
+                      "end": 325,
+                      "ctxt": 0
+                    },
+                    "value": "circled",
+                    "raw": "circled"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 327,
+                        "end": 328,
+                        "ctxt": 0
+                      },
+                      "value": 4,
+                      "raw": "4"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 335,
+        "end": 420,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 336,
+          "end": 355,
+          "ctxt": 0
+        },
+        "value": "font-feature-values",
+        "raw": "font-feature-values"
+      },
+      "prelude": {
+        "type": "FontFeatureValuesPrelude",
+        "span": {
+          "start": 356,
+          "end": 375,
+          "ctxt": 0
+        },
+        "fontFamily": [
+          {
+            "type": "SequenceOfCustomIdents",
+            "span": {
+              "start": 356,
+              "end": 369,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "CustomIdent",
+                "span": {
+                  "start": 356,
+                  "end": 362,
+                  "ctxt": 0
+                },
+                "value": "Taisho",
+                "raw": "Taisho"
+              },
+              {
+                "type": "CustomIdent",
+                "span": {
+                  "start": 363,
+                  "end": 369,
+                  "ctxt": 0
+                },
+                "value": "Gothic",
+                "raw": "Gothic"
+              }
+            ]
+          },
+          {
+            "type": "SequenceOfCustomIdents",
+            "span": {
+              "start": 371,
+              "end": 375,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "CustomIdent",
+                "span": {
+                  "start": 371,
+                  "end": 374,
+                  "ctxt": 0
+                },
+                "value": "Bar",
+                "raw": "Bar"
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 375,
+          "end": 420,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "AtRule",
+            "span": {
+              "start": 381,
+              "end": 418,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 382,
+                "end": 392,
+                "ctxt": 0
+              },
+              "value": "annotation",
+              "raw": "annotation"
+            },
+            "prelude": null,
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 393,
+                "end": 418,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 395,
+                    "end": 403,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 395,
+                      "end": 400,
+                      "ctxt": 0
+                    },
+                    "value": "boxed",
+                    "raw": "boxed"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 402,
+                        "end": 403,
+                        "ctxt": 0
+                      },
+                      "value": 1,
+                      "raw": "1"
+                    }
+                  ],
+                  "important": null
+                },
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 405,
+                    "end": 415,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 405,
+                      "end": 412,
+                      "ctxt": 0
+                    },
+                    "value": "circled",
+                    "raw": "circled"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 414,
+                        "end": 415,
+                        "ctxt": 0
+                      },
+                      "value": 4,
+                      "raw": "4"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 422,
+        "end": 563,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 422,
+          "end": 430,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 422,
+              "end": 430,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 422,
+                  "end": 430,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 422,
+                    "end": 424,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 422,
+                      "end": 424,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 422,
+                        "end": 424,
+                        "ctxt": 0
+                      },
+                      "value": "h3",
+                      "raw": "h3"
+                    }
+                  }
+                },
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 424,
+                      "end": 430,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 425,
+                        "end": 430,
+                        "ctxt": 0
+                      },
+                      "value": "title",
+                      "raw": "title"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 431,
+          "end": 563,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 483,
+              "end": 521,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 483,
+                "end": 494,
+                "ctxt": 0
+              },
+              "value": "font-family",
+              "raw": "font-family"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 496,
+                  "end": 501,
+                  "ctxt": 0
+                },
+                "value": "Otaru",
+                "raw": "Otaru"
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 502,
+                  "end": 506,
+                  "ctxt": 0
+                },
+                "value": "Kisa",
+                "raw": "Kisa"
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 506,
+                  "end": 507,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 508,
+                  "end": 514,
+                  "ctxt": 0
+                },
+                "value": "Taisho",
+                "raw": "Taisho"
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 515,
+                  "end": 521,
+                  "ctxt": 0
+                },
+                "value": "Gothic",
+                "raw": "Gothic"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 527,
+              "end": 560,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 527,
+                "end": 539,
+                "ctxt": 0
+              },
+              "value": "font-variant",
+              "raw": "font-variant"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 541,
+                  "end": 560,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 541,
+                    "end": 551,
+                    "ctxt": 0
+                  },
+                  "value": "annotation",
+                  "raw": "annotation"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 552,
+                      "end": 559,
+                      "ctxt": 0
+                    },
+                    "value": "circled",
+                    "raw": "circled"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

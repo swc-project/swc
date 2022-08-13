@@ -3,8 +3,8 @@ use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
-    CustomIdent, CustomPropertyName, DashedIdent, Declaration, Dimension, Function, Ident,
-    ListOfComponentValues, Number, Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
+    CustomIdent, CustomPropertyName, DashedIdent, Declaration, Dimension, FamilyName, Function,
+    Ident, ListOfComponentValues, Number, Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
 };
 
 #[ast_node("AtRule")]
@@ -43,6 +43,8 @@ pub enum AtRulePrelude {
     DocumentPrelude(DocumentPrelude),
     #[tag("DashedIdent")]
     FontPaletteValuesPrelude(DashedIdent),
+    #[tag("FontFeatureValuesPrelude")]
+    FontFeatureValuesPrelude(FontFeatureValuesPrelude),
     #[tag("SelectorList")]
     NestPrelude(SelectorList),
     #[tag("KeyframesName")]
@@ -75,6 +77,13 @@ pub enum ColorProfileName {
 pub struct DocumentPrelude {
     pub span: Span,
     pub matching_functions: Vec<DocumentPreludeMatchingFunction>,
+}
+
+#[ast_node("FontFeatureValuesPrelude")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct FontFeatureValuesPrelude {
+    pub span: Span,
+    pub font_family: Vec<FamilyName>,
 }
 
 #[ast_node]
