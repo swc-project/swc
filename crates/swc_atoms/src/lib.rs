@@ -265,6 +265,26 @@ impl rkyv::Archive for Atom {
     }
 }
 
+/// NOT A PUBLIC API
+#[doc(hidden)]
+// We restrict our serializer types with Serializer because we need its
+// capabilities to archive our type. For other types, we might need more or
+// less restrictive bounds on the type of S.
+#[cfg(feature = "rkyv")]
+impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
+    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        use rkyv::SerializeUnsized;
+
+        // This is where we want to write the bytes of our string and return
+        // a resolver that knows where those bytes were written.
+        // We also need to serialize the metadata for our str.
+        Ok(AtomResolver {
+            pos: (&*self.0).serialize_unsized(serializer)?,
+            metadata_resolver: (&*self.0).serialize_metadata(serializer)?,
+        })
+    }
+}
+
 #[cfg(feature = "rkyv")]
 #[derive(Debug, Clone, Copy)]
 pub struct EncodeJsWord;
