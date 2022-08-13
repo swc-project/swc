@@ -234,7 +234,7 @@ impl rkyv::Archive for Atom {
 
     #[allow(clippy::unit_arg)]
     unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        String::resolve(&self.0.to_string(), pos, resolver, out)
+        rkyv::string::ArchivedString::resolve_from_str(&self.0, pos, resolver, out)
     }
 }
 
