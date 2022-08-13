@@ -328,6 +328,16 @@ define!({
         Function(Function),
     }
 
+    pub enum FamilyName {
+        Str(Str),
+        SequenceOfCustomIdents(SequenceOfCustomIdents),
+    }
+
+    pub struct SequenceOfCustomIdents {
+        pub span: Span,
+        pub value: Vec<CustomIdent>,
+    }
+
     pub struct SelectorList {
         pub span: Span,
         pub children: Vec<ComplexSelector>,
@@ -550,6 +560,7 @@ define!({
         CharsetPrelude(Str),
         DocumentPrelude(DocumentPrelude),
         FontPaletteValuesPrelude(DashedIdent),
+        FontFeatureValuesPrelude(FontFeatureValuesPrelude),
         NestPrelude(SelectorList),
         KeyframesPrelude(KeyframesName),
         ImportPrelude(ImportPrelude),
@@ -573,6 +584,11 @@ define!({
     pub struct DocumentPrelude {
         pub span: Span,
         pub matching_functions: Vec<DocumentPreludeMatchingFunction>,
+    }
+
+    pub struct FontFeatureValuesPrelude {
+        pub span: Span,
+        pub font_family: Vec<FamilyName>,
     }
 
     pub enum DocumentPreludeMatchingFunction {

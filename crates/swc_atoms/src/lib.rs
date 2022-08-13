@@ -50,11 +50,7 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 ///   "longer than xx" as this is a type.
 /// - Raw values.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct Atom(#[cfg_attr(feature = "rkyv", with(crate::EncodeAtom))] Arc<str>);
+pub struct Atom(Arc<str>);
 
 impl Atom {
     /// Creates a bad [Atom] from a string.
@@ -230,53 +226,36 @@ impl PartialEq<Atom> for str {
     }
 }
 
-/// NOT A PUBLIC API. JUST BUGFIX.
+/// NOT A PUBLIC API
 #[cfg(feature = "rkyv")]
-#[derive(Debug, Clone, Copy)]
-struct EncodeAtom;
+impl rkyv::Archive for Atom {
+    type Archived = rkyv::string::ArchivedString;
+    type Resolver = rkyv::string::StringResolver;
 
-#[cfg(feature = "rkyv")]
-impl rkyv::with::ArchiveWith<Arc<str>> for EncodeAtom {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    unsafe fn resolve_with(
-        field: &Arc<str>,
-        pos: usize,
-        resolver: Self::Resolver,
-        out: *mut Self::Archived,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.to_string();
-        s.resolve(pos, resolver, out);
+    #[allow(clippy::unit_arg)]
+    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+        rkyv::string::ArchivedString::resolve_from_str(&self.0, pos, resolver, out)
     }
 }
 
+/// NOT A PUBLIC API
 #[cfg(feature = "rkyv")]
-impl<S> rkyv::with::SerializeWith<Arc<str>, S> for EncodeAtom
-where
-    S: ?Sized + rkyv::ser::Serializer,
-{
-    fn serialize_with(field: &Arc<str>, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
+impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
+    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        String::serialize(&self.0.to_string(), serializer)
     }
 }
 
+/// NOT A PUBLIC API
 #[cfg(feature = "rkyv")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Arc<str>, D> for EncodeAtom
+impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
 where
     D: ?Sized + rkyv::Fallible,
 {
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<Arc<str>, D::Error> {
-        use rkyv::Deserialize;
+    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
+        let s: String = self.deserialize(deserializer)?;
 
-        let s: String = field.deserialize(deserializer)?;
-
-        Ok(s.into())
+        Ok(Atom::new(s))
     }
 }
 

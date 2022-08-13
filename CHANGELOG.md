@@ -1,6 +1,22 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(css/parser)** Parse `@font-feature-values` at-rule (#5468) ([eebdfdb](https://github.com/swc-project/swc/commit/eebdfdb2a08c95f7fd3a8a5c21527675c22442ec))
+
+## [1.2.229] - 2022-08-13
+
+### Bug Fixes
+
+
+
+- **(atoms)** Workaround a bug of `rkyv` (#5479) ([b35469a](https://github.com/swc-project/swc/commit/b35469ab5f16f10144c799d47a93f5d546a4c67e))
+
+## [1.2.228] - 2022-08-13
+
 ### Bug Fixes
 
 
