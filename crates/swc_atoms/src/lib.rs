@@ -250,7 +250,7 @@ impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
 #[cfg(feature = "rkyv")]
 impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
 where
-    D: rkyv::Fallible,
+    D: ?Sized + rkyv::Fallible,
 {
     fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
         let s: String = self.deserialize(deserializer)?;
