@@ -7,7 +7,7 @@ env:
 
 jobs:
   publish-test:
-    name: node-api
+    name: node-api - ${{ matrix.os }}
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ${{ matrix.os }}}
