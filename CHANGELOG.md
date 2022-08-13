@@ -25,6 +25,12 @@
 
 - **(ci)** Fix lints (#5462) ([3eb1f4b](https://github.com/swc-project/swc/commit/3eb1f4b2b153aeb8551a83b4995b7ae8ee188046))
 
+### Refactor
+
+
+
+- **(es/compat)** Respect MSRV (#5473) ([4a3b4b2](https://github.com/swc-project/swc/commit/4a3b4b27e21b07851daa15ab41d81e835ab3fcf0))
+
 ### Build
 
 
