@@ -152,8 +152,9 @@ pub enum DeclarationOrAtRule {
     Declaration(Declaration),
     #[tag("AtRule")]
     AtRule(AtRule),
-    #[tag("Tokens")]
-    Invalid(Tokens),
+    // For recovery mode
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
 }
 
 #[ast_node("Declaration")]

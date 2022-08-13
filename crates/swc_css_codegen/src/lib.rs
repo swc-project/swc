@@ -871,7 +871,7 @@ where
 
                             formatting_newline!(self);
                         }
-                        DeclarationOrAtRule::Invalid(_) => {}
+                        DeclarationOrAtRule::ListOfComponentValues(_) => {}
                     }
 
                     decrease_indent!(self);
@@ -936,7 +936,7 @@ where
         match n {
             DeclarationOrAtRule::Declaration(n) => emit!(self, n),
             DeclarationOrAtRule::AtRule(n) => emit!(self, n),
-            DeclarationOrAtRule::Invalid(n) => emit!(self, n),
+            DeclarationOrAtRule::ListOfComponentValues(n) => emit!(self, n),
         }
     }
 
