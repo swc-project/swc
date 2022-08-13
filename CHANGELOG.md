@@ -7,6 +7,15 @@
 
 - **(css/parser)** Parse `@font-feature-values` at-rule (#5468) ([eebdfdb](https://github.com/swc-project/swc/commit/eebdfdb2a08c95f7fd3a8a5c21527675c22442ec))
 
+### Miscellaneous Tasks
+- **general**: Typo (#5478) ([8fde2ab](https://github.com/swc-project/swc/commit/8fde2ab07b56ea644850da5f9b60ed580ccb9d7f))
+
+### Testing
+
+
+
+- **(es/plugin)** Expand test matrix (#5477) ([a76380c](https://github.com/swc-project/swc/commit/a76380c585ccbc1443eb451098301e49366bbf8d))
+
 ## [1.2.229] - 2022-08-13
 
 ### Bug Fixes
