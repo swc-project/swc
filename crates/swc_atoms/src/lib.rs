@@ -50,11 +50,7 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 ///   "longer than xx" as this is a type.
 /// - Raw values.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct Atom(#[cfg_attr(feature = "rkyv", with(crate::EncodeAtom))] Arc<str>);
+pub struct Atom(Arc<str>);
 
 impl Atom {
     /// Creates a bad [Atom] from a string.
@@ -230,53 +226,42 @@ impl PartialEq<Atom> for str {
     }
 }
 
-/// NOT A PUBLIC API. JUST BUGFIX.
+/// NOT A PUBLIC API
+#[doc(hidden)]
 #[cfg(feature = "rkyv")]
-#[derive(Debug, Clone, Copy)]
-struct EncodeAtom;
-
-#[cfg(feature = "rkyv")]
-impl rkyv::with::ArchiveWith<Arc<str>> for EncodeAtom {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    unsafe fn resolve_with(
-        field: &Arc<str>,
-        pos: usize,
-        resolver: Self::Resolver,
-        out: *mut Self::Archived,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.to_string();
-        s.resolve(pos, resolver, out);
-    }
+pub struct ArchivedAtom {
+    // This will be a relative pointer to our string
+    ptr: rkyv::RelPtr<str>,
 }
 
+/// NOT A PUBLIC API
+#[doc(hidden)]
 #[cfg(feature = "rkyv")]
-impl<S> rkyv::with::SerializeWith<Arc<str>, S> for EncodeAtom
-where
-    S: ?Sized + rkyv::ser::Serializer,
-{
-    fn serialize_with(field: &Arc<str>, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
-    }
+pub struct AtomResolver {
+    // This will be the position that the bytes of our string are stored at.
+    // We'll use this to resolve the relative pointer of our
+    // ArchivedOwnedStr.
+    pos: usize,
+    // The archived metadata for our str may also need a resolver.
+    metadata_resolver: rkyv::MetadataResolver<str>,
 }
 
+/// NOT A PUBLIC API
+#[doc(hidden)]
 #[cfg(feature = "rkyv")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Arc<str>, D> for EncodeAtom
-where
-    D: ?Sized + rkyv::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<Arc<str>, D::Error> {
-        use rkyv::Deserialize;
+impl rkyv::Archive for Atom {
+    type Archived = ArchivedAtom;
+    type Resolver = AtomResolver;
 
-        let s: String = field.deserialize(deserializer)?;
+    #[allow(clippy::unit_arg)]
+    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+        use rkyv::ArchiveUnsized;
 
-        Ok(s.into())
+        // We have to be careful to add the offset of the ptr field,
+        // otherwise we'll be using the position of the ArchivedOwnedStr
+        // instead of the position of the relative pointer.
+        let (fp, fo) = rkyv::out_field!(out.ptr);
+        (&*self.0).resolve_unsized(pos + fp, resolver.pos, resolver.metadata_resolver, fo);
     }
 }
 
