@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.7.1"
+version       = "0.7.2"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -215,7 +215,7 @@ wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
 binding_macros              = { optional = true, version = "0.2.1", path = "../binding_macros" }
-swc                         = { optional = true, version = "0.214.1", path = "../swc" }
+swc                         = { optional = true, version = "0.214.2", path = "../swc" }
 swc_atoms                   = { optional = true, version = "0.4.3", path = "../swc_atoms" }
 swc_bundler                 = { optional = true, version = "0.177.1", path = "../swc_bundler" }
 swc_common                  = { optional = true, version = "0.27.4", path = "../swc_common" }
@@ -229,7 +229,7 @@ swc_ecma_utils              = { optional = true, version = "0.99.2", path = "../
 swc_ecma_visit              = { optional = true, version = "0.76.3", path = "../swc_ecma_visit" }
 swc_node_base               = { optional = true, version = "0.5.5", path = "../swc_node_base" }
 swc_plugin                  = { optional = true, version = "0.89.0", path = "../swc_plugin" }
-swc_plugin_macro            = { optional = true, version = "0.9.0", path = "../swc_plugin_macro" }
+swc_plugin_macro            = { optional = true, version = "0.9.1", path = "../swc_plugin_macro" }
 swc_plugin_proxy            = { optional = true, version = "0.18.3", path = "../swc_plugin_proxy" }
 swc_trace_macro             = { optional = true, version = "0.1.0", path = "../swc_trace_macro" }
 # TODO: eventually swc_plugin_runner needs to remove default features
