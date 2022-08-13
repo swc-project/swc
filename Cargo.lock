@@ -190,7 +190,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.226"
+version = "1.2.227"
 dependencies = [
  "swc_core",
  "wasm-bindgen",
