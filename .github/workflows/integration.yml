@@ -4,13 +4,20 @@ on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: "always"
 
 jobs:
   publish-test:
-    name: node-api
+    name: node-api - ${{ matrix.os }}
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
     steps:
       - uses: actions/checkout@v3
 
